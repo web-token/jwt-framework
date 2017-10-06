@@ -1,0 +1,7 @@
+.travis/phar-private.pem
+jose.phar
+jose.phar.pubkey
+jose.phar.version
+.travis/build-key.pem
+.travis/secrets.tar
+report.md

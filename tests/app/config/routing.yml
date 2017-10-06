@@ -1,0 +1,3 @@
+jwkset_endpoint:
+    resource: "@JoseFrameworkBundle/Resources/config/routing/jwkset_controller.yml"
+    prefix: '/keys'

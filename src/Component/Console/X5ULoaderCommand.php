@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2017 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
+namespace Jose\Component\Console;
+
+use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\KeyManagement\X5UFactory;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
+/**
+ * Class X5ULoaderCommand.
+ */
+final class X5ULoaderCommand extends AbstractObjectOutputCommand
+{
+    /**
+     * @var X5UFactory
+     */
+    private $x5uFactory;
+
+    /**
+     * X5ULoaderCommand constructor.
+     *
+     * @param X5UFactory             $x5uFactory
+     * @param JsonConverterInterface $jsonConverter
+     * @param null|string            $name
+     */
+    public function __construct(X5UFactory $x5uFactory, JsonConverterInterface $jsonConverter, ?string $name = null)
+    {
+        $this->x5uFactory = $x5uFactory;
+        parent::__construct($jsonConverter, $name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
+            ->setName('keyset:load:x5u')
+            ->setDescription('Loads a key set from an url.')
+            ->setHelp('This command will try to get a key set from an URL. The distant key set is list of X.509 certificates.')
+            ->addArgument('url', InputArgument::REQUIRED, 'The URL')
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $url = $input->getArgument('url');
+        $result = $this->x5uFactory->loadFromUrl($url);
+        $this->prepareJsonOutput($input, $output, $result);
+    }
+}

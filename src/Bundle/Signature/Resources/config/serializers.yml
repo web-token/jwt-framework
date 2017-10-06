@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Jose\Component\Signature\Serializer\JWSSerializerManagerFactory: ~
+    Jose\Component\Signature\Serializer\CompactSerializer:
+        tags:
+            - {'name': 'jose.jws.serializer'}
+    Jose\Component\Signature\Serializer\JSONFlattenedSerializer:
+        tags:
+            - {'name': 'jose.jws.serializer'}
+    Jose\Component\Signature\Serializer\JSONGeneralSerializer:
+        tags:
+            - {'name': 'jose.jws.serializer'}

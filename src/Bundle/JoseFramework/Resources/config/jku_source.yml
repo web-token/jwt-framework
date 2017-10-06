@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Jose\Component\KeyManagement\JKUFactory:
+        arguments:
+            - '@Jose\Component\Core\Converter\JsonConverterInterface'
+            - '@jose.http_client'
+            - '@jose.request_factory'
+
+    Jose\Component\KeyManagement\X5UFactory:
+            - '@Jose\Component\Core\Converter\JsonConverterInterface'
+            - '@jose.http_client'
+            - '@jose.request_factory'
+
+    Http\Message\MessageFactory\GuzzleMessageFactory: ~
+    Http\Message\MessageFactory\DiactorosMessageFactory: ~
+    Http\Message\MessageFactory\SlimMessageFactory: ~

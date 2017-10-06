@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Jose\Component\Encryption\JWEBuilderFactory: ~
+    Jose\Component\Encryption\JWELoaderFactory: ~
+    Jose\Component\Encryption\Compression\CompressionMethodManagerFactory: ~

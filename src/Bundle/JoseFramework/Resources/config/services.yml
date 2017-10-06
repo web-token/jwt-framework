@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Jose\Component\Core\AlgorithmManagerFactory: ~
+    Jose\Bundle\JoseFramework\Controller\JWKSetControllerFactory: ~
+    Jose\Bundle\JoseFramework\Routing\JWKSetLoader:
+        tags:
+            - {'name': 'routing.loader'}
+
+    Jose\Bundle\JoseFramework\DataCollector\JoseCollector:
+        tags:
+            -
+                name:     data_collector
+                template: '@JoseFramework/data_collector/template.html.twig'
+                id:       'jose_collector'
+        public: false

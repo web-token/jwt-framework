@@ -1,0 +1,28 @@
+language: php
+sudo: true
+cache:
+  directories:
+    - "$HOME/.composer/cache"
+    - vendor
+matrix:
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+  include:
+    - php: 7.1
+      env: deps=low
+    - php: 7.1
+    - php: nightly
+    - php: 7.2
+before_script:
+  - chmod +x ./bin/install_php_ext.sh
+  - if [ "$TRAVIS_PHP_VERSION" = '7.1' ]; then ./bin/install_php_ext.sh; fi
+  - composer self-update
+  - mkdir -p build/logs
+  - if [[ $deps = low ]]; then composer update --no-interaction --prefer-lowest ; fi
+  - if [[ !$deps ]]; then composer install --no-interaction ; fi
+script:
+  - "./vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
+  - "./vendor/bin/behat"
+after_success:
+  - vendor/bin/coveralls --no-interaction

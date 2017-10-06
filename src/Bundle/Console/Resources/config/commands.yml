@@ -1,0 +1,93 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Jose\Component\Console\EcKeyGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\EcKeysetGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\OctKeyGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\OctKeysetGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\OkpKeyGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\OkpKeysetGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\RsaKeyGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\RsaKeysetGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\KeyFileLoaderCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\P12CertificateLoaderCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\X509CertificateLoaderCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\OptimizeRsaKeyCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\JKULoaderCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\X5ULoaderCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\KeyAnalyzerCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\KeysetAnalyzerCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\PublicKeysetCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\MergeKeysetCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\RotateKeysetCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\AddKeyIntoKeysetCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\PemConverterCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\GetThumbprintCommand:
+        tags:
+            - {name: 'console.command'}

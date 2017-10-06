@@ -1,0 +1,73 @@
+{
+    "name": "web-token/jwt-framework",
+    "description": "JSON Object Signing and Encryption library for PHP and Symfony Bundle.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
+    "homepage": "https://github.com/web-token/jwt-framework",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },{
+            "name": "All contributors",
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jose\\":  "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jose\\Test\\":  "tests/",
+            "Jose\\Performance\\":  "performance/"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "ext-gmp": "*",
+        "ext-mbstring": "*",
+        "lib-openssl": "*",
+        "fgrosse/phpasn1": "^2.0",
+        "http-interop/http-factory": "^0.3.0",
+        "paragonie/sodium_compat": "^1.1",
+        "php-http/httplug": "^1.1",
+        "php-http/httplug-bundle": "^1.7",
+        "php-http/message-factory": "^1.0",
+        "spomky-labs/aes-key-wrap": "^4.0",
+        "spomky-labs/base64url": "^1.0",
+        "symfony/config": "^3.3",
+        "symfony/console": "^3.3",
+        "symfony/dependency-injection": "^3.3",
+        "symfony/framework-bundle": "^3.3",
+        "symfony/http-kernel": "^3.3"
+    },
+    "require-dev": {
+        "ext-curl": "*",
+        "behat/behat": "^3.1",
+        "behat/mink": "^1.5",
+        "behat/mink-browserkit-driver": "^1.1",
+        "behat/mink-extension": "^2.0",
+        "behat/symfony2-extension": "^2.1",
+        "bjeavons/zxcvbn-php": "^0.3.0",
+        "padraic/phar-updater": "^1.0",
+        "php-http/guzzle6-adapter": "^1.1.1",
+        "phpbench/phpbench": "^0.13.0",
+        "phpunit/phpunit": "^6.0",
+        "satooshi/php-coveralls": "^1.0",
+        "symfony/finder": "^3.3"
+    },
+   "suggest":{
+        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys."
+   },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
