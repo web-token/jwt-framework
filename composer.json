@@ -52,7 +52,6 @@
         "behat/mink-extension": "^2.0",
         "behat/symfony2-extension": "^2.1",
         "bjeavons/zxcvbn-php": "^0.3.0",
-        "padraic/phar-updater": "^1.0",
         "php-http/guzzle6-adapter": "^1.1.1",
         "phpbench/phpbench": "^0.13.0",
         "phpunit/phpunit": "^6.0",

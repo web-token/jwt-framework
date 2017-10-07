@@ -1,7 +1,7 @@
 PHP JWT Framework
 =================
 
-If you really love that framework, then you can help me out for a couple of :beers:!
+If you really love that project, then you can help me out for a couple of :beers:!
 
 [![Beerpay](https://beerpay.io/Spomky-Labs/jose/badge.svg?style=beer-square)](https://beerpay.io/Spomky-Labs/jose)  [![Beerpay](https://beerpay.io/Spomky-Labs/jose/make-wish.svg?style=flat-square)](https://beerpay.io/Spomky-Labs/jose?focus=wish)
 

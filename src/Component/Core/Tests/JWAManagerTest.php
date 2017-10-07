@@ -15,8 +15,6 @@ namespace Jose\Component\Core\Tests;
 
 use Jose\Component\Core\AlgorithmInterface;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Signature\Algorithm\HS512;
-use Jose\Component\Signature\Algorithm\RS256;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -41,12 +39,12 @@ final class JWAManagerTest extends TestCase
      */
     public function testCreateManagerAndRetrieveAlgorithm()
     {
-        $manager = AlgorithmManager::create([new HS512(), new RS256()]);
+        $manager = AlgorithmManager::create([new FooAlgorithm()]);
 
-        self::assertEquals(['HS512', 'RS256'], $manager->list());
-        self::assertTrue($manager->has('HS512'));
+        self::assertEquals(['foo'], $manager->list());
+        self::assertTrue($manager->has('foo'));
         self::assertFalse($manager->has('HS384'));
-        self::assertInstanceOf(AlgorithmInterface::class, $manager->get('HS512'));
+        self::assertInstanceOf(AlgorithmInterface::class, $manager->get('foo'));
         $manager->get('HS384');
     }
 }
