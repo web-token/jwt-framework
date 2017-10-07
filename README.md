@@ -13,7 +13,7 @@ If you really love that framework, then you can help me out for a couple of :bee
 [![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=master)](https://travis-ci.org/web-token/jwt-framework)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/web-token/jwt-framework/badge.svg)](https://travis-ci.org/web-token/jwt-framework)
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9123fbfc-7ae1-4d63-9fda-170b8ad794ee/big.png)](https://insight.sensiolabs.com/projects/9123fbfc-7ae1-4d63-9fda-170b8ad794ee)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a/big.png)](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a)
 
 [![Latest Stable Version](https://poser.pugx.org/Spomky-Labs/JOSE/v/stable.png)](https://packagist.org/packages/Spomky-Labs/JOSE)
 [![Total Downloads](https://poser.pugx.org/Spomky-Labs/JOSE/downloads.png)](https://packagist.org/packages/Spomky-Labs/JOSE)
