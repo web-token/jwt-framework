@@ -15,7 +15,6 @@ namespace Jose\Component\Signature\Tests\RFC6979;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
@@ -62,7 +61,7 @@ final class ECDSASignatureTest extends AbstractSignatureTest
             [
                 new ES256(),
                 'sample',
-                JWKFactory::createFromValues([
+                JWK::create([
                     'kty' => 'EC',
                     'crv' => 'P-256',
                     'd' => Base64Url::encode($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
@@ -78,7 +77,7 @@ final class ECDSASignatureTest extends AbstractSignatureTest
             [
                 new ES256(),
                 'test',
-                JWKFactory::createFromValues([
+                JWK::create([
                     'kty' => 'EC',
                     'crv' => 'P-256',
                     'd' => Base64Url::encode($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
@@ -94,7 +93,7 @@ final class ECDSASignatureTest extends AbstractSignatureTest
             [
                 new ES384(),
                 'sample',
-                JWKFactory::createFromValues([
+                JWK::create([
                     'kty' => 'EC',
                     'crv' => 'P-384',
                     'd' => Base64Url::encode($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
@@ -110,7 +109,7 @@ final class ECDSASignatureTest extends AbstractSignatureTest
             [
                 new ES384(),
                 'test',
-                JWKFactory::createFromValues([
+                JWK::create([
                     'kty' => 'EC',
                     'crv' => 'P-384',
                     'd' => Base64Url::encode($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
@@ -127,7 +126,7 @@ final class ECDSASignatureTest extends AbstractSignatureTest
             [
                 new ES512(),
                 'sample',
-                JWKFactory::createFromValues([
+                JWK::create([
                     'kty' => 'EC',
                     'crv' => 'P-521',
                     'd' => Base64Url::encode($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),
@@ -143,7 +142,7 @@ final class ECDSASignatureTest extends AbstractSignatureTest
             [
                 new ES512(),
                 'test',
-                JWKFactory::createFromValues([
+                JWK::create([
                     'kty' => 'EC',
                     'crv' => 'P-521',
                     'd' => Base64Url::encode($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),

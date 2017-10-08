@@ -15,7 +15,6 @@ namespace Jose\Component\Signature\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
@@ -101,40 +100,22 @@ final class ECDSASignatureTest extends AbstractSignatureTest
         $ecdsa->sign($key, $data);
     }
 
-    public function testES256SignAndVerify()
+    public function testHS384SignVerify()
     {
-        $public_key = JWK::create(KeyConverter::loadFromKeyFile(__DIR__.'/Keys/public.es256.key'));
-        $private_key = JWK::create(KeyConverter::loadFromKeyFile(__DIR__.'/Keys/private.es256.key'));
-
-        $ecdsa = new ES256();
-        $data = 'Live long and Prosper.';
-        $signature = $ecdsa->sign($private_key, $data);
-
-        self::assertTrue($ecdsa->verify($public_key, $data, $signature));
-    }
-
-    public function testES384SignAndVerify()
-    {
-        $public_key = JWK::create(KeyConverter::loadFromKeyFile(__DIR__.'/Keys/public.es384.key'));
-        $private_key = JWK::create(KeyConverter::loadFromKeyFile(__DIR__.'/Keys/private.es384.key'));
+        $key = JWK::create([
+            'kty' => 'EC',
+            'crv' => 'P-384',
+            'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
+            'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
+            'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
+        ]);
 
         $ecdsa = new ES384();
-        $data = 'Live long and Prosper.';
-        $signature = $ecdsa->sign($private_key, $data);
 
-        self::assertTrue($ecdsa->verify($public_key, $data, $signature));
-    }
+        $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
+        $signature = $ecdsa->sign($key, $data);
 
-    public function testES512SignAndVerify()
-    {
-        $public_key = JWK::create(KeyConverter::loadFromKeyFile(__DIR__.'/Keys/public.es512.key'));
-        $private_key = JWK::create(KeyConverter::loadFromKeyFile(__DIR__.'/Keys/private.es512.key'));
-
-        $ecdsa = new ES512();
-        $data = 'Live long and Prosper.';
-        $signature = $ecdsa->sign($private_key, $data);
-
-        self::assertTrue($ecdsa->verify($public_key, $data, $signature));
+        self::assertTrue($ecdsa->verify($key, $data, $signature));
     }
 
     public function testHS512Verify()

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Tests;
 
-use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 
 /**
@@ -28,7 +28,7 @@ final class ForeignJWTTest extends AbstractSignatureTest
      */
     public function testValidJWTFromOtherLibrary()
     {
-        $jwk = JWKFactory::createFromValues([
+        $jwk = JWK::create([
             'kty' => 'RSA',
             'kid' => 'public',
             'n' => 'rYYOdiGrtRzCcV179qEI7TN-kkdmL37zJ3qugImaoOKbtw9EUwZGyMkcYp48eVksOwT7bxSn1hzP_n75Jlwl85MMAYIqKiQFHjjUVHBAD6HWFHsriod6-fdJxsXDhJ4lDoWxIQFLEKhGo3QeIYO0b6iwuSSIR2qO8sOCmmEngvq4OfyZz11mTpztl5cObeal8f6lQ5UHFUCXfx_QLnkrrTMuRioFZ1lEn2MhGm9Mx8eATY8OXUsK6L47LYP7aiWFKepesX4Tk16aKoB2GdlDO3-TG0aAYe89Ar7rGaoW39EYAuzxpbMka2Pp83Re4dEzMKMXy-mbGMTh5waqHIE9L9Rwldi2CaRrLgBBuMF_XyrCL4nMbEQ7xbVDxkayZ1sOir3TbrV9Z-bRjNNQhPl_zmfttyTEk18EyXhIwOVxjRmMdbPbP_K93o3h7_-mYTRgpoUM93X_3ec-lnyDHhSX2IrRe9z3eerzu4c7l3XV8eWhqIYWOw_AyArK1XxSlJhcSwWAFBXt7fYHGoT-wOI3lr7mJb8hqIMIOxA3M9-3NK_IPPjBcKQHrpUKQBulaYGCSlbIgUIkMDoxU4RaRAbR_31JLi9ZEgTmKjg7Db6I-omIlBSqdPZIEVQpHgGPlMMfKD05cYfXg82b5M_xuGNHXaFm_MkCJnKDq4NKx4ePUkM',
