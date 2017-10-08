@@ -39,7 +39,7 @@ final class HeaderCheckerCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition $definition
+     * @param Definition       $definition
      * @param ContainerBuilder $container
      */
     private function addHeaderCheckers(Definition $definition, ContainerBuilder $container)
@@ -56,7 +56,7 @@ final class HeaderCheckerCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param Definition $definition
+     * @param Definition       $definition
      * @param ContainerBuilder $container
      */
     private function addTokenType(Definition $definition, ContainerBuilder $container)
