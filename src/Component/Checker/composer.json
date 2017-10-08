@@ -21,8 +21,6 @@
     },
     "require": {
         "php": "^7.1",
-        "ext-gmp": "*",
-        "ext-mbstring": "*",
         "web-token/jwt-core": "^1.0@dev"
     },
     "require-dev": {
