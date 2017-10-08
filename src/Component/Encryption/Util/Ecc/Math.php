@@ -166,7 +166,7 @@ final class Math
      *
      * @return \GMP
      */
-    public function stringToInt(string $s): \GMP
+    public static function stringToInt(string $s): \GMP
     {
         $result = gmp_init(0, 10);
         $sLen = mb_strlen($s, '8bit');
