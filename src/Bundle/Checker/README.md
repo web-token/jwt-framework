@@ -1,4 +1,4 @@
-PHP JWT Console Bundle
+PHP JWT Checker Bundle
 ======================
 
 This repository is a sub repository of [the JWT Framework](https://github.com/web-token/jwt-framework) project and is READ ONLY.
