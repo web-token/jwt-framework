@@ -16,7 +16,6 @@ namespace Jose\Component\KeyManagement\Tests;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\Signature\Algorithm\RS256;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -39,16 +38,14 @@ final class JWKSetTest extends TestCase
     {
         $jwkset = $this->getPublicKeySet();
 
-        $jwk = $jwkset->selectKey('sig', new RS256());
+        $jwk = $jwkset->selectKey('sig', new FooAlgorithm());
         self::assertInstanceOf(JWK::class, $jwk);
         self::assertEquals([
-                'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
-                'kty' => 'RSA',
-                'alg' => 'RS256',
-                'use' => 'sig',
-                'n' => 'vnMTRCMvsS04M1yaKR112aB8RxOkWHFixZO68wCRlVLxK4ugckXVD_Ebcq-kms1T2XpoWntVfBuX40r2GvcD9UsTFt_MZlgd1xyGwGV6U_tfQUll5mKxCPjr60h83LXKJ_zmLXIqkV8tAoIg78a5VRWoms_0Bn09DKT3-RBWFjk=',
-                'e' => 'AQAB',
-            ],
+            'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ],
             $jwk->all()
         );
     }
@@ -57,16 +54,14 @@ final class JWKSetTest extends TestCase
     {
         $jwkset = $this->getPublicKeySet();
 
-        $jwk = $jwkset->selectKey('sig', new RS256(), ['kid' => '02491f945c951adf156f370788e8ccdabf8877a8']);
+        $jwk = $jwkset->selectKey('sig', new FooAlgorithm(), ['kid' => '02491f945c951adf156f370788e8ccdabf8877a8']);
         self::assertInstanceOf(JWK::class, $jwk);
         self::assertEquals([
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'RSA',
-                'alg' => 'RS256',
-                'use' => 'sig',
-                'n' => 'rI67uHIDWDgCy_Ut-FhhjTCkEcqzoO80IRgdpk_fJHlDmXhMTJKPizxbIEMs0wRHRZpwH-4D20thpnQB5Mgx6-XM9kOvcYpHSdcYME77BwX6uQG-hw2w77NOhYiCSZCLzx-5ld5Wjy0dympL-ExqQw-wrWipMX7NQhIbJqVbZ18=',
-                'e' => 'AQAB',
-            ],
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ],
             $jwk->all()
         );
     }
@@ -78,13 +73,11 @@ final class JWKSetTest extends TestCase
         $jwk = $jwkset->selectKey('sig', null, ['kid' => '02491f945c951adf156f370788e8ccdabf8877a8']);
         self::assertInstanceOf(JWK::class, $jwk);
         self::assertEquals([
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'RSA',
-                'alg' => 'RS256',
-                'use' => 'sig',
-                'n' => 'rI67uHIDWDgCy_Ut-FhhjTCkEcqzoO80IRgdpk_fJHlDmXhMTJKPizxbIEMs0wRHRZpwH-4D20thpnQB5Mgx6-XM9kOvcYpHSdcYME77BwX6uQG-hw2w77NOhYiCSZCLzx-5ld5Wjy0dympL-ExqQw-wrWipMX7NQhIbJqVbZ18=',
-                'e' => 'AQAB',
-            ],
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ],
             $jwk->all()
         );
     }
@@ -101,11 +94,9 @@ final class JWKSetTest extends TestCase
     {
         $values = ['keys' => [[
             'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
-            'kty' => 'RSA',
-            'alg' => 'RS256',
+            'kty' => 'FOO',
+            'alg' => 'foo',
             'use' => 'sig',
-            'n' => 'vnMTRCMvsS04M1yaKR112aB8RxOkWHFixZO68wCRlVLxK4ugckXVD_Ebcq-kms1T2XpoWntVfBuX40r2GvcD9UsTFt_MZlgd1xyGwGV6U_tfQUll5mKxCPjr60h83LXKJ_zmLXIqkV8tAoIg78a5VRWoms_0Bn09DKT3-RBWFjk=',
-            'e' => 'AQAB',
         ]]];
         $jwkset = JWKFactory::createFromValues($values);
         self::assertInstanceOf(JWKSet::class, $jwkset);
@@ -122,19 +113,15 @@ final class JWKSetTest extends TestCase
         $keys = ['keys' => [
             [
                 'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
-                'kty' => 'RSA',
-                'alg' => 'RS256',
+                'kty' => 'FOO',
+                'alg' => 'foo',
                 'use' => 'sig',
-                'n' => 'vnMTRCMvsS04M1yaKR112aB8RxOkWHFixZO68wCRlVLxK4ugckXVD_Ebcq-kms1T2XpoWntVfBuX40r2GvcD9UsTFt_MZlgd1xyGwGV6U_tfQUll5mKxCPjr60h83LXKJ_zmLXIqkV8tAoIg78a5VRWoms_0Bn09DKT3-RBWFjk=',
-                'e' => 'AQAB',
             ],
             [
                 'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'RSA',
-                'alg' => 'RS256',
+                'kty' => 'FOO',
+                'alg' => 'foo',
                 'use' => 'sig',
-                'n' => 'rI67uHIDWDgCy_Ut-FhhjTCkEcqzoO80IRgdpk_fJHlDmXhMTJKPizxbIEMs0wRHRZpwH-4D20thpnQB5Mgx6-XM9kOvcYpHSdcYME77BwX6uQG-hw2w77NOhYiCSZCLzx-5ld5Wjy0dympL-ExqQw-wrWipMX7NQhIbJqVbZ18=',
-                'e' => 'AQAB',
             ],
             [
                 'kty' => 'RSA',
