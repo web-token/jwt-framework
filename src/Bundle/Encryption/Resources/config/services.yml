@@ -7,3 +7,6 @@ services:
     Jose\Component\Encryption\JWEBuilderFactory: ~
     Jose\Component\Encryption\JWELoaderFactory: ~
     Jose\Component\Encryption\Compression\CompressionMethodManagerFactory: ~
+    Jose\Component\Encryption\JWETokenHeaderChecker:
+        tags:
+            - {'name': 'jose.checker.token_type'}

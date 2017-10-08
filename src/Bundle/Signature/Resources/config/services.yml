@@ -6,3 +6,6 @@ services:
 
     Jose\Component\Signature\JWSBuilderFactory: ~
     Jose\Component\Signature\JWSLoaderFactory: ~
+    Jose\Component\Signature\JWSTokenHeaderChecker:
+        tags:
+            - {'name': 'jose.checker.token_type'}
