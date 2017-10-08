@@ -16,7 +16,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Jose\\Component\\KeyManagement\\":  ""
+            "Jose\\Bundle\\JoseFramework\\":  ""
         }
     },
     "require": {
