@@ -15,10 +15,11 @@ namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\ExpirationTimeChecker;
-use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Checker\IssuedAtChecker;
 use Jose\Component\Checker\NotBeforeChecker;
+use Jose\Component\Checker\Tests\Stub\Token;
+use Jose\Component\Checker\Tests\Stub\TokenSupport;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -33,39 +34,50 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
      */
     public function testDuplicatedHeaderParameters()
     {
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
+        $payload = [];
+        $protected = ['alg' => 'foo'];
+        $unprotected = ['alg' => 'foo'];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+
+        $headerCheckerManager->check($token, 0);
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage One or more headers are marked as critical, but they are missing or have not been checked: iss.
+     * @expectedExceptionMessage One or more headers are marked as critical, but they are missing or have not been checked: alg.
      */
     public function testTokenHasCriticalClaimsNotSatisfied()
     {
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
+        $payload = [];
+        $protected = ['crit' => ['alg']];
+        $unprotected = [];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+
+        $headerCheckerManager->check($token, 0);
     }
 
     public function testTokenSuccessfullyCheckedWithCriticalHeaders()
     {
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
+        $payload = [];
+        $protected = ['crit' => ['exp', 'iat'], 'exp' => time()+3600, 'iat' => time() - 1000];
+        $unprotected = [];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+        $headerCheckerManager->check($token, 0);
+        self::assertTrue(true);
     }
 
     public function testTokenSuccessfullyCheckedWithUnsupportedClaims()
     {
-    }
-
-    /**
-     * @var HeaderCheckerManager|null
-     */
-    private $headerCheckerManager = null;
-
-    /**
-     * @return HeaderCheckerManager
-     */
-    private function getHeaderCheckerManager(): HeaderCheckerManager
-    {
-        if (null === $this->headerCheckerManager) {
-            $this->headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud', 'sub', 'iss', 'jti']);
-        }
-
-        return $this->headerCheckerManager;
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
+        $payload = [];
+        $protected = ['foo' => 'bar'];
+        $unprotected = [];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+        $headerCheckerManager->check($token, 0);
+        self::assertTrue(true);
     }
 
     /**
@@ -84,6 +96,8 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
             $this->headerCheckerManagerFactory->add('iat', new IssuedAtChecker());
             $this->headerCheckerManagerFactory->add('nbf', new NotBeforeChecker());
             $this->headerCheckerManagerFactory->add('aud', new AudienceChecker('My Service'));
+
+            $this->headerCheckerManagerFactory->addTokenTypeSupport(new TokenSupport());
         }
 
         return $this->headerCheckerManagerFactory;

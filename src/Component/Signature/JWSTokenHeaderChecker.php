@@ -32,7 +32,7 @@ final class JWSTokenHeaderChecker implements TokenTypeHeaderCheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function checkToken(JWTInterface $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
+    public function retrieveTokenHeaders(JWTInterface $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof JWS) {
             return;

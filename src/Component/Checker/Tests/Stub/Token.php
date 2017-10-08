@@ -26,23 +26,39 @@ final class Token implements JWTInterface
     private $payload;
 
     /**
+     * @var array
+     */
+    private $protectedHeader;
+
+    /**
+     * @var array
+     */
+    private $unprotectedHeader;
+
+    /**
      * Token constructor.
      *
      * @param null|string $payload
+     * @param array       $protectedHeader
+     * @param array       $unprotectedHeader
      */
-    private function __construct(?string $payload)
+    private function __construct(?string $payload, array $protectedHeader, array $unprotectedHeader)
     {
         $this->payload = $payload;
+        $this->protectedHeader = $protectedHeader;
+        $this->unprotectedHeader = $unprotectedHeader;
     }
 
     /**
      * @param null|string $payload
+     * @param array       $protectedHeader
+     * @param array       $unprotectedHeader
      *
      * @return Token
      */
-    public static function create(?string $payload): Token
+    public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): Token
     {
-        return new self($payload);
+        return new self($payload, $protectedHeader, $unprotectedHeader);
     }
 
     /**
@@ -51,5 +67,21 @@ final class Token implements JWTInterface
     public function getPayload(): ?string
     {
         return $this->payload;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProtectedHeader(): array
+    {
+        return $this->protectedHeader;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUnprotectedHeader(): array
+    {
+        return $this->unprotectedHeader;
     }
 }

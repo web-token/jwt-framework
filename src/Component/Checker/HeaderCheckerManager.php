@@ -96,7 +96,7 @@ final class HeaderCheckerManager
             if ($tokenType->supports($jwt)) {
                 $protected = [];
                 $unprotected = [];
-                $tokenType->checkToken($jwt, $component, $protected, $unprotected);
+                $tokenType->retrieveTokenHeaders($jwt, $component, $protected, $unprotected);
                 $this->checkDuplicatedHeaderParameters($protected, $unprotected);
                 $this->checkHeaders($protected, $unprotected);
 
