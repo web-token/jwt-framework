@@ -1,0 +1,41 @@
+{
+    "name": "web-token/jwt-bundle",
+    "description": "JWT Bundle of the JWT Framework.",
+    "type": "bundle",
+    "license": "MIT",
+    "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
+    "homepage": "https://github.com/web-token/jwt-bundle",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },{
+            "name": "All contributors",
+            "homepage": "https://github.com/web-token/jwt-bundle/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jose\\Component\\KeyManagement\\":  ""
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "symfony/config": "^3.3",
+        "symfony/dependency-injection": "^3.3",
+        "symfony/http-kernel": "^3.3",
+        "symfony/routing": "^3.3",
+        "web-token/jwt-core": "^1.0@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
