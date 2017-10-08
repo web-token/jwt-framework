@@ -82,13 +82,13 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        $loader->load('jku_source.yml');
 
-        $container->setAlias('jose.http_client', $config['jku_factory']['client']);
-        $container->setAlias('jose.request_factory', $config['jku_factory']['request_factory']);
         $container->setAlias(JsonConverterInterface::class, $config['json_converter']);
         if (class_exists(JWKFactory::class)) {
+            $loader->load('jku_source.yml');
             $loader->load('jwk_factory.yml');
+            $container->setAlias('jose.http_client', $config['jku_factory']['client']);
+            $container->setAlias('jose.request_factory', $config['jku_factory']['request_factory']);
         }
         if (StandardJsonConverter::class === $config['json_converter']) {
             $loader->load('json_converter.yml');
