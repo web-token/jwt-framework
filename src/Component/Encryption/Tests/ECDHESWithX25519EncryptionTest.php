@@ -12,6 +12,7 @@ declare(strict_types=1);
  */
 
 namespace Jose\Component\Encryption\Tests;
+
 use Jose\Component\Core\JWK;
 
 /**

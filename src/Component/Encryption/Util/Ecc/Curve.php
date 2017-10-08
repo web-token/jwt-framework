@@ -347,6 +347,7 @@ final class Curve
     public function createPublicKey(PrivateKey $privateKey): PublicKey
     {
         $this->generator->mul($privateKey->getSecret());
+
         return PrivateKey::create($this->generate());
     }
 
@@ -370,11 +371,11 @@ final class Curve
     /**
      * Returns the number of bits used to store this number. Non-significant upper bits are not counted.
      *
-     * @param  \GMP $x
+     * @param \GMP $x
      *
      * @return int
      *
-     * @link https://www.openssl.org/docs/crypto/BN_num_bytes.html
+     * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
      */
     private function bnNumBits(\GMP $x): int
     {
@@ -385,9 +386,10 @@ final class Curve
         $log2 = 0;
         while (false === Math::equals($x, $zero)) {
             $x = Math::rightShift($x, 1);
-            $log2++;
+            ++$log2;
         }
-        return $log2 ;
+
+        return $log2;
     }
 
     /**
