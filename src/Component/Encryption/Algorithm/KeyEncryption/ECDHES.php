@@ -20,7 +20,6 @@ use Jose\Component\Encryption\Util\Ecc\PrivateKey;
 use Jose\Component\Encryption\Util\Ecc\NistCurve;
 use Jose\Component\Encryption\Util\Ecc\Curve;
 use Jose\Component\Encryption\Util\ConcatKDF;
-use Jose\Component\Encryption\Util\Ecc\PublicKey;
 
 /**
  * Class ECDHES.
@@ -255,9 +254,9 @@ final class ECDHES implements KeyAgreementInterface
         return JWK::create([
             'kty' => 'EC',
             'crv' => $crv,
-            'x'   => Base64Url::encode($this->convertDecToBin($point->getX())),
-            'y'   => Base64Url::encode($this->convertDecToBin($point->getY())),
-            'd'   => Base64Url::encode($this->convertDecToBin($privateKey->getSecret())),
+            'x' => Base64Url::encode($this->convertDecToBin($point->getX())),
+            'y' => Base64Url::encode($this->convertDecToBin($point->getY())),
+            'd' => Base64Url::encode($this->convertDecToBin($privateKey->getSecret())),
         ]);
     }
 
