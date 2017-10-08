@@ -20,7 +20,7 @@ use Jose\Component\Encryption\Util\Ecc\PrivateKey;
 use Jose\Component\Encryption\Util\Ecc\NistCurve;
 use Jose\Component\Encryption\Util\Ecc\Curve;
 use Jose\Component\Encryption\Util\ConcatKDF;
-use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Encryption\Util\Ecc\PublicKey;
 
 /**
  * Class ECDHES.
@@ -51,11 +51,11 @@ final class ECDHES implements KeyAgreementInterface
                 case 'P-256':
                 case 'P-384':
                 case 'P-521':
-                    $private_key = JWKFactory::createECKey($public_key->get('crv'));
+                    $private_key = $this->createECKey($public_key->get('crv'));
 
                     break;
                 case 'X25519':
-                    $private_key = JWKFactory::createOKPKey('X25519');
+                    $private_key = $this->createOKPKey('X25519');
 
                     break;
                 default:
@@ -92,7 +92,7 @@ final class ECDHES implements KeyAgreementInterface
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                $curve = $this->getCurve($private_key);
+                $curve = $this->getCurve($public_key->get('crv'));
 
                 $rec_x = $this->convertBase64ToGmp($public_key->get('x'));
                 $rec_y = $this->convertBase64ToGmp($public_key->get('y'));
@@ -189,16 +189,14 @@ final class ECDHES implements KeyAgreementInterface
     }
 
     /**
-     * @param JWK $key
+     * @param string $crv
      *
      * @throws \InvalidArgumentException
      *
      * @return Curve
      */
-    private function getCurve(JWK $key): Curve
+    private function getCurve(string $crv): Curve
     {
-        $crv = $key->get('crv');
-
         switch ($crv) {
             case 'P-256':
                 return NistCurve::curve256();
@@ -241,5 +239,56 @@ final class ECDHES implements KeyAgreementInterface
         }
 
         return hex2bin($hex);
+    }
+
+    /**
+     * @param string $crv The curve
+     *
+     * @return JWK
+     */
+    public function createECKey(string $crv): JWK
+    {
+        $curve = $this->getCurve($crv);
+        $privateKey = $curve->createPrivateKey();
+        $point = $curve->mul($curve->getGenerator(), $privateKey->getSecret());
+
+        return JWK::create([
+            'kty' => 'EC',
+            'crv' => $crv,
+            'x'   => Base64Url::encode($this->convertDecToBin($point->getX())),
+            'y'   => Base64Url::encode($this->convertDecToBin($point->getY())),
+            'd'   => Base64Url::encode($this->convertDecToBin($privateKey->getSecret())),
+        ]);
+    }
+
+    /**
+     * @param string $curve The curve
+     *
+     * @return JWK
+     */
+    public static function createOKPKey(string $curve): JWK
+    {
+        switch ($curve) {
+            case 'X25519':
+                $d = sodium_randombytes_buf(\Sodium\CRYPTO_BOX_SEEDBYTES);
+                $x = sodium_crypto_scalarmult_base($d);
+
+                break;
+            case 'Ed25519':
+                $d = sodium_randombytes_buf(\Sodium\CRYPTO_SIGN_SEEDBYTES);
+                $keyPair = sodium_crypto_sign_seed_keypair($d);
+                $x = sodium_crypto_sign_publickey($keyPair);
+
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
+        }
+
+        return JWK::create([
+            'kty' => 'OKP',
+            'crv' => $curve,
+            'x' => Base64Url::encode($x),
+            'd' => Base64Url::encode($d),
+        ]);
     }
 }

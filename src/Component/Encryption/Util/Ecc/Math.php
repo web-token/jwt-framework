@@ -149,4 +149,31 @@ final class Math
     {
         return gmp_strval(gmp_init($number, $from), $to);
     }
+
+    /**
+     * @param \GMP $number
+     * @param int $positions
+     * @return \GMP
+     */
+    public static function rightShift(\GMP $number, int $positions): \GMP
+    {
+        return gmp_div($number, gmp_pow(gmp_init(2, 10), $positions));
+    }
+
+    /**
+     * @param string $s
+     *
+     * @return \GMP
+     */
+    public function stringToInt(string $s): \GMP
+    {
+        $result = gmp_init(0, 10);
+        $sLen = mb_strlen($s, '8bit');
+
+        for ($c = 0; $c < $sLen; $c ++) {
+            $result = gmp_add(gmp_mul(256, $result), gmp_init(ord($s[$c]), 10));
+        }
+
+        return $result;
+    }
 }

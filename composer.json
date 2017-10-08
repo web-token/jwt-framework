@@ -60,7 +60,9 @@
     },
     "replace": {
         "web-token/jwt-core": "self.version",
-        "web-token/jwt-checker": "self.version"
+        "web-token/jwt-checker": "self.version",
+        "web-token/jwt-signature": "self.version",
+        "web-token/jwt-encryption": "self.version"
     },
    "suggest":{
         "bjeavons/zxcvbn-php": "Adds key quality check for oct keys."

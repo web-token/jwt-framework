@@ -19,7 +19,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
-use Jose\Component\KeyManagement\JWKFactory;
 
 /**
  * final class ECDHESKeyAgreementTest.
@@ -241,29 +240,5 @@ final class ECDHESKeyAgreementTest extends AbstractEncryptionTest
 
         $ecdh_es = new ECDHES();
         $ecdh_es->getAgreementKey(256, 'A128GCM', $receiver, $header);
-    }
-
-    /**
-     * @see https://tools.ietf.org/html/rfc7518#appendix-C
-     */
-    public function testGetAgreementKeyWithX25519Curve()
-    {
-        $receiver_private_key = JWKFactory::createOKPKey('X25519');
-        $receiver_public_key = $receiver_private_key->toPublic();
-
-        $header = [
-            'enc' => 'A128GCM',
-            'apu' => 'QWxpY2U',
-            'apv' => 'Qm9i',
-        ];
-
-        $ecdh_es = new ECDHES();
-        $additional_header_values = [];
-
-        $agreement_key_from_sender = $ecdh_es->getAgreementKey(128, 'A128GCM', $receiver_public_key, $header, $additional_header_values);
-        $agreement_key_from_receiver = $ecdh_es->getAgreementKey(128, 'A128GCM', $receiver_private_key, array_merge($header, $additional_header_values));
-
-        self::assertTrue(array_key_exists('epk', $additional_header_values));
-        self::assertEquals($agreement_key_from_receiver, $agreement_key_from_sender);
     }
 }

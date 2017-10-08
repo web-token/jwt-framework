@@ -330,4 +330,71 @@ final class Curve
 
         return $this->getPoint($x3, $y3, $point->getOrder());
     }
+
+    /**
+     * @return PrivateKey
+     */
+    public function createPrivateKey(): PrivateKey
+    {
+        return PrivateKey::create($this->generate());
+    }
+
+    /**
+     * @param PrivateKey $privateKey
+     *
+     * @return PublicKey
+     */
+    public function createPublicKey(PrivateKey $privateKey): PublicKey
+    {
+        $this->generator->mul($privateKey->getSecret());
+        return PrivateKey::create($this->generate());
+    }
+
+    /**
+     * @return \GMP
+     */
+    private function generate(): \GMP
+    {
+        $max = $this->generator->getOrder();
+        $numBits = $this->bnNumBits($max);
+        $numBytes = (int) ceil($numBits / 8);
+        // Generate an integer of size >= $numBits
+        $bytes = random_bytes($numBytes);
+        $value = Math::stringToInt($bytes);
+        $mask = gmp_sub(gmp_pow(2, $numBits), 1);
+        $integer = gmp_and($value, $mask);
+
+        return $integer;
+    }
+
+    /**
+     * Returns the number of bits used to store this number. Non-significant upper bits are not counted.
+     *
+     * @param  \GMP $x
+     *
+     * @return int
+     *
+     * @link https://www.openssl.org/docs/crypto/BN_num_bytes.html
+     */
+    private function bnNumBits(\GMP $x): int
+    {
+        $zero = gmp_init(0, 10);
+        if (Math::equals($x, $zero)) {
+            return 0;
+        }
+        $log2 = 0;
+        while (false === Math::equals($x, $zero)) {
+            $x = Math::rightShift($x, 1);
+            $log2++;
+        }
+        return $log2 ;
+    }
+
+    /**
+     * @return Point
+     */
+    public function getGenerator(): Point
+    {
+        return $this->generator;
+    }
 }
