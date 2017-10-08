@@ -5,11 +5,6 @@ services:
         public: true
 
     Jose\Component\Core\AlgorithmManagerFactory: ~
-    Jose\Bundle\JoseFramework\Controller\JWKSetControllerFactory: ~
-    Jose\Bundle\JoseFramework\Routing\JWKSetLoader:
-        tags:
-            - {'name': 'routing.loader'}
-
     Jose\Bundle\JoseFramework\DataCollector\JoseCollector:
         tags:
             -

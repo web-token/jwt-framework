@@ -1,5 +1,0 @@
-services:
-    jose.jwk_set_source.jwkset:
-        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\JWKSetSource\JWKSet'
-        tags:
-            - {'name': 'jose.jwkset_source'}

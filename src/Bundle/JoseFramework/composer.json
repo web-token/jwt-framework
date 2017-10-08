@@ -24,7 +24,6 @@
         "symfony/config": "^3.3",
         "symfony/dependency-injection": "^3.3",
         "symfony/http-kernel": "^3.3",
-        "symfony/routing": "^3.3",
         "web-token/jwt-core": "^1.0@dev"
     },
     "require-dev": {

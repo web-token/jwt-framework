@@ -63,19 +63,6 @@ final class Configuration implements ConfigurationInterface
                     ->defaultValue(StandardJsonConverter::class)
                     ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...). If set to false, a service that implements JsonConverterInterface must be set.')
                 ->end()
-                ->arrayNode('jku_factory')
-                    ->canBeEnabled()
-                    ->children()
-                        ->scalarNode('client')
-                            ->info('HTTP Client used to retrieve key sets.')
-                            ->isRequired()
-                            ->defaultNull()
-                        ->end()
-                        ->scalarNode('request_factory')
-                            ->defaultValue('Http\Message\MessageFactory\GuzzleMessageFactory')
-                        ->end()
-                    ->end()
-                ->end()
             ->end();
 
         return $treeBuilder;
