@@ -21,6 +21,7 @@
     },
     "require": {
         "php": "^7.1",
+        "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.1",
         "php-http/httplug": "^1.1",
         "php-http/message-factory": "^1.0",
