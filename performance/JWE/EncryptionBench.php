@@ -110,7 +110,7 @@ abstract class EncryptionBench
             new ExpirationTimeChecker(),
             new IssuedAtChecker(),
             new NotBeforeChecker(),
-        ],[
+        ], [
             new JWETokenHeaderChecker(),
         ]);
         $this->serializerManager = JWESerializerManager::create([

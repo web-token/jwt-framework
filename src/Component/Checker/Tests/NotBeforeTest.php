@@ -39,7 +39,7 @@ final class NotBeforeTest extends TestCase
     public function testCannotBeUsedNow()
     {
         $checker = new NotBeforeChecker();
-        $checker->checkHeader(time()+3600);
+        $checker->checkHeader(time() + 3600);
     }
 
     public function testSuccess()

@@ -22,9 +22,9 @@ interface TokenTypeHeaderCheckerInterface
 {
     /**
      * @param JWTInterface $jwt
-     * @param int $component
-     * @param array $protectedHeader
-     * @param array $unprotectedHeader
+     * @param int          $component
+     * @param array        $protectedHeader
+     * @param array        $unprotectedHeader
      */
     public function retrieveTokenHeaders(JWTInterface $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void;
 
