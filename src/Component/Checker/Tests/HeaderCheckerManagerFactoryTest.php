@@ -62,7 +62,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
         $payload = [];
-        $protected = ['crit' => ['exp', 'iat'], 'exp' => time()+3600, 'iat' => time() - 1000];
+        $protected = ['crit' => ['exp', 'iat'], 'exp' => time() + 3600, 'iat' => time() - 1000];
         $unprotected = [];
         $token = Token::create(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);

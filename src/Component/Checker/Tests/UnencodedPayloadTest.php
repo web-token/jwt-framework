@@ -32,7 +32,6 @@ final class UnencodedPayloadTest extends TestCase
         $checker->checkHeader('foo');
     }
 
-
     public function testSuccess()
     {
         $checker = new UnencodedPayloadChecker();

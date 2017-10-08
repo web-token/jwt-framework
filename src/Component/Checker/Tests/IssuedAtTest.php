@@ -39,7 +39,7 @@ final class IssuedAtTest extends TestCase
     public function testIssuedInTheFutur()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkHeader(time()+3600);
+        $checker->checkHeader(time() + 3600);
     }
 
     public function testSuccess()

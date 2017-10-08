@@ -103,6 +103,7 @@ final class HeaderCheckerManager
                 return;
             }
         }
+
         throw new \InvalidArgumentException('Unsupported token type.');
     }
 

@@ -47,9 +47,9 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
     public function testSuccess()
     {
         $payload = [
-            'exp' => time()+3600,
-            'iat' => time()-1000,
-            'nbf' => time()-100,
+            'exp' => time() + 3600,
+            'iat' => time() - 1000,
+            'nbf' => time() - 100,
         ];
         $token = Token::create(json_encode($payload));
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);

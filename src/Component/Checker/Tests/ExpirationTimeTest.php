@@ -39,7 +39,7 @@ final class ExpirationTimeTest extends TestCase
     public function testExpirationTime()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkHeader(time()-1);
+        $checker->checkHeader(time() - 1);
     }
 
     public function testSuccess()

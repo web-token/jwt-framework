@@ -85,7 +85,7 @@ abstract class SignatureBench
             new ExpirationTimeChecker(),
             new IssuedAtChecker(),
             new NotBeforeChecker(),
-        ],[
+        ], [
             new JWSTokenHeaderChecker(),
         ]);
         $this->serializerManager = JWSSerializerManager::create([
