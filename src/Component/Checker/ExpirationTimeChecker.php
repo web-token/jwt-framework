@@ -56,7 +56,7 @@ final class ExpirationTimeChecker implements ClaimCheckerInterface, HeaderChecke
     private function checkValue($value)
     {
         if (!is_int($value)) {
-            throw new \InvalidArgumentException('The claim "exp" must be an integer.');
+            throw new \InvalidArgumentException('"exp" must be an integer.');
         }
         if (time() > $value) {
             throw new \InvalidArgumentException('The JWT has expired.');

@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Jose\Component\Core\JWTInterface;
-use Jose\Component\Encryption\JWE;
-use Jose\Component\Signature\JWS;
 
 /**
  * Class HeaderCheckerManager.
@@ -28,25 +26,47 @@ final class HeaderCheckerManager
     private $checkers = [];
 
     /**
+     * @var TokenTypeHeaderCheckerInterface[]
+     */
+    private $tokenTypes = [];
+
+    /**
      * HeaderCheckerManager constructor.
      *
-     * @param HeaderCheckerInterface[] $checkers
+     * @param HeaderCheckerInterface[]          $checkers
+     * @param TokenTypeHeaderCheckerInterface[] $tokenTypes
      */
-    private function __construct(array $checkers)
+    private function __construct(array $checkers, array $tokenTypes)
     {
         foreach ($checkers as $checker) {
             $this->add($checker);
         }
+        foreach ($tokenTypes as $tokenType) {
+            $this->addTokenTypeSupport($tokenType);
+        }
     }
 
     /**
-     * @param HeaderCheckerInterface[] $checkers
+     * @param HeaderCheckerInterface[]          $checkers
+     * @param TokenTypeHeaderCheckerInterface[] $tokenTypes
      *
      * @return HeaderCheckerManager
      */
-    public static function create(array $checkers): HeaderCheckerManager
+    public static function create(array $checkers, array $tokenTypes): HeaderCheckerManager
     {
-        return new self($checkers);
+        return new self($checkers, $tokenTypes);
+    }
+
+    /**
+     * @param TokenTypeHeaderCheckerInterface $tokenType
+     *
+     * @return HeaderCheckerManager
+     */
+    private function addTokenTypeSupport(TokenTypeHeaderCheckerInterface $tokenType): HeaderCheckerManager
+    {
+        $this->tokenTypes[] = $tokenType;
+
+        return $this;
     }
 
     /**
@@ -72,55 +92,18 @@ final class HeaderCheckerManager
      */
     public function check(JWTInterface $jwt, int $component)
     {
-        switch (true) {
-            case $jwt instanceof JWS:
-                $this->checkJWS($jwt, $component);
+        foreach ($this->tokenTypes as $tokenType) {
+            if ($tokenType->supports($jwt)) {
+                $protected = [];
+                $unprotected = [];
+                $tokenType->checkToken($jwt, $component, $protected, $unprotected);
+                $this->checkDuplicatedHeaderParameters($protected, $unprotected);
+                $this->checkHeaders($protected, $unprotected);
 
-                break;
-            case $jwt instanceof JWE:
-                $this->checkJWE($jwt, $component);
-
-                break;
-            default:
-                throw new \InvalidArgumentException('Unsupported argument');
+                return;
+            }
         }
-    }
-
-    /**
-     * @param JWS $jws
-     * @param int $signature
-     */
-    public function checkJWS(JWS $jws, int $signature)
-    {
-        if ($signature > $jws->countSignatures()) {
-            throw new \InvalidArgumentException('Unknown signature index.');
-        }
-        $protected = $jws->getSignature($signature)->getProtectedHeaders();
-        $headers = $jws->getSignature($signature)->getHeaders();
-        $this->checkDuplicatedHeaderParameters($protected, $headers);
-        $this->checkHeaders($protected, $headers);
-    }
-
-    /**
-     * @param JWE $jwe
-     * @param int $recipient
-     */
-    public function checkJWE(JWE $jwe, int $recipient)
-    {
-        if ($recipient > $jwe->countRecipients()) {
-            throw new \InvalidArgumentException('Unknown recipient index.');
-        }
-        $protected = $jwe->getSharedProtectedHeaders();
-        $headers = $jwe->getSharedHeaders();
-        $recipient = $jwe->getRecipient($recipient)->getHeaders();
-        $this->checkDuplicatedHeaderParameters($protected, $headers);
-        $this->checkDuplicatedHeaderParameters($protected, $recipient);
-        $this->checkDuplicatedHeaderParameters($headers, $recipient);
-        $unprotected = array_merge(
-            $headers,
-            $recipient
-        );
-        $this->checkHeaders($protected, $unprotected);
+        throw new \InvalidArgumentException('Unsupported token type.');
     }
 
     /**

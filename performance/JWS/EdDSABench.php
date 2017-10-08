@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\SignatureAlgorithmInterface;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
 
 /**
  * @Revs(4096)

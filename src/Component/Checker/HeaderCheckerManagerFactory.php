@@ -24,6 +24,11 @@ final class HeaderCheckerManagerFactory
     private $checkers = [];
 
     /**
+     * @var TokenTypeHeaderCheckerInterface[]
+     */
+    private $tokenTypes = [];
+
+    /**
      * @param string[] $aliases
      *
      * @return HeaderCheckerManager
@@ -39,7 +44,7 @@ final class HeaderCheckerManagerFactory
             }
         }
 
-        return HeaderCheckerManager::create($checkers);
+        return HeaderCheckerManager::create($checkers, $this->tokenTypes);
     }
 
     /**
@@ -54,6 +59,18 @@ final class HeaderCheckerManagerFactory
             throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
         }
         $this->checkers[$alias] = $checker;
+
+        return $this;
+    }
+
+    /**
+     * @param TokenTypeHeaderCheckerInterface $tokenType
+     *
+     * @return HeaderCheckerManagerFactory
+     */
+    public function addTokenTypeSupport(TokenTypeHeaderCheckerInterface $tokenType): HeaderCheckerManagerFactory
+    {
+        $this->tokenTypes[] = $tokenType;
 
         return $this;
     }

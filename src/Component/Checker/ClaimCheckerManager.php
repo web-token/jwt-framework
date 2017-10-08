@@ -64,8 +64,10 @@ final class ClaimCheckerManager
 
     /**
      * @param JWTInterface $jwt
+     *
+     * @return array
      */
-    public function check(JWTInterface $jwt)
+    public function check(JWTInterface $jwt): array
     {
         $claims = $this->jsonConverter->decode($jwt->getPayload());
         if (!is_array($claims)) {
@@ -77,5 +79,7 @@ final class ClaimCheckerManager
                 $checker->checkClaim($claims[$claim]);
             }
         }
+
+        return $claims;
     }
 }

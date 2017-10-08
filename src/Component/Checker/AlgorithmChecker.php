@@ -47,7 +47,10 @@ final class AlgorithmChecker implements HeaderCheckerInterface
      */
     public function checkHeader($value)
     {
-        if (is_string($value) && !in_array($value, $this->supportedAlgorithms)) {
+        if (!is_string($value)) {
+            throw new \InvalidArgumentException('"alg" must be a string.');
+        }
+        if (!in_array($value, $this->supportedAlgorithms)) {
             throw new \InvalidArgumentException('Unsupported algorithm.');
         }
     }

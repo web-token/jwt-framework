@@ -22,13 +22,14 @@ use Jose\Component\Core\Converter\StandardJsonConverter;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSTokenHeaderChecker;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
-use Jose\Component\Signature\SignatureAlgorithmInterface;
 
 /**
  * @BeforeMethods({"init"})
@@ -84,11 +85,13 @@ abstract class SignatureBench
             new ExpirationTimeChecker(),
             new IssuedAtChecker(),
             new NotBeforeChecker(),
+        ],[
+            new JWSTokenHeaderChecker(),
         ]);
         $this->serializerManager = JWSSerializerManager::create([
-            new CompactSerializer(),
-            new JSONFlattenedSerializer(),
-            new JSONGeneralSerializer(),
+            new CompactSerializer($this->jsonConverter),
+            new JSONFlattenedSerializer($this->jsonConverter),
+            new JSONGeneralSerializer($this->jsonConverter),
         ]);
     }
 

@@ -59,7 +59,7 @@ final class NotBeforeChecker implements ClaimCheckerInterface, HeaderCheckerInte
     private function checkValue($value)
     {
         if (!is_int($value)) {
-            throw new \InvalidArgumentException('The claim "nbf" must be an integer.');
+            throw new \InvalidArgumentException('"nbf" must be an integer.');
         }
         if (time() < $value) {
             throw new \InvalidArgumentException('The JWT can not be used yet.');

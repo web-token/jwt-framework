@@ -66,7 +66,9 @@ final class AudienceChecker implements ClaimCheckerInterface, HeaderCheckerInter
     {
         if (is_string($value) && $value !== $this->audience) {
             throw new \InvalidArgumentException('Bad audience.');
-        } elseif (!is_array($value) || !in_array($this->audience, $value)) {
+        } elseif (is_array($value) && !in_array($this->audience, $value)) {
+            throw new \InvalidArgumentException('Bad audience.');
+        } elseif (!is_array($value) && !is_string($value)) {
             throw new \InvalidArgumentException('Bad audience.');
         }
     }

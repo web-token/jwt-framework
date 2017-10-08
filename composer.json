@@ -58,6 +58,9 @@
         "satooshi/php-coveralls": "^1.0",
         "symfony/finder": "^3.3"
     },
+    "replace": {
+        "web-token/jwt-core": "self.version"
+    },
    "suggest":{
         "bjeavons/zxcvbn-php": "Adds key quality check for oct keys."
    },

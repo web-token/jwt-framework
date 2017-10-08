@@ -26,7 +26,7 @@ final class UnencodedPayloadChecker implements HeaderCheckerInterface
     public function checkHeader($value)
     {
         if (!is_bool($value)) {
-            throw new \InvalidArgumentException('The protected header "b64" must be a boolean.');
+            throw new \InvalidArgumentException('"b64" must be a boolean.');
         }
     }
 

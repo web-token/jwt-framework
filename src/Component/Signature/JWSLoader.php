@@ -105,7 +105,7 @@ final class JWSLoader
         if (null === $signatureIndex) {
             throw new \InvalidArgumentException('Unable to verify the JWS.');
         }
-        $this->headerCheckerManager->checkJWS($jws, $signatureIndex);
+        $this->headerCheckerManager->check($jws, $signatureIndex);
 
         return $signatureIndex;
     }
