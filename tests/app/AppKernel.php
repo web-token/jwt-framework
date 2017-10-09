@@ -29,12 +29,13 @@ final class AppKernel extends Kernel
 
             new Http\HttplugBundle\HttplugBundle(),
             new Jose\Bundle\JoseFramework\JoseFrameworkBundle(),
+            new Jose\Bundle\KeyManagement\KeyManagementBundle(),
             new Jose\Bundle\Console\ConsoleBundle(),
             new Jose\Bundle\Checker\CheckerBundle(),
             new Jose\Bundle\Signature\SignatureBundle(),
             new Jose\Bundle\Encryption\EncryptionBundle(),
 
-            new \Jose\Test\TestBundle\TestBundle(),
+            new Jose\Test\TestBundle\TestBundle(),
         ];
 
         return $bundles;

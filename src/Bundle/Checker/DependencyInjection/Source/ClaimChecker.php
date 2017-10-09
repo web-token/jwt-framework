@@ -37,18 +37,20 @@ final class ClaimChecker implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function createService(string $name, array $config, ContainerBuilder $container)
+    public function createService(array $config, ContainerBuilder $container)
     {
-        $service_id = sprintf('jose.claim_checker.%s', $name);
-        $definition = new Definition(JWSLoaderService::class);
-        $definition
-            ->setFactory([new Reference(ClaimCheckerManagerFactory::class), 'create'])
-            ->setArguments([
-                $config['claims'],
-            ])
-            ->setPublic($config['is_public']);
+        foreach ($config as $name => $itemConfig) {
+            $service_id = sprintf('jose.claim_checker.%s', $name);
+            $definition = new Definition(JWSLoaderService::class);
+            $definition
+                ->setFactory([new Reference(ClaimCheckerManagerFactory::class), 'create'])
+                ->setArguments([
+                    $itemConfig['claims'],
+                ])
+                ->setPublic($itemConfig['is_public']);
 
-        $container->setDefinition($service_id, $definition);
+            $container->setDefinition($service_id, $definition);
+        }
     }
 
     /**

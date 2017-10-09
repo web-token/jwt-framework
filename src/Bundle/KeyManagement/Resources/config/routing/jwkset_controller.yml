@@ -1,0 +1,4 @@
+jwkset_routes:
+    resource: .
+    type: 'jwkset'
+    methods: 'GET'

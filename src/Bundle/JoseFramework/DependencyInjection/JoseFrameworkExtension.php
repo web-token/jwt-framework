@@ -17,13 +17,13 @@ use Jose\Bundle\Checker\DependencyInjection\Source\ClaimChecker;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWELoader;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSLoader;
 use Jose\Component\Core\Converter\JsonConverterInterface;
 use Jose\Component\Core\Converter\StandardJsonConverter;
-use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -42,11 +42,6 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private $alias;
 
     /**
-     * @var string
-     */
-    private $bundlePath;
-
-    /**
      * @var SourceInterface[]
      */
     private $serviceSources = [];
@@ -55,12 +50,10 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
      * JoseFrameworkExtension constructor.
      *
      * @param string $alias
-     * @param string $bundlePath
      */
-    public function __construct(string $alias, string $bundlePath)
+    public function __construct(string $alias)
     {
         $this->alias = $alias;
-        $this->bundlePath = $bundlePath;
         $this->addDefaultSources();
     }
 
@@ -84,20 +77,12 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         $loader->load('services.yml');
 
         $container->setAlias(JsonConverterInterface::class, $config['json_converter']);
-        if (class_exists(JWKFactory::class)) {
-            $loader->load('jku_source.yml');
-            $loader->load('jwk_factory.yml');
-            $container->setAlias('jose.http_client', $config['jku_factory']['client']);
-            $container->setAlias('jose.request_factory', $config['jku_factory']['request_factory']);
-        }
         if (StandardJsonConverter::class === $config['json_converter']) {
             $loader->load('json_converter.yml');
         }
 
         foreach ($this->serviceSources as $serviceSource) {
-            foreach ($config[$serviceSource->name()] as $name => $data) {
-                $serviceSource->createService($name, $data, $container);
-            }
+            $serviceSource->createService($config[$serviceSource->name()], $container);
         }
     }
 
@@ -126,9 +111,10 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
     private function addDefaultSources()
     {
-        if (class_exists(JWKFactory::class)) {
-            $this->addSource(new JWKSource($this->bundlePath));
-            $this->addSource(new JWKSetSource($this->bundlePath));
+        if (class_exists(JKUSource::class)) {
+            $this->addSource(new JKUSource());
+            $this->addSource(new JWKSource());
+            $this->addSource(new JWKSetSource());
         }
         if (class_exists(ClaimChecker::class)) {
             $this->addSource(new ClaimChecker());

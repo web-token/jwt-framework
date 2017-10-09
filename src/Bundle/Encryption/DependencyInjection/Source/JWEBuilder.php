@@ -37,20 +37,22 @@ final class JWEBuilder implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function createService(string $name, array $config, ContainerBuilder $container)
+    public function createService(array $config, ContainerBuilder $container)
     {
-        $service_id = sprintf('jose.jwe_builder.%s', $name);
-        $definition = new Definition(JWEBuilderService::class);
-        $definition
-            ->setFactory([new Reference(JWEBuilderFactory::class), 'create'])
-            ->setArguments([
-                $config['key_encryption_algorithms'],
-                $config['content_encryption_algorithms'],
-                $config['compression_methods'],
-            ])
-            ->setPublic($config['is_public']);
+        foreach ($config as $name => $itemConfig) {
+            $service_id = sprintf('jose.jwe_builder.%s', $name);
+            $definition = new Definition(JWEBuilderService::class);
+            $definition
+                ->setFactory([new Reference(JWEBuilderFactory::class), 'create'])
+                ->setArguments([
+                    $itemConfig['key_encryption_algorithms'],
+                    $itemConfig['content_encryption_algorithms'],
+                    $itemConfig['compression_methods'],
+                ])
+                ->setPublic($itemConfig['is_public']);
 
-        $container->setDefinition($service_id, $definition);
+            $container->setDefinition($service_id, $definition);
+        }
     }
 
     /**

@@ -11,24 +11,24 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Bundle\JoseFramework;
+namespace Jose\Bundle\KeyManagement;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\AlgorithmCompilerPass;
-use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
+use Jose\Bundle\KeyManagement\DependencyInjection\Compiler\KeySetControllerCompilerPass;
+use Jose\Bundle\KeyManagement\DependencyInjection\KeyManagementExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class JoseFrameworkBundle.
+ * Class KeyManagementBundle.
  */
-final class JoseFrameworkBundle extends Bundle
+final class KeyManagementBundle extends Bundle
 {
     /**
      * {@inheritdoc}
      */
     public function getContainerExtension()
     {
-        return new JoseFrameworkExtension('jose');
+        return new KeyManagementExtension();
     }
 
     /**
@@ -37,6 +37,6 @@ final class JoseFrameworkBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new AlgorithmCompilerPass());
+        $container->addCompilerPass(new KeySetControllerCompilerPass());
     }
 }

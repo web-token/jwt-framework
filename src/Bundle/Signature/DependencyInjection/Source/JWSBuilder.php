@@ -37,16 +37,18 @@ final class JWSBuilder implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function createService(string $name, array $config, ContainerBuilder $container)
+    public function createService(array $config, ContainerBuilder $container)
     {
-        $service_id = sprintf('jose.jws_builder.%s', $name);
-        $definition = new Definition(JWSBuilderService::class);
-        $definition
-            ->setFactory([new Reference(JWSBuilderFactory::class), 'create'])
-            ->setArguments([$config['signature_algorithms']])
-            ->setPublic($config['is_public']);
+        foreach ($config as $name => $itemConfig) {
+            $service_id = sprintf('jose.jws_builder.%s', $name);
+            $definition = new Definition(JWSBuilderService::class);
+            $definition
+                ->setFactory([new Reference(JWSBuilderFactory::class), 'create'])
+                ->setArguments([$itemConfig['signature_algorithms']])
+                ->setPublic($itemConfig['is_public']);
 
-        $container->setDefinition($service_id, $definition);
+            $container->setDefinition($service_id, $definition);
+        }
     }
 
     /**

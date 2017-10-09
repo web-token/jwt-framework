@@ -27,11 +27,10 @@ interface SourceInterface
     public function name(): string;
 
     /**
-     * @param string           $name
      * @param array            $config
      * @param ContainerBuilder $container
      */
-    public function createService(string $name, array $config, ContainerBuilder $container);
+    public function createService(array $config, ContainerBuilder $container);
 
     /**
      * @param ArrayNodeDefinition $node

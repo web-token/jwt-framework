@@ -1,0 +1,25 @@
+services:
+    jose.jwk_source.keyfile:
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource\KeyFile'
+        tags:
+            - {'name': 'jose.jwk_source' }
+    jose.jwk_source.certificatefile:
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource\CertificateFile'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.values:
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource\Values'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.jwk:
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource\JWK'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.x5c:
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource\X5C'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.jwkset:
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource\JWKSet'
+        tags:
+            - {'name': 'jose.jwk_source'}

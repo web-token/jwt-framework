@@ -37,9 +37,9 @@ final class JWSLoader implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function createService(string $name, array $config, ContainerBuilder $container)
+    public function createService(array $config, ContainerBuilder $container)
     {
-        $service_id = sprintf('jose.jws_loader.%s', $name);
+        /*$service_id = sprintf('jose.jws_loader.%s', $this->name());
         $definition = new Definition(JWSLoaderService::class);
         $definition
             ->setFactory([new Reference(JWSLoaderFactory::class), 'create'])
@@ -50,7 +50,7 @@ final class JWSLoader implements SourceInterface
             ])
             ->setPublic($config['is_public']);
 
-        $container->setDefinition($service_id, $definition);
+        $container->setDefinition($service_id, $definition);*/
     }
 
     /**
