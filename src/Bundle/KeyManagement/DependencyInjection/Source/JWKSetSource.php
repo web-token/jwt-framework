@@ -41,7 +41,15 @@ final class JWKSetSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function createService(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $this->createService($configs[$this->name()], $container);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function createService(array $config, ContainerBuilder $container)
     {
         $sources = $this->getJWKSetSources();
 

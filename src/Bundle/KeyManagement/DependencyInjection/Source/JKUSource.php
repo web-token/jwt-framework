@@ -16,6 +16,8 @@ namespace Jose\Bundle\KeyManagement\DependencyInjection\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Config\FileLocator;
 
 /**
  * Class JKUSource.
@@ -33,7 +35,17 @@ final class JKUSource implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function createService(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
+        $loader->load('jku_source.yml');
+        $this->createService($configs[$this->name()], $container);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function createService(array $config, ContainerBuilder $container)
     {
         $container->setAlias('jose.http_client', $config['client']);
         $container->setAlias('jose.request_factory', $config['request_factory']);

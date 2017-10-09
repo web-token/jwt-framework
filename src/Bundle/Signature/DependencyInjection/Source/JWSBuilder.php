@@ -37,7 +37,15 @@ final class JWSBuilder implements SourceInterface
     /**
      * {@inheritdoc}
      */
-    public function createService(array $config, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $this->createService($configs[$this->name()], $container);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function createService(array $config, ContainerBuilder $container)
     {
         foreach ($config as $name => $itemConfig) {
             $service_id = sprintf('jose.jws_builder.%s', $name);

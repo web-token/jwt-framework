@@ -83,7 +83,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         }
 
         foreach ($this->serviceSources as $serviceSource) {
-            $serviceSource->createService($config[$serviceSource->name()], $container);
+            $serviceSource->load($config, $container);
         }
     }
 

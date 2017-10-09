@@ -29,7 +29,6 @@ final class KeyManagementExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('jku_source.yml');
         $loader->load('jwk_factory.yml');
         $loader->load('services.yml');
     }
