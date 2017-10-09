@@ -57,7 +57,7 @@ final class JWKSetSource implements SourceInterface
             foreach ($itemConfig as $sourceName => $sourceConfig) {
                 if (array_key_exists($sourceName, $sources)) {
                     $source = $sources[$sourceName];
-                    $source->create($container, 'key_set', $sourceName, $sourceConfig);
+                    $source->create($container, 'key_set', $name, $sourceConfig);
                 } else {
                     throw new \LogicException(sprintf('The JWKSet definition "%s" is not configured.', $name));
                 }
