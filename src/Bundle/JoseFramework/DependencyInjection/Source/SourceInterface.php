@@ -27,7 +27,7 @@ interface SourceInterface
     public function name(): string;
 
     /**
-     * @param array $configs
+     * @param array            $configs
      * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container);
