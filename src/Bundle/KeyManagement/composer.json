@@ -21,7 +21,6 @@
     },
     "require": {
         "php": "^7.1",
-        "php-http/httplug-bundle": "^1.7",
         "symfony/routing": "^3.3",
         "web-token/jwt-core": "^1.0@dev",
         "web-token/jwt-key-mgmt": "^1.0@dev",
@@ -29,7 +28,11 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
+        "php-http/httplug-bundle": "^1.7",
         "php-http/guzzle6-adapter": "^1.1.1"
+    },
+    "suggest": {
+        "php-http/httplug-bundle": "To enable JKU/X5U support."
     },
     "extra": {
         "branch-alias": {

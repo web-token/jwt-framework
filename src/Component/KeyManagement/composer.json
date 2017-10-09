@@ -23,12 +23,16 @@
         "php": "^7.1",
         "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.1",
-        "php-http/httplug": "^1.1",
-        "php-http/message-factory": "^1.0",
         "web-token/jwt-core": "^1.0@dev"
     },
     "require-dev": {
+        "php-http/message-factory": "^1.0",
+        "php-http/httplug": "^1.1",
         "phpunit/phpunit": "^6.0"
+    },
+    "suggest": {
+        "php-http/message-factory": "To enable JKU/X5U support.",
+        "php-http/httplug": "To enable JKU/X5U support."
     },
     "extra": {
         "branch-alias": {

@@ -31,11 +31,7 @@
         "ext-mbstring": "*",
         "lib-openssl": "*",
         "fgrosse/phpasn1": "^2.0",
-        "http-interop/http-factory": "^0.3.0",
         "paragonie/sodium_compat": "^1.1",
-        "php-http/httplug": "^1.1",
-        "php-http/httplug-bundle": "^1.7",
-        "php-http/message-factory": "^1.0",
         "spomky-labs/aes-key-wrap": "^4.0",
         "spomky-labs/base64url": "^1.0",
         "symfony/config": "^3.3",
@@ -52,6 +48,9 @@
         "behat/mink-extension": "^2.0",
         "behat/symfony2-extension": "^2.1",
         "bjeavons/zxcvbn-php": "^0.3.0",
+        "php-http/httplug": "^1.1",
+        "php-http/httplug-bundle": "^1.7",
+        "php-http/message-factory": "^1.0",
         "php-http/guzzle6-adapter": "^1.1.1",
         "phpbench/phpbench": "^0.13.0",
         "phpunit/phpunit": "^6.0",
@@ -69,10 +68,14 @@
         "web-token/jwt-checker-bundle": "self.version",
         "web-token/jwt-console-bundle": "self.version",
         "web-token/jwt-signature-bundle": "self.version",
-        "web-token/jwt-encryption-bundle": "self.version"
+        "web-token/jwt-encryption-bundle": "self.version",
+        "web-token/jwt-key-mgmt-bundle": "self.version"
     },
    "suggest":{
-        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys."
+       "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
+       "php-http/httplug": "To enable JKU/X5U support.",
+       "php-http/httplug-bundle": "To enable JKU/X5U support.",
+       "php-http/message-factory": "To enable JKU/X5U support."
    },
     "extra": {
         "branch-alias": {

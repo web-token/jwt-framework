@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
+use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\Checker\DependencyInjection\Source\ClaimChecker;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWELoader;
@@ -111,9 +112,13 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
     private function addDefaultSources()
     {
-        if (class_exists(JKUSource::class)) {
+        if (class_exists(JKUSource::class) && class_exists(HttplugBundle::class)) {
             $this->addSource(new JKUSource());
+        }
+        if (class_exists(JWKSource::class)) {
             $this->addSource(new JWKSource());
+        }
+        if (class_exists(JWKSetSource::class)) {
             $this->addSource(new JWKSetSource());
         }
         if (class_exists(ClaimChecker::class)) {
