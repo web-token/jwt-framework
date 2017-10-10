@@ -32,6 +32,18 @@ jose:
             header_checkers: ['iat', 'exp', 'nbf']
             serializers: ['jws_compact', 'jws_json_general', 'jws_json_flattened']
             is_public: true
+    jwe_builders:
+        builder1:
+            is_public: true
+            key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
+            content_encryption_algorithms: ['A256CBC-HS512']
+    jwe_loaders:
+        loader1:
+            key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
+            content_encryption_algorithms: ['A256CBC-HS512']
+            header_checkers: ['iat', 'exp', 'nbf']
+            serializers: ['jwe_compact', 'jwe_json_general', 'jwe_json_flattened']
+            is_public: true
 httplug:
     clients:
         jose:

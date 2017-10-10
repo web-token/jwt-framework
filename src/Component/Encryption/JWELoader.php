@@ -123,9 +123,7 @@ final class JWELoader
     public function decryptUsingKey(JWE $jwe, JWK $jwk, ?int &$recipientIndex = null): JWE
     {
         $jwkset = JWKSet::createFromKeys([$jwk]);
-
         $jwe = $this->decryptUsingKeySet($jwe, $jwkset, $recipientIndex);
-        $this->headerCheckerManager->check($jwe, $recipientIndex);
 
         return $jwe;
     }
@@ -146,6 +144,11 @@ final class JWELoader
         $nb_recipients = $jwe->countRecipients();
 
         for ($i = 0; $i < $nb_recipients; ++$i) {
+            try {
+                $this->headerCheckerManager->check($jwe, $i);
+            } catch (\Exception $e) {
+                continue;
+            }
             $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $i);
             if (null !== $plaintext) {
                 $recipientIndex = $i;
