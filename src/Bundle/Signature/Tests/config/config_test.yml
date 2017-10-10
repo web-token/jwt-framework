@@ -10,18 +10,6 @@ framework:
     http_method_override: true
 
 jose:
-    json_converter: Jose\Test\TestBundle\Converter\CustomJsonConverter
-    jku_factory:
-        enabled: true
-        client: 'httplug.client.jose'
-    claim_checkers:
-        checker1:
-            is_public: true
-            claims: ['exp', 'iat', 'nbf', 'custom_checker']
-    header_checkers:
-        checker1:
-            is_public: true
-            headers: ['exp', 'iat', 'nbf', 'custom_checker']
     jws_builders:
         builder1:
             is_public: true
@@ -32,10 +20,3 @@ jose:
             header_checkers: ['iat', 'exp', 'nbf']
             serializers: ['jws_compact', 'jws_json_general', 'jws_json_flattened']
             is_public: true
-httplug:
-    clients:
-        jose:
-            factory: 'httplug.factory.guzzle6'
-            config:
-                verify: false
-                timeout: 2

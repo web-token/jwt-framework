@@ -101,13 +101,25 @@ final class JWSLoader
      */
     public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, ?string $detachedPayload = null): int
     {
-        $signatureIndex = $this->verifySignatures($jws, $jwkset, $detachedPayload);
-        if (null === $signatureIndex) {
-            throw new \InvalidArgumentException('Unable to verify the JWS.');
-        }
-        $this->headerCheckerManager->check($jws, $signatureIndex);
+        $this->checkJWKSet($jwkset);
+        $this->checkSignatures($jws);
+        $this->checkPayload($jws, $detachedPayload);
 
-        return $signatureIndex;
+        $nbSignatures = $jws->countSignatures();
+
+        for ($i = 0; $i < $nbSignatures; ++$i) {
+            try {
+                $this->headerCheckerManager->check($jws, $i);
+            } catch (\Exception $e) {
+                continue;
+            }
+            $signature = $jws->getSignature($i);
+            if (true === $this->verifySignature($jws, $jwkset, $signature, $detachedPayload)) {
+                return $i;
+            }
+        }
+
+        throw new \InvalidArgumentException('Unable to verify the JWS.');
     }
 
     /**
@@ -162,31 +174,6 @@ final class JWSLoader
         $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
 
         return sprintf('%s.%s', $encodedProtectedHeaders, $payload);
-    }
-
-    /**
-     * @param JWS         $jws
-     * @param JWKSet      $jwkset
-     * @param string|null $detachedPayload
-     *
-     * @return null|int
-     */
-    private function verifySignatures(JWS $jws, JWKSet $jwkset, ?string $detachedPayload = null): ?int
-    {
-        $this->checkJWKSet($jwkset);
-        $this->checkSignatures($jws);
-        $this->checkPayload($jws, $detachedPayload);
-
-        $nbSignatures = $jws->countSignatures();
-
-        for ($i = 0; $i < $nbSignatures; ++$i) {
-            $signature = $jws->getSignature($i);
-            if (true === $this->verifySignature($jws, $jwkset, $signature, $detachedPayload)) {
-                return $i;
-            }
-        }
-
-        return null;
     }
 
     /**

@@ -49,8 +49,8 @@ final class TestExtension extends Extension implements PrependExtensionInterface
         ]);
         ConfigurationHelper::addClaimChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
         ConfigurationHelper::addHeaderChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
-        ConfigurationHelper::addJWSBuilder($container, 'builder1', ['ES256', 'HS256'], true);
-        ConfigurationHelper::addJWSLoader($container, 'loader1', ['ES256', 'HS256'], ['exp', 'iat', 'nbf'], ['jws_compact'], true);
+        ConfigurationHelper::addJWSBuilder($container, 'builder2', ['RS512', 'HS512', 'ES512'], true);
+        ConfigurationHelper::addJWSLoader($container, 'loader2', ['RS512', 'HS512', 'ES512'], ['exp', 'iat', 'nbf'], ['jws_compact', 'jws_json_general', 'jws_json_flattened'], true);
         ConfigurationHelper::addJWEBuilder($container, 'builder1', ['A128GCMKW'], ['A128GCM'], ['DEF'], true);
         ConfigurationHelper::addJWELoader($container, 'loader1', ['A128GCMKW'], ['A128GCM'], ['DEF'], ['exp', 'iat', 'nbf'], ['jwe_compact'], true);
     }
