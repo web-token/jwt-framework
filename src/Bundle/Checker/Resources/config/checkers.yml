@@ -8,16 +8,19 @@ services:
     Jose\Component\Checker\ClaimCheckerManagerFactory: ~
 
     Jose\Component\Checker\ExpirationTimeChecker:
+        public: false
         tags:
             - { name: 'jose.checker.header', alias: 'exp' }
             - { name: 'jose.checker.claim', alias: 'exp' }
 
     Jose\Component\Checker\IssuedAtChecker:
+        public: false
         tags:
             - { name: 'jose.checker.header', alias: 'iat' }
             - { name: 'jose.checker.claim', alias: 'iat' }
 
     Jose\Component\Checker\NotBeforeChecker:
+        public: false
         tags:
             - { name: 'jose.checker.header', alias: 'nbf' }
             - { name: 'jose.checker.claim', alias: 'nbf' }

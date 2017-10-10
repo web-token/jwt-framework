@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\Checker\DependencyInjection\Source;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
-use Jose\Component\Checker\ClaimCheckerManagerFactory;
+use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Signature\JWSLoader as JWSLoaderService;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,16 +22,16 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class ClaimChecker.
+ * Class HeaderChecker.
  */
-final class ClaimChecker implements SourceInterface
+final class HeaderChecker implements SourceInterface
 {
     /**
      * {@inheritdoc}
      */
     public function name(): string
     {
-        return 'claim_checkers';
+        return 'header_checkers';
     }
 
     /**
@@ -48,12 +48,12 @@ final class ClaimChecker implements SourceInterface
     private function createService(array $config, ContainerBuilder $container)
     {
         foreach ($config as $name => $itemConfig) {
-            $service_id = sprintf('jose.claim_checker.%s', $name);
+            $service_id = sprintf('jose.header_checker.%s', $name);
             $definition = new Definition(JWSLoaderService::class);
             $definition
-                ->setFactory([new Reference(ClaimCheckerManagerFactory::class), 'create'])
+                ->setFactory([new Reference(HeaderCheckerManagerFactory::class), 'create'])
                 ->setArguments([
-                    $itemConfig['claims'],
+                    $itemConfig['headers'],
                 ])
                 ->setPublic($itemConfig['is_public']);
 
@@ -76,7 +76,7 @@ final class ClaimChecker implements SourceInterface
                                 ->info('If true, the service will be public, else private.')
                                 ->defaultTrue()
                             ->end()
-                            ->arrayNode('claims')
+                            ->arrayNode('headers')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
                                 ->prototype('scalar')->end()

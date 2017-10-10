@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\Checker\DependencyInjection\Source\ClaimChecker;
+use Jose\Bundle\Checker\DependencyInjection\Source\HeaderChecker;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWELoader;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
@@ -123,6 +124,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         }
         if (class_exists(ClaimChecker::class)) {
             $this->addSource(new ClaimChecker());
+        }
+        if (class_exists(HeaderChecker::class)) {
+            $this->addSource(new HeaderChecker());
         }
         if (class_exists(JWSBuilder::class)) {
             $this->addSource(new JWSBuilder());

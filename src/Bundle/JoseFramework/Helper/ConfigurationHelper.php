@@ -94,6 +94,28 @@ final class ConfigurationHelper
     /**
      * @param ContainerBuilder $container
      * @param string           $name
+     * @param string[]         $headerCheckers
+     * @param bool             $is_public
+     */
+    public static function addHeaderChecker(ContainerBuilder $container, string $name, array  $headerCheckers, bool $is_public = true)
+    {
+        $config = [
+            self::BUNDLE_ALIAS => [
+                'header_checkers' => [
+                    $name => [
+                        'is_public' => $is_public,
+                        'headers' => $headerCheckers,
+                    ],
+                ],
+            ],
+        ];
+
+        self::updateJoseConfiguration($container, $config, 'header_checkers');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $name
      * @param string           $type
      * @param array            $parameters
      */
