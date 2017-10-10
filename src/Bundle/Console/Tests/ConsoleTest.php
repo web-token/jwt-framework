@@ -44,7 +44,7 @@ final class ConsoleTest extends KernelTestCase
             'keyset:rotate',
             'key:generate:rsa',
             'keyset:generate:rsa',
-            'key:load:x509'
+            'key:load:x509',
         ];
         self::bootKernel();
         $application = new Application(self::$kernel);
