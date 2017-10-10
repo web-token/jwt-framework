@@ -37,18 +37,13 @@ final class JKUSource implements SourceInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
-        $loader->load('jku_source.yml');
-        $this->createService($configs[$this->name()], $container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function createService(array $config, ContainerBuilder $container)
-    {
-        $container->setAlias('jose.http_client', $config['client']);
-        $container->setAlias('jose.request_factory', $config['request_factory']);
+        if (true === $configs[$this->name()]['enabled']) {
+            $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../Resources/config'));
+            $loader->load('jku_source.yml');
+            $loader->load('jku_commands.yml');
+            $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
+            $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);
+        }
     }
 
     /**

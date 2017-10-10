@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Jose\Component\Console\JKULoaderCommand:
+        tags:
+            - {name: 'console.command'}
+
+    Jose\Component\Console\X5ULoaderCommand:
+        tags:
+            - {name: 'console.command'}

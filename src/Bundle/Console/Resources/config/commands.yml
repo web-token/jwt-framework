@@ -52,14 +52,6 @@ services:
         tags:
             - {name: 'console.command'}
 
-    Jose\Component\Console\JKULoaderCommand:
-        tags:
-            - {name: 'console.command'}
-
-    Jose\Component\Console\X5ULoaderCommand:
-        tags:
-            - {name: 'console.command'}
-
     Jose\Component\Console\KeyAnalyzerCommand:
         tags:
             - {name: 'console.command'}
