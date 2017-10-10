@@ -23,6 +23,5 @@ before_script:
   - if [[ !$deps ]]; then composer install --no-interaction ; fi
 script:
   - "./vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
-  - "./vendor/bin/behat"
 after_success:
   - vendor/bin/coveralls --no-interaction

@@ -4,8 +4,8 @@ services:
         autoconfigure: true
         public: true
 
-    Jose\Test\TestBundle\Converter\CustomJsonConverter: ~
-    Jose\Test\TestBundle\Checker\CustomChecker:
+    Jose\Bundle\Checker\Tests\TestBundle\Converter\CustomJsonConverter: ~
+    Jose\Bundle\Checker\Tests\TestBundle\Checker\CustomChecker:
         class:
         public: false
         tags:

@@ -18,7 +18,10 @@
             <directory>./src/Component/*/*/Tests/</directory>
         </testsuite>
     </testsuites>
-
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <server name="KERNEL_DIR" value="./tests/app" />
+    </php>
     <filter>
         <whitelist>
             <directory suffix=".php">./</directory>

@@ -47,7 +47,8 @@ final class TestExtension extends Extension implements PrependExtensionInterface
             'path' => '/jwkset.json',
             'max_age' => 3600,
         ]);
-        ConfigurationHelper::addClaimChecker($container, 'claim_checker1', ['exp', 'iat', 'nbf'], true);
+        ConfigurationHelper::addClaimChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
+        ConfigurationHelper::addHeaderChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
         ConfigurationHelper::addJWSBuilder($container, 'builder1', ['ES256', 'HS256'], true);
         ConfigurationHelper::addJWSLoader($container, 'loader1', ['ES256', 'HS256'], ['exp', 'iat', 'nbf'], ['jws_compact'], true);
         ConfigurationHelper::addJWEBuilder($container, 'builder1', ['A128GCMKW'], ['A128GCM'], ['DEF'], true);

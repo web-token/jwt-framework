@@ -11,9 +11,9 @@ tools:
     php_sim: false
     php_cpd: true
     php_pdepend:
-        excluded_dirs: ["vendor/*", "doc/*", "performance/*", "tests/*", "*Tests/*"]
+        excluded_dirs: ["vendor/*", "performance/*", "*Tests/*"]
 filter:
-    excluded_paths: ["vendor/*", "doc/*", "performance/*", "tests/*", "*Tests/*"]
+    excluded_paths: ["vendor/*", "performance/*", "*Tests/*"]
 build_failure_conditions:
     - 'elements.rating(<= D).exists'               # No classes/methods with a rating of D or worse
     - 'elements.rating(<= D).new.exists'           # No new classes/methods with a rating of D or worse
