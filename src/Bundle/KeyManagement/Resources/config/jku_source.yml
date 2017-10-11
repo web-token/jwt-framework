@@ -2,7 +2,7 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
+        public: false
 
     Jose\Component\KeyManagement\JKUFactory:
         arguments:

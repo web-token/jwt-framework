@@ -2,7 +2,7 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
+        public: false
 
     Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256:
         tags:

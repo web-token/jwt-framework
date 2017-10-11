@@ -2,10 +2,14 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        public: false
+
+    Jose\Component\Signature\JWSBuilderFactory:
         public: true
 
-    Jose\Component\Signature\JWSBuilderFactory: ~
-    Jose\Component\Signature\JWSLoaderFactory: ~
+    Jose\Component\Signature\JWSLoaderFactory:
+        public: true
+
     Jose\Component\Signature\JWSTokenHeaderChecker:
         tags:
             - {'name': 'jose.checker.token_type'}

@@ -2,10 +2,14 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\JWEBuilderFactory:
         public: true
 
-    Jose\Component\Encryption\JWEBuilderFactory: ~
-    Jose\Component\Encryption\JWELoaderFactory: ~
+    Jose\Component\Encryption\JWELoaderFactory:
+        public: true
+
     Jose\Component\Encryption\Compression\CompressionMethodManagerFactory: ~
     Jose\Component\Encryption\JWETokenHeaderChecker:
         tags:

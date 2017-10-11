@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Encryption\Tests;
 
+use Jose\Component\Core\Converter\StandardJsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWELoader;
@@ -41,8 +42,7 @@ final class JWEComputationTest extends WebTestCase
         /** @var JWELoader $loader */
         $loader = $container->get('jose.jwe_loader.loader1');
 
-        /** @var CompactSerializer $serializer */
-        $serializer = $container->get(CompactSerializer::class);
+        $serializer = new CompactSerializer(new StandardJsonConverter());
 
         $jwe = $builder
             ->create()
@@ -82,8 +82,7 @@ final class JWEComputationTest extends WebTestCase
         /** @var JWELoader $loader */
         $loader = $container->get('jose.jwe_loader.loader1');
 
-        /** @var CompactSerializer $serializer */
-        $serializer = $container->get(CompactSerializer::class);
+        $serializer = new CompactSerializer(new StandardJsonConverter());
 
         $jwe = $builder
             ->create()
