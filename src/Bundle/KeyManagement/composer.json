@@ -22,9 +22,9 @@
     "require": {
         "php": "^7.1",
         "symfony/routing": "^3.3",
-        "web-token/jwt-core": "^1.0@dev",
-        "web-token/jwt-key-mgmt": "^1.0@dev",
-        "web-token/jwt-bundle": "^1.0@dev"
+        "web-token/jwt-core": "^1.0@alpha",
+        "web-token/jwt-key-mgmt": "^1.0@alpha",
+        "web-token/jwt-bundle": "^1.0@alpha"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.3",
