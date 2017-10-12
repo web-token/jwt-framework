@@ -15,10 +15,10 @@ If you really love that project, then you can help me out for a couple of :beers
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a/big.png)](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a)
 
-[![Latest Stable Version](https://poser.pugx.org/Spomky-Labs/JOSE/v/stable.png)](https://packagist.org/packages/Spomky-Labs/JOSE)
-[![Total Downloads](https://poser.pugx.org/Spomky-Labs/JOSE/downloads.png)](https://packagist.org/packages/Spomky-Labs/JOSE)
-[![Latest Unstable Version](https://poser.pugx.org/Spomky-Labs/JOSE/v/unstable.png)](https://packagist.org/packages/Spomky-Labs/JOSE)
-[![License](https://poser.pugx.org/Spomky-Labs/JOSE/license.png)](https://packagist.org/packages/Spomky-Labs/JOSE)
+[![Latest Stable Version](https://poser.pugx.org/web-token/jwt-framework/v/stable.png)](https://packagist.org/packages/web-token/jwt-framework)
+[![Total Downloads](https://poser.pugx.org/web-token/jwt-framework/downloads.png)](https://packagist.org/packages/web-token/jwt-framework)
+[![Latest Unstable Version](https://poser.pugx.org/web-token/jwt-framework/v/unstable.png)](https://packagist.org/packages/web-token/jwt-framework)
+[![License](https://poser.pugx.org/web-token/jwt-framework/license.png)](https://packagist.org/packages/web-token/jwt-framework)
 
 # The Release Process
 
