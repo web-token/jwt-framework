@@ -30,6 +30,7 @@
         "ext-gmp": "*",
         "ext-mbstring": "*",
         "lib-openssl": "*",
+        "fgrosse/phpasn1": "^2.0",
         "paragonie/sodium_compat": "^1.1",
         "spomky-labs/aes-key-wrap": "^4.0",
         "spomky-labs/base64url": "^1.0",
