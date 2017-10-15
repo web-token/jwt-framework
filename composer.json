@@ -42,7 +42,6 @@
     "require-dev": {
         "ext-curl": "*",
         "bjeavons/zxcvbn-php": "^0.3.0",
-        "fgrosse/phpasn1": "^2.0",
         "php-http/guzzle6-adapter": "^1.1.1",
         "php-http/httplug": "^1.1",
         "php-http/httplug-bundle": "^1.7",
