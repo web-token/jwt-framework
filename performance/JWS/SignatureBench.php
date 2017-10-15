@@ -18,7 +18,7 @@ use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Checker\IssuedAtChecker;
 use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Component\Core\Converter\JsonConverterInterface;
-use Jose\Component\Core\Converter\StandardJsonConverter;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
@@ -64,7 +64,7 @@ abstract class SignatureBench
 
     public function init()
     {
-        $this->jsonConverter = new StandardJsonConverter();
+        $this->jsonConverter = new JsonConverter();
         $this->signatureAlgorithmsManager = AlgorithmManager::create([
             new Algorithm\HS256(),
             new Algorithm\HS384(),

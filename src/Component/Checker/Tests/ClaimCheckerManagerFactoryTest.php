@@ -20,7 +20,7 @@ use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\IssuedAtChecker;
 use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Component\Checker\Tests\Stub\Token;
-use Jose\Component\Core\Converter\StandardJsonConverter;
+use Jose\Component\Core\Converter\JsonConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -68,7 +68,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
     private function getClaimCheckerManagerFactory(): ClaimCheckerManagerFactory
     {
         if (null === $this->claimCheckerManagerFactory) {
-            $this->claimCheckerManagerFactory = new ClaimCheckerManagerFactory(new StandardJsonConverter());
+            $this->claimCheckerManagerFactory = new ClaimCheckerManagerFactory(new JsonConverter());
             $this->claimCheckerManagerFactory->add('exp', new ExpirationTimeChecker());
             $this->claimCheckerManagerFactory->add('iat', new IssuedAtChecker());
             $this->claimCheckerManagerFactory->add('nbf', new NotBeforeChecker());

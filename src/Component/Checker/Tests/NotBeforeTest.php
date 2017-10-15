@@ -29,7 +29,7 @@ final class NotBeforeTest extends TestCase
     public function testNotBeforeMustBeAnInteger()
     {
         $checker = new NotBeforeChecker();
-        $checker->checkHeader('foo');
+        $checker->checkClaim('foo');
     }
 
     /**
@@ -39,14 +39,13 @@ final class NotBeforeTest extends TestCase
     public function testCannotBeUsedNow()
     {
         $checker = new NotBeforeChecker();
-        $checker->checkHeader(time() + 3600);
+        $checker->checkClaim(time() + 3600);
     }
 
     public function testSuccess()
     {
         $checker = new NotBeforeChecker();
-        $checker->checkHeader(time() - 3600);
-        self::assertFalse($checker->protectedHeaderOnly());
-        self::assertEquals('nbf', $checker->supportedHeader());
+        $checker->checkClaim(time() - 3600);
+        self::assertEquals('nbf', $checker->supportedClaim());
     }
 }

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
-use Jose\Component\Core\Converter\StandardJsonConverter;
+use Jose\Component\Core\Converter\JsonConverter;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -60,7 +60,7 @@ final class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('json_converter')
-                    ->defaultValue(StandardJsonConverter::class)
+                    ->defaultValue(JsonConverter::class)
                     ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...). If set to false, a service that implements JsonConverterInterface must be set.')
                 ->end()
             ->end();

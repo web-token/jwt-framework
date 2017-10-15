@@ -38,7 +38,7 @@ final class JWSLoaderTest extends WebTestCase
         /** @var JWSLoaderFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSLoaderFactory::class);
 
-        $jws = $jwsFactory->create(['none'], ['iat', 'exp', 'nbf'], ['jws_compact', 'jws_json_general', 'jws_json_flattened']);
+        $jws = $jwsFactory->create(['none'], [], ['jws_compact', 'jws_json_general', 'jws_json_flattened']);
 
         self::assertInstanceOf(JWSLoader::class, $jws);
     }

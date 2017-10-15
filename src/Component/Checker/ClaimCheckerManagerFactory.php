@@ -55,7 +55,7 @@ final class ClaimCheckerManagerFactory
             }
         }
 
-        return new ClaimCheckerManager($this->jsonConverter, $checkers);
+        return ClaimCheckerManager::create($this->jsonConverter, $checkers);
     }
 
     /**

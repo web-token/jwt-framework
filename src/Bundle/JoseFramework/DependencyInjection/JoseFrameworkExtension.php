@@ -25,7 +25,7 @@ use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSLoader;
 use Jose\Component\Core\Converter\JsonConverterInterface;
-use Jose\Component\Core\Converter\StandardJsonConverter;
+use Jose\Component\Core\Converter\JsonConverter;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -79,7 +79,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         $loader->load('services.yml');
 
         $container->setAlias(JsonConverterInterface::class, $config['json_converter']);
-        if (StandardJsonConverter::class === $config['json_converter']) {
+        if (JsonConverter::class === $config['json_converter']) {
             $loader->load('json_converter.yml');
         }
 

@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Converter;
 
 /**
- * Class StandardJsonEncoder.
+ * Class JsonEncoder.
  */
-final class StandardJsonConverter implements JsonConverterInterface
+final class JsonConverter implements JsonConverterInterface
 {
     /**
      * @var int

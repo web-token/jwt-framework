@@ -13,47 +13,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-final class ExpirationTimeChecker implements ClaimCheckerInterface, HeaderCheckerInterface
+final class ExpirationTimeChecker implements ClaimCheckerInterface
 {
     private const CLAIM_NAME = 'exp';
-
-    /**
-     * @var bool
-     */
-    private $protectedHeader = false;
-
-    /**
-     * ExpirationTimeChecker constructor.
-     *
-     * @param bool $protectedHeader
-     */
-    public function __construct(bool $protectedHeader = false)
-    {
-        $this->protectedHeader = $protectedHeader;
-    }
 
     /**
      * {@inheritdoc}
      */
     public function checkClaim($value)
-    {
-        return $this->checkValue($value);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function checkHeader($value)
-    {
-        return $this->checkValue($value);
-    }
-
-    /**
-     * @param $value
-     *
-     * @throws \InvalidArgumentException
-     */
-    private function checkValue($value)
     {
         if (!is_int($value)) {
             throw new \InvalidArgumentException('"exp" must be an integer.');
@@ -69,21 +36,5 @@ final class ExpirationTimeChecker implements ClaimCheckerInterface, HeaderChecke
     public function supportedClaim(): string
     {
         return self::CLAIM_NAME;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportedHeader(): string
-    {
-        return self::CLAIM_NAME;
-    }
-
-    /**
-     * @return bool
-     */
-    public function protectedHeaderOnly(): bool
-    {
-        return $this->protectedHeader;
     }
 }

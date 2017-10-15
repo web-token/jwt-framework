@@ -31,7 +31,7 @@ final class AlgorithmChecker implements HeaderCheckerInterface
     private $supportedAlgorithms;
 
     /**
-     * AudienceChecker constructor.
+     * AlgorithmChecker constructor.
      *
      * @param string[] $supportedAlgorithms
      * @param bool     $protectedHeader

@@ -17,4 +17,4 @@ jose:
     header_checkers:
         checker1:
             is_public: true
-            headers: ['exp', 'iat', 'nbf', 'custom_checker']
+            headers: ['custom_checker']

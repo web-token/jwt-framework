@@ -38,7 +38,7 @@ final class JWELoaderTest extends WebTestCase
         /** @var JWELoaderFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWELoaderFactory::class);
 
-        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF'], ['iat', 'exp', 'nbf'], ['jwe_compact', 'jwe_json_general', 'jwe_json_flattened']);
+        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF'], [], ['jwe_compact', 'jwe_json_general', 'jwe_json_flattened']);
 
         self::assertInstanceOf(JWELoader::class, $jwe);
     }

@@ -21,7 +21,7 @@ jose:
     header_checkers:
         checker1:
             is_public: true
-            headers: ['exp', 'iat', 'nbf', 'custom_checker']
+            headers: ['custom_checker']
     jws_builders:
         builder1:
             is_public: true
@@ -29,7 +29,7 @@ jose:
     jws_loaders:
         loader1:
             signature_algorithms: ['HS256', 'RS256', 'ES256']
-            header_checkers: ['iat', 'exp', 'nbf']
+            header_checkers: []
             serializers: ['jws_compact', 'jws_json_general', 'jws_json_flattened']
             is_public: true
     jwe_builders:
@@ -41,7 +41,7 @@ jose:
         loader1:
             key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
             content_encryption_algorithms: ['A256CBC-HS512']
-            header_checkers: ['iat', 'exp', 'nbf']
+            header_checkers: []
             serializers: ['jwe_compact', 'jwe_json_general', 'jwe_json_flattened']
             is_public: true
     keys:

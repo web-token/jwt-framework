@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Encryption\Tests;
 
-use Jose\Component\Core\Converter\StandardJsonConverter;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWELoader;
@@ -42,7 +42,7 @@ final class JWEComputationTest extends WebTestCase
         /** @var JWELoader $loader */
         $loader = $container->get('jose.jwe_loader.loader1');
 
-        $serializer = new CompactSerializer(new StandardJsonConverter());
+        $serializer = new CompactSerializer(new JsonConverter());
 
         $jwe = $builder
             ->create()
@@ -50,7 +50,6 @@ final class JWEComputationTest extends WebTestCase
             ->withSharedProtectedHeaders([
                 'alg' => 'A256KW',
                 'enc' => 'A256CBC-HS512',
-                'exp' => time() + 3600,
             ])
             ->addRecipient($jwk)
             ->build();
@@ -60,43 +59,5 @@ final class JWEComputationTest extends WebTestCase
         $loaded = $loader->decryptUsingKey($loaded, $jwk, $index);
         self::assertEquals(0, $index);
         self::assertEquals('Hello World!', $loaded->getPayload());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unable to decrypt the JWE.
-     */
-    public function testUnableToLoadAnExpiredToken()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-
-        $jwk = JWK::create([
-            'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
-        ]);
-
-        /** @var JWEBuilder $builder */
-        $builder = $container->get('jose.jwe_builder.builder1');
-
-        /** @var JWELoader $loader */
-        $loader = $container->get('jose.jwe_loader.loader1');
-
-        $serializer = new CompactSerializer(new StandardJsonConverter());
-
-        $jwe = $builder
-            ->create()
-            ->withPayload('Hello World!')
-            ->withSharedProtectedHeaders([
-                'alg' => 'A256KW',
-                'enc' => 'A256CBC-HS512',
-                'exp' => time() - 3600,
-            ])
-            ->addRecipient($jwk)
-            ->build();
-        $token = $serializer->serialize($jwe, 0);
-
-        $loaded = $loader->load($token);
-        $loader->decryptUsingKey($loaded, $jwk, $index);
     }
 }

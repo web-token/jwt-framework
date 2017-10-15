@@ -40,6 +40,6 @@ final class TestExtension extends Extension implements PrependExtensionInterface
     public function prepend(ContainerBuilder $container)
     {
         ConfigurationHelper::addClaimChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
-        ConfigurationHelper::addHeaderChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
+        ConfigurationHelper::addHeaderChecker($container, 'checker2', ['custom_checker'], true);
     }
 }

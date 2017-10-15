@@ -29,7 +29,7 @@ final class ExpirationTimeTest extends TestCase
     public function testExpirationTimeMustBeAnInteger()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkHeader('foo');
+        $checker->checkClaim('foo');
     }
 
     /**
@@ -39,14 +39,13 @@ final class ExpirationTimeTest extends TestCase
     public function testExpirationTime()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkHeader(time() - 1);
+        $checker->checkClaim(time() - 1);
     }
 
     public function testSuccess()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkHeader(time() + 3600);
-        self::assertFalse($checker->protectedHeaderOnly());
-        self::assertEquals('exp', $checker->supportedHeader());
+        $checker->checkClaim(time() + 3600);
+        self::assertEquals('exp', $checker->supportedClaim());
     }
 }

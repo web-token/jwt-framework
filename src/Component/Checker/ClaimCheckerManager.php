@@ -37,12 +37,23 @@ final class ClaimCheckerManager
      * @param JsonConverterInterface  $jsonConverter
      * @param ClaimCheckerInterface[] $checkers
      */
-    public function __construct(JsonConverterInterface $jsonConverter, array $checkers)
+    private function __construct(JsonConverterInterface $jsonConverter, array $checkers)
     {
         $this->jsonConverter = $jsonConverter;
         foreach ($checkers as $checker) {
             $this->add($checker);
         }
+    }
+
+    /**
+     * @param JsonConverterInterface  $jsonConverter
+     * @param ClaimCheckerInterface[] $checkers
+     *
+     * @return ClaimCheckerManager
+     */
+    public static function create(JsonConverterInterface $jsonConverter, array $checkers): ClaimCheckerManager
+    {
+        return new self($jsonConverter, $checkers);
     }
 
     /**

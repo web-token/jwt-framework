@@ -29,7 +29,7 @@ final class IssuedAtTest extends TestCase
     public function testIssuedAtMustBeAnInteger()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkHeader('foo');
+        $checker->checkClaim('foo');
     }
 
     /**
@@ -39,14 +39,13 @@ final class IssuedAtTest extends TestCase
     public function testIssuedInTheFutur()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkHeader(time() + 3600);
+        $checker->checkClaim(time() + 3600);
     }
 
     public function testSuccess()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkHeader(time() - 3600);
-        self::assertFalse($checker->protectedHeaderOnly());
-        self::assertEquals('iat', $checker->supportedHeader());
+        $checker->checkClaim(time() - 3600);
+        self::assertEquals('iat', $checker->supportedClaim());
     }
 }
