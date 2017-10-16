@@ -19,7 +19,6 @@ use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\IssuedAtChecker;
 use Jose\Component\Checker\NotBeforeChecker;
-use Jose\Component\Checker\Tests\Stub\Token;
 use Jose\Component\Core\Converter\JsonConverter;
 use PHPUnit\Framework\TestCase;
 
@@ -51,9 +50,8 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
             'iat' => time() - 1000,
             'nbf' => time() - 100,
         ];
-        $token = Token::create(json_encode($payload));
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
-        $result = $manager->check($token);
+        $result = $manager->check($payload);
         self::assertEquals($payload, $result);
     }
 

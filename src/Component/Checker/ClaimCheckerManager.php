@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Jose\Component\Core\Converter\JsonConverterInterface;
-use Jose\Component\Core\JWTInterface;
 
 /**
  * Class ClaimCheckerManager.
@@ -74,17 +73,12 @@ final class ClaimCheckerManager
     }
 
     /**
-     * @param JWTInterface $jwt
+     * @param array $claims
      *
      * @return array
      */
-    public function check(JWTInterface $jwt): array
+    public function check(array $claims): array
     {
-        $claims = $this->jsonConverter->decode($jwt->getPayload());
-        if (!is_array($claims)) {
-            throw new \InvalidArgumentException('The payload is does not contain claims.');
-        }
-
         foreach ($this->checkers as $claim => $checker) {
             if (array_key_exists($claim, $claims)) {
                 $checker->checkClaim($claims[$claim]);
