@@ -36,7 +36,7 @@ final class RSAKeyWithoutAllPrimesTest extends AbstractEncryptionTest
         $claims = ['foo' => 'bar'];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
-        $jweLoader = $this->getJWELoaderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF'], [], ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
+        $jweLoader = $this->getJWELoaderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF'], []);
 
         $jwt = $jweBuilder
             ->create()->withPayload($claims)
@@ -45,7 +45,7 @@ final class RSAKeyWithoutAllPrimesTest extends AbstractEncryptionTest
             ->build();
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
-        $loaded = $jweLoader->load($jwt);
+        $loaded = $this->getJWESerializerManager()->unserialize($jwt);
         self::assertInstanceOf(JWE::class, $loaded);
 
         $jweLoader->decryptUsingKey($loaded, $key);
@@ -63,7 +63,7 @@ final class RSAKeyWithoutAllPrimesTest extends AbstractEncryptionTest
         $claims = ['foo' => 'bar'];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
-        $jweLoader = $this->getJWELoaderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF'], [], ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
+        $jweLoader = $this->getJWELoaderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF'], []);
 
         $jwt = $jweBuilder
             ->create()->withPayload($claims)
@@ -72,7 +72,7 @@ final class RSAKeyWithoutAllPrimesTest extends AbstractEncryptionTest
             ->build();
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
-        $loaded = $jweLoader->load($jwt);
+        $loaded = $this->getJWESerializerManager()->unserialize($jwt);
         self::assertInstanceOf(JWE::class, $loaded);
 
         $jweLoader->decryptUsingKey($loaded, $key);

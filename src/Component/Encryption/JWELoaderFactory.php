@@ -16,7 +16,6 @@ namespace Jose\Component\Encryption;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
-use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 
 /**
  * Class JWELoaderFactory.
@@ -39,23 +38,17 @@ final class JWELoaderFactory
     private $headerCheckerManagerFactory;
 
     /**
-     * @var JWESerializerManagerFactory
-     */
-    private $serializerManagerFactory;
-
-    /**
      * JWELoaderFactory constructor.
      *
      * @param AlgorithmManagerFactory         $algorithmManagerFactory
      * @param CompressionMethodManagerFactory $compressionMethodManagerFactory
      * @param HeaderCheckerManagerFactory     $headerCheckerManagerFactory
      */
-    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory, HeaderCheckerManagerFactory $headerCheckerManagerFactory, JWESerializerManagerFactory $serializerManagerFactory)
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory, HeaderCheckerManagerFactory $headerCheckerManagerFactory)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
-        $this->serializerManagerFactory = $serializerManagerFactory;
     }
 
     /**
@@ -63,18 +56,16 @@ final class JWELoaderFactory
      * @param string[] $contentEncryptionAlgorithms
      * @param string[] $compressionMethods
      * @param string[] $headerCheckers
-     * @param string[] $serializers
      *
      * @return JWELoader
      */
-    public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $headerCheckers, array $serializers): JWELoader
+    public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $headerCheckers): JWELoader
     {
         $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
         $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithms);
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
         $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
-        $serializerManagers = $this->serializerManagerFactory->create($serializers);
 
-        return new JWELoader($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager, $headerCheckerManager, $serializerManagers);
+        return new JWELoader($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager, $headerCheckerManager);
     }
 }

@@ -33,37 +33,28 @@ final class JWSLoaderFactory
     private $headerCheckerManagerFactory;
 
     /**
-     * @var JWSSerializerManagerFactory
-     */
-    private $serializerManagerFactory;
-
-    /**
      * JWSLoaderFactory constructor.
      *
      * @param AlgorithmManagerFactory     $algorithmManagerFactory
      * @param HeaderCheckerManagerFactory $headerCheckerManagerFactory
-     * @param JWSSerializerManagerFactory $serializerManagerFactory
      */
-    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, HeaderCheckerManagerFactory $headerCheckerManagerFactory, JWSSerializerManagerFactory $serializerManagerFactory)
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, HeaderCheckerManagerFactory $headerCheckerManagerFactory)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;
         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
-        $this->serializerManagerFactory = $serializerManagerFactory;
     }
 
     /**
      * @param string[] $algorithms
      * @param string[] $headerCheckers
-     * @param string[] $serializers
      *
      * @return JWSLoader
      */
-    public function create(array $algorithms, array $headerCheckers, array $serializers): JWSLoader
+    public function create(array $algorithms, array $headerCheckers): JWSLoader
     {
         $algorithmManager = $this->algorithmManagerFactory->create($algorithms);
         $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
-        $serializerManager = $this->serializerManagerFactory->create($serializers);
 
-        return new JWSLoader($algorithmManager, $headerCheckerManager, $serializerManager);
+        return new JWSLoader($algorithmManager, $headerCheckerManager);
     }
 }

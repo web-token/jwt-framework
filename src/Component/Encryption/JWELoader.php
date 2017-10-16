@@ -28,7 +28,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWrappingInterf
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryptionInterface;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrappingInterface;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
-use Jose\Component\Encryption\Serializer\JWESerializerManager;
 
 /**
  * Class JWELoader.
@@ -56,37 +55,19 @@ final class JWELoader
     private $compressionMethodManager;
 
     /**
-     * @var JWESerializerManager
-     */
-    private $serializerManager;
-
-    /**
      * JWELoader constructor.
      *
      * @param AlgorithmManager         $keyEncryptionAlgorithmManager
      * @param AlgorithmManager         $contentEncryptionAlgorithmManager
      * @param CompressionMethodManager $compressionMethodManager
      * @param HeaderCheckerManager     $headerCheckerManager
-     * @param JWESerializerManager     $serializerManager
      */
-    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager, HeaderCheckerManager $headerCheckerManager, JWESerializerManager $serializerManager)
+    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager, HeaderCheckerManager $headerCheckerManager)
     {
         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
         $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
         $this->compressionMethodManager = $compressionMethodManager;
         $this->headerCheckerManager = $headerCheckerManager;
-        $this->serializerManager = $serializerManager;
-    }
-
-    /**
-     * @param string      $input
-     * @param string|null $serializer
-     *
-     * @return JWE
-     */
-    public function load(string $input, ?string &$serializer = null): JWE
-    {
-        return $this->serializerManager->unserialize($input, $serializer);
     }
 
     /**

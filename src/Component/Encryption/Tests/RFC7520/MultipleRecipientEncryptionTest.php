@@ -102,15 +102,15 @@ final class MultipleRecipientEncryptionTest extends AbstractEncryptionTest
         $expected_ciphertext = 'ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE';
         $expected_tag = 'BESYyFN7T09KY7i8zKs5_g';
 
-        $jweLoader = $this->getJWELoaderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'], [], ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
+        $jweLoader = $this->getJWELoaderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'], []);
 
-        $loaded_json = $jweLoader->load($expected_json);
+        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
         $jweLoader->decryptUsingKey($loaded_json, $recipient_1_private_key);
 
-        $loaded_json = $jweLoader->load($expected_json);
+        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
         $jweLoader->decryptUsingKey($loaded_json, $recipient_2_private_key);
 
-        $loaded_json = $jweLoader->load($expected_json);
+        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
         $loaded_json = $jweLoader->decryptUsingKey($loaded_json, $recipient_3_private_key);
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
@@ -200,7 +200,7 @@ final class MultipleRecipientEncryptionTest extends AbstractEncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
-        $jweLoader = $this->getJWELoaderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'], [], ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
+        $jweLoader = $this->getJWELoaderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'], []);
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
@@ -211,13 +211,13 @@ final class MultipleRecipientEncryptionTest extends AbstractEncryptionTest
             ->addRecipient($recipient_3_private_key, $recipient_3_headers)
             ->build();
 
-        $loaded_json = $jweLoader->load($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         $jweLoader->decryptUsingKey($loaded_json, $recipient_1_private_key);
 
-        $loaded_json = $jweLoader->load($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         $jweLoader->decryptUsingKey($loaded_json, $recipient_2_private_key);
 
-        $loaded_json = $jweLoader->load($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         $loaded_json = $jweLoader->decryptUsingKey($loaded_json, $recipient_3_private_key);
 
         self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());

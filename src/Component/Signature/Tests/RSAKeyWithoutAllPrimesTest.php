@@ -33,17 +33,17 @@ final class RSAKeyWithoutAllPrimesTest extends AbstractSignatureTest
     {
         $key = $this->getPrivateKey();
 
-        $claims = ['foo' => 'bar'];
+        $claims = json_encode(['foo' => 'bar']);
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create([$signature_algorithm]);
-        $jwsLoader = $this->getJWSLoaderFactory()->create([$signature_algorithm], [], ['jws_compact', 'jws_json_flattened', 'jws_json_general']);
+        $jwsLoader = $this->getJWSLoaderFactory()->create([$signature_algorithm], []);
         $jws = $jwsBuilder
             ->create()->withPayload($claims)
             ->addSignature($key, ['alg' => $signature_algorithm])
             ->build();
         $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
 
-        $loaded = $jwsLoader->load($jws);
+        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
         self::assertInstanceOf(JWS::class, $loaded);
 
         $jwsLoader->verifyWithKey($loaded, $key);

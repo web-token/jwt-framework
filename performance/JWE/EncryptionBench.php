@@ -155,10 +155,9 @@ abstract class EncryptionBench
             $this->getKeyEncryptionAlgorithmsManager(),
             $this->getContentEncryptionAlgorithmsManager(),
             $this->getCompressionMethodsManager(),
-            $this->headerCherckerManager,
-            $this->serializerManager
+            $this->headerCherckerManager
         );
-        $jwe = $jweLoader->load($params['input']);
+        $jwe = $this->serializerManager->unserialize($params['input']);
         $keyset = JWKSet::createFromKeyData($params['recipient_keys']);
         $jweLoader->decryptUsingKeySet($jwe, $keyset);
     }

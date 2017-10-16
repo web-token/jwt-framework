@@ -40,6 +40,6 @@ final class TestExtension extends Extension implements PrependExtensionInterface
     public function prepend(ContainerBuilder $container)
     {
         ConfigurationHelper::addJWSBuilder($container, 'builder2', ['RS512', 'HS512', 'ES512'], true);
-        ConfigurationHelper::addJWSLoader($container, 'loader2', ['RS512', 'HS512', 'ES512'], [], ['jws_compact', 'jws_json_general', 'jws_json_flattened'], true);
+        ConfigurationHelper::addJWSLoader($container, 'loader2', ['RS512', 'HS512', 'ES512'], [], true);
     }
 }

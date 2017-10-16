@@ -60,11 +60,11 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends AbstractEncryptionTes
         $expected_ciphertext = 'BoDlwPnTypYq-ivjmQvAYJLb5Q6l-F3LIgQomlz87yW4OPKbWE1zSTEFjDfhU9IPIOSA9Bml4m7iDFwA-1ZXvHteLDtw4R1XRGMEsDIqAYtskTTmzmzNa-_q4F_evAPUmwlO-ZG45Mnq4uhM1fm_D9rBtWolqZSF3xGNNkpOMQKF1Cl8i8wjzRli7-IXgyirlKQsbhhqRzkv8IcY6aHl24j03C-AR2le1r7URUhArM79BY8soZU0lzwI-sD5PZ3l4NDCCei9XkoIAfsXJWmySPoeRb2Ni5UZL4mYpvKDiwmyzGd65KqVw7MsFfI_K767G9C9Azp73gKZD0DyUn1mn0WW5LmyX_yJ-3AROq8p1WZBfG-ZyJ6195_JGG2m9Csg';
         $expected_tag = 'WCCkNa-x4BeB9hIDIfFuhg';
 
-        $jweLoader = $this->getJWELoaderFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'], [], ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
+        $jweLoader = $this->getJWELoaderFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'], []);
 
-        $loaded_compact_json = $jweLoader->load($expected_compact_json);
+        $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
 
-        $loaded_json = $jweLoader->load($expected_json);
+        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
         self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
@@ -116,7 +116,7 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends AbstractEncryptionTes
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
-        $jweLoader = $this->getJWELoaderFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'], [], ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
+        $jweLoader = $this->getJWELoaderFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'], []);
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
@@ -124,7 +124,7 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends AbstractEncryptionTes
             ->addRecipient($public_key)
             ->build();
 
-        $loaded_json = $jweLoader->load($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         $loaded_json = $jweLoader->decryptUsingKey($loaded_json, $private_key);
 
         self::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeaders()));

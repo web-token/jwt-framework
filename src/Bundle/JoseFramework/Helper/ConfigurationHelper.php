@@ -48,10 +48,9 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string[]         $signatureAlgorithms
      * @param string[]         $headerCheckers
-     * @param string[]         $serializers
      * @param bool             $is_public
      */
-    public static function addJWSLoader(ContainerBuilder $container, string $name, array $signatureAlgorithms, array  $headerCheckers, array $serializers = ['jws_compact'], bool $is_public = true)
+    public static function addJWSLoader(ContainerBuilder $container, string $name, array $signatureAlgorithms, array  $headerCheckers, bool $is_public = true)
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -60,7 +59,6 @@ final class ConfigurationHelper
                         'is_public' => $is_public,
                         'signature_algorithms' => $signatureAlgorithms,
                         'header_checkers' => $headerCheckers,
-                        'serializers' => $serializers,
                     ],
                 ],
             ],
@@ -188,10 +186,9 @@ final class ConfigurationHelper
      * @param array            $contentEncryptionAlgorithms
      * @param array            $compressionMethods
      * @param array            $headerCheckers
-     * @param array            $serializers
      * @param bool             $is_public
      */
-    public static function addJWELoader(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], array  $headerCheckers = [], array $serializers = ['jwe_compact'], bool $is_public = true)
+    public static function addJWELoader(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], array  $headerCheckers = [], bool $is_public = true)
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -202,7 +199,6 @@ final class ConfigurationHelper
                         'content_encryption_algorithms' => $contentEncryptionAlgorithms,
                         'compression_methods' => $compressionMethods,
                         'header_checkers' => $headerCheckers,
-                        'serializers' => $serializers,
                     ],
                 ],
             ],

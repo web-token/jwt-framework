@@ -118,8 +118,8 @@ abstract class SignatureBench
      */
     public function verify($params)
     {
-        $jwsLoader = new JWSLoader($this->signatureAlgorithmsManager, $this->headerCherckerManager, $this->serializerManager);
-        $jws = $jwsLoader->load($params['input']);
+        $jwsLoader = new JWSLoader($this->signatureAlgorithmsManager, $this->headerCherckerManager);
+        $jws = $this->serializerManager->unserialize($params['input']);
         $jwsLoader->verifyWithKey($jws, $this->getPublicKey());
     }
 

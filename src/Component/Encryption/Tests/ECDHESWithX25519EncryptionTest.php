@@ -42,7 +42,7 @@ final class ECDHESWithX25519EncryptionTest extends AbstractEncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF']);
-        $jweLoader = $this->getJWELoaderFactory()->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF'], [], ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
+        $jweLoader = $this->getJWELoaderFactory()->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF'], []);
 
         $jwt = $jweBuilder
             ->create()->withPayload($input)
@@ -51,7 +51,7 @@ final class ECDHESWithX25519EncryptionTest extends AbstractEncryptionTest
             ->build();
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
-        $jwe = $jweLoader->load($jwt);
+        $jwe = $this->getJWESerializerManager()->unserialize($jwt);
         $jwe = $jweLoader->decryptUsingKey($jwe, $receiverKey, $index);
         self::assertEquals(0, $index);
         self::assertTrue($jwe->hasSharedProtectedHeader('epk'));

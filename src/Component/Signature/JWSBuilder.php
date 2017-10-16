@@ -91,14 +91,13 @@ final class JWSBuilder
     }
 
     /**
-     * @param mixed $payload
-     * @param bool  $isPayloadDetached
+     * @param string $payload
+     * @param bool   $isPayloadDetached
      *
      * @return JWSBuilder
      */
-    public function withPayload($payload, bool $isPayloadDetached = false): JWSBuilder
+    public function withPayload(string $payload, bool $isPayloadDetached = false): JWSBuilder
     {
-        $payload = is_string($payload) ? $payload : $this->jsonConverter->encode($payload);
         if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
         }

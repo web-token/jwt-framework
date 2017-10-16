@@ -55,7 +55,7 @@ final class JWEComputationTest extends WebTestCase
             ->build();
         $token = $serializer->serialize($jwe, 0);
 
-        $loaded = $loader->load($token);
+        $loaded = $serializer->unserialize($token);
         $loaded = $loader->decryptUsingKey($loaded, $jwk, $index);
         self::assertEquals(0, $index);
         self::assertEquals('Hello World!', $loaded->getPayload());

@@ -52,8 +52,8 @@ final class NestingTest extends AbstractSignatureTest
 
         $json_compact = 'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJob2JiaXRvbi5leGFtcGxlIiwiZXhwIjoxMzAwODE5MzgwLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZX0.dPpMqwRZxFYi1UfcDAaf8M99o7kwUWtiXZ-ByvVuJih4MhJ_aZqciprz0OWaIAkIvn1qskChirjKvY9ESZNUCP4JjvfyPS-nqjJxYoA5ztWOyFk2cZNIPXjcJXSQwXPO9tEe-v4VSqgD0aKHqPxYog4N6Cz1lKph1U1sYDSI67_bLL7elg_vkjfMp5_W5l5LuUYGMeh6hxQIaIUXf9EwV2JmvTMuZ-vBOWy0Sniy1EFo72CRTvmtrIf5AROo5MNliY3KtUxeP-SOmD-LEYwW9SlkohYzMVAZDDOrVbv7KVRHpeYNaK75KEQqdCEEkS_rskZS-Qtt_nlegTWh1mEYaA';
 
-        $jwsLoader = $this->getJWSLoaderFactory()->create(['PS256'], [], ['jws_compact', 'jws_json_flattened', 'jws_json_general']);
-        $loaded_compact_json = $jwsLoader->load($json_compact);
+        $jwsLoader = $this->getJWSLoaderFactory()->create(['PS256'], []);
+        $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($json_compact);
 
         $index = $jwsLoader->verifyWithKey($loaded_compact_json, $signature_key);
 

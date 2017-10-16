@@ -94,8 +94,7 @@ abstract class AbstractSignatureTest extends TestCase
         if (null === $this->jwsLoaderFactory) {
             $this->jwsLoaderFactory = new JWSLoaderFactory(
                 $this->getAlgorithmManagerFactory(),
-                $this->getHeaderCheckerManagerFactory(),
-                $this->getJWSSerializerManagerFactory()
+                $this->getHeaderCheckerManagerFactory()
             );
         }
 
