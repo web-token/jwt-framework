@@ -54,16 +54,16 @@ final class A128KWAndA128GCMEncryptionTest extends AbstractEncryptionTest
         $expected_ciphertext = 'AwliP-KmWgsZ37BvzCefNen6VTbRK3QMA4TkvRkH0tP1bTdhtFJgJxeVmJkLD61A1hnWGetdg11c9ADsnWgL56NyxwSYjU1ZEHcGkd3EkU0vjHi9gTlb90qSYFfeF0LwkcTtjbYKCsiNJQkcIp1yeM03OmuiYSoYJVSpf7ej6zaYcMv3WwdxDFl8REwOhNImk2Xld2JXq6BR53TSFkyT7PwVLuq-1GwtGHlQeg7gDT6xW0JqHDPn_H-puQsmthc9Zg0ojmJfqqFvETUxLAF-KjcBTS5dNy6egwkYtOt8EIHK-oEsKYtZRaa8Z7MOZ7UGxGIMvEmxrGCPeJa14slv2-gaqK0kEThkaSqdYw0FkQZF';
         $expected_tag = 'ER7MWJZ1FBI_NKvn7Zb1Lw';
 
-        $jweLoader = $this->getJWELoaderFactory()->create(['A128KW'], ['A128GCM'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF'], []);
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
-        $loaded_compact_json = $jweLoader->decryptUsingKey($loaded_compact_json, $private_key);
+        $loaded_compact_json = $jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key);
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($expected_flattened_json);
-        $loaded_flattened_json = $jweLoader->decryptUsingKey($loaded_flattened_json, $private_key);
+        $loaded_flattened_json = $jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key);
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        $loaded_json = $jweLoader->decryptUsingKey($loaded_json, $private_key);
+        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $private_key);
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
         self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
@@ -110,7 +110,7 @@ final class A128KWAndA128GCMEncryptionTest extends AbstractEncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['A128KW'], ['A128GCM'], ['DEF']);
-        $jweLoader = $this->getJWELoaderFactory()->create(['A128KW'], ['A128GCM'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF'], []);
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
@@ -119,13 +119,13 @@ final class A128KWAndA128GCMEncryptionTest extends AbstractEncryptionTest
             ->build();
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
-        $loaded_compact_json = $jweLoader->decryptUsingKey($loaded_compact_json, $private_key);
+        $loaded_compact_json = $jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key);
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
-        $loaded_flattened_json = $jweLoader->decryptUsingKey($loaded_flattened_json, $private_key);
+        $loaded_flattened_json = $jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key);
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        $loaded_json = $jweLoader->decryptUsingKey($loaded_json, $private_key);
+        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $private_key);
 
         self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
 

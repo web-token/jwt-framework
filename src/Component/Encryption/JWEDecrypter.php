@@ -30,9 +30,9 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrappingInterface;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
 
 /**
- * Class JWELoader.
+ * Class JWEDecrypter.
  */
-final class JWELoader
+final class JWEDecrypter
 {
     /**
      * @var HeaderCheckerManager
@@ -55,7 +55,7 @@ final class JWELoader
     private $compressionMethodManager;
 
     /**
-     * JWELoader constructor.
+     * JWEDecrypter constructor.
      *
      * @param AlgorithmManager         $keyEncryptionAlgorithmManager
      * @param AlgorithmManager         $contentEncryptionAlgorithmManager

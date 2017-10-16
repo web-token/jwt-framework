@@ -14,24 +14,24 @@ declare(strict_types=1);
 namespace Jose\Bundle\Encryption\DependencyInjection\Source;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
-use Jose\Component\Encryption\JWELoaderFactory;
-use Jose\Component\Encryption\JWELoader as JWELoaderService;
+use Jose\Component\Encryption\JWEDecrypterFactory;
+use Jose\Component\Encryption\JWEDecrypter as JWEDecrypterService;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JWELoader.
+ * Class JWEDecrypter.
  */
-final class JWELoader implements SourceInterface
+final class JWEDecrypter implements SourceInterface
 {
     /**
      * {@inheritdoc}
      */
     public function name(): string
     {
-        return 'jwe_loaders';
+        return 'jwe_decrypters';
     }
 
     /**
@@ -48,10 +48,10 @@ final class JWELoader implements SourceInterface
     private function createService(array $config, ContainerBuilder $container)
     {
         foreach ($config as $name => $itemConfig) {
-            $service_id = sprintf('jose.jwe_loader.%s', $name);
-            $definition = new Definition(JWELoaderService::class);
+            $service_id = sprintf('jose.jwe_decrypter.%s', $name);
+            $definition = new Definition(JWEDecrypterService::class);
             $definition
-                ->setFactory([new Reference(JWELoaderFactory::class), 'create'])
+                ->setFactory([new Reference(JWEDecrypterFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['key_encryption_algorithms'],
                     $itemConfig['content_encryption_algorithms'],

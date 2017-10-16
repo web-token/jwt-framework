@@ -188,11 +188,11 @@ final class ConfigurationHelper
      * @param array            $headerCheckers
      * @param bool             $is_public
      */
-    public static function addJWELoader(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], array  $headerCheckers = [], bool $is_public = true)
+    public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], array  $headerCheckers = [], bool $is_public = true)
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jwe_loaders' => [
+                'jwe_decrypters' => [
                     $name => [
                         'is_public' => $is_public,
                         'key_encryption_algorithms' => $keyEncryptionAlgorithm,
@@ -204,7 +204,7 @@ final class ConfigurationHelper
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe_loaders');
+        self::updateJoseConfiguration($container, $config, 'jwe_decrypters');
     }
 
     /**

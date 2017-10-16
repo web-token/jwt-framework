@@ -29,7 +29,7 @@ final class JWEFlattenedTest extends AbstractEncryptionTest
      */
     public function testLoadFlattenedJWE()
     {
-        $jweLoader = $this->getJWELoaderFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF'], []);
 
         $loaded = $this->getJWESerializerManager()->unserialize('{"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","unprotected":{"jku":"https://server.example.com/keys.jwks"},"header":{"alg":"A128KW","kid":"7"},"encrypted_key":"6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ","iv":"AxY8DCtDaGlsbGljb3RoZQ","ciphertext":"KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY","tag":"Mz-VPPyU4RlcuYv1IwIvzw"}');
 
@@ -38,7 +38,7 @@ final class JWEFlattenedTest extends AbstractEncryptionTest
         self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeader('enc'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweLoader->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), $index);
+        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), $index);
 
         self::assertEquals(0, $index);
         self::assertEquals('Live long and prosper.', $loaded->getPayload());

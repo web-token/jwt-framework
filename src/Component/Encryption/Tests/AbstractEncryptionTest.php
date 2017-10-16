@@ -21,7 +21,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilderFactory;
-use Jose\Component\Encryption\JWELoaderFactory;
+use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWETokenHeaderChecker;
 use Jose\Component\Encryption\Serializer;
 use PHPUnit\Framework\TestCase;
@@ -115,24 +115,24 @@ abstract class AbstractEncryptionTest extends TestCase
     }
 
     /**
-     * @var JWELoaderFactory
+     * @var JWEDecrypterFactory
      */
-    private $jweLoaderFactory;
+    private $jweDecrypterFactory;
 
     /**
-     * @return JWELoaderFactory
+     * @return JWEDecrypterFactory
      */
-    protected function getJWELoaderFactory(): JWELoaderFactory
+    protected function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
-        if (null === $this->jweLoaderFactory) {
-            $this->jweLoaderFactory = new JWELoaderFactory(
+        if (null === $this->jweDecrypterFactory) {
+            $this->jweDecrypterFactory = new JWEDecrypterFactory(
                 $this->getAlgorithmManagerFactory(),
                 $this->getCompressionMethodManagerFactory(),
                 $this->getHeaderCheckerManagerFactory()
             );
         }
 
-        return $this->jweLoaderFactory;
+        return $this->jweDecrypterFactory;
     }
 
     /**

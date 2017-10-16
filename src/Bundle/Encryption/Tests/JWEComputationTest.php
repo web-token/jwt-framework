@@ -16,7 +16,7 @@ namespace Jose\Bundle\Encryption\Tests;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
-use Jose\Component\Encryption\JWELoader;
+use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -39,8 +39,8 @@ final class JWEComputationTest extends WebTestCase
         /** @var JWEBuilder $builder */
         $builder = $container->get('jose.jwe_builder.builder1');
 
-        /** @var JWELoader $loader */
-        $loader = $container->get('jose.jwe_loader.loader1');
+        /** @var JWEDecrypter $loader */
+        $loader = $container->get('jose.jwe_decrypter.loader1');
 
         $serializer = new CompactSerializer(new JsonConverter());
 

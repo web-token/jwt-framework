@@ -18,9 +18,9 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 
 /**
- * Class JWELoaderFactory.
+ * Class JWEDecrypterFactory.
  */
-final class JWELoaderFactory
+final class JWEDecrypterFactory
 {
     /**
      * @var AlgorithmManagerFactory
@@ -38,7 +38,7 @@ final class JWELoaderFactory
     private $headerCheckerManagerFactory;
 
     /**
-     * JWELoaderFactory constructor.
+     * JWEDecrypterFactory constructor.
      *
      * @param AlgorithmManagerFactory         $algorithmManagerFactory
      * @param CompressionMethodManagerFactory $compressionMethodManagerFactory
@@ -57,15 +57,15 @@ final class JWELoaderFactory
      * @param string[] $compressionMethods
      * @param string[] $headerCheckers
      *
-     * @return JWELoader
+     * @return JWEDecrypter
      */
-    public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $headerCheckers): JWELoader
+    public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $headerCheckers): JWEDecrypter
     {
         $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
         $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithms);
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
         $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
 
-        return new JWELoader($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager, $headerCheckerManager);
+        return new JWEDecrypter($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager, $headerCheckerManager);
     }
 }

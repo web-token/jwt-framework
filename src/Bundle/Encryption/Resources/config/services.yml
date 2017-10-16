@@ -7,7 +7,7 @@ services:
     Jose\Component\Encryption\JWEBuilderFactory:
         public: true
 
-    Jose\Component\Encryption\JWELoaderFactory:
+    Jose\Component\Encryption\JWEDecrypterFactory:
         public: true
 
     Jose\Component\Encryption\Compression\CompressionMethodManagerFactory: ~

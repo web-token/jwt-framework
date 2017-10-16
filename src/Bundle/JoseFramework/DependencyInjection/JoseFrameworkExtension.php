@@ -17,7 +17,7 @@ use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\Checker\DependencyInjection\Source\ClaimChecker;
 use Jose\Bundle\Checker\DependencyInjection\Source\HeaderChecker;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
-use Jose\Bundle\Encryption\DependencyInjection\Source\JWELoader;
+use Jose\Bundle\Encryption\DependencyInjection\Source\JWEDecrypter;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
@@ -137,8 +137,8 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         if (class_exists(JWEBuilder::class)) {
             $this->addSource(new JWEBuilder());
         }
-        if (class_exists(JWELoader::class)) {
-            $this->addSource(new JWELoader());
+        if (class_exists(JWEDecrypter::class)) {
+            $this->addSource(new JWEDecrypter());
         }
     }
 
