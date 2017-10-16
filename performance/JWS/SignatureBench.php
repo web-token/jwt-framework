@@ -13,10 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWS;
 
-use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\HeaderCheckerManager;
-use Jose\Component\Checker\IssuedAtChecker;
-use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Component\Core\Converter\JsonConverterInterface;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManager;
@@ -24,7 +21,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
 use Jose\Component\Signature\JWSBuilder;
-use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\JWSTokenHeaderChecker;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
@@ -82,9 +79,6 @@ abstract class SignatureBench
             new Algorithm\EdDSA(),
         ]);
         $this->headerCherckerManager = HeaderCheckerManager::create([
-            new ExpirationTimeChecker(),
-            new IssuedAtChecker(),
-            new NotBeforeChecker(),
         ], [
             new JWSTokenHeaderChecker(),
         ]);
@@ -118,7 +112,7 @@ abstract class SignatureBench
      */
     public function verify($params)
     {
-        $jwsLoader = new JWSLoader($this->signatureAlgorithmsManager, $this->headerCherckerManager);
+        $jwsLoader = new JWSVerifier($this->signatureAlgorithmsManager, $this->headerCherckerManager);
         $jws = $this->serializerManager->unserialize($params['input']);
         $jwsLoader->verifyWithKey($jws, $this->getPublicKey());
     }

@@ -13,10 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWE;
 
-use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\HeaderCheckerManager;
-use Jose\Component\Checker\IssuedAtChecker;
-use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Component\Core\Converter\JsonConverterInterface;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManager;
@@ -27,7 +24,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWEBuilder;
-use Jose\Component\Encryption\JWELoader;
+use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWETokenHeaderChecker;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
@@ -107,9 +104,6 @@ abstract class EncryptionBench
             new Compression\ZLib(),
         ]);
         $this->headerCherckerManager = HeaderCheckerManager::create([
-            new ExpirationTimeChecker(),
-            new IssuedAtChecker(),
-            new NotBeforeChecker(),
         ], [
             new JWETokenHeaderChecker(),
         ]);
@@ -151,7 +145,7 @@ abstract class EncryptionBench
      */
     public function decryption(array $params)
     {
-        $jweLoader = new JWELoader(
+        $jweLoader = new JWEDecrypter(
             $this->getKeyEncryptionAlgorithmsManager(),
             $this->getContentEncryptionAlgorithmsManager(),
             $this->getCompressionMethodsManager(),
