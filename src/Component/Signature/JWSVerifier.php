@@ -24,7 +24,7 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
 /**
  * Class able to load JWS and verify signatures and headers.
  */
-final class JWSLoader
+final class JWSVerifier
 {
     /**
      * @var AlgorithmManager
@@ -37,7 +37,7 @@ final class JWSLoader
     private $headerCheckerManager;
 
     /**
-     * JWSLoader constructor.
+     * JWSVerifier constructor.
      *
      * @param AlgorithmManager     $signatureAlgorithmManager
      * @param HeaderCheckerManager $headerCheckerManager

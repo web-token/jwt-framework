@@ -64,7 +64,7 @@ final class MultipleSignaturesTest extends AbstractSignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS256', 'ES512', 'HS256']);
-        $jwsLoader = $this->getJWSLoaderFactory()->create(['RS256', 'ES512', 'HS256'], []);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS256', 'ES512', 'HS256'], []);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($ecdsa_private_key, [], ['alg' => 'ES512', 'kid' => 'bilbo.baggins@hobbiton.example']) //@see https://tools.ietf.org/html/rfc7520#section-4.8.2
@@ -74,9 +74,9 @@ final class MultipleSignaturesTest extends AbstractSignatureTest
 
         self::assertEquals(3, $jws->countSignatures());
 
-        $jwsLoader->verifyWithKey($jws, $rsa_private_key);
-        $jwsLoader->verifyWithKey($jws, $ecdsa_private_key);
-        $jwsLoader->verifyWithKey($jws, $symmetric_key);
+        $jwsVerifier->verifyWithKey($jws, $rsa_private_key);
+        $jwsVerifier->verifyWithKey($jws, $ecdsa_private_key);
+        $jwsVerifier->verifyWithKey($jws, $symmetric_key);
 
         /*
          * @see https://tools.ietf.org/html/rfc7520#section-4.8.5
@@ -86,8 +86,8 @@ final class MultipleSignaturesTest extends AbstractSignatureTest
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
         self::assertEquals(3, $loaded_json->countSignatures());
 
-        $jwsLoader->verifyWithKey($loaded_json, $rsa_private_key);
-        $jwsLoader->verifyWithKey($loaded_json, $ecdsa_private_key);
-        $jwsLoader->verifyWithKey($loaded_json, $symmetric_key);
+        $jwsVerifier->verifyWithKey($loaded_json, $rsa_private_key);
+        $jwsVerifier->verifyWithKey($loaded_json, $ecdsa_private_key);
+        $jwsVerifier->verifyWithKey($loaded_json, $symmetric_key);
     }
 }

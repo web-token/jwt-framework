@@ -16,7 +16,7 @@ namespace Jose\Bundle\Signature\Tests;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSBuilder;
-use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -39,8 +39,8 @@ final class JWSComputationTest extends WebTestCase
         /** @var JWSBuilder $builder */
         $builder = $container->get('jose.jws_builder.builder1');
 
-        /** @var JWSLoader $loader */
-        $loader = $container->get('jose.jws_loader.loader1');
+        /** @var JWSVerifier $loader */
+        $loader = $container->get('jose.jws_verifier.loader1');
 
         $serializer = new CompactSerializer(new JsonConverter());
 

@@ -7,7 +7,7 @@ services:
     Jose\Component\Signature\JWSBuilderFactory:
         public: true
 
-    Jose\Component\Signature\JWSLoaderFactory:
+    Jose\Component\Signature\JWSVerifierFactory:
         public: true
 
     Jose\Component\Signature\JWSTokenHeaderChecker:

@@ -18,9 +18,9 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 
 /**
- * Class JWSLoaderFactory.
+ * Class JWSVerifierFactory.
  */
-final class JWSLoaderFactory
+final class JWSVerifierFactory
 {
     /**
      * @var AlgorithmManagerFactory
@@ -33,7 +33,7 @@ final class JWSLoaderFactory
     private $headerCheckerManagerFactory;
 
     /**
-     * JWSLoaderFactory constructor.
+     * JWSVerifierFactory constructor.
      *
      * @param AlgorithmManagerFactory     $algorithmManagerFactory
      * @param HeaderCheckerManagerFactory $headerCheckerManagerFactory
@@ -48,13 +48,13 @@ final class JWSLoaderFactory
      * @param string[] $algorithms
      * @param string[] $headerCheckers
      *
-     * @return JWSLoader
+     * @return JWSVerifier
      */
-    public function create(array $algorithms, array $headerCheckers): JWSLoader
+    public function create(array $algorithms, array $headerCheckers): JWSVerifier
     {
         $algorithmManager = $this->algorithmManagerFactory->create($algorithms);
         $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
 
-        return new JWSLoader($algorithmManager, $headerCheckerManager);
+        return new JWSVerifier($algorithmManager, $headerCheckerManager);
     }
 }

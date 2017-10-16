@@ -13,53 +13,53 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Signature\Tests;
 
-use Jose\Component\Signature\JWSLoader;
-use Jose\Component\Signature\JWSLoaderFactory;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @group Bundle
  * @group Functional
  */
-final class JWSLoaderTest extends WebTestCase
+final class JWSVerifierTest extends WebTestCase
 {
-    public function testJWSLoaderFactoryIsAvailable()
+    public function testJWSVerifierFactoryIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         self::assertNotNull($container);
-        self::assertTrue($container->has(JWSLoaderFactory::class));
+        self::assertTrue($container->has(JWSVerifierFactory::class));
     }
 
-    public function testJWSLoaderFactoryCanCreateAJWSLoader()
+    public function testJWSVerifierFactoryCanCreateAJWSVerifier()
     {
         $client = static::createClient();
 
-        /** @var JWSLoaderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSLoaderFactory::class);
+        /** @var JWSVerifierFactory $jwsFactory */
+        $jwsFactory = $client->getContainer()->get(JWSVerifierFactory::class);
 
         $jws = $jwsFactory->create(['none'], [], ['jws_compact', 'jws_json_general', 'jws_json_flattened']);
 
-        self::assertInstanceOf(JWSLoader::class, $jws);
+        self::assertInstanceOf(JWSVerifier::class, $jws);
     }
 
-    public function testJWSLoaderFromConfigurationIsAvailable()
+    public function testJWSVerifierFromConfigurationIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_loader.loader1'));
+        self::assertTrue($container->has('jose.jws_verifier.loader1'));
 
-        $jws = $container->get('jose.jws_loader.loader1');
-        self::assertInstanceOf(JWSLoader::class, $jws);
+        $jws = $container->get('jose.jws_verifier.loader1');
+        self::assertInstanceOf(JWSVerifier::class, $jws);
     }
 
-    public function testJWSLoaderFromExternalBundleExtensionIsAvailable()
+    public function testJWSVerifierFromExternalBundleExtensionIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_loader.loader2'));
+        self::assertTrue($container->has('jose.jws_verifier.loader2'));
 
-        $jws = $container->get('jose.jws_loader.loader2');
-        self::assertInstanceOf(JWSLoader::class, $jws);
+        $jws = $container->get('jose.jws_verifier.loader2');
+        self::assertInstanceOf(JWSVerifier::class, $jws);
     }
 }

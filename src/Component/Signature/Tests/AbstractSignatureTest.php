@@ -19,7 +19,7 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWSBuilderFactory;
-use Jose\Component\Signature\JWSLoaderFactory;
+use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\JWSTokenHeaderChecker;
 use Jose\Component\Signature\Serializer;
 use PHPUnit\Framework\TestCase;
@@ -82,23 +82,23 @@ abstract class AbstractSignatureTest extends TestCase
     }
 
     /**
-     * @var JWSLoaderFactory
+     * @var JWSVerifierFactory
      */
-    private $jwsLoaderFactory;
+    private $jwsVerifierFactory;
 
     /**
-     * @return JWSLoaderFactory
+     * @return JWSVerifierFactory
      */
-    protected function getJWSLoaderFactory(): JWSLoaderFactory
+    protected function getJWSVerifierFactory(): JWSVerifierFactory
     {
-        if (null === $this->jwsLoaderFactory) {
-            $this->jwsLoaderFactory = new JWSLoaderFactory(
+        if (null === $this->jwsVerifierFactory) {
+            $this->jwsVerifierFactory = new JWSVerifierFactory(
                 $this->getAlgorithmManagerFactory(),
                 $this->getHeaderCheckerManagerFactory()
             );
         }
 
-        return $this->jwsLoaderFactory;
+        return $this->jwsVerifierFactory;
     }
 
     /**

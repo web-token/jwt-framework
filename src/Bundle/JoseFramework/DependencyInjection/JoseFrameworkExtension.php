@@ -23,7 +23,7 @@ use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
-use Jose\Bundle\Signature\DependencyInjection\Source\JWSLoader;
+use Jose\Bundle\Signature\DependencyInjection\Source\JWSVerifier;
 use Jose\Component\Core\Converter\JsonConverterInterface;
 use Jose\Component\Core\Converter\JsonConverter;
 use Symfony\Component\Config\Definition\Processor;
@@ -131,8 +131,8 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         if (class_exists(JWSBuilder::class)) {
             $this->addSource(new JWSBuilder());
         }
-        if (class_exists(JWSLoader::class)) {
-            $this->addSource(new JWSLoader());
+        if (class_exists(JWSVerifier::class)) {
+            $this->addSource(new JWSVerifier());
         }
         if (class_exists(JWEBuilder::class)) {
             $this->addSource(new JWEBuilder());

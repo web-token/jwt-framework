@@ -63,7 +63,7 @@ final class EdDSASignatureTest extends AbstractSignatureTest
         $input = Base64Url::decode('RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc');
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['EdDSA']);
-        $jwsLoader = $this->getJWSLoaderFactory()->create(['EdDSA'], [], ['jws_compact']);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['EdDSA'], [], ['jws_compact']);
         $jws = $jwsBuilder
             ->create()->withPayload($input)
             ->addSignature($key, $header)
@@ -77,6 +77,6 @@ final class EdDSASignatureTest extends AbstractSignatureTest
 
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals(1, $loaded->countSignatures());
-        $jwsLoader->verifyWithKey($loaded, $key);
+        $jwsVerifier->verifyWithKey($loaded, $key);
     }
 }

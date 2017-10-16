@@ -50,11 +50,11 @@ final class ConfigurationHelper
      * @param string[]         $headerCheckers
      * @param bool             $is_public
      */
-    public static function addJWSLoader(ContainerBuilder $container, string $name, array $signatureAlgorithms, array  $headerCheckers, bool $is_public = true)
+    public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, array  $headerCheckers, bool $is_public = true)
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jws_loaders' => [
+                'jws_verifiers' => [
                     $name => [
                         'is_public' => $is_public,
                         'signature_algorithms' => $signatureAlgorithms,
@@ -64,7 +64,7 @@ final class ConfigurationHelper
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jws_loaders');
+        self::updateJoseConfiguration($container, $config, 'jws_verifiers');
     }
 
     /**

@@ -14,24 +14,24 @@ declare(strict_types=1);
 namespace Jose\Bundle\Signature\DependencyInjection\Source;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
-use Jose\Component\Signature\JWSLoaderFactory;
-use Jose\Component\Signature\JWSLoader as JWSLoaderService;
+use Jose\Component\Signature\JWSVerifierFactory;
+use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JWSLoader.
+ * Class JWSVerifier.
  */
-final class JWSLoader implements SourceInterface
+final class JWSVerifier implements SourceInterface
 {
     /**
      * {@inheritdoc}
      */
     public function name(): string
     {
-        return 'jws_loaders';
+        return 'jws_verifiers';
     }
 
     /**
@@ -48,10 +48,10 @@ final class JWSLoader implements SourceInterface
     private function createService(array $config, ContainerBuilder $container)
     {
         foreach ($config as $name => $itemConfig) {
-            $service_id = sprintf('jose.jws_loader.%s', $name);
-            $definition = new Definition(JWSLoaderService::class);
+            $service_id = sprintf('jose.jws_verifier.%s', $name);
+            $definition = new Definition(JWSVerifierService::class);
             $definition
-                ->setFactory([new Reference(JWSLoaderFactory::class), 'create'])
+                ->setFactory([new Reference(JWSVerifierFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['signature_algorithms'],
                     $itemConfig['header_checkers'],

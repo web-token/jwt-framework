@@ -56,7 +56,7 @@ final class RSA15SignatureTest extends AbstractSignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS256']);
-        $jwsLoader = $this->getJWSLoaderFactory()->create(['RS256'], []);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS256'], []);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($privateKey, $headers)
@@ -77,12 +77,12 @@ final class RSA15SignatureTest extends AbstractSignatureTest
         self::assertEquals(json_decode($expected_json, true), json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        $jwsLoader->verifyWithKey($loaded_compact_json, $privateKey);
+        $jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey);
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        $jwsLoader->verifyWithKey($loaded_flattened_json, $privateKey);
+        $jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey);
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        $jwsLoader->verifyWithKey($loaded_json, $privateKey);
+        $jwsVerifier->verifyWithKey($loaded_json, $privateKey);
     }
 }

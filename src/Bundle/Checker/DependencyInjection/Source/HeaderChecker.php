@@ -15,7 +15,7 @@ namespace Jose\Bundle\Checker\DependencyInjection\Source;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Signature\JWSLoader as JWSLoaderService;
+use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -49,7 +49,7 @@ final class HeaderChecker implements SourceInterface
     {
         foreach ($config as $name => $itemConfig) {
             $service_id = sprintf('jose.header_checker.%s', $name);
-            $definition = new Definition(JWSLoaderService::class);
+            $definition = new Definition(JWSVerifierService::class);
             $definition
                 ->setFactory([new Reference(HeaderCheckerManagerFactory::class), 'create'])
                 ->setArguments([
