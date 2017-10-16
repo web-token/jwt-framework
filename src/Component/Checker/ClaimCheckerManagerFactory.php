@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
-
 /**
  * Class ClaimCheckerManagerFactory.
  */
@@ -24,20 +22,6 @@ final class ClaimCheckerManagerFactory
      * @var ClaimCheckerInterface[]
      */
     private $checkers = [];
-    /**
-     * @var JsonConverterInterface
-     */
-    private $jsonConverter;
-
-    /**
-     * ClaimCheckerManager constructor.
-     *
-     * @param JsonConverterInterface $jsonConverter
-     */
-    public function __construct(JsonConverterInterface $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
 
     /**
      * @param string[] $aliases
@@ -55,7 +39,7 @@ final class ClaimCheckerManagerFactory
             }
         }
 
-        return ClaimCheckerManager::create($this->jsonConverter, $checkers);
+        return ClaimCheckerManager::create($checkers);
     }
 
     /**
