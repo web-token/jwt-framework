@@ -25,7 +25,7 @@ use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
-use Jose\Component\Encryption\JWETokenHeaderChecker;
+use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
@@ -105,7 +105,7 @@ abstract class EncryptionBench
         ]);
         $this->headerCherckerManager = HeaderCheckerManager::create([
         ], [
-            new JWETokenHeaderChecker(),
+            new JWETokenSupport(),
         ]);
         $this->serializerManager = JWESerializerManager::create([
             new CompactSerializer($this->jsonConverter),

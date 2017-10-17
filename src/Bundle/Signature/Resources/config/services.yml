@@ -10,6 +10,6 @@ services:
     Jose\Component\Signature\JWSVerifierFactory:
         public: true
 
-    Jose\Component\Signature\JWSTokenHeaderChecker:
+    Jose\Component\Signature\JWSTokenSupport:
         tags:
             - {'name': 'jose.checker.token_type'}

@@ -26,7 +26,7 @@ final class HeaderCheckerManager
     private $checkers = [];
 
     /**
-     * @var TokenTypeHeaderCheckerInterface[]
+     * @var TokenTypeSupportInterface[]
      */
     private $tokenTypes = [];
 
@@ -34,7 +34,7 @@ final class HeaderCheckerManager
      * HeaderCheckerManager constructor.
      *
      * @param HeaderCheckerInterface[]          $checkers
-     * @param TokenTypeHeaderCheckerInterface[] $tokenTypes
+     * @param TokenTypeSupportInterface[] $tokenTypes
      */
     private function __construct(array $checkers, array $tokenTypes)
     {
@@ -48,7 +48,7 @@ final class HeaderCheckerManager
 
     /**
      * @param HeaderCheckerInterface[]          $checkers
-     * @param TokenTypeHeaderCheckerInterface[] $tokenTypes
+     * @param TokenTypeSupportInterface[] $tokenTypes
      *
      * @return HeaderCheckerManager
      */
@@ -58,11 +58,11 @@ final class HeaderCheckerManager
     }
 
     /**
-     * @param TokenTypeHeaderCheckerInterface $tokenType
+     * @param TokenTypeSupportInterface $tokenType
      *
      * @return HeaderCheckerManager
      */
-    private function addTokenTypeSupport(TokenTypeHeaderCheckerInterface $tokenType): HeaderCheckerManager
+    private function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): HeaderCheckerManager
     {
         $this->tokenTypes[] = $tokenType;
 

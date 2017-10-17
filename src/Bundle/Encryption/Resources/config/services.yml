@@ -11,6 +11,6 @@ services:
         public: true
 
     Jose\Component\Encryption\Compression\CompressionMethodManagerFactory: ~
-    Jose\Component\Encryption\JWETokenHeaderChecker:
+    Jose\Component\Encryption\JWETokenSupport:
         tags:
             - {'name': 'jose.checker.token_type'}

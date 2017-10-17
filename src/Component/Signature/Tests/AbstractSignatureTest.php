@@ -20,7 +20,7 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
-use Jose\Component\Signature\JWSTokenHeaderChecker;
+use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\Serializer;
 use PHPUnit\Framework\TestCase;
 
@@ -117,7 +117,7 @@ abstract class AbstractSignatureTest extends TestCase
                 ->add('b64', new UnencodedPayloadChecker())
             ;
 
-            $this->headerCheckerManagerFactory->addTokenTypeSupport(new JWSTokenHeaderChecker());
+            $this->headerCheckerManagerFactory->addTokenTypeSupport(new JWSTokenSupport());
         }
 
         return $this->headerCheckerManagerFactory;

@@ -22,7 +22,7 @@ use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
-use Jose\Component\Signature\JWSTokenHeaderChecker;
+use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
@@ -80,7 +80,7 @@ abstract class SignatureBench
         ]);
         $this->headerCherckerManager = HeaderCheckerManager::create([
         ], [
-            new JWSTokenHeaderChecker(),
+            new JWSTokenSupport(),
         ]);
         $this->serializerManager = JWSSerializerManager::create([
             new CompactSerializer($this->jsonConverter),

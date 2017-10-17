@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Jose\Component\Checker\TokenTypeHeaderCheckerInterface;
+use Jose\Component\Checker\TokenTypeSupportInterface;
 use Jose\Component\Core\JWTInterface;
 
 /**
- * Class JWSTokenHeaderChecker.
+ * Class JWSTokenSupport.
  */
-final class JWSTokenHeaderChecker implements TokenTypeHeaderCheckerInterface
+final class JWSTokenSupport implements TokenTypeSupportInterface
 {
     /**
      * {@inheritdoc}

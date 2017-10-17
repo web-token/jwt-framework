@@ -22,7 +22,7 @@ use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
-use Jose\Component\Encryption\JWETokenHeaderChecker;
+use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer;
 use PHPUnit\Framework\TestCase;
 
@@ -147,7 +147,7 @@ abstract class AbstractEncryptionTest extends TestCase
     {
         if (null === $this->headerCheckerManagerFactory) {
             $this->headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
-            $this->headerCheckerManagerFactory->addTokenTypeSupport(new JWETokenHeaderChecker());
+            $this->headerCheckerManagerFactory->addTokenTypeSupport(new JWETokenSupport());
         }
 
         return $this->headerCheckerManagerFactory;

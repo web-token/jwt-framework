@@ -24,7 +24,7 @@ final class HeaderCheckerManagerFactory
     private $checkers = [];
 
     /**
-     * @var TokenTypeHeaderCheckerInterface[]
+     * @var TokenTypeSupportInterface[]
      */
     private $tokenTypes = [];
 
@@ -64,11 +64,11 @@ final class HeaderCheckerManagerFactory
     }
 
     /**
-     * @param TokenTypeHeaderCheckerInterface $tokenType
+     * @param TokenTypeSupportInterface $tokenType
      *
      * @return HeaderCheckerManagerFactory
      */
-    public function addTokenTypeSupport(TokenTypeHeaderCheckerInterface $tokenType): HeaderCheckerManagerFactory
+    public function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): HeaderCheckerManagerFactory
     {
         $this->tokenTypes[] = $tokenType;
 
