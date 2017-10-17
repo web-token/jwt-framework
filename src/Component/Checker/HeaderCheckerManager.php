@@ -33,7 +33,7 @@ final class HeaderCheckerManager
     /**
      * HeaderCheckerManager constructor.
      *
-     * @param HeaderCheckerInterface[]          $checkers
+     * @param HeaderCheckerInterface[]    $checkers
      * @param TokenTypeSupportInterface[] $tokenTypes
      */
     private function __construct(array $checkers, array $tokenTypes)
@@ -47,7 +47,7 @@ final class HeaderCheckerManager
     }
 
     /**
-     * @param HeaderCheckerInterface[]          $checkers
+     * @param HeaderCheckerInterface[]    $checkers
      * @param TokenTypeSupportInterface[] $tokenTypes
      *
      * @return HeaderCheckerManager
