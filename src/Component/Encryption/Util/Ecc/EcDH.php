@@ -37,6 +37,10 @@ namespace Jose\Component\Encryption\Util\Ecc;
  * ***********************************************************************
  */
 
+use Jose\Component\Core\Util\Ecc\Curve;
+use Jose\Component\Core\Util\Ecc\PrivateKey;
+use Jose\Component\Core\Util\Ecc\PublicKey;
+
 /**
  * This class is the implementation of ECDH.
  * EcDH is safe key exchange and achieves

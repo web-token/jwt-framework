@@ -250,7 +250,7 @@ final class RSAKeysTest extends TestCase
         ], $public_ec_key->toArray());
     }
 
-    public function testCreateRSAKey()
+    public function testCreateRSAKey384Bits()
     {
         $jwk = JWKFactory::createRSAKey(384);
 

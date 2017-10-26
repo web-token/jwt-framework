@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Test\Unit\Keys;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use PHPUnit\Framework\TestCase;
 
@@ -195,5 +196,35 @@ final class ECKeysTest extends TestCase
             'y' => 'oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE',
             'foo' => 'bar',
         ], $jwk->toPublic()->all());
+    }
+
+    public function testCreateECKeyOnP256()
+    {
+        $jwk = JWKFactory::createECKey('P-256');
+
+        self::assertEquals('EC', $jwk->get('kty'));
+        self::assertTrue($jwk->has('d'));
+        self::assertTrue($jwk->has('x'));
+        self::assertTrue($jwk->has('y'));
+    }
+
+    public function testCreateECKeyOnP384()
+    {
+        $jwk = JWKFactory::createECKey('P-384');
+
+        self::assertEquals('EC', $jwk->get('kty'));
+        self::assertTrue($jwk->has('d'));
+        self::assertTrue($jwk->has('x'));
+        self::assertTrue($jwk->has('y'));
+    }
+
+    public function testCreateECKeyOnP521()
+    {
+        $jwk = JWKFactory::createECKey('P-521');
+
+        self::assertEquals('EC', $jwk->get('kty'));
+        self::assertTrue($jwk->has('d'));
+        self::assertTrue($jwk->has('x'));
+        self::assertTrue($jwk->has('y'));
     }
 }

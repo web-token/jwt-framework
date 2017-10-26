@@ -21,7 +21,6 @@ use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
 use FG\ASN1\ASNObject;
-use Jose\Component\Core\JWK;
 
 /**
  * Class ECKey.
@@ -41,16 +40,6 @@ final class ECKey
     private function __construct(array $data)
     {
         $this->loadJWK($data);
-    }
-
-    /**
-     * @param JWK $jwk
-     *
-     * @return ECKey
-     */
-    public static function createFromJWK(JWK $jwk): ECKey
-    {
-        return new self($jwk->all());
     }
 
     /**

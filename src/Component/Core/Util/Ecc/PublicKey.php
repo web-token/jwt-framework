@@ -11,11 +11,11 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Util\Ecc;
+namespace Jose\Component\Core\Util\Ecc;
 
-/**
+/*
  * *********************************************************************
- * Copyright (C) 2012 Matyas Danter.
+ * Copyright (C) 2012 Matyas Danter
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
@@ -38,38 +38,40 @@ namespace Jose\Component\Encryption\Util\Ecc;
  */
 
 /**
- * This class serves as public - private key exchange for signature verification.
+ * This class serves as public- private key exchange for signature verification.
  */
-final class PrivateKey
+final class PublicKey
 {
     /**
-     * @var \GMP
+     * @var Point
      */
-    private $secret;
+    private $point;
 
     /**
-     * @param \GMP $secret
-     */
-    private function __construct(\GMP $secret)
-    {
-        $this->secret = $secret;
-    }
-
-    /**
-     * @param \GMP $secret
+     * PublicKey constructor.
      *
-     * @return PrivateKey
+     * @param Point $point
      */
-    public static function create(\GMP $secret): PrivateKey
+    private function __construct(Point $point)
     {
-        return new self($secret);
+        $this->point = $point;
     }
 
     /**
-     * @return \GMP
+     * @param Point $point
+     *
+     * @return PublicKey
      */
-    public function getSecret(): \GMP
+    public static function create(Point $point): PublicKey
     {
-        return $this->secret;
+        return new self($point);
+    }
+
+    /**
+     * @return Point
+     */
+    public function getPoint(): Point
+    {
+        return $this->point;
     }
 }

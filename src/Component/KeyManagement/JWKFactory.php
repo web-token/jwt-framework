@@ -16,7 +16,7 @@ namespace Jose\Component\KeyManagement;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\KeyManagement\KeyConverter\ECKey;
+use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
 
@@ -36,6 +36,7 @@ final class JWKFactory
         if (0 !== $size % 8) {
             throw new \InvalidArgumentException('Invalid key size.');
         }
+
         if (384 > $size) {
             throw new \InvalidArgumentException('Key length is too short. It needs to be at least 384 bits.');
         }
@@ -62,20 +63,32 @@ final class JWKFactory
      */
     public static function createECKey(string $curve, array $values = []): JWK
     {
-        $args = [
-            'curve_name' => self::getOpensslName($curve),
-            'private_key_type' => OPENSSL_KEYTYPE_EC,
-        ];
-        $key = openssl_pkey_new($args);
-        $res = openssl_pkey_export($key, $out);
-        if (false === $res) {
-            throw new \InvalidArgumentException('Unable to create the key');
+        switch ($curve) {
+            case 'P-256':
+                $nistCurve = NistCurve::curve256();
+                break;
+            case 'P-384':
+                $nistCurve = NistCurve::curve384();
+                break;
+            case 'P-521':
+                $nistCurve = NistCurve::curve521();
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
         }
 
-        $ec = ECKey::createFromPEM($out);
+        $privateKey = $nistCurve->createPrivateKey();
+        $publicKey = $nistCurve->createPublicKey($privateKey);
+
         $values = array_merge(
             $values,
-            $ec->toArray()
+            [
+                'kty' => 'EC',
+                'crv' => $curve,
+                'd' => Base64Url::encode(gmp_export($privateKey->getSecret())),
+                'x' => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
+                'y' => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+            ]
         );
 
         return JWK::create($values);
@@ -157,27 +170,6 @@ final class JWKFactory
         );
 
         return JWK::create($values);
-    }
-
-    /**
-     * @param string $curve
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return string
-     */
-    private static function getOpensslName(string $curve): string
-    {
-        switch ($curve) {
-            case 'P-256':
-                return 'prime256v1';
-            case 'P-384':
-                return 'secp384r1';
-            case 'P-521':
-                return 'secp521r1';
-            default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
-        }
     }
 
     /**

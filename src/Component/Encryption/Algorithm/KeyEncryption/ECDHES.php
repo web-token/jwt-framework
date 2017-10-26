@@ -16,9 +16,9 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Util\Ecc\EcDH;
-use Jose\Component\Encryption\Util\Ecc\PrivateKey;
-use Jose\Component\Encryption\Util\Ecc\NistCurve;
-use Jose\Component\Encryption\Util\Ecc\Curve;
+use Jose\Component\Core\Util\Ecc\PrivateKey;
+use Jose\Component\Core\Util\Ecc\NistCurve;
+use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Encryption\Util\ConcatKDF;
 
 /**
@@ -249,7 +249,7 @@ final class ECDHES implements KeyAgreementInterface
     {
         $curve = $this->getCurve($crv);
         $privateKey = $curve->createPrivateKey();
-        $point = $curve->mul($curve->getGenerator(), $privateKey->getSecret());
+        $point = $curve->createPublicKey($privateKey)->getPoint();
 
         return JWK::create([
             'kty' => 'EC',
