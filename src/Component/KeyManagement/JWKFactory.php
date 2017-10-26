@@ -66,12 +66,15 @@ final class JWKFactory
         switch ($curve) {
             case 'P-256':
                 $nistCurve = NistCurve::curve256();
+
                 break;
             case 'P-384':
                 $nistCurve = NistCurve::curve384();
+
                 break;
             case 'P-521':
                 $nistCurve = NistCurve::curve521();
+
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
