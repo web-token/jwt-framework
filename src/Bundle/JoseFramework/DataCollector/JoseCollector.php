@@ -367,5 +367,4 @@ final class JoseCollector extends DataCollector
     {
         $this->jwksets[$id] = $jwkset;
     }
-
 }
