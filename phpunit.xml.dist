@@ -29,7 +29,6 @@
                 <directory>./performance</directory>
                 <directory>./vendor</directory>
                 <directory>./tests</directory>
-                <directory>./src/Bundle</directory>
                 <directory suffix="Test.php">./src</directory>
             </exclude>
         </whitelist>
