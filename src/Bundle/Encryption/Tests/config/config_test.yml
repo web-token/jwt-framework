@@ -21,3 +21,7 @@ jose:
             content_encryption_algorithms: ['A256CBC-HS512']
             header_checkers: []
             is_public: true
+    jwe_serializers:
+        jwe_serializer1:
+            serializers: ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']
+            is_public: true

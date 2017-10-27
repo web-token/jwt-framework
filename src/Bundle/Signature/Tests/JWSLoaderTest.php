@@ -15,6 +15,7 @@ namespace Jose\Bundle\Signature\Tests;
 
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\JWSVerifierFactory;
+use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -38,7 +39,7 @@ final class JWSVerifierTest extends WebTestCase
         /** @var JWSVerifierFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSVerifierFactory::class);
 
-        $jws = $jwsFactory->create(['none'], [], ['jws_compact', 'jws_json_general', 'jws_json_flattened']);
+        $jws = $jwsFactory->create(['none'], []);
 
         self::assertInstanceOf(JWSVerifier::class, $jws);
     }
@@ -61,5 +62,25 @@ final class JWSVerifierTest extends WebTestCase
 
         $jws = $container->get('jose.jws_verifier.loader2');
         self::assertInstanceOf(JWSVerifier::class, $jws);
+    }
+
+    public function testJWSSerializerManagerFromConfigurationIsAvailable()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        self::assertTrue($container->has('jose.jws_serializer.jws_serializer1'));
+
+        $jws = $container->get('jose.jws_serializer.jws_serializer1');
+        self::assertInstanceOf(JWSSerializerManager::class, $jws);
+    }
+
+    public function testJWSSerializerManagerFromExternalBundleExtensionIsAvailable()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        self::assertTrue($container->has('jose.jws_serializer.jws_serializer2'));
+
+        $jws = $container->get('jose.jws_serializer.jws_serializer2');
+        self::assertInstanceOf(JWSSerializerManager::class, $jws);
     }
 }

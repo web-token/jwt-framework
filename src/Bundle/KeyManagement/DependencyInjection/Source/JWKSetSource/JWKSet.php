@@ -29,7 +29,7 @@ final class JWKSet extends AbstractJWKSetSource
      */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
-        $definition = new Definition(self::class);
+        $definition = new Definition(\Jose\Component\Core\JWKSet::class);
         $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromString',
@@ -37,6 +37,7 @@ final class JWKSet extends AbstractJWKSetSource
         $definition->setArguments([
             $config['value'],
         ]);
+        $definition->addTag('jose.jwkset');
 
         return $definition;
     }

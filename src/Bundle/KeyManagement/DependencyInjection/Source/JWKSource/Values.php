@@ -38,6 +38,7 @@ final class Values extends AbstractSource implements JWKSourceInterface
         $definition->setArguments([
             $config['values'],
         ]);
+        $definition->addTag('jose.jwk');
 
         return $definition;
     }

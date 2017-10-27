@@ -70,6 +70,50 @@ final class ConfigurationHelper
     /**
      * @param ContainerBuilder $container
      * @param string           $name
+     * @param string[]         $serializers
+     * @param bool             $is_public
+     */
+    public static function addJWSSerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true)
+    {
+        $config = [
+            self::BUNDLE_ALIAS => [
+                'jws_serializers' => [
+                    $name => [
+                        'is_public' => $is_public,
+                        'serializers' => $serializers,
+                    ],
+                ],
+            ],
+        ];
+
+        self::updateJoseConfiguration($container, $config, 'jws_serializers');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $name
+     * @param string[]         $serializers
+     * @param bool             $is_public
+     */
+    public static function addJWESerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true)
+    {
+        $config = [
+            self::BUNDLE_ALIAS => [
+                'jwe_serializers' => [
+                    $name => [
+                        'is_public' => $is_public,
+                        'serializers' => $serializers,
+                    ],
+                ],
+            ],
+        ];
+
+        self::updateJoseConfiguration($container, $config, 'jwe_serializers');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $name
      * @param string[]         $claimCheckers
      * @param bool             $is_public
      */

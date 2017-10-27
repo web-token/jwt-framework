@@ -39,6 +39,7 @@ final class CertificateFile extends AbstractSource implements JWKSourceInterface
             $config['path'],
             $config['additional_values'],
         ]);
+        $definition->addTag('jose.jwk');
 
         return $definition;
     }

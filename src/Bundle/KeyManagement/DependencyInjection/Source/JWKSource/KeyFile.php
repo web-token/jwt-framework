@@ -40,6 +40,7 @@ final class KeyFile extends AbstractSource implements JWKSourceInterface
             $config['password'],
             $config['additional_values'],
         ]);
+        $definition->addTag('jose.jwk');
 
         return $definition;
     }

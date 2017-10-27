@@ -15,11 +15,17 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Component\Core\AlgorithmInterface;
 use Jose\Component\Core\AlgorithmManagerFactory;
+use Jose\Component\Core\JWK;
+use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithmInterface;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
+use Jose\Component\Encryption\JWEBuilder;
+use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,6 +79,10 @@ final class JoseCollector extends DataCollector
         $this->collectSupportedCompressionMethods();
         $this->collectSupportedJWSSerializations();
         $this->collectSupportedJWESerializations();
+        $this->collectSupportedJWSBuilders();
+        $this->collectSupportedJWSVerifiers();
+        $this->collectSupportedJWEBuilders();
+        $this->collectSupportedJWEDecrypters();
     }
 
     /**
@@ -226,4 +236,136 @@ final class JoseCollector extends DataCollector
             $this->data['jwe_serialization'][$serializer->name()] = $serializer->displayName();
         }
     }
+
+    private function collectSupportedJWSBuilders()
+    {
+        $this->data['jws_builders'] = [];
+        foreach ($this->jwsBuilders as $id => $jwsBuilder) {
+            $this->data['jws_builders'][$id] = [
+                'signature_algorithms' => $jwsBuilder->getSignatureAlgorithmManager()->list(),
+            ];
+        }
+    }
+
+    private function collectSupportedJWSVerifiers()
+    {
+        $this->data['jws_verifiers'] = [];
+        foreach ($this->jwsVerifiers as $id => $jwsVerifier) {
+            $this->data['jws_verifiers'][$id] = [
+                'signature_algorithms' => $jwsVerifier->getSignatureAlgorithmManager()->list(),
+                //Add header checkers
+            ];
+        }
+    }
+
+    private function collectSupportedJWEBuilders()
+    {
+        $this->data['jwe_builders'] = [];
+        foreach ($this->jweBuilders as $id => $jweBuilder) {
+            $this->data['jwe_builders'][$id] = [
+                'key_encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
+                'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()->list(),
+                'compression_methods' => $jweBuilder->getCompressionMethodManager()->list(),
+                //Add header checkers
+            ];
+        }
+    }
+
+    private function collectSupportedJWEDecrypters()
+    {
+        $this->data['jwe_decrypters'] = [];
+        foreach ($this->jweDecrypters as $id => $jweDecrypter) {
+            $this->data['jwe_decrypters'][$id] = [
+                'key_encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
+                'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()->list(),
+                'compression_methods' => $jweDecrypter->getCompressionMethodManager()->list(),
+                //Add header checkers
+            ];
+        }
+    }
+
+    /**
+     * @var JWSBuilder[]
+     */
+    private $jwsBuilders = [];
+
+    /**
+     * @param string     $id
+     * @param JWSBuilder $jwsBuilder
+     */
+    public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder)
+    {
+        $this->jwsBuilders[$id] = $jwsBuilder;
+    }
+
+    /**
+     * @var JWSVerifier[]
+     */
+    private $jwsVerifiers = [];
+
+    /**
+     * @param string      $id
+     * @param JWSVerifier $jwsVerifier
+     */
+    public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier)
+    {
+        $this->jwsVerifiers[$id] = $jwsVerifier;
+    }
+
+    /**
+     * @var JWEBuilder[]
+     */
+    private $jweBuilders = [];
+
+    /**
+     * @param string     $id
+     * @param JWEBuilder $jweBuilder
+     */
+    public function addJWEBuilder(string $id, JWEBuilder $jweBuilder)
+    {
+        $this->jweBuilders[$id] = $jweBuilder;
+    }
+
+    /**
+     * @var JWEDecrypter[]
+     */
+    private $jweDecrypters = [];
+
+    /**
+     * @param string       $id
+     * @param JWEDecrypter $jweDecrypter
+     */
+    public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter)
+    {
+        $this->jweDecrypters[$id] = $jweDecrypter;
+    }
+
+    /**
+     * @var JWK[]
+     */
+    private $jwks = [];
+
+    /**
+     * @param string $id
+     * @param JWK    $jwk
+     */
+    public function addJWK(string $id, JWK $jwk)
+    {
+        $this->jwks[$id] = $jwk;
+    }
+
+    /**
+     * @var JWKSet[]
+     */
+    private $jwksets = [];
+
+    /**
+     * @param string $id
+     * @param JWKSet $jwkset
+     */
+    public function addJWKSet(string $id, JWKSet $jwkset)
+    {
+        $this->jwksets[$id] = $jwkset;
+    }
+
 }
