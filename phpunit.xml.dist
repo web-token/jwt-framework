@@ -13,9 +13,7 @@
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./src/Bundle/*/Tests/</directory>
-            <directory>./src/Bundle/*/*/Tests/</directory>
             <directory>./src/Component/*/Tests/</directory>
-            <directory>./src/Component/*/*/Tests/</directory>
         </testsuite>
     </testsuites>
     <php>
@@ -29,6 +27,8 @@
                 <directory>./performance</directory>
                 <directory>./vendor</directory>
                 <directory>./tests</directory>
+                <directory>./src/Bundle/*/Tests/</directory>
+                <directory>./src/Component/*/Tests/</directory>
                 <directory suffix="Test.php">./src</directory>
             </exclude>
         </whitelist>
