@@ -23,6 +23,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
@@ -54,20 +55,27 @@ final class JoseCollector extends DataCollector
     private $jweSerializerManagerFactory;
 
     /**
+     * @var JWKAnalyzerManager|null
+     */
+    private $jwkAnalyzerManager;
+
+    /**
      * JoseCollector constructor.
      *
      * @param AlgorithmManagerFactory              $algorithmManagerFactory
      * @param CompressionMethodManagerFactory|null $compressionMethodManagerFactory
      * @param JWSSerializerManagerFactory|null     $jwsSerializerManagerFactory
      * @param JWESerializerManagerFactory|null     $jweSerializerManagerFactory
+     * @param JWKAnalyzerManager|null              $jwkAnalyzerManager
      */
-    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null, ?JWKAnalyzerManager $jwkAnalyzerManager)
     {
         $this->data = [];
         $this->algorithmManagerFactory = $algorithmManagerFactory;
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
+        $this->jwkAnalyzerManager = $jwkAnalyzerManager;
     }
 
     /**
@@ -83,6 +91,8 @@ final class JoseCollector extends DataCollector
         $this->collectSupportedJWSVerifiers();
         $this->collectSupportedJWEBuilders();
         $this->collectSupportedJWEDecrypters();
+        $this->collectJWK();
+        $this->collectJWKSet();
     }
 
     /**
@@ -280,6 +290,35 @@ final class JoseCollector extends DataCollector
                 'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()->list(),
                 'compression_methods' => $jweDecrypter->getCompressionMethodManager()->list(),
                 //Add header checkers
+            ];
+        }
+    }
+
+    private function collectJWK()
+    {
+        $this->data['jwk'] = [];
+        foreach ($this->jwks as $id => $jwk) {
+            $this->data['jwk'][$id] = [
+                'jwk' => $jwk,
+                'analyze' => $this->jwkAnalyzerManager === null ? [] : $this->jwkAnalyzerManager->analyze($jwk),
+            ];
+        }
+    }
+
+    private function collectJWKSet()
+    {
+        $this->data['jwkset'] = [];
+        foreach ($this->jwksets as $id => $jwkset) {
+            $analyze = [];
+            if ($this->jwkAnalyzerManager !== null) {
+            } else {
+                foreach ($jwkset as $kid => $jwk) {
+                    $analyze[$kid] = $this->jwkAnalyzerManager->analyze($jwk);
+                }
+            }
+            $this->data['jwkset'][$id] = [
+                'jwkset' => $jwkset,
+                'analyze' => $analyze,
             ];
         }
     }
