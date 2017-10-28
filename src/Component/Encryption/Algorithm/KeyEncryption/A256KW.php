@@ -35,12 +35,4 @@ final class A256KW extends AESKW
     {
         return 'A256KW';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getKeySize(): int
-    {
-        return 32;
-    }
 }
