@@ -161,7 +161,7 @@ final class KeyConverter
         self::sanitizePEM($pem);
 
         $res = openssl_pkey_get_private($pem);
-        if ($res === false) {
+        if (false === $res) {
             $res = openssl_pkey_get_public($pem);
         }
         if (false === $res) {

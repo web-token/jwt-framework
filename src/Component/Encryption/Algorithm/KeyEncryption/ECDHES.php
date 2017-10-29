@@ -233,7 +233,7 @@ final class ECDHES implements KeyAgreementInterface
 
         $hex = gmp_strval($dec, 16);
 
-        if (mb_strlen($hex, '8bit') % 2 !== 0) {
+        if (0 !== mb_strlen($hex, '8bit') % 2) {
             $hex = '0'.$hex;
         }
 

@@ -43,7 +43,7 @@ final class None implements SignatureAlgorithmInterface
      */
     public function verify(JWK $key, string $input, string $signature): bool
     {
-        return $signature === '';
+        return '' === $signature;
     }
 
     /**
