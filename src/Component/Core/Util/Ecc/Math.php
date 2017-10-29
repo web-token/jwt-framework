@@ -37,7 +37,7 @@ final class Math
      */
     public static function equals(\GMP $first, \GMP $other): bool
     {
-        return gmp_cmp($first, $other) === 0;
+        return 0 === gmp_cmp($first, $other);
     }
 
     /**

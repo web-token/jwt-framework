@@ -275,7 +275,7 @@ final class Curve
      */
     public function equals(Curve $other): bool
     {
-        return $this->cmp($other) === 0;
+        return 0 === $this->cmp($other);
     }
 
     /**
