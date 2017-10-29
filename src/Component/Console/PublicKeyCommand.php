@@ -15,39 +15,24 @@ namespace Jose\Component\Console;
 
 use Jose\Component\Core\Converter\JsonConverterInterface;
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class KeyAnalyzerCommand.
+ * Class PublicKeyCommand.
  */
-final class KeyAnalyzerCommand extends Command
+final class PublicKeyCommand extends AbstractObjectOutputCommand
 {
-    /**
-     * @var JWKAnalyzerManager
-     */
-    private $analyzerManager;
-
-    /**
-     * @var JsonConverterInterface
-     */
-    private $jsonConverter;
-
     /**
      * KeyAnalyzerCommand constructor.
      *
-     * @param JWKAnalyzerManager     $analyzerManager
      * @param JsonConverterInterface $jsonConverter
      * @param string|null            $name
      */
-    public function __construct(JWKAnalyzerManager $analyzerManager, JsonConverterInterface $jsonConverter, string $name = null)
+    public function __construct(JsonConverterInterface $jsonConverter, string $name = null)
     {
-        parent::__construct($name);
-        $this->analyzerManager = $analyzerManager;
-        $this->jsonConverter = $jsonConverter;
+        parent::__construct($jsonConverter, $name);
     }
 
     /**
@@ -57,9 +42,9 @@ final class KeyAnalyzerCommand extends Command
     {
         parent::configure();
         $this
-            ->setName('key:analyze')
-            ->setDescription('JWK quality analyzer.')
-            ->setHelp('This command will analyze a JWK object and find security issues.')
+            ->setName('key:convert:public')
+            ->setDescription('Convert a private key into public key. Symmetric keys (shared keys) are not changed.')
+            ->setHelp('This command converts a private key into a public key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
         ;
     }
@@ -70,11 +55,9 @@ final class KeyAnalyzerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $this->getKey($input);
+        $jwk = $jwk->toPublic();
 
-        $result = $this->analyzerManager->analyze($jwk);
-        foreach ($result as $message) {
-            $output->writeln($message);
-        }
+        $this->prepareJsonOutput($input, $output, $jwk);
     }
 
     /**
