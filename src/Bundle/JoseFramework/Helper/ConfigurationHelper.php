@@ -207,7 +207,7 @@ final class ConfigurationHelper
         $config = [
             self::BUNDLE_ALIAS => [
                 'jwk_uris' => [
-                    $name =>  $parameters,
+                    $name => $parameters,
                 ],
             ],
         ];
