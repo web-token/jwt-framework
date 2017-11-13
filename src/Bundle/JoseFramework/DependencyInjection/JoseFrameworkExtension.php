@@ -18,11 +18,13 @@ use Jose\Bundle\Checker\DependencyInjection\Source\ClaimChecker;
 use Jose\Bundle\Checker\DependencyInjection\Source\HeaderChecker;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEDecrypter;
+use Jose\Bundle\Encryption\DependencyInjection\Source\JWESerializer;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
+use Jose\Bundle\Signature\DependencyInjection\Source\JWSSerializer;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSVerifier;
 use Jose\Component\Core\Converter\JsonConverterInterface;
 use Jose\Component\Core\Converter\JsonConverter;
@@ -77,6 +79,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        if (true === $container->getParameter('kernel.debug')) {
+            $loader->load('dev_services.yml');
+        }
 
         $container->setAlias(JsonConverterInterface::class, $config['json_converter']);
         if (JsonConverter::class === $config['json_converter']) {
@@ -131,6 +136,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         if (class_exists(JWSBuilder::class)) {
             $this->addSource(new JWSBuilder());
         }
+        if (class_exists(JWSSerializer::class)) {
+            $this->addSource(new JWSSerializer());
+        }
         if (class_exists(JWSVerifier::class)) {
             $this->addSource(new JWSVerifier());
         }
@@ -139,6 +147,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         }
         if (class_exists(JWEDecrypter::class)) {
             $this->addSource(new JWEDecrypter());
+        }
+        if (class_exists(JWESerializer::class)) {
+            $this->addSource(new JWESerializer());
         }
     }
 

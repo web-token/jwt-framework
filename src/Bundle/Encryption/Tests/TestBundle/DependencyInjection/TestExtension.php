@@ -41,5 +41,6 @@ final class TestExtension extends Extension implements PrependExtensionInterface
     {
         ConfigurationHelper::addJWEBuilder($container, 'builder2', ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], true);
         ConfigurationHelper::addJWEDecrypter($container, 'loader2', ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], [], true);
+        ConfigurationHelper::addJWESerializer($container, 'jwe_serializer2', ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
     }
 }

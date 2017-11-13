@@ -38,6 +38,7 @@ final class X5C extends AbstractSource implements JWKSourceInterface
         $definition->setArguments([
             $config['value'],
         ]);
+        $definition->addTag('jose.jwk');
 
         return $definition;
     }

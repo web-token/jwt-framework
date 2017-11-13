@@ -53,6 +53,7 @@ final class JWSBuilder implements SourceInterface
             $definition
                 ->setFactory([new Reference(JWSBuilderFactory::class), 'create'])
                 ->setArguments([$itemConfig['signature_algorithms']])
+                ->addTag('jose.jws_builder')
                 ->setPublic($itemConfig['is_public']);
 
             $container->setDefinition($service_id, $definition);

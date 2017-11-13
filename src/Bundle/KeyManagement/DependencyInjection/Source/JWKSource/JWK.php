@@ -30,7 +30,7 @@ final class JWK extends AbstractSource implements JWKSourceInterface
      */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
-        $definition = new Definition(self::class);
+        $definition = new Definition(\Jose\Component\Core\JWK::class);
         $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromString',
@@ -38,6 +38,7 @@ final class JWK extends AbstractSource implements JWKSourceInterface
         $definition->setArguments([
             $config['value'],
         ]);
+        $definition->addTag('jose.jwk');
 
         return $definition;
     }

@@ -57,6 +57,7 @@ final class JWEBuilder implements SourceInterface
                     $itemConfig['content_encryption_algorithms'],
                     $itemConfig['compression_methods'],
                 ])
+                ->addTag('jose.jwe_builder')
                 ->setPublic($itemConfig['is_public']);
 
             $container->setDefinition($service_id, $definition);

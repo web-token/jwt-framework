@@ -57,6 +57,14 @@ final class JWSVerifier
     }
 
     /**
+     * @return HeaderCheckerManager
+     */
+    public function getHeaderCheckerManager(): HeaderCheckerManager
+    {
+        return $this->headerCheckerManager;
+    }
+
+    /**
      * @param JWS         $jws
      * @param JWK         $jwk
      * @param null|string $detachedPayload

@@ -5,9 +5,3 @@ services:
         public: false
 
     Jose\Component\Core\AlgorithmManagerFactory: ~
-    Jose\Bundle\JoseFramework\DataCollector\JoseCollector:
-        tags:
-            -
-                name:     data_collector
-                template: '@JoseFramework/data_collector/template.html.twig'
-                id:       'jose_collector'

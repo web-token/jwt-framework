@@ -55,8 +55,8 @@ final class JWSVerifier implements SourceInterface
                 ->setArguments([
                     $itemConfig['signature_algorithms'],
                     $itemConfig['header_checkers'],
-                    $itemConfig['serializers'],
                 ])
+                ->addTag('jose.jws_verifier')
                 ->setPublic($itemConfig['is_public']);
 
             $container->setDefinition($service_id, $definition);
@@ -86,11 +86,6 @@ final class JWSVerifier implements SourceInterface
                             ->arrayNode('header_checkers')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('serializers')
-                                ->useAttributeAsKey('name')
-                                ->treatNullLike(['jws_compact'])
                                 ->prototype('scalar')->end()
                             ->end()
                         ->end()

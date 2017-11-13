@@ -21,9 +21,8 @@
     },
     "require": {
         "php": "^7.1",
-        "web-token/jwt-bundle": "^0.0",
-        "web-token/jwt-checker-bundle": "^0.0",
-        "web-token/jwt-encryption": "^0.0"
+        "web-token/jwt-checker-bundle": "^0.1",
+        "web-token/jwt-encryption": "^0.1"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.3",
@@ -33,7 +32,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.0.x-dev"
+            "dev-master": "0.1.x-dev"
         }
     },
     "config": {

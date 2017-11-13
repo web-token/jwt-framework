@@ -51,7 +51,9 @@ final class TestExtension extends Extension implements PrependExtensionInterface
         ConfigurationHelper::addHeaderChecker($container, 'checker2', ['custom_checker'], true);
         ConfigurationHelper::addJWSBuilder($container, 'builder2', ['RS512', 'HS512', 'ES512'], true);
         ConfigurationHelper::addJWSVerifier($container, 'loader2', ['RS512', 'HS512', 'ES512'], [], true);
+        ConfigurationHelper::addJWSSerializer($container, 'jws_serializer2', ['jws_compact', 'jws_json_flattened', 'jws_json_general']);
         ConfigurationHelper::addJWEBuilder($container, 'builder2', ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], true);
         ConfigurationHelper::addJWEDecrypter($container, 'loader2', ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], [], true);
+        ConfigurationHelper::addJWESerializer($container, 'jwe_serializer2', ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']);
     }
 }
