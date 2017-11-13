@@ -21,6 +21,7 @@ use Jose\Bundle\Encryption\DependencyInjection\Source\JWEDecrypter;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWESerializer;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
+use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUriSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
@@ -123,6 +124,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         }
         if (class_exists(JWKSource::class)) {
             $this->addSource(new JWKSource());
+        }
+        if (class_exists(JKUriSource::class)) {
+            $this->addSource(new JKUriSource());
         }
         if (class_exists(JWKSetSource::class)) {
             $this->addSource(new JWKSetSource());

@@ -200,6 +200,24 @@ final class ConfigurationHelper
     /**
      * @param ContainerBuilder $container
      * @param string           $name
+     * @param array            $parameters
+     */
+    public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters)
+    {
+        $config = [
+            self::BUNDLE_ALIAS => [
+                'jwk_uris' => [
+                    $name =>  $parameters,
+                ],
+            ],
+        ];
+
+        self::updateJoseConfiguration($container, $config, 'jwk_uris');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $name
      * @param array            $keyEncryptionAlgorithm
      * @param array            $contentEncryptionAlgorithms
      * @param array            $compressionMethods

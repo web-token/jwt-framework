@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWKSet.
  */
-final class JWKSet extends AbstractJWKSetSource
+final class JWKSet extends AbstractSource implements JWKSetSourceInterface
 {
     /**
      * {@inheritdoc}

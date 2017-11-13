@@ -33,7 +33,7 @@ final class KeySetControllerCompilerPass implements CompilerPassInterface
 
         $definition = $container->getDefinition(JWKSetLoader::class);
 
-        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.key_set.controller');
+        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwk_uri.controller');
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (!array_key_exists('path', $attributes)) {
