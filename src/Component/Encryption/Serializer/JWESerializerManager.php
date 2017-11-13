@@ -42,7 +42,7 @@ final class JWESerializerManager
      *
      * @return JWESerializerManager
      */
-    public static function create(array $serializers): JWESerializerManager
+    public static function create(array $serializers): self
     {
         return new self($serializers);
     }
@@ -52,7 +52,7 @@ final class JWESerializerManager
      *
      * @return JWESerializerManager
      */
-    private function add(JWESerializerInterface $serializer): JWESerializerManager
+    private function add(JWESerializerInterface $serializer): self
     {
         $this->serializers[$serializer->name()] = $serializer;
 

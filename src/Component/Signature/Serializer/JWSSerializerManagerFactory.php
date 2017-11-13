@@ -62,7 +62,7 @@ final class JWSSerializerManagerFactory
      *
      * @return JWSSerializerManagerFactory
      */
-    public function add(JWSSerializerInterface $serializer): JWSSerializerManagerFactory
+    public function add(JWSSerializerInterface $serializer): self
     {
         $this->serializers[$serializer->name()] = $serializer;
 

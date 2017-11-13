@@ -61,7 +61,7 @@ final class JWS implements JWTInterface
      *
      * @return JWS
      */
-    public static function create(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false): JWS
+    public static function create(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false): self
     {
         return new self($payload, $encodedPayload, $isPayloadDetached);
     }
@@ -126,7 +126,7 @@ final class JWS implements JWTInterface
      *
      * @return JWS
      */
-    public function addSignature(string $signature, array $protectedHeaders, ?string $encodedProtectedHeaders, array $headers = []): JWS
+    public function addSignature(string $signature, array $protectedHeaders, ?string $encodedProtectedHeaders, array $headers = []): self
     {
         $jws = clone $this;
         $jws->signatures[] = Signature::create($signature, $protectedHeaders, $encodedProtectedHeaders, $headers);

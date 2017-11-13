@@ -40,7 +40,7 @@ final class ClaimCheckerManager
      *
      * @return ClaimCheckerManager
      */
-    public static function create(array $checkers): ClaimCheckerManager
+    public static function create(array $checkers): self
     {
         return new self($checkers);
     }
@@ -50,7 +50,7 @@ final class ClaimCheckerManager
      *
      * @return ClaimCheckerManager
      */
-    private function add(ClaimCheckerInterface $checker): ClaimCheckerManager
+    private function add(ClaimCheckerInterface $checker): self
     {
         $claim = $checker->supportedClaim();
         if (array_key_exists($claim, $this->checkers)) {

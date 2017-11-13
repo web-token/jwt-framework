@@ -53,7 +53,7 @@ final class HeaderCheckerManagerFactory
      *
      * @return HeaderCheckerManagerFactory
      */
-    public function add(string $alias, HeaderCheckerInterface $checker): HeaderCheckerManagerFactory
+    public function add(string $alias, HeaderCheckerInterface $checker): self
     {
         if (array_key_exists($alias, $this->checkers)) {
             throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
@@ -68,7 +68,7 @@ final class HeaderCheckerManagerFactory
      *
      * @return HeaderCheckerManagerFactory
      */
-    public function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): HeaderCheckerManagerFactory
+    public function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): self
     {
         $this->tokenTypes[] = $tokenType;
 

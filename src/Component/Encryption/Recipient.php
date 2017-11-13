@@ -46,7 +46,7 @@ final class Recipient
      *
      * @return Recipient
      */
-    public static function create(array $headers = [], ?string $encryptedKey): Recipient
+    public static function create(array $headers = [], ?string $encryptedKey): self
     {
         return new self($headers, $encryptedKey);
     }

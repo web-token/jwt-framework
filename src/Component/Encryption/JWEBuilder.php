@@ -114,7 +114,7 @@ final class JWEBuilder
      *
      * @return JWEBuilder
      */
-    public function create(): JWEBuilder
+    public function create(): self
     {
         $this->payload = null;
         $this->aad = null;
@@ -157,7 +157,7 @@ final class JWEBuilder
      *
      * @return JWEBuilder
      */
-    public function withPayload($payload): JWEBuilder
+    public function withPayload($payload): self
     {
         $payload = is_string($payload) ? $payload : $this->jsonConverter->encode($payload);
         if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
@@ -174,7 +174,7 @@ final class JWEBuilder
      *
      * @return JWEBuilder
      */
-    public function withAAD(?string $aad): JWEBuilder
+    public function withAAD(?string $aad): self
     {
         $clone = clone $this;
         $clone->aad = $aad;
@@ -187,7 +187,7 @@ final class JWEBuilder
      *
      * @return JWEBuilder
      */
-    public function withSharedProtectedHeaders(array $sharedProtectedHeaders): JWEBuilder
+    public function withSharedProtectedHeaders(array $sharedProtectedHeaders): self
     {
         $this->checkDuplicatedHeaderParameters($sharedProtectedHeaders, $this->sharedHeaders);
         foreach ($this->recipients as $recipient) {
@@ -204,7 +204,7 @@ final class JWEBuilder
      *
      * @return JWEBuilder
      */
-    public function withSharedHeaders(array $sharedHeaders): JWEBuilder
+    public function withSharedHeaders(array $sharedHeaders): self
     {
         $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeaders, $sharedHeaders);
         foreach ($this->recipients as $recipient) {
@@ -222,7 +222,7 @@ final class JWEBuilder
      *
      * @return JWEBuilder
      */
-    public function addRecipient(JWK $recipientKey, array $recipientHeaders = []): JWEBuilder
+    public function addRecipient(JWK $recipientKey, array $recipientHeaders = []): self
     {
         $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeaders, $recipientHeaders);
         $this->checkDuplicatedHeaderParameters($this->sharedHeaders, $recipientHeaders);

@@ -62,7 +62,7 @@ final class Signature
      *
      * @return Signature
      */
-    public static function create(string $signature, array $protectedHeaders, ?string $encodedProtectedHeaders, array $headers = []): Signature
+    public static function create(string $signature, array $protectedHeaders, ?string $encodedProtectedHeaders, array $headers = []): self
     {
         return new self($signature, $protectedHeaders, $encodedProtectedHeaders, $headers);
     }

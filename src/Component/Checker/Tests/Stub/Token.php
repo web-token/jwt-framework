@@ -56,7 +56,7 @@ final class Token implements JWTInterface
      *
      * @return Token
      */
-    public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): Token
+    public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): self
     {
         return new self($payload, $protectedHeader, $unprotectedHeader);
     }

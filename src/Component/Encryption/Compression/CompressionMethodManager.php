@@ -28,7 +28,7 @@ final class CompressionMethodManager
      *
      * @return CompressionMethodManager
      */
-    public static function create(array $methods): CompressionMethodManager
+    public static function create(array $methods): self
     {
         $manager = new self();
         foreach ($methods as $method) {

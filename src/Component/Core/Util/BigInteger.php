@@ -38,7 +38,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public static function createFromGMPResource(\GMP $value): BigInteger
+    public static function createFromGMPResource(\GMP $value): self
     {
         return new self($value);
     }
@@ -48,7 +48,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public static function createFromBinaryString(string $value): BigInteger
+    public static function createFromBinaryString(string $value): self
     {
         $value = '0x'.unpack('H*', $value)[1];
         $value = gmp_init($value, 16);
@@ -61,7 +61,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public static function createFromDecimal(int $value): BigInteger
+    public static function createFromDecimal(int $value): self
     {
         $value = gmp_init($value, 10);
 
@@ -93,7 +93,7 @@ final class BigInteger
      *
      *  @return BigInteger
      */
-    public function add(BigInteger $y): BigInteger
+    public function add(self $y): self
     {
         $value = gmp_add($this->value, $y->value);
 
@@ -107,7 +107,7 @@ final class BigInteger
      *
      *  @return BigInteger
      */
-    public function subtract(BigInteger $y): BigInteger
+    public function subtract(self $y): self
     {
         $value = gmp_sub($this->value, $y->value);
 
@@ -121,7 +121,7 @@ final class BigInteger
      *
      *  @return BigInteger
      */
-    public function multiply(BigInteger $x): BigInteger
+    public function multiply(self $x): self
     {
         $value = gmp_mul($this->value, $x->value);
 
@@ -135,7 +135,7 @@ final class BigInteger
      *
      *  @return BigInteger
      */
-    public function divide(BigInteger $x): BigInteger
+    public function divide(self $x): self
     {
         $value = gmp_div($this->value, $x->value);
 
@@ -150,7 +150,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public function modPow(BigInteger $e, BigInteger $n): BigInteger
+    public function modPow(self $e, self $n): self
     {
         $value = gmp_powm($this->value, $e->value, $n->value);
 
@@ -164,7 +164,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public function mod(BigInteger $d): BigInteger
+    public function mod(self $d): self
     {
         $value = gmp_mod($this->value, $d->value);
 
@@ -178,7 +178,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public function modInverse(BigInteger $n): BigInteger
+    public function modInverse(self $n): self
     {
         $value = gmp_invert($this->value, $n->value);
 
@@ -192,7 +192,7 @@ final class BigInteger
      *
      * @return int < 0 if $this is less than $y; > 0 if $this is greater than $y, and 0 if they are equal
      */
-    public function compare(BigInteger $y): int
+    public function compare(self $y): int
     {
         return gmp_cmp($this->value, $y->value);
     }
@@ -202,7 +202,7 @@ final class BigInteger
      *
      * @return bool
      */
-    public function equals(BigInteger $y): bool
+    public function equals(self $y): bool
     {
         return 0 === $this->compare($y);
     }
@@ -212,7 +212,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public static function random(BigInteger $y): BigInteger
+    public static function random(self $y): self
     {
         $zero = self::createFromDecimal(0);
 
@@ -224,7 +224,7 @@ final class BigInteger
      *
      * @return BigInteger
      */
-    public function gcd(BigInteger $y): BigInteger
+    public function gcd(self $y): self
     {
         return self::createFromGMPResource(gmp_gcd($this->value, $y->value));
     }
@@ -234,7 +234,7 @@ final class BigInteger
      *
      * @return bool
      */
-    public function lowerThan(BigInteger $y): bool
+    public function lowerThan(self $y): bool
     {
         return 0 > $this->compare($y);
     }

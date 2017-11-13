@@ -29,7 +29,7 @@ final class AlgorithmManagerFactory
      *
      * @return AlgorithmManagerFactory
      */
-    public function add(string $alias, AlgorithmInterface $algorithm): AlgorithmManagerFactory
+    public function add(string $alias, AlgorithmInterface $algorithm): self
     {
         if (array_key_exists($alias, $this->algorithms)) {
             throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
