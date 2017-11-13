@@ -92,7 +92,7 @@ final class RSAKey
      *
      * @return RSAKey
      */
-    public static function createFromJWK(JWK $jwk): RSAKey
+    public static function createFromJWK(JWK $jwk): self
     {
         return new self($jwk);
     }
@@ -179,7 +179,7 @@ final class RSAKey
      *
      * @return RSAKey
      */
-    public static function toPublic(RSAKey $private): RSAKey
+    public static function toPublic(self $private): self
     {
         $data = $private->toArray();
         $keys = ['p', 'd', 'q', 'dp', 'dq', 'qi'];

@@ -300,7 +300,7 @@ final class JoseCollector extends DataCollector
         foreach ($this->jwks as $id => $jwk) {
             $this->data['jwk'][$id] = [
                 'jwk' => $jwk,
-                'analyze' => $this->jwkAnalyzerManager === null ? [] : $this->jwkAnalyzerManager->analyze($jwk),
+                'analyze' => null === $this->jwkAnalyzerManager ? [] : $this->jwkAnalyzerManager->analyze($jwk),
             ];
         }
     }
@@ -310,7 +310,7 @@ final class JoseCollector extends DataCollector
         $this->data['jwkset'] = [];
         foreach ($this->jwksets as $id => $jwkset) {
             $analyze = [];
-            if ($this->jwkAnalyzerManager !== null) {
+            if (null !== $this->jwkAnalyzerManager) {
             } else {
                 foreach ($jwkset as $kid => $jwk) {
                     $analyze[$kid] = $this->jwkAnalyzerManager->analyze($jwk);

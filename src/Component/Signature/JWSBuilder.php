@@ -80,7 +80,7 @@ final class JWSBuilder
      *
      * @return JWSBuilder
      */
-    public function create(): JWSBuilder
+    public function create(): self
     {
         $this->payload = null;
         $this->isPayloadDetached = null;
@@ -96,7 +96,7 @@ final class JWSBuilder
      *
      * @return JWSBuilder
      */
-    public function withPayload(string $payload, bool $isPayloadDetached = false): JWSBuilder
+    public function withPayload(string $payload, bool $isPayloadDetached = false): self
     {
         if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
@@ -115,7 +115,7 @@ final class JWSBuilder
      *
      * @return JWSBuilder
      */
-    public function addSignature(JWK $signatureKey, array $protectedHeaders, array $headers = []): JWSBuilder
+    public function addSignature(JWK $signatureKey, array $protectedHeaders, array $headers = []): self
     {
         $this->checkB64AndCriticalHeader($protectedHeaders);
         $isPayloadEncoded = $this->checkIfPayloadIsEncoded($protectedHeaders);

@@ -62,7 +62,7 @@ final class PublicKey
      *
      * @return PublicKey
      */
-    public static function create(Point $point): PublicKey
+    public static function create(Point $point): self
     {
         return new self($point);
     }

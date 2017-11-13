@@ -30,7 +30,7 @@ final class JWKAnalyzerManager
      *
      * @return JWKAnalyzerManager
      */
-    public function add(JWKAnalyzerInterface $analyzer): JWKAnalyzerManager
+    public function add(JWKAnalyzerInterface $analyzer): self
     {
         $this->analyzers[] = $analyzer;
 

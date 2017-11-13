@@ -35,7 +35,7 @@ final class Hash
     /**
      * @return Hash
      */
-    public static function sha1(): Hash
+    public static function sha1(): self
     {
         return new self('sha1', 20);
     }
@@ -43,7 +43,7 @@ final class Hash
     /**
      * @return Hash
      */
-    public static function sha256(): Hash
+    public static function sha256(): self
     {
         return new self('sha256', 32);
     }
@@ -51,7 +51,7 @@ final class Hash
     /**
      * @return Hash
      */
-    public static function sha384(): Hash
+    public static function sha384(): self
     {
         return new self('sha384', 48);
     }
@@ -59,7 +59,7 @@ final class Hash
     /**
      * @return Hash
      */
-    public static function sha512(): Hash
+    public static function sha512(): self
     {
         return new self('sha512', 64);
     }

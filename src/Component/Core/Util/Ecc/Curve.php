@@ -259,7 +259,7 @@ final class Curve
      *
      * @return int
      */
-    public function cmp(Curve $other): int
+    public function cmp(self $other): int
     {
         $equal = Math::equals($this->getA(), $other->getA());
         $equal &= Math::equals($this->getB(), $other->getB());
@@ -273,7 +273,7 @@ final class Curve
      *
      * @return bool
      */
-    public function equals(Curve $other): bool
+    public function equals(self $other): bool
     {
         return 0 === $this->cmp($other);
     }

@@ -40,7 +40,7 @@ final class AlgorithmManager
      *
      * @return AlgorithmManager
      */
-    public static function create(array $algorithms): AlgorithmManager
+    public static function create(array $algorithms): self
     {
         return new self($algorithms);
     }
@@ -82,7 +82,7 @@ final class AlgorithmManager
      *
      * @return AlgorithmManager
      */
-    private function add(AlgorithmInterface $algorithm): AlgorithmManager
+    private function add(AlgorithmInterface $algorithm): self
     {
         $name = $algorithm->name();
         if ($this->has($name)) {

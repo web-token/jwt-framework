@@ -52,7 +52,7 @@ final class HeaderCheckerManager
      *
      * @return HeaderCheckerManager
      */
-    public static function create(array $checkers, array $tokenTypes): HeaderCheckerManager
+    public static function create(array $checkers, array $tokenTypes): self
     {
         return new self($checkers, $tokenTypes);
     }
@@ -62,7 +62,7 @@ final class HeaderCheckerManager
      *
      * @return HeaderCheckerManager
      */
-    private function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): HeaderCheckerManager
+    private function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): self
     {
         $this->tokenTypes[] = $tokenType;
 
@@ -74,7 +74,7 @@ final class HeaderCheckerManager
      *
      * @return HeaderCheckerManager
      */
-    private function add(HeaderCheckerInterface $checker): HeaderCheckerManager
+    private function add(HeaderCheckerInterface $checker): self
     {
         $header = $checker->supportedHeader();
         if (array_key_exists($header, $this->checkers)) {

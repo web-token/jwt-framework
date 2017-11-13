@@ -92,7 +92,7 @@ final class Point
      *
      * @return Point
      */
-    public static function create(\GMP $x, \GMP $y, ?\GMP $order = null): Point
+    public static function create(\GMP $x, \GMP $y, ?\GMP $order = null): self
     {
         return new self($x, $y, null === $order ? gmp_init(0, 10) : $order);
     }
@@ -100,7 +100,7 @@ final class Point
     /**
      * @return Point
      */
-    public static function infinity(): Point
+    public static function infinity(): self
     {
         $zero = gmp_init(0, 10);
 
@@ -144,7 +144,7 @@ final class Point
      * @param Point $b
      * @param int   $cond
      */
-    public static function cswap(Point $a, Point $b, int $cond)
+    public static function cswap(self $a, self $b, int $cond)
     {
         self::cswapGMP($a->x, $b->x, $cond);
         self::cswapGMP($a->y, $b->y, $cond);

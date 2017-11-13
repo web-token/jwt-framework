@@ -29,7 +29,7 @@ final class CompressionMethodManagerFactory
      *
      * @return CompressionMethodManagerFactory
      */
-    public function add(string $alias, CompressionMethodInterface $compressionMethod): CompressionMethodManagerFactory
+    public function add(string $alias, CompressionMethodInterface $compressionMethod): self
     {
         if (array_key_exists($alias, $this->compressionMethods)) {
             throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));

@@ -40,7 +40,7 @@ final class JWK implements \JsonSerializable
      *
      * @return JWK
      */
-    public static function create(array $values): JWK
+    public static function create(array $values): self
     {
         if (!array_key_exists('kty', $values)) {
             throw new \InvalidArgumentException('The parameter "kty" is mandatory.');
@@ -124,7 +124,7 @@ final class JWK implements \JsonSerializable
     /**
      * @return JWK
      */
-    public function toPublic(): JWK
+    public function toPublic(): self
     {
         $values = array_diff_key($this->values, array_flip(['p', 'd', 'q', 'dp', 'dq', 'qi']));
 

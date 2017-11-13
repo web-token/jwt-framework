@@ -101,7 +101,7 @@ final class JWE implements JWTInterface
      *
      * @return JWE
      */
-    public static function create(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeaders = [], array $sharedProtectedHeaders = [], ?string $encodedSharedProtectedHeaders = null, array $recipients = []): JWE
+    public static function create(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeaders = [], array $sharedProtectedHeaders = [], ?string $encodedSharedProtectedHeaders = null, array $recipients = []): self
     {
         return new self($ciphertext, $iv, $tag, $aad, $sharedHeaders, $sharedProtectedHeaders, $encodedSharedProtectedHeaders, $recipients);
     }
@@ -119,7 +119,7 @@ final class JWE implements JWTInterface
      *
      * @return JWE
      */
-    public function withPayload(string $payload): JWE
+    public function withPayload(string $payload): self
     {
         $clone = clone $this;
         $clone->payload = $payload;

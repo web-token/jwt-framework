@@ -60,7 +60,7 @@ final class PrivateKey
      *
      * @return PrivateKey
      */
-    public static function create(\GMP $secret): PrivateKey
+    public static function create(\GMP $secret): self
     {
         return new self($secret);
     }
