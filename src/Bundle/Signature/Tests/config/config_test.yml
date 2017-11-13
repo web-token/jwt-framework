@@ -18,5 +18,8 @@ jose:
         loader1:
             signature_algorithms: ['HS256', 'RS256', 'ES256']
             header_checkers: []
-            serializers: ['jws_compact', 'jws_json_general', 'jws_json_flattened']
+            is_public: true
+    jws_serializers:
+        jws_serializer1:
+            serializers: ['jws_compact', 'jws_json_flattened', 'jws_json_general']
             is_public: true

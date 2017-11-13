@@ -60,6 +60,10 @@ services:
         tags:
             - {name: 'console.command'}
 
+    Jose\Component\Console\PublicKeyCommand:
+        tags:
+            - {name: 'console.command'}
+
     Jose\Component\Console\PublicKeysetCommand:
         tags:
             - {name: 'console.command'}

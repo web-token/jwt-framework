@@ -23,7 +23,7 @@
         "php": "^7.1",
         "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.1",
-        "web-token/jwt-core": "^0.0"
+        "web-token/jwt-core": "^0.1"
     },
     "require-dev": {
         "php-http/message-factory": "^1.0",
@@ -36,7 +36,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.0.x-dev"
+            "dev-master": "0.1.x-dev"
         }
     },
     "config": {

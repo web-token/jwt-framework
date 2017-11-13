@@ -35,12 +35,4 @@ final class A192KW extends AESKW
     {
         return 'A192KW';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getKeySize(): int
-    {
-        return 24;
-    }
 }

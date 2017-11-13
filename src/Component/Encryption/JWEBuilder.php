@@ -147,7 +147,7 @@ final class JWEBuilder
     /**
      * @return CompressionMethodManager
      */
-    public function getCompressionManager(): CompressionMethodManager
+    public function getCompressionMethodManager(): CompressionMethodManager
     {
         return $this->compressionManager;
     }

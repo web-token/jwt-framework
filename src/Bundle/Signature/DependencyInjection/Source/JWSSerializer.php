@@ -11,27 +11,27 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Bundle\Encryption\DependencyInjection\Source;
+namespace Jose\Bundle\Signature\DependencyInjection\Source;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
-use Jose\Component\Encryption\JWEDecrypterFactory;
-use Jose\Component\Encryption\JWEDecrypter as JWEDecrypterService;
+use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JWEDecrypter.
+ * Class JWSSerializer.
  */
-final class JWEDecrypter implements SourceInterface
+final class JWSSerializer implements SourceInterface
 {
     /**
      * {@inheritdoc}
      */
     public function name(): string
     {
-        return 'jwe_decrypters';
+        return 'jws_serializers';
     }
 
     /**
@@ -48,17 +48,12 @@ final class JWEDecrypter implements SourceInterface
     private function createService(array $config, ContainerBuilder $container)
     {
         foreach ($config as $name => $itemConfig) {
-            $service_id = sprintf('jose.jwe_decrypter.%s', $name);
-            $definition = new Definition(JWEDecrypterService::class);
+            $service_id = sprintf('jose.jws_serializer.%s', $name);
+            $definition = new Definition(JWSSerializerManager::class);
             $definition
-                ->setFactory([new Reference(JWEDecrypterFactory::class), 'create'])
-                ->setArguments([
-                    $itemConfig['key_encryption_algorithms'],
-                    $itemConfig['content_encryption_algorithms'],
-                    $itemConfig['compression_methods'],
-                    $itemConfig['header_checkers'],
-                ])
-                ->addTag('jose.jwe_decrypter')
+                ->setFactory([new Reference(JWSSerializerManagerFactory::class), 'create'])
+                ->setArguments([$itemConfig['serializers']])
+                ->addTag('jose.jws_serializer_manager')
                 ->setPublic($itemConfig['is_public']);
 
             $container->setDefinition($service_id, $definition);
@@ -80,28 +75,9 @@ final class JWEDecrypter implements SourceInterface
                                 ->info('If true, the service will be public, else private.')
                                 ->defaultTrue()
                             ->end()
-                            ->arrayNode('key_encryption_algorithms')
-                                ->info('A list of supported key encryption algorithms.')
+                            ->arrayNode('serializers')
                                 ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('content_encryption_algorithms')
-                                ->info('A list of supported content encryption algorithms.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('compression_methods')
-                                ->info('A list of supported compression methods.')
-                                ->useAttributeAsKey('name')
-                                ->defaultValue(['DEF'])
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('header_checkers')
-                                ->info('A list of headers to check.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
+                                ->treatNullLike(['jws_compact'])
                                 ->prototype('scalar')->end()
                             ->end()
                         ->end()

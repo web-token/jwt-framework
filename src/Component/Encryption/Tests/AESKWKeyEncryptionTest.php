@@ -96,25 +96,4 @@ final class AESKWKeyEncryptionTest extends AbstractEncryptionTest
         self::assertEquals($wrapped_cek, hex2bin('28C9F404C4B810F4CBCCB35CFB87F8263F5786E2D80ED326CBC7F0E71A99F43BFB988B9B7A02DD21'));
         self::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The key size is not valid
-     */
-    public function testBadKeySize()
-    {
-        $header = [];
-        $key = JWK::create([
-            'kty' => 'oct',
-            'k' => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
-        ]);
-
-        $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
-
-        $aeskw = new A256KW();
-
-        $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
-
-        $aeskw->unwrapKey($key, $wrapped_cek, $header);
-    }
 }

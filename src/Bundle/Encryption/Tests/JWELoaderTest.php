@@ -15,6 +15,7 @@ namespace Jose\Bundle\Encryption\Tests;
 
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWEDecrypterFactory;
+use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -38,7 +39,7 @@ final class JWEDecrypterTest extends WebTestCase
         /** @var JWEDecrypterFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEDecrypterFactory::class);
 
-        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF'], [], ['jwe_compact', 'jwe_json_general', 'jwe_json_flattened']);
+        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF'], []);
 
         self::assertInstanceOf(JWEDecrypter::class, $jwe);
     }
@@ -61,5 +62,25 @@ final class JWEDecrypterTest extends WebTestCase
 
         $jwe = $container->get('jose.jwe_decrypter.loader2');
         self::assertInstanceOf(JWEDecrypter::class, $jwe);
+    }
+
+    public function testJWESerializerManagerFromConfigurationIsAvailable()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer1'));
+
+        $jwe = $container->get('jose.jwe_serializer.jwe_serializer1');
+        self::assertInstanceOf(JWESerializerManager::class, $jwe);
+    }
+
+    public function testJWESerializerManagerFromExternalBundleExtensionIsAvailable()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer2'));
+
+        $jwe = $container->get('jose.jwe_serializer.jwe_serializer2');
+        self::assertInstanceOf(JWESerializerManager::class, $jwe);
     }
 }

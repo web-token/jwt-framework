@@ -75,7 +75,7 @@ final class BigInteger
      */
     public function toBytes(): string
     {
-        if (gmp_cmp($this->value, gmp_init(0)) === 0) {
+        if (0 === gmp_cmp($this->value, gmp_init(0))) {
             return '';
         }
 

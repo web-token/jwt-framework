@@ -36,6 +36,7 @@ final class JWKSet extends AbstractSource implements JWKSourceInterface
             'createFromKeySet',
         ]);
         $definition->setArguments([new Reference($config['key_set']), $config['index']]);
+        $definition->addTag('jose.jwk');
 
         return $definition;
     }

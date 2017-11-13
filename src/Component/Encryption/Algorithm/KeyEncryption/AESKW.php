@@ -70,15 +70,7 @@ abstract class AESKW implements KeyWrappingInterface
         if (!$key->has('k')) {
             throw new \InvalidArgumentException('The key parameter "k" is missing.');
         }
-        if ($this->getKeySize() !== mb_strlen(Base64Url::decode($key->get('k')), '8bit')) {
-            throw new \InvalidArgumentException('The key size is not valid');
-        }
     }
-
-    /**
-     * @return int
-     */
-    abstract protected function getKeySize(): int;
 
     /**
      * @return \AESKW\A128KW|\AESKW\A192KW|\AESKW\A256KW
