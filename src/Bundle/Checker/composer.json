@@ -21,8 +21,8 @@
     },
     "require": {
         "php": "^7.1",
-        "web-token/jwt-bundle": "^0.0",
-        "web-token/jwt-checker": "^0.0"
+        "web-token/jwt-bundle": "^0.1",
+        "web-token/jwt-checker": "^0.1"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.3",
