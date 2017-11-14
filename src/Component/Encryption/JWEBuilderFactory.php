@@ -40,7 +40,7 @@ final class JWEBuilderFactory
     /**
      * JWEBuilderFactory constructor.
      *
-     * @param JsonConverter          $jsonEncoder
+     * @param JsonConverter                   $jsonEncoder
      * @param AlgorithmManagerFactory         $algorithmManagerFactory
      * @param CompressionMethodManagerFactory $compressionMethodManagerFactory
      */

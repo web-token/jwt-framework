@@ -21,10 +21,10 @@ use Jose\Component\Core\JWT;
 interface TokenTypeSupport
 {
     /**
-     * @param JWT $jwt
-     * @param int          $component
-     * @param array        $protectedHeader
-     * @param array        $unprotectedHeader
+     * @param JWT   $jwt
+     * @param int   $component
+     * @param array $protectedHeader
+     * @param array $unprotectedHeader
      */
     public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void;
 

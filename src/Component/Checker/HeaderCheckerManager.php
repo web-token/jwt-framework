@@ -84,7 +84,7 @@ final class HeaderCheckerManager
 
     /**
      * @param JWT $jwt
-     * @param int          $component
+     * @param int $component
      */
     public function check(JWT $jwt, int $component)
     {

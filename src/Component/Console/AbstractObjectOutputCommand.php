@@ -33,7 +33,7 @@ abstract class AbstractObjectOutputCommand extends Command
      * AbstractGeneratorCommand constructor.
      *
      * @param JsonConverter $jsonConverter
-     * @param string|null            $name
+     * @param string|null   $name
      */
     public function __construct(JsonConverter $jsonConverter, string $name = null)
     {

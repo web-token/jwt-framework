@@ -58,8 +58,8 @@ final class JWSBuilder
     /**
      * JWSBuilder constructor.
      *
-     * @param JsonConverter $jsonConverter
-     * @param AlgorithmManager       $signatureAlgorithmManager
+     * @param JsonConverter    $jsonConverter
+     * @param AlgorithmManager $signatureAlgorithmManager
      */
     public function __construct(JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
     {

@@ -24,7 +24,7 @@ final class CompressionMethodManagerFactory
     private $compressionMethods = [];
 
     /**
-     * @param string                     $alias
+     * @param string            $alias
      * @param CompressionMethod $compressionMethod
      *
      * @return CompressionMethodManagerFactory
