@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class RsaAnalyzer.
  */
-final class RsaAnalyzer implements JWKAnalyzerInterface
+final class RsaAnalyzer implements JWKAnalyzer
 {
     /**
      * {@inheritdoc}

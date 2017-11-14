@@ -19,7 +19,7 @@ use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Signature\JWS;
 
 /**
- * final class EdDSASignatureTest.
+ * Class EdDSASignatureTest.
  *
  * @group EdDSA
  * @group Unit

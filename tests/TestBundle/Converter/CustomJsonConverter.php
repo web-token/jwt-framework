@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Test\TestBundle\Converter;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 
 /**
  * Class CustomJsonConverter.
  */
-final class CustomJsonConverter implements JsonConverterInterface
+final class CustomJsonConverter implements JsonConverter
 {
     /**
      * @var int

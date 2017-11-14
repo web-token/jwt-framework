@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\Tests;
 
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -49,6 +49,6 @@ final class AlgorithmManagerTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         self::assertNotNull($container);
-        self::assertTrue($container->has(JsonConverterInterface::class));
+        self::assertTrue($container->has(JsonConverter::class));
     }
 }

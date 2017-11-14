@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Jose\Component\Core\JWTInterface;
+use Jose\Component\Core\JWT;
 
 /**
  * Class HeaderCheckerManager.
@@ -83,10 +83,10 @@ final class HeaderCheckerManager
     }
 
     /**
-     * @param JWTInterface $jwt
+     * @param JWT $jwt
      * @param int          $component
      */
-    public function check(JWTInterface $jwt, int $component)
+    public function check(JWT $jwt, int $component)
     {
         foreach ($this->tokenTypes as $tokenType) {
             if ($tokenType->supports($jwt)) {

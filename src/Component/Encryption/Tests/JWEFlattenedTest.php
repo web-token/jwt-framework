@@ -18,7 +18,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 
 /**
- * final class FlattenedTest.
+ * Class FlattenedTest.
  *
  * @group Functional
  */

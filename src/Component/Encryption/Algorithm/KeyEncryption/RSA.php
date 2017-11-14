@@ -20,7 +20,7 @@ use Jose\Component\Encryption\Util\RSACrypt;
 /**
  * Class RSA.
  */
-abstract class RSA implements KeyEncryptionInterface
+abstract class RSA implements KeyEncryption
 {
     /**
      * {@inheritdoc}

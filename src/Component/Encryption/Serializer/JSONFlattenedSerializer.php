@@ -14,28 +14,28 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
 /**
  * Class JSONFlattenedSerializer.
  */
-final class JSONFlattenedSerializer implements JWESerializerInterface
+final class JSONFlattenedSerializer implements JWESerializer
 {
     public const NAME = 'jwe_json_flattened';
 
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     private $jsonConverter;
 
     /**
      * JSONFlattenedSerializer constructor.
      *
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      */
-    public function __construct(JsonConverterInterface $jsonConverter)
+    public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;
     }

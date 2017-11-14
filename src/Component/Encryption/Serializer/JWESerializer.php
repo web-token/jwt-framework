@@ -11,14 +11,14 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Serializer;
+namespace Jose\Component\Encryption\Serializer;
 
-use Jose\Component\Signature\JWS;
+use Jose\Component\Encryption\JWE;
 
 /**
- * Interface JWSSerializaterInterface.
+ * Interface JWESerializer.
  */
-interface JWSSerializerInterface
+interface JWESerializer
 {
     /**
      * The name of the serialization.
@@ -33,25 +33,25 @@ interface JWSSerializerInterface
     public function displayName(): string;
 
     /**
-     * Converts a JWS into a string.
+     * Converts a JWE into a string.
      *
-     * @param JWS      $jws
-     * @param int|null $signatureIndex
+     * @param JWE      $jws
+     * @param int|null $recipientIndex
      *
      * @throws \Exception
      *
      * @return string
      */
-    public function serialize(JWS $jws, ?int $signatureIndex = null): string;
+    public function serialize(JWE $jws, ?int $recipientIndex = null): string;
 
     /**
-     * Loads data and return a JWS object.
+     * Loads data and return a JWE object.
      *
-     * @param string $input A string that represents a JWS
+     * @param string $input A string that represents a JWE
      *
      * @throws \Exception
      *
-     * @return JWS
+     * @return JWE
      */
-    public function unserialize(string $input): JWS;
+    public function unserialize(string $input): JWE;
 }

@@ -20,7 +20,7 @@ use ZxcvbnPhp\Zxcvbn;
 /**
  * Class OctAnalyzer.
  */
-final class OctAnalyzer implements JWKAnalyzerInterface
+final class OctAnalyzer implements JWKAnalyzer
 {
     /**
      * {@inheritdoc}

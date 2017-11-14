@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
 /**
  * @Revs(4096)
@@ -61,7 +61,7 @@ final class EdDSABench extends SignatureBench
     /**
      * {@inheritdoc}
      */
-    protected function getAlgorithm(): SignatureAlgorithmInterface
+    protected function getAlgorithm(): SignatureAlgorithm
     {
         return $this->getSignatureAlgorithmsManager()->get('EdDSA');
     }

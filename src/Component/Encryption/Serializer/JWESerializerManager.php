@@ -21,14 +21,14 @@ use Jose\Component\Encryption\JWE;
 final class JWESerializerManager
 {
     /**
-     * @var JWESerializerInterface[]
+     * @var JWESerializer[]
      */
     private $serializers = [];
 
     /**
      * JWESerializerManager constructor.
      *
-     * @param JWESerializerInterface[] $serializers
+     * @param JWESerializer[] $serializers
      */
     private function __construct(array $serializers)
     {
@@ -38,7 +38,7 @@ final class JWESerializerManager
     }
 
     /**
-     * @param JWESerializerInterface[] $serializers
+     * @param JWESerializer[] $serializers
      *
      * @return JWESerializerManager
      */
@@ -48,11 +48,11 @@ final class JWESerializerManager
     }
 
     /**
-     * @param JWESerializerInterface $serializer
+     * @param JWESerializer $serializer
      *
      * @return JWESerializerManager
      */
-    private function add(JWESerializerInterface $serializer): self
+    private function add(JWESerializer $serializer): self
     {
         $this->serializers[$serializer->name()] = $serializer;
 

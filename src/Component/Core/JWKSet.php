@@ -210,12 +210,12 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
 
     /**
      * @param string                  $type         Must be 'sig' (signature) or 'enc' (encryption)
-     * @param AlgorithmInterface|null $algorithm    Specifies the algorithm to be used
+     * @param Algorithm|null $algorithm    Specifies the algorithm to be used
      * @param array                   $restrictions More restrictions such as 'kid' or 'kty'
      *
      * @return JWK|null
      */
-    public function selectKey(string $type, ?AlgorithmInterface $algorithm = null, array $restrictions = []): ?JWK
+    public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
         if (!in_array($type, ['enc', 'sig'])) {
             throw new \InvalidArgumentException('Allowed key types are "sig" or "enc".');
@@ -272,12 +272,12 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
     }
 
     /**
-     * @param null|AlgorithmInterface $algorithm
+     * @param null|Algorithm $algorithm
      * @param JWK                     $key
      *
      * @return bool|int
      */
-    private function canKeyBeUsedWithAlgorithm(?AlgorithmInterface $algorithm, JWK $key)
+    private function canKeyBeUsedWithAlgorithm(?Algorithm $algorithm, JWK $key)
     {
         if (null === $algorithm) {
             return 0;

@@ -20,7 +20,7 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 /**
  * Class RSA.
  */
-abstract class RSA implements SignatureAlgorithmInterface
+abstract class RSA implements SignatureAlgorithm
 {
     /**
      * @return mixed

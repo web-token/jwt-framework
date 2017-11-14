@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
-use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithmInterface;
+use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 
 /**
  * Class AESCBCHS.
  */
-abstract class AESCBCHS implements ContentEncryptionAlgorithmInterface
+abstract class AESCBCHS implements ContentEncryptionAlgorithm
 {
     /**
      * {@inheritdoc}

@@ -17,7 +17,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 
 /**
- * final class RSAEncryptionTest.
+ * Class RSAEncryptionTest.
  *
  * @group RSA
  * @group Unit

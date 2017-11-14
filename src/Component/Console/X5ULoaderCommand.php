@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\KeyManagement\X5UFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,10 +33,10 @@ final class X5ULoaderCommand extends AbstractObjectOutputCommand
      * X5ULoaderCommand constructor.
      *
      * @param X5UFactory             $x5uFactory
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      * @param null|string            $name
      */
-    public function __construct(X5UFactory $x5uFactory, JsonConverterInterface $jsonConverter, ?string $name = null)
+    public function __construct(X5UFactory $x5uFactory, JsonConverter $jsonConverter, ?string $name = null)
     {
         $this->x5uFactory = $x5uFactory;
         parent::__construct($jsonConverter, $name);

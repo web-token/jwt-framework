@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
@@ -32,7 +32,7 @@ final class KeyAnalyzerCommand extends Command
     private $analyzerManager;
 
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     private $jsonConverter;
 
@@ -40,10 +40,10 @@ final class KeyAnalyzerCommand extends Command
      * KeyAnalyzerCommand constructor.
      *
      * @param JWKAnalyzerManager     $analyzerManager
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      * @param string|null            $name
      */
-    public function __construct(JWKAnalyzerManager $analyzerManager, JsonConverterInterface $jsonConverter, string $name = null)
+    public function __construct(JWKAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($name);
         $this->analyzerManager = $analyzerManager;

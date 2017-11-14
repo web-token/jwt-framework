@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class AlgorithmAnalyzer.
  */
-final class AlgorithmAnalyzer implements JWKAnalyzerInterface
+final class AlgorithmAnalyzer implements JWKAnalyzer
 {
     /**
      * {@inheritdoc}

@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm;
 
-use Jose\Component\Core\AlgorithmInterface;
+use Jose\Component\Core\Algorithm;
 
 /**
- * Interface KeyEncryptionAlgorithmInterface.
+ * Interface KeyEncryptionAlgorithm.
  */
-interface KeyEncryptionAlgorithmInterface extends AlgorithmInterface
+interface KeyEncryptionAlgorithm extends Algorithm
 {
     public const MODE_DIRECT = 'dir';
     public const MODE_ENCRYPT = 'enc';

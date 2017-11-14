@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\KeyChecker;
-use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
 /**
  * Class JWSBuilder.
@@ -26,7 +26,7 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
 final class JWSBuilder
 {
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     private $jsonConverter;
 
@@ -58,10 +58,10 @@ final class JWSBuilder
     /**
      * JWSBuilder constructor.
      *
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      * @param AlgorithmManager       $signatureAlgorithmManager
      */
-    public function __construct(JsonConverterInterface $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
+    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
     {
         $this->jsonConverter = $jsonConverter;
         $this->signatureAlgorithmManager = $signatureAlgorithmManager;
@@ -154,7 +154,7 @@ final class JWSBuilder
         $encodedPayload = false === $this->isPayloadEncoded ? $this->payload : Base64Url::encode($this->payload);
         $jws = JWS::create($this->payload, $encodedPayload, $this->isPayloadDetached);
         foreach ($this->signatures as $signature) {
-            /** @var SignatureAlgorithmInterface $signatureAlgorithm */
+            /** @var SignatureAlgorithm $signatureAlgorithm */
             $signatureAlgorithm = $signature['signature_algorithm'];
             /** @var JWK $signatureKey */
             $signatureKey = $signature['signature_key'];
@@ -205,9 +205,9 @@ final class JWSBuilder
      * @param array $headers
      * @param JWK   $key
      *
-     * @return SignatureAlgorithmInterface
+     * @return SignatureAlgorithm
      */
-    private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $headers): SignatureAlgorithmInterface
+    private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $headers): SignatureAlgorithm
     {
         $completeHeader = array_merge($headers, $protectedHeader);
         if (!array_key_exists('alg', $completeHeader)) {
@@ -218,7 +218,7 @@ final class JWSBuilder
         }
 
         $signatureAlgorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
-        if (!$signatureAlgorithm instanceof SignatureAlgorithmInterface) {
+        if (!$signatureAlgorithm instanceof SignatureAlgorithm) {
             throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $completeHeader['alg']));
         }
 

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Symfony\Component\Console\Input\InputArgument;
@@ -28,10 +28,10 @@ final class RotateKeysetCommand extends AbstractObjectOutputCommand
     /**
      * KeyAnalyzerCommand constructor.
      *
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      * @param string|null            $name
      */
-    public function __construct(JsonConverterInterface $jsonConverter, string $name = null)
+    public function __construct(JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($jsonConverter, $name);
     }

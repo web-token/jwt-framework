@@ -19,7 +19,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 
 /**
- * final class EncrypterTest.
+ * Class EncrypterTest.
  *
  * @group Encrypter
  * @group Functional

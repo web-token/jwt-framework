@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm;
 
-use Jose\Component\Core\AlgorithmInterface;
+use Jose\Component\Core\Algorithm;
 
 /**
- * Interface ContentEncryptionAlgorithmInterface.
+ * Interface ContentEncryptionAlgorithm.
  */
-interface ContentEncryptionAlgorithmInterface extends AlgorithmInterface
+interface ContentEncryptionAlgorithm extends Algorithm
 {
     /**
      * Encrypt data.

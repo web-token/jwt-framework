@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class ECDHESAESKW.
  */
-abstract class ECDHESAESKW implements KeyAgreementWrappingInterface
+abstract class ECDHESAESKW implements KeyAgreementWithKeyWrapping
 {
     /**
      * {@inheritdoc}

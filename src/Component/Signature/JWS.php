@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Jose\Component\Core\JWTInterface;
+use Jose\Component\Core\JWT;
 
 /**
  * Class JWS.
  */
-final class JWS implements JWTInterface
+final class JWS implements JWT
 {
     /**
      * @var bool

@@ -22,7 +22,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use Jose\Component\Encryption\JWE;
 
 /**
- * final class RSAKeyEncryptionTest.
+ * Class RSAKeyEncryptionTest.
  *
  * @group Unit
  */

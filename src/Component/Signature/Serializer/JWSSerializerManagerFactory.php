@@ -19,7 +19,7 @@ namespace Jose\Component\Signature\Serializer;
 final class JWSSerializerManagerFactory
 {
     /**
-     * @var JWSSerializerInterface[]
+     * @var JWSSerializer[]
      */
     private $serializers = [];
 
@@ -50,7 +50,7 @@ final class JWSSerializerManagerFactory
     }
 
     /**
-     * @return JWSSerializerInterface[]
+     * @return JWSSerializer[]
      */
     public function all(): array
     {
@@ -58,11 +58,11 @@ final class JWSSerializerManagerFactory
     }
 
     /**
-     * @param JWSSerializerInterface $serializer
+     * @param JWSSerializer $serializer
      *
      * @return JWSSerializerManagerFactory
      */
-    public function add(JWSSerializerInterface $serializer): self
+    public function add(JWSSerializer $serializer): self
     {
         $this->serializers[$serializer->name()] = $serializer;
 

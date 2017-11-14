@@ -18,7 +18,7 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * final class JWKFactoryTest.
+ * Class JWKFactoryTest.
  *
  * @group JWKFactory
  * @group Unit

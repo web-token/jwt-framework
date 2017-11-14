@@ -16,7 +16,7 @@ namespace Jose\Component\Signature\Serializer;
 /**
  * Class AbstractSerializer.
  */
-abstract class AbstractSerializer implements JWSSerializerInterface
+abstract class AbstractSerializer implements JWSSerializer
 {
     /**
      * @param array $protectedHeaders

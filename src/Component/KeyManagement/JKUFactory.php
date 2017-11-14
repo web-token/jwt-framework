@@ -15,7 +15,7 @@ namespace Jose\Component\KeyManagement;
 
 use Http\Client\HttpClient;
 use Http\Message\MessageFactory;
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
 
 /**
@@ -28,11 +28,11 @@ final class JKUFactory extends UrlKeySetFactory
     /**
      * JKUFactory constructor.
      *
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      * @param HttpClient             $client
      * @param MessageFactory         $messageFactory
      */
-    public function __construct(JsonConverterInterface $jsonConverter, HttpClient $client, MessageFactory $messageFactory)
+    public function __construct(JsonConverter $jsonConverter, HttpClient $client, MessageFactory $messageFactory)
     {
         $this->jsonConverter = $jsonConverter;
         parent::__construct($client, $messageFactory);

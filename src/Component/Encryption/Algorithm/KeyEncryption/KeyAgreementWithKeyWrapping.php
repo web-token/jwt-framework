@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
+use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 
 /**
- * Interface KeyAgreementWrappingInterface.
+ * Interface KeyAgreementWithKeyWrapping.
  */
-interface KeyAgreementWrappingInterface extends KeyEncryptionAlgorithmInterface
+interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
 {
     /**
      * Wrap the agreement key.

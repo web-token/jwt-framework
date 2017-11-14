@@ -20,7 +20,7 @@ use Jose\Component\Core\JWK;
  * This class handles signatures using HMAC.
  * It supports algorithms HS256, HS384 and HS512;.
  */
-abstract class HMAC implements SignatureAlgorithmInterface
+abstract class HMAC implements SignatureAlgorithm
 {
     /**
      * {@inheritdoc}

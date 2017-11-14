@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 
 /**
@@ -25,16 +25,16 @@ final class CompactSerializer extends AbstractSerializer
     public const NAME = 'jws_compact';
 
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     private $jsonConverter;
 
     /**
      * JSONFlattenedSerializer constructor.
      *
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      */
-    public function __construct(JsonConverterInterface $jsonConverter)
+    public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;
     }

@@ -20,7 +20,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
 
 /**
- * final class PBES2_HS_AESKWKeyEncryptionTest.
+ * Class PBES2_HS_AESKWKeyEncryptionTest.
  *
  * @group PBES2HSAESKW
  * @group Unit

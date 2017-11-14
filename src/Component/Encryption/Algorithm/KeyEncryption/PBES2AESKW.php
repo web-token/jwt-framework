@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class PBES2AESKW.
  */
-abstract class PBES2AESKW implements KeyWrappingInterface
+abstract class PBES2AESKW implements KeyWrapping
 {
     /**
      * @var int

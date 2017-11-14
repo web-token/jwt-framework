@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Jose\Component\Checker\TokenTypeSupport;
-use Jose\Component\Core\JWTInterface;
+use Jose\Component\Core\JWT;
 
 /**
  * Class JWSTokenSupport.
@@ -24,7 +24,7 @@ final class JWSTokenSupport implements TokenTypeSupport
     /**
      * {@inheritdoc}
      */
-    public function supports(JWTInterface $jwt): bool
+    public function supports(JWT $jwt): bool
     {
         return $jwt instanceof JWS;
     }
@@ -32,7 +32,7 @@ final class JWSTokenSupport implements TokenTypeSupport
     /**
      * {@inheritdoc}
      */
-    public function retrieveTokenHeaders(JWTInterface $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
+    public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof JWS) {
             return;

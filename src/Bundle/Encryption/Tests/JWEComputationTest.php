@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Encryption\Tests;
 
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
@@ -42,7 +42,7 @@ final class JWEComputationTest extends WebTestCase
         /** @var JWEDecrypter $loader */
         $loader = $container->get('jose.jwe_decrypter.loader1');
 
-        $serializer = new CompactSerializer(new JsonConverter());
+        $serializer = new CompactSerializer(new StandardConverter());
 
         $jwe = $builder
             ->create()

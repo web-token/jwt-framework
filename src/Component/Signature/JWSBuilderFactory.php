@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
 
 /**
@@ -22,7 +22,7 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 final class JWSBuilderFactory
 {
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     private $jsonEncoder;
 
@@ -34,10 +34,10 @@ final class JWSBuilderFactory
     /**
      * JWSBuilderFactory constructor.
      *
-     * @param JsonConverterInterface  $jsonEncoder
+     * @param JsonConverter  $jsonEncoder
      * @param AlgorithmManagerFactory $signatureAlgorithmManagerFactory
      */
-    public function __construct(JsonConverterInterface $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
+    public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
     {
         $this->jsonEncoder = $jsonEncoder;
         $this->signatureAlgorithmManagerFactory = $signatureAlgorithmManagerFactory;

@@ -18,16 +18,16 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Base64Url\Base64Url;
-use Jose\Component\Core\AlgorithmInterface;
+use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\KeyChecker;
-use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithmInterface;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryptionInterface;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementInterface;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWrappingInterface;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryptionInterface;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrappingInterface;
-use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
+use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreement;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrapping;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
+use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 
 /**
  * Class JWEDecrypter.
@@ -209,25 +209,25 @@ final class JWEDecrypter
     }
 
     /**
-     * @param AlgorithmInterface                  $key_encryption_algorithm
-     * @param ContentEncryptionAlgorithmInterface $content_encryption_algorithm
+     * @param Algorithm                  $key_encryption_algorithm
+     * @param ContentEncryptionAlgorithm $content_encryption_algorithm
      * @param JWK                                 $key
      * @param Recipient                           $recipient
      * @param array                               $complete_headers
      *
      * @return null|string
      */
-    private function decryptCEK(AlgorithmInterface $key_encryption_algorithm, ContentEncryptionAlgorithmInterface $content_encryption_algorithm, JWK $key, Recipient $recipient, array $complete_headers): ?string
+    private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $key, Recipient $recipient, array $complete_headers): ?string
     {
-        if ($key_encryption_algorithm instanceof DirectEncryptionInterface) {
+        if ($key_encryption_algorithm instanceof DirectEncryption) {
             return $key_encryption_algorithm->getCEK($key);
-        } elseif ($key_encryption_algorithm instanceof KeyAgreementInterface) {
+        } elseif ($key_encryption_algorithm instanceof KeyAgreement) {
             return $key_encryption_algorithm->getAgreementKey($content_encryption_algorithm->getCEKSize(), $content_encryption_algorithm->name(), $key, $complete_headers);
-        } elseif ($key_encryption_algorithm instanceof KeyAgreementWrappingInterface) {
+        } elseif ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
             return $key_encryption_algorithm->unwrapAgreementKey($key, $recipient->getEncryptedKey(), $content_encryption_algorithm->getCEKSize(), $complete_headers);
-        } elseif ($key_encryption_algorithm instanceof KeyEncryptionInterface) {
+        } elseif ($key_encryption_algorithm instanceof KeyEncryption) {
             return $key_encryption_algorithm->decryptKey($key, $recipient->getEncryptedKey(), $complete_headers);
-        } elseif ($key_encryption_algorithm instanceof KeyWrappingInterface) {
+        } elseif ($key_encryption_algorithm instanceof KeyWrapping) {
             return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $complete_headers);
         } else {
             throw new \InvalidArgumentException('Unsupported CEK generation');
@@ -237,12 +237,12 @@ final class JWEDecrypter
     /**
      * @param JWE                                 $jwe
      * @param string                              $cek
-     * @param ContentEncryptionAlgorithmInterface $content_encryption_algorithm
+     * @param ContentEncryptionAlgorithm $content_encryption_algorithm
      * @param array                               $complete_headers
      *
      * @return string
      */
-    private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithmInterface $content_encryption_algorithm, array $complete_headers): string
+    private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $complete_headers): string
     {
         $payload = $content_encryption_algorithm->decryptContent($jwe->getCiphertext(), $cek, $jwe->getIV(), null === $jwe->getAAD() ? null : Base64Url::encode($jwe->getAAD()), $jwe->getEncodedSharedProtectedHeaders(), $jwe->getTag());
         if (null === $payload) {
@@ -288,12 +288,12 @@ final class JWEDecrypter
     /**
      * @param array $complete_headers
      *
-     * @return KeyEncryptionAlgorithmInterface
+     * @return KeyEncryptionAlgorithm
      */
-    private function getKeyEncryptionAlgorithm(array $complete_headers): KeyEncryptionAlgorithmInterface
+    private function getKeyEncryptionAlgorithm(array $complete_headers): KeyEncryptionAlgorithm
     {
         $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($complete_headers['alg']);
-        if (!$key_encryption_algorithm instanceof KeyEncryptionAlgorithmInterface) {
+        if (!$key_encryption_algorithm instanceof KeyEncryptionAlgorithm) {
             throw new \InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $complete_headers['alg']));
         }
 
@@ -303,12 +303,12 @@ final class JWEDecrypter
     /**
      * @param array $complete_headers
      *
-     * @return ContentEncryptionAlgorithmInterface
+     * @return ContentEncryptionAlgorithm
      */
-    private function getContentEncryptionAlgorithm(array $complete_headers): ContentEncryptionAlgorithmInterface
+    private function getContentEncryptionAlgorithm(array $complete_headers): ContentEncryptionAlgorithm
     {
         $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($complete_headers['enc']);
-        if (!$content_encryption_algorithm instanceof ContentEncryptionAlgorithmInterface) {
+        if (!$content_encryption_algorithm instanceof ContentEncryptionAlgorithm) {
             throw new \InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $complete_headers['enc']));
         }
 

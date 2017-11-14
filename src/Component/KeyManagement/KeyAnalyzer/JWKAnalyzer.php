@@ -11,17 +11,18 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Core;
+namespace Jose\Component\KeyManagement\KeyAnalyzer;
+
+use Jose\Component\Core\JWK;
 
 /**
- * Interface JWTInterface.
+ * Interface JWKAnalyzer.
  */
-interface JWTInterface
+interface JWKAnalyzer
 {
     /**
-     * Returns the payload of the JWT.
-     *
-     * @return string|null
+     * @param JWK      $jwk
+     * @param string[] $messages
      */
-    public function getPayload(): ?string;
+    public function analyze(JWK $jwk, array &$messages);
 }

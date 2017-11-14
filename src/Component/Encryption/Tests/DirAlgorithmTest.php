@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
 
 /**
- * final class DirAlgorithmTest.
+ * Class DirAlgorithmTest.
  *
  * @group Unit
  */

@@ -21,16 +21,16 @@ use Jose\Component\Core\JWK;
 final class JWKAnalyzerManager
 {
     /**
-     * @var JWKAnalyzerInterface[]
+     * @var JWKAnalyzer[]
      */
     private $analyzers = [];
 
     /**
-     * @param JWKAnalyzerInterface $analyzer
+     * @param JWKAnalyzer $analyzer
      *
      * @return JWKAnalyzerManager
      */
-    public function add(JWKAnalyzerInterface $analyzer): self
+    public function add(JWKAnalyzer $analyzer): self
     {
         $this->analyzers[] = $analyzer;
 

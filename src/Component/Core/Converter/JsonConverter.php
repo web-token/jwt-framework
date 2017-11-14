@@ -14,46 +14,22 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Converter;
 
 /**
- * Class JsonEncoder.
+ * Interface JsonConverter.
  */
-final class JsonConverter implements JsonConverterInterface
+interface JsonConverter
 {
     /**
-     * @var int
-     */
-    private $options;
-
-    /**
-     * @var int
-     */
-    private $depth;
-
-    /**
-     * StandardJsonEncoder constructor.
-     * See also json_encode and json_decode parameters.
+     * @param $payload
      *
-     * @param int $options
-     * @param int $depth
+     * @return string
      */
-    public function __construct(int $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE, int $depth = 512)
-    {
-        $this->options = $options;
-        $this->depth = $depth;
-    }
+    public function encode($payload): string;
 
     /**
-     * {@inheritdoc}
+     * @param string $payload
+     * @param bool   $associativeArray
+     *
+     * @return mixed
      */
-    public function encode($payload): string
-    {
-        return json_encode($payload, $this->options, $this->depth);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function decode(string $payload, bool $associativeArray = true)
-    {
-        return json_decode($payload, $associativeArray, $this->depth, $this->options);
-    }
+    public function decode(string $payload, bool $associativeArray = true);
 }

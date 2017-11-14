@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use Jose\Component\Core\JWTInterface;
+use Jose\Component\Core\JWT;
 
 /**
  * Class JWE.
  */
-final class JWE implements JWTInterface
+final class JWE implements JWT
 {
     /**
      * @var Recipient[]

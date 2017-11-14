@@ -18,7 +18,7 @@ use Jose\Component\Signature\Algorithm\None;
 use Jose\Component\Signature\JWS;
 
 /**
- * final class NoneSignatureTest.
+ * Class NoneSignatureTest.
  *
  * @group None
  * @group Unit

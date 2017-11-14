@@ -21,14 +21,14 @@ use Jose\Component\Signature\JWS;
 final class JWSSerializerManager
 {
     /**
-     * @var JWSSerializerInterface[]
+     * @var JWSSerializer[]
      */
     private $serializers = [];
 
     /**
      * JWSSerializerManager constructor.
      *
-     * @param JWSSerializerInterface[] $serializers
+     * @param JWSSerializer[] $serializers
      */
     private function __construct(array $serializers)
     {
@@ -38,7 +38,7 @@ final class JWSSerializerManager
     }
 
     /**
-     * @param JWSSerializerInterface[] $serializers
+     * @param JWSSerializer[] $serializers
      *
      * @return JWSSerializerManager
      */
@@ -48,11 +48,11 @@ final class JWSSerializerManager
     }
 
     /**
-     * @param JWSSerializerInterface $serializer
+     * @param JWSSerializer $serializer
      *
      * @return JWSSerializerManager
      */
-    private function add(JWSSerializerInterface $serializer): self
+    private function add(JWSSerializer $serializer): self
     {
         $this->serializers[$serializer->name()] = $serializer;
 

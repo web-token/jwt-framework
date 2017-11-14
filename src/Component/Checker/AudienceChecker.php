@@ -24,6 +24,7 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
      * @var bool
      */
     private $protectedHeader = false;
+
     /**
      * @var string
      */

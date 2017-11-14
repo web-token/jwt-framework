@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Tests;
 
-use Jose\Component\Core\AlgorithmInterface;
+use Jose\Component\Core\Algorithm;
 
 /**
- * final class JWKTest.
+ * Class JWKTest.
  *
  * @group Unit
  * @group JWKSet
  */
-final class FooAlgorithm implements AlgorithmInterface
+final class FooAlgorithm implements Algorithm
 {
     /**
      * {@inheritdoc}

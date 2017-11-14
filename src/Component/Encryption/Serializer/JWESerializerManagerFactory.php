@@ -19,7 +19,7 @@ namespace Jose\Component\Encryption\Serializer;
 final class JWESerializerManagerFactory
 {
     /**
-     * @var JWESerializerInterface[]
+     * @var JWESerializer[]
      */
     private $serializers = [];
 
@@ -50,7 +50,7 @@ final class JWESerializerManagerFactory
     }
 
     /**
-     * @return JWESerializerInterface[]
+     * @return JWESerializer[]
      */
     public function all(): array
     {
@@ -58,11 +58,11 @@ final class JWESerializerManagerFactory
     }
 
     /**
-     * @param JWESerializerInterface $serializer
+     * @param JWESerializer $serializer
      *
      * @return JWESerializerManagerFactory
      */
-    public function add(JWESerializerInterface $serializer): self
+    public function add(JWESerializer $serializer): self
     {
         $this->serializers[$serializer->name()] = $serializer;
 

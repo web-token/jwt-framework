@@ -19,7 +19,7 @@ use Jose\Component\Signature\Algorithm\HS384;
 use Jose\Component\Signature\Algorithm\HS512;
 
 /**
- * final class HMACSignatureTest.
+ * Class HMACSignatureTest.
  *
  * @group HMAC
  * @group Unit

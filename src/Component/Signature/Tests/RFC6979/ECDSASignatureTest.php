@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
-use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Component\Signature\Tests\AbstractSignatureTest;
 
 /**
@@ -38,14 +38,14 @@ use Jose\Component\Signature\Tests\AbstractSignatureTest;
 final class ECDSASignatureTest extends AbstractSignatureTest
 {
     /**
-     * @param SignatureAlgorithmInterface $algorithm
+     * @param SignatureAlgorithm $algorithm
      * @param string                      $message
      * @param \Jose\Component\Core\JWK    $key
      * @param string                      $signature
      *
      * @dataProvider dataWithVectors
      */
-    public function testWithVectors(SignatureAlgorithmInterface $algorithm, $message, JWK $key, $signature)
+    public function testWithVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature)
     {
         $is_valid = $algorithm->verify($key, $message, $signature);
 

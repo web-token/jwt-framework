@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Tests;
 
-use Jose\Component\Core\AlgorithmInterface;
+use Jose\Component\Core\Algorithm;
 
 /**
  * Class FooAlgorithm.
  */
-final class FooAlgorithm implements AlgorithmInterface
+final class FooAlgorithm implements Algorithm
 {
     /**
      * {@inheritdoc}

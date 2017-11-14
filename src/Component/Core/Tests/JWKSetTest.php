@@ -18,13 +18,16 @@ use Jose\Component\Core\JWKSet;
 use PHPUnit\Framework\TestCase;
 
 /**
- * final class JWKTest.
+ * Class JWKTest.
  *
  * @group Unit
  * @group JWKSet
  */
 final class JWKSetTest extends TestCase
 {
+    /**
+     * @test
+     */
     public function testKeySelection()
     {
         $jwkset = $this->getPublicKeySet();
@@ -33,6 +36,9 @@ final class JWKSetTest extends TestCase
         self::assertInstanceOf(JWK::class, $jwk);
     }
 
+    /**
+     * @test
+     */
     public function testKeySelectionWithAlgorithm()
     {
         $jwkset = $this->getPublicKeySet();
@@ -49,6 +55,9 @@ final class JWKSetTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
     public function testKeySelectionWithAlgorithmAndKeyId()
     {
         $jwkset = $this->getPublicKeySet();
@@ -65,6 +74,9 @@ final class JWKSetTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
     public function testKeySelectionWithKeyId()
     {
         $jwkset = $this->getPublicKeySet();
@@ -81,6 +93,9 @@ final class JWKSetTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
     public function testKeySelectionReturnsNothing()
     {
         $jwkset = $this->getPublicKeySet();
@@ -89,6 +104,9 @@ final class JWKSetTest extends TestCase
         self::assertNull($jwk);
     }
 
+    /**
+     * @test
+     */
     public function testCreateKeySetFromValues()
     {
         $values = ['keys' => [[
@@ -102,6 +120,128 @@ final class JWKSetTest extends TestCase
         self::assertEquals(1, count($jwkset));
         self::assertTrue($jwkset->has('71ee230371d19630bc17fb90ccf20ae632ad8cf8'));
         self::assertFalse($jwkset->has(0));
+    }
+
+    /**
+     * @test
+     */
+    public function testKeySet()
+    {
+        $jwk1 = JWK::create([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sign',
+            'key_ops' => ['sign'],
+            'alg' => 'ES256',
+            'kid' => '0123456789',
+        ]);
+
+        $jwk2 = JWK::create([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use' => 'sign',
+            'key_ops' => ['verify'],
+            'alg' => 'ES256',
+            'kid' => '9876543210',
+        ]);
+
+        $jwkset = JWKSet::createFromKeys([$jwk1]);
+        $jwkset = $jwkset->with($jwk2);
+
+        self::assertEquals('{"keys":{"0123456789":{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},"9876543210":{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}}}', json_encode($jwkset));
+        self::assertEquals(2, count($jwkset));
+        self::assertEquals(2, $jwkset->count());
+        self::assertTrue($jwkset->has('0123456789'));
+        self::assertTrue($jwkset->has('9876543210'));
+        self::assertFalse($jwkset->has(0));
+
+        foreach ($jwkset as $key) {
+            self::assertEquals('EC', $key->get('kty'));
+        }
+        self::assertEquals(null, $jwkset->key());
+
+        self::assertEquals('9876543210', $jwkset->get('9876543210')->get('kid'));
+        $jwkset = $jwkset->without('9876543210');
+        $jwkset = $jwkset->without('9876543210');
+
+        self::assertEquals(1, count($jwkset));
+        self::assertEquals(1, $jwkset->count());
+        self::assertInstanceOf(JWK::class, $jwkset->get('0123456789'));
+
+        $jwkset = $jwkset->without('0123456789');
+        self::assertEquals(0, count($jwkset));
+        self::assertEquals(0, $jwkset->count());
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Undefined index.
+     */
+    public function testKeySet2()
+    {
+        $jwk1 = JWK::create([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sign',
+            'key_ops' => ['sign'],
+            'alg' => 'ES256',
+            'kid' => '0123456789',
+        ]);
+
+        $jwk2 = JWK::create([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use' => 'sign',
+            'key_ops' => ['verify'],
+            'alg' => 'ES256',
+            'kid' => '9876543210',
+        ]);
+
+        $jwkset = JWKSet::createFromKeys([$jwk1, $jwk2]);
+
+        $jwkset->get(2);
+    }
+
+    /**
+     * @test
+     */
+    public function testPrivateToPublic()
+    {
+        $private = JWK::create([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use' => 'sign',
+            'key_ops' => ['verify'],
+            'alg' => 'ES256',
+            'kid' => '9876543210',
+        ]);
+
+        $public = $private->toPublic();
+
+        self::assertEquals(json_encode([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sign',
+            'key_ops' => ['verify'],
+            'alg' => 'ES256',
+            'kid' => '9876543210',
+        ]), json_encode($public));
     }
 
     /**

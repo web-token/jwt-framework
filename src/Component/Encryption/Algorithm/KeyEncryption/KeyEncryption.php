@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
+use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 
 /**
- * Interface KeyEncryptionInterface.
+ * Interface KeyEncryption.
  */
-interface KeyEncryptionInterface extends KeyEncryptionAlgorithmInterface
+interface KeyEncryption extends KeyEncryptionAlgorithm
 {
     /**
      * Encrypt the CEK.

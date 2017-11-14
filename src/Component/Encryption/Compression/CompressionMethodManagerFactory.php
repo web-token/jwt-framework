@@ -19,17 +19,17 @@ namespace Jose\Component\Encryption\Compression;
 final class CompressionMethodManagerFactory
 {
     /**
-     * @var CompressionMethodInterface[]
+     * @var CompressionMethod[]
      */
     private $compressionMethods = [];
 
     /**
      * @param string                     $alias
-     * @param CompressionMethodInterface $compressionMethod
+     * @param CompressionMethod $compressionMethod
      *
      * @return CompressionMethodManagerFactory
      */
-    public function add(string $alias, CompressionMethodInterface $compressionMethod): self
+    public function add(string $alias, CompressionMethod $compressionMethod): self
     {
         if (array_key_exists($alias, $this->compressionMethods)) {
             throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
@@ -48,7 +48,7 @@ final class CompressionMethodManagerFactory
     }
 
     /**
-     * @return CompressionMethodInterface[]
+     * @return CompressionMethod[]
      */
     public function all(): array
     {

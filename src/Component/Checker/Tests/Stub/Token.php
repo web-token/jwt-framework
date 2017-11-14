@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker\Tests\Stub;
 
-use Jose\Component\Core\JWTInterface;
+use Jose\Component\Core\JWT;
 
 /**
  * Class Token.
  */
-final class Token implements JWTInterface
+final class Token implements JWT
 {
     /**
      * @var null|string

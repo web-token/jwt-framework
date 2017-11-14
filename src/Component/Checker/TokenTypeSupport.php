@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Jose\Component\Core\JWTInterface;
+use Jose\Component\Core\JWT;
 
 /**
  * Interface TokenTypeSupport.
@@ -21,17 +21,17 @@ use Jose\Component\Core\JWTInterface;
 interface TokenTypeSupport
 {
     /**
-     * @param JWTInterface $jwt
+     * @param JWT $jwt
      * @param int          $component
      * @param array        $protectedHeader
      * @param array        $unprotectedHeader
      */
-    public function retrieveTokenHeaders(JWTInterface $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void;
+    public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void;
 
     /**
-     * @param JWTInterface $jwt
+     * @param JWT $jwt
      *
      * @return bool
      */
-    public function supports(JWTInterface $jwt): bool;
+    public function supports(JWT $jwt): bool;
 }

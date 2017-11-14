@@ -19,7 +19,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
 
 /**
- * final class RSASignatureTest.
+ * Class RSASignatureTest.
  *
  * @group RSA
  * @group Unit

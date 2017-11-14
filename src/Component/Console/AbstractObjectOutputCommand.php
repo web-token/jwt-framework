@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,17 +25,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class AbstractObjectOutputCommand extends Command
 {
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     protected $jsonConverter;
 
     /**
      * AbstractGeneratorCommand constructor.
      *
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      * @param string|null            $name
      */
-    public function __construct(JsonConverterInterface $jsonConverter, string $name = null)
+    public function __construct(JsonConverter $jsonConverter, string $name = null)
     {
         $this->jsonConverter = $jsonConverter;
         parent::__construct($name);

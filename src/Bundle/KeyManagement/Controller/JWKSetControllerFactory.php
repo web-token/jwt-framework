@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\KeyManagement\Controller;
 
-use Jose\Component\Core\Converter\JsonConverterInterface;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
 
 /**
@@ -22,16 +22,16 @@ use Jose\Component\Core\JWKSet;
 final class JWKSetControllerFactory
 {
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     private $jsonConverter;
 
     /**
      * JWKSetControllerFactory constructor.
      *
-     * @param JsonConverterInterface $jsonConverter
+     * @param JsonConverter $jsonConverter
      */
-    public function __construct(JsonConverterInterface $jsonConverter)
+    public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;
     }

@@ -20,7 +20,7 @@ use Jose\Component\Core\Util\ECKey;
 /**
  * Class ECDSA.
  */
-abstract class ECDSA implements SignatureAlgorithmInterface
+abstract class ECDSA implements SignatureAlgorithm
 {
     /**
      * ECDSA constructor.

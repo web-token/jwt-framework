@@ -6,12 +6,12 @@ services:
 
     Jose\Component\KeyManagement\JKUFactory:
         arguments:
-            - '@Jose\Component\Core\Converter\JsonConverterInterface'
+            - '@Jose\Component\Core\Converter\JsonConverter'
             - '@jose.http_client'
             - '@jose.request_factory'
 
     Jose\Component\KeyManagement\X5UFactory:
-            - '@Jose\Component\Core\Converter\JsonConverterInterface'
+            - '@Jose\Component\Core\Converter\JsonConverter'
             - '@jose.http_client'
             - '@jose.request_factory'
 

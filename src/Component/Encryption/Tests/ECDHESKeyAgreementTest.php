@@ -21,7 +21,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
 
 /**
- * final class ECDHESKeyAgreementTest.
+ * Class ECDHESKeyAgreementTest.
  *
  * @group ECDHES
  * @group Unit

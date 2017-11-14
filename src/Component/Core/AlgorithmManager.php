@@ -26,7 +26,7 @@ final class AlgorithmManager
     /**
      * AlgorithmManager constructor.
      *
-     * @param AlgorithmInterface[] $algorithms
+     * @param Algorithm[] $algorithms
      */
     private function __construct(array $algorithms)
     {
@@ -36,7 +36,7 @@ final class AlgorithmManager
     }
 
     /**
-     * @param AlgorithmInterface[] $algorithms
+     * @param Algorithm[] $algorithms
      *
      * @return AlgorithmManager
      */
@@ -66,9 +66,9 @@ final class AlgorithmManager
     /**
      * @param string $algorithm The algorithm
      *
-     * @return AlgorithmInterface Returns JWAInterface object if the algorithm is supported, else null
+     * @return Algorithm Returns JWAInterface object if the algorithm is supported, else null
      */
-    public function get(string $algorithm): AlgorithmInterface
+    public function get(string $algorithm): Algorithm
     {
         if (!$this->has($algorithm)) {
             throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $algorithm));
@@ -78,17 +78,13 @@ final class AlgorithmManager
     }
 
     /**
-     * @param AlgorithmInterface $algorithm
+     * @param Algorithm $algorithm
      *
      * @return AlgorithmManager
      */
-    private function add(AlgorithmInterface $algorithm): self
+    private function add(Algorithm $algorithm): self
     {
         $name = $algorithm->name();
-        if ($this->has($name)) {
-            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is already supported.', $name));
-        }
-
         $this->algorithms[$name] = $algorithm;
 
         return $this;

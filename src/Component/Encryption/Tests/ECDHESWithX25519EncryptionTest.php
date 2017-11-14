@@ -16,7 +16,7 @@ namespace Jose\Component\Encryption\Tests;
 use Jose\Component\Core\JWK;
 
 /**
- * final class ECDHESWithX25519EncryptionTest.
+ * Class ECDHESWithX25519EncryptionTest.
  *
  * @group ECDHES
  * @group Unit

@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Jose\Performance\JWS;
 
 use Jose\Component\Checker\HeaderCheckerManager;
-use Jose\Component\Core\Converter\JsonConverterInterface;
 use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
-use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\JWSTokenSupport;
@@ -50,7 +50,7 @@ abstract class SignatureBench
     private $headerCherckerManager;
 
     /**
-     * @var JsonConverterInterface
+     * @var JsonConverter
      */
     private $jsonConverter;
 
@@ -61,7 +61,7 @@ abstract class SignatureBench
 
     public function init()
     {
-        $this->jsonConverter = new JsonConverter();
+        $this->jsonConverter = new StandardConverter();
         $this->signatureAlgorithmsManager = AlgorithmManager::create([
             new Algorithm\HS256(),
             new Algorithm\HS384(),
@@ -126,9 +126,9 @@ abstract class SignatureBench
     }
 
     /**
-     * @return SignatureAlgorithmInterface
+     * @return SignatureAlgorithm
      */
-    abstract protected function getAlgorithm(): SignatureAlgorithmInterface;
+    abstract protected function getAlgorithm(): SignatureAlgorithm;
 
     /**
      * @return string

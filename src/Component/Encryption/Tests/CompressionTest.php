@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Tests;
 
-use Jose\Component\Encryption\Compression\CompressionMethodInterface;
+use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Encryption\Compression\GZip;
 use Jose\Component\Encryption\Compression\ZLib;
 
 /**
- * final class CompressionTest.
+ * Class CompressionTest.
  *
  * @group Unit
  */
@@ -36,7 +36,7 @@ final class CompressionTest extends AbstractEncryptionTest
 
         self::assertEquals(['DEF', 'GZ', 'ZLIB'], $manager->list());
         $compression = $manager->get('DEF');
-        self::assertInstanceOf(CompressionMethodInterface::class, $compression);
+        self::assertInstanceOf(CompressionMethod::class, $compression);
     }
 
     /**

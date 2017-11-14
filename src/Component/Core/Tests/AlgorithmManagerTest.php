@@ -13,38 +13,40 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Tests;
 
-use Jose\Component\Core\AlgorithmInterface;
+use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use PHPUnit\Framework\TestCase;
 
 /**
- * final class JWKTest.
+ * Class AlgorithmManagerTest.
  *
  * @group Unit
  * @group JWAManager
  */
-final class JWAManagerTest extends TestCase
+final class AlgorithmManagerTest extends TestCase
 {
     /**
+     * @test
      * @expectedException \TypeError
      */
-    public function testCreateManagerWithBadList()
+    public function iCannotCreateAnAlgorithmManagerWithABadArgument()
     {
         AlgorithmManager::create(['foo']);
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The algorithm "HS384" is not supported.
      */
-    public function testCreateManagerAndRetrieveAlgorithm()
+    public function iCannotGetAnAlgorithmThatDoesNotExist()
     {
         $manager = AlgorithmManager::create([new FooAlgorithm()]);
 
         self::assertEquals(['foo'], $manager->list());
         self::assertTrue($manager->has('foo'));
         self::assertFalse($manager->has('HS384'));
-        self::assertInstanceOf(AlgorithmInterface::class, $manager->get('foo'));
+        self::assertInstanceOf(Algorithm::class, $manager->get('foo'));
         $manager->get('HS384');
     }
 }

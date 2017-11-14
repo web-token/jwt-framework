@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
-use Jose\Component\Core\AlgorithmInterface;
+use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithmInterface;
-use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
+use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager;
-use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
@@ -184,25 +184,25 @@ final class JoseCollector extends DataCollector
     }
 
     /**
-     * @param AlgorithmInterface $algorithm
+     * @param Algorithm $algorithm
      * @param int                $signatureAlgorithms
      * @param int                $keyEncryptionAlgorithms
      * @param int                $contentEncryptionAlgorithms
      *
      * @return string
      */
-    private function getAlgorithmType(AlgorithmInterface $algorithm, int &$signatureAlgorithms, int &$keyEncryptionAlgorithms, int &$contentEncryptionAlgorithms): string
+    private function getAlgorithmType(Algorithm $algorithm, int &$signatureAlgorithms, int &$keyEncryptionAlgorithms, int &$contentEncryptionAlgorithms): string
     {
         switch (true) {
-            case $algorithm instanceof SignatureAlgorithmInterface:
+            case $algorithm instanceof SignatureAlgorithm:
                 $signatureAlgorithms++;
 
                 return 'Signature';
-            case $algorithm instanceof KeyEncryptionAlgorithmInterface:
+            case $algorithm instanceof KeyEncryptionAlgorithm:
                 $keyEncryptionAlgorithms++;
 
                 return 'Key Encryption';
-            case $algorithm instanceof ContentEncryptionAlgorithmInterface:
+            case $algorithm instanceof ContentEncryptionAlgorithm:
                 $contentEncryptionAlgorithms++;
 
                 return 'Content Encryption';

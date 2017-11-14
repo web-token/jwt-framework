@@ -17,7 +17,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 
 /**
- * final class RSAKeyWithoutAllPrimesTest.
+ * Class RSAKeyWithoutAllPrimesTest.
  *
  * @group RSA2
  * @group Unit

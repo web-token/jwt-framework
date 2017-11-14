@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithmInterface;
+use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 
 /**
- * Interface KeyAgreementInterface.
+ * Interface KeyAgreement.
  */
-interface KeyAgreementInterface extends KeyEncryptionAlgorithmInterface
+interface KeyAgreement extends KeyEncryptionAlgorithm
 {
     /**
      * @param int    $encryption_key_length    Size of the key expected for the algorithm used for data encryption

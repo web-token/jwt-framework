@@ -17,7 +17,7 @@ use Base64Url\Base64Url;
 use Jose\Component\Signature\JWS;
 
 /**
- * final class JWSTest.
+ * Class JWSTest.
  *
  * @group JWS
  * @group Unit

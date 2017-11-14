@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class AESGCMKW.
  */
-abstract class AESGCMKW implements KeyWrappingInterface
+abstract class AESGCMKW implements KeyWrapping
 {
     /**
      * {@inheritdoc}

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Tests;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
@@ -105,7 +105,7 @@ abstract class AbstractEncryptionTest extends TestCase
     {
         if (null === $this->jweBuilderFactory) {
             $this->jweBuilderFactory = new JWEBuilderFactory(
-                new JsonConverter(),
+                new StandardConverter(),
                 $this->getAlgorithmManagerFactory(),
                 $this->getCompressionMethodManagerFactory()
             );
@@ -165,9 +165,9 @@ abstract class AbstractEncryptionTest extends TestCase
     {
         if (null === $this->jwsSerializerManagerFactory) {
             $this->jwsSerializerManagerFactory = new Serializer\JWESerializerManagerFactory();
-            $this->jwsSerializerManagerFactory->add(new Serializer\CompactSerializer(new JsonConverter()));
-            $this->jwsSerializerManagerFactory->add(new Serializer\JSONFlattenedSerializer(new JsonConverter()));
-            $this->jwsSerializerManagerFactory->add(new Serializer\JSONGeneralSerializer(new JsonConverter()));
+            $this->jwsSerializerManagerFactory->add(new Serializer\CompactSerializer(new StandardConverter()));
+            $this->jwsSerializerManagerFactory->add(new Serializer\JSONFlattenedSerializer(new StandardConverter()));
+            $this->jwsSerializerManagerFactory->add(new Serializer\JSONGeneralSerializer(new StandardConverter()));
         }
 
         return $this->jwsSerializerManagerFactory;
@@ -185,9 +185,9 @@ abstract class AbstractEncryptionTest extends TestCase
     {
         if (null === $this->jwsSerializerManager) {
             $this->jwsSerializerManager = Serializer\JWESerializerManager::create([
-                new Serializer\CompactSerializer(new JsonConverter()),
-                new Serializer\JSONFlattenedSerializer(new JsonConverter()),
-                new Serializer\JSONGeneralSerializer(new JsonConverter()),
+                new Serializer\CompactSerializer(new StandardConverter()),
+                new Serializer\JSONFlattenedSerializer(new StandardConverter()),
+                new Serializer\JSONGeneralSerializer(new StandardConverter()),
             ]);
         }
 

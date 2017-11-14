@@ -19,7 +19,7 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
-use Jose\Component\Signature\Algorithm\SignatureAlgorithmInterface;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
 /**
  * Class able to load JWS and verify signatures and headers.
@@ -202,9 +202,9 @@ final class JWSVerifier
     /**
      * @param Signature $signature
      *
-     * @return SignatureAlgorithmInterface
+     * @return SignatureAlgorithm
      */
-    private function getAlgorithm(Signature $signature): SignatureAlgorithmInterface
+    private function getAlgorithm(Signature $signature): SignatureAlgorithm
     {
         $completeHeaders = array_merge($signature->getProtectedHeaders(), $signature->getHeaders());
         if (!array_key_exists('alg', $completeHeaders)) {
@@ -212,7 +212,7 @@ final class JWSVerifier
         }
 
         $algorithm = $this->signatureAlgorithmManager->get($completeHeaders['alg']);
-        if (!$algorithm instanceof SignatureAlgorithmInterface) {
+        if (!$algorithm instanceof SignatureAlgorithm) {
             throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeaders['alg']));
         }
 
