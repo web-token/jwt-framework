@@ -48,7 +48,7 @@ final class HeaderCheckerManagerFactory
     }
 
     /**
-     * @param string                 $alias
+     * @param string        $alias
      * @param HeaderChecker $checker
      *
      * @return HeaderCheckerManagerFactory
