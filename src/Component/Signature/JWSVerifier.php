@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Base64Url\Base64Url;
-use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -32,20 +31,13 @@ final class JWSVerifier
     private $signatureAlgorithmManager;
 
     /**
-     * @var HeaderCheckerManager
-     */
-    private $headerCheckerManager;
-
-    /**
      * JWSVerifier constructor.
      *
-     * @param AlgorithmManager     $signatureAlgorithmManager
-     * @param HeaderCheckerManager $headerCheckerManager
+     * @param AlgorithmManager $signatureAlgorithmManager
      */
-    public function __construct(AlgorithmManager $signatureAlgorithmManager, HeaderCheckerManager $headerCheckerManager)
+    public function __construct(AlgorithmManager $signatureAlgorithmManager)
     {
         $this->signatureAlgorithmManager = $signatureAlgorithmManager;
-        $this->headerCheckerManager = $headerCheckerManager;
     }
 
     /**
@@ -54,14 +46,6 @@ final class JWSVerifier
     public function getSignatureAlgorithmManager(): AlgorithmManager
     {
         return $this->signatureAlgorithmManager;
-    }
-
-    /**
-     * @return HeaderCheckerManager
-     */
-    public function getHeaderCheckerManager(): HeaderCheckerManager
-    {
-        return $this->headerCheckerManager;
     }
 
     /**
@@ -97,11 +81,6 @@ final class JWSVerifier
         $nbSignatures = $jws->countSignatures();
 
         for ($i = 0; $i < $nbSignatures; ++$i) {
-            try {
-                $this->headerCheckerManager->check($jws, $i);
-            } catch (\Exception $e) {
-                continue;
-            }
             $signature = $jws->getSignature($i);
             if (true === $this->verifySignature($jws, $jwkset, $signature, $detachedPayload)) {
                 return $i;

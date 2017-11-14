@@ -58,7 +58,7 @@ final class ECDSASignatureTest extends SignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['ES512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['ES512'], []);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['ES512']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($private_key, $headers)

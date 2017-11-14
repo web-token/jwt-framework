@@ -57,7 +57,7 @@ final class HMACSignatureTest extends SignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256'], []);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, $headers)
@@ -117,7 +117,7 @@ final class HMACSignatureTest extends SignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256'], []);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $headers)
@@ -180,7 +180,7 @@ final class HMACSignatureTest extends SignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256'], []);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, $protected_headers, $unprotected_headers)
@@ -234,7 +234,7 @@ final class HMACSignatureTest extends SignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256'], []);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, [], $unprotected_headers)

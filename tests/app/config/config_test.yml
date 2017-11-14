@@ -24,12 +24,11 @@ jose:
             headers: ['custom_checker']
     jws_builders:
         builder1:
-            is_public: true
             signature_algorithms: ['HS256', 'RS256', 'ES256']
+            is_public: true
     jws_verifiers:
         loader1:
             signature_algorithms: ['HS256', 'RS256', 'ES256']
-            header_checkers: []
             is_public: true
     jwe_builders:
         builder1:

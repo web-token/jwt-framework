@@ -46,7 +46,6 @@ final class JWSVerifier implements Source
                 ->setFactory([new Reference(JWSVerifierFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['signature_algorithms'],
-                    $itemConfig['header_checkers'],
                 ])
                 ->addTag('jose.jws_verifier')
                 ->setPublic($itemConfig['is_public']);
@@ -71,11 +70,6 @@ final class JWSVerifier implements Source
                                 ->defaultTrue()
                             ->end()
                             ->arrayNode('signature_algorithms')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('header_checkers')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
                                 ->prototype('scalar')->end()

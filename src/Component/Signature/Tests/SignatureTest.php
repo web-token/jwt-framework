@@ -13,14 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Tests;
 
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Checker\UnencodedPayloadChecker;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
-use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\Serializer;
 use PHPUnit\Framework\TestCase;
 
@@ -93,34 +90,11 @@ abstract class SignatureTest extends TestCase
     {
         if (null === $this->jwsVerifierFactory) {
             $this->jwsVerifierFactory = new JWSVerifierFactory(
-                $this->getAlgorithmManagerFactory(),
-                $this->getHeaderCheckerManagerFactory()
+                $this->getAlgorithmManagerFactory()
             );
         }
 
         return $this->jwsVerifierFactory;
-    }
-
-    /**
-     * @var HeaderCheckerManagerFactory
-     */
-    private $headerCheckerManagerFactory;
-
-    /**
-     * @return HeaderCheckerManagerFactory
-     */
-    protected function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
-    {
-        if (null === $this->headerCheckerManagerFactory) {
-            $this->headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
-            $this->headerCheckerManagerFactory
-                ->add('b64', new UnencodedPayloadChecker())
-            ;
-
-            $this->headerCheckerManagerFactory->addTokenTypeSupport(new JWSTokenSupport());
-        }
-
-        return $this->headerCheckerManagerFactory;
     }
 
     /**

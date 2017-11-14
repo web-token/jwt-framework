@@ -24,7 +24,7 @@
         "symfony/config": "^3.3",
         "symfony/dependency-injection": "^3.3",
         "symfony/http-kernel": "^3.3",
-        "web-token/jwt-core": "^0.1"
+        "web-token/jwt-core": "^0.2"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.3",
@@ -34,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-master": "0.2.x-dev"
         }
     },
     "config": {

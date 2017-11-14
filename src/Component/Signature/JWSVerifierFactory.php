@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 
 /**
@@ -27,33 +26,24 @@ final class JWSVerifierFactory
     private $algorithmManagerFactory;
 
     /**
-     * @var HeaderCheckerManagerFactory
-     */
-    private $headerCheckerManagerFactory;
-
-    /**
      * JWSVerifierFactory constructor.
      *
      * @param AlgorithmManagerFactory     $algorithmManagerFactory
-     * @param HeaderCheckerManagerFactory $headerCheckerManagerFactory
      */
-    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, HeaderCheckerManagerFactory $headerCheckerManagerFactory)
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;
-        $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
     }
 
     /**
      * @param string[] $algorithms
-     * @param string[] $headerCheckers
      *
      * @return JWSVerifier
      */
-    public function create(array $algorithms, array $headerCheckers): JWSVerifier
+    public function create(array $algorithms): JWSVerifier
     {
         $algorithmManager = $this->algorithmManagerFactory->create($algorithms);
-        $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
 
-        return new JWSVerifier($algorithmManager, $headerCheckerManager);
+        return new JWSVerifier($algorithmManager);
     }
 }

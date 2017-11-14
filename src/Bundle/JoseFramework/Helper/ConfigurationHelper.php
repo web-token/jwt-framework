@@ -47,10 +47,9 @@ final class ConfigurationHelper
      * @param ContainerBuilder $container
      * @param string           $name
      * @param string[]         $signatureAlgorithms
-     * @param string[]         $headerCheckers
      * @param bool             $is_public
      */
-    public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, array  $headerCheckers, bool $is_public = true)
+    public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true)
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -58,7 +57,6 @@ final class ConfigurationHelper
                     $name => [
                         'is_public' => $is_public,
                         'signature_algorithms' => $signatureAlgorithms,
-                        'header_checkers' => $headerCheckers,
                     ],
                 ],
             ],
