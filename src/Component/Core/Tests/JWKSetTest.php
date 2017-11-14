@@ -28,7 +28,7 @@ final class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function testKeySelection()
+    public function iCanSelectAKeyInAKeySet()
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -38,8 +38,49 @@ final class JWKSetTest extends TestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Allowed key types are "sig" or "enc".
      */
-    public function testKeySelectionWithAlgorithm()
+    public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter()
+    {
+        $jwkset = $this->getPublicKeySet();
+        $jwkset->selectKey('foo');
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid data.
+     */
+    public function iCannotCreateAKeySetWithBadArguments()
+    {
+        JWKSet::createFromKeyData(['keys' => true]);
+    }
+
+    /**
+     * @test
+     */
+    public function iCanGetAllKeysInAKeySet()
+    {
+        $jwkset = $this->getPublicKeySet();
+        self::assertEquals(3, count($jwkset->all()));
+    }
+
+    /**
+     * @test
+     */
+    public function iCanAddKeysInAKeySet()
+    {
+        $jwkset = $this->getPublicKeySet();
+        $new_jwkset = $jwkset->with(JWK::create(['kty' => 'none']));
+        self::assertEquals(4, count($new_jwkset->all()));
+        self::assertNotSame($jwkset, $new_jwkset);
+    }
+
+    /**
+     * @test
+     */
+    public function iCanSelectAKeyWithAlgorithm()
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -58,7 +99,7 @@ final class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function testKeySelectionWithAlgorithmAndKeyId()
+    public function iCanSelectAKeyWithAlgorithmAndKeyId()
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -77,7 +118,7 @@ final class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function testKeySelectionWithKeyId()
+    public function iCanSelectAKeyWithWithKeyId()
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -96,7 +137,7 @@ final class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function testKeySelectionReturnsNothing()
+    public function theKeySetDoesNotContainsSuitableAKeyThatFitsOnTheRequirements()
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -107,7 +148,7 @@ final class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function testCreateKeySetFromValues()
+    public function iCanCreateAKeySetUsingValues()
     {
         $values = ['keys' => [[
             'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
@@ -211,37 +252,6 @@ final class JWKSetTest extends TestCase
         $jwkset = JWKSet::createFromKeys([$jwk1, $jwk2]);
 
         $jwkset->get(2);
-    }
-
-    /**
-     * @test
-     */
-    public function testPrivateToPublic()
-    {
-        $private = JWK::create([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
-            'use' => 'sign',
-            'key_ops' => ['verify'],
-            'alg' => 'ES256',
-            'kid' => '9876543210',
-        ]);
-
-        $public = $private->toPublic();
-
-        self::assertEquals(json_encode([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use' => 'sign',
-            'key_ops' => ['verify'],
-            'alg' => 'ES256',
-            'kid' => '9876543210',
-        ]), json_encode($public));
     }
 
     /**

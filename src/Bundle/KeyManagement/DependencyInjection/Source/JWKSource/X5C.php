@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class X5C.
  */
-final class X5C extends AbstractSource implements JWKSourceInterface
+final class X5C extends AbstractSource implements JWKSource
 {
     /**
      * {@inheritdoc}

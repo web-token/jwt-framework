@@ -22,7 +22,7 @@ use Jose\Component\Signature\JWS;
  * @group RSA2
  * @group Unit
  */
-final class RSAKeyWithoutAllPrimesTest extends AbstractSignatureTest
+final class RSAKeyWithoutAllPrimesTest extends SignatureTest
 {
     /**
      * @param string $signature_algorithm

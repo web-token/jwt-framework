@@ -25,7 +25,7 @@ use Jose\Component\Signature\Algorithm\ES512;
  *
  * The values of these tests come from the JWS specification
  */
-final class ECDSASignatureTest extends AbstractSignatureTest
+final class ECDSASignatureTest extends SignatureTest
 {
     /**
      * @expectedException \InvalidArgumentException

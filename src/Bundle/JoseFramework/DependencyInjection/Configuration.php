@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Core\Converter\StandardConverter;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -24,7 +24,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 final class Configuration implements ConfigurationInterface
 {
     /**
-     * @var SourceInterface[]
+     * @var Source[]
      */
     private $serviceSources;
 
@@ -37,7 +37,7 @@ final class Configuration implements ConfigurationInterface
      * Configuration constructor.
      *
      * @param string            $alias
-     * @param SourceInterface[] $serviceSources
+     * @param Source[] $serviceSources
      */
     public function __construct(string $alias, array $serviceSources)
     {

@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests\RFC7520;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Tests\AbstractSignatureTest;
+use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.3
  *
  * @group RFC7520
  */
-final class ECDSASignatureTest extends AbstractSignatureTest
+final class ECDSASignatureTest extends SignatureTest
 {
     /**
      * Please note that we cannot create the signature and get the same result as the example (ECDSA signatures are always different).

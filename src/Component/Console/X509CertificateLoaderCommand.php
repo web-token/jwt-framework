@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class X509CertificateLoaderCommand.
  */
-final class X509CertificateLoaderCommand extends AbstractGeneratorCommand
+final class X509CertificateLoaderCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

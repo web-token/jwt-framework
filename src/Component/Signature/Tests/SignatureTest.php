@@ -25,9 +25,9 @@ use Jose\Component\Signature\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AbstractSignatureTest.
+ * Class SignatureTest.
  */
-abstract class AbstractSignatureTest extends TestCase
+abstract class SignatureTest extends TestCase
 {
     /**
      * @var AlgorithmManagerFactory

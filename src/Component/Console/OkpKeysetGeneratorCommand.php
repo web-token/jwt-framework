@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class OkpKeysetGeneratorCommand.
  */
-final class OkpKeysetGeneratorCommand extends AbstractGeneratorCommand
+final class OkpKeysetGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

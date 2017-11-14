@@ -19,9 +19,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class AbstractGeneratorCommand.
+ * Class GeneratorCommand.
  */
-abstract class AbstractGeneratorCommand extends AbstractObjectOutputCommand
+abstract class GeneratorCommand extends ObjectOutputCommand
 {
     /**
      * {@inheritdoc}

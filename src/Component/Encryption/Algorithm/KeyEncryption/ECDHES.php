@@ -153,6 +153,9 @@ final class ECDHES implements KeyAgreement
      */
     private function checkKey(JWK $key, $is_private)
     {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+            throw new \InvalidArgumentException('Wrong key type.');
+        }
         foreach (['x', 'crv'] as $k) {
             if (!$key->has($k)) {
                 throw new \InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
@@ -163,19 +166,12 @@ final class ECDHES implements KeyAgreement
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                if ('EC' !== $key->get('kty')) {
-                    throw new \InvalidArgumentException('Wrong key type.');
-                }
                 if (!$key->has('y')) {
                     throw new \InvalidArgumentException('The key parameter "y" is missing.');
                 }
 
                 break;
             case 'X25519':
-                if ('OKP' !== $key->get('kty')) {
-                    throw new \InvalidArgumentException('Wrong key type.');
-                }
-
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $key->get('crv')));

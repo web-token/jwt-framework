@@ -51,7 +51,7 @@ final class None implements SignatureAlgorithm
      */
     private function checkKey(JWK $key)
     {
-        if ('none' !== $key->get('kty')) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
     }

@@ -19,9 +19,9 @@ use Jose\Bundle\Checker\DependencyInjection\Source\HeaderChecker;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEDecrypter;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWESerializer;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
-use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUriSource;
+use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKUriSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
@@ -47,7 +47,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private $alias;
 
     /**
-     * @var SourceInterface[]
+     * @var Source[]
      */
     private $serviceSources = [];
 
@@ -95,9 +95,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     }
 
     /**
-     * @param SourceInterface $source
+     * @param Source $source
      */
-    public function addSource(SourceInterface $source)
+    public function addSource(Source $source)
     {
         $name = $source->name();
         if (in_array($name, $this->serviceSources)) {
@@ -125,8 +125,8 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         if (class_exists(JWKSource::class)) {
             $this->addSource(new JWKSource());
         }
-        if (class_exists(JKUriSource::class)) {
-            $this->addSource(new JKUriSource());
+        if (class_exists(JWKUriSource::class)) {
+            $this->addSource(new JWKUriSource());
         }
         if (class_exists(JWKSetSource::class)) {
             $this->addSource(new JWKSetSource());

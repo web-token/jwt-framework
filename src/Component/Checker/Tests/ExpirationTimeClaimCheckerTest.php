@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\ExpirationTimeChecker;
+use Jose\Component\Checker\InvalidClaimException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +25,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
      * @expectedExceptionMessage "exp" must be an integer.
      */
     public function theExpirationTimeClaimMustBeAnInteger()
@@ -35,7 +36,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
      * @expectedExceptionMessage The JWT has expired.
      */
     public function theExpirationTimeIsInThePast()

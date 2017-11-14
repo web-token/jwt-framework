@@ -336,7 +336,7 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
      *
      * @return int
      */
-    public function sortKeys(array $a, array $b): int
+    public static function sortKeys(array $a, array $b): int
     {
         if ($a['ind'] === $b['ind']) {
             return 0;

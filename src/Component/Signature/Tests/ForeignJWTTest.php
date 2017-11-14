@@ -20,7 +20,7 @@ use Jose\Component\Signature\JWS;
  * @group ForeignJWT
  * @group Functional
  */
-final class ForeignJWTTest extends AbstractSignatureTest
+final class ForeignJWTTest extends SignatureTest
 {
     /*
      * The following test uses an assertion created with another library.

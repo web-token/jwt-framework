@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class KeyFileLoaderCommand.
  */
-final class KeyFileLoaderCommand extends AbstractGeneratorCommand
+final class KeyFileLoaderCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

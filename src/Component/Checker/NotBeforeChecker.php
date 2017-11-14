@@ -26,10 +26,10 @@ final class NotBeforeChecker implements ClaimChecker
     public function checkClaim($value)
     {
         if (!is_int($value)) {
-            throw new \InvalidArgumentException('"nbf" must be an integer.');
+            throw new InvalidClaimException('"nbf" must be an integer.', self::CLAIM_NAME, $value);
         }
         if (time() < $value) {
-            throw new \InvalidArgumentException('The JWT can not be used yet.');
+            throw new InvalidClaimException('The JWT can not be used yet.', self::CLAIM_NAME, $value);
         }
     }
 

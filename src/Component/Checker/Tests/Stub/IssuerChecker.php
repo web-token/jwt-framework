@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests\Stub;
 
 use Jose\Component\Checker\HeaderChecker;
+use Jose\Component\Checker\InvalidHeaderException;
 
 /**
  * Class IssuerChecker.
@@ -43,7 +44,7 @@ final class IssuerChecker implements HeaderChecker
     public function checkHeader($value)
     {
         if (!is_string($value) || $value !== $this->issuer) {
-            throw new \InvalidArgumentException('Bad issuer.');
+            throw new InvalidHeaderException('Bad issuer.', 'iss', $value);
         }
     }
 

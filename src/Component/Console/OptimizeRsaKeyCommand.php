@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class OptimizeRsaKeyCommand.
  */
-final class OptimizeRsaKeyCommand extends AbstractObjectOutputCommand
+final class OptimizeRsaKeyCommand extends ObjectOutputCommand
 {
     /**
      * {@inheritdoc}

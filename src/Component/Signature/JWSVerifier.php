@@ -128,6 +128,9 @@ final class JWSVerifier
             try {
                 KeyChecker::checkKeyUsage($jwk, 'verification');
                 KeyChecker::checkKeyAlgorithm($jwk, $algorithm->name());
+                if (!in_array($jwk->get('kty'), $algorithm->allowedKeyTypes())) {
+                    throw new \InvalidArgumentException('Wrong key type.');
+                }
                 if (true === $algorithm->verify($jwk, $input, $signature->getSignature())) {
                     return true;
                 }

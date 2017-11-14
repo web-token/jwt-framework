@@ -23,7 +23,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
  * @group AESKW
  * @group Unit
  */
-final class AESKWKeyEncryptionTest extends AbstractEncryptionTest
+final class AESKWKeyEncryptionTest extends EncryptionTest
 {
     public function testA128KW()
     {

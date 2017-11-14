@@ -26,10 +26,10 @@ final class IssuedAtChecker implements ClaimChecker
     public function checkClaim($value)
     {
         if (!is_int($value)) {
-            throw new \InvalidArgumentException('The claim "iat" must be an integer.');
+            throw new InvalidClaimException('The claim "iat" must be an integer.', self::CLAIM_NAME, $value);
         }
         if (time() < $value) {
-            throw new \InvalidArgumentException('The JWT is issued in the future.');
+            throw new InvalidClaimException('The JWT is issued in the future.', self::CLAIM_NAME, $value);
         }
     }
 

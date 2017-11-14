@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests\RFC7520;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Tests\AbstractSignatureTest;
+use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.1
  *
  * @group RFC7520
  */
-final class RSA15SignatureTest extends AbstractSignatureTest
+final class RSA15SignatureTest extends SignatureTest
 {
     public function testRS256()
     {

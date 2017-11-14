@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class RsaKeyGeneratorCommand.
  */
-final class RsaKeyGeneratorCommand extends AbstractGeneratorCommand
+final class RsaKeyGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

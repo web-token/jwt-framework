@@ -22,7 +22,7 @@ use Jose\Component\Signature\JWS;
  * @group JWS
  * @group Unit
  */
-final class JWSTest extends AbstractSignatureTest
+final class JWSTest extends SignatureTest
 {
     public function testJWS()
     {

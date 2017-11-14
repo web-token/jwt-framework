@@ -91,7 +91,7 @@ abstract class ECDSA implements SignatureAlgorithm
      */
     private function checkKey(JWK $key)
     {
-        if ('EC' !== $key->get('kty')) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'y', 'crv'] as $k) {

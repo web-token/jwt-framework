@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class PemConverterCommand.
  */
-final class PemConverterCommand extends AbstractObjectOutputCommand
+final class PemConverterCommand extends ObjectOutputCommand
 {
     /**
      * {@inheritdoc}

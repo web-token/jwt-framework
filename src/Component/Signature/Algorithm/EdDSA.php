@@ -72,7 +72,7 @@ final class EdDSA implements SignatureAlgorithm
      */
     private function checkKey(JWK $key)
     {
-        if ('OKP' !== $key->get('kty')) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {

@@ -23,7 +23,7 @@ use Jose\Component\Signature\JWS;
  * @group None
  * @group Unit
  */
-final class NoneSignatureTest extends AbstractSignatureTest
+final class NoneSignatureTest extends SignatureTest
 {
     public function testNoneSignAndVerifyAlgorithm()
     {

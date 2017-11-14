@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests\RFC7520;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Tests\AbstractSignatureTest;
+use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
  * @group RFC7520
  */
-final class NestingTest extends AbstractSignatureTest
+final class NestingTest extends SignatureTest
 {
     public function testSignatureVerification()
     {

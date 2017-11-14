@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class AbstractObjectOutputCommand.
  */
-abstract class AbstractObjectOutputCommand extends Command
+abstract class ObjectOutputCommand extends Command
 {
     /**
      * @var JsonConverter

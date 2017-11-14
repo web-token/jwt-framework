@@ -20,7 +20,7 @@ use Jose\Component\Signature\JWS;
 /**
  * Class JSONFlattenedSerializer.
  */
-final class JSONFlattenedSerializer extends AbstractSerializer
+final class JSONFlattenedSerializer extends Serializer
 {
     public const NAME = 'jws_json_flattened';
 

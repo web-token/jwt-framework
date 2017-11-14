@@ -26,7 +26,7 @@ use Jose\Component\Encryption\JWE;
  *
  * @group Unit
  */
-final class RSAKeyEncryptionTest extends AbstractEncryptionTest
+final class RSAKeyEncryptionTest extends EncryptionTest
 {
     /**
      * @expectedException \InvalidArgumentException

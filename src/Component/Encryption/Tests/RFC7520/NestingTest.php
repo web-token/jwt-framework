@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Tests\RFC7520;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Tests\AbstractEncryptionTest;
+use Jose\Component\Encryption\Tests\EncryptionTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
  * @group RFC7520
  */
-final class NestingTest extends AbstractEncryptionTest
+final class NestingTest extends EncryptionTest
 {
     public function testDecryption()
     {

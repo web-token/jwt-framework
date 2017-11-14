@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class OctKeysetGeneratorCommand.
  */
-final class OctKeysetGeneratorCommand extends AbstractGeneratorCommand
+final class OctKeysetGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

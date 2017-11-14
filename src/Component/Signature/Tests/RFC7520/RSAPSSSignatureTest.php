@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests\RFC7520;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Tests\AbstractSignatureTest;
+use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.2
  *
  * @group RFC7520
  */
-final class RSAPSSSignatureTest extends AbstractSignatureTest
+final class RSAPSSSignatureTest extends SignatureTest
 {
     /**
      * Please note that we cannot create the signature and get the same result as the example (RSA-PSS signatures are always different).

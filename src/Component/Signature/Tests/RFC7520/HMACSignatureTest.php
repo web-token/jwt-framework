@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests\RFC7520;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Tests\AbstractSignatureTest;
+use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.4
@@ -25,7 +25,7 @@ use Jose\Component\Signature\Tests\AbstractSignatureTest;
  * @group HMAC
  * @group RFC7520
  */
-final class HMACSignatureTest extends AbstractSignatureTest
+final class HMACSignatureTest extends SignatureTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.4

@@ -34,7 +34,6 @@ abstract class ECDHESAESKW implements KeyAgreementWithKeyWrapping
     public function wrapAgreementKey(JWK $receiver_key, string $cek, int $encryption_key_length, array $complete_header, array &$additional_header_values): string
     {
         $ecdh_es = new ECDHES();
-
         $agreement_key = $ecdh_es->getAgreementKey($this->getKeyLength(), $this->name(), $receiver_key->toPublic(), $complete_header, $additional_header_values);
         $wrapper = $this->getWrapper();
 
@@ -47,7 +46,6 @@ abstract class ECDHESAESKW implements KeyAgreementWithKeyWrapping
     public function unwrapAgreementKey(JWK $receiver_key, string $encrypted_cek, int $encryption_key_length, array $complete_header): string
     {
         $ecdh_es = new ECDHES();
-
         $agreement_key = $ecdh_es->getAgreementKey($this->getKeyLength(), $this->name(), $receiver_key, $complete_header);
         $wrapper = $this->getWrapper();
 

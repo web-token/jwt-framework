@@ -25,7 +25,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
  * @group PBES2HSAESKW
  * @group Unit
  */
-final class PBES2_HS_AESKWKeyEncryptionTest extends AbstractEncryptionTest
+final class PBES2_HS_AESKWKeyEncryptionTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7517#appendix-C

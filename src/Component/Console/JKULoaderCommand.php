@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class JKULoaderCommand.
  */
-final class JKULoaderCommand extends AbstractObjectOutputCommand
+final class JKULoaderCommand extends ObjectOutputCommand
 {
     /**
      * @var JKUFactory

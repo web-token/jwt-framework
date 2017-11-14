@@ -22,7 +22,7 @@ use Jose\Component\Encryption\JWE;
  * @group RSA2
  * @group Unit
  */
-final class RSAKeyWithoutAllPrimesTest extends AbstractEncryptionTest
+final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {
     /**
      * @param string $encryption_algorithm

@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWKSet.
  */
-final class JWKSet extends AbstractSource implements JWKSourceInterface
+final class JWKSet extends AbstractSource implements JWKSource
 {
     /**
      * {@inheritdoc}

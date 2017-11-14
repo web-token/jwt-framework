@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class RsaKeysetGeneratorCommand.
  */
-final class RsaKeysetGeneratorCommand extends AbstractGeneratorCommand
+final class RsaKeysetGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

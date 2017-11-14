@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class GetThumbprintCommand.
  */
-final class GetThumbprintCommand extends AbstractObjectOutputCommand
+final class GetThumbprintCommand extends ObjectOutputCommand
 {
     /**
      * {@inheritdoc}

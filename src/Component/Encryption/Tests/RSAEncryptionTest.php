@@ -22,7 +22,7 @@ use Jose\Component\Encryption\JWE;
  * @group RSA
  * @group Unit
  */
-final class RSAEncryptionTest extends AbstractEncryptionTest
+final class RSAEncryptionTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516

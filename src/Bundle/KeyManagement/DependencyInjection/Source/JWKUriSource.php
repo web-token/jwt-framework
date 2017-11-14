@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\KeyManagement\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\KeyManagement\Controller\JWKSetController;
 use Jose\Bundle\KeyManagement\Controller\JWKSetControllerFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JKUriSource.
  */
-final class JKUriSource implements SourceInterface
+final class JWKUriSource implements Source
 {
     /**
      * {@inheritdoc}

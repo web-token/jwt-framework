@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\KeyManagement\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -22,7 +22,7 @@ use Symfony\Component\Config\FileLocator;
 /**
  * Class JKUSource.
  */
-final class JKUSource implements SourceInterface
+final class JKUSource implements Source
 {
     /**
      * {@inheritdoc}

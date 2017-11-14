@@ -24,7 +24,7 @@ use Jose\Component\Signature\JWS;
  * @group EdDSA
  * @group Unit
  */
-final class EdDSASignatureTest extends AbstractSignatureTest
+final class EdDSASignatureTest extends SignatureTest
 {
     /**
      * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5

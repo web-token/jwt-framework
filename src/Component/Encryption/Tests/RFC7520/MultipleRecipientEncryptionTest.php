@@ -15,14 +15,14 @@ namespace Jose\Component\Encryption\Tests\RFC7520;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Tests\AbstractEncryptionTest;
+use Jose\Component\Encryption\Tests\EncryptionTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.13
  *
  * @group RFC7520
  */
-final class MultipleRecipientEncryptionTest extends AbstractEncryptionTest
+final class MultipleRecipientEncryptionTest extends EncryptionTest
 {
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).

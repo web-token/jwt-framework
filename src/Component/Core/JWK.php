@@ -111,7 +111,7 @@ final class JWK implements \JsonSerializable
     public function thumbprint(string $hash_algorithm): string
     {
         if (!in_array($hash_algorithm, hash_algos())) {
-            throw new \InvalidArgumentException(sprintf('Hash algorithm "%s" is not supported', $hash_algorithm));
+            throw new \InvalidArgumentException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         }
 
         $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));

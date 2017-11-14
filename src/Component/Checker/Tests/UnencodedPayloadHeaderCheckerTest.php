@@ -24,7 +24,7 @@ final class UnencodedPayloadHeaderCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
      * @expectedExceptionMessage "b64" must be a boolean.
      */
     public function theB64HeaderMustBeAnBoolean()

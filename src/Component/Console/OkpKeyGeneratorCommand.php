@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class OkpKeyGeneratorCommand.
  */
-final class OkpKeyGeneratorCommand extends AbstractGeneratorCommand
+final class OkpKeyGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

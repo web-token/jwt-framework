@@ -11,18 +11,18 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
+namespace Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Interface JWKSourceInterface.
+ * Interface JWKSetSource.
  */
-interface JWKSourceInterface
+interface JWKSetSource
 {
     /**
-     * Creates the JWK, registers it and returns its id.
+     * Creates the JWKSet, registers it and returns its id.
      *
      * @param ContainerBuilder $container A ContainerBuilder instance
      * @param string           $type      The type of the service
@@ -32,11 +32,11 @@ interface JWKSourceInterface
     public function create(ContainerBuilder $container, string $type, string $id, array $config);
 
     /**
-     * Returns the key for the Key Source configuration.
+     * Returns the key set for the Key Set Source configuration.
      *
      * @return string
      */
-    public function getKey(): string;
+    public function getKeySet(): string;
 
     /**
      * Adds configuration nodes for this service.

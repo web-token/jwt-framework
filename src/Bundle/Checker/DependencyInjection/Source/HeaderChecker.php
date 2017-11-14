@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Checker\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class HeaderChecker.
  */
-final class HeaderChecker implements SourceInterface
+final class HeaderChecker implements Source
 {
     /**
      * {@inheritdoc}
@@ -39,15 +39,7 @@ final class HeaderChecker implements SourceInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $this->createService($configs[$this->name()], $container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function createService(array $config, ContainerBuilder $container)
-    {
-        foreach ($config as $name => $itemConfig) {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = sprintf('jose.header_checker.%s', $name);
             $definition = new Definition(JWSVerifierService::class);
             $definition

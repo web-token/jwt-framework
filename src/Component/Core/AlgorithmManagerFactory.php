@@ -24,7 +24,7 @@ final class AlgorithmManagerFactory
     private $algorithms = [];
 
     /**
-     * @param string             $alias
+     * @param string    $alias
      * @param Algorithm $algorithm
      *
      * @return AlgorithmManagerFactory

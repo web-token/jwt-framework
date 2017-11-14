@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class AddKeyIntoKeysetCommand.
  */
-final class AddKeyIntoKeysetCommand extends AbstractObjectOutputCommand
+final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
     /**
      * KeyAnalyzerCommand constructor.

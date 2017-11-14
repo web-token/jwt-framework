@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AlgorithmChecker;
+use Jose\Component\Checker\InvalidHeaderException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +25,7 @@ final class AlgorithmHeaderCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
      * @expectedExceptionMessage "alg" must be a string.
      */
     public function anAlgorithmMustBeAString()
@@ -35,7 +36,7 @@ final class AlgorithmHeaderCheckerTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
      * @expectedExceptionMessage Unsupported algorithm.
      */
     public function theAlgorithmHeaderIsNotAllowed()

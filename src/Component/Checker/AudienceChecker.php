@@ -47,7 +47,7 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
      */
     public function checkClaim($value)
     {
-        return $this->checkValue($value);
+        return $this->checkValue($value, InvalidClaimException::class);
     }
 
     /**
@@ -55,22 +55,23 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
      */
     public function checkHeader($value)
     {
-        return $this->checkValue($value);
+        return $this->checkValue($value, InvalidHeaderException::class);
     }
 
     /**
-     * @param $value
+     * @param mixed  $value
+     * @param string $class
      *
      * @throws \InvalidArgumentException
      */
-    private function checkValue($value)
+    private function checkValue($value, string $class)
     {
         if (is_string($value) && $value !== $this->audience) {
-            throw new \InvalidArgumentException('Bad audience.');
+            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         } elseif (is_array($value) && !in_array($this->audience, $value)) {
-            throw new \InvalidArgumentException('Bad audience.');
+            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         } elseif (!is_array($value) && !is_string($value)) {
-            throw new \InvalidArgumentException('Bad audience.');
+            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
     }
 

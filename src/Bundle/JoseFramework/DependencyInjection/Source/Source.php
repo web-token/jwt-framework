@@ -17,9 +17,9 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Interface SourceInterface.
+ * Interface Source.
  */
-interface SourceInterface
+interface Source
 {
     /**
      * @return string

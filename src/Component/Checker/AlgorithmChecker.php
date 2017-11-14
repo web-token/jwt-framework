@@ -48,10 +48,10 @@ final class AlgorithmChecker implements HeaderChecker
     public function checkHeader($value)
     {
         if (!is_string($value)) {
-            throw new \InvalidArgumentException('"alg" must be a string.');
+            throw new InvalidHeaderException('"alg" must be a string.', self::HEADER_NAME, $value);
         }
         if (!in_array($value, $this->supportedAlgorithms)) {
-            throw new \InvalidArgumentException('Unsupported algorithm.');
+            throw new InvalidHeaderException('Unsupported algorithm.', self::HEADER_NAME, $value);
         }
     }
 

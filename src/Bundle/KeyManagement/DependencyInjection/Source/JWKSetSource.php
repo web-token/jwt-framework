@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\KeyManagement\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
-use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource\JWKSetSourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource\JWKSetSource as JWKSetSourceInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class JWKSetSource.
  */
-final class JWKSetSource implements SourceInterface
+final class JWKSetSource implements Source
 {
     /**
      * @var null|JWKSetSourceInterface[]
@@ -43,17 +43,8 @@ final class JWKSetSource implements SourceInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $this->createService($configs[$this->name()], $container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function createService(array $config, ContainerBuilder $container)
-    {
         $sources = $this->getJWKSetSources();
-
-        foreach ($config as $name => $itemConfig) {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
             foreach ($itemConfig as $sourceName => $sourceConfig) {
                 if (array_key_exists($sourceName, $sources)) {
                     $source = $sources[$sourceName];
@@ -92,7 +83,7 @@ final class JWKSetSource implements SourceInterface
     }
 
     /**
-     * @return JWKSetSourceInterface[]
+     * @return JWKSetSource[]
      */
     private function getJWKSetSources(): array
     {

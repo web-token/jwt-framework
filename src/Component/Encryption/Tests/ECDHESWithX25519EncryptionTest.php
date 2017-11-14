@@ -21,7 +21,7 @@ use Jose\Component\Core\JWK;
  * @group ECDHES
  * @group Unit
  */
-final class ECDHESWithX25519EncryptionTest extends AbstractEncryptionTest
+final class ECDHESWithX25519EncryptionTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Encryption\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWESerializer.
  */
-final class JWESerializer implements SourceInterface
+final class JWESerializer implements Source
 {
     /**
      * {@inheritdoc}
@@ -39,15 +39,7 @@ final class JWESerializer implements SourceInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $this->createService($configs[$this->name()], $container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function createService(array $config, ContainerBuilder $container)
-    {
-        foreach ($config as $name => $itemConfig) {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = sprintf('jose.jwe_serializer.%s', $name);
             $definition = new Definition(JWESerializerManager::class);
             $definition

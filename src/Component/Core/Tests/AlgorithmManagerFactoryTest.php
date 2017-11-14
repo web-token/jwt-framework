@@ -15,16 +15,34 @@ namespace Jose\Component\Core\Tests;
 
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\AlgorithmManagerFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AlgorithmManagerTest.
+ * Class AlgorithmManagerFactoryTest.
  *
  * @group Unit
  * @group JWAManager
  */
-final class AlgorithmManagerTest extends TestCase
+final class AlgorithmManagerFactoryTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function iCanListSupportedAliases()
+    {
+        self::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
+        self::assertEquals(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
+    }
+
+    /**
+     * @test
+     */
+    public function iCanCreateAnAlgorithmManagerUsingAliases()
+    {
+        self::assertInstanceOf(AlgorithmManager::class, $this->getAlgorithmManagerFactory()->create(['foo']));
+    }
+
     /**
      * @test
      * @expectedException \TypeError
@@ -48,5 +66,23 @@ final class AlgorithmManagerTest extends TestCase
         self::assertFalse($manager->has('HS384'));
         self::assertInstanceOf(Algorithm::class, $manager->get('foo'));
         $manager->get('HS384');
+    }
+
+    /**
+     * @var null|AlgorithmManagerFactory
+     */
+    private $algorithmManagerFactory;
+
+    /**
+     * @return AlgorithmManagerFactory
+     */
+    private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
+    {
+        if (null === $this->algorithmManagerFactory) {
+            $this->algorithmManagerFactory = new AlgorithmManagerFactory();
+            $this->algorithmManagerFactory->add('foo', new FooAlgorithm());
+        }
+
+        return $this->algorithmManagerFactory;
     }
 }

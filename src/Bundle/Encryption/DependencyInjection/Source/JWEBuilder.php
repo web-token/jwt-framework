@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Encryption\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceInterface;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEBuilder as JWEBuilderService;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWEBuilder.
  */
-final class JWEBuilder implements SourceInterface
+final class JWEBuilder implements Source
 {
     /**
      * {@inheritdoc}
@@ -39,15 +39,7 @@ final class JWEBuilder implements SourceInterface
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $this->createService($configs[$this->name()], $container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    private function createService(array $config, ContainerBuilder $container)
-    {
-        foreach ($config as $name => $itemConfig) {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = sprintf('jose.jwe_builder.%s', $name);
             $definition = new Definition(JWEBuilderService::class);
             $definition

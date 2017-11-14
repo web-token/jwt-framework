@@ -20,7 +20,7 @@ use Jose\Component\Signature\JWS;
 /**
  * Class CompactSerializer.
  */
-final class CompactSerializer extends AbstractSerializer
+final class CompactSerializer extends Serializer
 {
     public const NAME = 'jws_compact';
 

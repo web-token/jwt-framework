@@ -68,7 +68,7 @@ abstract class RSA implements KeyEncryption
      */
     protected function checkKey(JWK $key)
     {
-        if ('RSA' !== $key->get('kty')) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
     }

@@ -19,7 +19,7 @@ use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
-use Jose\Component\Signature\Tests\AbstractSignatureTest;
+use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.5
@@ -35,7 +35,7 @@ use Jose\Component\Signature\Tests\AbstractSignatureTest;
  *
  * @group RFC6979
  */
-final class ECDSASignatureTest extends AbstractSignatureTest
+final class ECDSASignatureTest extends SignatureTest
 {
     /**
      * @param SignatureAlgorithm $algorithm

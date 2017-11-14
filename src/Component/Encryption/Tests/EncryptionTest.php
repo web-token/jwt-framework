@@ -27,9 +27,9 @@ use Jose\Component\Encryption\Serializer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AbstractEncryptionTest.
+ * Class EncryptionTest.
  */
-abstract class AbstractEncryptionTest extends TestCase
+abstract class EncryptionTest extends TestCase
 {
     /**
      * @var AlgorithmManagerFactory

@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 /**
- * Class AbstractSerializer.
+ * Class Serializer.
  */
-abstract class AbstractSerializer implements JWSSerializer
+abstract class Serializer implements JWSSerializer
 {
     /**
      * @param array $protectedHeaders

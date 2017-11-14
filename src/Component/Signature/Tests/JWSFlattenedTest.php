@@ -20,7 +20,7 @@ use Jose\Component\Signature\JWS;
  *
  * @group Functional
  */
-final class JWSFlattenedTest extends AbstractSignatureTest
+final class JWSFlattenedTest extends SignatureTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
