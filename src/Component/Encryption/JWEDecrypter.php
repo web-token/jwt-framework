@@ -211,9 +211,9 @@ final class JWEDecrypter
     /**
      * @param Algorithm                  $key_encryption_algorithm
      * @param ContentEncryptionAlgorithm $content_encryption_algorithm
-     * @param JWK                                 $key
-     * @param Recipient                           $recipient
-     * @param array                               $complete_headers
+     * @param JWK                        $key
+     * @param Recipient                  $recipient
+     * @param array                      $complete_headers
      *
      * @return null|string
      */
@@ -235,10 +235,10 @@ final class JWEDecrypter
     }
 
     /**
-     * @param JWE                                 $jwe
-     * @param string                              $cek
+     * @param JWE                        $jwe
+     * @param string                     $cek
      * @param ContentEncryptionAlgorithm $content_encryption_algorithm
-     * @param array                               $complete_headers
+     * @param array                      $complete_headers
      *
      * @return string
      */

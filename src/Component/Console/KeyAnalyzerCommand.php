@@ -39,9 +39,9 @@ final class KeyAnalyzerCommand extends Command
     /**
      * KeyAnalyzerCommand constructor.
      *
-     * @param JWKAnalyzerManager     $analyzerManager
-     * @param JsonConverter $jsonConverter
-     * @param string|null            $name
+     * @param JWKAnalyzerManager $analyzerManager
+     * @param JsonConverter      $jsonConverter
+     * @param string|null        $name
      */
     public function __construct(JWKAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
