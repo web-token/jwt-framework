@@ -43,7 +43,7 @@ final class ClaimCheckerManagerFactory
     }
 
     /**
-     * @param string                $alias
+     * @param string       $alias
      * @param ClaimChecker $checker
      *
      * @return ClaimCheckerManagerFactory
