@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Checker\Tests\TestBundle\Checker;
 
-use Jose\Component\Checker\ClaimCheckerInterface;
-use Jose\Component\Checker\HeaderCheckerInterface;
+use Jose\Component\Checker\ClaimChecker;
+use Jose\Component\Checker\HeaderChecker;
 
 /**
  * Class CustomChecker.
  */
-final class CustomChecker implements ClaimCheckerInterface, HeaderCheckerInterface
+final class CustomChecker implements ClaimChecker, HeaderChecker
 {
     public function checkClaim($value)
     {

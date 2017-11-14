@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker\Tests\Stub;
 
-use Jose\Component\Checker\TokenTypeSupportInterface;
+use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWTInterface;
 
 /**
  * Class TokenSupport.
  */
-final class TokenSupport implements TokenTypeSupportInterface
+final class TokenSupport implements TokenTypeSupport
 {
     /**
      * {@inheritdoc}

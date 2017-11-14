@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-final class ExpirationTimeChecker implements ClaimCheckerInterface
+final class ExpirationTimeChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'exp';
 

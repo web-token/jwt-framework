@@ -17,42 +17,48 @@ use Jose\Component\Checker\AudienceChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group HeaderChecker
  * @group Functional
  */
-final class AudienceTest extends TestCase
+final class AudienceHeaderCheckerTest extends TestCase
 {
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Bad audience.
      */
-    public function testAudienceMustBeAStringOrAnArrayOfStrings()
+    public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings()
     {
         $checker = new AudienceChecker('foo');
         $checker->checkHeader(1);
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Bad audience.
      */
-    public function testBadAudience()
+    public function theAudienceHeaderIsNotKnown()
     {
         $checker = new AudienceChecker('foo');
         $checker->checkHeader('bar');
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Bad audience.
      */
-    public function testBadAudienceList()
+    public function theAudienceHeaderListDoesNotContainTheCurrentAudience()
     {
         $checker = new AudienceChecker('foo');
         $checker->checkHeader(['bar']);
     }
 
-    public function testSuccess()
+    /**
+     * @test
+     */
+    public function theAudienceHeaderIsSupported()
     {
         $checker = new AudienceChecker('foo');
         $checker->checkHeader('foo');

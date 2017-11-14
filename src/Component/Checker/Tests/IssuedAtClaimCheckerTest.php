@@ -17,32 +17,37 @@ use Jose\Component\Checker\IssuedAtChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group ClaimChecker
  * @group Functional
  */
-final class IssuedAtTest extends TestCase
+final class IssuedAtClaimCheckerTest extends TestCase
 {
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage "iat" must be an integer.
      */
-    public function testIssuedAtMustBeAnInteger()
+    public function anIssuedAtClaimMustBeAnInteger()
     {
         $checker = new IssuedAtChecker();
         $checker->checkClaim('foo');
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The JWT is issued in the future.
      */
-    public function testIssuedInTheFutur()
+    public function theIssuedAtClaimIsInTheFutur()
     {
         $checker = new IssuedAtChecker();
         $checker->checkClaim(time() + 3600);
     }
 
-    public function testSuccess()
+    /**
+     * @test
+     */
+    public function theIssuedAtClaimIsInThePast()
     {
         $checker = new IssuedAtChecker();
         $checker->checkClaim(time() - 3600);

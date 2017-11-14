@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Jose\Component\Checker\TokenTypeSupportInterface;
+use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWTInterface;
 
 /**
  * Class JWSTokenSupport.
  */
-final class JWSTokenSupport implements TokenTypeSupportInterface
+final class JWSTokenSupport implements TokenTypeSupport
 {
     /**
      * {@inheritdoc}

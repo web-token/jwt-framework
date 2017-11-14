@@ -17,32 +17,37 @@ use Jose\Component\Checker\AlgorithmChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group HeaderChecker
  * @group Functional
  */
-final class AlgorithmTest extends TestCase
+final class AlgorithmHeaderCheckerTest extends TestCase
 {
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage "alg" must be a string.
      */
-    public function testAlgorithmMustBeAString()
+    public function anAlgorithmMustBeAString()
     {
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader(1);
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unsupported algorithm.
      */
-    public function testUnsupportedAlgorithm()
+    public function theAlgorithmHeaderIsNotAllowed()
     {
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader('bar');
     }
 
-    public function testSuccess()
+    /**
+     * @test
+     */
+    public function theAlgorithmHeaderIsSupported()
     {
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader('foo');

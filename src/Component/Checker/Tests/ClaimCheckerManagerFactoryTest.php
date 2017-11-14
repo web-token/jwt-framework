@@ -22,27 +22,42 @@ use Jose\Component\Checker\NotBeforeChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group ClaimChecker
  * @group Functional
  */
 final class ClaimCheckerManagerFactoryTest extends TestCase
 {
     /**
+     * @test
+     */
+    public function theAliasListOfTheClaimCheckerManagerFactoryIsAvailable()
+    {
+        self::assertEquals(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
+    }
+
+    /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The claim checker with the alias "foo" is not supported.
      */
-    public function testAliasDoesNotExist()
+    public function theAliasDoesNotExist()
     {
         $this->getClaimCheckerManagerFactory()->create(['foo']);
     }
 
-    public function testICanCreateACheckerManager()
+    /**
+     * @test
+     */
+    public function iCanCreateAClaimCheckerManager()
     {
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
         self::assertInstanceOf(ClaimCheckerManager::class, $manager);
     }
 
-    public function testSuccess()
+    /**
+     * @test
+     */
+    public function iCanCheckValidPayloadClaims()
     {
         $payload = [
             'exp' => time() + 3600,

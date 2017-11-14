@@ -19,12 +19,12 @@ namespace Jose\Component\Checker;
 final class HeaderCheckerManagerFactory
 {
     /**
-     * @var HeaderCheckerInterface[]
+     * @var HeaderChecker[]
      */
     private $checkers = [];
 
     /**
-     * @var TokenTypeSupportInterface[]
+     * @var TokenTypeSupport[]
      */
     private $tokenTypes = [];
 
@@ -49,26 +49,23 @@ final class HeaderCheckerManagerFactory
 
     /**
      * @param string                 $alias
-     * @param HeaderCheckerInterface $checker
+     * @param HeaderChecker $checker
      *
      * @return HeaderCheckerManagerFactory
      */
-    public function add(string $alias, HeaderCheckerInterface $checker): self
+    public function add(string $alias, HeaderChecker $checker): self
     {
-        if (array_key_exists($alias, $this->checkers)) {
-            throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
-        }
         $this->checkers[$alias] = $checker;
 
         return $this;
     }
 
     /**
-     * @param TokenTypeSupportInterface $tokenType
+     * @param TokenTypeSupport $tokenType
      *
      * @return HeaderCheckerManagerFactory
      */
-    public function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): self
+    public function addTokenTypeSupport(TokenTypeSupport $tokenType): self
     {
         $this->tokenTypes[] = $tokenType;
 
@@ -81,13 +78,5 @@ final class HeaderCheckerManagerFactory
     public function aliases(): array
     {
         return array_keys($this->checkers);
-    }
-
-    /**
-     * @return HeaderCheckerInterface[]
-     */
-    public function checkers(): array
-    {
-        return $this->checkers;
     }
 }

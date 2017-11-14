@@ -19,7 +19,7 @@ namespace Jose\Component\Checker;
 final class ClaimCheckerManagerFactory
 {
     /**
-     * @var ClaimCheckerInterface[]
+     * @var ClaimChecker[]
      */
     private $checkers = [];
 
@@ -44,15 +44,12 @@ final class ClaimCheckerManagerFactory
 
     /**
      * @param string                $alias
-     * @param ClaimCheckerInterface $checker
+     * @param ClaimChecker $checker
      *
      * @return ClaimCheckerManagerFactory
      */
-    public function add(string $alias, ClaimCheckerInterface $checker): self
+    public function add(string $alias, ClaimChecker $checker): self
     {
-        if (array_key_exists($alias, $this->checkers)) {
-            throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
-        }
         $this->checkers[$alias] = $checker;
 
         return $this;
@@ -64,13 +61,5 @@ final class ClaimCheckerManagerFactory
     public function aliases(): array
     {
         return array_keys($this->checkers);
-    }
-
-    /**
-     * @return ClaimCheckerInterface[]
-     */
-    public function checkers(): array
-    {
-        return $this->checkers;
     }
 }

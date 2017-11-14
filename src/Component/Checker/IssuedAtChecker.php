@@ -16,7 +16,7 @@ namespace Jose\Component\Checker;
 /**
  * Class IssuedAtChecker.
  */
-final class IssuedAtChecker implements ClaimCheckerInterface
+final class IssuedAtChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'iat';
 

@@ -17,32 +17,37 @@ use Jose\Component\Checker\ExpirationTimeChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group ClaimChecker
  * @group Functional
  */
-final class ExpirationTimeTest extends TestCase
+final class ExpirationTimeClaimCheckerTest extends TestCase
 {
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage "exp" must be an integer.
      */
-    public function testExpirationTimeMustBeAnInteger()
+    public function theExpirationTimeClaimMustBeAnInteger()
     {
         $checker = new ExpirationTimeChecker();
         $checker->checkClaim('foo');
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The JWT has expired.
      */
-    public function testExpirationTime()
+    public function theExpirationTimeIsInThePast()
     {
         $checker = new ExpirationTimeChecker();
         $checker->checkClaim(time() - 1);
     }
 
-    public function testSuccess()
+    /**
+     * @test
+     */
+    public function theExpirationTimeIsInTheFutur()
     {
         $checker = new ExpirationTimeChecker();
         $checker->checkClaim(time() + 3600);

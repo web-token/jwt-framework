@@ -16,9 +16,9 @@ namespace Jose\Component\Checker;
 use Jose\Component\Core\JWTInterface;
 
 /**
- * Interface TokenTypeSupportInterface.
+ * Interface TokenTypeSupport.
  */
-interface TokenTypeSupportInterface
+interface TokenTypeSupport
 {
     /**
      * @param JWTInterface $jwt

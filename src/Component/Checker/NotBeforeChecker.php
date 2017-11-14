@@ -16,7 +16,7 @@ namespace Jose\Component\Checker;
 /**
  * Class NotBeforeChecker.
  */
-final class NotBeforeChecker implements ClaimCheckerInterface
+final class NotBeforeChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'nbf';
 

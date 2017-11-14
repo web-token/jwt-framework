@@ -15,23 +15,34 @@ namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Component\Checker\Tests\Stub\IssuerChecker;
+use Jose\Component\Checker\Tests\Stub\OtherToken;
 use Jose\Component\Checker\Tests\Stub\Token;
 use Jose\Component\Checker\Tests\Stub\TokenSupport;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group HeaderChecker
  * @group Functional
  */
 final class HeaderCheckerManagerFactoryTest extends TestCase
 {
     /**
+     * @test
+     */
+    public function theAliasListOfTheHeaderCheckerManagerFactoryIsAvailable()
+    {
+        self::assertEquals(['aud', 'iss'], $this->getHeaderCheckerManagerFactory()->aliases());
+    }
+
+    /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header contains duplicated entries: alg.
      */
-    public function testDuplicatedHeaderParameters()
+    public function aHeaderMustNotContainDuplicatedHeaderParameters()
     {
-        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud']);
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['alg' => 'foo'];
         $unprotected = ['alg' => 'foo'];
@@ -41,12 +52,13 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage One or more headers are marked as critical, but they are missing or have not been checked: alg.
      */
-    public function testTokenHasCriticalClaimsNotSatisfied()
+    public function theTokenHasCriticalHeadersNotSatisfied()
     {
-        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud']);
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['crit' => ['alg']];
         $unprotected = [];
@@ -55,26 +67,77 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $headerCheckerManager->check($token, 0);
     }
 
-    public function testTokenSuccessfullyCheckedWithCriticalHeaders()
+    /**
+     * @test
+     */
+    public function theHeaderIsSuccessfullyChecked()
     {
-        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud']);
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['crit' => ['aud'], 'aud' => 'My Service'];
+        $unprotected = ['iss' => 'Another Service'];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+        $headerCheckerManager->check($token, 0);
+        self::assertTrue(true);
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The header parameter "crit" must be protected.
+     */
+    public function theCriticalHeaderParameterMustBeProtected()
+    {
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
+        $payload = [];
+        $protected = ['aud' => 'My Service'];
+        $unprotected = ['crit' => ['aud']];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+        $headerCheckerManager->check($token, 0);
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The header "crit" mus be a list of header parameters.
+     */
+    public function theCriticalHeaderParameterMustBeAListOfHeaderParameters()
+    {
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
+        $payload = [];
+        $protected = ['aud' => 'My Service', 'crit' => true];
+        $unprotected = [];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+        $headerCheckerManager->check($token, 0);
+    }
+
+    /**
+     * @test
+     */
+    public function theHeaderContainsUnknownParametersAndIsSuccessfullyChecked()
+    {
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
+        $payload = [];
+        $protected = ['foo' => 'bar', 'iss' => 'Another Service'];
         $unprotected = [];
         $token = Token::create(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
         self::assertTrue(true);
     }
 
-    public function testTokenSuccessfullyCheckedWithUnsupportedClaims()
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unsupported token type.
+     */
+    public function iTryToCheckATokenThatIsNotSupported()
     {
-        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud']);
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['foo' => 'bar'];
         $unprotected = [];
-        $token = Token::create(json_encode($payload), $protected, $unprotected);
+        $token = OtherToken::create(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
-        self::assertTrue(true);
     }
 
     /**
@@ -89,8 +152,8 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     {
         if (null === $this->headerCheckerManagerFactory) {
             $this->headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
-            $this->headerCheckerManagerFactory->add('aud', new AudienceChecker('My Service'));
-
+            $this->headerCheckerManagerFactory->add('aud', new AudienceChecker('My Service', true));
+            $this->headerCheckerManagerFactory->add('iss', new IssuerChecker('Another Service'));
             $this->headerCheckerManagerFactory->addTokenTypeSupport(new TokenSupport());
         }
 

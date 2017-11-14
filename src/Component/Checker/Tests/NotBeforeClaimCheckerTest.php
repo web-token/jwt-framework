@@ -17,32 +17,37 @@ use Jose\Component\Checker\NotBeforeChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group ClaimChecker
  * @group Functional
  */
-final class NotBeforeTest extends TestCase
+final class NotBeforeClaimCheckerTest extends TestCase
 {
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage "nbf" must be an integer.
      */
-    public function testNotBeforeMustBeAnInteger()
+    public function theNotBeforeClaimMustBeAnInteger()
     {
         $checker = new NotBeforeChecker();
         $checker->checkClaim('foo');
     }
 
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The JWT can not be used yet.
      */
-    public function testCannotBeUsedNow()
+    public function theNotBeforeClaimIsInTheFutur()
     {
         $checker = new NotBeforeChecker();
         $checker->checkClaim(time() + 3600);
     }
 
-    public function testSuccess()
+    /**
+     * @test
+     */
+    public function theNotBeforeClaimIsInThePast()
     {
         $checker = new NotBeforeChecker();
         $checker->checkClaim(time() - 3600);

@@ -19,14 +19,14 @@ namespace Jose\Component\Checker;
 final class ClaimCheckerManager
 {
     /**
-     * @var ClaimCheckerInterface[]
+     * @var ClaimChecker[]
      */
     private $checkers = [];
 
     /**
      * ClaimCheckerManager constructor.
      *
-     * @param ClaimCheckerInterface[] $checkers
+     * @param ClaimChecker[] $checkers
      */
     private function __construct(array $checkers)
     {
@@ -36,7 +36,7 @@ final class ClaimCheckerManager
     }
 
     /**
-     * @param ClaimCheckerInterface[] $checkers
+     * @param ClaimChecker[] $checkers
      *
      * @return ClaimCheckerManager
      */
@@ -46,17 +46,13 @@ final class ClaimCheckerManager
     }
 
     /**
-     * @param ClaimCheckerInterface $checker
+     * @param ClaimChecker $checker
      *
      * @return ClaimCheckerManager
      */
-    private function add(ClaimCheckerInterface $checker): self
+    private function add(ClaimChecker $checker): self
     {
         $claim = $checker->supportedClaim();
-        if (array_key_exists($claim, $this->checkers)) {
-            throw new \InvalidArgumentException(sprintf('The claim checker "%s" is already supported.', $claim));
-        }
-
         $this->checkers[$claim] = $checker;
 
         return $this;

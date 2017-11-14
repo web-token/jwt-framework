@@ -17,22 +17,26 @@ use Jose\Component\Checker\UnencodedPayloadChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimCheckerManager
+ * @group HeaderChecker
  * @group Functional
  */
-final class UnencodedPayloadTest extends TestCase
+final class UnencodedPayloadHeaderCheckerTest extends TestCase
 {
     /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage "b64" must be a boolean.
      */
-    public function testB64MustBeAnInteger()
+    public function theB64HeaderMustBeAnBoolean()
     {
         $checker = new UnencodedPayloadChecker();
         $checker->checkHeader('foo');
     }
 
-    public function testSuccess()
+    /**
+     * @test
+     */
+    public function theB64HeaderIsABoolean()
     {
         $checker = new UnencodedPayloadChecker();
         $checker->checkHeader(true);

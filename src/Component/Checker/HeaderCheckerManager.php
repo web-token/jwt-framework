@@ -21,20 +21,20 @@ use Jose\Component\Core\JWTInterface;
 final class HeaderCheckerManager
 {
     /**
-     * @var HeaderCheckerInterface[]
+     * @var HeaderChecker[]
      */
     private $checkers = [];
 
     /**
-     * @var TokenTypeSupportInterface[]
+     * @var TokenTypeSupport[]
      */
     private $tokenTypes = [];
 
     /**
      * HeaderCheckerManager constructor.
      *
-     * @param HeaderCheckerInterface[]    $checkers
-     * @param TokenTypeSupportInterface[] $tokenTypes
+     * @param HeaderChecker[]    $checkers
+     * @param TokenTypeSupport[] $tokenTypes
      */
     private function __construct(array $checkers, array $tokenTypes)
     {
@@ -47,8 +47,8 @@ final class HeaderCheckerManager
     }
 
     /**
-     * @param HeaderCheckerInterface[]    $checkers
-     * @param TokenTypeSupportInterface[] $tokenTypes
+     * @param HeaderChecker[]    $checkers
+     * @param TokenTypeSupport[] $tokenTypes
      *
      * @return HeaderCheckerManager
      */
@@ -58,11 +58,11 @@ final class HeaderCheckerManager
     }
 
     /**
-     * @param TokenTypeSupportInterface $tokenType
+     * @param TokenTypeSupport $tokenType
      *
      * @return HeaderCheckerManager
      */
-    private function addTokenTypeSupport(TokenTypeSupportInterface $tokenType): self
+    private function addTokenTypeSupport(TokenTypeSupport $tokenType): self
     {
         $this->tokenTypes[] = $tokenType;
 
@@ -70,17 +70,13 @@ final class HeaderCheckerManager
     }
 
     /**
-     * @param HeaderCheckerInterface $checker
+     * @param HeaderChecker $checker
      *
      * @return HeaderCheckerManager
      */
-    private function add(HeaderCheckerInterface $checker): self
+    private function add(HeaderChecker $checker): self
     {
         $header = $checker->supportedHeader();
-        if (array_key_exists($header, $this->checkers)) {
-            throw new \InvalidArgumentException(sprintf('The header checker "%s" is already supported.', $header));
-        }
-
         $this->checkers[$header] = $checker;
 
         return $this;
@@ -131,7 +127,7 @@ final class HeaderCheckerManager
                 if (array_key_exists($header, $protected)) {
                     $checker->checkHeader($protected[$header]);
                     $checkedHeaders[] = $header;
-                } else {
+                } elseif (array_key_exists($header, $headers)) {
                     throw new \InvalidArgumentException(sprintf('The header "%s" must be protected.', $header));
                 }
             } else {
@@ -144,7 +140,16 @@ final class HeaderCheckerManager
                 }
             }
         }
+        $this->checkCriticalHeader($protected, $headers, $checkedHeaders);
+    }
 
+    /**
+     * @param array $protected
+     * @param array $headers
+     * @param array $checkedHeaders
+     */
+    private function checkCriticalHeader(array $protected, array $headers, array $checkedHeaders)
+    {
         if (array_key_exists('crit', $protected)) {
             if (!is_array($protected['crit'])) {
                 throw new \InvalidArgumentException('The header "crit" mus be a list of header parameters.');

@@ -14,24 +14,19 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 /**
- * Interface HeaderCheckerInterface.
+ * Interface ClaimChecker.
  */
-interface HeaderCheckerInterface
+interface ClaimChecker
 {
     /**
      * @param $value
      *
      * @throws \InvalidArgumentException
      */
-    public function checkHeader($value);
+    public function checkClaim($value);
 
     /**
      * @return string
      */
-    public function supportedHeader(): string;
-
-    /**
-     * @return bool
-     */
-    public function protectedHeaderOnly(): bool;
+    public function supportedClaim(): string;
 }
