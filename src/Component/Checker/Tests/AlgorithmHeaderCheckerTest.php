@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AlgorithmChecker;
-use Jose\Component\Checker\InvalidHeaderException;
 use PHPUnit\Framework\TestCase;
 
 /**

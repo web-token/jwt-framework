@@ -30,6 +30,7 @@ final class InvalidClaimException extends \Error
 
     /**
      * InvalidClaimException constructor.
+     *
      * @param string $message
      * @param string $claim
      * @param mixed  $value

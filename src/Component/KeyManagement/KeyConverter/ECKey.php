@@ -47,7 +47,7 @@ final class ECKey
      *
      * @return ECKey
      */
-    public static function createFromPEM(string $pem): ECKey
+    public static function createFromPEM(string $pem): self
     {
         $data = self::loadPEM($pem);
 
@@ -272,7 +272,7 @@ final class ECKey
      *
      * @return ECKey
      */
-    public static function toPublic(ECKey $private): ECKey
+    public static function toPublic(self $private): self
     {
         $data = $private->toArray();
         if (array_key_exists('d', $data)) {

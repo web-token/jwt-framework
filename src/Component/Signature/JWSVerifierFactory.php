@@ -28,7 +28,7 @@ final class JWSVerifierFactory
     /**
      * JWSVerifierFactory constructor.
      *
-     * @param AlgorithmManagerFactory     $algorithmManagerFactory
+     * @param AlgorithmManagerFactory $algorithmManagerFactory
      */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
     {

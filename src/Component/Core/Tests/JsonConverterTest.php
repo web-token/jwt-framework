@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Tests;
 
-use Jose\Component\Core\Algorithm;
-use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\Converter\StandardConverter;
 use PHPUnit\Framework\TestCase;
 

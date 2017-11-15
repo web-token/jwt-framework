@@ -28,7 +28,7 @@ final class MessageBag implements \JsonSerializable, \ArrayAccess, \IteratorAggr
      *
      * @return MessageBag
      */
-    public function add(Message $message): MessageBag
+    public function add(Message $message): self
     {
         $this->messages[] = $message;
 
