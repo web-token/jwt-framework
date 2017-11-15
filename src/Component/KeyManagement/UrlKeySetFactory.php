@@ -56,7 +56,7 @@ abstract class UrlKeySetFactory
         $request = $this->messageFactory->createRequest('GET', $url, $headers);
         $response = $this->client->sendRequest($request);
 
-        if (200 !== $response->getStatusCode()) {
+        if ($response->getStatusCode() >= 400) {
             throw new \RuntimeException('Unable to get the key set.', $response->getStatusCode());
         }
 

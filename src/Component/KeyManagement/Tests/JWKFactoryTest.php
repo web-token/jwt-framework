@@ -25,6 +25,29 @@ use PHPUnit\Framework\TestCase;
  */
 final class JWKFactoryTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function iCanLoadAP12CertificateThatContainsARSAKey()
+    {
+        $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__.'/P12/CertRSA.p12', 'certRSA');
+
+        self::assertInstanceOf(JWK::class, $result);
+        self::assertEquals([
+            'kty' => 'RSA',
+            'n' => 'acqZqFSLArU71p9yp8ZH1nDfi5g0TLgPCgAYESrfb-DB0_F89LUSSukRRkCjNCuJqp6j6jpe4VmJ2YzGiBV3eoMqORIdUmQ3XlKKX_ONM3oWhZZoFS_2s1RLFl1faXORe4JSJIN9gt_4EpXoKTjX1gftTcFOLrXPgODEwjAYll0',
+            'e' => 'AQAB',
+            'd' => 'F5wRgtGrXGVZ_2ICUpMbwS3blenX8i85m_-9X0d0KiG84DIKswoeFP3Czyzpv2DgDmXtKv7v4db7vsN-Iyy3RyKmX6y_1yfahMGbLqYl7pFQ2nYooZJI4XRJMDbtfX5l7QqiDDkQrHPcUNlC361WKf8rWlVlIDfwHrBkvp-UPoE',
+            'p' => 'gbDt-jRqRZw1Dwg_Ckl_vBRWqCfWfem1YALgpud5FCnPtXoHHcMPayTUb8mjWioN4HIjMIJ29abtvXq3zvhYcQ',
+            'q' => '0NLnRW0gajCpa0bA76AbF_MQhxGWH_ZQBfLtEq4NFGWdk_CslovUzJJ4DnW96TfthHgGQEqETtZweQd53kryrQ',
+            'dp' => 'KhbWlM3v81lnqtI9S0RhLRPYr8gGB2USlO86I1CZ7d5H55iLuK_2UApq20CwP_HIASBppTOiEcU0ALtT7dqRMQ',
+            'dq' => 'WOvmBV9BtVZBXmgDkkZoIxuixxFLDxMw4keeghzRfwUCQ9Pxei3TEMWyD949X0ksgAMoDkps6rFPtYnkcC8UBQ',
+            'qi' => 'R-TcgNYrZs8iYmR3pI2UwFhrmJl98vzzSkI4rGTON0vPrnl_46KqzpiW04dBj3yQxhlKyPO8TO0tnA3AYnDc-Q',
+        ],
+            $result->all()
+        );
+    }
+
     public function testCreateFromECCertificateFileInDERFormat()
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__.'/EC/DER/prime256v1-cert.der');

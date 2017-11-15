@@ -15,7 +15,7 @@ namespace Jose\Component\Console;
 
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager;
+use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,7 +27,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class KeyAnalyzerCommand extends Command
 {
     /**
-     * @var JWKAnalyzerManager
+     * @var KeyAnalyzerManager
      */
     private $analyzerManager;
 
@@ -39,11 +39,11 @@ final class KeyAnalyzerCommand extends Command
     /**
      * KeyAnalyzerCommand constructor.
      *
-     * @param JWKAnalyzerManager     $analyzerManager
+     * @param KeyAnalyzerManager     $analyzerManager
      * @param JsonConverter $jsonConverter
      * @param string|null            $name
      */
-    public function __construct(JWKAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
+    public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($name);
         $this->analyzerManager = $analyzerManager;
@@ -73,7 +73,7 @@ final class KeyAnalyzerCommand extends Command
 
         $result = $this->analyzerManager->analyze($jwk);
         foreach ($result as $message) {
-            $output->writeln($message);
+            $output->writeln($message->getMessag().' ('.$message->getSeverity().').');
         }
     }
 

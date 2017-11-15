@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Console\DependencyInjection\Compiler;
 
-use Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager;
+use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -28,11 +28,11 @@ final class KeyAnalyzerCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(JWKAnalyzerManager::class)) {
+        if (!$container->hasDefinition(KeyAnalyzerManager::class)) {
             return;
         }
 
-        $definition = $container->getDefinition(JWKAnalyzerManager::class);
+        $definition = $container->getDefinition(KeyAnalyzerManager::class);
 
         $taggedServices = $container->findTaggedServiceIds('jose.key_analyzer');
         foreach ($taggedServices as $id => $tags) {

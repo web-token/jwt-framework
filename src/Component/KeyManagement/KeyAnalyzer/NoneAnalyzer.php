@@ -18,16 +18,17 @@ use Jose\Component\Core\JWK;
 /**
  * Class NoneAnalyzer.
  */
-final class NoneAnalyzer implements JWKAnalyzer
+final class NoneAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}
      */
-    public function analyze(JWK $jwk, array &$messages)
+    public function analyze(JWK $jwk, MessageBag $bag)
     {
         if ('none' !== $jwk->get('kty')) {
             return;
         }
-        $messages[] = 'This key is a meant to be used with the algorithm "none". This algorithm is not secured and should be used with care.';
+
+        $bag->add(Message::high('This key is a meant to be used with the algorithm "none". This algorithm is not secured and should be used with care.'));
     }
 }

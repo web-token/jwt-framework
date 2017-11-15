@@ -19,22 +19,22 @@ use Jose\Component\Core\JWK;
 /**
  * Class RsaAnalyzer.
  */
-final class RsaAnalyzer implements JWKAnalyzer
+final class RsaAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}
      */
-    public function analyze(JWK $jwk, array &$messages)
+    public function analyze(JWK $jwk, MessageBag $bag)
     {
         if ('RSA' !== $jwk->get('kty')) {
             return;
         }
         $n = 8 * mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
         if ($n < 2048) {
-            $messages[] = 'The key length is less than 2048 bits.';
+            $bag->add(Message::high('The key length is less than 2048 bits.'));
         }
         if ($jwk->has('d') && (!$jwk->has('p') || !$jwk->has('q') || !$jwk->has('dp') || !$jwk->has('dq') || !$jwk->has('p') || !$jwk->has('qi'))) {
-            $messages[] = 'The key is a private RSA key, but Chinese Remainder Theorem primes are missing. These primes are not mandatory, but signatures and decryption processes are faster when available.';
+            $bag->add(Message::medium('The key is a private RSA key, but Chinese Remainder Theorem primes are missing. These primes are not mandatory, but signatures and decryption processes are faster when available.'));
         }
     }
 }

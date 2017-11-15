@@ -23,7 +23,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
-use Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager;
+use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
@@ -55,7 +55,7 @@ final class JoseCollector extends DataCollector
     private $jweSerializerManagerFactory;
 
     /**
-     * @var JWKAnalyzerManager|null
+     * @var KeyAnalyzerManager|null
      */
     private $jwkAnalyzerManager;
 
@@ -66,9 +66,9 @@ final class JoseCollector extends DataCollector
      * @param CompressionMethodManagerFactory|null $compressionMethodManagerFactory
      * @param JWSSerializerManagerFactory|null     $jwsSerializerManagerFactory
      * @param JWESerializerManagerFactory|null     $jweSerializerManagerFactory
-     * @param JWKAnalyzerManager|null              $jwkAnalyzerManager
+     * @param KeyAnalyzerManager|null              $jwkAnalyzerManager
      */
-    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null, ?JWKAnalyzerManager $jwkAnalyzerManager)
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null, ?KeyAnalyzerManager $jwkAnalyzerManager)
     {
         $this->data = [];
         $this->algorithmManagerFactory = $algorithmManagerFactory;

@@ -82,14 +82,8 @@ final class KeyConverter
             $x5c = trim($x5c);
             $values['x5c'] = [$x5c];
 
-            if (function_exists('openssl_x509_fingerprint')) {
-                $values['x5t'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha1', true));
-                $values['x5t#256'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha256', true));
-            } else {
-                openssl_x509_export($res, $pem);
-                $values['x5t'] = Base64Url::encode(self::calculateX509Fingerprint($pem, 'sha1', true));
-                $values['x5t#256'] = Base64Url::encode(self::calculateX509Fingerprint($pem, 'sha256', true));
-            }
+            $values['x5t'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha1', true));
+            $values['x5t#256'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha256', true));
 
             return $values;
         }
@@ -299,20 +293,5 @@ final class KeyConverter
         $pem = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$pem.'-----END CERTIFICATE-----'.PHP_EOL;
 
         return $pem;
-    }
-
-    /**
-     * @param string $pem
-     * @param string $algorithm
-     * @param bool   $binary
-     *
-     * @return string
-     */
-    private static function calculateX509Fingerprint(string $pem, string $algorithm, bool $binary = false): string
-    {
-        $pem = preg_replace('#-.*-|\r|\n#', '', $pem);
-        $bin = base64_decode($pem);
-
-        return hash($algorithm, $bin, $binary);
     }
 }

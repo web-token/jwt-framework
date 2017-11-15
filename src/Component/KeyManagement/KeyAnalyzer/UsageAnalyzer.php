@@ -18,20 +18,20 @@ use Jose\Component\Core\JWK;
 /**
  * Class UsageAnalyzer.
  */
-final class UsageAnalyzer implements JWKAnalyzer
+final class UsageAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}
      */
-    public function analyze(JWK $jwk, array &$messages)
+    public function analyze(JWK $jwk, MessageBag $bag)
     {
         if (!$jwk->has('use')) {
-            $messages[] = 'The parameter "use" should be added.';
+            $bag->add(Message::medium('The parameter "use" should be added.'));
         } elseif (!in_array($jwk->get('use'), ['sig', 'enc'])) {
-            $messages[] = sprintf('The parameter "use" has an unsupported value "%s". Please use "sig" (signature) or "enc" (encryption).', $jwk->get('use'));
+            $bag->add(Message::high(sprintf('The parameter "use" has an unsupported value "%s". Please use "sig" (signature) or "enc" (encryption).', $jwk->get('use'))));
         }
-        if ($jwk->has('key_ops') && !in_array($jwk->get('key_ops'), ['sig', 'enc'])) {
-            $messages[] = sprintf('The parameter "key_ops" has an unsupported value "%s". Please use one of the following values: %s.', $jwk->get('use'), implode(', ', ['verify', 'sign', 'encryp', 'decrypt', 'wrapKey', 'unwrapKey']));
+        if ($jwk->has('key_ops') && !in_array($jwk->get('key_ops'), ['sign', 'verify', 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey'])) {
+            $bag->add(Message::high(sprintf('The parameter "key_ops" has an unsupported value "%s". Please use one of the following values: %s.', $jwk->get('use'), implode(', ', ['verify', 'sign', 'encryp', 'decrypt', 'wrapKey', 'unwrapKey']))));
         }
     }
 }

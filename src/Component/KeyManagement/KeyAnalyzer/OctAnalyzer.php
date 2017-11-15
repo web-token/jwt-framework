@@ -20,12 +20,12 @@ use ZxcvbnPhp\Zxcvbn;
 /**
  * Class OctAnalyzer.
  */
-final class OctAnalyzer implements JWKAnalyzer
+final class OctAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}
      */
-    public function analyze(JWK $jwk, array &$messages)
+    public function analyze(JWK $jwk, MessageBag $bag)
     {
         if ('oct' !== $jwk->get('kty')) {
             return;
@@ -33,7 +33,7 @@ final class OctAnalyzer implements JWKAnalyzer
         $k = Base64Url::decode($jwk->get('k'));
         $kLength = 8 * mb_strlen($k, '8bit');
         if ($kLength < 128) {
-            $messages[] = 'The key length is less than 128 bits.';
+            $bag->add(Message::high('The key length is less than 128 bits.'));
         }
 
         if (class_exists(Zxcvbn::class)) {
@@ -41,11 +41,11 @@ final class OctAnalyzer implements JWKAnalyzer
             $strength = $zxcvbn->passwordStrength($k);
             switch (true) {
                 case $strength['score'] < 3:
-                    $messages[] = 'The octet string is weak and easily guessable. Please change your key as soon as possible.';
+                    $bag->add(Message::high('The octet string is weak and easily guessable. Please change your key as soon as possible.'));
 
                     break;
                 case 3 === $strength['score']:
-                    $messages[] = 'The octet string is safe, but a longer key is preferable.';
+                    $bag->add(Message::medium('The octet string is safe, but a longer key is preferable.'));
 
                     break;
                 default:

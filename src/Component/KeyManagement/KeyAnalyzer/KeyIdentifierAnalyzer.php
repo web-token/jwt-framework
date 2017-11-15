@@ -18,15 +18,15 @@ use Jose\Component\Core\JWK;
 /**
  * Class KeyIdentifierAnalyzer.
  */
-final class KeyIdentifierAnalyzer implements JWKAnalyzer
+final class KeyIdentifierAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}
      */
-    public function analyze(JWK $jwk, array &$messages)
+    public function analyze(JWK $jwk, MessageBag $bag)
     {
         if (!$jwk->has('kid')) {
-            $messages[] = 'The parameter "kid" should be added.';
+            $bag->add(Message::medium('The parameter "kid" should be added.'));
         }
     }
 }

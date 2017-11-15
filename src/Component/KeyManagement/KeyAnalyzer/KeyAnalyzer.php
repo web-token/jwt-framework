@@ -16,13 +16,13 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 use Jose\Component\Core\JWK;
 
 /**
- * Interface JWKAnalyzer.
+ * Interface KeyAnalyzer.
  */
-interface JWKAnalyzer
+interface KeyAnalyzer
 {
     /**
-     * @param JWK      $jwk
-     * @param string[] $messages
+     * @param JWK        $jwk
+     * @param MessageBag $bag
      */
-    public function analyze(JWK $jwk, array &$messages);
+    public function analyze(JWK $jwk, MessageBag $bag);
 }

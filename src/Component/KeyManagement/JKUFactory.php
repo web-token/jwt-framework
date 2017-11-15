@@ -51,7 +51,7 @@ final class JKUFactory extends UrlKeySetFactory
         $content = $this->getContent($url, $headers);
         $data = $this->jsonConverter->decode($content);
         if (!is_array($data)) {
-            throw new \InvalidArgumentException('Invalid content.');
+            throw new \RuntimeException('Invalid content.');
         }
 
         return JWKSet::createFromKeyData($data);

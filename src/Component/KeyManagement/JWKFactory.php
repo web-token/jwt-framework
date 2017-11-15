@@ -225,7 +225,7 @@ final class JWKFactory
      *
      * @return JWK
      */
-    public static function createFromPKCS12CertificateFile(string $file, ?string $secret = null, array $additional_values = []): JWK
+    public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
     {
         $res = openssl_pkcs12_read(file_get_contents($file), $certs, $secret);
         if (false === $res || !is_array($certs) || !array_key_exists('pkey', $certs)) {
