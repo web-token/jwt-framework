@@ -73,7 +73,7 @@ final class KeyAnalyzerCommand extends Command
 
         $result = $this->analyzerManager->analyze($jwk);
         foreach ($result as $message) {
-            $output->writeln($message->getMessag().' ('.$message->getSeverity().').');
+            $output->writeln($message->getMessage().' ('.$message->getSeverity().').');
         }
     }
 
