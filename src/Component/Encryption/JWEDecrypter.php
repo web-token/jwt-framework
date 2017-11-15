@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
@@ -35,11 +34,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 final class JWEDecrypter
 {
     /**
-     * @var HeaderCheckerManager
-     */
-    private $headerCheckerManager;
-
-    /**
      * @var AlgorithmManager
      */
     private $keyEncryptionAlgorithmManager;
@@ -60,14 +54,12 @@ final class JWEDecrypter
      * @param AlgorithmManager         $keyEncryptionAlgorithmManager
      * @param AlgorithmManager         $contentEncryptionAlgorithmManager
      * @param CompressionMethodManager $compressionMethodManager
-     * @param HeaderCheckerManager     $headerCheckerManager
      */
-    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager, HeaderCheckerManager $headerCheckerManager)
+    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager)
     {
         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
         $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
         $this->compressionMethodManager = $compressionMethodManager;
-        $this->headerCheckerManager = $headerCheckerManager;
     }
 
     /**
@@ -125,11 +117,6 @@ final class JWEDecrypter
         $nb_recipients = $jwe->countRecipients();
 
         for ($i = 0; $i < $nb_recipients; ++$i) {
-            try {
-                $this->headerCheckerManager->check($jwe, $i);
-            } catch (\Exception $e) {
-                continue;
-            }
             $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $i);
             if (null !== $plaintext) {
                 $recipientIndex = $i;

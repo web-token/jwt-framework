@@ -60,7 +60,7 @@ final class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
         $expected_ciphertext = '0fys_TY_na7f8dwSfXLiYdHaA2DxUjD67ieF7fcVbIR62JhJvGZ4_FNVSiGc_raa0HnLQ6s1P2sv3Xzl1p1l_o5wR_RsSzrS8Z-wnI3Jvo0mkpEEnlDmZvDu_k8OWzJv7eZVEqiWKdyVzFhPpiyQU28GLOpRc2VbVbK4dQKPdNTjPPEmRqcaGeTWZVyeSUvf5k59yJZxRuSvWFf6KrNtmRdZ8R4mDOjHSrM_s8uwIFcqt4r5GX8TKaI0zT5CbL5Qlw3sRc7u_hg0yKVOiRytEAEs3vZkcfLkP6nbXdC_PkMdNS-ohP78T2O6_7uInMGhFeX4ctHG7VelHGiT93JfWDEQi5_V9UN1rhXNrYu-0fVMkZAKX3VWi7lzA6BP430m';
         $expected_tag = 'kvKuFBXHe5mQr4lqgobAUg';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
         $loaded_compact_json = $jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key);
@@ -122,7 +122,7 @@ final class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)

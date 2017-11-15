@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWE;
 
-use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManager;
@@ -25,7 +24,6 @@ use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
-use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
@@ -57,11 +55,6 @@ abstract class EncryptionBench
      * @var JsonConverter
      */
     private $jsonConverter;
-
-    /**
-     * @var HeaderCheckerManager
-     */
-    private $headerCherckerManager;
 
     /**
      * @var JWESerializerManager
@@ -102,10 +95,6 @@ abstract class EncryptionBench
             new Compression\Deflate(),
             new Compression\GZip(),
             new Compression\ZLib(),
-        ]);
-        $this->headerCherckerManager = HeaderCheckerManager::create([
-        ], [
-            new JWETokenSupport(),
         ]);
         $this->serializerManager = JWESerializerManager::create([
             new CompactSerializer($this->jsonConverter),
@@ -148,8 +137,7 @@ abstract class EncryptionBench
         $jweLoader = new JWEDecrypter(
             $this->getKeyEncryptionAlgorithmsManager(),
             $this->getContentEncryptionAlgorithmsManager(),
-            $this->getCompressionMethodsManager(),
-            $this->headerCherckerManager
+            $this->getCompressionMethodsManager()
         );
         $jwe = $this->serializerManager->unserialize($params['input']);
         $keyset = JWKSet::createFromKeyData($params['recipient_keys']);

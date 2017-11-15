@@ -102,7 +102,7 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         $expected_ciphertext = 'ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE';
         $expected_tag = 'BESYyFN7T09KY7i8zKs5_g';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
         $jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key);
@@ -200,7 +200,7 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)

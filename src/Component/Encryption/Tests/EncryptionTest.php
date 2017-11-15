@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Tests;
 
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\KeyEncryption;
@@ -22,7 +21,6 @@ use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
-use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer;
 use PHPUnit\Framework\TestCase;
 
@@ -127,30 +125,11 @@ abstract class EncryptionTest extends TestCase
         if (null === $this->jweDecrypterFactory) {
             $this->jweDecrypterFactory = new JWEDecrypterFactory(
                 $this->getAlgorithmManagerFactory(),
-                $this->getCompressionMethodManagerFactory(),
-                $this->getHeaderCheckerManagerFactory()
+                $this->getCompressionMethodManagerFactory()
             );
         }
 
         return $this->jweDecrypterFactory;
-    }
-
-    /**
-     * @var HeaderCheckerManagerFactory
-     */
-    private $headerCheckerManagerFactory;
-
-    /**
-     * @return HeaderCheckerManagerFactory
-     */
-    protected function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
-    {
-        if (null === $this->headerCheckerManagerFactory) {
-            $this->headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
-            $this->headerCheckerManagerFactory->addTokenTypeSupport(new JWETokenSupport());
-        }
-
-        return $this->headerCheckerManagerFactory;
     }
 
     /**

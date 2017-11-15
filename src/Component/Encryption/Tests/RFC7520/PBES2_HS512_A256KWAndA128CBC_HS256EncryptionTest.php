@@ -74,7 +74,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
         $expected_ciphertext = '23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p';
         $expected_tag = '0HlwodAhOCILG5SQ2LQ9dg';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
         $loaded_compact_json = $jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key);
@@ -148,7 +148,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)

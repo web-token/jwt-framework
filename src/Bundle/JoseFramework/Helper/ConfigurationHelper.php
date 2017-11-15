@@ -245,10 +245,9 @@ final class ConfigurationHelper
      * @param array            $keyEncryptionAlgorithm
      * @param array            $contentEncryptionAlgorithms
      * @param array            $compressionMethods
-     * @param array            $headerCheckers
      * @param bool             $is_public
      */
-    public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], array  $headerCheckers = [], bool $is_public = true)
+    public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true)
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -258,7 +257,6 @@ final class ConfigurationHelper
                         'key_encryption_algorithms' => $keyEncryptionAlgorithm,
                         'content_encryption_algorithms' => $contentEncryptionAlgorithms,
                         'compression_methods' => $compressionMethods,
-                        'header_checkers' => $headerCheckers,
                     ],
                 ],
             ],

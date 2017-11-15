@@ -12,14 +12,13 @@ framework:
 jose:
     jwe_builders:
         builder1:
-            is_public: true
             key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
             content_encryption_algorithms: ['A256CBC-HS512']
+            is_public: true
     jwe_decrypters:
         loader1:
             key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
             content_encryption_algorithms: ['A256CBC-HS512']
-            header_checkers: []
             is_public: true
     jwe_serializers:
         jwe_serializer1:

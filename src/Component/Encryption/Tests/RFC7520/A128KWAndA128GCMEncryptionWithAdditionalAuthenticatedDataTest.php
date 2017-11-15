@@ -54,7 +54,7 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
         $expected_ciphertext = 'Z_3cbr0k3bVM6N3oSNmHz7Lyf3iPppGf3Pj17wNZqteJ0Ui8p74SchQP8xygM1oFRWCNzeIa6s6BcEtp8qEFiqTUEyiNkOWDNoF14T_4NFqF-p2Mx8zkbKxI7oPK8KNarFbyxIDvICNqBLba-v3uzXBdB89fzOI-Lv4PjOFAQGHrgv1rjXAmKbgkft9cB4WeyZw8MldbBhc-V_KWZslrsLNygon_JJWd_ek6LQn5NRehvApqf9ZrxB4aq3FXBxOxCys35PhCdaggy2kfUfl2OkwKnWUbgXVD1C6HxLIlqHhCwXDG59weHrRDQeHyMRoBljoV3X_bUTJDnKBFOod7nLz-cj48JMx3SnCZTpbQAkFV';
         $expected_tag = 'vOaH_Rajnpy_3hOtqvZHRA';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF']);
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($expected_flattened_json);
         $loaded_flattened_json = $jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key);
@@ -102,7 +102,7 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['A128KW'], ['A128GCM'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF'], []);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)

@@ -48,7 +48,6 @@ final class JWEDecrypter implements Source
                     $itemConfig['key_encryption_algorithms'],
                     $itemConfig['content_encryption_algorithms'],
                     $itemConfig['compression_methods'],
-                    $itemConfig['header_checkers'],
                 ])
                 ->addTag('jose.jwe_decrypter')
                 ->setPublic($itemConfig['is_public']);
@@ -88,12 +87,6 @@ final class JWEDecrypter implements Source
                                 ->info('A list of supported compression methods.')
                                 ->useAttributeAsKey('name')
                                 ->defaultValue(['DEF'])
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('header_checkers')
-                                ->info('A list of headers to check.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
                                 ->prototype('scalar')->end()
                             ->end()
                         ->end()
