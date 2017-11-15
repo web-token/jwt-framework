@@ -21,7 +21,7 @@
     },
     "require": {
         "php": "^7.1",
-        "web-token/jwt-checker-bundle": "^0.2",
+        "web-token/jwt-bundle": "^0.2",
         "web-token/jwt-signature": "^0.2"
     },
     "require-dev": {
