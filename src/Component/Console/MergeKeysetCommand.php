@@ -28,7 +28,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
      * KeyAnalyzerCommand constructor.
      *
      * @param JsonConverter $jsonConverter
-     * @param string|null            $name
+     * @param string|null   $name
      */
     public function __construct(JsonConverter $jsonConverter, string $name = null)
     {

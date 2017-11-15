@@ -30,9 +30,9 @@ final class X5UFactory extends UrlKeySetFactory
     /**
      * X5UFactory constructor.
      *
-     * @param JsonConverter $jsonConverter
-     * @param HttpClient             $client
-     * @param MessageFactory         $messageFactory
+     * @param JsonConverter  $jsonConverter
+     * @param HttpClient     $client
+     * @param MessageFactory $messageFactory
      */
     public function __construct(JsonConverter $jsonConverter, HttpClient $client, MessageFactory $messageFactory)
     {

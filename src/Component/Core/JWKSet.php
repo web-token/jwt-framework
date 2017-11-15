@@ -209,9 +209,9 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
     }
 
     /**
-     * @param string                  $type         Must be 'sig' (signature) or 'enc' (encryption)
+     * @param string         $type         Must be 'sig' (signature) or 'enc' (encryption)
      * @param Algorithm|null $algorithm    Specifies the algorithm to be used
-     * @param array                   $restrictions More restrictions such as 'kid' or 'kty'
+     * @param array          $restrictions More restrictions such as 'kid' or 'kty'
      *
      * @return JWK|null
      */
@@ -273,7 +273,7 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
 
     /**
      * @param null|Algorithm $algorithm
-     * @param JWK                     $key
+     * @param JWK            $key
      *
      * @return bool|int
      */

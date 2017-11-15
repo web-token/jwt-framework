@@ -38,10 +38,10 @@ use Jose\Component\Signature\Tests\SignatureTest;
 final class ECDSASignatureTest extends SignatureTest
 {
     /**
-     * @param SignatureAlgorithm $algorithm
-     * @param string                      $message
-     * @param \Jose\Component\Core\JWK    $key
-     * @param string                      $signature
+     * @param SignatureAlgorithm       $algorithm
+     * @param string                   $message
+     * @param \Jose\Component\Core\JWK $key
+     * @param string                   $signature
      *
      * @dataProvider dataWithVectors
      */

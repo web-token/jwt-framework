@@ -185,9 +185,9 @@ final class JoseCollector extends DataCollector
 
     /**
      * @param Algorithm $algorithm
-     * @param int                $signatureAlgorithms
-     * @param int                $keyEncryptionAlgorithms
-     * @param int                $contentEncryptionAlgorithms
+     * @param int       $signatureAlgorithms
+     * @param int       $keyEncryptionAlgorithms
+     * @param int       $contentEncryptionAlgorithms
      *
      * @return string
      */

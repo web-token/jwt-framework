@@ -96,7 +96,7 @@ final class JWEBuilder
     /**
      * JWEBuilder constructor.
      *
-     * @param JsonConverter   $jsonConverter
+     * @param JsonConverter            $jsonConverter
      * @param AlgorithmManager         $keyEncryptionAlgorithmManager
      * @param AlgorithmManager         $contentEncryptionAlgorithmManager
      * @param CompressionMethodManager $compressionManager
@@ -361,11 +361,11 @@ final class JWEBuilder
     }
 
     /**
-     * @param array                           $completeHeaders
-     * @param string                          $cek
+     * @param array                  $completeHeaders
+     * @param string                 $cek
      * @param KeyEncryptionAlgorithm $keyEncryptionAlgorithm
-     * @param JWK                             $recipientKey
-     * @param array                           $additionalHeaders
+     * @param JWK                    $recipientKey
+     * @param array                  $additionalHeaders
      *
      * @return string|null
      */
@@ -387,11 +387,11 @@ final class JWEBuilder
     }
 
     /**
-     * @param array                         $completeHeaders
-     * @param string                        $cek
+     * @param array                       $completeHeaders
+     * @param string                      $cek
      * @param KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm
-     * @param array                         $additionalHeaders
-     * @param JWK                           $recipientKey
+     * @param array                       $additionalHeaders
+     * @param JWK                         $recipientKey
      *
      * @return string
      */
@@ -401,11 +401,11 @@ final class JWEBuilder
     }
 
     /**
-     * @param array                  $completeHeaders
-     * @param string                 $cek
+     * @param array         $completeHeaders
+     * @param string        $cek
      * @param KeyEncryption $keyEncryptionAlgorithm
-     * @param JWK                    $recipientKey
-     * @param array                  $additionalHeaders
+     * @param JWK           $recipientKey
+     * @param array         $additionalHeaders
      *
      * @return string
      */
@@ -415,11 +415,11 @@ final class JWEBuilder
     }
 
     /**
-     * @param array                $completeHeaders
-     * @param string               $cek
+     * @param array       $completeHeaders
+     * @param string      $cek
      * @param KeyWrapping $keyEncryptionAlgorithm
-     * @param JWK                  $recipientKey
-     * @param array                $additionalHeaders
+     * @param JWK         $recipientKey
+     * @param array       $additionalHeaders
      *
      * @return string
      */
@@ -430,7 +430,7 @@ final class JWEBuilder
 
     /**
      * @param KeyEncryptionAlgorithm $keyEncryptionAlgorithm
-     * @param JWK                             $recipientKey
+     * @param JWK                    $recipientKey
      */
     protected function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey)
     {

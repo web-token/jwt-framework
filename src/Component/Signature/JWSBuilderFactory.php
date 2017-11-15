@@ -34,7 +34,7 @@ final class JWSBuilderFactory
     /**
      * JWSBuilderFactory constructor.
      *
-     * @param JsonConverter  $jsonEncoder
+     * @param JsonConverter           $jsonEncoder
      * @param AlgorithmManagerFactory $signatureAlgorithmManagerFactory
      */
     public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
