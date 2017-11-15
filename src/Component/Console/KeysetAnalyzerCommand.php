@@ -17,6 +17,7 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -69,6 +70,10 @@ final class KeysetAnalyzerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
+        $output->getFormatter()->setStyle('medium', new OutputFormatterStyle('yellow'));
+        $output->getFormatter()->setStyle('low', new OutputFormatterStyle('blue'));
+
         $jwkset = $this->getKeyset($input);
 
         $privateKeys = 0;
@@ -81,7 +86,7 @@ final class KeysetAnalyzerCommand extends Command
             $messages = $this->analyzerManager->analyze($jwk);
             if (!empty($messages)) {
                 foreach ($messages as $message) {
-                    $output->writeln('    '.$message->getMessage().' ('.$message->getSeverity().').');
+                    $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
                 }
             } else {
                 $output->writeln('    No issue with this key');

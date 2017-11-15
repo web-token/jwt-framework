@@ -17,6 +17,7 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -69,11 +70,14 @@ final class KeyAnalyzerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
+        $output->getFormatter()->setStyle('medium', new OutputFormatterStyle('yellow'));
+        $output->getFormatter()->setStyle('low', new OutputFormatterStyle('blue'));
         $jwk = $this->getKey($input);
 
         $result = $this->analyzerManager->analyze($jwk);
         foreach ($result as $message) {
-            $output->writeln($message->getMessage().' ('.$message->getSeverity().').');
+            $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
         }
     }
 
