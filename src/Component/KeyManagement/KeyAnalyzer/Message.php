@@ -49,7 +49,7 @@ final class Message implements \JsonSerializable
      *
      * @return Message
      */
-    public static function low(string $message): Message
+    public static function low(string $message): self
     {
         return new self($message, self::SEVERITY_LOW);
     }
@@ -59,7 +59,7 @@ final class Message implements \JsonSerializable
      *
      * @return Message
      */
-    public static function medium(string $message): Message
+    public static function medium(string $message): self
     {
         return new self($message, self::SEVERITY_MEDIUM);
     }
@@ -69,7 +69,7 @@ final class Message implements \JsonSerializable
      *
      * @return Message
      */
-    public static function high(string $message): Message
+    public static function high(string $message): self
     {
         return new self($message, self::SEVERITY_HIGH);
     }

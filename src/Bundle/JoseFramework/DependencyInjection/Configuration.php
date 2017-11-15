@@ -36,7 +36,7 @@ final class Configuration implements ConfigurationInterface
     /**
      * Configuration constructor.
      *
-     * @param string            $alias
+     * @param string   $alias
      * @param Source[] $serviceSources
      */
     public function __construct(string $alias, array $serviceSources)

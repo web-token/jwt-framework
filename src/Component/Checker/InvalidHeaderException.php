@@ -30,6 +30,7 @@ final class InvalidHeaderException extends \Error
 
     /**
      * InvalidHeaderException constructor.
+     *
      * @param string $message
      * @param string $header
      * @param mixed  $value

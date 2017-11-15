@@ -62,7 +62,6 @@ final class JWKTest extends TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The hash algorithm "foo" is not supported.
-     *
      */
     public function iCannotGetTheThumbprintOfTheKeyWhenIUseAnUnsupportedHashingAlgorithm()
     {
