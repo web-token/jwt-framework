@@ -50,6 +50,21 @@ final class JWK implements \JsonSerializable
     }
 
     /**
+     * @param string $json
+     *
+     * @return JWK
+     */
+    public static function createFromJson(string $json): self
+    {
+        $data = json_decode($json, true);
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('Invalid argument.');
+        }
+
+        return self::create($data);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()

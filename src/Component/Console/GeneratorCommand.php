@@ -70,6 +70,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
      */
     private function generateKeyID(): string
     {
-        return Base64Url::encode(random_bytes(64));
+        return Base64Url::encode(random_bytes(32));
     }
 }

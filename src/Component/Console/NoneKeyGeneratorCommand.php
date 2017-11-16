@@ -14,14 +14,13 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use Jose\Component\KeyManagement\JWKFactory;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class EcKeyGeneratorCommand.
+ * Class NoneKeyGeneratorCommand.
  */
-final class EcKeyGeneratorCommand extends GeneratorCommand
+final class NoneKeyGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}
@@ -30,9 +29,8 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
     {
         parent::configure();
         $this
-            ->setName('key:generate:ec')
-            ->setDescription('Generate an EC key (JWK format)')
-            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');
+            ->setName('key:generate:none')
+            ->setDescription('Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.');
     }
 
     /**
@@ -40,10 +38,9 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $curve = $input->getArgument('curve');
         $args = $this->getOptions($input);
 
-        $jwk = JWKFactory::createECKey($curve, $args);
+        $jwk = JWKFactory::createNoneKey($args);
         $this->prepareJsonOutput($input, $output, $jwk);
     }
 }

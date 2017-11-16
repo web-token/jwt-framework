@@ -86,7 +86,7 @@ final class KeysetAnalyzerCommand extends Command
             $messages = $this->analyzerManager->analyze($jwk);
             if (!empty($messages)) {
                 foreach ($messages as $message) {
-                    $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
+                    $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
                 }
             } else {
                 $output->writeln('    No issue with this key');
