@@ -21,15 +21,15 @@
     },
     "require": {
         "php": "^7.1",
-        "symfony/config": "^3.3",
-        "symfony/dependency-injection": "^3.3",
-        "symfony/http-kernel": "^3.3",
+        "symfony/config": "^3.3|^4.0",
+        "symfony/dependency-injection": "^3.3|^4.0",
+        "symfony/http-kernel": "^3.3|^4.0",
         "web-token/jwt-core": "^0.2"
     },
     "require-dev": {
-        "symfony/framework-bundle": "^3.3",
-        "symfony/yaml": "^3.3",
-        "symfony/browser-kit": "^3.3",
+        "symfony/framework-bundle": "^3.3|^4.0",
+        "symfony/yaml": "^3.3|^4.0",
+        "symfony/browser-kit": "^3.3|^4.0",
         "phpunit/phpunit": "^6.0"
     },
     "extra": {

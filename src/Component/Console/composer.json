@@ -21,7 +21,7 @@
     },
     "require": {
         "php": "^7.1",
-        "symfony/console": "^3.3",
+        "symfony/console": "^3.3|^4.0",
         "web-token/jwt-key-mgmt": "^0.2"
     },
     "require-dev": {
