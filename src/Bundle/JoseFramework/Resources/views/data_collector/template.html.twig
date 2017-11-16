@@ -35,6 +35,202 @@
 
 {% block panel %}
     <div class="block">
+        <h2>Keys</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service ID</th>
+                    <th>Key type</th>
+                    <th>Analyze Result</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getJWKs() %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ data.jwk.get('kty') }}</td>
+                    <td>
+                        {% if data.analyze.count() == 0 %}
+                            No message. All good!
+                        {% else %}
+                            <ul>
+                                {% for message in data.analyze %}
+                                    <li>{{ message.getMessage() }} ({{ message.getSeverity() }})</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+        <h2>Key Sets</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service ID</th>
+                    <th>Number of keys</th>
+                    <th>Analyze Result</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getJWKSets() %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ data.jwkset.count() }}</td>
+                    <td>
+                        {% for kid, messages in data.analyze %}
+                        Analyze of key at index/key ID "{{ kid }}":<br>
+                            {% if messages.count() == 0 %}
+                                No message. All good!
+                            {% else %}
+                                <ul>
+                                    {% for message in messages %}
+                                        <li>{{ message.getMessage() }} ({{ message.getSeverity() }})</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="block">
+        <h2>JWS Builders</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Algorithms</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getJWSBuilders() %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.signature_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="block">
+        <h2>JWS Verifiers</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Algorithms</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getJWSVerifiers() %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.signature_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="block">
+        <h2>JWE Builders</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Key Encryption Algorithms</th>
+                <th>Content Encryption Algorithms</th>
+                <th>Compression Methods</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getJWEBuilders() %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.key_encryption_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.content_encryption_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for method in data.compression_methods %}
+                                <li>{{ method }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="block">
+        <h2>JWE Decrypters</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Key Encryption Algorithms</th>
+                <th>Content Encryption Algorithms</th>
+                <th>Compression Methods</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getJWEDecrypters() %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.key_encryption_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.content_encryption_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for method in data.compression_methods %}
+                                <li>{{ method }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="block">
         <h2>Supported Algorithms</h2>
         {% for type, list in collector.getAlgorithmDetails() %}
             <h3>{{ type }}</h3>

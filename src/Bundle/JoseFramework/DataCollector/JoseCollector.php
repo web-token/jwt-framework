@@ -152,6 +152,54 @@ final class JoseCollector extends DataCollector
     }
 
     /**
+     * @return array
+     */
+    public function getJWKs(): array
+    {
+        return $this->data['jwk'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getJWKSets(): array
+    {
+        return $this->data['jwkset'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getJWSBuilders(): array
+    {
+        return $this->data['jws_builders'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getJWSVerifiers(): array
+    {
+        return $this->data['jws_verifiers'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getJWEBuilders(): array
+    {
+        return $this->data['jwe_builders'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getJWEDecrypters(): array
+    {
+        return $this->data['jwe_decrypters'];
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
@@ -263,7 +311,6 @@ final class JoseCollector extends DataCollector
         foreach ($this->jwsVerifiers as $id => $jwsVerifier) {
             $this->data['jws_verifiers'][$id] = [
                 'signature_algorithms' => $jwsVerifier->getSignatureAlgorithmManager()->list(),
-                //Add header checkers
             ];
         }
     }
@@ -276,7 +323,6 @@ final class JoseCollector extends DataCollector
                 'key_encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()->list(),
                 'compression_methods' => $jweBuilder->getCompressionMethodManager()->list(),
-                //Add header checkers
             ];
         }
     }
@@ -289,7 +335,6 @@ final class JoseCollector extends DataCollector
                 'key_encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()->list(),
                 'compression_methods' => $jweDecrypter->getCompressionMethodManager()->list(),
-                //Add header checkers
             ];
         }
     }
@@ -311,7 +356,6 @@ final class JoseCollector extends DataCollector
         foreach ($this->jwksets as $id => $jwkset) {
             $analyze = [];
             if (null !== $this->jwkAnalyzerManager) {
-            } else {
                 foreach ($jwkset as $kid => $jwk) {
                     $analyze[$kid] = $this->jwkAnalyzerManager->analyze($jwk);
                 }

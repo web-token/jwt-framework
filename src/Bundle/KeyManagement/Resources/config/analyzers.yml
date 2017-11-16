@@ -4,7 +4,7 @@ services:
         autoconfigure: true
         public: false
 
-    Jose\Component\KeyManagement\KeyAnalyzer\JWKAnalyzerManager: ~
+    Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager: ~
 
     Jose\Component\KeyManagement\KeyAnalyzer\AlgorithmAnalyzer:
         tags:
