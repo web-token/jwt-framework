@@ -38,7 +38,7 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
      *
      * @return JWKSet
      */
-    public static function createFromKeyData(array $data): JWKSet
+    public static function createFromKeyData(array $data): self
     {
         if (!array_key_exists('keys', $data) || !is_array($data['keys'])) {
             throw new \InvalidArgumentException('Invalid data.');
@@ -63,7 +63,7 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
      *
      * @return JWKSet
      */
-    public static function createFromKeys(array $keys): JWKSet
+    public static function createFromKeys(array $keys): self
     {
         $keys = array_filter($keys, function () {
             return true;
@@ -83,7 +83,7 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
      *
      * @return JWKSet
      */
-    public static function createFromJson(string $json): JWKSet
+    public static function createFromJson(string $json): self
     {
         $data = json_decode($json, true);
         if (!is_array($data)) {
