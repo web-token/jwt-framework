@@ -4,4 +4,4 @@ services:
         autoconfigure: true
         public: false
 
-    Jose\Component\Core\Converter\JsonConverter: ~
+    Jose\Component\Core\Converter\StandardConverter: ~
