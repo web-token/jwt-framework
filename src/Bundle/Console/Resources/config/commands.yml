@@ -36,6 +36,10 @@ services:
         tags:
             - {name: 'console.command'}
 
+    Jose\Component\Console\NoneKeyGeneratorCommand:
+        tags:
+            - {name: 'console.command'}
+
     Jose\Component\Console\KeyFileLoaderCommand:
         tags:
             - {name: 'console.command'}
