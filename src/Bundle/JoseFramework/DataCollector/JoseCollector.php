@@ -459,7 +459,7 @@ final class JoseCollector extends DataCollector
     private $headerCheckerManagers = [];
 
     /**
-     * @param string $id
+     * @param string               $id
      * @param HeaderCheckerManager $headerCheckerManager
      */
     public function addHeaderCheckerManager(string $id, HeaderCheckerManager $headerCheckerManager)
@@ -473,7 +473,7 @@ final class JoseCollector extends DataCollector
     private $claimCheckerManagers = [];
 
     /**
-     * @param string $id
+     * @param string              $id
      * @param ClaimCheckerManager $claimCheckerManager
      */
     public function addClaimCheckerManager(string $id, ClaimCheckerManager $claimCheckerManager)
