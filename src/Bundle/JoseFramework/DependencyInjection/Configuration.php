@@ -61,7 +61,7 @@ final class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('json_converter')
                     ->defaultValue(StandardConverter::class)
-                    ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...). If set to false, a service that implements JsonConverter must be set.')
+                    ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
                 ->end()
             ->end();
 
