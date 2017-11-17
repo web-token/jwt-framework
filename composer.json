@@ -1,7 +1,7 @@
 {
     "name": "web-token/jwt-framework",
     "description": "JSON Object Signing and Encryption library for PHP and Symfony Bundle.",
-    "type": "library",
+    "type": "symfony-bundle",
     "license": "MIT",
     "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
     "homepage": "https://github.com/web-token/jwt-framework",
