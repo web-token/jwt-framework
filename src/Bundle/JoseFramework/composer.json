@@ -24,7 +24,7 @@
         "symfony/config": "^3.3|^4.0",
         "symfony/dependency-injection": "^3.3|^4.0",
         "symfony/http-kernel": "^3.3|^4.0",
-        "web-token/jwt-core": "^0.2"
+        "web-token/jwt-core": "^0.3"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.3|^4.0",
@@ -32,12 +32,9 @@
         "symfony/browser-kit": "^3.3|^4.0",
         "phpunit/phpunit": "^6.0"
     },
-    "conflict": {
-        "spomky-labs/jose": "*"
-    },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.x-dev"
+            "dev-master": "0.3.x-dev"
         }
     },
     "config": {
