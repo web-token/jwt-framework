@@ -62,4 +62,12 @@ final class ClaimCheckerManagerFactory
     {
         return array_keys($this->checkers);
     }
+
+    /**
+     * @return ClaimChecker[]
+     */
+    public function all(): array
+    {
+        return $this->checkers;
+    }
 }

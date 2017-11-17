@@ -40,6 +40,8 @@ final class DataCollectorServicesCompilerPass implements CompilerPassInterface
             'addJWSVerifier' => 'jose.jws_verifier',
             'addJWEBuilder' => 'jose.jwe_builder',
             'addJWEDecrypter' => 'jose.jwe_decrypter',
+            'addHeaderCheckerManager' => 'jose.header_checker_manager',
+            'addClaimCheckerManager' => 'jose.claim_checker_manager',
             'addJWK' => 'jose.jwk',
             'addJWKSet' => 'jose.jwkset',
         ];

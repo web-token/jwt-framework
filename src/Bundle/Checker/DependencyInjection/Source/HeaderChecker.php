@@ -47,8 +47,8 @@ final class HeaderChecker implements Source
                 ->setArguments([
                     $itemConfig['headers'],
                 ])
+                ->addTag('jose.header_checker_manager')
                 ->setPublic($itemConfig['is_public']);
-
             $container->setDefinition($service_id, $definition);
         }
     }

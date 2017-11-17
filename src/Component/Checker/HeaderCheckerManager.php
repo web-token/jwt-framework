@@ -58,6 +58,14 @@ final class HeaderCheckerManager
     }
 
     /**
+     * @return HeaderChecker[]
+     */
+    public function getCheckers(): array
+    {
+        return $this->checkers;
+    }
+
+    /**
      * @param TokenTypeSupport $tokenType
      *
      * @return HeaderCheckerManager

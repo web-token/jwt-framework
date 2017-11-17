@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Jose\Component\Checker\ClaimCheckerManager;
+use Jose\Component\Checker\ClaimCheckerManagerFactory;
+use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\JWK;
@@ -60,6 +64,16 @@ final class JoseCollector extends DataCollector
     private $jwkAnalyzerManager;
 
     /**
+     * @var ClaimCheckerManagerFactory|null
+     */
+    private $claimCheckerManagerFactory;
+
+    /**
+     * @var HeaderCheckerManagerFactory|null
+     */
+    private $headerCheckerManagerFactory;
+
+    /**
      * JoseCollector constructor.
      *
      * @param AlgorithmManagerFactory              $algorithmManagerFactory
@@ -67,15 +81,26 @@ final class JoseCollector extends DataCollector
      * @param JWSSerializerManagerFactory|null     $jwsSerializerManagerFactory
      * @param JWESerializerManagerFactory|null     $jweSerializerManagerFactory
      * @param KeyAnalyzerManager|null              $jwkAnalyzerManager
+     * @param ClaimCheckerManagerFactory|null      $claimCheckerManagerFactory
+     * @param HeaderCheckerManagerFactory|null     $headerCheckerManagerFactory
      */
-    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null, ?KeyAnalyzerManager $jwkAnalyzerManager)
-    {
+    public function __construct(
+        AlgorithmManagerFactory $algorithmManagerFactory,
+        ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null,
+        ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null,
+        ?JWESerializerManagerFactory $jweSerializerManagerFactory = null,
+        ?KeyAnalyzerManager $jwkAnalyzerManager = null,
+        ?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null,
+        ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null
+    ) {
         $this->data = [];
         $this->algorithmManagerFactory = $algorithmManagerFactory;
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
         $this->jwkAnalyzerManager = $jwkAnalyzerManager;
+        $this->claimCheckerManagerFactory = $claimCheckerManagerFactory;
+        $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
     }
 
     /**
@@ -84,6 +109,8 @@ final class JoseCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->collectSupportedAlgorithms();
+        $this->collectSupportedHeaderCheckers();
+        $this->collectSupportedClaimCheckers();
         $this->collectSupportedCompressionMethods();
         $this->collectSupportedJWSSerializations();
         $this->collectSupportedJWESerializations();
@@ -200,11 +227,70 @@ final class JoseCollector extends DataCollector
     }
 
     /**
+     * @return array
+     */
+    public function getHeaderCheckers(): array
+    {
+        return $this->data['header_checkers'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaderCheckerManagers(): array
+    {
+        return $this->headerCheckerManagers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getClaimCheckers(): array
+    {
+        return $this->data['claim_checkers'];
+    }
+
+    /**
+     * @return array
+     */
+    public function getClaimCheckerManagers(): array
+    {
+        return $this->claimCheckerManagers;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
     {
         return 'jose_collector';
+    }
+
+    private function collectSupportedHeaderCheckers()
+    {
+        $this->data['header_checkers'] = [];
+        if (null !== $this->headerCheckerManagerFactory) {
+            $aliases = $this->headerCheckerManagerFactory->all();
+            foreach ($aliases as $alias => $checker) {
+                $this->data['header_checkers'][$alias] = [
+                    'header' => $checker->supportedHeader(),
+                    'protected' => $checker->protectedHeaderOnly(),
+                ];
+            }
+        }
+    }
+
+    private function collectSupportedClaimCheckers()
+    {
+        $this->data['claim_checkers'] = [];
+        if (null !== $this->headerCheckerManagerFactory) {
+            $aliases = $this->claimCheckerManagerFactory->all();
+            foreach ($aliases as $alias => $checker) {
+                $this->data['claim_checkers'][$alias] = [
+                    'claim' => $checker->supportedClaim(),
+                ];
+            }
+        }
     }
 
     private function collectSupportedAlgorithms()
@@ -365,6 +451,34 @@ final class JoseCollector extends DataCollector
                 'analyze' => $analyze,
             ];
         }
+    }
+
+    /**
+     * @var HeaderCheckerManager[]
+     */
+    private $headerCheckerManagers = [];
+
+    /**
+     * @param string $id
+     * @param HeaderCheckerManager $headerCheckerManager
+     */
+    public function addHeaderCheckerManager(string $id, HeaderCheckerManager $headerCheckerManager)
+    {
+        $this->headerCheckerManagers[$id] = $headerCheckerManager;
+    }
+
+    /**
+     * @var ClaimCheckerManager[]
+     */
+    private $claimCheckerManagers = [];
+
+    /**
+     * @param string $id
+     * @param ClaimCheckerManager $claimCheckerManager
+     */
+    public function addClaimCheckerManager(string $id, ClaimCheckerManager $claimCheckerManager)
+    {
+        $this->claimCheckerManagers[$id] = $claimCheckerManager;
     }
 
     /**

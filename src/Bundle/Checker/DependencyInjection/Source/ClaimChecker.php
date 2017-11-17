@@ -47,6 +47,7 @@ final class ClaimChecker implements Source
                 ->setArguments([
                     $itemConfig['claims'],
                 ])
+                ->addTag('jose.claim_checker_manager')
                 ->setPublic($itemConfig['is_public']);
 
             $container->setDefinition($service_id, $definition);

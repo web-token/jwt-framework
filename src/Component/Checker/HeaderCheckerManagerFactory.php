@@ -79,4 +79,12 @@ final class HeaderCheckerManagerFactory
     {
         return array_keys($this->checkers);
     }
+
+    /**
+     * @return HeaderChecker[]
+     */
+    public function all(): array
+    {
+        return $this->checkers;
+    }
 }
