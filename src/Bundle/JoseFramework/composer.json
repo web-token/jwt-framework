@@ -32,6 +32,9 @@
         "symfony/browser-kit": "^3.3|^4.0",
         "phpunit/phpunit": "^6.0"
     },
+    "conflict": {
+        "spomky-labs/jose": "*"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "0.2.x-dev"
