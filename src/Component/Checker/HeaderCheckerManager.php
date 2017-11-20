@@ -126,6 +126,7 @@ final class HeaderCheckerManager
     /**
      * @param array $protected
      * @param array $headers
+     *
      * @throws InvalidHeaderException
      */
     private function checkHeaders(array $protected, array $headers)
