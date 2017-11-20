@@ -16,7 +16,7 @@ namespace Jose\Component\Checker;
 /**
  * Class InvalidHeaderException.
  */
-final class InvalidHeaderException extends \Error
+final class InvalidHeaderException extends \Exception
 {
     /**
      * @var string

@@ -126,6 +126,7 @@ final class HeaderCheckerManager
     /**
      * @param array $protected
      * @param array $headers
+     * @throws InvalidHeaderException
      */
     private function checkHeaders(array $protected, array $headers)
     {
@@ -136,7 +137,7 @@ final class HeaderCheckerManager
                     $checker->checkHeader($protected[$header]);
                     $checkedHeaders[] = $header;
                 } elseif (array_key_exists($header, $headers)) {
-                    throw new \InvalidArgumentException(sprintf('The header "%s" must be protected.', $header));
+                    throw new InvalidHeaderException(sprintf('The header "%s" must be protected.', $header), $header, $headers[$header]);
                 }
             } else {
                 if (array_key_exists($header, $protected)) {
@@ -155,19 +156,21 @@ final class HeaderCheckerManager
      * @param array $protected
      * @param array $headers
      * @param array $checkedHeaders
+     *
+     * @throws InvalidHeaderException
      */
     private function checkCriticalHeader(array $protected, array $headers, array $checkedHeaders)
     {
         if (array_key_exists('crit', $protected)) {
             if (!is_array($protected['crit'])) {
-                throw new \InvalidArgumentException('The header "crit" mus be a list of header parameters.');
+                throw new InvalidHeaderException('The header "crit" mus be a list of header parameters.', 'crit', $protected['crit']);
             }
             $diff = array_diff($protected['crit'], $checkedHeaders);
             if (!empty($diff)) {
-                throw new \InvalidArgumentException(sprintf('One or more headers are marked as critical, but they are missing or have not been checked: %s.', implode(', ', array_values($diff))));
+                throw new InvalidHeaderException(sprintf('One or more headers are marked as critical, but they are missing or have not been checked: %s.', implode(', ', array_values($diff))), 'crit', $protected['crit']);
             }
         } elseif (array_key_exists('crit', $headers)) {
-            throw new \InvalidArgumentException('The header parameter "crit" must be protected.');
+            throw new InvalidHeaderException('The header parameter "crit" must be protected.', 'crit', $headers['crit']);
         }
     }
 }

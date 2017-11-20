@@ -16,7 +16,7 @@ namespace Jose\Component\Checker;
 /**
  * Class InvalidClaimException.
  */
-final class InvalidClaimException extends \Error
+final class InvalidClaimException extends \Exception
 {
     /**
      * @var string

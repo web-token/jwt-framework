@@ -53,7 +53,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
      * @expectedExceptionMessage One or more headers are marked as critical, but they are missing or have not been checked: alg.
      */
     public function theTokenHasCriticalHeadersNotSatisfied()
@@ -83,7 +83,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
      * @expectedExceptionMessage The header parameter "crit" must be protected.
      */
     public function theCriticalHeaderParameterMustBeProtected()
@@ -98,7 +98,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
      * @expectedExceptionMessage The header "crit" mus be a list of header parameters.
      */
     public function theCriticalHeaderParameterMustBeAListOfHeaderParameters()
