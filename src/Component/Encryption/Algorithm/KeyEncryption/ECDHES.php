@@ -78,13 +78,13 @@ final class ECDHES implements KeyAgreement
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
         $epk = $private_key->toPublic()->all();
-        $additional_header_values['epk'] =  $epk;
+        $additional_header_values['epk'] = $epk;
 
         return [$public_key, $private_key];
     }
 
     /**
-     * @param JWK $recipient_key
+     * @param JWK   $recipient_key
      * @param array $complete_header
      *
      * @return JWK[]
