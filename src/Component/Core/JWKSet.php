@@ -12,11 +12,12 @@ declare(strict_types=1);
  */
 
 namespace Jose\Component\Core;
+use Traversable;
 
 /**
  * Class JWKSet.
  */
-final class JWKSet implements \Countable, \Iterator, \JsonSerializable
+final class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
      * @var array
@@ -185,45 +186,6 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
     }
 
     /**
-     * @return JWK|null
-     */
-    public function current(): ?JWK
-    {
-        $key = $this->key();
-        if (null === $key) {
-            return null;
-        }
-
-        return $this->has($key) ? $this->get($key) : null;
-    }
-
-    /**
-     * @return int|string|null
-     */
-    public function key()
-    {
-        return key($this->keys);
-    }
-
-    public function next()
-    {
-        next($this->keys);
-    }
-
-    public function rewind()
-    {
-        reset($this->keys);
-    }
-
-    /**
-     * @return bool
-     */
-    public function valid(): bool
-    {
-        return $this->current() instanceof JWK;
-    }
-
-    /**
      * @param string         $type         Must be 'sig' (signature) or 'enc' (encryption)
      * @param Algorithm|null $algorithm    Specifies the algorithm to be used
      * @param array          $restrictions More restrictions such as 'kid' or 'kty'
@@ -358,5 +320,13 @@ final class JWKSet implements \Countable, \Iterator, \JsonSerializable
         }
 
         return ($a['ind'] > $b['ind']) ? -1 : 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->keys);
     }
 }

@@ -204,7 +204,6 @@ final class JWKSetTest extends TestCase
         foreach ($jwkset as $key) {
             self::assertEquals('EC', $key->get('kty'));
         }
-        self::assertEquals(null, $jwkset->key());
 
         self::assertEquals('9876543210', $jwkset->get('9876543210')->get('kid'));
         $jwkset = $jwkset->without('9876543210');
