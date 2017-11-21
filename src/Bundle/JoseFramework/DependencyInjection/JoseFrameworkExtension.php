@@ -122,39 +122,31 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         if (class_exists(JKUSource::class) && class_exists(HttplugBundle::class)) {
             $this->addSource(new JKUSource());
         }
-        if (class_exists(JWKSource::class)) {
-            $this->addSource(new JWKSource());
+        foreach ($this->getSourceClasses() as $class) {
+            if (class_exists($class)) {
+                $this->addSource(new $class());
+            }
         }
-        if (class_exists(JWKUriSource::class)) {
-            $this->addSource(new JWKUriSource());
-        }
-        if (class_exists(JWKSetSource::class)) {
-            $this->addSource(new JWKSetSource());
-        }
-        if (class_exists(ClaimChecker::class)) {
-            $this->addSource(new ClaimChecker());
-        }
-        if (class_exists(HeaderChecker::class)) {
-            $this->addSource(new HeaderChecker());
-        }
-        if (class_exists(JWSBuilder::class)) {
-            $this->addSource(new JWSBuilder());
-        }
-        if (class_exists(JWSSerializer::class)) {
-            $this->addSource(new JWSSerializer());
-        }
-        if (class_exists(JWSVerifier::class)) {
-            $this->addSource(new JWSVerifier());
-        }
-        if (class_exists(JWEBuilder::class)) {
-            $this->addSource(new JWEBuilder());
-        }
-        if (class_exists(JWEDecrypter::class)) {
-            $this->addSource(new JWEDecrypter());
-        }
-        if (class_exists(JWESerializer::class)) {
-            $this->addSource(new JWESerializer());
-        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getSourceClasses(): array
+    {
+        return [
+            JWKSource::class,
+            JWKUriSource::class,
+            JWKSetSource::class,
+            ClaimChecker::class,
+            HeaderChecker::class,
+            JWSBuilder::class,
+            JWSSerializer::class,
+            JWSVerifier::class,
+            JWEBuilder::class,
+            JWEDecrypter::class,
+            JWESerializer::class,
+        ];
     }
 
     /**
