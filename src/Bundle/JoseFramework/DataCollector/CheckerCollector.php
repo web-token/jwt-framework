@@ -34,7 +34,8 @@ final class CheckerCollector implements Collector
 
     /**
      * CheckerCollector constructor.
-     * @param ClaimCheckerManagerFactory|null $claimCheckerManagerFactory
+     *
+     * @param ClaimCheckerManagerFactory|null  $claimCheckerManagerFactory
      * @param HeaderCheckerManagerFactory|null $headerCheckerManagerFactory
      */
     public function __construct(?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null)
