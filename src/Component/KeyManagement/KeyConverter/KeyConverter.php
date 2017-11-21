@@ -269,6 +269,9 @@ final class KeyConverter
         $ciphertext = base64_decode(preg_replace('#-.*-|\r|\n#', '', $key));
 
         $decoded = openssl_decrypt($ciphertext, strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
+        if (!is_string($decoded)) {
+            throw new \InvalidArgumentException('Incorrect password. Key decryption failed.');
+        }
 
         $number = preg_match_all('#-{5}.*-{5}#', $pem, $result);
         if (2 !== $number) {

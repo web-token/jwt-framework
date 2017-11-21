@@ -4,3 +4,13 @@ services:
         class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource\JWKSet'
         tags:
             - {'name': 'jose.jwkset_source'}
+    jose.jwk_set_source.jku:
+        public: false
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource\JKU'
+        tags:
+            - {'name': 'jose.jwkset_source'}
+    jose.jwk_set_source.x5u:
+        public: false
+        class: 'Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource\X5U'
+        tags:
+            - {'name': 'jose.jwkset_source'}

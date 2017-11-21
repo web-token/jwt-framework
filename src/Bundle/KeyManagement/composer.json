@@ -31,7 +31,7 @@
         "symfony/browser-kit": "^3.3|^4.0",
         "phpunit/phpunit": "^6.0",
         "php-http/httplug-bundle": "^1.7",
-        "php-http/guzzle6-adapter": "^1.1.1"
+        "php-http/mock-client": "^1.0"
     },
     "suggest": {
         "php-http/httplug-bundle": "To enable JKU/X5U support."

@@ -219,6 +219,17 @@ final class JWKFactory
     }
 
     /**
+     * @param JWKSet     $jwkset
+     * @param int|string $index
+     *
+     * @return JWK
+     */
+    public static function createFromKeySet(JWKSet $jwkset, $index): JWK
+    {
+        return $jwkset->get($index);
+    }
+
+    /**
      * @param string      $file
      * @param null|string $secret
      * @param array       $additional_values

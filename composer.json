@@ -43,10 +43,8 @@
     "require-dev": {
         "ext-curl": "*",
         "bjeavons/zxcvbn-php": "^0.3.0",
-        "php-http/guzzle6-adapter": "^1.1.1",
-        "php-http/httplug": "^1.1",
+        "guzzlehttp/psr7": "^1.4",
         "php-http/httplug-bundle": "^1.7",
-        "php-http/message-factory": "^1.0",
         "php-http/mock-client": "^1.0",
         "phpbench/phpbench": "^0.13.0",
         "phpunit/phpunit": "^6.0",

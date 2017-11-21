@@ -11,35 +11,35 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
+namespace Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
-use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\KeyManagement\X5UFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class X5C.
+ * Class X5U.
  */
-final class X5C extends AbstractSource implements JWKSource
+final class X5U extends AbstractSource implements JWKSetSource
 {
     /**
      * {@inheritdoc}
      */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
-        $definition = new Definition(JWK::class);
+        $definition = new Definition(\Jose\Component\Core\JWKSet::class);
         $definition->setFactory([
-            new Reference(JWKFactory::class),
-            'createFromCertificate',
+            new Reference(X5UFactory::class),
+            'loadFromUrl',
         ]);
         $definition->setArguments([
-            $config['value'],
-            $config['additional_values'],
+            $config['url'],
+//            $config['headers'],
         ]);
-        $definition->addTag('jose.jwk');
+        $definition->addTag('jose.jwkset');
 
         return $definition;
     }
@@ -47,9 +47,9 @@ final class X5C extends AbstractSource implements JWKSource
     /**
      * {@inheritdoc}
      */
-    public function getKey(): string
+    public function getKeySet(): string
     {
-        return 'x5c';
+        return 'x5u';
     }
 
     /**
@@ -60,12 +60,7 @@ final class X5C extends AbstractSource implements JWKSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('value')->isRequired()->end()
-                ->arrayNode('additional_values')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->prototype('variable')->end()
-                ->end()
+                ->scalarNode('url')->isRequired()->end()
             ->end();
     }
 }

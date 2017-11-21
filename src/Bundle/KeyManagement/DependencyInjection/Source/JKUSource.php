@@ -62,7 +62,7 @@ final class JKUSource implements Source
                             ->defaultNull()
                         ->end()
                         ->scalarNode('request_factory')
-                            ->defaultValue('Http\Message\MessageFactory\GuzzleMessageFactory')
+                            ->isRequired()
                         ->end()
                     ->end()
                 ->end()
