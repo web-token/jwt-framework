@@ -122,7 +122,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         if (class_exists(JKUSource::class) && class_exists(HttplugBundle::class)) {
             $this->addSource(new JKUSource());
         }
-        foreach($this->getSourceClasses() as $class) {
+        foreach ($this->getSourceClasses() as $class) {
             if (class_exists($class)) {
                 $this->addSource(new $class());
             }
