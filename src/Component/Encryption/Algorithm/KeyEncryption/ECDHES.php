@@ -40,33 +40,9 @@ final class ECDHES implements KeyAgreement
     public function getAgreementKey(int $encryption_key_length, string $algorithm, JWK $recipient_key, array $complete_header = [], array &$additional_header_values = []): string
     {
         if ($recipient_key->has('d')) {
-            $this->checkKey($recipient_key, true);
-            $private_key = $recipient_key;
-            $public_key = $this->getPublicKey($complete_header);
+            list($public_key, $private_key) = $this->getKeysFromPrivateKeyAndHeader($recipient_key, $complete_header);
         } else {
-            $this->checkKey($recipient_key, false);
-            $public_key = $recipient_key;
-            switch ($public_key->get('crv')) {
-                case 'P-256':
-                case 'P-384':
-                case 'P-521':
-                    $private_key = $this->createECKey($public_key->get('crv'));
-
-                    break;
-                case 'X25519':
-                    $private_key = $this->createOKPKey('X25519');
-
-                    break;
-                default:
-                    throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
-            }
-            $epk = $private_key->toPublic()->all();
-            $additional_header_values = array_merge($additional_header_values, [
-                'epk' => $epk,
-            ]);
-        }
-        if ($private_key->get('crv') !== $public_key->get('crv')) {
-            throw new \InvalidArgumentException('Curves are different');
+            list($public_key, $private_key) = $this->getKeysFromPublicKey($recipient_key, $additional_header_values);
         }
 
         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
@@ -75,6 +51,54 @@ final class ECDHES implements KeyAgreement
         $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
 
         return ConcatKDF::generate($agreed_key, $algorithm, $encryption_key_length, $apu, $apv);
+    }
+
+    /**
+     * @param JWK   $recipient_key
+     * @param array $additional_header_values
+     *
+     * @return JWK[]
+     */
+    private function getKeysFromPublicKey(JWK $recipient_key, array &$additional_header_values): array
+    {
+        $this->checkKey($recipient_key, false);
+        $public_key = $recipient_key;
+        switch ($public_key->get('crv')) {
+            case 'P-256':
+            case 'P-384':
+            case 'P-521':
+                $private_key = $this->createECKey($public_key->get('crv'));
+
+                break;
+            case 'X25519':
+                $private_key = $this->createOKPKey('X25519');
+
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
+        }
+        $epk = $private_key->toPublic()->all();
+        $additional_header_values['epk'] =  $epk;
+
+        return [$public_key, $private_key];
+    }
+
+    /**
+     * @param JWK $recipient_key
+     * @param array $complete_header
+     *
+     * @return JWK[]
+     */
+    private function getKeysFromPrivateKeyAndHeader(JWK $recipient_key, array $complete_header): array
+    {
+        $this->checkKey($recipient_key, true);
+        $private_key = $recipient_key;
+        $public_key = $this->getPublicKey($complete_header);
+        if ($private_key->get('crv') !== $public_key->get('crv')) {
+            throw new \InvalidArgumentException('Curves are different');
+        }
+
+        return [$public_key, $private_key];
     }
 
     /**
