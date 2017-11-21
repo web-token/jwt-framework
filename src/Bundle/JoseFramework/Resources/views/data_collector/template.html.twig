@@ -11,23 +11,23 @@
     {% set text %}
         <div class="sf-toolbar-info-piece">
             <b>Keys</b>
-            <span class="sf-toolbar-status">{{ collector.getJWKs()|length }}</span>
+            <span class="sf-toolbar-status">{{ collector.get('key', 'getJWKs')|length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Key Sets</b>
-            <span class="sf-toolbar-status">{{ collector.getJWKSets()|length }}</span>
+            <span class="sf-toolbar-status">{{ collector.get('key', 'getJWKSets')|length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Signature Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.countSignatureAlgorithms() }}</span>
+            <span class="sf-toolbar-status">{{ collector.get('algorithm', 'countSignatureAlgorithms') }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Key Encryption Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.countKeyEncryptionAlgorithms() }}</span>
+            <span class="sf-toolbar-status">{{ collector.get('algorithm', 'countKeyEncryptionAlgorithms') }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Content Encryption Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.countContentEncryptionAlgorithms() }}</span>
+            <span class="sf-toolbar-status">{{ collector.get('algorithm', 'countContentEncryptionAlgorithms') }}</span>
         </div>
     {% endset %}
 
@@ -57,7 +57,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for id, data in collector.getJWKs() %}
+                    {% for id, data in collector.get('key', 'getJWKs') %}
                         <tr>
                             <td>{{ id }}</td>
                             <td>{{ data.jwk.get('kty') }}</td>
@@ -86,7 +86,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for id, data in collector.getJWKSets() %}
+                    {% for id, data in collector.get('algorithm', 'getJWKSets') %}
                         <tr>
                             <td>{{ id }}</td>
                             <td>{{ data.jwkset.count() }}</td>
@@ -122,7 +122,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for id, data in collector.getJWSBuilders() %}
+                    {% for id, data in collector.get('jws', 'getJWSBuilders') %}
                         <tr>
                             <td>{{ id }}</td>
                             <td>
@@ -145,7 +145,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for id, data in collector.getJWSVerifiers() %}
+                    {% for id, data in collector.get('jws', 'getJWSVerifiers') %}
                         <tr>
                             <td>{{ id }}</td>
                             <td>
@@ -161,7 +161,7 @@
                 </table>
                 {% if signatureAlgorithms['Signature'] is defined %}
                     <h4>Available Signature Algorithms</h4>
-                    {% set signatureAlgorithms = collector.getAlgorithmDetails() %}
+                    {% set signatureAlgorithms = collector.get('algorithm', 'getAlgorithmDetails') %}
                     <ul>
                         {% for alias, alg in signatureAlgorithms['Signature'] %}
                             <li><span{% if alg.name == 'none' %} class="severity-low"{% endif %}>{{ alg.name }} (alias: <i>{{ alias }})</i>{% if alg.name == 'none' %}. This algorithm is not secured. Please use with caution{% endif %}</span></li>
@@ -169,7 +169,7 @@
                     </ul>
                     <h4>Serialization Modes</h4>
                     <ul>
-                        {% for alias, name in collector.getJWSSerializationDetails() %}
+                        {% for alias, name in collector.get('jws', 'getJWSSerializationDetails') %}
                             <li>{{ name }} (alias: <i>{{ alias }})</i></li>
                         {% endfor %}
                     </ul>
@@ -192,7 +192,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for id, data in collector.getJWEBuilders() %}
+                    {% for id, data in collector.get('jwe', 'getJWEBuilders') %}
                         <tr>
                             <td>{{ id }}</td>
                             <td>
@@ -235,7 +235,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for id, data in collector.getJWEDecrypters() %}
+                    {% for id, data in collector.get('jwe', 'getJWEDecrypters') %}
                         <tr>
                             <td>{{ id }}</td>
                             <td>
@@ -267,7 +267,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-                {% set keyEncryptionAlgorithms = collector.getAlgorithmDetails() %}
+                {% set keyEncryptionAlgorithms = collector.get('algorithm', 'getAlgorithmDetails') %}
                 {% if signatureAlgorithms['Key Encryption'] is defined %}
                     <h4>Available Key Encryption Algorithms</h4>
                     <ul>
@@ -283,13 +283,13 @@
                     </ul>
                     <h4>Compression Methods</h4>
                     <ul>
-                        {% for alias, name in collector.getCompressionMethodDetails() %}
+                        {% for alias, name in collector.get('jwe', 'getCompressionMethodDetails') %}
                             <li>{{ name }} (alias: <i>{{ alias }})</i></li>
                         {% endfor %}
                     </ul>
                     <h4>JWE Serialization Modes</h4>
                     <ul>
-                        {% for alias, name in collector.getJWESerializationDetails() %}
+                        {% for alias, name in collector.get('jwe', 'getJWESerializationDetails') %}
                             <li>{{ name }} (alias: <i>{{ alias }})</i></li>
                         {% endfor %}
                     </ul>
@@ -302,17 +302,17 @@
             <h3 class="tab-title">Checkers</h3>
             <div class="tab-content">
                 <h4>Header Checkers</h4>
-                {% if collector.getHeaderCheckers() is empty %}
+                {% if collector.get('checker', 'getHeaderCheckers') is empty %}
                     No header checker.
                 {% else %}
                     <ul>
-                        {% for alias, data in collector.getHeaderCheckers() %}
+                        {% for alias, data in collector.get('checker', 'getHeaderCheckers') %}
                             <li>Alias: {{ alias }}, checked header: {{ data.claim }}{% if data.protected %} (protected header){% endif %}</li>
                         {% endfor %}
                     </ul>
                 {% endif %}
                 <h4>Header Checker Managers</h4>
-                {% if collector.getHeaderCheckerManagers() is empty %}
+                {% if collector.get('checker', 'getHeaderCheckerManagers') is empty %}
                     No header checker manager.
                 {% else %}
                     <table>
@@ -323,7 +323,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for id, data in collector.getHeaderCheckerManagers() %}
+                        {% for id, data in collector.get('checker', 'getHeaderCheckerManagers') %}
                             <tr>
                                 <td>{{ id }}</td>
                                 <td>
@@ -339,11 +339,11 @@
                     </table>
                 {% endif %}
                 <h4>Claim Checkers</h4>
-                {% if collector.getClaimCheckers() is empty %}
+                {% if collector.get('checker', 'getClaimCheckers') is empty %}
                     No header checker.
                 {% else %}
                     <ul>
-                        {% for alias, data in collector.getClaimCheckers() %}
+                        {% for alias, data in collector.get('checker', 'getClaimCheckers') %}
                             <li>Alias: {{ alias }}, checked claim: {{ data.claim }}</li>
                         {% endfor %}
                     </ul>

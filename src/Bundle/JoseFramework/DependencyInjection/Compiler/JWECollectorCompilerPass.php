@@ -13,37 +13,31 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
-use Jose\Bundle\JoseFramework\DataCollector\JoseCollector;
+use Jose\Bundle\JoseFramework\DataCollector\JWECollector;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class DataCollectorServicesCompilerPass.
+ * Class JWECollectorCompilerPass.
  */
-final class DataCollectorServicesCompilerPass implements CompilerPassInterface
+final class JWECollectorCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(JoseCollector::class)) {
+        if (!$container->hasDefinition(JWECollector::class)) {
             return;
         }
 
-        $definition = $container->getDefinition(JoseCollector::class);
+        $definition = $container->getDefinition(JWECollector::class);
 
         $services = [
-            'addJWSBuilder' => 'jose.jws_builder',
-            'addJWSVerifier' => 'jose.jws_verifier',
             'addJWEBuilder' => 'jose.jwe_builder',
             'addJWEDecrypter' => 'jose.jwe_decrypter',
-            'addHeaderCheckerManager' => 'jose.header_checker_manager',
-            'addClaimCheckerManager' => 'jose.claim_checker_manager',
-            'addJWK' => 'jose.jwk',
-            'addJWKSet' => 'jose.jwkset',
         ];
         foreach ($services as $method => $tag) {
             $this->collectServices($method, $tag, $definition, $container);
@@ -58,8 +52,8 @@ final class DataCollectorServicesCompilerPass implements CompilerPassInterface
      */
     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
     {
-        $taggedAlgorithmServices = $container->findTaggedServiceIds($tag);
-        foreach ($taggedAlgorithmServices as $id => $tags) {
+        $taggedJWEServices = $container->findTaggedServiceIds($tag);
+        foreach ($taggedJWEServices as $id => $tags) {
             $definition->addMethodCall($method, [$id, new Reference($id)]);
         }
     }

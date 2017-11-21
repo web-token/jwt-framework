@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\AlgorithmCompilerPass;
-use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\DataCollectorServicesCompilerPass;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\CheckerCollectorCompilerPass;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\DataCollectorCompilerPass;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\JWECollectorCompilerPass;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\JWSCollectorCompilerPass;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\KeyCollectorCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -38,7 +42,11 @@ final class JoseFrameworkBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new DataCollectorServicesCompilerPass());
+        $container->addCompilerPass(new DataCollectorCompilerPass());
+        $container->addCompilerPass(new JWSCollectorCompilerPass());
+        $container->addCompilerPass(new JWECollectorCompilerPass());
+        $container->addCompilerPass(new KeyCollectorCompilerPass());
+        $container->addCompilerPass(new CheckerCollectorCompilerPass());
         $container->addCompilerPass(new AlgorithmCompilerPass());
     }
 }
