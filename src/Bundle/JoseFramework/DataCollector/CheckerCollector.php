@@ -59,6 +59,24 @@ final class CheckerCollector implements Collector
     }
 
     /**
+     * @return HeaderCheckerManager[]
+     */
+    public function getHeaderCheckerManagers(): array
+    {
+        return $this->headerCheckerManagers;
+    }
+
+    /**
+     * @return ClaimCheckerManager[]
+     */
+    public function getClaimCheckerManagers(): array
+    {
+        return $this->claimCheckerManagers;
+    }
+
+
+
+    /**
      * @param array $data
      *
      * @return array
