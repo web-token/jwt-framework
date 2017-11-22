@@ -190,6 +190,7 @@ final class JSONGeneralSerializer extends Serializer
         if (null === $rawPayload) {
             return null;
         }
+
         return false === $isPayloadEncoded ? $rawPayload : Base64Url::decode($rawPayload);
     }
 
