@@ -36,7 +36,7 @@ final class JWECollector implements Collector
      * JWECollector constructor.
      *
      * @param CompressionMethodManagerFactory|null $compressionMethodManagerFactory
-     * @param JWESerializerManagerFactory|null $jweSerializerManagerFactory
+     * @param JWESerializerManagerFactory|null     $jweSerializerManagerFactory
      */
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
     {
