@@ -100,21 +100,16 @@ final class JSONGeneralSerializer implements JWESerializer
     public function unserialize(string $input): JWE
     {
         $data = $this->jsonConverter->decode($input);
-        if (!is_array($data) || !array_key_exists('ciphertext', $data) || !array_key_exists('recipients', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
-        }
+        $this->checkData($data);
 
         $ciphertext = Base64Url::decode($data['ciphertext']);
         $iv = Base64Url::decode($data['iv']);
         $tag = Base64Url::decode($data['tag']);
         $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
-        $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
-        $sharedProtectedHeader = $encodedSharedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
-        $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+        list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
         $recipients = [];
         foreach ($data['recipients'] as $recipient) {
-            $encryptedKey = array_key_exists('encrypted_key', $recipient) ? Base64Url::decode($recipient['encrypted_key']) : null;
-            $header = array_key_exists('header', $recipient) ? $recipient['header'] : [];
+            list($encryptedKey, $header) = $this->processRecipient($recipient);
             $recipients[] = Recipient::create($header, $encryptedKey);
         }
 
@@ -127,5 +122,42 @@ final class JSONGeneralSerializer implements JWESerializer
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
             $recipients);
+    }
+
+    /**
+     * @param $data
+     */
+    private function checkData($data)
+    {
+        if (!is_array($data) || !array_key_exists('ciphertext', $data) || !array_key_exists('recipients', $data)) {
+            throw new \InvalidArgumentException('Unsupported input.');
+        }
+    }
+
+    /**
+     * @param array $recipient
+     *
+     * @return array
+     */
+    private function processRecipient(array $recipient): array
+    {
+        $encryptedKey = array_key_exists('encrypted_key', $recipient) ? Base64Url::decode($recipient['encrypted_key']) : null;
+        $header = array_key_exists('header', $recipient) ? $recipient['header'] : [];
+
+        return [$encryptedKey, $header];
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    private function processHeaders(array $data): array
+    {
+        $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
+        $sharedProtectedHeader = $encodedSharedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
+        $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+
+        return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];
     }
 }

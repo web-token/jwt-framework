@@ -95,9 +95,7 @@ final class JSONFlattenedSerializer implements JWESerializer
     public function unserialize(string $input): JWE
     {
         $data = $this->jsonConverter->decode($input);
-        if (!is_array($data) || !array_key_exists('ciphertext', $data) || array_key_exists('recipients', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
-        }
+        $this->checkData($data);
 
         $ciphertext = Base64Url::decode($data['ciphertext']);
         $iv = Base64Url::decode($data['iv']);
@@ -116,6 +114,16 @@ final class JSONFlattenedSerializer implements JWESerializer
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
             [Recipient::create($header, $encryptedKey)]);
+    }
+
+    /**
+     * @param $data
+     */
+    private function checkData($data)
+    {
+        if (!is_array($data) || !array_key_exists('ciphertext', $data) || array_key_exists('recipients', $data)) {
+            throw new \InvalidArgumentException('Unsupported input.');
+        }
     }
 
     /**
