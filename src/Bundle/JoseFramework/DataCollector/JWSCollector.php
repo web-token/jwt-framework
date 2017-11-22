@@ -46,53 +46,18 @@ final class JWSCollector implements Collector
         $this->collectSupportedJWSVerifiers($data);
     }
 
-    public function name(): string
-    {
-        return 'jws';
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getJWSSerializationDetails(array $data): array
-    {
-        return $data['jws_serialization'];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getJWSBuilders(array $data): array
-    {
-        return $data['jws_builders'];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getJWSVerifiers(array $data): array
-    {
-        return $data['jws_verifiers'];
-    }
-
     /**
      * @param array $data
      */
     private function collectSupportedJWSSerializations(array &$data)
     {
-        $data['jws_serialization'] = [];
+        $data['jws']['jws_serialization'] = [];
         if (null === $this->jwsSerializerManagerFactory) {
             return;
         }
         $serializers = $this->jwsSerializerManagerFactory->all();
         foreach ($serializers as $serializer) {
-            $data['jws_serialization'][$serializer->name()] = $serializer->displayName();
+            $data['jws']['jws_serialization'][$serializer->name()] = $serializer->displayName();
         }
     }
 
@@ -101,9 +66,9 @@ final class JWSCollector implements Collector
      */
     private function collectSupportedJWSBuilders(array &$data)
     {
-        $data['jws_builders'] = [];
+        $data['jws']['jws_builders'] = [];
         foreach ($this->jwsBuilders as $id => $jwsBuilder) {
-            $data['jws_builders'][$id] = [
+            $data['jws']['jws_builders'][$id] = [
                 'signature_algorithms' => $jwsBuilder->getSignatureAlgorithmManager()->list(),
             ];
         }
@@ -114,9 +79,9 @@ final class JWSCollector implements Collector
      */
     private function collectSupportedJWSVerifiers(array &$data)
     {
-        $data['jws_verifiers'] = [];
+        $data['jws']['jws_verifiers'] = [];
         foreach ($this->jwsVerifiers as $id => $jwsVerifier) {
-            $data['jws_verifiers'][$id] = [
+            $data['jws']['jws_verifiers'][$id] = [
                 'signature_algorithms' => $jwsVerifier->getSignatureAlgorithmManager()->list(),
             ];
         }

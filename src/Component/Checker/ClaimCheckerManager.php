@@ -59,6 +59,14 @@ final class ClaimCheckerManager
     }
 
     /**
+     * @return ClaimChecker[]
+     */
+    public function getCheckers(): array
+    {
+        return $this->checkers;
+    }
+
+    /**
      * @param array $claims
      *
      * @return array

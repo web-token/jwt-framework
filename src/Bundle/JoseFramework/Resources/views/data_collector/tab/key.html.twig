@@ -11,7 +11,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for id, data in collector.get('key', 'getJWKs') %}
+            {% for id, data in collector.getData().key.jwk %}
                 <tr>
                     <td>{{ id }}</td>
                     <td>{{ data.jwk.get('kty') }}</td>
@@ -40,22 +40,22 @@
             </tr>
             </thead>
             <tbody>
-            {% for id, data in collector.get('algorithm', 'getJWKSets') %}
+            {% for id, data in collector.getData().key.jwkset %}
                 <tr>
                     <td>{{ id }}</td>
                     <td>{{ data.jwkset.count() }}</td>
                     <td>
                         {% for kid, messages in data.analyze %}
                             Analyze of key at index/key ID "{{ kid }}":<br>
-                            {% if messages.count() == 0 %}
-                                No message. All good!
-                            {% else %}
                                 <ul>
-                                    {% for message in messages %}
-                                        <li><span class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }} ({{ message.getSeverity() }})</span></li>
-                                    {% endfor %}
+                                    {% if messages.count() == 0 %}
+                                        <li>No message. All good!</li>
+                                    {% else %}
+                                        {% for message in messages %}
+                                            <li><span class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }} ({{ message.getSeverity() }})</span></li>
+                                        {% endfor %}
+                                    {% endif %}
                                 </ul>
-                            {% endif %}
                         {% endfor %}
                     </td>
                 </tr>

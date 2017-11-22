@@ -11,23 +11,23 @@
     {% set text %}
         <div class="sf-toolbar-info-piece">
             <b>Keys</b>
-            <span class="sf-toolbar-status">{{ collector.get('key', 'getJWKs')|length }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().key.jwk|length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Key Sets</b>
-            <span class="sf-toolbar-status">{{ collector.get('key', 'getJWKSets')|length }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().key.jwkset|length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Signature Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.get('algorithm', 'countSignatureAlgorithms') }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().algorithm.algorithms['Signature']|length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Key Encryption Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.get('algorithm', 'countKeyEncryptionAlgorithms') }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().algorithm.algorithms['Key Encryption']|length }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Content Encryption Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.get('algorithm', 'countContentEncryptionAlgorithms') }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().algorithm.algorithms['Content Encryption']|length }}</span>
         </div>
     {% endset %}
 
@@ -44,10 +44,10 @@
 {% block panel %}
     {% import _self as helper %}
     <div class="sf-tabs">
-        {% include 'tab/key.html.twig' %}
-        {% include 'tab/jws.html.twig' %}
-        {% include 'tab/jwe.html.twig' %}
-        {% include 'tab/checker.html.twig' %}
+        {% include '@JoseFramework/data_collector/tab/key.html.twig' %}
+        {% include '@JoseFramework/data_collector/tab/jws.html.twig' %}
+        {% include '@JoseFramework/data_collector/tab/jwe.html.twig' %}
+        {% include '@JoseFramework/data_collector/tab/checker.html.twig' %}
     </div>
 {% endblock %}
 

@@ -25,9 +25,4 @@ interface Collector
      * @param \Exception|null $exception
      */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null);
-
-    /**
-     * @return string
-     */
-    public function name(): string;
 }

@@ -43,72 +43,22 @@ final class AlgorithmCollector implements Collector
      */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
-        $this->collectSupportedAlgorithms($data);
-    }
-
-    public function name(): string
-    {
-        return 'algorithm';
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getAlgorithmDetails(array $data): array
-    {
-        return $data['algorithms'];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return int
-     */
-    public function countSignatureAlgorithms(array $data): int
-    {
-        return $data['types']['signature'];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return int
-     */
-    public function countKeyEncryptionAlgorithms(array $data): int
-    {
-        return $data['types']['key_encryption'];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return int
-     */
-    public function countContentEncryptionAlgorithms(array $data): int
-    {
-        return $data['types']['content_encryption'];
-    }
-
-    private function collectSupportedAlgorithms(array &$data)
-    {
         $algorithms = $this->algorithmManagerFactory->all();
-        $data['algorithms'] = [];
+        $data['algorithm']['algorithms'] = [];
         $signatureAlgorithms = 0;
         $keyEncryptionAlgorithms = 0;
         $contentEncryptionAlgorithms = 0;
         foreach ($algorithms as $alias => $algorithm) {
             $type = $this->getAlgorithmType($algorithm, $signatureAlgorithms, $keyEncryptionAlgorithms, $contentEncryptionAlgorithms);
-            if (!array_key_exists($type, $data['algorithms'])) {
-                $data['algorithms'][$type] = [];
+            if (!array_key_exists($type, $data['algorithm']['algorithms'])) {
+                $data['algorithm']['algorithms'][$type] = [];
             }
-            $data['algorithms'][$type][$alias] = [
+            $data['algorithm']['algorithms'][$type][$alias] = [
                 'name' => $algorithm->name(),
             ];
         }
 
-        $data['types'] = [
+        $data['algorithm']['types'] = [
             'signature' => $signatureAlgorithms,
             'key_encryption' => $keyEncryptionAlgorithms,
             'content_encryption' => $contentEncryptionAlgorithms,

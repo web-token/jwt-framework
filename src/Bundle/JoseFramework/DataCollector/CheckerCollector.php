@@ -49,61 +49,22 @@ final class CheckerCollector implements Collector
      */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
+        $this->collectHeaderCheckerManagers($data);
         $this->collectSupportedHeaderCheckers($data);
+        $this->collectClaimCheckerManagers($data);
         $this->collectSupportedClaimCheckers($data);
     }
 
-    public function name(): string
-    {
-        return 'checker';
-    }
-
-    /**
-     * @return HeaderCheckerManager[]
-     */
-    public function getHeaderCheckerManagers(): array
-    {
-        return $this->headerCheckerManagers;
-    }
-
-    /**
-     * @return ClaimCheckerManager[]
-     */
-    public function getClaimCheckerManagers(): array
-    {
-        return $this->claimCheckerManagers;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getHeaderCheckers(array $data): array
-    {
-        return $data['header_checkers'];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getClaimCheckers(array $data): array
-    {
-        return $data['claim_checkers'];
-    }
-
     /**
      * @param array $data
      */
-    private function collectSupportedHeaderCheckers(array &$data)
+    private function collectHeaderCheckerManagers(array &$data)
     {
-        $data['header_checkers'] = [];
-        if (null !== $this->headerCheckerManagerFactory) {
-            $aliases = $this->headerCheckerManagerFactory->all();
-            foreach ($aliases as $alias => $checker) {
-                $data['header_checkers'][$alias] = [
+        $data['checker']['header_checker_managers'] = [];
+        foreach ($this->headerCheckerManagers as $id => $checkerManager) {
+            $data['checker']['header_checker_managers'][$id] = [];
+            foreach ($checkerManager->getCheckers() as $checker) {
+                $data['checker']['header_checker_managers'][$id][] = [
                     'header' => $checker->supportedHeader(),
                     'protected' => $checker->protectedHeaderOnly(),
                 ];
@@ -114,13 +75,46 @@ final class CheckerCollector implements Collector
     /**
      * @param array $data
      */
+    private function collectSupportedHeaderCheckers(array &$data)
+    {
+        $data['checker']['header_checkers'] = [];
+        if (null !== $this->headerCheckerManagerFactory) {
+            $aliases = $this->headerCheckerManagerFactory->all();
+            foreach ($aliases as $alias => $checker) {
+                $data['checker']['header_checkers'][$alias] = [
+                    'header' => $checker->supportedHeader(),
+                    'protected' => $checker->protectedHeaderOnly(),
+                ];
+            }
+        }
+    }
+
+    /**
+     * @param array $data
+     */
+    private function collectClaimCheckerManagers(array &$data)
+    {
+        $data['checker']['claim_checker_managers'] = [];
+        foreach ($this->claimCheckerManagers as $id => $checkerManager) {
+            $data['checker']['claim_checker_managers'][$id] = [];
+            foreach ($checkerManager->getCheckers() as $checker) {
+                $data['checker']['claim_checker_managers'][$id][] = [
+                    'claim' => $checker->supportedClaim(),
+                ];
+            }
+        }
+    }
+
+    /**
+     * @param array $data
+     */
     private function collectSupportedClaimCheckers(array &$data)
     {
-        $data['claim_checkers'] = [];
+        $data['checker']['claim_checkers'] = [];
         if (null !== $this->headerCheckerManagerFactory) {
             $aliases = $this->claimCheckerManagerFactory->all();
             foreach ($aliases as $alias => $checker) {
-                $data['claim_checkers'][$alias] = [
+                $data['checker']['claim_checkers'][$alias] = [
                     'claim' => $checker->supportedClaim(),
                 ];
             }

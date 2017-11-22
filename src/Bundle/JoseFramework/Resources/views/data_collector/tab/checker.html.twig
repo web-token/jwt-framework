@@ -1,18 +1,8 @@
 <div class="tab">
     <h3 class="tab-title">Checkers</h3>
     <div class="tab-content">
-        <h4>Header Checkers</h4>
-        {% if collector.get('checker', 'getHeaderCheckers') is empty %}
-            No header checker.
-        {% else %}
-            <ul>
-                {% for alias, data in collector.get('checker', 'getHeaderCheckers') %}
-                    <li>Alias: {{ alias }}, checked header: {{ data.claim }}{% if data.protected %} (protected header){% endif %}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
         <h4>Header Checker Managers</h4>
-        {% if collector.get('checker', 'getHeaderCheckerManagers') is empty %}
+        {% if collector.getData().checker.header_checker_managers is empty %}
             No header checker manager.
         {% else %}
             <table>
@@ -23,13 +13,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for id, data in collector.get('checker', 'getHeaderCheckerManagers') %}
+                {% for id, data in collector.getData().checker.header_checker_managers %}
                     <tr>
                         <td>{{ id }}</td>
                         <td>
                             <ul>
-                                {% for checker in data.getCheckers() %}
-                                    <li>{{ checker.supportedHeader() }}</li>
+                                {% for checker in data %}
+                                    <li>{{ checker.header }}{% if checker.protected %} (protected header){% endif %}</li>
                                 {% endfor %}
                             </ul>
                         </td>
@@ -38,12 +28,49 @@
                 </tbody>
             </table>
         {% endif %}
-        <h4>Claim Checkers</h4>
-        {% if collector.get('checker', 'getClaimCheckers') is empty %}
+        <h4>Available Header Checkers</h4>
+        {% if collector.getData().checker.header_checkers is empty %}
             No header checker.
         {% else %}
             <ul>
-                {% for alias, data in collector.get('checker', 'getClaimCheckers') %}
+                {% for alias, data in collector.getData().checker.header_checkers %}
+                    <li>Alias: {{ alias }}, checked header: {{ data.header }}{% if data.protected %} (protected header){% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <h4>Claim Checker Managers</h4>
+        {% if collector.getData().checker.claim_checker_managers is empty %}
+            No claim checker manager.
+        {% else %}
+            <table>
+                <thead>
+                <tr>
+                    <th>Service ID</th>
+                    <th>Checked Claims</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for id, data in collector.getData().checker.claim_checker_managers %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>
+                            <ul>
+                                {% for checker in data %}
+                                    <li>{{ checker.claim }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <h4>Available Claim Checkers</h4>
+        {% if collector.getData().checker.claim_checkers is empty %}
+            No header checker.
+        {% else %}
+            <ul>
+                {% for alias, data in collector.getData().checker.claim_checkers %}
                     <li>Alias: {{ alias }}, checked claim: {{ data.claim }}</li>
                 {% endfor %}
             </ul>

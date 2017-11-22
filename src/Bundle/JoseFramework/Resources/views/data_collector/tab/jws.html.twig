@@ -10,7 +10,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for id, data in collector.get('jws', 'getJWSBuilders') %}
+            {% for id, data in collector.getData().jws.jws_builders %}
                 <tr>
                     <td>{{ id }}</td>
                     <td>
@@ -33,7 +33,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for id, data in collector.get('jws', 'getJWSVerifiers') %}
+            {% for id, data in collector.getData().jws.jws_verifiers %}
                 <tr>
                     <td>{{ id }}</td>
                     <td>
@@ -47,9 +47,9 @@
             {% endfor %}
             </tbody>
         </table>
+        {% set signatureAlgorithms = collector.getData().algorithm.algorithms %}
         {% if signatureAlgorithms['Signature'] is defined %}
             <h4>Available Signature Algorithms</h4>
-            {% set signatureAlgorithms = collector.get('algorithm', 'getAlgorithmDetails') %}
             <ul>
                 {% for alias, alg in signatureAlgorithms['Signature'] %}
                     <li><span{% if alg.name == 'none' %} class="severity-low"{% endif %}>{{ alg.name }} (alias: <i>{{ alias }})</i>{% if alg.name == 'none' %}. This algorithm is not secured. Please use with caution{% endif %}</span></li>
@@ -57,7 +57,7 @@
             </ul>
             <h4>Serialization Modes</h4>
             <ul>
-                {% for alias, name in collector.get('jws', 'getJWSSerializationDetails') %}
+                {% for alias, name in collector.getData().jws.jws_serialization %}
                     <li>{{ name }} (alias: <i>{{ alias }})</i></li>
                 {% endfor %}
             </ul>

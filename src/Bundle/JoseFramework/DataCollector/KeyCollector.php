@@ -45,39 +45,14 @@ final class KeyCollector implements Collector
         $this->collectJWKSet($data);
     }
 
-    public function name(): string
-    {
-        return 'key';
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getJWKs(array $data): array
-    {
-        return $data['jwk'];
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    public function getJWKSets(array $data): array
-    {
-        return $data['jwkset'];
-    }
-
     /**
      * @param array $data
      */
     private function collectJWK(array &$data)
     {
-        $data['jwk'] = [];
+        $data['key']['jwk'] = [];
         foreach ($this->jwks as $id => $jwk) {
-            $data['jwk'][$id] = [
+            $data['key']['jwk'][$id] = [
                 'jwk' => $jwk,
                 'analyze' => null === $this->jwkAnalyzerManager ? [] : $this->jwkAnalyzerManager->analyze($jwk),
             ];
@@ -89,7 +64,7 @@ final class KeyCollector implements Collector
      */
     private function collectJWKSet(array &$data)
     {
-        $data['jwkset'] = [];
+        $data['key']['jwkset'] = [];
         foreach ($this->jwksets as $id => $jwkset) {
             $analyze = [];
             if (null !== $this->jwkAnalyzerManager) {
@@ -97,7 +72,7 @@ final class KeyCollector implements Collector
                     $analyze[$kid] = $this->jwkAnalyzerManager->analyze($jwk);
                 }
             }
-            $data['jwkset'][$id] = [
+            $data['key']['jwkset'][$id] = [
                 'jwkset' => $jwkset,
                 'analyze' => $analyze,
             ];

@@ -39,24 +39,7 @@ final class JoseCollector extends DataCollector
      */
     public function add(Collector $collector)
     {
-        $this->collectors[$collector->name()] = $collector;
-    }
-
-    /**
-     * @param string $name
-     * @param string $method
-     */
-    public function get(string $name, string $method)
-    {
-        if (!array_key_exists($name, $this->collectors)) {
-            throw new \InvalidArgumentException(sprintf('No collector with name "%s".', $name));
-        }
-        $collector = $this->collectors[$name];
-        if (!method_exists($collector, $method)) {
-            throw new \InvalidArgumentException(sprintf('The collector with name "%s" has no method "%s".', $name, $method));
-        }
-
-        return $collector->$method($this->data);
+        $this->collectors[] = $collector;
     }
 
     /**
@@ -65,5 +48,13 @@ final class JoseCollector extends DataCollector
     public function getName()
     {
         return 'jose_collector';
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->data;
     }
 }
