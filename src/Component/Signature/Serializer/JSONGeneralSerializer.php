@@ -91,43 +91,49 @@ final class JSONGeneralSerializer extends Serializer
     }
 
     /**
+     * @param $data
+     */
+    private function checkData($data)
+    {
+        if (!is_array($data) || !array_key_exists('signatures', $data)) {
+            throw new \InvalidArgumentException('Unsupported input.');
+        }
+    }
+
+    /**
+     * @param $signature
+     */
+    private function checkSignature($signature)
+    {
+        if (!is_array($signature) || !array_key_exists('signature', $signature)) {
+            throw new \InvalidArgumentException('Unsupported input.');
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function unserialize(string $input): JWS
     {
         $data = $this->jsonConverter->decode($input);
-        if (!is_array($data) || !array_key_exists('signatures', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
-        }
+        $this->checkData($data);
 
         $isPayloadEncoded = null;
         $rawPayload = array_key_exists('payload', $data) ? $data['payload'] : null;
         $signatures = [];
         foreach ($data['signatures'] as $signature) {
-            if (!is_array($signature) || !array_key_exists('signature', $signature)) {
-                throw new \InvalidArgumentException('Unsupported input.');
-            }
-            $encodedProtectedHeaders = array_key_exists('protected', $signature) ? $signature['protected'] : null;
-            $protectedHeaders = null !== $encodedProtectedHeaders ? $this->jsonConverter->decode(Base64Url::decode($encodedProtectedHeaders)) : [];
+            $this->checkSignature($signature);
+            list($encodedProtectedHeaders, $protectedHeaders, $headers) = $this->processHeaders($signature);
             $signatures[] = [
                 'signature' => Base64Url::decode($signature['signature']),
                 'protected' => $protectedHeaders,
                 'encoded_protected' => $encodedProtectedHeaders,
-                'header' => array_key_exists('header', $signature) ? $signature['header'] : [],
+                'header' => $headers,
             ];
-            if (null === $isPayloadEncoded) {
-                $isPayloadEncoded = self::isPayloadEncoded($protectedHeaders);
-            }
-            if ($this->isPayloadEncoded($protectedHeaders) !== $isPayloadEncoded) {
-                throw new \InvalidArgumentException('Foreign payload encoding detected.');
-            }
+            $isPayloadEncoded = $this->processIsPayloadEncoded($isPayloadEncoded, $protectedHeaders);
         }
 
-        if (null === $rawPayload) {
-            $payload = null;
-        } else {
-            $payload = false === $isPayloadEncoded ? $rawPayload : Base64Url::decode($rawPayload);
-        }
+        $payload = $this->processPayload($rawPayload, $isPayloadEncoded);
         $jws = JWS::create($payload, $rawPayload);
         foreach ($signatures as $signature) {
             $jws = $jws->addSignature(
@@ -139,6 +145,52 @@ final class JSONGeneralSerializer extends Serializer
         }
 
         return $jws;
+    }
+
+    /**
+     * @param bool|null $isPayloadEncoded
+     * @param array     $protectedHeaders
+     *
+     * @return bool
+     */
+    private function processIsPayloadEncoded(?bool $isPayloadEncoded, array $protectedHeaders): bool
+    {
+        if (null === $isPayloadEncoded) {
+            return self::isPayloadEncoded($protectedHeaders);
+        }
+        if ($this->isPayloadEncoded($protectedHeaders) !== $isPayloadEncoded) {
+            throw new \InvalidArgumentException('Foreign payload encoding detected.');
+        }
+
+        return $isPayloadEncoded;
+    }
+
+    /**
+     * @param array $signature
+     *
+     * @return array
+     */
+    private function processHeaders(array $signature): array
+    {
+        $encodedProtectedHeaders = array_key_exists('protected', $signature) ? $signature['protected'] : null;
+        $protectedHeaders = null !== $encodedProtectedHeaders ? $this->jsonConverter->decode(Base64Url::decode($encodedProtectedHeaders)) : [];
+        $headers = array_key_exists('header', $signature) ? $signature['header'] : [];
+
+        return [$encodedProtectedHeaders, $protectedHeaders, $headers];
+    }
+
+    /**
+     * @param null|string $rawPayload
+     * @param bool|null   $isPayloadEncoded
+     *
+     * @return null|string
+     */
+    private function processPayload(?string $rawPayload, ?bool $isPayloadEncoded): ?string
+    {
+        if (null === $rawPayload) {
+            return null;
+        }
+        return false === $isPayloadEncoded ? $rawPayload : Base64Url::decode($rawPayload);
     }
 
     /**
