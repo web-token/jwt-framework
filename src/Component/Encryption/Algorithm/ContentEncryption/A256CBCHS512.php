@@ -29,6 +29,14 @@ final class A256CBCHS512 extends AESCBCHS
     /**
      * {@inheritdoc}
      */
+    protected function getMode(): string
+    {
+        return 'aes-256-cbc';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCEKSize(): int
     {
         return 512;

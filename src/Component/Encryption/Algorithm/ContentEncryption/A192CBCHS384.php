@@ -29,6 +29,14 @@ final class A192CBCHS384 extends AESCBCHS
     /**
      * {@inheritdoc}
      */
+    protected function getMode(): string
+    {
+        return 'aes-192-cbc';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCEKSize(): int
     {
         return 384;

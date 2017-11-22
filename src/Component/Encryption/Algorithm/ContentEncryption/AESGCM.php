@@ -25,7 +25,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
      */
     public function allowedKeyTypes(): array
     {
-        return ['oct'];
+        return []; //Irrelevant
     }
 
     /**
@@ -38,8 +38,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.$aad;
         }
 
-        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
-        $C = openssl_encrypt($data, $mode, $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        $C = openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if (false === $C) {
             throw new \InvalidArgumentException('Unable to encrypt the data.');
         }
@@ -57,8 +56,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.$aad;
         }
 
-        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
-        $P = openssl_decrypt($data, $mode, $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        $P = openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if (false === $P) {
             throw new \InvalidArgumentException('Unable to decrypt or to verify the tag.');
         }
@@ -75,15 +73,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getCEKSize(): int
-    {
-        return $this->getKeySize();
-    }
-
-    /**
-     * @return int
-     */
-    abstract protected function getKeySize(): int;
+    abstract protected function getMode(): string;
 }

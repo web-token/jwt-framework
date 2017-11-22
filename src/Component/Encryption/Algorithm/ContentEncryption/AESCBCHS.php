@@ -25,7 +25,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
      */
     public function allowedKeyTypes(): array
     {
-        return ['oct'];
+        return []; //Irrelevant
     }
 
     /**
@@ -33,11 +33,8 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
      */
     public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag): string
     {
-        $keyLength = mb_strlen($cek, '8bit');
-        $this->checkKeyLength($keyLength);
-        $k = mb_substr($cek, $keyLength / 2, null, '8bit');
-
-        $cyphertext = openssl_encrypt($data, $this->getMode($keyLength), $k, OPENSSL_RAW_DATA, $iv);
+        $k = mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
+        $cyphertext = openssl_encrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if (false === $cyphertext) {
             throw new \RuntimeException('Unable to encrypt.');
         }
@@ -60,15 +57,12 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
      */
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string
     {
-        $keyLength = mb_strlen($cek, '8bit');
-        $this->checkKeyLength($keyLength);
-
         if (!$this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
             throw new \InvalidArgumentException('Unable to verify the tag.');
         }
-        $k = mb_substr($cek, $keyLength / 2, null, '8bit');
+        $k = mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
 
-        $plaintext = openssl_decrypt($data, self::getMode($keyLength), $k, OPENSSL_RAW_DATA, $iv);
+        $plaintext = openssl_decrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if (false === $plaintext) {
             throw new \RuntimeException('Unable to decrypt.');
         }
@@ -91,14 +85,14 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
         if (null !== $aad) {
             $calculated_aad .= '.'.$aad;
         }
-        $mac_key = mb_substr($cek, 0, mb_strlen($cek, '8bit') / 2, '8bit');
+        $mac_key = mb_substr($cek, 0, $this->getCEKSize() / 16, '8bit');
         $auth_data_length = mb_strlen($encoded_header, '8bit');
 
         $secured_input = implode('', [
             $calculated_aad,
             $iv,
             $encrypted_data,
-            pack('N2', ($auth_data_length / 2147483647) * 8, ($auth_data_length % 2147483647) * 8), // str_pad(dechex($auth_data_length), 4, "0", STR_PAD_LEFT)
+            pack('N2', ($auth_data_length / 2147483647) * 8, ($auth_data_length % 2147483647) * 8),
         ]);
         $hash = hash_hmac($this->getHashAlgorithm(), $secured_input, $mac_key, true);
 
@@ -117,7 +111,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
      */
     protected function isTagValid(string $encrypted_data, string $cek, string $iv, ?string $aad, string $encoded_header, string $authentication_tag): bool
     {
-        return $authentication_tag === $this->calculateAuthenticationTag($encrypted_data, $cek, $iv, $aad, $encoded_header);
+        return hash_equals($authentication_tag, $this->calculateAuthenticationTag($encrypted_data, $cek, $iv, $aad, $encoded_header));
     }
 
     /**
@@ -126,30 +120,15 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     abstract protected function getHashAlgorithm(): string;
 
     /**
+     * @return string
+     */
+    abstract protected function getMode(): string;
+
+    /**
      * @return int
      */
     public function getIVSize(): int
     {
         return 128;
-    }
-
-    /**
-     * @param int $keyLength
-     *
-     * @return string
-     */
-    private function getMode(int $keyLength): string
-    {
-        return sprintf('aes-%d-cbc', 8 * $keyLength / 2);
-    }
-
-    /**
-     * @param int $keyLength
-     */
-    private function checkKeyLength(int $keyLength)
-    {
-        if (!in_array($keyLength, [32, 48, 64])) {
-            throw new \InvalidArgumentException('Invalid key length. Allowed sizes are 256, 384 and 512 bits.');
-        }
     }
 }

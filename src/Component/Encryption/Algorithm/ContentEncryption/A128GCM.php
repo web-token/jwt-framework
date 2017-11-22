@@ -21,9 +21,17 @@ final class A128GCM extends AESGCM
     /**
      * {@inheritdoc}
      */
-    protected function getKeySize(): int
+    public function getCEKSize(): int
     {
         return 128;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-128-gcm';
     }
 
     /**

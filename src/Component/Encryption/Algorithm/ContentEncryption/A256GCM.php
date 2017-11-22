@@ -21,9 +21,17 @@ final class A256GCM extends AESGCM
     /**
      * {@inheritdoc}
      */
-    protected function getKeySize(): int
+    public function getCEKSize(): int
     {
         return 256;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-256-gcm';
     }
 
     /**

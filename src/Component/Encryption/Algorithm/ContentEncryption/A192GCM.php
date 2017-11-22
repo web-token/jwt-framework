@@ -21,9 +21,17 @@ final class A192GCM extends AESGCM
     /**
      * {@inheritdoc}
      */
-    protected function getKeySize(): int
+    public function getCEKSize(): int
     {
         return 192;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-192-gcm';
     }
 
     /**
