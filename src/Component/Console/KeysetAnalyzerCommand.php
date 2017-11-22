@@ -70,6 +70,7 @@ final class KeysetAnalyzerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
         $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
         $output->getFormatter()->setStyle('medium', new OutputFormatterStyle('yellow'));
         $output->getFormatter()->setStyle('low', new OutputFormatterStyle('blue'));
@@ -84,12 +85,12 @@ final class KeysetAnalyzerCommand extends Command
         foreach ($jwkset as $kid => $jwk) {
             $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
             $messages = $this->analyzerManager->analyze($jwk);
-            if (!empty($messages)) {
+            if (0 === $messages->count()) {
+                $output->writeln('    <success>All good! No issue found.</success>');
+            } else {
                 foreach ($messages as $message) {
                     $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
                 }
-            } else {
-                $output->writeln('    No issue with this key');
             }
 
             switch (true) {

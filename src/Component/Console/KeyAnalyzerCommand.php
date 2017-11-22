@@ -70,14 +70,19 @@ final class KeyAnalyzerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
         $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
         $output->getFormatter()->setStyle('medium', new OutputFormatterStyle('yellow'));
         $output->getFormatter()->setStyle('low', new OutputFormatterStyle('blue'));
         $jwk = $this->getKey($input);
 
         $result = $this->analyzerManager->analyze($jwk);
-        foreach ($result as $message) {
-            $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
+        if (0 === $result->count()) {
+            $output->writeln('<success>All good! No issue found.</success>');
+        } else {
+            foreach ($result as $message) {
+                $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
+            }
         }
     }
 
