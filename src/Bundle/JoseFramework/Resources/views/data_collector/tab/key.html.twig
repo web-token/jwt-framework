@@ -1,0 +1,66 @@
+<div class="tab">
+    <h3 class="tab-title">Keys and Key Sets</h3>
+    <div class="tab-content">
+        <h4>Keys</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Key type</th>
+                <th>Analyze Result</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.get('key', 'getJWKs') %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ data.jwk.get('kty') }}</td>
+                    <td>
+                        {% if data.analyze.count() == 0 %}
+                            No message. All good!
+                        {% else %}
+                            <ul>
+                                {% for message in data.analyze %}
+                                    <li><span class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }} ({{ message.getSeverity() }})</span></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h4>Key Sets</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Number of keys</th>
+                <th>Analyze Result</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.get('algorithm', 'getJWKSets') %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ data.jwkset.count() }}</td>
+                    <td>
+                        {% for kid, messages in data.analyze %}
+                            Analyze of key at index/key ID "{{ kid }}":<br>
+                            {% if messages.count() == 0 %}
+                                No message. All good!
+                            {% else %}
+                                <ul>
+                                    {% for message in messages %}
+                                        <li><span class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }} ({{ message.getSeverity() }})</span></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

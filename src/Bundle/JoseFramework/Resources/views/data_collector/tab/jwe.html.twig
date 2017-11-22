@@ -1,0 +1,120 @@
+<div class="tab">
+    <h3 class="tab-title">JWE Services</h3>
+    <div class="tab-content">
+        <h4>JWE Builders</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Key Encryption Algorithms</th>
+                <th>Content Encryption Algorithms</th>
+                <th>Compression Methods</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.get('jwe', 'getJWEBuilders') %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.key_encryption_algorithms %}
+                                <li>
+                                        <span{% if algorithm == 'RSA1_5' %} class="severity-high"{% elseif 'ECDH-ES' in algorithm %} class="severity-medium"{% endif %}>
+                                            {{ algorithm }}
+                                        </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.content_encryption_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for method in data.compression_methods %}
+                                <li>{{ method }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h4>JWE Decrypters</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Key Encryption Algorithms</th>
+                <th>Content Encryption Algorithms</th>
+                <th>Compression Methods</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.get('jwe', 'getJWEDecrypters') %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.key_encryption_algorithms %}
+                                <li>
+                                        <span{% if algorithm == 'RSA1_5' %} class="severity-high"{% elseif 'ECDH-ES' in algorithm %} class="severity-medium"{% endif %}>
+                                            {{ algorithm }}
+                                        </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.content_encryption_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for method in data.compression_methods %}
+                                <li>{{ method }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% set keyEncryptionAlgorithms = collector.get('algorithm', 'getAlgorithmDetails') %}
+        {% if signatureAlgorithms['Key Encryption'] is defined %}
+            <h4>Available Key Encryption Algorithms</h4>
+            <ul>
+                {% for alias, alg in keyEncryptionAlgorithms['Key Encryption'] %}
+                    <li><span{% if alg.name == 'RSA1_5' %} class="severity-high"{% elseif 'ECDH-ES' in alg.name %} class="severity-medium"{% endif %}>{{ alg.name }} (alias: <i>{{ alias }})</i>{% if alg.name == 'RSA1_5' %}. This algorithm is not secured (known attacks).{% elseif 'ECDH-ES' in alg.name %}. This algorithm is very slow when used with curves P-256, P-384, P-521.{% endif %}</span></li>
+                {% endfor %}
+            </ul>
+            <h4>Available Content Encryption Algorithms</h4>
+            <ul>
+                {% for alias, alg in contentEncryptionAlgorithms['Content Encryption'] %}
+                    <li>{{ alg.name }} (alias: <i>{{ alias }})</i></li>
+                {% endfor %}
+            </ul>
+            <h4>Compression Methods</h4>
+            <ul>
+                {% for alias, name in collector.get('jwe', 'getCompressionMethodDetails') %}
+                    <li>{{ name }} (alias: <i>{{ alias }})</i></li>
+                {% endfor %}
+            </ul>
+            <h4>JWE Serialization Modes</h4>
+            <ul>
+                {% for alias, name in collector.get('jwe', 'getJWESerializationDetails') %}
+                    <li>{{ name }} (alias: <i>{{ alias }})</i></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            The is no encryption algorithm. Did you installed "web-token/jwt-encryption-bundle"?
+        {% endif %}
+    </div>
+</div>
