@@ -103,9 +103,7 @@ final class JSONFlattenedSerializer implements JWESerializer
         $iv = Base64Url::decode($data['iv']);
         $tag = Base64Url::decode($data['tag']);
         $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
-        $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
-        $sharedProtectedHeader = $encodedSharedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
-        $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+        list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
         $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
         $header = array_key_exists('header', $data) ? $data['header'] : [];
 
@@ -118,5 +116,19 @@ final class JSONFlattenedSerializer implements JWESerializer
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
             [Recipient::create($header, $encryptedKey)]);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    private function processHeaders(array $data): array
+    {
+        $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
+        $sharedProtectedHeader = $encodedSharedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
+        $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+
+        return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];
     }
 }
