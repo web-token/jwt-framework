@@ -21,14 +21,14 @@
     },
     "require": {
         "php": "^7.1",
-        "web-token/jwt-core": "^0.3"
+        "web-token/jwt-core": "^0.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.3.x-dev"
+            "dev-master": "0.4.x-dev"
         }
     },
     "config": {
