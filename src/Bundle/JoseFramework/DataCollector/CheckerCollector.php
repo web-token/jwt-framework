@@ -74,8 +74,6 @@ final class CheckerCollector implements Collector
         return $this->claimCheckerManagers;
     }
 
-
-
     /**
      * @param array $data
      *
