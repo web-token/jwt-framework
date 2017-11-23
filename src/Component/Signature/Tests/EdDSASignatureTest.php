@@ -77,6 +77,6 @@ final class EdDSASignatureTest extends SignatureTest
 
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals(1, $loaded->countSignatures());
-        $jwsVerifier->verifyWithKey($loaded, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
     }
 }

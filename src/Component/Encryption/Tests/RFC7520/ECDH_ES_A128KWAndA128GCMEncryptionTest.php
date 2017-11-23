@@ -65,13 +65,13 @@ final class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
-        $loaded_compact_json = $jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($expected_flattened_json);
-        $loaded_flattened_json = $jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
         self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
@@ -138,10 +138,10 @@ final class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
             ->build();
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
-        $loaded_flattened_json = $jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertTrue(array_key_exists('epk', $loaded_flattened_json->getSharedProtectedHeaders()));
 

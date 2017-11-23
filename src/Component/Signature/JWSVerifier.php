@@ -51,15 +51,16 @@ final class JWSVerifier
     /**
      * @param JWS         $jws
      * @param JWK         $jwk
+     * @param int         $signature
      * @param null|string $detachedPayload
      *
-     * @return int If the JWS has been verified, an integer that represents the ID of the signature is set
+     * @return bool True if the verification of the signature succeeded, else false.
      */
-    public function verifyWithKey(JWS $jws, JWK $jwk, ?string $detachedPayload = null): int
+    public function verifyWithKey(JWS $jws, JWK $jwk, int $signature, ?string $detachedPayload = null): bool
     {
         $jwkset = JWKSet::createFromKeys([$jwk]);
 
-        return $this->verifyWithKeySet($jws, $jwkset, $detachedPayload);
+        return $this->verifyWithKeySet($jws, $jwkset, $signature, $detachedPayload);
     }
 
     /**
@@ -68,26 +69,20 @@ final class JWSVerifier
      *
      * @param JWS         $jws             A JWS object
      * @param JWKSet      $jwkset          The signature will be verified using keys in the key set
+     * @param int         $signature
      * @param null|string $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
-     * @return int If the JWS has been verified, an integer that represents the ID of the signature is set
+     * @return bool True if the verification of the signature succeeded, else false.
      */
-    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, ?string $detachedPayload = null): int
+    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signature, ?string $detachedPayload = null): bool
     {
         $this->checkJWKSet($jwkset);
         $this->checkSignatures($jws);
         $this->checkPayload($jws, $detachedPayload);
 
-        $nbSignatures = $jws->countSignatures();
+        $signature = $jws->getSignature($signature);
 
-        for ($i = 0; $i < $nbSignatures; ++$i) {
-            $signature = $jws->getSignature($i);
-            if (true === $this->verifySignature($jws, $jwkset, $signature, $detachedPayload)) {
-                return $i;
-            }
-        }
-
-        throw new \InvalidArgumentException('Unable to verify the JWS.');
+        return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload);
     }
 
     /**

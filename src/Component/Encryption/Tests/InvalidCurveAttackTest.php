@@ -21,10 +21,6 @@ use Jose\Component\Core\JWK;
  */
 final class InvalidCurveAttackTest extends EncryptionTest
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unable to decrypt the JWE.
-     */
     public function testCurveCheckNegativeP256AttackPt1()
     {
         $maliciousJWE = 'eyJhbGciOiJFQ0RILUVTK0ExMjhLVyIsImVuYyI6IkExMjhDQkMtSFMyNTYiLCJlcGsiOnsia3R5IjoiRUMiLCJ4IjoiZ1RsaTY1ZVRRN3otQmgxNDdmZjhLM203azJVaURpRzJMcFlrV0FhRkpDYyIsInkiOiJjTEFuakthNGJ6akQ3REpWUHdhOUVQclJ6TUc3ck9OZ3NpVUQta2YzMEZzIiwiY3J2IjoiUC0yNTYifX0.qGAdxtEnrV_3zbIxU2ZKrMWcejNltjA_dtefBFnRh9A2z9cNIqYRWg.pEA5kX304PMCOmFSKX_cEg.a9fwUrx2JXi1OnWEMOmZhXd94-bEGCH9xxRwqcGuG2AMo-AwHoljdsH5C_kcTqlXS5p51OB1tvgQcMwB5rpTxg.72CHiYFecyDvuUa43KKT6w';
@@ -39,13 +35,9 @@ final class InvalidCurveAttackTest extends EncryptionTest
             'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
             'd' => 'VEmDZpDXXK8p8N0Cndsxs924q6nS1RXFASRl6BfUqdw',
         ]);
-        $jweDecrypter->decryptUsingKey($loaded_compact_json, $privateKey);
+        self::assertFalse($jweDecrypter->decryptUsingKey($loaded_compact_json, $privateKey, 0));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unable to decrypt the JWE.
-     */
     public function testCurveCheckNegativeP256AttackPt2()
     {
         // The malicious JWE contains a public key with order 2447
@@ -60,6 +52,6 @@ final class InvalidCurveAttackTest extends EncryptionTest
             'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
             'd' => 'VEmDZpDXXK8p8N0Cndsxs924q6nS1RXFASRl6BfUqdw',
         ]);
-        $jweDecrypter->decryptUsingKey($loaded_compact_json, $privateKey);
+        self::assertFalse($jweDecrypter->decryptUsingKey($loaded_compact_json, $privateKey, 0));
     }
 }

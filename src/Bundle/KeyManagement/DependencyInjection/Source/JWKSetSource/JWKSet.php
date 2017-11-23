@@ -33,7 +33,7 @@ final class JWKSet extends AbstractSource implements JWKSetSource
         $definition = new Definition(\Jose\Component\Core\JWKSet::class);
         $definition->setFactory([
             new Reference(JWKFactory::class),
-            'createFromString',
+            'createFromJsonObject',
         ]);
         $definition->setArguments([
             $config['value'],

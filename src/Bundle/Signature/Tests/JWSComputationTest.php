@@ -54,7 +54,6 @@ final class JWSComputationTest extends WebTestCase
         $token = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($token);
-        $index = $loader->verifyWithKey($loaded, $jwk);
-        self::assertEquals(0, $index);
+        self::assertTrue($loader->verifyWithKey($loaded, $jwk, 0));
     }
 }

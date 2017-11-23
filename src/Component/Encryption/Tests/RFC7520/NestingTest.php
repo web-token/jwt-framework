@@ -58,19 +58,16 @@ final class NestingTest extends EncryptionTest
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($json_flattened);
         $loaded_json = $this->getJWESerializerManager()->unserialize($json);
 
-        $loaded_compact_json = $jweDecrypter->decryptUsingKey($loaded_compact_json, $encryption_key, $index);
-        $loaded_flattened_json = $jweDecrypter->decryptUsingKey($loaded_flattened_json, $encryption_key, $index);
-        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $encryption_key, $index);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $encryption_key, 0));
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $encryption_key, 0));
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $encryption_key, 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals($encryption_header, $loaded_compact_json->getSharedProtectedHeaders());
         self::assertEquals($payload, $loaded_compact_json->getPayload());
 
-        self::assertEquals(0, $index);
         self::assertEquals($encryption_header, $loaded_flattened_json->getSharedProtectedHeaders());
         self::assertEquals($payload, $loaded_flattened_json->getPayload());
 
-        self::assertEquals(0, $index);
         self::assertEquals($encryption_header, $loaded_json->getSharedProtectedHeaders());
         self::assertEquals($payload, $loaded_json->getPayload());
     }

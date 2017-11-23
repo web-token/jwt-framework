@@ -325,7 +325,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertEquals(2, $result->countSignatures());
         self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
         self::assertEquals('ES256', $result->getSignature(1)->getProtectedHeader('alg'));
-        $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), Base64Url::decode('eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ'));
+        $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), 0, Base64Url::decode('eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ'));
     }
 
     /**
@@ -342,7 +342,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertEquals(2, $result->countSignatures());
         self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
 
-        $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), 'eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ');
+        $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), 0, 'eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ');
     }
 
     /**

@@ -78,13 +78,13 @@ final class HMACSignatureTest extends SignatureTest
         self::assertEquals(json_decode($expected_json, true), json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        $jwsVerifier->verifyWithKey($loaded_compact_json, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $key, 0));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        $jwsVerifier->verifyWithKey($loaded_flattened_json, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        $jwsVerifier->verifyWithKey($loaded_json, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
     }
 
     /**
@@ -139,13 +139,13 @@ final class HMACSignatureTest extends SignatureTest
         self::assertEquals(json_decode($expected_json, true), json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        $jwsVerifier->verifyWithKey($loaded_compact_json, $key, $payload);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $key, 0, $payload));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        $jwsVerifier->verifyWithKey($loaded_flattened_json, $key, $payload);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0, $payload));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        $jwsVerifier->verifyWithKey($loaded_json, $key, $payload);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0, $payload));
     }
 
     /**
@@ -198,10 +198,10 @@ final class HMACSignatureTest extends SignatureTest
         self::assertEquals(json_decode($expected_json, true), json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        $jwsVerifier->verifyWithKey($loaded_flattened_json, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        $jwsVerifier->verifyWithKey($loaded_json, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
     }
 
     /**
@@ -252,9 +252,9 @@ final class HMACSignatureTest extends SignatureTest
         self::assertEquals(json_decode($expected_json, true), json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        $jwsVerifier->verifyWithKey($loaded_flattened_json, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        $jwsVerifier->verifyWithKey($loaded_json, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
     }
 }

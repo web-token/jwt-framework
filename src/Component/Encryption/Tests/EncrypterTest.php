@@ -51,9 +51,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertEquals('A256CBC-HS512', $loaded->getSharedProtectedHeader('enc'));
         self::assertEquals('DEF', $loaded->getSharedProtectedHeader('zip'));
         self::assertNull($loaded->getPayload());
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('FOO', $loaded->getPayload());
     }
 
@@ -102,9 +101,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertEquals('DEF', $loaded->getSharedProtectedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('FOO', $loaded->getPayload());
     }
 
@@ -144,9 +142,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertEquals('ploc', $loaded->getRecipient(0)->getHeader('plic'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('FOO', $loaded->getPayload());
     }
 
@@ -175,9 +172,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertEquals('DEF', $loaded->getSharedProtectedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals($this->getKeyToEncrypt(), JWK::create(json_decode($loaded->getPayload(), true)));
     }
 
@@ -283,9 +279,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertEquals('DEF', $loaded->getSharedProtectedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals($this->getKeySetToEncrypt(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
     }
 
@@ -391,9 +386,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertFalse($loaded->hasSharedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals($this->getKeyToEncrypt(), JWK::create(json_decode($loaded->getPayload(), true)));
     }
 
@@ -422,9 +416,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertFalse($loaded->hasSharedProtectedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals($payload, $loaded->getPayload());
     }
 
@@ -453,9 +446,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertFalse($loaded->hasSharedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertTrue(is_string($loaded->getPayload()));
         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
     }
@@ -486,9 +478,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertFalse($loaded->hasSharedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertTrue(is_string($loaded->getPayload()));
         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
     }
@@ -521,9 +512,8 @@ final class EncrypterTest extends EncryptionTest
         self::assertFalse($loaded->hasSharedProtectedHeader('zip'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertTrue(is_string($loaded->getPayload()));
         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
     }

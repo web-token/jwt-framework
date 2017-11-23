@@ -46,7 +46,7 @@ final class RSAKeyWithoutAllPrimesTest extends SignatureTest
         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
         self::assertInstanceOf(JWS::class, $loaded);
 
-        $jwsVerifier->verifyWithKey($loaded, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
     }
 
     /**

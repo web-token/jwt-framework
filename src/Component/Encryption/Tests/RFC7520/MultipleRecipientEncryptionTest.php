@@ -105,13 +105,13 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        $jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        $jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
         self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
@@ -212,13 +212,13 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
             ->build();
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        $jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        $jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
         self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
         self::assertEquals($recipient_1_headers, $loaded_json->getRecipient(0)->getHeaders());

@@ -156,16 +156,16 @@ final class SignerTest extends SignatureTest
         self::assertEquals('eyJhbGciOiJSUzUxMiJ9..cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $jws3);
 
         $loaded_0 = $this->getJWSSerializerManager()->unserialize($jws0);
-        $jwsVerifier->verifyWithKey($loaded_0, $this->getKey1());
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
 
         $loaded_1 = $this->getJWSSerializerManager()->unserialize($jws1);
-        $jwsVerifier->verifyWithKey($loaded_1, $this->getKey2());
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
 
         $loaded_2 = $this->getJWSSerializerManager()->unserialize($jws2);
-        $jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 'Live long and Prosper.');
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
 
         $loaded_3 = $this->getJWSSerializerManager()->unserialize($jws3);
-        $jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 'Live long and Prosper.');
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
     }
 
     public function testSignMultipleInstructionWithFlattenedRepresentation()
@@ -208,16 +208,16 @@ final class SignerTest extends SignatureTest
         self::assertEquals('{"protected":"eyJhbGciOiJSUzUxMiJ9","header":{"plic":"ploc"},"signature":"cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA"}', $jws3);
 
         $loaded_0 = $this->getJWSSerializerManager()->unserialize($jws0);
-        $jwsVerifier->verifyWithKey($loaded_0, $this->getKey1());
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
 
         $loaded_1 = $this->getJWSSerializerManager()->unserialize($jws1);
-        $jwsVerifier->verifyWithKey($loaded_1, $this->getKey2());
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
 
         $loaded_2 = $this->getJWSSerializerManager()->unserialize($jws2);
-        $jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 'Live long and Prosper.');
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
 
         $loaded_3 = $this->getJWSSerializerManager()->unserialize($jws3);
-        $jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 'Live long and Prosper.');
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
     }
 
     /**
@@ -276,17 +276,13 @@ final class SignerTest extends SignatureTest
         self::assertEquals(2, $loaded->countSignatures());
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet());
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet());
+        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
 
         self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeader('alg'));
         self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeader('alg'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage  Unable to verify the JWS.
-     */
     public function testSignAndLoadWithWrongKeys()
     {
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS512']);
@@ -302,13 +298,9 @@ final class SignerTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
 
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet());
+        self::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unable to verify the JWS.
-     */
     public function testSignAndLoadWithUnsupportedAlgorithm()
     {
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS512']);
@@ -324,7 +316,7 @@ final class SignerTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
 
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet());
+        self::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
     }
 
     /**
@@ -343,7 +335,7 @@ final class SignerTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals($payload, $loaded->getPayload());
 
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet());
+        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
     }
 
     /**
@@ -435,10 +427,9 @@ final class SignerTest extends SignatureTest
         self::assertEquals('eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY', $jws);
 
         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
-        $index = $jwsVerifier->verifyWithKey($loaded, $key, $payload);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
 
         self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals(0, $index);
         self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeaders());
     }
 
@@ -477,9 +468,7 @@ final class SignerTest extends SignatureTest
         self::assertEquals($expected_result, $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
         $loaded = $this->getJWSSerializerManager()->unserialize($expected_result);
-        $index1 = $jwsVerifier->verifyWithKey($loaded, $key, $payload);
-
-        self::assertEquals(0, $index1);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
         self::assertEquals($protectedHeader1, $loaded->getSignature(0)->getProtectedHeaders());
     }
 
@@ -628,11 +617,10 @@ final class SignerTest extends SignatureTest
         self::assertEquals($expected_result, json_decode($jws, true));
 
         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
-        $index = $jwsVerifier->verifyWithKey($loaded, $key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
 
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals($payload, $loaded->getPayload());
-        self::assertEquals(0, $index);
         self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeaders());
     }
 
@@ -685,7 +673,7 @@ final class SignerTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals($payload, $loaded->getPayload());
 
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet());
+        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
     }
 
     public function testSignAndLoadJWKSet()
@@ -702,8 +690,8 @@ final class SignerTest extends SignatureTest
         self::assertEquals(2, $loaded->countSignatures());
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals($this->getKeyset(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet());
-        $jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet());
+        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
 
         self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeader('alg'));
         self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeader('alg'));
@@ -727,8 +715,8 @@ final class SignerTest extends SignatureTest
         self::assertEquals(2, $loaded->countSignatures());
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals($this->getKeyset(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
-        $jwsVerifier->verifyWithKeySet($loaded, JWKSet::createFromKeys([]));
-        $jwsVerifier->verifyWithKey($loaded, JWK::create(['kty' => 'EC']));
+        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, JWKSet::createFromKeys([]), 0));
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded, JWK::create(['kty' => 'EC']), 1));
     }
 
     /**

@@ -48,7 +48,7 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
         self::assertInstanceOf(JWE::class, $loaded);
 
-        $jweDecrypter->decryptUsingKey($loaded, $key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
     /**
@@ -75,7 +75,7 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
         self::assertInstanceOf(JWE::class, $loaded);
 
-        $jweDecrypter->decryptUsingKey($loaded, $key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
     /**

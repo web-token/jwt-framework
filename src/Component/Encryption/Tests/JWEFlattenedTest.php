@@ -38,9 +38,8 @@ final class JWEFlattenedTest extends EncryptionTest
         self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeader('enc'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 

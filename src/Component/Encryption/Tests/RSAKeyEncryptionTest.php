@@ -160,9 +160,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         self::assertEquals('A256GCM', $loaded->getSharedProtectedHeader('enc'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('The true sign of intelligence is not knowledge but imagination.', $loaded->getPayload());
     }
 
@@ -178,9 +177,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         self::assertInstanceOf(JWE::class, $loaded);
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 
@@ -198,9 +196,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeader('enc'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 

@@ -76,10 +76,10 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
-        $loaded_compact_json = $jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
         self::assertEquals($expected_payload, $loaded_compact_json->getPayload());
 
-        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
         self::assertEquals($expected_payload, $loaded_json->getPayload());
     }
 
@@ -125,7 +125,7 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             ->build();
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        $loaded_json = $jweDecrypter->decryptUsingKey($loaded_json, $private_key);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeaders()));
 

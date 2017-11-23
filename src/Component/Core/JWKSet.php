@@ -311,6 +311,8 @@ final class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      * @param array $b
      *
      * @return int
+     *
+     * @internal
      */
     public static function sortKeys(array $a, array $b): int
     {

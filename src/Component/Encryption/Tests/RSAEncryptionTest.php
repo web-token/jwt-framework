@@ -38,9 +38,8 @@ final class RSAEncryptionTest extends EncryptionTest
         self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeader('enc'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 
@@ -61,9 +60,8 @@ final class RSAEncryptionTest extends EncryptionTest
         self::assertEquals('A128KW', $loaded->getRecipient(1)->getHeader('alg'));
         self::assertNull($loaded->getPayload());
 
-        $loaded = $jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), $index);
+        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals(0, $index);
         self::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 

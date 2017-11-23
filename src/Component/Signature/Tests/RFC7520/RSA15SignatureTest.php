@@ -77,12 +77,12 @@ final class RSA15SignatureTest extends SignatureTest
         self::assertEquals(json_decode($expected_json, true), json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        $jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey);
+        $jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0);
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        $jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey);
+        $jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey, 0);
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        $jwsVerifier->verifyWithKey($loaded_json, $privateKey);
+        $jwsVerifier->verifyWithKey($loaded_json, $privateKey, 0);
     }
 }

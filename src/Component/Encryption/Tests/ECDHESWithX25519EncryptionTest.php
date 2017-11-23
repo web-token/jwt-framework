@@ -52,8 +52,7 @@ final class ECDHESWithX25519EncryptionTest extends EncryptionTest
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $jwe = $this->getJWESerializerManager()->unserialize($jwt);
-        $jwe = $jweDecrypter->decryptUsingKey($jwe, $receiverKey, $index);
-        self::assertEquals(0, $index);
+        self::assertTrue($jweDecrypter->decryptUsingKey($jwe, $receiverKey, 0));
         self::assertTrue($jwe->hasSharedProtectedHeader('epk'));
         self::assertEquals($input, $jwe->getPayload());
     }

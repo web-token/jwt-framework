@@ -89,43 +89,38 @@ final class JWEDecrypter
     /**
      * @param JWE      $jwe            A JWE object to decrypt
      * @param JWK      $jwk            The key used to decrypt the input
-     * @param null|int $recipientIndex If the JWE has been decrypted, an integer that represents the ID of the recipient is set
+     * @param int      $recipient      The recipient used to decrypt the token
      *
-     * @return JWE
+     * @return bool
      */
-    public function decryptUsingKey(JWE $jwe, JWK $jwk, ?int &$recipientIndex = null): JWE
+    public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient): bool
     {
         $jwkset = JWKSet::createFromKeys([$jwk]);
-        $jwe = $this->decryptUsingKeySet($jwe, $jwkset, $recipientIndex);
 
-        return $jwe;
+        return $this->decryptUsingKeySet($jwe, $jwkset, $recipient);
     }
 
     /**
      * @param JWE      $jwe            A JWE object to decrypt
      * @param JWKSet   $jwkset         The key set used to decrypt the input
-     * @param null|int $recipientIndex If the JWE has been decrypted, an integer that represents the ID of the recipient is set
+     * @param int      $recipient      The recipient used to decrypt the token
      *
-     * @return JWE
+     * @return bool
      */
-    public function decryptUsingKeySet(JWE $jwe, JWKSet $jwkset, ?int &$recipientIndex = null): JWE
+    public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient): bool
     {
         $this->checkJWKSet($jwkset);
         $this->checkPayload($jwe);
         $this->checkRecipients($jwe);
 
-        $nb_recipients = $jwe->countRecipients();
+        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient);
+        if (null !== $plaintext) {
+            $jwe = $jwe->withPayload($plaintext);
 
-        for ($i = 0; $i < $nb_recipients; ++$i) {
-            $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $i);
-            if (null !== $plaintext) {
-                $recipientIndex = $i;
-
-                return $jwe->withPayload($plaintext);
-            }
+            return true;
         }
 
-        throw new \InvalidArgumentException('Unable to decrypt the JWE.');
+        return false;
     }
 
     /**

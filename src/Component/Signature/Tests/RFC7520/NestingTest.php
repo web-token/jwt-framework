@@ -55,10 +55,8 @@ final class NestingTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS256']);
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($json_compact);
 
-        $index = $jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key);
-
-        self::assertEquals(0, $index);
-        self::assertEquals($signature_header, $loaded_compact_json->getSignature($index)->getProtectedHeaders());
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
+        self::assertEquals($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeaders());
         self::assertEquals($payload, json_decode($loaded_compact_json->getPayload(), true));
     }
 }

@@ -180,7 +180,7 @@ final class JWKFactory
      *
      * @return JWK|JWKSet
      */
-    public static function createFromString(string $value)
+    public static function createFromJsonObject(string $value)
     {
         $json = json_decode($value, true);
         if (!is_array($json)) {

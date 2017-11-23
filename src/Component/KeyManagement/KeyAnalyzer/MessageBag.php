@@ -16,7 +16,7 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 /**
  * Class MessageBag.
  */
-final class MessageBag implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \Countable
+final class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
 {
     /**
      * @var Message[]
@@ -49,38 +49,6 @@ final class MessageBag implements \JsonSerializable, \ArrayAccess, \IteratorAggr
     public function jsonSerialize()
     {
         return array_values($this->messages);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->messages[$offset]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetGet($offset)
-    {
-        return isset($this->messages[$offset]) ? $this->messages[$offset] : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->messages[$offset] = $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->messages[$offset]);
     }
 
     /**

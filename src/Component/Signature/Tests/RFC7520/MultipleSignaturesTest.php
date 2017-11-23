@@ -74,9 +74,9 @@ final class MultipleSignaturesTest extends SignatureTest
 
         self::assertEquals(3, $jws->countSignatures());
 
-        $jwsVerifier->verifyWithKey($jws, $rsa_private_key);
-        $jwsVerifier->verifyWithKey($jws, $ecdsa_private_key);
-        $jwsVerifier->verifyWithKey($jws, $symmetric_key);
+        self::assertTrue($jwsVerifier->verifyWithKey($jws, $ecdsa_private_key, 0));
+        self::assertTrue($jwsVerifier->verifyWithKey($jws, $rsa_private_key, 1));
+        self::assertTrue($jwsVerifier->verifyWithKey($jws, $symmetric_key, 2));
 
         /*
          * @see https://tools.ietf.org/html/rfc7520#section-4.8.5
@@ -86,8 +86,8 @@ final class MultipleSignaturesTest extends SignatureTest
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
         self::assertEquals(3, $loaded_json->countSignatures());
 
-        $jwsVerifier->verifyWithKey($loaded_json, $rsa_private_key);
-        $jwsVerifier->verifyWithKey($loaded_json, $ecdsa_private_key);
-        $jwsVerifier->verifyWithKey($loaded_json, $symmetric_key);
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $rsa_private_key, 0));
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $ecdsa_private_key, 1));
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $symmetric_key, 2));
     }
 }
