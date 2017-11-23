@@ -54,7 +54,7 @@ final class JWSVerifier
      * @param int         $signature
      * @param null|string $detachedPayload
      *
-     * @return bool True if the verification of the signature succeeded, else false.
+     * @return bool true if the verification of the signature succeeded, else false
      */
     public function verifyWithKey(JWS $jws, JWK $jwk, int $signature, ?string $detachedPayload = null): bool
     {
@@ -72,7 +72,7 @@ final class JWSVerifier
      * @param int         $signature
      * @param null|string $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
-     * @return bool True if the verification of the signature succeeded, else false.
+     * @return bool true if the verification of the signature succeeded, else false
      */
     public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signature, ?string $detachedPayload = null): bool
     {
