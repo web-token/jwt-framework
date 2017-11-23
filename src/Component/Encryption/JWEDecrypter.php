@@ -87,9 +87,9 @@ final class JWEDecrypter
     }
 
     /**
-     * @param JWE      $jwe            A JWE object to decrypt
-     * @param JWK      $jwk            The key used to decrypt the input
-     * @param int      $recipient      The recipient used to decrypt the token
+     * @param JWE $jwe       A JWE object to decrypt
+     * @param JWK $jwk       The key used to decrypt the input
+     * @param int $recipient The recipient used to decrypt the token
      *
      * @return bool
      */
@@ -101,9 +101,9 @@ final class JWEDecrypter
     }
 
     /**
-     * @param JWE      $jwe            A JWE object to decrypt
-     * @param JWKSet   $jwkset         The key set used to decrypt the input
-     * @param int      $recipient      The recipient used to decrypt the token
+     * @param JWE    $jwe       A JWE object to decrypt
+     * @param JWKSet $jwkset    The key set used to decrypt the input
+     * @param int    $recipient The recipient used to decrypt the token
      *
      * @return bool
      */
