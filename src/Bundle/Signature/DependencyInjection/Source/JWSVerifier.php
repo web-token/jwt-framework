@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Signature\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -24,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWSVerifier.
  */
-final class JWSVerifier implements Source
+final class JWSVerifier extends AbstractSource
 {
     /**
      * {@inheritdoc}
@@ -52,39 +50,5 @@ final class JWSVerifier implements Source
 
             $container->setDefinition($service_id, $definition);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeDefinition(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
-                ->arrayNode($this->name())
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->children()
-                            ->booleanNode('is_public')
-                                ->info('If true, the service will be public, else private.')
-                                ->defaultTrue()
-                            ->end()
-                            ->arrayNode('signature_algorithms')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->prototype('scalar')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container, array $config): ?array
-    {
-        return null;
     }
 }
