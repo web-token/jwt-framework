@@ -39,7 +39,7 @@ final class JWSLoader
      * JWSLoader constructor.
      *
      * @param JWSSerializerManager $serializerManager
-     * @param JWSVerifier     $jwsVerifier
+     * @param JWSVerifier          $jwsVerifier
      * @param HeaderCheckerManager $headerCheckerManager
      */
     public function __construct(JWSSerializerManager $serializerManager, JWSVerifier $jwsVerifier, HeaderCheckerManager $headerCheckerManager)
