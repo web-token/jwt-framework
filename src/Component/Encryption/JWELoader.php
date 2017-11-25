@@ -39,7 +39,7 @@ final class JWELoader
      * JWELoader constructor.
      *
      * @param JWESerializerManager $serializerManager
-     * @param JWEDecrypter $jweDecrypter
+     * @param JWEDecrypter         $jweDecrypter
      * @param HeaderCheckerManager $headerCheckerManager
      */
     public function __construct(JWESerializerManager $serializerManager, JWEDecrypter $jweDecrypter, HeaderCheckerManager $headerCheckerManager)
@@ -51,8 +51,8 @@ final class JWELoader
 
     /**
      * @param string $token
-     * @param JWK $key
-     * @param int $recipient
+     * @param JWK    $key
+     * @param int    $recipient
      *
      * @return JWE
      */
@@ -66,7 +66,8 @@ final class JWELoader
     /**
      * @param string $token
      * @param JWKSet $keyset
-     * @param int $recipient
+     * @param int    $recipient
+     *
      * @return JWE
      *
      * @throws \Exception
@@ -76,7 +77,7 @@ final class JWELoader
         try {
             $jwe = $this->serializerManager->unserialize($token);
             $nbRecipients = $jwe->countRecipients();
-            for ($i = 0; $i < $nbRecipients; $i++) {
+            for ($i = 0; $i < $nbRecipients; ++$i) {
                 if ($this->processRecipient($jwe, $keyset, $i)) {
                     $recipient = $i;
 
@@ -86,13 +87,14 @@ final class JWELoader
         } catch (\Exception $e) {
             // Nothing to do. Exception thrown just after
         }
+
         throw new \Exception('Unable to load the token.');
     }
 
     /**
-     * @param JWE $jwe
+     * @param JWE    $jwe
      * @param JWKSet $keyset
-     * @param int $recipient
+     * @param int    $recipient
      *
      * @return bool
      */
