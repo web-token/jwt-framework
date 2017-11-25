@@ -217,35 +217,6 @@ final class RSACrypt
     }
 
     /**
-     * Exponentiate with or without Chinese Remainder Theorem.
-     * Operation with primes 'p' and 'q' is appox. 2x faster.
-     *
-     * @param RSAKey     $key
-     * @param BigInteger $c
-     *
-     * @return BigInteger
-     */
-    private static function exponentiate(RSAKey $key, BigInteger $c): BigInteger
-    {
-        if ($key->isPublic() || empty($key->getPrimes()) || empty($key->getExponents()) || null === $key->getCoefficient()) {
-            return $c->modPow($key->getExponent(), $key->getModulus());
-        }
-
-        $p = $key->getPrimes()[0];
-        $q = $key->getPrimes()[1];
-        $dP = $key->getExponents()[0];
-        $dQ = $key->getExponents()[1];
-        $qInv = $key->getCoefficient();
-
-        $m1 = $c->modPow($dP, $p);
-        $m2 = $c->modPow($dQ, $q);
-        $h = $qInv->multiply($m1->subtract($m2)->add($p))->mod($p);
-        $m = $m2->add($h->multiply($q));
-
-        return $m;
-    }
-
-    /**
      * RSA EP.
      *
      * @param RSAKey     $key
@@ -259,7 +230,7 @@ final class RSACrypt
             throw new \RuntimeException();
         }
 
-        return self::exponentiate($key, $m);
+        return RSAKey::exponentiate($key, $m);
     }
 
     /**
@@ -276,7 +247,7 @@ final class RSACrypt
             throw new \RuntimeException();
         }
 
-        return self::exponentiate($key, $c);
+        return RSAKey::exponentiate($key, $c);
     }
 
     /**

@@ -327,4 +327,36 @@ final class RSAKey
     {
         return gmp_strval(gmp_init(current(unpack('H*', Base64Url::decode($value))), 16), 10);
     }
+
+    /**
+     * Exponentiate with or without Chinese Remainder Theorem.
+     * Operation with primes 'p' and 'q' is appox. 2x faster.
+     *
+     * @param RSAKey     $key
+     * @param BigInteger $c
+     *
+     * @return BigInteger
+     */
+    public static function exponentiate(RSAKey $key, BigInteger $c): BigInteger
+    {
+        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
+            throw new \RuntimeException();
+        }
+        if ($key->isPublic() || empty($key->getPrimes()) || empty($key->getExponents()) || null === $key->getCoefficient()) {
+            return $c->modPow($key->getExponent(), $key->getModulus());
+        }
+
+        $p = $key->getPrimes()[0];
+        $q = $key->getPrimes()[1];
+        $dP = $key->getExponents()[0];
+        $dQ = $key->getExponents()[1];
+        $qInv = $key->getCoefficient();
+
+        $m1 = $c->modPow($dP, $p);
+        $m2 = $c->modPow($dQ, $q);
+        $h = $qInv->multiply($m1->subtract($m2)->add($p))->mod($p);
+        $m = $m2->add($h->multiply($q));
+
+        return $m;
+    }
 }
