@@ -26,34 +26,34 @@ final class RSAOAEP256Bench extends EncryptionBench
     {
         return [
             [
-                'shared_protected_headers' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A128CBC-HS256'],
-                'shared_headers' => [],
-                'recipient_headers' => [],
+                'shared_protected_header' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A128CBC-HS256'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                'shared_protected_headers' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A192CBC-HS384'],
-                'shared_headers' => [],
-                'recipient_headers' => [],
+                'shared_protected_header' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A192CBC-HS384'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                'shared_protected_headers' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A256CBC-HS512'],
-                'shared_headers' => [],
-                'recipient_headers' => [],
+                'shared_protected_header' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A256CBC-HS512'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                'shared_protected_headers' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A128GCM'],
-                'shared_headers' => [],
-                'recipient_headers' => [],
+                'shared_protected_header' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A128GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                'shared_protected_headers' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A192GCM'],
-                'shared_headers' => [],
-                'recipient_headers' => [],
+                'shared_protected_header' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A192GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                'shared_protected_headers' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A256GCM'],
-                'shared_headers' => [],
-                'recipient_headers' => [],
+                'shared_protected_header' => ['alg' => 'RSA-OAEP-256', 'enc' => 'A256GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
         ];
     }

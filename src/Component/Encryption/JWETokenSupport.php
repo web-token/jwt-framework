@@ -41,9 +41,9 @@ final class JWETokenSupport implements TokenTypeSupport
         if ($component > $jwt->countRecipients()) {
             throw new \InvalidArgumentException('Unknown recipient index.');
         }
-        $protectedHeader = $jwt->getSharedProtectedHeaders();
-        $unprotectedHeader = $jwt->getSharedHeaders();
-        $recipient = $jwt->getRecipient($component)->getHeaders();
+        $protectedHeader = $jwt->getSharedProtectedHeader();
+        $unprotectedHeader = $jwt->getSharedHeader();
+        $recipient = $jwt->getRecipient($component)->getHeader();
 
         $unprotectedHeader = array_merge(
             $unprotectedHeader,

@@ -21,7 +21,7 @@ final class Recipient
     /**
      * @var array
      */
-    private $headers = [];
+    private $header = [];
 
     /**
      * @var null|string
@@ -31,32 +31,32 @@ final class Recipient
     /**
      * Recipient constructor.
      *
-     * @param array       $headers
+     * @param array       $header
      * @param null|string $encryptedKey
      */
-    private function __construct(array $headers, ?string $encryptedKey)
+    private function __construct(array $header, ?string $encryptedKey)
     {
-        $this->headers = $headers;
+        $this->header = $header;
         $this->encryptedKey = $encryptedKey;
     }
 
     /**
-     * @param array       $headers
+     * @param array       $header
      * @param null|string $encryptedKey
      *
      * @return Recipient
      */
-    public static function create(array $headers = [], ?string $encryptedKey): self
+    public static function create(array $header = [], ?string $encryptedKey): self
     {
-        return new self($headers, $encryptedKey);
+        return new self($header, $encryptedKey);
     }
 
     /**
      * @return array
      */
-    public function getHeaders(): array
+    public function getHeader(): array
     {
-        return $this->headers;
+        return $this->header;
     }
 
     /**
@@ -66,10 +66,10 @@ final class Recipient
      *
      * @return mixed|null Header value
      */
-    public function getHeader(string $key)
+    public function getHeaderParameter(string $key)
     {
-        if ($this->hasHeader($key)) {
-            return $this->headers[$key];
+        if ($this->hasHeaderParameter($key)) {
+            return $this->header[$key];
         }
 
         throw new \InvalidArgumentException(sprintf('The header "%s" does not exist.', $key));
@@ -80,9 +80,9 @@ final class Recipient
      *
      * @return bool
      */
-    public function hasHeader(string $key): bool
+    public function hasHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->headers);
+        return array_key_exists($key, $this->header);
     }
 
     /**

@@ -26,14 +26,14 @@ interface KeyEncryption extends KeyEncryptionAlgorithm
      *
      * @param JWK    $key                The key used to wrap the CEK
      * @param string $cek                The CEK to encrypt
-     * @param array  $complete_headers   The complete header of the JWT
-     * @param array  $additional_headers Additional headers
+     * @param array  $completeHeader   The complete header of the JWT
+     * @param array  $additionalHeader Additional header
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
      * @return string The encrypted CEK
      */
-    public function encryptKey(JWK $key, string $cek, array $complete_headers, array &$additional_headers): string;
+    public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string;
 
     /**
      * Decrypt de CEK.

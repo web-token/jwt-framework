@@ -40,7 +40,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
             'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'dir',
             'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
             'enc' => 'A128GCM',
@@ -61,12 +61,12 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
@@ -89,7 +89,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
             'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'dir',
             'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
             'enc' => 'A128GCM',
@@ -100,7 +100,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
+            ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
             ->build();
 
@@ -110,9 +110,9 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
 
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
 
         self::assertEquals($expected_payload, $loaded_compact_json->getPayload());
         self::assertEquals($expected_payload, $loaded_json->getPayload());

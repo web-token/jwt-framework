@@ -50,7 +50,7 @@ final class RSA15SignatureTest extends SignatureTest
          * Header
          * @see https://tools.ietf.org/html/rfc7520#section-4.1.2
          */
-        $headers = [
+        $header = [
             'alg' => 'RS256',
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
@@ -59,7 +59,7 @@ final class RSA15SignatureTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
-            ->addSignature($privateKey, $headers)
+            ->addSignature($privateKey, $header)
             ->build();
 
         /*

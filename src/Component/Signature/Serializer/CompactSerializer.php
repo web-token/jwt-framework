@@ -64,10 +64,10 @@ final class CompactSerializer extends Serializer
             $signatureIndex = 0;
         }
         $signature = $jws->getSignature($signatureIndex);
-        if (!empty($signature->getHeaders())) {
-            throw new \LogicException('The signature contains unprotected headers and cannot be converted into compact JSON.');
+        if (!empty($signature->getHeader())) {
+            throw new \LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
         }
-        if (!$this->isPayloadEncoded($signature->getProtectedHeaders()) && !empty($jws->getEncodedPayload())) {
+        if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !empty($jws->getEncodedPayload())) {
             if (1 !== preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
                 throw new \LogicException('Unable to convert the JWS with non-encoded payload.');
             }
@@ -75,7 +75,7 @@ final class CompactSerializer extends Serializer
 
         return sprintf(
             '%s.%s.%s',
-            $signature->getEncodedProtectedHeaders(),
+            $signature->getEncodedProtectedHeader(),
             $jws->getEncodedPayload(),
             Base64Url::encode($signature->getSignature())
         );
@@ -92,19 +92,19 @@ final class CompactSerializer extends Serializer
         }
 
         try {
-            $encodedProtectedHeaders = $parts[0];
-            $protectedHeaders = $this->jsonConverter->decode(Base64Url::decode($parts[0]));
+            $encodedProtectedHeader = $parts[0];
+            $protectedHeader = $this->jsonConverter->decode(Base64Url::decode($parts[0]));
             if (empty($parts[1])) {
                 $payload = null;
                 $encodedPayload = null;
             } else {
                 $encodedPayload = $parts[1];
-                $payload = $this->isPayloadEncoded($protectedHeaders) ? Base64Url::decode($encodedPayload) : $encodedPayload;
+                $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
             }
             $signature = Base64Url::decode($parts[2]);
 
             $jws = JWS::create($payload, $encodedPayload, empty($parts[1]));
-            $jws = $jws->addSignature($signature, $protectedHeaders, $encodedProtectedHeaders);
+            $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
 
             return $jws;
         } catch (\Exception $e) {

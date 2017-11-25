@@ -32,7 +32,7 @@ abstract class AESKW implements KeyWrapping
     /**
      * {@inheritdoc}
      */
-    public function wrapKey(JWK $key, string $cek, array $complete_headers, array &$additional_headers): string
+    public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
         $wrapper = $this->getWrapper();
@@ -43,7 +43,7 @@ abstract class AESKW implements KeyWrapping
     /**
      * {@inheritdoc}
      */
-    public function unwrapKey(JWK $key, string $encrypted_cek, array $complete_headers): string
+    public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $this->checkKey($key);
         $wrapper = $this->getWrapper();

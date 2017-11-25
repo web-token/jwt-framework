@@ -26,25 +26,25 @@ interface KeyWrapping extends KeyEncryptionAlgorithm
      *
      * @param \Jose\Component\Core\JWK $key                The key used to wrap the CEK
      * @param string                   $cek                The CEK to encrypt
-     * @param array                    $complete_headers   The complete header of the JWT
-     * @param array                    $additional_headers The complete header of the JWT
+     * @param array                    $completeHeader   The complete header of the JWT
+     * @param array                    $additionalHeader The complete header of the JWT
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
      * @return string The encrypted CEK
      */
-    public function wrapKey(JWK $key, string $cek, array $complete_headers, array &$additional_headers): string;
+    public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string;
 
     /**
      * Decrypt de CEK.
      *
      * @param \Jose\Component\Core\JWK $key              The key used to wrap the CEK
      * @param string                   $encrypted_cek    The CEK to decrypt
-     * @param array                    $complete_headers The complete header of the JWT
+     * @param array                    $completeHeader The complete header of the JWT
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
      * @return string The decrypted CEK
      */
-    public function unwrapKey(JWK $key, string $encrypted_cek, array $complete_headers): string;
+    public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string;
 }

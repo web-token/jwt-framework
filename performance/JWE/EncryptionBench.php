@@ -120,9 +120,9 @@ abstract class EncryptionBench
         $jweBuilder
             ->withPayload($params['payload'])
             ->withAAD($this->getAAD())
-            ->withSharedProtectedHeaders($params['shared_protected_headers'])
-            ->withSharedHeaders($params['shared_headers'])
-            ->addRecipient(JWK::create($params['recipient_key']), $params['recipient_headers'])
+            ->withSharedProtectedHeader($params['shared_protected_header'])
+            ->withSharedHeader($params['shared_header'])
+            ->addRecipient(JWK::create($params['recipient_key']), $params['recipient_header'])
             ->build();
     }
 
@@ -141,7 +141,7 @@ abstract class EncryptionBench
         );
         $jwe = $this->serializerManager->unserialize($params['input']);
         $keyset = JWKSet::createFromKeyData($params['recipient_keys']);
-        $jweLoader->decryptUsingKeySet($jwe, $keyset);
+        $jweLoader->decryptUsingKeySet($jwe, $keyset, 0);
     }
 
     /**

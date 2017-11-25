@@ -21,7 +21,7 @@ use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
 /**
- * Class able to load JWS and verify signatures and headers.
+ * Class able to load JWS and verify signatures and header.
  */
 final class JWSVerifier
 {
@@ -126,20 +126,20 @@ final class JWSVerifier
      */
     private function getInputToVerify(JWS $jws, Signature $signature, ?string $detachedPayload): string
     {
-        $encodedProtectedHeaders = $signature->getEncodedProtectedHeaders();
-        if (!$signature->hasProtectedHeader('b64') || true === $signature->getProtectedHeader('b64')) {
+        $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
+        if (!$signature->hasProtectedHeaderParameter('b64') || true === $signature->getProtectedHeaderParameter('b64')) {
             if (null !== $jws->getEncodedPayload()) {
-                return sprintf('%s.%s', $encodedProtectedHeaders, $jws->getEncodedPayload());
+                return sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
             }
 
             $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
 
-            return sprintf('%s.%s', $encodedProtectedHeaders, Base64Url::encode($payload));
+            return sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
         }
 
         $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
 
-        return sprintf('%s.%s', $encodedProtectedHeaders, $payload);
+        return sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }
 
     /**
@@ -183,14 +183,14 @@ final class JWSVerifier
      */
     private function getAlgorithm(Signature $signature): SignatureAlgorithm
     {
-        $completeHeaders = array_merge($signature->getProtectedHeaders(), $signature->getHeaders());
-        if (!array_key_exists('alg', $completeHeaders)) {
+        $completeHeader = array_merge($signature->getProtectedHeader(), $signature->getHeader());
+        if (!array_key_exists('alg', $completeHeader)) {
             throw new \InvalidArgumentException('No "alg" parameter set in the header.');
         }
 
-        $algorithm = $this->signatureAlgorithmManager->get($completeHeaders['alg']);
+        $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
         if (!$algorithm instanceof SignatureAlgorithm) {
-            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeaders['alg']));
+            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
         }
 
         return $algorithm;

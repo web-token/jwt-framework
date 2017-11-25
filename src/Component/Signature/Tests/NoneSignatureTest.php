@@ -79,7 +79,7 @@ final class NoneSignatureTest extends SignatureTest
 
         self::assertEquals('Live long and Prosper.', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertTrue($result->getSignature(0)->hasProtectedHeader('alg'));
-        self::assertEquals('none', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertTrue($result->getSignature(0)->hasProtectedHeaderParameter('alg'));
+        self::assertEquals('none', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 }

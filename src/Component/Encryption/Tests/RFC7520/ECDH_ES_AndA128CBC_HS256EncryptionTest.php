@@ -42,7 +42,7 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             'd' => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'ECDH-ES',
             'kid' => 'meriadoc.brandybuck@buckland.example',
             'epk' => [
@@ -67,12 +67,12 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
@@ -109,7 +109,7 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             'd' => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'ECDH-ES',
             'kid' => 'meriadoc.brandybuck@buckland.example',
             'enc' => 'A128CBC-HS256',
@@ -120,14 +120,14 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
+            ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($public_key)
             ->build();
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeaders()));
+        self::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeader()));
 
         self::assertEquals($expected_payload, $loaded_json->getPayload());
     }

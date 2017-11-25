@@ -40,7 +40,7 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
             'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'A128KW',
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'enc' => 'A128GCM',
@@ -63,14 +63,14 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
         self::assertEquals($expected_aad, $loaded_flattened_json->getAAD());
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
@@ -95,7 +95,7 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
             'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'A128KW',
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'enc' => 'A128GCM',
@@ -106,7 +106,7 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
+            ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
             ->build();
 
@@ -116,9 +116,9 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
 
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
 
         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
         self::assertEquals($expected_payload, $loaded_json->getPayload());

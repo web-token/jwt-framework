@@ -67,12 +67,12 @@ final class CompactSerializer implements JWESerializer
         $recipient = $jwe->getRecipient($recipientIndex);
 
         $this->checkHasNoAAD($jwe);
-        $this->checkHasSharedProtectedHeaders($jwe);
-        $this->checkRecipientHasNoHeaders($jwe, $recipientIndex);
+        $this->checkHasSharedProtectedHeader($jwe);
+        $this->checkRecipientHasNoHeader($jwe, $recipientIndex);
 
         return sprintf(
             '%s.%s.%s.%s.%s',
-            $jwe->getEncodedSharedProtectedHeaders(),
+            $jwe->getEncodedSharedProtectedHeader(),
             Base64Url::encode(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),
             Base64Url::encode(null === $jwe->getIV() ? '' : $jwe->getIV()),
             Base64Url::encode($jwe->getCiphertext()),
@@ -128,20 +128,20 @@ final class CompactSerializer implements JWESerializer
      * @param JWE $jwe
      * @param int $id
      */
-    private function checkRecipientHasNoHeaders(JWE $jwe, int $id)
+    private function checkRecipientHasNoHeader(JWE $jwe, int $id)
     {
-        if (!empty($jwe->getSharedHeaders()) || !empty($jwe->getRecipient($id)->getHeaders())) {
-            throw new \LogicException('This JWE has shared headers or recipient headers and cannot be converted into Compact JSON.');
+        if (!empty($jwe->getSharedHeader()) || !empty($jwe->getRecipient($id)->getHeader())) {
+            throw new \LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
         }
     }
 
     /**
      * @param JWE $jwe
      */
-    private function checkHasSharedProtectedHeaders(JWE $jwe)
+    private function checkHasSharedProtectedHeader(JWE $jwe)
     {
-        if (empty($jwe->getSharedProtectedHeaders())) {
-            throw new \LogicException('This JWE does not have shared protected headers and cannot be converted into Compact JSON.');
+        if (empty($jwe->getSharedProtectedHeader())) {
+            throw new \LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
         }
     }
 }

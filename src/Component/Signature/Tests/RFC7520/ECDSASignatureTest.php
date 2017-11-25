@@ -52,7 +52,7 @@ final class ECDSASignatureTest extends SignatureTest
          * Header
          * @see https://tools.ietf.org/html/rfc7520#section-4.3.2
          */
-        $headers = [
+        $header = [
             'alg' => 'ES512',
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
@@ -61,7 +61,7 @@ final class ECDSASignatureTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['ES512']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
-            ->addSignature($private_key, $headers)
+            ->addSignature($private_key, $header)
             ->build();
 
         self::assertTrue($jwsVerifier->verifyWithKey($jws, $private_key, 0));

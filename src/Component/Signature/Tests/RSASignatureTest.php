@@ -62,7 +62,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals('Live long and Prosper.', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     public function testCompleteRS256SignWithDetachedPayload()
@@ -101,7 +101,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertNull($result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     public function testCompleteRS384Sign()
@@ -140,7 +140,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals('Live long and Prosper.', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('RS384', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('RS384', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     public function testCompleteRS512Sign()
@@ -180,7 +180,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals('Live long and Prosper.', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('RS512', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('RS512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     public function testCompletePS256Sign()
@@ -220,7 +220,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals('Live long and Prosper.', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('PS256', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('PS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     public function testCompletePS384Sign()
@@ -257,7 +257,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals('Live long and Prosper.', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('PS384', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('PS384', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     public function testCompletePS512Sign()
@@ -295,7 +295,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals('Live long and Prosper.', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('PS512', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('PS512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     /**
@@ -309,8 +309,8 @@ final class RSASignatureTest extends SignatureTest
         $claims = json_decode($result->getPayload(), true);
         self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], $claims);
         self::assertEquals(2, $result->countSignatures());
-        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
-        self::assertEquals('ES256', $result->getSignature(1)->getProtectedHeader('alg'));
+        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
+        self::assertEquals('ES256', $result->getSignature(1)->getProtectedHeaderParameter('alg'));
     }
 
     /**
@@ -323,8 +323,8 @@ final class RSASignatureTest extends SignatureTest
 
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals(2, $result->countSignatures());
-        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
-        self::assertEquals('ES256', $result->getSignature(1)->getProtectedHeader('alg'));
+        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
+        self::assertEquals('ES256', $result->getSignature(1)->getProtectedHeaderParameter('alg'));
         $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), 0, Base64Url::decode('eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ'));
     }
 
@@ -340,7 +340,7 @@ final class RSASignatureTest extends SignatureTest
 
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals(2, $result->countSignatures());
-        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
 
         $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), 0, 'eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ');
     }
@@ -373,7 +373,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('HS256', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('HS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     /**
@@ -386,7 +386,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     /**
@@ -399,7 +399,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('ES256', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('ES256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     /**
@@ -412,7 +412,7 @@ final class RSASignatureTest extends SignatureTest
         self::assertInstanceOf(JWS::class, $result);
         self::assertEquals('Payload', $result->getPayload());
         self::assertEquals(1, $result->countSignatures());
-        self::assertEquals('ES512', $result->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('ES512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     /**

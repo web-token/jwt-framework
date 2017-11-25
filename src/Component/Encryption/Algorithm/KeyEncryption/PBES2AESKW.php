@@ -52,21 +52,21 @@ abstract class PBES2AESKW implements KeyWrapping
     /**
      * {@inheritdoc}
      */
-    public function wrapKey(JWK $key, string $cek, array $complete_headers, array &$additional_headers): string
+    public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
-        $this->checkHeaderAlgorithm($complete_headers);
+        $this->checkHeaderAlgorithm($completeHeader);
         $wrapper = $this->getWrapper();
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
         $salt = random_bytes($this->salt_size);
         $password = Base64Url::decode($key->get('k'));
 
-        // We set headers parameters
-        $additional_headers['p2s'] = Base64Url::encode($salt);
-        $additional_headers['p2c'] = $this->nb_count;
+        // We set header parameters
+        $additionalHeader['p2s'] = Base64Url::encode($salt);
+        $additionalHeader['p2c'] = $this->nb_count;
 
-        $derived_key = hash_pbkdf2($hash_algorithm, $password, $complete_headers['alg']."\x00".$salt, $this->nb_count, $key_size, true);
+        $derived_key = hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
 
         return $wrapper::wrap($derived_key, $cek);
     }
@@ -74,16 +74,16 @@ abstract class PBES2AESKW implements KeyWrapping
     /**
      * {@inheritdoc}
      */
-    public function unwrapKey(JWK $key, string $encrypted_cek, array $complete_headers): string
+    public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $this->checkKey($key);
-        $this->checkHeaderAlgorithm($complete_headers);
-        $this->checkHeaderAdditionalParameters($complete_headers);
+        $this->checkHeaderAlgorithm($completeHeader);
+        $this->checkHeaderAdditionalParameters($completeHeader);
         $wrapper = $this->getWrapper();
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
-        $salt = $complete_headers['alg']."\x00".Base64Url::decode($complete_headers['p2s']);
-        $count = $complete_headers['p2c'];
+        $salt = $completeHeader['alg']."\x00".Base64Url::decode($completeHeader['p2s']);
+        $count = $completeHeader['p2c'];
         $password = Base64Url::decode($key->get('k'));
 
         $derived_key = hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
