@@ -24,8 +24,8 @@ interface KeyEncryption extends KeyEncryptionAlgorithm
     /**
      * Encrypt the CEK.
      *
-     * @param JWK    $key                The key used to wrap the CEK
-     * @param string $cek                The CEK to encrypt
+     * @param JWK    $key              The key used to wrap the CEK
+     * @param string $cek              The CEK to encrypt
      * @param array  $completeHeader   The complete header of the JWT
      * @param array  $additionalHeader Additional header
      *
