@@ -337,7 +337,7 @@ final class RSAKey
      *
      * @return BigInteger
      */
-    public static function exponentiate(RSAKey $key, BigInteger $c): BigInteger
+    public static function exponentiate(self $key, BigInteger $c): BigInteger
     {
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
             throw new \RuntimeException();
