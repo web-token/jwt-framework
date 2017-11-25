@@ -40,7 +40,7 @@ final class JWSLoader
      * JWSLoader constructor.
      *
      * @param JWSSerializerManager $serializerManager
-     * @param AlgorithmManager $jwsVerifier
+     * @param AlgorithmManager     $jwsVerifier
      * @param HeaderCheckerManager $headerCheckerManager
      */
     public function __construct(JWSSerializerManager $serializerManager, AlgorithmManager $jwsVerifier, HeaderCheckerManager $headerCheckerManager)
@@ -51,9 +51,9 @@ final class JWSLoader
     }
 
     /**
-     * @param string $token
-     * @param JWK $key
-     * @param int $signature
+     * @param string      $token
+     * @param JWK         $key
+     * @param int         $signature
      * @param null|string $payload
      *
      * @return JWS
@@ -66,10 +66,11 @@ final class JWSLoader
     }
 
     /**
-     * @param string $token
-     * @param JWKSet $keyset
-     * @param int $signature
+     * @param string      $token
+     * @param JWKSet      $keyset
+     * @param int         $signature
      * @param null|string $payload
+     *
      * @return JWS
      *
      * @throws \Exception
@@ -79,7 +80,7 @@ final class JWSLoader
         try {
             $jws = $this->serializerManager->unserialize($token);
             $nbSignatures = $jws->countSignatures();
-            for ($i = 0; $i < $nbSignatures; $i++) {
+            for ($i = 0; $i < $nbSignatures; ++$i) {
                 if ($this->processSignature($jws, $keyset, $i, $payload)) {
                     $signature = $i;
 
@@ -89,13 +90,14 @@ final class JWSLoader
         } catch (\Exception $e) {
             // Nothing to do. Exception thrown just after
         }
+
         throw new \Exception('Unable to load the token.');
     }
 
     /**
-     * @param JWS $jws
-     * @param JWKSet $keyset
-     * @param int $signature
+     * @param JWS         $jws
+     * @param JWKSet      $keyset
+     * @param int         $signature
      * @param null|string $payload
      *
      * @return bool
