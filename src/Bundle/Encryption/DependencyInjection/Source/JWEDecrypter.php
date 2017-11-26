@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\Encryption\DependencyInjection\Source;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWEDecrypter as JWEDecrypterService;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -24,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWEDecrypter.
  */
-final class JWEDecrypter implements Source
+final class JWEDecrypter extends AbstractSource
 {
     /**
      * {@inheritdoc}
@@ -54,52 +52,5 @@ final class JWEDecrypter implements Source
 
             $container->setDefinition($service_id, $definition);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeDefinition(ArrayNodeDefinition $node)
-    {
-        $node
-            ->children()
-                ->arrayNode($this->name())
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->children()
-                            ->booleanNode('is_public')
-                                ->info('If true, the service will be public, else private.')
-                                ->defaultTrue()
-                            ->end()
-                            ->arrayNode('key_encryption_algorithms')
-                                ->info('A list of supported key encryption algorithms.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('content_encryption_algorithms')
-                                ->info('A list of supported content encryption algorithms.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->prototype('scalar')->end()
-                            ->end()
-                            ->arrayNode('compression_methods')
-                                ->info('A list of supported compression methods.')
-                                ->useAttributeAsKey('name')
-                                ->defaultValue(['DEF'])
-                                ->prototype('scalar')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container, array $config): ?array
-    {
-        return null;
     }
 }
