@@ -58,7 +58,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
             'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'PBES2-HS512+A256KW',
             'p2s' => '8Q1SzinasR3xchYz6ZZcHA',
             'p2c' => 8192,
@@ -86,19 +86,19 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_compact_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
@@ -141,7 +141,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
             'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'PBES2-HS512+A256KW',
             'cty' => 'jwk-set+json',
             'enc' => 'A128CBC-HS256',
@@ -152,7 +152,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
+            ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
             ->build();
 
@@ -162,11 +162,11 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertTrue(array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeaders()));
-        self::assertTrue(array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeaders()));
+        self::assertTrue(array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeader()));
 
-        self::assertTrue(array_key_exists('p2s', $loaded_json->getSharedProtectedHeaders()));
-        self::assertTrue(array_key_exists('p2c', $loaded_json->getSharedProtectedHeaders()));
+        self::assertTrue(array_key_exists('p2s', $loaded_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('p2c', $loaded_json->getSharedProtectedHeader()));
 
         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
         self::assertEquals($expected_payload, $loaded_json->getPayload());

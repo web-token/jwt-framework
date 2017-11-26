@@ -32,12 +32,12 @@ abstract class AESGCMKW implements KeyWrapping
     /**
      * {@inheritdoc}
      */
-    public function wrapKey(JWK $key, string $cek, array $complete_headers, array &$additional_headers): string
+    public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
         $kek = Base64Url::decode($key->get('k'));
         $iv = random_bytes(96 / 8);
-        $additional_headers['iv'] = Base64Url::encode($iv);
+        $additionalHeader['iv'] = Base64Url::encode($iv);
 
         $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $tag = null;
@@ -45,7 +45,7 @@ abstract class AESGCMKW implements KeyWrapping
         if (false === $encrypted_cek) {
             throw new \RuntimeException('Unable to encrypt the data.');
         }
-        $additional_headers['tag'] = Base64Url::encode($tag);
+        $additionalHeader['tag'] = Base64Url::encode($tag);
 
         return $encrypted_cek;
     }
@@ -53,14 +53,14 @@ abstract class AESGCMKW implements KeyWrapping
     /**
      * {@inheritdoc}
      */
-    public function unwrapKey(JWK $key, string $encrypted_cek, array $complete_headers): string
+    public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $this->checkKey($key);
-        $this->checkAdditionalParameters($complete_headers);
+        $this->checkAdditionalParameters($completeHeader);
 
         $kek = Base64Url::decode($key->get('k'));
-        $tag = Base64Url::decode($complete_headers['tag']);
-        $iv = Base64Url::decode($complete_headers['iv']);
+        $tag = Base64Url::decode($completeHeader['tag']);
+        $iv = Base64Url::decode($completeHeader['iv']);
 
         $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $cek = openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');

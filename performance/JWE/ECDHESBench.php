@@ -26,34 +26,34 @@ final class ECDHESBench extends EncryptionBench
     {
         return [
             [
-                    'shared_protected_headers' => ['alg' => 'ECDH-ES', 'enc' => 'A128CBC-HS256'],
-                    'shared_headers' => [],
-                    'recipient_headers' => [],
+                    'shared_protected_header' => ['alg' => 'ECDH-ES', 'enc' => 'A128CBC-HS256'],
+                    'shared_header' => [],
+                    'recipient_header' => [],
             ],
             [
-                    'shared_protected_headers' => ['alg' => 'ECDH-ES', 'enc' => 'A192CBC-HS384'],
-                    'shared_headers' => [],
-                    'recipient_headers' => [],
+                    'shared_protected_header' => ['alg' => 'ECDH-ES', 'enc' => 'A192CBC-HS384'],
+                    'shared_header' => [],
+                    'recipient_header' => [],
             ],
             [
-                    'shared_protected_headers' => ['alg' => 'ECDH-ES', 'enc' => 'A256CBC-HS512'],
-                    'shared_headers' => [],
-                    'recipient_headers' => [],
+                    'shared_protected_header' => ['alg' => 'ECDH-ES', 'enc' => 'A256CBC-HS512'],
+                    'shared_header' => [],
+                    'recipient_header' => [],
             ],
             [
-                    'shared_protected_headers' => ['alg' => 'ECDH-ES', 'enc' => 'A128GCM'],
-                    'shared_headers' => [],
-                    'recipient_headers' => [],
+                    'shared_protected_header' => ['alg' => 'ECDH-ES', 'enc' => 'A128GCM'],
+                    'shared_header' => [],
+                    'recipient_header' => [],
             ],
             [
-                    'shared_protected_headers' => ['alg' => 'ECDH-ES', 'enc' => 'A192GCM'],
-                    'shared_headers' => [],
-                    'recipient_headers' => [],
+                    'shared_protected_header' => ['alg' => 'ECDH-ES', 'enc' => 'A192GCM'],
+                    'shared_header' => [],
+                    'recipient_header' => [],
             ],
             [
-                    'shared_protected_headers' => ['alg' => 'ECDH-ES', 'enc' => 'A256GCM'],
-                    'shared_headers' => [],
-                    'recipient_headers' => [],
+                    'shared_protected_header' => ['alg' => 'ECDH-ES', 'enc' => 'A256GCM'],
+                    'shared_header' => [],
+                    'recipient_header' => [],
             ],
         ];
     }

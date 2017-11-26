@@ -21,17 +21,17 @@ final class Signature
     /**
      * @var null|string
      */
-    private $encodedProtectedHeaders;
+    private $encodedProtectedHeader;
 
     /**
      * @var array
      */
-    private $protectedHeaders;
+    private $protectedHeader;
 
     /**
      * @var array
      */
-    private $headers;
+    private $header;
 
     /**
      * @var string
@@ -42,29 +42,29 @@ final class Signature
      * Signature constructor.
      *
      * @param string      $signature
-     * @param array       $protectedHeaders
-     * @param null|string $encodedProtectedHeaders
-     * @param array       $headers
+     * @param array       $protectedHeader
+     * @param null|string $encodedProtectedHeader
+     * @param array       $header
      */
-    private function __construct(string $signature, array $protectedHeaders, ?string $encodedProtectedHeaders, array $headers)
+    private function __construct(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header)
     {
-        $this->protectedHeaders = null === $encodedProtectedHeaders ? [] : $protectedHeaders;
-        $this->encodedProtectedHeaders = $encodedProtectedHeaders;
+        $this->protectedHeader = null === $encodedProtectedHeader ? [] : $protectedHeader;
+        $this->encodedProtectedHeader = $encodedProtectedHeader;
         $this->signature = $signature;
-        $this->headers = $headers;
+        $this->header = $header;
     }
 
     /**
      * @param string      $signature
-     * @param array       $protectedHeaders
-     * @param string|null $encodedProtectedHeaders
-     * @param array       $headers
+     * @param array       $protectedHeader
+     * @param string|null $encodedProtectedHeader
+     * @param array       $header
      *
      * @return Signature
      */
-    public static function create(string $signature, array $protectedHeaders, ?string $encodedProtectedHeaders, array $headers = []): self
+    public static function create(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header = []): self
     {
-        return new self($signature, $protectedHeaders, $encodedProtectedHeaders, $headers);
+        return new self($signature, $protectedHeader, $encodedProtectedHeader, $header);
     }
 
     /**
@@ -72,9 +72,9 @@ final class Signature
      *
      * @return array
      */
-    public function getProtectedHeaders(): array
+    public function getProtectedHeader(): array
     {
-        return $this->protectedHeaders;
+        return $this->protectedHeader;
     }
 
     /**
@@ -82,9 +82,9 @@ final class Signature
      *
      * @return array
      */
-    public function getHeaders(): array
+    public function getHeader(): array
     {
-        return $this->headers;
+        return $this->header;
     }
 
     /**
@@ -93,9 +93,9 @@ final class Signature
      *
      * @return null|string
      */
-    public function getEncodedProtectedHeaders(): ?string
+    public function getEncodedProtectedHeader(): ?string
     {
-        return $this->encodedProtectedHeaders;
+        return $this->encodedProtectedHeader;
     }
 
     /**
@@ -105,10 +105,10 @@ final class Signature
      *
      * @return mixed|null Header value
      */
-    public function getProtectedHeader(string $key)
+    public function getProtectedHeaderParameter(string $key)
     {
-        if ($this->hasProtectedHeader($key)) {
-            return $this->getProtectedHeaders()[$key];
+        if ($this->hasProtectedHeaderParameter($key)) {
+            return $this->getProtectedHeader()[$key];
         }
 
         throw new \InvalidArgumentException(sprintf('The protected header "%s" does not exist', $key));
@@ -119,9 +119,9 @@ final class Signature
      *
      * @return bool
      */
-    public function hasProtectedHeader(string $key): bool
+    public function hasProtectedHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->getProtectedHeaders());
+        return array_key_exists($key, $this->getProtectedHeader());
     }
 
     /**
@@ -131,10 +131,10 @@ final class Signature
      *
      * @return mixed|null Header value
      */
-    public function getHeader(string $key)
+    public function getHeaderParameter(string $key)
     {
-        if ($this->hasHeader($key)) {
-            return $this->headers[$key];
+        if ($this->hasHeaderParameter($key)) {
+            return $this->header[$key];
         }
 
         throw new \InvalidArgumentException(sprintf('The header "%s" does not exist', $key));
@@ -145,9 +145,9 @@ final class Signature
      *
      * @return bool
      */
-    public function hasHeader(string $key): bool
+    public function hasHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->headers);
+        return array_key_exists($key, $this->header);
     }
 
     /**

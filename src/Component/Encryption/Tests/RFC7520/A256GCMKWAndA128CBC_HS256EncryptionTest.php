@@ -40,7 +40,7 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'tag' => 'kfPduVQ3T3H6vnewt--ksw',
@@ -74,19 +74,19 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_compact_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
@@ -111,7 +111,7 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'enc' => 'A128CBC-HS256',
@@ -122,7 +122,7 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
+            ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
             ->build();
 
@@ -135,14 +135,14 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertTrue(array_key_exists('iv', $loaded_compact_json->getSharedProtectedHeaders()));
-        self::assertTrue(array_key_exists('tag', $loaded_compact_json->getSharedProtectedHeaders()));
+        self::assertTrue(array_key_exists('iv', $loaded_compact_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('tag', $loaded_compact_json->getSharedProtectedHeader()));
 
-        self::assertTrue(array_key_exists('iv', $loaded_flattened_json->getSharedProtectedHeaders()));
-        self::assertTrue(array_key_exists('tag', $loaded_flattened_json->getSharedProtectedHeaders()));
+        self::assertTrue(array_key_exists('iv', $loaded_flattened_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('tag', $loaded_flattened_json->getSharedProtectedHeader()));
 
-        self::assertTrue(array_key_exists('iv', $loaded_json->getSharedProtectedHeaders()));
-        self::assertTrue(array_key_exists('tag', $loaded_json->getSharedProtectedHeaders()));
+        self::assertTrue(array_key_exists('iv', $loaded_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('tag', $loaded_json->getSharedProtectedHeader()));
 
         self::assertEquals($expected_payload, $loaded_compact_json->getPayload());
         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());

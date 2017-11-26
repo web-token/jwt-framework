@@ -26,16 +26,16 @@ final class MessageFactory implements ResponseFactory, RequestFactory
     /**
      * {@inheritdoc}
      */
-    public function createRequest($method, $uri, array $headers = [], $body = null, $protocolVersion = '1.1')
+    public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
     {
-        return new Request($method, $uri, $headers, $body, $protocolVersion);
+        return new Request($method, $uri, $header, $body, $protocolVersion);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createResponse($statusCode = 200, $reasonPhrase = null, array $headers = [], $body = null, $protocolVersion = '1.1')
+    public function createResponse($statusCode = 200, $reasonPhrase = null, array $header = [], $body = null, $protocolVersion = '1.1')
     {
-        return new Response($statusCode, $headers, $body, $protocolVersion, $reasonPhrase);
+        return new Response($statusCode, $header, $body, $protocolVersion, $reasonPhrase);
     }
 }

@@ -62,13 +62,13 @@ final class NestingTest extends EncryptionTest
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $encryption_key, 0));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $encryption_key, 0));
 
-        self::assertEquals($encryption_header, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($encryption_header, $loaded_compact_json->getSharedProtectedHeader());
         self::assertEquals($payload, $loaded_compact_json->getPayload());
 
-        self::assertEquals($encryption_header, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($encryption_header, $loaded_flattened_json->getSharedProtectedHeader());
         self::assertEquals($payload, $loaded_flattened_json->getPayload());
 
-        self::assertEquals($encryption_header, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($encryption_header, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($payload, $loaded_json->getPayload());
     }
 }

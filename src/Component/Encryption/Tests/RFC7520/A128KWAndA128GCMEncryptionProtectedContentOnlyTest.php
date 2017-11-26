@@ -40,10 +40,10 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
             'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
         ];
 
-        $headers = [
+        $header = [
             'enc' => 'A128GCM',
             'alg' => 'A128KW',
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
@@ -65,17 +65,17 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
-        self::assertEquals($headers, $loaded_flattened_json->getSharedHeaders());
+        self::assertEquals($header, $loaded_flattened_json->getSharedHeader());
         self::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
-        self::assertEquals($headers, $loaded_json->getSharedHeaders());
+        self::assertEquals($header, $loaded_json->getSharedHeader());
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
@@ -97,10 +97,10 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
             'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
         ];
 
-        $headers = [
+        $header = [
             'enc' => 'A128GCM',
             'alg' => 'A128KW',
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
@@ -111,8 +111,8 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
-            ->withSharedHeaders($headers)
+            ->withSharedProtectedHeader($protectedHeader)
+            ->withSharedHeader($header)
             ->addRecipient($private_key)
             ->build();
 
@@ -122,11 +122,11 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
-        self::assertEquals($headers, $loaded_flattened_json->getSharedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
+        self::assertEquals($header, $loaded_flattened_json->getSharedHeader());
 
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
-        self::assertEquals($headers, $loaded_json->getSharedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        self::assertEquals($header, $loaded_json->getSharedHeader());
 
         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
         self::assertEquals($expected_payload, $loaded_json->getPayload());

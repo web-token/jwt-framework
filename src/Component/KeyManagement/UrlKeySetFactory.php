@@ -45,15 +45,15 @@ abstract class UrlKeySetFactory
 
     /**
      * @param string $url
-     * @param array  $headers
+     * @param array  $header
      *
      * @throws \RuntimeException
      *
      * @return string
      */
-    protected function getContent(string $url, array $headers = []): string
+    protected function getContent(string $url, array $header = []): string
     {
-        $request = $this->requestFactory->createRequest('GET', $url, $headers);
+        $request = $this->requestFactory->createRequest('GET', $url, $header);
         $response = $this->client->sendRequest($request);
 
         if ($response->getStatusCode() >= 400) {

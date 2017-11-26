@@ -41,12 +41,12 @@ final class ForeignJWTTest extends SignatureTest
         $jwt = $this->getJWSSerializerManager()->unserialize($challenge);
         self::assertTrue($jwsVerifier->verifyWithKey($jwt, $jwk, 0));
 
-        $expected_headers = [
+        $expectedHeader = [
             'alg' => 'RS256',
             'typ' => 'JWT',
         ];
 
         self::assertInstanceOf(JWS::class, $jwt);
-        self::assertEquals($expected_headers, $jwt->getSignature(0)->getProtectedHeaders());
+        self::assertEquals($expectedHeader, $jwt->getSignature(0)->getProtectedHeader());
     }
 }

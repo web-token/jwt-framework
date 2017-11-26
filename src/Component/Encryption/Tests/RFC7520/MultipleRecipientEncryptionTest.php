@@ -64,20 +64,20 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
             'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'enc' => 'A128CBC-HS256',
         ];
 
-        $headers = [
+        $header = [
             'cty' => 'text/plain',
         ];
 
-        $recipient_1_headers = [
+        $recipient_1Header = [
             'alg' => 'RSA1_5',
             'kid' => 'frodo.baggins@hobbiton.example',
         ];
 
-        $recipient_2_headers = [
+        $recipient_2Header = [
             'alg' => 'ECDH-ES+A256KW',
             'kid' => 'peregrin.took@tuckborough.example',
             'epk' => [
@@ -87,7 +87,7 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
                 'y' => 'VDrRyFJh-Kwd1EjAgmj5Eo-CTHAZ53MC7PjjpLioy3ylEjI1pOMbw91fzZ84pbfm',
         ], ];
 
-        $recipient_3_headers = [
+        $recipient_3Header = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'tag' => '59Nqh1LlYtVIhfD3pgRGvw',
@@ -114,15 +114,15 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_recipient_1_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_recipient_2_encrypted_key, Base64Url::encode($loaded_json->getRecipient(1)->getEncryptedKey()));
         self::assertEquals($expected_recipient_3_encrypted_key, Base64Url::encode($loaded_json->getRecipient(2)->getEncryptedKey()));
-        self::assertEquals($recipient_1_headers, $loaded_json->getRecipient(0)->getHeaders());
-        self::assertEquals($recipient_2_headers, $loaded_json->getRecipient(1)->getHeaders());
-        self::assertEquals($recipient_3_headers, $loaded_json->getRecipient(2)->getHeaders());
-        self::assertEquals($headers, $loaded_json->getSharedHeaders());
+        self::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
+        self::assertEquals($recipient_2Header, $loaded_json->getRecipient(1)->getHeader());
+        self::assertEquals($recipient_3Header, $loaded_json->getRecipient(2)->getHeader());
+        self::assertEquals($header, $loaded_json->getSharedHeader());
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
         self::assertEquals($expected_payload, $loaded_json->getPayload());
@@ -176,25 +176,25 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
             'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'enc' => 'A128CBC-HS256',
         ];
 
-        $headers = [
+        $header = [
             'cty' => 'text/plain',
         ];
 
-        $recipient_1_headers = [
+        $recipient_1Header = [
             'alg' => 'RSA1_5',
             'kid' => 'frodo.baggins@hobbiton.example',
         ];
 
-        $recipient_2_headers = [
+        $recipient_2Header = [
             'alg' => 'ECDH-ES+A256KW',
             'kid' => 'peregrin.took@tuckborough.example',
         ];
 
-        $recipient_3_headers = [
+        $recipient_3Header = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
         ];
@@ -204,11 +204,11 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
-            ->withSharedHeaders($headers)
-            ->addRecipient($recipient_1_private_key, $recipient_1_headers)
-            ->addRecipient($recipient_2_public_key, $recipient_2_headers)
-            ->addRecipient($recipient_3_private_key, $recipient_3_headers)
+            ->withSharedProtectedHeader($protectedHeader)
+            ->withSharedHeader($header)
+            ->addRecipient($recipient_1_private_key, $recipient_1Header)
+            ->addRecipient($recipient_2_public_key, $recipient_2Header)
+            ->addRecipient($recipient_3_private_key, $recipient_3Header)
             ->build();
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
@@ -220,12 +220,12 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
-        self::assertEquals($recipient_1_headers, $loaded_json->getRecipient(0)->getHeaders());
-        self::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeaders()));
-        self::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeaders()));
-        self::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeaders()));
-        self::assertEquals($headers, $loaded_json->getSharedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        self::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
+        self::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
+        self::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
+        self::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
+        self::assertEquals($header, $loaded_json->getSharedHeader());
 
         self::assertEquals($expected_payload, $loaded_json->getPayload());
     }
@@ -261,19 +261,19 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
             'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
-        $protected_headers = [];
+        $protectedHeader = [];
 
-        $headers = [
+        $header = [
             'cty' => 'text/plain',
         ];
 
-        $recipient_1_headers = [
+        $recipient_1Header = [
             'alg' => 'RSA1_5',
             'enc' => 'A128GCM',
             'kid' => 'frodo.baggins@hobbiton.example',
         ];
 
-        $recipient_2_headers = [
+        $recipient_2Header = [
             'alg' => 'ECDH-ES+A256KW',
             'enc' => 'A128CBC-HS256',
             'kid' => 'peregrin.took@tuckborough.example',
@@ -283,10 +283,10 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         $jweBuilder
             ->create()
             ->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
-            ->withSharedHeaders($headers)
-            ->addRecipient($recipient_1_private_key, $recipient_1_headers)
-            ->addRecipient($recipient_2_public_key, $recipient_2_headers)
+            ->withSharedProtectedHeader($protectedHeader)
+            ->withSharedHeader($header)
+            ->addRecipient($recipient_1_private_key, $recipient_1Header)
+            ->addRecipient($recipient_2_public_key, $recipient_2Header)
             ->build();
     }
 }

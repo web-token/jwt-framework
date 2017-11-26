@@ -75,8 +75,8 @@ final class JSONGeneralSerializer extends Serializer
         foreach ($jws->getSignatures() as $signature) {
             $tmp = ['signature' => Base64Url::encode($signature->getSignature())];
             $values = [
-                'protected' => $signature->getEncodedProtectedHeaders(),
-                'header' => $signature->getHeaders(),
+                'protected' => $signature->getEncodedProtectedHeader(),
+                'header' => $signature->getHeader(),
             ];
 
             foreach ($values as $key => $value) {
@@ -123,14 +123,14 @@ final class JSONGeneralSerializer extends Serializer
         $signatures = [];
         foreach ($data['signatures'] as $signature) {
             $this->checkSignature($signature);
-            list($encodedProtectedHeaders, $protectedHeaders, $headers) = $this->processHeaders($signature);
+            list($encodedProtectedHeader, $protectedHeader, $header) = $this->processHeaders($signature);
             $signatures[] = [
                 'signature' => Base64Url::decode($signature['signature']),
-                'protected' => $protectedHeaders,
-                'encoded_protected' => $encodedProtectedHeaders,
-                'header' => $headers,
+                'protected' => $protectedHeader,
+                'encoded_protected' => $encodedProtectedHeader,
+                'header' => $header,
             ];
-            $isPayloadEncoded = $this->processIsPayloadEncoded($isPayloadEncoded, $protectedHeaders);
+            $isPayloadEncoded = $this->processIsPayloadEncoded($isPayloadEncoded, $protectedHeader);
         }
 
         $payload = $this->processPayload($rawPayload, $isPayloadEncoded);
@@ -149,16 +149,16 @@ final class JSONGeneralSerializer extends Serializer
 
     /**
      * @param bool|null $isPayloadEncoded
-     * @param array     $protectedHeaders
+     * @param array     $protectedHeader
      *
      * @return bool
      */
-    private function processIsPayloadEncoded(?bool $isPayloadEncoded, array $protectedHeaders): bool
+    private function processIsPayloadEncoded(?bool $isPayloadEncoded, array $protectedHeader): bool
     {
         if (null === $isPayloadEncoded) {
-            return self::isPayloadEncoded($protectedHeaders);
+            return self::isPayloadEncoded($protectedHeader);
         }
-        if ($this->isPayloadEncoded($protectedHeaders) !== $isPayloadEncoded) {
+        if ($this->isPayloadEncoded($protectedHeader) !== $isPayloadEncoded) {
             throw new \InvalidArgumentException('Foreign payload encoding detected.');
         }
 
@@ -172,11 +172,11 @@ final class JSONGeneralSerializer extends Serializer
      */
     private function processHeaders(array $signature): array
     {
-        $encodedProtectedHeaders = array_key_exists('protected', $signature) ? $signature['protected'] : null;
-        $protectedHeaders = null !== $encodedProtectedHeaders ? $this->jsonConverter->decode(Base64Url::decode($encodedProtectedHeaders)) : [];
-        $headers = array_key_exists('header', $signature) ? $signature['header'] : [];
+        $encodedProtectedHeader = array_key_exists('protected', $signature) ? $signature['protected'] : null;
+        $protectedHeader = null !== $encodedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedProtectedHeader)) : [];
+        $header = array_key_exists('header', $signature) ? $signature['header'] : [];
 
-        return [$encodedProtectedHeaders, $protectedHeaders, $headers];
+        return [$encodedProtectedHeader, $protectedHeader, $header];
     }
 
     /**
@@ -205,10 +205,10 @@ final class JSONGeneralSerializer extends Serializer
         $is_encoded = null;
         foreach ($jws->getSignatures() as $signature) {
             if (null === $is_encoded) {
-                $is_encoded = $this->isPayloadEncoded($signature->getProtectedHeaders());
+                $is_encoded = $this->isPayloadEncoded($signature->getProtectedHeader());
             }
             if (false === $jws->isPayloadDetached()) {
-                if ($is_encoded !== $this->isPayloadEncoded($signature->getProtectedHeaders())) {
+                if ($is_encoded !== $this->isPayloadEncoded($signature->getProtectedHeader())) {
                     throw new \LogicException('Foreign payload encoding detected.');
                 }
             }

@@ -103,7 +103,7 @@ abstract class SignatureBench
     {
         $jwsLoader = new JWSVerifier($this->signatureAlgorithmsManager);
         $jws = $this->serializerManager->unserialize($params['input']);
-        $jwsLoader->verifyWithKey($jws, $this->getPublicKey());
+        $jwsLoader->verifyWithKey($jws, $this->getPublicKey(), 0);
     }
 
     /**

@@ -42,15 +42,15 @@ final class X5UFactory extends UrlKeySetFactory
 
     /**
      * @param string $url
-     * @param array  $headers
+     * @param array  $header
      *
      * @throws \InvalidArgumentException
      *
      * @return JWKSet
      */
-    public function loadFromUrl(string $url, array $headers = []): JWKSet
+    public function loadFromUrl(string $url, array $header = []): JWKSet
     {
-        $content = $this->getContent($url, $headers);
+        $content = $this->getContent($url, $header);
         $data = $this->jsonConverter->decode($content);
         if (!is_array($data)) {
             throw new \RuntimeException('Invalid content.');

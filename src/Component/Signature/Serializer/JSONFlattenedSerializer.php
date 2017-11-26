@@ -68,8 +68,8 @@ final class JSONFlattenedSerializer extends Serializer
         $data = [];
         $values = [
             'payload' => $jws->getEncodedPayload(),
-            'protected' => $signature->getEncodedProtectedHeaders(),
-            'header' => $signature->getHeaders(),
+            'protected' => $signature->getEncodedProtectedHeader(),
+            'header' => $signature->getHeader(),
         ];
 
         foreach ($values as $key => $value) {
@@ -95,31 +95,31 @@ final class JSONFlattenedSerializer extends Serializer
         $signature = Base64Url::decode($data['signature']);
 
         if (array_key_exists('protected', $data)) {
-            $encodedProtectedHeaders = $data['protected'];
-            $protectedHeaders = $this->jsonConverter->decode(Base64Url::decode($data['protected']));
+            $encodedProtectedHeader = $data['protected'];
+            $protectedHeader = $this->jsonConverter->decode(Base64Url::decode($data['protected']));
         } else {
-            $encodedProtectedHeaders = null;
-            $protectedHeaders = [];
+            $encodedProtectedHeader = null;
+            $protectedHeader = [];
         }
         if (array_key_exists('header', $data)) {
             if (!is_array($data['header'])) {
                 throw new \InvalidArgumentException('Bad header.');
             }
-            $headers = $data['header'];
+            $header = $data['header'];
         } else {
-            $headers = [];
+            $header = [];
         }
 
         if (array_key_exists('payload', $data)) {
             $encodedPayload = $data['payload'];
-            $payload = $this->isPayloadEncoded($protectedHeaders) ? Base64Url::decode($encodedPayload) : $encodedPayload;
+            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
         } else {
             $payload = null;
             $encodedPayload = null;
         }
 
         $jws = JWS::create($payload, $encodedPayload, null === $encodedPayload);
-        $jws = $jws->addSignature($signature, $protectedHeaders, $encodedProtectedHeaders, $headers);
+        $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader, $header);
 
         return $jws;
     }

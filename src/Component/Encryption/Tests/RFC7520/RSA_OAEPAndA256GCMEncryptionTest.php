@@ -47,7 +47,7 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
             'qi' => 'FZhClBMywVVjnuUud-05qd5CYU0dK79akAgy9oX6RX6I3IIIPckCciRrokxglZn-omAY5CnCe4KdrnjFOT5YUZE7G_Pg44XgCXaarLQf4hl80oPEf6-jJ5Iy6wPRx7G2e8qLxnh9cOdf-kRqgOS3F48Ucvw3ma5V6KGMwQqWFeV31XtZ8l5cVI-I3NzBS7qltpUVgz2Ju021eyc7IlqgzR98qKONl27DuEES0aK0WE97jnsyO27Yp88Wa2RiBrEocM89QZI1seJiGDizHRUP4UZxw9zsXww46wy0P6f9grnYp7t8LkyDDk8eoI4KX6SNMNVcyVS9IWjlq8EzqZEKIA',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'RSA-OAEP',
             'kid' => 'samwise.gamgee@hobbiton.example',
             'enc' => 'A256GCM',
@@ -73,19 +73,19 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_compact_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
 
         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
@@ -117,7 +117,7 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
             'qi' => 'FZhClBMywVVjnuUud-05qd5CYU0dK79akAgy9oX6RX6I3IIIPckCciRrokxglZn-omAY5CnCe4KdrnjFOT5YUZE7G_Pg44XgCXaarLQf4hl80oPEf6-jJ5Iy6wPRx7G2e8qLxnh9cOdf-kRqgOS3F48Ucvw3ma5V6KGMwQqWFeV31XtZ8l5cVI-I3NzBS7qltpUVgz2Ju021eyc7IlqgzR98qKONl27DuEES0aK0WE97jnsyO27Yp88Wa2RiBrEocM89QZI1seJiGDizHRUP4UZxw9zsXww46wy0P6f9grnYp7t8LkyDDk8eoI4KX6SNMNVcyVS9IWjlq8EzqZEKIA',
         ]);
 
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'RSA-OAEP',
             'kid' => 'samwise.gamgee@hobbiton.example',
             'enc' => 'A256GCM',
@@ -128,7 +128,7 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
-            ->withSharedProtectedHeaders($protected_headers)
+            ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
             ->build();
 
@@ -141,11 +141,11 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertEquals($protected_headers, $loaded_compact_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
 
-        self::assertEquals($protected_headers, $loaded_flattened_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
 
-        self::assertEquals($protected_headers, $loaded_json->getSharedProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
 
         self::assertEquals($expected_payload, $loaded_compact_json->getPayload());
         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());

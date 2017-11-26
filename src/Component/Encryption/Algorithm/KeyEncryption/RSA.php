@@ -33,7 +33,7 @@ abstract class RSA implements KeyEncryption
     /**
      * {@inheritdoc}
      */
-    public function encryptKey(JWK $key, string $cek, array $complete_headers, array &$additional_headers): string
+    public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
         $pub = RSAKey::toPublic(RSAKey::createFromJWK($key));

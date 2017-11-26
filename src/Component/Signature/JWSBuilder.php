@@ -110,30 +110,30 @@ final class JWSBuilder
 
     /**
      * @param JWK   $signatureKey
-     * @param array $protectedHeaders
-     * @param array $headers
+     * @param array $protectedHeader
+     * @param array $header
      *
      * @return JWSBuilder
      */
-    public function addSignature(JWK $signatureKey, array $protectedHeaders, array $headers = []): self
+    public function addSignature(JWK $signatureKey, array $protectedHeader, array $header = []): self
     {
-        $this->checkB64AndCriticalHeader($protectedHeaders);
-        $isPayloadEncoded = $this->checkIfPayloadIsEncoded($protectedHeaders);
+        $this->checkB64AndCriticalHeader($protectedHeader);
+        $isPayloadEncoded = $this->checkIfPayloadIsEncoded($protectedHeader);
         if (null === $this->isPayloadEncoded) {
             $this->isPayloadEncoded = $isPayloadEncoded;
         } elseif ($this->isPayloadEncoded !== $isPayloadEncoded) {
             throw new \InvalidArgumentException('Foreign payload encoding detected.');
         }
-        $this->checkDuplicatedHeaderParameters($protectedHeaders, $headers);
+        $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
         KeyChecker::checkKeyUsage($signatureKey, 'signature');
-        $signatureAlgorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeaders, $headers);
+        $signatureAlgorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
         KeyChecker::checkKeyAlgorithm($signatureKey, $signatureAlgorithm->name());
         $clone = clone $this;
         $clone->signatures[] = [
             'signature_algorithm' => $signatureAlgorithm,
             'signature_key' => $signatureKey,
-            'protected_headers' => $protectedHeaders,
-            'headers' => $headers,
+            'protected_header' => $protectedHeader,
+            'header' => $header,
         ];
 
         return $clone;
@@ -158,58 +158,58 @@ final class JWSBuilder
             $signatureAlgorithm = $signature['signature_algorithm'];
             /** @var JWK $signatureKey */
             $signatureKey = $signature['signature_key'];
-            /** @var array $protectedHeaders */
-            $protectedHeaders = $signature['protected_headers'];
-            /** @var array $headers */
-            $headers = $signature['headers'];
-            $encodedProtectedHeaders = empty($protectedHeaders) ? null : Base64Url::encode($this->jsonConverter->encode($protectedHeaders));
-            $input = sprintf('%s.%s', $encodedProtectedHeaders, $encodedPayload);
+            /** @var array $protectedHeader */
+            $protectedHeader = $signature['protected_header'];
+            /** @var array $header */
+            $header = $signature['header'];
+            $encodedProtectedHeader = empty($protectedHeader) ? null : Base64Url::encode($this->jsonConverter->encode($protectedHeader));
+            $input = sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
             $s = $signatureAlgorithm->sign($signatureKey, $input);
-            $jws = $jws->addSignature($s, $protectedHeaders, $encodedProtectedHeaders, $headers);
+            $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
         }
 
         return $jws;
     }
 
     /**
-     * @param array $protectedHeaders
+     * @param array $protectedHeader
      *
      * @return bool
      */
-    private function checkIfPayloadIsEncoded(array $protectedHeaders): bool
+    private function checkIfPayloadIsEncoded(array $protectedHeader): bool
     {
-        return !array_key_exists('b64', $protectedHeaders) || true === $protectedHeaders['b64'];
+        return !array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
     }
 
     /**
-     * @param array $protectedHeaders
+     * @param array $protectedHeader
      */
-    private function checkB64AndCriticalHeader(array $protectedHeaders)
+    private function checkB64AndCriticalHeader(array $protectedHeader)
     {
-        if (!array_key_exists('b64', $protectedHeaders)) {
+        if (!array_key_exists('b64', $protectedHeader)) {
             return;
         }
-        if (!array_key_exists('crit', $protectedHeaders)) {
+        if (!array_key_exists('crit', $protectedHeader)) {
             throw new \LogicException('The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.');
         }
-        if (!is_array($protectedHeaders['crit'])) {
+        if (!is_array($protectedHeader['crit'])) {
             throw new \LogicException('The protected header parameter "crit" must be an array.');
         }
-        if (!in_array('b64', $protectedHeaders['crit'])) {
+        if (!in_array('b64', $protectedHeader['crit'])) {
             throw new \LogicException('The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.');
         }
     }
 
     /**
      * @param array $protectedHeader
-     * @param array $headers
+     * @param array $header
      * @param JWK   $key
      *
      * @return SignatureAlgorithm
      */
-    private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $headers): SignatureAlgorithm
+    private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): SignatureAlgorithm
     {
-        $completeHeader = array_merge($headers, $protectedHeader);
+        $completeHeader = array_merge($header, $protectedHeader);
         if (!array_key_exists('alg', $completeHeader)) {
             throw new \InvalidArgumentException('No "alg" parameter set in the header.');
         }

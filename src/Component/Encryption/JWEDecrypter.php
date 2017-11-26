@@ -133,11 +133,11 @@ final class JWEDecrypter
     private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i): ?string
     {
         $recipient = $jwe->getRecipient($i);
-        $complete_headers = array_merge($jwe->getSharedProtectedHeaders(), $jwe->getSharedHeaders(), $recipient->getHeaders());
-        $this->checkCompleteHeader($complete_headers);
+        $completeHeader = array_merge($jwe->getSharedProtectedHeader(), $jwe->getSharedHeader(), $recipient->getHeader());
+        $this->checkCompleteHeader($completeHeader);
 
-        $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($complete_headers);
-        $content_encryption_algorithm = $this->getContentEncryptionAlgorithm($complete_headers);
+        $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($completeHeader);
+        $content_encryption_algorithm = $this->getContentEncryptionAlgorithm($completeHeader);
 
         foreach ($jwkset as $jwk) {
             try {
@@ -147,9 +147,9 @@ final class JWEDecrypter
                 } else {
                     KeyChecker::checkKeyAlgorithm($jwk, $content_encryption_algorithm->name());
                 }
-                $cek = $this->decryptCEK($key_encryption_algorithm, $content_encryption_algorithm, $jwk, $recipient, $complete_headers);
+                $cek = $this->decryptCEK($key_encryption_algorithm, $content_encryption_algorithm, $jwk, $recipient, $completeHeader);
                 if (null !== $cek) {
-                    return $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $complete_headers);
+                    return $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
                 }
             } catch (\Exception $e) {
                 //We do nothing, we continue with other keys
@@ -195,22 +195,22 @@ final class JWEDecrypter
      * @param ContentEncryptionAlgorithm $content_encryption_algorithm
      * @param JWK                        $key
      * @param Recipient                  $recipient
-     * @param array                      $complete_headers
+     * @param array                      $completeHeader
      *
      * @return null|string
      */
-    private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $key, Recipient $recipient, array $complete_headers): ?string
+    private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $key, Recipient $recipient, array $completeHeader): ?string
     {
         if ($key_encryption_algorithm instanceof DirectEncryption) {
             return $key_encryption_algorithm->getCEK($key);
         } elseif ($key_encryption_algorithm instanceof KeyAgreement) {
-            return $key_encryption_algorithm->getAgreementKey($content_encryption_algorithm->getCEKSize(), $content_encryption_algorithm->name(), $key, $complete_headers);
+            return $key_encryption_algorithm->getAgreementKey($content_encryption_algorithm->getCEKSize(), $content_encryption_algorithm->name(), $key, $completeHeader);
         } elseif ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
-            return $key_encryption_algorithm->unwrapAgreementKey($key, $recipient->getEncryptedKey(), $content_encryption_algorithm->getCEKSize(), $complete_headers);
+            return $key_encryption_algorithm->unwrapAgreementKey($key, $recipient->getEncryptedKey(), $content_encryption_algorithm->getCEKSize(), $completeHeader);
         } elseif ($key_encryption_algorithm instanceof KeyEncryption) {
-            return $key_encryption_algorithm->decryptKey($key, $recipient->getEncryptedKey(), $complete_headers);
+            return $key_encryption_algorithm->decryptKey($key, $recipient->getEncryptedKey(), $completeHeader);
         } elseif ($key_encryption_algorithm instanceof KeyWrapping) {
-            return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $complete_headers);
+            return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $completeHeader);
         } else {
             throw new \InvalidArgumentException('Unsupported CEK generation');
         }
@@ -220,30 +220,30 @@ final class JWEDecrypter
      * @param JWE                        $jwe
      * @param string                     $cek
      * @param ContentEncryptionAlgorithm $content_encryption_algorithm
-     * @param array                      $complete_headers
+     * @param array                      $completeHeader
      *
      * @return string
      */
-    private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $complete_headers): string
+    private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $completeHeader): string
     {
-        $payload = $content_encryption_algorithm->decryptContent($jwe->getCiphertext(), $cek, $jwe->getIV(), null === $jwe->getAAD() ? null : Base64Url::encode($jwe->getAAD()), $jwe->getEncodedSharedProtectedHeaders(), $jwe->getTag());
+        $payload = $content_encryption_algorithm->decryptContent($jwe->getCiphertext(), $cek, $jwe->getIV(), null === $jwe->getAAD() ? null : Base64Url::encode($jwe->getAAD()), $jwe->getEncodedSharedProtectedHeader(), $jwe->getTag());
         if (null === $payload) {
             throw new \RuntimeException('Unable to decrypt the JWE.');
         }
 
-        return $this->decompressIfNeeded($payload, $complete_headers);
+        return $this->decompressIfNeeded($payload, $completeHeader);
     }
 
     /**
      * @param string $payload
-     * @param array  $complete_headers
+     * @param array  $completeHeaders
      *
      * @return string
      */
-    private function decompressIfNeeded(string $payload, array $complete_headers): string
+    private function decompressIfNeeded(string $payload, array $completeHeaders): string
     {
-        if (array_key_exists('zip', $complete_headers)) {
-            $compression_method = $this->compressionMethodManager->get($complete_headers['zip']);
+        if (array_key_exists('zip', $completeHeaders)) {
+            $compression_method = $this->compressionMethodManager->get($completeHeaders['zip']);
             $payload = $compression_method->uncompress($payload);
             if (!is_string($payload)) {
                 throw new \InvalidArgumentException('Decompression failed');
@@ -254,44 +254,44 @@ final class JWEDecrypter
     }
 
     /**
-     * @param array $complete_headers
+     * @param array $completeHeaders
      *
      * @throws \InvalidArgumentException
      */
-    private function checkCompleteHeader(array $complete_headers)
+    private function checkCompleteHeader(array $completeHeaders)
     {
         foreach (['enc', 'alg'] as $key) {
-            if (!array_key_exists($key, $complete_headers)) {
+            if (!array_key_exists($key, $completeHeaders)) {
                 throw new \InvalidArgumentException(sprintf("Parameters '%s' is missing.", $key));
             }
         }
     }
 
     /**
-     * @param array $complete_headers
+     * @param array $completeHeaders
      *
      * @return KeyEncryptionAlgorithm
      */
-    private function getKeyEncryptionAlgorithm(array $complete_headers): KeyEncryptionAlgorithm
+    private function getKeyEncryptionAlgorithm(array $completeHeaders): KeyEncryptionAlgorithm
     {
-        $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($complete_headers['alg']);
+        $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($completeHeaders['alg']);
         if (!$key_encryption_algorithm instanceof KeyEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $complete_headers['alg']));
+            throw new \InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
         }
 
         return $key_encryption_algorithm;
     }
 
     /**
-     * @param array $complete_headers
+     * @param array $completeHeader
      *
      * @return ContentEncryptionAlgorithm
      */
-    private function getContentEncryptionAlgorithm(array $complete_headers): ContentEncryptionAlgorithm
+    private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
-        $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($complete_headers['enc']);
+        $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
         if (!$content_encryption_algorithm instanceof ContentEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $complete_headers['enc']));
+            throw new \InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
         }
 
         return $content_encryption_algorithm;

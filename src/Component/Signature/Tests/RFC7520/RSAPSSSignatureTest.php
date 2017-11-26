@@ -56,7 +56,7 @@ final class RSAPSSSignatureTest extends SignatureTest
          * Header
          * @see https://tools.ietf.org/html/rfc7520#section-4.2.2
          */
-        $headers = [
+        $header = [
             'alg' => 'PS384',
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
@@ -65,7 +65,7 @@ final class RSAPSSSignatureTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS384']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
-            ->addSignature($privateKey, $headers)
+            ->addSignature($privateKey, $header)
             ->build();
 
         $jwsVerifier->verifyWithKey($jws, $privateKey, 0);

@@ -43,8 +43,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         $header = [];
         $data = 'Live long and Prosper.';
 
-        $additional_headers = [];
-        $rsa1_5->encryptKey($key, $data, $header, $additional_headers);
+        $additionalHeader = [];
+        $rsa1_5->encryptKey($key, $data, $header, $additionalHeader);
     }
 
     /**
@@ -74,8 +74,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         $from_specification = Base64Url::decode('UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A');
 
         $rsa1_5 = new RSA15();
-        $additional_headers = [];
-        $encrypted = $rsa1_5->encryptKey($jwk, $cek, $header, $additional_headers);
+        $additionalHeader = [];
+        $encrypted = $rsa1_5->encryptKey($jwk, $cek, $header, $additionalHeader);
 
         self::assertEquals($cek, $rsa1_5->decryptKey($jwk, $encrypted, $header));
         self::assertEquals($cek, $rsa1_5->decryptKey($jwk, $from_specification, $header));
@@ -108,8 +108,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         $from_specification = Base64Url::decode('OKOawDo13gRp2ojaHV7LFpZcgV7T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7e9jwQRb23nfa6c9d-StnImGyFDbSv04uVuxIp5Zms1gNxKKK2Da14B8S4rzVRltdYwam_lDp5XnZAYpQdb76FdIKLaVmqgfwX7XWRxv2322i-vDxRfqNzo_tETKzpVLzfiwQyeyPGLBIO56YJ7eObdv0je81860ppamavo35UgoRdbYaBcoh9QcfylQr66oc6vFWXRcZ_ZT2LawVCWTIy3brGPi6UklfCpIMfIjf7iGdXKHzg');
 
         $rsa_oaep = new RSAOAEP();
-        $additional_headers = [];
-        $encrypted = $rsa_oaep->encryptKey($jwk, $cek, $header, $additional_headers);
+        $additionalHeader = [];
+        $encrypted = $rsa_oaep->encryptKey($jwk, $cek, $header, $additionalHeader);
 
         self::assertEquals($cek, $rsa_oaep->decryptKey($jwk, $encrypted, $header));
         self::assertEquals($cek, $rsa_oaep->decryptKey($jwk, $from_specification, $header));
@@ -140,8 +140,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         $cek = hex2bin(implode('', $cek));
 
         $rsa_oaep_256 = new RSAOAEP256();
-        $additional_headers = [];
-        $encrypted = $rsa_oaep_256->encryptKey($jwk, $cek, $header, $additional_headers);
+        $additionalHeader = [];
+        $encrypted = $rsa_oaep_256->encryptKey($jwk, $cek, $header, $additionalHeader);
 
         self::assertEquals($cek, $rsa_oaep_256->decryptKey($jwk, $encrypted, $header));
     }
@@ -156,8 +156,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.OKOawDo13gRp2ojaHV7LFpZcgV7T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7e9jwQRb23nfa6c9d-StnImGyFDbSv04uVuxIp5Zms1gNxKKK2Da14B8S4rzVRltdYwam_lDp5XnZAYpQdb76FdIKLaVmqgfwX7XWRxv2322i-vDxRfqNzo_tETKzpVLzfiwQyeyPGLBIO56YJ7eObdv0je81860ppamavo35UgoRdbYaBcoh9QcfylQr66oc6vFWXRcZ_ZT2LawVCWTIy3brGPi6UklfCpIMfIjf7iGdXKHzg.48V1_ALb6US04U3b.5eym8TW_c8SuK0ltJ3rpYIzOeDQz7TALvtu6UG9oMo4vpzs9tX_EFShS8iB7j6jiSdiwkIr3ajwQzaBtQD_A.XFBoMYUZodetZdvTiFvSkQ');
 
         self::assertInstanceOf(JWE::class, $loaded);
-        self::assertEquals('RSA-OAEP', $loaded->getSharedProtectedHeader('alg'));
-        self::assertEquals('A256GCM', $loaded->getSharedProtectedHeader('enc'));
+        self::assertEquals('RSA-OAEP', $loaded->getSharedProtectedHeaderParameter('alg'));
+        self::assertEquals('A256GCM', $loaded->getSharedProtectedHeaderParameter('enc'));
         self::assertNull($loaded->getPayload());
 
         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
@@ -192,8 +192,8 @@ final class RSAKeyEncryptionTest extends EncryptionTest
         $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ.AxY8DCtDaGlsbGljb3RoZQ.KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY.U0m_YmjN04DJvceFICbCVQ');
 
         self::assertInstanceOf(JWE::class, $loaded);
-        self::assertEquals('A128KW', $loaded->getSharedProtectedHeader('alg'));
-        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeader('enc'));
+        self::assertEquals('A128KW', $loaded->getSharedProtectedHeaderParameter('alg'));
+        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
         self::assertNull($loaded->getPayload());
 
         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));

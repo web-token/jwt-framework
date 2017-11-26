@@ -120,16 +120,16 @@ final class JWS implements JWT
 
     /**
      * @param string      $signature
-     * @param array       $protectedHeaders
-     * @param string|null $encodedProtectedHeaders
-     * @param array       $headers
+     * @param array       $protectedHeader
+     * @param string|null $encodedProtectedHeader
+     * @param array       $header
      *
      * @return JWS
      */
-    public function addSignature(string $signature, array $protectedHeaders, ?string $encodedProtectedHeaders, array $headers = []): self
+    public function addSignature(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header = []): self
     {
         $jws = clone $this;
-        $jws->signatures[] = Signature::create($signature, $protectedHeaders, $encodedProtectedHeaders, $headers);
+        $jws->signatures[] = Signature::create($signature, $protectedHeader, $encodedProtectedHeader, $header);
 
         return $jws;
     }
