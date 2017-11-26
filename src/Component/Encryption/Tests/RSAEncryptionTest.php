@@ -34,8 +34,8 @@ final class RSAEncryptionTest extends EncryptionTest
         $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A.AxY8DCtDaGlsbGljb3RoZQ.KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY.9hH0vgRfYgPnAHOd8stkvw');
 
         self::assertInstanceOf(JWE::class, $loaded);
-        self::assertEquals('RSA1_5', $loaded->getSharedProtectedHeader('alg'));
-        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeader('enc'));
+        self::assertEquals('RSA1_5', $loaded->getSharedProtectedHeaderParameter('alg'));
+        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
         self::assertNull($loaded->getPayload());
 
         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
@@ -55,9 +55,9 @@ final class RSAEncryptionTest extends EncryptionTest
         self::assertEquals(2, $loaded->countRecipients());
 
         self::assertInstanceOf(JWE::class, $loaded);
-        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeader('enc'));
-        self::assertEquals('RSA1_5', $loaded->getRecipient(0)->getHeader('alg'));
-        self::assertEquals('A128KW', $loaded->getRecipient(1)->getHeader('alg'));
+        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
+        self::assertEquals('RSA1_5', $loaded->getRecipient(0)->getHeaderParameter('alg'));
+        self::assertEquals('A128KW', $loaded->getRecipient(1)->getHeaderParameter('alg'));
         self::assertNull($loaded->getPayload());
 
         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));

@@ -77,8 +77,8 @@ final class SignerTest extends SignatureTest
         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
         self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeader('alg'));
-        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeader('alg'));
+        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
     }
 
     public function testSignMultipleInstructionWithCompactRepresentation()
@@ -258,7 +258,7 @@ final class SignerTest extends SignatureTest
 
         self::assertEquals(1, $loaded->countSignatures());
         self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeader('alg'));
+        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
     public function testSignAndLoad()
@@ -279,8 +279,8 @@ final class SignerTest extends SignatureTest
         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
 
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeader('alg'));
-        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeader('alg'));
+        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
     }
 
     public function testSignAndLoadWithWrongKeys()
@@ -396,7 +396,7 @@ final class SignerTest extends SignatureTest
         self::assertEquals(CompactSerializer::NAME, $serializer);
         self::assertEquals('Live long and Prosper~', $loaded->getPayload());
         self::assertEquals('Live long and Prosper~', $loaded->getEncodedPayload());
-        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
     }
 
     /**
@@ -430,7 +430,7 @@ final class SignerTest extends SignatureTest
         self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
 
         self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
     }
 
     /**
@@ -469,7 +469,7 @@ final class SignerTest extends SignatureTest
 
         $loaded = $this->getJWSSerializerManager()->unserialize($expected_result);
         self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
-        self::assertEquals($protectedHeader1, $loaded->getSignature(0)->getProtectedHeaders());
+        self::assertEquals($protectedHeader1, $loaded->getSignature(0)->getProtectedHeader());
     }
 
     /**
@@ -621,7 +621,7 @@ final class SignerTest extends SignatureTest
 
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals($payload, $loaded->getPayload());
-        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeaders());
+        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
     }
 
     /**
@@ -693,8 +693,8 @@ final class SignerTest extends SignatureTest
         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
 
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeader('alg'));
-        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeader('alg'));
+        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
     }
 
     /**

@@ -51,7 +51,7 @@ final class HMACSignatureTest extends SignatureTest
          * Header
          * @see https://tools.ietf.org/html/rfc7520#section-4.4.2
          */
-        $headers = [
+        $header = [
             'alg' => 'HS256',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
         ];
@@ -60,7 +60,7 @@ final class HMACSignatureTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
-            ->addSignature($key, $headers)
+            ->addSignature($key, $header)
             ->build();
 
         /*
@@ -111,7 +111,7 @@ final class HMACSignatureTest extends SignatureTest
          * Header
          * @see https://tools.ietf.org/html/rfc7520#section-4.5.2
          */
-        $headers = [
+        $header = [
             'alg' => 'HS256',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
         ];
@@ -120,7 +120,7 @@ final class HMACSignatureTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
-            ->addSignature($key, $headers)
+            ->addSignature($key, $header)
             ->build();
 
         /*
@@ -151,7 +151,7 @@ final class HMACSignatureTest extends SignatureTest
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.6
      */
-    public function testHS256WithUnprotectedHeaders()
+    public function testHS256WithUnprotectedHeader()
     {
         /*
          * Payload
@@ -172,10 +172,10 @@ final class HMACSignatureTest extends SignatureTest
          * Header
          * @see https://tools.ietf.org/html/rfc7520#section-4.6.2
          */
-        $protected_headers = [
+        $protectedHeader = [
             'alg' => 'HS256',
         ];
-        $unprotected_headers = [
+        $unprotectedHeader = [
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
         ];
 
@@ -183,7 +183,7 @@ final class HMACSignatureTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
-            ->addSignature($key, $protected_headers, $unprotected_headers)
+            ->addSignature($key, $protectedHeader, $unprotectedHeader)
             ->build();
 
         /*
@@ -207,7 +207,7 @@ final class HMACSignatureTest extends SignatureTest
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.7
      */
-    public function testHS256WithoutProtectedHeaders()
+    public function testHS256WithoutProtectedHeader()
     {
         /*
          * Payload
@@ -228,7 +228,7 @@ final class HMACSignatureTest extends SignatureTest
          * Header
          * @see https://tools.ietf.org/html/rfc7520#section-4.7.2
          */
-        $unprotected_headers = [
+        $unprotectedHeader = [
             'alg' => 'HS256',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
         ];
@@ -237,7 +237,7 @@ final class HMACSignatureTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
-            ->addSignature($key, [], $unprotected_headers)
+            ->addSignature($key, [], $unprotectedHeader)
             ->build();
 
         /*

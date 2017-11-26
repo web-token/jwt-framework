@@ -41,7 +41,7 @@ final class JWSTokenSupport implements TokenTypeSupport
         if ($component > $jwt->countSignatures()) {
             throw new \InvalidArgumentException('Unknown signature index.');
         }
-        $protectedHeader = $jwt->getSignature($component)->getProtectedHeaders();
-        $unprotectedHeader = $jwt->getSignature($component)->getHeaders();
+        $protectedHeader = $jwt->getSignature($component)->getProtectedHeader();
+        $unprotectedHeader = $jwt->getSignature($component)->getHeader();
     }
 }

@@ -125,53 +125,53 @@ final class HeaderCheckerManager
 
     /**
      * @param array $protected
-     * @param array $headers
+     * @param array $header
      *
      * @throws InvalidHeaderException
      */
-    private function checkHeaders(array $protected, array $headers)
+    private function checkHeaders(array $protected, array $header)
     {
-        $checkedHeaders = [];
-        foreach ($this->checkers as $header => $checker) {
+        $checkedHeaderParameters = [];
+        foreach ($this->checkers as $headerParameter => $checker) {
             if ($checker->protectedHeaderOnly()) {
-                if (array_key_exists($header, $protected)) {
-                    $checker->checkHeader($protected[$header]);
-                    $checkedHeaders[] = $header;
-                } elseif (array_key_exists($header, $headers)) {
-                    throw new InvalidHeaderException(sprintf('The header "%s" must be protected.', $header), $header, $headers[$header]);
+                if (array_key_exists($headerParameter, $protected)) {
+                    $checker->checkHeader($protected[$headerParameter]);
+                    $checkedHeaderParameters[] = $headerParameter;
+                } elseif (array_key_exists($headerParameter, $header)) {
+                    throw new InvalidHeaderException(sprintf('The headerParameter "%s" must be protected.', $headerParameter), $headerParameter, $header[$headerParameter]);
                 }
             } else {
-                if (array_key_exists($header, $protected)) {
-                    $checker->checkHeader($protected[$header]);
-                    $checkedHeaders[] = $header;
-                } elseif (array_key_exists($header, $headers)) {
-                    $checker->checkHeader($headers[$header]);
-                    $checkedHeaders[] = $header;
+                if (array_key_exists($headerParameter, $protected)) {
+                    $checker->checkHeader($protected[$headerParameter]);
+                    $checkedHeaderParameters[] = $headerParameter;
+                } elseif (array_key_exists($headerParameter, $header)) {
+                    $checker->checkHeader($header[$headerParameter]);
+                    $checkedHeaderParameters[] = $headerParameter;
                 }
             }
         }
-        $this->checkCriticalHeader($protected, $headers, $checkedHeaders);
+        $this->checkCriticalHeader($protected, $header, $checkedHeaderParameters);
     }
 
     /**
      * @param array $protected
-     * @param array $headers
-     * @param array $checkedHeaders
+     * @param array $header
+     * @param array $checkedHeaderParameters
      *
      * @throws InvalidHeaderException
      */
-    private function checkCriticalHeader(array $protected, array $headers, array $checkedHeaders)
+    private function checkCriticalHeader(array $protected, array $header, array $checkedHeaderParameters)
     {
         if (array_key_exists('crit', $protected)) {
             if (!is_array($protected['crit'])) {
                 throw new InvalidHeaderException('The header "crit" mus be a list of header parameters.', 'crit', $protected['crit']);
             }
-            $diff = array_diff($protected['crit'], $checkedHeaders);
+            $diff = array_diff($protected['crit'], $checkedHeaderParameters);
             if (!empty($diff)) {
-                throw new InvalidHeaderException(sprintf('One or more headers are marked as critical, but they are missing or have not been checked: %s.', implode(', ', array_values($diff))), 'crit', $protected['crit']);
+                throw new InvalidHeaderException(sprintf('One or more header parameters are marked as critical, but they are missing or have not been checked: %s.', implode(', ', array_values($diff))), 'crit', $protected['crit']);
             }
-        } elseif (array_key_exists('crit', $headers)) {
-            throw new InvalidHeaderException('The header parameter "crit" must be protected.', 'crit', $headers['crit']);
+        } elseif (array_key_exists('crit', $header)) {
+            throw new InvalidHeaderException('The header parameter "crit" must be protected.', 'crit', $header['crit']);
         }
     }
 }

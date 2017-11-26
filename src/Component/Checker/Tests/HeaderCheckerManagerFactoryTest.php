@@ -54,9 +54,9 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage One or more headers are marked as critical, but they are missing or have not been checked: alg.
+     * @expectedExceptionMessage One or more header parameters are marked as critical, but they are missing or have not been checked: alg.
      */
-    public function theTokenHasCriticalHeadersNotSatisfied()
+    public function theTokenHasCriticalHeaderNotSatisfied()
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];

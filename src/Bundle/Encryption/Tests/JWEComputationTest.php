@@ -47,7 +47,7 @@ final class JWEComputationTest extends WebTestCase
         $jwe = $builder
             ->create()
             ->withPayload('Hello World!')
-            ->withSharedProtectedHeaders([
+            ->withSharedProtectedHeader([
                 'alg' => 'A256KW',
                 'enc' => 'A256CBC-HS512',
             ])
