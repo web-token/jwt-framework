@@ -21,8 +21,8 @@
     },
     "require": {
         "php": "^7.1",
-        "web-token/jwt-bundle": "^0.4",
-        "web-token/jwt-signature": "^0.4"
+        "web-token/jwt-bundle": "^0.5",
+        "web-token/jwt-signature": "^0.5"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.3|^4.0",
@@ -32,7 +32,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.x-dev"
+            "dev-master": "0.5.x-dev"
         }
     },
     "config": {

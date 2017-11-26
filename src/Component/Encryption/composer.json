@@ -24,14 +24,14 @@
         "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.1",
         "spomky-labs/aes-key-wrap": "^4.0.1",
-        "web-token/jwt-core": "^0.4"
+        "web-token/jwt-core": "^0.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.x-dev"
+            "dev-master": "0.5.x-dev"
         }
     },
     "config": {
