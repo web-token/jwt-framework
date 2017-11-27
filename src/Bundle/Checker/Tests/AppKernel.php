@@ -27,7 +27,6 @@ final class AppKernel extends Kernel
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Jose\Bundle\JoseFramework\JoseFrameworkBundle(),
-            new Jose\Bundle\Checker\CheckerBundle(),
             new Jose\Bundle\Checker\Tests\TestBundle\TestBundle(),
         ];
 

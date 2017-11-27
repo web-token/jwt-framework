@@ -1,7 +1,7 @@
 {
     "name": "web-token/jwt-checker-bundle",
     "description": "JWT Checker Bundle of the JWT Framework.",
-    "type": "symfony-bundle",
+    "type": "library",
     "license": "MIT",
     "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
     "homepage": "https://github.com/web-token/jwt-checker-bundle",

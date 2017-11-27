@@ -14,16 +14,21 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use Http\HttplugBundle\HttplugBundle;
+use Jose\Bundle\Checker\DependencyInjection\CheckerExtension;
 use Jose\Bundle\Checker\DependencyInjection\Source\ClaimChecker;
 use Jose\Bundle\Checker\DependencyInjection\Source\HeaderChecker;
+use Jose\Bundle\Console\DependencyInjection\ConsoleExtension;
+use Jose\Bundle\Encryption\DependencyInjection\EncryptionExtension;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWEDecrypter;
 use Jose\Bundle\Encryption\DependencyInjection\Source\JWESerializer;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Jose\Bundle\KeyManagement\DependencyInjection\KeyManagementExtension;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKUriSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
 use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
+use Jose\Bundle\Signature\DependencyInjection\SignatureExtension;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSSerializer;
 use Jose\Bundle\Signature\DependencyInjection\Source\JWSVerifier;
@@ -92,6 +97,39 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         foreach ($this->serviceSources as $serviceSource) {
             $serviceSource->load($config, $container);
         }
+
+        $this->loadOtherExtensions($configs, $container);
+    }
+
+    /**
+     * @param array            $configs
+     * @param ContainerBuilder $container
+     */
+    private function loadOtherExtensions(array $configs, ContainerBuilder $container)
+    {
+        foreach ($this->otherExtensionList() as $class) {
+            if (!class_exists($class)) {
+                continue;
+            }
+            /** @var Extension $extension */
+            $extension = new $class;
+            $extension->load($configs, $container);
+        }
+
+    }
+
+    /**
+     * @return string[]
+     */
+    private function otherExtensionList(): array
+    {
+        return [
+            CheckerExtension::class,
+            ConsoleExtension::class,
+            EncryptionExtension::class,
+            KeyManagementExtension::class,
+            SignatureExtension::class,
+        ];
     }
 
     /**
