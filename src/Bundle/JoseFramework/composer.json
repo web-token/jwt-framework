@@ -32,6 +32,13 @@
         "symfony/browser-kit": "^3.3|^4.0",
         "phpunit/phpunit": "^6.0"
     },
+    "suggest": {
+        "web-token/jwt-checker": "Add header and claim checker managers as Symfony services.",
+        "web-token/jwt-console": "Add Keys (JWK) and Key sets (JWKSet) management commands for your Symfony console.",
+        "web-token/jwt-encryption": "Add Encrypted tokens (JWE) support and useful Symfony services.",
+        "web-token/jwt-key-mgmt": "Add Keys (JWK) and Key sets (JWKSet) management tools.",
+        "web-token/jwt-signature": "Add signed tokens (JWS) support and useful Symfony services."
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "0.5.x-dev"

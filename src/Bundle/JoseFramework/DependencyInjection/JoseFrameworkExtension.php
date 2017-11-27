@@ -14,24 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use Http\HttplugBundle\HttplugBundle;
-use Jose\Bundle\Checker\DependencyInjection\CheckerExtension;
-use Jose\Bundle\Checker\DependencyInjection\Source\ClaimChecker;
-use Jose\Bundle\Checker\DependencyInjection\Source\HeaderChecker;
-use Jose\Bundle\Console\DependencyInjection\ConsoleExtension;
-use Jose\Bundle\Encryption\DependencyInjection\EncryptionExtension;
-use Jose\Bundle\Encryption\DependencyInjection\Source\JWEBuilder;
-use Jose\Bundle\Encryption\DependencyInjection\Source\JWEDecrypter;
-use Jose\Bundle\Encryption\DependencyInjection\Source\JWESerializer;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Bundle\KeyManagement\DependencyInjection\KeyManagementExtension;
-use Jose\Bundle\KeyManagement\DependencyInjection\Source\JKUSource;
-use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKUriSource;
-use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSetSource;
-use Jose\Bundle\KeyManagement\DependencyInjection\Source\JWKSource;
-use Jose\Bundle\Signature\DependencyInjection\SignatureExtension;
-use Jose\Bundle\Signature\DependencyInjection\Source\JWSBuilder;
-use Jose\Bundle\Signature\DependencyInjection\Source\JWSSerializer;
-use Jose\Bundle\Signature\DependencyInjection\Source\JWSVerifier;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source as ModuleSource;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
 use Symfony\Component\Config\Definition\Processor;
@@ -52,7 +35,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private $alias;
 
     /**
-     * @var Source[]
+     * @var ModuleSource\Source[]
      */
     private $serviceSources = [];
 
@@ -98,22 +81,20 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
             $serviceSource->load($config, $container);
         }
 
-        $this->loadOtherExtensions($configs, $container);
+        $this->loadOtherExtensions($container);
     }
 
     /**
-     * @param array            $configs
      * @param ContainerBuilder $container
      */
-    private function loadOtherExtensions(array $configs, ContainerBuilder $container)
+    private function loadOtherExtensions(ContainerBuilder $container)
     {
         foreach ($this->otherExtensionList() as $class) {
             if (!class_exists($class)) {
                 continue;
             }
-            /** @var Extension $extension */
             $extension = new $class();
-            $extension->load($configs, $container);
+            $extension->load($container);
         }
     }
 
@@ -132,9 +113,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     }
 
     /**
-     * @param Source $source
+     * @param ModuleSource\Source $source
      */
-    public function addSource(Source $source)
+    public function addSource(ModuleSource\Source $source)
     {
         $name = $source->name();
         if (in_array($name, $this->serviceSources)) {
@@ -156,8 +137,8 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
     private function addDefaultSources()
     {
-        if (class_exists(JKUSource::class) && class_exists(HttplugBundle::class)) {
-            $this->addSource(new JKUSource());
+        if (class_exists(ModuleSource\JKUSource::class) && class_exists(HttplugBundle::class)) {
+            $this->addSource(new ModuleSource\JKUSource());
         }
         foreach ($this->getSourceClasses() as $class) {
             if (class_exists($class)) {
@@ -172,17 +153,17 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private function getSourceClasses(): array
     {
         return [
-            JWKSource::class,
-            JWKUriSource::class,
-            JWKSetSource::class,
-            ClaimChecker::class,
-            HeaderChecker::class,
-            JWSBuilder::class,
-            JWSSerializer::class,
-            JWSVerifier::class,
-            JWEBuilder::class,
-            JWEDecrypter::class,
-            JWESerializer::class,
+            ModuleSource\JWKSource::class,
+            ModuleSource\JWKUriSource::class,
+            ModuleSource\JWKSetSource::class,
+            ModuleSource\ClaimChecker::class,
+            ModuleSource\HeaderChecker::class,
+            ModuleSource\JWSBuilder::class,
+            ModuleSource\JWSSerializer::class,
+            ModuleSource\JWSVerifier::class,
+            ModuleSource\JWEBuilder::class,
+            ModuleSource\JWEDecrypter::class,
+            ModuleSource\JWESerializer::class,
         ];
     }
 
