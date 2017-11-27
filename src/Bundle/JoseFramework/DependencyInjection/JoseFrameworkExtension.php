@@ -112,10 +112,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
                 continue;
             }
             /** @var Extension $extension */
-            $extension = new $class;
+            $extension = new $class();
             $extension->load($configs, $container);
         }
-
     }
 
     /**
