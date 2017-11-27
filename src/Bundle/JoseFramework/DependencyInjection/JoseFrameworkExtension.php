@@ -15,8 +15,13 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source as ModuleSource;
+use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Component\Console\EcKeyGeneratorCommand;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
+use Jose\Component\Encryption\JWEBuilderFactory;
+use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Signature\JWSBuilderFactory;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -89,8 +94,8 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
      */
     private function loadOtherExtensions(ContainerBuilder $container)
     {
-        foreach ($this->otherExtensionList() as $class) {
-            if (!class_exists($class)) {
+        foreach ($this->otherExtensionList() as $class => $callable) {
+            if (!$callable()) {
                 continue;
             }
             $extension = new $class();
@@ -104,11 +109,11 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private function otherExtensionList(): array
     {
         return [
-            CheckerExtension::class,
-            ConsoleExtension::class,
-            EncryptionExtension::class,
-            KeyManagementExtension::class,
-            SignatureExtension::class,
+            CheckerExtension::class => function() {return class_exists(HeaderCheckerManagerFactory::class);},
+            ConsoleExtension::class => function() {return class_exists(EcKeyGeneratorCommand::class);},
+            EncryptionExtension::class => function() {return class_exists(JWEBuilderFactory::class);},
+            KeyManagementExtension::class => function() {return class_exists(JWKFactory::class);},
+            SignatureExtension::class => function() {return class_exists(JWSBuilderFactory::class);},
         ];
     }
 
