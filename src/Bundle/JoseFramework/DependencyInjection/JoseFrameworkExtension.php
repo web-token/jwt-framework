@@ -13,20 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
-use Http\HttplugBundle\HttplugBundle;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source as ModuleSource;
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Console\EcKeyGeneratorCommand;
-use Jose\Component\Core\Converter\JsonConverter;
-use Jose\Component\Core\Converter\StandardConverter;
-use Jose\Component\Encryption\JWEBuilderFactory;
-use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\Signature\JWSBuilderFactory;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -40,9 +30,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private $alias;
 
     /**
-     * @var ModuleSource\Source[]
+     * @var Source\Source[]
      */
-    private $serviceSources = [];
+    private $sources = [];
 
     /**
      * JoseFrameworkExtension constructor.
@@ -52,7 +42,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     public function __construct(string $alias)
     {
         $this->alias = $alias;
-        $this->addDefaultSources();
+        $this->initSources();
     }
 
     /**
@@ -71,62 +61,17 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         $processor = new Processor();
         $config = $processor->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
-        if (true === $container->getParameter('kernel.debug')) {
-            $loader->load('dev_services.yml');
-        }
-
-        $container->setAlias(JsonConverter::class, $config['json_converter']);
-        if (StandardConverter::class === $config['json_converter']) {
-            $loader->load('json_converter.yml');
-        }
-
-        foreach ($this->serviceSources as $serviceSource) {
-            $serviceSource->load($config, $container);
-        }
-
-        $this->loadOtherExtensions($container);
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    private function loadOtherExtensions(ContainerBuilder $container)
-    {
-        foreach ($this->otherExtensionList() as $class => $callable) {
-            if (!$callable()) {
-                continue;
-            }
-            $extension = new $class();
-            $extension->load($container);
+        foreach ($this->sources as $source) {
+            $source->load($config, $container);
         }
     }
 
     /**
-     * @return string[]
+     * @param Source\Source $source
      */
-    private function otherExtensionList(): array
+    public function addSource(Source\Source $source)
     {
-        return [
-            CheckerExtension::class => function() {return class_exists(HeaderCheckerManagerFactory::class);},
-            ConsoleExtension::class => function() {return class_exists(EcKeyGeneratorCommand::class);},
-            EncryptionExtension::class => function() {return class_exists(JWEBuilderFactory::class);},
-            KeyManagementExtension::class => function() {return class_exists(JWKFactory::class);},
-            SignatureExtension::class => function() {return class_exists(JWSBuilderFactory::class);},
-        ];
-    }
-
-    /**
-     * @param ModuleSource\Source $source
-     */
-    public function addSource(ModuleSource\Source $source)
-    {
-        $name = $source->name();
-        if (in_array($name, $this->serviceSources)) {
-            throw new \InvalidArgumentException(sprintf('The source "%s" is already set.', $name));
-        }
-        $this->serviceSources[$name] = $source;
+        $this->sources[ $source->name()] = $source;
     }
 
     /**
@@ -137,38 +82,29 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
      */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
-        return new Configuration($this->getAlias(), $this->serviceSources);
+        return new Configuration($this->getAlias(), $this->sources);
     }
 
-    private function addDefaultSources()
+    private function initSources()
     {
-        if (class_exists(ModuleSource\JKUSource::class) && class_exists(HttplugBundle::class)) {
-            $this->addSource(new ModuleSource\JKUSource());
-        }
-        foreach ($this->getSourceClasses() as $class) {
-            if (class_exists($class)) {
-                $this->addSource(new $class());
-            }
+        foreach ($this->getSources() as $class) {
+            $this->addSource(new $class());
         }
     }
 
     /**
      * @return string[]
      */
-    private function getSourceClasses(): array
+    private function getSources(): array
     {
         return [
-            ModuleSource\JWKSource::class,
-            ModuleSource\JWKUriSource::class,
-            ModuleSource\JWKSetSource::class,
-            ModuleSource\ClaimChecker::class,
-            ModuleSource\HeaderChecker::class,
-            ModuleSource\JWSBuilder::class,
-            ModuleSource\JWSSerializer::class,
-            ModuleSource\JWSVerifier::class,
-            ModuleSource\JWEBuilder::class,
-            ModuleSource\JWEDecrypter::class,
-            ModuleSource\JWESerializer::class,
+            Source\Core\CoreSource::class,
+            Source\Checker\CheckerSource::class,
+            Source\Encryption\EncryptionSource::class,
+            Source\Console\ConsoleSource::class,
+            Source\Signature\SignatureSource::class,
+            Source\Encryption\EncryptionSource::class,
+            Source\KeyManagement\KeyManagementSource::class,
         ];
     }
 
@@ -180,9 +116,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
-        foreach ($this->serviceSources as $serviceSource) {
-            $result = $serviceSource->prepend($container, $config);
-            if (null !== $result) {
+        foreach ($this->sources as $source) {
+            $result = $source->prepend($container, $config);
+            if (!empty($result)) {
                 $container->prependExtensionConfig($this->getAlias(), $result);
             }
         }

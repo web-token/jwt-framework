@@ -32,15 +32,17 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jws_builders' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'signature_algorithms' => $signatureAlgorithms,
+                'jws' => [
+                    'builders' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'signature_algorithms' => $signatureAlgorithms,
+                        ],
                     ],
                 ],
             ],
         ];
-        self::updateJoseConfiguration($container, $config, 'jws_builders');
+        self::updateJoseConfiguration($container, $config, 'jws');
     }
 
     /**
@@ -53,16 +55,18 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jws_verifiers' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'signature_algorithms' => $signatureAlgorithms,
+                'jws' => [
+                    'verifiers' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'signature_algorithms' => $signatureAlgorithms,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jws_verifiers');
+        self::updateJoseConfiguration($container, $config, 'jws');
     }
 
     /**
@@ -75,16 +79,18 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jws_serializers' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'serializers' => $serializers,
+                'jws' => [
+                    'serializers' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'serializers' => $serializers,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jws_serializers');
+        self::updateJoseConfiguration($container, $config, 'jws');
     }
 
     /**
@@ -97,16 +103,18 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jwe_serializers' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'serializers' => $serializers,
+                'jwe' => [
+                    'serializers' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'serializers' => $serializers,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe_serializers');
+        self::updateJoseConfiguration($container, $config, 'jwe');
     }
 
     /**
@@ -119,16 +127,18 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'claim_checkers' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'claims' => $claimCheckers,
+                'checkers' => [
+                    'claims' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'claims' => $claimCheckers,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'claim_checkers');
+        self::updateJoseConfiguration($container, $config, 'checkers');
     }
 
     /**
@@ -141,16 +151,18 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'header_checkers' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'headers' => $headerCheckers,
+                'checkers' => [
+                    'headers' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'headers' => $headerCheckers,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'header_checkers');
+        self::updateJoseConfiguration($container, $config, 'checkers');
     }
 
     /**
@@ -225,18 +237,20 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jwe_builders' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'key_encryption_algorithms' => $keyEncryptionAlgorithm,
-                        'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                        'compression_methods' => $compressionMethods,
+                'jwe' => [
+                    'builders' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'content_encryption_algorithms' => $contentEncryptionAlgorithms,
+                            'compression_methods' => $compressionMethods,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe_builders');
+        self::updateJoseConfiguration($container, $config, 'jwe');
     }
 
     /**
@@ -251,18 +265,20 @@ final class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'jwe_decrypters' => [
-                    $name => [
-                        'is_public' => $is_public,
-                        'key_encryption_algorithms' => $keyEncryptionAlgorithm,
-                        'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                        'compression_methods' => $compressionMethods,
+                'jwe' => [
+                    'decrypters' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'content_encryption_algorithms' => $contentEncryptionAlgorithms,
+                            'compression_methods' => $compressionMethods,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe_decrypters');
+        self::updateJoseConfiguration($container, $config, 'jwe');
     }
 
     /**

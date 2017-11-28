@@ -24,47 +24,50 @@ jose:
         enabled: true
         client: 'httplug.client.mock'
         request_factory: 'message.factory'
-    claim_checkers:
-        checker1:
-            is_public: true
-            claims: ['exp', 'iat', 'nbf', 'custom_checker']
-    header_checkers:
-        checker1:
-            is_public: true
-            headers: ['custom_checker']
-    jws_builders:
-        builder1:
-            signature_algorithms: ['HS256', 'RS256', 'ES256']
-            is_public: true
-    jws_verifiers:
-        loader1:
-            signature_algorithms: ['HS256', 'RS256', 'ES256']
-            is_public: true
-    jwe_builders:
-        builder1:
-            key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
-            content_encryption_algorithms: ['A256CBC-HS512']
-            is_public: true
-    jwe_decrypters:
-        loader1:
-            key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
-            content_encryption_algorithms: ['A256CBC-HS512']
-            is_public: true
-    jwe_serializers:
-        jwe_serializer1:
-            serializers: ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']
-            is_public: true
-    jws_serializers:
-        jws_serializer1:
-            serializers: ['jws_compact', 'jws_json_flattened', 'jws_json_general']
-            is_public: true
+    checkers:
+        claims:
+            checker1:
+                is_public: true
+                claims: ['exp', 'iat', 'nbf', 'custom_checker']
+        headers:
+            checker1:
+                is_public: true
+                headers: ['custom_checker']
+    jws:
+        builders:
+            builder1:
+                signature_algorithms: ['HS256', 'RS256', 'ES256']
+                is_public: true
+        verifiers:
+            loader1:
+                signature_algorithms: ['HS256', 'RS256', 'ES256']
+                is_public: true
+        serializers:
+            jws_serializer1:
+                serializers: ['jws_compact', 'jws_json_flattened', 'jws_json_general']
+                is_public: true
+    jwe:
+        builders:
+            builder1:
+                key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
+                content_encryption_algorithms: ['A256CBC-HS512']
+                is_public: true
+        decrypters:
+            loader1:
+                key_encryption_algorithms: ['RSA-OAEP-256', 'A256KW']
+                content_encryption_algorithms: ['A256CBC-HS512']
+                is_public: true
+        serializers:
+            jwe_serializer1:
+                serializers: ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']
+                is_public: true
     keys:
         jwk1:
             jwk:
                 value: '{"kty":"oct","k":"dzI6nbW4OcNF-AtfxGAmuyz7IpHRudBI0WgGjZWgaRJt6prBn3DARXgUR8NVwKhfL43QBIU2Un3AvCGCHRgY4TbEqhOi8-i98xxmCggNjde4oaW6wkJ2NgM3Ss9SOX9zS3lcVzdCMdum-RwVJ301kbin4UtGztuzJBeg5oVN00MGxjC2xWwyI0tgXVs-zJs5WlafCuGfX1HrVkIf5bvpE0MQCSjdJpSeVao6-RSTYDajZf7T88a2eVjeW31mMAg-jzAWfUrii61T_bYPJFOXW8kkRWoa1InLRdG6bKB9wQs9-VdXZP60Q4Yuj_WZ-lO7qV9AEFrUkkjpaDgZT86w2g"}'
         certificate1:
             certificate:
-                path: '%kernel.root_dir%/sample/google.crt'
+                path: '%kernel.root_dir%/config/keys/google.crt'
                 additional_values:
                     use: 'sig'
                     alg: 'RS256'
@@ -90,7 +93,7 @@ jose:
                     alg: 'RS256'
         file1:
             file:
-                path: '%kernel.root_dir%/sample/private.encrypted.key'
+                path: '%kernel.root_dir%/config/keys/private.encrypted.key'
                 password: 'tests'
                 additional_values:
                     use: 'enc'
