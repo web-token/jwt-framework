@@ -51,7 +51,6 @@ final class AppKernel extends Kernel
         return sys_get_temp_dir().'/Jose/log';
     }
 
-
     /**
      * {@inheritdoc}
      */
