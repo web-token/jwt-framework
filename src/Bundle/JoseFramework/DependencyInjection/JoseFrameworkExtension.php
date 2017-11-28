@@ -109,11 +109,21 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private function otherExtensionList(): array
     {
         return [
-            CheckerExtension::class => function() {return class_exists(HeaderCheckerManagerFactory::class);},
-            ConsoleExtension::class => function() {return class_exists(EcKeyGeneratorCommand::class);},
-            EncryptionExtension::class => function() {return class_exists(JWEBuilderFactory::class);},
-            KeyManagementExtension::class => function() {return class_exists(JWKFactory::class);},
-            SignatureExtension::class => function() {return class_exists(JWSBuilderFactory::class);},
+            CheckerExtension::class => function () {
+                return class_exists(HeaderCheckerManagerFactory::class);
+            },
+            ConsoleExtension::class => function () {
+                return class_exists(EcKeyGeneratorCommand::class);
+            },
+            EncryptionExtension::class => function () {
+                return class_exists(JWEBuilderFactory::class);
+            },
+            KeyManagementExtension::class => function () {
+                return class_exists(JWKFactory::class);
+            },
+            SignatureExtension::class => function () {
+                return class_exists(JWSBuilderFactory::class);
+            },
         ];
     }
 
