@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;

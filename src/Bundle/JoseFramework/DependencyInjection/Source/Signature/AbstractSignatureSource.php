@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
