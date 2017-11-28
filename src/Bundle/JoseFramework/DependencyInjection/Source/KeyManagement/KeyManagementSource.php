@@ -14,10 +14,12 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
 use Http\HttplugBundle\HttplugBundle;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
@@ -110,5 +112,16 @@ final class KeyManagementSource implements Source
     private function isEnabled(): bool
     {
         return class_exists(JWKFactory::class);
+    }
+
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
+            new Compiler\KeyAnalyzerCompilerPass(),
+            new Compiler\KeySetControllerCompilerPass(),
+        ];
     }
 }

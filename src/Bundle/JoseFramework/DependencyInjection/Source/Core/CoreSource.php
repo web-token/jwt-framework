@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Core;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
@@ -72,5 +74,20 @@ final class CoreSource implements Source
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];
+    }
+
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
+            new Compiler\AlgorithmCompilerPass(),
+            new Compiler\DataCollectorCompilerPass(),
+            new Compiler\CheckerCollectorCompilerPass(),
+            new Compiler\KeyCollectorCompilerPass(),
+            new Compiler\JWSCollectorCompilerPass(),
+            new Compiler\JWECollectorCompilerPass(),
+        ];
     }
 }

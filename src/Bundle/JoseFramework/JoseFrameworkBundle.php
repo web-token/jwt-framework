@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -24,11 +24,27 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 final class JoseFrameworkBundle extends Bundle
 {
     /**
+     * @var Source\Source[]
+     */
+    private $sources = [];
+
+    /**
+     * JoseFrameworkBundle constructor.
+     */
+    public function __construct()
+    {
+        foreach ($this->getSources() as $source) {
+            $this->sources[ $source->name()] = $source;
+        }
+    }
+
+
+    /**
      * {@inheritdoc}
      */
     public function getContainerExtension()
     {
-        return new JoseFrameworkExtension('jose');
+        return new JoseFrameworkExtension('jose', $this->sources);
     }
 
     /**
@@ -37,18 +53,27 @@ final class JoseFrameworkBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new Compiler\DataCollectorCompilerPass());
-        $container->addCompilerPass(new Compiler\JWSCollectorCompilerPass());
-        $container->addCompilerPass(new Compiler\JWECollectorCompilerPass());
-        $container->addCompilerPass(new Compiler\KeyCollectorCompilerPass());
-        $container->addCompilerPass(new Compiler\CheckerCollectorCompilerPass());
-        $container->addCompilerPass(new Compiler\AlgorithmCompilerPass());
-        $container->addCompilerPass(new Compiler\ClaimCheckerCompilerPass());
-        $container->addCompilerPass(new Compiler\HeaderCheckerCompilerPass());
-        $container->addCompilerPass(new Compiler\KeyAnalyzerCompilerPass());
-        $container->addCompilerPass(new Compiler\CompressionMethodCompilerPass());
-        $container->addCompilerPass(new Compiler\EncryptionSerializerCompilerPass());
-        $container->addCompilerPass(new Compiler\KeySetControllerCompilerPass());
-        $container->addCompilerPass(new Compiler\SignatureSerializerCompilerPass());
+        foreach ($this->sources as $source) {
+            $compilerPasses = $source->getCompilerPasses();
+            foreach ($compilerPasses as $compilerPass) {
+                $container->addCompilerPass($compilerPass);
+            }
+        }
+    }
+
+    /**
+     * @return Source\Source[]
+     */
+    private function getSources(): array
+    {
+        return [
+            new Source\Core\CoreSource(),
+            new Source\Checker\CheckerSource(),
+            new Source\Encryption\EncryptionSource(),
+            new Source\Console\ConsoleSource(),
+            new Source\Signature\SignatureSource(),
+            new Source\Encryption\EncryptionSource(),
+            new Source\KeyManagement\KeyManagementSource(),
+        ];
     }
 }

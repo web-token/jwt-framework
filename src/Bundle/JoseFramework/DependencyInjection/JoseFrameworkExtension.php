@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -29,19 +30,20 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     private $alias;
 
     /**
-     * @var Source\Source[]
+     * @var Source[]
      */
     private $sources = [];
 
     /**
      * JoseFrameworkExtension constructor.
      *
-     * @param string $alias
+     * @param string   $alias
+     * @param Source[] $sources
      */
-    public function __construct(string $alias)
+    public function __construct(string $alias, array $sources)
     {
         $this->alias = $alias;
-        $this->initSources();
+        $this->sources = $sources;
     }
 
     /**
@@ -66,14 +68,6 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     }
 
     /**
-     * @param Source\Source $source
-     */
-    public function addSource(Source\Source $source)
-    {
-        $this->sources[$source->name()] = $source;
-    }
-
-    /**
      * @param array            $configs
      * @param ContainerBuilder $container
      *
@@ -82,29 +76,6 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration($this->getAlias(), $this->sources);
-    }
-
-    private function initSources()
-    {
-        foreach ($this->getSources() as $class) {
-            $this->addSource(new $class());
-        }
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getSources(): array
-    {
-        return [
-            Source\Core\CoreSource::class,
-            Source\Checker\CheckerSource::class,
-            Source\Encryption\EncryptionSource::class,
-            Source\Console\ConsoleSource::class,
-            Source\Signature\SignatureSource::class,
-            Source\Encryption\EncryptionSource::class,
-            Source\KeyManagement\KeyManagementSource::class,
-        ];
     }
 
     /**

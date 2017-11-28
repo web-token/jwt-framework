@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
@@ -112,5 +114,16 @@ final class EncryptionSource implements Source
     private function isEnabled(): bool
     {
         return class_exists(JWEBuilderFactory::class) && class_exists(JWEDecrypterFactory::class);
+    }
+
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
+            new Compiler\EncryptionSerializerCompilerPass(),
+            new Compiler\CompressionMethodCompilerPass(),
+        ];
     }
 }

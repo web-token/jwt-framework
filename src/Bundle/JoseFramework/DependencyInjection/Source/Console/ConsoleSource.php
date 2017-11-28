@@ -17,6 +17,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Console\EcKeyGeneratorCommand;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
@@ -66,5 +67,14 @@ final class ConsoleSource implements Source
     private function isEnabled(): bool
     {
         return class_exists(EcKeyGeneratorCommand::class);
+    }
+
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
+        ];
     }
 }
