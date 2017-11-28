@@ -26,7 +26,10 @@ final class AppKernel extends Kernel
     {
         $bundles = [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+
+            new Http\HttplugBundle\HttplugBundle(),
             new Jose\Bundle\JoseFramework\JoseFrameworkBundle(),
+            new Jose\Bundle\JoseFramework\Tests\TestBundle\TestBundle(),
         ];
 
         return $bundles;
@@ -37,7 +40,15 @@ final class AppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return sys_get_temp_dir().'/Jose/Bundle/Test';
+        return sys_get_temp_dir().'/Jose/Test';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLogDir()
+    {
+        return sys_get_temp_dir().'/Jose/log';
     }
 
     /**

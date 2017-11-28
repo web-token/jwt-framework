@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Component\Core\Converter\StandardConverter;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -26,7 +25,7 @@ final class Configuration implements ConfigurationInterface
     /**
      * @var Source[]
      */
-    private $serviceSources;
+    private $sources;
 
     /**
      * @var string
@@ -37,12 +36,12 @@ final class Configuration implements ConfigurationInterface
      * Configuration constructor.
      *
      * @param string   $alias
-     * @param Source[] $serviceSources
+     * @param Source[] $sources
      */
-    public function __construct(string $alias, array $serviceSources)
+    public function __construct(string $alias, array $sources)
     {
         $this->alias = $alias;
-        $this->serviceSources = $serviceSources;
+        $this->sources = $sources;
     }
 
     /**
@@ -53,17 +52,9 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
 
-        foreach ($this->serviceSources as $serviceSource) {
-            $serviceSource->getNodeDefinition($rootNode);
+        foreach ($this->sources as $source) {
+            $source->getNodeDefinition($rootNode);
         }
-
-        $rootNode
-            ->children()
-                ->scalarNode('json_converter')
-                    ->defaultValue(StandardConverter::class)
-                    ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
-                ->end()
-            ->end();
 
         return $treeBuilder;
     }

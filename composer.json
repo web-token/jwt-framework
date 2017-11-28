@@ -60,12 +60,7 @@
         "web-token/jwt-encryption": "self.version",
         "web-token/jwt-key-mgmt": "self.version",
         "web-token/jwt-console": "self.version",
-        "web-token/jwt-bundle": "self.version",
-        "web-token/jwt-checker-bundle": "self.version",
-        "web-token/jwt-console-bundle": "self.version",
-        "web-token/jwt-signature-bundle": "self.version",
-        "web-token/jwt-encryption-bundle": "self.version",
-        "web-token/jwt-key-mgmt-bundle": "self.version"
+        "web-token/jwt-bundle": "self.version"
     },
    "suggest":{
        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
@@ -77,6 +72,9 @@
         "branch-alias": {
             "dev-master": "0.5.x-dev"
         }
+    },
+    "conflict": {
+        "spomky-labs/jose": "*"
     },
     "config": {
         "sort-packages": true

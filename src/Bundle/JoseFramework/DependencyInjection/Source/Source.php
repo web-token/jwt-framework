@@ -41,7 +41,7 @@ interface Source
      * @param ContainerBuilder $container
      * @param array            $config
      *
-     * @return null|array
+     * @return array
      */
-    public function prepend(ContainerBuilder $container, array $config): ?array;
+    public function prepend(ContainerBuilder $container, array $config): array;
 }
