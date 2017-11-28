@@ -50,7 +50,6 @@ final class CoreSource implements Source
         if (StandardConverter::class === $config['json_converter']) {
             $loader->load('json_converter.yml');
         }
-
     }
 
     /**
@@ -65,7 +64,6 @@ final class CoreSource implements Source
                     ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
                 ->end()
             ->end();
-
     }
 
     /**

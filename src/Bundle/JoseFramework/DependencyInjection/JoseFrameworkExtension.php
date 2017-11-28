@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -71,7 +70,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
      */
     public function addSource(Source\Source $source)
     {
-        $this->sources[ $source->name()] = $source;
+        $this->sources[$source->name()] = $source;
     }
 
     /**
