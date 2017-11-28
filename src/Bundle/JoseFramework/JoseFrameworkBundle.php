@@ -34,10 +34,9 @@ final class JoseFrameworkBundle extends Bundle
     public function __construct()
     {
         foreach ($this->getSources() as $source) {
-            $this->sources[ $source->name()] = $source;
+            $this->sources[$source->name()] = $source;
         }
     }
-
 
     /**
      * {@inheritdoc}
