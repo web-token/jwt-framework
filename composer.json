@@ -73,6 +73,9 @@
             "dev-master": "0.5.x-dev"
         }
     },
+    "conflict": {
+        "spomky-labs/jose": "*"
+    },
     "config": {
         "sort-packages": true
     }
