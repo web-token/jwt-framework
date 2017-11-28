@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
