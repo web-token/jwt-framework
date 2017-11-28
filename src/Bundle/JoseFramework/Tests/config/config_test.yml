@@ -13,17 +13,16 @@ services:
     httplug.client.mock:
         class: 'Http\Mock\Client'
         arguments:
-            - '@message.factory'
+            - '@Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory'
     httplug.client.default: '@httplug.client.mock'
-    message.factory:
-        class: 'Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory'
+    Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory: ~
 
 jose:
     json_converter: 'Jose\Bundle\JoseFramework\Tests\TestBundle\Converter\CustomJsonConverter'
     jku_factory:
         enabled: true
         client: 'httplug.client.mock'
-        request_factory: 'message.factory'
+        request_factory: 'Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory'
     checkers:
         claims:
             checker1:
