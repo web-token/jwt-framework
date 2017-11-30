@@ -57,4 +57,12 @@ final class JoseCollector extends DataCollector
     {
         return $this->data;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
+    {
+        $this->data = [];
+    }
 }
