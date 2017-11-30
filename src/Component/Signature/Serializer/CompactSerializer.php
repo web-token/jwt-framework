@@ -107,7 +107,7 @@ final class CompactSerializer extends Serializer
             $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
 
             return $jws;
-        } catch (\Exception $e) {
+        } catch (\Error | \Exception $e) {
             throw new \InvalidArgumentException('Unsupported input');
         }
     }

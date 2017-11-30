@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+namespace Jose\Bundle\JoseFramework\Tests;
 /*
  * The MIT License (MIT)
  *
@@ -11,9 +12,12 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
+;use Http\HttplugBundle\HttplugBundle;
+use Jose\Bundle\JoseFramework\JoseFrameworkBundle;
+use Jose\Bundle\JoseFramework\Tests\TestBundle\TestBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 /**
  * Class AppKernel.
  */
@@ -25,11 +29,10 @@ final class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
-            new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-
-            new Http\HttplugBundle\HttplugBundle(),
-            new Jose\Bundle\JoseFramework\JoseFrameworkBundle(),
-            new Jose\Bundle\JoseFramework\Tests\TestBundle\TestBundle(),
+            new FrameworkBundle(),
+            new HttplugBundle(),
+            new JoseFrameworkBundle(),
+            new TestBundle(),
         ];
 
         return $bundles;

@@ -45,6 +45,7 @@ final class JWKUriSource implements Source
             $definition->setFactory([new Reference(JWKSetControllerFactory::class), 'create']);
             $definition->setArguments([new Reference($itemConfig['id']), $itemConfig['max_age']]);
             $definition->addTag('jose.jwk_uri.controller', ['path' => $itemConfig['path']]);
+            $definition->setPublic(true);
             $container->setDefinition($service_id, $definition);
         }
     }

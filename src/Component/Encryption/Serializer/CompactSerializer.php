@@ -107,7 +107,7 @@ final class CompactSerializer implements JWESerializer
                 $sharedProtectedHeader,
                 $encodedSharedProtectedHeader,
                 [Recipient::create([], $encryptedKey)]);
-        } catch (\Exception $e) {
+        } catch (\Error | \Exception $e) {
             throw new \InvalidArgumentException('Unsupported input');
         }
     }
