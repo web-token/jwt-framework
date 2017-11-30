@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\KeyManagement;
 use Http\Mock\Client;
 use Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -25,6 +26,16 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class JWKSetLoaderTest extends WebTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWKFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
+        }
+    }
+
     /**
      * @var MessageFactory
      */

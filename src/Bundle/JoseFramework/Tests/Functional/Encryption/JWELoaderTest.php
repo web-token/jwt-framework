@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 
+use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
@@ -24,6 +25,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class JWEDecrypterTest extends WebTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWEBuilderFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        }
+    }
+
     /**
      * @test
      */

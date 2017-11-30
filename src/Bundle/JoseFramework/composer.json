@@ -24,13 +24,17 @@
         "symfony/config": "^3.3|^4.0",
         "symfony/dependency-injection": "^3.3|^4.0",
         "symfony/http-kernel": "^3.3|^4.0",
-        "web-token/jwt-core": "^0.5"
+        "web-token/jwt-core": "^0.5@dev"
     },
     "require-dev": {
         "symfony/framework-bundle": "^3.3|^4.0",
         "symfony/yaml": "^3.3|^4.0",
         "symfony/browser-kit": "^3.3|^4.0",
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.0",
+        "symfony/phpunit-bridge": "^3.3|^4.0",
+        "guzzlehttp/psr7": "^1.4",
+        "php-http/httplug-bundle": "^1.7",
+        "php-http/mock-client": "^1.0"
     },
     "suggest": {
         "web-token/jwt-checker": "Add header and claim checker managers as Symfony services.",

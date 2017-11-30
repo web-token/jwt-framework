@@ -38,7 +38,7 @@
         "symfony/console": "^3.3|^4.0",
         "symfony/dependency-injection": "^3.3|^4.0",
         "symfony/framework-bundle": "^3.3|^4.0",
-        "symfony/http-kernel": "^3.|^4.03"
+        "symfony/http-kernel": "^3.3|^4.0"
     },
     "require-dev": {
         "ext-curl": "*",
@@ -52,7 +52,7 @@
         "symfony/browser-kit": "^3.3|^4.0",
         "symfony/finder": "^3.3|^4.0",
         "symfony/phpunit-bridge": "^3.3|^4.0",
-        "symfony/yaml": "^3.|^4.03"
+        "symfony/yaml": "^3.3|^4.0"
     },
     "replace": {
         "web-token/jwt-core": "self.version",

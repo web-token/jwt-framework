@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Console;
 
+use Jose\Component\Console\EcKeyGeneratorCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -22,6 +23,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 final class ConsoleTest extends KernelTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(EcKeyGeneratorCommand::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-console" is not installed.');
+        }
+    }
+
     /**
      * @test
      */

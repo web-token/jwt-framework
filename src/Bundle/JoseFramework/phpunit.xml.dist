@@ -17,7 +17,10 @@
     </testsuites>
     <php>
         <ini name="error_reporting" value="-1" />
-        <server name="KERNEL_DIR" value="./Tests/" />
+        <ini name="intl.default_locale" value="en" />
+        <ini name="intl.error_level" value="0" />
+        <ini name="memory_limit" value="-1" />
+        <server name="KERNEL_CLASS" value="Jose\Bundle\JoseFramework\Tests\AppKernel" />
     </php>
     <filter>
         <whitelist>
@@ -29,4 +32,7 @@
             </exclude>
         </whitelist>
     </filter>
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
 </phpunit>

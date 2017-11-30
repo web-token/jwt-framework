@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -26,6 +27,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class JWSComputationTest extends WebTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWSBuilderFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        }
+    }
+
     public function testCreateAndLoadAToken()
     {
         $client = static::createClient();

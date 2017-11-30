@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
+use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
@@ -24,6 +25,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class JWSVerifierTest extends WebTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWSBuilderFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        }
+    }
+
     public function testJWSVerifierFactoryIsAvailable()
     {
         $client = static::createClient();

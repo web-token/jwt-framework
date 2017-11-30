@@ -24,6 +24,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 final class JWEBuilderTest extends WebTestCase
 {
     /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWEBuilderFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        }
+    }
+
+    /**
      * @test
      */
     public function theJWEBuilderFactoryIsAvailable()

@@ -23,6 +23,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class JWSBuilderTest extends WebTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWSBuilderFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        }
+    }
+
     public function testJWSBuilderFactoryIsAvailable()
     {
         $client = static::createClient();
