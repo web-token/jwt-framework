@@ -18,6 +18,21 @@ final class ExpirationTimeChecker implements ClaimChecker
     private const CLAIM_NAME = 'exp';
 
     /**
+     * @var int
+     */
+    private $allowedTimeDrift;
+
+    /**
+     * ExpirationTimeChecker constructor.
+     *
+     * @param int $allowedTimeDrift
+     */
+    public function __construct(int $allowedTimeDrift = 0)
+    {
+        $this->allowedTimeDrift = $allowedTimeDrift;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function checkClaim($value)
@@ -25,7 +40,7 @@ final class ExpirationTimeChecker implements ClaimChecker
         if (!is_int($value)) {
             throw new InvalidClaimException('"exp" must be an integer.', self::CLAIM_NAME, $value);
         }
-        if (time() > $value) {
+        if (time() > $value + $this->allowedTimeDrift) {
             throw new InvalidClaimException('The JWT has expired.', self::CLAIM_NAME, $value);
         }
     }
