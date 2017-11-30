@@ -45,7 +45,7 @@ final class JWEDecrypterTest extends WebTestCase
         /** @var JWEDecrypterFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEDecrypterFactory::class);
 
-        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF'], []);
+        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
 
         self::assertInstanceOf(JWEDecrypter::class, $jwe);
     }

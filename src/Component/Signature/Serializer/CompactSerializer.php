@@ -109,8 +109,6 @@ final class CompactSerializer extends Serializer
             return $jws;
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('Unsupported input');
-        } catch (\Error $e) {
-            throw new \InvalidArgumentException('Unsupported input');
         }
     }
 }

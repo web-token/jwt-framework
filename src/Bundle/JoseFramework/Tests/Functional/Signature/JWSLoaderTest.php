@@ -39,7 +39,7 @@ final class JWSVerifierTest extends WebTestCase
         /** @var JWSVerifierFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSVerifierFactory::class);
 
-        $jws = $jwsFactory->create(['none'], []);
+        $jws = $jwsFactory->create(['none']);
 
         self::assertInstanceOf(JWSVerifier::class, $jws);
     }

@@ -54,7 +54,7 @@ final class OtherToken implements JWT
      * @param array       $protectedHeader
      * @param array       $unprotectedHeader
      *
-     * @return Token
+     * @return self
      */
     public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): self
     {
