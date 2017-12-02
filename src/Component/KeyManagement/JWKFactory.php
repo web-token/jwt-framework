@@ -129,13 +129,14 @@ final class JWKFactory
     {
         switch ($curve) {
             case 'X25519':
-                $d = sodium_randombytes_buf(\Sodium\CRYPTO_BOX_SEEDBYTES);
-                $x = sodium_crypto_scalarmult_base($d);
+                $keyPair = sodium_crypto_box_keypair();
+                $d = sodium_crypto_box_secretkey($keyPair);
+                $x = sodium_crypto_box_publickey($keyPair);
 
                 break;
             case 'Ed25519':
-                $d = sodium_randombytes_buf(\Sodium\CRYPTO_SIGN_SEEDBYTES);
-                $keyPair = sodium_crypto_sign_seed_keypair($d);
+                $keyPair = sodium_crypto_sign_keypair();
+                $d = sodium_crypto_sign_secretkey($keyPair);
                 $x = sodium_crypto_sign_publickey($keyPair);
 
                 break;
