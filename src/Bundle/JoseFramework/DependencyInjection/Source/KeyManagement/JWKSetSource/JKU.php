@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
+use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JKUFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,14 +31,14 @@ final class JKU extends AbstractSource implements JWKSetSource
      */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
-        $definition = new Definition(\Jose\Component\Core\JWKSet::class);
+        $definition = new Definition(JWKSet::class);
         $definition->setFactory([
             new Reference(JKUFactory::class),
             'loadFromUrl',
         ]);
         $definition->setArguments([
             $config['url'],
-//            $config['headers'],
+            $config['headers'],
         ]);
         $definition->addTag('jose.jwkset');
 
@@ -63,6 +64,13 @@ final class JKU extends AbstractSource implements JWKSetSource
                 ->scalarNode('url')
                     ->info('URL of the key set.')
                     ->isRequired()
+                ->end()
+                ->arrayNode('headers')
+                    ->treatNullLike([])
+                    ->treatFalseLike([])
+                    ->info('Header key/value pairs added to the request.')
+                    ->useAttributeAsKey('name')
+                    ->prototype('variable')->end()
                 ->end()
             ->end();
     }
