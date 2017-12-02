@@ -31,7 +31,7 @@
         "ext-mbstring": "*",
         "lib-openssl": "*",
         "fgrosse/phpasn1": "^2.0",
-        "paragonie/sodium_compat": "^1.1",
+        "paragonie/sodium_compat": "^1.2",
         "spomky-labs/aes-key-wrap": "^4.0.1",
         "spomky-labs/base64url": "^1.0",
         "symfony/config": "^3.3|^4.0",
