@@ -89,7 +89,7 @@ final class ECSignature
      */
     private static function preparePositiveInteger(string $data): string
     {
-        if (mb_substr($data, 0, 2, '8bit') >= '7f') {
+        if (mb_substr($data, 0, 2, '8bit') > '7f') {
             return '00'.$data;
         }
         while ('00' === mb_substr($data, 0, 2, '8bit') && mb_substr($data, 2, 2, '8bit') <= '7f') {
