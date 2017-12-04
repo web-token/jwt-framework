@@ -17,5 +17,5 @@ splits:
       target: "https://${GH_TOKEN}@github.com:web-token/jwt-bundle.git"
 
 origins:
-    - "^master$"
-    - "^v\d+\.\d+\.\d+$"
+    - ^master$
+    - ^v\d+\.\d+\.\d+$
