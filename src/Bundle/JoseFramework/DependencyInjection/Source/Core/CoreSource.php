@@ -21,6 +21,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
@@ -43,6 +44,10 @@ final class CoreSource implements Source
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('services.yml');
+        
+        if (class_exists(EnvVarProcessorInterface::class)) {
+            $loader->load('env_var.yml');
+        }
 
         if (true === $container->getParameter('kernel.debug')) {
             $loader->load('dev_services.yml');
