@@ -2,14 +2,10 @@ language: php
 
 sudo: required
 
-services:
-    - docker
-
 cache:
     directories:
         - "$HOME/.composer/cache"
         - "vendor"
-        - "/cache/gitsplit"
 
 matrix:
     allow_failures:
@@ -22,12 +18,6 @@ matrix:
         - php: nightly
         - php: 7.2
 
-install:
-    - docker pull jderusse/gitsplit
-    - git config remote.origin.fetch "+refs/*:refs/*"
-    - git config remote.origin.mirror true
-    - git fetch --unshallow
-
 before_script:
     - chmod +x ./tests/install_php_ext.sh
     - if [ "$TRAVIS_PHP_VERSION" = '7.1' ]; then ./tests/install_php_ext.sh; fi
@@ -37,8 +27,7 @@ before_script:
     - if [[ !$deps ]]; then composer install --no-interaction ; fi
 
 script:
-    - docker run --rm -t -e GH_TOKEN -v /cache/gitsplit:/cache/gitsplit -v ${PWD}:/srv jderusse/gitsplit
-    - "./vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
+    - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_success:
-    - vendor/bin/coveralls --no-interaction
+    - ./vendor/bin/coveralls --no-interaction
