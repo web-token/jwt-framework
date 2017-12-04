@@ -5,7 +5,3 @@ services:
         public: false
 
     Jose\Component\Core\AlgorithmManagerFactory: ~
-
-    Jose\Bundle\JoseFramework\EnvVarProcessor\:
-        resource: '../../EnvVarProcessor'
-        tags: ['container.env_var_processor']
