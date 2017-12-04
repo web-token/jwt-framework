@@ -1,0 +1,21 @@
+cache_dir: "/cache/gitsplit"
+
+splits:
+    - prefix: "src/Component/Core"
+      target: "https://${GH_TOKEN}@github.com:web-token/jwt-core.git"
+    - prefix: "src/Component/Checker"
+      target: "https://${GH_TOKEN}@github.com:web-token/jwt-checker.git"
+    - prefix: "src/Component/Signature"
+      target: "https://${GH_TOKEN}@github.com:web-token/jwt-signature.git"
+    - prefix: "src/Component/Encryption"
+      target: "https://${GH_TOKEN}@github.com:web-token/jwt-encryption.git"
+    - prefix: "src/Component/KeyManagement"
+      target: "https://${GH_TOKEN}@github.com:web-token/jwt-key-mgmt.git"
+    - prefix: "src/Component/Console"
+      target: "https://${GH_TOKEN}@github.com:web-token/jwt-console.git"
+    - prefix: "src/Bundle/JoseFramework"
+      target: "https://${GH_TOKEN}@github.com:web-token/jwt-bundle.git"
+
+origins:
+    - "^master$"
+    - "^v\d+\.\d+\.\d+$"
