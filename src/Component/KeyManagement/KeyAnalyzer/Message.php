@@ -29,7 +29,9 @@ final class Message implements \JsonSerializable
     private $severity;
 
     public const SEVERITY_LOW = 'low';
+
     public const SEVERITY_MEDIUM = 'medium';
+
     public const SEVERITY_HIGH = 'high';
 
     /**
