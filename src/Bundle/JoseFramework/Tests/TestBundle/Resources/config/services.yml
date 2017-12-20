@@ -6,7 +6,6 @@ services:
 
     Jose\Bundle\JoseFramework\Tests\TestBundle\Converter\CustomJsonConverter: ~
     Jose\Bundle\JoseFramework\Tests\TestBundle\Checker\CustomChecker:
-        class:
         public: false
         tags:
             - { name: 'jose.checker.header', alias: 'custom_checker' }
