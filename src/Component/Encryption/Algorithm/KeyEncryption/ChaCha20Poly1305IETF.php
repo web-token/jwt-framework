@@ -12,6 +12,7 @@ declare(strict_types=1);
  */
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
+
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use const Sodium\CRYPTO_AEAD_CHACHA20POLY1305_IETF_NPUBBYTES;
@@ -62,7 +63,7 @@ final class ChaCha20Poly1305IETF implements KeyEncryption
         $kek = Base64Url::decode($key->get('k'));
 
         $decrypted = sodium_crypto_aead_chacha20poly1305_ietf_decrypt($encrypted_cek, '', $nonce, $kek);
-        if ($decrypted === false) {
+        if (false === $decrypted) {
             throw new \RuntimeException('Unable to decrypt.');
         }
 
