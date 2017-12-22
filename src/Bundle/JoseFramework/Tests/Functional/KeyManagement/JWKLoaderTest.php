@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\KeyManagement;
 
+use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -104,5 +105,23 @@ final class JWKLoaderTest extends WebTestCase
         $container = $client->getContainer();
         self::assertTrue($container->has('jose.key.jwkset1'));
         self::assertInstanceOf(JWK::class, $container->get('jose.key.jwkset1'));
+    }
+
+    /**
+     * @test
+     */
+    public function aJWKCanBeLoadedFromASecretInTheConfiguration()
+    {
+        $client = static::createClient();
+
+        $container = $client->getContainer();
+        self::assertTrue($container->has('jose.key.secret1'));
+        $jwk = $container->get('jose.key.secret1');
+
+        self::assertInstanceOf(JWK::class, $jwk);
+        self::assertEquals('oct', $jwk->get('kty'));
+        self::assertEquals('enc', $jwk->get('use'));
+        self::assertEquals('RS512', $jwk->get('alg'));
+        self::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
     }
 }

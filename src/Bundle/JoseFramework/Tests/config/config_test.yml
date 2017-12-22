@@ -108,6 +108,13 @@ jose:
                 key_set: 'jose.key_set.jwkset1'
                 index: 0
                 is_public: true
+        secret1:
+            secret:
+                secret: 'This is my secret'
+                additional_values:
+                    use: 'enc'
+                    alg: 'RS512'
+                is_public: true
     key_sets:
         jwkset1:
             jwkset:
