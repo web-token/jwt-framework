@@ -62,7 +62,7 @@ final class Secret extends AbstractSource implements JWKSource
             ->children()
                 ->scalarNode('secret')
                     ->info('The shared secret.')
-                    ->defaultNull()
+                    ->isRequired()
                 ->end()
                 ->arrayNode('additional_values')
                     ->info('Additional values to be added to the key.')
