@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Tests;
 
+use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
@@ -63,6 +64,17 @@ final class JWKFactoryTest extends TestCase
             'x5t#256' => 'v7VlokKTGL3anRk8Nl0VcqVC9u5j2Fb5tdlQntUgDT4', ],
             $result->all()
         );
+    }
+
+    public function testCreateFromSecret()
+    {
+        $jwk = JWKFactory::createFromSecret('This is a very secured secret!!!!', ['kid' => 'FOO']);
+        self::assertTrue($jwk->has('kty'));
+        self::assertTrue($jwk->has('k'));
+        self::assertTrue($jwk->has('kid'));
+        self::assertEquals('oct', $jwk->get('kty'));
+        self::assertEquals('This is a very secured secret!!!!', Base64Url::decode($jwk->get('k')));
+        self::assertEquals('FOO', $jwk->get('kid'));
     }
 
     public function testCreateFromKey()
