@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2017 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -58,7 +58,9 @@ final class X5UFactory extends UrlKeySetFactory
 
         $keys = [];
         foreach ($data as $kid => $cert) {
-            $cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
+            if (false === strpos($cert, '-----BEGIN CERTIFICATE-----')) {
+                $cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
+            }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
             if (is_string($kid)) {
                 $jwk['kid'] = $kid;
