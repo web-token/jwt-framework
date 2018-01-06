@@ -18,4 +18,5 @@ splits:
 
 origins:
     - ^master$
+    - ^v\d+\.\d+$
     - ^v\d+\.\d+\.\d+$
