@@ -32,6 +32,7 @@ final class JWESerializerTest extends WebTestCase
             $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
+
     /**
      * @test
      */

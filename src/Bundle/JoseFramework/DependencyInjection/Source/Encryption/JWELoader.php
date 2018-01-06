@@ -60,7 +60,6 @@ final class JWELoader implements Source
 
     public function getNodeDefinition(ArrayNodeDefinition $node)
     {
-
         $node
             ->children()
                 ->arrayNode($this->name())
