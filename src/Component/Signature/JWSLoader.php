@@ -37,6 +37,7 @@ final class JWSLoader
 
     /**
      * JWSLoader constructor.
+     *
      * @param JWSSerializerManager      $serializerManager
      * @param JWSVerifier               $jwsVerifier
      * @param HeaderCheckerManager|null $headerCheckerManager
