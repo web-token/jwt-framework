@@ -13,12 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Tests;
 
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWELoader;
-use Jose\Component\Encryption\Serializer\CompactSerializer;
-use Jose\Component\Encryption\Serializer\JWESerializerManager;
 
 /**
  * Class JWELoaderTest.
@@ -120,12 +117,7 @@ final class JWELoaderTest extends EncryptionTest
     private function getJWELoader(): JWELoader
     {
         if (null === $this->jweLoader) {
-            $jsonConverter = new StandardConverter();
-            $this->jweLoader = new JWELoader(
-                JWESerializerManager::create([new CompactSerializer($jsonConverter)]),
-                $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF']),
-                null
-            );
+            $this->jweLoader = $this->getJWELoaderFactory()->create(['jwe_compact'], ['A128KW'], ['A128GCM'], ['DEF']);
         }
 
         return $this->jweLoader;

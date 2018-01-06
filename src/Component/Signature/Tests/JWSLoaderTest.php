@@ -12,15 +12,10 @@ declare(strict_types=1);
  */
 
 namespace Jose\Component\Signature\Tests;
-use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
+
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Algorithm\HS256;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
-use Jose\Component\Signature\JWSVerifier;
-use Jose\Component\Signature\Serializer\CompactSerializer;
-use Jose\Component\Signature\Serializer\JWSSerializerManager;
 
 /**
  * @group JWSLoader
@@ -116,19 +111,7 @@ final class JWSLoaderTest extends SignatureTest
     private function getJWSLoader(): JWSLoader
     {
         if (null === $this->jwsLoader) {
-            $jsonConverter = new StandardConverter();
-            $serializerManager = JWSSerializerManager::create([
-                new CompactSerializer($jsonConverter)
-            ]);
-            $jwsVerifier = new JWSVerifier(
-                AlgorithmManager::create([new HS256()])
-            );
-
-            $this->jwsLoader = new JWSLoader(
-                $serializerManager,
-                $jwsVerifier,
-                null
-            );
+            $this->jwsLoader = $this->getJWSLoaderFactory()->create(['jws_compact'], ['HS256']);
         }
 
         return $this->jwsLoader;
