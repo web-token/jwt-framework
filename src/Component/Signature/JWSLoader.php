@@ -50,6 +50,30 @@ final class JWSLoader
     }
 
     /**
+     * @return JWSVerifier
+     */
+    public function getJwsVerifier(): JWSVerifier
+    {
+        return $this->jwsVerifier;
+    }
+
+    /**
+     * @return HeaderCheckerManager
+     */
+    public function getHeaderCheckerManager(): HeaderCheckerManager
+    {
+        return $this->headerCheckerManager;
+    }
+
+    /**
+     * @return JWSSerializerManager
+     */
+    public function getSerializerManager(): JWSSerializerManager
+    {
+        return $this->serializerManager;
+    }
+
+    /**
      * @param string      $token
      * @param JWK         $key
      * @param null|int    $signature

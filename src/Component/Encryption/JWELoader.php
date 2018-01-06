@@ -50,6 +50,30 @@ final class JWELoader
     }
 
     /**
+     * @return JWEDecrypter
+     */
+    public function getJweDecrypter(): JWEDecrypter
+    {
+        return $this->jweDecrypter;
+    }
+
+    /**
+     * @return HeaderCheckerManager|null
+     */
+    public function getHeaderCheckerManager(): ?HeaderCheckerManager
+    {
+        return $this->headerCheckerManager;
+    }
+
+    /**
+     * @return JWESerializerManager
+     */
+    public function getSerializerManager(): JWESerializerManager
+    {
+        return $this->serializerManager;
+    }
+
+    /**
      * @param string   $token
      * @param JWK      $key
      * @param null|int $recipient

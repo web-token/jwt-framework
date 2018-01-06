@@ -42,6 +42,7 @@ final class SignatureSource implements Source
             new JWSBuilder(),
             new JWSVerifier(),
             new JWSSerializer(),
+            new JWSLoader(),
         ];
     }
 
