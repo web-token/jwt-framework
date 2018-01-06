@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
+use Jose\Component\Encryption\JWELoader;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,7 @@ final class JWECollector implements Collector
         $this->collectSupportedJWESerializations($data);
         $this->collectSupportedJWEBuilders($data);
         $this->collectSupportedJWEDecrypters($data);
+        $this->collectSupportedJWELoaders($data);
     }
 
     /**
@@ -116,6 +118,22 @@ final class JWECollector implements Collector
     }
 
     /**
+     * @param array $data
+     */
+    private function collectSupportedJWELoaders(array &$data)
+    {
+        $data['jwe']['jwe_loaders'] = [];
+        foreach ($this->jweLoaders as $id => $jweLoader) {
+            $data['jwe']['jwe_loaders'][$id] = [
+                'serializers' => $jweLoader->getSerializerManager()->list(),
+                'key_encryption_algorithms' => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
+                'content_encryption_algorithms' => $jweLoader->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list(),
+                'compression_methods' => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
+            ];
+        }
+    }
+
+    /**
      * @var JWEBuilder[]
      */
     private $jweBuilders = [];
@@ -141,5 +159,19 @@ final class JWECollector implements Collector
     public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter)
     {
         $this->jweDecrypters[$id] = $jweDecrypter;
+    }
+
+    /**
+     * @var JWELoader[]
+     */
+    private $jweLoaders = [];
+
+    /**
+     * @param string       $id
+     * @param JWELoader $jweLoader
+     */
+    public function addJWELoader(string $id, JWELoader $jweLoader)
+    {
+        $this->jweLoaders[$id] = $jweLoader;
     }
 }

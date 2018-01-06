@@ -47,6 +47,37 @@
             {% endfor %}
             </tbody>
         </table>
+        <h4>JWS Loaders</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Serializers</th>
+                <th>Algorithms</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getData().jws.jws_loaders %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for serializer in data.serializers %}
+                                <li>{{ serializer }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.signature_algorithms %}
+                                <li><span{% if algorithm == 'none' %} class="severity-low"{% endif %}>{{ algorithm }}</span></li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         {% set signatureAlgorithms = collector.getData().algorithm.algorithms %}
         {% if signatureAlgorithms['Signature'] is defined %}
             <h4>Available Signature Algorithms</h4>

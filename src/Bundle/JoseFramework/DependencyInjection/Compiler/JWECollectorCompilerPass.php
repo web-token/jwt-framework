@@ -38,6 +38,7 @@ final class JWECollectorCompilerPass implements CompilerPassInterface
         $services = [
             'addJWEBuilder' => 'jose.jwe_builder',
             'addJWEDecrypter' => 'jose.jwe_decrypter',
+            'addJWELoader' => 'jose.jwe_loader',
         ];
         foreach ($services as $method => $tag) {
             $this->collectServices($method, $tag, $definition, $container);
