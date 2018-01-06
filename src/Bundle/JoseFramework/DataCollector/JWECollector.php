@@ -167,7 +167,7 @@ final class JWECollector implements Collector
     private $jweLoaders = [];
 
     /**
-     * @param string       $id
+     * @param string    $id
      * @param JWELoader $jweLoader
      */
     public function addJWELoader(string $id, JWELoader $jweLoader)

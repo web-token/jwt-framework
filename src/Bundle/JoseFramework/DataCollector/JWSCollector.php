@@ -137,7 +137,7 @@ final class JWSCollector implements Collector
     private $jwsLoaders = [];
 
     /**
-     * @param string      $id
+     * @param string    $id
      * @param JWSLoader $jwsLoader
      */
     public function addJWSLoader(string $id, JWSLoader $jwsLoader)
