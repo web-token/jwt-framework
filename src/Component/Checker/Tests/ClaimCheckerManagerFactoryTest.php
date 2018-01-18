@@ -63,10 +63,13 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
             'exp' => time() + 3600,
             'iat' => time() - 1000,
             'nbf' => time() - 100,
+            'foo' => 'bar',
         ];
+        $expected = $payload;
+        unset($expected['foo']);
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
         $result = $manager->check($payload);
-        self::assertEquals($payload, $result);
+        self::assertEquals($expected, $result);
     }
 
     /**
