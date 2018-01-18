@@ -73,12 +73,14 @@ final class ClaimCheckerManager
      */
     public function check(array $claims): array
     {
+        $checkedClaims = [];
         foreach ($this->checkers as $claim => $checker) {
             if (array_key_exists($claim, $claims)) {
                 $checker->checkClaim($claims[$claim]);
+                $checkedClaims[$claim] = $claims[$claim];
             }
         }
 
-        return $claims;
+        return $checkedClaims;
     }
 }
