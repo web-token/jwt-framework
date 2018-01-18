@@ -41,6 +41,9 @@ abstract class AbstractSource
         $service_id = sprintf('jose.%s.%s', $type, $name);
         $definition = $this->createDefinition($container, $config);
         $definition->setPublic($config['is_public']);
+        foreach ($config['tags'] as $id => $attributes) {
+            $definition->addTag($id, $attributes);
+        }
         $container->setDefinition($service_id, $definition);
     }
 
@@ -54,6 +57,13 @@ abstract class AbstractSource
                 ->booleanNode('is_public')
                     ->info('If true, the service will be public, else private.')
                     ->defaultTrue()
+                ->end()
+                ->arrayNode('tags')
+                    ->info('A list of tags to be associated to the service.')
+                    ->useAttributeAsKey('name')
+                    ->treatNullLike([])
+                    ->treatFalseLike([])
+                    ->prototype('variable')->end()
                 ->end()
             ->end();
     }
