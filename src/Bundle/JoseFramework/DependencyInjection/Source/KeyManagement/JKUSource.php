@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Jose\Component\Console\JKULoaderCommand;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -40,7 +41,9 @@ final class JKUSource implements Source
         if (true === $configs[$this->name()]['enabled']) {
             $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
             $loader->load('jku_source.yml');
-            $loader->load('jku_commands.yml');
+            if (class_exists(JKULoaderCommand::class)) {
+                $loader->load('jku_commands.yml');
+            }
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
             $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);
         }
