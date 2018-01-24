@@ -45,7 +45,7 @@ final class CoreSource implements Source
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('services.yml');
 
-        if (class_exists(EnvVarProcessorInterface::class)) {
+        if (interface_exists(EnvVarProcessorInterface::class)) {
             $loader->load('env_var.yml');
         }
 
