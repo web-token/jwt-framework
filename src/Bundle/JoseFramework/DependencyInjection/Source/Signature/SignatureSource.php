@@ -66,8 +66,10 @@ final class SignatureSource implements Source
         $loader->load('jws_serializers.yml');
         $loader->load('signature_algorithms.yml');
 
-        foreach ($this->sources as $source) {
-            $source->load($configs['jws'], $container);
+        if (array_key_exists('jws', $configs)) {
+            foreach ($this->sources as $source) {
+                $source->load($configs['jws'], $container);
+            }
         }
     }
 
