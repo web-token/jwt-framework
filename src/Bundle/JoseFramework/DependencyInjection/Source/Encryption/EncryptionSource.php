@@ -67,8 +67,10 @@ final class EncryptionSource implements Source
         $loader->load('jwe_serializers.yml');
         $loader->load('compression_methods.yml');
 
-        foreach ($this->sources as $source) {
-            $source->load($configs['jwe'], $container);
+        if (array_key_exists('jwe', $configs)) {
+            foreach ($this->sources as $source) {
+                $source->load($configs['jwe'], $container);
+            }
         }
     }
 
