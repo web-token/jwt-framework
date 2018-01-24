@@ -19,15 +19,15 @@
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Signature Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.getData().algorithm.algorithms['Signature']|length }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().algorithm.types.signature }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Key Encryption Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.getData().algorithm.algorithms['Key Encryption']|length }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().algorithm.types.key_encryption }}</span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Content Encryption Algorithms</b>
-            <span class="sf-toolbar-status">{{ collector.getData().algorithm.algorithms['Content Encryption']|length }}</span>
+            <span class="sf-toolbar-status">{{ collector.getData().algorithm.types.content_encryption }}</span>
         </div>
     {% endset %}
 
