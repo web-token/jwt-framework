@@ -153,7 +153,7 @@ final class KeyCreationCommandTest extends TestCase
         $converter = new StandardConverter();
         $input = new ArrayInput([
             'secret' => $secret,
-            '--is_b64'
+            '--is_b64',
         ]);
         $output = new BufferedOutput();
         $command = new Console\SecretKeyGeneratorCommand($converter);
