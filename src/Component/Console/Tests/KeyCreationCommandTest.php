@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console\Tests;
 
+use Base64Url\Base64Url;
 use Jose\Component\Console;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
@@ -121,6 +122,48 @@ final class KeyCreationCommandTest extends TestCase
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
         self::assertInstanceOf(JWK::class, $jwk);
+    }
+
+    /**
+     * @test
+     */
+    public function iCanCreateAnOctetKeyUsingASecret()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
+            'secret' => 'This is my secret',
+        ]);
+        $output = new BufferedOutput();
+        $command = new Console\SecretKeyGeneratorCommand($converter);
+
+        $command->run($input, $output);
+        $content = $output->fetch();
+        $jwk = JWK::createFromJson($content);
+        self::assertInstanceOf(JWK::class, $jwk);
+        self::assertTrue($jwk->has('k'));
+        self::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
+    }
+
+    /**
+     * @test
+     */
+    public function iCanCreateAnOctetKeyUsingABinarySecret()
+    {
+        $secret = random_bytes(20);
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
+            'secret' => $secret,
+            '--is_b64'
+        ]);
+        $output = new BufferedOutput();
+        $command = new Console\SecretKeyGeneratorCommand($converter);
+
+        $command->run($input, $output);
+        $content = $output->fetch();
+        $jwk = JWK::createFromJson($content);
+        self::assertInstanceOf(JWK::class, $jwk);
+        self::assertTrue($jwk->has('k'));
+        self::assertEquals($secret, Base64Url::decode($jwk->get('k')));
     }
 
     /**
