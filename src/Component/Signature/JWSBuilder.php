@@ -36,7 +36,7 @@ final class JWSBuilder
     private $payload;
 
     /**
-     * @var bool|null
+     * @var bool
      */
     private $isPayloadDetached;
 
@@ -83,7 +83,7 @@ final class JWSBuilder
     public function create(): self
     {
         $this->payload = null;
-        $this->isPayloadDetached = null;
+        $this->isPayloadDetached = false;
         $this->signatures = [];
         $this->isPayloadEncoded = null;
 

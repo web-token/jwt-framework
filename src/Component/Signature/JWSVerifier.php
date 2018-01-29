@@ -132,12 +132,18 @@ final class JWSVerifier
                 return sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
             }
 
-            $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
-
-            return sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
+            $encodePayload = true;
+        } else {
+            $encodePayload = false;
+        }
+        $payload = $jws->getPayload() ?? $detachedPayload;
+        if (null === $payload) {
+            throw new \InvalidArgumentException('No payload.');
+        }
+        if ($encodePayload) {
+            $payload = Base64Url::encode($payload);
         }
 
-        $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
 
         return sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }

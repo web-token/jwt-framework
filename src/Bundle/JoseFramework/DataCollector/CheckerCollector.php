@@ -111,7 +111,7 @@ final class CheckerCollector implements Collector
     private function collectSupportedClaimCheckers(array &$data)
     {
         $data['checker']['claim_checkers'] = [];
-        if (null !== $this->headerCheckerManagerFactory) {
+        if (null !== $this->claimCheckerManagerFactory) {
             $aliases = $this->claimCheckerManagerFactory->all();
             foreach ($aliases as $alias => $checker) {
                 $data['checker']['claim_checkers'][$alias] = [
