@@ -51,6 +51,9 @@ final class JWSLoader implements Source
                 ])
                 ->addTag('jose.jws_loader')
                 ->setPublic($itemConfig['is_public']);
+            foreach ($itemConfig['tags'] as $id => $attributes) {
+                $definition->addTag($id, $attributes);
+            }
 
             $container->setDefinition($service_id, $definition);
         }
@@ -87,6 +90,13 @@ final class JWSLoader implements Source
                                 ->treatNullLike([])
                                 ->treatFalseLike([])
                                 ->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('tags')
+                                ->info('A list of tags to be associated to the service.')
+                                ->useAttributeAsKey('name')
+                                ->treatNullLike([])
+                                ->treatFalseLike([])
+                                ->prototype('variable')->end()
                             ->end()
                         ->end()
                     ->end()
