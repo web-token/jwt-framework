@@ -144,7 +144,6 @@ final class JWSVerifier
             $payload = Base64Url::encode($payload);
         }
 
-
         return sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }
 
