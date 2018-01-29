@@ -49,9 +49,7 @@ final class JWEDecrypter extends AbstractEncryptionSource
                 ])
                 ->addTag('jose.jwe_decrypter')
                 ->setPublic($itemConfig['is_public']);
-            foreach ($itemConfig['tags'] as $id => $attributes) {
-                $definition->addTag($id, $attributes);
-            }
+
             $container->setDefinition($service_id, $definition);
         }
     }

@@ -49,9 +49,7 @@ final class JWEBuilder extends AbstractEncryptionSource
                 ])
                 ->addTag('jose.jwe_builder')
                 ->setPublic($itemConfig['is_public']);
-            foreach ($itemConfig['tags'] as $id => $attributes) {
-                $definition->addTag($id, $attributes);
-            }
+
             $container->setDefinition($service_id, $definition);
         }
     }

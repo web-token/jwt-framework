@@ -46,9 +46,6 @@ final class JWKUriSource implements Source
             $definition->setArguments([new Reference($itemConfig['id']), $itemConfig['max_age']]);
             $definition->addTag('jose.jwk_uri.controller', ['path' => $itemConfig['path']]);
             $definition->addTag('controller.service_arguments');
-            foreach ($itemConfig['tags'] as $id => $attributes) {
-                $definition->addTag($id, $attributes);
-            }
             $container->setDefinition($service_id, $definition);
         }
     }
@@ -76,13 +73,6 @@ final class JWKUriSource implements Source
                             ->integerNode('max_age')
                                 ->info('When share, this value indicates how many seconds the HTTP client should keep the key in cache. Default is 21600 = 6 hours.')
                                 ->defaultValue(21600)
-                            ->end()
-                            ->arrayNode('tags')
-                                ->info('A list of tags to be associated to the service.')
-                                ->useAttributeAsKey('name')
-                                ->treatNullLike([])
-                                ->treatFalseLike([])
-                                ->prototype('variable')->end()
                             ->end()
                         ->end()
                     ->end()

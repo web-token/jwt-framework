@@ -45,9 +45,7 @@ final class JWSBuilder extends AbstractSignatureSource
                 ->setArguments([$itemConfig['signature_algorithms']])
                 ->addTag('jose.jws_builder')
                 ->setPublic($itemConfig['is_public']);
-            foreach ($itemConfig['tags'] as $id => $attributes) {
-                $definition->addTag($id, $attributes);
-            }
+
             $container->setDefinition($service_id, $definition);
         }
     }
