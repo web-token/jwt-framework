@@ -97,6 +97,34 @@ final class ConfigurationHelper
      * @param ContainerBuilder $container
      * @param string           $name
      * @param string[]         $serializers
+     * @param string[]         $signature_algorithms
+     * @param string[]         $header_checkers
+     * @param bool             $is_public
+     */
+    public static function addJWSLoader(ContainerBuilder $container, string $name, array $serializers, array $signature_algorithms, array $header_checkers, bool $is_public = true)
+    {
+        $config = [
+            self::BUNDLE_ALIAS => [
+                'jws' => [
+                    'loaders' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'serializers' => $serializers,
+                            'signature_algorithms' => $signature_algorithms,
+                            'header_checkers' => $header_checkers,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        self::updateJoseConfiguration($container, $config, 'jws');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $name
+     * @param string[]         $serializers
      * @param bool             $is_public
      */
     public static function addJWESerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true)
@@ -108,6 +136,38 @@ final class ConfigurationHelper
                         $name => [
                             'is_public' => $is_public,
                             'serializers' => $serializers,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        self::updateJoseConfiguration($container, $config, 'jwe');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $name
+     * @param string[]         $serializers
+     * @param string[]         $key_encryption_algorithms
+     * @param string[]         $content_encryption_algorithms
+     * @param string[]         $compression_methods
+     * @param string[]         $header_checkers
+     * @param bool             $is_public
+     */
+    public static function addJWELoader(ContainerBuilder $container, string $name, array $serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $header_checkers, bool $is_public = true)
+    {
+        $config = [
+            self::BUNDLE_ALIAS => [
+                'jwe' => [
+                    'loaders' => [
+                        $name => [
+                            'is_public' => $is_public,
+                            'serializers' => $serializers,
+                            'key_encryption_algorithms' => $key_encryption_algorithms,
+                            'content_encryption_algorithms' => $content_encryption_algorithms,
+                            'compression_methods' => $compression_methods,
+                            'header_checkers' => $header_checkers,
                         ],
                     ],
                 ],

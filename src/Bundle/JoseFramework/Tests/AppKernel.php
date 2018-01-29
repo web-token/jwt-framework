@@ -37,6 +37,14 @@ final class AppKernel extends Kernel
     /**
      * {@inheritdoc}
      */
+    public function __construct(string $environment, bool $debug)
+    {
+        parent::__construct($environment, false);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function registerBundles()
     {
         $bundles = [

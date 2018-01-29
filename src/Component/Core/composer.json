@@ -24,7 +24,7 @@
         "ext-gmp": "*",
         "ext-mbstring": "*",
         "fgrosse/phpasn1": "^2.0",
-        "spomky-labs/base64url": "^1.0"
+        "spomky-labs/base64url": "^1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0"
@@ -34,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.1.x-dev"
         }
     },
     "config": {

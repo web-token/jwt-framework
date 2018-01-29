@@ -38,6 +38,7 @@ final class JWSCollectorCompilerPass implements CompilerPassInterface
         $services = [
             'addJWSBuilder' => 'jose.jws_builder',
             'addJWSVerifier' => 'jose.jws_verifier',
+            'addJWSLoader' => 'jose.jws_loader',
         ];
         foreach ($services as $method => $tag) {
             $this->collectServices($method, $tag, $definition, $container);
