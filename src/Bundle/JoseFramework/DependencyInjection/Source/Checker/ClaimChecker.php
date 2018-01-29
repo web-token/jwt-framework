@@ -49,7 +49,9 @@ final class ClaimChecker implements Source
                 ])
                 ->addTag('jose.claim_checker_manager')
                 ->setPublic($itemConfig['is_public']);
-
+            foreach ($itemConfig['tags'] as $id => $attributes) {
+                $definition->addTag($id, $attributes);
+            }
             $container->setDefinition($service_id, $definition);
         }
     }
@@ -74,6 +76,14 @@ final class ClaimChecker implements Source
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
                                 ->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('tags')
+                                ->info('A list of tags to be associated to the claim checker.')
+                                ->useAttributeAsKey('name')
+                                ->treatNullLike([])
+                                ->treatFalseLike([])
+                                ->prototype('variable')
+                                ->end()
                             ->end()
                         ->end()
                     ->end()
