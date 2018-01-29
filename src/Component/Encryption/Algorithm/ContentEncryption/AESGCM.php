@@ -31,7 +31,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
     /**
      * {@inheritdoc}
      */
-    public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag): string
+    public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string
     {
         $calculated_aad = $encoded_protected_header;
         if (null !== $aad) {

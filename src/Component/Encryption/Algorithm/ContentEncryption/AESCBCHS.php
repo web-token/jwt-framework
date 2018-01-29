@@ -31,7 +31,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     /**
      * {@inheritdoc}
      */
-    public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag): string
+    public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string
     {
         $k = mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
         $cyphertext = openssl_encrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);

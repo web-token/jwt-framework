@@ -23,7 +23,7 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 abstract class RSA implements SignatureAlgorithm
 {
     /**
-     * @return mixed
+     * @return string
      */
     abstract protected function getAlgorithm(): string;
 

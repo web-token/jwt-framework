@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 final class JoseFrameworkBundle extends Bundle
 {
     /**
-     * @var Source\Source[]
+     * @var Source\SourceWithCompilerPasses[]
      */
     private $sources = [];
 
@@ -61,14 +61,13 @@ final class JoseFrameworkBundle extends Bundle
     }
 
     /**
-     * @return Source\Source[]
+     * @return Source\SourceWithCompilerPasses[]
      */
     private function getSources(): array
     {
         return [
             new Source\Core\CoreSource(),
             new Source\Checker\CheckerSource(),
-            new Source\Encryption\EncryptionSource(),
             new Source\Console\ConsoleSource(),
             new Source\Signature\SignatureSource(),
             new Source\Encryption\EncryptionSource(),

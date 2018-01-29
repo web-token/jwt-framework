@@ -227,9 +227,6 @@ final class JWEDecrypter
     private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $completeHeader): string
     {
         $payload = $content_encryption_algorithm->decryptContent($jwe->getCiphertext(), $cek, $jwe->getIV(), null === $jwe->getAAD() ? null : Base64Url::encode($jwe->getAAD()), $jwe->getEncodedSharedProtectedHeader(), $jwe->getTag());
-        if (null === $payload) {
-            throw new \RuntimeException('Unable to decrypt the JWE.');
-        }
 
         return $this->decompressIfNeeded($payload, $completeHeader);
     }

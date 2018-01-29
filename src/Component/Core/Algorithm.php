@@ -24,7 +24,7 @@ interface Algorithm
     public function name(): string;
 
     /**
-     * @return array[] Returns the key types suitable for this algorithm
+     * @return string[] Returns the key types suitable for this algorithm
      */
     public function allowedKeyTypes(): array;
 }

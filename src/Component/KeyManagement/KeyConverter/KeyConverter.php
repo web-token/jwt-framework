@@ -241,7 +241,7 @@ final class KeyConverter
                 }
             }
         }
-        if (null !== $last_issuer && json_encode($last_issuer) !== json_encode($last_subject)) {
+        if (null === $certificate || null !== $last_issuer && json_encode($last_issuer) !== json_encode($last_subject)) {
             throw new \InvalidArgumentException('Invalid certificate chain.');
         }
 

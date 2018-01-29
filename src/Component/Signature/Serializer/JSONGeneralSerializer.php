@@ -91,7 +91,7 @@ final class JSONGeneralSerializer extends Serializer
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      */
     private function checkData($data)
     {
@@ -101,7 +101,7 @@ final class JSONGeneralSerializer extends Serializer
     }
 
     /**
-     * @param $signature
+     * @param mixed $signature
      */
     private function checkSignature($signature)
     {

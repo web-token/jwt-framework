@@ -31,12 +31,12 @@ final class JWSBuilder
     private $jsonConverter;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $payload;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     private $isPayloadDetached;
 

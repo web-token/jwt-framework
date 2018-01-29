@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source;
 
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -33,9 +33,9 @@ interface Source
     public function load(array $configs, ContainerBuilder $container);
 
     /**
-     * @param ArrayNodeDefinition $node
+     * @param NodeDefinition $node
      */
-    public function getNodeDefinition(ArrayNodeDefinition $node);
+    public function getNodeDefinition(NodeDefinition $node);
 
     /**
      * @param ContainerBuilder $container

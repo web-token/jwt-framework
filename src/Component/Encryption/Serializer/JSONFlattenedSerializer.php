@@ -117,7 +117,7 @@ final class JSONFlattenedSerializer implements JWESerializer
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      */
     private function checkData($data)
     {

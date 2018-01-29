@@ -19,7 +19,7 @@ namespace Jose\Component\Checker;
 interface HeaderChecker
 {
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws \InvalidArgumentException
      */

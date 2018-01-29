@@ -81,7 +81,7 @@ final class Point
     {
         $this->x = $x;
         $this->y = $y;
-        $this->order = null === $order ? gmp_init(0, 10) : $order;
+        $this->order = $order;
         $this->infinity = $infinity;
     }
 
@@ -153,9 +153,9 @@ final class Point
     }
 
     /**
-     * @param $a
-     * @param $b
-     * @param $cond
+     * @param bool $a
+     * @param bool $b
+     * @param int  $cond
      */
     private static function cswapBoolean(bool &$a, bool &$b, int $cond)
     {

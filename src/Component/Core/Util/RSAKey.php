@@ -252,6 +252,8 @@ final class RSAKey
 
     /**
      * @return string
+     *
+     * @throws \Exception
      */
     public function toPEM(): string
     {

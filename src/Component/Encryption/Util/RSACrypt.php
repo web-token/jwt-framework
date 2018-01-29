@@ -118,9 +118,6 @@ final class RSACrypt
         $c = BigInteger::createFromBinaryString($c);
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
-        if (false === $em) {
-            throw new \InvalidArgumentException('Unable to decrypt');
-        }
 
         if (0 != ord($em[0]) || ord($em[1]) > 2) {
             throw new \InvalidArgumentException('Unable to decrypt');

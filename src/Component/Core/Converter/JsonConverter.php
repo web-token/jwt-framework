@@ -19,7 +19,7 @@ namespace Jose\Component\Core\Converter;
 interface JsonConverter
 {
     /**
-     * @param $payload
+     * @param mixed $payload
      *
      * @return string
      */

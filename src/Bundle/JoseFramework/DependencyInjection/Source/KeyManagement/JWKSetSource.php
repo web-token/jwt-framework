@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource as JWKSetSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -59,7 +59,7 @@ final class JWKSetSource implements Source
     /**
      * {@inheritdoc}
      */
-    public function getNodeDefinition(ArrayNodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node)
     {
         $sourceNodeBuilder = $node
             ->children()
@@ -83,7 +83,9 @@ final class JWKSetSource implements Source
     }
 
     /**
-     * @return JWKSetSource[]
+     * @return JWKSetSourceInterface[]
+     *
+     * @throws \Exception
      */
     private function getJWKSetSources(): array
     {
@@ -100,6 +102,9 @@ final class JWKSetSource implements Source
         $jwkset_sources = [];
         foreach (array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
+            if (!$factory instanceof JWKSetSourceInterface) {
+                throw new \InvalidArgumentException();
+            }
             $jwkset_sources[str_replace('-', '_', $factory->getKeySet())] = $factory;
         }
 

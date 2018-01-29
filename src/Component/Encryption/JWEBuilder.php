@@ -39,7 +39,7 @@ final class JWEBuilder
     private $jsonConverter;
 
     /**
-     * @var string
+     * @var null|string
      */
     private $payload;
 
@@ -264,6 +264,9 @@ final class JWEBuilder
      */
     public function build(): JWE
     {
+        if (null === $this->payload) {
+            throw new \LogicException('Payload not set.');
+        }
         if (0 === count($this->recipients)) {
             throw new \LogicException('No recipient.');
         }
@@ -353,9 +356,6 @@ final class JWEBuilder
             return $prepared;
         }
         $compressedPayload = $this->compressionMethod->compress($prepared);
-        if (null === $compressedPayload) {
-            throw new \RuntimeException('The payload cannot be compressed.');
-        }
 
         return $compressedPayload;
     }
