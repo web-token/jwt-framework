@@ -10,7 +10,11 @@ services:
     Jose\Component\Encryption\JWEDecrypterFactory:
         public: true
 
+    Jose\Component\Encryption\JWELoaderFactory:
+        public: true
+
     Jose\Component\Encryption\Compression\CompressionMethodManagerFactory: ~
+
     Jose\Component\Encryption\JWETokenSupport:
         tags:
             - {'name': 'jose.checker.token_type'}

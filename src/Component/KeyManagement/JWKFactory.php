@@ -206,6 +206,27 @@ final class JWKFactory
     }
 
     /**
+     * This method create a JWK object using a shared secret.
+     *
+     * @param string $secret
+     * @param array  $additional_values
+     *
+     * @return JWK
+     */
+    public static function createFromSecret(string $secret, array $additional_values = []): JWK
+    {
+        $values = array_merge(
+            $additional_values,
+            [
+                'kty' => 'oct',
+                'k' => Base64Url::encode($secret),
+            ]
+        );
+
+        return JWK::create($values);
+    }
+
+    /**
      * @param string $file
      * @param array  $additional_values
      *
@@ -234,6 +255,8 @@ final class JWKFactory
      * @param string      $file
      * @param null|string $secret
      * @param array       $additional_values
+     *
+     * @throws \Exception
      *
      * @return JWK
      */
@@ -265,6 +288,8 @@ final class JWKFactory
      * @param resource $res
      * @param array    $additional_values
      *
+     * @throws \Exception
+     *
      * @return JWK
      */
     public static function createFromX509Resource($res, array $additional_values = []): JWK
@@ -280,6 +305,8 @@ final class JWKFactory
      * @param null|string $password
      * @param array       $additional_values
      *
+     * @throws \Exception
+     *
      * @return JWK
      */
     public static function createFromKeyFile(string $file, ?string $password = null, array $additional_values = []): JWK
@@ -294,6 +321,8 @@ final class JWKFactory
      * @param string      $key
      * @param null|string $password
      * @param array       $additional_values
+     *
+     * @throws \Exception
      *
      * @return JWK
      */

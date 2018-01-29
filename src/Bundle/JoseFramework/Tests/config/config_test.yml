@@ -47,6 +47,11 @@ jose:
             jws_serializer1:
                 serializers: ['jws_compact', 'jws_json_flattened', 'jws_json_general']
                 is_public: true
+        loaders:
+            jws_loader1:
+                serializers: ['jws_compact']
+                signature_algorithms: ['HS256']
+                is_public: true
     jwe:
         builders:
             builder1:
@@ -61,6 +66,13 @@ jose:
         serializers:
             jwe_serializer1:
                 serializers: ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general']
+                is_public: true
+        loaders:
+            jwe_loader1:
+                serializers: ['jwe_compact']
+                key_encryption_algorithms: ['RSA-OAEP-256']
+                content_encryption_algorithms: ['A256CBC-HS512']
+                compression_methods: []
                 is_public: true
     keys:
         jwk1:
@@ -107,6 +119,13 @@ jose:
             jwkset:
                 key_set: 'jose.key_set.jwkset1'
                 index: 0
+                is_public: true
+        secret1:
+            secret:
+                secret: 'This is my secret'
+                additional_values:
+                    use: 'enc'
+                    alg: 'RS512'
                 is_public: true
     key_sets:
         jwkset1:

@@ -14,6 +14,11 @@ services:
         class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Values'
         tags:
             - {'name': 'jose.jwk_source'}
+    jose.jwk_source.secret:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Secret'
+        tags:
+            - {'name': 'jose.jwk_source'}
     jose.jwk_source.jwk:
         public: false
         class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWK'

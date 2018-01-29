@@ -87,6 +87,58 @@
             {% endfor %}
             </tbody>
         </table>
+        <h4>JWE Loaders</h4>
+        <table>
+            <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Serializers</th>
+                <th>Key Encryption Algorithms</th>
+                <th>Content Encryption Algorithms</th>
+                <th>Compression Methods</th>
+                <th>Header Checkers</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for id, data in collector.getData().jwe.jwe_loaders %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>
+                        <ul>
+                            {% for serializer in data.serializers %}
+                                <li>{{ serializer }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.key_encryption_algorithms %}
+                                <li>
+                                    <span{% if algorithm == 'RSA1_5' %} class="severity-high"{% elseif 'ECDH-ES' in algorithm %} class="severity-medium"{% endif %}>
+                                        {{ algorithm }}
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for algorithm in data.content_encryption_algorithms %}
+                                <li>{{ algorithm }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for method in data.compression_methods %}
+                                <li>{{ method }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         {% set encryptionAlgorithms = collector.getData().algorithm.algorithms %}
         {% if encryptionAlgorithms['Key Encryption'] is defined %}
             <h4>Available Key Encryption Algorithms</h4>

@@ -43,6 +43,7 @@ final class SignatureSource implements SourceWithCompilerPasses
             new JWSBuilder(),
             new JWSVerifier(),
             new JWSSerializer(),
+            new JWSLoader(),
         ];
     }
 

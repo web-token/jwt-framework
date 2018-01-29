@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +45,7 @@ final class JWSCollector implements Collector
         $this->collectSupportedJWSSerializations($data);
         $this->collectSupportedJWSBuilders($data);
         $this->collectSupportedJWSVerifiers($data);
+        $this->collectSupportedJWSLoaders($data);
     }
 
     /**
@@ -88,6 +90,20 @@ final class JWSCollector implements Collector
     }
 
     /**
+     * @param array $data
+     */
+    private function collectSupportedJWSLoaders(array &$data)
+    {
+        $data['jws']['jws_loaders'] = [];
+        foreach ($this->jwsLoaders as $id => $jwsLoader) {
+            $data['jws']['jws_loaders'][$id] = [
+                'serializers' => $jwsLoader->getSerializerManager()->list(),
+                'signature_algorithms' => $jwsLoader->getJwsVerifier()->getSignatureAlgorithmManager()->list(),
+            ];
+        }
+    }
+
+    /**
      * @var JWSBuilder[]
      */
     private $jwsBuilders = [];
@@ -113,5 +129,19 @@ final class JWSCollector implements Collector
     public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier)
     {
         $this->jwsVerifiers[$id] = $jwsVerifier;
+    }
+
+    /**
+     * @var JWSLoader[]
+     */
+    private $jwsLoaders = [];
+
+    /**
+     * @param string    $id
+     * @param JWSLoader $jwsLoader
+     */
+    public function addJWSLoader(string $id, JWSLoader $jwsLoader)
+    {
+        $this->jwsLoaders[$id] = $jwsLoader;
     }
 }
