@@ -13,16 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source;
 
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Interface Source.
  */
 interface SourceWithCompilerPasses extends Source
 {
-
     /**
      * @return CompilerPassInterface[]
      */
