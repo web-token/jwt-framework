@@ -27,8 +27,9 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string[]         $signatureAlgorithms
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWSBuilder(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true)
+    public static function addJWSBuilder(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -37,6 +38,7 @@ final class ConfigurationHelper
                         $name => [
                             'is_public' => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -50,8 +52,9 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string[]         $signatureAlgorithms
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true)
+    public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -60,6 +63,7 @@ final class ConfigurationHelper
                         $name => [
                             'is_public' => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -74,8 +78,9 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string[]         $serializers
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWSSerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true)
+    public static function addJWSSerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -84,6 +89,7 @@ final class ConfigurationHelper
                         $name => [
                             'is_public' => $is_public,
                             'serializers' => $serializers,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -126,8 +132,9 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string[]         $serializers
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWESerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true)
+    public static function addJWESerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -136,6 +143,7 @@ final class ConfigurationHelper
                         $name => [
                             'is_public' => $is_public,
                             'serializers' => $serializers,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -182,8 +190,9 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string[]         $claimCheckers
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addClaimChecker(ContainerBuilder $container, string $name, array  $claimCheckers, bool $is_public = true)
+    public static function addClaimChecker(ContainerBuilder $container, string $name, array  $claimCheckers, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -192,6 +201,7 @@ final class ConfigurationHelper
                         $name => [
                             'is_public' => $is_public,
                             'claims' => $claimCheckers,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -206,8 +216,9 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string[]         $headerCheckers
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addHeaderChecker(ContainerBuilder $container, string $name, array  $headerCheckers, bool $is_public = true)
+    public static function addHeaderChecker(ContainerBuilder $container, string $name, array  $headerCheckers, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -216,6 +227,7 @@ final class ConfigurationHelper
                         $name => [
                             'is_public' => $is_public,
                             'headers' => $headerCheckers,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -230,9 +242,11 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string           $type
      * @param array            $parameters
+     * @param array            $tags
      */
-    public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters)
+    public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
     {
+        $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
                 'keys' => [
@@ -251,9 +265,11 @@ final class ConfigurationHelper
      * @param string           $name
      * @param string           $type
      * @param array            $parameters
+     * @param array            $tags
      */
-    public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters)
+    public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
     {
+        $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
                 'key_sets' => [
@@ -271,9 +287,11 @@ final class ConfigurationHelper
      * @param ContainerBuilder $container
      * @param string           $name
      * @param array            $parameters
+     * @param array            $tags
      */
-    public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters)
+    public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters, array $tags = [])
     {
+        $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
                 'jwk_uris' => [
@@ -292,8 +310,9 @@ final class ConfigurationHelper
      * @param array            $contentEncryptionAlgorithms
      * @param array            $compressionMethods
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWEBuilder(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true)
+    public static function addJWEBuilder(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -304,6 +323,7 @@ final class ConfigurationHelper
                             'key_encryption_algorithms' => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
                             'compression_methods' => $compressionMethods,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -320,8 +340,9 @@ final class ConfigurationHelper
      * @param array            $contentEncryptionAlgorithms
      * @param array            $compressionMethods
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true)
+    public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -332,6 +353,7 @@ final class ConfigurationHelper
                             'key_encryption_algorithms' => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
                             'compression_methods' => $compressionMethods,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
