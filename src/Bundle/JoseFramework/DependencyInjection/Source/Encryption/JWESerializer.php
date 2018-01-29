@@ -47,7 +47,9 @@ final class JWESerializer implements Source
                 ->setArguments([$itemConfig['serializers']])
                 ->addTag('jose.jwe_serializer_manager')
                 ->setPublic($itemConfig['is_public']);
-
+            foreach ($itemConfig['tags'] as $id => $attributes) {
+                $definition->addTag($id, $attributes);
+            }
             $container->setDefinition($service_id, $definition);
         }
     }
@@ -72,6 +74,13 @@ final class JWESerializer implements Source
                                 ->useAttributeAsKey('name')
                                 ->treatNullLike(['jwe_compact'])
                                 ->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('tags')
+                                ->info('A list of tags to be associated to the service.')
+                                ->useAttributeAsKey('name')
+                                ->treatNullLike([])
+                                ->treatFalseLike([])
+                                ->prototype('variable')->end()
                             ->end()
                         ->end()
                     ->end()
