@@ -106,8 +106,9 @@ final class ConfigurationHelper
      * @param string[]         $signature_algorithms
      * @param string[]         $header_checkers
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWSLoader(ContainerBuilder $container, string $name, array $serializers, array $signature_algorithms, array $header_checkers, bool $is_public = true)
+    public static function addJWSLoader(ContainerBuilder $container, string $name, array $serializers, array $signature_algorithms, array $header_checkers, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -118,6 +119,7 @@ final class ConfigurationHelper
                             'serializers' => $serializers,
                             'signature_algorithms' => $signature_algorithms,
                             'header_checkers' => $header_checkers,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
@@ -162,8 +164,9 @@ final class ConfigurationHelper
      * @param string[]         $compression_methods
      * @param string[]         $header_checkers
      * @param bool             $is_public
+     * @param array            $tags
      */
-    public static function addJWELoader(ContainerBuilder $container, string $name, array $serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $header_checkers, bool $is_public = true)
+    public static function addJWELoader(ContainerBuilder $container, string $name, array $serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $header_checkers, bool $is_public = true, array $tags = [])
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -176,6 +179,7 @@ final class ConfigurationHelper
                             'content_encryption_algorithms' => $content_encryption_algorithms,
                             'compression_methods' => $compression_methods,
                             'header_checkers' => $header_checkers,
+                            'tags' => $tags,
                         ],
                     ],
                 ],
