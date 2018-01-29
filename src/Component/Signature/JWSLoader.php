@@ -38,11 +38,11 @@ final class JWSLoader
     /**
      * JWSLoader constructor.
      *
-     * @param JWSSerializerManager $serializerManager
-     * @param JWSVerifier          $jwsVerifier
-     * @param HeaderCheckerManager $headerCheckerManager
+     * @param JWSSerializerManager      $serializerManager
+     * @param JWSVerifier               $jwsVerifier
+     * @param HeaderCheckerManager|null $headerCheckerManager
      */
-    public function __construct(JWSSerializerManager $serializerManager, JWSVerifier $jwsVerifier, HeaderCheckerManager $headerCheckerManager)
+    public function __construct(JWSSerializerManager $serializerManager, JWSVerifier $jwsVerifier, ?HeaderCheckerManager $headerCheckerManager)
     {
         $this->serializerManager = $serializerManager;
         $this->jwsVerifier = $jwsVerifier;
@@ -50,14 +50,40 @@ final class JWSLoader
     }
 
     /**
+     * @return JWSVerifier
+     */
+    public function getJwsVerifier(): JWSVerifier
+    {
+        return $this->jwsVerifier;
+    }
+
+    /**
+     * @return HeaderCheckerManager
+     */
+    public function getHeaderCheckerManager(): HeaderCheckerManager
+    {
+        return $this->headerCheckerManager;
+    }
+
+    /**
+     * @return JWSSerializerManager
+     */
+    public function getSerializerManager(): JWSSerializerManager
+    {
+        return $this->serializerManager;
+    }
+
+    /**
      * @param string      $token
      * @param JWK         $key
-     * @param int         $signature
+     * @param null|int    $signature
      * @param null|string $payload
      *
      * @return JWS
+     *
+     * @throws \Exception
      */
-    public function loadAndVerifyWithKey(string $token, JWK $key, int &$signature, ?string $payload = null): JWS
+    public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
     {
         $keyset = JWKSet::createFromKeys([$key]);
 
@@ -67,14 +93,14 @@ final class JWSLoader
     /**
      * @param string      $token
      * @param JWKSet      $keyset
-     * @param int         $signature
+     * @param null|int    $signature
      * @param null|string $payload
      *
      * @return JWS
      *
      * @throws \Exception
      */
-    public function loadAndVerifyWithKeySet(string $token, JWKSet $keyset, int &$signature, ?string $payload = null): JWS
+    public function loadAndVerifyWithKeySet(string $token, JWKSet $keyset, ?int &$signature, ?string $payload = null): JWS
     {
         try {
             $jws = $this->serializerManager->unserialize($token);
@@ -90,7 +116,7 @@ final class JWSLoader
             // Nothing to do. Exception thrown just after
         }
 
-        throw new \Exception('Unable to load the token.');
+        throw new \Exception('Unable to load and verify the token.');
     }
 
     /**
@@ -104,7 +130,9 @@ final class JWSLoader
     private function processSignature(JWS $jws, JWKSet $keyset, int $signature, ?string $payload): bool
     {
         try {
-            $this->headerCheckerManager->check($jws, $signature);
+            if (null !== $this->headerCheckerManager) {
+                $this->headerCheckerManager->check($jws, $signature);
+            }
 
             return $this->jwsVerifier->verifyWithKeySet($jws, $keyset, $signature, $payload);
         } catch (\Exception $e) {

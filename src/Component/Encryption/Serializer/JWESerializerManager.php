@@ -60,6 +60,14 @@ final class JWESerializerManager
     }
 
     /**
+     * @return string[]
+     */
+    public function list(): array
+    {
+        return array_keys($this->serializers);
+    }
+
+    /**
      * Converts a JWE into a string.
      *
      * @param string   $name

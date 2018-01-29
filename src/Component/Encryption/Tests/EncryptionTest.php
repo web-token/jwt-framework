@@ -21,6 +21,7 @@ use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
+use Jose\Component\Encryption\JWELoaderFactory;
 use Jose\Component\Encryption\Serializer;
 use PHPUnit\Framework\TestCase;
 
@@ -130,6 +131,27 @@ abstract class EncryptionTest extends TestCase
         }
 
         return $this->jweDecrypterFactory;
+    }
+
+    /**
+     * @var JWELoaderFactory
+     */
+    private $jweLoaderFactory;
+
+    /**
+     * @return JWELoaderFactory
+     */
+    protected function getJWELoaderFactory(): JWELoaderFactory
+    {
+        if (null === $this->jweLoaderFactory) {
+            $this->jweLoaderFactory = new JWELoaderFactory(
+                $this->getJWESerializerManagerFactory(),
+                $this->getJWEDecrypterFactory(),
+                null
+            );
+        }
+
+        return $this->jweLoaderFactory;
     }
 
     /**

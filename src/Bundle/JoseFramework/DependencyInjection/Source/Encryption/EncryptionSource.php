@@ -42,6 +42,7 @@ final class EncryptionSource implements Source
             new JWEBuilder(),
             new JWEDecrypter(),
             new JWESerializer(),
+            new JWELoader(),
         ];
     }
 

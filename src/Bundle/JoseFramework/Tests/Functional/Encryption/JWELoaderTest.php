@@ -14,16 +14,15 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 
 use Jose\Component\Encryption\JWEBuilderFactory;
-use Jose\Component\Encryption\JWEDecrypter;
-use Jose\Component\Encryption\JWEDecrypterFactory;
-use Jose\Component\Encryption\Serializer\JWESerializerManager;
+use Jose\Component\Encryption\JWELoader;
+use Jose\Component\Encryption\JWELoaderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @group Bundle
  * @group Functional
  */
-final class JWEDecrypterTest extends WebTestCase
+final class JWELoaderTest extends WebTestCase
 {
     /**
      * {@inheritdoc}
@@ -38,78 +37,56 @@ final class JWEDecrypterTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWEDecrypterFactoryIsAvailable()
+    public function theJWELoaderFactoryIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         self::assertNotNull($container);
-        self::assertTrue($container->has(JWEDecrypterFactory::class));
+        self::assertTrue($container->has(JWELoaderFactory::class));
     }
 
     /**
      * @test
      */
-    public function theWEDecrypterFactoryCanCreateAJWEDecrypter()
+    public function theWELoaderFactoryCanCreateAJWELoader()
     {
         $client = static::createClient();
 
-        /** @var JWEDecrypterFactory $jweFactory */
-        $jweFactory = $client->getContainer()->get(JWEDecrypterFactory::class);
+        /** @var JWELoaderFactory $jweLoaderFactory */
+        $jweLoaderFactory = $client->getContainer()->get(JWELoaderFactory::class);
 
-        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
+        $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5'], ['A256GCM'], ['DEF']);
 
-        self::assertInstanceOf(JWEDecrypter::class, $jwe);
+        self::assertInstanceOf(JWELoader::class, $jwe);
+        self::assertEquals(['jwe_compact'], $jwe->getSerializerManager()->list());
+        self::assertEquals(['RSA1_5'], $jwe->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list());
+        self::assertEquals(['A256GCM'], $jwe->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list());
+        self::assertEquals(['DEF'], $jwe->getJweDecrypter()->getCompressionMethodManager()->list());
     }
 
     /**
      * @test
      */
-    public function aJWEDecrypterCanBeDefinedUsingTheConfigurationFile()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_decrypter.loader1'));
-
-        $jwe = $container->get('jose.jwe_decrypter.loader1');
-        self::assertInstanceOf(JWEDecrypter::class, $jwe);
-    }
-
-    /**
-     * @test
-     */
-    public function aJWEDecrypterCanBeDefinedFromAnotherBundleUsingTheHelper()
+    public function aJWELoaderCanBeDefinedUsingTheConfigurationFile()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_decrypter.loader2'));
+        self::assertTrue($container->has('jose.jwe_loader.jwe_loader1'));
 
-        $jwe = $container->get('jose.jwe_decrypter.loader2');
-        self::assertInstanceOf(JWEDecrypter::class, $jwe);
+        $jwe = $container->get('jose.jwe_loader.jwe_loader1');
+        self::assertInstanceOf(JWELoader::class, $jwe);
     }
 
     /**
      * @test
      */
-    public function testJWESerializerManagerFromConfigurationIsAvailable()
+    public function aJWELoaderCanBeDefinedFromAnotherBundleUsingTheHelper()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer1'));
+        self::assertTrue($container->has('jose.jwe_loader.jwe_loader2'));
 
-        $jwe = $container->get('jose.jwe_serializer.jwe_serializer1');
-        self::assertInstanceOf(JWESerializerManager::class, $jwe);
-    }
-
-    /**
-     * @test
-     */
-    public function testJWESerializerManagerFromExternalBundleExtensionIsAvailable()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer2'));
-
-        $jwe = $container->get('jose.jwe_serializer.jwe_serializer2');
-        self::assertInstanceOf(JWESerializerManager::class, $jwe);
+        $jwe = $container->get('jose.jwe_loader.jwe_loader2');
+        self::assertInstanceOf(JWELoader::class, $jwe);
     }
 }

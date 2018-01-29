@@ -60,6 +60,14 @@ final class JWSSerializerManager
     }
 
     /**
+     * @return string[]
+     */
+    public function list(): array
+    {
+        return array_keys($this->serializers);
+    }
+
+    /**
      * Converts a JWS into a string.
      *
      * @param string   $name

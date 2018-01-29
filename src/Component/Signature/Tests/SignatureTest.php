@@ -17,6 +17,7 @@ use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWSBuilderFactory;
+use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer;
 use PHPUnit\Framework\TestCase;
@@ -136,5 +137,26 @@ abstract class SignatureTest extends TestCase
         }
 
         return $this->jwsSerializerManager;
+    }
+
+    /**
+     * @var JWSLoaderFactory
+     */
+    private $jwsLoaderFactory;
+
+    /**
+     * @return JWSLoaderFactory
+     */
+    protected function getJWSLoaderFactory(): JWSLoaderFactory
+    {
+        if (null === $this->jwsLoaderFactory) {
+            $this->jwsLoaderFactory = new JWSLoaderFactory(
+                $this->getJWSSerializerManagerFactory(),
+                $this->getJWSVerifierFactory(),
+                null
+            );
+        }
+
+        return $this->jwsLoaderFactory;
     }
 }
