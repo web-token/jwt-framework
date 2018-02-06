@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @group Unit
  * @group JWK
  */
-final class JWKTest extends TestCase
+class JWKTest extends TestCase
 {
     /**
      * @test

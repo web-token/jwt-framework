@@ -31,7 +31,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 /**
  * Class JWEDecrypter.
  */
-final class JWEDecrypter
+class JWEDecrypter
 {
     /**
      * @var AlgorithmManager

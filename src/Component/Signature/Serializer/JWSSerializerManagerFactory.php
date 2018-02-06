@@ -16,7 +16,7 @@ namespace Jose\Component\Signature\Serializer;
 /**
  * Class JWSSerializerManagerFactory.
  */
-final class JWSSerializerManagerFactory
+class JWSSerializerManagerFactory
 {
     /**
      * @var JWSSerializer[]

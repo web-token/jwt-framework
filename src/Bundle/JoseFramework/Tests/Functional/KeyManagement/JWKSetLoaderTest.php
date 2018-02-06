@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @group Bundle
  * @group Functional
  */
-final class JWKSetLoaderTest extends WebTestCase
+class JWKSetLoaderTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

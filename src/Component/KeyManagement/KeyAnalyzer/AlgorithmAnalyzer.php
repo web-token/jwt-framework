@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class AlgorithmAnalyzer.
  */
-final class AlgorithmAnalyzer implements KeyAnalyzer
+class AlgorithmAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}

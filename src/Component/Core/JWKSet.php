@@ -16,7 +16,7 @@ namespace Jose\Component\Core;
 /**
  * Class JWKSet.
  */
-final class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
+class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
      * @var array

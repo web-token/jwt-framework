@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class SignatureSerializerCompilerPass.
  */
-final class SignatureSerializerCompilerPass implements CompilerPassInterface
+class SignatureSerializerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

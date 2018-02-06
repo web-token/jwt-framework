@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class NoneAnalyzer.
  */
-final class NoneAnalyzer implements KeyAnalyzer
+class NoneAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}

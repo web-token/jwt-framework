@@ -19,7 +19,7 @@ use Jose\Component\Checker\HeaderChecker;
 /**
  * Class CustomChecker.
  */
-final class CustomChecker implements ClaimChecker, HeaderChecker
+class CustomChecker implements ClaimChecker, HeaderChecker
 {
     public function checkClaim($value)
     {

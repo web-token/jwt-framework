@@ -21,7 +21,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  *
  * @group RFC7520
  */
-final class NestingTest extends EncryptionTest
+class NestingTest extends EncryptionTest
 {
     public function testDecryption()
     {

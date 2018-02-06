@@ -16,7 +16,7 @@ namespace Jose\Component\Checker;
 /**
  * Class AudienceChecker.
  */
-final class AudienceChecker implements ClaimChecker, HeaderChecker
+class AudienceChecker implements ClaimChecker, HeaderChecker
 {
     private const CLAIM_NAME = 'aud';
 

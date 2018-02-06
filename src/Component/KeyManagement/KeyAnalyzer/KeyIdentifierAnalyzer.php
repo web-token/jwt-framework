@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class KeyIdentifierAnalyzer.
  */
-final class KeyIdentifierAnalyzer implements KeyAnalyzer
+class KeyIdentifierAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}

@@ -19,7 +19,7 @@ use Jose\Component\Core\JWT;
 /**
  * Class TokenSupport.
  */
-final class TokenSupport implements TokenTypeSupport
+class TokenSupport implements TokenTypeSupport
 {
     /**
      * {@inheritdoc}

@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  * @group ClaimChecker
  * @group Functional
  */
-final class ClaimCheckerManagerFactoryTest extends TestCase
+class ClaimCheckerManagerFactoryTest extends TestCase
 {
     /**
      * @test

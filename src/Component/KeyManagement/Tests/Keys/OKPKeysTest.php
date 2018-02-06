@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  * @group OKPKeys
  * @group Unit
  */
-final class OKPKeysTest extends TestCase
+class OKPKeysTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

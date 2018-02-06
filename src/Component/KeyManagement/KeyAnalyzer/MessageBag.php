@@ -16,7 +16,7 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 /**
  * Class MessageBag.
  */
-final class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
+class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
 {
     /**
      * @var Message[]

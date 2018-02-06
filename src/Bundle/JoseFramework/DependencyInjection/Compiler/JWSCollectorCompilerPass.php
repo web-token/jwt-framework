@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWSCollectorCompilerPass.
  */
-final class JWSCollectorCompilerPass implements CompilerPassInterface
+class JWSCollectorCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

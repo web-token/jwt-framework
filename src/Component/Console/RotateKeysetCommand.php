@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class RotateKeysetCommand.
  */
-final class RotateKeysetCommand extends ObjectOutputCommand
+class RotateKeysetCommand extends ObjectOutputCommand
 {
     /**
      * KeyAnalyzerCommand constructor.

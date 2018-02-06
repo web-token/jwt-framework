@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  * @group HeaderChecker
  * @group Functional
  */
-final class UnencodedPayloadHeaderCheckerTest extends TestCase
+class UnencodedPayloadHeaderCheckerTest extends TestCase
 {
     /**
      * @test

@@ -18,9 +18,10 @@ use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 
 /**
+ * @internal
  * Class RSA.
  */
-final class RSA
+class RSA
 {
     /**
      * Probabilistic Signature Scheme.

@@ -18,9 +18,10 @@ use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 
 /**
+ * @internal
  * Class RSACrypt.
  */
-final class RSACrypt
+class RSACrypt
 {
     /**
      * Optimal Asymmetric Encryption Padding (OAEP).

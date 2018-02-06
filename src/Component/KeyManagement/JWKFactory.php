@@ -23,7 +23,7 @@ use Jose\Component\KeyManagement\KeyConverter\RSAKey;
 /**
  * Class JWKFactory.
  */
-final class JWKFactory
+class JWKFactory
 {
     /**
      * @param int   $size   The key size in bits

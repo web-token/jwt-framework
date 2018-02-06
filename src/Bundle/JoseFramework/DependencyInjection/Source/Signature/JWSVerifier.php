@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWSVerifier.
  */
-final class JWSVerifier extends AbstractSignatureSource
+class JWSVerifier extends AbstractSignatureSource
 {
     /**
      * {@inheritdoc}

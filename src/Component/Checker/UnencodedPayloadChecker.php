@@ -16,7 +16,7 @@ namespace Jose\Component\Checker;
 /**
  * Class UnencodedPayloadChecker.
  */
-final class UnencodedPayloadChecker implements HeaderChecker
+class UnencodedPayloadChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'b64';
 

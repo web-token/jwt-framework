@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  * @group HeaderChecker
  * @group Functional
  */
-final class HeaderCheckerManagerFactoryTest extends TestCase
+class HeaderCheckerManagerFactoryTest extends TestCase
 {
     /**
      * @test

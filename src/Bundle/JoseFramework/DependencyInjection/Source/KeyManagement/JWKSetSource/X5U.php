@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class X5U.
  */
-final class X5U extends AbstractSource implements JWKSetSource
+class X5U extends AbstractSource implements JWKSetSource
 {
     /**
      * {@inheritdoc}

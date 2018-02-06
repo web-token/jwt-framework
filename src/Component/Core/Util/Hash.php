@@ -15,8 +15,9 @@ namespace Jose\Component\Core\Util;
 
 /**
  * Class Hash.
+ * @internal
  */
-final class Hash
+class Hash
 {
     /**
      * Hash Parameter.

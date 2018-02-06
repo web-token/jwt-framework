@@ -21,7 +21,7 @@ use Jose\Component\Core\JWKSet;
 /**
  * Class JKUFactory.
  */
-final class JKUFactory extends UrlKeySetFactory
+class JKUFactory extends UrlKeySetFactory
 {
     private $jsonConverter;
 

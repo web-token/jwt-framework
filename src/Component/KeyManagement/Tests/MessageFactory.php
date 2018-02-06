@@ -21,7 +21,7 @@ use Http\Message\RequestFactory;
 /**
  * Class MessageFactory.
  */
-final class MessageFactory implements ResponseFactory, RequestFactory
+class MessageFactory implements ResponseFactory, RequestFactory
 {
     /**
      * {@inheritdoc}

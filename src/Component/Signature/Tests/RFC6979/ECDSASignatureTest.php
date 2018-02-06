@@ -35,7 +35,7 @@ use Jose\Component\Signature\Tests\SignatureTest;
  *
  * @group RFC6979
  */
-final class ECDSASignatureTest extends SignatureTest
+class ECDSASignatureTest extends SignatureTest
 {
     /**
      * @param SignatureAlgorithm       $algorithm

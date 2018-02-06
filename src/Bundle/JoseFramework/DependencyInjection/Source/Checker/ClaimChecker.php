@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class ClaimChecker.
  */
-final class ClaimChecker implements Source
+class ClaimChecker implements Source
 {
     /**
      * {@inheritdoc}

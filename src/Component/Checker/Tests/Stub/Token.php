@@ -18,7 +18,7 @@ use Jose\Component\Core\JWT;
 /**
  * Class Token.
  */
-final class Token implements JWT
+class Token implements JWT
 {
     /**
      * @var null|string

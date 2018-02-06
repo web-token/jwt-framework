@@ -23,7 +23,7 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 /**
  * Class JWSBuilder.
  */
-final class JWSBuilder
+class JWSBuilder
 {
     /**
      * @var JsonConverter

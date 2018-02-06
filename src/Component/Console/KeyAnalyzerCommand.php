@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class KeyAnalyzerCommand.
  */
-final class KeyAnalyzerCommand extends Command
+class KeyAnalyzerCommand extends Command
 {
     /**
      * @var KeyAnalyzerManager

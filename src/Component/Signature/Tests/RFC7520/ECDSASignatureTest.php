@@ -21,7 +21,7 @@ use Jose\Component\Signature\Tests\SignatureTest;
  *
  * @group RFC7520
  */
-final class ECDSASignatureTest extends SignatureTest
+class ECDSASignatureTest extends SignatureTest
 {
     /**
      * Please note that we cannot create the signature and get the same result as the example (ECDSA signatures are always different).

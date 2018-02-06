@@ -16,7 +16,7 @@ namespace Jose\Component\Encryption;
 /**
  * Class Recipient.
  */
-final class Recipient
+class Recipient
 {
     /**
      * @var array

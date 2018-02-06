@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class SecretKeyGeneratorCommand.
  */
-final class SecretKeyGeneratorCommand extends GeneratorCommand
+class SecretKeyGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

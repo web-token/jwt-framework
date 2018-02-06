@@ -16,7 +16,7 @@ namespace Jose\Component\Core;
 /**
  * Class AlgorithmManagerFactory.
  */
-final class AlgorithmManagerFactory
+class AlgorithmManagerFactory
 {
     /**
      * @var array

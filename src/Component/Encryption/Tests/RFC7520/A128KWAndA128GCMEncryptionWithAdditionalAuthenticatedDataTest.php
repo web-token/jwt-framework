@@ -22,7 +22,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  *
  * @group RFC7520
  */
-final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extends EncryptionTest
+class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extends EncryptionTest
 {
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).

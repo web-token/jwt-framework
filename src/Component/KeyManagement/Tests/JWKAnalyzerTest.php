@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * @group Unit
  * @group JWKAnalyzer
  */
-final class JWKAnalyzerTest extends TestCase
+class JWKAnalyzerTest extends TestCase
 {
     /**
      * @test

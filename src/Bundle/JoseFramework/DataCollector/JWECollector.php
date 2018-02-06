@@ -21,7 +21,7 @@ use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class JWECollector implements Collector
+class JWECollector implements Collector
 {
     /**
      * @var JWESerializerManagerFactory|null

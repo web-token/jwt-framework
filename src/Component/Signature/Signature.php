@@ -16,7 +16,7 @@ namespace Jose\Component\Signature;
 /**
  * Class Signature.
  */
-final class Signature
+class Signature
 {
     /**
      * @var null|string

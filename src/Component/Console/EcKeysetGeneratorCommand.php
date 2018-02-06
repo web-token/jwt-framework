@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class EcKeysetGeneratorCommand.
  */
-final class EcKeysetGeneratorCommand extends GeneratorCommand
+class EcKeysetGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

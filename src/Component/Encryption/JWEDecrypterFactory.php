@@ -19,7 +19,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 /**
  * Class JWEDecrypterFactory.
  */
-final class JWEDecrypterFactory
+class JWEDecrypterFactory
 {
     /**
      * @var AlgorithmManagerFactory

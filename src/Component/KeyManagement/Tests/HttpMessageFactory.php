@@ -20,7 +20,7 @@ use Http\Message\MessageFactory as Psr7MessageFactory;
 /**
  * Class HttpMessageFactory.
  */
-final class HttpMessageFactory implements Psr7MessageFactory
+class HttpMessageFactory implements Psr7MessageFactory
 {
     /**
      * {@inheritdoc}

@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @group Unit
  * @group JsonConverter
  */
-final class JsonConverterTest extends TestCase
+class JsonConverterTest extends TestCase
 {
     /**
      * @test

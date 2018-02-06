@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class MergeKeysetCommand.
  */
-final class MergeKeysetCommand extends ObjectOutputCommand
+class MergeKeysetCommand extends ObjectOutputCommand
 {
     /**
      * KeyAnalyzerCommand constructor.

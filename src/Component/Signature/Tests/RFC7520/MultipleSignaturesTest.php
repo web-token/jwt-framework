@@ -21,7 +21,7 @@ use Jose\Component\Signature\Tests\SignatureTest;
  *
  * @group RFC7520
  */
-final class MultipleSignaturesTest extends SignatureTest
+class MultipleSignaturesTest extends SignatureTest
 {
     public function testMultipleSignatures()
     {

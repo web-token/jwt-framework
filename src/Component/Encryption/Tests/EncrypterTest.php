@@ -24,7 +24,7 @@ use Jose\Component\Encryption\JWE;
  * @group Encrypter
  * @group Functional
  */
-final class EncrypterTest extends EncryptionTest
+class EncrypterTest extends EncryptionTest
 {
     public function testEncryptWithJWTInput()
     {

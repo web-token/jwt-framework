@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class NoneKeyGeneratorCommand.
  */
-final class NoneKeyGeneratorCommand extends GeneratorCommand
+class NoneKeyGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

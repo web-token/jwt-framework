@@ -18,7 +18,7 @@ use Jose\Component\Encryption\Util\RSACrypt;
 /**
  * Class RSA15.
  */
-final class RSA15 extends RSA
+class RSA15 extends RSA
 {
     /**
      * {@inheritdoc}

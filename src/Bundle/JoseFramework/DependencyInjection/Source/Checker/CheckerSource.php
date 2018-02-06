@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class CheckerSource.
  */
-final class CheckerSource implements Source
+class CheckerSource implements Source
 {
     /**
      * @var Source[]

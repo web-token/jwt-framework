@@ -18,6 +18,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * Class TestBundle.
  */
-final class TestBundle extends Bundle
+class TestBundle extends Bundle
 {
 }

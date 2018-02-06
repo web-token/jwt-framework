@@ -21,7 +21,7 @@ use Jose\Component\Core\Algorithm;
  * @group Unit
  * @group JWKSet
  */
-final class FooAlgorithm implements Algorithm
+class FooAlgorithm implements Algorithm
 {
     /**
      * {@inheritdoc}

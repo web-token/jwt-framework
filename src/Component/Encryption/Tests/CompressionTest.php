@@ -24,7 +24,7 @@ use Jose\Component\Encryption\Compression\ZLib;
  *
  * @group Unit
  */
-final class CompressionTest extends EncryptionTest
+class CompressionTest extends EncryptionTest
 {
     public function testGetValidCompressionAlgorithm()
     {

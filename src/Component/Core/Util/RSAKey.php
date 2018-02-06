@@ -24,8 +24,9 @@ use Jose\Component\Core\JWK;
 
 /**
  * Class RSAKey.
+ * @internal 
  */
-final class RSAKey
+class RSAKey
 {
     /**
      * @var Sequence

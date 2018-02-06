@@ -19,7 +19,7 @@ use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 /**
  * Class JWSLoaderFactory.
  */
-final class JWSLoaderFactory
+class JWSLoaderFactory
 {
     /**
      * @var JWSVerifierFactory

@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWEDecrypter.
  */
-final class JWEDecrypter extends AbstractEncryptionSource
+class JWEDecrypter extends AbstractEncryptionSource
 {
     /**
      * {@inheritdoc}

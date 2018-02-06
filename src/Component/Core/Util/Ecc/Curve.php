@@ -14,13 +14,14 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 /**
+ * @internal
  * This class is a representation of an EC over a field modulo a prime number.
  *
  * Important objectives for this class are:
  * - Does the curve contain a point?
  * - Comparison of two curves.
  */
-final class Curve
+class Curve
 {
     /**
      * Elliptic curve over the field of integers modulo a prime.

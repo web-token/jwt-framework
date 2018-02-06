@@ -16,7 +16,7 @@ namespace Jose\Component\Core\Converter;
 /**
  * Class StandardConverter.
  */
-final class StandardConverter implements JsonConverter
+class StandardConverter implements JsonConverter
 {
     /**
      * @var int
