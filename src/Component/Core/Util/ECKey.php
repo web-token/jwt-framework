@@ -18,6 +18,7 @@ use Jose\Component\Core\JWK;
 
 /**
  * Class ECKey.
+ *
  * @internal
  */
 class ECKey

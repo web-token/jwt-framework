@@ -93,6 +93,7 @@ class HeaderCheckerManager
     /**
      * @param JWT $jwt
      * @param int $component
+     *
      * @throws InvalidHeaderException
      */
     public function check(JWT $jwt, int $component)

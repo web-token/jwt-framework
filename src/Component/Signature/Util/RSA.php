@@ -19,7 +19,7 @@ use Jose\Component\Core\Util\RSAKey;
 
 /**
  * @internal
- * Class RSA.
+ * Class RSA
  */
 class RSA
 {
