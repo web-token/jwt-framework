@@ -17,7 +17,7 @@ use Base64Url\Base64Url;
 
 /**
  * @internal
- * This class will help you to load an EC key or a RSA key/certificate (private or public) and get values to create a JWK object.
+ * This class will help you to load an EC key or a RSA key/certificate (private or public) and get values to create a JWK object
  */
 class KeyConverter
 {

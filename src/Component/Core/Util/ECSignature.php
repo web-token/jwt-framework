@@ -15,6 +15,7 @@ namespace Jose\Component\Core\Util;
 
 /**
  * Class ECSignature.
+ *
  * @internal
  */
 class ECSignature

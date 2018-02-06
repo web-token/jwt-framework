@@ -15,6 +15,7 @@ namespace Jose\Component\Core\Util;
 
 /**
  * Class BigInteger.
+ *
  * @internal
  */
 class BigInteger

@@ -19,7 +19,7 @@ use Jose\Component\Core\Util\BigInteger;
 
 /**
  * @internal
- * Class RSAKey.
+ * Class RSAKey
  */
 class RSAKey
 {

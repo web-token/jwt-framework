@@ -24,7 +24,7 @@ use FG\ASN1\ASNObject;
 
 /**
  * @internal
- * Class ECKey.
+ * Class ECKey
  */
 class ECKey
 {

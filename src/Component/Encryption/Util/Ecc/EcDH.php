@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Util\Ecc;
 
-/**
+/*
  * *********************************************************************
  * Copyright (C) 2012 Matyas Danter
  *

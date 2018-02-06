@@ -15,7 +15,7 @@ namespace Jose\Component\Core\Util\Ecc;
 
 /**
  * *********************************************************************
- * Copyright (C) 2012 Matyas Danter
+ * Copyright (C) 2012 Matyas Danter.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
@@ -39,7 +39,7 @@ namespace Jose\Component\Core\Util\Ecc;
 
 /**
  * @internal
- * This class serves as public- private key exchange for signature verification.
+ * This class serves as public- private key exchange for signature verification
  */
 class PublicKey
 {

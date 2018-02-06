@@ -15,7 +15,7 @@ namespace Jose\Component\Core\Util\Ecc;
 
 /**
  * @internal
- * Class ModularArithmetic.
+ * Class ModularArithmetic
  */
 class ModularArithmetic
 {

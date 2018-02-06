@@ -39,7 +39,7 @@ namespace Jose\Component\Core\Util\Ecc;
 
 /**
  * @internal
- * This class serves as public - private key exchange for signature verification.
+ * This class serves as public - private key exchange for signature verification
  */
 class PrivateKey
 {
