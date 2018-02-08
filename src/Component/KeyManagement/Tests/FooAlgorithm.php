@@ -28,12 +28,12 @@ class FooAlgorithm implements Algorithm
     {
         return 'foo';
     }
-    
-     /**
-      * {@inheritdoc}
-      */
-     public function allowedKeyTypes(): array
-     {
-         return ['FOO'];
-     }
- }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function allowedKeyTypes(): array
+    {
+        return ['FOO'];
+    }
+}

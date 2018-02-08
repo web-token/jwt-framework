@@ -31,20 +31,20 @@ class OptimizeRsaKeyCommand extends ObjectOutputCommand
             ->setName('key:optimize')
             ->setDescription('Optimize a RSA key by calculating additional primes (CRT).')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $jwk = $input->getArgument('jwk');
-         $json = $this->jsonConverter->decode($jwk);
-         if (!is_array($json)) {
-             throw new \InvalidArgumentException('Invalid input.');
-         }
-         $key = RSAKey::createFromJWK(JWK::create($json));
-         $key->optimize();
-         $this->prepareJsonOutput($input, $output, $key->toJwk());
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $jwk = $input->getArgument('jwk');
+        $json = $this->jsonConverter->decode($jwk);
+        if (!is_array($json)) {
+            throw new \InvalidArgumentException('Invalid input.');
+        }
+        $key = RSAKey::createFromJWK(JWK::create($json));
+        $key->optimize();
+        $this->prepareJsonOutput($input, $output, $key->toJwk());
+    }
+}

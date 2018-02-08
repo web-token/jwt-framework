@@ -35,61 +35,61 @@ class ClaimCheckerManagerFactoryTest extends TestCase
         self::assertEquals(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
     }
 
-     /**
-      * @test
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage The claim checker with the alias "foo" is not supported.
-      */
-     public function theAliasDoesNotExist()
-     {
-         $this->getClaimCheckerManagerFactory()->create(['foo']);
-     }
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The claim checker with the alias "foo" is not supported.
+     */
+    public function theAliasDoesNotExist()
+    {
+        $this->getClaimCheckerManagerFactory()->create(['foo']);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanCreateAClaimCheckerManager()
-     {
-         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
-         self::assertInstanceOf(ClaimCheckerManager::class, $manager);
-     }
+    /**
+     * @test
+     */
+    public function iCanCreateAClaimCheckerManager()
+    {
+        $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
+        self::assertInstanceOf(ClaimCheckerManager::class, $manager);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanCheckValidPayloadClaims()
-     {
-         $payload = [
+    /**
+     * @test
+     */
+    public function iCanCheckValidPayloadClaims()
+    {
+        $payload = [
             'exp' => time() + 3600,
             'iat' => time() - 1000,
             'nbf' => time() - 100,
             'foo' => 'bar',
         ];
-         $expected = $payload;
-         unset($expected['foo']);
-         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
-         $result = $manager->check($payload);
-         self::assertEquals($expected, $result);
-     }
+        $expected = $payload;
+        unset($expected['foo']);
+        $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
+        $result = $manager->check($payload);
+        self::assertEquals($expected, $result);
+    }
 
-     /**
-      * @var ClaimCheckerManagerFactory|null
-      */
-     private $claimCheckerManagerFactory = null;
+    /**
+     * @var ClaimCheckerManagerFactory|null
+     */
+    private $claimCheckerManagerFactory = null;
 
-     /**
-      * @return ClaimCheckerManagerFactory
-      */
-     private function getClaimCheckerManagerFactory(): ClaimCheckerManagerFactory
-     {
-         if (null === $this->claimCheckerManagerFactory) {
-             $this->claimCheckerManagerFactory = new ClaimCheckerManagerFactory();
-             $this->claimCheckerManagerFactory->add('exp', new ExpirationTimeChecker());
-             $this->claimCheckerManagerFactory->add('iat', new IssuedAtChecker());
-             $this->claimCheckerManagerFactory->add('nbf', new NotBeforeChecker());
-             $this->claimCheckerManagerFactory->add('aud', new AudienceChecker('My Service'));
-         }
+    /**
+     * @return ClaimCheckerManagerFactory
+     */
+    private function getClaimCheckerManagerFactory(): ClaimCheckerManagerFactory
+    {
+        if (null === $this->claimCheckerManagerFactory) {
+            $this->claimCheckerManagerFactory = new ClaimCheckerManagerFactory();
+            $this->claimCheckerManagerFactory->add('exp', new ExpirationTimeChecker());
+            $this->claimCheckerManagerFactory->add('iat', new IssuedAtChecker());
+            $this->claimCheckerManagerFactory->add('nbf', new NotBeforeChecker());
+            $this->claimCheckerManagerFactory->add('aud', new AudienceChecker('My Service'));
+        }
 
-         return $this->claimCheckerManagerFactory;
-     }
- }
+        return $this->claimCheckerManagerFactory;
+    }
+}

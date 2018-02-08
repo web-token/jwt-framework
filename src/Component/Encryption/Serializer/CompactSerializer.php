@@ -75,27 +75,27 @@ class CompactSerializer implements JWESerializer
             Base64Url::encode($jwe->getCiphertext()),
             Base64Url::encode(null === $jwe->getTag() ? '' : $jwe->getTag())
         );
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function unserialize(string $input): JWE
-     {
-         $parts = explode('.', $input);
-         if (5 !== count($parts)) {
-             throw new \InvalidArgumentException('Unsupported input');
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize(string $input): JWE
+    {
+        $parts = explode('.', $input);
+        if (5 !== count($parts)) {
+            throw new \InvalidArgumentException('Unsupported input');
+        }
 
-         try {
-             $encodedSharedProtectedHeader = $parts[0];
-             $sharedProtectedHeader = $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader));
-             $encryptedKey = empty($parts[1]) ? null : Base64Url::decode($parts[1]);
-             $iv = Base64Url::decode($parts[2]);
-             $ciphertext = Base64Url::decode($parts[3]);
-             $tag = Base64Url::decode($parts[4]);
+        try {
+            $encodedSharedProtectedHeader = $parts[0];
+            $sharedProtectedHeader = $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader));
+            $encryptedKey = empty($parts[1]) ? null : Base64Url::decode($parts[1]);
+            $iv = Base64Url::decode($parts[2]);
+            $ciphertext = Base64Url::decode($parts[3]);
+            $tag = Base64Url::decode($parts[4]);
 
-             return JWE::create(
+            return JWE::create(
                 $ciphertext,
                 $iv,
                 $tag,
@@ -104,39 +104,39 @@ class CompactSerializer implements JWESerializer
                 $sharedProtectedHeader,
                 $encodedSharedProtectedHeader,
                 [Recipient::create([], $encryptedKey)]);
-         } catch (\Error | \Exception $e) {
-             throw new \InvalidArgumentException('Unsupported input');
-         }
-     }
+        } catch (\Error | \Exception $e) {
+            throw new \InvalidArgumentException('Unsupported input');
+        }
+    }
 
-     /**
-      * @param JWE $jwe
-      */
-     private function checkHasNoAAD(JWE $jwe)
-     {
-         if (!empty($jwe->getAAD())) {
-             throw new \LogicException('This JWE has AAD and cannot be converted into Compact JSON.');
-         }
-     }
+    /**
+     * @param JWE $jwe
+     */
+    private function checkHasNoAAD(JWE $jwe)
+    {
+        if (!empty($jwe->getAAD())) {
+            throw new \LogicException('This JWE has AAD and cannot be converted into Compact JSON.');
+        }
+    }
 
-     /**
-      * @param JWE $jwe
-      * @param int $id
-      */
-     private function checkRecipientHasNoHeader(JWE $jwe, int $id)
-     {
-         if (!empty($jwe->getSharedHeader()) || !empty($jwe->getRecipient($id)->getHeader())) {
-             throw new \LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
-         }
-     }
+    /**
+     * @param JWE $jwe
+     * @param int $id
+     */
+    private function checkRecipientHasNoHeader(JWE $jwe, int $id)
+    {
+        if (!empty($jwe->getSharedHeader()) || !empty($jwe->getRecipient($id)->getHeader())) {
+            throw new \LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
+        }
+    }
 
-     /**
-      * @param JWE $jwe
-      */
-     private function checkHasSharedProtectedHeader(JWE $jwe)
-     {
-         if (empty($jwe->getSharedProtectedHeader())) {
-             throw new \LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
-         }
-     }
- }
+    /**
+     * @param JWE $jwe
+     */
+    private function checkHasSharedProtectedHeader(JWE $jwe)
+    {
+        if (empty($jwe->getSharedProtectedHeader())) {
+            throw new \LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
+        }
+    }
+}

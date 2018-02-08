@@ -49,15 +49,15 @@ class ECDSASignatureTest extends SignatureTest
     {
         $is_valid = $algorithm->verify($key, $message, $signature);
 
-         self::assertTrue($is_valid);
-     }
+        self::assertTrue($is_valid);
+    }
 
-     /**
-      * @return array
-      */
-     public function dataWithVectors()
-     {
-         return [
+    /**
+     * @return array
+     */
+    public function dataWithVectors()
+    {
+        return [
             [
                 new ES256(),
                 'sample',
@@ -156,15 +156,15 @@ class ECDSASignatureTest extends SignatureTest
                 ),
             ],
         ];
-     }
+    }
 
-     /**
-      * @param string $data
-      *
-      * @return string
-      */
-     private function convertHexToBin($data)
-     {
-         return hex2bin($data);
-     }
- }
+    /**
+     * @param string $data
+     *
+     * @return string
+     */
+    private function convertHexToBin($data)
+    {
+        return hex2bin($data);
+    }
+}

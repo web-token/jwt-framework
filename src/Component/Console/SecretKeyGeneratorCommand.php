@@ -32,20 +32,20 @@ class SecretKeyGeneratorCommand extends GeneratorCommand
             ->setDescription('Generate an octet key (JWK format) using an existing secret')
             ->addArgument('secret', InputArgument::REQUIRED, 'The secret')
             ->addOption('is_b64', 'b', InputOption::VALUE_NONE, 'Indicates if the secret is Base64 encoded (useful for binary secrets)');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $secret = $input->getArgument('secret');
-         if ($input->getOption('is_b64')) {
-             $secret = base64_decode($secret);
-         }
-         $args = $this->getOptions($input);
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $secret = $input->getArgument('secret');
+        if ($input->getOption('is_b64')) {
+            $secret = base64_decode($secret);
+        }
+        $args = $this->getOptions($input);
 
-         $jwk = JWKFactory::createFromSecret($secret, $args);
-         $this->prepareJsonOutput($input, $output, $jwk);
-     }
- }
+        $jwk = JWKFactory::createFromSecret($secret, $args);
+        $this->prepareJsonOutput($input, $output, $jwk);
+    }
+}

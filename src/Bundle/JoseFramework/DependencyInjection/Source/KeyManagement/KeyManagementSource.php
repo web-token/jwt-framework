@@ -31,95 +31,95 @@ class KeyManagementSource implements SourceWithCompilerPasses
      */
     private $sources;
 
-     /**
-      * KeyManagementSource constructor.
-      */
-     public function __construct()
-     {
-         $this->sources = [
+    /**
+     * KeyManagementSource constructor.
+     */
+    public function __construct()
+    {
+        $this->sources = [
             new JWKSetSource(),
             new JWKSource(),
             new JWKUriSource(),
         ];
-         if (class_exists(HttplugBundle::class)) {
-             $this->sources[] = new JKUSource();
-         }
-     }
+        if (class_exists(HttplugBundle::class)) {
+            $this->sources[] = new JKUSource();
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'key_mgmt';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'key_mgmt';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-         $loader->load('analyzers.yml');
-         $loader->load('jwk_factory.yml');
-         $loader->load('jwk_services.yml');
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('analyzers.yml');
+        $loader->load('jwk_factory.yml');
+        $loader->load('jwk_services.yml');
 
-         foreach ($this->sources as $source) {
-             $source->load($configs, $container);
-         }
-     }
+        foreach ($this->sources as $source) {
+            $source->load($configs, $container);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getNodeDefinition(NodeDefinition $node)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         foreach ($this->sources as $source) {
-             $source->getNodeDefinition($node);
-         }
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getNodeDefinition(NodeDefinition $node)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        foreach ($this->sources as $source) {
+            $source->getNodeDefinition($node);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function prepend(ContainerBuilder $container, array $config): array
-     {
-         if (!$this->isEnabled()) {
-             return [];
-         }
-         $result = [];
-         foreach ($this->sources as $source) {
-             $prepend = $source->prepend($container, $config);
-             if (!empty($prepend)) {
-                 $result[$source->name()] = $prepend;
-             }
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config): array
+    {
+        if (!$this->isEnabled()) {
+            return [];
+        }
+        $result = [];
+        foreach ($this->sources as $source) {
+            $prepend = $source->prepend($container, $config);
+            if (!empty($prepend)) {
+                $result[$source->name()] = $prepend;
+            }
+        }
 
-         return $result;
-     }
+        return $result;
+    }
 
-     /**
-      * @return bool
-      */
-     private function isEnabled(): bool
-     {
-         return class_exists(JWKFactory::class);
-     }
+    /**
+     * @return bool
+     */
+    private function isEnabled(): bool
+    {
+        return class_exists(JWKFactory::class);
+    }
 
-     /**
-      * @return CompilerPassInterface[]
-      */
-     public function getCompilerPasses(): array
-     {
-         return [
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
             new Compiler\KeyAnalyzerCompilerPass(),
             new Compiler\KeySetControllerCompilerPass(),
         ];
-     }
- }
+    }
+}

@@ -30,17 +30,17 @@ class OctKeyGeneratorCommand extends GeneratorCommand
             ->setName('key:generate:oct')
             ->setDescription('Generate an octet key (JWK format)')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $size = intval($input->getArgument('size'));
-         $args = $this->getOptions($input);
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $size = intval($input->getArgument('size'));
+        $args = $this->getOptions($input);
 
-         $jwk = JWKFactory::createOctKey($size, $args);
-         $this->prepareJsonOutput($input, $output, $jwk);
-     }
- }
+        $jwk = JWKFactory::createOctKey($size, $args);
+        $this->prepareJsonOutput($input, $output, $jwk);
+    }
+}

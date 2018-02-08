@@ -31,98 +31,98 @@ class SignatureSource implements SourceWithCompilerPasses
      */
     private $sources;
 
-     /**
-      * SignatureSource constructor.
-      */
-     public function __construct()
-     {
-         $this->sources = [
+    /**
+     * SignatureSource constructor.
+     */
+    public function __construct()
+    {
+        $this->sources = [
             new JWSBuilder(),
             new JWSVerifier(),
             new JWSSerializer(),
             new JWSLoader(),
         ];
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'jws';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'jws';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-         $loader->load('jws_services.yml');
-         $loader->load('jws_serializers.yml');
-         $loader->load('signature_algorithms.yml');
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('jws_services.yml');
+        $loader->load('jws_serializers.yml');
+        $loader->load('signature_algorithms.yml');
 
-         if (array_key_exists('jws', $configs)) {
-             foreach ($this->sources as $source) {
-                 $source->load($configs['jws'], $container);
-             }
-         }
-     }
+        if (array_key_exists('jws', $configs)) {
+            foreach ($this->sources as $source) {
+                $source->load($configs['jws'], $container);
+            }
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getNodeDefinition(NodeDefinition $node)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         $childNode = $node
+    /**
+     * {@inheritdoc}
+     */
+    public function getNodeDefinition(NodeDefinition $node)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $childNode = $node
             ->children()
             ->arrayNode($this->name());
 
-         foreach ($this->sources as $source) {
-             $source->getNodeDefinition($childNode);
-         }
-     }
+        foreach ($this->sources as $source) {
+            $source->getNodeDefinition($childNode);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function prepend(ContainerBuilder $container, array $config): array
-     {
-         if (!$this->isEnabled()) {
-             return [];
-         }
-         $result = [];
-         foreach ($this->sources as $source) {
-             $prepend = $source->prepend($container, $config);
-             if (!empty($prepend)) {
-                 $result[$source->name()] = $prepend;
-             }
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config): array
+    {
+        if (!$this->isEnabled()) {
+            return [];
+        }
+        $result = [];
+        foreach ($this->sources as $source) {
+            $prepend = $source->prepend($container, $config);
+            if (!empty($prepend)) {
+                $result[$source->name()] = $prepend;
+            }
+        }
 
-         return $result;
-     }
+        return $result;
+    }
 
-     /**
-      * @return bool
-      */
-     private function isEnabled(): bool
-     {
-         return class_exists(JWSBuilderFactory::class) && class_exists(JWSVerifierFactory::class);
-     }
+    /**
+     * @return bool
+     */
+    private function isEnabled(): bool
+    {
+        return class_exists(JWSBuilderFactory::class) && class_exists(JWSVerifierFactory::class);
+    }
 
-     /**
-      * @return CompilerPassInterface[]
-      */
-     public function getCompilerPasses(): array
-     {
-         return [
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
             new Compiler\SignatureSerializerCompilerPass(),
         ];
-     }
- }
+    }
+}

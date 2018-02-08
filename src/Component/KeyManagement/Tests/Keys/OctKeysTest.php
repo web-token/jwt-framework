@@ -31,11 +31,11 @@ class OctKeysTest extends TestCase
         JWKFactory::createOctKey(12);
     }
 
-     public function testCreateOctKey()
-     {
-         $jwk = JWKFactory::createOctKey(64);
+    public function testCreateOctKey()
+    {
+        $jwk = JWKFactory::createOctKey(64);
 
-         self::assertEquals('oct', $jwk->get('kty'));
-         self::assertTrue($jwk->has('k'));
-     }
- }
+        self::assertEquals('oct', $jwk->get('kty'));
+        self::assertTrue($jwk->has('k'));
+    }
+}

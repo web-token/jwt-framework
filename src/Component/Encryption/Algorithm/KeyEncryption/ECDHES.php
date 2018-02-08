@@ -74,41 +74,41 @@ class ECDHES implements KeyAgreement
             default:
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
-         $epk = $private_key->toPublic()->all();
-         $additional_header_values['epk'] = $epk;
+        $epk = $private_key->toPublic()->all();
+        $additional_header_values['epk'] = $epk;
 
-         return [$public_key, $private_key];
-     }
+        return [$public_key, $private_key];
+    }
 
-     /**
-      * @param JWK   $recipient_key
-      * @param array $complete_header
-      *
-      * @return JWK[]
-      */
-     private function getKeysFromPrivateKeyAndHeader(JWK $recipient_key, array $complete_header): array
-     {
-         $this->checkKey($recipient_key, true);
-         $private_key = $recipient_key;
-         $public_key = $this->getPublicKey($complete_header);
-         if ($private_key->get('crv') !== $public_key->get('crv')) {
-             throw new \InvalidArgumentException('Curves are different');
-         }
+    /**
+     * @param JWK   $recipient_key
+     * @param array $complete_header
+     *
+     * @return JWK[]
+     */
+    private function getKeysFromPrivateKeyAndHeader(JWK $recipient_key, array $complete_header): array
+    {
+        $this->checkKey($recipient_key, true);
+        $private_key = $recipient_key;
+        $public_key = $this->getPublicKey($complete_header);
+        if ($private_key->get('crv') !== $public_key->get('crv')) {
+            throw new \InvalidArgumentException('Curves are different');
+        }
 
-         return [$public_key, $private_key];
-     }
+        return [$public_key, $private_key];
+    }
 
-     /**
-      * @param JWK $private_key
-      * @param JWK $public_key
-      *
-      * @throws \InvalidArgumentException
-      *
-      * @return string
-      */
-     public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
-     {
-         switch ($public_key->get('crv')) {
+    /**
+     * @param JWK $private_key
+     * @param JWK $public_key
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return string
+     */
+    public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
+    {
+        switch ($public_key->get('crv')) {
             case 'P-256':
             case 'P-384':
             case 'P-521':
@@ -130,60 +130,60 @@ class ECDHES implements KeyAgreement
             default:
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'ECDH-ES';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'ECDH-ES';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKeyManagementMode(): string
-     {
-         return self::MODE_AGREEMENT;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeyManagementMode(): string
+    {
+        return self::MODE_AGREEMENT;
+    }
 
-     /**
-      * @param array $complete_header
-      *
-      * @return JWK
-      */
-     private function getPublicKey(array $complete_header)
-     {
-         if (!array_key_exists('epk', $complete_header)) {
-             throw new \InvalidArgumentException('The header parameter "epk" is missing');
-         }
-         if (!is_array($complete_header['epk'])) {
-             throw new \InvalidArgumentException('The header parameter "epk" is not an array of parameter');
-         }
+    /**
+     * @param array $complete_header
+     *
+     * @return JWK
+     */
+    private function getPublicKey(array $complete_header)
+    {
+        if (!array_key_exists('epk', $complete_header)) {
+            throw new \InvalidArgumentException('The header parameter "epk" is missing');
+        }
+        if (!is_array($complete_header['epk'])) {
+            throw new \InvalidArgumentException('The header parameter "epk" is not an array of parameter');
+        }
 
-         $public_key = JWK::create($complete_header['epk']);
-         $this->checkKey($public_key, false);
+        $public_key = JWK::create($complete_header['epk']);
+        $this->checkKey($public_key, false);
 
-         return $public_key;
-     }
+        return $public_key;
+    }
 
-     /**
-      * @param JWK  $key
-      * @param bool $is_private
-      */
-     private function checkKey(JWK $key, $is_private)
-     {
-         if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
-             throw new \InvalidArgumentException('Wrong key type.');
-         }
-         foreach (['x', 'crv'] as $k) {
-             if (!$key->has($k)) {
-                 throw new \InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
-             }
-         }
+    /**
+     * @param JWK  $key
+     * @param bool $is_private
+     */
+    private function checkKey(JWK $key, $is_private)
+    {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+            throw new \InvalidArgumentException('Wrong key type.');
+        }
+        foreach (['x', 'crv'] as $k) {
+            if (!$key->has($k)) {
+                throw new \InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+            }
+        }
 
-         switch ($key->get('crv')) {
+        switch ($key->get('crv')) {
             case 'P-256':
             case 'P-384':
             case 'P-521':
@@ -197,23 +197,23 @@ class ECDHES implements KeyAgreement
             default:
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $key->get('crv')));
         }
-         if (true === $is_private) {
-             if (!$key->has('d')) {
-                 throw new \InvalidArgumentException('The key parameter "d" is missing.');
-             }
-         }
-     }
+        if (true === $is_private) {
+            if (!$key->has('d')) {
+                throw new \InvalidArgumentException('The key parameter "d" is missing.');
+            }
+        }
+    }
 
-     /**
-      * @param string $crv
-      *
-      * @throws \InvalidArgumentException
-      *
-      * @return Curve
-      */
-     private function getCurve(string $crv): Curve
-     {
-         switch ($crv) {
+    /**
+     * @param string $crv
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return Curve
+     */
+    private function getCurve(string $crv): Curve
+    {
+        switch ($crv) {
             case 'P-256':
                 return NistCurve::curve256();
             case 'P-384':
@@ -223,68 +223,68 @@ class ECDHES implements KeyAgreement
             default:
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
-     }
+    }
 
-     /**
-      * @param string $value
-      *
-      * @return \GMP
-      */
-     private function convertBase64ToGmp(string $value): \GMP
-     {
-         $value = unpack('H*', Base64Url::decode($value));
+    /**
+     * @param string $value
+     *
+     * @return \GMP
+     */
+    private function convertBase64ToGmp(string $value): \GMP
+    {
+        $value = unpack('H*', Base64Url::decode($value));
 
-         return gmp_init($value[1], 16);
-     }
+        return gmp_init($value[1], 16);
+    }
 
-     /**
-      * @param \GMP $dec
-      *
-      * @return string
-      */
-     private function convertDecToBin(\GMP $dec): string
-     {
-         if (gmp_cmp($dec, 0) < 0) {
-             throw new \InvalidArgumentException('Unable to convert negative integer to string');
-         }
+    /**
+     * @param \GMP $dec
+     *
+     * @return string
+     */
+    private function convertDecToBin(\GMP $dec): string
+    {
+        if (gmp_cmp($dec, 0) < 0) {
+            throw new \InvalidArgumentException('Unable to convert negative integer to string');
+        }
 
-         $hex = gmp_strval($dec, 16);
+        $hex = gmp_strval($dec, 16);
 
-         if (0 !== mb_strlen($hex, '8bit') % 2) {
-             $hex = '0'.$hex;
-         }
+        if (0 !== mb_strlen($hex, '8bit') % 2) {
+            $hex = '0'.$hex;
+        }
 
-         return hex2bin($hex);
-     }
+        return hex2bin($hex);
+    }
 
-     /**
-      * @param string $crv The curve
-      *
-      * @return JWK
-      */
-     public function createECKey(string $crv): JWK
-     {
-         $curve = $this->getCurve($crv);
-         $privateKey = $curve->createPrivateKey();
-         $point = $curve->createPublicKey($privateKey)->getPoint();
+    /**
+     * @param string $crv The curve
+     *
+     * @return JWK
+     */
+    public function createECKey(string $crv): JWK
+    {
+        $curve = $this->getCurve($crv);
+        $privateKey = $curve->createPrivateKey();
+        $point = $curve->createPublicKey($privateKey)->getPoint();
 
-         return JWK::create([
+        return JWK::create([
             'kty' => 'EC',
             'crv' => $crv,
             'x'   => Base64Url::encode($this->convertDecToBin($point->getX())),
             'y'   => Base64Url::encode($this->convertDecToBin($point->getY())),
             'd'   => Base64Url::encode($this->convertDecToBin($privateKey->getSecret())),
         ]);
-     }
+    }
 
-     /**
-      * @param string $curve The curve
-      *
-      * @return JWK
-      */
-     public static function createOKPKey(string $curve): JWK
-     {
-         switch ($curve) {
+    /**
+     * @param string $curve The curve
+     *
+     * @return JWK
+     */
+    public static function createOKPKey(string $curve): JWK
+    {
+        switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
                 $d = sodium_crypto_box_secretkey($keyPair);
@@ -301,11 +301,11 @@ class ECDHES implements KeyAgreement
                 throw new \InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }
 
-         return JWK::create([
+        return JWK::create([
             'kty' => 'OKP',
             'crv' => $curve,
             'x'   => Base64Url::encode($x),
             'd'   => Base64Url::encode($d),
         ]);
-     }
- }
+    }
+}

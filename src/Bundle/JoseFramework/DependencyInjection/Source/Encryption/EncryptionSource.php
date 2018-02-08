@@ -31,100 +31,100 @@ class EncryptionSource implements SourceWithCompilerPasses
      */
     private $sources;
 
-     /**
-      * EncryptionSource constructor.
-      */
-     public function __construct()
-     {
-         $this->sources = [
+    /**
+     * EncryptionSource constructor.
+     */
+    public function __construct()
+    {
+        $this->sources = [
             new JWEBuilder(),
             new JWEDecrypter(),
             new JWESerializer(),
             new JWELoader(),
         ];
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'jwe';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'jwe';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-         $loader->load('jwe_services.yml');
-         $loader->load('encryption_algorithms.yml');
-         $loader->load('jwe_serializers.yml');
-         $loader->load('compression_methods.yml');
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('jwe_services.yml');
+        $loader->load('encryption_algorithms.yml');
+        $loader->load('jwe_serializers.yml');
+        $loader->load('compression_methods.yml');
 
-         if (array_key_exists('jwe', $configs)) {
-             foreach ($this->sources as $source) {
-                 $source->load($configs['jwe'], $container);
-             }
-         }
-     }
+        if (array_key_exists('jwe', $configs)) {
+            foreach ($this->sources as $source) {
+                $source->load($configs['jwe'], $container);
+            }
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getNodeDefinition(NodeDefinition $node)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         $childNode = $node
+    /**
+     * {@inheritdoc}
+     */
+    public function getNodeDefinition(NodeDefinition $node)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $childNode = $node
             ->children()
             ->arrayNode($this->name());
 
-         foreach ($this->sources as $source) {
-             $source->getNodeDefinition($childNode);
-         }
-     }
+        foreach ($this->sources as $source) {
+            $source->getNodeDefinition($childNode);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function prepend(ContainerBuilder $container, array $config): array
-     {
-         if (!$this->isEnabled()) {
-             return [];
-         }
-         $result = [];
-         foreach ($this->sources as $source) {
-             $prepend = $source->prepend($container, $config);
-             if (!empty($prepend)) {
-                 $result[$source->name()] = $prepend;
-             }
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config): array
+    {
+        if (!$this->isEnabled()) {
+            return [];
+        }
+        $result = [];
+        foreach ($this->sources as $source) {
+            $prepend = $source->prepend($container, $config);
+            if (!empty($prepend)) {
+                $result[$source->name()] = $prepend;
+            }
+        }
 
-         return $result;
-     }
+        return $result;
+    }
 
-     /**
-      * @return bool
-      */
-     private function isEnabled(): bool
-     {
-         return class_exists(JWEBuilderFactory::class) && class_exists(JWEDecrypterFactory::class);
-     }
+    /**
+     * @return bool
+     */
+    private function isEnabled(): bool
+    {
+        return class_exists(JWEBuilderFactory::class) && class_exists(JWEDecrypterFactory::class);
+    }
 
-     /**
-      * @return CompilerPassInterface[]
-      */
-     public function getCompilerPasses(): array
-     {
-         return [
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
             new Compiler\EncryptionSerializerCompilerPass(),
             new Compiler\CompressionMethodCompilerPass(),
         ];
-     }
- }
+    }
+}

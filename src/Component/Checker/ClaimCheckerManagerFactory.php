@@ -20,51 +20,51 @@ class ClaimCheckerManagerFactory
      */
     private $checkers = [];
 
-     /**
-      * @param string[] $aliases
-      *
-      * @return ClaimCheckerManager
-      */
-     public function create(array $aliases): ClaimCheckerManager
-     {
-         $checkers = [];
-         foreach ($aliases as $alias) {
-             if (array_key_exists($alias, $this->checkers)) {
-                 $checkers[] = $this->checkers[$alias];
-             } else {
-                 throw new \InvalidArgumentException(sprintf('The claim checker with the alias "%s" is not supported.', $alias));
-             }
-         }
+    /**
+     * @param string[] $aliases
+     *
+     * @return ClaimCheckerManager
+     */
+    public function create(array $aliases): ClaimCheckerManager
+    {
+        $checkers = [];
+        foreach ($aliases as $alias) {
+            if (array_key_exists($alias, $this->checkers)) {
+                $checkers[] = $this->checkers[$alias];
+            } else {
+                throw new \InvalidArgumentException(sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+            }
+        }
 
-         return ClaimCheckerManager::create($checkers);
-     }
+        return ClaimCheckerManager::create($checkers);
+    }
 
-     /**
-      * @param string       $alias
-      * @param ClaimChecker $checker
-      *
-      * @return ClaimCheckerManagerFactory
-      */
-     public function add(string $alias, ClaimChecker $checker): self
-     {
-         $this->checkers[$alias] = $checker;
+    /**
+     * @param string       $alias
+     * @param ClaimChecker $checker
+     *
+     * @return ClaimCheckerManagerFactory
+     */
+    public function add(string $alias, ClaimChecker $checker): self
+    {
+        $this->checkers[$alias] = $checker;
 
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * @return string[]
-      */
-     public function aliases(): array
-     {
-         return array_keys($this->checkers);
-     }
+    /**
+     * @return string[]
+     */
+    public function aliases(): array
+    {
+        return array_keys($this->checkers);
+    }
 
-     /**
-      * @return ClaimChecker[]
-      */
-     public function all(): array
-     {
-         return $this->checkers;
-     }
- }
+    /**
+     * @return ClaimChecker[]
+     */
+    public function all(): array
+    {
+        return $this->checkers;
+    }
+}

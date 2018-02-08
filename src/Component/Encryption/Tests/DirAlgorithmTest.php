@@ -34,20 +34,20 @@ class DirAlgorithmTest extends EncryptionTest
             'kty' => 'EC',
         ]);
 
-         $dir = new Dir();
+        $dir = new Dir();
 
-         $dir->getCEK($key);
-     }
+        $dir->getCEK($key);
+    }
 
-     public function testValidCEK()
-     {
-         $key = JWK::create([
+    public function testValidCEK()
+    {
+        $key = JWK::create([
             'kty' => 'oct',
             'k'   => Base64Url::encode('ABCD'),
         ]);
 
-         $dir = new Dir();
+        $dir = new Dir();
 
-         self::assertEquals('ABCD', $dir->getCEK($key));
-     }
- }
+        self::assertEquals('ABCD', $dir->getCEK($key));
+    }
+}

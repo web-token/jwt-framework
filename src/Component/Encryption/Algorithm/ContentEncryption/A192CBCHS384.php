@@ -23,27 +23,27 @@ class A192CBCHS384 extends AESCBCHS
         return 'sha384';
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function getMode(): string
-     {
-         return 'aes-192-cbc';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-192-cbc';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getCEKSize(): int
-     {
-         return 384;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getCEKSize(): int
+    {
+        return 384;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A192CBC-HS384';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A192CBC-HS384';
+    }
+}

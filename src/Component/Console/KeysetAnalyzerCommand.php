@@ -59,37 +59,37 @@ class KeysetAnalyzerCommand extends Command
             ->setDescription('JWKSet quality analyzer.')
             ->setHelp('This command will analyze a JWKSet object and find security issues.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
-         $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
-         $output->getFormatter()->setStyle('medium', new OutputFormatterStyle('yellow'));
-         $output->getFormatter()->setStyle('low', new OutputFormatterStyle('blue'));
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
+        $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
+        $output->getFormatter()->setStyle('medium', new OutputFormatterStyle('yellow'));
+        $output->getFormatter()->setStyle('low', new OutputFormatterStyle('blue'));
 
-         $jwkset = $this->getKeyset($input);
+        $jwkset = $this->getKeyset($input);
 
-         $privateKeys = 0;
-         $publicKeys = 0;
-         $sharedKeys = 0;
-         $mixedKeys = false;
+        $privateKeys = 0;
+        $publicKeys = 0;
+        $sharedKeys = 0;
+        $mixedKeys = false;
 
-         foreach ($jwkset as $kid => $jwk) {
-             $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
-             $messages = $this->analyzerManager->analyze($jwk);
-             if (0 === $messages->count()) {
-                 $output->writeln('    <success>All good! No issue found.</success>');
-             } else {
-                 foreach ($messages as $message) {
-                     $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
-                 }
-             }
+        foreach ($jwkset as $kid => $jwk) {
+            $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
+            $messages = $this->analyzerManager->analyze($jwk);
+            if (0 === $messages->count()) {
+                $output->writeln('    <success>All good! No issue found.</success>');
+            } else {
+                foreach ($messages as $message) {
+                    $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
+                }
+            }
 
-             switch (true) {
+            switch (true) {
                 case 'oct' === $jwk->get('kty'):
                     $sharedKeys++;
                     if (0 !== $privateKeys + $publicKeys) {
@@ -114,26 +114,26 @@ class KeysetAnalyzerCommand extends Command
                 default:
                     break;
             }
-         }
+        }
 
-         if ($mixedKeys) {
-             $output->writeln('/!\\ This key set mixes share, public and private keys. You should create one key set per key type. /!\\');
-         }
-     }
+        if ($mixedKeys) {
+            $output->writeln('/!\\ This key set mixes share, public and private keys. You should create one key set per key type. /!\\');
+        }
+    }
 
-     /**
-      * @param InputInterface $input
-      *
-      * @return JWKSet
-      */
-     private function getKeyset(InputInterface $input): JWKSet
-     {
-         $jwkset = $input->getArgument('jwkset');
-         $json = $this->jsonConverter->decode($jwkset);
-         if (is_array($json)) {
-             return JWKSet::createFromKeyData($json);
-         }
+    /**
+     * @param InputInterface $input
+     *
+     * @return JWKSet
+     */
+    private function getKeyset(InputInterface $input): JWKSet
+    {
+        $jwkset = $input->getArgument('jwkset');
+        $json = $this->jsonConverter->decode($jwkset);
+        if (is_array($json)) {
+            return JWKSet::createFromKeyData($json);
+        }
 
-         throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
-     }
- }
+        throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
+    }
+}

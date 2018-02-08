@@ -32,18 +32,18 @@ class KeyFileLoaderCommand extends GeneratorCommand
             ->setDescription('Loads a key from a key file (JWK format)')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the key.')
             ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $filename = $input->getArgument('file');
-         $password = $input->getOption('secret');
-         $args = $this->getOptions($input);
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $filename = $input->getArgument('file');
+        $password = $input->getOption('secret');
+        $args = $this->getOptions($input);
 
-         $jwk = JWKFactory::createFromKeyFile($filename, $password, $args);
-         $this->prepareJsonOutput($input, $output, $jwk);
-     }
- }
+        $jwk = JWKFactory::createFromKeyFile($filename, $password, $args);
+        $this->prepareJsonOutput($input, $output, $jwk);
+    }
+}

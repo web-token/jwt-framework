@@ -52,5 +52,5 @@ class JWKSetController
                 'Cache-Control' => sprintf('public, max-age=%d, must-revalidate, no-transform', $this->maxAge),
             ]
         );
-     }
- }
+    }
+}

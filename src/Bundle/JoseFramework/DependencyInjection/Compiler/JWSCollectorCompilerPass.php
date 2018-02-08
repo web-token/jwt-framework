@@ -33,26 +33,26 @@ class JWSCollectorCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(JWSCollector::class);
 
         $services = [
-            'addJWSBuilder' => 'jose.jws_builder',
+            'addJWSBuilder'  => 'jose.jws_builder',
             'addJWSVerifier' => 'jose.jws_verifier',
             'addJWSLoader'   => 'jose.jws_loader',
         ];
-         foreach ($services as $method => $tag) {
-             $this->collectServices($method, $tag, $definition, $container);
-         }
-     }
+        foreach ($services as $method => $tag) {
+            $this->collectServices($method, $tag, $definition, $container);
+        }
+    }
 
-     /**
-      * @param string           $method
-      * @param string           $tag
-      * @param Definition       $definition
-      * @param ContainerBuilder $container
-      */
-     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
-     {
-         $taggedJWSServices = $container->findTaggedServiceIds($tag);
-         foreach ($taggedJWSServices as $id => $tags) {
-             $definition->addMethodCall($method, [$id, new Reference($id)]);
-         }
-     }
- }
+    /**
+     * @param string           $method
+     * @param string           $tag
+     * @param Definition       $definition
+     * @param ContainerBuilder $container
+     */
+    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
+    {
+        $taggedJWSServices = $container->findTaggedServiceIds($tag);
+        foreach ($taggedJWSServices as $id => $tags) {
+            $definition->addMethodCall($method, [$id, new Reference($id)]);
+        }
+    }
+}

@@ -33,30 +33,30 @@ class X5U extends AbstractSource implements JWKSetSource
             new Reference(X5UFactory::class),
             'loadFromUrl',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['url'],
             $config['headers'],
         ]);
-         $definition->addTag('jose.jwkset');
+        $definition->addTag('jose.jwkset');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKeySet(): string
-     {
-         return 'x5u';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeySet(): string
+    {
+        return 'x5u';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->scalarNode('url')
                     ->info('URL of the key set.')
@@ -70,5 +70,5 @@ class X5U extends AbstractSource implements JWKSetSource
                     ->prototype('variable')->end()
                 ->end()
             ->end();
-     }
- }
+    }
+}

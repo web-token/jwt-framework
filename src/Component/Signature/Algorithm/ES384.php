@@ -23,19 +23,19 @@ class ES384 extends ECDSA
         return 'sha384';
     }
 
-     /**
-      * @return int
-      */
-     protected function getSignaturePartLength(): int
-     {
-         return 96;
-     }
+    /**
+     * @return int
+     */
+    protected function getSignaturePartLength(): int
+    {
+        return 96;
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'ES384';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'ES384';
+    }
+}

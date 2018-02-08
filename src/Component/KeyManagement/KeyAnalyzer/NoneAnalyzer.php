@@ -26,6 +26,6 @@ class NoneAnalyzer implements KeyAnalyzer
             return;
         }
 
-         $bag->add(Message::high('This key is a meant to be used with the algorithm "none". This algorithm is not secured and should be used with care.'));
-     }
- }
+        $bag->add(Message::high('This key is a meant to be used with the algorithm "none". This algorithm is not secured and should be used with care.'));
+    }
+}

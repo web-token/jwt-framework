@@ -32,34 +32,34 @@ class JWK extends AbstractSource implements JWKSource
             new Reference(JWKFactory::class),
             'createFromJsonObject',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['value'],
         ]);
-         $definition->addTag('jose.jwk');
+        $definition->addTag('jose.jwk');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKey(): string
-     {
-         return 'jwk';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey(): string
+    {
+        return 'jwk';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->scalarNode('value')
                     ->info('The JWK object')
                     ->isRequired()
                 ->end()
             ->end();
-     }
- }
+    }
+}

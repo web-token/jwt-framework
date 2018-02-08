@@ -48,6 +48,6 @@ class OctAnalyzer implements KeyAnalyzer
                 default:
                     break;
             }
-         }
-     }
- }
+        }
+    }
+}

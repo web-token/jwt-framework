@@ -27,15 +27,15 @@ class TokenSupport implements TokenTypeSupport
             throw new \InvalidArgumentException('Unsupported token.');
         }
 
-         $protectedHeader = $jwt->getProtectedHeader();
-         $unprotectedHeader = $jwt->getUnprotectedHeader();
-     }
+        $protectedHeader = $jwt->getProtectedHeader();
+        $unprotectedHeader = $jwt->getUnprotectedHeader();
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function supports(JWT $jwt): bool
-     {
-         return $jwt instanceof Token;
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(JWT $jwt): bool
+    {
+        return $jwt instanceof Token;
+    }
+}

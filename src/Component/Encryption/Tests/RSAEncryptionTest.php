@@ -152,6 +152,6 @@ class RSAEncryptionTest extends EncryptionTest
             ],
         ]];
 
-         return JWKSet::createFromKeyData($keys);
-     }
- }
+        return JWKSet::createFromKeyData($keys);
+    }
+}

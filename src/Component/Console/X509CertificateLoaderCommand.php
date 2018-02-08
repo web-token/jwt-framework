@@ -30,23 +30,23 @@ class X509CertificateLoaderCommand extends GeneratorCommand
             ->setName('key:load:x509')
             ->setDescription('Load a key from a X.509 certificate file.')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the X.509 certificate.');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $filename = $input->getArgument('file');
-         $args = [];
-         foreach (['use', 'alg'] as $key) {
-             $value = $input->getOption($key);
-             if (null !== $value) {
-                 $args[$key] = $value;
-             }
-         }
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $filename = $input->getArgument('file');
+        $args = [];
+        foreach (['use', 'alg'] as $key) {
+            $value = $input->getOption($key);
+            if (null !== $value) {
+                $args[$key] = $value;
+            }
+        }
 
-         $jwk = JWKFactory::createFromCertificateFile($filename, $args);
-         $this->prepareJsonOutput($input, $output, $jwk);
-     }
- }
+        $jwk = JWKFactory::createFromCertificateFile($filename, $args);
+        $this->prepareJsonOutput($input, $output, $jwk);
+    }
+}

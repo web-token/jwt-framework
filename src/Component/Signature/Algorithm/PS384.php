@@ -25,19 +25,19 @@ class PS384 extends RSA
         return 'sha384';
     }
 
-     /**
-      * @return int
-      */
-     protected function getSignatureMethod(): int
-     {
-         return JoseRSA::SIGNATURE_PSS;
-     }
+    /**
+     * @return int
+     */
+    protected function getSignatureMethod(): int
+    {
+        return JoseRSA::SIGNATURE_PSS;
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'PS384';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'PS384';
+    }
+}

@@ -25,19 +25,19 @@ class PS256 extends RSA
         return 'sha256';
     }
 
-     /**
-      * @return int
-      */
-     protected function getSignatureMethod(): int
-     {
-         return JoseRSA::SIGNATURE_PSS;
-     }
+    /**
+     * @return int
+     */
+    protected function getSignatureMethod(): int
+    {
+        return JoseRSA::SIGNATURE_PSS;
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'PS256';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'PS256';
+    }
+}

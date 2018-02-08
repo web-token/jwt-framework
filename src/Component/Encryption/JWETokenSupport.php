@@ -46,5 +46,5 @@ class JWETokenSupport implements TokenTypeSupport
             $unprotectedHeader,
             $recipient
         );
-     }
- }
+    }
+}

@@ -20,54 +20,54 @@ class CompressionMethodManagerFactory
      */
     private $compressionMethods = [];
 
-     /**
-      * @param string            $alias
-      * @param CompressionMethod $compressionMethod
-      *
-      * @return CompressionMethodManagerFactory
-      */
-     public function add(string $alias, CompressionMethod $compressionMethod): self
-     {
-         if (array_key_exists($alias, $this->compressionMethods)) {
-             throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
-         }
-         $this->compressionMethods[$alias] = $compressionMethod;
+    /**
+     * @param string            $alias
+     * @param CompressionMethod $compressionMethod
+     *
+     * @return CompressionMethodManagerFactory
+     */
+    public function add(string $alias, CompressionMethod $compressionMethod): self
+    {
+        if (array_key_exists($alias, $this->compressionMethods)) {
+            throw new \InvalidArgumentException(sprintf('The alias "%s" already exists.', $alias));
+        }
+        $this->compressionMethods[$alias] = $compressionMethod;
 
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * @return string[]
-      */
-     public function aliases(): array
-     {
-         return array_keys($this->compressionMethods);
-     }
+    /**
+     * @return string[]
+     */
+    public function aliases(): array
+    {
+        return array_keys($this->compressionMethods);
+    }
 
-     /**
-      * @return CompressionMethod[]
-      */
-     public function all(): array
-     {
-         return $this->compressionMethods;
-     }
+    /**
+     * @return CompressionMethod[]
+     */
+    public function all(): array
+    {
+        return $this->compressionMethods;
+    }
 
-     /**
-      * @param string[] $aliases
-      *
-      * @return CompressionMethodManager
-      */
-     public function create(array $aliases): CompressionMethodManager
-     {
-         $compressionMethods = [];
-         foreach ($aliases as $alias) {
-             if (array_key_exists($alias, $this->compressionMethods)) {
-                 $compressionMethods[] = $this->compressionMethods[$alias];
-             } else {
-                 throw new \InvalidArgumentException(sprintf('The compression method with the alias "%s" is not supported.', $alias));
-             }
-         }
+    /**
+     * @param string[] $aliases
+     *
+     * @return CompressionMethodManager
+     */
+    public function create(array $aliases): CompressionMethodManager
+    {
+        $compressionMethods = [];
+        foreach ($aliases as $alias) {
+            if (array_key_exists($alias, $this->compressionMethods)) {
+                $compressionMethods[] = $this->compressionMethods[$alias];
+            } else {
+                throw new \InvalidArgumentException(sprintf('The compression method with the alias "%s" is not supported.', $alias));
+            }
+        }
 
-         return CompressionMethodManager::create($compressionMethods);
-     }
- }
+        return CompressionMethodManager::create($compressionMethods);
+    }
+}

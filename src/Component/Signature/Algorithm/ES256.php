@@ -23,19 +23,19 @@ class ES256 extends ECDSA
         return 'sha256';
     }
 
-     /**
-      * @return int
-      */
-     protected function getSignaturePartLength(): int
-     {
-         return 64;
-     }
+    /**
+     * @return int
+     */
+    protected function getSignaturePartLength(): int
+    {
+        return 64;
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'ES256';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'ES256';
+    }
+}

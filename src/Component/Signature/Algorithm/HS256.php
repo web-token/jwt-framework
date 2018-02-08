@@ -23,11 +23,11 @@ class HS256 extends HMAC
         return 'sha256';
     }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'HS256';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'HS256';
+    }
+}

@@ -30,17 +30,17 @@ class OkpKeyGeneratorCommand extends GeneratorCommand
             ->setName('key:generate:okp')
             ->setDescription('Generate an Octet Key Pair key (JWK format)')
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $curve = $input->getArgument('curve');
-         $args = $this->getOptions($input);
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $curve = $input->getArgument('curve');
+        $args = $this->getOptions($input);
 
-         $jwk = JWKFactory::createOKPKey($curve, $args);
-         $this->prepareJsonOutput($input, $output, $jwk);
-     }
- }
+        $jwk = JWKFactory::createOKPKey($curve, $args);
+        $this->prepareJsonOutput($input, $output, $jwk);
+    }
+}

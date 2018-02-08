@@ -23,11 +23,11 @@ class HS384 extends HMAC
         return 'sha384';
     }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'HS384';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'HS384';
+    }
+}

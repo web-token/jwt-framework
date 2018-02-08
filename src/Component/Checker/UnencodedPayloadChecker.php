@@ -17,29 +17,29 @@ class UnencodedPayloadChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'b64';
 
-     /**
-      * {@inheritdoc}
-      */
-     public function checkHeader($value)
-     {
-         if (!is_bool($value)) {
-             throw new InvalidHeaderException('"b64" must be a boolean.', self::HEADER_NAME, $value);
-         }
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function checkHeader($value)
+    {
+        if (!is_bool($value)) {
+            throw new InvalidHeaderException('"b64" must be a boolean.', self::HEADER_NAME, $value);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function supportedHeader(): string
-     {
-         return self::HEADER_NAME;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function supportedHeader(): string
+    {
+        return self::HEADER_NAME;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function protectedHeaderOnly(): bool
-     {
-         return true;
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function protectedHeaderOnly(): bool
+    {
+        return true;
+    }
+}

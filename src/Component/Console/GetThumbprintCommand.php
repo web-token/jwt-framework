@@ -32,20 +32,20 @@ class GetThumbprintCommand extends ObjectOutputCommand
             ->setDescription('Get the thumbprint of a JWK key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')
             ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $jwk = $input->getArgument('jwk');
-         $hash = $input->getOption('hash');
-         $json = $this->jsonConverter->decode($jwk);
-         if (!is_array($json)) {
-             throw new \InvalidArgumentException('Invalid input.');
-         }
-         $key = JWK::create($json);
-         $this->prepareOutput($input, $output, $key->thumbprint($hash));
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $jwk = $input->getArgument('jwk');
+        $hash = $input->getOption('hash');
+        $json = $this->jsonConverter->decode($jwk);
+        if (!is_array($json)) {
+            throw new \InvalidArgumentException('Invalid input.');
+        }
+        $key = JWK::create($json);
+        $this->prepareOutput($input, $output, $key->thumbprint($hash));
+    }
+}

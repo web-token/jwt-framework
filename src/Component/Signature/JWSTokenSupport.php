@@ -26,19 +26,19 @@ class JWSTokenSupport implements TokenTypeSupport
         return $jwt instanceof JWS;
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
-     {
-         if (!$jwt instanceof JWS) {
-             return;
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
+    {
+        if (!$jwt instanceof JWS) {
+            return;
+        }
 
-         if ($component > $jwt->countSignatures()) {
-             throw new \InvalidArgumentException('Unknown signature index.');
-         }
-         $protectedHeader = $jwt->getSignature($component)->getProtectedHeader();
-         $unprotectedHeader = $jwt->getSignature($component)->getHeader();
-     }
- }
+        if ($component > $jwt->countSignatures()) {
+            throw new \InvalidArgumentException('Unknown signature index.');
+        }
+        $protectedHeader = $jwt->getSignature($component)->getProtectedHeader();
+        $unprotectedHeader = $jwt->getSignature($component)->getHeader();
+    }
+}

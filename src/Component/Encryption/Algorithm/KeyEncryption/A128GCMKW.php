@@ -23,11 +23,11 @@ class A128GCMKW extends AESGCMKW
         return 128;
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A128GCMKW';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A128GCMKW';
+    }
+}

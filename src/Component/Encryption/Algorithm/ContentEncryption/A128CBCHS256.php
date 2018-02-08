@@ -23,27 +23,27 @@ class A128CBCHS256 extends AESCBCHS
         return 'sha256';
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function getMode(): string
-     {
-         return 'aes-128-cbc';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-128-cbc';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getCEKSize(): int
-     {
-         return 256;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getCEKSize(): int
+    {
+        return 256;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A128CBC-HS256';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A128CBC-HS256';
+    }
+}

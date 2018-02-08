@@ -52,13 +52,13 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             ],
         ]];
 
-         $private_key = JWK::create([
+        $private_key = JWK::create([
             'kty' => 'oct',
             'use' => 'enc',
             'k'   => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
-         $protectedHeader = [
+        $protectedHeader = [
             'alg' => 'PBES2-HS512+A256KW',
             'p2s' => '8Q1SzinasR3xchYz6ZZcHA',
             'p2c' => 8192,
@@ -66,54 +66,54 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             'enc' => 'A128CBC-HS256',
         ];
 
-         $expected_compact_json = 'eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMnMiOiI4UTFTemluYXNSM3hjaFl6NlpaY0hBIiwicDJjIjo4MTkyLCJjdHkiOiJqd2stc2V0K2pzb24iLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.d3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g.VBiCzVHNoLiR3F4V82uoTQ.23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p.0HlwodAhOCILG5SQ2LQ9dg';
-         $expected_flattened_json = '{"protected":"eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMnMiOiI4UTFTemluYXNSM3hjaFl6NlpaY0hBIiwicDJjIjo4MTkyLCJjdHkiOiJqd2stc2V0K2pzb24iLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","encrypted_key":"d3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g","iv":"VBiCzVHNoLiR3F4V82uoTQ","ciphertext":"23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p","tag":"0HlwodAhOCILG5SQ2LQ9dg"}';
-         $expected_json = '{"recipients":[{"encrypted_key":"d3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g"}],"protected":"eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMnMiOiI4UTFTemluYXNSM3hjaFl6NlpaY0hBIiwicDJjIjo4MTkyLCJjdHkiOiJqd2stc2V0K2pzb24iLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","iv":"VBiCzVHNoLiR3F4V82uoTQ","ciphertext":"23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p","tag":"0HlwodAhOCILG5SQ2LQ9dg"}';
-         $expected_iv = 'VBiCzVHNoLiR3F4V82uoTQ';
-         $expected_encrypted_key = 'd3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g';
-         $expected_ciphertext = '23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p';
-         $expected_tag = '0HlwodAhOCILG5SQ2LQ9dg';
+        $expected_compact_json = 'eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMnMiOiI4UTFTemluYXNSM3hjaFl6NlpaY0hBIiwicDJjIjo4MTkyLCJjdHkiOiJqd2stc2V0K2pzb24iLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.d3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g.VBiCzVHNoLiR3F4V82uoTQ.23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p.0HlwodAhOCILG5SQ2LQ9dg';
+        $expected_flattened_json = '{"protected":"eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMnMiOiI4UTFTemluYXNSM3hjaFl6NlpaY0hBIiwicDJjIjo4MTkyLCJjdHkiOiJqd2stc2V0K2pzb24iLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","encrypted_key":"d3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g","iv":"VBiCzVHNoLiR3F4V82uoTQ","ciphertext":"23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p","tag":"0HlwodAhOCILG5SQ2LQ9dg"}';
+        $expected_json = '{"recipients":[{"encrypted_key":"d3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g"}],"protected":"eyJhbGciOiJQQkVTMi1IUzUxMitBMjU2S1ciLCJwMnMiOiI4UTFTemluYXNSM3hjaFl6NlpaY0hBIiwicDJjIjo4MTkyLCJjdHkiOiJqd2stc2V0K2pzb24iLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","iv":"VBiCzVHNoLiR3F4V82uoTQ","ciphertext":"23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p","tag":"0HlwodAhOCILG5SQ2LQ9dg"}';
+        $expected_iv = 'VBiCzVHNoLiR3F4V82uoTQ';
+        $expected_encrypted_key = 'd3qNhUWfqheyPp4H8sjOWsDYajoej4c5Je6rlUtFPWdgtURtmeDV1g';
+        $expected_ciphertext = '23i-Tb1AV4n0WKVSSgcQrdg6GRqsUKxjruHXYsTHAJLZ2nsnGIX86vMXqIi6IRsfywCRFzLxEcZBRnTvG3nhzPk0GDD7FMyXhUHpDjEYCNA_XOmzg8yZR9oyjo6lTF6si4q9FZ2EhzgFQCLO_6h5EVg3vR75_hkBsnuoqoM3dwejXBtIodN84PeqMb6asmas_dpSsz7H10fC5ni9xIz424givB1YLldF6exVmL93R3fOoOJbmk2GBQZL_SEGllv2cQsBgeprARsaQ7Bq99tT80coH8ItBjgV08AtzXFFsx9qKvC982KLKdPQMTlVJKkqtV4Ru5LEVpBZXBnZrtViSOgyg6AiuwaS-rCrcD_ePOGSuxvgtrokAKYPqmXUeRdjFJwafkYEkiuDCV9vWGAi1DH2xTafhJwcmywIyzi4BqRpmdn_N-zl5tuJYyuvKhjKv6ihbsV_k1hJGPGAxJ6wUpmwC4PTQ2izEm0TuSE8oMKdTw8V3kobXZ77ulMwDs4p';
+        $expected_tag = '0HlwodAhOCILG5SQ2LQ9dg';
 
-         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
 
-         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
-         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
+        $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
 
-         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($expected_flattened_json);
-         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
+        $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($expected_flattened_json);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
-         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
+        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
-         self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
-         self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
-         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_compact_json->getRecipient(0)->getEncryptedKey()));
-         self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
+        self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
+        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
+        self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
+        self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_compact_json->getRecipient(0)->getEncryptedKey()));
+        self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
 
-         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
-         self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
-         self::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
-         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
-         self::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
+        self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
+        self::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
+        self::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
+        self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
+        self::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
 
-         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-         self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
-         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
-         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
+        self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
+        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
+        self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
+        self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
-         self::assertEquals($expected_payload, json_decode($loaded_compact_json->getPayload(), true));
-         self::assertEquals($expected_payload, json_decode($loaded_flattened_json->getPayload(), true));
-         self::assertEquals($expected_payload, json_decode($loaded_json->getPayload(), true));
-     }
+        self::assertEquals($expected_payload, json_decode($loaded_compact_json->getPayload(), true));
+        self::assertEquals($expected_payload, json_decode($loaded_flattened_json->getPayload(), true));
+        self::assertEquals($expected_payload, json_decode($loaded_json->getPayload(), true));
+    }
 
-     /**
-      * Same input as before, but we perform the encryption first.
-      */
-     public function testPBES2_HS512_A256KWAndA128CBC_HS256EncryptionBis()
-     {
-         $expected_payload = json_encode(['keys' => [
+    /**
+     * Same input as before, but we perform the encryption first.
+     */
+    public function testPBES2_HS512_A256KWAndA128CBC_HS256EncryptionBis()
+    {
+        $expected_payload = json_encode(['keys' => [
             [
                 'kty' => 'oct',
                 'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
@@ -135,40 +135,40 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             ],
         ]]);
 
-         $private_key = JWK::create([
+        $private_key = JWK::create([
             'kty' => 'oct',
             'use' => 'enc',
             'k'   => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
-         $protectedHeader = [
+        $protectedHeader = [
             'alg' => 'PBES2-HS512+A256KW',
             'cty' => 'jwk-set+json',
             'enc' => 'A128CBC-HS256',
         ];
 
-         $jweBuilder = $this->getJWEBuilderFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
-         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
 
-         $jwe = $jweBuilder
+        $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
             ->build();
 
-         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
-         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
+        $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
-         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
+        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-         self::assertTrue(array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeader()));
-         self::assertTrue(array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeader()));
 
-         self::assertTrue(array_key_exists('p2s', $loaded_json->getSharedProtectedHeader()));
-         self::assertTrue(array_key_exists('p2c', $loaded_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('p2s', $loaded_json->getSharedProtectedHeader()));
+        self::assertTrue(array_key_exists('p2c', $loaded_json->getSharedProtectedHeader()));
 
-         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
-         self::assertEquals($expected_payload, $loaded_json->getPayload());
-     }
- }
+        self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
+        self::assertEquals($expected_payload, $loaded_json->getPayload());
+    }
+}

@@ -64,140 +64,140 @@ class KeySetCreationCommandTest extends TestCase
             'quantity' => 2,
             'curve'    => 'P-128',
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\EcKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\EcKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-     }
+        $command->run($input, $output);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanCreateAnEllipticCurveKeySetWithCurveP256()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     */
+    public function iCanCreateAnEllipticCurveKeySetWithCurveP256()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity'    => 2,
             'curve'       => 'P-256',
             '--random_id' => true,
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\EcKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\EcKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-         $content = $output->fetch();
-         $jwk = JWKSet::createFromJson($content);
-         self::assertInstanceOf(JWKSet::class, $jwk);
-     }
+        $command->run($input, $output);
+        $content = $output->fetch();
+        $jwk = JWKSet::createFromJson($content);
+        self::assertInstanceOf(JWKSet::class, $jwk);
+    }
 
-     /**
-      * @test
-      * @expectedException \RuntimeException
-      * @expectedExceptionMessage Not enough arguments (missing: "size").
-      */
-     public function iCannotCreateAnOctetKeySetWithoutKeySetSize()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Not enough arguments (missing: "size").
+     */
+    public function iCannotCreateAnOctetKeySetWithoutKeySetSize()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity' => 2,
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\OctKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\OctKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-     }
+        $command->run($input, $output);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanCreateAnOctetKeySet()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     */
+    public function iCanCreateAnOctetKeySet()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity'    => 2,
             'size'        => 256,
             '--random_id' => true,
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\OctKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\OctKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-         $content = $output->fetch();
-         $jwk = JWKSet::createFromJson($content);
-         self::assertInstanceOf(JWKSet::class, $jwk);
-     }
+        $command->run($input, $output);
+        $content = $output->fetch();
+        $jwk = JWKSet::createFromJson($content);
+        self::assertInstanceOf(JWKSet::class, $jwk);
+    }
 
-     /**
-      * @test
-      * @expectedException \RuntimeException
-      * @expectedExceptionMessage Not enough arguments (missing: "curve").
-      */
-     public function iCannotCreateAnOctetKeySetPairWithoutKeySetCurve()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Not enough arguments (missing: "curve").
+     */
+    public function iCannotCreateAnOctetKeySetPairWithoutKeySetCurve()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity' => 2,
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\OkpKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\OkpKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-     }
+        $command->run($input, $output);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanCreateAnOctetKeySetPair()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     */
+    public function iCanCreateAnOctetKeySetPair()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity'    => 2,
             'curve'       => 'X25519',
             '--random_id' => true,
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\OkpKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\OkpKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-         $content = $output->fetch();
-         $jwk = JWKSet::createFromJson($content);
-         self::assertInstanceOf(JWKSet::class, $jwk);
-     }
+        $command->run($input, $output);
+        $content = $output->fetch();
+        $jwk = JWKSet::createFromJson($content);
+        self::assertInstanceOf(JWKSet::class, $jwk);
+    }
 
-     /**
-      * @test
-      * @expectedException \RuntimeException
-      * @expectedExceptionMessage Not enough arguments (missing: "size").
-      */
-     public function iCannotCreateAnRsaKeySetWithoutKeySetSize()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Not enough arguments (missing: "size").
+     */
+    public function iCannotCreateAnRsaKeySetWithoutKeySetSize()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity' => 2,
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\RsaKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\RsaKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-     }
+        $command->run($input, $output);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanCreateAnRsaKeySet()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     */
+    public function iCanCreateAnRsaKeySet()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity'    => 2,
             'size'        => 1024,
             '--random_id' => true,
         ]);
-         $output = new BufferedOutput();
-         $command = new Console\RsaKeysetGeneratorCommand($converter);
+        $output = new BufferedOutput();
+        $command = new Console\RsaKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-         $content = $output->fetch();
-         $jwk = JWKSet::createFromJson($content);
-         self::assertInstanceOf(JWKSet::class, $jwk);
-     }
- }
+        $command->run($input, $output);
+        $content = $output->fetch();
+        $jwk = JWKSet::createFromJson($content);
+        self::assertInstanceOf(JWKSet::class, $jwk);
+    }
+}

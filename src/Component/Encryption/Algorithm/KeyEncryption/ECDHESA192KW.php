@@ -25,19 +25,19 @@ class ECDHESA192KW extends ECDHESAESKW
         return new Wrapper();
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'ECDH-ES+A192KW';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'ECDH-ES+A192KW';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function getKeyLength(): int
-     {
-         return 192;
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getKeyLength(): int
+    {
+        return 192;
+    }
+}

@@ -25,11 +25,11 @@ class A256KW extends AESKW
         return new Wrapper();
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A256KW';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A256KW';
+    }
+}

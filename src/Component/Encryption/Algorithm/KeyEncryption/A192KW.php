@@ -25,11 +25,11 @@ class A192KW extends AESKW
         return new Wrapper();
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A192KW';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A192KW';
+    }
+}

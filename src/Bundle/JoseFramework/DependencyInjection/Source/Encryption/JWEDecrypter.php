@@ -29,15 +29,15 @@ class JWEDecrypter extends AbstractEncryptionSource
         return 'decrypters';
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         foreach ($configs[$this->name()] as $name => $itemConfig) {
-             $service_id = sprintf('jose.jwe_decrypter.%s', $name);
-             $definition = new Definition(JWEDecrypterService::class);
-             $definition
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
+            $service_id = sprintf('jose.jwe_decrypter.%s', $name);
+            $definition = new Definition(JWEDecrypterService::class);
+            $definition
                 ->setFactory([new Reference(JWEDecrypterFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['key_encryption_algorithms'],
@@ -46,10 +46,10 @@ class JWEDecrypter extends AbstractEncryptionSource
                 ])
                 ->addTag('jose.jwe_decrypter')
                 ->setPublic($itemConfig['is_public']);
-             foreach ($itemConfig['tags'] as $id => $attributes) {
-                 $definition->addTag($id, $attributes);
-             }
-             $container->setDefinition($service_id, $definition);
-         }
-     }
- }
+            foreach ($itemConfig['tags'] as $id => $attributes) {
+                $definition->addTag($id, $attributes);
+            }
+            $container->setDefinition($service_id, $definition);
+        }
+    }
+}

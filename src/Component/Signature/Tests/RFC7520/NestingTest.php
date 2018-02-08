@@ -26,12 +26,12 @@ class NestingTest extends SignatureTest
     public function testSignatureVerification()
     {
         $payload = [
-            'iss' => 'hobbiton.example',
-            'exp' => 1300819380,
+            'iss'                        => 'hobbiton.example',
+            'exp'                        => 1300819380,
             'http://example.com/is_root' => true,
         ];
 
-         $signature_key = JWK::create([
+        $signature_key = JWK::create([
             'kty' => 'RSA',
             'kid' => 'hobbiton.example',
             'use' => 'sig',
@@ -45,18 +45,18 @@ class NestingTest extends SignatureTest
             'qi'  => 'S8tC7ZknW6hPITkjcwttQOPLVmRfwirRlFAViuDb8NW9CrV_7F2OqUZCqmzHTYAumwGFHI1WVRep7anleWaJjxC_1b3fq_al4qH3Pe-EKiHg6IMazuRtZLUROcThrExDbF5dYbsciDnfRUWLErZ4N1Be0bnxYuPqxwKd9QZwMo0',
         ]);
 
-         $signature_header = [
+        $signature_header = [
             'alg' => 'PS256',
             'typ' => 'JWT',
         ];
 
-         $json_compact = 'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJob2JiaXRvbi5leGFtcGxlIiwiZXhwIjoxMzAwODE5MzgwLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZX0.dPpMqwRZxFYi1UfcDAaf8M99o7kwUWtiXZ-ByvVuJih4MhJ_aZqciprz0OWaIAkIvn1qskChirjKvY9ESZNUCP4JjvfyPS-nqjJxYoA5ztWOyFk2cZNIPXjcJXSQwXPO9tEe-v4VSqgD0aKHqPxYog4N6Cz1lKph1U1sYDSI67_bLL7elg_vkjfMp5_W5l5LuUYGMeh6hxQIaIUXf9EwV2JmvTMuZ-vBOWy0Sniy1EFo72CRTvmtrIf5AROo5MNliY3KtUxeP-SOmD-LEYwW9SlkohYzMVAZDDOrVbv7KVRHpeYNaK75KEQqdCEEkS_rskZS-Qtt_nlegTWh1mEYaA';
+        $json_compact = 'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJob2JiaXRvbi5leGFtcGxlIiwiZXhwIjoxMzAwODE5MzgwLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZX0.dPpMqwRZxFYi1UfcDAaf8M99o7kwUWtiXZ-ByvVuJih4MhJ_aZqciprz0OWaIAkIvn1qskChirjKvY9ESZNUCP4JjvfyPS-nqjJxYoA5ztWOyFk2cZNIPXjcJXSQwXPO9tEe-v4VSqgD0aKHqPxYog4N6Cz1lKph1U1sYDSI67_bLL7elg_vkjfMp5_W5l5LuUYGMeh6hxQIaIUXf9EwV2JmvTMuZ-vBOWy0Sniy1EFo72CRTvmtrIf5AROo5MNliY3KtUxeP-SOmD-LEYwW9SlkohYzMVAZDDOrVbv7KVRHpeYNaK75KEQqdCEEkS_rskZS-Qtt_nlegTWh1mEYaA';
 
-         $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS256']);
-         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($json_compact);
+        $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS256']);
+        $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($json_compact);
 
-         self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
-         self::assertEquals($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
-         self::assertEquals($payload, json_decode($loaded_compact_json->getPayload(), true));
-     }
- }
+        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
+        self::assertEquals($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
+        self::assertEquals($payload, json_decode($loaded_compact_json->getPayload(), true));
+    }
+}

@@ -29,55 +29,55 @@ class NoneSignatureTest extends SignatureTest
             'kty' => 'none',
         ]);
 
-         $none = new None();
-         $data = 'Live long and Prosper.';
+        $none = new None();
+        $data = 'Live long and Prosper.';
 
-         $signature = $none->sign($key, $data);
+        $signature = $none->sign($key, $data);
 
-         self::assertEquals($signature, '');
-         self::assertTrue($none->verify($key, $data, $signature));
-     }
+        self::assertEquals($signature, '');
+        self::assertTrue($none->verify($key, $data, $signature));
+    }
 
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Wrong key type.
-      */
-     public function testInvalidKey()
-     {
-         $key = JWK::create([
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Wrong key type.
+     */
+    public function testInvalidKey()
+    {
+        $key = JWK::create([
             'kty' => 'EC',
         ]);
 
-         $none = new None();
-         $data = 'Live long and Prosper.';
+        $none = new None();
+        $data = 'Live long and Prosper.';
 
-         $none->sign($key, $data);
-     }
+        $none->sign($key, $data);
+    }
 
-     public function testNoneSignAndVerifyComplete()
-     {
-         $jwk = JWK::create([
+    public function testNoneSignAndVerifyComplete()
+    {
+        $jwk = JWK::create([
             'kty' => 'none',
         ]);
 
-         $jwsBuilder = $this->getJWSBuilderFactory()->create(['none']);
-         $jws = $jwsBuilder
+        $jwsBuilder = $this->getJWSBuilderFactory()->create(['none']);
+        $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($jwk, ['alg' => 'none'])
             ->build();
 
-         self::assertEquals(1, $jws->countSignatures());
+        self::assertEquals(1, $jws->countSignatures());
 
-         $compact = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-         self::assertTrue(is_string($compact));
+        $compact = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+        self::assertTrue(is_string($compact));
 
-         $result = $this->getJWSSerializerManager()->unserialize($compact);
+        $result = $this->getJWSSerializerManager()->unserialize($compact);
 
-         self::assertInstanceOf(JWS::class, $result);
+        self::assertInstanceOf(JWS::class, $result);
 
-         self::assertEquals('Live long and Prosper.', $result->getPayload());
-         self::assertEquals(1, $result->countSignatures());
-         self::assertTrue($result->getSignature(0)->hasProtectedHeaderParameter('alg'));
-         self::assertEquals('none', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
-     }
- }
+        self::assertEquals('Live long and Prosper.', $result->getPayload());
+        self::assertEquals(1, $result->countSignatures());
+        self::assertTrue($result->getSignature(0)->hasProtectedHeaderParameter('alg'));
+        self::assertEquals('none', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
+    }
+}
