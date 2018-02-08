@@ -17,9 +17,6 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Encryption\Util\RSACrypt;
 
-/**
- * Class RSA.
- */
 abstract class RSA implements KeyEncryption
 {
     /**

@@ -20,12 +20,9 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 
-/**
-  * Class X5UFactory.
-  */
- class X5UFactory extends UrlKeySetFactory
- {
-     private $jsonConverter;
+class X5UFactory extends UrlKeySetFactory
+{
+    private $jsonConverter;
 
      /**
       * X5UFactory constructor.

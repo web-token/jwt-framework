@@ -19,21 +19,19 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class AlgorithmManagerFactoryTest.
-  *
-  * @group Unit
-  * @group JWAManager
-  */
- class AlgorithmManagerFactoryTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function iCanListSupportedAliases()
-     {
-         self::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
-         self::assertEquals(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
-     }
+ * @group Unit
+ * @group JWAManager
+ */
+class AlgorithmManagerFactoryTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function iCanListSupportedAliases()
+    {
+        self::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
+        self::assertEquals(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
+    }
 
      /**
       * @test

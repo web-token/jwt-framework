@@ -17,21 +17,21 @@ use Jose\Component\Checker\NotBeforeChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group ClaimChecker
-  * @group Functional
-  */
- class NotBeforeClaimCheckerTest extends TestCase
- {
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidClaimException
-      * @expectedExceptionMessage "nbf" must be an integer.
-      */
-     public function theNotBeforeClaimMustBeAnInteger()
-     {
-         $checker = new NotBeforeChecker();
-         $checker->checkClaim('foo');
-     }
+ * @group ClaimChecker
+ * @group Functional
+ */
+class NotBeforeClaimCheckerTest extends TestCase
+{
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
+     * @expectedExceptionMessage "nbf" must be an integer.
+     */
+    public function theNotBeforeClaimMustBeAnInteger()
+    {
+        $checker = new NotBeforeChecker();
+        $checker->checkClaim('foo');
+    }
 
      /**
       * @test

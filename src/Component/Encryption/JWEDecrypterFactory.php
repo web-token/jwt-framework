@@ -16,46 +16,43 @@ namespace Jose\Component\Encryption;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 
-/**
-  * Class JWEDecrypterFactory.
-  */
- class JWEDecrypterFactory
- {
-     /**
-      * @var AlgorithmManagerFactory
-      */
-     private $algorithmManagerFactory;
+class JWEDecrypterFactory
+{
+    /**
+     * @var AlgorithmManagerFactory
+     */
+    private $algorithmManagerFactory;
 
-     /**
-      * @var CompressionMethodManagerFactory
-      */
-     private $compressionMethodManagerFactory;
+    /**
+     * @var CompressionMethodManagerFactory
+     */
+    private $compressionMethodManagerFactory;
 
-     /**
-      * JWEDecrypterFactory constructor.
-      *
-      * @param AlgorithmManagerFactory         $algorithmManagerFactory
-      * @param CompressionMethodManagerFactory $compressionMethodManagerFactory
-      */
-     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
-     {
-         $this->algorithmManagerFactory = $algorithmManagerFactory;
-         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
-     }
+    /**
+     * JWEDecrypterFactory constructor.
+     *
+     * @param AlgorithmManagerFactory         $algorithmManagerFactory
+     * @param CompressionMethodManagerFactory $compressionMethodManagerFactory
+     */
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
+    {
+        $this->algorithmManagerFactory = $algorithmManagerFactory;
+        $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
+    }
 
-     /**
-      * @param string[] $keyEncryptionAlgorithms
-      * @param string[] $contentEncryptionAlgorithms
-      * @param string[] $compressionMethods
-      *
-      * @return JWEDecrypter
-      */
-     public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods): JWEDecrypter
-     {
-         $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
-         $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithms);
-         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
+    /**
+     * @param string[] $keyEncryptionAlgorithms
+     * @param string[] $contentEncryptionAlgorithms
+     * @param string[] $compressionMethods
+     *
+     * @return JWEDecrypter
+     */
+    public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods): JWEDecrypter
+    {
+        $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
+        $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithms);
+        $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-         return new JWEDecrypter($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
-     }
- }
+        return new JWEDecrypter($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
+    }
+}

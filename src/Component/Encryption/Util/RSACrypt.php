@@ -18,31 +18,31 @@ use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 
 /**
-  * Class RSACrypt.
-  */
- class RSACrypt
- {
-     /**
-      * Optimal Asymmetric Encryption Padding (OAEP).
-      */
-     public const ENCRYPTION_OAEP = 1;
+ * @internal
+ */
+class RSACrypt
+{
+    /**
+     * Optimal Asymmetric Encryption Padding (OAEP).
+     */
+    public const ENCRYPTION_OAEP = 1;
 
-     /**
-      * Use PKCS#1 padding.
-      */
-     public const ENCRYPTION_PKCS1 = 2;
+    /**
+     * Use PKCS#1 padding.
+     */
+    public const ENCRYPTION_PKCS1 = 2;
 
-     /**
-      * @param RSAKey      $key
-      * @param string      $data
-      * @param int         $mode
-      * @param null|string $hash
-      *
-      * @return string
-      */
-     public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
-     {
-         switch ($mode) {
+    /**
+     * @param RSAKey      $key
+     * @param string      $data
+     * @param int         $mode
+     * @param null|string $hash
+     *
+     * @return string
+     */
+    public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
+    {
+        switch ($mode) {
             case self::ENCRYPTION_OAEP:
                 return self::encryptWithRSAOAEP($key, $data, $hash);
             case self::ENCRYPTION_PKCS1:

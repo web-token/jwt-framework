@@ -21,46 +21,46 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
-  * @group Console
-  * @group KeySetCreationCommand
-  */
- class KeySetCreationCommandTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function theEllipticCurveKeySetCreationCommandIsAvailable()
-     {
-         $converter = new StandardConverter();
-         $command = new Console\EcKeysetGeneratorCommand($converter);
+ * @group Console
+ * @group KeySetCreationCommand
+ */
+class KeySetCreationCommandTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function theEllipticCurveKeySetCreationCommandIsAvailable()
+    {
+        $converter = new StandardConverter();
+        $command = new Console\EcKeysetGeneratorCommand($converter);
 
-         self::assertTrue($command->isEnabled());
-     }
+        self::assertTrue($command->isEnabled());
+    }
 
-     /**
-      * @test
-      * @expectedException \RuntimeException
-      * @expectedExceptionMessage Not enough arguments (missing: "quantity, curve").
-      */
-     public function theEllipticCurveKeySetCreationCommandNeedTheCurveAndQuantityArguments()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([]);
-         $output = new BufferedOutput();
-         $command = new Console\EcKeysetGeneratorCommand($converter);
+    /**
+     * @test
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Not enough arguments (missing: "quantity, curve").
+     */
+    public function theEllipticCurveKeySetCreationCommandNeedTheCurveAndQuantityArguments()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([]);
+        $output = new BufferedOutput();
+        $command = new Console\EcKeysetGeneratorCommand($converter);
 
-         $command->run($input, $output);
-     }
+        $command->run($input, $output);
+    }
 
-     /**
-      * @test
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage The curve "P-128" is not supported.
-      */
-     public function iCannotCreateAnEllipticCurveKeySetWithAnUnsupportedCurve()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The curve "P-128" is not supported.
+     */
+    public function iCannotCreateAnEllipticCurveKeySetWithAnUnsupportedCurve()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'quantity' => 2,
             'curve'    => 'P-128',
         ]);

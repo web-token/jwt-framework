@@ -15,18 +15,15 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use AESKW\A256KW as Wrapper;
 
-/**
-  * Class A256KW.
-  */
- class A256KW extends AESKW
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function getWrapper()
-     {
-         return new Wrapper();
-     }
+class A256KW extends AESKW
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function getWrapper()
+    {
+        return new Wrapper();
+    }
 
      /**
       * {@inheritdoc}

@@ -20,15 +20,15 @@ use Jose\Component\Encryption\Compression\GZip;
 use Jose\Component\Encryption\Compression\ZLib;
 
 /**
-  * Class CompressionTest.
-  *
-  * @group Unit
-  */
- class CompressionTest extends EncryptionTest
- {
-     public function testGetValidCompressionAlgorithm()
-     {
-         $manager = CompressionMethodManager::create([
+ * Class CompressionTest.
+ *
+ * @group Unit
+ */
+class CompressionTest extends EncryptionTest
+{
+    public function testGetValidCompressionAlgorithm()
+    {
+        $manager = CompressionMethodManager::create([
             new Deflate(),
             new GZip(),
             new ZLib(),

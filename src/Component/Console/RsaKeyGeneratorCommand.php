@@ -18,18 +18,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class RsaKeyGeneratorCommand.
-  */
- class RsaKeyGeneratorCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class RsaKeyGeneratorCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:generate:rsa')
             ->setDescription('Generate a RSA key (JWK format)')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');

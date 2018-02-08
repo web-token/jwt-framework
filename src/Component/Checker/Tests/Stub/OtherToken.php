@@ -15,15 +15,12 @@ namespace Jose\Component\Checker\Tests\Stub;
 
 use Jose\Component\Core\JWT;
 
-/**
-  * Class OtherToken.
-  */
- class OtherToken implements JWT
- {
-     /**
-      * @var null|string
-      */
-     private $payload;
+class OtherToken implements JWT
+{
+    /**
+     * @var null|string
+     */
+    private $payload;
 
      /**
       * @var array

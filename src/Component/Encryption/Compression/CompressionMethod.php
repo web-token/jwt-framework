@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-/**
- * This interface is used by all compression methods.
- */
 interface CompressionMethod
 {
     /**

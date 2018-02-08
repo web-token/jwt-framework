@@ -19,23 +19,20 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class CheckerCollectorCompilerPass.
-  */
- class CheckerCollectorCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(CheckerCollector::class)) {
-             return;
-         }
+class CheckerCollectorCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(CheckerCollector::class)) {
+            return;
+        }
 
-         $definition = $container->getDefinition(CheckerCollector::class);
+        $definition = $container->getDefinition(CheckerCollector::class);
 
-         $services = [
+        $services = [
             'addHeaderCheckerManager' => 'jose.header_checker_manager',
             'addClaimCheckerManager'  => 'jose.claim_checker_manager',
         ];

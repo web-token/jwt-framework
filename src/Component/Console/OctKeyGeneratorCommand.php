@@ -18,18 +18,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class OctKeyGeneratorCommand.
-  */
- class OctKeyGeneratorCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class OctKeyGeneratorCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:generate:oct')
             ->setDescription('Generate an octet key (JWK format)')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');

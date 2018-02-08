@@ -16,36 +16,33 @@ namespace Jose\Component\Encryption;
 use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
-/**
-  * Class JWETokenSupport.
-  */
- class JWETokenSupport implements TokenTypeSupport
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function supports(JWT $jwt): bool
-     {
-         return $jwt instanceof JWE;
-     }
+class JWETokenSupport implements TokenTypeSupport
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(JWT $jwt): bool
+    {
+        return $jwt instanceof JWE;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
-     {
-         if (!$jwt instanceof JWE) {
-             return;
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
+    {
+        if (!$jwt instanceof JWE) {
+            return;
+        }
 
-         if ($component > $jwt->countRecipients()) {
-             throw new \InvalidArgumentException('Unknown recipient index.');
-         }
-         $protectedHeader = $jwt->getSharedProtectedHeader();
-         $unprotectedHeader = $jwt->getSharedHeader();
-         $recipient = $jwt->getRecipient($component)->getHeader();
+        if ($component > $jwt->countRecipients()) {
+            throw new \InvalidArgumentException('Unknown recipient index.');
+        }
+        $protectedHeader = $jwt->getSharedProtectedHeader();
+        $unprotectedHeader = $jwt->getSharedHeader();
+        $recipient = $jwt->getRecipient($component)->getHeader();
 
-         $unprotectedHeader = array_merge(
+        $unprotectedHeader = array_merge(
             $unprotectedHeader,
             $recipient
         );

@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyAnalyzer;
 
-/**
-  * Class Message.
-  */
- class Message implements \JsonSerializable
- {
-     /**
-      * @var string
-      */
-     private $message;
+class Message implements \JsonSerializable
+{
+    /**
+     * @var string
+     */
+    private $message;
 
      /**
       * @var string

@@ -17,9 +17,6 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-/**
- * Class AbstractSource.
- */
 abstract class AbstractSource
 {
     /**

@@ -17,28 +17,28 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
-  * @see https://tools.ietf.org/html/rfc7520#section-4.2
-  *
-  * @group RFC7520
-  */
- class RSAPSSSignatureTest extends SignatureTest
- {
-     /**
-      * Please note that we cannot create the signature and get the same result as the example (RSA-PSS signatures are always different).
-      * This test case create a signature and verifies it.
-      * Then the output given in the RFC is used and verified.
-      * This way, we can say that the library is able to create/verify RSA-PSS signatures and verify signature from test vectors.
-      */
-     public function testPS384()
-     {
-         /*
-          * Payload,
-          * RSA private key
-          * @see https://tools.ietf.org/html/rfc7520#section-3.4
-          * @see https://tools.ietf.org/html/rfc7520#section-4.2.1
-          */
-         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-         $privateKey = JWK::create([
+ * @see https://tools.ietf.org/html/rfc7520#section-4.2
+ *
+ * @group RFC7520
+ */
+class RSAPSSSignatureTest extends SignatureTest
+{
+    /**
+     * Please note that we cannot create the signature and get the same result as the example (RSA-PSS signatures are always different).
+     * This test case create a signature and verifies it.
+     * Then the output given in the RFC is used and verified.
+     * This way, we can say that the library is able to create/verify RSA-PSS signatures and verify signature from test vectors.
+     */
+    public function testPS384()
+    {
+        /*
+         * Payload,
+         * RSA private key
+         * @see https://tools.ietf.org/html/rfc7520#section-3.4
+         * @see https://tools.ietf.org/html/rfc7520#section-4.2.1
+         */
+        $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
+        $privateKey = JWK::create([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',

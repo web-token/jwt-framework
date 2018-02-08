@@ -18,19 +18,16 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class AlgorithmCompilerPass.
-  */
- class AlgorithmCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(AlgorithmManagerFactory::class)) {
-             return;
-         }
+class AlgorithmCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(AlgorithmManagerFactory::class)) {
+            return;
+        }
 
          $definition = $container->getDefinition(AlgorithmManagerFactory::class);
 

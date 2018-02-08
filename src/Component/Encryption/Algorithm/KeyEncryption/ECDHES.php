@@ -21,49 +21,46 @@ use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Encryption\Util\ConcatKDF;
 use Jose\Component\Encryption\Util\Ecc\EcDH;
 
-/**
-  * Class ECDHES.
-  */
- class ECDHES implements KeyAgreement
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function allowedKeyTypes(): array
-     {
-         return ['EC', 'OKP'];
-     }
+class ECDHES implements KeyAgreement
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function allowedKeyTypes(): array
+    {
+        return ['EC', 'OKP'];
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getAgreementKey(int $encryption_key_length, string $algorithm, JWK $recipient_key, array $complete_header = [], array &$additional_header_values = []): string
-     {
-         if ($recipient_key->has('d')) {
-             list($public_key, $private_key) = $this->getKeysFromPrivateKeyAndHeader($recipient_key, $complete_header);
-         } else {
-             list($public_key, $private_key) = $this->getKeysFromPublicKey($recipient_key, $additional_header_values);
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function getAgreementKey(int $encryption_key_length, string $algorithm, JWK $recipient_key, array $complete_header = [], array &$additional_header_values = []): string
+    {
+        if ($recipient_key->has('d')) {
+            list($public_key, $private_key) = $this->getKeysFromPrivateKeyAndHeader($recipient_key, $complete_header);
+        } else {
+            list($public_key, $private_key) = $this->getKeysFromPublicKey($recipient_key, $additional_header_values);
+        }
 
-         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
+        $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
 
-         $apu = array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
-         $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
+        $apu = array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
+        $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
 
-         return ConcatKDF::generate($agreed_key, $algorithm, $encryption_key_length, $apu, $apv);
-     }
+        return ConcatKDF::generate($agreed_key, $algorithm, $encryption_key_length, $apu, $apv);
+    }
 
-     /**
-      * @param JWK   $recipient_key
-      * @param array $additional_header_values
-      *
-      * @return JWK[]
-      */
-     private function getKeysFromPublicKey(JWK $recipient_key, array &$additional_header_values): array
-     {
-         $this->checkKey($recipient_key, false);
-         $public_key = $recipient_key;
-         switch ($public_key->get('crv')) {
+    /**
+     * @param JWK   $recipient_key
+     * @param array $additional_header_values
+     *
+     * @return JWK[]
+     */
+    private function getKeysFromPublicKey(JWK $recipient_key, array &$additional_header_values): array
+    {
+        $this->checkKey($recipient_key, false);
+        $public_key = $recipient_key;
+        switch ($public_key->get('crv')) {
             case 'P-256':
             case 'P-384':
             case 'P-521':

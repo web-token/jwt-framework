@@ -17,64 +17,61 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 
-/**
-  * Class JSONGeneralSerializer.
-  */
- class JSONGeneralSerializer extends Serializer
- {
-     public const NAME = 'jws_json_general';
+class JSONGeneralSerializer extends Serializer
+{
+    public const NAME = 'jws_json_general';
 
-     /**
-      * @var JsonConverter
-      */
-     private $jsonConverter;
+    /**
+     * @var JsonConverter
+     */
+    private $jsonConverter;
 
-     /**
-      * JSONFlattenedSerializer constructor.
-      *
-      * @param JsonConverter $jsonConverter
-      */
-     public function __construct(JsonConverter $jsonConverter)
-     {
-         $this->jsonConverter = $jsonConverter;
-     }
+    /**
+     * JSONFlattenedSerializer constructor.
+     *
+     * @param JsonConverter $jsonConverter
+     */
+    public function __construct(JsonConverter $jsonConverter)
+    {
+        $this->jsonConverter = $jsonConverter;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function displayName(): string
-     {
-         return 'JWS JSON General';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function displayName(): string
+    {
+        return 'JWS JSON General';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return self::NAME;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return self::NAME;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function serialize(JWS $jws, ?int $signatureIndex = null): string
-     {
-         if (0 === $jws->countSignatures()) {
-             throw new \LogicException('No signature.');
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(JWS $jws, ?int $signatureIndex = null): string
+    {
+        if (0 === $jws->countSignatures()) {
+            throw new \LogicException('No signature.');
+        }
 
-         $data = [];
-         $this->checkPayloadEncoding($jws);
+        $data = [];
+        $this->checkPayloadEncoding($jws);
 
-         if (false === $jws->isPayloadDetached()) {
-             $data['payload'] = $jws->getEncodedPayload();
-         }
+        if (false === $jws->isPayloadDetached()) {
+            $data['payload'] = $jws->getEncodedPayload();
+        }
 
-         $data['signatures'] = [];
-         foreach ($jws->getSignatures() as $signature) {
-             $tmp = ['signature' => Base64Url::encode($signature->getSignature())];
-             $values = [
+        $data['signatures'] = [];
+        foreach ($jws->getSignatures() as $signature) {
+            $tmp = ['signature' => Base64Url::encode($signature->getSignature())];
+            $values = [
                 'protected' => $signature->getEncodedProtectedHeader(),
                 'header'    => $signature->getHeader(),
             ];

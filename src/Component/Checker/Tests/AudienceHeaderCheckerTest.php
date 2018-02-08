@@ -17,21 +17,21 @@ use Jose\Component\Checker\AudienceChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group HeaderChecker
-  * @group Functional
-  */
- class AudienceHeaderCheckerTest extends TestCase
- {
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidHeaderException
-      * @expectedExceptionMessage Bad audience.
-      */
-     public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings()
-     {
-         $checker = new AudienceChecker('foo');
-         $checker->checkHeader(1);
-     }
+ * @group HeaderChecker
+ * @group Functional
+ */
+class AudienceHeaderCheckerTest extends TestCase
+{
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
+     * @expectedExceptionMessage Bad audience.
+     */
+    public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings()
+    {
+        $checker = new AudienceChecker('foo');
+        $checker->checkHeader(1);
+    }
 
      /**
       * @test

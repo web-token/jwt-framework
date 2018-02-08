@@ -17,19 +17,16 @@ use Jose\Bundle\JoseFramework\Routing\JWKSetLoader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
-  * Class KeySetControllerCompilerPass.
-  */
- class KeySetControllerCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(JWKSetLoader::class)) {
-             return;
-         }
+class KeySetControllerCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(JWKSetLoader::class)) {
+            return;
+        }
 
          $definition = $container->getDefinition(JWKSetLoader::class);
 

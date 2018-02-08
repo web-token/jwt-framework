@@ -28,231 +28,228 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 
-/**
-  * Class JWEBuilder.
-  */
- class JWEBuilder
- {
-     /**
-      * @var JsonConverter
-      */
-     private $jsonConverter;
+class JWEBuilder
+{
+    /**
+     * @var JsonConverter
+     */
+    private $jsonConverter;
 
-     /**
-      * @var null|string
-      */
-     private $payload;
+    /**
+     * @var null|string
+     */
+    private $payload;
 
-     /**
-      * @var string|null
-      */
-     private $aad;
+    /**
+     * @var string|null
+     */
+    private $aad;
 
-     /**
-      * @var array
-      */
-     private $recipients = [];
+    /**
+     * @var array
+     */
+    private $recipients = [];
 
-     /**
-      * @var AlgorithmManager
-      */
-     private $keyEncryptionAlgorithmManager;
+    /**
+     * @var AlgorithmManager
+     */
+    private $keyEncryptionAlgorithmManager;
 
-     /**
-      * @var AlgorithmManager
-      */
-     private $contentEncryptionAlgorithmManager;
+    /**
+     * @var AlgorithmManager
+     */
+    private $contentEncryptionAlgorithmManager;
 
-     /**
-      * @var CompressionMethodManager
-      */
-     private $compressionManager;
+    /**
+     * @var CompressionMethodManager
+     */
+    private $compressionManager;
 
-     /**
-      * @var array
-      */
-     private $sharedProtectedHeader = [];
+    /**
+     * @var array
+     */
+    private $sharedProtectedHeader = [];
 
-     /**
-      * @var array
-      */
-     private $sharedHeader = [];
+    /**
+     * @var array
+     */
+    private $sharedHeader = [];
 
-     /**
-      * @var null|CompressionMethod
-      */
-     private $compressionMethod = null;
+    /**
+     * @var null|CompressionMethod
+     */
+    private $compressionMethod = null;
 
-     /**
-      * @var null|ContentEncryptionAlgorithm
-      */
-     private $contentEncryptionAlgorithm = null;
+    /**
+     * @var null|ContentEncryptionAlgorithm
+     */
+    private $contentEncryptionAlgorithm = null;
 
-     /**
-      * @var null|string
-      */
-     private $keyManagementMode = null;
+    /**
+     * @var null|string
+     */
+    private $keyManagementMode = null;
 
-     /**
-      * JWEBuilder constructor.
-      *
-      * @param JsonConverter            $jsonConverter
-      * @param AlgorithmManager         $keyEncryptionAlgorithmManager
-      * @param AlgorithmManager         $contentEncryptionAlgorithmManager
-      * @param CompressionMethodManager $compressionManager
-      */
-     public function __construct(JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
-     {
-         $this->jsonConverter = $jsonConverter;
-         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
-         $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
-         $this->compressionManager = $compressionManager;
-     }
+    /**
+     * JWEBuilder constructor.
+     *
+     * @param JsonConverter            $jsonConverter
+     * @param AlgorithmManager         $keyEncryptionAlgorithmManager
+     * @param AlgorithmManager         $contentEncryptionAlgorithmManager
+     * @param CompressionMethodManager $compressionManager
+     */
+    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
+    {
+        $this->jsonConverter = $jsonConverter;
+        $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
+        $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
+        $this->compressionManager = $compressionManager;
+    }
 
-     /**
-      * Reset the current data.
-      *
-      * @return JWEBuilder
-      */
-     public function create(): self
-     {
-         $this->payload = null;
-         $this->aad = null;
-         $this->recipients = [];
-         $this->sharedProtectedHeader = [];
-         $this->sharedHeader = [];
-         $this->compressionMethod = null;
-         $this->contentEncryptionAlgorithm = null;
-         $this->keyManagementMode = null;
+    /**
+     * Reset the current data.
+     *
+     * @return JWEBuilder
+     */
+    public function create(): self
+    {
+        $this->payload = null;
+        $this->aad = null;
+        $this->recipients = [];
+        $this->sharedProtectedHeader = [];
+        $this->sharedHeader = [];
+        $this->compressionMethod = null;
+        $this->contentEncryptionAlgorithm = null;
+        $this->keyManagementMode = null;
 
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * @return AlgorithmManager
-      */
-     public function getKeyEncryptionAlgorithmManager(): AlgorithmManager
-     {
-         return $this->keyEncryptionAlgorithmManager;
-     }
+    /**
+     * @return AlgorithmManager
+     */
+    public function getKeyEncryptionAlgorithmManager(): AlgorithmManager
+    {
+        return $this->keyEncryptionAlgorithmManager;
+    }
 
-     /**
-      * @return AlgorithmManager
-      */
-     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
-     {
-         return $this->contentEncryptionAlgorithmManager;
-     }
+    /**
+     * @return AlgorithmManager
+     */
+    public function getContentEncryptionAlgorithmManager(): AlgorithmManager
+    {
+        return $this->contentEncryptionAlgorithmManager;
+    }
 
-     /**
-      * @return CompressionMethodManager
-      */
-     public function getCompressionMethodManager(): CompressionMethodManager
-     {
-         return $this->compressionManager;
-     }
+    /**
+     * @return CompressionMethodManager
+     */
+    public function getCompressionMethodManager(): CompressionMethodManager
+    {
+        return $this->compressionManager;
+    }
 
-     /**
-      * @param mixed $payload
-      *
-      * @return JWEBuilder
-      */
-     public function withPayload($payload): self
-     {
-         $payload = is_string($payload) ? $payload : $this->jsonConverter->encode($payload);
-         if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
-             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
-         }
-         $clone = clone $this;
-         $clone->payload = $payload;
+    /**
+     * @param mixed $payload
+     *
+     * @return JWEBuilder
+     */
+    public function withPayload($payload): self
+    {
+        $payload = is_string($payload) ? $payload : $this->jsonConverter->encode($payload);
+        if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
+            throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
+        }
+        $clone = clone $this;
+        $clone->payload = $payload;
 
-         return $clone;
-     }
+        return $clone;
+    }
 
-     /**
-      * @param string|null $aad
-      *
-      * @return JWEBuilder
-      */
-     public function withAAD(?string $aad): self
-     {
-         $clone = clone $this;
-         $clone->aad = $aad;
+    /**
+     * @param string|null $aad
+     *
+     * @return JWEBuilder
+     */
+    public function withAAD(?string $aad): self
+    {
+        $clone = clone $this;
+        $clone->aad = $aad;
 
-         return $clone;
-     }
+        return $clone;
+    }
 
-     /**
-      * @param array $sharedProtectedHeader
-      *
-      * @return JWEBuilder
-      */
-     public function withSharedProtectedHeader(array $sharedProtectedHeader): self
-     {
-         $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $this->sharedHeader);
-         foreach ($this->recipients as $recipient) {
-             $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $recipient->getHeader());
-         }
-         $clone = clone $this;
-         $clone->sharedProtectedHeader = $sharedProtectedHeader;
+    /**
+     * @param array $sharedProtectedHeader
+     *
+     * @return JWEBuilder
+     */
+    public function withSharedProtectedHeader(array $sharedProtectedHeader): self
+    {
+        $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $this->sharedHeader);
+        foreach ($this->recipients as $recipient) {
+            $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $recipient->getHeader());
+        }
+        $clone = clone $this;
+        $clone->sharedProtectedHeader = $sharedProtectedHeader;
 
-         return $clone;
-     }
+        return $clone;
+    }
 
-     /**
-      * @param array $sharedHeader
-      *
-      * @return JWEBuilder
-      */
-     public function withSharedHeader(array $sharedHeader): self
-     {
-         $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $sharedHeader);
-         foreach ($this->recipients as $recipient) {
-             $this->checkDuplicatedHeaderParameters($sharedHeader, $recipient->getHeader());
-         }
-         $clone = clone $this;
-         $clone->sharedHeader = $sharedHeader;
+    /**
+     * @param array $sharedHeader
+     *
+     * @return JWEBuilder
+     */
+    public function withSharedHeader(array $sharedHeader): self
+    {
+        $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $sharedHeader);
+        foreach ($this->recipients as $recipient) {
+            $this->checkDuplicatedHeaderParameters($sharedHeader, $recipient->getHeader());
+        }
+        $clone = clone $this;
+        $clone->sharedHeader = $sharedHeader;
 
-         return $clone;
-     }
+        return $clone;
+    }
 
-     /**
-      * @param JWK   $recipientKey
-      * @param array $recipientHeader
-      *
-      * @return JWEBuilder
-      */
-     public function addRecipient(JWK $recipientKey, array $recipientHeader = []): self
-     {
-         $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $recipientHeader);
-         $this->checkDuplicatedHeaderParameters($this->sharedHeader, $recipientHeader);
-         $clone = clone $this;
-         $completeHeader = array_merge($clone->sharedHeader, $recipientHeader, $clone->sharedProtectedHeader);
-         $clone->checkAndSetContentEncryptionAlgorithm($completeHeader);
-         $keyEncryptionAlgorithm = $clone->getKeyEncryptionAlgorithm($completeHeader);
-         if (null === $clone->keyManagementMode) {
-             $clone->keyManagementMode = $keyEncryptionAlgorithm->getKeyManagementMode();
-         } else {
-             if (!$clone->areKeyManagementModesCompatible($clone->keyManagementMode, $keyEncryptionAlgorithm->getKeyManagementMode())) {
-                 throw new \InvalidArgumentException('Foreign key management mode forbidden.');
-             }
-         }
+    /**
+     * @param JWK   $recipientKey
+     * @param array $recipientHeader
+     *
+     * @return JWEBuilder
+     */
+    public function addRecipient(JWK $recipientKey, array $recipientHeader = []): self
+    {
+        $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $recipientHeader);
+        $this->checkDuplicatedHeaderParameters($this->sharedHeader, $recipientHeader);
+        $clone = clone $this;
+        $completeHeader = array_merge($clone->sharedHeader, $recipientHeader, $clone->sharedProtectedHeader);
+        $clone->checkAndSetContentEncryptionAlgorithm($completeHeader);
+        $keyEncryptionAlgorithm = $clone->getKeyEncryptionAlgorithm($completeHeader);
+        if (null === $clone->keyManagementMode) {
+            $clone->keyManagementMode = $keyEncryptionAlgorithm->getKeyManagementMode();
+        } else {
+            if (!$clone->areKeyManagementModesCompatible($clone->keyManagementMode, $keyEncryptionAlgorithm->getKeyManagementMode())) {
+                throw new \InvalidArgumentException('Foreign key management mode forbidden.');
+            }
+        }
 
-         $compressionMethod = $clone->getCompressionMethod($completeHeader);
-         if (null !== $compressionMethod) {
-             if (null === $clone->compressionMethod) {
-                 $clone->compressionMethod = $compressionMethod;
-             } elseif ($clone->compressionMethod->name() !== $compressionMethod->name()) {
-                 throw new \InvalidArgumentException('Incompatible compression method.');
-             }
-         }
-         if (null === $compressionMethod && null !== $clone->compressionMethod) {
-             throw new \InvalidArgumentException('Inconsistent compression method.');
-         }
-         $clone->checkKey($keyEncryptionAlgorithm, $recipientKey);
-         $clone->recipients[] = [
-            'key'                      => $recipientKey,
-            'header'                   => $recipientHeader,
+        $compressionMethod = $clone->getCompressionMethod($completeHeader);
+        if (null !== $compressionMethod) {
+            if (null === $clone->compressionMethod) {
+                $clone->compressionMethod = $compressionMethod;
+            } elseif ($clone->compressionMethod->name() !== $compressionMethod->name()) {
+                throw new \InvalidArgumentException('Incompatible compression method.');
+            }
+        }
+        if (null === $compressionMethod && null !== $clone->compressionMethod) {
+            throw new \InvalidArgumentException('Inconsistent compression method.');
+        }
+        $clone->checkKey($keyEncryptionAlgorithm, $recipientKey);
+        $clone->recipients[] = [
+            'key' => $recipientKey,
+            'header' => $recipientHeader,
             'key_encryption_algorithm' => $keyEncryptionAlgorithm,
         ];
 

@@ -16,30 +16,28 @@ namespace Jose\Component\Encryption\Util;
 use Base64Url\Base64Url;
 
 /**
-  * Class ConcatKDF.
-  *
-  * This class is used by the ECDH-ES algorithms
-  *
-  * @see https://tools.ietf.org/html/rfc7518#section-4.6.2
-  */
- class ConcatKDF
- {
-     /**
-      * Key Derivation Function.
-      *
-      * @param string $Z                   Shared secret
-      * @param string $algorithm           Encryption algorithm
-      * @param int    $encryption_key_size Size of the encryption key
-      * @param string $apu                 Agreement PartyUInfo (information about the producer)
-      * @param string $apv                 Agreement PartyVInfo (information about the recipient)
-      *
-      * @return string
-      */
-     public static function generate(string $Z, string $algorithm, int $encryption_key_size, string $apu = '', string $apv = ''): string
-     {
-         $apu = !empty($apu) ? Base64Url::decode($apu) : '';
-         $apv = !empty($apv) ? Base64Url::decode($apv) : '';
-         $encryption_segments = [
+ * @internal
+ *
+ * @see https://tools.ietf.org/html/rfc7518#section-4.6.2
+ */
+class ConcatKDF
+{
+    /**
+     * Key Derivation Function.
+     *
+     * @param string $Z                   Shared secret
+     * @param string $algorithm           Encryption algorithm
+     * @param int    $encryption_key_size Size of the encryption key
+     * @param string $apu                 Agreement PartyUInfo (information about the producer)
+     * @param string $apv                 Agreement PartyVInfo (information about the recipient)
+     *
+     * @return string
+     */
+    public static function generate(string $Z, string $algorithm, int $encryption_key_size, string $apu = '', string $apv = ''): string
+    {
+        $apu = !empty($apu) ? Base64Url::decode($apu) : '';
+        $apv = !empty($apv) ? Base64Url::decode($apv) : '';
+        $encryption_segments = [
             self::toInt32Bits(1),                                  // Round number 1
             $Z,                                                          // Z (shared secret)
             self::toInt32Bits(mb_strlen($algorithm, '8bit')).$algorithm, // Size of algorithm's name and algorithm

@@ -16,42 +16,39 @@ namespace Jose\Component\Signature;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\Converter\JsonConverter;
 
-/**
-  * Class JWSBuilderFactory.
-  */
- class JWSBuilderFactory
- {
-     /**
-      * @var JsonConverter
-      */
-     private $jsonEncoder;
+class JWSBuilderFactory
+{
+    /**
+     * @var JsonConverter
+     */
+    private $jsonEncoder;
 
-     /**
-      * @var AlgorithmManagerFactory
-      */
-     private $signatureAlgorithmManagerFactory;
+    /**
+     * @var AlgorithmManagerFactory
+     */
+    private $signatureAlgorithmManagerFactory;
 
-     /**
-      * JWSBuilderFactory constructor.
-      *
-      * @param JsonConverter           $jsonEncoder
-      * @param AlgorithmManagerFactory $signatureAlgorithmManagerFactory
-      */
-     public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
-     {
-         $this->jsonEncoder = $jsonEncoder;
-         $this->signatureAlgorithmManagerFactory = $signatureAlgorithmManagerFactory;
-     }
+    /**
+     * JWSBuilderFactory constructor.
+     *
+     * @param JsonConverter           $jsonEncoder
+     * @param AlgorithmManagerFactory $signatureAlgorithmManagerFactory
+     */
+    public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
+    {
+        $this->jsonEncoder = $jsonEncoder;
+        $this->signatureAlgorithmManagerFactory = $signatureAlgorithmManagerFactory;
+    }
 
-     /**
-      * @param string[] $algorithms
-      *
-      * @return JWSBuilder
-      */
-     public function create(array $algorithms): JWSBuilder
-     {
-         $algorithmManager = $this->signatureAlgorithmManagerFactory->create($algorithms);
+    /**
+     * @param string[] $algorithms
+     *
+     * @return JWSBuilder
+     */
+    public function create(array $algorithms): JWSBuilder
+    {
+        $algorithmManager = $this->signatureAlgorithmManagerFactory->create($algorithms);
 
-         return new JWSBuilder($this->jsonEncoder, $algorithmManager);
-     }
- }
+        return new JWSBuilder($this->jsonEncoder, $algorithmManager);
+    }
+}

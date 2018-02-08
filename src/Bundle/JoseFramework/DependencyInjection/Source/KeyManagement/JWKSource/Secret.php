@@ -20,18 +20,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class Secret.
-  */
- class Secret extends AbstractSource implements JWKSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function createDefinition(ContainerBuilder $container, array $config): Definition
-     {
-         $definition = new Definition(JWK::class);
-         $definition->setFactory([
+class Secret extends AbstractSource implements JWKSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function createDefinition(ContainerBuilder $container, array $config): Definition
+    {
+        $definition = new Definition(JWK::class);
+        $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromSecret',
         ]);

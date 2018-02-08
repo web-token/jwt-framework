@@ -18,18 +18,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class OkpKeyGeneratorCommand.
-  */
- class OkpKeyGeneratorCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class OkpKeyGeneratorCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:generate:okp')
             ->setDescription('Generate an Octet Key Pair key (JWK format)')
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');

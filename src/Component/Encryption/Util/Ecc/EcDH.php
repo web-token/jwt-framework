@@ -42,24 +42,19 @@ use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\Ecc\PublicKey;
 
 /**
-  * This class is the implementation of ECDH.
-  * EcDH is safe key exchange and achieves
-  * that a key is transported securely between two parties.
-  * The key then can be hashed and used as a basis in
-  * a dual encryption scheme, along with AES for faster
-  * two- way encryption.
-  */
- class EcDH
- {
-     /**
-      * @param Curve      $curve
-      * @param PublicKey  $publicKey
-      * @param PrivateKey $privateKey
-      *
-      * @return \GMP
-      */
-     public static function computeSharedKey(Curve $curve, PublicKey $publicKey, PrivateKey $privateKey): \GMP
-     {
-         return $curve->mul($publicKey->getPoint(), $privateKey->getSecret())->getX();
-     }
- }
+ * @internal
+ */
+class EcDH
+{
+    /**
+     * @param Curve      $curve
+     * @param PublicKey  $publicKey
+     * @param PrivateKey $privateKey
+     *
+     * @return \GMP
+     */
+    public static function computeSharedKey(Curve $curve, PublicKey $publicKey, PrivateKey $privateKey): \GMP
+    {
+        return $curve->mul($publicKey->getPoint(), $privateKey->getSecret())->getX();
+    }
+}

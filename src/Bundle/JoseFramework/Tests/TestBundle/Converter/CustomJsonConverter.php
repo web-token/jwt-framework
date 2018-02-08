@@ -16,36 +16,36 @@ namespace Jose\Bundle\JoseFramework\Tests\TestBundle\Converter;
 use Jose\Component\Core\Converter\JsonConverter;
 
 /**
-  * Class CustomJsonConverter.
-  */
- class CustomJsonConverter implements JsonConverter
- {
-     /**
-      * @var int
-      */
-     private $options;
+ * Class CustomJsonConverter.
+ */
+class CustomJsonConverter implements JsonConverter
+{
+    /**
+     * @var int
+     */
+    private $options;
 
-     /**
-      * CustomJsonConverter constructor.
-      */
-     public function __construct()
-     {
-         $this->options = JSON_UNESCAPED_UNICODE;
-     }
+    /**
+     * CustomJsonConverter constructor.
+     */
+    public function __construct()
+    {
+        $this->options = JSON_UNESCAPED_UNICODE;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function encode($payload): string
-     {
-         return json_encode($payload, $this->options, 512);
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function encode($payload): string
+    {
+        return json_encode($payload, $this->options, 512);
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function decode(string $payload, bool $associativeArray = true)
-     {
-         return json_decode($payload, $associativeArray, 512, $this->options);
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function decode(string $payload, bool $associativeArray = true)
+    {
+        return json_decode($payload, $associativeArray, 512, $this->options);
+    }
+}

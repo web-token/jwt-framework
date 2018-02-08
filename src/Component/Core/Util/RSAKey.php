@@ -23,209 +23,209 @@ use FG\ASN1\Universal\Sequence;
 use Jose\Component\Core\JWK;
 
 /**
-  * Class RSAKey.
-  */
- class RSAKey
- {
-     /**
-      * @var Sequence
-      */
-     private $sequence;
+ * @internal
+ */
+class RSAKey
+{
+    /**
+     * @var Sequence
+     */
+    private $sequence;
 
-     /**
-      * @var bool
-      */
-     private $private = false;
+    /**
+     * @var bool
+     */
+    private $private = false;
 
-     /**
-      * @var array
-      */
-     private $values = [];
+    /**
+     * @var array
+     */
+    private $values = [];
 
-     /**
-      * @var BigInteger
-      */
-     private $modulus;
+    /**
+     * @var BigInteger
+     */
+    private $modulus;
 
-     /**
-      * @var int
-      */
-     private $modulus_length;
+    /**
+     * @var int
+     */
+    private $modulus_length;
 
-     /**
-      * @var BigInteger
-      */
-     private $public_exponent;
+    /**
+     * @var BigInteger
+     */
+    private $public_exponent;
 
-     /**
-      * @var BigInteger|null
-      */
-     private $private_exponent = null;
+    /**
+     * @var BigInteger|null
+     */
+    private $private_exponent = null;
 
-     /**
-      * @var BigInteger[]
-      */
-     private $primes = [];
+    /**
+     * @var BigInteger[]
+     */
+    private $primes = [];
 
-     /**
-      * @var BigInteger[]
-      */
-     private $exponents = [];
+    /**
+     * @var BigInteger[]
+     */
+    private $exponents = [];
 
-     /**
-      * @var BigInteger|null
-      */
-     private $coefficient = null;
+    /**
+     * @var BigInteger|null
+     */
+    private $coefficient = null;
 
-     /**
-      * @param JWK $data
-      */
-     private function __construct(JWK $data)
-     {
-         $this->loadJWK($data->all());
-         $this->populateBigIntegers();
-         $this->private = array_key_exists('d', $this->values);
-     }
+    /**
+     * @param JWK $data
+     */
+    private function __construct(JWK $data)
+    {
+        $this->loadJWK($data->all());
+        $this->populateBigIntegers();
+        $this->private = array_key_exists('d', $this->values);
+    }
 
-     /**
-      * @param JWK $jwk
-      *
-      * @return RSAKey
-      */
-     public static function createFromJWK(JWK $jwk): self
-     {
-         return new self($jwk);
-     }
+    /**
+     * @param JWK $jwk
+     *
+     * @return RSAKey
+     */
+    public static function createFromJWK(JWK $jwk): self
+    {
+        return new self($jwk);
+    }
 
-     /**
-      * @return BigInteger
-      */
-     public function getModulus(): BigInteger
-     {
-         return $this->modulus;
-     }
+    /**
+     * @return BigInteger
+     */
+    public function getModulus(): BigInteger
+    {
+        return $this->modulus;
+    }
 
-     /**
-      * @return int
-      */
-     public function getModulusLength(): int
-     {
-         return $this->modulus_length;
-     }
+    /**
+     * @return int
+     */
+    public function getModulusLength(): int
+    {
+        return $this->modulus_length;
+    }
 
-     /**
-      * @return BigInteger
-      */
-     public function getExponent(): BigInteger
-     {
-         $d = $this->getPrivateExponent();
-         if (null !== $d) {
-             return $d;
-         }
+    /**
+     * @return BigInteger
+     */
+    public function getExponent(): BigInteger
+    {
+        $d = $this->getPrivateExponent();
+        if (null !== $d) {
+            return $d;
+        }
 
-         return $this->getPublicExponent();
-     }
+        return $this->getPublicExponent();
+    }
 
-     /**
-      * @return BigInteger
-      */
-     public function getPublicExponent(): BigInteger
-     {
-         return $this->public_exponent;
-     }
+    /**
+     * @return BigInteger
+     */
+    public function getPublicExponent(): BigInteger
+    {
+        return $this->public_exponent;
+    }
 
-     /**
-      * @return BigInteger|null
-      */
-     public function getPrivateExponent(): ?BigInteger
-     {
-         return $this->private_exponent;
-     }
+    /**
+     * @return BigInteger|null
+     */
+    public function getPrivateExponent(): ?BigInteger
+    {
+        return $this->private_exponent;
+    }
 
-     /**
-      * @return BigInteger[]
-      */
-     public function getPrimes(): array
-     {
-         return $this->primes;
-     }
+    /**
+     * @return BigInteger[]
+     */
+    public function getPrimes(): array
+    {
+        return $this->primes;
+    }
 
-     /**
-      * @return BigInteger[]
-      */
-     public function getExponents(): array
-     {
-         return $this->exponents;
-     }
+    /**
+     * @return BigInteger[]
+     */
+    public function getExponents(): array
+    {
+        return $this->exponents;
+    }
 
-     /**
-      * @return BigInteger|null
-      */
-     public function getCoefficient(): ?BigInteger
-     {
-         return $this->coefficient;
-     }
+    /**
+     * @return BigInteger|null
+     */
+    public function getCoefficient(): ?BigInteger
+    {
+        return $this->coefficient;
+    }
 
-     /**
-      * @return bool
-      */
-     public function isPublic(): bool
-     {
-         return !array_key_exists('d', $this->values);
-     }
+    /**
+     * @return bool
+     */
+    public function isPublic(): bool
+    {
+        return !array_key_exists('d', $this->values);
+    }
 
-     /**
-      * @param RSAKey $private
-      *
-      * @return RSAKey
-      */
-     public static function toPublic(self $private): self
-     {
-         $data = $private->toArray();
-         $keys = ['p', 'd', 'q', 'dp', 'dq', 'qi'];
-         foreach ($keys as $key) {
-             if (array_key_exists($key, $data)) {
-                 unset($data[$key]);
-             }
-         }
+    /**
+     * @param RSAKey $private
+     *
+     * @return RSAKey
+     */
+    public static function toPublic(self $private): self
+    {
+        $data = $private->toArray();
+        $keys = ['p', 'd', 'q', 'dp', 'dq', 'qi'];
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $data)) {
+                unset($data[$key]);
+            }
+        }
 
-         return new self(JWK::create($data));
-     }
+        return new self(JWK::create($data));
+    }
 
-     /**
-      * @return array
-      */
-     public function toArray(): array
-     {
-         return $this->values;
-     }
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->values;
+    }
 
-     /**
-      * @param array $jwk
-      */
-     private function loadJWK(array $jwk)
-     {
-         if (!array_key_exists('kty', $jwk)) {
-             throw new \InvalidArgumentException('The key parameter "kty" is missing.');
-         }
-         if ('RSA' !== $jwk['kty']) {
-             throw new \InvalidArgumentException('The JWK is not a RSA key.');
-         }
+    /**
+     * @param array $jwk
+     */
+    private function loadJWK(array $jwk)
+    {
+        if (!array_key_exists('kty', $jwk)) {
+            throw new \InvalidArgumentException('The key parameter "kty" is missing.');
+        }
+        if ('RSA' !== $jwk['kty']) {
+            throw new \InvalidArgumentException('The JWK is not a RSA key.');
+        }
 
-         $this->values = $jwk;
-     }
+        $this->values = $jwk;
+    }
 
-     private function populateBigIntegers()
-     {
-         $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
-         $this->modulus_length = mb_strlen($this->getModulus()->toBytes(), '8bit');
-         $this->public_exponent = $this->convertBase64StringToBigInteger($this->values['e']);
+    private function populateBigIntegers()
+    {
+        $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
+        $this->modulus_length = mb_strlen($this->getModulus()->toBytes(), '8bit');
+        $this->public_exponent = $this->convertBase64StringToBigInteger($this->values['e']);
 
-         if (!$this->isPublic()) {
-             $this->private_exponent = $this->convertBase64StringToBigInteger($this->values['d']);
+        if (!$this->isPublic()) {
+            $this->private_exponent = $this->convertBase64StringToBigInteger($this->values['d']);
 
-             if (array_key_exists('p', $this->values) && array_key_exists('q', $this->values)) {
-                 $this->primes = [
+            if (array_key_exists('p', $this->values) && array_key_exists('q', $this->values)) {
+                $this->primes = [
                     $this->convertBase64StringToBigInteger($this->values['p']),
                     $this->convertBase64StringToBigInteger($this->values['q']),
                 ];

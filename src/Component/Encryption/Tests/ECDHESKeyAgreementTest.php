@@ -21,19 +21,19 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
 
 /**
-  * Class ECDHESKeyAgreementTest.
-  *
-  * @group ECDHES
-  * @group Unit
-  */
- class ECDHESKeyAgreementTest extends EncryptionTest
- {
-     /**
-      * @see https://tools.ietf.org/html/rfc7518#appendix-C
-      */
-     public function testGetAgreementKey()
-     {
-         $receiver = JWK::create([
+ * Class ECDHESKeyAgreementTest.
+ *
+ * @group ECDHES
+ * @group Unit
+ */
+class ECDHESKeyAgreementTest extends EncryptionTest
+{
+    /**
+     * @see https://tools.ietf.org/html/rfc7518#appendix-C
+     */
+    public function testGetAgreementKey()
+    {
+        $receiver = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x'   => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',

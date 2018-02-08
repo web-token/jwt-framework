@@ -23,143 +23,143 @@ use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
 
 /**
-  * Class ECKey.
-  */
- class ECKey
- {
-     /**
-      * @var array
-      */
-     private $values = [];
+ * @internal
+ */
+class ECKey
+{
+    /**
+     * @var array
+     */
+    private $values = [];
 
-     /**
-      * ECKey constructor.
-      *
-      * @param array $data
-      */
-     private function __construct(array $data)
-     {
-         $this->loadJWK($data);
-     }
+    /**
+     * ECKey constructor.
+     *
+     * @param array $data
+     */
+    private function __construct(array $data)
+    {
+        $this->loadJWK($data);
+    }
 
-     /**
-      * @param string $pem
-      *
-      * @return ECKey
-      */
-     public static function createFromPEM(string $pem): self
-     {
-         $data = self::loadPEM($pem);
+    /**
+     * @param string $pem
+     *
+     * @return ECKey
+     */
+    public static function createFromPEM(string $pem): self
+    {
+        $data = self::loadPEM($pem);
 
-         return new self($data);
-     }
+        return new self($data);
+    }
 
-     /**
-      * @param string $data
-      *
-      * @throws \Exception
-      *
-      * @return array
-      */
-     private static function loadPEM(string $data): array
-     {
-         $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data));
-         $asnObject = ASNObject::fromBinary($data);
+    /**
+     * @param string $data
+     *
+     * @return array
+     *
+     * @throws \Exception
+     */
+    private static function loadPEM(string $data): array
+    {
+        $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data));
+        $asnObject = ASNObject::fromBinary($data);
 
-         if (!$asnObject instanceof Sequence) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
-         $children = $asnObject->getChildren();
-         if (self::isPKCS8($children)) {
-             $children = self::loadPKCS8($children);
-         }
+        if (!$asnObject instanceof Sequence) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
+        $children = $asnObject->getChildren();
+        if (self::isPKCS8($children)) {
+            $children = self::loadPKCS8($children);
+        }
 
-         if (4 === count($children)) {
-             return self::loadPrivatePEM($children);
-         } elseif (2 === count($children)) {
-             return self::loadPublicPEM($children);
-         }
+        if (4 === count($children)) {
+            return self::loadPrivatePEM($children);
+        } elseif (2 === count($children)) {
+            return self::loadPublicPEM($children);
+        }
 
-         throw new \Exception('Unable to load the key.');
-     }
+        throw new \Exception('Unable to load the key.');
+    }
 
-     /**
-      * @param ASNObject[] $children
-      *
-      * @return array
-      */
-     private static function loadPKCS8(array $children): array
-     {
-         $binary = hex2bin($children[2]->getContent());
-         $asnObject = ASNObject::fromBinary($binary);
-         if (!$asnObject instanceof Sequence) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+    /**
+     * @param ASNObject[] $children
+     *
+     * @return array
+     */
+    private static function loadPKCS8(array $children): array
+    {
+        $binary = hex2bin($children[2]->getContent());
+        $asnObject = ASNObject::fromBinary($binary);
+        if (!$asnObject instanceof Sequence) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         return $asnObject->getChildren();
-     }
+        return $asnObject->getChildren();
+    }
 
-     /**
-      * @param ASNObject[] $children
-      *
-      * @return array
-      */
-     private static function loadPublicPEM(array $children): array
-     {
-         if (!$children[0] instanceof Sequence) {
-             throw new \InvalidArgumentException('Unsupported key type.');
-         }
+    /**
+     * @param ASNObject[] $children
+     *
+     * @return array
+     */
+    private static function loadPublicPEM(array $children): array
+    {
+        if (!$children[0] instanceof Sequence) {
+            throw new \InvalidArgumentException('Unsupported key type.');
+        }
 
-         $sub = $children[0]->getChildren();
-         if (!$sub[0] instanceof ObjectIdentifier) {
-             throw new \InvalidArgumentException('Unsupported key type.');
-         }
-         if ('1.2.840.10045.2.1' !== $sub[0]->getContent()) {
-             throw new \InvalidArgumentException('Unsupported key type.');
-         }
-         if (!$sub[1] instanceof ObjectIdentifier) {
-             throw new \InvalidArgumentException('Unsupported key type.');
-         }
-         if (!$children[1] instanceof BitString) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+        $sub = $children[0]->getChildren();
+        if (!$sub[0] instanceof ObjectIdentifier) {
+            throw new \InvalidArgumentException('Unsupported key type.');
+        }
+        if ('1.2.840.10045.2.1' !== $sub[0]->getContent()) {
+            throw new \InvalidArgumentException('Unsupported key type.');
+        }
+        if (!$sub[1] instanceof ObjectIdentifier) {
+            throw new \InvalidArgumentException('Unsupported key type.');
+        }
+        if (!$children[1] instanceof BitString) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         $bits = $children[1]->getContent();
-         $bits_length = mb_strlen($bits, '8bit');
-         if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
-             throw new \InvalidArgumentException('Unsupported key type');
-         }
+        $bits = $children[1]->getContent();
+        $bits_length = mb_strlen($bits, '8bit');
+        if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
+            throw new \InvalidArgumentException('Unsupported key type');
+        }
 
-         $values = ['kty' => 'EC'];
-         $values['crv'] = self::getCurve($sub[1]->getContent());
-         $values['x'] = Base64Url::encode(hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
-         $values['y'] = Base64Url::encode(hex2bin(mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit')));
+        $values = ['kty' => 'EC'];
+        $values['crv'] = self::getCurve($sub[1]->getContent());
+        $values['x'] = Base64Url::encode(hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
+        $values['y'] = Base64Url::encode(hex2bin(mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit')));
 
-         return $values;
-     }
+        return $values;
+    }
 
-     /**
-      * @param string $oid
-      *
-      * @return string
-      */
-     private static function getCurve(string $oid): string
-     {
-         $curves = self::getSupportedCurves();
-         $curve = array_search($oid, $curves, true);
-         if (!is_string($curve)) {
-             throw new \InvalidArgumentException('Unsupported OID.');
-         }
+    /**
+     * @param string $oid
+     *
+     * @return string
+     */
+    private static function getCurve(string $oid): string
+    {
+        $curves = self::getSupportedCurves();
+        $curve = array_search($oid, $curves, true);
+        if (!is_string($curve)) {
+            throw new \InvalidArgumentException('Unsupported OID.');
+        }
 
-         return $curve;
-     }
+        return $curve;
+    }
 
-     /**
-      * @return array
-      */
-     private static function getSupportedCurves(): array
-     {
-         return [
+    /**
+     * @return array
+     */
+    private static function getSupportedCurves(): array
+    {
+        return [
             'P-256' => '1.2.840.10045.3.1.7',
             'P-384' => '1.3.132.0.34',
             'P-521' => '1.3.132.0.35',

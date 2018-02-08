@@ -22,19 +22,19 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use Jose\Component\Encryption\JWE;
 
 /**
-  * Class RSAKeyEncryptionTest.
-  *
-  * @group Unit
-  */
- class RSAKeyEncryptionTest extends EncryptionTest
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Wrong key type.
-      */
-     public function testInvalidKey()
-     {
-         $key = JWK::create([
+ * Class RSAKeyEncryptionTest.
+ *
+ * @group Unit
+ */
+class RSAKeyEncryptionTest extends EncryptionTest
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Wrong key type.
+     */
+    public function testInvalidKey()
+    {
+        $key = JWK::create([
             'kty' => 'EC',
         ]);
 

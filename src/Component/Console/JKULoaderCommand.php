@@ -19,15 +19,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class JKULoaderCommand.
-  */
- class JKULoaderCommand extends ObjectOutputCommand
- {
-     /**
-      * @var JKUFactory
-      */
-     private $jkuFactory;
+class JKULoaderCommand extends ObjectOutputCommand
+{
+    /**
+     * @var JKUFactory
+     */
+    private $jkuFactory;
 
      /**
       * JKULoaderCommand constructor.

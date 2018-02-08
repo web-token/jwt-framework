@@ -19,18 +19,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class KeyFileLoaderCommand.
-  */
- class KeyFileLoaderCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class KeyFileLoaderCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:load:key')
             ->setDescription('Loads a key from a key file (JWK format)')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the key.')

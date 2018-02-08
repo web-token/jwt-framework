@@ -17,18 +17,15 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
-/**
-  * Class KeyEnvVarProcessor.
-  */
- class KeyEnvVarProcessor implements EnvVarProcessorInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function getEnv($prefix, $name, \Closure $getEnv)
-     {
-         $env = $getEnv($name);
-         switch ($prefix) {
+class KeyEnvVarProcessor implements EnvVarProcessorInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function getEnv($prefix, $name, \Closure $getEnv)
+    {
+        $env = $getEnv($name);
+        switch ($prefix) {
             case 'jwk':
                 return JWK::createFromJson($env);
             case 'jwkset':

@@ -17,19 +17,19 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group OKPKeys
-  * @group Unit
-  */
- class OKPKeysTest extends TestCase
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Unsupported "Ed455" curve
-      */
-     public function testCreateOKPKeyWithInvalidKeySize()
-     {
-         JWKFactory::createOKPKey('Ed455');
-     }
+ * @group OKPKeys
+ * @group Unit
+ */
+class OKPKeysTest extends TestCase
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unsupported "Ed455" curve
+     */
+    public function testCreateOKPKeyWithInvalidKeySize()
+    {
+        JWKFactory::createOKPKey('Ed455');
+    }
 
      public function testCreateOKPKeyWithCurveX25519()
      {

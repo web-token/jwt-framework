@@ -18,20 +18,20 @@ use Jose\Component\Signature\JWSBuilderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
-  * @group Bundle
-  * @group Functional
-  */
- class JWSBuilderTest extends WebTestCase
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function setUp()
-     {
-         if (!class_exists(JWSBuilderFactory::class)) {
-             $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-         }
-     }
+ * @group Bundle
+ * @group Functional
+ */
+class JWSBuilderTest extends WebTestCase
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWSBuilderFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        }
+    }
 
      public function testJWSBuilderFactoryIsAvailable()
      {

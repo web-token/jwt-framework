@@ -16,18 +16,15 @@ namespace Jose\Component\Signature\Algorithm;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
-/**
-  * Class EdDSA.
-  */
- class EdDSA implements SignatureAlgorithm
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function allowedKeyTypes(): array
-     {
-         return ['OKP'];
-     }
+class EdDSA implements SignatureAlgorithm
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function allowedKeyTypes(): array
+    {
+        return ['OKP'];
+    }
 
      /**
       * {@inheritdoc}

@@ -17,21 +17,21 @@ use Jose\Component\Checker\ExpirationTimeChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group ClaimChecker
-  * @group Functional
-  */
- class ExpirationTimeClaimCheckerTest extends TestCase
- {
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidClaimException
-      * @expectedExceptionMessage "exp" must be an integer.
-      */
-     public function theExpirationTimeClaimMustBeAnInteger()
-     {
-         $checker = new ExpirationTimeChecker();
-         $checker->checkClaim('foo');
-     }
+ * @group ClaimChecker
+ * @group Functional
+ */
+class ExpirationTimeClaimCheckerTest extends TestCase
+{
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
+     * @expectedExceptionMessage "exp" must be an integer.
+     */
+    public function theExpirationTimeClaimMustBeAnInteger()
+    {
+        $checker = new ExpirationTimeChecker();
+        $checker->checkClaim('foo');
+    }
 
      /**
       * @test

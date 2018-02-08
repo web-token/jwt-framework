@@ -22,15 +22,12 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class KeyAnalyzerCommand.
-  */
- class KeyAnalyzerCommand extends Command
- {
-     /**
-      * @var KeyAnalyzerManager
-      */
-     private $analyzerManager;
+class KeyAnalyzerCommand extends Command
+{
+    /**
+     * @var KeyAnalyzerManager
+     */
+    private $analyzerManager;
 
      /**
       * @var JsonConverter

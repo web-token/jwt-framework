@@ -20,15 +20,12 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
-  * Class JWKSource.
-  */
- class JWKSource implements Source
- {
-     /**
-      * @var null|JWKSourceInterface[]
-      */
-     private $jwkSources = null;
+class JWKSource implements Source
+{
+    /**
+     * @var null|JWKSourceInterface[]
+     */
+    private $jwkSources = null;
 
      /**
       * {@inheritdoc}

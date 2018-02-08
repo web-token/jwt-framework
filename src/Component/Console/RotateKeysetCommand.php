@@ -20,21 +20,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class RotateKeysetCommand.
-  */
- class RotateKeysetCommand extends ObjectOutputCommand
- {
-     /**
-      * KeyAnalyzerCommand constructor.
-      *
-      * @param JsonConverter $jsonConverter
-      * @param string|null   $name
-      */
-     public function __construct(JsonConverter $jsonConverter, string $name = null)
-     {
-         parent::__construct($jsonConverter, $name);
-     }
+class RotateKeysetCommand extends ObjectOutputCommand
+{
+    /**
+     * KeyAnalyzerCommand constructor.
+     *
+     * @param JsonConverter $jsonConverter
+     * @param string|null   $name
+     */
+    public function __construct(JsonConverter $jsonConverter, string $name = null)
+    {
+        parent::__construct($jsonConverter, $name);
+    }
 
      /**
       * {@inheritdoc}

@@ -17,22 +17,22 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
-  * @see https://tools.ietf.org/html/rfc7520#section-4.1
-  *
-  * @group RFC7520
-  */
- class RSA15SignatureTest extends SignatureTest
- {
-     public function testRS256()
-     {
-         /*
-          * Payload,
-          * RSA private key
-          * @see https://tools.ietf.org/html/rfc7520#section-3.4
-          * @see https://tools.ietf.org/html/rfc7520#section-4.1.1
-          */
-         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-         $privateKey = JWK::create([
+ * @see https://tools.ietf.org/html/rfc7520#section-4.1
+ *
+ * @group RFC7520
+ */
+class RSA15SignatureTest extends SignatureTest
+{
+    public function testRS256()
+    {
+        /*
+         * Payload,
+         * RSA private key
+         * @see https://tools.ietf.org/html/rfc7520#section-3.4
+         * @see https://tools.ietf.org/html/rfc7520#section-4.1.1
+         */
+        $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
+        $privateKey = JWK::create([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',

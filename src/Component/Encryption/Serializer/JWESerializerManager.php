@@ -15,15 +15,12 @@ namespace Jose\Component\Encryption\Serializer;
 
 use Jose\Component\Encryption\JWE;
 
-/**
-  * Class JWESerializationManager.
-  */
- class JWESerializerManager
- {
-     /**
-      * @var JWESerializer[]
-      */
-     private $serializers = [];
+class JWESerializerManager
+{
+    /**
+     * @var JWESerializer[]
+     */
+    private $serializers = [];
 
      /**
       * JWESerializerManager constructor.

@@ -19,14 +19,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
-  * Class JoseFrameworkBundle.
-  */
- class JoseFrameworkBundle extends Bundle
- {
-     /**
-      * @var Source\SourceWithCompilerPasses[]
-      */
-     private $sources = [];
+ * Class JoseFrameworkBundle.
+ */
+class JoseFrameworkBundle extends Bundle
+{
+    /**
+     * @var Source\Source[]
+     */
+    private $sources = [];
 
      /**
       * JoseFrameworkBundle constructor.
@@ -53,15 +53,17 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
      {
          parent::build($container);
          foreach ($this->sources as $source) {
-             $compilerPasses = $source->getCompilerPasses();
-             foreach ($compilerPasses as $compilerPass) {
-                 $container->addCompilerPass($compilerPass);
+             if ($source instanceof Source\SourceWithCompilerPasses) {
+                 $compilerPasses = $source->getCompilerPasses();
+                 foreach ($compilerPasses as $compilerPass) {
+                     $container->addCompilerPass($compilerPass);
+                 }
              }
          }
      }
 
      /**
-      * @return Source\SourceWithCompilerPasses[]
+      * @return Source\Source[]
       */
      private function getSources(): array
      {

@@ -18,74 +18,74 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 
 /**
-  * Class RSAKey.
-  */
- class RSAKey
- {
-     /**
-      * @var array
-      */
-     private $values = [];
+ * @internal
+ */
+class RSAKey
+{
+    /**
+     * @var array
+     */
+    private $values = [];
 
-     /**
-      * RSAKey constructor.
-      *
-      * @param array $data
-      */
-     private function __construct(array $data)
-     {
-         $this->loadJWK($data);
-     }
+    /**
+     * RSAKey constructor.
+     *
+     * @param array $data
+     */
+    private function __construct(array $data)
+    {
+        $this->loadJWK($data);
+    }
 
-     /**
-      * @param string $pem
-      *
-      * @return RSAKey
-      */
-     public static function createFromPEM(string $pem): self
-     {
-         $data = self::loadPEM($pem);
+    /**
+     * @param string $pem
+     *
+     * @return RSAKey
+     */
+    public static function createFromPEM(string $pem): self
+    {
+        $data = self::loadPEM($pem);
 
-         return new self($data);
-     }
+        return new self($data);
+    }
 
-     /**
-      * @param JWK $jwk
-      *
-      * @return RSAKey
-      */
-     public static function createFromJWK(JWK $jwk): self
-     {
-         return new self($jwk->all());
-     }
+    /**
+     * @param JWK $jwk
+     *
+     * @return RSAKey
+     */
+    public static function createFromJWK(JWK $jwk): self
+    {
+        return new self($jwk->all());
+    }
 
-     /**
-      * @param string $data
-      *
-      * @return array
-      */
-     private static function loadPEM(string $data): array
-     {
-         $res = openssl_pkey_get_private($data);
-         if (false === $res) {
-             $res = openssl_pkey_get_public($data);
-         }
-         if (false === $res) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+    /**
+     * @param string $data
+     *
+     * @return array
+     */
+    private static function loadPEM(string $data): array
+    {
+        $res = openssl_pkey_get_private($data);
+        if (false === $res) {
+            $res = openssl_pkey_get_public($data);
+        }
+        if (false === $res) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         $details = openssl_pkey_get_details($res);
-         if (!array_key_exists('rsa', $details)) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+        $details = openssl_pkey_get_details($res);
+        if (!array_key_exists('rsa', $details)) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         $values = ['kty' => 'RSA'];
-         $keys = [
-            'n'  => 'n',
-            'e'  => 'e',
-            'd'  => 'd',
-            'p'  => 'p',
-            'q'  => 'q',
+        $values = ['kty' => 'RSA'];
+        $keys = [
+            'n' => 'n',
+            'e' => 'e',
+            'd' => 'd',
+            'p' => 'p',
+            'q' => 'q',
             'dp' => 'dmp1',
             'dq' => 'dmq1',
             'qi' => 'iqmp',

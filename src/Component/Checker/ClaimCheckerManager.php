@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
-  * Class ClaimCheckerManager.
-  */
- class ClaimCheckerManager
- {
-     /**
-      * @var ClaimChecker[]
-      */
-     private $checkers = [];
+class ClaimCheckerManager
+{
+    /**
+     * @var ClaimChecker[]
+     */
+    private $checkers = [];
 
      /**
       * ClaimCheckerManager constructor.

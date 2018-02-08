@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
-  * Class HeaderCheckerManagerFactory.
-  */
- class HeaderCheckerManagerFactory
- {
-     /**
-      * @var HeaderChecker[]
-      */
-     private $checkers = [];
+class HeaderCheckerManagerFactory
+{
+    /**
+     * @var HeaderChecker[]
+     */
+    private $checkers = [];
 
      /**
       * @var TokenTypeSupport[]

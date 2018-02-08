@@ -17,9 +17,6 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * Class AbstractSource.
- */
 abstract class AbstractSignatureSource implements Source
 {
     /**

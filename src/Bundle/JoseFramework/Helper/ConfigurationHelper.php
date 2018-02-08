@@ -15,12 +15,9 @@ namespace Jose\Bundle\JoseFramework\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
-  * This helper will help you to create services configuration.
-  */
- class ConfigurationHelper
- {
-     const BUNDLE_ALIAS = 'jose';
+class ConfigurationHelper
+{
+    const BUNDLE_ALIAS = 'jose';
 
      /**
       * @param ContainerBuilder $container

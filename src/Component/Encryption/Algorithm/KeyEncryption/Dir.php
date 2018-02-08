@@ -16,47 +16,44 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
-/**
-  * Class Dir.
-  */
- class Dir implements DirectEncryption
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function getCEK(JWK $key): string
-     {
-         if ('oct' !== $key->get('kty')) {
-             throw new \InvalidArgumentException('Wrong key type.');
-         }
-         if (!$key->has('k')) {
-             throw new \InvalidArgumentException('The key parameter "k" is missing.');
-         }
+class Dir implements DirectEncryption
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function getCEK(JWK $key): string
+    {
+        if ('oct' !== $key->get('kty')) {
+            throw new \InvalidArgumentException('Wrong key type.');
+        }
+        if (!$key->has('k')) {
+            throw new \InvalidArgumentException('The key parameter "k" is missing.');
+        }
 
-         return Base64Url::decode($key->get('k'));
-     }
+        return Base64Url::decode($key->get('k'));
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'dir';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'dir';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function allowedKeyTypes(): array
-     {
-         return ['oct'];
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function allowedKeyTypes(): array
+    {
+        return ['oct'];
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKeyManagementMode(): string
-     {
-         return self::MODE_DIRECT;
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeyManagementMode(): string
+    {
+        return self::MODE_DIRECT;
+    }
+}

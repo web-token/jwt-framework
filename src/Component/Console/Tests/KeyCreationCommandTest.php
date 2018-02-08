@@ -22,18 +22,18 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
-  * @group Console
-  * @group KeyCreationCommand
-  */
- class KeyCreationCommandTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function theEllipticCurveKeyCreationCommandIsAvailable()
-     {
-         $converter = new StandardConverter();
-         $command = new Console\EcKeyGeneratorCommand($converter);
+ * @group Console
+ * @group KeyCreationCommand
+ */
+class KeyCreationCommandTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function theEllipticCurveKeyCreationCommandIsAvailable()
+    {
+        $converter = new StandardConverter();
+        $command = new Console\EcKeyGeneratorCommand($converter);
 
          self::assertTrue($command->isEnabled());
      }

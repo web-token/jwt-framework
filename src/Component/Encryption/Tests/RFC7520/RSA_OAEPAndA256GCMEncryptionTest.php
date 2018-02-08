@@ -18,21 +18,21 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Tests\EncryptionTest;
 
 /**
-  * @see https://tools.ietf.org/html/rfc7520#section-5.2
-  *
-  * @group RFC7520
-  */
- class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
- {
-     /**
-      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
-      * The output given in the RFC is used and only decrypted.
-      */
-     public function testRSA_OAEPAndA256GCMEncryption()
-     {
-         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
+ * @see https://tools.ietf.org/html/rfc7520#section-5.2
+ *
+ * @group RFC7520
+ */
+class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
+{
+    /**
+     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
+     * The output given in the RFC is used and only decrypted.
+     */
+    public function testRSA_OAEPAndA256GCMEncryption()
+    {
+        $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-         $private_key = JWK::create([
+        $private_key = JWK::create([
             'kty' => 'RSA',
             'kid' => 'samwise.gamgee@hobbiton.example',
             'use' => 'enc',

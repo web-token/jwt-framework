@@ -18,20 +18,20 @@ use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
-  * @group Bundle
-  * @group Functional
-  */
- class ClaimCheckerTest extends WebTestCase
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function setUp()
-     {
-         if (!class_exists(ClaimCheckerManagerFactory::class)) {
-             $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
-         }
-     }
+ * @group Bundle
+ * @group Functional
+ */
+class ClaimCheckerTest extends WebTestCase
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(ClaimCheckerManagerFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+        }
+    }
 
      /**
       * @test

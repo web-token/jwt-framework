@@ -18,19 +18,16 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class KeyAnalyzerCompilerPass.
-  */
- class KeyAnalyzerCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(KeyAnalyzerManager::class)) {
-             return;
-         }
+class KeyAnalyzerCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(KeyAnalyzerManager::class)) {
+            return;
+        }
 
          $definition = $container->getDefinition(KeyAnalyzerManager::class);
 

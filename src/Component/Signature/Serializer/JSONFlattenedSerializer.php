@@ -17,57 +17,54 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 
-/**
-  * Class JSONFlattenedSerializer.
-  */
- class JSONFlattenedSerializer extends Serializer
- {
-     public const NAME = 'jws_json_flattened';
+class JSONFlattenedSerializer extends Serializer
+{
+    public const NAME = 'jws_json_flattened';
 
-     /**
-      * @var JsonConverter
-      */
-     private $jsonConverter;
+    /**
+     * @var JsonConverter
+     */
+    private $jsonConverter;
 
-     /**
-      * JSONFlattenedSerializer constructor.
-      *
-      * @param JsonConverter $jsonConverter
-      */
-     public function __construct(JsonConverter $jsonConverter)
-     {
-         $this->jsonConverter = $jsonConverter;
-     }
+    /**
+     * JSONFlattenedSerializer constructor.
+     *
+     * @param JsonConverter $jsonConverter
+     */
+    public function __construct(JsonConverter $jsonConverter)
+    {
+        $this->jsonConverter = $jsonConverter;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function displayName(): string
-     {
-         return 'JWS JSON Flattened';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function displayName(): string
+    {
+        return 'JWS JSON Flattened';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return self::NAME;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return self::NAME;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function serialize(JWS $jws, ?int $signatureIndex = null): string
-     {
-         if (null === $signatureIndex) {
-             $signatureIndex = 0;
-         }
-         $signature = $jws->getSignature($signatureIndex);
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(JWS $jws, ?int $signatureIndex = null): string
+    {
+        if (null === $signatureIndex) {
+            $signatureIndex = 0;
+        }
+        $signature = $jws->getSignature($signatureIndex);
 
-         $data = [];
-         $values = [
-            'payload'   => $jws->getEncodedPayload(),
+        $data = [];
+        $values = [
+            'payload' => $jws->getEncodedPayload(),
             'protected' => $signature->getEncodedProtectedHeader(),
             'header'    => $signature->getHeader(),
         ];

@@ -16,15 +16,12 @@ namespace Jose\Component\Encryption;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 
-/**
-  * Class JWELoaderFactory.
-  */
- class JWELoaderFactory
- {
-     /**
-      * @var JWEDecrypterFactory
-      */
-     private $jweDecrypterFactory;
+class JWELoaderFactory
+{
+    /**
+     * @var JWEDecrypterFactory
+     */
+    private $jweDecrypterFactory;
 
      /**
       * @var JWESerializerManagerFactory

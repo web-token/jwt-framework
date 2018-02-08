@@ -15,9 +15,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
-/**
- * Interface Source.
- */
 interface SourceWithCompilerPasses extends Source
 {
     /**

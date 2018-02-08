@@ -20,18 +20,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class KeyFile.
-  */
- class KeyFile extends AbstractSource implements JWKSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function createDefinition(ContainerBuilder $container, array $config): Definition
-     {
-         $definition = new Definition(JWK::class);
-         $definition->setFactory([
+class KeyFile extends AbstractSource implements JWKSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function createDefinition(ContainerBuilder $container, array $config): Definition
+    {
+        $definition = new Definition(JWK::class);
+        $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromKeyFile',
         ]);

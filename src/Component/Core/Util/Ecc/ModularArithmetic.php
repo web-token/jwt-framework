@@ -14,21 +14,21 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 /**
-  * Class ModularArithmetic.
-  */
- class ModularArithmetic
- {
-     /**
-      * @param \GMP $minuend
-      * @param \GMP $subtrahend
-      * @param \GMP $modulus
-      *
-      * @return \GMP
-      */
-     public static function sub(\GMP $minuend, \GMP $subtrahend, \GMP $modulus): \GMP
-     {
-         return Math::mod(Math::sub($minuend, $subtrahend), $modulus);
-     }
+ * @internal
+ */
+class ModularArithmetic
+{
+    /**
+     * @param \GMP $minuend
+     * @param \GMP $subtrahend
+     * @param \GMP $modulus
+     *
+     * @return \GMP
+     */
+    public static function sub(\GMP $minuend, \GMP $subtrahend, \GMP $modulus): \GMP
+    {
+        return Math::mod(Math::sub($minuend, $subtrahend), $modulus);
+    }
 
      /**
       * @param \GMP $multiplier

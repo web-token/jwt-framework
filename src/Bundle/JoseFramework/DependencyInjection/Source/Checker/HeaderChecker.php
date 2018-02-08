@@ -21,18 +21,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class HeaderChecker.
-  */
- class HeaderChecker implements Source
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'headers';
-     }
+class HeaderChecker implements Source
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'headers';
+    }
 
      /**
       * {@inheritdoc}

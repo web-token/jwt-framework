@@ -16,12 +16,9 @@ namespace Jose\Component\Checker\Tests\Stub;
 use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\InvalidHeaderException;
 
-/**
-  * Class IssuerChecker.
-  */
- class IssuerChecker implements HeaderChecker
- {
-     private const CLAIM_NAME = 'iss';
+class IssuerChecker implements HeaderChecker
+{
+    private const CLAIM_NAME = 'iss';
 
      /**
       * @var string

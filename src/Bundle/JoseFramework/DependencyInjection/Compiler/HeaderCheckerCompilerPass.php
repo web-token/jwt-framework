@@ -19,19 +19,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class HeaderCheckerCompilerPass.
-  */
- class HeaderCheckerCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(HeaderCheckerManagerFactory::class)) {
-             return;
-         }
+class HeaderCheckerCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(HeaderCheckerManagerFactory::class)) {
+            return;
+        }
 
          $definition = $container->getDefinition(HeaderCheckerManagerFactory::class);
          $this->addHeaderCheckers($definition, $container);

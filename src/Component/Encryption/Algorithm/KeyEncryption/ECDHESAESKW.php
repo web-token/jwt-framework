@@ -15,9 +15,6 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
 
-/**
- * Class ECDHESAESKW.
- */
 abstract class ECDHESAESKW implements KeyAgreementWithKeyWrapping
 {
     /**

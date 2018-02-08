@@ -15,18 +15,15 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 
 use Jose\Component\Core\JWK;
 
-/**
-  * Class AlgorithmAnalyzer.
-  */
- class AlgorithmAnalyzer implements KeyAnalyzer
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function analyze(JWK $jwk, MessageBag $bag)
-     {
-         if (!$jwk->has('alg')) {
-             $bag->add(Message::medium('The parameter "alg" should be added.'));
-         }
-     }
- }
+class AlgorithmAnalyzer implements KeyAnalyzer
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function analyze(JWK $jwk, MessageBag $bag)
+    {
+        if (!$jwk->has('alg')) {
+            $bag->add(Message::medium('The parameter "alg" should be added.'));
+        }
+    }
+}

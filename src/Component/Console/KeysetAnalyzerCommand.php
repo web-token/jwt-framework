@@ -22,42 +22,39 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class KeysetAnalyzerCommand.
-  */
- class KeysetAnalyzerCommand extends Command
- {
-     /**
-      * @var KeyAnalyzerManager
-      */
-     private $analyzerManager;
+class KeysetAnalyzerCommand extends Command
+{
+    /**
+     * @var KeyAnalyzerManager
+     */
+    private $analyzerManager;
 
-     /**
-      * @var JsonConverter
-      */
-     private $jsonConverter;
+    /**
+     * @var JsonConverter
+     */
+    private $jsonConverter;
 
-     /**
-      * KeyAnalyzerCommand constructor.
-      *
-      * @param KeyAnalyzerManager $analyzerManager
-      * @param JsonConverter      $jsonConverter
-      * @param string|null        $name
-      */
-     public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
-     {
-         parent::__construct($name);
-         $this->analyzerManager = $analyzerManager;
-         $this->jsonConverter = $jsonConverter;
-     }
+    /**
+     * KeyAnalyzerCommand constructor.
+     *
+     * @param KeyAnalyzerManager $analyzerManager
+     * @param JsonConverter      $jsonConverter
+     * @param string|null        $name
+     */
+    public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
+    {
+        parent::__construct($name);
+        $this->analyzerManager = $analyzerManager;
+        $this->jsonConverter = $jsonConverter;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('keyset:analyze')
             ->setDescription('JWKSet quality analyzer.')
             ->setHelp('This command will analyze a JWKSet object and find security issues.')

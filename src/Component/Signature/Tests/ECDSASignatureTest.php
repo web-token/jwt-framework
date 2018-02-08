@@ -20,20 +20,18 @@ use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
 
 /**
-  * @group ECDSA
-  * @group Unit
-  *
-  * The values of these tests come from the JWS specification
-  */
- class ECDSASignatureTest extends SignatureTest
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Wrong key type.
-      */
-     public function testInvalidKey()
-     {
-         $key = JWK::create([
+ * @group ECDSA
+ * @group Unit
+ */
+class ECDSASignatureTest extends SignatureTest
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Wrong key type.
+     */
+    public function testInvalidKey()
+    {
+        $key = JWK::create([
             'kty' => 'RSA',
         ]);
 

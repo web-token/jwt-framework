@@ -17,18 +17,15 @@ use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class NoneKeyGeneratorCommand.
-  */
- class NoneKeyGeneratorCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class NoneKeyGeneratorCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:generate:none')
             ->setDescription('Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.');
      }

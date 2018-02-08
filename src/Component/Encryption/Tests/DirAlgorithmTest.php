@@ -18,19 +18,19 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
 
 /**
-  * Class DirAlgorithmTest.
-  *
-  * @group Unit
-  */
- class DirAlgorithmTest extends EncryptionTest
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Wrong key type.
-      */
-     public function testInvalidKey()
-     {
-         $key = JWK::create([
+ * Class DirAlgorithmTest.
+ *
+ * @group Unit
+ */
+class DirAlgorithmTest extends EncryptionTest
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Wrong key type.
+     */
+    public function testInvalidKey()
+    {
+        $key = JWK::create([
             'kty' => 'EC',
         ]);
 

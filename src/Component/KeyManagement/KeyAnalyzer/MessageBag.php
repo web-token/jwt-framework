@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyAnalyzer;
 
-/**
-  * Class MessageBag.
-  */
- class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
- {
-     /**
-      * @var Message[]
-      */
-     private $messages = [];
+class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
+{
+    /**
+     * @var Message[]
+     */
+    private $messages = [];
 
      /**
       * @param Message $message

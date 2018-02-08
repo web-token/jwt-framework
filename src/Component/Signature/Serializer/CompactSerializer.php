@@ -17,12 +17,9 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 
-/**
-  * Class CompactSerializer.
-  */
- class CompactSerializer extends Serializer
- {
-     public const NAME = 'jws_compact';
+class CompactSerializer extends Serializer
+{
+    public const NAME = 'jws_compact';
 
      /**
       * @var JsonConverter

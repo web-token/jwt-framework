@@ -20,18 +20,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class PemConverterCommand.
-  */
- class PemConverterCommand extends ObjectOutputCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class PemConverterCommand extends ObjectOutputCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:convert:pkcs1')
             ->setDescription('Converts a RSA or EC key into PKCS#1 key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The key');

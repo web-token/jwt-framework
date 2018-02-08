@@ -15,18 +15,15 @@ namespace Jose\Component\Signature\Algorithm;
 
 use Jose\Component\Signature\Util\RSA as JoseRSA;
 
-/**
-  * Class RS384.
-  */
- class RS384 extends RSA
- {
-     /**
-      * @return string
-      */
-     protected function getAlgorithm(): string
-     {
-         return 'sha384';
-     }
+class RS384 extends RSA
+{
+    /**
+     * @return string
+     */
+    protected function getAlgorithm(): string
+    {
+        return 'sha384';
+    }
 
      /**
       * @return int

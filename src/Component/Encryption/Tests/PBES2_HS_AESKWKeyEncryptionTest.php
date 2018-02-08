@@ -20,19 +20,19 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
 
 /**
-  * Class PBES2_HS_AESKWKeyEncryptionTest.
-  *
-  * @group PBES2HSAESKW
-  * @group Unit
-  */
- class PBES2_HS_AESKWKeyEncryptionTest extends EncryptionTest
- {
-     /**
-      * @see https://tools.ietf.org/html/rfc7517#appendix-C
-      */
-     public function testPBES2HS256A128KW()
-     {
-         $header = [
+ * Class PBES2_HS_AESKWKeyEncryptionTest.
+ *
+ * @group PBES2HSAESKW
+ * @group Unit
+ */
+class PBES2_HS_AESKWKeyEncryptionTest extends EncryptionTest
+{
+    /**
+     * @see https://tools.ietf.org/html/rfc7517#appendix-C
+     */
+    public function testPBES2HS256A128KW()
+    {
+        $header = [
           'alg' => 'PBES2-HS256+A128KW',
           'p2s' => '2WCTcJZ1Rvd_CJuJripQ1w',
           'p2c' => 4096,

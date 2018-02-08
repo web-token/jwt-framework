@@ -18,19 +18,16 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class SignatureSerializerCompilerPass.
-  */
- class SignatureSerializerCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(JWSSerializerManagerFactory::class)) {
-             return;
-         }
+class SignatureSerializerCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(JWSSerializerManagerFactory::class)) {
+            return;
+        }
 
          $definition = $container->getDefinition(JWSSerializerManagerFactory::class);
 

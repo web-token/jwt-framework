@@ -19,18 +19,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class P12CertificateLoaderCommand.
-  */
- class P12CertificateLoaderCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class P12CertificateLoaderCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:load:p12')
             ->setDescription('Load a key from a P12 certificate file.')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the P12 certificate.')

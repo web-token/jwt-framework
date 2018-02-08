@@ -15,35 +15,32 @@ namespace Jose\Component\Signature;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
 
-/**
-  * Class JWSVerifierFactory.
-  */
- class JWSVerifierFactory
- {
-     /**
-      * @var AlgorithmManagerFactory
-      */
-     private $algorithmManagerFactory;
+class JWSVerifierFactory
+{
+    /**
+     * @var AlgorithmManagerFactory
+     */
+    private $algorithmManagerFactory;
 
-     /**
-      * JWSVerifierFactory constructor.
-      *
-      * @param AlgorithmManagerFactory $algorithmManagerFactory
-      */
-     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
-     {
-         $this->algorithmManagerFactory = $algorithmManagerFactory;
-     }
+    /**
+     * JWSVerifierFactory constructor.
+     *
+     * @param AlgorithmManagerFactory $algorithmManagerFactory
+     */
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
+    {
+        $this->algorithmManagerFactory = $algorithmManagerFactory;
+    }
 
-     /**
-      * @param string[] $algorithms
-      *
-      * @return JWSVerifier
-      */
-     public function create(array $algorithms): JWSVerifier
-     {
-         $algorithmManager = $this->algorithmManagerFactory->create($algorithms);
+    /**
+     * @param string[] $algorithms
+     *
+     * @return JWSVerifier
+     */
+    public function create(array $algorithms): JWSVerifier
+    {
+        $algorithmManager = $this->algorithmManagerFactory->create($algorithms);
 
-         return new JWSVerifier($algorithmManager);
-     }
- }
+        return new JWSVerifier($algorithmManager);
+    }
+}

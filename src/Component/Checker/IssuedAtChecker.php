@@ -13,46 +13,43 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
-  * Class IssuedAtChecker.
-  */
- class IssuedAtChecker implements ClaimChecker
- {
-     private const CLAIM_NAME = 'iat';
+class IssuedAtChecker implements ClaimChecker
+{
+    private const CLAIM_NAME = 'iat';
 
-     /**
-      * @var int
-      */
-     private $allowedTimeDrift;
+    /**
+     * @var int
+     */
+    private $allowedTimeDrift;
 
-     /**
-      * ExpirationTimeChecker constructor.
-      *
-      * @param int $allowedTimeDrift
-      */
-     public function __construct(int $allowedTimeDrift = 0)
-     {
-         $this->allowedTimeDrift = $allowedTimeDrift;
-     }
+    /**
+     * ExpirationTimeChecker constructor.
+     *
+     * @param int $allowedTimeDrift
+     */
+    public function __construct(int $allowedTimeDrift = 0)
+    {
+        $this->allowedTimeDrift = $allowedTimeDrift;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function checkClaim($value)
-     {
-         if (!is_int($value)) {
-             throw new InvalidClaimException('The claim "iat" must be an integer.', self::CLAIM_NAME, $value);
-         }
-         if (time() < $value - $this->allowedTimeDrift) {
-             throw new InvalidClaimException('The JWT is issued in the future.', self::CLAIM_NAME, $value);
-         }
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function checkClaim($value)
+    {
+        if (!is_int($value)) {
+            throw new InvalidClaimException('The claim "iat" must be an integer.', self::CLAIM_NAME, $value);
+        }
+        if (time() < $value - $this->allowedTimeDrift) {
+            throw new InvalidClaimException('The JWT is issued in the future.', self::CLAIM_NAME, $value);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function supportedClaim(): string
-     {
-         return self::CLAIM_NAME;
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function supportedClaim(): string
+    {
+        return self::CLAIM_NAME;
+    }
+}

@@ -26,7 +26,7 @@ class JWSLoader
     private $jwsVerifier;
 
     /**
-     * @var HeaderCheckerManager
+     * @var HeaderCheckerManager|null
      */
     private $headerCheckerManager;
 

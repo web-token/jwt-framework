@@ -17,17 +17,17 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
-  * @see https://tools.ietf.org/html/rfc7520#section-6
-  *
-  * @group RFC7520
-  */
- class NestingTest extends SignatureTest
- {
-     public function testSignatureVerification()
-     {
-         $payload = [
-            'iss'                        => 'hobbiton.example',
-            'exp'                        => 1300819380,
+ * @see https://tools.ietf.org/html/rfc7520#section-6
+ *
+ * @group RFC7520
+ */
+class NestingTest extends SignatureTest
+{
+    public function testSignatureVerification()
+    {
+        $payload = [
+            'iss' => 'hobbiton.example',
+            'exp' => 1300819380,
             'http://example.com/is_root' => true,
         ];
 

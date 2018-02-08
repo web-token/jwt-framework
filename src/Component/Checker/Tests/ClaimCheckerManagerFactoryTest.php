@@ -22,18 +22,18 @@ use Jose\Component\Checker\NotBeforeChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group ClaimChecker
-  * @group Functional
-  */
- class ClaimCheckerManagerFactoryTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function theAliasListOfTheClaimCheckerManagerFactoryIsAvailable()
-     {
-         self::assertEquals(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
-     }
+ * @group ClaimChecker
+ * @group Functional
+ */
+class ClaimCheckerManagerFactoryTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function theAliasListOfTheClaimCheckerManagerFactoryIsAvailable()
+    {
+        self::assertEquals(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
+    }
 
      /**
       * @test

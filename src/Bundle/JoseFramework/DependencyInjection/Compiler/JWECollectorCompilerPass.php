@@ -19,24 +19,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWECollectorCompilerPass.
-  */
- class JWECollectorCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(JWECollector::class)) {
-             return;
-         }
+class JWECollectorCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(JWECollector::class)) {
+            return;
+        }
 
-         $definition = $container->getDefinition(JWECollector::class);
+        $definition = $container->getDefinition(JWECollector::class);
 
-         $services = [
-            'addJWEBuilder'   => 'jose.jwe_builder',
+        $services = [
+            'addJWEBuilder' => 'jose.jwe_builder',
             'addJWEDecrypter' => 'jose.jwe_decrypter',
             'addJWELoader'    => 'jose.jwe_loader',
         ];

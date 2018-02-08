@@ -21,18 +21,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JKUriSource.
-  */
- class JWKUriSource implements Source
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'jwk_uris';
-     }
+class JWKUriSource implements Source
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'jwk_uris';
+    }
 
      /**
       * {@inheritdoc}

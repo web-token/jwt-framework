@@ -18,18 +18,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class EcKeyGeneratorCommand.
-  */
- class EcKeyGeneratorCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class EcKeyGeneratorCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:generate:ec')
             ->setDescription('Generate an EC key (JWK format)')
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');

@@ -19,18 +19,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWEBuilder.
-  */
- class JWEBuilder extends AbstractEncryptionSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'builders';
-     }
+class JWEBuilder extends AbstractEncryptionSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'builders';
+    }
 
      /**
       * {@inheritdoc}

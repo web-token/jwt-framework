@@ -17,20 +17,18 @@ use Jose\Component\Core\Converter\StandardConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class JsonConverterTest.
-  *
-  * @group Unit
-  * @group JsonConverter
-  */
- class JsonConverterTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function iCanConvertAnObjectIntoAJsonString()
-     {
-         $converter = new StandardConverter();
-         self::assertEquals('{"foo":"BAR"}', $converter->encode(['foo' => 'BAR']));
-         self::assertEquals(['foo' => 'BAR'], $converter->decode('{"foo":"BAR"}'));
-     }
- }
+ * @group Unit
+ * @group JsonConverter
+ */
+class JsonConverterTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function iCanConvertAnObjectIntoAJsonString()
+    {
+        $converter = new StandardConverter();
+        self::assertEquals('{"foo":"BAR"}', $converter->encode(['foo' => 'BAR']));
+        self::assertEquals(['foo' => 'BAR'], $converter->decode('{"foo":"BAR"}'));
+    }
+}

@@ -19,19 +19,17 @@ use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Signature\JWS;
 
 /**
-  * Class EdDSASignatureTest.
-  *
-  * @group EdDSA
-  * @group Unit
-  */
- class EdDSASignatureTest extends SignatureTest
- {
-     /**
-      * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5
-      */
-     public function testEdDSAVerifyAlgorithm()
-     {
-         $key = JWK::create([
+ * @group EdDSA
+ * @group Unit
+ */
+class EdDSASignatureTest extends SignatureTest
+{
+    /**
+     * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5
+     */
+    public function testEdDSAVerifyAlgorithm()
+    {
+        $key = JWK::create([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
             'd'   => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',

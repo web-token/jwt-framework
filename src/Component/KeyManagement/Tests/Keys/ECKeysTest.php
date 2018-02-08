@@ -19,30 +19,30 @@ use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group ECKeys
-  * @group Unit
-  */
- class ECKeysTest extends TestCase
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Unsupported key type
-      */
-     public function testKeyTypeNotSupported()
-     {
-         $file = 'file://'.__DIR__.DIRECTORY_SEPARATOR.'DSA'.DIRECTORY_SEPARATOR.'DSA.key';
-         KeyConverter::loadFromKeyFile($file);
-     }
+ * @group ECKeys
+ * @group Unit
+ */
+class ECKeysTest extends TestCase
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unsupported key type
+     */
+    public function testKeyTypeNotSupported()
+    {
+        $file = 'file://'.__DIR__.DIRECTORY_SEPARATOR.'DSA'.DIRECTORY_SEPARATOR.'DSA.key';
+        KeyConverter::loadFromKeyFile($file);
+    }
 
-     /**
-      * @see https://github.com/Spomky-Labs/jose/issues/141
-      * @see https://gist.github.com/Spomky/246eca6aaeeb7a40f11d3a2d98960282
-      */
-     public function testLoadPrivateEC256KeyGenerateByAPN()
-     {
-         $pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.from.APN.key');
-         $details = KeyConverter::loadFromKey($pem);
-         self::assertEquals($details, [
+    /**
+     * @see https://github.com/Spomky-Labs/jose/issues/141
+     * @see https://gist.github.com/Spomky/246eca6aaeeb7a40f11d3a2d98960282
+     */
+    public function testLoadPrivateEC256KeyGenerateByAPN()
+    {
+        $pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.from.APN.key');
+        $details = KeyConverter::loadFromKey($pem);
+        self::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-256',
             'd'   => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',

@@ -14,16 +14,16 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 /**
-  * Class Hash.
-  */
- class Hash
- {
-     /**
-      * Hash Parameter.
-      *
-      * @var string
-      */
-     private $hash;
+ * @internal
+ */
+class Hash
+{
+    /**
+     * Hash Parameter.
+     *
+     * @var string
+     */
+    private $hash;
 
      /**
       * Hash Length.

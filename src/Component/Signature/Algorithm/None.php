@@ -15,18 +15,15 @@ namespace Jose\Component\Signature\Algorithm;
 
 use Jose\Component\Core\JWK;
 
-/**
-  * This class is an abstract class that implements the none algorithm (plaintext).
-  */
- class None implements SignatureAlgorithm
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function allowedKeyTypes(): array
-     {
-         return ['none'];
-     }
+class None implements SignatureAlgorithm
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function allowedKeyTypes(): array
+    {
+        return ['none'];
+    }
 
      /**
       * {@inheritdoc}

@@ -18,18 +18,15 @@ use GuzzleHttp\Psr7\Response;
 use Http\Message\RequestFactory;
 use Http\Message\ResponseFactory;
 
-/**
-  * Class MessageFactory.
-  */
- class MessageFactory implements ResponseFactory, RequestFactory
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
-     {
-         return new Request($method, $uri, $header, $body, $protocolVersion);
-     }
+class MessageFactory implements ResponseFactory, RequestFactory
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
+    {
+        return new Request($method, $uri, $header, $body, $protocolVersion);
+    }
 
      /**
       * {@inheritdoc}

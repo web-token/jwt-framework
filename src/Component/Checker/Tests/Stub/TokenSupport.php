@@ -16,19 +16,16 @@ namespace Jose\Component\Checker\Tests\Stub;
 use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
-/**
-  * Class TokenSupport.
-  */
- class TokenSupport implements TokenTypeSupport
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function retrieveTokenHeaders(JWT $jwt, int $signature, array &$protectedHeader, array &$unprotectedHeader): void
-     {
-         if (!$jwt instanceof Token) {
-             throw new \InvalidArgumentException('Unsupported token.');
-         }
+class TokenSupport implements TokenTypeSupport
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function retrieveTokenHeaders(JWT $jwt, int $signature, array &$protectedHeader, array &$unprotectedHeader): void
+    {
+        if (!$jwt instanceof Token) {
+            throw new \InvalidArgumentException('Unsupported token.');
+        }
 
          $protectedHeader = $jwt->getProtectedHeader();
          $unprotectedHeader = $jwt->getUnprotectedHeader();

@@ -13,46 +13,43 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
-  * Class NotBeforeChecker.
-  */
- class NotBeforeChecker implements ClaimChecker
- {
-     private const CLAIM_NAME = 'nbf';
+class NotBeforeChecker implements ClaimChecker
+{
+    private const CLAIM_NAME = 'nbf';
 
-     /**
-      * @var int
-      */
-     private $allowedTimeDrift;
+    /**
+     * @var int
+     */
+    private $allowedTimeDrift;
 
-     /**
-      * ExpirationTimeChecker constructor.
-      *
-      * @param int $allowedTimeDrift
-      */
-     public function __construct(int $allowedTimeDrift = 0)
-     {
-         $this->allowedTimeDrift = $allowedTimeDrift;
-     }
+    /**
+     * ExpirationTimeChecker constructor.
+     *
+     * @param int $allowedTimeDrift
+     */
+    public function __construct(int $allowedTimeDrift = 0)
+    {
+        $this->allowedTimeDrift = $allowedTimeDrift;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function checkClaim($value)
-     {
-         if (!is_int($value)) {
-             throw new InvalidClaimException('"nbf" must be an integer.', self::CLAIM_NAME, $value);
-         }
-         if (time() < $value - $this->allowedTimeDrift) {
-             throw new InvalidClaimException('The JWT can not be used yet.', self::CLAIM_NAME, $value);
-         }
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function checkClaim($value)
+    {
+        if (!is_int($value)) {
+            throw new InvalidClaimException('"nbf" must be an integer.', self::CLAIM_NAME, $value);
+        }
+        if (time() < $value - $this->allowedTimeDrift) {
+            throw new InvalidClaimException('The JWT can not be used yet.', self::CLAIM_NAME, $value);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function supportedClaim(): string
-     {
-         return self::CLAIM_NAME;
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function supportedClaim(): string
+    {
+        return self::CLAIM_NAME;
+    }
+}

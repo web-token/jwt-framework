@@ -19,28 +19,26 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class JWKTest.
-  *
-  * @group Unit
-  * @group JWKSet
-  */
- class JWKSetTest extends TestCase
- {
-     public function testKeySelection()
-     {
-         $jwkset = $this->getPublicKeySet();
+ * @group Unit
+ * @group JWKSet
+ */
+class JWKSetTest extends TestCase
+{
+    public function testKeySelection()
+    {
+        $jwkset = $this->getPublicKeySet();
 
-         $jwk = $jwkset->selectKey('enc');
-         self::assertInstanceOf(JWK::class, $jwk);
-     }
+        $jwk = $jwkset->selectKey('enc');
+        self::assertInstanceOf(JWK::class, $jwk);
+    }
 
-     public function testKeySelectionWithAlgorithm()
-     {
-         $jwkset = $this->getPublicKeySet();
+    public function testKeySelectionWithAlgorithm()
+    {
+        $jwkset = $this->getPublicKeySet();
 
-         $jwk = $jwkset->selectKey('sig', new FooAlgorithm());
-         self::assertInstanceOf(JWK::class, $jwk);
-         self::assertEquals([
+        $jwk = $jwkset->selectKey('sig', new FooAlgorithm());
+        self::assertInstanceOf(JWK::class, $jwk);
+        self::assertEquals([
             'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
             'kty' => 'FOO',
             'alg' => 'foo',

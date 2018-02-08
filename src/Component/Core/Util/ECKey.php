@@ -17,32 +17,32 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
 /**
-  * Class ECKey.
-  */
- class ECKey
- {
-     /**
-      * @param JWK $jwk
-      *
-      * @return string
-      */
-     public static function convertToPEM(JWK $jwk): string
-     {
-         if ($jwk->has('d')) {
-             return self::convertPrivateKeyToPEM($jwk);
-         } else {
-             return self::convertPublicKeyToPEM($jwk);
-         }
-     }
+ * @internal
+ */
+class ECKey
+{
+    /**
+     * @param JWK $jwk
+     *
+     * @return string
+     */
+    public static function convertToPEM(JWK $jwk): string
+    {
+        if ($jwk->has('d')) {
+            return self::convertPrivateKeyToPEM($jwk);
+        } else {
+            return self::convertPublicKeyToPEM($jwk);
+        }
+    }
 
-     /**
-      * @param JWK $jwk
-      *
-      * @return string
-      */
-     public static function convertPublicKeyToPEM(JWK $jwk): string
-     {
-         switch ($jwk->get('crv')) {
+    /**
+     * @param JWK $jwk
+     *
+     * @return string
+     */
+    public static function convertPublicKeyToPEM(JWK $jwk): string
+    {
+        switch ($jwk->get('crv')) {
             case 'P-256':
                 $der = self::p256PublicKey();
 

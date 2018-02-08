@@ -17,21 +17,21 @@ use Jose\Component\Checker\AlgorithmChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group HeaderChecker
-  * @group Functional
-  */
- class AlgorithmHeaderCheckerTest extends TestCase
- {
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidHeaderException
-      * @expectedExceptionMessage "alg" must be a string.
-      */
-     public function anAlgorithmMustBeAString()
-     {
-         $checker = new AlgorithmChecker(['foo']);
-         $checker->checkHeader(1);
-     }
+ * @group HeaderChecker
+ * @group Functional
+ */
+class AlgorithmHeaderCheckerTest extends TestCase
+{
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
+     * @expectedExceptionMessage "alg" must be a string.
+     */
+    public function anAlgorithmMustBeAString()
+    {
+        $checker = new AlgorithmChecker(['foo']);
+        $checker->checkHeader(1);
+    }
 
      /**
       * @test

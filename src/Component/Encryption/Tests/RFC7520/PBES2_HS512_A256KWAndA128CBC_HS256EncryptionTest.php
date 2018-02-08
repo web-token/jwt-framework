@@ -18,19 +18,19 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Tests\EncryptionTest;
 
 /**
-  * @see https://tools.ietf.org/html/rfc7520#section-5.3
-  *
-  * @group RFC7520
-  */
- class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
- {
-     /**
-      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
-      * The output given in the RFC is used and only decrypted.
-      */
-     public function testPBES2_HS512_A256KWAndA128CBC_HS256Encryption()
-     {
-         $expected_payload = ['keys' => [
+ * @see https://tools.ietf.org/html/rfc7520#section-5.3
+ *
+ * @group RFC7520
+ */
+class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
+{
+    /**
+     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
+     * The output given in the RFC is used and only decrypted.
+     */
+    public function testPBES2_HS512_A256KWAndA128CBC_HS256Encryption()
+    {
+        $expected_payload = ['keys' => [
             [
                 'kty' => 'oct',
                 'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',

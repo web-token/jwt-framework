@@ -24,15 +24,12 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
-  * Class SignatureSource.
-  */
- class SignatureSource implements SourceWithCompilerPasses
- {
-     /**
-      * @var Source[]
-      */
-     private $sources;
+class SignatureSource implements SourceWithCompilerPasses
+{
+    /**
+     * @var Source[]
+     */
+    private $sources;
 
      /**
       * SignatureSource constructor.

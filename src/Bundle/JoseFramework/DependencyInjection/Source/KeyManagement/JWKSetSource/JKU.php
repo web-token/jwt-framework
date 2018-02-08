@@ -21,18 +21,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JKU.
-  */
- class JKU extends AbstractSource implements JWKSetSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function createDefinition(ContainerBuilder $container, array $config): Definition
-     {
-         $definition = new Definition(JWKSet::class);
-         $definition->setFactory([
+class JKU extends AbstractSource implements JWKSetSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function createDefinition(ContainerBuilder $container, array $config): Definition
+    {
+        $definition = new Definition(JWKSet::class);
+        $definition->setFactory([
             new Reference(JKUFactory::class),
             'loadFromUrl',
         ]);

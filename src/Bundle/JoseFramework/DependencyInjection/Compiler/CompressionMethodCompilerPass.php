@@ -18,19 +18,16 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class CompressionMethodCompilerPass.
-  */
- class CompressionMethodCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(CompressionMethodManagerFactory::class)) {
-             return;
-         }
+class CompressionMethodCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(CompressionMethodManagerFactory::class)) {
+            return;
+        }
 
          $definition = $container->getDefinition(CompressionMethodManagerFactory::class);
 

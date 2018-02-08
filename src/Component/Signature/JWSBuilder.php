@@ -20,116 +20,113 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
-/**
-  * Class JWSBuilder.
-  */
- class JWSBuilder
- {
-     /**
-      * @var JsonConverter
-      */
-     private $jsonConverter;
+class JWSBuilder
+{
+    /**
+     * @var JsonConverter
+     */
+    private $jsonConverter;
 
-     /**
-      * @var string|null
-      */
-     private $payload;
+    /**
+     * @var null|string
+     */
+    private $payload;
 
-     /**
-      * @var bool
-      */
-     private $isPayloadDetached;
+    /**
+     * @var bool
+     */
+    private $isPayloadDetached;
 
-     /**
-      * @var array
-      */
-     private $signatures = [];
+    /**
+     * @var array
+     */
+    private $signatures = [];
 
-     /**
-      * @var AlgorithmManager
-      */
-     private $signatureAlgorithmManager;
+    /**
+     * @var AlgorithmManager
+     */
+    private $signatureAlgorithmManager;
 
-     /**
-      * @var null|bool
-      */
-     private $isPayloadEncoded = null;
+    /**
+     * @var null|bool
+     */
+    private $isPayloadEncoded = null;
 
-     /**
-      * JWSBuilder constructor.
-      *
-      * @param JsonConverter    $jsonConverter
-      * @param AlgorithmManager $signatureAlgorithmManager
-      */
-     public function __construct(JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
-     {
-         $this->jsonConverter = $jsonConverter;
-         $this->signatureAlgorithmManager = $signatureAlgorithmManager;
-     }
+    /**
+     * JWSBuilder constructor.
+     *
+     * @param JsonConverter    $jsonConverter
+     * @param AlgorithmManager $signatureAlgorithmManager
+     */
+    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
+    {
+        $this->jsonConverter = $jsonConverter;
+        $this->signatureAlgorithmManager = $signatureAlgorithmManager;
+    }
 
-     /**
-      * @return AlgorithmManager
-      */
-     public function getSignatureAlgorithmManager(): AlgorithmManager
-     {
-         return $this->signatureAlgorithmManager;
-     }
+    /**
+     * @return AlgorithmManager
+     */
+    public function getSignatureAlgorithmManager(): AlgorithmManager
+    {
+        return $this->signatureAlgorithmManager;
+    }
 
-     /**
-      * Reset the current data.
-      *
-      * @return JWSBuilder
-      */
-     public function create(): self
-     {
-         $this->payload = null;
-         $this->isPayloadDetached = false;
-         $this->signatures = [];
-         $this->isPayloadEncoded = null;
+    /**
+     * Reset the current data.
+     *
+     * @return JWSBuilder
+     */
+    public function create(): self
+    {
+        $this->payload = null;
+        $this->isPayloadDetached = false;
+        $this->signatures = [];
+        $this->isPayloadEncoded = null;
 
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * @param string $payload
-      * @param bool   $isPayloadDetached
-      *
-      * @return JWSBuilder
-      */
-     public function withPayload(string $payload, bool $isPayloadDetached = false): self
-     {
-         if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
-             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
-         }
-         $clone = clone $this;
-         $clone->payload = $payload;
-         $clone->isPayloadDetached = $isPayloadDetached;
+    /**
+     * @param string $payload
+     * @param bool   $isPayloadDetached
+     *
+     * @return JWSBuilder
+     */
+    public function withPayload(string $payload, bool $isPayloadDetached = false): self
+    {
+        if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
+            throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
+        }
+        $clone = clone $this;
+        $clone->payload = $payload;
+        $clone->isPayloadDetached = $isPayloadDetached;
 
-         return $clone;
-     }
+        return $clone;
+    }
 
-     /**
-      * @param JWK   $signatureKey
-      * @param array $protectedHeader
-      * @param array $header
-      *
-      * @return JWSBuilder
-      */
-     public function addSignature(JWK $signatureKey, array $protectedHeader, array $header = []): self
-     {
-         $this->checkB64AndCriticalHeader($protectedHeader);
-         $isPayloadEncoded = $this->checkIfPayloadIsEncoded($protectedHeader);
-         if (null === $this->isPayloadEncoded) {
-             $this->isPayloadEncoded = $isPayloadEncoded;
-         } elseif ($this->isPayloadEncoded !== $isPayloadEncoded) {
-             throw new \InvalidArgumentException('Foreign payload encoding detected.');
-         }
-         $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
-         KeyChecker::checkKeyUsage($signatureKey, 'signature');
-         $signatureAlgorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
-         KeyChecker::checkKeyAlgorithm($signatureKey, $signatureAlgorithm->name());
-         $clone = clone $this;
-         $clone->signatures[] = [
+    /**
+     * @param JWK   $signatureKey
+     * @param array $protectedHeader
+     * @param array $header
+     *
+     * @return JWSBuilder
+     */
+    public function addSignature(JWK $signatureKey, array $protectedHeader, array $header = []): self
+    {
+        $this->checkB64AndCriticalHeader($protectedHeader);
+        $isPayloadEncoded = $this->checkIfPayloadIsEncoded($protectedHeader);
+        if (null === $this->isPayloadEncoded) {
+            $this->isPayloadEncoded = $isPayloadEncoded;
+        } elseif ($this->isPayloadEncoded !== $isPayloadEncoded) {
+            throw new \InvalidArgumentException('Foreign payload encoding detected.');
+        }
+        $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
+        KeyChecker::checkKeyUsage($signatureKey, 'signature');
+        $signatureAlgorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
+        KeyChecker::checkKeyAlgorithm($signatureKey, $signatureAlgorithm->name());
+        $clone = clone $this;
+        $clone->signatures[] = [
             'signature_algorithm' => $signatureAlgorithm,
             'signature_key'       => $signatureKey,
             'protected_header'    => $protectedHeader,

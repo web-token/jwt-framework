@@ -24,15 +24,12 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
-  * Class KeyManagementSource.
-  */
- class KeyManagementSource implements SourceWithCompilerPasses
- {
-     /**
-      * @var Source[]
-      */
-     private $sources;
+class KeyManagementSource implements SourceWithCompilerPasses
+{
+    /**
+     * @var Source[]
+     */
+    private $sources;
 
      /**
       * KeyManagementSource constructor.

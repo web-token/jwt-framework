@@ -20,28 +20,25 @@ use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
 
-/**
-  * Class JWKFactory.
-  */
- class JWKFactory
- {
-     /**
-      * @param int   $size   The key size in bits
-      * @param array $values values to configure the key
-      *
-      * @return JWK
-      */
-     public static function createRSAKey(int $size, array $values = []): JWK
-     {
-         if (0 !== $size % 8) {
-             throw new \InvalidArgumentException('Invalid key size.');
-         }
+class JWKFactory
+{
+    /**
+     * @param int   $size   The key size in bits
+     * @param array $values values to configure the key
+     *
+     * @return JWK
+     */
+    public static function createRSAKey(int $size, array $values = []): JWK
+    {
+        if (0 !== $size % 8) {
+            throw new \InvalidArgumentException('Invalid key size.');
+        }
 
-         if (384 > $size) {
-             throw new \InvalidArgumentException('Key length is too short. It needs to be at least 384 bits.');
-         }
+        if (384 > $size) {
+            throw new \InvalidArgumentException('Key length is too short. It needs to be at least 384 bits.');
+        }
 
-         $key = openssl_pkey_new([
+        $key = openssl_pkey_new([
             'private_key_bits' => $size,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);

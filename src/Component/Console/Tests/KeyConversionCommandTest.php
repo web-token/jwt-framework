@@ -22,18 +22,18 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
-  * @group Console
-  * @group KeyConversionCommand
-  */
- class KeyConversionCommandTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function iCanLoadAKeyFile()
-     {
-         $converter = new StandardConverter();
-         $input = new ArrayInput([
+ * @group Console
+ * @group KeyConversionCommand
+ */
+class KeyConversionCommandTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function iCanLoadAKeyFile()
+    {
+        $converter = new StandardConverter();
+        $input = new ArrayInput([
             'file' => __DIR__.'/Sample/2048b-rsa-example-cert.pem',
         ]);
          $output = new BufferedOutput();

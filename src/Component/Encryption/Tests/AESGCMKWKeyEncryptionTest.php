@@ -20,15 +20,15 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
 
 /**
-  * @group AESGCMKW
-  * @group Unit
-  */
- class AESGCMKWKeyEncryptionTest extends EncryptionTest
- {
-     public function testA128GCMKW()
-     {
-         $header = [];
-         $key = JWK::create([
+ * @group AESGCMKW
+ * @group Unit
+ */
+class AESGCMKWKeyEncryptionTest extends EncryptionTest
+{
+    public function testA128GCMKW()
+    {
+        $header = [];
+        $key = JWK::create([
             'kty' => 'oct',
             'k'   => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
         ]);

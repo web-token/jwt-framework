@@ -15,19 +15,16 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 
 use Jose\Component\Core\JWK;
 
-/**
-  * Class NoneAnalyzer.
-  */
- class NoneAnalyzer implements KeyAnalyzer
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function analyze(JWK $jwk, MessageBag $bag)
-     {
-         if ('none' !== $jwk->get('kty')) {
-             return;
-         }
+class NoneAnalyzer implements KeyAnalyzer
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function analyze(JWK $jwk, MessageBag $bag)
+    {
+        if ('none' !== $jwk->get('kty')) {
+            return;
+        }
 
          $bag->add(Message::high('This key is a meant to be used with the algorithm "none". This algorithm is not secured and should be used with care.'));
      }

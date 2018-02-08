@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-/**
-  * Class AlgorithmManagerFactory.
-  */
- class AlgorithmManagerFactory
- {
-     /**
-      * @var array
-      */
-     private $algorithms = [];
+class AlgorithmManagerFactory
+{
+    /**
+     * @var array
+     */
+    private $algorithms = [];
 
      /**
       * @param string    $alias

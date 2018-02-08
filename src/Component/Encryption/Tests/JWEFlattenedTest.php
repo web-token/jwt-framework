@@ -18,18 +18,16 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 
 /**
-  * Class FlattenedTest.
-  *
-  * @group Functional
-  */
- class JWEFlattenedTest extends EncryptionTest
- {
-     /**
-      * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
-      */
-     public function testLoadFlattenedJWE()
-     {
-         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
+ * @group Functional
+ */
+class JWEFlattenedTest extends EncryptionTest
+{
+    /**
+     * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
+     */
+    public function testLoadFlattenedJWE()
+    {
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
 
          $loaded = $this->getJWESerializerManager()->unserialize('{"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","unprotected":{"jku":"https://server.example.com/keys.jwks"},"header":{"alg":"A128KW","kid":"7"},"encrypted_key":"6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ","iv":"AxY8DCtDaGlsbGljb3RoZQ","ciphertext":"KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY","tag":"Mz-VPPyU4RlcuYv1IwIvzw"}');
 

@@ -18,54 +18,51 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
-/**
-  * Class JSONGeneralSerializer.
-  */
- class JSONGeneralSerializer implements JWESerializer
- {
-     public const NAME = 'jwe_json_general';
+class JSONGeneralSerializer implements JWESerializer
+{
+    public const NAME = 'jwe_json_general';
 
-     /**
-      * @var JsonConverter
-      */
-     private $jsonConverter;
+    /**
+     * @var JsonConverter
+     */
+    private $jsonConverter;
 
-     /**
-      * JSONFlattenedSerializer constructor.
-      *
-      * @param JsonConverter $jsonConverter
-      */
-     public function __construct(JsonConverter $jsonConverter)
-     {
-         $this->jsonConverter = $jsonConverter;
-     }
+    /**
+     * JSONFlattenedSerializer constructor.
+     *
+     * @param JsonConverter $jsonConverter
+     */
+    public function __construct(JsonConverter $jsonConverter)
+    {
+        $this->jsonConverter = $jsonConverter;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function displayName(): string
-     {
-         return 'JWE JSON General';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function displayName(): string
+    {
+        return 'JWE JSON General';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return self::NAME;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return self::NAME;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
-     {
-         if (0 === $jwe->countRecipients()) {
-             throw new \LogicException('No recipient.');
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(JWE $jwe, ?int $recipientIndex = null): string
+    {
+        if (0 === $jwe->countRecipients()) {
+            throw new \LogicException('No recipient.');
+        }
 
-         $data = [
+        $data = [
             'ciphertext' => Base64Url::encode($jwe->getCiphertext()),
             'iv'         => Base64Url::encode($jwe->getIV()),
             'tag'        => Base64Url::encode($jwe->getTag()),

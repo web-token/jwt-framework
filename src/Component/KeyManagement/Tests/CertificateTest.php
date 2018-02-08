@@ -19,24 +19,21 @@ use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * These tests will try to load certificates from PEM and DER files.
-  * Certificates could contain an RSA or ECC key.
-  *
-  * @see http://fm4dd.com/openssl/certexamples.htm
-  *
-  * @group Certificate
-  * @group Unit
-  */
- class CertificateTest extends TestCase
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage File "file:///foo/bar" does not exist.
-      */
-     public function testFileNotFound()
-     {
-         KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
-     }
+ * @see http://fm4dd.com/openssl/certexamples.htm
+ *
+ * @group Certificate
+ * @group Unit
+ */
+class CertificateTest extends TestCase
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage File "file:///foo/bar" does not exist.
+     */
+    public function testFileNotFound()
+    {
+        KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
+    }
 
      /**
       * @expectedException \InvalidArgumentException

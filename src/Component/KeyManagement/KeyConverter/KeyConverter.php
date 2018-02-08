@@ -16,158 +16,158 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 use Base64Url\Base64Url;
 
 /**
-  * This class will help you to load an EC key or a RSA key/certificate (private or public) and get values to create a JWK object.
-  */
- class KeyConverter
- {
-     /**
-      * @param string $file
-      *
-      * @throws \InvalidArgumentException
-      *
-      * @return array
-      */
-     public static function loadKeyFromCertificateFile(string $file): array
-     {
-         if (!file_exists($file)) {
-             throw new \InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
-         }
-         $content = file_get_contents($file);
+ * @internal 
+ */
+class KeyConverter
+{
+    /**
+     * @param string $file
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return array
+     */
+    public static function loadKeyFromCertificateFile(string $file): array
+    {
+        if (!file_exists($file)) {
+            throw new \InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
+        }
+        $content = file_get_contents($file);
 
-         return self::loadKeyFromCertificate($content);
-     }
+        return self::loadKeyFromCertificate($content);
+    }
 
-     /**
-      * @param string $certificate
-      *
-      * @throws \InvalidArgumentException
-      *
-      * @return array
-      */
-     public static function loadKeyFromCertificate(string $certificate): array
-     {
-         try {
-             $res = openssl_x509_read($certificate);
-         } catch (\Exception $e) {
-             $certificate = self::convertDerToPem($certificate);
-             $res = openssl_x509_read($certificate);
-         }
-         if (false === $res) {
-             throw new \InvalidArgumentException('Unable to load the certificate.');
-         }
+    /**
+     * @param string $certificate
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return array
+     */
+    public static function loadKeyFromCertificate(string $certificate): array
+    {
+        try {
+            $res = openssl_x509_read($certificate);
+        } catch (\Exception $e) {
+            $certificate = self::convertDerToPem($certificate);
+            $res = openssl_x509_read($certificate);
+        }
+        if (false === $res) {
+            throw new \InvalidArgumentException('Unable to load the certificate.');
+        }
 
-         $values = self::loadKeyFromX509Resource($res);
-         openssl_x509_free($res);
+        $values = self::loadKeyFromX509Resource($res);
+        openssl_x509_free($res);
 
-         return $values;
-     }
+        return $values;
+    }
 
-     /**
-      * @param resource $res
-      *
-      * @throws \Exception
-      *
-      * @return array
-      */
-     public static function loadKeyFromX509Resource($res): array
-     {
-         $key = openssl_get_publickey($res);
+    /**
+     * @param resource $res
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public static function loadKeyFromX509Resource($res): array
+    {
+        $key = openssl_get_publickey($res);
 
-         $details = openssl_pkey_get_details($key);
-         if (isset($details['key'])) {
-             $values = self::loadKeyFromPEM($details['key']);
-             openssl_x509_export($res, $out);
-             $x5c = preg_replace('#-.*-#', '', $out);
-             $x5c = preg_replace('~\R~', PHP_EOL, $x5c);
-             $x5c = trim($x5c);
-             $values['x5c'] = [$x5c];
+        $details = openssl_pkey_get_details($key);
+        if (isset($details['key'])) {
+            $values = self::loadKeyFromPEM($details['key']);
+            openssl_x509_export($res, $out);
+            $x5c = preg_replace('#-.*-#', '', $out);
+            $x5c = preg_replace('~\R~', PHP_EOL, $x5c);
+            $x5c = trim($x5c);
+            $values['x5c'] = [$x5c];
 
-             $values['x5t'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha1', true));
-             $values['x5t#256'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha256', true));
+            $values['x5t'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha1', true));
+            $values['x5t#256'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha256', true));
 
-             return $values;
-         }
+            return $values;
+        }
 
-         throw new \InvalidArgumentException('Unable to load the certificate');
-     }
+        throw new \InvalidArgumentException('Unable to load the certificate');
+    }
 
-     /**
-      * @param string      $file
-      * @param null|string $password
-      *
-      * @throws \Exception
-      *
-      * @return array
-      */
-     public static function loadFromKeyFile(string $file, ?string $password = null): array
-     {
-         $content = file_get_contents($file);
+    /**
+     * @param string      $file
+     * @param null|string $password
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public static function loadFromKeyFile(string $file, ?string $password = null): array
+    {
+        $content = file_get_contents($file);
 
-         return self::loadFromKey($content, $password);
-     }
+        return self::loadFromKey($content, $password);
+    }
 
-     /**
-      * @param string      $key
-      * @param null|string $password
-      *
-      * @throws \Exception
-      *
-      * @return array
-      */
-     public static function loadFromKey(string $key, ?string $password = null): array
-     {
-         try {
-             return self::loadKeyFromDER($key, $password);
-         } catch (\Exception $e) {
-             return self::loadKeyFromPEM($key, $password);
-         }
-     }
+    /**
+     * @param string      $key
+     * @param null|string $password
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public static function loadFromKey(string $key, ?string $password = null): array
+    {
+        try {
+            return self::loadKeyFromDER($key, $password);
+        } catch (\Exception $e) {
+            return self::loadKeyFromPEM($key, $password);
+        }
+    }
 
-     /**
-      * @param string      $der
-      * @param null|string $password
-      *
-      * @throws \Exception
-      *
-      * @return array
-      */
-     private static function loadKeyFromDER(string $der, ?string $password = null): array
-     {
-         $pem = self::convertDerToPem($der);
+    /**
+     * @param string      $der
+     * @param null|string $password
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    private static function loadKeyFromDER(string $der, ?string $password = null): array
+    {
+        $pem = self::convertDerToPem($der);
 
-         return self::loadKeyFromPEM($pem, $password);
-     }
+        return self::loadKeyFromPEM($pem, $password);
+    }
 
-     /**
-      * @param string      $pem
-      * @param null|string $password
-      *
-      * @throws \Exception
-      *
-      * @return array
-      */
-     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
-     {
-         if (preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
-             $pem = self::decodePem($pem, $matches, $password);
-         }
+    /**
+     * @param string      $pem
+     * @param null|string $password
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    private static function loadKeyFromPEM(string $pem, ?string $password = null): array
+    {
+        if (preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
+            $pem = self::decodePem($pem, $matches, $password);
+        }
 
-         self::sanitizePEM($pem);
+        self::sanitizePEM($pem);
 
-         $res = openssl_pkey_get_private($pem);
-         if (false === $res) {
-             $res = openssl_pkey_get_public($pem);
-         }
-         if (false === $res) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+        $res = openssl_pkey_get_private($pem);
+        if (false === $res) {
+            $res = openssl_pkey_get_public($pem);
+        }
+        if (false === $res) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         $details = openssl_pkey_get_details($res);
-         if (!is_array($details) || !array_key_exists('type', $details)) {
-             throw new \InvalidArgumentException('Unable to get details of the key');
-         }
+        $details = openssl_pkey_get_details($res);
+        if (!is_array($details) || !array_key_exists('type', $details)) {
+            throw new \InvalidArgumentException('Unable to get details of the key');
+        }
 
-         switch ($details['type']) {
+        switch ($details['type']) {
             case OPENSSL_KEYTYPE_EC:
                 $ec_key = ECKey::createFromPEM($pem);
 

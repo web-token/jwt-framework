@@ -18,75 +18,73 @@ use Jose\Component\Core\JWKSet;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class JWKTest.
-  *
-  * @group Unit
-  * @group JWKSet
-  */
- class JWKSetTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function iCanSelectAKeyInAKeySet()
-     {
-         $jwkset = $this->getPublicKeySet();
+ * @group Unit
+ * @group JWKSet
+ */
+class JWKSetTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function iCanSelectAKeyInAKeySet()
+    {
+        $jwkset = $this->getPublicKeySet();
 
-         $jwk = $jwkset->selectKey('enc');
-         self::assertInstanceOf(JWK::class, $jwk);
-     }
+        $jwk = $jwkset->selectKey('enc');
+        self::assertInstanceOf(JWK::class, $jwk);
+    }
 
-     /**
-      * @test
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Allowed key types are "sig" or "enc".
-      */
-     public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter()
-     {
-         $jwkset = $this->getPublicKeySet();
-         $jwkset->selectKey('foo');
-     }
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Allowed key types are "sig" or "enc".
+     */
+    public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter()
+    {
+        $jwkset = $this->getPublicKeySet();
+        $jwkset->selectKey('foo');
+    }
 
-     /**
-      * @test
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Invalid data.
-      */
-     public function iCannotCreateAKeySetWithBadArguments()
-     {
-         JWKSet::createFromKeyData(['keys' => true]);
-     }
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid data.
+     */
+    public function iCannotCreateAKeySetWithBadArguments()
+    {
+        JWKSet::createFromKeyData(['keys' => true]);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanGetAllKeysInAKeySet()
-     {
-         $jwkset = $this->getPublicKeySet();
-         self::assertEquals(3, count($jwkset->all()));
-     }
+    /**
+     * @test
+     */
+    public function iCanGetAllKeysInAKeySet()
+    {
+        $jwkset = $this->getPublicKeySet();
+        self::assertEquals(3, count($jwkset->all()));
+    }
 
-     /**
-      * @test
-      */
-     public function iCanAddKeysInAKeySet()
-     {
-         $jwkset = $this->getPublicKeySet();
-         $new_jwkset = $jwkset->with(JWK::create(['kty' => 'none']));
-         self::assertEquals(4, count($new_jwkset->all()));
-         self::assertNotSame($jwkset, $new_jwkset);
-     }
+    /**
+     * @test
+     */
+    public function iCanAddKeysInAKeySet()
+    {
+        $jwkset = $this->getPublicKeySet();
+        $new_jwkset = $jwkset->with(JWK::create(['kty' => 'none']));
+        self::assertEquals(4, count($new_jwkset->all()));
+        self::assertNotSame($jwkset, $new_jwkset);
+    }
 
-     /**
-      * @test
-      */
-     public function iCanSelectAKeyWithAlgorithm()
-     {
-         $jwkset = $this->getPublicKeySet();
+    /**
+     * @test
+     */
+    public function iCanSelectAKeyWithAlgorithm()
+    {
+        $jwkset = $this->getPublicKeySet();
 
-         $jwk = $jwkset->selectKey('enc', new FooAlgorithm());
-         self::assertInstanceOf(JWK::class, $jwk);
-         self::assertEquals([
+        $jwk = $jwkset->selectKey('enc', new FooAlgorithm());
+        self::assertInstanceOf(JWK::class, $jwk);
+        self::assertEquals([
                 'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
                 'kty' => 'FOO',
                 'alg' => 'foo',

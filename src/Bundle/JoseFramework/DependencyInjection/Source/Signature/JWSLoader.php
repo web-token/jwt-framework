@@ -21,18 +21,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWSLoader.
-  */
- class JWSLoader implements Source
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'loaders';
-     }
+class JWSLoader implements Source
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'loaders';
+    }
 
      /**
       * {@inheritdoc}

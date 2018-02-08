@@ -25,9 +25,6 @@ use Jose\Component\Encryption\JWELoaderFactory;
 use Jose\Component\Encryption\Serializer;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class EncryptionTest.
- */
 abstract class EncryptionTest extends TestCase
 {
     /**

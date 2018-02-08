@@ -20,15 +20,15 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
 
 /**
-  * @group AESKW
-  * @group Unit
-  */
- class AESKWKeyEncryptionTest extends EncryptionTest
- {
-     public function testA128KW()
-     {
-         $header = [];
-         $key = JWK::create([
+ * @group AESKW
+ * @group Unit
+ */
+class AESKWKeyEncryptionTest extends EncryptionTest
+{
+    public function testA128KW()
+    {
+        $header = [];
+        $key = JWK::create([
             'kty' => 'oct',
             'k'   => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
         ]);

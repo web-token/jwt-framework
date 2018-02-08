@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-/**
-  * Class JWESerializerManagerFactory.
-  */
- class JWESerializerManagerFactory
- {
-     /**
-      * @var JWESerializer[]
-      */
-     private $serializers = [];
+class JWESerializerManagerFactory
+{
+    /**
+     * @var JWESerializer[]
+     */
+    private $serializers = [];
 
      /**
       * @param string[] $names

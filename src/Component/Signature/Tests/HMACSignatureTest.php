@@ -19,20 +19,18 @@ use Jose\Component\Signature\Algorithm\HS384;
 use Jose\Component\Signature\Algorithm\HS512;
 
 /**
-  * Class HMACSignatureTest.
-  *
-  * @group HMAC
-  * @group Unit
-  */
- class HMACSignatureTest extends SignatureTest
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage Wrong key type.
-      */
-     public function testInvalidKey()
-     {
-         $key = JWK::create([
+ * @group HMAC
+ * @group Unit
+ */
+class HMACSignatureTest extends SignatureTest
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Wrong key type.
+     */
+    public function testInvalidKey()
+    {
+        $key = JWK::create([
             'kty' => 'EC',
         ]);
 

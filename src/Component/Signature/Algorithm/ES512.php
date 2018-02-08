@@ -13,18 +13,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-/**
-  * Class ES512.
-  */
- class ES512 extends ECDSA
- {
-     /**
-      * @return string
-      */
-     protected function getHashAlgorithm(): string
-     {
-         return 'sha512';
-     }
+class ES512 extends ECDSA
+{
+    /**
+     * @return string
+     */
+    protected function getHashAlgorithm(): string
+    {
+        return 'sha512';
+    }
 
      /**
       * @return int

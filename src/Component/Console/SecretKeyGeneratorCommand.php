@@ -19,18 +19,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class SecretKeyGeneratorCommand.
-  */
- class SecretKeyGeneratorCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class SecretKeyGeneratorCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:generate:from_secret')
             ->setDescription('Generate an octet key (JWK format) using an existing secret')
             ->addArgument('secret', InputArgument::REQUIRED, 'The secret')

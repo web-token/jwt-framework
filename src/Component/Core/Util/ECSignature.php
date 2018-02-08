@@ -14,24 +14,24 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 /**
-  * Class ECSignature.
-  */
- class ECSignature
- {
-     /**
-      * @param string $signature
-      * @param int    $partLength
-      *
-      * @return string
-      */
-     public static function toDER(string $signature, int $partLength): string
-     {
-         $signature = unpack('H*', $signature)[1];
-         if (mb_strlen($signature, '8bit') !== 2 * $partLength) {
-             throw new \InvalidArgumentException('Invalid length.');
-         }
-         $R = mb_substr($signature, 0, $partLength, '8bit');
-         $S = mb_substr($signature, $partLength, null, '8bit');
+ * @internal
+ */
+class ECSignature
+{
+    /**
+     * @param string $signature
+     * @param int    $partLength
+     *
+     * @return string
+     */
+    public static function toDER(string $signature, int $partLength): string
+    {
+        $signature = unpack('H*', $signature)[1];
+        if (mb_strlen($signature, '8bit') !== 2 * $partLength) {
+            throw new \InvalidArgumentException('Invalid length.');
+        }
+        $R = mb_substr($signature, 0, $partLength, '8bit');
+        $S = mb_substr($signature, $partLength, null, '8bit');
 
          $R = self::preparePositiveInteger($R);
          $Rl = mb_strlen($R, '8bit') / 2;

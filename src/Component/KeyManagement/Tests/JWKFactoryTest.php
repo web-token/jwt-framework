@@ -19,22 +19,20 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class JWKFactoryTest.
-  *
-  * @group JWKFactory
-  * @group Unit
-  */
- class JWKFactoryTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function iCanLoadAP12CertificateThatContainsARSAKey()
-     {
-         $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__.'/P12/CertRSA.p12', 'certRSA');
+ * @group JWKFactory
+ * @group Unit
+ */
+class JWKFactoryTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function iCanLoadAP12CertificateThatContainsARSAKey()
+    {
+        $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__.'/P12/CertRSA.p12', 'certRSA');
 
-         self::assertInstanceOf(JWK::class, $result);
-         self::assertEquals([
+        self::assertInstanceOf(JWK::class, $result);
+        self::assertEquals([
             'kty' => 'RSA',
             'n'   => 'acqZqFSLArU71p9yp8ZH1nDfi5g0TLgPCgAYESrfb-DB0_F89LUSSukRRkCjNCuJqp6j6jpe4VmJ2YzGiBV3eoMqORIdUmQ3XlKKX_ONM3oWhZZoFS_2s1RLFl1faXORe4JSJIN9gt_4EpXoKTjX1gftTcFOLrXPgODEwjAYll0',
             'e'   => 'AQAB',

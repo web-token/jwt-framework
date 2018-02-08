@@ -22,9 +22,6 @@ use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class SignatureTest.
- */
 abstract class SignatureTest extends TestCase
 {
     /**

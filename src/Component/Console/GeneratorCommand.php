@@ -18,9 +18,6 @@ use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-/**
- * Class GeneratorCommand.
- */
 abstract class GeneratorCommand extends ObjectOutputCommand
 {
     /**

@@ -30,17 +30,17 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
-  * Class AppKernel.
-  */
- class AppKernel extends Kernel
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function __construct(string $environment, bool $debug)
-     {
-         parent::__construct($environment, false);
-     }
+ * Class AppKernel.
+ */
+class AppKernel extends Kernel
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function __construct(string $environment, bool $debug)
+    {
+        parent::__construct($environment, false);
+    }
 
      /**
       * {@inheritdoc}

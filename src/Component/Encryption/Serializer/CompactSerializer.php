@@ -18,59 +18,56 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
-/**
-  * Class CompactSerializer.
-  */
- class CompactSerializer implements JWESerializer
- {
-     public const NAME = 'jwe_compact';
+class CompactSerializer implements JWESerializer
+{
+    public const NAME = 'jwe_compact';
 
-     /**
-      * @var JsonConverter
-      */
-     private $jsonConverter;
+    /**
+     * @var JsonConverter
+     */
+    private $jsonConverter;
 
-     /**
-      * JSONFlattenedSerializer constructor.
-      *
-      * @param JsonConverter $jsonConverter
-      */
-     public function __construct(JsonConverter $jsonConverter)
-     {
-         $this->jsonConverter = $jsonConverter;
-     }
+    /**
+     * JSONFlattenedSerializer constructor.
+     *
+     * @param JsonConverter $jsonConverter
+     */
+    public function __construct(JsonConverter $jsonConverter)
+    {
+        $this->jsonConverter = $jsonConverter;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function displayName(): string
-     {
-         return 'JWE Compact';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function displayName(): string
+    {
+        return 'JWE Compact';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return self::NAME;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return self::NAME;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
-     {
-         if (null === $recipientIndex) {
-             $recipientIndex = 0;
-         }
-         $recipient = $jwe->getRecipient($recipientIndex);
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(JWE $jwe, ?int $recipientIndex = null): string
+    {
+        if (null === $recipientIndex) {
+            $recipientIndex = 0;
+        }
+        $recipient = $jwe->getRecipient($recipientIndex);
 
-         $this->checkHasNoAAD($jwe);
-         $this->checkHasSharedProtectedHeader($jwe);
-         $this->checkRecipientHasNoHeader($jwe, $recipientIndex);
+        $this->checkHasNoAAD($jwe);
+        $this->checkHasSharedProtectedHeader($jwe);
+        $this->checkRecipientHasNoHeader($jwe, $recipientIndex);
 
-         return sprintf(
+        return sprintf(
             '%s.%s.%s.%s.%s',
             $jwe->getEncodedSharedProtectedHeader(),
             Base64Url::encode(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),

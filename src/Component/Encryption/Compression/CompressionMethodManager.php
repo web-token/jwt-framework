@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-/**
-  * Class CompressionMethodManager.
-  */
- class CompressionMethodManager
- {
-     /**
-      * @var CompressionMethod[]
-      */
-     private $compressionMethods = [];
+class CompressionMethodManager
+{
+    /**
+     * @var CompressionMethod[]
+     */
+    private $compressionMethods = [];
 
      /**
       * @param CompressionMethod[] $methods

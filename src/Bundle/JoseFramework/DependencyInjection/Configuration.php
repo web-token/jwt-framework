@@ -17,45 +17,42 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-/**
-  * Class Configuration.
-  */
- class Configuration implements ConfigurationInterface
- {
-     /**
-      * @var Source[]
-      */
-     private $sources;
+class Configuration implements ConfigurationInterface
+{
+    /**
+     * @var Source[]
+     */
+    private $sources;
 
-     /**
-      * @var string
-      */
-     private $alias;
+    /**
+     * @var string
+     */
+    private $alias;
 
-     /**
-      * Configuration constructor.
-      *
-      * @param string   $alias
-      * @param Source[] $sources
-      */
-     public function __construct(string $alias, array $sources)
-     {
-         $this->alias = $alias;
-         $this->sources = $sources;
-     }
+    /**
+     * Configuration constructor.
+     *
+     * @param string   $alias
+     * @param Source[] $sources
+     */
+    public function __construct(string $alias, array $sources)
+    {
+        $this->alias = $alias;
+        $this->sources = $sources;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getConfigTreeBuilder()
-     {
-         $treeBuilder = new TreeBuilder();
-         $rootNode = $treeBuilder->root($this->alias);
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfigTreeBuilder()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root($this->alias);
 
-         foreach ($this->sources as $source) {
-             $source->getNodeDefinition($rootNode);
-         }
+        foreach ($this->sources as $source) {
+            $source->getNodeDefinition($rootNode);
+        }
 
-         return $treeBuilder;
-     }
- }
+        return $treeBuilder;
+    }
+}

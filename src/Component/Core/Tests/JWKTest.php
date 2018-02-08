@@ -17,24 +17,22 @@ use Jose\Component\Core\JWK;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class JWKTest.
-  *
-  * @group Unit
-  * @group JWK
-  */
- class JWKTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function aKeyContainsAllExpectedParameters()
-     {
-         $jwk = JWK::create([
-            'kty'     => 'EC',
-            'crv'     => 'P-256',
-            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use'     => 'sig',
+ * @group Unit
+ * @group JWK
+ */
+class JWKTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function aKeyContainsAllExpectedParameters()
+    {
+        $jwk = JWK::create([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sig',
             'key_ops' => ['sign'],
             'alg'     => 'ES256',
             'bar'     => 'plic',

@@ -20,18 +20,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWKSet.
-  */
- class JWKSet extends AbstractSource implements JWKSetSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function createDefinition(ContainerBuilder $container, array $config): Definition
-     {
-         $definition = new Definition(\Jose\Component\Core\JWKSet::class);
-         $definition->setFactory([
+class JWKSet extends AbstractSource implements JWKSetSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function createDefinition(ContainerBuilder $container, array $config): Definition
+    {
+        $definition = new Definition(\Jose\Component\Core\JWKSet::class);
+        $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromJsonObject',
         ]);

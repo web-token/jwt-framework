@@ -19,18 +19,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class OptimizeRsaKeyCommand.
-  */
- class OptimizeRsaKeyCommand extends ObjectOutputCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class OptimizeRsaKeyCommand extends ObjectOutputCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:optimize')
             ->setDescription('Optimize a RSA key by calculating additional primes (CRT).')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.');

@@ -17,28 +17,28 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 
 /**
-  * Class RSAKeyWithoutAllPrimesTest.
-  *
-  * @group RSA2
-  * @group Unit
-  */
- class RSAKeyWithoutAllPrimesTest extends EncryptionTest
- {
-     /**
-      * @param string $encryption_algorithm
-      *
-      * @dataProvider dataEncryptionAlgorithms
-      */
-     public function testEncryptionAlgorithms(string $encryption_algorithm)
-     {
-         $key = $this->getPrivateKey();
+ * Class RSAKeyWithoutAllPrimesTest.
+ *
+ * @group RSA2
+ * @group Unit
+ */
+class RSAKeyWithoutAllPrimesTest extends EncryptionTest
+{
+    /**
+     * @param string $encryption_algorithm
+     *
+     * @dataProvider dataEncryptionAlgorithms
+     */
+    public function testEncryptionAlgorithms(string $encryption_algorithm)
+    {
+        $key = $this->getPrivateKey();
 
-         $claims = ['foo' => 'bar'];
+        $claims = ['foo' => 'bar'];
 
-         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
-         $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
 
-         $jwt = $jweBuilder
+        $jwt = $jweBuilder
             ->create()->withPayload($claims)
             ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
             ->addRecipient($key)

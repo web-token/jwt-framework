@@ -15,18 +15,15 @@ namespace Jose\Component\Core\Tests;
 
 use Jose\Component\Core\Algorithm;
 
-/**
-  * Class FooAlgorithm.
-  */
- class FooAlgorithm implements Algorithm
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'foo';
-     }
+class FooAlgorithm implements Algorithm
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'foo';
+    }
 
      /**
       * {@inheritdoc}

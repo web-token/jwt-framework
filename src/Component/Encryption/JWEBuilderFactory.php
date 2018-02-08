@@ -17,15 +17,12 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 
-/**
-  * Class JWEBuilderFactory.
-  */
- class JWEBuilderFactory
- {
-     /**
-      * @var JsonConverter
-      */
-     private $jsonEncoder;
+class JWEBuilderFactory
+{
+    /**
+     * @var JsonConverter
+     */
+    private $jsonEncoder;
 
      /**
       * @var AlgorithmManagerFactory

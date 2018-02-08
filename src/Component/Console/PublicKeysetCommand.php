@@ -19,21 +19,18 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class PublicKeysetCommand.
-  */
- class PublicKeysetCommand extends ObjectOutputCommand
- {
-     /**
-      * KeyAnalyzerCommand constructor.
-      *
-      * @param JsonConverter $jsonConverter
-      * @param string|null   $name
-      */
-     public function __construct(JsonConverter $jsonConverter, string $name = null)
-     {
-         parent::__construct($jsonConverter, $name);
-     }
+class PublicKeysetCommand extends ObjectOutputCommand
+{
+    /**
+     * KeyAnalyzerCommand constructor.
+     *
+     * @param JsonConverter $jsonConverter
+     * @param string|null   $name
+     */
+    public function __construct(JsonConverter $jsonConverter, string $name = null)
+    {
+        parent::__construct($jsonConverter, $name);
+    }
 
      /**
       * {@inheritdoc}

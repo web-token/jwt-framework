@@ -37,15 +37,15 @@ namespace Jose\Component\Core\Util\Ecc;
   * ***********************************************************************
   */
 
- /**
-  * This class serves as public - private key exchange for signature verification.
-  */
- class PrivateKey
- {
-     /**
-      * @var \GMP
-      */
-     private $secret;
+/**
+ * @internal
+ */
+class PrivateKey
+{
+    /**
+     * @var \GMP
+     */
+    private $secret;
 
      /**
       * @param \GMP $secret

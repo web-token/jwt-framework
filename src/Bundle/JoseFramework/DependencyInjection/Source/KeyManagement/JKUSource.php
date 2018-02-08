@@ -20,18 +20,15 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
-  * Class JKUSource.
-  */
- class JKUSource implements Source
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'jku_factory';
-     }
+class JKUSource implements Source
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'jku_factory';
+    }
 
      /**
       * {@inheritdoc}

@@ -16,9 +16,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * Interface Source.
- */
 interface Source
 {
     /**

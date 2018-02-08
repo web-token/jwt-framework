@@ -18,20 +18,20 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
-  * @group Bundle
-  * @group Functional
-  */
- class ConsoleTest extends KernelTestCase
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function setUp()
-     {
-         if (!class_exists(EcKeyGeneratorCommand::class)) {
-             $this->markTestSkipped('The component "web-token/jwt-console" is not installed.');
-         }
-     }
+ * @group Bundle
+ * @group Functional
+ */
+class ConsoleTest extends KernelTestCase
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(EcKeyGeneratorCommand::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-console" is not installed.');
+        }
+    }
 
      /**
       * @test

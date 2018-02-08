@@ -16,37 +16,34 @@ namespace Jose\Bundle\JoseFramework\Tests\TestBundle\Checker;
 use Jose\Component\Checker\ClaimChecker;
 use Jose\Component\Checker\HeaderChecker;
 
-/**
-  * Class CustomChecker.
-  */
- class CustomChecker implements ClaimChecker, HeaderChecker
- {
-     public function checkClaim($value)
-     {
-         if (true === $value) {
-             throw new \InvalidArgumentException('Custom checker!');
-         }
-     }
+class CustomChecker implements ClaimChecker, HeaderChecker
+{
+    public function checkClaim($value)
+    {
+        if (true === $value) {
+            throw new \InvalidArgumentException('Custom checker!');
+        }
+    }
 
-     public function supportedClaim(): string
-     {
-         return 'custom';
-     }
+    public function supportedClaim(): string
+    {
+        return 'custom';
+    }
 
-     public function checkHeader($value)
-     {
-         if (true === $value) {
-             throw new \InvalidArgumentException('Custom checker!');
-         }
-     }
+    public function checkHeader($value)
+    {
+        if (true === $value) {
+            throw new \InvalidArgumentException('Custom checker!');
+        }
+    }
 
-     public function supportedHeader(): string
-     {
-         return 'custom';
-     }
+    public function supportedHeader(): string
+    {
+        return 'custom';
+    }
 
-     public function protectedHeaderOnly(): bool
-     {
-         return true;
-     }
- }
+    public function protectedHeaderOnly(): bool
+    {
+        return true;
+    }
+}

@@ -18,21 +18,21 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Tests\EncryptionTest;
 
 /**
-  * @see https://tools.ietf.org/html/rfc7520#section-5.1
-  *
-  * @group RFC7520
-  */
- class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
- {
-     /**
-      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
-      * The output given in the RFC is used and only decrypted.
-      */
-     public function testRSA1_5AndA128CBC_HS256Encryption()
-     {
-         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
+ * @see https://tools.ietf.org/html/rfc7520#section-5.1
+ *
+ * @group RFC7520
+ */
+class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
+{
+    /**
+     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
+     * The output given in the RFC is used and only decrypted.
+     */
+    public function testRSA1_5AndA128CBC_HS256Encryption()
+    {
+        $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-         $private_key = JWK::create([
+        $private_key = JWK::create([
             'kty' => 'RSA',
             'kid' => 'frodo.baggins@hobbiton.example',
             'use' => 'enc',

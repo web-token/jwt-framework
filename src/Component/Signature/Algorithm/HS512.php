@@ -13,18 +13,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-/**
-  * Class HS512.
-  */
- class HS512 extends HMAC
- {
-     /**
-      * @return string
-      */
-     protected function getHashAlgorithm(): string
-     {
-         return 'sha512';
-     }
+class HS512 extends HMAC
+{
+    /**
+     * @return string
+     */
+    protected function getHashAlgorithm(): string
+    {
+        return 'sha512';
+    }
 
      /**
       * @return string

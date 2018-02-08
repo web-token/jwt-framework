@@ -21,18 +21,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWSSerializer.
-  */
- class JWSSerializer implements Source
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'serializers';
-     }
+class JWSSerializer implements Source
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'serializers';
+    }
 
      /**
       * {@inheritdoc}

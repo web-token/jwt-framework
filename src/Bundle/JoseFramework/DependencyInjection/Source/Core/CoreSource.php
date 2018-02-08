@@ -24,18 +24,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
-  * Class CoreSource.
-  */
- class CoreSource implements SourceWithCompilerPasses
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'core';
-     }
+class CoreSource implements SourceWithCompilerPasses
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'core';
+    }
 
      /**
       * {@inheritdoc}

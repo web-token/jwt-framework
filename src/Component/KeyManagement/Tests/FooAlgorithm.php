@@ -16,21 +16,19 @@ namespace Jose\Component\KeyManagement\Tests;
 use Jose\Component\Core\Algorithm;
 
 /**
-  * Class JWKTest.
-  *
-  * @group Unit
-  * @group JWKSet
-  */
- class FooAlgorithm implements Algorithm
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'foo';
-     }
-
+ * @group Unit
+ * @group JWKSet
+ */
+class FooAlgorithm implements Algorithm
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'foo';
+    }
+    
      /**
       * {@inheritdoc}
       */

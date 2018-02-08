@@ -20,18 +20,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class CertificateFile.
-  */
- class CertificateFile extends AbstractSource implements JWKSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function createDefinition(ContainerBuilder $container, array $config): Definition
-     {
-         $definition = new Definition(JWK::class);
-         $definition->setFactory([
+class CertificateFile extends AbstractSource implements JWKSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function createDefinition(ContainerBuilder $container, array $config): Definition
+    {
+        $definition = new Definition(JWK::class);
+        $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromCertificateFile',
         ]);

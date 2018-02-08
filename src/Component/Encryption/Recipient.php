@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-/**
-  * Class Recipient.
-  */
- class Recipient
- {
-     /**
-      * @var array
-      */
-     private $header = [];
+class Recipient
+{
+    /**
+     * @var array
+     */
+    private $header = [];
 
      /**
       * @var null|string

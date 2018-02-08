@@ -19,18 +19,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWSVerifier.
-  */
- class JWSVerifier extends AbstractSignatureSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'verifiers';
-     }
+class JWSVerifier extends AbstractSignatureSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'verifiers';
+    }
 
      /**
       * {@inheritdoc}

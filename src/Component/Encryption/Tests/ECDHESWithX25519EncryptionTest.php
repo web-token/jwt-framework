@@ -16,19 +16,19 @@ namespace Jose\Component\Encryption\Tests;
 use Jose\Component\Core\JWK;
 
 /**
-  * Class ECDHESWithX25519EncryptionTest.
-  *
-  * @group ECDHES
-  * @group Unit
-  */
- class ECDHESWithX25519EncryptionTest extends EncryptionTest
- {
-     /**
-      * @see https://tools.ietf.org/html/rfc7516#appendix-B
-      */
-     public function testA128CBCHS256EncryptAndDecrypt()
-     {
-         $receiverKey = JWK::create([
+ * Class ECDHESWithX25519EncryptionTest.
+ *
+ * @group ECDHES
+ * @group Unit
+ */
+class ECDHESWithX25519EncryptionTest extends EncryptionTest
+{
+    /**
+     * @see https://tools.ietf.org/html/rfc7516#appendix-B
+     */
+    public function testA128CBCHS256EncryptAndDecrypt()
+    {
+        $receiverKey = JWK::create([
             'kty' => 'OKP',
             'crv' => 'X25519',
             'x'   => 'azBwhSxIIhQIri4QdT__5q7ybEhKItJlGeyuLNN5ZCQ',

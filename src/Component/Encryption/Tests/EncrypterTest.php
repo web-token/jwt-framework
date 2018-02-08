@@ -19,19 +19,17 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 
 /**
-  * Class EncrypterTest.
-  *
-  * @group Encrypter
-  * @group Functional
-  */
- class EncrypterTest extends EncryptionTest
- {
-     public function testEncryptWithJWTInput()
-     {
-         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
-         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
+ * @group Encrypter
+ * @group Functional
+ */
+class EncrypterTest extends EncryptionTest
+{
+    public function testEncryptWithJWTInput()
+    {
+        $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
-         $jwe = $jweBuilder
+        $jwe = $jweBuilder
             ->create()->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',

@@ -14,140 +14,136 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 /**
-  * This class is a representation of an EC over a field modulo a prime number.
-  *
-  * Important objectives for this class are:
-  * - Does the curve contain a point?
-  * - Comparison of two curves.
-  */
- class Curve
- {
-     /**
-      * Elliptic curve over the field of integers modulo a prime.
-      *
-      * @var \GMP
-      */
-     private $a;
+ * @internal
+ */
+class Curve
+{
+    /**
+     * Elliptic curve over the field of integers modulo a prime.
+     *
+     * @var \GMP
+     */
+    private $a;
 
-     /**
-      * @var \GMP
-      */
-     private $b;
+    /**
+     * @var \GMP
+     */
+    private $b;
 
-     /**
-      * @var \GMP
-      */
-     private $prime;
+    /**
+     * @var \GMP
+     */
+    private $prime;
 
-     /**
-      * Binary length of keys associated with these curve parameters.
-      *
-      * @var int
-      */
-     private $size;
+    /**
+     * Binary length of keys associated with these curve parameters.
+     *
+     * @var int
+     */
+    private $size;
 
-     /**
-      * @var Point
-      */
-     private $generator;
+    /**
+     * @var Point
+     */
+    private $generator;
 
-     /**
-      * @param int   $size
-      * @param \GMP  $prime
-      * @param \GMP  $a
-      * @param \GMP  $b
-      * @param Point $generator
-      */
-     public function __construct(int $size, \GMP $prime, \GMP $a, \GMP $b, Point $generator)
-     {
-         $this->size = $size;
-         $this->prime = $prime;
-         $this->a = $a;
-         $this->b = $b;
-         $this->generator = $generator;
-     }
+    /**
+     * @param int   $size
+     * @param \GMP  $prime
+     * @param \GMP  $a
+     * @param \GMP  $b
+     * @param Point $generator
+     */
+    public function __construct(int $size, \GMP $prime, \GMP $a, \GMP $b, Point $generator)
+    {
+        $this->size = $size;
+        $this->prime = $prime;
+        $this->a = $a;
+        $this->b = $b;
+        $this->generator = $generator;
+    }
 
-     /**
-      * @return \GMP
-      */
-     public function getA(): \GMP
-     {
-         return $this->a;
-     }
+    /**
+     * @return \GMP
+     */
+    public function getA(): \GMP
+    {
+        return $this->a;
+    }
 
-     /**
-      * @return \GMP
-      */
-     public function getB(): \GMP
-     {
-         return $this->b;
-     }
+    /**
+     * @return \GMP
+     */
+    public function getB(): \GMP
+    {
+        return $this->b;
+    }
 
-     /**
-      * @return \GMP
-      */
-     public function getPrime(): \GMP
-     {
-         return $this->prime;
-     }
+    /**
+     * @return \GMP
+     */
+    public function getPrime(): \GMP
+    {
+        return $this->prime;
+    }
 
-     /**
-      * @return int
-      */
-     public function getSize(): int
-     {
-         return $this->size;
-     }
+    /**
+     * @return int
+     */
+    public function getSize(): int
+    {
+        return $this->size;
+    }
 
-     /**
-      * @param \GMP      $x
-      * @param \GMP      $y
-      * @param \GMP|null $order
-      *
-      * @return Point
-      */
-     public function getPoint(\GMP $x, \GMP $y, ?\GMP $order = null): Point
-     {
-         if (!$this->contains($x, $y)) {
-             throw new \RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
-         }
-         $point = Point::create($x, $y, $order);
-         if (!is_null($order)) {
-             $mul = $this->mul($point, $order);
-             if (!$mul->isInfinity()) {
-                 throw new \RuntimeException('SELF * ORDER MUST EQUAL INFINITY. ('.(string) $mul.' found instead)');
-             }
-         }
+    /**
+     * @param \GMP      $x
+     * @param \GMP      $y
+     * @param \GMP|null $order
+     *
+     * @return Point
+     */
+    public function getPoint(\GMP $x, \GMP $y, ?\GMP $order = null): Point
+    {
+        if (!$this->contains($x, $y)) {
+            throw new \RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
+        }
+        $point = Point::create($x, $y, $order);
+        if (!is_null($order)) {
+            $mul = $this->mul($point, $order);
+            if (!$mul->isInfinity()) {
+                throw new \RuntimeException('SELF * ORDER MUST EQUAL INFINITY. ('.(string) $mul.' found instead)');
+            }
+        }
 
-         return $point;
-     }
+        return $point;
+    }
 
-     /**
-      * @param \GMP $x
-      * @param \GMP $y
-      *
-      * @return PublicKey
-      */
-     public function getPublicKeyFrom(\GMP $x, \GMP $y): PublicKey
-     {
-         $zero = gmp_init(0, 10);
-         if (Math::cmp($x, $zero) < 0 || Math::cmp($this->generator->getOrder(), $x) <= 0 || Math::cmp($y, $zero) < 0 || Math::cmp($this->generator->getOrder(), $y) <= 0) {
-             throw new \RuntimeException('Generator point has x and y out of range.');
-         }
-         $point = $this->getPoint($x, $y);
+    /**
+     * @param \GMP $x
+     * @param \GMP $y
+     *
+     * @return PublicKey
+     */
+    public function getPublicKeyFrom(\GMP $x, \GMP $y): PublicKey
+    {
+        $zero = gmp_init(0, 10);
+        if (Math::cmp($x, $zero) < 0 || Math::cmp($this->generator->getOrder(), $x) <= 0 || Math::cmp($y, $zero) < 0 || Math::cmp($this->generator->getOrder(), $y) <= 0) {
+            throw new \RuntimeException('Generator point has x and y out of range.');
+        }
+        $point = $this->getPoint($x, $y);
 
-         return PublicKey::create($point);
-     }
+        return PublicKey::create($point);
+    }
 
-     /**
-      * @param \GMP $x
-      * @param \GMP $y
-      *
-      * @return bool
-      */
-     public function contains(\GMP $x, \GMP $y): bool
-     {
-         $eq_zero = Math::equals(
+    /**
+     * @param \GMP $x
+     * @param \GMP $y
+     *
+     * @return bool
+     */
+    public function contains(\GMP $x, \GMP $y): bool
+    {
+        $eq_zero = Math::equals(
             ModularArithmetic::sub(
                 Math::pow($y, 2),
                 Math::add(

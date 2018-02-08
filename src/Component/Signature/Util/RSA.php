@@ -18,14 +18,14 @@ use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 
 /**
-  * Class RSA.
-  */
- class RSA
- {
-     /**
-      * Probabilistic Signature Scheme.
-      */
-     public const SIGNATURE_PSS = 1;
+ * @internal
+ */
+class RSA
+{
+    /**
+     * Probabilistic Signature Scheme.
+     */
+    public const SIGNATURE_PSS = 1;
 
      /**
       * Use the PKCS#1.

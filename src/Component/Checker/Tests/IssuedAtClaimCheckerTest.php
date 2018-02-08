@@ -17,21 +17,21 @@ use Jose\Component\Checker\IssuedAtChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group ClaimChecker
-  * @group Functional
-  */
- class IssuedAtClaimCheckerTest extends TestCase
- {
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidClaimException
-      * @expectedExceptionMessage "iat" must be an integer.
-      */
-     public function anIssuedAtClaimMustBeAnInteger()
-     {
-         $checker = new IssuedAtChecker();
-         $checker->checkClaim('foo');
-     }
+ * @group ClaimChecker
+ * @group Functional
+ */
+class IssuedAtClaimCheckerTest extends TestCase
+{
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
+     * @expectedExceptionMessage "iat" must be an integer.
+     */
+    public function anIssuedAtClaimMustBeAnInteger()
+    {
+        $checker = new IssuedAtChecker();
+        $checker->checkClaim('foo');
+    }
 
      /**
       * @test

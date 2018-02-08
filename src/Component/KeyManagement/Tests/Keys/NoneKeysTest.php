@@ -18,17 +18,17 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * @group NoneKeys
-  * @group Unit
-  */
- class NoneKeysTest extends TestCase
- {
-     /**
-      * @see https://tools.ietf.org/html/rfc7638#section-3.1
-      */
-     public function testKeyThumbprint()
-     {
-         $key = JWK::create([
+ * @group NoneKeys
+ * @group Unit
+ */
+class NoneKeysTest extends TestCase
+{
+    /**
+     * @see https://tools.ietf.org/html/rfc7638#section-3.1
+     */
+    public function testKeyThumbprint()
+    {
+        $key = JWK::create([
             'kty' => 'none',
             'alg' => 'none',
             'use' => 'sig',

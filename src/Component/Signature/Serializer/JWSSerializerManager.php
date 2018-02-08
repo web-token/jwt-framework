@@ -15,15 +15,12 @@ namespace Jose\Component\Signature\Serializer;
 
 use Jose\Component\Signature\JWS;
 
-/**
-  * Class JWSSerializationManager.
-  */
- class JWSSerializerManager
- {
-     /**
-      * @var JWSSerializer[]
-      */
-     private $serializers = [];
+class JWSSerializerManager
+{
+    /**
+     * @var JWSSerializer[]
+     */
+    private $serializers = [];
 
      /**
       * JWSSerializerManager constructor.

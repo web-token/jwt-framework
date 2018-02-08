@@ -20,19 +20,19 @@ use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 
 /**
-  * @group Signer
-  * @group Functional
-  */
- class SignerTest extends SignatureTest
- {
-     /**
-      * @expectedException \InvalidArgumentException
-      * @expectedExceptionMessage No "alg" parameter set in the header.
-      */
-     public function testAlgParameterIsMissing()
-     {
-         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
-         $jwsBuilder
+ * @group Signer
+ * @group Functional
+ */
+class SignerTest extends SignatureTest
+{
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage No "alg" parameter set in the header.
+     */
+    public function testAlgParameterIsMissing()
+    {
+        $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
+        $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
             ->addSignature($this->getKey1(), [])
             ->build();

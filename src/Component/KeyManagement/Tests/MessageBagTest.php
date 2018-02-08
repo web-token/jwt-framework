@@ -18,80 +18,78 @@ use Jose\Component\KeyManagement\KeyAnalyzer\MessageBag;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class JWKAnalyzerTest.
-  *
-  * @group Unit
-  * @group JWKAnalyzer
-  */
- class MessageBagTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function iCanGetAMessageWithLowSeverity()
-     {
-         $message = Message::low('Not important');
+ * @group Unit
+ * @group JWKAnalyzer
+ */
+class MessageBagTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function iCanGetAMessageWithLowSeverity()
+    {
+        $message = Message::low('Not important');
 
-         self::assertEquals(Message::SEVERITY_LOW, $message->getSeverity());
-         self::assertEquals('Not important', $message->getMessage());
-     }
+        self::assertEquals(Message::SEVERITY_LOW, $message->getSeverity());
+        self::assertEquals('Not important', $message->getMessage());
+    }
 
-     /**
-      * @test
-      */
-     public function iCanGetAMessageWithMediumSeverity()
-     {
-         $message = Message::medium('Quite important');
+    /**
+     * @test
+     */
+    public function iCanGetAMessageWithMediumSeverity()
+    {
+        $message = Message::medium('Quite important');
 
-         self::assertEquals(Message::SEVERITY_MEDIUM, $message->getSeverity());
-         self::assertEquals('Quite important', $message->getMessage());
-     }
+        self::assertEquals(Message::SEVERITY_MEDIUM, $message->getSeverity());
+        self::assertEquals('Quite important', $message->getMessage());
+    }
 
-     /**
-      * @test
-      */
-     public function iCanGetAMessageWithHighSeverity()
-     {
-         $message = Message::high('Very important');
+    /**
+     * @test
+     */
+    public function iCanGetAMessageWithHighSeverity()
+    {
+        $message = Message::high('Very important');
 
-         self::assertEquals(Message::SEVERITY_HIGH, $message->getSeverity());
-         self::assertEquals('Very important', $message->getMessage());
-     }
+        self::assertEquals(Message::SEVERITY_HIGH, $message->getSeverity());
+        self::assertEquals('Very important', $message->getMessage());
+    }
 
-     /**
-      * @test
-      */
-     public function iCanSerializeAMessageIntoJson()
-     {
-         $message = Message::high('Very important');
+    /**
+     * @test
+     */
+    public function iCanSerializeAMessageIntoJson()
+    {
+        $message = Message::high('Very important');
 
-         self::assertEquals('{"message":"Very important","severity":"high"}', json_encode($message));
-     }
+        self::assertEquals('{"message":"Very important","severity":"high"}', json_encode($message));
+    }
 
-     /**
-      * @test
-      */
-     public function aMessageBagCanHaveSeveralMessages()
-     {
-         $bag = new MessageBag();
-         $bag->add(Message::high('Very important'));
+    /**
+     * @test
+     */
+    public function aMessageBagCanHaveSeveralMessages()
+    {
+        $bag = new MessageBag();
+        $bag->add(Message::high('Very important'));
 
-         self::assertEquals(1, $bag->count());
-         self::assertEquals(1, count($bag));
-         self::assertEquals(1, count($bag->all()));
-         foreach ($bag as $message) {
-             self::assertInstanceOf(Message::class, $message);
-         }
-     }
+        self::assertEquals(1, $bag->count());
+        self::assertEquals(1, count($bag));
+        self::assertEquals(1, count($bag->all()));
+        foreach ($bag as $message) {
+            self::assertInstanceOf(Message::class, $message);
+        }
+    }
 
-     /**
-      * @test
-      */
-     public function iCanSerializeAMessageBagIntoJson()
-     {
-         $bag = new MessageBag();
-         $bag->add(Message::high('Very important'));
+    /**
+     * @test
+     */
+    public function iCanSerializeAMessageBagIntoJson()
+    {
+        $bag = new MessageBag();
+        $bag->add(Message::high('Very important'));
 
-         self::assertEquals('[{"message":"Very important","severity":"high"}]', json_encode($bag));
-     }
- }
+        self::assertEquals('[{"message":"Very important","severity":"high"}]', json_encode($bag));
+    }
+}

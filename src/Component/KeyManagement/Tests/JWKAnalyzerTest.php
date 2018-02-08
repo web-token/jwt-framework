@@ -19,20 +19,18 @@ use Jose\Component\KeyManagement\KeyAnalyzer;
 use PHPUnit\Framework\TestCase;
 
 /**
-  * Class JWKAnalyzerTest.
-  *
-  * @group Unit
-  * @group JWKAnalyzer
-  */
- class JWKAnalyzerTest extends TestCase
- {
-     /**
-      * @test
-      */
-     public function iCanAnalyzeANoneKeyAndGetMessages()
-     {
-         $key = JWKFactory::createNoneKey();
-         $messages = $this->getKeyAnalyzer()->analyze($key);
+ * @group Unit
+ * @group JWKAnalyzer
+ */
+class JWKAnalyzerTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function iCanAnalyzeANoneKeyAndGetMessages()
+    {
+        $key = JWKFactory::createNoneKey();
+        $messages = $this->getKeyAnalyzer()->analyze($key);
 
          self::assertNotEmpty($messages);
      }

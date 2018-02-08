@@ -16,18 +16,15 @@ namespace Jose\Component\Signature;
 use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
-/**
-  * Class JWSTokenSupport.
-  */
- class JWSTokenSupport implements TokenTypeSupport
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function supports(JWT $jwt): bool
-     {
-         return $jwt instanceof JWS;
-     }
+class JWSTokenSupport implements TokenTypeSupport
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(JWT $jwt): bool
+    {
+        return $jwt instanceof JWS;
+    }
 
      /**
       * {@inheritdoc}

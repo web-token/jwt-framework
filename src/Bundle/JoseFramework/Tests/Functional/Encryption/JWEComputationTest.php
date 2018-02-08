@@ -22,20 +22,20 @@ use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
-  * @group Bundle
-  * @group Functional
-  */
- class JWEComputationTest extends WebTestCase
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function setUp()
-     {
-         if (!class_exists(JWEBuilderFactory::class)) {
-             $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-         }
-     }
+ * @group Bundle
+ * @group Functional
+ */
+class JWEComputationTest extends WebTestCase
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        if (!class_exists(JWEBuilderFactory::class)) {
+            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        }
+    }
 
      /**
       * @test

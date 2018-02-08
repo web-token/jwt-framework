@@ -19,18 +19,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWSBuilder.
-  */
- class JWSBuilder extends AbstractSignatureSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'builders';
-     }
+class JWSBuilder extends AbstractSignatureSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'builders';
+    }
 
      /**
       * {@inheritdoc}

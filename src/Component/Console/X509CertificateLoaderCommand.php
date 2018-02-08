@@ -18,18 +18,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class X509CertificateLoaderCommand.
-  */
- class X509CertificateLoaderCommand extends GeneratorCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class X509CertificateLoaderCommand extends GeneratorCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:load:x509')
             ->setDescription('Load a key from a X.509 certificate file.')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the X.509 certificate.');

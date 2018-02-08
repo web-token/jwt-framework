@@ -13,16 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-/**
-  * This class implements the compression algorithm DEF (deflate)
-  * This compression algorithm is part of the specification.
-  */
- class Deflate implements CompressionMethod
- {
-     /**
-      * @var int
-      */
-     private $compression_level = -1;
+class Deflate implements CompressionMethod
+{
+    /**
+     * @var int
+     */
+    private $compression_level = -1;
 
      /**
       * Deflate constructor.

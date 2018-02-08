@@ -19,18 +19,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class JWEDecrypter.
-  */
- class JWEDecrypter extends AbstractEncryptionSource
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'decrypters';
-     }
+class JWEDecrypter extends AbstractEncryptionSource
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'decrypters';
+    }
 
      /**
       * {@inheritdoc}

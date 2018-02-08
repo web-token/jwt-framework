@@ -19,24 +19,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
-  * Class KeyCollectorCompilerPass.
-  */
- class KeyCollectorCompilerPass implements CompilerPassInterface
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function process(ContainerBuilder $container)
-     {
-         if (!$container->hasDefinition(KeyCollector::class)) {
-             return;
-         }
+class KeyCollectorCompilerPass implements CompilerPassInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container)
+    {
+        if (!$container->hasDefinition(KeyCollector::class)) {
+            return;
+        }
 
-         $definition = $container->getDefinition(KeyCollector::class);
+        $definition = $container->getDefinition(KeyCollector::class);
 
-         $services = [
-            'addJWK'    => 'jose.jwk',
+        $services = [
+            'addJWK' => 'jose.jwk',
             'addJWKSet' => 'jose.jwkset',
         ];
          foreach ($services as $method => $tag) {

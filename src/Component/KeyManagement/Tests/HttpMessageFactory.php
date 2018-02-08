@@ -17,18 +17,15 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Http\Message\MessageFactory as Psr7MessageFactory;
 
-/**
-  * Class HttpMessageFactory.
-  */
- class HttpMessageFactory implements Psr7MessageFactory
- {
-     /**
-      * {@inheritdoc}
-      */
-     public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
-     {
-         return new Request($method, $uri, $header, $body, $protocolVersion);
-     }
+class HttpMessageFactory implements Psr7MessageFactory
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
+    {
+        return new Request($method, $uri, $header, $body, $protocolVersion);
+    }
 
      /**
       * {@inheritdoc}

@@ -17,21 +17,19 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 
 /**
-  * Class RSAKeyWithoutAllPrimesTest.
-  *
-  * @group RSA2
-  * @group Unit
-  */
- class RSAKeyWithoutAllPrimesTest extends SignatureTest
- {
-     /**
-      * @param string $signature_algorithm
-      *
-      * @dataProvider dataSignatureAlgorithms
-      */
-     public function testSignatureAlgorithms(string $signature_algorithm)
-     {
-         $key = $this->getPrivateKey();
+ * @group RSA2
+ * @group Unit
+ */
+class RSAKeyWithoutAllPrimesTest extends SignatureTest
+{
+    /**
+     * @param string $signature_algorithm
+     *
+     * @dataProvider dataSignatureAlgorithms
+     */
+    public function testSignatureAlgorithms(string $signature_algorithm)
+    {
+        $key = $this->getPrivateKey();
 
          $claims = json_encode(['foo' => 'bar']);
 

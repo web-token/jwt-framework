@@ -17,16 +17,14 @@ use Base64Url\Base64Url;
 use Jose\Component\Signature\JWS;
 
 /**
-  * Class JWSTest.
-  *
-  * @group JWS
-  * @group Unit
-  */
- class JWSTest extends SignatureTest
- {
-     public function testJWS()
-     {
-         $claims = [
+ * @group JWS
+ * @group Unit
+ */
+class JWSTest extends SignatureTest
+{
+    public function testJWS()
+    {
+        $claims = [
             'nbf' => time(),
             'iat' => time(),
             'exp' => time() + 3600,

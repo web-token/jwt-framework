@@ -19,18 +19,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
-  * Class GetThumbprintCommand.
-  */
- class GetThumbprintCommand extends ObjectOutputCommand
- {
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+class GetThumbprintCommand extends ObjectOutputCommand
+{
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('key:thumbprint')
             ->setDescription('Get the thumbprint of a JWK key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')

@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Converter;
 
-/**
- * Interface JsonConverter.
- */
 interface JsonConverter
 {
     /**
