@@ -14,23 +14,23 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm;
 
 /**
- * Class HS384.
- */
+  * Class HS384.
+  */
  class HS384 extends HMAC
-{
-    /**
-     * @return string
-     */
-    protected function getHashAlgorithm(): string
-    {
-        return 'sha384';
-    }
+ {
+     /**
+      * @return string
+      */
+     protected function getHashAlgorithm(): string
+     {
+         return 'sha384';
+     }
 
-    /**
-     * @return string
-     */
-    public function name(): string
-    {
-        return 'HS384';
-    }
-}
+     /**
+      * @return string
+      */
+     public function name(): string
+     {
+         return 'HS384';
+     }
+ }

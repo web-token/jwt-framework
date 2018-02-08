@@ -16,23 +16,23 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use AESKW\A192KW as Wrapper;
 
 /**
- * Class A192KW.
- */
+  * Class A192KW.
+  */
  class A192KW extends AESKW
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function getWrapper()
-    {
-        return new Wrapper();
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function getWrapper()
+     {
+         return new Wrapper();
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'A192KW';
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'A192KW';
+     }
+ }

@@ -17,23 +17,23 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group OKPKeys
- * @group Unit
- */
+  * @group OKPKeys
+  * @group Unit
+  */
  class OKPKeysTest extends TestCase
-{
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported "Ed455" curve
-     */
-    public function testCreateOKPKeyWithInvalidKeySize()
-    {
-        JWKFactory::createOKPKey('Ed455');
-    }
+ {
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage Unsupported "Ed455" curve
+      */
+     public function testCreateOKPKeyWithInvalidKeySize()
+     {
+         JWKFactory::createOKPKey('Ed455');
+     }
 
-    public function testCreateOKPKeyWithCurveX25519()
-    {
-        $jwk = JWKFactory::createOKPKey(
+     public function testCreateOKPKeyWithCurveX25519()
+     {
+         $jwk = JWKFactory::createOKPKey(
             'X25519',
             [
                 'kid' => 'KEY',
@@ -42,17 +42,17 @@ use PHPUnit\Framework\TestCase;
             ]
         );
 
-        self::assertEquals('OKP', $jwk->get('kty'));
-        self::assertTrue($jwk->has('x'));
-        self::assertTrue($jwk->has('d'));
-        self::assertEquals('KEY', $jwk->get('kid'));
-        self::assertEquals('ECDH-ES', $jwk->get('alg'));
-        self::assertEquals('enc', $jwk->get('use'));
-    }
+         self::assertEquals('OKP', $jwk->get('kty'));
+         self::assertTrue($jwk->has('x'));
+         self::assertTrue($jwk->has('d'));
+         self::assertEquals('KEY', $jwk->get('kid'));
+         self::assertEquals('ECDH-ES', $jwk->get('alg'));
+         self::assertEquals('enc', $jwk->get('use'));
+     }
 
-    public function testCreateOKPKeyWithCurveEd25519()
-    {
-        $jwk = JWKFactory::createOKPKey(
+     public function testCreateOKPKeyWithCurveEd25519()
+     {
+         $jwk = JWKFactory::createOKPKey(
             'Ed25519',
             [
                 'kid' => 'KEY',
@@ -61,11 +61,11 @@ use PHPUnit\Framework\TestCase;
             ]
         );
 
-        self::assertEquals('OKP', $jwk->get('kty'));
-        self::assertTrue($jwk->has('x'));
-        self::assertTrue($jwk->has('d'));
-        self::assertEquals('KEY', $jwk->get('kid'));
-        self::assertEquals('EdDSA', $jwk->get('alg'));
-        self::assertEquals('sig', $jwk->get('use'));
-    }
-}
+         self::assertEquals('OKP', $jwk->get('kty'));
+         self::assertTrue($jwk->has('x'));
+         self::assertTrue($jwk->has('d'));
+         self::assertEquals('KEY', $jwk->get('kid'));
+         self::assertEquals('EdDSA', $jwk->get('alg'));
+         self::assertEquals('sig', $jwk->get('use'));
+     }
+ }

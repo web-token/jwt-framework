@@ -17,44 +17,44 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 
 /**
- * Class RSAKeyWithoutAllPrimesTest.
- *
- * @group RSA2
- * @group Unit
- */
+  * Class RSAKeyWithoutAllPrimesTest.
+  *
+  * @group RSA2
+  * @group Unit
+  */
  class RSAKeyWithoutAllPrimesTest extends SignatureTest
-{
-    /**
-     * @param string $signature_algorithm
-     *
-     * @dataProvider dataSignatureAlgorithms
-     */
-    public function testSignatureAlgorithms(string $signature_algorithm)
-    {
-        $key = $this->getPrivateKey();
+ {
+     /**
+      * @param string $signature_algorithm
+      *
+      * @dataProvider dataSignatureAlgorithms
+      */
+     public function testSignatureAlgorithms(string $signature_algorithm)
+     {
+         $key = $this->getPrivateKey();
 
-        $claims = json_encode(['foo' => 'bar']);
+         $claims = json_encode(['foo' => 'bar']);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create([$signature_algorithm]);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create([$signature_algorithm]);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create([$signature_algorithm]);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create([$signature_algorithm]);
+         $jws = $jwsBuilder
             ->create()->withPayload($claims)
             ->addSignature($key, ['alg' => $signature_algorithm])
             ->build();
-        $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+         $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
-        self::assertInstanceOf(JWS::class, $loaded);
+         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
+         self::assertInstanceOf(JWS::class, $loaded);
 
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
-    }
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
+     }
 
-    /**
-     * @return array
-     */
-    public function dataSignatureAlgorithms()
-    {
-        return [
+     /**
+      * @return array
+      */
+     public function dataSignatureAlgorithms()
+     {
+         return [
             ['RS256'],
             ['RS384'],
             ['RS512'],
@@ -62,26 +62,26 @@ use Jose\Component\Signature\JWS;
             ['PS384'],
             ['PS512'],
         ];
-    }
+     }
 
-    /**
-     * @return array
-     */
-    public function dataSignatureAlgorithmsWithSimpleKey()
-    {
-        return [
+     /**
+      * @return array
+      */
+     public function dataSignatureAlgorithmsWithSimpleKey()
+     {
+         return [
             ['PS256'],
             ['PS384'],
             ['PS512'],
         ];
-    }
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getPrivateKey(): JWK
-    {
-        return JWK::create([
+     /**
+      * @return JWK
+      */
+     private function getPrivateKey(): JWK
+     {
+         return JWK::create([
             'kty' => 'RSA',
             'kid' => 'private',
             'n' => '2NRPORHXd7wPU6atHqmSfWgEPvsP8HVUkY2AwQQAc8x1J509X5HFxeSXnQym9eAnZHl0JCPbvHoPH4QHlvITYoh0MSgFm2aOPyqOD-XcNdKWtnNX2JIurUCyVlwSwtlmy2ZbCz8YuUmFO0iacahfK1wbWT5QoY-pU3UxnMzDhlBslZN5uL7nRE8Sh_8BthsrMdYeGIMY55kh-P7xTs3MHzpOKhFSrOhdN6aO3HWYUuMAdoMNB-hJvckb2PbCy0_K1Wm3SBHtXn-cuMIUF00W9AR3amp3u3hLa2rcz29jEFXTr2FxKyLH4SdlnFFMJl2vaXuxM4PXgLN33Kj34PfKgc8ljDJ7oaSI9bKt7gunXOLv_o4XWYDq91cvUkOIDAsvqxzzHPZBt0Hru7roW3btkUOiqR6RWy-Cw272yiSEC5QA93m_vklD1KajoFeWN0BW2lWGlfGieZldvKX0sumk1TZuLhlHPHSKYcpeCfahT-jLr1yAeHql6qRN_a0BiHu-SSSjts6InmF1pAELznZ3Jn9-QXX78LsY3xaqOlYqHbCohxXorlYRi4so6eMGILtXjqHOoISb13Ez4YNOQmV4ygmyABRkE0AQG5KLy5cZB7LZn7zqw869UjXxWrmiOaBeDqOkxww6qiWIEDwPIouRLwOfPFtC4LGlb9LmG9Hlhp8',
@@ -90,5 +90,5 @@ use Jose\Component\Signature\JWS;
             'p' => '6fWvnj34kJtfMnO1j-qbPjFnaTevREBGAypMvUBU3Fx1Xx0nE7zdc7lln2Qq5-yTQtOQ2lpiE69HkQLR4pMU6V44SjFgVzcTzbFCnNgknEV54S5dyp4KojSWxBi6bt5GwaACkiElDEw9wgc-8JgaEkv4F7e-w44HBwPDECTjE_N0vIawpbD_y6zpifB8ziaAI3xTG4ssA1dt8WZuyQW8SR4FRsYnfkqy0twwHn02gs7XSl4NepkhSO7CY5-YC3U6LazAEZi2NTiUuZSw7F6KaRhsA8CnXTDE5JqFks_fXfLNCbtClON2JtrB1zY-l-2bHyh2a6unDtGn9ZN-Ec7BXw',
             'q' => '7UF_NblAyTxmj7Z2Jz1sZmz-Q3YHOcta00DjmHBhR9ItYRMQFMj-SUGPAtwvN-sk3_ThugaQt46SLT_I3Gy8433cHdW7o3So6HiMYVunyfhqnWznSWs6SvIoEh8rJOXkkIZ-DlRP8XyW5OOvi0cbWEQ1f1jbFyistMmnBClPvf2TKKPvShUl9qmvLxuU87j-_bgQmjVmtwZadnPOyPAxQ4_qqSfIiTOvMSxSycr58rTyu3khHQapGHkS5-2Y_w40GUSfVJ3XP48delYpK-PZP71hn89MJTnnfPOtvJAk1wbEev5wQFTJd-PGOudkGkuEIXryF4TGxRPltl5UeF0CwQ',
         ]);
-    }
-}
+     }
+ }

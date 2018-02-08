@@ -20,49 +20,49 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class JKULoaderCommand.
- */
+  * Class JKULoaderCommand.
+  */
  class JKULoaderCommand extends ObjectOutputCommand
-{
-    /**
-     * @var JKUFactory
-     */
-    private $jkuFactory;
+ {
+     /**
+      * @var JKUFactory
+      */
+     private $jkuFactory;
 
-    /**
-     * JKULoaderCommand constructor.
-     *
-     * @param JKUFactory    $jkuFactory
-     * @param JsonConverter $jsonConverter
-     * @param null|string   $name
-     */
-    public function __construct(JKUFactory $jkuFactory, JsonConverter $jsonConverter, ?string $name = null)
-    {
-        $this->jkuFactory = $jkuFactory;
-        parent::__construct($jsonConverter, $name);
-    }
+     /**
+      * JKULoaderCommand constructor.
+      *
+      * @param JKUFactory    $jkuFactory
+      * @param JsonConverter $jsonConverter
+      * @param null|string   $name
+      */
+     public function __construct(JKUFactory $jkuFactory, JsonConverter $jsonConverter, ?string $name = null)
+     {
+         $this->jkuFactory = $jkuFactory;
+         parent::__construct($jsonConverter, $name);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('keyset:load:jku')
             ->setDescription('Loads a key set from an url.')
             ->setHelp('This command will try to get a key set from an URL. The distant key set is a JWKSet.')
             ->addArgument('url', InputArgument::REQUIRED, 'The URL')
         ;
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $url = $input->getArgument('url');
-        $result = $this->jkuFactory->loadFromUrl($url);
-        $this->prepareJsonOutput($input, $output, $result);
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $url = $input->getArgument('url');
+         $result = $this->jkuFactory->loadFromUrl($url);
+         $this->prepareJsonOutput($input, $output, $result);
+     }
+ }

@@ -18,17 +18,17 @@ use Jose\Component\Core\JWKSet;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 /**
- * Class KeyEnvVarProcessor.
- */
+  * Class KeyEnvVarProcessor.
+  */
  class KeyEnvVarProcessor implements EnvVarProcessorInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function getEnv($prefix, $name, \Closure $getEnv)
-    {
-        $env = $getEnv($name);
-        switch ($prefix) {
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function getEnv($prefix, $name, \Closure $getEnv)
+     {
+         $env = $getEnv($name);
+         switch ($prefix) {
             case 'jwk':
                 return JWK::createFromJson($env);
             case 'jwkset':
@@ -36,16 +36,16 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
             default:
                 throw new \RuntimeException(sprintf('Unsupported prefix "%s".', $prefix));
         }
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function getProvidedTypes()
-    {
-        return [
+     /**
+      * {@inheritdoc}
+      */
+     public static function getProvidedTypes()
+     {
+         return [
             'jwk' => 'string',
             'jwkset' => 'string',
         ];
-    }
-}
+     }
+ }

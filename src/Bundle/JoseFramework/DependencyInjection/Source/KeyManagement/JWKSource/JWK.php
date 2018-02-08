@@ -21,48 +21,48 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JWK.
- */
+  * Class JWK.
+  */
  class JWK extends AbstractSource implements JWKSource
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function createDefinition(ContainerBuilder $container, array $config): Definition
-    {
-        $definition = new Definition(\Jose\Component\Core\JWK::class);
-        $definition->setFactory([
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function createDefinition(ContainerBuilder $container, array $config): Definition
+     {
+         $definition = new Definition(\Jose\Component\Core\JWK::class);
+         $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromJsonObject',
         ]);
-        $definition->setArguments([
+         $definition->setArguments([
             $config['value'],
         ]);
-        $definition->addTag('jose.jwk');
+         $definition->addTag('jose.jwk');
 
-        return $definition;
-    }
+         return $definition;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return 'jwk';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getKey(): string
+     {
+         return 'jwk';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addConfiguration(NodeDefinition $node)
-    {
-        parent::addConfiguration($node);
-        $node
+     /**
+      * {@inheritdoc}
+      */
+     public function addConfiguration(NodeDefinition $node)
+     {
+         parent::addConfiguration($node);
+         $node
             ->children()
                 ->scalarNode('value')
                     ->info('The JWK object')
                     ->isRequired()
                 ->end()
             ->end();
-    }
-}
+     }
+ }

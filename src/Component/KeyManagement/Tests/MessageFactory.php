@@ -19,23 +19,23 @@ use Http\Message\ResponseFactory;
 use Http\Message\RequestFactory;
 
 /**
- * Class MessageFactory.
- */
+  * Class MessageFactory.
+  */
  class MessageFactory implements ResponseFactory, RequestFactory
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
-    {
-        return new Request($method, $uri, $header, $body, $protocolVersion);
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
+     {
+         return new Request($method, $uri, $header, $body, $protocolVersion);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createResponse($statusCode = 200, $reasonPhrase = null, array $header = [], $body = null, $protocolVersion = '1.1')
-    {
-        return new Response($statusCode, $header, $body, $protocolVersion, $reasonPhrase);
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function createResponse($statusCode = 200, $reasonPhrase = null, array $header = [], $body = null, $protocolVersion = '1.1')
+     {
+         return new Response($statusCode, $header, $body, $protocolVersion, $reasonPhrase);
+     }
+ }

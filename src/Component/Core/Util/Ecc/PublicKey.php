@@ -37,41 +37,41 @@ namespace Jose\Component\Core\Util\Ecc;
  * ***********************************************************************
  */
 
-/**
- * This class serves as public- private key exchange for signature verification.
- */
+ /**
+  * This class serves as public- private key exchange for signature verification.
+  */
  class PublicKey
-{
-    /**
-     * @var Point
-     */
-    private $point;
+ {
+     /**
+      * @var Point
+      */
+     private $point;
 
-    /**
-     * PublicKey constructor.
-     *
-     * @param Point $point
-     */
-    private function __construct(Point $point)
-    {
-        $this->point = $point;
-    }
+     /**
+      * PublicKey constructor.
+      *
+      * @param Point $point
+      */
+     private function __construct(Point $point)
+     {
+         $this->point = $point;
+     }
 
-    /**
-     * @param Point $point
-     *
-     * @return PublicKey
-     */
-    public static function create(Point $point): self
-    {
-        return new self($point);
-    }
+     /**
+      * @param Point $point
+      *
+      * @return PublicKey
+      */
+     public static function create(Point $point): self
+     {
+         return new self($point);
+     }
 
-    /**
-     * @return Point
-     */
-    public function getPoint(): Point
-    {
-        return $this->point;
-    }
-}
+     /**
+      * @return Point
+      */
+     public function getPoint(): Point
+     {
+         return $this->point;
+     }
+ }

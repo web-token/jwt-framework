@@ -18,29 +18,29 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class KeySetControllerCompilerPass.
- */
+  * Class KeySetControllerCompilerPass.
+  */
  class KeySetControllerCompilerPass implements CompilerPassInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        if (!$container->hasDefinition(JWKSetLoader::class)) {
-            return;
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function process(ContainerBuilder $container)
+     {
+         if (!$container->hasDefinition(JWKSetLoader::class)) {
+             return;
+         }
 
-        $definition = $container->getDefinition(JWKSetLoader::class);
+         $definition = $container->getDefinition(JWKSetLoader::class);
 
-        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwk_uri.controller');
-        foreach ($taggedAlgorithmServices as $id => $tags) {
-            foreach ($tags as $attributes) {
-                if (!array_key_exists('path', $attributes)) {
-                    throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
-                }
-                $definition->addMethodCall('add', [$attributes['path'], $id]);
-            }
-        }
-    }
-}
+         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwk_uri.controller');
+         foreach ($taggedAlgorithmServices as $id => $tags) {
+             foreach ($tags as $attributes) {
+                 if (!array_key_exists('path', $attributes)) {
+                     throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
+                 }
+                 $definition->addMethodCall('add', [$attributes['path'], $id]);
+             }
+         }
+     }
+ }

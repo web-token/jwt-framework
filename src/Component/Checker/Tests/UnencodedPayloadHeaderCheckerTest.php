@@ -17,31 +17,31 @@ use Jose\Component\Checker\UnencodedPayloadChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group HeaderChecker
- * @group Functional
- */
+  * @group HeaderChecker
+  * @group Functional
+  */
  class UnencodedPayloadHeaderCheckerTest extends TestCase
-{
-    /**
-     * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage "b64" must be a boolean.
-     */
-    public function theB64HeaderMustBeAnBoolean()
-    {
-        $checker = new UnencodedPayloadChecker();
-        $checker->checkHeader('foo');
-    }
+ {
+     /**
+      * @test
+      * @expectedException \Jose\Component\Checker\InvalidHeaderException
+      * @expectedExceptionMessage "b64" must be a boolean.
+      */
+     public function theB64HeaderMustBeAnBoolean()
+     {
+         $checker = new UnencodedPayloadChecker();
+         $checker->checkHeader('foo');
+     }
 
-    /**
-     * @test
-     */
-    public function theB64HeaderIsABoolean()
-    {
-        $checker = new UnencodedPayloadChecker();
-        $checker->checkHeader(true);
-        $checker->checkHeader(false);
-        self::assertTrue($checker->protectedHeaderOnly());
-        self::assertEquals('b64', $checker->supportedHeader());
-    }
-}
+     /**
+      * @test
+      */
+     public function theB64HeaderIsABoolean()
+     {
+         $checker = new UnencodedPayloadChecker();
+         $checker->checkHeader(true);
+         $checker->checkHeader(false);
+         self::assertTrue($checker->protectedHeaderOnly());
+         self::assertEquals('b64', $checker->supportedHeader());
+     }
+ }

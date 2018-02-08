@@ -14,31 +14,31 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm;
 
 /**
- * Class ES512.
- */
+  * Class ES512.
+  */
  class ES512 extends ECDSA
-{
-    /**
-     * @return string
-     */
-    protected function getHashAlgorithm(): string
-    {
-        return 'sha512';
-    }
+ {
+     /**
+      * @return string
+      */
+     protected function getHashAlgorithm(): string
+     {
+         return 'sha512';
+     }
 
-    /**
-     * @return int
-     */
-    protected function getSignaturePartLength(): int
-    {
-        return 132;
-    }
+     /**
+      * @return int
+      */
+     protected function getSignaturePartLength(): int
+     {
+         return 132;
+     }
 
-    /**
-     * @return string
-     */
-    public function name(): string
-    {
-        return 'ES512';
-    }
-}
+     /**
+      * @return string
+      */
+     public function name(): string
+     {
+         return 'ES512';
+     }
+ }

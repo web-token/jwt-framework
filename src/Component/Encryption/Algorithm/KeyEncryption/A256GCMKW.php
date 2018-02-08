@@ -14,23 +14,23 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 /**
- * Class A256GCMKW.
- */
+  * Class A256GCMKW.
+  */
  class A256GCMKW extends AESGCMKW
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function getKeySize(): int
-    {
-        return 256;
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function getKeySize(): int
+     {
+         return 256;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'A256GCMKW';
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'A256GCMKW';
+     }
+ }

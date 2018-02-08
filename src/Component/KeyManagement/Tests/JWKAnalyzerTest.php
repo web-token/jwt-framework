@@ -19,72 +19,72 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class JWKAnalyzerTest.
- *
- * @group Unit
- * @group JWKAnalyzer
- */
+  * Class JWKAnalyzerTest.
+  *
+  * @group Unit
+  * @group JWKAnalyzer
+  */
  class JWKAnalyzerTest extends TestCase
-{
-    /**
-     * @test
-     */
-    public function iCanAnalyzeANoneKeyAndGetMessages()
-    {
-        $key = JWKFactory::createNoneKey();
-        $messages = $this->getKeyAnalyzer()->analyze($key);
+ {
+     /**
+      * @test
+      */
+     public function iCanAnalyzeANoneKeyAndGetMessages()
+     {
+         $key = JWKFactory::createNoneKey();
+         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
-    }
+         self::assertNotEmpty($messages);
+     }
 
-    /**
-     * @test
-     */
-    public function iCanAnalyzeAnRsaKeyAndGetMessages()
-    {
-        $key = JWK::create([
+     /**
+      * @test
+      */
+     public function iCanAnalyzeAnRsaKeyAndGetMessages()
+     {
+         $key = JWK::create([
             'kty' => 'RSA',
             'n' => 'oaAQyGUwgwCfZQym0QQCeCJu6GfApv6nQBKJ3MgzT85kCUO3xDiudiDbJqgqn2ol',
             'e' => 'AQAB',
             'd' => 'asuBS2jRbT50FCkP8PxdRVQ7RIWJ3s5UWAi-c233cQam1kRjGN2QzAv79hrpjLQB',
         ]);
-        $messages = $this->getKeyAnalyzer()->analyze($key);
+         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
-    }
+         self::assertNotEmpty($messages);
+     }
 
-    /**
-     * @test
-     */
-    public function iCanAnalyzeAnOctKeyAndGetMessages()
-    {
-        $key = JWKFactory::createOctKey(16, ['use' => 'foo', 'key_ops' => 'foo']);
-        $messages = $this->getKeyAnalyzer()->analyze($key);
+     /**
+      * @test
+      */
+     public function iCanAnalyzeAnOctKeyAndGetMessages()
+     {
+         $key = JWKFactory::createOctKey(16, ['use' => 'foo', 'key_ops' => 'foo']);
+         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
-    }
+         self::assertNotEmpty($messages);
+     }
 
-    /**
-     * @var KeyAnalyzer\KeyAnalyzerManager|null
-     */
-    private $keyAnalyzerManager;
+     /**
+      * @var KeyAnalyzer\KeyAnalyzerManager|null
+      */
+     private $keyAnalyzerManager;
 
-    /**
-     * @return KeyAnalyzer\KeyAnalyzerManager
-     */
-    private function getKeyAnalyzer(): KeyAnalyzer\KeyAnalyzerManager
-    {
-        if (null === $this->keyAnalyzerManager) {
-            $this->keyAnalyzerManager = new KeyAnalyzer\KeyAnalyzerManager();
-            $this->keyAnalyzerManager
+     /**
+      * @return KeyAnalyzer\KeyAnalyzerManager
+      */
+     private function getKeyAnalyzer(): KeyAnalyzer\KeyAnalyzerManager
+     {
+         if (null === $this->keyAnalyzerManager) {
+             $this->keyAnalyzerManager = new KeyAnalyzer\KeyAnalyzerManager();
+             $this->keyAnalyzerManager
                 ->add(new KeyAnalyzer\AlgorithmAnalyzer())
                 ->add(new KeyAnalyzer\KeyIdentifierAnalyzer())
                 ->add(new KeyAnalyzer\NoneAnalyzer())
                 ->add(new KeyAnalyzer\OctAnalyzer())
                 ->add(new KeyAnalyzer\RsaAnalyzer())
                 ->add(new KeyAnalyzer\UsageAnalyzer());
-        }
+         }
 
-        return $this->keyAnalyzerManager;
-    }
-}
+         return $this->keyAnalyzerManager;
+     }
+ }

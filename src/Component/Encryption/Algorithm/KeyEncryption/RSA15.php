@@ -16,31 +16,31 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Encryption\Util\RSACrypt;
 
 /**
- * Class RSA15.
- */
+  * Class RSA15.
+  */
  class RSA15 extends RSA
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function getEncryptionMode(): int
-    {
-        return RSACrypt::ENCRYPTION_PKCS1;
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function getEncryptionMode(): int
+     {
+         return RSACrypt::ENCRYPTION_PKCS1;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getHashAlgorithm(): ?string
-    {
-        return null;
-    }
+     /**
+      * {@inheritdoc}
+      */
+     protected function getHashAlgorithm(): ?string
+     {
+         return null;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'RSA1_5';
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'RSA1_5';
+     }
+ }

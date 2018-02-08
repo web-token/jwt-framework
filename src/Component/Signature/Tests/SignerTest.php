@@ -20,724 +20,724 @@ use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 
 /**
- * @group Signer
- * @group Functional
- */
+  * @group Signer
+  * @group Functional
+  */
  class SignerTest extends SignatureTest
-{
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage No "alg" parameter set in the header.
-     */
-    public function testAlgParameterIsMissing()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
-        $jwsBuilder
+ {
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage No "alg" parameter set in the header.
+      */
+     public function testAlgParameterIsMissing()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
+         $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
             ->addSignature($this->getKey1(), [])
             ->build();
-    }
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The algorithm "foo" is not supported.
-     */
-    public function testAlgParameterIsNotSupported()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
-        $jwsBuilder
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage The algorithm "foo" is not supported.
+      */
+     public function testAlgParameterIsNotSupported()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
+         $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
             ->addSignature($this->getKey1(), ['alg' => 'foo'])
             ->build();
-    }
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header contains duplicated entries: foo.
-     */
-    public function testDuplicatedHeader()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
-        $jwsBuilder
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage The header contains duplicated entries: foo.
+      */
+     public function testDuplicatedHeader()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
+         $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
             ->addSignature($this->getKey1(), ['alg' => 'ES256', 'foo' => 'bar'], ['foo' => 'bar']);
-    }
+     }
 
-    public function testSignAndLoadCompact()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     public function testSignAndLoadCompact()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
             ->addSignature($this->getKey1(), ['alg' => 'HS512'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        self::assertEquals(2, $jws->countSignatures());
+         self::assertEquals(2, $jws->countSignatures());
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
+         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
-        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
-    }
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+         self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
+     }
 
-    public function testSignMultipleInstructionWithCompactRepresentation()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     public function testSignMultipleInstructionWithCompactRepresentation()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), ['alg' => 'HS512'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        self::assertEquals(2, $jws->countSignatures());
-        self::assertEquals('eyJhbGciOiJIUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
-        self::assertEquals('eyJhbGciOiJSUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1));
-    }
+         self::assertEquals(2, $jws->countSignatures());
+         self::assertEquals('eyJhbGciOiJIUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
+         self::assertEquals('eyJhbGciOiJSUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1));
+     }
 
-    /**
-     * @group JWSBuilder
-     */
-    public function testSignMultipleInstructionWithCompactRepresentationUsingBuilder()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     /**
+      * @group JWSBuilder
+      */
+     public function testSignMultipleInstructionWithCompactRepresentationUsingBuilder()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), ['alg' => 'HS512'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        self::assertEquals(2, $jws->countSignatures());
-        self::assertEquals('eyJhbGciOiJIUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
-        self::assertEquals('eyJhbGciOiJSUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1));
-    }
+         self::assertEquals(2, $jws->countSignatures());
+         self::assertEquals('eyJhbGciOiJIUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
+         self::assertEquals('eyJhbGciOiJSUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1));
+     }
 
-    /**
-     * @group JWSBuilder
-     */
-    public function testSignMultipleInstructionWithCompactRepresentationUsingBuilderAndDetachedPayload()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     /**
+      * @group JWSBuilder
+      */
+     public function testSignMultipleInstructionWithCompactRepresentationUsingBuilderAndDetachedPayload()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.', true)
             ->addSignature($this->getKey1(), ['alg' => 'HS512'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        self::assertEquals(2, $jws->countSignatures());
-        self::assertEquals('eyJhbGciOiJIUzUxMiJ9..TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
-        self::assertEquals('eyJhbGciOiJSUzUxMiJ9..cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1));
-    }
+         self::assertEquals(2, $jws->countSignatures());
+         self::assertEquals('eyJhbGciOiJIUzUxMiJ9..TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
+         self::assertEquals('eyJhbGciOiJSUzUxMiJ9..cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1));
+     }
 
-    public function testCreateCompactJWSUsingFactory()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
+     public function testCreateCompactJWSUsingFactory()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
 
-        $jws = $jwsBuilder
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), ['alg' => 'HS512'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
-        $jws0 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-        $jws1 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1);
+         $jws0 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+         $jws1 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1);
 
-        $jws = $jwsBuilder
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.', true)
             ->addSignature($this->getKey1(), ['alg' => 'HS512'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
-        $jws2 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-        $jws3 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1);
+         $jws2 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+         $jws3 = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 1);
 
-        self::assertEquals('eyJhbGciOiJIUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $jws0);
-        self::assertEquals('eyJhbGciOiJSUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $jws1);
-        self::assertEquals('eyJhbGciOiJIUzUxMiJ9..TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $jws2);
-        self::assertEquals('eyJhbGciOiJSUzUxMiJ9..cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $jws3);
+         self::assertEquals('eyJhbGciOiJIUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $jws0);
+         self::assertEquals('eyJhbGciOiJSUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $jws1);
+         self::assertEquals('eyJhbGciOiJIUzUxMiJ9..TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ', $jws2);
+         self::assertEquals('eyJhbGciOiJSUzUxMiJ9..cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA', $jws3);
 
-        $loaded_0 = $this->getJWSSerializerManager()->unserialize($jws0);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
+         $loaded_0 = $this->getJWSSerializerManager()->unserialize($jws0);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
 
-        $loaded_1 = $this->getJWSSerializerManager()->unserialize($jws1);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
+         $loaded_1 = $this->getJWSSerializerManager()->unserialize($jws1);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
 
-        $loaded_2 = $this->getJWSSerializerManager()->unserialize($jws2);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
+         $loaded_2 = $this->getJWSSerializerManager()->unserialize($jws2);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
 
-        $loaded_3 = $this->getJWSSerializerManager()->unserialize($jws3);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
-    }
+         $loaded_3 = $this->getJWSSerializerManager()->unserialize($jws3);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
+     }
 
-    public function testSignMultipleInstructionWithFlattenedRepresentation()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     public function testSignMultipleInstructionWithFlattenedRepresentation()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), ['alg' => 'HS512'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        self::assertEquals(2, $jws->countSignatures());
-        self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJIUzUxMiJ9","signature":"TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ"}', $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0));
-        self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJSUzUxMiJ9","signature":"cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA"}', $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 1));
-    }
+         self::assertEquals(2, $jws->countSignatures());
+         self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJIUzUxMiJ9","signature":"TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ"}', $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0));
+         self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJSUzUxMiJ9","signature":"cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA"}', $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 1));
+     }
 
-    public function testCreateFlattenedJWSUsingFactory()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     public function testCreateFlattenedJWSUsingFactory()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), ['alg' => 'HS512'], ['foo' => 'bar'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'], ['plic' => 'ploc'])
             ->build();
-        $jws0 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
-        $jws1 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 1);
+         $jws0 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
+         $jws1 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 1);
 
-        $jws = $jwsBuilder
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.', true)
             ->addSignature($this->getKey1(), ['alg' => 'HS512'], ['foo' => 'bar'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'], ['plic' => 'ploc'])
             ->build();
-        $jws2 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
-        $jws3 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 1);
+         $jws2 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
+         $jws3 = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 1);
 
-        self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJIUzUxMiJ9","header":{"foo":"bar"},"signature":"TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ"}', $jws0);
-        self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJSUzUxMiJ9","header":{"plic":"ploc"},"signature":"cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA"}', $jws1);
-        self::assertEquals('{"protected":"eyJhbGciOiJIUzUxMiJ9","header":{"foo":"bar"},"signature":"TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ"}', $jws2);
-        self::assertEquals('{"protected":"eyJhbGciOiJSUzUxMiJ9","header":{"plic":"ploc"},"signature":"cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA"}', $jws3);
+         self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJIUzUxMiJ9","header":{"foo":"bar"},"signature":"TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ"}', $jws0);
+         self::assertEquals('{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJSUzUxMiJ9","header":{"plic":"ploc"},"signature":"cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA"}', $jws1);
+         self::assertEquals('{"protected":"eyJhbGciOiJIUzUxMiJ9","header":{"foo":"bar"},"signature":"TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ"}', $jws2);
+         self::assertEquals('{"protected":"eyJhbGciOiJSUzUxMiJ9","header":{"plic":"ploc"},"signature":"cR-npy2oEi275rpeTAKooLRzOhIOFMewpzE38CLx4_CtdkN4Y7EUlca9ryV6yGMH8SswUqosMnmUU8XYg7xkuNAc6mCODJVF2exfb_Mulmr9YolQrLFrFRsMk1rztXMinCMQeCe5ue3Ck4E4aJlIkjf-d0DJktoIhH6d2gZ-iJeLQ32wcBhPcEbj2gr7K_wYKlEXhKFwG59OE-hIi9IHXEKvK-2V5vzZLVC80G4aWYd3D-2eX3LF1K69NP04jGcu1D4l9UV8zTz1gOWe697iZG0JyKhSccUaHZ0TfEa8cT0tm6xTz6tpUGSDdvPQU8JCU8GTOsi9ifxTsI-GlWE3YA"}', $jws3);
 
-        $loaded_0 = $this->getJWSSerializerManager()->unserialize($jws0);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
+         $loaded_0 = $this->getJWSSerializerManager()->unserialize($jws0);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
 
-        $loaded_1 = $this->getJWSSerializerManager()->unserialize($jws1);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
+         $loaded_1 = $this->getJWSSerializerManager()->unserialize($jws1);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
 
-        $loaded_2 = $this->getJWSSerializerManager()->unserialize($jws2);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
+         $loaded_2 = $this->getJWSSerializerManager()->unserialize($jws2);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
 
-        $loaded_3 = $this->getJWSSerializerManager()->unserialize($jws3);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
-    }
+         $loaded_3 = $this->getJWSSerializerManager()->unserialize($jws3);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The algorithm "RS512" is not allowed with this key.
-     */
-    public function testAlgorithmNotAllowedForTheKey()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
-        $jwsBuilder
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage The algorithm "RS512" is not allowed with this key.
+      */
+     public function testAlgorithmNotAllowedForTheKey()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
+         $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey5(), ['alg' => 'RS512'])
             ->build();
-    }
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Key cannot be used to sign
-     */
-    public function testOperationNotAllowedForTheKey()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['PS512']);
-        $jwsBuilder
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage Key cannot be used to sign
+      */
+     public function testOperationNotAllowedForTheKey()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['PS512']);
+         $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey4(), ['alg' => 'PS512'])
             ->build();
-    }
+     }
 
-    public function testSignAndLoadFlattened()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512']);
-        $jws = $jwsBuilder
+     public function testSignAndLoadFlattened()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload(json_encode(['baz', 'ban']))
             ->addSignature($this->getKey1(), ['alg' => 'HS512'], ['foo' => 'bar'])
             ->build();
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0));
+         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0));
 
-        self::assertEquals(1, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
-    }
+         self::assertEquals(1, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+     }
 
-    public function testSignAndLoad()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     public function testSignAndLoad()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), ['alg' => 'HS512'], ['foo' => 'bar'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
+         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
-        self::assertEquals(2, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('Live long and Prosper.', $loaded->getPayload());
-        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
-        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
+         self::assertEquals(2, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
+         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
 
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
-        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
-    }
+         self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+         self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
+     }
 
-    public function testSignAndLoadWithWrongKeys()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS512']);
-        $jws = $jwsBuilder
+     public function testSignAndLoadWithWrongKeys()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
+         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
-        self::assertEquals(1, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('Live long and Prosper.', $loaded->getPayload());
+         self::assertEquals(1, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
 
-        self::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
-    }
+         self::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+     }
 
-    public function testSignAndLoadWithUnsupportedAlgorithm()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS512']);
-        $jws = $jwsBuilder
+     public function testSignAndLoadWithUnsupportedAlgorithm()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
+         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
-        self::assertEquals(1, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('Live long and Prosper.', $loaded->getPayload());
+         self::assertEquals(1, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals('Live long and Prosper.', $loaded->getPayload());
 
-        self::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
-    }
+         self::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The JWS does not contain any signature.
-     */
-    public function testSignAndLoadWithJWSWithoutSignatures()
-    {
-        $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $jws = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[]}';
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage The JWS does not contain any signature.
+      */
+     public function testSignAndLoadWithJWSWithoutSignatures()
+     {
+         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
+         $jws = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[]}';
 
-        $jwsVerifier = $this->getJWSVerifierFactory()->create([]);
-        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create([]);
+         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
 
-        self::assertEquals(0, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals($payload, $loaded->getPayload());
+         self::assertEquals(0, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals($payload, $loaded->getPayload());
 
-        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
-    }
+         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7797#section-4
-     * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Unable to convert the JWS with non-encoded payload.
-     */
-    public function testCompactJSONWithUnencodedPayloadFailsBecauseOfForbiddenCharacters()
-    {
-        $protectedHeader = [
+     /**
+      * @see https://tools.ietf.org/html/rfc7797#section-4
+      * @see https://tools.ietf.org/html/rfc7797#section-4.2
+      * @expectedException \LogicException
+      * @expectedExceptionMessage Unable to convert the JWS with non-encoded payload.
+      */
+     public function testCompactJSONWithUnencodedPayloadFailsBecauseOfForbiddenCharacters()
+     {
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($key, $protectedHeader)
             ->build();
 
-        $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-    }
+         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7797#section-4
-     * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     */
-    public function testCompactJSONWithUnencodedPayloadSucceeded()
-    {
-        $protectedHeader = [
+     /**
+      * @see https://tools.ietf.org/html/rfc7797#section-4
+      * @see https://tools.ietf.org/html/rfc7797#section-4.2
+      */
+     public function testCompactJSONWithUnencodedPayloadSucceeded()
+     {
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper~')
             ->addSignature($key, $protectedHeader)
             ->build();
 
-        $compact = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-        self::assertEquals('eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.Live long and Prosper~.nUNenbjNAEH2nNIXyQYmutiHRPnT17HcaMr5Lsho4BE', $compact);
+         $compact = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+         self::assertEquals('eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.Live long and Prosper~.nUNenbjNAEH2nNIXyQYmutiHRPnT17HcaMr5Lsho4BE', $compact);
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($compact, $serializer);
-        self::assertEquals(CompactSerializer::NAME, $serializer);
-        self::assertEquals('Live long and Prosper~', $loaded->getPayload());
-        self::assertEquals('Live long and Prosper~', $loaded->getEncodedPayload());
-        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
-    }
+         $loaded = $this->getJWSSerializerManager()->unserialize($compact, $serializer);
+         self::assertEquals(CompactSerializer::NAME, $serializer);
+         self::assertEquals('Live long and Prosper~', $loaded->getPayload());
+         self::assertEquals('Live long and Prosper~', $loaded->getEncodedPayload());
+         self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7797#section-4
-     * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     */
-    public function testCompactJSONWithUnencodedDetachedPayload()
-    {
-        $payload = '$.02';
-        $protectedHeader = [
+     /**
+      * @see https://tools.ietf.org/html/rfc7797#section-4
+      * @see https://tools.ietf.org/html/rfc7797#section-4.2
+      */
+     public function testCompactJSONWithUnencodedDetachedPayload()
+     {
+         $payload = '$.02';
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
-        $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-        self::assertEquals('eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY', $jws);
+         $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+         self::assertEquals('eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY', $jws);
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
+         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
 
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
-    }
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
+     }
 
-    /**
-     * The library is able to support multiple payload encoding and conversion in JSON if payload is detached.
-     */
-    public function testCompactJSONWithUnencodedDetachedPayloadAndMultipleSignatures()
-    {
-        $payload = '$.02';
-        $protectedHeader1 = [
+     /**
+      * The library is able to support multiple payload encoding and conversion in JSON if payload is detached.
+      */
+     public function testCompactJSONWithUnencodedDetachedPayloadAndMultipleSignatures()
+     {
+         $payload = '$.02';
+         $protectedHeader1 = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['b64'],
         ];
-        $protectedHeader2 = [
+         $protectedHeader2 = [
             'alg' => 'HS512',
             'b64' => false,
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256', 'HS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256', 'HS512']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256', 'HS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256', 'HS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $protectedHeader1)
             ->addSignature($key, $protectedHeader2)
             ->build();
 
-        $expected_result = '{"signatures":[{"signature":"A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY","protected":"eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"},{"signature":"Mp-m-Vyst0zYCNkpg2RiIN8W9GO4nLU3FKsFtHzEcP4tgR4QcMys1_2m9HrDwszi0Cp2gv_Lioe6UPCcTNn6tQ","protected":"eyJhbGciOiJIUzUxMiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"}]}';
+         $expected_result = '{"signatures":[{"signature":"A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY","protected":"eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"},{"signature":"Mp-m-Vyst0zYCNkpg2RiIN8W9GO4nLU3FKsFtHzEcP4tgR4QcMys1_2m9HrDwszi0Cp2gv_Lioe6UPCcTNn6tQ","protected":"eyJhbGciOiJIUzUxMiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"}]}';
 
-        self::assertEquals($expected_result, $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
+         self::assertEquals($expected_result, $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($expected_result);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
-        self::assertEquals($protectedHeader1, $loaded->getSignature(0)->getProtectedHeader());
-    }
+         $loaded = $this->getJWSSerializerManager()->unserialize($expected_result);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
+         self::assertEquals($protectedHeader1, $loaded->getSignature(0)->getProtectedHeader());
+     }
 
-    /**
-     * The library is able to support multiple payload encoding and conversion in JSON is not available if payload is not detached.
-     *
-     * @expectedException \LogicException
-     * @expectedExceptionMessage  Foreign payload encoding detected.
-     */
-    public function testCompactJSONWithUnencodedPayloadAndMultipleSignatures()
-    {
-        $payload = '$.02';
-        $protectedHeader1 = [
+     /**
+      * The library is able to support multiple payload encoding and conversion in JSON is not available if payload is not detached.
+      *
+      * @expectedException \LogicException
+      * @expectedExceptionMessage  Foreign payload encoding detected.
+      */
+     public function testCompactJSONWithUnencodedPayloadAndMultipleSignatures()
+     {
+         $payload = '$.02';
+         $protectedHeader1 = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['b64'],
         ];
-        $protectedHeader2 = [
+         $protectedHeader2 = [
             'alg' => 'HS256',
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, $protectedHeader1)
             ->addSignature($key, $protectedHeader2)
             ->build();
 
-        $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0);
-    }
+         $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0);
+     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.
-     */
-    public function testJWSWithUnencodedPayloadButNoCritHeader()
-    {
-        $payload = '$.02';
-        $protectedHeader = [
+     /**
+      * @expectedException \LogicException
+      * @expectedExceptionMessage The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.
+      */
+     public function testJWSWithUnencodedPayloadButNoCritHeader()
+     {
+         $payload = '$.02';
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
-        $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-    }
+         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The protected header parameter "crit" must be an array.
-     */
-    public function testJWSWithUnencodedPayloadButCritHeaderIsNotAnArray()
-    {
-        $payload = '$.02';
-        $protectedHeader = [
+     /**
+      * @expectedException \LogicException
+      * @expectedExceptionMessage The protected header parameter "crit" must be an array.
+      */
+     public function testJWSWithUnencodedPayloadButCritHeaderIsNotAnArray()
+     {
+         $payload = '$.02';
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => 'foo',
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
-        $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-    }
+         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.
-     */
-    public function testJWSWithUnencodedPayloadButCritHeaderDoesNotContainB64()
-    {
-        $payload = '$.02';
-        $protectedHeader = [
+     /**
+      * @expectedException \LogicException
+      * @expectedExceptionMessage The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.
+      */
+     public function testJWSWithUnencodedPayloadButCritHeaderDoesNotContainB64()
+     {
+         $payload = '$.02';
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['foo'],
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
-        $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-    }
+         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7797#section-4
-     * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     */
-    public function testFlattenedJSONWithUnencodedPayload()
-    {
-        $payload = '$.02';
-        $protectedHeader = [
+     /**
+      * @see https://tools.ietf.org/html/rfc7797#section-4
+      * @see https://tools.ietf.org/html/rfc7797#section-4.2
+      */
+     public function testFlattenedJSONWithUnencodedPayload()
+     {
+         $payload = '$.02';
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $expected_result = [
+         $expected_result = [
             'protected' => 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19',
             'payload' => '$.02',
             'signature' => 'A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY',
         ];
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, $protectedHeader)
             ->build();
-        $jws = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
+         $jws = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
 
-        self::assertEquals($expected_result, json_decode($jws, true));
+         self::assertEquals($expected_result, json_decode($jws, true));
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
+         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
 
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals($payload, $loaded->getPayload());
-        self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
-    }
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals($payload, $loaded->getPayload());
+         self::assertEquals($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7797#section-4
-     * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     */
-    public function testFlattenedJSONWithUnencodedDetachedPayload()
-    {
-        $payload = '$.02';
-        $protectedHeader = [
+     /**
+      * @see https://tools.ietf.org/html/rfc7797#section-4
+      * @see https://tools.ietf.org/html/rfc7797#section-4.2
+      */
+     public function testFlattenedJSONWithUnencodedDetachedPayload()
+     {
+         $payload = '$.02';
+         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        $expected_result = [
+         $expected_result = [
             'protected' => 'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19',
             'signature' => 'A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY',
         ];
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS256']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
-        $jws = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
+         $jws = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
 
-        self::assertEquals($expected_result, json_decode($jws, true));
-    }
+         self::assertEquals($expected_result, json_decode($jws, true));
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage No "alg" parameter set in the header.
-     */
-    public function testSignAndLoadWithoutAlgParameterInTheHeader()
-    {
-        $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $jws = 'eyJraWQiOiJiaWxiby5iYWdnaW5zQGhvYmJpdG9uLmV4YW1wbGUifQ.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg';
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage No "alg" parameter set in the header.
+      */
+     public function testSignAndLoadWithoutAlgParameterInTheHeader()
+     {
+         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
+         $jws = 'eyJraWQiOiJiaWxiby5iYWdnaW5zQGhvYmJpdG9uLmV4YW1wbGUifQ.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg';
 
-        $jwsVerifier = $this->getJWSVerifierFactory()->create([]);
-        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create([]);
+         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
 
-        self::assertEquals(1, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals($payload, $loaded->getPayload());
+         self::assertEquals(1, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals($payload, $loaded->getPayload());
 
-        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
-    }
+         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+     }
 
-    public function testSignAndLoadJWKSet()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     public function testSignAndLoadJWKSet()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload(json_encode($this->getKeyset()))
             ->addSignature($this->getKey1(), ['alg' => 'HS512'], ['foo' => 'bar'])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
-        self::assertEquals(2, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals($this->getKeyset(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
-        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
-        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
+         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
+         self::assertEquals(2, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals($this->getKeyset(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
+         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
+         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
 
-        self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
-        self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
-    }
+         self::assertEquals('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+         self::assertEquals('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage There is no key in the key set.
-     */
-    public function testKeySetIsEmpty()
-    {
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
-        $jws = $jwsBuilder
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage There is no key in the key set.
+      */
+     public function testKeySetIsEmpty()
+     {
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
+         $jws = $jwsBuilder
             ->create()->withPayload(json_encode($this->getKeyset()))
             ->addSignature($this->getKey1(), ['alg' => 'HS512', ['foo' => 'bar']])
             ->addSignature($this->getKey2(), ['alg' => 'RS512'])
             ->build();
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
-        self::assertEquals(2, $loaded->countSignatures());
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals($this->getKeyset(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
-        self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, JWKSet::createFromKeys([]), 0));
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded, JWK::create(['kty' => 'EC']), 1));
-    }
+         $loaded = $this->getJWSSerializerManager()->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
+         self::assertEquals(2, $loaded->countSignatures());
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals($this->getKeyset(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
+         self::assertTrue($jwsVerifier->verifyWithKeySet($loaded, JWKSet::createFromKeys([]), 0));
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded, JWK::create(['kty' => 'EC']), 1));
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getKey1(): JWK
-    {
-        $key = JWK::create([
+     /**
+      * @return JWK
+      */
+     private function getKey1(): JWK
+     {
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
 
-        return $key;
-    }
+         return $key;
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getKey2(): JWK
-    {
-        $key = JWK::create([
+     /**
+      * @return JWK
+      */
+     private function getKey2(): JWK
+     {
+         $key = JWK::create([
             'kty' => 'RSA',
             'use' => 'sig',
             'key_ops' => ['sign'],
@@ -751,15 +751,15 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
             'qi' => 'IYd7DHOhrWvxkwPQsRM2tOgrjbcrfvtQJipd-DlcxyVuuM9sQLdgjVk2oy26F0EmpScGLq2MowX7fhd_QJQ3ydy5cY7YIBi87w93IKLEdfnbJtoOPLUW0ITrJReOgo1cq9SbsxYawBgfp_gh6A5603k2-ZQwVK0JKSHuLFkuQ3U',
         ]);
 
-        return $key;
-    }
+         return $key;
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getKey3(): JWK
-    {
-        $key = JWK::create([
+     /**
+      * @return JWK
+      */
+     private function getKey3(): JWK
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
             'use' => 'sig',
@@ -769,15 +769,15 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
             'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
         ]);
 
-        return $key;
-    }
+         return $key;
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getKey4(): JWK
-    {
-        $key = JWK::create([
+     /**
+      * @return JWK
+      */
+     private function getKey4(): JWK
+     {
+         $key = JWK::create([
             'kty' => 'RSA',
             'alg' => 'PS512',
             'key_ops' => ['encrypt', 'decrypt'],
@@ -791,15 +791,15 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
             'qi' => 'IYd7DHOhrWvxkwPQsRM2tOgrjbcrfvtQJipd-DlcxyVuuM9sQLdgjVk2oy26F0EmpScGLq2MowX7fhd_QJQ3ydy5cY7YIBi87w93IKLEdfnbJtoOPLUW0ITrJReOgo1cq9SbsxYawBgfp_gh6A5603k2-ZQwVK0JKSHuLFkuQ3U',
         ]);
 
-        return $key;
-    }
+         return $key;
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getKey5(): JWK
-    {
-        $key = JWK::create([
+     /**
+      * @return JWK
+      */
+     private function getKey5(): JWK
+     {
+         $key = JWK::create([
             'kty' => 'RSA',
             'alg' => 'PS512',
             'use' => 'sig',
@@ -813,25 +813,25 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
             'qi' => 'IYd7DHOhrWvxkwPQsRM2tOgrjbcrfvtQJipd-DlcxyVuuM9sQLdgjVk2oy26F0EmpScGLq2MowX7fhd_QJQ3ydy5cY7YIBi87w93IKLEdfnbJtoOPLUW0ITrJReOgo1cq9SbsxYawBgfp_gh6A5603k2-ZQwVK0JKSHuLFkuQ3U',
         ]);
 
-        return $key;
-    }
+         return $key;
+     }
 
-    /**
-     * @return JWKSet
-     */
-    private function getKeyset(): JWKSet
-    {
-        $keyset = JWKSet::createFromKeys([$this->getKey1(), $this->getKey2()]);
+     /**
+      * @return JWKSet
+      */
+     private function getKeyset(): JWKSet
+     {
+         $keyset = JWKSet::createFromKeys([$this->getKey1(), $this->getKey2()]);
 
-        return $keyset;
-    }
+         return $keyset;
+     }
 
-    /**
-     * @return JWKSet
-     */
-    private function getPublicKeySet(): JWKSet
-    {
-        $keys = ['keys' => [
+     /**
+      * @return JWKSet
+      */
+     private function getPublicKeySet(): JWKSet
+     {
+         $keys = ['keys' => [
             [
                 'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
                 'kty' => 'RSA',
@@ -877,15 +877,15 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
             ],
         ]];
 
-        return JWKSet::createFromKeyData($keys);
-    }
+         return JWKSet::createFromKeyData($keys);
+     }
 
-    /**
-     * @return JWKSet
-     */
-    private function getSymmetricKeySet(): JWKSet
-    {
-        $keys = ['keys' => [
+     /**
+      * @return JWKSet
+      */
+     private function getSymmetricKeySet(): JWKSet
+     {
+         $keys = ['keys' => [
             [
                 'kid' => 'DIR_1',
                 'kty' => 'oct',
@@ -905,6 +905,6 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
             ],
         ]];
 
-        return JWKSet::createFromKeyData($keys);
-    }
-}
+         return JWKSet::createFromKeyData($keys);
+     }
+ }

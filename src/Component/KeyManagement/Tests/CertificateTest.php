@@ -19,37 +19,37 @@ use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
- * These tests will try to load certificates from PEM and DER files.
- * Certificates could contain an RSA or ECC key.
- *
- * @see http://fm4dd.com/openssl/certexamples.htm
- *
- * @group Certificate
- * @group Unit
- */
+  * These tests will try to load certificates from PEM and DER files.
+  * Certificates could contain an RSA or ECC key.
+  *
+  * @see http://fm4dd.com/openssl/certexamples.htm
+  *
+  * @group Certificate
+  * @group Unit
+  */
  class CertificateTest extends TestCase
-{
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage File "file:///foo/bar" does not exist.
-     */
-    public function testFileNotFound()
-    {
-        KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
-    }
+ {
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage File "file:///foo/bar" does not exist.
+      */
+     public function testFileNotFound()
+     {
+         KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testFileNotValid()
-    {
-        KeyConverter::loadKeyFromCertificateFile(__DIR__.__FILE__);
-    }
+     /**
+      * @expectedException \InvalidArgumentException
+      */
+     public function testFileNotValid()
+     {
+         KeyConverter::loadKeyFromCertificateFile(__DIR__.__FILE__);
+     }
 
-    public function testCertificateConversion()
-    {
-        $details = KeyConverter::loadFromKeyFile(__DIR__.'/Keys/RSA/private.encrypted.key', 'tests');
-        self::assertEquals($details, [
+     public function testCertificateConversion()
+     {
+         $details = KeyConverter::loadFromKeyFile(__DIR__.'/Keys/RSA/private.encrypted.key', 'tests');
+         self::assertEquals($details, [
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -61,30 +61,30 @@ use PHPUnit\Framework\TestCase;
             'qi' => 'BocuCOEOq-oyLDALwzMXU8gOf3IL1Q1_BWwsdoANoh6i179psxgE4JXToWcpXZQQqub8ngwE6uR9fpd3m6N_PL4T55vbDDyjPKmrL2ttC2gOtx9KrpPh-Z7LQRo4BE48nHJJrystKHfFlaH2G7JxHNgMBYVADyttN09qEoav8Os',
         ]);
 
-        $details = KeyConverter::loadFromKeyFile(__DIR__.'/Keys/RSA/public.key');
-        self::assertEquals($details, [
+         $details = KeyConverter::loadFromKeyFile(__DIR__.'/Keys/RSA/public.key');
+         self::assertEquals($details, [
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
         ]);
-    }
+     }
 
-    /**
-     * @param string $file
-     * @param array  $expected_values
-     *
-     * @dataProvider dataLoadCertificate
-     */
-    public function testLoadCertificate(string $file, array $expected_values)
-    {
-        $result = KeyConverter::loadKeyFromCertificateFile($file);
+     /**
+      * @param string $file
+      * @param array  $expected_values
+      *
+      * @dataProvider dataLoadCertificate
+      */
+     public function testLoadCertificate(string $file, array $expected_values)
+     {
+         $result = KeyConverter::loadKeyFromCertificateFile($file);
 
-        self::assertEquals($expected_values, $result);
-    }
+         self::assertEquals($expected_values, $result);
+     }
 
-    public function dataLoadCertificate()
-    {
-        return [
+     public function dataLoadCertificate()
+     {
+         return [
             [
                 __DIR__.'/RSA/PEM/512b-rsa-example-cert.pem',
                 [
@@ -264,11 +264,11 @@ use PHPUnit\Framework\TestCase;
                 ],
             ],
         ];
-    }
+     }
 
-    public function testLoadX5CParameter()
-    {
-        $key = JWK::create([
+     public function testLoadX5CParameter()
+     {
+         $key = JWK::create([
             'kty' => 'RSA',
             'use' => 'sig',
             'kid' => '1b94c',
@@ -277,9 +277,9 @@ use PHPUnit\Framework\TestCase;
             'x5c' => ['MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJB'.PHP_EOL.'gNVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYD'.PHP_EOL.'VQQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1'.PHP_EOL.'wYmVsbDAeFw0xMzAyMjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIxCzAJBg'.PHP_EOL.'NVBAYTAlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDV'.PHP_EOL.'QQKExNQaW5nIElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1w'.PHP_EOL.'YmVsbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAL64zn8/QnH'.PHP_EOL.'YMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9if6amFtPDy2yvz3YlRij66'.PHP_EOL.'s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+IiZhtELto/A7Fck9Ws6'.PHP_EOL.'SQvzRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quGmFgHIXPLfnpn'.PHP_EOL.'fajr1rVTAwtgV5LEZ4Iel+W1GC8ugMhyr4/p1MtcIM42EA8BzE6ZQqC7VPq'.PHP_EOL.'PvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWamT3cEvqqPpnjL1XyW+oyVVk'.PHP_EOL.'aZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG9w0BA'.PHP_EOL.'QUFAAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL'.PHP_EOL.'+9gGlqCz5iWLOgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1'.PHP_EOL.'zFo+Owb1zxtp3PehFdfQJ610CDLEaS9V9Rqp17hCyybEpOGVwe8fnk+fbEL'.PHP_EOL.'2Bo3UPGrpsHzUoaGpDftmWssZkhpBJKVMJyf/RuP2SmmaIzmnw9JiSlYhzo'.PHP_EOL.'4tpzd5rFXhjRbg4zW9C+2qok+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTq'.PHP_EOL.'gawR+N5MDtdPTEQ0XfIBc2cJEUyMTY5MPvACWpkA6SdS4xSvdXK3IVfOWA=='],
         ]);
 
-        $certificate = JWKFactory::createFromX5C($key->get('x5c'), ['use' => 'sig', 'kid' => '1b94c']);
+         $certificate = JWKFactory::createFromX5C($key->get('x5c'), ['use' => 'sig', 'kid' => '1b94c']);
 
-        self::assertEquals([
+         self::assertEquals([
                 'kty' => 'RSA',
                 'use' => 'sig',
                 'kid' => '1b94c',
@@ -291,5 +291,5 @@ use PHPUnit\Framework\TestCase;
             ],
             $certificate->all()
         );
-    }
-}
+     }
+ }

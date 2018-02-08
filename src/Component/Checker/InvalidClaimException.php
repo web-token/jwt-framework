@@ -14,48 +14,48 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 /**
- * Class InvalidClaimException.
- */
+  * Class InvalidClaimException.
+  */
  class InvalidClaimException extends \Exception
-{
-    /**
-     * @var string
-     */
-    private $claim;
+ {
+     /**
+      * @var string
+      */
+     private $claim;
 
-    /**
-     * @var mixed
-     */
-    private $value;
+     /**
+      * @var mixed
+      */
+     private $value;
 
-    /**
-     * InvalidClaimException constructor.
-     *
-     * @param string $message
-     * @param string $claim
-     * @param mixed  $value
-     */
-    public function __construct(string $message, string $claim, $value)
-    {
-        parent::__construct($message);
+     /**
+      * InvalidClaimException constructor.
+      *
+      * @param string $message
+      * @param string $claim
+      * @param mixed  $value
+      */
+     public function __construct(string $message, string $claim, $value)
+     {
+         parent::__construct($message);
 
-        $this->claim = $claim;
-        $this->value = $value;
-    }
+         $this->claim = $claim;
+         $this->value = $value;
+     }
 
-    /**
-     * @return string
-     */
-    public function getClaim(): string
-    {
-        return $this->claim;
-    }
+     /**
+      * @return string
+      */
+     public function getClaim(): string
+     {
+         return $this->claim;
+     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-}
+     /**
+      * @return mixed
+      */
+     public function getValue()
+     {
+         return $this->value;
+     }
+ }

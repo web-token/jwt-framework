@@ -30,54 +30,54 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 
 /**
- * Class AppKernel.
- */
+  * Class AppKernel.
+  */
  class AppKernel extends Kernel
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct(string $environment, bool $debug)
-    {
-        parent::__construct($environment, false);
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function __construct(string $environment, bool $debug)
+     {
+         parent::__construct($environment, false);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function registerBundles()
-    {
-        $bundles = [
+     /**
+      * {@inheritdoc}
+      */
+     public function registerBundles()
+     {
+         $bundles = [
             new FrameworkBundle(),
             new HttplugBundle(),
             new JoseFrameworkBundle(),
             new TestBundle(),
         ];
 
-        return $bundles;
-    }
+         return $bundles;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCacheDir()
-    {
-        return sys_get_temp_dir().'/Jose/Test';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getCacheDir()
+     {
+         return sys_get_temp_dir().'/Jose/Test';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getLogDir()
-    {
-        return sys_get_temp_dir().'/Jose/log';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getLogDir()
+     {
+         return sys_get_temp_dir().'/Jose/log';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function registerContainerConfiguration(LoaderInterface $loader)
+     {
+         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
+     }
+ }

@@ -18,44 +18,44 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * @group Bundle
- * @group Functional
- */
+  * @group Bundle
+  * @group Functional
+  */
  class JWESerializerTest extends WebTestCase
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function setUp()
+     {
+         if (!class_exists(JWEBuilderFactory::class)) {
+             $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+         }
+     }
 
-    /**
-     * @test
-     */
-    public function testJWESerializerManagerFromConfigurationIsAvailable()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer1'));
+     /**
+      * @test
+      */
+     public function testJWESerializerManagerFromConfigurationIsAvailable()
+     {
+         $client = static::createClient();
+         $container = $client->getContainer();
+         self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer1'));
 
-        $jwe = $container->get('jose.jwe_serializer.jwe_serializer1');
-        self::assertInstanceOf(JWESerializerManager::class, $jwe);
-    }
+         $jwe = $container->get('jose.jwe_serializer.jwe_serializer1');
+         self::assertInstanceOf(JWESerializerManager::class, $jwe);
+     }
 
-    /**
-     * @test
-     */
-    public function testJWESerializerManagerFromExternalBundleExtensionIsAvailable()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer2'));
+     /**
+      * @test
+      */
+     public function testJWESerializerManagerFromExternalBundleExtensionIsAvailable()
+     {
+         $client = static::createClient();
+         $container = $client->getContainer();
+         self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer2'));
 
-        $jwe = $container->get('jose.jwe_serializer.jwe_serializer2');
-        self::assertInstanceOf(JWESerializerManager::class, $jwe);
-    }
-}
+         $jwe = $container->get('jose.jwe_serializer.jwe_serializer2');
+         self::assertInstanceOf(JWESerializerManager::class, $jwe);
+     }
+ }

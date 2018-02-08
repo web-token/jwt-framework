@@ -14,58 +14,58 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 /**
- * Class JWSSerializerManagerFactory.
- */
+  * Class JWSSerializerManagerFactory.
+  */
  class JWSSerializerManagerFactory
-{
-    /**
-     * @var JWSSerializer[]
-     */
-    private $serializers = [];
+ {
+     /**
+      * @var JWSSerializer[]
+      */
+     private $serializers = [];
 
-    /**
-     * @param string[] $names
-     *
-     * @return JWSSerializerManager
-     */
-    public function create(array $names): JWSSerializerManager
-    {
-        $serializers = [];
-        foreach ($names as $name) {
-            if (!array_key_exists($name, $this->serializers)) {
-                throw new \InvalidArgumentException(sprintf('Unsupported serialiser "%s".', $name));
-            }
-            $serializers[] = $this->serializers[$name];
-        }
+     /**
+      * @param string[] $names
+      *
+      * @return JWSSerializerManager
+      */
+     public function create(array $names): JWSSerializerManager
+     {
+         $serializers = [];
+         foreach ($names as $name) {
+             if (!array_key_exists($name, $this->serializers)) {
+                 throw new \InvalidArgumentException(sprintf('Unsupported serialiser "%s".', $name));
+             }
+             $serializers[] = $this->serializers[$name];
+         }
 
-        return JWSSerializerManager::create($serializers);
-    }
+         return JWSSerializerManager::create($serializers);
+     }
 
-    /**
-     * @return string[]
-     */
-    public function names(): array
-    {
-        return array_keys($this->serializers);
-    }
+     /**
+      * @return string[]
+      */
+     public function names(): array
+     {
+         return array_keys($this->serializers);
+     }
 
-    /**
-     * @return JWSSerializer[]
-     */
-    public function all(): array
-    {
-        return $this->serializers;
-    }
+     /**
+      * @return JWSSerializer[]
+      */
+     public function all(): array
+     {
+         return $this->serializers;
+     }
 
-    /**
-     * @param JWSSerializer $serializer
-     *
-     * @return JWSSerializerManagerFactory
-     */
-    public function add(JWSSerializer $serializer): self
-    {
-        $this->serializers[$serializer->name()] = $serializer;
+     /**
+      * @param JWSSerializer $serializer
+      *
+      * @return JWSSerializerManagerFactory
+      */
+     public function add(JWSSerializer $serializer): self
+     {
+         $this->serializers[$serializer->name()] = $serializer;
 
-        return $this;
-    }
-}
+         return $this;
+     }
+ }

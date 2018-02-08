@@ -16,31 +16,31 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use AESKW\A192KW as Wrapper;
 
 /**
- * Class ECDHESA192KW.
- */
+  * Class ECDHESA192KW.
+  */
  class ECDHESA192KW extends ECDHESAESKW
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function getWrapper()
-    {
-        return new Wrapper();
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function getWrapper()
+     {
+         return new Wrapper();
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'ECDH-ES+A192KW';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'ECDH-ES+A192KW';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getKeyLength(): int
-    {
-        return 192;
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     protected function getKeyLength(): int
+     {
+         return 192;
+     }
+ }

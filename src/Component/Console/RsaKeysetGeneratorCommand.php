@@ -20,36 +20,36 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class RsaKeysetGeneratorCommand.
- */
+  * Class RsaKeysetGeneratorCommand.
+  */
  class RsaKeysetGeneratorCommand extends GeneratorCommand
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('keyset:generate:rsa')
             ->setDescription('Generate a key set with RSA keys (JWK format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $quantity = intval($input->getArgument('quantity'));
-        $size = intval($input->getArgument('size'));
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $quantity = intval($input->getArgument('quantity'));
+         $size = intval($input->getArgument('size'));
 
-        $keyset = JWKSet::createFromKeys([]);
-        for ($i = 0; $i < $quantity; ++$i) {
-            $args = $this->getOptions($input);
-            $keyset = $keyset->with(JWKFactory::createRSAKey($size, $args));
-        }
-        $this->prepareJsonOutput($input, $output, $keyset);
-    }
-}
+         $keyset = JWKSet::createFromKeys([]);
+         for ($i = 0; $i < $quantity; ++$i) {
+             $args = $this->getOptions($input);
+             $keyset = $keyset->with(JWKFactory::createRSAKey($size, $args));
+         }
+         $this->prepareJsonOutput($input, $output, $keyset);
+     }
+ }

@@ -19,93 +19,93 @@ use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
 /**
- * Class JSONFlattenedSerializer.
- */
+  * Class JSONFlattenedSerializer.
+  */
  class JSONFlattenedSerializer implements JWESerializer
-{
-    public const NAME = 'jwe_json_flattened';
+ {
+     public const NAME = 'jwe_json_flattened';
 
-    /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
+     /**
+      * @var JsonConverter
+      */
+     private $jsonConverter;
 
-    /**
-     * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     */
-    public function __construct(JsonConverter $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
+     /**
+      * JSONFlattenedSerializer constructor.
+      *
+      * @param JsonConverter $jsonConverter
+      */
+     public function __construct(JsonConverter $jsonConverter)
+     {
+         $this->jsonConverter = $jsonConverter;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function displayName(): string
-    {
-        return 'JWE JSON Flattened';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function displayName(): string
+     {
+         return 'JWE JSON Flattened';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return self::NAME;
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return self::NAME;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function serialize(JWE $jwe, ?int $recipientIndex = null): string
-    {
-        if (null === $recipientIndex) {
-            $recipientIndex = 0;
-        }
-        $recipient = $jwe->getRecipient($recipientIndex);
-        $data = [
+     /**
+      * {@inheritdoc}
+      */
+     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
+     {
+         if (null === $recipientIndex) {
+             $recipientIndex = 0;
+         }
+         $recipient = $jwe->getRecipient($recipientIndex);
+         $data = [
             'ciphertext' => Base64Url::encode($jwe->getCiphertext()),
             'iv' => Base64Url::encode($jwe->getIV()),
             'tag' => Base64Url::encode($jwe->getTag()),
         ];
-        if (null !== $jwe->getAAD()) {
-            $data['aad'] = Base64Url::encode($jwe->getAAD());
-        }
-        if (!empty($jwe->getSharedProtectedHeader())) {
-            $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
-        }
-        if (!empty($jwe->getSharedHeader())) {
-            $data['unprotected'] = $jwe->getSharedHeader();
-        }
-        if (!empty($recipient->getHeader())) {
-            $data['header'] = $recipient->getHeader();
-        }
-        if (null !== $recipient->getEncryptedKey()) {
-            $data['encrypted_key'] = Base64Url::encode($recipient->getEncryptedKey());
-        }
+         if (null !== $jwe->getAAD()) {
+             $data['aad'] = Base64Url::encode($jwe->getAAD());
+         }
+         if (!empty($jwe->getSharedProtectedHeader())) {
+             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
+         }
+         if (!empty($jwe->getSharedHeader())) {
+             $data['unprotected'] = $jwe->getSharedHeader();
+         }
+         if (!empty($recipient->getHeader())) {
+             $data['header'] = $recipient->getHeader();
+         }
+         if (null !== $recipient->getEncryptedKey()) {
+             $data['encrypted_key'] = Base64Url::encode($recipient->getEncryptedKey());
+         }
 
-        return $this->jsonConverter->encode($data);
-    }
+         return $this->jsonConverter->encode($data);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function unserialize(string $input): JWE
-    {
-        $data = $this->jsonConverter->decode($input);
-        $this->checkData($data);
+     /**
+      * {@inheritdoc}
+      */
+     public function unserialize(string $input): JWE
+     {
+         $data = $this->jsonConverter->decode($input);
+         $this->checkData($data);
 
-        $ciphertext = Base64Url::decode($data['ciphertext']);
-        $iv = Base64Url::decode($data['iv']);
-        $tag = Base64Url::decode($data['tag']);
-        $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
-        list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
-        $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
-        $header = array_key_exists('header', $data) ? $data['header'] : [];
+         $ciphertext = Base64Url::decode($data['ciphertext']);
+         $iv = Base64Url::decode($data['iv']);
+         $tag = Base64Url::decode($data['tag']);
+         $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
+         list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
+         $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
+         $header = array_key_exists('header', $data) ? $data['header'] : [];
 
-        return JWE::create(
+         return JWE::create(
             $ciphertext,
             $iv,
             $tag,
@@ -114,29 +114,29 @@ use Jose\Component\Encryption\Recipient;
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
             [Recipient::create($header, $encryptedKey)]);
-    }
+     }
 
-    /**
-     * @param mixed $data
-     */
-    private function checkData($data)
-    {
-        if (!is_array($data) || !array_key_exists('ciphertext', $data) || array_key_exists('recipients', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
-        }
-    }
+     /**
+      * @param mixed $data
+      */
+     private function checkData($data)
+     {
+         if (!is_array($data) || !array_key_exists('ciphertext', $data) || array_key_exists('recipients', $data)) {
+             throw new \InvalidArgumentException('Unsupported input.');
+         }
+     }
 
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    private function processHeaders(array $data): array
-    {
-        $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
-        $sharedProtectedHeader = $encodedSharedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
-        $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+     /**
+      * @param array $data
+      *
+      * @return array
+      */
+     private function processHeaders(array $data): array
+     {
+         $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
+         $sharedProtectedHeader = $encodedSharedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
+         $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
 
-        return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];
-    }
-}
+         return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];
+     }
+ }

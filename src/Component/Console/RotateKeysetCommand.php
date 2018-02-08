@@ -21,81 +21,81 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class RotateKeysetCommand.
- */
+  * Class RotateKeysetCommand.
+  */
  class RotateKeysetCommand extends ObjectOutputCommand
-{
-    /**
-     * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
-     */
-    public function __construct(JsonConverter $jsonConverter, string $name = null)
-    {
-        parent::__construct($jsonConverter, $name);
-    }
+ {
+     /**
+      * KeyAnalyzerCommand constructor.
+      *
+      * @param JsonConverter $jsonConverter
+      * @param string|null   $name
+      */
+     public function __construct(JsonConverter $jsonConverter, string $name = null)
+     {
+         parent::__construct($jsonConverter, $name);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('keyset:rotate')
             ->setDescription('Rotate a key set.')
             ->setHelp('This command removes the last key in a key set a place a new one at the beginning.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')
         ;
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $jwkset = $this->getKeyset($input)->all();
-        $jwk = $this->getKey($input);
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $jwkset = $this->getKeyset($input)->all();
+         $jwk = $this->getKey($input);
 
-        if (0 !== count($jwkset)) {
-            array_pop($jwkset);
-        }
-        array_unshift($jwkset, $jwk);
+         if (0 !== count($jwkset)) {
+             array_pop($jwkset);
+         }
+         array_unshift($jwkset, $jwk);
 
-        $this->prepareJsonOutput($input, $output, JWKSet::createFromKeys($jwkset));
-    }
+         $this->prepareJsonOutput($input, $output, JWKSet::createFromKeys($jwkset));
+     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWKSet
-     */
-    private function getKeyset(InputInterface $input): JWKSet
-    {
-        $jwkset = $input->getArgument('jwkset');
-        $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
-            return JWKSet::createFromKeyData($json);
-        }
+     /**
+      * @param InputInterface $input
+      *
+      * @return JWKSet
+      */
+     private function getKeyset(InputInterface $input): JWKSet
+     {
+         $jwkset = $input->getArgument('jwkset');
+         $json = $this->jsonConverter->decode($jwkset);
+         if (is_array($json)) {
+             return JWKSet::createFromKeyData($json);
+         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
-    }
+         throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
+     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWK
-     */
-    private function getKey(InputInterface $input): JWK
-    {
-        $jwkset = $input->getArgument('jwk');
-        $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
-            return JWK::create($json);
-        }
+     /**
+      * @param InputInterface $input
+      *
+      * @return JWK
+      */
+     private function getKey(InputInterface $input): JWK
+     {
+         $jwkset = $input->getArgument('jwk');
+         $json = $this->jsonConverter->decode($jwkset);
+         if (is_array($json)) {
+             return JWK::create($json);
+         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWK.');
-    }
-}
+         throw new \InvalidArgumentException('The argument must be a valid JWK.');
+     }
+ }

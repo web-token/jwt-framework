@@ -18,37 +18,37 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 
 /**
- * Class FlattenedTest.
- *
- * @group Functional
- */
+  * Class FlattenedTest.
+  *
+  * @group Functional
+  */
  class JWEFlattenedTest extends EncryptionTest
-{
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
-     */
-    public function testLoadFlattenedJWE()
-    {
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
+ {
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
+      */
+     public function testLoadFlattenedJWE()
+     {
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
 
-        $loaded = $this->getJWESerializerManager()->unserialize('{"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","unprotected":{"jku":"https://server.example.com/keys.jwks"},"header":{"alg":"A128KW","kid":"7"},"encrypted_key":"6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ","iv":"AxY8DCtDaGlsbGljb3RoZQ","ciphertext":"KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY","tag":"Mz-VPPyU4RlcuYv1IwIvzw"}');
+         $loaded = $this->getJWESerializerManager()->unserialize('{"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","unprotected":{"jku":"https://server.example.com/keys.jwks"},"header":{"alg":"A128KW","kid":"7"},"encrypted_key":"6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ","iv":"AxY8DCtDaGlsbGljb3RoZQ","ciphertext":"KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY","tag":"Mz-VPPyU4RlcuYv1IwIvzw"}');
 
-        self::assertInstanceOf(JWE::class, $loaded);
-        self::assertEquals('A128KW', $loaded->getRecipient(0)->getHeaderParameter('alg'));
-        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
-        self::assertNull($loaded->getPayload());
+         self::assertInstanceOf(JWE::class, $loaded);
+         self::assertEquals('A128KW', $loaded->getRecipient(0)->getHeaderParameter('alg'));
+         self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
+         self::assertNull($loaded->getPayload());
 
-        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
+         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
 
-        self::assertEquals('Live long and prosper.', $loaded->getPayload());
-    }
+         self::assertEquals('Live long and prosper.', $loaded->getPayload());
+     }
 
-    /**
-     * @return JWKSet
-     */
-    private function getSymmetricKeySet(): JWKSet
-    {
-        $keys = ['keys' => [
+     /**
+      * @return JWKSet
+      */
+     private function getSymmetricKeySet(): JWKSet
+     {
+         $keys = ['keys' => [
             [
                 'kid' => 'DIR_1',
                 'kty' => 'oct',
@@ -68,6 +68,6 @@ use Jose\Component\Encryption\JWE;
             ],
         ]];
 
-        return JWKSet::createFromKeyData($keys);
-    }
-}
+         return JWKSet::createFromKeyData($keys);
+     }
+ }

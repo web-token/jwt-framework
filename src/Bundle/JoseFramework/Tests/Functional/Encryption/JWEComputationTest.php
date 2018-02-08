@@ -22,43 +22,43 @@ use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * @group Bundle
- * @group Functional
- */
+  * @group Bundle
+  * @group Functional
+  */
  class JWEComputationTest extends WebTestCase
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function setUp()
+     {
+         if (!class_exists(JWEBuilderFactory::class)) {
+             $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+         }
+     }
 
-    /**
-     * @test
-     */
-    public function iCanCreateAndLoadAToken()
-    {
-        $client = static::createClient();
-        $container = $client->getContainer();
+     /**
+      * @test
+      */
+     public function iCanCreateAndLoadAToken()
+     {
+         $client = static::createClient();
+         $container = $client->getContainer();
 
-        $jwk = JWK::create([
+         $jwk = JWK::create([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
-        /** @var JWEBuilder $builder */
-        $builder = $container->get('jose.jwe_builder.builder1');
+         /** @var JWEBuilder $builder */
+         $builder = $container->get('jose.jwe_builder.builder1');
 
-        /** @var JWEDecrypter $loader */
-        $loader = $container->get('jose.jwe_decrypter.loader1');
+         /** @var JWEDecrypter $loader */
+         $loader = $container->get('jose.jwe_decrypter.loader1');
 
-        $serializer = new CompactSerializer(new StandardConverter());
+         $serializer = new CompactSerializer(new StandardConverter());
 
-        $jwe = $builder
+         $jwe = $builder
             ->create()
             ->withPayload('Hello World!')
             ->withSharedProtectedHeader([
@@ -67,10 +67,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
             ])
             ->addRecipient($jwk)
             ->build();
-        $token = $serializer->serialize($jwe, 0);
+         $token = $serializer->serialize($jwe, 0);
 
-        $loaded = $serializer->unserialize($token);
-        self::assertTrue($loader->decryptUsingKey($loaded, $jwk, 0));
-        self::assertEquals('Hello World!', $loaded->getPayload());
-    }
-}
+         $loaded = $serializer->unserialize($token);
+         self::assertTrue($loader->decryptUsingKey($loaded, $jwk, 0));
+         self::assertEquals('Hello World!', $loaded->getPayload());
+     }
+ }

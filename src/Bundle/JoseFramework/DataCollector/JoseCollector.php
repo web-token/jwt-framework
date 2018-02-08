@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
- class JoseCollector extends DataCollector
+class JoseCollector extends DataCollector
 {
     /**
      * @var Collector[]

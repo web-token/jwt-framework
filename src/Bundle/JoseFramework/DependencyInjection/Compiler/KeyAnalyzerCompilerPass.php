@@ -19,24 +19,24 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class KeyAnalyzerCompilerPass.
- */
+  * Class KeyAnalyzerCompilerPass.
+  */
  class KeyAnalyzerCompilerPass implements CompilerPassInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        if (!$container->hasDefinition(KeyAnalyzerManager::class)) {
-            return;
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function process(ContainerBuilder $container)
+     {
+         if (!$container->hasDefinition(KeyAnalyzerManager::class)) {
+             return;
+         }
 
-        $definition = $container->getDefinition(KeyAnalyzerManager::class);
+         $definition = $container->getDefinition(KeyAnalyzerManager::class);
 
-        $taggedServices = $container->findTaggedServiceIds('jose.key_analyzer');
-        foreach ($taggedServices as $id => $tags) {
-            $definition->addMethodCall('add', [new Reference($id)]);
-        }
-    }
-}
+         $taggedServices = $container->findTaggedServiceIds('jose.key_analyzer');
+         foreach ($taggedServices as $id => $tags) {
+             $definition->addMethodCall('add', [new Reference($id)]);
+         }
+     }
+ }

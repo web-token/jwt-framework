@@ -16,23 +16,23 @@ namespace Jose\Component\Core\Tests;
 use Jose\Component\Core\Algorithm;
 
 /**
- * Class FooAlgorithm.
- */
+  * Class FooAlgorithm.
+  */
  class FooAlgorithm implements Algorithm
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'foo';
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'foo';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function allowedKeyTypes(): array
-    {
-        return ['FOO'];
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function allowedKeyTypes(): array
+     {
+         return ['FOO'];
+     }
+ }

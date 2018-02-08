@@ -22,27 +22,27 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JWELoader.
- */
+  * Class JWELoader.
+  */
  class JWELoader implements Source
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'loaders';
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'loaders';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
-    {
-        foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.jwe_loader.%s', $name);
-            $definition = new Definition(JWELoaderService::class);
-            $definition
+     /**
+      * {@inheritdoc}
+      */
+     public function load(array $configs, ContainerBuilder $container)
+     {
+         foreach ($configs[$this->name()] as $name => $itemConfig) {
+             $service_id = sprintf('jose.jwe_loader.%s', $name);
+             $definition = new Definition(JWELoaderService::class);
+             $definition
                 ->setFactory([new Reference(JWELoaderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['serializers'],
@@ -53,17 +53,17 @@ use Symfony\Component\DependencyInjection\Reference;
                 ])
                 ->addTag('jose.jwe_loader')
                 ->setPublic($itemConfig['is_public']);
-            foreach ($itemConfig['tags'] as $id => $attributes) {
-                $definition->addTag($id, $attributes);
-            }
+             foreach ($itemConfig['tags'] as $id => $attributes) {
+                 $definition->addTag($id, $attributes);
+             }
 
-            $container->setDefinition($service_id, $definition);
-        }
-    }
+             $container->setDefinition($service_id, $definition);
+         }
+     }
 
-    public function getNodeDefinition(NodeDefinition $node)
-    {
-        $node
+     public function getNodeDefinition(NodeDefinition $node)
+     {
+         $node
             ->children()
                 ->arrayNode($this->name())
                     ->requiresAtLeastOneElement()
@@ -116,13 +116,13 @@ use Symfony\Component\DependencyInjection\Reference;
                     ->end()
                 ->end()
             ->end();
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container, array $config): array
-    {
-        return [];
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function prepend(ContainerBuilder $container, array $config): array
+     {
+         return [];
+     }
+ }

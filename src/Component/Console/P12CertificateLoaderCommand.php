@@ -20,33 +20,33 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class P12CertificateLoaderCommand.
- */
+  * Class P12CertificateLoaderCommand.
+  */
  class P12CertificateLoaderCommand extends GeneratorCommand
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('key:load:p12')
             ->setDescription('Load a key from a P12 certificate file.')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the P12 certificate.')
             ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $filename = $input->getArgument('file');
-        $password = $input->getOption('secret');
-        $args = $this->getOptions($input);
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $filename = $input->getArgument('file');
+         $password = $input->getOption('secret');
+         $args = $this->getOptions($input);
 
-        $jwk = JWKFactory::createFromPKCS12CertificateFile($filename, $password, $args);
-        $this->prepareJsonOutput($input, $output, $jwk);
-    }
-}
+         $jwk = JWKFactory::createFromPKCS12CertificateFile($filename, $password, $args);
+         $this->prepareJsonOutput($input, $output, $jwk);
+     }
+ }

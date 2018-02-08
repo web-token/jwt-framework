@@ -17,24 +17,24 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
 /**
- * Class RsaAnalyzer.
- */
+  * Class RsaAnalyzer.
+  */
  class RsaAnalyzer implements KeyAnalyzer
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function analyze(JWK $jwk, MessageBag $bag)
-    {
-        if ('RSA' !== $jwk->get('kty')) {
-            return;
-        }
-        $n = 8 * mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
-        if ($n < 2048) {
-            $bag->add(Message::high('The key length is less than 2048 bits.'));
-        }
-        if ($jwk->has('d') && (!$jwk->has('p') || !$jwk->has('q') || !$jwk->has('dp') || !$jwk->has('dq') || !$jwk->has('p') || !$jwk->has('qi'))) {
-            $bag->add(Message::medium('The key is a private RSA key, but Chinese Remainder Theorem primes are missing. These primes are not mandatory, but signatures and decryption processes are faster when available.'));
-        }
-    }
-}
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function analyze(JWK $jwk, MessageBag $bag)
+     {
+         if ('RSA' !== $jwk->get('kty')) {
+             return;
+         }
+         $n = 8 * mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
+         if ($n < 2048) {
+             $bag->add(Message::high('The key length is less than 2048 bits.'));
+         }
+         if ($jwk->has('d') && (!$jwk->has('p') || !$jwk->has('q') || !$jwk->has('dp') || !$jwk->has('dq') || !$jwk->has('p') || !$jwk->has('qi'))) {
+             $bag->add(Message::medium('The key is a private RSA key, but Chinese Remainder Theorem primes are missing. These primes are not mandatory, but signatures and decryption processes are faster when available.'));
+         }
+     }
+ }

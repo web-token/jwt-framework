@@ -17,53 +17,53 @@ use Jose\Component\Checker\AudienceChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group HeaderChecker
- * @group Functional
- */
+  * @group HeaderChecker
+  * @group Functional
+  */
  class AudienceHeaderCheckerTest extends TestCase
-{
-    /**
-     * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage Bad audience.
-     */
-    public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings()
-    {
-        $checker = new AudienceChecker('foo');
-        $checker->checkHeader(1);
-    }
+ {
+     /**
+      * @test
+      * @expectedException \Jose\Component\Checker\InvalidHeaderException
+      * @expectedExceptionMessage Bad audience.
+      */
+     public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings()
+     {
+         $checker = new AudienceChecker('foo');
+         $checker->checkHeader(1);
+     }
 
-    /**
-     * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage Bad audience.
-     */
-    public function theAudienceHeaderIsNotKnown()
-    {
-        $checker = new AudienceChecker('foo');
-        $checker->checkHeader('bar');
-    }
+     /**
+      * @test
+      * @expectedException \Jose\Component\Checker\InvalidHeaderException
+      * @expectedExceptionMessage Bad audience.
+      */
+     public function theAudienceHeaderIsNotKnown()
+     {
+         $checker = new AudienceChecker('foo');
+         $checker->checkHeader('bar');
+     }
 
-    /**
-     * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage Bad audience.
-     */
-    public function theAudienceHeaderListDoesNotContainTheCurrentAudience()
-    {
-        $checker = new AudienceChecker('foo');
-        $checker->checkHeader(['bar']);
-    }
+     /**
+      * @test
+      * @expectedException \Jose\Component\Checker\InvalidHeaderException
+      * @expectedExceptionMessage Bad audience.
+      */
+     public function theAudienceHeaderListDoesNotContainTheCurrentAudience()
+     {
+         $checker = new AudienceChecker('foo');
+         $checker->checkHeader(['bar']);
+     }
 
-    /**
-     * @test
-     */
-    public function theAudienceHeaderIsSupported()
-    {
-        $checker = new AudienceChecker('foo');
-        $checker->checkHeader('foo');
-        $checker->checkHeader(['foo']);
-        self::assertFalse($checker->protectedHeaderOnly());
-        self::assertEquals('aud', $checker->supportedHeader());
-    }
-}
+     /**
+      * @test
+      */
+     public function theAudienceHeaderIsSupported()
+     {
+         $checker = new AudienceChecker('foo');
+         $checker->checkHeader('foo');
+         $checker->checkHeader(['foo']);
+         self::assertFalse($checker->protectedHeaderOnly());
+         self::assertEquals('aud', $checker->supportedHeader());
+     }
+ }

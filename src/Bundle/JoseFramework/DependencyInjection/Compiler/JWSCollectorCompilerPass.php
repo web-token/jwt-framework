@@ -20,42 +20,42 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JWSCollectorCompilerPass.
- */
+  * Class JWSCollectorCompilerPass.
+  */
  class JWSCollectorCompilerPass implements CompilerPassInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        if (!$container->hasDefinition(JWSCollector::class)) {
-            return;
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function process(ContainerBuilder $container)
+     {
+         if (!$container->hasDefinition(JWSCollector::class)) {
+             return;
+         }
 
-        $definition = $container->getDefinition(JWSCollector::class);
+         $definition = $container->getDefinition(JWSCollector::class);
 
-        $services = [
+         $services = [
             'addJWSBuilder' => 'jose.jws_builder',
             'addJWSVerifier' => 'jose.jws_verifier',
             'addJWSLoader' => 'jose.jws_loader',
         ];
-        foreach ($services as $method => $tag) {
-            $this->collectServices($method, $tag, $definition, $container);
-        }
-    }
+         foreach ($services as $method => $tag) {
+             $this->collectServices($method, $tag, $definition, $container);
+         }
+     }
 
-    /**
-     * @param string           $method
-     * @param string           $tag
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
-    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
-    {
-        $taggedJWSServices = $container->findTaggedServiceIds($tag);
-        foreach ($taggedJWSServices as $id => $tags) {
-            $definition->addMethodCall($method, [$id, new Reference($id)]);
-        }
-    }
-}
+     /**
+      * @param string           $method
+      * @param string           $tag
+      * @param Definition       $definition
+      * @param ContainerBuilder $container
+      */
+     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
+     {
+         $taggedJWSServices = $container->findTaggedServiceIds($tag);
+         foreach ($taggedJWSServices as $id => $tags) {
+             $definition->addMethodCall($method, [$id, new Reference($id)]);
+         }
+     }
+ }

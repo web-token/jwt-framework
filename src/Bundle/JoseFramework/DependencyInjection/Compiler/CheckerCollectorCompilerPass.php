@@ -20,41 +20,41 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class CheckerCollectorCompilerPass.
- */
+  * Class CheckerCollectorCompilerPass.
+  */
  class CheckerCollectorCompilerPass implements CompilerPassInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        if (!$container->hasDefinition(CheckerCollector::class)) {
-            return;
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function process(ContainerBuilder $container)
+     {
+         if (!$container->hasDefinition(CheckerCollector::class)) {
+             return;
+         }
 
-        $definition = $container->getDefinition(CheckerCollector::class);
+         $definition = $container->getDefinition(CheckerCollector::class);
 
-        $services = [
+         $services = [
             'addHeaderCheckerManager' => 'jose.header_checker_manager',
             'addClaimCheckerManager' => 'jose.claim_checker_manager',
         ];
-        foreach ($services as $method => $tag) {
-            $this->collectServices($method, $tag, $definition, $container);
-        }
-    }
+         foreach ($services as $method => $tag) {
+             $this->collectServices($method, $tag, $definition, $container);
+         }
+     }
 
-    /**
-     * @param string           $method
-     * @param string           $tag
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
-    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
-    {
-        $taggedCheckerServices = $container->findTaggedServiceIds($tag);
-        foreach ($taggedCheckerServices as $id => $tags) {
-            $definition->addMethodCall($method, [$id, new Reference($id)]);
-        }
-    }
-}
+     /**
+      * @param string           $method
+      * @param string           $tag
+      * @param Definition       $definition
+      * @param ContainerBuilder $container
+      */
+     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
+     {
+         $taggedCheckerServices = $container->findTaggedServiceIds($tag);
+         foreach ($taggedCheckerServices as $id => $tags) {
+             $definition->addMethodCall($method, [$id, new Reference($id)]);
+         }
+     }
+ }
