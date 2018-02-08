@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Class KeySetControllerCompilerPass.
  */
-final class KeySetControllerCompilerPass implements CompilerPassInterface
+ class KeySetControllerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

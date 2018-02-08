@@ -21,7 +21,7 @@ use Jose\Component\Signature\Tests\SignatureTest;
  *
  * @group RFC7520
  */
-final class NestingTest extends SignatureTest
+ class NestingTest extends SignatureTest
 {
     public function testSignatureVerification()
     {

@@ -25,7 +25,7 @@ use FG\ASN1\ASNObject;
 /**
  * Class ECKey.
  */
-final class ECKey
+ class ECKey
 {
     /**
      * @var array

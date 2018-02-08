@@ -24,7 +24,7 @@ use Jose\Component\Signature\Algorithm\HS512;
  * @group HMAC
  * @group Unit
  */
-final class HMACSignatureTest extends SignatureTest
+ class HMACSignatureTest extends SignatureTest
 {
     /**
      * @expectedException \InvalidArgumentException

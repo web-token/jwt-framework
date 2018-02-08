@@ -26,7 +26,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
  * @group ECDHES
  * @group Unit
  */
-final class ECDHESKeyAgreementTest extends EncryptionTest
+ class ECDHESKeyAgreementTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C

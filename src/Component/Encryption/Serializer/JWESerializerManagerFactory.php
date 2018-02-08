@@ -16,7 +16,7 @@ namespace Jose\Component\Encryption\Serializer;
 /**
  * Class JWESerializerManagerFactory.
  */
-final class JWESerializerManagerFactory
+ class JWESerializerManagerFactory
 {
     /**
      * @var JWESerializer[]

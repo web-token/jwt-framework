@@ -16,7 +16,7 @@ namespace Jose\Component\Core\Util;
 /**
  * Class ECSignature.
  */
-final class ECSignature
+ class ECSignature
 {
     /**
      * @param string $signature

@@ -20,7 +20,7 @@ use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class JWSCollector implements Collector
+ class JWSCollector implements Collector
 {
     /**
      * @var JWSSerializerManagerFactory|null

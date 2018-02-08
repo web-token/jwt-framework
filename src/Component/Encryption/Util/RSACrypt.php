@@ -20,7 +20,7 @@ use Jose\Component\Core\Util\RSAKey;
 /**
  * Class RSACrypt.
  */
-final class RSACrypt
+ class RSACrypt
 {
     /**
      * Optimal Asymmetric Encryption Padding (OAEP).

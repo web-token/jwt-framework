@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class SignatureSource.
  */
-final class SignatureSource implements SourceWithCompilerPasses
+ class SignatureSource implements SourceWithCompilerPasses
 {
     /**
      * @var Source[]

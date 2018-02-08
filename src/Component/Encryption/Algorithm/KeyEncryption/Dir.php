@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class Dir.
  */
-final class Dir implements DirectEncryption
+ class Dir implements DirectEncryption
 {
     /**
      * {@inheritdoc}

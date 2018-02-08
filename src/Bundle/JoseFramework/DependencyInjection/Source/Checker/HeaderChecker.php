@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class HeaderChecker.
  */
-final class HeaderChecker implements Source
+ class HeaderChecker implements Source
 {
     /**
      * {@inheritdoc}

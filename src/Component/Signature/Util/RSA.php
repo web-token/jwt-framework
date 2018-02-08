@@ -20,7 +20,7 @@ use Jose\Component\Core\Util\RSAKey;
 /**
  * Class RSA.
  */
-final class RSA
+ class RSA
 {
     /**
      * Probabilistic Signature Scheme.

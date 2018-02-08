@@ -24,7 +24,7 @@ use Jose\Component\Signature\JWS;
  * @group RSA
  * @group Unit
  */
-final class RSASignatureTest extends SignatureTest
+ class RSASignatureTest extends SignatureTest
 {
     public function testCompleteRS256Sign()
     {

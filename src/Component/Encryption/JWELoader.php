@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 
-final class JWELoader
+ class JWELoader
 {
     /**
      * @var JWEDecrypter

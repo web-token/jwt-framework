@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class CompressionMethodCompilerPass.
  */
-final class CompressionMethodCompilerPass implements CompilerPassInterface
+ class CompressionMethodCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

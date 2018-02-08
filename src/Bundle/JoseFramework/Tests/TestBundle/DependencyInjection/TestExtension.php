@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 /**
  * Class TestExtension.
  */
-final class TestExtension extends Extension implements PrependExtensionInterface
+ class TestExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}

@@ -23,7 +23,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
  *
  * @group Unit
  */
-final class AESGCMContentEncryptionTest extends EncryptionTest
+ class AESGCMContentEncryptionTest extends EncryptionTest
 {
     public function testA128GCMEncryptAndDecrypt()
     {

@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWSLoader.
  */
-final class JWSLoader implements Source
+ class JWSLoader implements Source
 {
     /**
      * {@inheritdoc}

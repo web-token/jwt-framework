@@ -23,7 +23,7 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 /**
  * Class able to load JWS and verify signatures and header.
  */
-final class JWSVerifier
+ class JWSVerifier
 {
     /**
      * @var AlgorithmManager

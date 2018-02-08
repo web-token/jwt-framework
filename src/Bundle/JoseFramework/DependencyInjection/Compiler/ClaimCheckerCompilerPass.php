@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class ClaimCheckerCompilerPass.
  */
-final class ClaimCheckerCompilerPass implements CompilerPassInterface
+ class ClaimCheckerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class ConsoleSource.
  */
-final class ConsoleSource implements SourceWithCompilerPasses
+ class ConsoleSource implements SourceWithCompilerPasses
 {
     /**
      * {@inheritdoc}

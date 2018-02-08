@@ -19,7 +19,7 @@ use Jose\Component\Core\JWKSet;
 /**
  * Class JWKSetControllerFactory.
  */
-final class JWKSetControllerFactory
+ class JWKSetControllerFactory
 {
     /**
      * @var JsonConverter

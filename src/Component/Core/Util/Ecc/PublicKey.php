@@ -40,7 +40,7 @@ namespace Jose\Component\Core\Util\Ecc;
 /**
  * This class serves as public- private key exchange for signature verification.
  */
-final class PublicKey
+ class PublicKey
 {
     /**
      * @var Point

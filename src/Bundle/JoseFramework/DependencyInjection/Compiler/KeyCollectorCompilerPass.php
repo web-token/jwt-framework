@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class KeyCollectorCompilerPass.
  */
-final class KeyCollectorCompilerPass implements CompilerPassInterface
+ class KeyCollectorCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

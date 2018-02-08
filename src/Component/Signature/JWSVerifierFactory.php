@@ -18,7 +18,7 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 /**
  * Class JWSVerifierFactory.
  */
-final class JWSVerifierFactory
+ class JWSVerifierFactory
 {
     /**
      * @var AlgorithmManagerFactory

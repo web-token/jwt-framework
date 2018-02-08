@@ -19,7 +19,7 @@ use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 /**
  * Class JWELoaderFactory.
  */
-final class JWELoaderFactory
+ class JWELoaderFactory
 {
     /**
      * @var JWEDecrypterFactory

@@ -20,7 +20,7 @@ namespace Jose\Component\Core\Util\Ecc;
  * - Does the curve contain a point?
  * - Comparison of two curves.
  */
-final class Curve
+ class Curve
 {
     /**
      * Elliptic curve over the field of integers modulo a prime.

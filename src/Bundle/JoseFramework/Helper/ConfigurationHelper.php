@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * This helper will help you to create services configuration.
  */
-final class ConfigurationHelper
+ class ConfigurationHelper
 {
     const BUNDLE_ALIAS = 'jose';
 

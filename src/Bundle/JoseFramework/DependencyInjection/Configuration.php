@@ -20,7 +20,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * Class Configuration.
  */
-final class Configuration implements ConfigurationInterface
+ class Configuration implements ConfigurationInterface
 {
     /**
      * @var Source[]

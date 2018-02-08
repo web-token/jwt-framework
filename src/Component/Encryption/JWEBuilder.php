@@ -31,7 +31,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManager;
 /**
  * Class JWEBuilder.
  */
-final class JWEBuilder
+ class JWEBuilder
 {
     /**
      * @var JsonConverter

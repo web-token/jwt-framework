@@ -18,7 +18,7 @@ use AESKW\A128KW as Wrapper;
 /**
  * Class ECDHESA128KW.
  */
-final class ECDHESA128KW extends ECDHESAESKW
+ class ECDHESA128KW extends ECDHESAESKW
 {
     /**
      * {@inheritdoc}

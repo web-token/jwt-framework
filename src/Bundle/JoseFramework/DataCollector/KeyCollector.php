@@ -19,7 +19,7 @@ use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class KeyCollector implements Collector
+ class KeyCollector implements Collector
 {
     /**
      * @var KeyAnalyzerManager|null

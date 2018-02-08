@@ -24,7 +24,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
  * @group AESCBC
  * @group Unit
  */
-final class AESCBC_HSContentEncryptionTest extends EncryptionTest
+ class AESCBC_HSContentEncryptionTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B

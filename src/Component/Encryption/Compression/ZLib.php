@@ -17,7 +17,7 @@ namespace Jose\Component\Encryption\Compression;
  * This class implements the compression algorithm ZLIB (ZLib).
  * This compression algorithm is not part of the specification.
  */
-final class ZLib implements CompressionMethod
+ class ZLib implements CompressionMethod
 {
     /**
      * @var int

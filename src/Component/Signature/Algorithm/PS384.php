@@ -18,7 +18,7 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 /**
  * Class PS384.
  */
-final class PS384 extends RSA
+ class PS384 extends RSA
 {
     /**
      * @return string

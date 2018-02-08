@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 /**
  * Class KeyEnvVarProcessor.
  */
-final class KeyEnvVarProcessor implements EnvVarProcessorInterface
+ class KeyEnvVarProcessor implements EnvVarProcessorInterface
 {
     /**
      * {@inheritdoc}

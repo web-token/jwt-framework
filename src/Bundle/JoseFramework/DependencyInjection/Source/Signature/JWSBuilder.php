@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWSBuilder.
  */
-final class JWSBuilder extends AbstractSignatureSource
+ class JWSBuilder extends AbstractSignatureSource
 {
     /**
      * {@inheritdoc}

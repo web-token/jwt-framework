@@ -18,7 +18,7 @@ use Base64Url\Base64Url;
 /**
  * This class will help you to load an EC key or a RSA key/certificate (private or public) and get values to create a JWK object.
  */
-final class KeyConverter
+ class KeyConverter
 {
     /**
      * @param string $file

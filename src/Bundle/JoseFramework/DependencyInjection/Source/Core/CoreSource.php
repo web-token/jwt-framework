@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class CoreSource.
  */
-final class CoreSource implements SourceWithCompilerPasses
+ class CoreSource implements SourceWithCompilerPasses
 {
     /**
      * {@inheritdoc}

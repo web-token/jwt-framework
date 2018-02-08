@@ -16,7 +16,7 @@ namespace Jose\Component\Core\Util\Ecc;
 /**
  * Class ModularArithmetic.
  */
-final class ModularArithmetic
+ class ModularArithmetic
 {
     /**
      * @param \GMP $minuend

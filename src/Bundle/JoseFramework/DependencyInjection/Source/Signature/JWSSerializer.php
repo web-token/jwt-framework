@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWSSerializer.
  */
-final class JWSSerializer implements Source
+ class JWSSerializer implements Source
 {
     /**
      * {@inheritdoc}

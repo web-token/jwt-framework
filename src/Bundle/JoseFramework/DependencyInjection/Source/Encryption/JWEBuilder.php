@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWEBuilder.
  */
-final class JWEBuilder extends AbstractEncryptionSource
+ class JWEBuilder extends AbstractEncryptionSource
 {
     /**
      * {@inheritdoc}

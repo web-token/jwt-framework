@@ -18,7 +18,7 @@ use Jose\Component\Core\JWT;
 /**
  * Class HeaderCheckerManager.
  */
-final class HeaderCheckerManager
+ class HeaderCheckerManager
 {
     /**
      * @var HeaderChecker[]

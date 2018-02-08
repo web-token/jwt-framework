@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
  * @group CVE
  * @group Functional
  */
-final class InvalidCurveAttackTest extends EncryptionTest
+ class InvalidCurveAttackTest extends EncryptionTest
 {
     public function testCurveCheckNegativeP256AttackPt1()
     {

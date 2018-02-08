@@ -17,7 +17,7 @@ namespace Jose\Component\Encryption\Compression;
  * This class implements the compression algorithm GZ (GZip).
  * This compression algorithm is not part of the specification.
  */
-final class GZip implements CompressionMethod
+ class GZip implements CompressionMethod
 {
     /**
      * @var int

@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JWECollectorCompilerPass.
  */
-final class JWECollectorCompilerPass implements CompilerPassInterface
+ class JWECollectorCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

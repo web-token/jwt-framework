@@ -16,7 +16,7 @@ namespace Jose\Component\Core\Util;
 /**
  * Class BigInteger.
  */
-final class BigInteger
+ class BigInteger
 {
     /**
      * Holds the BigInteger's value.

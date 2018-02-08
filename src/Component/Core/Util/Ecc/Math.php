@@ -16,7 +16,7 @@ namespace Jose\Component\Core\Util\Ecc;
 /**
  * Class Math.
  */
-final class Math
+ class Math
 {
     /**
      * @param \GMP $first

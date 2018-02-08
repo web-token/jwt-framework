@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Bundle
  * @group Functional
  */
-final class ClaimCheckerTest extends WebTestCase
+ class ClaimCheckerTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

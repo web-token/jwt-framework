@@ -16,7 +16,7 @@ namespace Jose\Component\Signature\Algorithm;
 /**
  * Class ES512.
  */
-final class ES512 extends ECDSA
+ class ES512 extends ECDSA
 {
     /**
      * @return string

@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class Secret.
  */
-final class Secret extends AbstractSource implements JWKSource
+ class Secret extends AbstractSource implements JWKSource
 {
     /**
      * {@inheritdoc}

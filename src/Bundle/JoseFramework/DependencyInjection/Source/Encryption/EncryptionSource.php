@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class EncryptionSource.
  */
-final class EncryptionSource implements SourceWithCompilerPasses
+ class EncryptionSource implements SourceWithCompilerPasses
 {
     /**
      * @var Source[]

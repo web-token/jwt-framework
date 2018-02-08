@@ -19,7 +19,7 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 /**
  * Class JWSBuilderFactory.
  */
-final class JWSBuilderFactory
+ class JWSBuilderFactory
 {
     /**
      * @var JsonConverter

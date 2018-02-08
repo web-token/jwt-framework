@@ -14,15 +14,15 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
 use Jose\Component\Signature\JWSBuilderFactory;
-use Jose\Component\Signature\JWSLoader;
-use Jose\Component\Signature\JWSLoaderFactory;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @group Bundle
  * @group Functional
  */
-final class JWSLoaderTest extends WebTestCase
+class JWSVerifierTest extends WebTestCase
 {
     /**
      * {@inheritdoc}
@@ -30,61 +30,47 @@ final class JWSLoaderTest extends WebTestCase
     protected function setUp()
     {
         if (!class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
-    /**
-     * @test
-     */
-    public function theJWSLoaderFactoryIsAvailable()
+    public function testJWSVerifierFactoryIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         self::assertNotNull($container);
-        self::assertTrue($container->has(JWSLoaderFactory::class));
+        self::assertTrue($container->has(JWSVerifierFactory::class));
     }
 
-    /**
-     * @test
-     */
-    public function theWELoaderFactoryCanCreateAJWSLoader()
+    public function testJWSVerifierFactoryCanCreateAJWSVerifier()
     {
         $client = static::createClient();
 
-        /** @var JWSLoaderFactory $jwsLoaderFactory */
-        $jwsLoaderFactory = $client->getContainer()->get(JWSLoaderFactory::class);
+        /** @var JWSVerifierFactory $jwsFactory */
+        $jwsFactory = $client->getContainer()->get(JWSVerifierFactory::class);
 
-        $jws = $jwsLoaderFactory->create(['jws_compact'], ['RS512']);
+        $jws = $jwsFactory->create(['none']);
 
-        self::assertInstanceOf(JWSLoader::class, $jws);
-        self::assertEquals(['jws_compact'], $jws->getSerializerManager()->list());
-        self::assertEquals(['RS512'], $jws->getJwsVerifier()->getSignatureAlgorithmManager()->list());
+        self::assertInstanceOf(JWSVerifier::class, $jws);
     }
 
-    /**
-     * @test
-     */
-    public function aJWSLoaderCanBeDefinedUsingTheConfigurationFile()
+    public function testJWSVerifierFromConfigurationIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_loader.jws_loader1'));
+        self::assertTrue($container->has('jose.jws_verifier.loader1'));
 
-        $jws = $container->get('jose.jws_loader.jws_loader1');
-        self::assertInstanceOf(JWSLoader::class, $jws);
+        $jws = $container->get('jose.jws_verifier.loader1');
+        self::assertInstanceOf(JWSVerifier::class, $jws);
     }
 
-    /**
-     * @test
-     */
-    public function aJWSLoaderCanBeDefinedFromAnotherBundleUsingTheHelper()
+    public function testJWSVerifierFromExternalBundleExtensionIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_loader.jws_loader2'));
+        self::assertTrue($container->has('jose.jws_verifier.loader2'));
 
-        $jws = $container->get('jose.jws_loader.jws_loader2');
-        self::assertInstanceOf(JWSLoader::class, $jws);
+        $jws = $container->get('jose.jws_verifier.loader2');
+        self::assertInstanceOf(JWSVerifier::class, $jws);
     }
 }

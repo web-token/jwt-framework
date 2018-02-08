@@ -18,7 +18,7 @@ use Jose\Component\Core\JWT;
 /**
  * Class JWS.
  */
-final class JWS implements JWT
+ class JWS implements JWT
 {
     /**
      * @var bool

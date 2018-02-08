@@ -49,7 +49,7 @@ use Jose\Component\Core\Util\Ecc\PublicKey;
  * a dual encryption scheme, along with AES for faster
  * two- way encryption.
  */
-final class EcDH
+ class EcDH
 {
     /**
      * @param Curve      $curve

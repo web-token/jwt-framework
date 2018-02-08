@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class KeyChecker.
  */
-final class KeyChecker
+ class KeyChecker
 {
     /**
      * @param JWK    $key

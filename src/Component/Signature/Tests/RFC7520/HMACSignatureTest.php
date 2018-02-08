@@ -25,7 +25,7 @@ use Jose\Component\Signature\Tests\SignatureTest;
  * @group HMAC
  * @group RFC7520
  */
-final class HMACSignatureTest extends SignatureTest
+ class HMACSignatureTest extends SignatureTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.4

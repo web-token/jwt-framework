@@ -32,7 +32,7 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 /**
  * Class AppKernel.
  */
-final class AppKernel extends Kernel
+ class AppKernel extends Kernel
 {
     /**
      * {@inheritdoc}

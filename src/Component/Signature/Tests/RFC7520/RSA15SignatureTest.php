@@ -21,7 +21,7 @@ use Jose\Component\Signature\Tests\SignatureTest;
  *
  * @group RFC7520
  */
-final class RSA15SignatureTest extends SignatureTest
+ class RSA15SignatureTest extends SignatureTest
 {
     public function testRS256()
     {

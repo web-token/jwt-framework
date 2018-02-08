@@ -22,7 +22,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
  *
  * @group Unit
  */
-final class DirAlgorithmTest extends EncryptionTest
+ class DirAlgorithmTest extends EncryptionTest
 {
     /**
      * @expectedException \InvalidArgumentException

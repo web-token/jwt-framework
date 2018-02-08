@@ -23,7 +23,7 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
  * @group Signer
  * @group Functional
  */
-final class SignerTest extends SignatureTest
+ class SignerTest extends SignatureTest
 {
     /**
      * @expectedException \InvalidArgumentException

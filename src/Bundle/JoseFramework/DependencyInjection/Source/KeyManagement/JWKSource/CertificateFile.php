@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class CertificateFile.
  */
-final class CertificateFile extends AbstractSource implements JWKSource
+ class CertificateFile extends AbstractSource implements JWKSource
 {
     /**
      * {@inheritdoc}

@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * Class JoseFrameworkBundle.
  */
-final class JoseFrameworkBundle extends Bundle
+ class JoseFrameworkBundle extends Bundle
 {
     /**
      * @var Source\SourceWithCompilerPasses[]

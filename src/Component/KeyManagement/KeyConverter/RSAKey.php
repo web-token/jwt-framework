@@ -20,7 +20,7 @@ use Jose\Component\Core\Util\BigInteger;
 /**
  * Class RSAKey.
  */
-final class RSAKey
+ class RSAKey
 {
     /**
      * @var array
