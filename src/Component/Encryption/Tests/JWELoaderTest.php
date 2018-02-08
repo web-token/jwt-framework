@@ -38,8 +38,8 @@ use Jose\Component\Encryption\JWELoader;
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
             'crv' => 'P-384',
-            'x' => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
-            'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
+            'x'   => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
+            'y'   => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
          $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
@@ -58,8 +58,8 @@ use Jose\Component\Encryption\JWELoader;
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
             'crv' => 'P-384',
-            'x' => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
-            'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
+            'x'   => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
+            'y'   => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
          $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
@@ -78,8 +78,8 @@ use Jose\Component\Encryption\JWELoader;
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
             'crv' => 'P-384',
-            'x' => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
-            'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
+            'x'   => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
+            'y'   => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
          $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
@@ -96,7 +96,7 @@ use Jose\Component\Encryption\JWELoader;
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'use' => 'enc',
             'alg' => 'A128KW',
-            'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+            'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
          $recipient = 0;
          $jwe = $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);

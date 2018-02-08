@@ -59,8 +59,8 @@ class AlgorithmCollector implements Collector
         }
 
         $data['algorithm']['types'] = [
-            'signature' => $signatureAlgorithms,
-            'key_encryption' => $keyEncryptionAlgorithms,
+            'signature'          => $signatureAlgorithms,
+            'key_encryption'     => $keyEncryptionAlgorithms,
             'content_encryption' => $contentEncryptionAlgorithms,
         ];
     }

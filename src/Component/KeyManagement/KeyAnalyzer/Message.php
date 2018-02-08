@@ -98,7 +98,7 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
      public function jsonSerialize()
      {
          return [
-            'message' => $this->message,
+            'message'  => $this->message,
             'severity' => $this->severity,
         ];
      }

@@ -65,7 +65,7 @@ class CheckerCollector implements Collector
             $data['checker']['header_checker_managers'][$id] = [];
             foreach ($checkerManager->getCheckers() as $checker) {
                 $data['checker']['header_checker_managers'][$id][] = [
-                    'header' => $checker->supportedHeader(),
+                    'header'    => $checker->supportedHeader(),
                     'protected' => $checker->protectedHeaderOnly(),
                 ];
             }
@@ -82,7 +82,7 @@ class CheckerCollector implements Collector
             $aliases = $this->headerCheckerManagerFactory->all();
             foreach ($aliases as $alias => $checker) {
                 $data['checker']['header_checkers'][$alias] = [
-                    'header' => $checker->supportedHeader(),
+                    'header'    => $checker->supportedHeader(),
                     'protected' => $checker->protectedHeaderOnly(),
                 ];
             }

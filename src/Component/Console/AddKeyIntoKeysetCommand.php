@@ -47,8 +47,7 @@ use Symfony\Component\Console\Output\OutputInterface;
             ->setDescription('Add a key into a key set.')
             ->setHelp('This command adds a key at the end of a key set.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
      }
 
      /**

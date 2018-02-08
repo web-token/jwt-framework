@@ -260,7 +260,7 @@ use Jose\Component\Core\Util\RSAKey;
      {
          $t = '';
          $count = ceil($maskLen / $mgfHash->getLength());
-         for ($i = 0; $i < $count; ++$i) {
+         for ($i = 0; $i < $count; $i++) {
              $c = pack('N', $i);
              $t .= $mgfHash->hash($mgfSeed.$c);
          }

@@ -251,9 +251,9 @@ use Jose\Component\Core\JWK;
      }
 
      /**
-      * @return string
-      *
       * @throws \Exception
+      *
+      * @return string
       */
      public function toPEM(): string
      {
