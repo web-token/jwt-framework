@@ -20,7 +20,7 @@ use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class CheckerCollector implements Collector
+class CheckerCollector implements Collector
 {
     /**
      * @var ClaimCheckerManagerFactory|null

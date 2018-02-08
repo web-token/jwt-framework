@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class OctKeyGeneratorCommand.
  */
-final class OctKeyGeneratorCommand extends GeneratorCommand
+class OctKeyGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

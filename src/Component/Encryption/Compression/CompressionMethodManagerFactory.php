@@ -16,7 +16,7 @@ namespace Jose\Component\Encryption\Compression;
 /**
  * Class CompressionMethodManagerFactory.
  */
-final class CompressionMethodManagerFactory
+class CompressionMethodManagerFactory
 {
     /**
      * @var CompressionMethod[]

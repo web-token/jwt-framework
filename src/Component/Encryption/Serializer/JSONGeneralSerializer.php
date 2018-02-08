@@ -21,7 +21,7 @@ use Jose\Component\Encryption\Recipient;
 /**
  * Class JSONGeneralSerializer.
  */
-final class JSONGeneralSerializer implements JWESerializer
+class JSONGeneralSerializer implements JWESerializer
 {
     public const NAME = 'jwe_json_general';
 

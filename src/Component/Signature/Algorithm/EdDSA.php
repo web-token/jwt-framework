@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class EdDSA.
  */
-final class EdDSA implements SignatureAlgorithm
+class EdDSA implements SignatureAlgorithm
 {
     /**
      * {@inheritdoc}

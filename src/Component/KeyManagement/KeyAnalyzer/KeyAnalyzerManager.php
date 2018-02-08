@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class KeyAnalyzerManager.
  */
-final class KeyAnalyzerManager
+class KeyAnalyzerManager
 {
     /**
      * @var KeyAnalyzer[]

@@ -25,7 +25,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * @group Console
  * @group KeyConversionCommand
  */
-final class KeyConversionCommandTest extends TestCase
+class KeyConversionCommandTest extends TestCase
 {
     /**
      * @test

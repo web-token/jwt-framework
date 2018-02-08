@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
-/*
+/**
  * *********************************************************************
- * Copyright (C) 2012 Matyas Danter
+ * Copyright (C) 2012 Matyas Danter.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
@@ -38,9 +38,10 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 
 /**
- * This class serves as public- private key exchange for signature verification.
+ * @internal
+ * This class serves as public- private key exchange for signature verification
  */
-final class PublicKey
+class PublicKey
 {
     /**
      * @var Point

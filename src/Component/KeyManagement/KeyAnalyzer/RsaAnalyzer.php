@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
 /**
  * Class RsaAnalyzer.
  */
-final class RsaAnalyzer implements KeyAnalyzer
+class RsaAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}

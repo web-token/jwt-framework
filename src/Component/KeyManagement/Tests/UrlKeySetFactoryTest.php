@@ -26,7 +26,7 @@ use Http\Mock\Client;
  * @group Unit
  * @group UrlKeySetFactory
  */
-final class UrlKeySetFactoryTest extends TestCase
+class UrlKeySetFactoryTest extends TestCase
 {
     /**
      * @var MessageFactory

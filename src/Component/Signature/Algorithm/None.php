@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 /**
  * This class is an abstract class that implements the none algorithm (plaintext).
  */
-final class None implements SignatureAlgorithm
+class None implements SignatureAlgorithm
 {
     /**
      * {@inheritdoc}

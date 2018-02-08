@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Bundle
  * @group Functional
  */
-final class JWELoaderTest extends WebTestCase
+class JWELoaderTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

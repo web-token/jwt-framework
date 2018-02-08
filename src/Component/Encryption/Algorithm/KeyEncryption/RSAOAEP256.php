@@ -18,7 +18,7 @@ use Jose\Component\Encryption\Util\RSACrypt;
 /**
  * Class RSAOAEP256.
  */
-final class RSAOAEP256 extends RSA
+class RSAOAEP256 extends RSA
 {
     /**
      * {@inheritdoc}

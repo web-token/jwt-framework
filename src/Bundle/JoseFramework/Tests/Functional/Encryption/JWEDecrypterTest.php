@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Bundle
  * @group Functional
  */
-final class JWEDecrypterTest extends WebTestCase
+class JWEDecrypterTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

@@ -22,7 +22,7 @@ use Jose\Component\Encryption\JWE;
  *
  * @group Functional
  */
-final class JWEFlattenedTest extends EncryptionTest
+class JWEFlattenedTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.5

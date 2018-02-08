@@ -18,7 +18,7 @@ use Jose\Component\Core\JWT;
 /**
  * Class HeaderCheckerManager.
  */
-final class HeaderCheckerManager
+class HeaderCheckerManager
 {
     /**
      * @var HeaderChecker[]
@@ -93,6 +93,8 @@ final class HeaderCheckerManager
     /**
      * @param JWT $jwt
      * @param int $component
+     *
+     * @throws InvalidHeaderException
      */
     public function check(JWT $jwt, int $component)
     {

@@ -23,9 +23,10 @@ use FG\ASN1\Universal\Sequence;
 use FG\ASN1\ASNObject;
 
 /**
- * Class ECKey.
+ * @internal
+ * Class ECKey
  */
-final class ECKey
+class ECKey
 {
     /**
      * @var array

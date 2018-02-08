@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class KeyManagementSource.
  */
-final class KeyManagementSource implements Source
+class KeyManagementSource implements Source
 {
     /**
      * @var Source[]

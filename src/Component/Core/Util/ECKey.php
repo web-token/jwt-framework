@@ -18,8 +18,10 @@ use Jose\Component\Core\JWK;
 
 /**
  * Class ECKey.
+ *
+ * @internal
  */
-final class ECKey
+class ECKey
 {
     /**
      * @param JWK $jwk

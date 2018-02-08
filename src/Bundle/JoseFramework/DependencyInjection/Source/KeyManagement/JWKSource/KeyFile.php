@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class KeyFile.
  */
-final class KeyFile extends AbstractSource implements JWKSource
+class KeyFile extends AbstractSource implements JWKSource
 {
     /**
      * {@inheritdoc}

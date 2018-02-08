@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  * @group ClaimChecker
  * @group Functional
  */
-final class IssuedAtClaimCheckerTest extends TestCase
+class IssuedAtClaimCheckerTest extends TestCase
 {
     /**
      * @test

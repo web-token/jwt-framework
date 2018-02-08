@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class JKUriSource.
  */
-final class JWKUriSource implements Source
+class JWKUriSource implements Source
 {
     /**
      * {@inheritdoc}

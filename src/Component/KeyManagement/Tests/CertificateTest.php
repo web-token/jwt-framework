@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
  * @group Certificate
  * @group Unit
  */
-final class CertificateTest extends TestCase
+class CertificateTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

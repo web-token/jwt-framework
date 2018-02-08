@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class KeyAnalyzerCompilerPass.
  */
-final class KeyAnalyzerCompilerPass implements CompilerPassInterface
+class KeyAnalyzerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

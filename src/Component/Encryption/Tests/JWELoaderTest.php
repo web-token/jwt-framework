@@ -23,7 +23,7 @@ use Jose\Component\Encryption\JWELoader;
  * @group JWELoader
  * @group Functional
  */
-final class JWELoaderTest extends EncryptionTest
+class JWELoaderTest extends EncryptionTest
 {
     /**
      * @test

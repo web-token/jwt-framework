@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * @group Unit
  * @group JWAManager
  */
-final class AlgorithmManagerFactoryTest extends TestCase
+class AlgorithmManagerFactoryTest extends TestCase
 {
     /**
      * @test

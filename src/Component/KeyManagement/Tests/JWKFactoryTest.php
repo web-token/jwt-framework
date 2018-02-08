@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * @group JWKFactory
  * @group Unit
  */
-final class JWKFactoryTest extends TestCase
+class JWKFactoryTest extends TestCase
 {
     /**
      * @test

@@ -14,9 +14,10 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 /**
- * Class Math.
+ * @internal
+ * Class Math
  */
-final class Math
+class Math
 {
     /**
      * @param \GMP $first

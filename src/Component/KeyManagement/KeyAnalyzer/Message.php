@@ -16,7 +16,7 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 /**
  * Class Message.
  */
-final class Message implements \JsonSerializable
+class Message implements \JsonSerializable
 {
     /**
      * @var string

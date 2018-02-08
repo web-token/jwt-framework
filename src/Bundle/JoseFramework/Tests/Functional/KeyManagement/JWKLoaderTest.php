@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Functional
  * @group KeyManagement
  */
-final class JWKLoaderTest extends WebTestCase
+class JWKLoaderTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

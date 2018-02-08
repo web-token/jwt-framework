@@ -42,6 +42,7 @@ use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\Ecc\PublicKey;
 
 /**
+ * @internal
  * This class is the implementation of ECDH.
  * EcDH is safe key exchange and achieves
  * that a key is transported securely between two parties.
@@ -49,7 +50,7 @@ use Jose\Component\Core\Util\Ecc\PublicKey;
  * a dual encryption scheme, along with AES for faster
  * two- way encryption.
  */
-final class EcDH
+class EcDH
 {
     /**
      * @param Curve      $curve

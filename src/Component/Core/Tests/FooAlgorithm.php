@@ -18,7 +18,7 @@ use Jose\Component\Core\Algorithm;
 /**
  * Class FooAlgorithm.
  */
-final class FooAlgorithm implements Algorithm
+class FooAlgorithm implements Algorithm
 {
     /**
      * {@inheritdoc}

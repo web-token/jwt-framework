@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @group ECKeys
  * @group Unit
  */
-final class ECKeysTest extends TestCase
+class ECKeysTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

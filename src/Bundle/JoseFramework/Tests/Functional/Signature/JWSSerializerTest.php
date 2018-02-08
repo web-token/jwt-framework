@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Bundle
  * @group Functional
  */
-final class JWSSerializerTest extends WebTestCase
+class JWSSerializerTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

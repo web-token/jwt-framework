@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Class X5ULoaderCommand.
  */
-final class X5ULoaderCommand extends ObjectOutputCommand
+class X5ULoaderCommand extends ObjectOutputCommand
 {
     /**
      * @var X5UFactory

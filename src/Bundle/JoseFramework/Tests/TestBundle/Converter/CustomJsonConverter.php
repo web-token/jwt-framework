@@ -18,7 +18,7 @@ use Jose\Component\Core\Converter\JsonConverter;
 /**
  * Class CustomJsonConverter.
  */
-final class CustomJsonConverter implements JsonConverter
+class CustomJsonConverter implements JsonConverter
 {
     /**
      * @var int

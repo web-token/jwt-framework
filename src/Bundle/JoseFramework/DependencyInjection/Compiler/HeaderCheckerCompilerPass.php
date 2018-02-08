@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Class HeaderCheckerCompilerPass.
  */
-final class HeaderCheckerCompilerPass implements CompilerPassInterface
+class HeaderCheckerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

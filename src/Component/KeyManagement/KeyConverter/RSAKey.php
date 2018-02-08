@@ -18,9 +18,10 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 
 /**
- * Class RSAKey.
+ * @internal
+ * Class RSAKey
  */
-final class RSAKey
+class RSAKey
 {
     /**
      * @var array

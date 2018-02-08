@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  * @group NoneKeys
  * @group Unit
  */
-final class NoneKeysTest extends TestCase
+class NoneKeysTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7638#section-3.1

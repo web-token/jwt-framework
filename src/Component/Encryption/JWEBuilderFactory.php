@@ -20,7 +20,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 /**
  * Class JWEBuilderFactory.
  */
-final class JWEBuilderFactory
+class JWEBuilderFactory
 {
     /**
      * @var JsonConverter

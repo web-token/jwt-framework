@@ -21,7 +21,7 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class AlgorithmCollector implements Collector
+class AlgorithmCollector implements Collector
 {
     /**
      * @var AlgorithmManagerFactory

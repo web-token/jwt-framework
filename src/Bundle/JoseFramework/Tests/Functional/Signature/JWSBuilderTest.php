@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Bundle
  * @group Functional
  */
-final class JWSBuilderTest extends WebTestCase
+class JWSBuilderTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

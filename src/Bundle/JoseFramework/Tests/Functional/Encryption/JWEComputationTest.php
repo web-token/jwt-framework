@@ -25,7 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Bundle
  * @group Functional
  */
-final class JWEComputationTest extends WebTestCase
+class JWEComputationTest extends WebTestCase
 {
     /**
      * {@inheritdoc}

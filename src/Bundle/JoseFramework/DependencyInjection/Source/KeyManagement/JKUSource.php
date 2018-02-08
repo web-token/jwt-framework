@@ -23,7 +23,7 @@ use Symfony\Component\Config\FileLocator;
 /**
  * Class JKUSource.
  */
-final class JKUSource implements Source
+class JKUSource implements Source
 {
     /**
      * {@inheritdoc}

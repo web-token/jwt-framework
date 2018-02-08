@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * Class JWKSetSource.
  */
-final class JWKSetSource implements Source
+class JWKSetSource implements Source
 {
     /**
      * @var null|JWKSetSourceInterface[]
