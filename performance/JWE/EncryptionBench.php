@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWE;
 
+use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
-use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
+use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWEBuilder;

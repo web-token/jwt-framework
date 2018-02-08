@@ -37,7 +37,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
          $services = [
             'addHeaderCheckerManager' => 'jose.header_checker_manager',
-            'addClaimCheckerManager' => 'jose.claim_checker_manager',
+            'addClaimCheckerManager'  => 'jose.claim_checker_manager',
         ];
          foreach ($services as $method => $tag) {
              $this->collectServices($method, $tag, $definition, $container);

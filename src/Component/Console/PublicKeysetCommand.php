@@ -45,8 +45,7 @@ use Symfony\Component\Console\Output\OutputInterface;
             ->setName('keyset:convert:public')
             ->setDescription('Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.')
             ->setHelp('This command converts private keys in a key set into public keys.')
-            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-        ;
+            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
      }
 
      /**

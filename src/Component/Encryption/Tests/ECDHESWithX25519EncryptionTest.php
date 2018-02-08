@@ -31,8 +31,8 @@ use Jose\Component\Core\JWK;
          $receiverKey = JWK::create([
             'kty' => 'OKP',
             'crv' => 'X25519',
-            'x' => 'azBwhSxIIhQIri4QdT__5q7ybEhKItJlGeyuLNN5ZCQ',
-            'd' => 'aCaXuAvPEuLVqQSihzryIWaQqmXZxA-3ZrF6CEm180c',
+            'x'   => 'azBwhSxIIhQIri4QdT__5q7ybEhKItJlGeyuLNN5ZCQ',
+            'd'   => 'aCaXuAvPEuLVqQSihzryIWaQqmXZxA-3ZrF6CEm180c',
         ]);
          $input = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 

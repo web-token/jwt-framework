@@ -83,9 +83,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
      }
 
      /**
-      * @return JWKSourceInterface[]
-      *
       * @throws \Exception
+      *
+      * @return JWKSourceInterface[]
       */
      private function getJWKSources(): array
      {

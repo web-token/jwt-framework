@@ -47,8 +47,7 @@ abstract class ObjectOutputCommand extends Command
     protected function configure()
     {
         $this
-            ->addOption('out', 'o', InputOption::VALUE_OPTIONAL, 'File where to save the key. Must be a valid and writable file name.')
-        ;
+            ->addOption('out', 'o', InputOption::VALUE_OPTIONAL, 'File where to save the key. Must be a valid and writable file name.');
     }
 
     /**

@@ -36,9 +36,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jws' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'            => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
-                            'tags' => $tags,
+                            'tags'                 => $tags,
                         ],
                     ],
                 ],
@@ -61,9 +61,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jws' => [
                     'verifiers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'            => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
-                            'tags' => $tags,
+                            'tags'                 => $tags,
                         ],
                     ],
                 ],
@@ -87,9 +87,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jws' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'   => $is_public,
                             'serializers' => $serializers,
-                            'tags' => $tags,
+                            'tags'        => $tags,
                         ],
                     ],
                 ],
@@ -115,11 +115,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jws' => [
                     'loaders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'serializers' => $serializers,
+                            'is_public'            => $is_public,
+                            'serializers'          => $serializers,
                             'signature_algorithms' => $signature_algorithms,
-                            'header_checkers' => $header_checkers,
-                            'tags' => $tags,
+                            'header_checkers'      => $header_checkers,
+                            'tags'                 => $tags,
                         ],
                     ],
                 ],
@@ -143,9 +143,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jwe' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'   => $is_public,
                             'serializers' => $serializers,
-                            'tags' => $tags,
+                            'tags'        => $tags,
                         ],
                     ],
                 ],
@@ -173,13 +173,13 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jwe' => [
                     'loaders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'serializers' => $serializers,
-                            'key_encryption_algorithms' => $key_encryption_algorithms,
+                            'is_public'                     => $is_public,
+                            'serializers'                   => $serializers,
+                            'key_encryption_algorithms'     => $key_encryption_algorithms,
                             'content_encryption_algorithms' => $content_encryption_algorithms,
-                            'compression_methods' => $compression_methods,
-                            'header_checkers' => $header_checkers,
-                            'tags' => $tags,
+                            'compression_methods'           => $compression_methods,
+                            'header_checkers'               => $header_checkers,
+                            'tags'                          => $tags,
                         ],
                     ],
                 ],
@@ -204,8 +204,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                     'claims' => [
                         $name => [
                             'is_public' => $is_public,
-                            'claims' => $claimCheckers,
-                            'tags' => $tags,
+                            'claims'    => $claimCheckers,
+                            'tags'      => $tags,
                         ],
                     ],
                 ],
@@ -230,8 +230,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                     'headers' => [
                         $name => [
                             'is_public' => $is_public,
-                            'headers' => $headerCheckers,
-                            'tags' => $tags,
+                            'headers'   => $headerCheckers,
+                            'tags'      => $tags,
                         ],
                     ],
                 ],
@@ -323,11 +323,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jwe' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'is_public'                     => $is_public,
+                            'key_encryption_algorithms'     => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
-                            'tags' => $tags,
+                            'compression_methods'           => $compressionMethods,
+                            'tags'                          => $tags,
                         ],
                     ],
                 ],
@@ -353,11 +353,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 'jwe' => [
                     'decrypters' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'is_public'                     => $is_public,
+                            'key_encryption_algorithms'     => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
-                            'tags' => $tags,
+                            'compression_methods'           => $compressionMethods,
+                            'tags'                          => $tags,
                         ],
                     ],
                 ],

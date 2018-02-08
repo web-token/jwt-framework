@@ -45,8 +45,7 @@ use Symfony\Component\Console\Output\OutputInterface;
             ->setName('key:convert:public')
             ->setDescription('Convert a private key into public key. Symmetric keys (shared keys) are not changed.')
             ->setHelp('This command converts a private key into a public key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
      }
 
      /**

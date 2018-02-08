@@ -13,12 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\JWKSet;
-use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Base64Url\Base64Url;
 use Jose\Component\Core\Algorithm;
+use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
@@ -27,6 +26,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrappin
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
+use Jose\Component\Encryption\Compression\CompressionMethodManager;
 
 /**
   * Class JWEDecrypter.

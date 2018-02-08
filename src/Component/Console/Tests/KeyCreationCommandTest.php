@@ -77,7 +77,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
      {
          $converter = new StandardConverter();
          $input = new ArrayInput([
-            'curve' => 'P-256',
+            'curve'       => 'P-256',
             '--random_id' => true,
         ]);
          $output = new BufferedOutput();
@@ -112,7 +112,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
      {
          $converter = new StandardConverter();
          $input = new ArrayInput([
-            'size' => 256,
+            'size'        => 256,
             '--random_id' => true,
         ]);
          $output = new BufferedOutput();
@@ -189,7 +189,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
      {
          $converter = new StandardConverter();
          $input = new ArrayInput([
-            'curve' => 'X25519',
+            'curve'       => 'X25519',
             '--random_id' => true,
         ]);
          $output = new BufferedOutput();
@@ -242,7 +242,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
      {
          $converter = new StandardConverter();
          $input = new ArrayInput([
-            'size' => 1024,
+            'size'        => 1024,
             '--random_id' => true,
         ]);
          $output = new BufferedOutput();

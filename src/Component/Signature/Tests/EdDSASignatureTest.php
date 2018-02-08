@@ -34,8 +34,8 @@ use Jose\Component\Signature\JWS;
          $key = JWK::create([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
-            'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
-            'x' => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
+            'd'   => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
+            'x'   => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
         ]);
 
          $eddsa = new EdDSA();
@@ -55,8 +55,8 @@ use Jose\Component\Signature\JWS;
          $key = JWK::create([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
-            'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
-            'x' => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
+            'd'   => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
+            'x'   => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
         ]);
 
          $header = ['alg' => 'EdDSA'];

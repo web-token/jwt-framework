@@ -15,8 +15,8 @@ namespace Jose\Bundle\JoseFramework\Tests\TestBundle;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use Http\Message\ResponseFactory;
 use Http\Message\RequestFactory;
+use Http\Message\ResponseFactory;
 
 /**
   * Class MessageFactory.

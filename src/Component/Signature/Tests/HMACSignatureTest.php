@@ -46,7 +46,7 @@ use Jose\Component\Signature\Algorithm\HS512;
      {
          $key = JWK::create([
             'kty' => 'oct',
-            'k' => 'foo',
+            'k'   => 'foo',
         ]);
          $hmac = new HS256();
          $data = 'Live long and Prosper.';
@@ -58,7 +58,7 @@ use Jose\Component\Signature\Algorithm\HS512;
      {
          $key = JWK::create([
             'kty' => 'oct',
-            'k' => 'foo',
+            'k'   => 'foo',
         ]);
          $hmac = new HS256();
          $data = 'Live long and Prosper.';
@@ -73,7 +73,7 @@ use Jose\Component\Signature\Algorithm\HS512;
      {
          $key = JWK::create([
             'kty' => 'oct',
-            'k' => 'foo',
+            'k'   => 'foo',
         ]);
          $hmac = new HS384();
          $data = 'Live long and Prosper.';
@@ -88,7 +88,7 @@ use Jose\Component\Signature\Algorithm\HS512;
      {
          $key = JWK::create([
             'kty' => 'oct',
-            'k' => 'foo',
+            'k'   => 'foo',
         ]);
          $hmac = new HS512();
          $data = 'Live long and Prosper.';

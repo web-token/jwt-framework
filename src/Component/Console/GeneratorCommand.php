@@ -40,8 +40,7 @@ abstract class GeneratorCommand extends ObjectOutputCommand
         $this
             ->addOption('use', 'u', InputOption::VALUE_OPTIONAL, 'Usage of the key. Must be either "sig" or "enc".')
             ->addOption('alg', 'a', InputOption::VALUE_OPTIONAL, 'Algorithm for the key.')
-            ->addOption('random_id', null, InputOption::VALUE_NONE, 'If this option is set, a random key ID (kid) will be generated.')
-        ;
+            ->addOption('random_id', null, InputOption::VALUE_NONE, 'If this option is set, a random key ID (kid) will be generated.');
     }
 
     /**
