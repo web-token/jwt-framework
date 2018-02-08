@@ -301,30 +301,30 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             default:
                 throw new \InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
         }
-     }
+    }
 
-     /**
-      * @param array $a
-      * @param array $b
-      *
-      * @return int
-      *
-      * @internal
-      */
-     public static function sortKeys(array $a, array $b): int
-     {
-         if ($a['ind'] === $b['ind']) {
-             return 0;
-         }
+    /**
+     * @param array $a
+     * @param array $b
+     *
+     * @return int
+     *
+     * @internal
+     */
+    public static function sortKeys(array $a, array $b): int
+    {
+        if ($a['ind'] === $b['ind']) {
+            return 0;
+        }
 
-         return ($a['ind'] > $b['ind']) ? -1 : 1;
-     }
+        return ($a['ind'] > $b['ind']) ? -1 : 1;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getIterator()
-     {
-         return new \ArrayIterator($this->keys);
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->keys);
+    }
+}

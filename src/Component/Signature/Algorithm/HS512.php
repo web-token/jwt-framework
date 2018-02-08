@@ -23,11 +23,11 @@ class HS512 extends HMAC
         return 'sha512';
     }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'HS512';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'HS512';
+    }
+}

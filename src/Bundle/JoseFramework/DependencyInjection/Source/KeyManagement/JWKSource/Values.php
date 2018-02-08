@@ -32,29 +32,29 @@ class Values extends AbstractSource implements JWKSource
             new Reference(JWKFactory::class),
             'createFromValues',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['values'],
         ]);
-         $definition->addTag('jose.jwk');
+        $definition->addTag('jose.jwk');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKey(): string
-     {
-         return 'values';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey(): string
+    {
+        return 'values';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->arrayNode('values')
                     ->info('Values of the key.')
@@ -63,5 +63,5 @@ class Values extends AbstractSource implements JWKSource
                     ->prototype('variable')->end()
                 ->end()
             ->end();
-     }
- }
+    }
+}

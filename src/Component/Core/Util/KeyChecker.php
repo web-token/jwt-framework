@@ -80,18 +80,18 @@ class KeyChecker
             default:
                 throw new \InvalidArgumentException('Unsupported key usage.');
         }
-     }
+    }
 
-     /**
-      * @param JWK    $key
-      * @param string $usage
-      *
-      * @return bool
-      */
-     private static function checkUsage(JWK $key, string $usage): bool
-     {
-         $use = $key->get('use');
-         switch ($usage) {
+    /**
+     * @param JWK    $key
+     * @param string $usage
+     *
+     * @return bool
+     */
+    private static function checkUsage(JWK $key, string $usage): bool
+    {
+        $use = $key->get('use');
+        switch ($usage) {
             case 'verification':
             case 'signature':
                 if ('sig' !== $use) {
@@ -109,20 +109,20 @@ class KeyChecker
             default:
                 throw new \InvalidArgumentException('Unsupported key usage.');
         }
-     }
+    }
 
-     /**
-      * @param JWK    $key
-      * @param string $algorithm
-      */
-     public static function checkKeyAlgorithm(JWK $key, string $algorithm)
-     {
-         if (!$key->has('alg')) {
-             return;
-         }
+    /**
+     * @param JWK    $key
+     * @param string $algorithm
+     */
+    public static function checkKeyAlgorithm(JWK $key, string $algorithm)
+    {
+        if (!$key->has('alg')) {
+            return;
+        }
 
-         if ($key->get('alg') !== $algorithm) {
-             throw new \InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
-         }
-     }
- }
+        if ($key->get('alg') !== $algorithm) {
+            throw new \InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
+        }
+    }
+}

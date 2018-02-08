@@ -25,80 +25,80 @@ class Hash
      */
     private $hash;
 
-     /**
-      * Hash Length.
-      *
-      * @var int
-      */
-     private $length;
+    /**
+     * Hash Length.
+     *
+     * @var int
+     */
+    private $length;
 
-     /**
-      * @return Hash
-      */
-     public static function sha1(): self
-     {
-         return new self('sha1', 20);
-     }
+    /**
+     * @return Hash
+     */
+    public static function sha1(): self
+    {
+        return new self('sha1', 20);
+    }
 
-     /**
-      * @return Hash
-      */
-     public static function sha256(): self
-     {
-         return new self('sha256', 32);
-     }
+    /**
+     * @return Hash
+     */
+    public static function sha256(): self
+    {
+        return new self('sha256', 32);
+    }
 
-     /**
-      * @return Hash
-      */
-     public static function sha384(): self
-     {
-         return new self('sha384', 48);
-     }
+    /**
+     * @return Hash
+     */
+    public static function sha384(): self
+    {
+        return new self('sha384', 48);
+    }
 
-     /**
-      * @return Hash
-      */
-     public static function sha512(): self
-     {
-         return new self('sha512', 64);
-     }
+    /**
+     * @return Hash
+     */
+    public static function sha512(): self
+    {
+        return new self('sha512', 64);
+    }
 
-     /**
-      * @param string $hash
-      * @param int    $length
-      */
-     private function __construct(string $hash, int $length)
-     {
-         $this->hash = $hash;
-         $this->length = $length;
-     }
+    /**
+     * @param string $hash
+     * @param int    $length
+     */
+    private function __construct(string $hash, int $length)
+    {
+        $this->hash = $hash;
+        $this->length = $length;
+    }
 
-     /**
-      * @return int
-      */
-     public function getLength(): int
-     {
-         return $this->length;
-     }
+    /**
+     * @return int
+     */
+    public function getLength(): int
+    {
+        return $this->length;
+    }
 
-     /**
-      * Compute the HMAC.
-      *
-      * @param string $text
-      *
-      * @return string
-      */
-     public function hash(string $text): string
-     {
-         return hash($this->hash, $text, true);
-     }
+    /**
+     * Compute the HMAC.
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    public function hash(string $text): string
+    {
+        return hash($this->hash, $text, true);
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return $this->hash;
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return $this->hash;
+    }
+}

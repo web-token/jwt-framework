@@ -32,30 +32,30 @@ class CertificateFile extends AbstractSource implements JWKSource
             new Reference(JWKFactory::class),
             'createFromCertificateFile',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['path'],
             $config['additional_values'],
         ]);
-         $definition->addTag('jose.jwk');
+        $definition->addTag('jose.jwk');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKey(): string
-     {
-         return 'certificate';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey(): string
+    {
+        return 'certificate';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->scalarNode('path')
                     ->info('Path of the certificate file.')
@@ -68,5 +68,5 @@ class CertificateFile extends AbstractSource implements JWKSource
                     ->prototype('variable')->end()
                 ->end()
             ->end();
-     }
- }
+    }
+}

@@ -23,19 +23,19 @@ class A128GCM extends AESGCM
         return 128;
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function getMode(): string
-     {
-         return 'aes-128-gcm';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-128-gcm';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A128GCM';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A128GCM';
+    }
+}

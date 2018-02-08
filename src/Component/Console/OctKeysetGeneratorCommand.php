@@ -32,21 +32,21 @@ class OctKeysetGeneratorCommand extends GeneratorCommand
             ->setDescription('Generate a key set with octet keys (JWK format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $quantity = intval($input->getArgument('quantity'));
-         $size = intval($input->getArgument('size'));
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $quantity = intval($input->getArgument('quantity'));
+        $size = intval($input->getArgument('size'));
 
-         $keyset = JWKSet::createFromKeys([]);
-         for ($i = 0; $i < $quantity; $i++) {
-             $args = $this->getOptions($input);
-             $keyset = $keyset->with(JWKFactory::createOctKey($size, $args));
-         }
-         $this->prepareJsonOutput($input, $output, $keyset);
-     }
- }
+        $keyset = JWKSet::createFromKeys([]);
+        for ($i = 0; $i < $quantity; $i++) {
+            $args = $this->getOptions($input);
+            $keyset = $keyset->with(JWKFactory::createOctKey($size, $args));
+        }
+        $this->prepareJsonOutput($input, $output, $keyset);
+    }
+}

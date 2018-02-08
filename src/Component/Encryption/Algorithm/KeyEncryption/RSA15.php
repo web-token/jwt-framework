@@ -25,19 +25,19 @@ class RSA15 extends RSA
         return RSACrypt::ENCRYPTION_PKCS1;
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function getHashAlgorithm(): ?string
-     {
-         return null;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getHashAlgorithm(): ?string
+    {
+        return null;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'RSA1_5';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'RSA1_5';
+    }
+}

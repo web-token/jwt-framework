@@ -29,11 +29,11 @@ class SignatureSerializerCompilerPass implements CompilerPassInterface
             return;
         }
 
-         $definition = $container->getDefinition(JWSSerializerManagerFactory::class);
+        $definition = $container->getDefinition(JWSSerializerManagerFactory::class);
 
-         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jws.serializer');
-         foreach ($taggedAlgorithmServices as $id => $tags) {
-             $definition->addMethodCall('add', [new Reference($id)]);
-         }
-     }
- }
+        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jws.serializer');
+        foreach ($taggedAlgorithmServices as $id => $tags) {
+            $definition->addMethodCall('add', [new Reference($id)]);
+        }
+    }
+}

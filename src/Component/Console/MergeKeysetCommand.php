@@ -32,36 +32,36 @@ class MergeKeysetCommand extends ObjectOutputCommand
         parent::__construct($jsonConverter, $name);
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function configure()
-     {
-         parent::configure();
-         $this
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        parent::configure();
+        $this
             ->setName('keyset:merge')
             ->setDescription('Merge several key sets into one.')
             ->setHelp('This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.')
             ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $keySets = $input->getArgument('jwksets');
-         $newJwkset = JWKSet::createFromKeys([]);
-         foreach ($keySets as $keySet) {
-             $json = $this->jsonConverter->decode($keySet);
-             if (!is_array($json)) {
-                 throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
-             }
-             $jwkset = JWKSet::createFromKeyData($json);
-             foreach ($jwkset->all() as $jwk) {
-                 $newJwkset = $newJwkset->with($jwk);
-             }
-         }
-         $this->prepareJsonOutput($input, $output, $newJwkset);
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $keySets = $input->getArgument('jwksets');
+        $newJwkset = JWKSet::createFromKeys([]);
+        foreach ($keySets as $keySet) {
+            $json = $this->jsonConverter->decode($keySet);
+            if (!is_array($json)) {
+                throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
+            }
+            $jwkset = JWKSet::createFromKeyData($json);
+            foreach ($jwkset->all() as $jwk) {
+                $newJwkset = $newJwkset->with($jwk);
+            }
+        }
+        $this->prepareJsonOutput($input, $output, $newJwkset);
+    }
+}

@@ -23,27 +23,27 @@ class A256CBCHS512 extends AESCBCHS
         return 'sha512';
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function getMode(): string
-     {
-         return 'aes-256-cbc';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-256-cbc';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getCEKSize(): int
-     {
-         return 512;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getCEKSize(): int
+    {
+        return 512;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A256CBC-HS512';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A256CBC-HS512';
+    }
+}

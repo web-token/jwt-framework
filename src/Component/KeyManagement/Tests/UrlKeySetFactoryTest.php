@@ -124,46 +124,46 @@ class UrlKeySetFactoryTest extends TestCase
                 $this->getHttpClient(),
                 new HttpMessageFactory()
             );
-         }
+        }
 
-         return $this->jkuFactory;
-     }
+        return $this->jkuFactory;
+    }
 
-     /**
-      * @var X5UFactory|null
-      */
-     private $x5uFactory;
+    /**
+     * @var X5UFactory|null
+     */
+    private $x5uFactory;
 
-     /**
-      * @return X5UFactory
-      */
-     private function getX5UFactory(): X5UFactory
-     {
-         if (null === $this->x5uFactory) {
-             $this->x5uFactory = new X5UFactory(
+    /**
+     * @return X5UFactory
+     */
+    private function getX5UFactory(): X5UFactory
+    {
+        if (null === $this->x5uFactory) {
+            $this->x5uFactory = new X5UFactory(
                 new StandardConverter(),
                 $this->getHttpClient(),
                 new HttpMessageFactory()
             );
-         }
+        }
 
-         return $this->x5uFactory;
-     }
+        return $this->x5uFactory;
+    }
 
-     /**
-      * @var Client|null
-      */
-     private $httpClient;
+    /**
+     * @var Client|null
+     */
+    private $httpClient;
 
-     /**
-      * @return Client
-      */
-     private function getHttpClient(): Client
-     {
-         if (null === $this->httpClient) {
-             $this->httpClient = new Client();
-         }
+    /**
+     * @return Client
+     */
+    private function getHttpClient(): Client
+    {
+        if (null === $this->httpClient) {
+            $this->httpClient = new Client();
+        }
 
-         return $this->httpClient;
-     }
- }
+        return $this->httpClient;
+    }
+}

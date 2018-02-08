@@ -57,9 +57,9 @@ class ECKey
     /**
      * @param string $data
      *
-     * @return array
-     *
      * @throws \Exception
+     *
+     * @return array
      */
     private static function loadPEM(string $data): array
     {
@@ -164,152 +164,152 @@ class ECKey
             'P-384' => '1.3.132.0.34',
             'P-521' => '1.3.132.0.35',
         ];
-     }
+    }
 
-     /**
-      * @param ASNObject $children
-      */
-     private static function verifyVersion(ASNObject $children)
-     {
-         if (!$children instanceof Integer || '1' !== $children->getContent()) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
-     }
+    /**
+     * @param ASNObject $children
+     */
+    private static function verifyVersion(ASNObject $children)
+    {
+        if (!$children instanceof Integer || '1' !== $children->getContent()) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
+    }
 
-     /**
-      * @param ASNObject   $children
-      * @param string|null $x
-      * @param string|null $y
-      */
-     private static function getXAndY(ASNObject $children, ?string &$x, ?string &$y)
-     {
-         if (!$children instanceof ExplicitlyTaggedObject || !is_array($children->getContent())) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
-         if (!$children->getContent()[0] instanceof BitString) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+    /**
+     * @param ASNObject   $children
+     * @param string|null $x
+     * @param string|null $y
+     */
+    private static function getXAndY(ASNObject $children, ?string &$x, ?string &$y)
+    {
+        if (!$children instanceof ExplicitlyTaggedObject || !is_array($children->getContent())) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
+        if (!$children->getContent()[0] instanceof BitString) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         $bits = $children->getContent()[0]->getContent();
-         $bits_length = mb_strlen($bits, '8bit');
+        $bits = $children->getContent()[0]->getContent();
+        $bits_length = mb_strlen($bits, '8bit');
 
-         if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
-             throw new \InvalidArgumentException('Unsupported key type');
-         }
+        if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
+            throw new \InvalidArgumentException('Unsupported key type');
+        }
 
-         $x = mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit');
-         $y = mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit');
-     }
+        $x = mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit');
+        $y = mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit');
+    }
 
-     /**
-      * @param ASNObject $children
-      *
-      * @return string
-      */
-     private static function getD(ASNObject $children): string
-     {
-         if (!$children instanceof OctetString) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+    /**
+     * @param ASNObject $children
+     *
+     * @return string
+     */
+    private static function getD(ASNObject $children): string
+    {
+        if (!$children instanceof OctetString) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         return $children->getContent();
-     }
+        return $children->getContent();
+    }
 
-     /**
-      * @param array $children
-      *
-      * @return array
-      */
-     private static function loadPrivatePEM(array $children): array
-     {
-         self::verifyVersion($children[0]);
-         $x = null;
-         $y = null;
-         $d = self::getD($children[1]);
-         self::getXAndY($children[3], $x, $y);
+    /**
+     * @param array $children
+     *
+     * @return array
+     */
+    private static function loadPrivatePEM(array $children): array
+    {
+        self::verifyVersion($children[0]);
+        $x = null;
+        $y = null;
+        $d = self::getD($children[1]);
+        self::getXAndY($children[3], $x, $y);
 
-         if (!$children[2] instanceof ExplicitlyTaggedObject || !is_array($children[2]->getContent())) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
-         if (!$children[2]->getContent()[0] instanceof ObjectIdentifier) {
-             throw new \InvalidArgumentException('Unable to load the key.');
-         }
+        if (!$children[2] instanceof ExplicitlyTaggedObject || !is_array($children[2]->getContent())) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
+        if (!$children[2]->getContent()[0] instanceof ObjectIdentifier) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
 
-         $curve = $children[2]->getContent()[0]->getContent();
+        $curve = $children[2]->getContent()[0]->getContent();
 
-         $values = ['kty' => 'EC'];
-         $values['crv'] = self::getCurve($curve);
-         $values['d'] = Base64Url::encode(hex2bin($d));
-         $values['x'] = Base64Url::encode(hex2bin($x));
-         $values['y'] = Base64Url::encode(hex2bin($y));
+        $values = ['kty' => 'EC'];
+        $values['crv'] = self::getCurve($curve);
+        $values['d'] = Base64Url::encode(hex2bin($d));
+        $values['x'] = Base64Url::encode(hex2bin($x));
+        $values['y'] = Base64Url::encode(hex2bin($y));
 
-         return $values;
-     }
+        return $values;
+    }
 
-     /**
-      * @param ASNObject[] $children
-      *
-      * @return bool
-      */
-     private static function isPKCS8(array $children): bool
-     {
-         if (3 !== count($children)) {
-             return false;
-         }
+    /**
+     * @param ASNObject[] $children
+     *
+     * @return bool
+     */
+    private static function isPKCS8(array $children): bool
+    {
+        if (3 !== count($children)) {
+            return false;
+        }
 
-         $classes = [0 => Integer::class, 1 => Sequence::class, 2 => OctetString::class];
-         foreach ($classes as $k => $class) {
-             if (!$children[$k] instanceof $class) {
-                 return false;
-             }
-         }
+        $classes = [0 => Integer::class, 1 => Sequence::class, 2 => OctetString::class];
+        foreach ($classes as $k => $class) {
+            if (!$children[$k] instanceof $class) {
+                return false;
+            }
+        }
 
-         return true;
-     }
+        return true;
+    }
 
-     /**
-      * @param ECKey $private
-      *
-      * @return ECKey
-      */
-     public static function toPublic(self $private): self
-     {
-         $data = $private->toArray();
-         if (array_key_exists('d', $data)) {
-             unset($data['d']);
-         }
+    /**
+     * @param ECKey $private
+     *
+     * @return ECKey
+     */
+    public static function toPublic(self $private): self
+    {
+        $data = $private->toArray();
+        if (array_key_exists('d', $data)) {
+            unset($data['d']);
+        }
 
-         return new self($data);
-     }
+        return new self($data);
+    }
 
-     /**
-      * @return array
-      */
-     public function toArray()
-     {
-         return $this->values;
-     }
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->values;
+    }
 
-     /**
-      * @param array $jwk
-      */
-     private function loadJWK(array $jwk)
-     {
-         $keys = [
+    /**
+     * @param array $jwk
+     */
+    private function loadJWK(array $jwk)
+    {
+        $keys = [
             'kty' => 'The key parameter "kty" is missing.',
             'crv' => 'Curve parameter is missing',
             'x'   => 'Point parameters are missing.',
             'y'   => 'Point parameters are missing.',
         ];
-         foreach ($keys as $k => $v) {
-             if (!array_key_exists($k, $jwk)) {
-                 throw new \InvalidArgumentException($v);
-             }
-         }
+        foreach ($keys as $k => $v) {
+            if (!array_key_exists($k, $jwk)) {
+                throw new \InvalidArgumentException($v);
+            }
+        }
 
-         if ('EC' !== $jwk['kty']) {
-             throw new \InvalidArgumentException('JWK is not an Elliptic Curve key.');
-         }
-         $this->values = $jwk;
-     }
- }
+        if ('EC' !== $jwk['kty']) {
+            throw new \InvalidArgumentException('JWK is not an Elliptic Curve key.');
+        }
+        $this->values = $jwk;
+    }
+}

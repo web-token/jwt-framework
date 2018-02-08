@@ -25,19 +25,19 @@ class RSAOAEP256 extends RSA
         return RSACrypt::ENCRYPTION_OAEP;
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getHashAlgorithm(): string
-     {
-         return 'sha256';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getHashAlgorithm(): string
+    {
+        return 'sha256';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'RSA-OAEP-256';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'RSA-OAEP-256';
+    }
+}

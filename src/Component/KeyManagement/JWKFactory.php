@@ -42,25 +42,25 @@ class JWKFactory
             'private_key_bits' => $size,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);
-         openssl_pkey_export($key, $out);
-         $rsa = RSAKey::createFromPEM($out);
-         $values = array_merge(
+        openssl_pkey_export($key, $out);
+        $rsa = RSAKey::createFromPEM($out);
+        $values = array_merge(
             $values,
             $rsa->toArray()
         );
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param string $curve  The curve
-      * @param array  $values values to configure the key
-      *
-      * @return JWK
-      */
-     public static function createECKey(string $curve, array $values = []): JWK
-     {
-         switch ($curve) {
+    /**
+     * @param string $curve  The curve
+     * @param array  $values values to configure the key
+     *
+     * @return JWK
+     */
+    public static function createECKey(string $curve, array $values = []): JWK
+    {
+        switch ($curve) {
             case 'P-256':
                 $nistCurve = NistCurve::curve256();
 
@@ -77,10 +77,10 @@ class JWKFactory
                 throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
         }
 
-         $privateKey = $nistCurve->createPrivateKey();
-         $publicKey = $nistCurve->createPublicKey($privateKey);
+        $privateKey = $nistCurve->createPrivateKey();
+        $publicKey = $nistCurve->createPublicKey($privateKey);
 
-         $values = array_merge(
+        $values = array_merge(
             $values,
             [
                 'kty' => 'EC',
@@ -91,21 +91,21 @@ class JWKFactory
             ]
         );
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param int   $size   The key size in bits
-      * @param array $values values to configure the key
-      *
-      * @return JWK
-      */
-     public static function createOctKey(int $size, array $values = []): JWK
-     {
-         if (0 !== $size % 8) {
-             throw new \InvalidArgumentException('Invalid key size.');
-         }
-         $values = array_merge(
+    /**
+     * @param int   $size   The key size in bits
+     * @param array $values values to configure the key
+     *
+     * @return JWK
+     */
+    public static function createOctKey(int $size, array $values = []): JWK
+    {
+        if (0 !== $size % 8) {
+            throw new \InvalidArgumentException('Invalid key size.');
+        }
+        $values = array_merge(
             $values,
             [
                 'kty' => 'oct',
@@ -113,18 +113,18 @@ class JWKFactory
             ]
         );
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param string $curve  The curve
-      * @param array  $values values to configure the key
-      *
-      * @return JWK
-      */
-     public static function createOKPKey(string $curve, array $values = []): JWK
-     {
-         switch ($curve) {
+    /**
+     * @param string $curve  The curve
+     * @param array  $values values to configure the key
+     *
+     * @return JWK
+     */
+    public static function createOKPKey(string $curve, array $values = []): JWK
+    {
+        switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
                 $d = sodium_crypto_box_secretkey($keyPair);
@@ -141,7 +141,7 @@ class JWKFactory
                 throw new \InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }
 
-         $values = array_merge(
+        $values = array_merge(
             $values,
             [
                 'kty' => 'OKP',
@@ -151,17 +151,17 @@ class JWKFactory
             ]
         );
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param array $values values to configure the key
-      *
-      * @return JWK
-      */
-     public static function createNoneKey(array $values = []): JWK
-     {
-         $values = array_merge(
+    /**
+     * @param array $values values to configure the key
+     *
+     * @return JWK
+     */
+    public static function createNoneKey(array $values = []): JWK
+    {
+        $values = array_merge(
             $values,
             [
                 'kty' => 'none',
@@ -170,49 +170,49 @@ class JWKFactory
             ]
         );
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param string $value
-      *
-      * @return JWK|JWKSet
-      */
-     public static function createFromJsonObject(string $value)
-     {
-         $json = json_decode($value, true);
-         if (!is_array($json)) {
-             throw new \InvalidArgumentException('Invalid key or key set.');
-         }
+    /**
+     * @param string $value
+     *
+     * @return JWK|JWKSet
+     */
+    public static function createFromJsonObject(string $value)
+    {
+        $json = json_decode($value, true);
+        if (!is_array($json)) {
+            throw new \InvalidArgumentException('Invalid key or key set.');
+        }
 
-         return self::createFromValues($json);
-     }
+        return self::createFromValues($json);
+    }
 
-     /**
-      * @param array $values
-      *
-      * @return JWK|JWKSet
-      */
-     public static function createFromValues(array $values)
-     {
-         if (array_key_exists('keys', $values) && is_array($values['keys'])) {
-             return JWKSet::createFromKeyData($values);
-         }
+    /**
+     * @param array $values
+     *
+     * @return JWK|JWKSet
+     */
+    public static function createFromValues(array $values)
+    {
+        if (array_key_exists('keys', $values) && is_array($values['keys'])) {
+            return JWKSet::createFromKeyData($values);
+        }
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * This method create a JWK object using a shared secret.
-      *
-      * @param string $secret
-      * @param array  $additional_values
-      *
-      * @return JWK
-      */
-     public static function createFromSecret(string $secret, array $additional_values = []): JWK
-     {
-         $values = array_merge(
+    /**
+     * This method create a JWK object using a shared secret.
+     *
+     * @param string $secret
+     * @param array  $additional_values
+     *
+     * @return JWK
+     */
+    public static function createFromSecret(string $secret, array $additional_values = []): JWK
+    {
+        $values = array_merge(
             $additional_values,
             [
                 'kty' => 'oct',
@@ -220,128 +220,128 @@ class JWKFactory
             ]
         );
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param string $file
-      * @param array  $additional_values
-      *
-      * @return JWK
-      */
-     public static function createFromCertificateFile(string $file, array $additional_values = []): JWK
-     {
-         $values = KeyConverter::loadKeyFromCertificateFile($file);
-         $values = array_merge($values, $additional_values);
+    /**
+     * @param string $file
+     * @param array  $additional_values
+     *
+     * @return JWK
+     */
+    public static function createFromCertificateFile(string $file, array $additional_values = []): JWK
+    {
+        $values = KeyConverter::loadKeyFromCertificateFile($file);
+        $values = array_merge($values, $additional_values);
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param JWKSet     $jwkset
-      * @param int|string $index
-      *
-      * @return JWK
-      */
-     public static function createFromKeySet(JWKSet $jwkset, $index): JWK
-     {
-         return $jwkset->get($index);
-     }
+    /**
+     * @param JWKSet     $jwkset
+     * @param int|string $index
+     *
+     * @return JWK
+     */
+    public static function createFromKeySet(JWKSet $jwkset, $index): JWK
+    {
+        return $jwkset->get($index);
+    }
 
-     /**
-      * @param string      $file
-      * @param null|string $secret
-      * @param array       $additional_values
-      *
-      * @throws \Exception
-      *
-      * @return JWK
-      */
-     public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
-     {
-         $res = openssl_pkcs12_read(file_get_contents($file), $certs, $secret);
-         if (false === $res || !is_array($certs) || !array_key_exists('pkey', $certs)) {
-             throw new \RuntimeException('Unable to load the certificates.');
-         }
+    /**
+     * @param string      $file
+     * @param null|string $secret
+     * @param array       $additional_values
+     *
+     * @throws \Exception
+     *
+     * @return JWK
+     */
+    public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
+    {
+        $res = openssl_pkcs12_read(file_get_contents($file), $certs, $secret);
+        if (false === $res || !is_array($certs) || !array_key_exists('pkey', $certs)) {
+            throw new \RuntimeException('Unable to load the certificates.');
+        }
 
-         return self::createFromKey($certs['pkey'], null, $additional_values);
-     }
+        return self::createFromKey($certs['pkey'], null, $additional_values);
+    }
 
-     /**
-      * @param string $certificate
-      * @param array  $additional_values
-      *
-      * @return JWK
-      */
-     public static function createFromCertificate(string $certificate, array $additional_values = []): JWK
-     {
-         $values = KeyConverter::loadKeyFromCertificate($certificate);
-         $values = array_merge($values, $additional_values);
+    /**
+     * @param string $certificate
+     * @param array  $additional_values
+     *
+     * @return JWK
+     */
+    public static function createFromCertificate(string $certificate, array $additional_values = []): JWK
+    {
+        $values = KeyConverter::loadKeyFromCertificate($certificate);
+        $values = array_merge($values, $additional_values);
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param resource $res
-      * @param array    $additional_values
-      *
-      * @throws \Exception
-      *
-      * @return JWK
-      */
-     public static function createFromX509Resource($res, array $additional_values = []): JWK
-     {
-         $values = KeyConverter::loadKeyFromX509Resource($res);
-         $values = array_merge($values, $additional_values);
+    /**
+     * @param resource $res
+     * @param array    $additional_values
+     *
+     * @throws \Exception
+     *
+     * @return JWK
+     */
+    public static function createFromX509Resource($res, array $additional_values = []): JWK
+    {
+        $values = KeyConverter::loadKeyFromX509Resource($res);
+        $values = array_merge($values, $additional_values);
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param string      $file
-      * @param null|string $password
-      * @param array       $additional_values
-      *
-      * @throws \Exception
-      *
-      * @return JWK
-      */
-     public static function createFromKeyFile(string $file, ?string $password = null, array $additional_values = []): JWK
-     {
-         $values = KeyConverter::loadFromKeyFile($file, $password);
-         $values = array_merge($values, $additional_values);
+    /**
+     * @param string      $file
+     * @param null|string $password
+     * @param array       $additional_values
+     *
+     * @throws \Exception
+     *
+     * @return JWK
+     */
+    public static function createFromKeyFile(string $file, ?string $password = null, array $additional_values = []): JWK
+    {
+        $values = KeyConverter::loadFromKeyFile($file, $password);
+        $values = array_merge($values, $additional_values);
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param string      $key
-      * @param null|string $password
-      * @param array       $additional_values
-      *
-      * @throws \Exception
-      *
-      * @return JWK
-      */
-     public static function createFromKey(string $key, ?string $password = null, array $additional_values = []): JWK
-     {
-         $values = KeyConverter::loadFromKey($key, $password);
-         $values = array_merge($values, $additional_values);
+    /**
+     * @param string      $key
+     * @param null|string $password
+     * @param array       $additional_values
+     *
+     * @throws \Exception
+     *
+     * @return JWK
+     */
+    public static function createFromKey(string $key, ?string $password = null, array $additional_values = []): JWK
+    {
+        $values = KeyConverter::loadFromKey($key, $password);
+        $values = array_merge($values, $additional_values);
 
-         return JWK::create($values);
-     }
+        return JWK::create($values);
+    }
 
-     /**
-      * @param array $x5c
-      * @param array $additional_values
-      *
-      * @return JWK
-      */
-     public static function createFromX5C(array $x5c, array $additional_values = []): JWK
-     {
-         $values = KeyConverter::loadFromX5C($x5c);
-         $values = array_merge($values, $additional_values);
+    /**
+     * @param array $x5c
+     * @param array $additional_values
+     *
+     * @return JWK
+     */
+    public static function createFromX5C(array $x5c, array $additional_values = []): JWK
+    {
+        $values = KeyConverter::loadFromX5C($x5c);
+        $values = array_merge($values, $additional_values);
 
-         return JWK::create($values);
-     }
- }
+        return JWK::create($values);
+    }
+}

@@ -23,19 +23,19 @@ class ES512 extends ECDSA
         return 'sha512';
     }
 
-     /**
-      * @return int
-      */
-     protected function getSignaturePartLength(): int
-     {
-         return 132;
-     }
+    /**
+     * @return int
+     */
+    protected function getSignaturePartLength(): int
+    {
+        return 132;
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'ES512';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'ES512';
+    }
+}

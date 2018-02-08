@@ -33,24 +33,24 @@ class NotBeforeClaimCheckerTest extends TestCase
         $checker->checkClaim('foo');
     }
 
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidClaimException
-      * @expectedExceptionMessage The JWT can not be used yet.
-      */
-     public function theNotBeforeClaimIsInTheFutur()
-     {
-         $checker = new NotBeforeChecker();
-         $checker->checkClaim(time() + 3600);
-     }
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
+     * @expectedExceptionMessage The JWT can not be used yet.
+     */
+    public function theNotBeforeClaimIsInTheFutur()
+    {
+        $checker = new NotBeforeChecker();
+        $checker->checkClaim(time() + 3600);
+    }
 
-     /**
-      * @test
-      */
-     public function theNotBeforeClaimIsInThePast()
-     {
-         $checker = new NotBeforeChecker();
-         $checker->checkClaim(time() - 3600);
-         self::assertEquals('nbf', $checker->supportedClaim());
-     }
- }
+    /**
+     * @test
+     */
+    public function theNotBeforeClaimIsInThePast()
+    {
+        $checker = new NotBeforeChecker();
+        $checker->checkClaim(time() - 3600);
+        self::assertEquals('nbf', $checker->supportedClaim());
+    }
+}

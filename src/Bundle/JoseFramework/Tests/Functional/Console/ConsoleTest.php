@@ -33,12 +33,12 @@ class ConsoleTest extends KernelTestCase
         }
     }
 
-     /**
-      * @test
-      */
-     public function allCommandsAreAvailable()
-     {
-         $expectedCommands = [
+    /**
+     * @test
+     */
+    public function allCommandsAreAvailable()
+    {
+        $expectedCommands = [
             'keyset:add:key',
             'key:generate:ec',
             'keyset:generate:ec',
@@ -60,9 +60,9 @@ class ConsoleTest extends KernelTestCase
             'keyset:generate:rsa',
             'key:load:x509',
         ];
-         self::bootKernel();
-         $application = new Application(self::$kernel);
+        self::bootKernel();
+        $application = new Application(self::$kernel);
 
-         self::assertEmpty(array_diff($expectedCommands, array_keys($application->all())));
-     }
- }
+        self::assertEmpty(array_diff($expectedCommands, array_keys($application->all())));
+    }
+}

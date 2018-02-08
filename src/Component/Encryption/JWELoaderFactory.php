@@ -23,49 +23,49 @@ class JWELoaderFactory
      */
     private $jweDecrypterFactory;
 
-     /**
-      * @var JWESerializerManagerFactory
-      */
-     private $jweSerializerManagerFactory;
+    /**
+     * @var JWESerializerManagerFactory
+     */
+    private $jweSerializerManagerFactory;
 
-     /**
-      * @var HeaderCheckerManagerFactory|null
-      */
-     private $headerCheckerManagerFactory = null;
+    /**
+     * @var HeaderCheckerManagerFactory|null
+     */
+    private $headerCheckerManagerFactory = null;
 
-     /**
-      * JWELoaderFactory constructor.
-      *
-      * @param JWESerializerManagerFactory      $jweSerializerManagerFactory
-      * @param JWEDecrypterFactory              $jweDecrypterFactory
-      * @param HeaderCheckerManagerFactory|null $headerCheckerManagerFactory
-      */
-     public function __construct(JWESerializerManagerFactory $jweSerializerManagerFactory, JWEDecrypterFactory $jweDecrypterFactory, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory)
-     {
-         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
-         $this->jweDecrypterFactory = $jweDecrypterFactory;
-         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
-     }
+    /**
+     * JWELoaderFactory constructor.
+     *
+     * @param JWESerializerManagerFactory      $jweSerializerManagerFactory
+     * @param JWEDecrypterFactory              $jweDecrypterFactory
+     * @param HeaderCheckerManagerFactory|null $headerCheckerManagerFactory
+     */
+    public function __construct(JWESerializerManagerFactory $jweSerializerManagerFactory, JWEDecrypterFactory $jweDecrypterFactory, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory)
+    {
+        $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
+        $this->jweDecrypterFactory = $jweDecrypterFactory;
+        $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
+    }
 
-     /**
-      * @param array $serializers
-      * @param array $keyEncryptionAlgorithms
-      * @param array $contentEncryptionAlgorithms
-      * @param array $compressionMethods
-      * @param array $headerCheckers
-      *
-      * @return JWELoader
-      */
-     public function create(array $serializers, array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $headerCheckers = []): JWELoader
-     {
-         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
-         $jweDecrypter = $this->jweDecrypterFactory->create($keyEncryptionAlgorithms, $contentEncryptionAlgorithms, $compressionMethods);
-         if (null !== $this->headerCheckerManagerFactory) {
-             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
-         } else {
-             $headerCheckerManager = null;
-         }
+    /**
+     * @param array $serializers
+     * @param array $keyEncryptionAlgorithms
+     * @param array $contentEncryptionAlgorithms
+     * @param array $compressionMethods
+     * @param array $headerCheckers
+     *
+     * @return JWELoader
+     */
+    public function create(array $serializers, array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $headerCheckers = []): JWELoader
+    {
+        $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
+        $jweDecrypter = $this->jweDecrypterFactory->create($keyEncryptionAlgorithms, $contentEncryptionAlgorithms, $compressionMethods);
+        if (null !== $this->headerCheckerManagerFactory) {
+            $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
+        } else {
+            $headerCheckerManager = null;
+        }
 
-         return new JWELoader($serializerManager, $jweDecrypter, $headerCheckerManager);
-     }
- }
+        return new JWELoader($serializerManager, $jweDecrypter, $headerCheckerManager);
+    }
+}

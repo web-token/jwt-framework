@@ -31,93 +31,93 @@ class CheckerSource implements SourceWithCompilerPasses
      */
     private $sources;
 
-     /**
-      * CheckerSource constructor.
-      */
-     public function __construct()
-     {
-         $this->sources = [
+    /**
+     * CheckerSource constructor.
+     */
+    public function __construct()
+    {
+        $this->sources = [
             new ClaimChecker(),
             new HeaderChecker(),
         ];
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'checkers';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'checkers';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-         $loader->load('checkers.yml');
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('checkers.yml');
 
-         foreach ($this->sources as $source) {
-             $source->load($configs['checkers'], $container);
-         }
-     }
+        foreach ($this->sources as $source) {
+            $source->load($configs['checkers'], $container);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getNodeDefinition(NodeDefinition $node)
-     {
-         if (!$this->isEnabled()) {
-             return;
-         }
-         $childNode = $node
+    /**
+     * {@inheritdoc}
+     */
+    public function getNodeDefinition(NodeDefinition $node)
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $childNode = $node
             ->children()
                 ->arrayNode($this->name());
 
-         foreach ($this->sources as $source) {
-             $source->getNodeDefinition($childNode);
-         }
-     }
+        foreach ($this->sources as $source) {
+            $source->getNodeDefinition($childNode);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function prepend(ContainerBuilder $container, array $config): array
-     {
-         if (!$this->isEnabled()) {
-             return [];
-         }
-         $result = [];
-         foreach ($this->sources as $source) {
-             $prepend = $source->prepend($container, $config);
-             if (!empty($prepend)) {
-                 $result[$source->name()] = $prepend;
-             }
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config): array
+    {
+        if (!$this->isEnabled()) {
+            return [];
+        }
+        $result = [];
+        foreach ($this->sources as $source) {
+            $prepend = $source->prepend($container, $config);
+            if (!empty($prepend)) {
+                $result[$source->name()] = $prepend;
+            }
+        }
 
-         return $result;
-     }
+        return $result;
+    }
 
-     /**
-      * @return bool
-      */
-     private function isEnabled(): bool
-     {
-         return class_exists(HeaderCheckerManagerFactory::class) && class_exists(ClaimCheckerManagerFactory::class);
-     }
+    /**
+     * @return bool
+     */
+    private function isEnabled(): bool
+    {
+        return class_exists(HeaderCheckerManagerFactory::class) && class_exists(ClaimCheckerManagerFactory::class);
+    }
 
-     /**
-      * @return CompilerPassInterface[]
-      */
-     public function getCompilerPasses(): array
-     {
-         return [
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
             new Compiler\ClaimCheckerCompilerPass(),
             new Compiler\HeaderCheckerCompilerPass(),
         ];
-     }
- }
+    }
+}

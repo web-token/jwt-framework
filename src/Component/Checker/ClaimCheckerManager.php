@@ -20,64 +20,64 @@ class ClaimCheckerManager
      */
     private $checkers = [];
 
-     /**
-      * ClaimCheckerManager constructor.
-      *
-      * @param ClaimChecker[] $checkers
-      */
-     private function __construct(array $checkers)
-     {
-         foreach ($checkers as $checker) {
-             $this->add($checker);
-         }
-     }
+    /**
+     * ClaimCheckerManager constructor.
+     *
+     * @param ClaimChecker[] $checkers
+     */
+    private function __construct(array $checkers)
+    {
+        foreach ($checkers as $checker) {
+            $this->add($checker);
+        }
+    }
 
-     /**
-      * @param ClaimChecker[] $checkers
-      *
-      * @return ClaimCheckerManager
-      */
-     public static function create(array $checkers): self
-     {
-         return new self($checkers);
-     }
+    /**
+     * @param ClaimChecker[] $checkers
+     *
+     * @return ClaimCheckerManager
+     */
+    public static function create(array $checkers): self
+    {
+        return new self($checkers);
+    }
 
-     /**
-      * @param ClaimChecker $checker
-      *
-      * @return ClaimCheckerManager
-      */
-     private function add(ClaimChecker $checker): self
-     {
-         $claim = $checker->supportedClaim();
-         $this->checkers[$claim] = $checker;
+    /**
+     * @param ClaimChecker $checker
+     *
+     * @return ClaimCheckerManager
+     */
+    private function add(ClaimChecker $checker): self
+    {
+        $claim = $checker->supportedClaim();
+        $this->checkers[$claim] = $checker;
 
-         return $this;
-     }
+        return $this;
+    }
 
-     /**
-      * @return ClaimChecker[]
-      */
-     public function getCheckers(): array
-     {
-         return $this->checkers;
-     }
+    /**
+     * @return ClaimChecker[]
+     */
+    public function getCheckers(): array
+    {
+        return $this->checkers;
+    }
 
-     /**
-      * @param array $claims
-      *
-      * @return array
-      */
-     public function check(array $claims): array
-     {
-         $checkedClaims = [];
-         foreach ($this->checkers as $claim => $checker) {
-             if (array_key_exists($claim, $claims)) {
-                 $checker->checkClaim($claims[$claim]);
-                 $checkedClaims[$claim] = $claims[$claim];
-             }
-         }
+    /**
+     * @param array $claims
+     *
+     * @return array
+     */
+    public function check(array $claims): array
+    {
+        $checkedClaims = [];
+        foreach ($this->checkers as $claim => $checker) {
+            if (array_key_exists($claim, $claims)) {
+                $checker->checkClaim($claims[$claim]);
+                $checkedClaims[$claim] = $claims[$claim];
+            }
+        }
 
-         return $checkedClaims;
-     }
- }
+        return $checkedClaims;
+    }
+}

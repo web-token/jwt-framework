@@ -47,22 +47,22 @@ class ConcatKDF
             '',                                                          // SuppPrivInfo
         ];
 
-         $input = implode('', $encryption_segments);
-         $hash = hash('sha256', $input, true);
-         $kdf = mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
+        $input = implode('', $encryption_segments);
+        $hash = hash('sha256', $input, true);
+        $kdf = mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
 
-         return $kdf;
-     }
+        return $kdf;
+    }
 
-     /**
-      * Convert an integer into a 32 bits string.
-      *
-      * @param int $value Integer to convert
-      *
-      * @return string
-      */
-     private static function toInt32Bits(int $value): string
-     {
-         return hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
-     }
- }
+    /**
+     * Convert an integer into a 32 bits string.
+     *
+     * @param int $value Integer to convert
+     *
+     * @return string
+     */
+    private static function toInt32Bits(int $value): string
+    {
+        return hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+    }
+}

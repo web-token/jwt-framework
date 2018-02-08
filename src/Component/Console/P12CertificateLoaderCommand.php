@@ -32,18 +32,18 @@ class P12CertificateLoaderCommand extends GeneratorCommand
             ->setDescription('Load a key from a P12 certificate file.')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the P12 certificate.')
             ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $filename = $input->getArgument('file');
-         $password = $input->getOption('secret');
-         $args = $this->getOptions($input);
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $filename = $input->getArgument('file');
+        $password = $input->getOption('secret');
+        $args = $this->getOptions($input);
 
-         $jwk = JWKFactory::createFromPKCS12CertificateFile($filename, $password, $args);
-         $this->prepareJsonOutput($input, $output, $jwk);
-     }
- }
+        $jwk = JWKFactory::createFromPKCS12CertificateFile($filename, $password, $args);
+        $this->prepareJsonOutput($input, $output, $jwk);
+    }
+}

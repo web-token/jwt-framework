@@ -29,11 +29,11 @@ class EncryptionSerializerCompilerPass implements CompilerPassInterface
             return;
         }
 
-         $definition = $container->getDefinition(JWESerializerManagerFactory::class);
+        $definition = $container->getDefinition(JWESerializerManagerFactory::class);
 
-         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwe.serializer');
-         foreach ($taggedAlgorithmServices as $id => $tags) {
-             $definition->addMethodCall('add', [new Reference($id)]);
-         }
-     }
- }
+        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwe.serializer');
+        foreach ($taggedAlgorithmServices as $id => $tags) {
+            $definition->addMethodCall('add', [new Reference($id)]);
+        }
+    }
+}

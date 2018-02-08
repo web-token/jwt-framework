@@ -33,15 +33,15 @@ class UnencodedPayloadHeaderCheckerTest extends TestCase
         $checker->checkHeader('foo');
     }
 
-     /**
-      * @test
-      */
-     public function theB64HeaderIsABoolean()
-     {
-         $checker = new UnencodedPayloadChecker();
-         $checker->checkHeader(true);
-         $checker->checkHeader(false);
-         self::assertTrue($checker->protectedHeaderOnly());
-         self::assertEquals('b64', $checker->supportedHeader());
-     }
- }
+    /**
+     * @test
+     */
+    public function theB64HeaderIsABoolean()
+    {
+        $checker = new UnencodedPayloadChecker();
+        $checker->checkHeader(true);
+        $checker->checkHeader(false);
+        self::assertTrue($checker->protectedHeaderOnly());
+        self::assertEquals('b64', $checker->supportedHeader());
+    }
+}

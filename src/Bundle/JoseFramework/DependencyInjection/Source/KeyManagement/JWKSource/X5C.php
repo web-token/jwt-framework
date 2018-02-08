@@ -32,30 +32,30 @@ class X5C extends AbstractSource implements JWKSource
             new Reference(JWKFactory::class),
             'createFromCertificate',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['value'],
             $config['additional_values'],
         ]);
-         $definition->addTag('jose.jwk');
+        $definition->addTag('jose.jwk');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKey(): string
-     {
-         return 'x5c';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey(): string
+    {
+        return 'x5c';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->scalarNode('value')
                     ->info('X509 certificate')
@@ -68,5 +68,5 @@ class X5C extends AbstractSource implements JWKSource
                     ->prototype('variable')->end()
                 ->end()
             ->end();
-     }
- }
+    }
+}

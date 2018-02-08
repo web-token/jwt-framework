@@ -25,19 +25,19 @@ class RS256 extends RSA
         return 'sha256';
     }
 
-     /**
-      * @return int
-      */
-     protected function getSignatureMethod(): int
-     {
-         return JoseRSA::SIGNATURE_PKCS1;
-     }
+    /**
+     * @return int
+     */
+    protected function getSignatureMethod(): int
+    {
+        return JoseRSA::SIGNATURE_PKCS1;
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'RS256';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'RS256';
+    }
+}

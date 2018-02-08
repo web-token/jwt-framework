@@ -29,15 +29,15 @@ class JWEBuilder extends AbstractEncryptionSource
         return 'builders';
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         foreach ($configs[$this->name()] as $name => $itemConfig) {
-             $service_id = sprintf('jose.jwe_builder.%s', $name);
-             $definition = new Definition(JWEBuilderService::class);
-             $definition
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
+            $service_id = sprintf('jose.jwe_builder.%s', $name);
+            $definition = new Definition(JWEBuilderService::class);
+            $definition
                 ->setFactory([new Reference(JWEBuilderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['key_encryption_algorithms'],
@@ -46,10 +46,10 @@ class JWEBuilder extends AbstractEncryptionSource
                 ])
                 ->addTag('jose.jwe_builder')
                 ->setPublic($itemConfig['is_public']);
-             foreach ($itemConfig['tags'] as $id => $attributes) {
-                 $definition->addTag($id, $attributes);
-             }
-             $container->setDefinition($service_id, $definition);
-         }
-     }
- }
+            foreach ($itemConfig['tags'] as $id => $attributes) {
+                $definition->addTag($id, $attributes);
+            }
+            $container->setDefinition($service_id, $definition);
+        }
+    }
+}

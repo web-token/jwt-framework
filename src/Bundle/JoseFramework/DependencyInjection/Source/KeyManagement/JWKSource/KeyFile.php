@@ -32,31 +32,31 @@ class KeyFile extends AbstractSource implements JWKSource
             new Reference(JWKFactory::class),
             'createFromKeyFile',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['path'],
             $config['password'],
             $config['additional_values'],
         ]);
-         $definition->addTag('jose.jwk');
+        $definition->addTag('jose.jwk');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKey(): string
-     {
-         return 'file';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey(): string
+    {
+        return 'file';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->scalarNode('path')
                     ->info('Path of the key file.')
@@ -73,5 +73,5 @@ class KeyFile extends AbstractSource implements JWKSource
                     ->prototype('variable')->end()
                 ->end()
             ->end();
-     }
- }
+    }
+}

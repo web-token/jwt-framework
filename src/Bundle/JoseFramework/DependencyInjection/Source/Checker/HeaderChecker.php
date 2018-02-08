@@ -31,34 +31,34 @@ class HeaderChecker implements Source
         return 'headers';
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         foreach ($configs[$this->name()] as $name => $itemConfig) {
-             $service_id = sprintf('jose.header_checker.%s', $name);
-             $definition = new Definition(JWSVerifierService::class);
-             $definition
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
+            $service_id = sprintf('jose.header_checker.%s', $name);
+            $definition = new Definition(JWSVerifierService::class);
+            $definition
                 ->setFactory([new Reference(HeaderCheckerManagerFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['headers'],
                 ])
                 ->addTag('jose.header_checker_manager')
                 ->setPublic($itemConfig['is_public']);
-             foreach ($itemConfig['tags'] as $id => $attributes) {
-                 $definition->addTag($id, $attributes);
-             }
-             $container->setDefinition($service_id, $definition);
-         }
-     }
+            foreach ($itemConfig['tags'] as $id => $attributes) {
+                $definition->addTag($id, $attributes);
+            }
+            $container->setDefinition($service_id, $definition);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getNodeDefinition(NodeDefinition $node)
-     {
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function getNodeDefinition(NodeDefinition $node)
+    {
+        $node
             ->children()
                 ->arrayNode($this->name())
                     ->useAttributeAsKey('name')
@@ -86,13 +86,13 @@ class HeaderChecker implements Source
                     ->end()
                 ->end()
             ->end();
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function prepend(ContainerBuilder $container, array $config): array
-     {
-         return [];
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config): array
+    {
+        return [];
+    }
+}

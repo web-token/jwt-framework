@@ -29,11 +29,11 @@ class KeyAnalyzerCompilerPass implements CompilerPassInterface
             return;
         }
 
-         $definition = $container->getDefinition(KeyAnalyzerManager::class);
+        $definition = $container->getDefinition(KeyAnalyzerManager::class);
 
-         $taggedServices = $container->findTaggedServiceIds('jose.key_analyzer');
-         foreach ($taggedServices as $id => $tags) {
-             $definition->addMethodCall('add', [new Reference($id)]);
-         }
-     }
- }
+        $taggedServices = $container->findTaggedServiceIds('jose.key_analyzer');
+        foreach ($taggedServices as $id => $tags) {
+            $definition->addMethodCall('add', [new Reference($id)]);
+        }
+    }
+}

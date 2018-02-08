@@ -37,34 +37,34 @@ class JWSComputationTest extends WebTestCase
         }
     }
 
-     public function testCreateAndLoadAToken()
-     {
-         $client = static::createClient();
-         $container = $client->getContainer();
+    public function testCreateAndLoadAToken()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
 
-         $jwk = JWK::create([
+        $jwk = JWK::create([
             'kty' => 'oct',
             'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
-         /** @var JWSBuilder $builder */
-         $builder = $container->get('jose.jws_builder.builder1');
+        /** @var JWSBuilder $builder */
+        $builder = $container->get('jose.jws_builder.builder1');
 
-         /** @var JWSVerifier $loader */
-         $loader = $container->get('jose.jws_verifier.loader1');
+        /** @var JWSVerifier $loader */
+        $loader = $container->get('jose.jws_verifier.loader1');
 
-         $serializer = new CompactSerializer(new StandardConverter());
+        $serializer = new CompactSerializer(new StandardConverter());
 
-         $jws = $builder
+        $jws = $builder
             ->create()
             ->withPayload('Hello World!')
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
             ->build();
-         $token = $serializer->serialize($jws, 0);
+        $token = $serializer->serialize($jws, 0);
 
-         $loaded = $serializer->unserialize($token);
-         self::assertTrue($loader->verifyWithKey($loaded, $jwk, 0));
-     }
- }
+        $loaded = $serializer->unserialize($token);
+        self::assertTrue($loader->verifyWithKey($loaded, $jwk, 0));
+    }
+}

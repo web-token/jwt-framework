@@ -33,25 +33,25 @@ class AlgorithmHeaderCheckerTest extends TestCase
         $checker->checkHeader(1);
     }
 
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidHeaderException
-      * @expectedExceptionMessage Unsupported algorithm.
-      */
-     public function theAlgorithmHeaderIsNotAllowed()
-     {
-         $checker = new AlgorithmChecker(['foo']);
-         $checker->checkHeader('bar');
-     }
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidHeaderException
+     * @expectedExceptionMessage Unsupported algorithm.
+     */
+    public function theAlgorithmHeaderIsNotAllowed()
+    {
+        $checker = new AlgorithmChecker(['foo']);
+        $checker->checkHeader('bar');
+    }
 
-     /**
-      * @test
-      */
-     public function theAlgorithmHeaderIsSupported()
-     {
-         $checker = new AlgorithmChecker(['foo']);
-         $checker->checkHeader('foo');
-         self::assertFalse($checker->protectedHeaderOnly());
-         self::assertEquals('alg', $checker->supportedHeader());
-     }
- }
+    /**
+     * @test
+     */
+    public function theAlgorithmHeaderIsSupported()
+    {
+        $checker = new AlgorithmChecker(['foo']);
+        $checker->checkHeader('foo');
+        self::assertFalse($checker->protectedHeaderOnly());
+        self::assertEquals('alg', $checker->supportedHeader());
+    }
+}

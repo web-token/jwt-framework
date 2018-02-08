@@ -158,241 +158,241 @@ class Curve
             gmp_init(0, 10)
         );
 
-         return $eq_zero;
-     }
+        return $eq_zero;
+    }
 
-     /**
-      * @param Point $one
-      * @param Point $two
-      *
-      * @return Point
-      */
-     public function add(Point $one, Point $two): Point
-     {
-         if ($two->isInfinity()) {
-             return clone $one;
-         }
+    /**
+     * @param Point $one
+     * @param Point $two
+     *
+     * @return Point
+     */
+    public function add(Point $one, Point $two): Point
+    {
+        if ($two->isInfinity()) {
+            return clone $one;
+        }
 
-         if ($one->isInfinity()) {
-             return clone $two;
-         }
+        if ($one->isInfinity()) {
+            return clone $two;
+        }
 
-         if (Math::equals($two->getX(), $one->getX())) {
-             if (Math::equals($two->getY(), $one->getY())) {
-                 return $this->getDouble($one);
-             } else {
-                 return Point::infinity();
-             }
-         }
+        if (Math::equals($two->getX(), $one->getX())) {
+            if (Math::equals($two->getY(), $one->getY())) {
+                return $this->getDouble($one);
+            } else {
+                return Point::infinity();
+            }
+        }
 
-         $slope = ModularArithmetic::div(
+        $slope = ModularArithmetic::div(
             Math::sub($two->getY(), $one->getY()),
             Math::sub($two->getX(), $one->getX()),
             $this->getPrime()
         );
 
-         $xR = ModularArithmetic::sub(
+        $xR = ModularArithmetic::sub(
             Math::sub(Math::pow($slope, 2), $one->getX()),
             $two->getX(),
             $this->getPrime()
         );
 
-         $yR = ModularArithmetic::sub(
+        $yR = ModularArithmetic::sub(
             Math::mul($slope, Math::sub($one->getX(), $xR)),
             $one->getY(),
             $this->getPrime()
         );
 
-         return $this->getPoint($xR, $yR, $one->getOrder());
-     }
+        return $this->getPoint($xR, $yR, $one->getOrder());
+    }
 
-     /**
-      * @param Point $one
-      * @param \GMP  $n
-      *
-      * @return Point
-      */
-     public function mul(Point $one, \GMP $n): Point
-     {
-         if ($one->isInfinity()) {
-             return Point::infinity();
-         }
+    /**
+     * @param Point $one
+     * @param \GMP  $n
+     *
+     * @return Point
+     */
+    public function mul(Point $one, \GMP $n): Point
+    {
+        if ($one->isInfinity()) {
+            return Point::infinity();
+        }
 
-         /** @var \GMP $zero */
-         $zero = gmp_init(0, 10);
-         if (Math::cmp($one->getOrder(), $zero) > 0) {
-             $n = Math::mod($n, $one->getOrder());
-         }
+        /** @var \GMP $zero */
+        $zero = gmp_init(0, 10);
+        if (Math::cmp($one->getOrder(), $zero) > 0) {
+            $n = Math::mod($n, $one->getOrder());
+        }
 
-         if (Math::equals($n, $zero)) {
-             return Point::infinity();
-         }
+        if (Math::equals($n, $zero)) {
+            return Point::infinity();
+        }
 
-         /** @var Point[] $r */
-         $r = [
+        /** @var Point[] $r */
+        $r = [
             Point::infinity(),
             clone $one,
         ];
 
-         $k = $this->getSize();
-         $n = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
+        $k = $this->getSize();
+        $n = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
 
-         for ($i = 0; $i < $k; $i++) {
-             $j = $n[$i];
-             Point::cswap($r[0], $r[1], $j ^ 1);
-             $r[0] = $this->add($r[0], $r[1]);
-             $r[1] = $this->getDouble($r[1]);
-             Point::cswap($r[0], $r[1], $j ^ 1);
-         }
+        for ($i = 0; $i < $k; $i++) {
+            $j = $n[$i];
+            Point::cswap($r[0], $r[1], $j ^ 1);
+            $r[0] = $this->add($r[0], $r[1]);
+            $r[1] = $this->getDouble($r[1]);
+            Point::cswap($r[0], $r[1], $j ^ 1);
+        }
 
-         $this->validate($r[0]);
+        $this->validate($r[0]);
 
-         return $r[0];
-     }
+        return $r[0];
+    }
 
-     /**
-      * @param Curve $other
-      *
-      * @return int
-      */
-     public function cmp(self $other): int
-     {
-         $equal = Math::equals($this->getA(), $other->getA());
-         $equal &= Math::equals($this->getB(), $other->getB());
-         $equal &= Math::equals($this->getPrime(), $other->getPrime());
+    /**
+     * @param Curve $other
+     *
+     * @return int
+     */
+    public function cmp(self $other): int
+    {
+        $equal = Math::equals($this->getA(), $other->getA());
+        $equal &= Math::equals($this->getB(), $other->getB());
+        $equal &= Math::equals($this->getPrime(), $other->getPrime());
 
-         return $equal ? 0 : 1;
-     }
+        return $equal ? 0 : 1;
+    }
 
-     /**
-      * @param Curve $other
-      *
-      * @return bool
-      */
-     public function equals(self $other): bool
-     {
-         return 0 === $this->cmp($other);
-     }
+    /**
+     * @param Curve $other
+     *
+     * @return bool
+     */
+    public function equals(self $other): bool
+    {
+        return 0 === $this->cmp($other);
+    }
 
-     /**
-      * @return string
-      */
-     public function __toString(): string
-     {
-         return 'curve('.Math::toString($this->getA()).', '.Math::toString($this->getB()).', '.Math::toString($this->getPrime()).')';
-     }
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return 'curve('.Math::toString($this->getA()).', '.Math::toString($this->getB()).', '.Math::toString($this->getPrime()).')';
+    }
 
-     /**
-      * @param Point $point
-      */
-     private function validate(Point $point)
-     {
-         if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
-             throw new \RuntimeException('Invalid point');
-         }
-     }
+    /**
+     * @param Point $point
+     */
+    private function validate(Point $point)
+    {
+        if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
+            throw new \RuntimeException('Invalid point');
+        }
+    }
 
-     /**
-      * @param Point $point
-      *
-      * @return Point
-      */
-     public function getDouble(Point $point): Point
-     {
-         if ($point->isInfinity()) {
-             return Point::infinity();
-         }
+    /**
+     * @param Point $point
+     *
+     * @return Point
+     */
+    public function getDouble(Point $point): Point
+    {
+        if ($point->isInfinity()) {
+            return Point::infinity();
+        }
 
-         $a = $this->getA();
-         $threeX2 = Math::mul(gmp_init(3, 10), Math::pow($point->getX(), 2));
+        $a = $this->getA();
+        $threeX2 = Math::mul(gmp_init(3, 10), Math::pow($point->getX(), 2));
 
-         $tangent = ModularArithmetic::div(
+        $tangent = ModularArithmetic::div(
             Math::add($threeX2, $a),
             Math::mul(gmp_init(2, 10), $point->getY()),
             $this->getPrime()
         );
 
-         $x3 = ModularArithmetic::sub(
+        $x3 = ModularArithmetic::sub(
             Math::pow($tangent, 2),
             Math::mul(gmp_init(2, 10), $point->getX()),
             $this->getPrime()
         );
 
-         $y3 = ModularArithmetic::sub(
+        $y3 = ModularArithmetic::sub(
             Math::mul($tangent, Math::sub($point->getX(), $x3)),
             $point->getY(),
             $this->getPrime()
         );
 
-         return $this->getPoint($x3, $y3, $point->getOrder());
-     }
+        return $this->getPoint($x3, $y3, $point->getOrder());
+    }
 
-     /**
-      * @return PrivateKey
-      */
-     public function createPrivateKey(): PrivateKey
-     {
-         return PrivateKey::create($this->generate());
-     }
+    /**
+     * @return PrivateKey
+     */
+    public function createPrivateKey(): PrivateKey
+    {
+        return PrivateKey::create($this->generate());
+    }
 
-     /**
-      * @param PrivateKey $privateKey
-      *
-      * @return PublicKey
-      */
-     public function createPublicKey(PrivateKey $privateKey): PublicKey
-     {
-         $point = $this->mul($this->generator, $privateKey->getSecret());
+    /**
+     * @param PrivateKey $privateKey
+     *
+     * @return PublicKey
+     */
+    public function createPublicKey(PrivateKey $privateKey): PublicKey
+    {
+        $point = $this->mul($this->generator, $privateKey->getSecret());
 
-         return PublicKey::create($point);
-     }
+        return PublicKey::create($point);
+    }
 
-     /**
-      * @return \GMP
-      */
-     private function generate(): \GMP
-     {
-         $max = $this->generator->getOrder();
-         $numBits = $this->bnNumBits($max);
-         $numBytes = (int) ceil($numBits / 8);
-         // Generate an integer of size >= $numBits
-         $bytes = random_bytes($numBytes);
-         $value = Math::stringToInt($bytes);
-         $mask = gmp_sub(gmp_pow(2, $numBits), 1);
-         $integer = gmp_and($value, $mask);
+    /**
+     * @return \GMP
+     */
+    private function generate(): \GMP
+    {
+        $max = $this->generator->getOrder();
+        $numBits = $this->bnNumBits($max);
+        $numBytes = (int) ceil($numBits / 8);
+        // Generate an integer of size >= $numBits
+        $bytes = random_bytes($numBytes);
+        $value = Math::stringToInt($bytes);
+        $mask = gmp_sub(gmp_pow(2, $numBits), 1);
+        $integer = gmp_and($value, $mask);
 
-         return $integer;
-     }
+        return $integer;
+    }
 
-     /**
-      * Returns the number of bits used to store this number. Non-significant upper bits are not counted.
-      *
-      * @param \GMP $x
-      *
-      * @return int
-      *
-      * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
-      */
-     private function bnNumBits(\GMP $x): int
-     {
-         $zero = gmp_init(0, 10);
-         if (Math::equals($x, $zero)) {
-             return 0;
-         }
-         $log2 = 0;
-         while (false === Math::equals($x, $zero)) {
-             $x = Math::rightShift($x, 1);
-             $log2++;
-         }
+    /**
+     * Returns the number of bits used to store this number. Non-significant upper bits are not counted.
+     *
+     * @param \GMP $x
+     *
+     * @return int
+     *
+     * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
+     */
+    private function bnNumBits(\GMP $x): int
+    {
+        $zero = gmp_init(0, 10);
+        if (Math::equals($x, $zero)) {
+            return 0;
+        }
+        $log2 = 0;
+        while (false === Math::equals($x, $zero)) {
+            $x = Math::rightShift($x, 1);
+            $log2++;
+        }
 
-         return $log2;
-     }
+        return $log2;
+    }
 
-     /**
-      * @return Point
-      */
-     public function getGenerator(): Point
-     {
-         return $this->generator;
-     }
- }
+    /**
+     * @return Point
+     */
+    public function getGenerator(): Point
+    {
+        return $this->generator;
+    }
+}

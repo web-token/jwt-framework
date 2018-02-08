@@ -29,23 +29,23 @@ class JWSBuilder extends AbstractSignatureSource
         return 'builders';
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         foreach ($configs[$this->name()] as $name => $itemConfig) {
-             $service_id = sprintf('jose.jws_builder.%s', $name);
-             $definition = new Definition(JWSBuilderService::class);
-             $definition
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
+            $service_id = sprintf('jose.jws_builder.%s', $name);
+            $definition = new Definition(JWSBuilderService::class);
+            $definition
                 ->setFactory([new Reference(JWSBuilderFactory::class), 'create'])
                 ->setArguments([$itemConfig['signature_algorithms']])
                 ->addTag('jose.jws_builder')
                 ->setPublic($itemConfig['is_public']);
-             foreach ($itemConfig['tags'] as $id => $attributes) {
-                 $definition->addTag($id, $attributes);
-             }
-             $container->setDefinition($service_id, $definition);
-         }
-     }
- }
+            foreach ($itemConfig['tags'] as $id => $attributes) {
+                $definition->addTag($id, $attributes);
+            }
+            $container->setDefinition($service_id, $definition);
+        }
+    }
+}

@@ -33,24 +33,24 @@ class ExpirationTimeClaimCheckerTest extends TestCase
         $checker->checkClaim('foo');
     }
 
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidClaimException
-      * @expectedExceptionMessage The JWT has expired.
-      */
-     public function theExpirationTimeIsInThePast()
-     {
-         $checker = new ExpirationTimeChecker();
-         $checker->checkClaim(time() - 1);
-     }
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
+     * @expectedExceptionMessage The JWT has expired.
+     */
+    public function theExpirationTimeIsInThePast()
+    {
+        $checker = new ExpirationTimeChecker();
+        $checker->checkClaim(time() - 1);
+    }
 
-     /**
-      * @test
-      */
-     public function theExpirationTimeIsInTheFutur()
-     {
-         $checker = new ExpirationTimeChecker();
-         $checker->checkClaim(time() + 3600);
-         self::assertEquals('exp', $checker->supportedClaim());
-     }
- }
+    /**
+     * @test
+     */
+    public function theExpirationTimeIsInTheFutur()
+    {
+        $checker = new ExpirationTimeChecker();
+        $checker->checkClaim(time() + 3600);
+        self::assertEquals('exp', $checker->supportedClaim());
+    }
+}

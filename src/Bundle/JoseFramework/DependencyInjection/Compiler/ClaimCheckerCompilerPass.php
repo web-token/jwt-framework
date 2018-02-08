@@ -29,16 +29,16 @@ class ClaimCheckerCompilerPass implements CompilerPassInterface
             return;
         }
 
-         $definition = $container->getDefinition(ClaimCheckerManagerFactory::class);
+        $definition = $container->getDefinition(ClaimCheckerManagerFactory::class);
 
-         $taggedClaimCheckerServices = $container->findTaggedServiceIds('jose.checker.claim');
-         foreach ($taggedClaimCheckerServices as $id => $tags) {
-             foreach ($tags as $attributes) {
-                 if (!array_key_exists('alias', $attributes)) {
-                     throw new \InvalidArgumentException(sprintf("The claim checker '%s' does not have any 'alias' attribute.", $id));
-                 }
-                 $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
-             }
-         }
-     }
- }
+        $taggedClaimCheckerServices = $container->findTaggedServiceIds('jose.checker.claim');
+        foreach ($taggedClaimCheckerServices as $id => $tags) {
+            foreach ($tags as $attributes) {
+                if (!array_key_exists('alias', $attributes)) {
+                    throw new \InvalidArgumentException(sprintf("The claim checker '%s' does not have any 'alias' attribute.", $id));
+                }
+                $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
+            }
+        }
+    }
+}

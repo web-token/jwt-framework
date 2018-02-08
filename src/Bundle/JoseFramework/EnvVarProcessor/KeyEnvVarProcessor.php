@@ -33,16 +33,16 @@ class KeyEnvVarProcessor implements EnvVarProcessorInterface
             default:
                 throw new \RuntimeException(sprintf('Unsupported prefix "%s".', $prefix));
         }
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public static function getProvidedTypes()
-     {
-         return [
+    /**
+     * {@inheritdoc}
+     */
+    public static function getProvidedTypes()
+    {
+        return [
             'jwk'    => 'string',
             'jwkset' => 'string',
         ];
-     }
- }
+    }
+}

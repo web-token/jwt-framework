@@ -64,60 +64,60 @@ class JSONFlattenedSerializer extends Serializer
 
         $data = [];
         $values = [
-            'payload' => $jws->getEncodedPayload(),
+            'payload'   => $jws->getEncodedPayload(),
             'protected' => $signature->getEncodedProtectedHeader(),
             'header'    => $signature->getHeader(),
         ];
 
-         foreach ($values as $key => $value) {
-             if (!empty($value)) {
-                 $data[$key] = $value;
-             }
-         }
-         $data['signature'] = Base64Url::encode($signature->getSignature());
+        foreach ($values as $key => $value) {
+            if (!empty($value)) {
+                $data[$key] = $value;
+            }
+        }
+        $data['signature'] = Base64Url::encode($signature->getSignature());
 
-         return $this->jsonConverter->encode($data);
-     }
+        return $this->jsonConverter->encode($data);
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function unserialize(string $input): JWS
-     {
-         $data = $this->jsonConverter->decode($input);
-         if (!is_array($data) || !array_key_exists('signature', $data)) {
-             throw new \InvalidArgumentException('Unsupported input.');
-         }
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize(string $input): JWS
+    {
+        $data = $this->jsonConverter->decode($input);
+        if (!is_array($data) || !array_key_exists('signature', $data)) {
+            throw new \InvalidArgumentException('Unsupported input.');
+        }
 
-         $signature = Base64Url::decode($data['signature']);
+        $signature = Base64Url::decode($data['signature']);
 
-         if (array_key_exists('protected', $data)) {
-             $encodedProtectedHeader = $data['protected'];
-             $protectedHeader = $this->jsonConverter->decode(Base64Url::decode($data['protected']));
-         } else {
-             $encodedProtectedHeader = null;
-             $protectedHeader = [];
-         }
-         if (array_key_exists('header', $data)) {
-             if (!is_array($data['header'])) {
-                 throw new \InvalidArgumentException('Bad header.');
-             }
-             $header = $data['header'];
-         } else {
-             $header = [];
-         }
+        if (array_key_exists('protected', $data)) {
+            $encodedProtectedHeader = $data['protected'];
+            $protectedHeader = $this->jsonConverter->decode(Base64Url::decode($data['protected']));
+        } else {
+            $encodedProtectedHeader = null;
+            $protectedHeader = [];
+        }
+        if (array_key_exists('header', $data)) {
+            if (!is_array($data['header'])) {
+                throw new \InvalidArgumentException('Bad header.');
+            }
+            $header = $data['header'];
+        } else {
+            $header = [];
+        }
 
-         if (array_key_exists('payload', $data)) {
-             $encodedPayload = $data['payload'];
-             $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
-         } else {
-             $payload = null;
-             $encodedPayload = null;
-         }
+        if (array_key_exists('payload', $data)) {
+            $encodedPayload = $data['payload'];
+            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
+        } else {
+            $payload = null;
+            $encodedPayload = null;
+        }
 
-         $jws = JWS::create($payload, $encodedPayload, null === $encodedPayload);
-         $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader, $header);
+        $jws = JWS::create($payload, $encodedPayload, null === $encodedPayload);
+        $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader, $header);
 
-         return $jws;
-     }
- }
+        return $jws;
+    }
+}

@@ -26,68 +26,68 @@ class JoseFrameworkExtension extends Extension implements PrependExtensionInterf
      */
     private $alias;
 
-     /**
-      * @var Source[]
-      */
-     private $sources = [];
+    /**
+     * @var Source[]
+     */
+    private $sources = [];
 
-     /**
-      * JoseFrameworkExtension constructor.
-      *
-      * @param string   $alias
-      * @param Source[] $sources
-      */
-     public function __construct(string $alias, array $sources)
-     {
-         $this->alias = $alias;
-         $this->sources = $sources;
-     }
+    /**
+     * JoseFrameworkExtension constructor.
+     *
+     * @param string   $alias
+     * @param Source[] $sources
+     */
+    public function __construct(string $alias, array $sources)
+    {
+        $this->alias = $alias;
+        $this->sources = $sources;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getAlias(): string
-     {
-         return $this->alias;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getAlias(): string
+    {
+        return $this->alias;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         $processor = new Processor();
-         $config = $processor->processConfiguration($this->getConfiguration($configs, $container), $configs);
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $processor = new Processor();
+        $config = $processor->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
-         foreach ($this->sources as $source) {
-             $source->load($config, $container);
-         }
-     }
+        foreach ($this->sources as $source) {
+            $source->load($config, $container);
+        }
+    }
 
-     /**
-      * @param array            $configs
-      * @param ContainerBuilder $container
-      *
-      * @return Configuration
-      */
-     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
-     {
-         return new Configuration($this->getAlias(), $this->sources);
-     }
+    /**
+     * @param array            $configs
+     * @param ContainerBuilder $container
+     *
+     * @return Configuration
+     */
+    public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
+    {
+        return new Configuration($this->getAlias(), $this->sources);
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function prepend(ContainerBuilder $container)
-     {
-         $configs = $container->getExtensionConfig($this->getAlias());
-         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $configs = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
-         foreach ($this->sources as $source) {
-             $result = $source->prepend($container, $config);
-             if (!empty($result)) {
-                 $container->prependExtensionConfig($this->getAlias(), $result);
-             }
-         }
-     }
- }
+        foreach ($this->sources as $source) {
+            $result = $source->prepend($container, $config);
+            if (!empty($result)) {
+                $container->prependExtensionConfig($this->getAlias(), $result);
+            }
+        }
+    }
+}

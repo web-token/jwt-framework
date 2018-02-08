@@ -28,46 +28,46 @@ class JoseFrameworkBundle extends Bundle
      */
     private $sources = [];
 
-     /**
-      * JoseFrameworkBundle constructor.
-      */
-     public function __construct()
-     {
-         foreach ($this->getSources() as $source) {
-             $this->sources[$source->name()] = $source;
-         }
-     }
+    /**
+     * JoseFrameworkBundle constructor.
+     */
+    public function __construct()
+    {
+        foreach ($this->getSources() as $source) {
+            $this->sources[$source->name()] = $source;
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getContainerExtension()
-     {
-         return new JoseFrameworkExtension('jose', $this->sources);
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getContainerExtension()
+    {
+        return new JoseFrameworkExtension('jose', $this->sources);
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function build(ContainerBuilder $container)
-     {
-         parent::build($container);
-         foreach ($this->sources as $source) {
-             if ($source instanceof Source\SourceWithCompilerPasses) {
-                 $compilerPasses = $source->getCompilerPasses();
-                 foreach ($compilerPasses as $compilerPass) {
-                     $container->addCompilerPass($compilerPass);
-                 }
-             }
-         }
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        foreach ($this->sources as $source) {
+            if ($source instanceof Source\SourceWithCompilerPasses) {
+                $compilerPasses = $source->getCompilerPasses();
+                foreach ($compilerPasses as $compilerPass) {
+                    $container->addCompilerPass($compilerPass);
+                }
+            }
+        }
+    }
 
-     /**
-      * @return Source\Source[]
-      */
-     private function getSources(): array
-     {
-         return [
+    /**
+     * @return Source\Source[]
+     */
+    private function getSources(): array
+    {
+        return [
             new Source\Core\CoreSource(),
             new Source\Checker\CheckerSource(),
             new Source\Console\ConsoleSource(),
@@ -75,5 +75,5 @@ class JoseFrameworkBundle extends Bundle
             new Source\Encryption\EncryptionSource(),
             new Source\KeyManagement\KeyManagementSource(),
         ];
-     }
- }
+    }
+}

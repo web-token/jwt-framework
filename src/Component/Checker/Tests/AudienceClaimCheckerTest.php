@@ -33,36 +33,36 @@ class AudienceClaimCheckerTest extends TestCase
         $checker->checkClaim(1);
     }
 
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidClaimException
-      * @expectedExceptionMessage Bad audience.
-      */
-     public function theAudienceClaimIsNotKnown()
-     {
-         $checker = new AudienceChecker('foo');
-         $checker->checkClaim('bar');
-     }
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
+     * @expectedExceptionMessage Bad audience.
+     */
+    public function theAudienceClaimIsNotKnown()
+    {
+        $checker = new AudienceChecker('foo');
+        $checker->checkClaim('bar');
+    }
 
-     /**
-      * @test
-      * @expectedException \Jose\Component\Checker\InvalidClaimException
-      * @expectedExceptionMessage Bad audience.
-      */
-     public function theAudienceClaimListDoesNotContainTheCurrentAudience()
-     {
-         $checker = new AudienceChecker('foo');
-         $checker->checkClaim(['bar']);
-     }
+    /**
+     * @test
+     * @expectedException \Jose\Component\Checker\InvalidClaimException
+     * @expectedExceptionMessage Bad audience.
+     */
+    public function theAudienceClaimListDoesNotContainTheCurrentAudience()
+    {
+        $checker = new AudienceChecker('foo');
+        $checker->checkClaim(['bar']);
+    }
 
-     /**
-      * @test
-      */
-     public function theAudienceClaimIsSupported()
-     {
-         $checker = new AudienceChecker('foo');
-         $checker->checkClaim('foo');
-         $checker->checkClaim(['foo']);
-         self::assertEquals('aud', $checker->supportedClaim());
-     }
- }
+    /**
+     * @test
+     */
+    public function theAudienceClaimIsSupported()
+    {
+        $checker = new AudienceChecker('foo');
+        $checker->checkClaim('foo');
+        $checker->checkClaim(['foo']);
+        self::assertEquals('aud', $checker->supportedClaim());
+    }
+}

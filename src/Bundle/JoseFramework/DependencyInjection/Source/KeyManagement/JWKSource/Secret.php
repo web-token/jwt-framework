@@ -32,30 +32,30 @@ class Secret extends AbstractSource implements JWKSource
             new Reference(JWKFactory::class),
             'createFromSecret',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['secret'],
             $config['additional_values'],
         ]);
-         $definition->addTag('jose.jwk');
+        $definition->addTag('jose.jwk');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKey(): string
-     {
-         return 'secret';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey(): string
+    {
+        return 'secret';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->scalarNode('secret')
                     ->info('The shared secret.')
@@ -68,5 +68,5 @@ class Secret extends AbstractSource implements JWKSource
                     ->prototype('variable')->end()
                 ->end()
             ->end();
-     }
- }
+    }
+}

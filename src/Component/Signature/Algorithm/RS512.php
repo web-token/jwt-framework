@@ -25,19 +25,19 @@ class RS512 extends RSA
         return 'sha512';
     }
 
-     /**
-      * @return int
-      */
-     protected function getSignatureMethod(): int
-     {
-         return JoseRSA::SIGNATURE_PKCS1;
-     }
+    /**
+     * @return int
+     */
+    protected function getSignatureMethod(): int
+    {
+        return JoseRSA::SIGNATURE_PKCS1;
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'RS512';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'RS512';
+    }
+}

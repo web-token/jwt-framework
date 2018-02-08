@@ -33,55 +33,55 @@ class ClaimCheckerTest extends WebTestCase
         }
     }
 
-     /**
-      * @test
-      */
-     public function theClaimCheckerManagerFactoryIsAvailable()
-     {
-         $client = static::createClient();
-         $container = $client->getContainer();
-         self::assertNotNull($container);
-         self::assertTrue($container->has(ClaimCheckerManagerFactory::class));
-     }
+    /**
+     * @test
+     */
+    public function theClaimCheckerManagerFactoryIsAvailable()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        self::assertNotNull($container);
+        self::assertTrue($container->has(ClaimCheckerManagerFactory::class));
+    }
 
-     /**
-      * @test
-      */
-     public function theClaimCheckerManagerFactoryCanCreateAClaimCheckerManager()
-     {
-         $client = static::createClient();
-         /** @var ClaimCheckerManagerFactory $claimCheckerManagerFactory */
-         $claimCheckerManagerFactory = $client->getContainer()->get(ClaimCheckerManagerFactory::class);
+    /**
+     * @test
+     */
+    public function theClaimCheckerManagerFactoryCanCreateAClaimCheckerManager()
+    {
+        $client = static::createClient();
+        /** @var ClaimCheckerManagerFactory $claimCheckerManagerFactory */
+        $claimCheckerManagerFactory = $client->getContainer()->get(ClaimCheckerManagerFactory::class);
 
-         $aliases = $claimCheckerManagerFactory->aliases();
-         $claimCheckerManager = $claimCheckerManagerFactory->create($aliases);
+        $aliases = $claimCheckerManagerFactory->aliases();
+        $claimCheckerManager = $claimCheckerManagerFactory->create($aliases);
 
-         self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
-     }
+        self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
+    }
 
-     /**
-      * @test
-      */
-     public function aClaimCheckerCanBeDefinedUsingTheConfigurationFile()
-     {
-         $client = static::createClient();
-         $container = $client->getContainer();
-         self::assertTrue($container->has('jose.claim_checker.checker1'));
+    /**
+     * @test
+     */
+    public function aClaimCheckerCanBeDefinedUsingTheConfigurationFile()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        self::assertTrue($container->has('jose.claim_checker.checker1'));
 
-         $claimCheckerManager = $container->get('jose.claim_checker.checker1');
-         self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
-     }
+        $claimCheckerManager = $container->get('jose.claim_checker.checker1');
+        self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
+    }
 
-     /**
-      * @test
-      */
-     public function aClaimCheckerCanBeDefinedFromAnotherBundleUsingTheHelper()
-     {
-         $client = static::createClient();
-         $container = $client->getContainer();
-         self::assertTrue($container->has('jose.claim_checker.checker2'));
+    /**
+     * @test
+     */
+    public function aClaimCheckerCanBeDefinedFromAnotherBundleUsingTheHelper()
+    {
+        $client = static::createClient();
+        $container = $client->getContainer();
+        self::assertTrue($container->has('jose.claim_checker.checker2'));
 
-         $claimCheckerManager = $container->get('jose.claim_checker.checker2');
-         self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
-     }
- }
+        $claimCheckerManager = $container->get('jose.claim_checker.checker2');
+        self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
+    }
+}

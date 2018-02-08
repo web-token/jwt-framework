@@ -32,34 +32,34 @@ class JWKSet extends AbstractSource implements JWKSetSource
             new Reference(JWKFactory::class),
             'createFromJsonObject',
         ]);
-         $definition->setArguments([
+        $definition->setArguments([
             $config['value'],
         ]);
-         $definition->addTag('jose.jwkset');
+        $definition->addTag('jose.jwkset');
 
-         return $definition;
-     }
+        return $definition;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getKeySet(): string
-     {
-         return 'jwkset';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getKeySet(): string
+    {
+        return 'jwkset';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function addConfiguration(NodeDefinition $node)
-     {
-         parent::addConfiguration($node);
-         $node
+    /**
+     * {@inheritdoc}
+     */
+    public function addConfiguration(NodeDefinition $node)
+    {
+        parent::addConfiguration($node);
+        $node
             ->children()
                 ->scalarNode('value')
                     ->info('The JWKSet object.')
                     ->isRequired()
                 ->end()
             ->end();
-     }
- }
+    }
+}

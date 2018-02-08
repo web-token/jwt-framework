@@ -33,26 +33,26 @@ class JWECollectorCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(JWECollector::class);
 
         $services = [
-            'addJWEBuilder' => 'jose.jwe_builder',
+            'addJWEBuilder'   => 'jose.jwe_builder',
             'addJWEDecrypter' => 'jose.jwe_decrypter',
             'addJWELoader'    => 'jose.jwe_loader',
         ];
-         foreach ($services as $method => $tag) {
-             $this->collectServices($method, $tag, $definition, $container);
-         }
-     }
+        foreach ($services as $method => $tag) {
+            $this->collectServices($method, $tag, $definition, $container);
+        }
+    }
 
-     /**
-      * @param string           $method
-      * @param string           $tag
-      * @param Definition       $definition
-      * @param ContainerBuilder $container
-      */
-     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
-     {
-         $taggedJWEServices = $container->findTaggedServiceIds($tag);
-         foreach ($taggedJWEServices as $id => $tags) {
-             $definition->addMethodCall($method, [$id, new Reference($id)]);
-         }
-     }
- }
+    /**
+     * @param string           $method
+     * @param string           $tag
+     * @param Definition       $definition
+     * @param ContainerBuilder $container
+     */
+    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
+    {
+        $taggedJWEServices = $container->findTaggedServiceIds($tag);
+        foreach ($taggedJWEServices as $id => $tags) {
+            $definition->addMethodCall($method, [$id, new Reference($id)]);
+        }
+    }
+}

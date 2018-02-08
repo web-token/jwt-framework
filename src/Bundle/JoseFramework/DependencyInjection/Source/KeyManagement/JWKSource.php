@@ -27,85 +27,85 @@ class JWKSource implements Source
      */
     private $jwkSources = null;
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'keys';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'keys';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load(array $configs, ContainerBuilder $container)
-     {
-         $sources = $this->getJWKSources();
-         foreach ($configs[$this->name()] as $name => $itemConfig) {
-             foreach ($itemConfig as $sourceName => $sourceConfig) {
-                 if (array_key_exists($sourceName, $sources)) {
-                     $source = $sources[$sourceName];
-                     $source->create($container, 'key', $name, $sourceConfig);
-                 } else {
-                     throw new \LogicException(sprintf('The JWK definition "%s" is not configured.', $name));
-                 }
-             }
-         }
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container)
+    {
+        $sources = $this->getJWKSources();
+        foreach ($configs[$this->name()] as $name => $itemConfig) {
+            foreach ($itemConfig as $sourceName => $sourceConfig) {
+                if (array_key_exists($sourceName, $sources)) {
+                    $source = $sources[$sourceName];
+                    $source->create($container, 'key', $name, $sourceConfig);
+                } else {
+                    throw new \LogicException(sprintf('The JWK definition "%s" is not configured.', $name));
+                }
+            }
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getNodeDefinition(NodeDefinition $node)
-     {
-         $sourceNodeBuilder = $node
+    /**
+     * {@inheritdoc}
+     */
+    public function getNodeDefinition(NodeDefinition $node)
+    {
+        $sourceNodeBuilder = $node
             ->children()
                 ->arrayNode('keys')
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->performNoDeepMerging()
                         ->children();
-         foreach ($this->getJWKSources() as $name => $source) {
-             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
-             $source->addConfiguration($sourceNode);
-         }
-     }
+        foreach ($this->getJWKSources() as $name => $source) {
+            $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
+            $source->addConfiguration($sourceNode);
+        }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function prepend(ContainerBuilder $container, array $config): array
-     {
-         return [];
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container, array $config): array
+    {
+        return [];
+    }
 
-     /**
-      * @throws \Exception
-      *
-      * @return JWKSourceInterface[]
-      */
-     private function getJWKSources(): array
-     {
-         if (null !== $this->jwkSources) {
-             return $this->jwkSources;
-         }
+    /**
+     * @throws \Exception
+     *
+     * @return JWKSourceInterface[]
+     */
+    private function getJWKSources(): array
+    {
+        if (null !== $this->jwkSources) {
+            return $this->jwkSources;
+        }
 
-         // load bundled adapter factories
-         $tempContainer = new ContainerBuilder();
-         $loader = new YamlFileLoader($tempContainer, new FileLocator(__DIR__.'/../../../Resources/config'));
-         $loader->load('jwk_sources.yml');
-         $services = $tempContainer->findTaggedServiceIds('jose.jwk_source');
-         $jwkSources = [];
-         foreach (array_keys($services) as $id) {
-             $factory = $tempContainer->get($id);
-             if (!$factory instanceof JWKSourceInterface) {
-                 throw new \InvalidArgumentException();
-             }
-             $jwkSources[str_replace('-', '_', $factory->getKey())] = $factory;
-         }
+        // load bundled adapter factories
+        $tempContainer = new ContainerBuilder();
+        $loader = new YamlFileLoader($tempContainer, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('jwk_sources.yml');
+        $services = $tempContainer->findTaggedServiceIds('jose.jwk_source');
+        $jwkSources = [];
+        foreach (array_keys($services) as $id) {
+            $factory = $tempContainer->get($id);
+            if (!$factory instanceof JWKSourceInterface) {
+                throw new \InvalidArgumentException();
+            }
+            $jwkSources[str_replace('-', '_', $factory->getKey())] = $factory;
+        }
 
-         $this->jwkSources = $jwkSources;
+        $this->jwkSources = $jwkSources;
 
-         return $jwkSources;
-     }
- }
+        return $jwkSources;
+    }
+}

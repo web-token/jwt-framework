@@ -25,39 +25,39 @@ class None implements SignatureAlgorithm
         return ['none'];
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function sign(JWK $key, string $input): string
-     {
-         $this->checkKey($key);
+    /**
+     * {@inheritdoc}
+     */
+    public function sign(JWK $key, string $input): string
+    {
+        $this->checkKey($key);
 
-         return '';
-     }
+        return '';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function verify(JWK $key, string $input, string $signature): bool
-     {
-         return '' === $signature;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function verify(JWK $key, string $input, string $signature): bool
+    {
+        return '' === $signature;
+    }
 
-     /**
-      * @param JWK $key
-      */
-     private function checkKey(JWK $key)
-     {
-         if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
-             throw new \InvalidArgumentException('Wrong key type.');
-         }
-     }
+    /**
+     * @param JWK $key
+     */
+    private function checkKey(JWK $key)
+    {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+            throw new \InvalidArgumentException('Wrong key type.');
+        }
+    }
 
-     /**
-      * @return string
-      */
-     public function name(): string
-     {
-         return 'none';
-     }
- }
+    /**
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'none';
+    }
+}

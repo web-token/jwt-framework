@@ -23,19 +23,19 @@ class A192GCM extends AESGCM
         return 192;
     }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function getMode(): string
-     {
-         return 'aes-192-gcm';
-     }
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMode(): string
+    {
+        return 'aes-192-gcm';
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function name(): string
-     {
-         return 'A192GCM';
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function name(): string
+    {
+        return 'A192GCM';
+    }
+}

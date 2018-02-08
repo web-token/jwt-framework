@@ -47,31 +47,31 @@ class PublicKey
      */
     private $point;
 
-     /**
-      * PublicKey constructor.
-      *
-      * @param Point $point
-      */
-     private function __construct(Point $point)
-     {
-         $this->point = $point;
-     }
+    /**
+     * PublicKey constructor.
+     *
+     * @param Point $point
+     */
+    private function __construct(Point $point)
+    {
+        $this->point = $point;
+    }
 
-     /**
-      * @param Point $point
-      *
-      * @return PublicKey
-      */
-     public static function create(Point $point): self
-     {
-         return new self($point);
-     }
+    /**
+     * @param Point $point
+     *
+     * @return PublicKey
+     */
+    public static function create(Point $point): self
+    {
+        return new self($point);
+    }
 
-     /**
-      * @return Point
-      */
-     public function getPoint(): Point
-     {
-         return $this->point;
-     }
- }
+    /**
+     * @return Point
+     */
+    public function getPoint(): Point
+    {
+        return $this->point;
+    }
+}

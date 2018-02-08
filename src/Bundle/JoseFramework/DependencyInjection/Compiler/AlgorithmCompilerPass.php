@@ -29,16 +29,16 @@ class AlgorithmCompilerPass implements CompilerPassInterface
             return;
         }
 
-         $definition = $container->getDefinition(AlgorithmManagerFactory::class);
+        $definition = $container->getDefinition(AlgorithmManagerFactory::class);
 
-         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.algorithm');
-         foreach ($taggedAlgorithmServices as $id => $tags) {
-             foreach ($tags as $attributes) {
-                 if (!array_key_exists('alias', $attributes)) {
-                     throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
-                 }
-                 $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
-             }
-         }
-     }
- }
+        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.algorithm');
+        foreach ($taggedAlgorithmServices as $id => $tags) {
+            foreach ($tags as $attributes) {
+                if (!array_key_exists('alias', $attributes)) {
+                    throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
+                }
+                $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
+            }
+        }
+    }
+}

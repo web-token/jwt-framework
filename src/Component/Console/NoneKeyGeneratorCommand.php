@@ -28,16 +28,16 @@ class NoneKeyGeneratorCommand extends GeneratorCommand
         $this
             ->setName('key:generate:none')
             ->setDescription('Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.');
-     }
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     protected function execute(InputInterface $input, OutputInterface $output)
-     {
-         $args = $this->getOptions($input);
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $args = $this->getOptions($input);
 
-         $jwk = JWKFactory::createNoneKey($args);
-         $this->prepareJsonOutput($input, $output, $jwk);
-     }
- }
+        $jwk = JWKFactory::createNoneKey($args);
+        $this->prepareJsonOutput($input, $output, $jwk);
+    }
+}

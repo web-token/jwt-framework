@@ -25,53 +25,53 @@ class JWKSetLoader implements LoaderInterface
      */
     private $routes;
 
-     /**
-      * JWKSetLoader Constructor.
-      */
-     public function __construct()
-     {
-         $this->routes = new RouteCollection();
-     }
+    /**
+     * JWKSetLoader Constructor.
+     */
+    public function __construct()
+    {
+        $this->routes = new RouteCollection();
+    }
 
-     /**
-      * @param string $pattern
-      * @param string $name
-      */
-     public function add(string $pattern, string $name)
-     {
-         $controller_id = sprintf('%s:getAction', $name);
-         $defaults = ['_controller' => $controller_id];
-         $route = new Route($pattern, $defaults);
-         $this->routes->add(sprintf('jwkset_%s', $name), $route);
-     }
+    /**
+     * @param string $pattern
+     * @param string $name
+     */
+    public function add(string $pattern, string $name)
+    {
+        $controller_id = sprintf('%s:getAction', $name);
+        $defaults = ['_controller' => $controller_id];
+        $route = new Route($pattern, $defaults);
+        $this->routes->add(sprintf('jwkset_%s', $name), $route);
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function load($resource, $type = null)
-     {
-         return $this->routes;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function load($resource, $type = null)
+    {
+        return $this->routes;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function supports($resource, $type = null)
-     {
-         return 'jwkset' === $type;
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null)
+    {
+        return 'jwkset' === $type;
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function getResolver()
-     {
-     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getResolver()
+    {
+    }
 
-     /**
-      * {@inheritdoc}
-      */
-     public function setResolver(LoaderResolverInterface $resolver)
-     {
-     }
- }
+    /**
+     * {@inheritdoc}
+     */
+    public function setResolver(LoaderResolverInterface $resolver)
+    {
+    }
+}
