@@ -19,9 +19,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class X5ULoaderCommand.
- */
 class X5ULoaderCommand extends ObjectOutputCommand
 {
     /**
@@ -52,8 +49,7 @@ class X5ULoaderCommand extends ObjectOutputCommand
             ->setName('keyset:load:x5u')
             ->setDescription('Loads a key set from an url.')
             ->setHelp('This command will try to get a key set from an URL. The distant key set is list of X.509 certificates.')
-            ->addArgument('url', InputArgument::REQUIRED, 'The URL')
-        ;
+            ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 
     /**

@@ -19,9 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class JWECollectorCompilerPass.
- */
 class JWECollectorCompilerPass implements CompilerPassInterface
 {
     /**
@@ -36,9 +33,9 @@ class JWECollectorCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(JWECollector::class);
 
         $services = [
-            'addJWEBuilder' => 'jose.jwe_builder',
+            'addJWEBuilder'   => 'jose.jwe_builder',
             'addJWEDecrypter' => 'jose.jwe_decrypter',
-            'addJWELoader' => 'jose.jwe_loader',
+            'addJWELoader'    => 'jose.jwe_loader',
         ];
         foreach ($services as $method => $tag) {
             $this->collectServices($method, $tag, $definition, $container);

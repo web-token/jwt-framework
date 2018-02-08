@@ -15,9 +15,6 @@ namespace Jose\Component\Checker;
 
 use Jose\Component\Core\JWT;
 
-/**
- * Class HeaderCheckerManager.
- */
 class HeaderCheckerManager
 {
     /**

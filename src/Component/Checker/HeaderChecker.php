@@ -13,13 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
- * Interface HeaderChecker.
- */
 interface HeaderChecker
 {
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws \InvalidArgumentException
      */

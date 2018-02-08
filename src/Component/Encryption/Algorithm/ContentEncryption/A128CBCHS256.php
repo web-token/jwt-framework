@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
-/**
- * Class A128CBCHS256.
- */
 class A128CBCHS256 extends AESCBCHS
 {
     /**

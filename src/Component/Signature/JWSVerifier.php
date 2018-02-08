@@ -20,9 +20,6 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
-/**
- * Class able to load JWS and verify signatures and header.
- */
 class JWSVerifier
 {
     /**

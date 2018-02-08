@@ -1,0 +1,7 @@
+parameters:
+    excludes_analyse:
+        - %currentWorkingDirectory%/src/Bundle/*/Tests/*
+        - %currentWorkingDirectory%/src/Component/*/Tests/*
+    ignoreErrors:
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
+        - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'

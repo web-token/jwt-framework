@@ -15,18 +15,16 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
- * Class SignatureSource.
- */
-class SignatureSource implements Source
+class SignatureSource implements SourceWithCompilerPasses
 {
     /**
      * @var Source[]
@@ -77,7 +75,7 @@ class SignatureSource implements Source
     /**
      * {@inheritdoc}
      */
-    public function getNodeDefinition(ArrayNodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
             return;

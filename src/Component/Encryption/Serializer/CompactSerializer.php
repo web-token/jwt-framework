@@ -18,9 +18,6 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
-/**
- * Class CompactSerializer.
- */
 class CompactSerializer implements JWESerializer
 {
     public const NAME = 'jwe_compact';

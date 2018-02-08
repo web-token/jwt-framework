@@ -15,9 +15,6 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Encryption\Util\RSACrypt;
 
-/**
- * Class RSA15.
- */
 class RSA15 extends RSA
 {
     /**

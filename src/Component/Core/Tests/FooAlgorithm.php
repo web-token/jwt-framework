@@ -15,9 +15,6 @@ namespace Jose\Component\Core\Tests;
 
 use Jose\Component\Core\Algorithm;
 
-/**
- * Class FooAlgorithm.
- */
 class FooAlgorithm implements Algorithm
 {
     /**

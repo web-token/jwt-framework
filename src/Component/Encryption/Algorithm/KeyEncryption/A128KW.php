@@ -15,9 +15,6 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use AESKW\A128KW as Wrapper;
 
-/**
- * Class A128KW.
- */
 class A128KW extends AESKW
 {
     /**

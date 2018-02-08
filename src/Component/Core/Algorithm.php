@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-/**
- * Interface Algorithm.
- */
 interface Algorithm
 {
     /**
@@ -24,7 +21,7 @@ interface Algorithm
     public function name(): string;
 
     /**
-     * @return array[] Returns the key types suitable for this algorithm
+     * @return string[] Returns the key types suitable for this algorithm
      */
     public function allowedKeyTypes(): array;
 }

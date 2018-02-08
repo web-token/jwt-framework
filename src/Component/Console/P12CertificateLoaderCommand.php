@@ -19,9 +19,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class P12CertificateLoaderCommand.
- */
 class P12CertificateLoaderCommand extends GeneratorCommand
 {
     /**

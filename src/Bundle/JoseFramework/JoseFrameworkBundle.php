@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -53,9 +53,11 @@ class JoseFrameworkBundle extends Bundle
     {
         parent::build($container);
         foreach ($this->sources as $source) {
-            $compilerPasses = $source->getCompilerPasses();
-            foreach ($compilerPasses as $compilerPass) {
-                $container->addCompilerPass($compilerPass);
+            if ($source instanceof Source\SourceWithCompilerPasses) {
+                $compilerPasses = $source->getCompilerPasses();
+                foreach ($compilerPasses as $compilerPass) {
+                    $container->addCompilerPass($compilerPass);
+                }
             }
         }
     }
@@ -68,7 +70,6 @@ class JoseFrameworkBundle extends Bundle
         return [
             new Source\Core\CoreSource(),
             new Source\Checker\CheckerSource(),
-            new Source\Encryption\EncryptionSource(),
             new Source\Console\ConsoleSource(),
             new Source\Signature\SignatureSource(),
             new Source\Encryption\EncryptionSource(),

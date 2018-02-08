@@ -15,9 +15,6 @@ namespace Jose\Component\Signature\Serializer;
 
 use Jose\Component\Signature\JWS;
 
-/**
- * Interface JWSSerializater.
- */
 interface JWSSerializer
 {
     /**

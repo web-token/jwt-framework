@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyAnalyzer;
 
-/**
- * Class Message.
- */
 class Message implements \JsonSerializable
 {
     /**
@@ -98,7 +95,7 @@ class Message implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'message' => $this->message,
+            'message'  => $this->message,
             'severity' => $this->severity,
         ];
     }

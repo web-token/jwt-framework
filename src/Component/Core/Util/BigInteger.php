@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 /**
- * Class BigInteger.
- *
  * @internal
  */
 class BigInteger
@@ -192,7 +190,7 @@ class BigInteger
      *
      * @param BigInteger $y
      *
-     * @return int < 0 if $this is less than $y; > 0 if $this is greater than $y, and 0 if they are equal
+     * @return int
      */
     public function compare(self $y): int
     {

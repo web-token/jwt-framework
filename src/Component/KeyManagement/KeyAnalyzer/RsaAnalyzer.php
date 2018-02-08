@@ -16,9 +16,6 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
-/**
- * Class RsaAnalyzer.
- */
 class RsaAnalyzer implements KeyAnalyzer
 {
     /**

@@ -19,8 +19,6 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
 
 /**
- * Class AESGCMContentEncryptionTest.
- *
  * @group Unit
  */
 class AESGCMContentEncryptionTest extends EncryptionTest

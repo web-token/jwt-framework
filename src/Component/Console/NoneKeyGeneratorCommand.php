@@ -17,9 +17,6 @@ use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class NoneKeyGeneratorCommand.
- */
 class NoneKeyGeneratorCommand extends GeneratorCommand
 {
     /**

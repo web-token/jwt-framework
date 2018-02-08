@@ -14,12 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Core\Util\ECSignature;
 use Jose\Component\Core\Util\ECKey;
+use Jose\Component\Core\Util\ECSignature;
 
-/**
- * Class ECDSA.
- */
 abstract class ECDSA implements SignatureAlgorithm
 {
     /**

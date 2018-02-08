@@ -17,9 +17,6 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 
-/**
- * Class JSONFlattenedSerializer.
- */
 class JSONFlattenedSerializer extends Serializer
 {
     public const NAME = 'jws_json_flattened';
@@ -67,9 +64,9 @@ class JSONFlattenedSerializer extends Serializer
 
         $data = [];
         $values = [
-            'payload' => $jws->getEncodedPayload(),
+            'payload'   => $jws->getEncodedPayload(),
             'protected' => $signature->getEncodedProtectedHeader(),
-            'header' => $signature->getHeader(),
+            'header'    => $signature->getHeader(),
         ];
 
         foreach ($values as $key => $value) {

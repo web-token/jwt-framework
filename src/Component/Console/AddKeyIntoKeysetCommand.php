@@ -20,9 +20,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class AddKeyIntoKeysetCommand.
- */
 class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
     /**
@@ -47,8 +44,7 @@ class AddKeyIntoKeysetCommand extends ObjectOutputCommand
             ->setDescription('Add a key into a key set.')
             ->setHelp('This command adds a key at the end of a key set.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
 
     /**

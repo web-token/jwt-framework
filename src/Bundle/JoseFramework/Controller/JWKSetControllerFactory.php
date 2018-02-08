@@ -16,9 +16,6 @@ namespace Jose\Bundle\JoseFramework\Controller;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
 
-/**
- * Class JWKSetControllerFactory.
- */
 class JWKSetControllerFactory
 {
     /**

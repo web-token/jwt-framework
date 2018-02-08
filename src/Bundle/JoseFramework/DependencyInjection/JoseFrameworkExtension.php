@@ -19,9 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * Class JoseFrameworkExtension.
- */
 class JoseFrameworkExtension extends Extension implements PrependExtensionInterface
 {
     /**

@@ -25,9 +25,9 @@ namespace Jose\Bundle\JoseFramework\Tests;
 use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\JoseFramework\JoseFrameworkBundle;
 use Jose\Bundle\JoseFramework\Tests\TestBundle\TestBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 
 /**
  * Class AppKernel.

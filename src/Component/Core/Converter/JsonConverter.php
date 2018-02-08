@@ -13,13 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Converter;
 
-/**
- * Interface JsonConverter.
- */
 interface JsonConverter
 {
     /**
-     * @param $payload
+     * @param mixed $payload
      *
      * @return string
      */

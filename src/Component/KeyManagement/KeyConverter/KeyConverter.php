@@ -17,7 +17,6 @@ use Base64Url\Base64Url;
 
 /**
  * @internal
- * This class will help you to load an EC key or a RSA key/certificate (private or public) and get values to create a JWK object
  */
 class KeyConverter
 {
@@ -242,7 +241,7 @@ class KeyConverter
                 }
             }
         }
-        if (null !== $last_issuer && json_encode($last_issuer) !== json_encode($last_subject)) {
+        if (null === $certificate || null !== $last_issuer && json_encode($last_issuer) !== json_encode($last_subject)) {
             throw new \InvalidArgumentException('Invalid certificate chain.');
         }
 

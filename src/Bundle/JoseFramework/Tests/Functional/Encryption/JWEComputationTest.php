@@ -47,7 +47,7 @@ class JWEComputationTest extends WebTestCase
 
         $jwk = JWK::create([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
         /** @var JWEBuilder $builder */

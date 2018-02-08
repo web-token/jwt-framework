@@ -13,10 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-/**
- * This class implements the compression algorithm GZ (GZip).
- * This compression algorithm is not part of the specification.
- */
 class GZip implements CompressionMethod
 {
     /**

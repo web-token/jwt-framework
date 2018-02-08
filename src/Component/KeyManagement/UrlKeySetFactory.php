@@ -16,9 +16,6 @@ namespace Jose\Component\KeyManagement;
 use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 
-/**
- * Class UrlKeySetFactory.
- */
 abstract class UrlKeySetFactory
 {
     /**

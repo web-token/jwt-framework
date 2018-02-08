@@ -15,9 +15,6 @@ namespace Jose\Component\Checker\Tests\Stub;
 
 use Jose\Component\Core\JWT;
 
-/**
- * Class OtherToken.
- */
 class OtherToken implements JWT
 {
     /**

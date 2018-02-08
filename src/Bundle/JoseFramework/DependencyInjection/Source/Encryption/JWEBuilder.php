@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
-use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEBuilder as JWEBuilderService;
+use Jose\Component\Encryption\JWEBuilderFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class JWEBuilder.
- */
 class JWEBuilder extends AbstractEncryptionSource
 {
     /**

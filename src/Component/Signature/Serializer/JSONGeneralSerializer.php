@@ -17,9 +17,6 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 
-/**
- * Class JSONGeneralSerializer.
- */
 class JSONGeneralSerializer extends Serializer
 {
     public const NAME = 'jws_json_general';
@@ -76,7 +73,7 @@ class JSONGeneralSerializer extends Serializer
             $tmp = ['signature' => Base64Url::encode($signature->getSignature())];
             $values = [
                 'protected' => $signature->getEncodedProtectedHeader(),
-                'header' => $signature->getHeader(),
+                'header'    => $signature->getHeader(),
             ];
 
             foreach ($values as $key => $value) {
@@ -91,7 +88,7 @@ class JSONGeneralSerializer extends Serializer
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      */
     private function checkData($data)
     {
@@ -101,7 +98,7 @@ class JSONGeneralSerializer extends Serializer
     }
 
     /**
-     * @param $signature
+     * @param mixed $signature
      */
     private function checkSignature($signature)
     {
@@ -125,10 +122,10 @@ class JSONGeneralSerializer extends Serializer
             $this->checkSignature($signature);
             list($encodedProtectedHeader, $protectedHeader, $header) = $this->processHeaders($signature);
             $signatures[] = [
-                'signature' => Base64Url::decode($signature['signature']),
-                'protected' => $protectedHeader,
+                'signature'         => Base64Url::decode($signature['signature']),
+                'protected'         => $protectedHeader,
                 'encoded_protected' => $encodedProtectedHeader,
-                'header' => $header,
+                'header'            => $header,
             ];
             $isPayloadEncoded = $this->processIsPayloadEncoded($isPayloadEncoded, $protectedHeader);
         }

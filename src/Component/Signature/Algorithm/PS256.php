@@ -15,9 +15,6 @@ namespace Jose\Component\Signature\Algorithm;
 
 use Jose\Component\Signature\Util\RSA as JoseRSA;
 
-/**
- * Class PS256.
- */
 class PS256 extends RSA
 {
     /**

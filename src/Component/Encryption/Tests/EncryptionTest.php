@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Tests;
 
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Encryption\Algorithm\KeyEncryption;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
+use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilderFactory;
@@ -25,9 +25,6 @@ use Jose\Component\Encryption\JWELoaderFactory;
 use Jose\Component\Encryption\Serializer;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class EncryptionTest.
- */
 abstract class EncryptionTest extends TestCase
 {
     /**

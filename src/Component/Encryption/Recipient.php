@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-/**
- * Class Recipient.
- */
 class Recipient
 {
     /**
@@ -46,7 +43,7 @@ class Recipient
      *
      * @return Recipient
      */
-    public static function create(array $header = [], ?string $encryptedKey): self
+    public static function create(array $header, ?string $encryptedKey): self
     {
         return new self($header, $encryptedKey);
     }

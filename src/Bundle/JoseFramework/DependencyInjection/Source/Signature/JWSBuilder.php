@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
-use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSBuilder as JWSBuilderService;
+use Jose\Component\Signature\JWSBuilderFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class JWSBuilder.
- */
 class JWSBuilder extends AbstractSignatureSource
 {
     /**

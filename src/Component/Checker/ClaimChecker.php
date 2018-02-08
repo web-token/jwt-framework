@@ -13,13 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
- * Interface ClaimChecker.
- */
 interface ClaimChecker
 {
     /**
-     * @param $value
+     * @param mixed $value
      *
      * @throws \InvalidArgumentException
      */

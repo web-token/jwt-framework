@@ -15,9 +15,6 @@ namespace Jose\Component\Encryption\Algorithm;
 
 use Jose\Component\Core\Algorithm;
 
-/**
- * Interface ContentEncryptionAlgorithm.
- */
 interface ContentEncryptionAlgorithm extends Algorithm
 {
     /**
@@ -32,7 +29,7 @@ interface ContentEncryptionAlgorithm extends Algorithm
      *
      * @return string The encrypted data
      */
-    public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag): string;
+    public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string;
 
     /**
      * Decrypt data.

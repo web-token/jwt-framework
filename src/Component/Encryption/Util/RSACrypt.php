@@ -19,7 +19,6 @@ use Jose\Component\Core\Util\RSAKey;
 
 /**
  * @internal
- * Class RSACrypt
  */
 class RSACrypt
 {
@@ -119,9 +118,6 @@ class RSACrypt
         $c = BigInteger::createFromBinaryString($c);
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
-        if (false === $em) {
-            throw new \InvalidArgumentException('Unable to decrypt');
-        }
 
         if (0 != ord($em[0]) || ord($em[1]) > 2) {
             throw new \InvalidArgumentException('Unable to decrypt');
@@ -264,7 +260,7 @@ class RSACrypt
     {
         $t = '';
         $count = ceil($maskLen / $mgfHash->getLength());
-        for ($i = 0; $i < $count; ++$i) {
+        for ($i = 0; $i < $count; $i++) {
             $c = pack('N', $i);
             $t .= $mgfHash->hash($mgfSeed.$c);
         }

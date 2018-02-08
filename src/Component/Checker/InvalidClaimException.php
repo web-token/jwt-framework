@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
- * Class InvalidClaimException.
- */
 class InvalidClaimException extends \Exception
 {
     /**

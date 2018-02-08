@@ -20,9 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class CertificateFile.
- */
 class CertificateFile extends AbstractSource implements JWKSource
 {
     /**

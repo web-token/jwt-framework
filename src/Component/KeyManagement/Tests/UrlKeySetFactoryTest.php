@@ -13,16 +13,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Tests;
 
-use Jose\Component\Core\JWKSet;
-use PHPUnit\Framework\TestCase;
+use Http\Mock\Client;
 use Jose\Component\Core\Converter\StandardConverter;
+use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
-use Http\Mock\Client;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Class UrlKeySetFactoryTest.
- *
  * @group Unit
  * @group UrlKeySetFactory
  */

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Tests;
 
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSLoaderFactory;
@@ -22,9 +22,6 @@ use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class SignatureTest.
- */
 abstract class SignatureTest extends TestCase
 {
     /**

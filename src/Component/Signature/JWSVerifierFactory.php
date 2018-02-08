@@ -15,9 +15,6 @@ namespace Jose\Component\Signature;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
 
-/**
- * Class JWSVerifierFactory.
- */
 class JWSVerifierFactory
 {
     /**

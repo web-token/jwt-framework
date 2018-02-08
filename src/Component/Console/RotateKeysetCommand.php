@@ -20,9 +20,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class RotateKeysetCommand.
- */
 class RotateKeysetCommand extends ObjectOutputCommand
 {
     /**
@@ -47,8 +44,7 @@ class RotateKeysetCommand extends ObjectOutputCommand
             ->setDescription('Rotate a key set.')
             ->setHelp('This command removes the last key in a key set a place a new one at the beginning.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
 
     /**

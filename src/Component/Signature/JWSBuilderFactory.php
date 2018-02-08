@@ -13,12 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManagerFactory;
+use Jose\Component\Core\Converter\JsonConverter;
 
-/**
- * Class JWSBuilderFactory.
- */
 class JWSBuilderFactory
 {
     /**

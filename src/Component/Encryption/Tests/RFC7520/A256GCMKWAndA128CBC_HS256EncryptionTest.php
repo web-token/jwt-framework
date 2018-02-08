@@ -37,14 +37,14 @@ class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
             'alg' => 'A256GCMKW',
-            'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+            'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
         $protectedHeader = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'tag' => 'kfPduVQ3T3H6vnewt--ksw',
-            'iv' => 'KkYT0GX_2jHlfqN_',
+            'iv'  => 'KkYT0GX_2jHlfqN_',
             'enc' => 'A128CBC-HS256',
         ];
 
@@ -108,7 +108,7 @@ class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
             'alg' => 'A256GCMKW',
-            'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+            'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
         $protectedHeader = [

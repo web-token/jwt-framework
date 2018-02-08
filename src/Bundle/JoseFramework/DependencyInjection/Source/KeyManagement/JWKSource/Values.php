@@ -20,9 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class Values.
- */
 class Values extends AbstractSource implements JWKSource
 {
     /**

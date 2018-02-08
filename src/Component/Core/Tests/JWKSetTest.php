@@ -18,8 +18,6 @@ use Jose\Component\Core\JWKSet;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class JWKTest.
- *
  * @group Unit
  * @group JWKSet
  */
@@ -169,26 +167,26 @@ class JWKSetTest extends TestCase
     public function testKeySet()
     {
         $jwk1 = JWK::create([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use'     => 'sign',
             'key_ops' => ['sign'],
-            'alg' => 'ES256',
-            'kid' => '0123456789',
+            'alg'     => 'ES256',
+            'kid'     => '0123456789',
         ]);
 
         $jwk2 = JWK::create([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd'       => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use'     => 'sign',
             'key_ops' => ['verify'],
-            'alg' => 'ES256',
-            'kid' => '9876543210',
+            'alg'     => 'ES256',
+            'kid'     => '9876543210',
         ]);
 
         $jwkset = JWKSet::createFromKeys([$jwk1]);
@@ -226,26 +224,26 @@ class JWKSetTest extends TestCase
     public function testKeySet2()
     {
         $jwk1 = JWK::create([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use'     => 'sign',
             'key_ops' => ['sign'],
-            'alg' => 'ES256',
-            'kid' => '0123456789',
+            'alg'     => 'ES256',
+            'kid'     => '0123456789',
         ]);
 
         $jwk2 = JWK::create([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd'       => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use'     => 'sign',
             'key_ops' => ['verify'],
-            'alg' => 'ES256',
-            'kid' => '9876543210',
+            'alg'     => 'ES256',
+            'kid'     => '9876543210',
         ]);
 
         $jwkset = JWKSet::createFromKeys([$jwk1, $jwk2]);
@@ -274,8 +272,8 @@ class JWKSetTest extends TestCase
             [
                 'kty' => 'EC',
                 'crv' => 'P-256',
-                'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-                'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+                'x'   => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+                'y'   => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
             ],
         ]];
 

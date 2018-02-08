@@ -17,13 +17,10 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Util\RSA as JoseRSA;
 
-/**
- * Class RSA.
- */
 abstract class RSA implements SignatureAlgorithm
 {
     /**
-     * @return mixed
+     * @return string
      */
     abstract protected function getAlgorithm(): string;
 

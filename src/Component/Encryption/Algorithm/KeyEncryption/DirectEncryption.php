@@ -16,13 +16,10 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 
-/**
- * Interface DirectEncryption.
- */
 interface DirectEncryption extends KeyEncryptionAlgorithm
 {
     /**
-     * @param \Jose\Component\Core\JWK $key The key used to get the CEK
+     * @param JWK $key The key used to get the CEK
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *

@@ -14,13 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Tests;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\KeyAnalyzer;
 use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\KeyManagement\KeyAnalyzer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class JWKAnalyzerTest.
- *
  * @group Unit
  * @group JWKAnalyzer
  */
@@ -44,9 +42,9 @@ class JWKAnalyzerTest extends TestCase
     {
         $key = JWK::create([
             'kty' => 'RSA',
-            'n' => 'oaAQyGUwgwCfZQym0QQCeCJu6GfApv6nQBKJ3MgzT85kCUO3xDiudiDbJqgqn2ol',
-            'e' => 'AQAB',
-            'd' => 'asuBS2jRbT50FCkP8PxdRVQ7RIWJ3s5UWAi-c233cQam1kRjGN2QzAv79hrpjLQB',
+            'n'   => 'oaAQyGUwgwCfZQym0QQCeCJu6GfApv6nQBKJ3MgzT85kCUO3xDiudiDbJqgqn2ol',
+            'e'   => 'AQAB',
+            'd'   => 'asuBS2jRbT50FCkP8PxdRVQ7RIWJ3s5UWAi-c233cQam1kRjGN2QzAv79hrpjLQB',
         ]);
         $messages = $this->getKeyAnalyzer()->analyze($key);
 

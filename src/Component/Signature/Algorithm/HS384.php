@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-/**
- * Class HS384.
- */
 class HS384 extends HMAC
 {
     /**

@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class X5U.
- */
 class X5U extends AbstractSource implements JWKSetSource
 {
     /**

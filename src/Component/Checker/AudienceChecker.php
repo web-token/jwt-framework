@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
- * Class AudienceChecker.
- */
 class AudienceChecker implements ClaimChecker, HeaderChecker
 {
     private const CLAIM_NAME = 'aud';

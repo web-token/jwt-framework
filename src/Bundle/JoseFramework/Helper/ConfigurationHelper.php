@@ -15,9 +15,6 @@ namespace Jose\Bundle\JoseFramework\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-/**
- * This helper will help you to create services configuration.
- */
 class ConfigurationHelper
 {
     const BUNDLE_ALIAS = 'jose';
@@ -36,9 +33,9 @@ class ConfigurationHelper
                 'jws' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'            => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
-                            'tags' => $tags,
+                            'tags'                 => $tags,
                         ],
                     ],
                 ],
@@ -61,9 +58,9 @@ class ConfigurationHelper
                 'jws' => [
                     'verifiers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'            => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
-                            'tags' => $tags,
+                            'tags'                 => $tags,
                         ],
                     ],
                 ],
@@ -87,9 +84,9 @@ class ConfigurationHelper
                 'jws' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'   => $is_public,
                             'serializers' => $serializers,
-                            'tags' => $tags,
+                            'tags'        => $tags,
                         ],
                     ],
                 ],
@@ -115,11 +112,11 @@ class ConfigurationHelper
                 'jws' => [
                     'loaders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'serializers' => $serializers,
+                            'is_public'            => $is_public,
+                            'serializers'          => $serializers,
                             'signature_algorithms' => $signature_algorithms,
-                            'header_checkers' => $header_checkers,
-                            'tags' => $tags,
+                            'header_checkers'      => $header_checkers,
+                            'tags'                 => $tags,
                         ],
                     ],
                 ],
@@ -143,9 +140,9 @@ class ConfigurationHelper
                 'jwe' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'   => $is_public,
                             'serializers' => $serializers,
-                            'tags' => $tags,
+                            'tags'        => $tags,
                         ],
                     ],
                 ],
@@ -173,13 +170,13 @@ class ConfigurationHelper
                 'jwe' => [
                     'loaders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'serializers' => $serializers,
-                            'key_encryption_algorithms' => $key_encryption_algorithms,
+                            'is_public'                     => $is_public,
+                            'serializers'                   => $serializers,
+                            'key_encryption_algorithms'     => $key_encryption_algorithms,
                             'content_encryption_algorithms' => $content_encryption_algorithms,
-                            'compression_methods' => $compression_methods,
-                            'header_checkers' => $header_checkers,
-                            'tags' => $tags,
+                            'compression_methods'           => $compression_methods,
+                            'header_checkers'               => $header_checkers,
+                            'tags'                          => $tags,
                         ],
                     ],
                 ],
@@ -204,8 +201,8 @@ class ConfigurationHelper
                     'claims' => [
                         $name => [
                             'is_public' => $is_public,
-                            'claims' => $claimCheckers,
-                            'tags' => $tags,
+                            'claims'    => $claimCheckers,
+                            'tags'      => $tags,
                         ],
                     ],
                 ],
@@ -230,8 +227,8 @@ class ConfigurationHelper
                     'headers' => [
                         $name => [
                             'is_public' => $is_public,
-                            'headers' => $headerCheckers,
-                            'tags' => $tags,
+                            'headers'   => $headerCheckers,
+                            'tags'      => $tags,
                         ],
                     ],
                 ],
@@ -323,11 +320,11 @@ class ConfigurationHelper
                 'jwe' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'is_public'                     => $is_public,
+                            'key_encryption_algorithms'     => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
-                            'tags' => $tags,
+                            'compression_methods'           => $compressionMethods,
+                            'tags'                          => $tags,
                         ],
                     ],
                 ],
@@ -353,11 +350,11 @@ class ConfigurationHelper
                 'jwe' => [
                     'decrypters' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'is_public'                     => $is_public,
+                            'key_encryption_algorithms'     => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
-                            'tags' => $tags,
+                            'compression_methods'           => $compressionMethods,
+                            'tags'                          => $tags,
                         ],
                     ],
                 ],

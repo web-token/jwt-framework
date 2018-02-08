@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-/**
- * Class Serializer.
- */
 abstract class Serializer implements JWSSerializer
 {
     /**

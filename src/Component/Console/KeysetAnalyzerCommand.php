@@ -22,9 +22,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class KeysetAnalyzerCommand.
- */
 class KeysetAnalyzerCommand extends Command
 {
     /**
@@ -61,8 +58,7 @@ class KeysetAnalyzerCommand extends Command
             ->setName('keyset:analyze')
             ->setDescription('JWKSet quality analyzer.')
             ->setHelp('This command will analyze a JWKSet object and find security issues.')
-            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-        ;
+            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
     /**
@@ -103,12 +99,12 @@ class KeysetAnalyzerCommand extends Command
                     break;
                 case in_array($jwk->get('kty'), ['RSA', 'EC', 'OKP']):
                     if ($jwk->has('d')) {
-                        ++$privateKeys;
+                        $privateKeys++;
                         if (0 !== $sharedKeys + $publicKeys) {
                             $mixedKeys = true;
                         }
                     } else {
-                        ++$publicKeys;
+                        $publicKeys++;
                         if (0 !== $privateKeys + $sharedKeys) {
                             $mixedKeys = true;
                         }

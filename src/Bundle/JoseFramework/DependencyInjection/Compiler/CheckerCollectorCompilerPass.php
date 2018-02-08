@@ -19,9 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class CheckerCollectorCompilerPass.
- */
 class CheckerCollectorCompilerPass implements CompilerPassInterface
 {
     /**
@@ -37,7 +34,7 @@ class CheckerCollectorCompilerPass implements CompilerPassInterface
 
         $services = [
             'addHeaderCheckerManager' => 'jose.header_checker_manager',
-            'addClaimCheckerManager' => 'jose.claim_checker_manager',
+            'addClaimCheckerManager'  => 'jose.claim_checker_manager',
         ];
         foreach ($services as $method => $tag) {
             $this->collectServices($method, $tag, $definition, $container);

@@ -17,9 +17,6 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
-/**
- * Class KeyEnvVarProcessor.
- */
 class KeyEnvVarProcessor implements EnvVarProcessorInterface
 {
     /**
@@ -44,7 +41,7 @@ class KeyEnvVarProcessor implements EnvVarProcessorInterface
     public static function getProvidedTypes()
     {
         return [
-            'jwk' => 'string',
+            'jwk'    => 'string',
             'jwkset' => 'string',
         ];
     }

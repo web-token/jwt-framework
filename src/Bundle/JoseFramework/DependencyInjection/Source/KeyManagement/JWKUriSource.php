@@ -16,14 +16,11 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 use Jose\Bundle\JoseFramework\Controller\JWKSetController;
 use Jose\Bundle\JoseFramework\Controller\JWKSetControllerFactory;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class JKUriSource.
- */
 class JWKUriSource implements Source
 {
     /**
@@ -56,7 +53,7 @@ class JWKUriSource implements Source
     /**
      * {@inheritdoc}
      */
-    public function getNodeDefinition(ArrayNodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node)
     {
         $node
             ->children()

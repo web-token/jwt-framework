@@ -14,16 +14,13 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSLoader as JWSLoaderService;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Jose\Component\Signature\JWSLoaderFactory;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class JWSLoader.
- */
 class JWSLoader implements Source
 {
     /**
@@ -59,7 +56,7 @@ class JWSLoader implements Source
         }
     }
 
-    public function getNodeDefinition(ArrayNodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node)
     {
         $node
             ->children()

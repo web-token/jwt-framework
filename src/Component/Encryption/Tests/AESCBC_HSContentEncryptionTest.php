@@ -19,8 +19,6 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
 
 /**
- * Class AESCBC_HSContentEncryptionTest.
- *
  * @group AESCBC
  * @group Unit
  */

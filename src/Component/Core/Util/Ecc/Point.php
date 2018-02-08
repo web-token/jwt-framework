@@ -39,11 +39,6 @@ namespace Jose\Component\Core\Util\Ecc;
 
 /**
  * @internal
- * This class is where the elliptic curve arithmetic takes place.
- * The important methods are:
- * - add: adds two points according to ec arithmetic
- * - double: doubles a point on the ec field mod p
- * - mul: uses double and add to achieve multiplication The rest of the methods are there for supporting the ones above.
  */
 class Point
 {
@@ -82,7 +77,7 @@ class Point
     {
         $this->x = $x;
         $this->y = $y;
-        $this->order = null === $order ? gmp_init(0, 10) : $order;
+        $this->order = $order;
         $this->infinity = $infinity;
     }
 
@@ -154,9 +149,9 @@ class Point
     }
 
     /**
-     * @param $a
-     * @param $b
-     * @param $cond
+     * @param bool $a
+     * @param bool $b
+     * @param int  $cond
      */
     private static function cswapBoolean(bool &$a, bool &$b, int $cond)
     {

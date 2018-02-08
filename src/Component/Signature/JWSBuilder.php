@@ -14,15 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
-/**
- * Class JWSBuilder.
- */
 class JWSBuilder
 {
     /**
@@ -31,7 +28,7 @@ class JWSBuilder
     private $jsonConverter;
 
     /**
-     * @var string
+     * @var null|string
      */
     private $payload;
 
@@ -83,7 +80,7 @@ class JWSBuilder
     public function create(): self
     {
         $this->payload = null;
-        $this->isPayloadDetached = null;
+        $this->isPayloadDetached = false;
         $this->signatures = [];
         $this->isPayloadEncoded = null;
 
@@ -131,9 +128,9 @@ class JWSBuilder
         $clone = clone $this;
         $clone->signatures[] = [
             'signature_algorithm' => $signatureAlgorithm,
-            'signature_key' => $signatureKey,
-            'protected_header' => $protectedHeader,
-            'header' => $header,
+            'signature_key'       => $signatureKey,
+            'protected_header'    => $protectedHeader,
+            'header'              => $header,
         ];
 
         return $clone;

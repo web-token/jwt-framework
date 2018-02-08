@@ -15,7 +15,6 @@ namespace Jose\Component\Core\Util\Ecc;
 
 /**
  * @internal
- * Class Math
  */
 class Math
 {
@@ -172,7 +171,7 @@ class Math
         $result = gmp_init(0, 10);
         $sLen = mb_strlen($s, '8bit');
 
-        for ($c = 0; $c < $sLen; ++$c) {
+        for ($c = 0; $c < $sLen; $c++) {
             $result = gmp_add(gmp_mul(256, $result), gmp_init(ord($s[$c]), 10));
         }
 

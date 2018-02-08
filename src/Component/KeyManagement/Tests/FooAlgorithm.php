@@ -16,8 +16,6 @@ namespace Jose\Component\KeyManagement\Tests;
 use Jose\Component\Core\Algorithm;
 
 /**
- * Class JWKTest.
- *
  * @group Unit
  * @group JWKSet
  */

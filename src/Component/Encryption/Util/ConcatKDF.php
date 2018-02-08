@@ -17,9 +17,6 @@ use Base64Url\Base64Url;
 
 /**
  * @internal
- * Class ConcatKDF.
- *
- * This class is used by the ECDH-ES algorithms
  *
  * @see https://tools.ietf.org/html/rfc7518#section-4.6.2
  */

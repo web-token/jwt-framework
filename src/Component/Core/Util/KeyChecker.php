@@ -16,8 +16,6 @@ namespace Jose\Component\Core\Util;
 use Jose\Component\Core\JWK;
 
 /**
- * Class KeyChecker.
- *
  * @internal
  */
 class KeyChecker

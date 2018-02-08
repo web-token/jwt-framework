@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -28,9 +28,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 
-/**
- * Class JWEBuilder.
- */
 class JWEBuilder
 {
     /**
@@ -39,7 +36,7 @@ class JWEBuilder
     private $jsonConverter;
 
     /**
-     * @var string
+     * @var null|string
      */
     private $payload;
 
@@ -251,8 +248,8 @@ class JWEBuilder
         }
         $clone->checkKey($keyEncryptionAlgorithm, $recipientKey);
         $clone->recipients[] = [
-            'key' => $recipientKey,
-            'header' => $recipientHeader,
+            'key'                      => $recipientKey,
+            'header'                   => $recipientHeader,
             'key_encryption_algorithm' => $keyEncryptionAlgorithm,
         ];
 
@@ -264,6 +261,9 @@ class JWEBuilder
      */
     public function build(): JWE
     {
+        if (null === $this->payload) {
+            throw new \LogicException('Payload not set.');
+        }
         if (0 === count($this->recipients)) {
             throw new \LogicException('No recipient.');
         }
@@ -353,9 +353,6 @@ class JWEBuilder
             return $prepared;
         }
         $compressedPayload = $this->compressionMethod->compress($prepared);
-        if (null === $compressedPayload) {
-            throw new \RuntimeException('The payload cannot be compressed.');
-        }
 
         return $compressedPayload;
     }

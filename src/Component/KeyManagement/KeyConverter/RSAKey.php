@@ -19,7 +19,6 @@ use Jose\Component\Core\Util\BigInteger;
 
 /**
  * @internal
- * Class RSAKey
  */
 class RSAKey
 {
@@ -82,11 +81,11 @@ class RSAKey
 
         $values = ['kty' => 'RSA'];
         $keys = [
-            'n' => 'n',
-            'e' => 'e',
-            'd' => 'd',
-            'p' => 'p',
-            'q' => 'q',
+            'n'  => 'n',
+            'e'  => 'e',
+            'd'  => 'd',
+            'p'  => 'p',
+            'q'  => 'q',
             'dp' => 'dmp1',
             'dq' => 'dmq1',
             'qi' => 'iqmp',
@@ -225,7 +224,7 @@ class RSAKey
             $found = false;
             $y = null;
 
-            for ($i = 1; $i <= 100; ++$i) {
+            for ($i = 1; $i <= 100; $i++) {
                 $g = BigInteger::random($n->subtract($one));
                 $y = $g->modPow($r, $n);
 

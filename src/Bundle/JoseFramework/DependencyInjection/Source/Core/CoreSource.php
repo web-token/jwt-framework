@@ -14,20 +14,17 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Core;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-/**
- * Class CoreSource.
- */
-class CoreSource implements Source
+class CoreSource implements SourceWithCompilerPasses
 {
     /**
      * {@inheritdoc}
@@ -62,7 +59,7 @@ class CoreSource implements Source
     /**
      * {@inheritdoc}
      */
-    public function getNodeDefinition(ArrayNodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node)
     {
         $node
             ->children()

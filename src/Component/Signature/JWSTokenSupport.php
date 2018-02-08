@@ -16,9 +16,6 @@ namespace Jose\Component\Signature;
 use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
-/**
- * Class JWSTokenSupport.
- */
 class JWSTokenSupport implements TokenTypeSupport
 {
     /**

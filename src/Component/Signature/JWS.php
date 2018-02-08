@@ -15,9 +15,6 @@ namespace Jose\Component\Signature;
 
 use Jose\Component\Core\JWT;
 
-/**
- * Class JWS.
- */
 class JWS implements JWT
 {
     /**

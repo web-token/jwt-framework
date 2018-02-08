@@ -19,9 +19,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * Class MergeKeysetCommand.
- */
 class MergeKeysetCommand extends ObjectOutputCommand
 {
     /**
@@ -45,8 +42,7 @@ class MergeKeysetCommand extends ObjectOutputCommand
             ->setName('keyset:merge')
             ->setDescription('Merge several key sets into one.')
             ->setHelp('This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.')
-            ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects')
-        ;
+            ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects');
     }
 
     /**

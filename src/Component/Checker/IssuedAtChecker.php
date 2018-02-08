@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-/**
- * Class IssuedAtChecker.
- */
 class IssuedAtChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'iat';

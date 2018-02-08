@@ -17,9 +17,6 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Http\Message\MessageFactory as Psr7MessageFactory;
 
-/**
- * Class HttpMessageFactory.
- */
 class HttpMessageFactory implements Psr7MessageFactory
 {
     /**
