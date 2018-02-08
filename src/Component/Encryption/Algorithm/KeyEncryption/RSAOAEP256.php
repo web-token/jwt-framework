@@ -16,31 +16,31 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Encryption\Util\RSACrypt;
 
 /**
- * Class RSAOAEP256.
- */
+  * Class RSAOAEP256.
+  */
  class RSAOAEP256 extends RSA
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function getEncryptionMode(): int
-    {
-        return RSACrypt::ENCRYPTION_OAEP;
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function getEncryptionMode(): int
+     {
+         return RSACrypt::ENCRYPTION_OAEP;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getHashAlgorithm(): string
-    {
-        return 'sha256';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getHashAlgorithm(): string
+     {
+         return 'sha256';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'RSA-OAEP-256';
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'RSA-OAEP-256';
+     }
+ }

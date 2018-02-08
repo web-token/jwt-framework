@@ -19,53 +19,53 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class JoseFrameworkBundle.
- */
+  * Class JoseFrameworkBundle.
+  */
  class JoseFrameworkBundle extends Bundle
-{
-    /**
-     * @var Source\SourceWithCompilerPasses[]
-     */
-    private $sources = [];
+ {
+     /**
+      * @var Source\SourceWithCompilerPasses[]
+      */
+     private $sources = [];
 
-    /**
-     * JoseFrameworkBundle constructor.
-     */
-    public function __construct()
-    {
-        foreach ($this->getSources() as $source) {
-            $this->sources[$source->name()] = $source;
-        }
-    }
+     /**
+      * JoseFrameworkBundle constructor.
+      */
+     public function __construct()
+     {
+         foreach ($this->getSources() as $source) {
+             $this->sources[$source->name()] = $source;
+         }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainerExtension()
-    {
-        return new JoseFrameworkExtension('jose', $this->sources);
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getContainerExtension()
+     {
+         return new JoseFrameworkExtension('jose', $this->sources);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function build(ContainerBuilder $container)
-    {
-        parent::build($container);
-        foreach ($this->sources as $source) {
-            $compilerPasses = $source->getCompilerPasses();
-            foreach ($compilerPasses as $compilerPass) {
-                $container->addCompilerPass($compilerPass);
-            }
-        }
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function build(ContainerBuilder $container)
+     {
+         parent::build($container);
+         foreach ($this->sources as $source) {
+             $compilerPasses = $source->getCompilerPasses();
+             foreach ($compilerPasses as $compilerPass) {
+                 $container->addCompilerPass($compilerPass);
+             }
+         }
+     }
 
-    /**
-     * @return Source\SourceWithCompilerPasses[]
-     */
-    private function getSources(): array
-    {
-        return [
+     /**
+      * @return Source\SourceWithCompilerPasses[]
+      */
+     private function getSources(): array
+     {
+         return [
             new Source\Core\CoreSource(),
             new Source\Checker\CheckerSource(),
             new Source\Console\ConsoleSource(),
@@ -73,5 +73,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
             new Source\Encryption\EncryptionSource(),
             new Source\KeyManagement\KeyManagementSource(),
         ];
-    }
-}
+     }
+ }

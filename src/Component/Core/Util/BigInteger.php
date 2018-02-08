@@ -14,239 +14,239 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 /**
- * Class BigInteger.
- */
+  * Class BigInteger.
+  */
  class BigInteger
-{
-    /**
-     * Holds the BigInteger's value.
-     *
-     * @var \GMP
-     */
-    private $value;
+ {
+     /**
+      * Holds the BigInteger's value.
+      *
+      * @var \GMP
+      */
+     private $value;
 
-    /**
-     * @param \GMP $value
-     */
-    private function __construct(\GMP $value)
-    {
-        $this->value = $value;
-    }
+     /**
+      * @param \GMP $value
+      */
+     private function __construct(\GMP $value)
+     {
+         $this->value = $value;
+     }
 
-    /**
-     * @param \GMP $value
-     *
-     * @return BigInteger
-     */
-    public static function createFromGMPResource(\GMP $value): self
-    {
-        return new self($value);
-    }
+     /**
+      * @param \GMP $value
+      *
+      * @return BigInteger
+      */
+     public static function createFromGMPResource(\GMP $value): self
+     {
+         return new self($value);
+     }
 
-    /**
-     * @param string $value
-     *
-     * @return BigInteger
-     */
-    public static function createFromBinaryString(string $value): self
-    {
-        $value = '0x'.unpack('H*', $value)[1];
-        $value = gmp_init($value, 16);
+     /**
+      * @param string $value
+      *
+      * @return BigInteger
+      */
+     public static function createFromBinaryString(string $value): self
+     {
+         $value = '0x'.unpack('H*', $value)[1];
+         $value = gmp_init($value, 16);
 
-        return new self($value);
-    }
+         return new self($value);
+     }
 
-    /**
-     * @param int $value
-     *
-     * @return BigInteger
-     */
-    public static function createFromDecimal(int $value): self
-    {
-        $value = gmp_init($value, 10);
+     /**
+      * @param int $value
+      *
+      * @return BigInteger
+      */
+     public static function createFromDecimal(int $value): self
+     {
+         $value = gmp_init($value, 10);
 
-        return new self($value);
-    }
+         return new self($value);
+     }
 
-    /**
-     * Converts a BigInteger to a binary string.
-     *
-     * @return string
-     */
-    public function toBytes(): string
-    {
-        if (0 === gmp_cmp($this->value, gmp_init(0))) {
-            return '';
-        }
+     /**
+      * Converts a BigInteger to a binary string.
+      *
+      * @return string
+      */
+     public function toBytes(): string
+     {
+         if (0 === gmp_cmp($this->value, gmp_init(0))) {
+             return '';
+         }
 
-        $temp = gmp_strval(gmp_abs($this->value), 16);
-        $temp = mb_strlen($temp, '8bit') & 1 ? '0'.$temp : $temp;
-        $temp = hex2bin($temp);
+         $temp = gmp_strval(gmp_abs($this->value), 16);
+         $temp = mb_strlen($temp, '8bit') & 1 ? '0'.$temp : $temp;
+         $temp = hex2bin($temp);
 
-        return ltrim($temp, chr(0));
-    }
+         return ltrim($temp, chr(0));
+     }
 
-    /**
-     * Adds two BigIntegers.
-     *
-     *  @param BigInteger $y
-     *
-     *  @return BigInteger
-     */
-    public function add(self $y): self
-    {
-        $value = gmp_add($this->value, $y->value);
+     /**
+      * Adds two BigIntegers.
+      *
+      *  @param BigInteger $y
+      *
+      *  @return BigInteger
+      */
+     public function add(self $y): self
+     {
+         $value = gmp_add($this->value, $y->value);
 
-        return self::createFromGMPResource($value);
-    }
+         return self::createFromGMPResource($value);
+     }
 
-    /**
-     * Subtracts two BigIntegers.
-     *
-     *  @param BigInteger $y
-     *
-     *  @return BigInteger
-     */
-    public function subtract(self $y): self
-    {
-        $value = gmp_sub($this->value, $y->value);
+     /**
+      * Subtracts two BigIntegers.
+      *
+      *  @param BigInteger $y
+      *
+      *  @return BigInteger
+      */
+     public function subtract(self $y): self
+     {
+         $value = gmp_sub($this->value, $y->value);
 
-        return self::createFromGMPResource($value);
-    }
+         return self::createFromGMPResource($value);
+     }
 
-    /**
-     * Multiplies two BigIntegers.
-     *
-     * @param BigInteger $x
-     *
-     *  @return BigInteger
-     */
-    public function multiply(self $x): self
-    {
-        $value = gmp_mul($this->value, $x->value);
+     /**
+      * Multiplies two BigIntegers.
+      *
+      * @param BigInteger $x
+      *
+      *  @return BigInteger
+      */
+     public function multiply(self $x): self
+     {
+         $value = gmp_mul($this->value, $x->value);
 
-        return self::createFromGMPResource($value);
-    }
+         return self::createFromGMPResource($value);
+     }
 
-    /**
-     * Divides two BigIntegers.
-     *
-     * @param BigInteger $x
-     *
-     *  @return BigInteger
-     */
-    public function divide(self $x): self
-    {
-        $value = gmp_div($this->value, $x->value);
+     /**
+      * Divides two BigIntegers.
+      *
+      * @param BigInteger $x
+      *
+      *  @return BigInteger
+      */
+     public function divide(self $x): self
+     {
+         $value = gmp_div($this->value, $x->value);
 
-        return self::createFromGMPResource($value);
-    }
+         return self::createFromGMPResource($value);
+     }
 
-    /**
-     * Performs modular exponentiation.
-     *
-     * @param BigInteger $e
-     * @param BigInteger $n
-     *
-     * @return BigInteger
-     */
-    public function modPow(self $e, self $n): self
-    {
-        $value = gmp_powm($this->value, $e->value, $n->value);
+     /**
+      * Performs modular exponentiation.
+      *
+      * @param BigInteger $e
+      * @param BigInteger $n
+      *
+      * @return BigInteger
+      */
+     public function modPow(self $e, self $n): self
+     {
+         $value = gmp_powm($this->value, $e->value, $n->value);
 
-        return self::createFromGMPResource($value);
-    }
+         return self::createFromGMPResource($value);
+     }
 
-    /**
-     * Performs modular exponentiation.
-     *
-     * @param BigInteger $d
-     *
-     * @return BigInteger
-     */
-    public function mod(self $d): self
-    {
-        $value = gmp_mod($this->value, $d->value);
+     /**
+      * Performs modular exponentiation.
+      *
+      * @param BigInteger $d
+      *
+      * @return BigInteger
+      */
+     public function mod(self $d): self
+     {
+         $value = gmp_mod($this->value, $d->value);
 
-        return self::createFromGMPResource($value);
-    }
+         return self::createFromGMPResource($value);
+     }
 
-    /**
-     * Calculates modular inverses.
-     *
-     * @param BigInteger $n
-     *
-     * @return BigInteger
-     */
-    public function modInverse(self $n): self
-    {
-        $value = gmp_invert($this->value, $n->value);
+     /**
+      * Calculates modular inverses.
+      *
+      * @param BigInteger $n
+      *
+      * @return BigInteger
+      */
+     public function modInverse(self $n): self
+     {
+         $value = gmp_invert($this->value, $n->value);
 
-        return self::createFromGMPResource($value);
-    }
+         return self::createFromGMPResource($value);
+     }
 
-    /**
-     * Compares two numbers.
-     *
-     * @param BigInteger $y
-     *
-     * @return int
-     */
-    public function compare(self $y): int
-    {
-        return gmp_cmp($this->value, $y->value);
-    }
+     /**
+      * Compares two numbers.
+      *
+      * @param BigInteger $y
+      *
+      * @return int
+      */
+     public function compare(self $y): int
+     {
+         return gmp_cmp($this->value, $y->value);
+     }
 
-    /**
-     * @param BigInteger $y
-     *
-     * @return bool
-     */
-    public function equals(self $y): bool
-    {
-        return 0 === $this->compare($y);
-    }
+     /**
+      * @param BigInteger $y
+      *
+      * @return bool
+      */
+     public function equals(self $y): bool
+     {
+         return 0 === $this->compare($y);
+     }
 
-    /**
-     * @param BigInteger $y
-     *
-     * @return BigInteger
-     */
-    public static function random(self $y): self
-    {
-        $zero = self::createFromDecimal(0);
+     /**
+      * @param BigInteger $y
+      *
+      * @return BigInteger
+      */
+     public static function random(self $y): self
+     {
+         $zero = self::createFromDecimal(0);
 
-        return self::createFromGMPResource(gmp_random_range($zero->value, $y->value));
-    }
+         return self::createFromGMPResource(gmp_random_range($zero->value, $y->value));
+     }
 
-    /**
-     * @param BigInteger $y
-     *
-     * @return BigInteger
-     */
-    public function gcd(self $y): self
-    {
-        return self::createFromGMPResource(gmp_gcd($this->value, $y->value));
-    }
+     /**
+      * @param BigInteger $y
+      *
+      * @return BigInteger
+      */
+     public function gcd(self $y): self
+     {
+         return self::createFromGMPResource(gmp_gcd($this->value, $y->value));
+     }
 
-    /**
-     * @param BigInteger $y
-     *
-     * @return bool
-     */
-    public function lowerThan(self $y): bool
-    {
-        return 0 > $this->compare($y);
-    }
+     /**
+      * @param BigInteger $y
+      *
+      * @return bool
+      */
+     public function lowerThan(self $y): bool
+     {
+         return 0 > $this->compare($y);
+     }
 
-    /**
-     * @return bool
-     */
-    public function isEven(): bool
-    {
-        $zero = self::createFromDecimal(0);
-        $two = self::createFromDecimal(2);
+     /**
+      * @return bool
+      */
+     public function isEven(): bool
+     {
+         $zero = self::createFromDecimal(0);
+         $two = self::createFromDecimal(2);
 
-        return $this->mod($two)->equals($zero);
-    }
-}
+         return $this->mod($two)->equals($zero);
+     }
+ }

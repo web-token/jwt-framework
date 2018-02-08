@@ -17,50 +17,50 @@ use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\InvalidHeaderException;
 
 /**
- * Class IssuerChecker.
- */
+  * Class IssuerChecker.
+  */
  class IssuerChecker implements HeaderChecker
-{
-    private const CLAIM_NAME = 'iss';
+ {
+     private const CLAIM_NAME = 'iss';
 
-    /**
-     * @var string
-     */
-    private $issuer;
+     /**
+      * @var string
+      */
+     private $issuer;
 
-    /**
-     * IssuerChecker constructor.
-     *
-     * @param string $issuer
-     */
-    public function __construct(string $issuer)
-    {
-        $this->issuer = $issuer;
-    }
+     /**
+      * IssuerChecker constructor.
+      *
+      * @param string $issuer
+      */
+     public function __construct(string $issuer)
+     {
+         $this->issuer = $issuer;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function checkHeader($value)
-    {
-        if (!is_string($value) || $value !== $this->issuer) {
-            throw new InvalidHeaderException('Bad issuer.', 'iss', $value);
-        }
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function checkHeader($value)
+     {
+         if (!is_string($value) || $value !== $this->issuer) {
+             throw new InvalidHeaderException('Bad issuer.', 'iss', $value);
+         }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supportedHeader(): string
-    {
-        return self::CLAIM_NAME;
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function supportedHeader(): string
+     {
+         return self::CLAIM_NAME;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function protectedHeaderOnly(): bool
-    {
-        return false;
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function protectedHeaderOnly(): bool
+     {
+         return false;
+     }
+ }

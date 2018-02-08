@@ -16,22 +16,22 @@ namespace Jose\Bundle\JoseFramework\Helper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * This helper will help you to create services configuration.
- */
+  * This helper will help you to create services configuration.
+  */
  class ConfigurationHelper
-{
-    const BUNDLE_ALIAS = 'jose';
+ {
+     const BUNDLE_ALIAS = 'jose';
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $signatureAlgorithms
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWSBuilder(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $signatureAlgorithms
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWSBuilder(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jws' => [
                     'builders' => [
@@ -44,19 +44,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
                 ],
             ],
         ];
-        self::updateJoseConfiguration($container, $config, 'jws');
-    }
+         self::updateJoseConfiguration($container, $config, 'jws');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $signatureAlgorithms
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $signatureAlgorithms
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jws' => [
                     'verifiers' => [
@@ -70,19 +70,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jws');
-    }
+         self::updateJoseConfiguration($container, $config, 'jws');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWSSerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $serializers
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWSSerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jws' => [
                     'serializers' => [
@@ -96,21 +96,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jws');
-    }
+         self::updateJoseConfiguration($container, $config, 'jws');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param string[]         $signature_algorithms
-     * @param string[]         $header_checkers
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWSLoader(ContainerBuilder $container, string $name, array $serializers, array $signature_algorithms, array $header_checkers, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $serializers
+      * @param string[]         $signature_algorithms
+      * @param string[]         $header_checkers
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWSLoader(ContainerBuilder $container, string $name, array $serializers, array $signature_algorithms, array $header_checkers, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jws' => [
                     'loaders' => [
@@ -126,19 +126,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jws');
-    }
+         self::updateJoseConfiguration($container, $config, 'jws');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWESerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $serializers
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWESerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jwe' => [
                     'serializers' => [
@@ -152,23 +152,23 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe');
-    }
+         self::updateJoseConfiguration($container, $config, 'jwe');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param string[]         $key_encryption_algorithms
-     * @param string[]         $content_encryption_algorithms
-     * @param string[]         $compression_methods
-     * @param string[]         $header_checkers
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWELoader(ContainerBuilder $container, string $name, array $serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $header_checkers, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $serializers
+      * @param string[]         $key_encryption_algorithms
+      * @param string[]         $content_encryption_algorithms
+      * @param string[]         $compression_methods
+      * @param string[]         $header_checkers
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWELoader(ContainerBuilder $container, string $name, array $serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $header_checkers, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jwe' => [
                     'loaders' => [
@@ -186,19 +186,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe');
-    }
+         self::updateJoseConfiguration($container, $config, 'jwe');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $claimCheckers
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addClaimChecker(ContainerBuilder $container, string $name, array  $claimCheckers, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $claimCheckers
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addClaimChecker(ContainerBuilder $container, string $name, array  $claimCheckers, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'checkers' => [
                     'claims' => [
@@ -212,19 +212,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'checkers');
-    }
+         self::updateJoseConfiguration($container, $config, 'checkers');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $headerCheckers
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addHeaderChecker(ContainerBuilder $container, string $name, array  $headerCheckers, bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string[]         $headerCheckers
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addHeaderChecker(ContainerBuilder $container, string $name, array  $headerCheckers, bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'checkers' => [
                     'headers' => [
@@ -238,20 +238,20 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'checkers');
-    }
+         self::updateJoseConfiguration($container, $config, 'checkers');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string           $type
-     * @param array            $parameters
-     * @param array            $tags
-     */
-    public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
-    {
-        $parameters['tags'] = $tags;
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string           $type
+      * @param array            $parameters
+      * @param array            $tags
+      */
+     public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
+     {
+         $parameters['tags'] = $tags;
+         $config = [
             self::BUNDLE_ALIAS => [
                 'keys' => [
                     $name => [
@@ -261,20 +261,20 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'keys');
-    }
+         self::updateJoseConfiguration($container, $config, 'keys');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string           $type
-     * @param array            $parameters
-     * @param array            $tags
-     */
-    public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
-    {
-        $parameters['tags'] = $tags;
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param string           $type
+      * @param array            $parameters
+      * @param array            $tags
+      */
+     public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
+     {
+         $parameters['tags'] = $tags;
+         $config = [
             self::BUNDLE_ALIAS => [
                 'key_sets' => [
                     $name => [
@@ -284,19 +284,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'key_sets');
-    }
+         self::updateJoseConfiguration($container, $config, 'key_sets');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param array            $parameters
-     * @param array            $tags
-     */
-    public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters, array $tags = [])
-    {
-        $parameters['tags'] = $tags;
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param array            $parameters
+      * @param array            $tags
+      */
+     public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters, array $tags = [])
+     {
+         $parameters['tags'] = $tags;
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jwk_uris' => [
                     $name => $parameters,
@@ -304,21 +304,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwk_uris');
-    }
+         self::updateJoseConfiguration($container, $config, 'jwk_uris');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param array            $keyEncryptionAlgorithm
-     * @param array            $contentEncryptionAlgorithms
-     * @param array            $compressionMethods
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWEBuilder(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param array            $keyEncryptionAlgorithm
+      * @param array            $contentEncryptionAlgorithms
+      * @param array            $compressionMethods
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWEBuilder(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jwe' => [
                     'builders' => [
@@ -334,21 +334,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe');
-    }
+         self::updateJoseConfiguration($container, $config, 'jwe');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param array            $keyEncryptionAlgorithm
-     * @param array            $contentEncryptionAlgorithms
-     * @param array            $compressionMethods
-     * @param bool             $is_public
-     * @param array            $tags
-     */
-    public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
-    {
-        $config = [
+     /**
+      * @param ContainerBuilder $container
+      * @param string           $name
+      * @param array            $keyEncryptionAlgorithm
+      * @param array            $contentEncryptionAlgorithms
+      * @param array            $compressionMethods
+      * @param bool             $is_public
+      * @param array            $tags
+      */
+     public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
+     {
+         $config = [
             self::BUNDLE_ALIAS => [
                 'jwe' => [
                     'decrypters' => [
@@ -364,21 +364,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'jwe');
-    }
+         self::updateJoseConfiguration($container, $config, 'jwe');
+     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     * @param string           $element
-     */
-    private static function updateJoseConfiguration(ContainerBuilder $container, array $config, string $element)
-    {
-        $jose_config = current($container->getExtensionConfig(self::BUNDLE_ALIAS));
-        if (!isset($jose_config[$element])) {
-            $jose_config[$element] = [];
-        }
-        $jose_config[$element] = array_merge($jose_config[$element], $config[self::BUNDLE_ALIAS][$element]);
-        $container->prependExtensionConfig(self::BUNDLE_ALIAS, $jose_config);
-    }
-}
+     /**
+      * @param ContainerBuilder $container
+      * @param array            $config
+      * @param string           $element
+      */
+     private static function updateJoseConfiguration(ContainerBuilder $container, array $config, string $element)
+     {
+         $jose_config = current($container->getExtensionConfig(self::BUNDLE_ALIAS));
+         if (!isset($jose_config[$element])) {
+             $jose_config[$element] = [];
+         }
+         $jose_config[$element] = array_merge($jose_config[$element], $config[self::BUNDLE_ALIAS][$element]);
+         $container->prependExtensionConfig(self::BUNDLE_ALIAS, $jose_config);
+     }
+ }

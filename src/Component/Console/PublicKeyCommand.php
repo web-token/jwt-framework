@@ -20,59 +20,59 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class PublicKeyCommand.
- */
+  * Class PublicKeyCommand.
+  */
  class PublicKeyCommand extends ObjectOutputCommand
-{
-    /**
-     * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
-     */
-    public function __construct(JsonConverter $jsonConverter, string $name = null)
-    {
-        parent::__construct($jsonConverter, $name);
-    }
+ {
+     /**
+      * KeyAnalyzerCommand constructor.
+      *
+      * @param JsonConverter $jsonConverter
+      * @param string|null   $name
+      */
+     public function __construct(JsonConverter $jsonConverter, string $name = null)
+     {
+         parent::__construct($jsonConverter, $name);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('key:convert:public')
             ->setDescription('Convert a private key into public key. Symmetric keys (shared keys) are not changed.')
             ->setHelp('This command converts a private key into a public key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
         ;
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $jwk = $this->getKey($input);
-        $jwk = $jwk->toPublic();
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $jwk = $this->getKey($input);
+         $jwk = $jwk->toPublic();
 
-        $this->prepareJsonOutput($input, $output, $jwk);
-    }
+         $this->prepareJsonOutput($input, $output, $jwk);
+     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWK
-     */
-    private function getKey(InputInterface $input): JWK
-    {
-        $jwk = $input->getArgument('jwk');
-        $json = $this->jsonConverter->decode($jwk);
-        if (is_array($json)) {
-            return JWK::create($json);
-        }
+     /**
+      * @param InputInterface $input
+      *
+      * @return JWK
+      */
+     private function getKey(InputInterface $input): JWK
+     {
+         $jwk = $input->getArgument('jwk');
+         $json = $this->jsonConverter->decode($jwk);
+         if (is_array($json)) {
+             return JWK::create($json);
+         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWK.');
-    }
-}
+         throw new \InvalidArgumentException('The argument must be a valid JWK.');
+     }
+ }

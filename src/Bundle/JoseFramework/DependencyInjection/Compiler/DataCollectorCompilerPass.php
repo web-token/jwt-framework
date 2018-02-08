@@ -19,23 +19,23 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class DataCollectorCompilerPass.
- */
+  * Class DataCollectorCompilerPass.
+  */
  class DataCollectorCompilerPass implements CompilerPassInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        if (!$container->hasDefinition(JoseCollector::class)) {
-            return;
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function process(ContainerBuilder $container)
+     {
+         if (!$container->hasDefinition(JoseCollector::class)) {
+             return;
+         }
 
-        $definition = $container->getDefinition(JoseCollector::class);
-        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.data_collector');
-        foreach ($taggedAlgorithmServices as $id => $tags) {
-            $definition->addMethodCall('add', [new Reference($id)]);
-        }
-    }
-}
+         $definition = $container->getDefinition(JoseCollector::class);
+         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.data_collector');
+         foreach ($taggedAlgorithmServices as $id => $tags) {
+             $definition->addMethodCall('add', [new Reference($id)]);
+         }
+     }
+ }

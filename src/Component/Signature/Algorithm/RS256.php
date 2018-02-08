@@ -16,31 +16,31 @@ namespace Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 /**
- * Class RS256.
- */
+  * Class RS256.
+  */
  class RS256 extends RSA
-{
-    /**
-     * @return string
-     */
-    protected function getAlgorithm(): string
-    {
-        return 'sha256';
-    }
+ {
+     /**
+      * @return string
+      */
+     protected function getAlgorithm(): string
+     {
+         return 'sha256';
+     }
 
-    /**
-     * @return int
-     */
-    protected function getSignatureMethod(): int
-    {
-        return JoseRSA::SIGNATURE_PKCS1;
-    }
+     /**
+      * @return int
+      */
+     protected function getSignatureMethod(): int
+     {
+         return JoseRSA::SIGNATURE_PKCS1;
+     }
 
-    /**
-     * @return string
-     */
-    public function name(): string
-    {
-        return 'RS256';
-    }
-}
+     /**
+      * @return string
+      */
+     public function name(): string
+     {
+         return 'RS256';
+     }
+ }

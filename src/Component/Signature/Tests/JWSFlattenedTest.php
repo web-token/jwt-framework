@@ -16,21 +16,21 @@ namespace Jose\Component\Signature\Tests;
 use Jose\Component\Signature\JWS;
 
 /**
- * Class JWSFlattenedTest.
- *
- * @group Functional
- */
+  * Class JWSFlattenedTest.
+  *
+  * @group Functional
+  */
  class JWSFlattenedTest extends SignatureTest
-{
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
-     */
-    public function testLoadFlattenedJWS()
-    {
-        $loaded = $this->getJWSSerializerManager()->unserialize('{"payload":"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ","protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}');
+ {
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
+      */
+     public function testLoadFlattenedJWS()
+     {
+         $loaded = $this->getJWSSerializerManager()->unserialize('{"payload":"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ","protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}');
 
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals('ES256', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
-        self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($loaded->getPayload(), true));
-    }
-}
+         self::assertInstanceOf(JWS::class, $loaded);
+         self::assertEquals('ES256', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
+         self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($loaded->getPayload(), true));
+     }
+ }

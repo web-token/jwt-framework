@@ -19,31 +19,31 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class OctKeyGeneratorCommand.
- */
+  * Class OctKeyGeneratorCommand.
+  */
  class OctKeyGeneratorCommand extends GeneratorCommand
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('key:generate:oct')
             ->setDescription('Generate an octet key (JWK format)')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $size = intval($input->getArgument('size'));
-        $args = $this->getOptions($input);
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $size = intval($input->getArgument('size'));
+         $args = $this->getOptions($input);
 
-        $jwk = JWKFactory::createOctKey($size, $args);
-        $this->prepareJsonOutput($input, $output, $jwk);
-    }
-}
+         $jwk = JWKFactory::createOctKey($size, $args);
+         $this->prepareJsonOutput($input, $output, $jwk);
+     }
+ }

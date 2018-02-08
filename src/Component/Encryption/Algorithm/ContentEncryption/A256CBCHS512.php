@@ -14,39 +14,39 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 /**
- * Class A256CBCHS512.
- */
+  * Class A256CBCHS512.
+  */
  class A256CBCHS512 extends AESCBCHS
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function getHashAlgorithm(): string
-    {
-        return 'sha512';
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function getHashAlgorithm(): string
+     {
+         return 'sha512';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getMode(): string
-    {
-        return 'aes-256-cbc';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     protected function getMode(): string
+     {
+         return 'aes-256-cbc';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCEKSize(): int
-    {
-        return 512;
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getCEKSize(): int
+     {
+         return 512;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'A256CBC-HS512';
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'A256CBC-HS512';
+     }
+ }

@@ -19,24 +19,24 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class EncryptionSerializerCompilerPass.
- */
+  * Class EncryptionSerializerCompilerPass.
+  */
  class EncryptionSerializerCompilerPass implements CompilerPassInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        if (!$container->hasDefinition(JWESerializerManagerFactory::class)) {
-            return;
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function process(ContainerBuilder $container)
+     {
+         if (!$container->hasDefinition(JWESerializerManagerFactory::class)) {
+             return;
+         }
 
-        $definition = $container->getDefinition(JWESerializerManagerFactory::class);
+         $definition = $container->getDefinition(JWESerializerManagerFactory::class);
 
-        $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwe.serializer');
-        foreach ($taggedAlgorithmServices as $id => $tags) {
-            $definition->addMethodCall('add', [new Reference($id)]);
-        }
-    }
-}
+         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwe.serializer');
+         foreach ($taggedAlgorithmServices as $id => $tags) {
+             $definition->addMethodCall('add', [new Reference($id)]);
+         }
+     }
+ }

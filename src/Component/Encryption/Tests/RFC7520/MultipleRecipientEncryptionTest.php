@@ -18,21 +18,21 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Tests\EncryptionTest;
 
 /**
- * @see https://tools.ietf.org/html/rfc7520#section-5.13
- *
- * @group RFC7520
- */
+  * @see https://tools.ietf.org/html/rfc7520#section-5.13
+  *
+  * @group RFC7520
+  */
  class MultipleRecipientEncryptionTest extends EncryptionTest
-{
-    /**
-     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
-     * The output given in the RFC is used and only decrypted.
-     */
-    public function testMultipleRecipientEncryption()
-    {
-        $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
+ {
+     /**
+      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
+      * The output given in the RFC is used and only decrypted.
+      */
+     public function testMultipleRecipientEncryption()
+     {
+         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $recipient_1_private_key = JWK::create([
+         $recipient_1_private_key = JWK::create([
             'kty' => 'RSA',
             'kid' => 'frodo.baggins@hobbiton.example',
             'use' => 'enc',
@@ -46,7 +46,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'qi' => 'kC-lzZOqoFaZCr5l0tOVtREKoVqaAYhQiqIRGL-MzS4sCmRkxm5vZlXYx6RtE1n_AagjqajlkjieGlxTTThHD8Iga6foGBMaAr5uR1hGQpSc7Gl7CF1DZkBJMTQN6EshYzZfxW08mIO8M6Rzuh0beL6fG9mkDcIyPrBXx2bQ_mM',
         ]);
 
-        $recipient_2_private_key = JWK::create([
+         $recipient_2_private_key = JWK::create([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -56,7 +56,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'd' => 'iTx2pk7wW-GqJkHcEkFQb2EFyYcO7RugmaW3mRrQVAOUiPommT0IdnYK2xDlZh-j',
         ]);
 
-        $recipient_3_private_key = JWK::create([
+         $recipient_3_private_key = JWK::create([
             'kty' => 'oct',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
@@ -64,20 +64,20 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
-        $protectedHeader = [
+         $protectedHeader = [
             'enc' => 'A128CBC-HS256',
         ];
 
-        $header = [
+         $header = [
             'cty' => 'text/plain',
         ];
 
-        $recipient_1Header = [
+         $recipient_1Header = [
             'alg' => 'RSA1_5',
             'kid' => 'frodo.baggins@hobbiton.example',
         ];
 
-        $recipient_2Header = [
+         $recipient_2Header = [
             'alg' => 'ECDH-ES+A256KW',
             'kid' => 'peregrin.took@tuckborough.example',
             'epk' => [
@@ -87,55 +87,55 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
                 'y' => 'VDrRyFJh-Kwd1EjAgmj5Eo-CTHAZ53MC7PjjpLioy3ylEjI1pOMbw91fzZ84pbfm',
         ], ];
 
-        $recipient_3Header = [
+         $recipient_3Header = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'tag' => '59Nqh1LlYtVIhfD3pgRGvw',
             'iv' => 'AvpeoPZ9Ncn9mkBn',
         ];
 
-        $expected_json = '{"recipients":[{"encrypted_key":"dYOD28kab0Vvf4ODgxVAJXgHcSZICSOp8M51zjwj4w6Y5G4XJQsNNIBiqyvUUAOcpL7S7-cFe7Pio7gV_Q06WmCSa-vhW6me4bWrBf7cHwEQJdXihidAYWVajJIaKMXMvFRMV6iDlRr076DFthg2_AV0_tSiV6xSEIFqt1xnYPpmP91tc5WJDOGb-wqjw0-b-S1laS11QVbuP78dQ7Fa0zAVzzjHX-xvyM2wxj_otxr9clN1LnZMbeYSrRicJK5xodvWgkpIdkMHo4LvdhRRvzoKzlic89jFWPlnBq_V4n5trGuExtp_-dbHcGlihqc_wGgho9fLMK8JOArYLcMDNQ","header":{"alg":"RSA1_5","kid":"frodo.baggins@hobbiton.example"}},{"encrypted_key":"ExInT0io9BqBMYF6-maw5tZlgoZXThD1zWKsHixJuw_elY4gSSId_w","header":{"alg":"ECDH-ES+A256KW","kid":"peregrin.took@tuckborough.example","epk":{"kty":"EC","crv":"P-384","x":"Uzdvk3pi5wKCRc1izp5_r0OjeqT-I68i8g2b8mva8diRhsE2xAn2DtMRb25Ma2CX","y":"VDrRyFJh-Kwd1EjAgmj5Eo-CTHAZ53MC7PjjpLioy3ylEjI1pOMbw91fzZ84pbfm"}}},{"encrypted_key":"a7CclAejo_7JSuPB8zeagxXRam8dwCfmkt9-WyTpS1E","header":{"alg":"A256GCMKW","kid":"18ec08e1-bfa9-4d95-b205-2b4dd1d4321d","tag":"59Nqh1LlYtVIhfD3pgRGvw","iv":"AvpeoPZ9Ncn9mkBn"}}],"unprotected":{"cty":"text/plain"},"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","iv":"VgEIHY20EnzUtZFl2RpB1g","ciphertext":"ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE","tag":"BESYyFN7T09KY7i8zKs5_g"}';
-        $expected_iv = 'VgEIHY20EnzUtZFl2RpB1g';
-        $expected_recipient_1_encrypted_key = 'dYOD28kab0Vvf4ODgxVAJXgHcSZICSOp8M51zjwj4w6Y5G4XJQsNNIBiqyvUUAOcpL7S7-cFe7Pio7gV_Q06WmCSa-vhW6me4bWrBf7cHwEQJdXihidAYWVajJIaKMXMvFRMV6iDlRr076DFthg2_AV0_tSiV6xSEIFqt1xnYPpmP91tc5WJDOGb-wqjw0-b-S1laS11QVbuP78dQ7Fa0zAVzzjHX-xvyM2wxj_otxr9clN1LnZMbeYSrRicJK5xodvWgkpIdkMHo4LvdhRRvzoKzlic89jFWPlnBq_V4n5trGuExtp_-dbHcGlihqc_wGgho9fLMK8JOArYLcMDNQ';
-        $expected_recipient_2_encrypted_key = 'ExInT0io9BqBMYF6-maw5tZlgoZXThD1zWKsHixJuw_elY4gSSId_w';
-        $expected_recipient_3_encrypted_key = 'a7CclAejo_7JSuPB8zeagxXRam8dwCfmkt9-WyTpS1E';
-        $expected_ciphertext = 'ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE';
-        $expected_tag = 'BESYyFN7T09KY7i8zKs5_g';
+         $expected_json = '{"recipients":[{"encrypted_key":"dYOD28kab0Vvf4ODgxVAJXgHcSZICSOp8M51zjwj4w6Y5G4XJQsNNIBiqyvUUAOcpL7S7-cFe7Pio7gV_Q06WmCSa-vhW6me4bWrBf7cHwEQJdXihidAYWVajJIaKMXMvFRMV6iDlRr076DFthg2_AV0_tSiV6xSEIFqt1xnYPpmP91tc5WJDOGb-wqjw0-b-S1laS11QVbuP78dQ7Fa0zAVzzjHX-xvyM2wxj_otxr9clN1LnZMbeYSrRicJK5xodvWgkpIdkMHo4LvdhRRvzoKzlic89jFWPlnBq_V4n5trGuExtp_-dbHcGlihqc_wGgho9fLMK8JOArYLcMDNQ","header":{"alg":"RSA1_5","kid":"frodo.baggins@hobbiton.example"}},{"encrypted_key":"ExInT0io9BqBMYF6-maw5tZlgoZXThD1zWKsHixJuw_elY4gSSId_w","header":{"alg":"ECDH-ES+A256KW","kid":"peregrin.took@tuckborough.example","epk":{"kty":"EC","crv":"P-384","x":"Uzdvk3pi5wKCRc1izp5_r0OjeqT-I68i8g2b8mva8diRhsE2xAn2DtMRb25Ma2CX","y":"VDrRyFJh-Kwd1EjAgmj5Eo-CTHAZ53MC7PjjpLioy3ylEjI1pOMbw91fzZ84pbfm"}}},{"encrypted_key":"a7CclAejo_7JSuPB8zeagxXRam8dwCfmkt9-WyTpS1E","header":{"alg":"A256GCMKW","kid":"18ec08e1-bfa9-4d95-b205-2b4dd1d4321d","tag":"59Nqh1LlYtVIhfD3pgRGvw","iv":"AvpeoPZ9Ncn9mkBn"}}],"unprotected":{"cty":"text/plain"},"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","iv":"VgEIHY20EnzUtZFl2RpB1g","ciphertext":"ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE","tag":"BESYyFN7T09KY7i8zKs5_g"}';
+         $expected_iv = 'VgEIHY20EnzUtZFl2RpB1g';
+         $expected_recipient_1_encrypted_key = 'dYOD28kab0Vvf4ODgxVAJXgHcSZICSOp8M51zjwj4w6Y5G4XJQsNNIBiqyvUUAOcpL7S7-cFe7Pio7gV_Q06WmCSa-vhW6me4bWrBf7cHwEQJdXihidAYWVajJIaKMXMvFRMV6iDlRr076DFthg2_AV0_tSiV6xSEIFqt1xnYPpmP91tc5WJDOGb-wqjw0-b-S1laS11QVbuP78dQ7Fa0zAVzzjHX-xvyM2wxj_otxr9clN1LnZMbeYSrRicJK5xodvWgkpIdkMHo4LvdhRRvzoKzlic89jFWPlnBq_V4n5trGuExtp_-dbHcGlihqc_wGgho9fLMK8JOArYLcMDNQ';
+         $expected_recipient_2_encrypted_key = 'ExInT0io9BqBMYF6-maw5tZlgoZXThD1zWKsHixJuw_elY4gSSId_w';
+         $expected_recipient_3_encrypted_key = 'a7CclAejo_7JSuPB8zeagxXRam8dwCfmkt9-WyTpS1E';
+         $expected_ciphertext = 'ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE';
+         $expected_tag = 'BESYyFN7T09KY7i8zKs5_g';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
+         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
+         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
+         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
-        self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
-        self::assertEquals($expected_recipient_1_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
-        self::assertEquals($expected_recipient_2_encrypted_key, Base64Url::encode($loaded_json->getRecipient(1)->getEncryptedKey()));
-        self::assertEquals($expected_recipient_3_encrypted_key, Base64Url::encode($loaded_json->getRecipient(2)->getEncryptedKey()));
-        self::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
-        self::assertEquals($recipient_2Header, $loaded_json->getRecipient(1)->getHeader());
-        self::assertEquals($recipient_3Header, $loaded_json->getRecipient(2)->getHeader());
-        self::assertEquals($header, $loaded_json->getSharedHeader());
-        self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
+         self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
+         self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
+         self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
+         self::assertEquals($expected_recipient_1_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
+         self::assertEquals($expected_recipient_2_encrypted_key, Base64Url::encode($loaded_json->getRecipient(1)->getEncryptedKey()));
+         self::assertEquals($expected_recipient_3_encrypted_key, Base64Url::encode($loaded_json->getRecipient(2)->getEncryptedKey()));
+         self::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
+         self::assertEquals($recipient_2Header, $loaded_json->getRecipient(1)->getHeader());
+         self::assertEquals($recipient_3Header, $loaded_json->getRecipient(2)->getHeader());
+         self::assertEquals($header, $loaded_json->getSharedHeader());
+         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
-        self::assertEquals($expected_payload, $loaded_json->getPayload());
-    }
+         self::assertEquals($expected_payload, $loaded_json->getPayload());
+     }
 
-    /**
-     * Same input as before, but we perform the encryption first.
-     */
-    public function testMultipleRecipientEncryptionBis()
-    {
-        $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
+     /**
+      * Same input as before, but we perform the encryption first.
+      */
+     public function testMultipleRecipientEncryptionBis()
+     {
+         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $recipient_1_private_key = JWK::create([
+         $recipient_1_private_key = JWK::create([
             'kty' => 'RSA',
             'kid' => 'frodo.baggins@hobbiton.example',
             'use' => 'enc',
@@ -149,7 +149,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'qi' => 'kC-lzZOqoFaZCr5l0tOVtREKoVqaAYhQiqIRGL-MzS4sCmRkxm5vZlXYx6RtE1n_AagjqajlkjieGlxTTThHD8Iga6foGBMaAr5uR1hGQpSc7Gl7CF1DZkBJMTQN6EshYzZfxW08mIO8M6Rzuh0beL6fG9mkDcIyPrBXx2bQ_mM',
         ]);
 
-        $recipient_2_public_key = JWK::create([
+         $recipient_2_public_key = JWK::create([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -158,7 +158,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
-        $recipient_2_private_key = JWK::create([
+         $recipient_2_private_key = JWK::create([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -168,7 +168,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'd' => 'iTx2pk7wW-GqJkHcEkFQb2EFyYcO7RugmaW3mRrQVAOUiPommT0IdnYK2xDlZh-j',
         ]);
 
-        $recipient_3_private_key = JWK::create([
+         $recipient_3_private_key = JWK::create([
             'kty' => 'oct',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
@@ -176,33 +176,33 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
-        $protectedHeader = [
+         $protectedHeader = [
             'enc' => 'A128CBC-HS256',
         ];
 
-        $header = [
+         $header = [
             'cty' => 'text/plain',
         ];
 
-        $recipient_1Header = [
+         $recipient_1Header = [
             'alg' => 'RSA1_5',
             'kid' => 'frodo.baggins@hobbiton.example',
         ];
 
-        $recipient_2Header = [
+         $recipient_2Header = [
             'alg' => 'ECDH-ES+A256KW',
             'kid' => 'peregrin.took@tuckborough.example',
         ];
 
-        $recipient_3Header = [
+         $recipient_3Header = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
         ];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
 
-        $jwe = $jweBuilder
+         $jwe = $jweBuilder
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)
@@ -211,34 +211,34 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             ->addRecipient($recipient_3_private_key, $recipient_3Header)
             ->build();
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
+         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
+         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
+         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
-        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        self::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
-        self::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
-        self::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
-        self::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
-        self::assertEquals($header, $loaded_json->getSharedHeader());
+         self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
+         self::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
+         self::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
+         self::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
+         self::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
+         self::assertEquals($header, $loaded_json->getSharedHeader());
 
-        self::assertEquals($expected_payload, $loaded_json->getPayload());
-    }
+         self::assertEquals($expected_payload, $loaded_json->getPayload());
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Inconsistent content encryption algorithm
-     */
-    public function testMultipleRecipientEncryptionWithDifferentContentEncryptionAlgorithm()
-    {
-        $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage Inconsistent content encryption algorithm
+      */
+     public function testMultipleRecipientEncryptionWithDifferentContentEncryptionAlgorithm()
+     {
+         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $recipient_1_private_key = JWK::create([
+         $recipient_1_private_key = JWK::create([
             'kty' => 'RSA',
             'kid' => 'frodo.baggins@hobbiton.example',
             'use' => 'enc',
@@ -252,7 +252,7 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'qi' => 'kC-lzZOqoFaZCr5l0tOVtREKoVqaAYhQiqIRGL-MzS4sCmRkxm5vZlXYx6RtE1n_AagjqajlkjieGlxTTThHD8Iga6foGBMaAr5uR1hGQpSc7Gl7CF1DZkBJMTQN6EshYzZfxW08mIO8M6Rzuh0beL6fG9mkDcIyPrBXx2bQ_mM',
         ]);
 
-        $recipient_2_public_key = JWK::create([
+         $recipient_2_public_key = JWK::create([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -261,26 +261,26 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
-        $protectedHeader = [];
+         $protectedHeader = [];
 
-        $header = [
+         $header = [
             'cty' => 'text/plain',
         ];
 
-        $recipient_1Header = [
+         $recipient_1Header = [
             'alg' => 'RSA1_5',
             'enc' => 'A128GCM',
             'kid' => 'frodo.baggins@hobbiton.example',
         ];
 
-        $recipient_2Header = [
+         $recipient_2Header = [
             'alg' => 'ECDH-ES+A256KW',
             'enc' => 'A128CBC-HS256',
             'kid' => 'peregrin.took@tuckborough.example',
         ];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'A256GCMKW'], ['A128CBC-HS256', 'A128GCM'], ['DEF']);
-        $jweBuilder
+         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'A256GCMKW'], ['A128CBC-HS256', 'A128GCM'], ['DEF']);
+         $jweBuilder
             ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
@@ -288,5 +288,5 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
             ->addRecipient($recipient_2_public_key, $recipient_2Header)
             ->build();
-    }
-}
+     }
+ }

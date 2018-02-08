@@ -21,41 +21,41 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JWKSet.
- */
+  * Class JWKSet.
+  */
  class JWKSet extends AbstractSource implements JWKSource
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function createDefinition(ContainerBuilder $container, array $config): Definition
-    {
-        $definition = new Definition(JWK::class);
-        $definition->setFactory([
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function createDefinition(ContainerBuilder $container, array $config): Definition
+     {
+         $definition = new Definition(JWK::class);
+         $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromKeySet',
         ]);
-        $definition->setArguments([new Reference($config['key_set']), $config['index']]);
-        $definition->addTag('jose.jwk');
+         $definition->setArguments([new Reference($config['key_set']), $config['index']]);
+         $definition->addTag('jose.jwk');
 
-        return $definition;
-    }
+         return $definition;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return 'jwkset';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getKey(): string
+     {
+         return 'jwkset';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addConfiguration(NodeDefinition $node)
-    {
-        parent::addConfiguration($node);
-        $node
+     /**
+      * {@inheritdoc}
+      */
+     public function addConfiguration(NodeDefinition $node)
+     {
+         parent::addConfiguration($node);
+         $node
             ->children()
                 ->scalarNode('key_set')
                     ->info('The key set service.')
@@ -65,5 +65,5 @@ use Symfony\Component\DependencyInjection\Reference;
                     ->isRequired()
                 ->end()
             ->end();
-    }
-}
+     }
+ }

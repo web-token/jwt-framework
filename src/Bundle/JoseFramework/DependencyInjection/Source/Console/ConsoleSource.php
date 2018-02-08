@@ -22,59 +22,59 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
- * Class ConsoleSource.
- */
+  * Class ConsoleSource.
+  */
  class ConsoleSource implements SourceWithCompilerPasses
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'console';
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'console';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
-    {
-        if (!$this->isEnabled()) {
-            return;
-        }
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('commands.yml');
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function load(array $configs, ContainerBuilder $container)
+     {
+         if (!$this->isEnabled()) {
+             return;
+         }
+         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+         $loader->load('commands.yml');
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeDefinition(NodeDefinition $node)
-    {
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getNodeDefinition(NodeDefinition $node)
+     {
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container, array $config): array
-    {
-        return [];
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function prepend(ContainerBuilder $container, array $config): array
+     {
+         return [];
+     }
 
-    /**
-     * @return bool
-     */
-    private function isEnabled(): bool
-    {
-        return class_exists(EcKeyGeneratorCommand::class);
-    }
+     /**
+      * @return bool
+      */
+     private function isEnabled(): bool
+     {
+         return class_exists(EcKeyGeneratorCommand::class);
+     }
 
-    /**
-     * @return CompilerPassInterface[]
-     */
-    public function getCompilerPasses(): array
-    {
-        return [
+     /**
+      * @return CompilerPassInterface[]
+      */
+     public function getCompilerPasses(): array
+     {
+         return [
         ];
-    }
-}
+     }
+ }

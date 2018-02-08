@@ -16,43 +16,43 @@ namespace Jose\Component\Core\Util;
 use Jose\Component\Core\JWK;
 
 /**
- * Class KeyChecker.
- */
+  * Class KeyChecker.
+  */
  class KeyChecker
-{
-    /**
-     * @param JWK    $key
-     * @param string $usage
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return bool
-     */
-    public static function checkKeyUsage(JWK $key, string $usage): bool
-    {
-        if ($key->has('use')) {
-            return self::checkUsage($key, $usage);
-        }
-        if ($key->has('key_ops')) {
-            return self::checkOperation($key, $usage);
-        }
+ {
+     /**
+      * @param JWK    $key
+      * @param string $usage
+      *
+      * @throws \InvalidArgumentException
+      *
+      * @return bool
+      */
+     public static function checkKeyUsage(JWK $key, string $usage): bool
+     {
+         if ($key->has('use')) {
+             return self::checkUsage($key, $usage);
+         }
+         if ($key->has('key_ops')) {
+             return self::checkOperation($key, $usage);
+         }
 
-        return true;
-    }
+         return true;
+     }
 
-    /**
-     * @param JWK    $key
-     * @param string $usage
-     *
-     * @return bool
-     */
-    private static function checkOperation(JWK $key, string $usage): bool
-    {
-        $ops = $key->get('key_ops');
-        if (!is_array($ops)) {
-            $ops = [$ops];
-        }
-        switch ($usage) {
+     /**
+      * @param JWK    $key
+      * @param string $usage
+      *
+      * @return bool
+      */
+     private static function checkOperation(JWK $key, string $usage): bool
+     {
+         $ops = $key->get('key_ops');
+         if (!is_array($ops)) {
+             $ops = [$ops];
+         }
+         switch ($usage) {
             case 'verification':
                 if (!in_array('verify', $ops)) {
                     throw new \InvalidArgumentException('Key cannot be used to verify a signature');
@@ -80,18 +80,18 @@ use Jose\Component\Core\JWK;
             default:
                 throw new \InvalidArgumentException('Unsupported key usage.');
         }
-    }
+     }
 
-    /**
-     * @param JWK    $key
-     * @param string $usage
-     *
-     * @return bool
-     */
-    private static function checkUsage(JWK $key, string $usage): bool
-    {
-        $use = $key->get('use');
-        switch ($usage) {
+     /**
+      * @param JWK    $key
+      * @param string $usage
+      *
+      * @return bool
+      */
+     private static function checkUsage(JWK $key, string $usage): bool
+     {
+         $use = $key->get('use');
+         switch ($usage) {
             case 'verification':
             case 'signature':
                 if ('sig' !== $use) {
@@ -109,20 +109,20 @@ use Jose\Component\Core\JWK;
             default:
                 throw new \InvalidArgumentException('Unsupported key usage.');
         }
-    }
+     }
 
-    /**
-     * @param JWK    $key
-     * @param string $algorithm
-     */
-    public static function checkKeyAlgorithm(JWK $key, string $algorithm)
-    {
-        if (!$key->has('alg')) {
-            return;
-        }
+     /**
+      * @param JWK    $key
+      * @param string $algorithm
+      */
+     public static function checkKeyAlgorithm(JWK $key, string $algorithm)
+     {
+         if (!$key->has('alg')) {
+             return;
+         }
 
-        if ($key->get('alg') !== $algorithm) {
-            throw new \InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
-        }
-    }
-}
+         if ($key->get('alg') !== $algorithm) {
+             throw new \InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
+         }
+     }
+ }

@@ -16,31 +16,31 @@ namespace Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 /**
- * Class PS384.
- */
+  * Class PS384.
+  */
  class PS384 extends RSA
-{
-    /**
-     * @return string
-     */
-    protected function getAlgorithm(): string
-    {
-        return 'sha384';
-    }
+ {
+     /**
+      * @return string
+      */
+     protected function getAlgorithm(): string
+     {
+         return 'sha384';
+     }
 
-    /**
-     * @return int
-     */
-    protected function getSignatureMethod(): int
-    {
-        return JoseRSA::SIGNATURE_PSS;
-    }
+     /**
+      * @return int
+      */
+     protected function getSignatureMethod(): int
+     {
+         return JoseRSA::SIGNATURE_PSS;
+     }
 
-    /**
-     * @return string
-     */
-    public function name(): string
-    {
-        return 'PS384';
-    }
-}
+     /**
+      * @return string
+      */
+     public function name(): string
+     {
+         return 'PS384';
+     }
+ }

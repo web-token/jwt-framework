@@ -19,41 +19,41 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
 
 /**
- * Class JKUFactory.
- */
+  * Class JKUFactory.
+  */
  class JKUFactory extends UrlKeySetFactory
-{
-    private $jsonConverter;
+ {
+     private $jsonConverter;
 
-    /**
-     * JKUFactory constructor.
-     *
-     * @param JsonConverter  $jsonConverter
-     * @param HttpClient     $client
-     * @param RequestFactory $requestFactory
-     */
-    public function __construct(JsonConverter $jsonConverter, HttpClient $client, RequestFactory $requestFactory)
-    {
-        parent::__construct($client, $requestFactory);
-        $this->jsonConverter = $jsonConverter;
-    }
+     /**
+      * JKUFactory constructor.
+      *
+      * @param JsonConverter  $jsonConverter
+      * @param HttpClient     $client
+      * @param RequestFactory $requestFactory
+      */
+     public function __construct(JsonConverter $jsonConverter, HttpClient $client, RequestFactory $requestFactory)
+     {
+         parent::__construct($client, $requestFactory);
+         $this->jsonConverter = $jsonConverter;
+     }
 
-    /**
-     * @param string $url
-     * @param array  $header
-     *
-     * @throws \InvalidArgumentException
-     *
-     * @return JWKSet
-     */
-    public function loadFromUrl(string $url, array $header = []): JWKSet
-    {
-        $content = $this->getContent($url, $header);
-        $data = $this->jsonConverter->decode($content);
-        if (!is_array($data)) {
-            throw new \RuntimeException('Invalid content.');
-        }
+     /**
+      * @param string $url
+      * @param array  $header
+      *
+      * @throws \InvalidArgumentException
+      *
+      * @return JWKSet
+      */
+     public function loadFromUrl(string $url, array $header = []): JWKSet
+     {
+         $content = $this->getContent($url, $header);
+         $data = $this->jsonConverter->decode($content);
+         if (!is_array($data)) {
+             throw new \RuntimeException('Invalid content.');
+         }
 
-        return JWKSet::createFromKeyData($data);
-    }
-}
+         return JWKSet::createFromKeyData($data);
+     }
+ }

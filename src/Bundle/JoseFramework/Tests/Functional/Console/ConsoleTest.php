@@ -18,27 +18,27 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * @group Bundle
- * @group Functional
- */
+  * @group Bundle
+  * @group Functional
+  */
  class ConsoleTest extends KernelTestCase
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        if (!class_exists(EcKeyGeneratorCommand::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-console" is not installed.');
-        }
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function setUp()
+     {
+         if (!class_exists(EcKeyGeneratorCommand::class)) {
+             $this->markTestSkipped('The component "web-token/jwt-console" is not installed.');
+         }
+     }
 
-    /**
-     * @test
-     */
-    public function allCommandsAreAvailable()
-    {
-        $expectedCommands = [
+     /**
+      * @test
+      */
+     public function allCommandsAreAvailable()
+     {
+         $expectedCommands = [
             'keyset:add:key',
             'key:generate:ec',
             'keyset:generate:ec',
@@ -60,9 +60,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
             'keyset:generate:rsa',
             'key:load:x509',
         ];
-        self::bootKernel();
-        $application = new Application(self::$kernel);
+         self::bootKernel();
+         $application = new Application(self::$kernel);
 
-        self::assertEmpty(array_diff($expectedCommands, array_keys($application->all())));
-    }
-}
+         self::assertEmpty(array_diff($expectedCommands, array_keys($application->all())));
+     }
+ }

@@ -20,41 +20,41 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class KeyCollectorCompilerPass.
- */
+  * Class KeyCollectorCompilerPass.
+  */
  class KeyCollectorCompilerPass implements CompilerPassInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
-    {
-        if (!$container->hasDefinition(KeyCollector::class)) {
-            return;
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function process(ContainerBuilder $container)
+     {
+         if (!$container->hasDefinition(KeyCollector::class)) {
+             return;
+         }
 
-        $definition = $container->getDefinition(KeyCollector::class);
+         $definition = $container->getDefinition(KeyCollector::class);
 
-        $services = [
+         $services = [
             'addJWK' => 'jose.jwk',
             'addJWKSet' => 'jose.jwkset',
         ];
-        foreach ($services as $method => $tag) {
-            $this->collectServices($method, $tag, $definition, $container);
-        }
-    }
+         foreach ($services as $method => $tag) {
+             $this->collectServices($method, $tag, $definition, $container);
+         }
+     }
 
-    /**
-     * @param string           $method
-     * @param string           $tag
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
-    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
-    {
-        $taggedJWSServices = $container->findTaggedServiceIds($tag);
-        foreach ($taggedJWSServices as $id => $tags) {
-            $definition->addMethodCall($method, [$id, new Reference($id)]);
-        }
-    }
-}
+     /**
+      * @param string           $method
+      * @param string           $tag
+      * @param Definition       $definition
+      * @param ContainerBuilder $container
+      */
+     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
+     {
+         $taggedJWSServices = $container->findTaggedServiceIds($tag);
+         foreach ($taggedJWSServices as $id => $tags) {
+             $definition->addMethodCall($method, [$id, new Reference($id)]);
+         }
+     }
+ }

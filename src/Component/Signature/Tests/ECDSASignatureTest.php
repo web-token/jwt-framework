@@ -20,32 +20,32 @@ use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
 
 /**
- * @group ECDSA
- * @group Unit
- *
- * The values of these tests come from the JWS specification
- */
+  * @group ECDSA
+  * @group Unit
+  *
+  * The values of these tests come from the JWS specification
+  */
  class ECDSASignatureTest extends SignatureTest
-{
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Wrong key type.
-     */
-    public function testInvalidKey()
-    {
-        $key = JWK::create([
+ {
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage Wrong key type.
+      */
+     public function testInvalidKey()
+     {
+         $key = JWK::create([
             'kty' => 'RSA',
         ]);
 
-        $ecdsa = new ES256();
-        $data = 'Live long and Prosper.';
+         $ecdsa = new ES256();
+         $data = 'Live long and Prosper.';
 
-        $ecdsa->sign($key, $data);
-    }
+         $ecdsa->sign($key, $data);
+     }
 
-    public function testES256Verify()
-    {
-        $key = JWK::create([
+     public function testES256Verify()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -53,19 +53,19 @@ use Jose\Component\Signature\Algorithm\ES512;
             'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
         ]);
 
-        $ecdsa = new ES256();
-        $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
-        $signature = 'DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q';
+         $ecdsa = new ES256();
+         $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
+         $signature = 'DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q';
 
-        $sign = $ecdsa->sign($key, $data);
+         $sign = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $sign));
-        self::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
-    }
+         self::assertTrue($ecdsa->verify($key, $data, $sign));
+         self::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+     }
 
-    public function testES256SignVerify()
-    {
-        $key = JWK::create([
+     public function testES256SignVerify()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -73,36 +73,36 @@ use Jose\Component\Signature\Algorithm\ES512;
             'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
         ]);
 
-        $ecdsa = new ES256();
+         $ecdsa = new ES256();
 
-        $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
-        $signature = $ecdsa->sign($key, $data);
+         $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
+         $signature = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $signature));
-    }
+         self::assertTrue($ecdsa->verify($key, $data, $signature));
+     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The EC key is not private
-     */
-    public function testKeyNotPrivate()
-    {
-        $key = JWK::create([
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage The EC key is not private
+      */
+     public function testKeyNotPrivate()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
             'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
         ]);
 
-        $ecdsa = new ES256();
+         $ecdsa = new ES256();
 
-        $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
-        $ecdsa->sign($key, $data);
-    }
+         $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
+         $ecdsa->sign($key, $data);
+     }
 
-    public function testHS384SignVerify()
-    {
-        $key = JWK::create([
+     public function testHS384SignVerify()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-384',
             'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
@@ -110,17 +110,17 @@ use Jose\Component\Signature\Algorithm\ES512;
             'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
         ]);
 
-        $ecdsa = new ES384();
+         $ecdsa = new ES384();
 
-        $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
-        $signature = $ecdsa->sign($key, $data);
+         $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
+         $signature = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $signature));
-    }
+         self::assertTrue($ecdsa->verify($key, $data, $signature));
+     }
 
-    public function testHS512Verify()
-    {
-        $key = JWK::create([
+     public function testHS512Verify()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-521',
             'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
@@ -128,19 +128,19 @@ use Jose\Component\Signature\Algorithm\ES512;
             'd' => 'AY5pb7A0UFiB3RELSD64fTLOSV_jazdF7fLYyuTw8lOfRhWg6Y6rUrPAxerEzgdRhajnu0ferB0d53vM9mE15j2C',
         ]);
 
-        $ecdsa = new ES512();
-        $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
-        $signature = 'AdwMgeerwtHoh-l192l60hp9wAHZFVJbLfD_UxMi70cwnZOYaRI1bKPWROc-mZZqwqT2SI-KGDKB34XO0aw_7XdtAG8GaSwFKdCAPZgoXD2YBJZCPEX3xKpRwcdOO8KpEHwJjyqOgzDO7iKvU8vcnwNrmxYbSW9ERBXukOXolLzeO_Jn';
+         $ecdsa = new ES512();
+         $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
+         $signature = 'AdwMgeerwtHoh-l192l60hp9wAHZFVJbLfD_UxMi70cwnZOYaRI1bKPWROc-mZZqwqT2SI-KGDKB34XO0aw_7XdtAG8GaSwFKdCAPZgoXD2YBJZCPEX3xKpRwcdOO8KpEHwJjyqOgzDO7iKvU8vcnwNrmxYbSW9ERBXukOXolLzeO_Jn';
 
-        $sign = $ecdsa->sign($key, $data);
+         $sign = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $sign));
-        self::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
-    }
+         self::assertTrue($ecdsa->verify($key, $data, $sign));
+         self::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+     }
 
-    public function testHS512SignVerify()
-    {
-        $key = JWK::create([
+     public function testHS512SignVerify()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-521',
             'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
@@ -148,28 +148,28 @@ use Jose\Component\Signature\Algorithm\ES512;
             'd' => 'AY5pb7A0UFiB3RELSD64fTLOSV_jazdF7fLYyuTw8lOfRhWg6Y6rUrPAxerEzgdRhajnu0ferB0d53vM9mE15j2C',
         ]);
 
-        $ecdsa = new ES512();
+         $ecdsa = new ES512();
 
-        $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
-        $signature = $ecdsa->sign($key, $data);
+         $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
+         $signature = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $signature));
-    }
+         self::assertTrue($ecdsa->verify($key, $data, $signature));
+     }
 
-    public function testBadSignature()
-    {
-        $key = JWK::create([
+     public function testBadSignature()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
             'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
         ]);
 
-        $ecdsa = new ES256();
+         $ecdsa = new ES256();
 
-        $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
-        $signature = 'DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3';
+         $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
+         $signature = 'DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3';
 
-        self::assertFalse($ecdsa->verify($key, $data, Base64Url::decode($signature)));
-    }
-}
+         self::assertFalse($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+     }
+ }

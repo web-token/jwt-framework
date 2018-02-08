@@ -22,38 +22,38 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use Jose\Component\Encryption\JWE;
 
 /**
- * Class RSAKeyEncryptionTest.
- *
- * @group Unit
- */
+  * Class RSAKeyEncryptionTest.
+  *
+  * @group Unit
+  */
  class RSAKeyEncryptionTest extends EncryptionTest
-{
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Wrong key type.
-     */
-    public function testInvalidKey()
-    {
-        $key = JWK::create([
+ {
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage Wrong key type.
+      */
+     public function testInvalidKey()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
         ]);
 
-        $rsa1_5 = new RSA15();
+         $rsa1_5 = new RSA15();
 
-        $header = [];
-        $data = 'Live long and Prosper.';
+         $header = [];
+         $data = 'Live long and Prosper.';
 
-        $additionalHeader = [];
-        $rsa1_5->encryptKey($key, $data, $header, $additionalHeader);
-    }
+         $additionalHeader = [];
+         $rsa1_5->encryptKey($key, $data, $header, $additionalHeader);
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.2
-     */
-    public function testRSA1_5EncryptionAndDecryption()
-    {
-        $header = [];
-        $jwk = JWK::create([
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.2
+      */
+     public function testRSA1_5EncryptionAndDecryption()
+     {
+         $header = [];
+         $jwk = JWK::create([
             'kty' => 'RSA',
             'n' => 'sXchDaQebHnPiGvyDOAT4saGEUetSyo9MKLOoWFsueri23bOdgWp4Dy1WlUzewbgBHod5pcM9H95GQRV3JDXboIRROSBigeC5yjU1hGzHHyXss8UDprecbAYxknTcQkhslANGRUZmdTOQ5qTRsLAt6BTYuyvVRdhS8exSZEy_c4gs_7svlJJQ4H9_NxsiIoLwAEk7-Q3UXERGYw_75IDrGA84-lA_-Ct4eTlXHBIY2EaV7t7LjJaynVJCpkv4LKjTTAumiGUIuQhrNhZLuF_RJLqHpM2kgWFLU7-VTdL1VbC2tejvcI2BlMkEpk1BzBZI0KQB0GaDWFLN-aEAw3vRw',
             'e' => 'AQAB',
@@ -65,29 +65,29 @@ use Jose\Component\Encryption\JWE;
             'qi' => 'eNho5yRBEBxhGBtQRww9QirZsB66TrfFReG_CcteI1aCneT0ELGhYlRlCtUkTRclIfuEPmNsNDPbLoLqqCVznFbvdB7x-Tl-m0l_eFTj2KiqwGqE9PZB9nNTwMVvH3VRRSLWACvPnSiwP8N5Usy-WRXS-V7TbpxIhvepTfE0NNo',
         ]);
 
-        $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
-        foreach ($cek as $key => $value) {
-            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
-        }
-        $cek = hex2bin(implode('', $cek));
+         $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
+         foreach ($cek as $key => $value) {
+             $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+         }
+         $cek = hex2bin(implode('', $cek));
 
-        $from_specification = Base64Url::decode('UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A');
+         $from_specification = Base64Url::decode('UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A');
 
-        $rsa1_5 = new RSA15();
-        $additionalHeader = [];
-        $encrypted = $rsa1_5->encryptKey($jwk, $cek, $header, $additionalHeader);
+         $rsa1_5 = new RSA15();
+         $additionalHeader = [];
+         $encrypted = $rsa1_5->encryptKey($jwk, $cek, $header, $additionalHeader);
 
-        self::assertEquals($cek, $rsa1_5->decryptKey($jwk, $encrypted, $header));
-        self::assertEquals($cek, $rsa1_5->decryptKey($jwk, $from_specification, $header));
-    }
+         self::assertEquals($cek, $rsa1_5->decryptKey($jwk, $encrypted, $header));
+         self::assertEquals($cek, $rsa1_5->decryptKey($jwk, $from_specification, $header));
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
-     */
-    public function testRSAOAEPEncryptionAndDecryption()
-    {
-        $header = [];
-        $jwk = JWK::create([
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
+      */
+     public function testRSAOAEPEncryptionAndDecryption()
+     {
+         $header = [];
+         $jwk = JWK::create([
             'kty' => 'RSA',
             'n' => 'oahUIoWw0K0usKNuOR6H4wkf4oBUXHTxRvgb48E-BVvxkeDNjbC4he8rUWcJoZmds2h7M70imEVhRU5djINXtqllXI4DFqcI1DgjT9LewND8MW2Krf3Spsk_ZkoFnilakGygTwpZ3uesH-PFABNIUYpOiN15dsQRkgr0vEhxN92i2asbOenSZeyaxziK72UwxrrKoExv6kc5twXTq4h-QChLOln0_mtUZwfsRaMStPs6mS6XrgxnxbWhojf663tuEQueGC-FCMfra36C9knDFGzKsNa7LZK2djYgyD3JR_MB_4NUJW_TqOQtwHYbxevoJArm-L5StowjzGy-_bq6Gw',
             'e' => 'AQAB',
@@ -99,29 +99,29 @@ use Jose\Component\Encryption\JWE;
             'qi' => 'VIMpMYbPf47dT1w_zDUXfPimsSegnMOA1zTaX7aGk_8urY6R8-ZW1FxU7AlWAyLWybqq6t16VFd7hQd0y6flUK4SlOydB61gwanOsXGOAOv82cHq0E3eL4HrtZkUuKvnPrMnsUUFlfUdybVzxyjz9JF_XyaY14ardLSjf4L_FNY',
         ]);
 
-        $cek = [177, 161, 244, 128, 84, 143, 225, 115, 63, 180, 3, 255, 107, 154, 212, 246, 138, 7, 110, 91, 112, 46, 34, 105, 47, 130, 203, 46, 122, 234, 64, 252];
-        foreach ($cek as $key => $value) {
-            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
-        }
-        $cek = hex2bin(implode('', $cek));
+         $cek = [177, 161, 244, 128, 84, 143, 225, 115, 63, 180, 3, 255, 107, 154, 212, 246, 138, 7, 110, 91, 112, 46, 34, 105, 47, 130, 203, 46, 122, 234, 64, 252];
+         foreach ($cek as $key => $value) {
+             $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+         }
+         $cek = hex2bin(implode('', $cek));
 
-        $from_specification = Base64Url::decode('OKOawDo13gRp2ojaHV7LFpZcgV7T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7e9jwQRb23nfa6c9d-StnImGyFDbSv04uVuxIp5Zms1gNxKKK2Da14B8S4rzVRltdYwam_lDp5XnZAYpQdb76FdIKLaVmqgfwX7XWRxv2322i-vDxRfqNzo_tETKzpVLzfiwQyeyPGLBIO56YJ7eObdv0je81860ppamavo35UgoRdbYaBcoh9QcfylQr66oc6vFWXRcZ_ZT2LawVCWTIy3brGPi6UklfCpIMfIjf7iGdXKHzg');
+         $from_specification = Base64Url::decode('OKOawDo13gRp2ojaHV7LFpZcgV7T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7e9jwQRb23nfa6c9d-StnImGyFDbSv04uVuxIp5Zms1gNxKKK2Da14B8S4rzVRltdYwam_lDp5XnZAYpQdb76FdIKLaVmqgfwX7XWRxv2322i-vDxRfqNzo_tETKzpVLzfiwQyeyPGLBIO56YJ7eObdv0je81860ppamavo35UgoRdbYaBcoh9QcfylQr66oc6vFWXRcZ_ZT2LawVCWTIy3brGPi6UklfCpIMfIjf7iGdXKHzg');
 
-        $rsa_oaep = new RSAOAEP();
-        $additionalHeader = [];
-        $encrypted = $rsa_oaep->encryptKey($jwk, $cek, $header, $additionalHeader);
+         $rsa_oaep = new RSAOAEP();
+         $additionalHeader = [];
+         $encrypted = $rsa_oaep->encryptKey($jwk, $cek, $header, $additionalHeader);
 
-        self::assertEquals($cek, $rsa_oaep->decryptKey($jwk, $encrypted, $header));
-        self::assertEquals($cek, $rsa_oaep->decryptKey($jwk, $from_specification, $header));
-    }
+         self::assertEquals($cek, $rsa_oaep->decryptKey($jwk, $encrypted, $header));
+         self::assertEquals($cek, $rsa_oaep->decryptKey($jwk, $from_specification, $header));
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
-     */
-    public function testRSAOAEP256EncryptionAndDecryption()
-    {
-        $header = [];
-        $jwk = JWK::create([
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
+      */
+     public function testRSAOAEP256EncryptionAndDecryption()
+     {
+         $header = [];
+         $jwk = JWK::create([
             'kty' => 'RSA',
             'n' => 'oahUIoWw0K0usKNuOR6H4wkf4oBUXHTxRvgb48E-BVvxkeDNjbC4he8rUWcJoZmds2h7M70imEVhRU5djINXtqllXI4DFqcI1DgjT9LewND8MW2Krf3Spsk_ZkoFnilakGygTwpZ3uesH-PFABNIUYpOiN15dsQRkgr0vEhxN92i2asbOenSZeyaxziK72UwxrrKoExv6kc5twXTq4h-QChLOln0_mtUZwfsRaMStPs6mS6XrgxnxbWhojf663tuEQueGC-FCMfra36C9knDFGzKsNa7LZK2djYgyD3JR_MB_4NUJW_TqOQtwHYbxevoJArm-L5StowjzGy-_bq6Gw',
             'e' => 'AQAB',
@@ -133,80 +133,80 @@ use Jose\Component\Encryption\JWE;
             'qi' => 'VIMpMYbPf47dT1w_zDUXfPimsSegnMOA1zTaX7aGk_8urY6R8-ZW1FxU7AlWAyLWybqq6t16VFd7hQd0y6flUK4SlOydB61gwanOsXGOAOv82cHq0E3eL4HrtZkUuKvnPrMnsUUFlfUdybVzxyjz9JF_XyaY14ardLSjf4L_FNY',
         ]);
 
-        $cek = [177, 161, 244, 128, 84, 143, 225, 115, 63, 180, 3, 255, 107, 154, 212, 246, 138, 7, 110, 91, 112, 46, 34, 105, 47, 130, 203, 46, 122, 234, 64, 252];
-        foreach ($cek as $key => $value) {
-            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
-        }
-        $cek = hex2bin(implode('', $cek));
+         $cek = [177, 161, 244, 128, 84, 143, 225, 115, 63, 180, 3, 255, 107, 154, 212, 246, 138, 7, 110, 91, 112, 46, 34, 105, 47, 130, 203, 46, 122, 234, 64, 252];
+         foreach ($cek as $key => $value) {
+             $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+         }
+         $cek = hex2bin(implode('', $cek));
 
-        $rsa_oaep_256 = new RSAOAEP256();
-        $additionalHeader = [];
-        $encrypted = $rsa_oaep_256->encryptKey($jwk, $cek, $header, $additionalHeader);
+         $rsa_oaep_256 = new RSAOAEP256();
+         $additionalHeader = [];
+         $encrypted = $rsa_oaep_256->encryptKey($jwk, $cek, $header, $additionalHeader);
 
-        self::assertEquals($cek, $rsa_oaep_256->decryptKey($jwk, $encrypted, $header));
-    }
+         self::assertEquals($cek, $rsa_oaep_256->decryptKey($jwk, $encrypted, $header));
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
-     */
-    public function testLoadJWK1()
-    {
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
+      */
+     public function testLoadJWK1()
+     {
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
 
-        $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.OKOawDo13gRp2ojaHV7LFpZcgV7T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7e9jwQRb23nfa6c9d-StnImGyFDbSv04uVuxIp5Zms1gNxKKK2Da14B8S4rzVRltdYwam_lDp5XnZAYpQdb76FdIKLaVmqgfwX7XWRxv2322i-vDxRfqNzo_tETKzpVLzfiwQyeyPGLBIO56YJ7eObdv0je81860ppamavo35UgoRdbYaBcoh9QcfylQr66oc6vFWXRcZ_ZT2LawVCWTIy3brGPi6UklfCpIMfIjf7iGdXKHzg.48V1_ALb6US04U3b.5eym8TW_c8SuK0ltJ3rpYIzOeDQz7TALvtu6UG9oMo4vpzs9tX_EFShS8iB7j6jiSdiwkIr3ajwQzaBtQD_A.XFBoMYUZodetZdvTiFvSkQ');
+         $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJSU0EtT0FFUCIsImVuYyI6IkEyNTZHQ00ifQ.OKOawDo13gRp2ojaHV7LFpZcgV7T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7e9jwQRb23nfa6c9d-StnImGyFDbSv04uVuxIp5Zms1gNxKKK2Da14B8S4rzVRltdYwam_lDp5XnZAYpQdb76FdIKLaVmqgfwX7XWRxv2322i-vDxRfqNzo_tETKzpVLzfiwQyeyPGLBIO56YJ7eObdv0je81860ppamavo35UgoRdbYaBcoh9QcfylQr66oc6vFWXRcZ_ZT2LawVCWTIy3brGPi6UklfCpIMfIjf7iGdXKHzg.48V1_ALb6US04U3b.5eym8TW_c8SuK0ltJ3rpYIzOeDQz7TALvtu6UG9oMo4vpzs9tX_EFShS8iB7j6jiSdiwkIr3ajwQzaBtQD_A.XFBoMYUZodetZdvTiFvSkQ');
 
-        self::assertInstanceOf(JWE::class, $loaded);
-        self::assertEquals('RSA-OAEP', $loaded->getSharedProtectedHeaderParameter('alg'));
-        self::assertEquals('A256GCM', $loaded->getSharedProtectedHeaderParameter('enc'));
-        self::assertNull($loaded->getPayload());
+         self::assertInstanceOf(JWE::class, $loaded);
+         self::assertEquals('RSA-OAEP', $loaded->getSharedProtectedHeaderParameter('alg'));
+         self::assertEquals('A256GCM', $loaded->getSharedProtectedHeaderParameter('enc'));
+         self::assertNull($loaded->getPayload());
 
-        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
+         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals('The true sign of intelligence is not knowledge but imagination.', $loaded->getPayload());
-    }
+         self::assertEquals('The true sign of intelligence is not knowledge but imagination.', $loaded->getPayload());
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.2
-     */
-    public function testLoadJWK2()
-    {
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.2
+      */
+     public function testLoadJWK2()
+     {
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
 
-        $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A.AxY8DCtDaGlsbGljb3RoZQ.KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY.9hH0vgRfYgPnAHOd8stkvw');
+         $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A.AxY8DCtDaGlsbGljb3RoZQ.KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY.9hH0vgRfYgPnAHOd8stkvw');
 
-        self::assertInstanceOf(JWE::class, $loaded);
-        self::assertNull($loaded->getPayload());
+         self::assertInstanceOf(JWE::class, $loaded);
+         self::assertNull($loaded->getPayload());
 
-        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
+         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        self::assertEquals('Live long and prosper.', $loaded->getPayload());
-    }
+         self::assertEquals('Live long and prosper.', $loaded->getPayload());
+     }
 
-    /**
-     * @see https://tools.ietf.org/html/rfc7516#appendix-A.3
-     */
-    public function testLoadJWK3()
-    {
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
+     /**
+      * @see https://tools.ietf.org/html/rfc7516#appendix-A.3
+      */
+     public function testLoadJWK3()
+     {
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
 
-        $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ.AxY8DCtDaGlsbGljb3RoZQ.KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY.U0m_YmjN04DJvceFICbCVQ');
+         $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ.AxY8DCtDaGlsbGljb3RoZQ.KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY.U0m_YmjN04DJvceFICbCVQ');
 
-        self::assertInstanceOf(JWE::class, $loaded);
-        self::assertEquals('A128KW', $loaded->getSharedProtectedHeaderParameter('alg'));
-        self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
-        self::assertNull($loaded->getPayload());
+         self::assertInstanceOf(JWE::class, $loaded);
+         self::assertEquals('A128KW', $loaded->getSharedProtectedHeaderParameter('alg'));
+         self::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
+         self::assertNull($loaded->getPayload());
 
-        self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
+         self::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
 
-        self::assertEquals('Live long and prosper.', $loaded->getPayload());
-    }
+         self::assertEquals('Live long and prosper.', $loaded->getPayload());
+     }
 
-    /**
-     * @return JWKSet
-     */
-    private function getPrivateKeySet(): JWKSet
-    {
-        $keys = ['keys' => [
+     /**
+      * @return JWKSet
+      */
+     private function getPrivateKeySet(): JWKSet
+     {
+         $keys = ['keys' => [
             [
                 'kty' => 'EC',
                 'crv' => 'P-256',
@@ -290,15 +290,15 @@ use Jose\Component\Encryption\JWE;
             ],
         ]];
 
-        return JWKSet::createFromKeyData($keys);
-    }
+         return JWKSet::createFromKeyData($keys);
+     }
 
-    /**
-     * @return JWKSet
-     */
-    private function getSymmetricKeySet(): JWKSet
-    {
-        $keys = ['keys' => [
+     /**
+      * @return JWKSet
+      */
+     private function getSymmetricKeySet(): JWKSet
+     {
+         $keys = ['keys' => [
             [
                 'kid' => 'DIR_1',
                 'kty' => 'oct',
@@ -318,6 +318,6 @@ use Jose\Component\Encryption\JWE;
             ],
         ]];
 
-        return JWKSet::createFromKeyData($keys);
-    }
-}
+         return JWKSet::createFromKeyData($keys);
+     }
+ }

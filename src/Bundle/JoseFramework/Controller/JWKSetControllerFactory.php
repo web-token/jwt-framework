@@ -17,33 +17,33 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
 
 /**
- * Class JWKSetControllerFactory.
- */
+  * Class JWKSetControllerFactory.
+  */
  class JWKSetControllerFactory
-{
-    /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
+ {
+     /**
+      * @var JsonConverter
+      */
+     private $jsonConverter;
 
-    /**
-     * JWKSetControllerFactory constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     */
-    public function __construct(JsonConverter $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
+     /**
+      * JWKSetControllerFactory constructor.
+      *
+      * @param JsonConverter $jsonConverter
+      */
+     public function __construct(JsonConverter $jsonConverter)
+     {
+         $this->jsonConverter = $jsonConverter;
+     }
 
-    /**
-     * @param JWKSet $jwkset
-     * @param int    $maxAge
-     *
-     * @return JWKSetController
-     */
-    public function create(JWKSet $jwkset, int $maxAge): JWKSetController
-    {
-        return new JWKSetController($this->jsonConverter->encode($jwkset), $maxAge);
-    }
-}
+     /**
+      * @param JWKSet $jwkset
+      * @param int    $maxAge
+      *
+      * @return JWKSetController
+      */
+     public function create(JWKSet $jwkset, int $maxAge): JWKSetController
+     {
+         return new JWKSetController($this->jsonConverter->encode($jwkset), $maxAge);
+     }
+ }

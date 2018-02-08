@@ -20,36 +20,36 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class EcKeysetGeneratorCommand.
- */
+  * Class EcKeysetGeneratorCommand.
+  */
  class EcKeysetGeneratorCommand extends GeneratorCommand
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('keyset:generate:ec')
             ->setDescription('Generate an EC key set (JWKSet format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.');
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $quantity = intval($input->getArgument('quantity'));
-        $curve = $input->getArgument('curve');
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $quantity = intval($input->getArgument('quantity'));
+         $curve = $input->getArgument('curve');
 
-        $keyset = JWKSet::createFromKeys([]);
-        for ($i = 0; $i < $quantity; ++$i) {
-            $args = $this->getOptions($input);
-            $keyset = $keyset->with(JWKFactory::createECKey($curve, $args));
-        }
-        $this->prepareJsonOutput($input, $output, $keyset);
-    }
-}
+         $keyset = JWKSet::createFromKeys([]);
+         for ($i = 0; $i < $quantity; ++$i) {
+             $args = $this->getOptions($input);
+             $keyset = $keyset->with(JWKFactory::createECKey($curve, $args));
+         }
+         $this->prepareJsonOutput($input, $output, $keyset);
+     }
+ }

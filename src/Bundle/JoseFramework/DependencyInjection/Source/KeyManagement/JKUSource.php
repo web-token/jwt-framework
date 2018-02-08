@@ -21,40 +21,40 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Class JKUSource.
- */
+  * Class JKUSource.
+  */
  class JKUSource implements Source
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'jku_factory';
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'jku_factory';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
-    {
-        if (true === $configs[$this->name()]['enabled']) {
-            $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-            $loader->load('jku_source.yml');
-            if (class_exists(JKULoaderCommand::class)) {
-                $loader->load('jku_commands.yml');
-            }
-            $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
-            $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);
-        }
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function load(array $configs, ContainerBuilder $container)
+     {
+         if (true === $configs[$this->name()]['enabled']) {
+             $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+             $loader->load('jku_source.yml');
+             if (class_exists(JKULoaderCommand::class)) {
+                 $loader->load('jku_commands.yml');
+             }
+             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
+             $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);
+         }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeDefinition(NodeDefinition $node)
-    {
-        $node
+     /**
+      * {@inheritdoc}
+      */
+     public function getNodeDefinition(NodeDefinition $node)
+     {
+         $node
             ->children()
                 ->arrayNode('jku_factory')
                     ->canBeEnabled()
@@ -71,13 +71,13 @@ use Symfony\Component\Config\FileLocator;
                     ->end()
                 ->end()
             ->end();
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container, array $config): array
-    {
-        return [];
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function prepend(ContainerBuilder $container, array $config): array
+     {
+         return [];
+     }
+ }

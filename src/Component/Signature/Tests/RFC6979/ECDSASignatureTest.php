@@ -22,42 +22,42 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
- * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.5
- * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.6
- * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.7
- *
- * Note that we only test
- * * P-256 key with SHA-256
- * * P-384 key with SHA-384
- * * P-521 key with SHA-512
- *
- * Other curves or hash method combinaisons are not used by the Jot specification
- *
- * @group RFC6979
- */
+  * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.5
+  * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.6
+  * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.7
+  *
+  * Note that we only test
+  * * P-256 key with SHA-256
+  * * P-384 key with SHA-384
+  * * P-521 key with SHA-512
+  *
+  * Other curves or hash method combinaisons are not used by the Jot specification
+  *
+  * @group RFC6979
+  */
  class ECDSASignatureTest extends SignatureTest
-{
-    /**
-     * @param SignatureAlgorithm       $algorithm
-     * @param string                   $message
-     * @param \Jose\Component\Core\JWK $key
-     * @param string                   $signature
-     *
-     * @dataProvider dataWithVectors
-     */
-    public function testWithVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature)
-    {
-        $is_valid = $algorithm->verify($key, $message, $signature);
+ {
+     /**
+      * @param SignatureAlgorithm       $algorithm
+      * @param string                   $message
+      * @param \Jose\Component\Core\JWK $key
+      * @param string                   $signature
+      *
+      * @dataProvider dataWithVectors
+      */
+     public function testWithVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature)
+     {
+         $is_valid = $algorithm->verify($key, $message, $signature);
 
-        self::assertTrue($is_valid);
-    }
+         self::assertTrue($is_valid);
+     }
 
-    /**
-     * @return array
-     */
-    public function dataWithVectors()
-    {
-        return [
+     /**
+      * @return array
+      */
+     public function dataWithVectors()
+     {
+         return [
             [
                 new ES256(),
                 'sample',
@@ -156,15 +156,15 @@ use Jose\Component\Signature\Tests\SignatureTest;
                 ),
             ],
         ];
-    }
+     }
 
-    /**
-     * @param string $data
-     *
-     * @return string
-     */
-    private function convertHexToBin($data)
-    {
-        return hex2bin($data);
-    }
-}
+     /**
+      * @param string $data
+      *
+      * @return string
+      */
+     private function convertHexToBin($data)
+     {
+         return hex2bin($data);
+     }
+ }

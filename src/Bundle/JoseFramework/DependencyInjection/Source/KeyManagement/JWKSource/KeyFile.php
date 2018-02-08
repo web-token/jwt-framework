@@ -21,45 +21,45 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class KeyFile.
- */
+  * Class KeyFile.
+  */
  class KeyFile extends AbstractSource implements JWKSource
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function createDefinition(ContainerBuilder $container, array $config): Definition
-    {
-        $definition = new Definition(JWK::class);
-        $definition->setFactory([
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function createDefinition(ContainerBuilder $container, array $config): Definition
+     {
+         $definition = new Definition(JWK::class);
+         $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromKeyFile',
         ]);
-        $definition->setArguments([
+         $definition->setArguments([
             $config['path'],
             $config['password'],
             $config['additional_values'],
         ]);
-        $definition->addTag('jose.jwk');
+         $definition->addTag('jose.jwk');
 
-        return $definition;
-    }
+         return $definition;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return 'file';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function getKey(): string
+     {
+         return 'file';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addConfiguration(NodeDefinition $node)
-    {
-        parent::addConfiguration($node);
-        $node
+     /**
+      * {@inheritdoc}
+      */
+     public function addConfiguration(NodeDefinition $node)
+     {
+         parent::addConfiguration($node);
+         $node
             ->children()
                 ->scalarNode('path')
                     ->info('Path of the key file.')
@@ -76,5 +76,5 @@ use Symfony\Component\DependencyInjection\Reference;
                     ->prototype('variable')->end()
                 ->end()
             ->end();
-    }
-}
+     }
+ }

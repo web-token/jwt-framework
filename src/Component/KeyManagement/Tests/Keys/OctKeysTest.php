@@ -17,25 +17,25 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group OctKeys
- * @group Unit
- */
+  * @group OctKeys
+  * @group Unit
+  */
  class OctKeysTest extends TestCase
-{
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid key size.
-     */
-    public function testCreateOctKeyWithInvalidKeySize()
-    {
-        JWKFactory::createOctKey(12);
-    }
+ {
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage Invalid key size.
+      */
+     public function testCreateOctKeyWithInvalidKeySize()
+     {
+         JWKFactory::createOctKey(12);
+     }
 
-    public function testCreateOctKey()
-    {
-        $jwk = JWKFactory::createOctKey(64);
+     public function testCreateOctKey()
+     {
+         $jwk = JWKFactory::createOctKey(64);
 
-        self::assertEquals('oct', $jwk->get('kty'));
-        self::assertTrue($jwk->has('k'));
-    }
-}
+         self::assertEquals('oct', $jwk->get('kty'));
+         self::assertTrue($jwk->has('k'));
+     }
+ }

@@ -16,8 +16,8 @@ namespace Jose\Bundle\JoseFramework\Tests\TestBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class TestBundle.
- */
+  * Class TestBundle.
+  */
  class TestBundle extends Bundle
-{
-}
+ {
+ }

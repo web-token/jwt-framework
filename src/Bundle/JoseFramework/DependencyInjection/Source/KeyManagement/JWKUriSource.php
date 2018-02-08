@@ -22,43 +22,43 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class JKUriSource.
- */
+  * Class JKUriSource.
+  */
  class JWKUriSource implements Source
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'jwk_uris';
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'jwk_uris';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $configs, ContainerBuilder $container)
-    {
-        foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.controller.%s', $name);
-            $definition = new Definition(JWKSetController::class);
-            $definition->setFactory([new Reference(JWKSetControllerFactory::class), 'create']);
-            $definition->setArguments([new Reference($itemConfig['id']), $itemConfig['max_age']]);
-            $definition->addTag('jose.jwk_uri.controller', ['path' => $itemConfig['path']]);
-            $definition->addTag('controller.service_arguments');
-            foreach ($itemConfig['tags'] as $id => $attributes) {
-                $definition->addTag($id, $attributes);
-            }
-            $container->setDefinition($service_id, $definition);
-        }
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function load(array $configs, ContainerBuilder $container)
+     {
+         foreach ($configs[$this->name()] as $name => $itemConfig) {
+             $service_id = sprintf('jose.controller.%s', $name);
+             $definition = new Definition(JWKSetController::class);
+             $definition->setFactory([new Reference(JWKSetControllerFactory::class), 'create']);
+             $definition->setArguments([new Reference($itemConfig['id']), $itemConfig['max_age']]);
+             $definition->addTag('jose.jwk_uri.controller', ['path' => $itemConfig['path']]);
+             $definition->addTag('controller.service_arguments');
+             foreach ($itemConfig['tags'] as $id => $attributes) {
+                 $definition->addTag($id, $attributes);
+             }
+             $container->setDefinition($service_id, $definition);
+         }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getNodeDefinition(NodeDefinition $node)
-    {
-        $node
+     /**
+      * {@inheritdoc}
+      */
+     public function getNodeDefinition(NodeDefinition $node)
+     {
+         $node
             ->children()
                 ->arrayNode('jwk_uris')
                     ->useAttributeAsKey('name')
@@ -88,13 +88,13 @@ use Symfony\Component\DependencyInjection\Reference;
                     ->end()
                 ->end()
             ->end();
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container, array $config): array
-    {
-        return [];
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function prepend(ContainerBuilder $container, array $config): array
+     {
+         return [];
+     }
+ }

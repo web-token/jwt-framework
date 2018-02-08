@@ -17,28 +17,28 @@ use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
 /**
- * Class TokenSupport.
- */
+  * Class TokenSupport.
+  */
  class TokenSupport implements TokenTypeSupport
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function retrieveTokenHeaders(JWT $jwt, int $signature, array &$protectedHeader, array &$unprotectedHeader): void
-    {
-        if (!$jwt instanceof Token) {
-            throw new \InvalidArgumentException('Unsupported token.');
-        }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function retrieveTokenHeaders(JWT $jwt, int $signature, array &$protectedHeader, array &$unprotectedHeader): void
+     {
+         if (!$jwt instanceof Token) {
+             throw new \InvalidArgumentException('Unsupported token.');
+         }
 
-        $protectedHeader = $jwt->getProtectedHeader();
-        $unprotectedHeader = $jwt->getUnprotectedHeader();
-    }
+         $protectedHeader = $jwt->getProtectedHeader();
+         $unprotectedHeader = $jwt->getUnprotectedHeader();
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(JWT $jwt): bool
-    {
-        return $jwt instanceof Token;
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function supports(JWT $jwt): bool
+     {
+         return $jwt instanceof Token;
+     }
+ }

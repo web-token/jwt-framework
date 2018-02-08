@@ -18,36 +18,36 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
 
 /**
- * Class DirAlgorithmTest.
- *
- * @group Unit
- */
+  * Class DirAlgorithmTest.
+  *
+  * @group Unit
+  */
  class DirAlgorithmTest extends EncryptionTest
-{
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Wrong key type.
-     */
-    public function testInvalidKey()
-    {
-        $key = JWK::create([
+ {
+     /**
+      * @expectedException \InvalidArgumentException
+      * @expectedExceptionMessage Wrong key type.
+      */
+     public function testInvalidKey()
+     {
+         $key = JWK::create([
             'kty' => 'EC',
         ]);
 
-        $dir = new Dir();
+         $dir = new Dir();
 
-        $dir->getCEK($key);
-    }
+         $dir->getCEK($key);
+     }
 
-    public function testValidCEK()
-    {
-        $key = JWK::create([
+     public function testValidCEK()
+     {
+         $key = JWK::create([
             'kty' => 'oct',
             'k' => Base64Url::encode('ABCD'),
         ]);
 
-        $dir = new Dir();
+         $dir = new Dir();
 
-        self::assertEquals('ABCD', $dir->getCEK($key));
-    }
-}
+         self::assertEquals('ABCD', $dir->getCEK($key));
+     }
+ }

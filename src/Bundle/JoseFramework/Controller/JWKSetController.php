@@ -16,38 +16,38 @@ namespace Jose\Bundle\JoseFramework\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class JWKSetController.
- */
+  * Class JWKSetController.
+  */
  class JWKSetController
-{
-    /**
-     * @var string
-     */
-    private $jwkset;
+ {
+     /**
+      * @var string
+      */
+     private $jwkset;
 
-    /**
-     * @var int
-     */
-    private $maxAge;
+     /**
+      * @var int
+      */
+     private $maxAge;
 
-    /**
-     * JWKSetController constructor.
-     *
-     * @param string $jwkset
-     * @param int    $maxAge
-     */
-    public function __construct(string $jwkset, int $maxAge)
-    {
-        $this->jwkset = $jwkset;
-        $this->maxAge = $maxAge;
-    }
+     /**
+      * JWKSetController constructor.
+      *
+      * @param string $jwkset
+      * @param int    $maxAge
+      */
+     public function __construct(string $jwkset, int $maxAge)
+     {
+         $this->jwkset = $jwkset;
+         $this->maxAge = $maxAge;
+     }
 
-    /**
-     * @return Response
-     */
-    public function getAction(): Response
-    {
-        return new Response(
+     /**
+      * @return Response
+      */
+     public function getAction(): Response
+     {
+         return new Response(
             $this->jwkset,
             Response::HTTP_OK,
             [
@@ -55,5 +55,5 @@ use Symfony\Component\HttpFoundation\Response;
                 'Cache-Control' => sprintf('public, max-age=%d, must-revalidate, no-transform', $this->maxAge),
             ]
         );
-    }
-}
+     }
+ }

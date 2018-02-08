@@ -14,56 +14,56 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyAnalyzer;
 
 /**
- * Class MessageBag.
- */
+  * Class MessageBag.
+  */
  class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
-{
-    /**
-     * @var Message[]
-     */
-    private $messages = [];
+ {
+     /**
+      * @var Message[]
+      */
+     private $messages = [];
 
-    /**
-     * @param Message $message
-     *
-     * @return MessageBag
-     */
-    public function add(Message $message): self
-    {
-        $this->messages[] = $message;
+     /**
+      * @param Message $message
+      *
+      * @return MessageBag
+      */
+     public function add(Message $message): self
+     {
+         $this->messages[] = $message;
 
-        return $this;
-    }
+         return $this;
+     }
 
-    /**
-     * @return Message[]
-     */
-    public function all(): array
-    {
-        return $this->messages;
-    }
+     /**
+      * @return Message[]
+      */
+     public function all(): array
+     {
+         return $this->messages;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function jsonSerialize()
-    {
-        return array_values($this->messages);
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function jsonSerialize()
+     {
+         return array_values($this->messages);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function count()
-    {
-        return count($this->messages);
-    }
+     /**
+      * {@inheritdoc}
+      */
+     public function count()
+     {
+         return count($this->messages);
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->messages);
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function getIterator()
+     {
+         return new \ArrayIterator($this->messages);
+     }
+ }

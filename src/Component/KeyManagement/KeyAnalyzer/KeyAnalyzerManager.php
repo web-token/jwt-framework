@@ -16,39 +16,39 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 use Jose\Component\Core\JWK;
 
 /**
- * Class KeyAnalyzerManager.
- */
+  * Class KeyAnalyzerManager.
+  */
  class KeyAnalyzerManager
-{
-    /**
-     * @var KeyAnalyzer[]
-     */
-    private $analyzers = [];
+ {
+     /**
+      * @var KeyAnalyzer[]
+      */
+     private $analyzers = [];
 
-    /**
-     * @param KeyAnalyzer $analyzer
-     *
-     * @return KeyAnalyzerManager
-     */
-    public function add(KeyAnalyzer $analyzer): self
-    {
-        $this->analyzers[] = $analyzer;
+     /**
+      * @param KeyAnalyzer $analyzer
+      *
+      * @return KeyAnalyzerManager
+      */
+     public function add(KeyAnalyzer $analyzer): self
+     {
+         $this->analyzers[] = $analyzer;
 
-        return $this;
-    }
+         return $this;
+     }
 
-    /**
-     * @param JWK $jwk
-     *
-     * @return MessageBag
-     */
-    public function analyze(JWK $jwk): MessageBag
-    {
-        $bag = new MessageBag();
-        foreach ($this->analyzers as $analyzer) {
-            $analyzer->analyze($jwk, $bag);
-        }
+     /**
+      * @param JWK $jwk
+      *
+      * @return MessageBag
+      */
+     public function analyze(JWK $jwk): MessageBag
+     {
+         $bag = new MessageBag();
+         foreach ($this->analyzers as $analyzer) {
+             $analyzer->analyze($jwk, $bag);
+         }
 
-        return $bag;
-    }
-}
+         return $bag;
+     }
+ }

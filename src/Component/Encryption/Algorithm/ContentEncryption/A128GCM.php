@@ -14,31 +14,31 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 /**
- * Class A128GCM.
- */
+  * Class A128GCM.
+  */
  class A128GCM extends AESGCM
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function getCEKSize(): int
-    {
-        return 128;
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function getCEKSize(): int
+     {
+         return 128;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getMode(): string
-    {
-        return 'aes-128-gcm';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     protected function getMode(): string
+     {
+         return 'aes-128-gcm';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'A128GCM';
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'A128GCM';
+     }
+ }

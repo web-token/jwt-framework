@@ -17,96 +17,96 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 
 /**
- * Class RSAKeyWithoutAllPrimesTest.
- *
- * @group RSA2
- * @group Unit
- */
+  * Class RSAKeyWithoutAllPrimesTest.
+  *
+  * @group RSA2
+  * @group Unit
+  */
  class RSAKeyWithoutAllPrimesTest extends EncryptionTest
-{
-    /**
-     * @param string $encryption_algorithm
-     *
-     * @dataProvider dataEncryptionAlgorithms
-     */
-    public function testEncryptionAlgorithms(string $encryption_algorithm)
-    {
-        $key = $this->getPrivateKey();
+ {
+     /**
+      * @param string $encryption_algorithm
+      *
+      * @dataProvider dataEncryptionAlgorithms
+      */
+     public function testEncryptionAlgorithms(string $encryption_algorithm)
+     {
+         $key = $this->getPrivateKey();
 
-        $claims = ['foo' => 'bar'];
+         $claims = ['foo' => 'bar'];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
 
-        $jwt = $jweBuilder
+         $jwt = $jweBuilder
             ->create()->withPayload($claims)
             ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
             ->addRecipient($key)
             ->build();
-        $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
+         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
-        $loaded = $this->getJWESerializerManager()->unserialize($jwt);
-        self::assertInstanceOf(JWE::class, $loaded);
+         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
+         self::assertInstanceOf(JWE::class, $loaded);
 
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
-    }
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
+     }
 
-    /**
-     * @param string $encryption_algorithm
-     *
-     * @dataProvider dataEncryptionAlgorithms
-     */
-    public function testEncryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm)
-    {
-        $key = $this->getMinimalPrivateKey();
+     /**
+      * @param string $encryption_algorithm
+      *
+      * @dataProvider dataEncryptionAlgorithms
+      */
+     public function testEncryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm)
+     {
+         $key = $this->getMinimalPrivateKey();
 
-        $claims = ['foo' => 'bar'];
+         $claims = ['foo' => 'bar'];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+         $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
 
-        $jwt = $jweBuilder
+         $jwt = $jweBuilder
             ->create()->withPayload($claims)
             ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
             ->addRecipient($key)
             ->build();
-        $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
+         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
-        $loaded = $this->getJWESerializerManager()->unserialize($jwt);
-        self::assertInstanceOf(JWE::class, $loaded);
+         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
+         self::assertInstanceOf(JWE::class, $loaded);
 
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
-    }
+         self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
+     }
 
-    /**
-     * @return array
-     */
-    public function dataEncryptionAlgorithms(): array
-    {
-        return [
+     /**
+      * @return array
+      */
+     public function dataEncryptionAlgorithms(): array
+     {
+         return [
             ['RSA1_5'],
             ['RSA-OAEP'],
             ['RSA-OAEP-256'],
         ];
-    }
+     }
 
-    /**
-     * @return array
-     */
-    public function dataEncryptionAlgorithmsWithSimpleKey(): array
-    {
-        return [
+     /**
+      * @return array
+      */
+     public function dataEncryptionAlgorithmsWithSimpleKey(): array
+     {
+         return [
             ['RSA-OAEP'],
             ['RSA-OAEP-256'],
         ];
-    }
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getPrivateKey(): JWK
-    {
-        return JWK::create(
+     /**
+      * @return JWK
+      */
+     private function getPrivateKey(): JWK
+     {
+         return JWK::create(
             [
                 'kty' => 'RSA',
                 'kid' => 'private',
@@ -117,14 +117,14 @@ use Jose\Component\Encryption\JWE;
                 'q' => '7UF_NblAyTxmj7Z2Jz1sZmz-Q3YHOcta00DjmHBhR9ItYRMQFMj-SUGPAtwvN-sk3_ThugaQt46SLT_I3Gy8433cHdW7o3So6HiMYVunyfhqnWznSWs6SvIoEh8rJOXkkIZ-DlRP8XyW5OOvi0cbWEQ1f1jbFyistMmnBClPvf2TKKPvShUl9qmvLxuU87j-_bgQmjVmtwZadnPOyPAxQ4_qqSfIiTOvMSxSycr58rTyu3khHQapGHkS5-2Y_w40GUSfVJ3XP48delYpK-PZP71hn89MJTnnfPOtvJAk1wbEev5wQFTJd-PGOudkGkuEIXryF4TGxRPltl5UeF0CwQ',
             ]
         );
-    }
+     }
 
-    /**
-     * @return JWK
-     */
-    private function getMinimalPrivateKey(): JWK
-    {
-        return JWK::create(
+     /**
+      * @return JWK
+      */
+     private function getMinimalPrivateKey(): JWK
+     {
+         return JWK::create(
             [
                 'd' => 'JSqz6ijkk3dfdSEA_0iMT_1HeIJ1ft4msZ6qw7_1JSCGQAALeZ1yM0QHO3uX-Jr7HC7v1rGVcwsonAhei2qu3rk-w_iCnRL6QkkMNBnDQycwaWpwGsMBFF-UqstOJNggE4AHX-aDnbd4wbKVvdX7ieehPngbPkHcJFdg_iSZCQNoajz6XfEruyIi7_IFXYEGmH_UyEbQkgNtriZysutgYdolUjo9flUlh20HbuV3NwsPjGyDG4dUMpNpdBpSuRHYKLX6h3FjeLhItBmhBfuL7d-G3EXwKlwfNXXYivqY5NQAkFNrRbvFlc_ARIws3zAfykPDIWGWFiPiN3H-hXMgAQ',
                 'e' => 'AQAB',
@@ -133,5 +133,5 @@ use Jose\Component\Encryption\JWE;
                 'kid' => 'test-key',
             ]
         );
-    }
-}
+     }
+ }

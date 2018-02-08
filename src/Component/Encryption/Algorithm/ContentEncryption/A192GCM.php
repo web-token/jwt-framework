@@ -14,31 +14,31 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 /**
- * Class A192GCM.
- */
+  * Class A192GCM.
+  */
  class A192GCM extends AESGCM
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function getCEKSize(): int
-    {
-        return 192;
-    }
+ {
+     /**
+      * {@inheritdoc}
+      */
+     public function getCEKSize(): int
+     {
+         return 192;
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getMode(): string
-    {
-        return 'aes-192-gcm';
-    }
+     /**
+      * {@inheritdoc}
+      */
+     protected function getMode(): string
+     {
+         return 'aes-192-gcm';
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function name(): string
-    {
-        return 'A192GCM';
-    }
-}
+     /**
+      * {@inheritdoc}
+      */
+     public function name(): string
+     {
+         return 'A192GCM';
+     }
+ }

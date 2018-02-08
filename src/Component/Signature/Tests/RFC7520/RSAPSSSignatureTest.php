@@ -17,28 +17,28 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Tests\SignatureTest;
 
 /**
- * @see https://tools.ietf.org/html/rfc7520#section-4.2
- *
- * @group RFC7520
- */
+  * @see https://tools.ietf.org/html/rfc7520#section-4.2
+  *
+  * @group RFC7520
+  */
  class RSAPSSSignatureTest extends SignatureTest
-{
-    /**
-     * Please note that we cannot create the signature and get the same result as the example (RSA-PSS signatures are always different).
-     * This test case create a signature and verifies it.
-     * Then the output given in the RFC is used and verified.
-     * This way, we can say that the library is able to create/verify RSA-PSS signatures and verify signature from test vectors.
-     */
-    public function testPS384()
-    {
-        /*
-         * Payload,
-         * RSA private key
-         * @see https://tools.ietf.org/html/rfc7520#section-3.4
-         * @see https://tools.ietf.org/html/rfc7520#section-4.2.1
-         */
-        $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $privateKey = JWK::create([
+ {
+     /**
+      * Please note that we cannot create the signature and get the same result as the example (RSA-PSS signatures are always different).
+      * This test case create a signature and verifies it.
+      * Then the output given in the RFC is used and verified.
+      * This way, we can say that the library is able to create/verify RSA-PSS signatures and verify signature from test vectors.
+      */
+     public function testPS384()
+     {
+         /*
+          * Payload,
+          * RSA private key
+          * @see https://tools.ietf.org/html/rfc7520#section-3.4
+          * @see https://tools.ietf.org/html/rfc7520#section-4.2.1
+          */
+         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
+         $privateKey = JWK::create([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',
@@ -52,39 +52,39 @@ use Jose\Component\Signature\Tests\SignatureTest;
             'qi' => '3PiqvXQN0zwMeE-sBvZgi289XP9XCQF3VWqPzMKnIgQp7_Tugo6-NZBKCQsMf3HaEGBjTVJs_jcK8-TRXvaKe-7ZMaQj8VfBdYkssbu0NKDDhjJ-GtiseaDVWt7dcH0cfwxgFUHpQh7FoCrjFJ6h6ZEpMF6xmujs4qMpPz8aaI4',
         ]);
 
-        /*
-         * Header
-         * @see https://tools.ietf.org/html/rfc7520#section-4.2.2
-         */
-        $header = [
+         /*
+          * Header
+          * @see https://tools.ietf.org/html/rfc7520#section-4.2.2
+          */
+         $header = [
             'alg' => 'PS384',
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['PS384']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS384']);
-        $jws = $jwsBuilder
+         $jwsBuilder = $this->getJWSBuilderFactory()->create(['PS384']);
+         $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS384']);
+         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($privateKey, $header)
             ->build();
 
-        $jwsVerifier->verifyWithKey($jws, $privateKey, 0);
+         $jwsVerifier->verifyWithKey($jws, $privateKey, 0);
 
-        /*
-         * Header
-         * @see https://tools.ietf.org/html/rfc7520#section-4.2.3
-         */
-        $expected_compact_json = 'eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw';
-        $expected_flattened_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","protected":"eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw"}';
-        $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw"}]}';
+         /*
+          * Header
+          * @see https://tools.ietf.org/html/rfc7520#section-4.2.3
+          */
+         $expected_compact_json = 'eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw';
+         $expected_flattened_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","protected":"eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw"}';
+         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw"}]}';
 
-        $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0));
+         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0));
 
-        $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey, 0));
+         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey, 0));
 
-        $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $privateKey, 0));
-    }
-}
+         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
+         self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $privateKey, 0));
+     }
+ }

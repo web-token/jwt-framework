@@ -17,40 +17,40 @@ use Jose\Component\Checker\IssuedAtChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ClaimChecker
- * @group Functional
- */
+  * @group ClaimChecker
+  * @group Functional
+  */
  class IssuedAtClaimCheckerTest extends TestCase
-{
-    /**
-     * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage "iat" must be an integer.
-     */
-    public function anIssuedAtClaimMustBeAnInteger()
-    {
-        $checker = new IssuedAtChecker();
-        $checker->checkClaim('foo');
-    }
+ {
+     /**
+      * @test
+      * @expectedException \Jose\Component\Checker\InvalidClaimException
+      * @expectedExceptionMessage "iat" must be an integer.
+      */
+     public function anIssuedAtClaimMustBeAnInteger()
+     {
+         $checker = new IssuedAtChecker();
+         $checker->checkClaim('foo');
+     }
 
-    /**
-     * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage The JWT is issued in the future.
-     */
-    public function theIssuedAtClaimIsInTheFutur()
-    {
-        $checker = new IssuedAtChecker();
-        $checker->checkClaim(time() + 3600);
-    }
+     /**
+      * @test
+      * @expectedException \Jose\Component\Checker\InvalidClaimException
+      * @expectedExceptionMessage The JWT is issued in the future.
+      */
+     public function theIssuedAtClaimIsInTheFutur()
+     {
+         $checker = new IssuedAtChecker();
+         $checker->checkClaim(time() + 3600);
+     }
 
-    /**
-     * @test
-     */
-    public function theIssuedAtClaimIsInThePast()
-    {
-        $checker = new IssuedAtChecker();
-        $checker->checkClaim(time() - 3600);
-        self::assertEquals('iat', $checker->supportedClaim());
-    }
-}
+     /**
+      * @test
+      */
+     public function theIssuedAtClaimIsInThePast()
+     {
+         $checker = new IssuedAtChecker();
+         $checker->checkClaim(time() - 3600);
+         self::assertEquals('iat', $checker->supportedClaim());
+     }
+ }

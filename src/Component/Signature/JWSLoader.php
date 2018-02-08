@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 
- class JWSLoader
+class JWSLoader
 {
     /**
      * @var JWSVerifier

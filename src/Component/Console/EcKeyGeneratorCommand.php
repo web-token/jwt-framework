@@ -19,31 +19,31 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class EcKeyGeneratorCommand.
- */
+  * Class EcKeyGeneratorCommand.
+  */
  class EcKeyGeneratorCommand extends GeneratorCommand
-{
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        parent::configure();
-        $this
+ {
+     /**
+      * {@inheritdoc}
+      */
+     protected function configure()
+     {
+         parent::configure();
+         $this
             ->setName('key:generate:ec')
             ->setDescription('Generate an EC key (JWK format)')
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');
-    }
+     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $curve = $input->getArgument('curve');
-        $args = $this->getOptions($input);
+     /**
+      * {@inheritdoc}
+      */
+     protected function execute(InputInterface $input, OutputInterface $output)
+     {
+         $curve = $input->getArgument('curve');
+         $args = $this->getOptions($input);
 
-        $jwk = JWKFactory::createECKey($curve, $args);
-        $this->prepareJsonOutput($input, $output, $jwk);
-    }
-}
+         $jwk = JWKFactory::createECKey($curve, $args);
+         $this->prepareJsonOutput($input, $output, $jwk);
+     }
+ }
