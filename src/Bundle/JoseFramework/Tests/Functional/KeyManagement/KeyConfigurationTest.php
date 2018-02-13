@@ -81,7 +81,7 @@ final class KeyConfigurationTest extends TestCase
             [
                 [
                     'keys' => [],
-                ]
+                ],
             ]
         );
     }
@@ -97,7 +97,7 @@ final class KeyConfigurationTest extends TestCase
                     'keys' => [
                         'foo' => [],
                     ],
-                ]
+                ],
             ],
             'Invalid configuration for path "jose.keys.foo": One key type must be set.'
         );
@@ -113,10 +113,10 @@ final class KeyConfigurationTest extends TestCase
                 [
                     'keys' => [
                         'foo' => [
-                            'bad' => []
+                            'bad' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'Unrecognized option "bad" under "jose.keys.foo"'
         );
@@ -132,10 +132,10 @@ final class KeyConfigurationTest extends TestCase
                 [
                     'keys' => [
                         'foo' => [
-                            'certificate' => []
+                            'certificate' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "path" at path "jose.keys.foo.certificate" must be configured.'
         );
@@ -151,10 +151,10 @@ final class KeyConfigurationTest extends TestCase
                 [
                     'keys' => [
                         'foo' => [
-                            'jwk' => []
+                            'jwk' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "value" at path "jose.keys.foo.jwk" must be configured.'
         );
@@ -170,10 +170,10 @@ final class KeyConfigurationTest extends TestCase
                 [
                     'keys' => [
                         'foo' => [
-                            'jwkset' => []
+                            'jwkset' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "key_set" at path "jose.keys.foo.jwkset" must be configured.'
         );
@@ -191,10 +191,10 @@ final class KeyConfigurationTest extends TestCase
                         'foo' => [
                             'jwkset' => [
                                 'key_set' => 'foo',
-                            ]
+                            ],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "index" at path "jose.keys.foo.jwkset" must be configured.'
         );
@@ -210,10 +210,10 @@ final class KeyConfigurationTest extends TestCase
                 [
                     'keys' => [
                         'foo' => [
-                            'file' => []
+                            'file' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "path" at path "jose.keys.foo.file" must be configured.'
         );
@@ -229,10 +229,10 @@ final class KeyConfigurationTest extends TestCase
                 [
                     'keys' => [
                         'foo' => [
-                            'values' => []
+                            'values' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "values" at path "jose.keys.foo.values" must be configured.'
         );
@@ -248,10 +248,10 @@ final class KeyConfigurationTest extends TestCase
                 [
                     'keys' => [
                         'foo' => [
-                            'x5c' => []
+                            'x5c' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "value" at path "jose.keys.foo.x5c" must be configured.'
         );

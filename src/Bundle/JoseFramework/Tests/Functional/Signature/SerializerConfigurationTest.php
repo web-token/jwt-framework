@@ -81,7 +81,7 @@ final class SerializerConfigurationTest extends TestCase
             [
                 [
                     'jws' => [],
-                ]
+                ],
             ]
         );
     }
@@ -97,7 +97,7 @@ final class SerializerConfigurationTest extends TestCase
                     'jws' => [
                         'serializers' => [],
                     ],
-                ]
+                ],
             ]
         );
     }
@@ -115,7 +115,7 @@ final class SerializerConfigurationTest extends TestCase
                             'foo' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "serializers" at path "jose.jws.serializers.foo" must be configured.'
         );
@@ -136,7 +136,7 @@ final class SerializerConfigurationTest extends TestCase
                             ],
                         ],
                     ],
-                ]
+                ],
             ],
             'The path "jose.jws.serializers.foo.serializers" should have at least 1 element(s) defined.'
         );

@@ -44,7 +44,7 @@ final class KeyEnvVarProcessor implements EnvVarProcessorInterface
     public static function getProvidedTypes()
     {
         return [
-            'jwk' => 'string',
+            'jwk'    => 'string',
             'jwkset' => 'string',
         ];
     }

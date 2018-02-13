@@ -34,8 +34,7 @@ final class PemConverterCommand extends ObjectOutputCommand
         $this
             ->setName('key:convert:pkcs1')
             ->setDescription('Converts a RSA or EC key into PKCS#1 key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The key')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The key');
     }
 
     /**

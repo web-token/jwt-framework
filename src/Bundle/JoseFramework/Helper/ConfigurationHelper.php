@@ -35,7 +35,7 @@ final class ConfigurationHelper
                 'jws' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'            => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
                         ],
                     ],
@@ -58,7 +58,7 @@ final class ConfigurationHelper
                 'jws' => [
                     'verifiers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'            => $is_public,
                             'signature_algorithms' => $signatureAlgorithms,
                         ],
                     ],
@@ -82,7 +82,7 @@ final class ConfigurationHelper
                 'jws' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'   => $is_public,
                             'serializers' => $serializers,
                         ],
                     ],
@@ -106,7 +106,7 @@ final class ConfigurationHelper
                 'jwe' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public'   => $is_public,
                             'serializers' => $serializers,
                         ],
                     ],
@@ -131,7 +131,7 @@ final class ConfigurationHelper
                     'claims' => [
                         $name => [
                             'is_public' => $is_public,
-                            'claims' => $claimCheckers,
+                            'claims'    => $claimCheckers,
                         ],
                     ],
                 ],
@@ -155,7 +155,7 @@ final class ConfigurationHelper
                     'headers' => [
                         $name => [
                             'is_public' => $is_public,
-                            'headers' => $headerCheckers,
+                            'headers'   => $headerCheckers,
                         ],
                     ],
                 ],
@@ -240,10 +240,10 @@ final class ConfigurationHelper
                 'jwe' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'is_public'                     => $is_public,
+                            'key_encryption_algorithms'     => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
+                            'compression_methods'           => $compressionMethods,
                         ],
                     ],
                 ],
@@ -268,10 +268,10 @@ final class ConfigurationHelper
                 'jwe' => [
                     'decrypters' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
+                            'is_public'                     => $is_public,
+                            'key_encryption_algorithms'     => $keyEncryptionAlgorithm,
                             'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
+                            'compression_methods'           => $compressionMethods,
                         ],
                     ],
                 ],

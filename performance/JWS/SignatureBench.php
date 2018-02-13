@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWS;
 
+use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
-use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;

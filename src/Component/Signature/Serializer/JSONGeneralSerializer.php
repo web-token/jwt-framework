@@ -76,7 +76,7 @@ final class JSONGeneralSerializer extends Serializer
             $tmp = ['signature' => Base64Url::encode($signature->getSignature())];
             $values = [
                 'protected' => $signature->getEncodedProtectedHeader(),
-                'header' => $signature->getHeader(),
+                'header'    => $signature->getHeader(),
             ];
 
             foreach ($values as $key => $value) {
@@ -125,10 +125,10 @@ final class JSONGeneralSerializer extends Serializer
             $this->checkSignature($signature);
             list($encodedProtectedHeader, $protectedHeader, $header) = $this->processHeaders($signature);
             $signatures[] = [
-                'signature' => Base64Url::decode($signature['signature']),
-                'protected' => $protectedHeader,
+                'signature'         => Base64Url::decode($signature['signature']),
+                'protected'         => $protectedHeader,
                 'encoded_protected' => $encodedProtectedHeader,
-                'header' => $header,
+                'header'            => $header,
             ];
             $isPayloadEncoded = $this->processIsPayloadEncoded($isPayloadEncoded, $protectedHeader);
         }

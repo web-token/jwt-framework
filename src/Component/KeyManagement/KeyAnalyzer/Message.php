@@ -98,7 +98,7 @@ final class Message implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'message' => $this->message,
+            'message'  => $this->message,
             'severity' => $this->severity,
         ];
     }

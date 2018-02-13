@@ -81,7 +81,7 @@ final class JwkUriConfigurationTest extends TestCase
             [
                 [
                     'jwk_uris' => [],
-                ]
+                ],
             ]
         );
     }
@@ -97,7 +97,7 @@ final class JwkUriConfigurationTest extends TestCase
                     'jwk_uris' => [
                         'foo' => [],
                     ],
-                ]
+                ],
             ],
             'The child node "id" at path "jose.jwk_uris.foo" must be configured.'
         );
@@ -113,10 +113,10 @@ final class JwkUriConfigurationTest extends TestCase
                 [
                     'jwk_uris' => [
                         'foo' => [
-                            'id' => 'foo'
+                            'id' => 'foo',
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "path" at path "jose.jwk_uris.foo" must be configured.'
         );

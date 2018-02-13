@@ -46,7 +46,7 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
         $size = intval($input->getArgument('size'));
 
         $keyset = JWKSet::createFromKeys([]);
-        for ($i = 0; $i < $quantity; ++$i) {
+        for ($i = 0; $i < $quantity; $i++) {
             $args = $this->getOptions($input);
             $keyset = $keyset->with(JWKFactory::createOctKey($size, $args));
         }

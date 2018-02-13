@@ -81,7 +81,7 @@ final class KeySetConfigurationTest extends TestCase
             [
                 [
                     'key_sets' => [],
-                ]
+                ],
             ]
         );
     }
@@ -97,7 +97,7 @@ final class KeySetConfigurationTest extends TestCase
                     'key_sets' => [
                         'foo' => [],
                     ],
-                ]
+                ],
             ],
             'Invalid configuration for path "jose.key_sets.foo": One key set type must be set.'
         );
@@ -113,10 +113,10 @@ final class KeySetConfigurationTest extends TestCase
                 [
                     'key_sets' => [
                         'foo' => [
-                            'bad' => []
+                            'bad' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'Unrecognized option "bad" under "jose.key_sets.foo"'
         );
@@ -132,10 +132,10 @@ final class KeySetConfigurationTest extends TestCase
                 [
                     'key_sets' => [
                         'foo' => [
-                            'jku' => []
+                            'jku' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "url" at path "jose.key_sets.foo.jku" must be configured.'
         );
@@ -151,10 +151,10 @@ final class KeySetConfigurationTest extends TestCase
                 [
                     'key_sets' => [
                         'foo' => [
-                            'jwkset' => []
+                            'jwkset' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "value" at path "jose.key_sets.foo.jwkset" must be configured.'
         );
@@ -170,10 +170,10 @@ final class KeySetConfigurationTest extends TestCase
                 [
                     'key_sets' => [
                         'foo' => [
-                            'x5u' => []
+                            'x5u' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "url" at path "jose.key_sets.foo.x5u" must be configured.'
         );

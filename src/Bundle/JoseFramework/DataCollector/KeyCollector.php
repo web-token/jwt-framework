@@ -53,7 +53,7 @@ final class KeyCollector implements Collector
         $data['key']['jwk'] = [];
         foreach ($this->jwks as $id => $jwk) {
             $data['key']['jwk'][$id] = [
-                'jwk' => $jwk,
+                'jwk'     => $jwk,
                 'analyze' => null === $this->jwkAnalyzerManager ? [] : $this->jwkAnalyzerManager->analyze($jwk),
             ];
         }
@@ -73,7 +73,7 @@ final class KeyCollector implements Collector
                 }
             }
             $data['key']['jwkset'][$id] = [
-                'jwkset' => $jwkset,
+                'jwkset'  => $jwkset,
                 'analyze' => $analyze,
             ];
         }

@@ -91,7 +91,7 @@ final class ConfigurationTest extends TestCase
             [
                 ['checkers' => [
                     'headers' => [],
-                    'claims' => [],
+                    'claims'  => [],
                 ]],
             ]
         );
@@ -108,7 +108,7 @@ final class ConfigurationTest extends TestCase
                     'headers' => [
                         'foo' => [
                             'is_public' => false,
-                        ]
+                        ],
                     ],
                 ]],
             ],
@@ -126,9 +126,9 @@ final class ConfigurationTest extends TestCase
                 ['checkers' => [
                     'headers' => [
                         'foo' => [
-                            'headers' => [],
+                            'headers'   => [],
                             'is_public' => false,
-                        ]
+                        ],
                     ],
                 ]],
             ],
@@ -147,7 +147,7 @@ final class ConfigurationTest extends TestCase
                     'claims' => [
                         'foo' => [
                             'is_public' => false,
-                        ]
+                        ],
                     ],
                 ]],
             ],
@@ -165,9 +165,9 @@ final class ConfigurationTest extends TestCase
                 ['checkers' => [
                     'claims' => [
                         'foo' => [
-                            'claims' => [],
+                            'claims'    => [],
                             'is_public' => false,
-                        ]
+                        ],
                     ],
                 ]],
             ],

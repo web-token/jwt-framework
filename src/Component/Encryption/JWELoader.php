@@ -68,16 +68,16 @@ final class JWELoader
      * @param JWKSet $keyset
      * @param int    $recipient
      *
-     * @return JWE
-     *
      * @throws \Exception
+     *
+     * @return JWE
      */
     public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, int &$recipient): JWE
     {
         try {
             $jwe = $this->serializerManager->unserialize($token);
             $nbRecipients = $jwe->countRecipients();
-            for ($i = 0; $i < $nbRecipients; ++$i) {
+            for ($i = 0; $i < $nbRecipients; $i++) {
                 if ($this->processRecipient($jwe, $keyset, $i)) {
                     $recipient = $i;
 
