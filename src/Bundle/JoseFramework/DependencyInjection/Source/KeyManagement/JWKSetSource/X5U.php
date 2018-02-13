@@ -67,7 +67,7 @@ class X5U extends AbstractSource implements JWKSetSource
                     ->treatFalseLike([])
                     ->info('Header key/value pairs added to the request.')
                     ->useAttributeAsKey('name')
-                    ->prototype('variable')->end()
+                    ->variablePrototype()->end()
                 ->end()
             ->end();
     }

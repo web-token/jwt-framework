@@ -60,7 +60,7 @@ class Values extends AbstractSource implements JWKSource
                     ->info('Values of the key.')
                     ->isRequired()
                     ->useAttributeAsKey('key')
-                    ->prototype('variable')->end()
+                    ->variablePrototype()->end()
                 ->end()
             ->end();
     }

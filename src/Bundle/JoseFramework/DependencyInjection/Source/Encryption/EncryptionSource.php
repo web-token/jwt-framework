@@ -83,7 +83,10 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
         $childNode = $node
             ->children()
-            ->arrayNode($this->name());
+                ->arrayNode($this->name())
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+                    ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);

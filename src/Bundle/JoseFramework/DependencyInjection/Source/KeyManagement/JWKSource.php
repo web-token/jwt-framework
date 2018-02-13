@@ -61,9 +61,16 @@ class JWKSource implements Source
         $sourceNodeBuilder = $node
             ->children()
                 ->arrayNode('keys')
+                    ->treatFalseLike([])
+                    ->treatNullLike([])
                     ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->performNoDeepMerging()
+                    ->arrayPrototype()
+                        ->validate()
+                            ->ifTrue(function ($config) {
+                                return count($config) !== 1;
+                            })
+                            ->thenInvalid('One key type must be set.')
+                        ->end()
                         ->children();
         foreach ($this->getJWKSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
