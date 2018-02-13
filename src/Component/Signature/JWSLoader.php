@@ -70,16 +70,16 @@ final class JWSLoader
      * @param int         $signature
      * @param null|string $payload
      *
-     * @return JWS
-     *
      * @throws \Exception
+     *
+     * @return JWS
      */
     public function loadAndVerifyWithKeySet(string $token, JWKSet $keyset, int &$signature, ?string $payload = null): JWS
     {
         try {
             $jws = $this->serializerManager->unserialize($token);
             $nbSignatures = $jws->countSignatures();
-            for ($i = 0; $i < $nbSignatures; ++$i) {
+            for ($i = 0; $i < $nbSignatures; $i++) {
                 if ($this->processSignature($jws, $keyset, $i, $payload)) {
                     $signature = $i;
 

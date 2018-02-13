@@ -57,26 +57,29 @@ final class JWSSerializer implements Source
      */
     public function getNodeDefinition(ArrayNodeDefinition $node)
     {
-        $node
-            ->children()
-                ->arrayNode($this->name())
-                    ->useAttributeAsKey('name')
-                    ->prototype('array')
-                        ->children()
-                            ->booleanNode('is_public')
-                                ->info('If true, the service will be public, else private.')
-                                ->defaultTrue()
-                            ->end()
-                            ->arrayNode('serializers')
-                                ->info('A list of JWS serializers aliases.')
-                                ->useAttributeAsKey('name')
-                                ->treatNullLike(['jws_compact'])
-                                ->prototype('scalar')->end()
-                            ->end()
+        $node->children()
+            ->arrayNode($this->name())
+                ->treatFalseLike([])
+                ->treatNullLike([])
+                ->useAttributeAsKey('name')
+                ->arrayPrototype()
+                    ->children()
+                        ->booleanNode('is_public')
+                            ->info('If true, the service will be public, else private.')
+                            ->defaultTrue()
+                        ->end()
+                        ->arrayNode('serializers')
+                            ->info('A list of JWS serializers aliases.')
+                            ->isRequired()
+                            ->scalarPrototype()->end()
+                            ->treatNullLike([])
+                            ->treatFalseLike([])
+                            ->requiresAtLeastOneElement()
                         ->end()
                     ->end()
                 ->end()
-            ->end();
+            ->end()
+        ->end();
     }
 
     /**

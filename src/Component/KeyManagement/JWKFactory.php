@@ -88,9 +88,9 @@ final class JWKFactory
             [
                 'kty' => 'EC',
                 'crv' => $curve,
-                'd' => Base64Url::encode(gmp_export($privateKey->getSecret())),
-                'x' => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
-                'y' => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+                'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
+                'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
+                'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
             ]
         );
 
@@ -112,7 +112,7 @@ final class JWKFactory
             $values,
             [
                 'kty' => 'oct',
-                'k' => Base64Url::encode(random_bytes($size / 8)),
+                'k'   => Base64Url::encode(random_bytes($size / 8)),
             ]
         );
 
@@ -149,8 +149,8 @@ final class JWKFactory
             [
                 'kty' => 'OKP',
                 'crv' => $curve,
-                'x' => Base64Url::encode($x),
-                'd' => Base64Url::encode($d),
+                'x'   => Base64Url::encode($x),
+                'd'   => Base64Url::encode($d),
             ]
         );
 

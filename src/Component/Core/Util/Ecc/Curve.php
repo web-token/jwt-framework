@@ -241,7 +241,7 @@ final class Curve
         $k = $this->getSize();
         $n = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
 
-        for ($i = 0; $i < $k; ++$i) {
+        for ($i = 0; $i < $k; $i++) {
             $j = $n[$i];
             Point::cswap($r[0], $r[1], $j ^ 1);
             $r[0] = $this->add($r[0], $r[1]);
@@ -386,7 +386,7 @@ final class Curve
         $log2 = 0;
         while (false === Math::equals($x, $zero)) {
             $x = Math::rightShift($x, 1);
-            ++$log2;
+            $log2++;
         }
 
         return $log2;

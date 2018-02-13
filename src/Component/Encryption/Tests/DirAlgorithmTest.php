@@ -43,7 +43,7 @@ final class DirAlgorithmTest extends EncryptionTest
     {
         $key = JWK::create([
             'kty' => 'oct',
-            'k' => Base64Url::encode('ABCD'),
+            'k'   => Base64Url::encode('ABCD'),
         ]);
 
         $dir = new Dir();
