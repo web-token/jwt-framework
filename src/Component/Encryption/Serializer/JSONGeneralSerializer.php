@@ -67,8 +67,8 @@ final class JSONGeneralSerializer implements JWESerializer
 
         $data = [
             'ciphertext' => Base64Url::encode($jwe->getCiphertext()),
-            'iv' => Base64Url::encode($jwe->getIV()),
-            'tag' => Base64Url::encode($jwe->getTag()),
+            'iv'         => Base64Url::encode($jwe->getIV()),
+            'tag'        => Base64Url::encode($jwe->getTag()),
         ];
         if (null !== $jwe->getAAD()) {
             $data['aad'] = Base64Url::encode($jwe->getAAD());

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

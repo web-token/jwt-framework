@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use Base64Url\Base64Url;
+use FG\ASN1\ASNObject;
 use FG\ASN1\ExplicitlyTaggedObject;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
 use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
-use FG\ASN1\ASNObject;
 
 /**
  * Class ECKey.
@@ -57,9 +57,9 @@ final class ECKey
     /**
      * @param string $data
      *
-     * @return array
-     *
      * @throws \Exception
+     *
+     * @return array
      */
     private static function loadPEM(string $data): array
     {
@@ -298,8 +298,8 @@ final class ECKey
         $keys = [
             'kty' => 'The key parameter "kty" is missing.',
             'crv' => 'Curve parameter is missing',
-            'x' => 'Point parameters are missing.',
-            'y' => 'Point parameters are missing.',
+            'x'   => 'Point parameters are missing.',
+            'y'   => 'Point parameters are missing.',
         ];
         foreach ($keys as $k => $v) {
             if (!array_key_exists($k, $jwk)) {

@@ -46,7 +46,7 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
         $curve = $input->getArgument('curve');
 
         $keyset = JWKSet::createFromKeys([]);
-        for ($i = 0; $i < $quantity; ++$i) {
+        for ($i = 0; $i < $quantity; $i++) {
             $args = $this->getOptions($input);
             $keyset = $keyset->with(JWKFactory::createOKPKey($curve, $args));
         }

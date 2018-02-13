@@ -81,7 +81,7 @@ final class JwsBuilderConfigurationTest extends TestCase
             [
                 [
                     'jws' => [],
-                ]
+                ],
             ]
         );
     }
@@ -97,7 +97,7 @@ final class JwsBuilderConfigurationTest extends TestCase
                     'jws' => [
                         'builders' => [],
                     ],
-                ]
+                ],
             ]
         );
     }
@@ -115,7 +115,7 @@ final class JwsBuilderConfigurationTest extends TestCase
                             'foo' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "signature_algorithms" at path "jose.jws.builders.foo" must be configured.'
         );
@@ -136,7 +136,7 @@ final class JwsBuilderConfigurationTest extends TestCase
                             ],
                         ],
                     ],
-                ]
+                ],
             ],
             'The path "jose.jws.builders.foo.signature_algorithms" should have at least 1 element(s) defined.'
         );

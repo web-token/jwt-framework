@@ -15,11 +15,11 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Util\Ecc\EcDH;
-use Jose\Component\Core\Util\Ecc\PrivateKey;
-use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\Curve;
+use Jose\Component\Core\Util\Ecc\NistCurve;
+use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Encryption\Util\ConcatKDF;
+use Jose\Component\Encryption\Util\Ecc\EcDH;
 
 /**
  * Class ECDHES.
@@ -274,9 +274,9 @@ final class ECDHES implements KeyAgreement
         return JWK::create([
             'kty' => 'EC',
             'crv' => $crv,
-            'x' => Base64Url::encode($this->convertDecToBin($point->getX())),
-            'y' => Base64Url::encode($this->convertDecToBin($point->getY())),
-            'd' => Base64Url::encode($this->convertDecToBin($privateKey->getSecret())),
+            'x'   => Base64Url::encode($this->convertDecToBin($point->getX())),
+            'y'   => Base64Url::encode($this->convertDecToBin($point->getY())),
+            'd'   => Base64Url::encode($this->convertDecToBin($privateKey->getSecret())),
         ]);
     }
 
@@ -307,8 +307,8 @@ final class ECDHES implements KeyAgreement
         return JWK::create([
             'kty' => 'OKP',
             'crv' => $curve,
-            'x' => Base64Url::encode($x),
-            'd' => Base64Url::encode($d),
+            'x'   => Base64Url::encode($x),
+            'd'   => Base64Url::encode($d),
         ]);
     }
 }

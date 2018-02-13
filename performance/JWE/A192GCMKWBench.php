@@ -25,33 +25,33 @@ final class A192GCMKWBench extends EncryptionBench
         return [
             [
                 'shared_protected_header' => ['alg' => 'A192GCMKW', 'enc' => 'A128CBC-HS256'],
-                'shared_header' => [],
-                'recipient_header' => [],
+                'shared_header'           => [],
+                'recipient_header'        => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192GCMKW', 'enc' => 'A192CBC-HS384'],
-                'shared_header' => [],
-                'recipient_header' => [],
+                'shared_header'           => [],
+                'recipient_header'        => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192GCMKW', 'enc' => 'A256CBC-HS512'],
-                'shared_header' => [],
-                'recipient_header' => [],
+                'shared_header'           => [],
+                'recipient_header'        => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192GCMKW', 'enc' => 'A128GCM'],
-                'shared_header' => [],
-                'recipient_header' => [],
+                'shared_header'           => [],
+                'recipient_header'        => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192GCMKW', 'enc' => 'A192GCM'],
-                'shared_header' => [],
-                'recipient_header' => [],
+                'shared_header'           => [],
+                'recipient_header'        => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192GCMKW', 'enc' => 'A256GCM'],
-                'shared_header' => [],
-                'recipient_header' => [],
+                'shared_header'           => [],
+                'recipient_header'        => [],
             ],
         ];
     }
@@ -83,7 +83,7 @@ final class A192GCMKWBench extends EncryptionBench
             [
                 'recipient_keys' => ['keys' => [[
                     'kty' => 'oct',
-                    'k' => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
+                    'k'   => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
                 ]]],
             ],
         ];
@@ -98,7 +98,7 @@ final class A192GCMKWBench extends EncryptionBench
             [
                 'recipient_key' => [
                     'kty' => 'oct',
-                    'k' => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
+                    'k'   => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
                 ],
             ],
         ];

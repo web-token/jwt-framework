@@ -61,8 +61,7 @@ final class KeyAnalyzerCommand extends Command
             ->setName('key:analyze')
             ->setDescription('JWK quality analyzer.')
             ->setHelp('This command will analyze a JWK object and find security issues.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
     /**

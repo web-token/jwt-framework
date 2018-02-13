@@ -81,7 +81,7 @@ final class JweBuilderConfigurationTest extends TestCase
             [
                 [
                     'jwe' => [],
-                ]
+                ],
             ]
         );
     }
@@ -97,7 +97,7 @@ final class JweBuilderConfigurationTest extends TestCase
                     'jwe' => [
                         'builders' => [],
                     ],
-                ]
+                ],
             ]
         );
     }
@@ -115,7 +115,7 @@ final class JweBuilderConfigurationTest extends TestCase
                             'foo' => [],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "key_encryption_algorithms" at path "jose.jwe.builders.foo" must be configured.'
         );
@@ -136,7 +136,7 @@ final class JweBuilderConfigurationTest extends TestCase
                             ],
                         ],
                     ],
-                ]
+                ],
             ],
             'The path "jose.jwe.builders.foo.key_encryption_algorithms" should have at least 1 element(s) defined.'
         );
@@ -157,7 +157,7 @@ final class JweBuilderConfigurationTest extends TestCase
                             ],
                         ],
                     ],
-                ]
+                ],
             ],
             'The child node "content_encryption_algorithms" at path "jose.jwe.builders.foo" must be configured.'
         );
@@ -174,12 +174,12 @@ final class JweBuilderConfigurationTest extends TestCase
                     'jwe' => [
                         'builders' => [
                             'foo' => [
-                                'key_encryption_algorithms' => ['A256GCMKW'],
+                                'key_encryption_algorithms'     => ['A256GCMKW'],
                                 'content_encryption_algorithms' => [],
                             ],
                         ],
                     ],
-                ]
+                ],
             ],
             'The path "jose.jwe.builders.foo.content_encryption_algorithms" should have at least 1 element(s) defined.'
         );

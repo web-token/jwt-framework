@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -251,8 +251,8 @@ final class JWEBuilder
         }
         $clone->checkKey($keyEncryptionAlgorithm, $recipientKey);
         $clone->recipients[] = [
-            'key' => $recipientKey,
-            'header' => $recipientHeader,
+            'key'                      => $recipientKey,
+            'header'                   => $recipientHeader,
             'key_encryption_algorithm' => $keyEncryptionAlgorithm,
         ];
 

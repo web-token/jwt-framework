@@ -36,7 +36,7 @@ final class JWSCollectorCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(JWSCollector::class);
 
         $services = [
-            'addJWSBuilder' => 'jose.jws_builder',
+            'addJWSBuilder'  => 'jose.jws_builder',
             'addJWSVerifier' => 'jose.jws_verifier',
         ];
         foreach ($services as $method => $tag) {

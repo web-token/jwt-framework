@@ -87,8 +87,7 @@ final class EncryptionSource implements Source
                 ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
             ->treatFalseLike([])
-                    ->treatNullLike([])
-        ;
+                    ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
