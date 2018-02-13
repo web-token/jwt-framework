@@ -58,9 +58,9 @@ class JWSLoader
     }
 
     /**
-     * @return HeaderCheckerManager
+     * @return HeaderCheckerManager|null
      */
-    public function getHeaderCheckerManager(): HeaderCheckerManager
+    public function getHeaderCheckerManager(): ?HeaderCheckerManager
     {
         return $this->headerCheckerManager;
     }
