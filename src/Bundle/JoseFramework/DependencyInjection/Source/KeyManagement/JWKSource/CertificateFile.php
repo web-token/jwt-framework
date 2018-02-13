@@ -68,7 +68,7 @@ final class CertificateFile extends AbstractSource implements JWKSource
                     ->info('Additional values to be added to the key.')
                     ->defaultValue([])
                     ->useAttributeAsKey('key')
-                    ->prototype('variable')->end()
+                    ->variablePrototype()->end()
                 ->end()
             ->end();
     }

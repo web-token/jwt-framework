@@ -44,6 +44,7 @@
         "ext-curl": "*",
         "bjeavons/zxcvbn-php": "^0.3.0",
         "guzzlehttp/psr7": "^1.4",
+        "matthiasnoback/symfony-config-test": "^3.1",
         "php-http/httplug-bundle": "^1.7",
         "php-http/mock-client": "^1.0",
         "phpunit/phpunit": "^6.0",
