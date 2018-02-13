@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  * @group Bundle
  * @group Configuration
  */
-final class JwkUriConfigurationTest extends TestCase
+class JwkUriConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 

@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  * @group Bundle
  * @group Configuration
  */
-final class KeySetConfigurationTest extends TestCase
+class KeySetConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
