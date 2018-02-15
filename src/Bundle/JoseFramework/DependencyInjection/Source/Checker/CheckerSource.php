@@ -61,8 +61,10 @@ class CheckerSource implements SourceWithCompilerPasses
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('checkers.yml');
 
-        foreach ($this->sources as $source) {
-            $source->load($configs['checkers'], $container);
+        if (array_key_exists('checkers', $configs)) {
+            foreach ($this->sources as $source) {
+                $source->load($configs['checkers'], $container);
+            }
         }
     }
 

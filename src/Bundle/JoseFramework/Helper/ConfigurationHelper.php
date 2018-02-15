@@ -243,10 +243,12 @@ class ConfigurationHelper
      * @param string           $name
      * @param string           $type
      * @param array            $parameters
+     * @param bool             $is_public
      * @param array            $tags
      */
-    public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
+    public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters, bool $is_public = true, array $tags = [])
     {
+        $parameters['is_public'] = $is_public;
         $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
@@ -266,10 +268,12 @@ class ConfigurationHelper
      * @param string           $name
      * @param string           $type
      * @param array            $parameters
+     * @param bool             $is_public
      * @param array            $tags
      */
-    public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters, array $tags = [])
+    public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters, bool $is_public = true, array $tags = [])
     {
+        $parameters['is_public'] = $is_public;
         $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
@@ -288,10 +292,12 @@ class ConfigurationHelper
      * @param ContainerBuilder $container
      * @param string           $name
      * @param array            $parameters
+     * @param bool             $is_public
      * @param array            $tags
      */
-    public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters, array $tags = [])
+    public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters, bool $is_public = true, array $tags = [])
     {
+        $parameters['is_public'] = $is_public;
         $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
