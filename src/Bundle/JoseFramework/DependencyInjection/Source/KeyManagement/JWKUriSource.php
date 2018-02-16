@@ -43,7 +43,7 @@ class JWKUriSource implements Source
             $definition->setArguments([new Reference($itemConfig['id']), $itemConfig['max_age']]);
             $definition->addTag('jose.jwk_uri.controller', ['path' => $itemConfig['path']]);
             $definition->addTag('controller.service_arguments');
-            $definition->setPrivate($itemConfig['is_public']);
+            $definition->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
