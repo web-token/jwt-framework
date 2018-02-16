@@ -39,6 +39,7 @@ abstract class AbstractSignatureSource implements Source
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
                                 ->cannotBeEmpty()
+                                ->requiresAtLeastOneElement()
                                 ->scalarPrototype()->end()
                             ->end()
                             ->arrayNode('tags')
