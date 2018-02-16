@@ -119,9 +119,9 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theHeaderCheckerShouldContainAtLeastOneChecker()
+    public function aHeaderCheckerMayContainNoChecker()
     {
-        $this->assertConfigurationIsInvalid(
+        $this->assertConfigurationIsValid(
             [
                 ['checkers' => [
                     'headers' => [
@@ -131,8 +131,7 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                 ]],
-            ],
-            'The path "jose.checkers.headers.foo.headers" should have at least 1 element(s) defined.'
+            ]
         );
     }
 
@@ -158,9 +157,9 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theClaimCheckerShouldContainAtLeastOneChecker()
+    public function aClaimCheckerMayContainNoChecker()
     {
-        $this->assertConfigurationIsInvalid(
+        $this->assertConfigurationIsValid(
             [
                 ['checkers' => [
                     'claims' => [
@@ -170,8 +169,7 @@ class ConfigurationTest extends TestCase
                         ],
                     ],
                 ]],
-            ],
-            'The path "jose.checkers.claims.foo.claims" should have at least 1 element(s) defined.'
+            ]
         );
     }
 }

@@ -74,7 +74,6 @@ class HeaderChecker implements Source
                                 ->info('A list of header aliases to be set in the claim checker.')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
-                                ->requiresAtLeastOneElement()
                                 ->scalarPrototype()->end()
                             ->end()
                             ->arrayNode('tags')
