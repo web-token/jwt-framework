@@ -43,6 +43,7 @@ class JWKUriSource implements Source
             $definition->setArguments([new Reference($itemConfig['id']), $itemConfig['max_age']]);
             $definition->addTag('jose.jwk_uri.controller', ['path' => $itemConfig['path']]);
             $definition->addTag('controller.service_arguments');
+            $definition->setPrivate($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -81,6 +82,10 @@ class JWKUriSource implements Source
                                 ->treatNullLike([])
                                 ->treatFalseLike([])
                                 ->prototype('variable')->end()
+                            ->end()
+                            ->booleanNode('is_public')
+                                ->info('If true, the service will be public, else private.')
+                                ->defaultTrue()
                             ->end()
                         ->end()
                     ->end()
