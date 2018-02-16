@@ -38,7 +38,6 @@ abstract class AbstractSignatureSource implements Source
                                 ->info('A list of supported signature algorithms.')
                                 ->useAttributeAsKey('name')
                                 ->isRequired()
-                                ->cannotBeEmpty()
                                 ->requiresAtLeastOneElement()
                                 ->scalarPrototype()->end()
                             ->end()
