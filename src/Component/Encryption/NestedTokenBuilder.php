@@ -90,8 +90,7 @@ class NestedTokenBuilder
             ->withPayload($token)
             ->withSharedProtectedHeader($jweSharedProtectedHeader)
             ->withSharedHeader($jweSharedHeader)
-            ->withAAD($aad)
-        ;
+            ->withAAD($aad);
         foreach ($recipients as $recipient) {
             if (!is_array($recipient) || !array_key_exists('key', $recipient)) {
                 throw new \InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');
