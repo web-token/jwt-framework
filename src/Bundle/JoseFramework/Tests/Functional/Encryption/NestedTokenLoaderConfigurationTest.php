@@ -144,7 +144,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
                 [
                     'nested_token_loaders' => [
                         'foo' => [
-                            'signature_algorithms' => ['RS256'],
+                            'signature_algorithms'      => ['RS256'],
                             'key_encryption_algorithms' => ['RSA-OAEP'],
                         ],
                     ],
@@ -164,8 +164,8 @@ class NestedTokenLoaderConfigurationTest extends TestCase
                 [
                     'nested_token_loaders' => [
                         'foo' => [
-                            'signature_algorithms' => ['RS256'],
-                            'key_encryption_algorithms' => ['RSA-OAEP'],
+                            'signature_algorithms'          => ['RS256'],
+                            'key_encryption_algorithms'     => ['RSA-OAEP'],
                             'content_encryption_algorithms' => ['A128GCM'],
                         ],
                     ],
