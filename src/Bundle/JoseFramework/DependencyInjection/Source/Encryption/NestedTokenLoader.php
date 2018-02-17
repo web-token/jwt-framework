@@ -19,10 +19,10 @@ use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\NestedTokenLoaderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
 class NestedTokenLoader implements Source
@@ -48,7 +48,7 @@ class NestedTokenLoader implements Source
 
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = sprintf('jose.nested_token_loader.%s', $name);
-            $definition = new Definition(NestedTokenLoader::class);
+            $definition = new Definition(self::class);
             $definition
                 ->setFactory([new Reference(NestedTokenLoaderFactory::class), 'create'])
                 ->setArguments([

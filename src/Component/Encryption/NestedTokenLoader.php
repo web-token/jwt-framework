@@ -47,9 +47,9 @@ class NestedTokenLoader
      * @param JWKSet   $signatureKeySet
      * @param int|null $signature
      *
-     * @return JWS
-     *
      * @throws \Exception
+     *
+     * @return JWS
      */
     public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$signature = null): JWS
     {
