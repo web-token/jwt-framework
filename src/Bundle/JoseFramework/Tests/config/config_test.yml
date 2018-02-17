@@ -74,6 +74,12 @@ jose:
                 content_encryption_algorithms: ['A256CBC-HS512']
                 compression_methods: []
                 is_public: true
+    nested_token_loaders:
+        nested_token_loader_1:
+            signature_algorithms: ['PS256']
+            key_encryption_algorithms: ['RSA-OAEP']
+            content_encryption_algorithms: ['A128GCM']
+            is_public: true
     keys:
         jwk1:
             jwk:

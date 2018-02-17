@@ -73,6 +73,7 @@ class JoseFrameworkBundle extends Bundle
             new Source\Console\ConsoleSource(),
             new Source\Signature\SignatureSource(),
             new Source\Encryption\EncryptionSource(),
+            new Source\Encryption\NestedTokenLoader(),
             new Source\KeyManagement\KeyManagementSource(),
         ];
     }

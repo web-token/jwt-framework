@@ -81,7 +81,7 @@ class JWKUriSource implements Source
                                 ->useAttributeAsKey('name')
                                 ->treatNullLike([])
                                 ->treatFalseLike([])
-                                ->prototype('variable')->end()
+                                ->variablePrototype()->end()
                             ->end()
                             ->booleanNode('is_public')
                                 ->info('If true, the service will be public, else private.')
