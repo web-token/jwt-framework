@@ -179,6 +179,53 @@ class NestedTokenBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
+    public function theConfigurationIsInvalidIfNoJwsSerializerIsSet()
+    {
+        $this->assertConfigurationIsInvalid(
+            [
+                [
+                    'nested_token' => [
+                        'builders' => [
+                            'foo' => [
+                                'signature_algorithms'          => ['RS256'],
+                                'key_encryption_algorithms'     => ['RSA-OAEP'],
+                                'content_encryption_algorithms' => ['A128GCM'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'The child node "jws_serializers" at path "jose.nested_token.builders.foo" must be configured.'
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function theConfigurationIsInvalidIfNoJweSerializerIsSet()
+    {
+        $this->assertConfigurationIsInvalid(
+            [
+                [
+                    'nested_token' => [
+                        'builders' => [
+                            'foo' => [
+                                'signature_algorithms'          => ['RS256'],
+                                'key_encryption_algorithms'     => ['RSA-OAEP'],
+                                'content_encryption_algorithms' => ['A128GCM'],
+                                'jws_serializers'               => ['jws_compact'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'The child node "jwe_serializers" at path "jose.nested_token.builders.foo" must be configured.'
+        );
+    }
+
+    /**
+     * @test
+     */
     public function theConfigurationIsValid()
     {
         $this->assertConfigurationIsValid(
@@ -190,6 +237,8 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                                 'signature_algorithms'          => ['RS256'],
                                 'key_encryption_algorithms'     => ['RSA-OAEP'],
                                 'content_encryption_algorithms' => ['A128GCM'],
+                                'jws_serializers'               => ['jws_compact'],
+                                'jwe_serializers'               => ['jwe_compact'],
                             ],
                         ],
                     ],
