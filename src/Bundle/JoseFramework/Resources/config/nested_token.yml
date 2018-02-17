@@ -5,3 +5,4 @@ services:
         public: true
 
     Jose\Component\Encryption\NestedTokenLoaderFactory: ~
+    Jose\Component\Encryption\NestedTokenBuilderFactory: ~

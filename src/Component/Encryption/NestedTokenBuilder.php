@@ -1,0 +1,102 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2018 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
+namespace Jose\Component\Encryption;
+
+use Jose\Component\Encryption\Serializer\JWESerializerManager;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\Serializer\JWSSerializerManager;
+
+class NestedTokenBuilder
+{
+    /**
+     * @var JWSBuilder
+     */
+    private $jwsBuilder;
+
+    /**
+     * @var JWSSerializerManager
+     */
+    private $jwsSerializerManager;
+
+    /**
+     * @var JWEBuilder
+     */
+    private $jweBuilder;
+
+    /**
+     * @var JWESerializerManager
+     */
+    private $jweSerializerManager;
+
+    /**
+     * NestedTokenBuilder constructor.
+     *
+     * @param JWEBuilder           $jweBuilder
+     * @param JWESerializerManager $jweSerializerManager
+     * @param JWSBuilder           $jwsBuilder
+     * @param JWSSerializerManager $jwsSerializerManager
+     */
+    public function __construct(JWEBuilder $jweBuilder, JWESerializerManager $jweSerializerManager, JWSBuilder $jwsBuilder, JWSSerializerManager $jwsSerializerManager)
+    {
+        $this->jweBuilder = $jweBuilder;
+        $this->jwsSerializerManager = $jwsSerializerManager;
+        $this->jwsBuilder = $jwsBuilder;
+        $this->jweSerializerManager = $jweSerializerManager;
+    }
+
+    /**
+     * @param string  $payload
+     * @param array[] $signatures
+     * @param string  $jws_serialization_mode
+     * @param array   $jweSharedProtectedHeader
+     * @param array   $jweSharedHeader
+     * @param array[] $recipients
+     * @param string  $jwe_serialization_mode
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function create(string $payload, array $signatures, string $jws_serialization_mode, array $jweSharedProtectedHeader, array $jweSharedHeader, array $recipients, string $jwe_serialization_mode): string
+    {
+        $jws = $this->jwsBuilder->create()->withPayload($payload);
+        foreach ($signatures as $signature) {
+            if (!is_array($signature) || !array_key_exists('key', $signature) || !array_key_exists('protected_header', $signature) || !array_key_exists('header', $signature)) {
+                throw new \InvalidArgumentException('The signatures must be an array of arrays containing a key, a protected header and a header');
+            }
+            $jws = $jws->addSignature($signature['key'], $signature['protected_header'], $signature['header']);
+        }
+        $jws = $jws->build();
+        $token = $this->jwsSerializerManager->serialize($jws_serialization_mode, $jws);
+
+        $jweSharedProtectedHeader['cty'] = 'JWT';
+
+        $jwe = $this->jweBuilder
+            ->create()
+            ->withPayload($token)
+            ->withSharedProtectedHeader($jweSharedProtectedHeader)
+            ->withSharedHeader($jweSharedHeader)
+        ;
+        foreach ($recipients as $recipient) {
+            if (!is_array($recipient) || !array_key_exists('key', $recipient) || !array_key_exists('header', $recipient)) {
+                throw new \InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');
+            }
+            $jwe = $jwe->addRecipient($recipient['key'], $recipient['header']);
+        }
+        $jwe = $jwe->build();
+        $token = $this->jweSerializerManager->serialize($jwe_serialization_mode, $jwe);
+
+        return $token;
+    }
+}

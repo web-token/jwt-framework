@@ -144,24 +144,62 @@ class ConfigurationHelper
     {
         $config = [
             self::BUNDLE_ALIAS => [
-                'nested_token_loaders' => [
-                    $name => [
-                        'is_public'                     => $is_public,
-                        'jwe_serializers'               => $jwe_serializers,
-                        'key_encryption_algorithms'     => $key_encryption_algorithms,
-                        'content_encryption_algorithms' => $content_encryption_algorithms,
-                        'compression_methods'           => $compression_methods,
-                        'jwe_header_checkers'           => $jwe_header_checkers,
-                        'jws_serializers'               => $jws_serializers,
-                        'signature_algorithms'          => $signature_algorithms,
-                        'jws_header_checkers'           => $jws_header_checkers,
-                        'tags'                          => $tags,
+                'nested_token' => [
+                    'loaders' => [
+                        $name => [
+                            'is_public'                     => $is_public,
+                            'jwe_serializers'               => $jwe_serializers,
+                            'key_encryption_algorithms'     => $key_encryption_algorithms,
+                            'content_encryption_algorithms' => $content_encryption_algorithms,
+                            'compression_methods'           => $compression_methods,
+                            'jwe_header_checkers'           => $jwe_header_checkers,
+                            'jws_serializers'               => $jws_serializers,
+                            'signature_algorithms'          => $signature_algorithms,
+                            'jws_header_checkers'           => $jws_header_checkers,
+                            'tags'                          => $tags,
+                        ],
                     ],
                 ],
             ],
         ];
 
-        self::updateJoseConfiguration($container, $config, 'nested_token_loaders');
+        self::updateJoseConfiguration($container, $config, 'nested_token');
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $name
+     * @param string[]         $jwe_serializers
+     * @param string[]         $key_encryption_algorithms
+     * @param string[]         $content_encryption_algorithms
+     * @param string[]         $compression_methods
+     * @param string[]         $jws_serializers
+     * @param string[]         $signature_algorithms
+     * @param bool             $is_public
+     * @param array            $tags
+     */
+    public static function addNestedTokenBuilder(ContainerBuilder $container, string $name, array $jwe_serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $jws_serializers, array $signature_algorithms, bool $is_public = true, array $tags = [])
+    {
+        $config = [
+            self::BUNDLE_ALIAS => [
+                'nested_token' => [
+                    'builders' => [
+                        $name => [
+                            'is_public'                     => $is_public,
+                            'jwe_serializers'               => $jwe_serializers,
+                            'key_encryption_algorithms'     => $key_encryption_algorithms,
+                            'content_encryption_algorithms' => $content_encryption_algorithms,
+                            'compression_methods'           => $compression_methods,
+                            'jws_serializers'               => $jws_serializers,
+                            'signature_algorithms'          => $signature_algorithms,
+                            'tags'                          => $tags,
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        self::updateJoseConfiguration($container, $config, 'nested_token');
     }
 
     /**

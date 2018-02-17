@@ -39,6 +39,18 @@ class NestedTokenLoaderFactory
         $this->jwsLoaderFactory = $jwsLoaderFactory;
     }
 
+    /**
+     * @param array $jweSerializers
+     * @param array $keyEncryptionAlgorithms
+     * @param array $contentEncryptionAlgorithms
+     * @param array $compressionMethods
+     * @param array $jweHeaderCheckers
+     * @param array $jwsSerializers
+     * @param array $signatureAlgorithms
+     * @param array $jwsHeaderCheckers
+     *
+     * @return NestedTokenLoader
+     */
     public function create(array $jweSerializers, array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $jweHeaderCheckers, array $jwsSerializers, array $signatureAlgorithms, array $jwsHeaderCheckers): NestedTokenLoader
     {
         $jweLoader = $this->jweLoaderFactory->create($jweSerializers, $keyEncryptionAlgorithms, $contentEncryptionAlgorithms, $compressionMethods, $jweHeaderCheckers);

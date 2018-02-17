@@ -63,5 +63,6 @@ class TestExtension extends Extension implements PrependExtensionInterface
         ConfigurationHelper::addJWESerializer($container, 'jwe_serializer2', ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general'], true);
         ConfigurationHelper::addJWELoader($container, 'jwe_loader2', ['jwe_compact'], ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], [], true);
         ConfigurationHelper::addNestedTokenLoader($container, 'nested_token_loader_2', ['jwe_compact'], ['RSA-OAEP'], ['A128GCM'], ['DEF'], [], ['jws_compact'], ['PS256'], [], true, []);
+        ConfigurationHelper::addNestedTokenBuilder($container, 'nested_token_builder_2', ['jwe_compact'], ['RSA-OAEP'], ['A128GCM'], ['DEF'], ['jws_compact'], ['PS256'], true, []);
     }
 }

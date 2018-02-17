@@ -14,20 +14,20 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Component\Encryption\NestedTokenLoaderFactory;
+use Jose\Component\Encryption\NestedTokenBuilderFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class NestedTokenLoader implements Source
+class NestedTokenBuilder implements Source
 {
     /**
      * {@inheritdoc}
      */
     public function name(): string
     {
-        return 'loaders';
+        return 'builders';
     }
 
     /**
@@ -36,21 +36,19 @@ class NestedTokenLoader implements Source
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.nested_token_loader.%s', $name);
+            $service_id = sprintf('jose.nested_token_builder.%s', $name);
             $definition = new Definition(self::class);
             $definition
-                ->setFactory([new Reference(NestedTokenLoaderFactory::class), 'create'])
+                ->setFactory([new Reference(NestedTokenBuilderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['jwe_serializers'],
                     $itemConfig['key_encryption_algorithms'],
                     $itemConfig['content_encryption_algorithms'],
                     $itemConfig['compression_methods'],
-                    $itemConfig['jwe_header_checkers'],
                     $itemConfig['jws_serializers'],
                     $itemConfig['signature_algorithms'],
-                    $itemConfig['jws_header_checkers'],
                 ])
-                ->addTag('jose.nested_token_loader')
+                ->addTag('jose.nested_token_builder')
                 ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
@@ -110,20 +108,6 @@ class NestedTokenLoader implements Source
                             ->treatNullLike([])
                             ->treatFalseLike([])
                             ->requiresAtLeastOneElement()
-                            ->scalarPrototype()->end()
-                        ->end()
-                        ->arrayNode('jws_header_checkers')
-                            ->info('A list of header checker aliases.')
-                            ->useAttributeAsKey('name')
-                            ->treatNullLike([])
-                            ->treatFalseLike([])
-                            ->scalarPrototype()->end()
-                        ->end()
-                        ->arrayNode('jwe_header_checkers')
-                            ->info('A list of header checker aliases.')
-                            ->useAttributeAsKey('name')
-                            ->treatNullLike([])
-                            ->treatFalseLike([])
                             ->scalarPrototype()->end()
                         ->end()
                         ->arrayNode('tags')
