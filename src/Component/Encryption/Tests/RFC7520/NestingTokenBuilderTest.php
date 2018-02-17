@@ -96,13 +96,13 @@ class NestingTokenBuilderTest extends TestCase
         $nestedTokenBuilder->create(
             $payload,
             [
-                ['key' => $signature_key, 'protected_header' => ['alg' => 'PS256'], 'header' => []]
+                ['key' => $signature_key, 'protected_header' => ['alg' => 'PS256'], 'header' => []],
             ],
             'jws_compact',
             ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
             [],
             [
-                ['key' => $encryption_key, 'header' => []]
+                ['key' => $encryption_key, 'header' => []],
             ],
             'jwe_compact'
         );

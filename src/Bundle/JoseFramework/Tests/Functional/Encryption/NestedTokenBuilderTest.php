@@ -15,7 +15,6 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\JWK;
-use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\NestedTokenBuilder;
 use Jose\Component\Encryption\NestedTokenBuilderFactory;
@@ -123,15 +122,15 @@ class NestedTokenBuilderTest extends WebTestCase
         $token = $builder->create(
             $payload,
             [[
-                'key' => $signature_key,
+                'key'              => $signature_key,
                 'protected_header' => ['alg' => 'PS256'],
-                'header' => [],
+                'header'           => [],
             ]],
             'jws_compact',
             ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
             [],
             [[
-                'key' => $encryption_key,
+                'key'    => $encryption_key,
                 'header' => [],
             ]],
             'jwe_compact'

@@ -64,9 +64,9 @@ class NestedTokenBuilder
      * @param array[] $recipients
      * @param string  $jwe_serialization_mode
      *
-     * @return string
-     *
      * @throws \Exception
+     *
+     * @return string
      */
     public function create(string $payload, array $signatures, string $jws_serialization_mode, array $jweSharedProtectedHeader, array $jweSharedHeader, array $recipients, string $jwe_serialization_mode): string
     {
@@ -86,8 +86,7 @@ class NestedTokenBuilder
             ->create()
             ->withPayload($token)
             ->withSharedProtectedHeader($jweSharedProtectedHeader)
-            ->withSharedHeader($jweSharedHeader)
-        ;
+            ->withSharedHeader($jweSharedHeader);
         foreach ($recipients as $recipient) {
             if (!is_array($recipient) || !array_key_exists('key', $recipient) || !array_key_exists('header', $recipient)) {
                 throw new \InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');

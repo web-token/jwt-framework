@@ -39,6 +39,7 @@ class NestedToken implements Source
             new NestedTokenBuilder(),
         ];
     }
+
     /**
      * {@inheritdoc}
      */
