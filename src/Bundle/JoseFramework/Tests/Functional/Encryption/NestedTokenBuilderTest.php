@@ -119,19 +119,17 @@ class NestedTokenBuilderTest extends WebTestCase
 
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
 
-        $token = $builder->create(
+        $builder->create(
             $payload,
             [[
                 'key'              => $signature_key,
                 'protected_header' => ['alg' => 'PS256'],
-                'header'           => [],
             ]],
             'jws_compact',
             ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
             [],
             [[
                 'key'    => $encryption_key,
-                'header' => [],
             ]],
             'jwe_compact'
         );
@@ -182,19 +180,17 @@ class NestedTokenBuilderTest extends WebTestCase
 
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
 
-        $token = $builder->create(
+        $builder->create(
             $payload,
             [[
                 'key'              => $signature_key,
                 'protected_header' => ['alg' => 'PS256'],
-                'header'           => [],
             ]],
             'jws_compact',
             ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
             [],
             [[
                 'key'    => $encryption_key,
-                'header' => [],
             ]],
             'jwe_compact'
         );
