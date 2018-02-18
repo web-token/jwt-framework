@@ -81,7 +81,7 @@ class ClaimChecker implements Source
                                 ->useAttributeAsKey('name')
                                 ->treatNullLike([])
                                 ->treatFalseLike([])
-                                ->prototype('variable')
+                                ->variablePrototype()
                                 ->end()
                             ->end()
                         ->end()

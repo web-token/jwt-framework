@@ -46,7 +46,7 @@ abstract class AbstractSignatureSource implements Source
                                 ->useAttributeAsKey('name')
                                 ->treatNullLike([])
                                 ->treatFalseLike([])
-                                ->prototype('variable')->end()
+                                ->variablePrototype()->end()
                             ->end()
                         ->end()
                     ->end()
