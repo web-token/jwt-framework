@@ -15,10 +15,6 @@ namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\ClaimCheckerManager;
-use Jose\Component\Checker\ClaimCheckerManagerFactory;
-use Jose\Component\Checker\ExpirationTimeChecker;
-use Jose\Component\Checker\IssuedAtChecker;
-use Jose\Component\Checker\NotBeforeChecker;
 use PHPUnit\Framework\TestCase;
 
 /**
