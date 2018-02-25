@@ -18,7 +18,7 @@ interface ClaimChecker
     /**
      * @param mixed $value
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidClaimException
      */
     public function checkClaim($value);
 

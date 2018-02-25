@@ -64,12 +64,17 @@ class ClaimCheckerManager
     }
 
     /**
-     * @param array $claims
+     * @param array    $claims
+     * @param string[] $mandatoryClaims
      *
      * @return array
+     *
+     * @throws InvalidClaimException
+     * @throws MissingMandatoryClaimException
      */
-    public function check(array $claims): array
+    public function check(array $claims, array $mandatoryClaims = []): array
     {
+        $this->checkMandatoryClaims($mandatoryClaims, $claims);
         $checkedClaims = [];
         foreach ($this->checkers as $claim => $checker) {
             if (array_key_exists($claim, $claims)) {
@@ -79,5 +84,23 @@ class ClaimCheckerManager
         }
 
         return $checkedClaims;
+    }
+
+    /**
+     * @param string[] $mandatoryClaims
+     * @param array    $claims
+     *
+     * @throws MissingMandatoryClaimException
+     */
+    private function checkMandatoryClaims(array $mandatoryClaims, array $claims)
+    {
+        if(empty($mandatoryClaims)) {
+            return;
+        }
+        $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
+
+        if (!empty($diff)) {
+            throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', implode(', ', $diff)), $diff);
+        }
     }
 }

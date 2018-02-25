@@ -127,6 +127,21 @@ class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
+     * @expectedException \Jose\Component\Checker\MissingMandatoryHeaderParameterException
+     * @expectedExceptionMessage The following header parameters are mandatory: mandatory.
+     */
+    public function theHeaderDoesNotContainSomeMandatoryParameters()
+    {
+        $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
+        $payload = [];
+        $protected = ['aud' => 'Audience', 'iss' => 'Another Service'];
+        $unprotected = ['foo' => 'bar'];
+        $token = Token::create(json_encode($payload), $protected, $unprotected);
+        $headerCheckerManager->check($token, 0, ['aud', 'iss', 'mandatory']);
+    }
+
+    /**
+     * @test
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unsupported token type.
      */

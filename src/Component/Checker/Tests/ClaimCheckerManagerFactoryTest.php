@@ -73,6 +73,25 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     }
 
     /**
+     * @test
+     * @expectedException \Jose\Component\Checker\MissingMandatoryClaimException
+     * @expectedExceptionMessage The following claims are mandatory: bar.
+     */
+    public function theMandatoryClaimsAreNotSet()
+    {
+        $payload = [
+            'exp' => time() + 3600,
+            'iat' => time() - 1000,
+            'nbf' => time() - 100,
+            'foo' => 'bar',
+        ];
+        $expected = $payload;
+        unset($expected['foo']);
+        $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
+        $manager->check($payload, ['exp', 'foo', 'bar']);
+    }
+
+    /**
      * @var ClaimCheckerManagerFactory|null
      */
     private $claimCheckerManagerFactory = null;
