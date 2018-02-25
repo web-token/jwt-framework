@@ -67,10 +67,10 @@ class ClaimCheckerManager
      * @param array    $claims
      * @param string[] $mandatoryClaims
      *
-     * @return array
-     *
      * @throws InvalidClaimException
      * @throws MissingMandatoryClaimException
+     *
+     * @return array
      */
     public function check(array $claims, array $mandatoryClaims = []): array
     {
@@ -94,7 +94,7 @@ class ClaimCheckerManager
      */
     private function checkMandatoryClaims(array $mandatoryClaims, array $claims)
     {
-        if(empty($mandatoryClaims)) {
+        if (empty($mandatoryClaims)) {
             return;
         }
         $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
