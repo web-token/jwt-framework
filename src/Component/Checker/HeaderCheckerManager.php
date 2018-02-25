@@ -134,7 +134,7 @@ class HeaderCheckerManager
      */
     private function checkMandatoryHeaderParameters(array $mandatoryHeaderParameters, array $protected, array $unprotected)
     {
-        if(empty($mandatoryHeaderParameters)) {
+        if (empty($mandatoryHeaderParameters)) {
             return;
         }
         $diff = array_keys(array_diff_key(array_flip($mandatoryHeaderParameters), array_merge($protected, $unprotected)));
