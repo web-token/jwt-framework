@@ -47,7 +47,7 @@ class HeaderCheckerManager
      * This method creates the HeaderCheckerManager.
      * The first argument is a list of header parameter checkers objects.
      * The second argument is a list of token type support objects.
-     * It is recommended to support only one token type per manager
+     * It is recommended to support only one token type per manager.
      *
      * @param HeaderChecker[]    $checkers
      * @param TokenTypeSupport[] $tokenTypes
