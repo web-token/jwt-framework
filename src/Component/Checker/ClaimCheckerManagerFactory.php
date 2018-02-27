@@ -21,6 +21,9 @@ class ClaimCheckerManagerFactory
     private $checkers = [];
 
     /**
+     * This method creates a Claim Checker Manager and populate it with the claim checkers found based on the alias.
+     * If the alias is not supported, an InvalidArgumentException is thrown.
+     *
      * @param string[] $aliases
      *
      * @return ClaimCheckerManager
@@ -40,6 +43,8 @@ class ClaimCheckerManagerFactory
     }
 
     /**
+     * This method adds a claim checker to this factory.
+     *
      * @param string       $alias
      * @param ClaimChecker $checker
      *
@@ -53,6 +58,8 @@ class ClaimCheckerManagerFactory
     }
 
     /**
+     * Returns all claim checker aliases supported by this factory.
+     *
      * @return string[]
      */
     public function aliases(): array
@@ -61,6 +68,8 @@ class ClaimCheckerManagerFactory
     }
 
     /**
+     * Returns all claim checkers supported by this factory.
+     *
      * @return ClaimChecker[]
      */
     public function all(): array

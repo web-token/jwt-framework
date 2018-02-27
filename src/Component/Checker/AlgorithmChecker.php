@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * This class is a header parameter checker.
+ * When the "alg" header parameter is present, it will check if the value is within the allowed ones.
+ */
 class AlgorithmChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'alg';

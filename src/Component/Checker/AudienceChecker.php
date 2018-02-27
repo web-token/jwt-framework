@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * This class is a header parameter and claim checker.
+ * When the "aud" header parameter or claim is present, it will check if the value is within the allowed ones.
+ */
 class AudienceChecker implements ClaimChecker, HeaderChecker
 {
     private const CLAIM_NAME = 'aud';

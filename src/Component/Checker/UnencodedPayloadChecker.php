@@ -13,6 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * This class is a header parameter checker.
+ * When the "b64" is present, it will check if the value is a boolean or not.
+ *
+ * The use of this checker will allow the use of token with unencoded payload.
+ */
 class UnencodedPayloadChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'b64';

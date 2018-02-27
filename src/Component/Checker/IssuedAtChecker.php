@@ -13,6 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * This class is a claim checker.
+ * When the "iat" is present, it will compare the value with the current timestamp.
+ *
+ * A time drift is allowed but its use is NOT recommended.
+ */
 class IssuedAtChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'iat';

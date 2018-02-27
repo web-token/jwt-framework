@@ -29,18 +29,18 @@ class JWETokenSupport implements TokenTypeSupport
     /**
      * {@inheritdoc}
      */
-    public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
+    public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof JWE) {
             return;
         }
 
-        if ($component > $jwt->countRecipients()) {
+        if ($index > $jwt->countRecipients()) {
             throw new \InvalidArgumentException('Unknown recipient index.');
         }
         $protectedHeader = $jwt->getSharedProtectedHeader();
         $unprotectedHeader = $jwt->getSharedHeader();
-        $recipient = $jwt->getRecipient($component)->getHeader();
+        $recipient = $jwt->getRecipient($index)->getHeader();
 
         $unprotectedHeader = array_merge(
             $unprotectedHeader,
