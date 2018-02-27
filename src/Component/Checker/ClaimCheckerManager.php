@@ -81,9 +81,9 @@ class ClaimCheckerManager
      *
      * @param array $claims
      *
-     * @return array
-     *
      * @throws InvalidClaimException
+     *
+     * @return array
      */
     public function check(array $claims): array
     {

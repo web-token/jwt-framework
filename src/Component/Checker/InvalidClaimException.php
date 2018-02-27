@@ -44,7 +44,7 @@ class InvalidClaimException extends \Exception
     }
 
     /**
-     * Returns the claim that caused the exception
+     * Returns the claim that caused the exception.
      *
      * @return string
      */
@@ -54,7 +54,7 @@ class InvalidClaimException extends \Exception
     }
 
     /**
-     * Returns the claim value that caused the exception
+     * Returns the claim value that caused the exception.
      *
      * @return mixed
      */

@@ -44,7 +44,7 @@ class InvalidHeaderException extends \Exception
     }
 
     /**
-     * Returns the header parameter that caused the exception
+     * Returns the header parameter that caused the exception.
      *
      * @return string
      */
@@ -54,7 +54,7 @@ class InvalidHeaderException extends \Exception
     }
 
     /**
-     * Returns the header parameter value that caused the exception
+     * Returns the header parameter value that caused the exception.
      *
      * @return mixed
      */
