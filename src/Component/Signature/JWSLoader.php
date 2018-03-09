@@ -81,7 +81,7 @@ class JWSLoader
 
     /**
      * This method will try to load and verify the token using the given key.
-     * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown
+     * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown.
      *
      * @param string      $token
      * @param JWK         $key
@@ -101,7 +101,7 @@ class JWSLoader
 
     /**
      * This method will try to load and verify the token using the given key set.
-     * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown
+     * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown.
      *
      * @param string      $token
      * @param JWKSet      $keyset

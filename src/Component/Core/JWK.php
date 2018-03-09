@@ -145,7 +145,7 @@ class JWK implements \JsonSerializable
      * This method has no effect for:
      * - public keys
      * - shared keys
-     * - unknown keys
+     * - unknown keys.
      *
      * Known keys are "oct", "RSA", "EC" and "OKP".
      *

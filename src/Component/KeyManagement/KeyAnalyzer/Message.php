@@ -90,7 +90,7 @@ class Message implements \JsonSerializable
     }
 
     /**
-     * Returns the severity of the message
+     * Returns the severity of the message.
      *
      * @return string
      */

@@ -39,7 +39,7 @@ class AlgorithmManagerFactory
     }
 
     /**
-     * Returns the list of aliases
+     * Returns the list of aliases.
      *
      * @return string[]
      */
@@ -50,7 +50,7 @@ class AlgorithmManagerFactory
 
     /**
      * Returns all algorithms supported by this factory.
-     * This is an associative array. Keys are the aliases of the algorithms
+     * This is an associative array. Keys are the aliases of the algorithms.
      *
      * @return Algorithm[]
      */

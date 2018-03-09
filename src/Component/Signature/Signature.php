@@ -55,6 +55,7 @@ class Signature
      * Creates a new signature.
      *
      * @internal
+     *
      * @param string      $signature
      * @param array       $protectedHeader
      * @param string|null $encodedProtectedHeader

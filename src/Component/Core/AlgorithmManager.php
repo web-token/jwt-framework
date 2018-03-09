@@ -45,7 +45,7 @@ class AlgorithmManager
     }
 
     /**
-     * Returns true if the algorithm is supported
+     * Returns true if the algorithm is supported.
      *
      * @param string $algorithm The algorithm
      *
@@ -57,7 +57,7 @@ class AlgorithmManager
     }
 
     /**
-     * Returns the list of names of supported algorithms
+     * Returns the list of names of supported algorithms.
      *
      * @return string[]
      */
@@ -67,7 +67,7 @@ class AlgorithmManager
     }
 
     /**
-     * Returns the algorithm if supported, otherwise throw an exception
+     * Returns the algorithm if supported, otherwise throw an exception.
      *
      * @param string $algorithm The algorithm
      *

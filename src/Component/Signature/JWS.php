@@ -129,6 +129,7 @@ class JWS implements JWT
      * Its returns a new JWS object.
      *
      * @internal
+     *
      * @param string      $signature
      * @param array       $protectedHeader
      * @param string|null $encodedProtectedHeader

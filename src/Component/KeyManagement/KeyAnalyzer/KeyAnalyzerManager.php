@@ -23,7 +23,7 @@ class KeyAnalyzerManager
     private $analyzers = [];
 
     /**
-     * Adds a Key Analyzer to the manager
+     * Adds a Key Analyzer to the manager.
      *
      * @param KeyAnalyzer $analyzer
      *
