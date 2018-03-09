@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Tests\NewAlgorithm;
 
 use Base64Url\Base64Url;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_16_128;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_16_64;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_64_128;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_16_128;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_64_64;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_16_128;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_64_128;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_16_64;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_64_128;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_16_128;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_64_64;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_64_128;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\AESCCM;
 use Jose\Component\Encryption\Tests\EncryptionTest;
 

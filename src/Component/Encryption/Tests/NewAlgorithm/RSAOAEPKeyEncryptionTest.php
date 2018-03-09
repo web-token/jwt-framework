@@ -26,11 +26,13 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  */
 class RSAOAEPKeyEncryptionTest extends EncryptionTest
 {
+    /**
+     */
     public function testRSAOAEP384EncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new RSAOAEP384();
-        $cek = random_bytes(256 / 8);
+        $cek = random_bytes(256/8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];
@@ -40,11 +42,13 @@ class RSAOAEPKeyEncryptionTest extends EncryptionTest
         self::assertEquals($cek, $decrypted);
     }
 
+    /**
+     */
     public function testRSAOAEP512EncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new RSAOAEP512();
-        $cek = random_bytes(256 / 8);
+        $cek = random_bytes(256/8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];

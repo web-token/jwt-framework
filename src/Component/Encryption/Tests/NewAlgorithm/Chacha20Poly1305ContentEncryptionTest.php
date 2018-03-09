@@ -23,11 +23,14 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  */
 class Chacha20Poly1305ContentEncryptionTest extends EncryptionTest
 {
+    /**
+     *
+     */
     public function testContentEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new Chacha20Poly1305();
-        $cek = random_bytes(256 / 8);
+        $cek = random_bytes(256/8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];

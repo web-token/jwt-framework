@@ -25,11 +25,13 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  */
 class AESCTRContentEncryptionTest extends EncryptionTest
 {
+    /**
+     */
     public function testA128CTRKeyEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new A128CTR();
-        $cek = random_bytes(256 / 8);
+        $cek = random_bytes(256/8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];
@@ -39,11 +41,13 @@ class AESCTRContentEncryptionTest extends EncryptionTest
         self::assertEquals($cek, $decrypted);
     }
 
+    /**
+     */
     public function testA192CTRKeyEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new A192CTR();
-        $cek = random_bytes(256 / 8);
+        $cek = random_bytes(256/8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];
@@ -53,11 +57,13 @@ class AESCTRContentEncryptionTest extends EncryptionTest
         self::assertEquals($cek, $decrypted);
     }
 
+    /**
+     */
     public function testA256CTRKeyEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new A256CTR();
-        $cek = random_bytes(256 / 8);
+        $cek = random_bytes(256/8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];
