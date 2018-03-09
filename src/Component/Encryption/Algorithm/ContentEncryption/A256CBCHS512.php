@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
-class A256CBCHS512 extends AESCBCHS
+final class A256CBCHS512 extends AESCBCHS
 {
     /**
      * {@inheritdoc}

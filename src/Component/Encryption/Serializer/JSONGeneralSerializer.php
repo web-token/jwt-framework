@@ -18,7 +18,7 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
-class JSONGeneralSerializer implements JWESerializer
+final class JSONGeneralSerializer implements JWESerializer
 {
     public const NAME = 'jwe_json_general';
 

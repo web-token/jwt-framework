@@ -33,6 +33,8 @@ class JWSVerifierFactory
     }
 
     /**
+     * Creates a JWSVerifier using the given signature algorithm aliases.
+     *
      * @param string[] $algorithms
      *
      * @return JWSVerifier

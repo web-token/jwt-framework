@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-class GZip implements CompressionMethod
+final class GZip implements CompressionMethod
 {
     /**
      * @var int

@@ -42,14 +42,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     }
 
     /**
-     * @param string      $data
-     * @param string      $cek
-     * @param string      $iv
-     * @param string      $encoded_protected_header
-     * @param string|null $aad
-     * @param string      $tag
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string
     {
@@ -121,7 +114,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     abstract protected function getMode(): string;
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getIVSize(): int
     {

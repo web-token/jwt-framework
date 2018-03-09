@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * This exception is thrown by header parameter checkers when a header parameter check failed.
+ */
 class InvalidHeaderException extends \Exception
 {
     /**
@@ -41,6 +44,8 @@ class InvalidHeaderException extends \Exception
     }
 
     /**
+     * Returns the header parameter that caused the exception.
+     *
      * @return string
      */
     public function getHeader(): string
@@ -49,6 +54,8 @@ class InvalidHeaderException extends \Exception
     }
 
     /**
+     * Returns the header parameter value that caused the exception.
+     *
      * @return mixed
      */
     public function getValue()

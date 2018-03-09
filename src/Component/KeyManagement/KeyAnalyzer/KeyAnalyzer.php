@@ -18,6 +18,8 @@ use Jose\Component\Core\JWK;
 interface KeyAnalyzer
 {
     /**
+     * This method will analyse the key and add messages to the message bag if needed.
+     *
      * @param JWK        $jwk
      * @param MessageBag $bag
      */

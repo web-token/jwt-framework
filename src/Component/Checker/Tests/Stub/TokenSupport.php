@@ -21,7 +21,7 @@ class TokenSupport implements TokenTypeSupport
     /**
      * {@inheritdoc}
      */
-    public function retrieveTokenHeaders(JWT $jwt, int $signature, array &$protectedHeader, array &$unprotectedHeader): void
+    public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof Token) {
             throw new \InvalidArgumentException('Unsupported token.');

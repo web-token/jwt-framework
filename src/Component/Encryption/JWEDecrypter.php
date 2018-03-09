@@ -60,6 +60,8 @@ class JWEDecrypter
     }
 
     /**
+     * Returns the key encryption algorithm manager.
+     *
      * @return AlgorithmManager
      */
     public function getKeyEncryptionAlgorithmManager(): AlgorithmManager
@@ -68,6 +70,8 @@ class JWEDecrypter
     }
 
     /**
+     * Returns the content encryption algorithm manager.
+     *
      * @return AlgorithmManager
      */
     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
@@ -76,6 +80,8 @@ class JWEDecrypter
     }
 
     /**
+     * Returns the compression method manager.
+     *
      * @return CompressionMethodManager
      */
     public function getCompressionMethodManager(): CompressionMethodManager
@@ -84,6 +90,8 @@ class JWEDecrypter
     }
 
     /**
+     * This method will try to decrypt the given JWE and recipient using a JWK.
+     *
      * @param JWE $jwe       A JWE object to decrypt
      * @param JWK $jwk       The key used to decrypt the input
      * @param int $recipient The recipient used to decrypt the token
@@ -98,6 +106,8 @@ class JWEDecrypter
     }
 
     /**
+     * This method will try to decrypt the given JWE and recipient using a JWKSet.
+     *
      * @param JWE    $jwe       A JWE object to decrypt
      * @param JWKSet $jwkset    The key set used to decrypt the input
      * @param int    $recipient The recipient used to decrypt the token

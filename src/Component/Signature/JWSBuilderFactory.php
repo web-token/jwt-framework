@@ -41,6 +41,8 @@ class JWSBuilderFactory
     }
 
     /**
+     * This method creates a JWSBuilder using the given algorithm aliases.
+     *
      * @param string[] $algorithms
      *
      * @return JWSBuilder

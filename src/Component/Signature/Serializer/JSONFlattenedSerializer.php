@@ -17,7 +17,7 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 
-class JSONFlattenedSerializer extends Serializer
+final class JSONFlattenedSerializer extends Serializer
 {
     public const NAME = 'jws_json_flattened';
 

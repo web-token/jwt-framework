@@ -44,6 +44,8 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * Creates a message with severity=low.
+     *
      * @param string $message
      *
      * @return Message
@@ -54,6 +56,8 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * Creates a message with severity=medium.
+     *
      * @param string $message
      *
      * @return Message
@@ -64,6 +68,8 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * Creates a message with severity=high.
+     *
      * @param string $message
      *
      * @return Message
@@ -74,6 +80,8 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * Returns the message.
+     *
      * @return string
      */
     public function getMessage(): string
@@ -82,6 +90,8 @@ class Message implements \JsonSerializable
     }
 
     /**
+     * Returns the severity of the message.
+     *
      * @return string
      */
     public function getSeverity(): string

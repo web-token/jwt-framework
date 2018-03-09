@@ -52,6 +52,8 @@ class JWS implements JWT
     }
 
     /**
+     * Creates a JWS object.
+     *
      * @param string|null $payload
      * @param string|null $encodedPayload
      * @param bool        $isPayloadDetached
@@ -72,6 +74,8 @@ class JWS implements JWT
     }
 
     /**
+     * Returns true if the payload is detached.
+     *
      * @return bool
      */
     public function isPayloadDetached(): bool
@@ -80,6 +84,9 @@ class JWS implements JWT
     }
 
     /**
+     * Returns the Base64Url encoded payload.
+     * If the payload is detached, this method returns null.
+     *
      * @return string|null
      */
     public function getEncodedPayload(): ?string
@@ -92,7 +99,7 @@ class JWS implements JWT
     }
 
     /**
-     * Returns the signature associated with the JWS.
+     * Returns the signatures associated with the JWS.
      *
      * @return Signature[]
      */
@@ -102,6 +109,8 @@ class JWS implements JWT
     }
 
     /**
+     * Returns the signature at the given index.
+     *
      * @param int $id
      *
      * @return Signature
@@ -116,6 +125,11 @@ class JWS implements JWT
     }
 
     /**
+     * This method adds a signature to the JWS object.
+     * Its returns a new JWS object.
+     *
+     * @internal
+     *
      * @param string      $signature
      * @param array       $protectedHeader
      * @param string|null $encodedProtectedHeader
@@ -133,7 +147,6 @@ class JWS implements JWT
 
     /**
      * Returns the number of signature associated with the JWS.
-     *
      *
      * @return int
      */

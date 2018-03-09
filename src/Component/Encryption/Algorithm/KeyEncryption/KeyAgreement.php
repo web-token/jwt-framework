@@ -19,6 +19,8 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 interface KeyAgreement extends KeyEncryptionAlgorithm
 {
     /**
+     * Computes the agreement key.
+     *
      * @param int    $encryption_key_length    Size of the key expected for the algorithm used for data encryption
      * @param string $algorithm                The algorithm
      * @param JWK    $recipient_key            The recipient key. If the key is public, then an ephemeral private key will be created, else will try to find the ephemeral key in the header

@@ -56,6 +56,8 @@ class NestedTokenBuilder
     }
 
     /**
+     * Creates a nested token.
+     *
      * @param string      $payload
      * @param array[]     $signatures
      * @param string      $jws_serialization_mode

@@ -65,6 +65,8 @@ class JWSBuilder
     }
 
     /**
+     * Returns the algorithm manager associated to the builder.
+     *
      * @return AlgorithmManager
      */
     public function getSignatureAlgorithmManager(): AlgorithmManager
@@ -88,6 +90,9 @@ class JWSBuilder
     }
 
     /**
+     * Set the payload.
+     * This method will return a new JWSBuilder object.
+     *
      * @param string $payload
      * @param bool   $isPayloadDetached
      *
@@ -106,6 +111,9 @@ class JWSBuilder
     }
 
     /**
+     * Adds the information needed to compute the signature.
+     * This method will return a new JWSBuilder object.
+     *
      * @param JWK   $signatureKey
      * @param array $protectedHeader
      * @param array $header
@@ -137,6 +145,8 @@ class JWSBuilder
     }
 
     /**
+     * Computes all signatures and return the expected JWS object.
+     *
      * @return JWS
      */
     public function build(): JWS

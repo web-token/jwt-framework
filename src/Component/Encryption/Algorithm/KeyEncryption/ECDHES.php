@@ -21,7 +21,7 @@ use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Encryption\Util\ConcatKDF;
 use Jose\Component\Encryption\Util\Ecc\EcDH;
 
-class ECDHES implements KeyAgreement
+final class ECDHES implements KeyAgreement
 {
     /**
      * {@inheritdoc}

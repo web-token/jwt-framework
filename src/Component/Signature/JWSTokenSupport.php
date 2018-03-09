@@ -16,7 +16,7 @@ namespace Jose\Component\Signature;
 use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
-class JWSTokenSupport implements TokenTypeSupport
+final class JWSTokenSupport implements TokenTypeSupport
 {
     /**
      * {@inheritdoc}
@@ -29,16 +29,16 @@ class JWSTokenSupport implements TokenTypeSupport
     /**
      * {@inheritdoc}
      */
-    public function retrieveTokenHeaders(JWT $jwt, int $component, array &$protectedHeader, array &$unprotectedHeader): void
+    public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof JWS) {
             return;
         }
 
-        if ($component > $jwt->countSignatures()) {
+        if ($index > $jwt->countSignatures()) {
             throw new \InvalidArgumentException('Unknown signature index.');
         }
-        $protectedHeader = $jwt->getSignature($component)->getProtectedHeader();
-        $unprotectedHeader = $jwt->getSignature($component)->getHeader();
+        $protectedHeader = $jwt->getSignature($index)->getProtectedHeader();
+        $unprotectedHeader = $jwt->getSignature($index)->getHeader();
     }
 }

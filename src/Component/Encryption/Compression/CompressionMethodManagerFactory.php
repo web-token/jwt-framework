@@ -21,6 +21,10 @@ class CompressionMethodManagerFactory
     private $compressionMethods = [];
 
     /**
+     * This method adds a compression method to this factory.
+     * The method is uniquely identified by an alias. This allows the same method to be added twice (or more)
+     * using several configuration options.
+     *
      * @param string            $alias
      * @param CompressionMethod $compressionMethod
      *
@@ -37,6 +41,8 @@ class CompressionMethodManagerFactory
     }
 
     /**
+     * Returns the list of compression method aliases supported by the factory.
+     *
      * @return string[]
      */
     public function aliases(): array
@@ -45,6 +51,8 @@ class CompressionMethodManagerFactory
     }
 
     /**
+     * Returns all compression methods supported by this factory.
+     *
      * @return CompressionMethod[]
      */
     public function all(): array
@@ -53,6 +61,9 @@ class CompressionMethodManagerFactory
     }
 
     /**
+     * Creates a compression method manager using the compression methods identified by the given aliases.
+     * If one of the aliases does not exist, an exception is thrown.
+     *
      * @param string[] $aliases
      *
      * @return CompressionMethodManager

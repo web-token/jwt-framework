@@ -26,6 +26,9 @@ class HeaderCheckerManagerFactory
     private $tokenTypes = [];
 
     /**
+     * This method creates a Header Checker Manager and populate it with the header parameter checkers found based on the alias.
+     * If the alias is not supported, an InvalidArgumentException is thrown.
+     *
      * @param string[] $aliases
      *
      * @return HeaderCheckerManager
@@ -45,6 +48,10 @@ class HeaderCheckerManagerFactory
     }
 
     /**
+     * This method adds a header parameter checker to this factory.
+     * The checker is uniquely identified by an alias. This allows the same header parameter checker to be added twice (or more)
+     * using several configuration options.
+     *
      * @param string        $alias
      * @param HeaderChecker $checker
      *
@@ -58,6 +65,8 @@ class HeaderCheckerManagerFactory
     }
 
     /**
+     * This method adds a token type support to this factory.
+     *
      * @param TokenTypeSupport $tokenType
      *
      * @return HeaderCheckerManagerFactory
@@ -70,6 +79,8 @@ class HeaderCheckerManagerFactory
     }
 
     /**
+     * Returns all header parameter checker aliases supported by this factory.
+     *
      * @return string[]
      */
     public function aliases(): array
@@ -78,6 +89,8 @@ class HeaderCheckerManagerFactory
     }
 
     /**
+     * Returns all header parameter checkers supported by this factory.
+     *
      * @return HeaderChecker[]
      */
     public function all(): array

@@ -33,6 +33,9 @@ class JWK implements \JsonSerializable
     }
 
     /**
+     * Creates a JWK object using the given values.
+     * The member "kty" is mandatory. Other members are NOT checked.
+     *
      * @param array $values
      *
      * @return JWK
@@ -47,6 +50,8 @@ class JWK implements \JsonSerializable
     }
 
     /**
+     * Creates a JWK object using the given Json string.
+     *
      * @param string $json
      *
      * @return JWK
@@ -62,6 +67,8 @@ class JWK implements \JsonSerializable
     }
 
     /**
+     * Returns the values to be serialized.
+     *
      * {@inheritdoc}
      */
     public function jsonSerialize()
@@ -76,7 +83,7 @@ class JWK implements \JsonSerializable
      *
      * @throws \InvalidArgumentException
      *
-     * @return mixed|null The value
+     * @return mixed|null
      */
     public function get(string $key)
     {
@@ -134,6 +141,14 @@ class JWK implements \JsonSerializable
     }
 
     /**
+     * Returns the associated public key.
+     * This method has no effect for:
+     * - public keys
+     * - shared keys
+     * - unknown keys.
+     *
+     * Known keys are "oct", "RSA", "EC" and "OKP".
+     *
      * @return JWK
      */
     public function toPublic(): self

@@ -16,6 +16,8 @@ namespace Jose\Component\Core\Converter;
 interface JsonConverter
 {
     /**
+     * Convert the payload into a string.
+     *
      * @param mixed $payload
      *
      * @return string
@@ -23,6 +25,8 @@ interface JsonConverter
     public function encode($payload): string;
 
     /**
+     * Convert a string into payload.
+     *
      * @param string $payload
      * @param bool   $associativeArray
      *

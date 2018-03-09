@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-class HS384 extends HMAC
+final class HS384 extends HMAC
 {
     /**
      * @return string

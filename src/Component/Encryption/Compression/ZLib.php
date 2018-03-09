@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-class ZLib implements CompressionMethod
+final class ZLib implements CompressionMethod
 {
     /**
      * @var int

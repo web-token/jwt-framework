@@ -15,7 +15,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Encryption\Util\RSACrypt;
 
-class RSAOAEP256 extends RSA
+final class RSAOAEP256 extends RSA
 {
     /**
      * {@inheritdoc}

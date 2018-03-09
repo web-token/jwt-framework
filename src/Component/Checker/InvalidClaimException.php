@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * This exception is thrown by claim checkers when a claim check failed.
+ */
 class InvalidClaimException extends \Exception
 {
     /**
@@ -41,6 +44,8 @@ class InvalidClaimException extends \Exception
     }
 
     /**
+     * Returns the claim that caused the exception.
+     *
      * @return string
      */
     public function getClaim(): string
@@ -49,6 +54,8 @@ class InvalidClaimException extends \Exception
     }
 
     /**
+     * Returns the claim value that caused the exception.
+     *
      * @return mixed
      */
     public function getValue()

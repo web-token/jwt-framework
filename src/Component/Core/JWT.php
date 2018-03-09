@@ -17,6 +17,7 @@ interface JWT
 {
     /**
      * Returns the payload of the JWT.
+     * null is a valid payload (e.g. JWS with detached payload).
      *
      * @return string|null
      */
