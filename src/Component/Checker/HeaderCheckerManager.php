@@ -99,8 +99,8 @@ class HeaderCheckerManager
      * All header parameters are checked against the header parameter checkers.
      * If one fails, the InvalidHeaderException is thrown.
      *
-     * @param JWT $jwt
-     * @param int $index
+     * @param JWT      $jwt
+     * @param int      $index
      * @param string[] $mandatoryHeaderParameters
      *
      * @throws InvalidHeaderException

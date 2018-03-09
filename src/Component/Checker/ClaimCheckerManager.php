@@ -79,7 +79,7 @@ class ClaimCheckerManager
      * This method returns an array with all checked claims.
      * It is up to the implementor to decide use the claims that have not been checked.
      *
-     * @param array $claims
+     * @param array    $claims
      * @param string[] $mandatoryClaims
      *
      * @throws InvalidClaimException
