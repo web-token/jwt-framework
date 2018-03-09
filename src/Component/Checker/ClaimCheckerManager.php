@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * This manager handles as many claim checkers as needed.
+ */
 class ClaimCheckerManager
 {
     /**
@@ -33,6 +36,9 @@ class ClaimCheckerManager
     }
 
     /**
+     * This method creates the ClaimCheckerManager.
+     * The argument is a list of claim checkers objects.
+     *
      * @param ClaimChecker[] $checkers
      *
      * @return ClaimCheckerManager
@@ -56,6 +62,8 @@ class ClaimCheckerManager
     }
 
     /**
+     * This method returns all checkers handled by this manager.
+     *
      * @return ClaimChecker[]
      */
     public function getCheckers(): array
@@ -64,7 +72,16 @@ class ClaimCheckerManager
     }
 
     /**
+     * This method checks all the claims passed as argument.
+     * All claims are checked against the claim checkers.
+     * If one fails, the InvalidClaimException is thrown.
+     *
+     * This method returns an array with all checked claims.
+     * It is up to the implementor to decide use the claims that have not been checked.
+     *
      * @param array $claims
+     *
+     * @throws InvalidClaimException
      *
      * @return array
      */

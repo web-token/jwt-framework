@@ -52,6 +52,10 @@ class Signature
     }
 
     /**
+     * Creates a new signature.
+     *
+     * @internal
+     *
      * @param string      $signature
      * @param array       $protectedHeader
      * @param string|null $encodedProtectedHeader
@@ -87,7 +91,6 @@ class Signature
     /**
      * The protected header associated with the signature.
      *
-     *
      * @return null|string
      */
     public function getEncodedProtectedHeader(): ?string
@@ -112,6 +115,8 @@ class Signature
     }
 
     /**
+     * Returns true if the protected header has the given parameter.
+     *
      * @param string $key The key
      *
      * @return bool
@@ -138,6 +143,8 @@ class Signature
     }
 
     /**
+     * Returns true if the unprotected header has the given parameter.
+     *
      * @param string $key The key
      *
      * @return bool

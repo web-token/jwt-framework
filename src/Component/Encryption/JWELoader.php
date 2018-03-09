@@ -50,6 +50,8 @@ class JWELoader
     }
 
     /**
+     * Returns the JWE Decrypter object.
+     *
      * @return JWEDecrypter
      */
     public function getJweDecrypter(): JWEDecrypter
@@ -58,6 +60,8 @@ class JWELoader
     }
 
     /**
+     * Returns the header checker manager if set.
+     *
      * @return HeaderCheckerManager|null
      */
     public function getHeaderCheckerManager(): ?HeaderCheckerManager
@@ -66,6 +70,8 @@ class JWELoader
     }
 
     /**
+     * Returns the serializer manager.
+     *
      * @return JWESerializerManager
      */
     public function getSerializerManager(): JWESerializerManager
@@ -74,6 +80,9 @@ class JWELoader
     }
 
     /**
+     * This method will try to load and decrypt the given token using a JWK.
+     * If succeeded, the methods will populate the $recipient variable and returns the JWE.
+     *
      * @param string   $token
      * @param JWK      $key
      * @param null|int $recipient
@@ -90,6 +99,9 @@ class JWELoader
     }
 
     /**
+     * This method will try to load and decrypt the given token using a JWKSet.
+     * If succeeded, the methods will populate the $recipient variable and returns the JWE.
+     *
      * @param string   $token
      * @param JWKSet   $keyset
      * @param null|int $recipient

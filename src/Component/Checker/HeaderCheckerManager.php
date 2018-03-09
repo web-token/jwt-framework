@@ -44,6 +44,11 @@ class HeaderCheckerManager
     }
 
     /**
+     * This method creates the HeaderCheckerManager.
+     * The first argument is a list of header parameter checkers objects.
+     * The second argument is a list of token type support objects.
+     * It is recommended to support only one token type per manager.
+     *
      * @param HeaderChecker[]    $checkers
      * @param TokenTypeSupport[] $tokenTypes
      *
@@ -55,6 +60,8 @@ class HeaderCheckerManager
     }
 
     /**
+     * This method returns all checkers handled by this manager.
+     *
      * @return HeaderChecker[]
      */
     public function getCheckers(): array
@@ -88,18 +95,22 @@ class HeaderCheckerManager
     }
 
     /**
+     * This method checks all the header parameters passed as argument.
+     * All header parameters are checked against the header parameter checkers.
+     * If one fails, the InvalidHeaderException is thrown.
+     *
      * @param JWT $jwt
-     * @param int $component
+     * @param int $index
      *
      * @throws InvalidHeaderException
      */
-    public function check(JWT $jwt, int $component)
+    public function check(JWT $jwt, int $index)
     {
         foreach ($this->tokenTypes as $tokenType) {
             if ($tokenType->supports($jwt)) {
                 $protected = [];
                 $unprotected = [];
-                $tokenType->retrieveTokenHeaders($jwt, $component, $protected, $unprotected);
+                $tokenType->retrieveTokenHeaders($jwt, $index, $protected, $unprotected);
                 $this->checkDuplicatedHeaderParameters($protected, $unprotected);
                 $this->checkHeaders($protected, $unprotected);
 

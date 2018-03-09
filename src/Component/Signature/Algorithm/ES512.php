@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-class ES512 extends ECDSA
+final class ES512 extends ECDSA
 {
     /**
      * @return string

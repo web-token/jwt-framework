@@ -38,6 +38,8 @@ class JWSVerifier
     }
 
     /**
+     * Returns the algorithm manager associated to the JWSVerifier.
+     *
      * @return AlgorithmManager
      */
     public function getSignatureAlgorithmManager(): AlgorithmManager
@@ -46,6 +48,9 @@ class JWSVerifier
     }
 
     /**
+     * This method will try to verify the JWS object using the given key and for the given signature.
+     * It returns true if the signature is verified, otherwise false.
+     *
      * @param JWS         $jws
      * @param JWK         $jwk
      * @param int         $signature
@@ -61,8 +66,8 @@ class JWSVerifier
     }
 
     /**
-     * Verify the signature of the input.
-     * The input must be a valid JWS. This method is usually called after the "load" method.
+     * This method will try to verify the JWS object using the given key set and for the given signature.
+     * It returns true if the signature is verified, otherwise false.
      *
      * @param JWS         $jws             A JWS object
      * @param JWKSet      $jwkset          The signature will be verified using keys in the key set

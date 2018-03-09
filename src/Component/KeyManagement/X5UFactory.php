@@ -38,6 +38,9 @@ class X5UFactory extends UrlKeySetFactory
     }
 
     /**
+     * This method will try to fetch the url a retrieve the key set.
+     * Throws an exception in case of failure.
+     *
      * @param string $url
      * @param array  $header
      *

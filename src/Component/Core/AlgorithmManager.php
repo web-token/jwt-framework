@@ -33,6 +33,8 @@ class AlgorithmManager
     }
 
     /**
+     * This method creates an alogithm manager using the given algorithms.
+     *
      * @param Algorithm[] $algorithms
      *
      * @return AlgorithmManager
@@ -43,9 +45,11 @@ class AlgorithmManager
     }
 
     /**
+     * Returns true if the algorithm is supported.
+     *
      * @param string $algorithm The algorithm
      *
-     * @return bool Returns true if the algorithm is supported
+     * @return bool
      */
     public function has(string $algorithm): bool
     {
@@ -53,7 +57,9 @@ class AlgorithmManager
     }
 
     /**
-     * @return string[] Returns the list of names of supported algorithms
+     * Returns the list of names of supported algorithms.
+     *
+     * @return string[]
      */
     public function list(): array
     {
@@ -61,9 +67,11 @@ class AlgorithmManager
     }
 
     /**
+     * Returns the algorithm if supported, otherwise throw an exception.
+     *
      * @param string $algorithm The algorithm
      *
-     * @return Algorithm Returns JWAInterface object if the algorithm is supported, else null
+     * @return Algorithm
      */
     public function get(string $algorithm): Algorithm
     {
@@ -75,6 +83,8 @@ class AlgorithmManager
     }
 
     /**
+     * Adds an algorithm to the manager.
+     *
      * @param Algorithm $algorithm
      *
      * @return AlgorithmManager

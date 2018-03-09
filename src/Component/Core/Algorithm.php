@@ -16,12 +16,16 @@ namespace Jose\Component\Core;
 interface Algorithm
 {
     /**
-     * @return string Returns the name of the algorithm
+     * Returns the name of the algorithm.
+     *
+     * @return string
      */
     public function name(): string;
 
     /**
-     * @return string[] Returns the key types suitable for this algorithm
+     * Returns the key types suitable for this algorithm (e.g. "oct", "RSA"...).
+     *
+     * @return string[]
      */
     public function allowedKeyTypes(): array;
 }

@@ -16,29 +16,33 @@ namespace Jose\Component\Encryption\Compression;
 interface CompressionMethod
 {
     /**
-     * @return string Return the name of the method
+     * Returns the name of the method.
+     *
+     * @return string
      */
     public function name(): string;
 
     /**
      * Compress the data.
+     * Throws an exception in case of failure.
      *
      * @param string $data The data to compress
      *
      * @throws \RuntimeException
      *
-     * @return string The compressed data
+     * @return string
      */
     public function compress(string $data): string;
 
     /**
      * Uncompress the data.
+     * Throws an exception in case of failure.
      *
      * @param string $data The data to uncompress
      *
      * @throws \RuntimeException
      *
-     * @return string The uncompressed data
+     * @return string
      */
     public function uncompress(string $data): string;
 }

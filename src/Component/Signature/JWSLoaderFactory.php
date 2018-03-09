@@ -48,6 +48,9 @@ class JWSLoaderFactory
     }
 
     /**
+     * Creates a JWSLoader using the given serializer aliases, signature algorithm aliases and (optionally)
+     * the header checker aliases.
+     *
      * @param array $serializers
      * @param array $algorithms
      * @param array $headerCheckers

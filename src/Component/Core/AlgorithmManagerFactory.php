@@ -21,6 +21,11 @@ class AlgorithmManagerFactory
     private $algorithms = [];
 
     /**
+     * Adds an algorithm.
+     *
+     * Each algorithm is identified by an alias hence it is allowed to have the same algorithm twice (or more).
+     * This can be helpful when an algorithm have several configuration options.
+     *
      * @param string    $alias
      * @param Algorithm $algorithm
      *
@@ -34,6 +39,8 @@ class AlgorithmManagerFactory
     }
 
     /**
+     * Returns the list of aliases.
+     *
      * @return string[]
      */
     public function aliases(): array
@@ -42,6 +49,9 @@ class AlgorithmManagerFactory
     }
 
     /**
+     * Returns all algorithms supported by this factory.
+     * This is an associative array. Keys are the aliases of the algorithms.
+     *
      * @return Algorithm[]
      */
     public function all(): array
@@ -50,6 +60,8 @@ class AlgorithmManagerFactory
     }
 
     /**
+     * Create an algorithm manager using the given aliases.
+     *
      * @param string[] $aliases
      *
      * @return AlgorithmManager

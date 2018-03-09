@@ -58,7 +58,7 @@ class JWELoaderTest extends WebTestCase
         $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5'], ['A256GCM'], ['DEF']);
 
         self::assertInstanceOf(JWELoader::class, $jwe);
-        self::assertEquals(['jwe_compact'], $jwe->getSerializerManager()->list());
+        self::assertEquals(['jwe_compact'], $jwe->getSerializerManager()->names());
         self::assertEquals(['RSA1_5'], $jwe->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list());
         self::assertEquals(['A256GCM'], $jwe->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list());
         self::assertEquals(['DEF'], $jwe->getJweDecrypter()->getCompressionMethodManager()->list());

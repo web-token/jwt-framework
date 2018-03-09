@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-class Deflate implements CompressionMethod
+final class Deflate implements CompressionMethod
 {
     /**
      * @var int

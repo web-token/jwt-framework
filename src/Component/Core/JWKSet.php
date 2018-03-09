@@ -31,6 +31,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Creates a JWKSet object using the given values.
+     *
      * @param array $data
      *
      * @return JWKSet
@@ -56,6 +58,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Creates a JWKSet object using the given JWK objects.
+     *
      * @param JWK[] $keys
      *
      * @return JWKSet
@@ -76,6 +80,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Creates a JWKSet object using the given Json string.
+     *
      * @param string $json
      *
      * @return JWKSet
@@ -91,9 +97,9 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
-     * Returns all keys in the key set.
+     * Returns an array of keys stored in the key set.
      *
-     * @return JWK[] An array of keys stored in the key set
+     * @return JWK[]
      */
     public function all(): array
     {
@@ -101,9 +107,10 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
-     * Add key in the key set.
+     * Add key to store in the key set.
+     * This method is immutable and will return a new object.
      *
-     * @param JWK $jwk A key to store in the key set
+     * @param JWK $jwk
      *
      * @return JWKSet
      */
@@ -122,6 +129,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
 
     /**
      * Remove key from the key set.
+     * This method is immutable and will return a new object.
      *
      * @param int|string $key Key to remove from the key set
      *
@@ -140,6 +148,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Returns true if the key set contains a key with the given index.
+     *
      * @param int|string $index
      *
      * @return bool
@@ -150,6 +160,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Returns the key with the given index. Throws an exception if the index is not present in the key store.
+     *
      * @param int|string $index
      *
      * @return JWK
@@ -164,6 +176,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Returns the values to be serialized.
+     *
      * @return array
      */
     public function jsonSerialize(): array
@@ -172,6 +186,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Returns the number of keys in the key set.
+     *
      * @param int $mode
      *
      * @return int
@@ -182,6 +198,9 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Try to find a key that fits on the selected requirements.
+     * Returns null if not found.
+     *
      * @param string         $type         Must be 'sig' (signature) or 'enc' (encryption)
      * @param Algorithm|null $algorithm    Specifies the algorithm to be used
      * @param array          $restrictions More restrictions such as 'kid' or 'kty'
@@ -304,6 +323,10 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Internal method only. Should not be used.
+     *
+     * @internal
+     *
      * @param array $a
      * @param array $b
      *
@@ -321,6 +344,9 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
+     * Internal method only. Should not be used.
+     *
+     * @internal
      * {@inheritdoc}
      */
     public function getIterator()

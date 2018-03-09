@@ -26,6 +26,8 @@ interface KeyEncryptionAlgorithm extends Algorithm
     public const MODE_AGREEMENT = 'agree';
 
     /**
+     * Returns the key management mode used by the key encryption algorithm.
+     *
      * @return string
      */
     public function getKeyManagementMode(): string;

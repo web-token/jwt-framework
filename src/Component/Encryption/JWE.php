@@ -87,6 +87,8 @@ class JWE implements JWT
     }
 
     /**
+     * Creates a new JWE object.
+     *
      * @param string      $ciphertext
      * @param string      $iv
      * @param string      $tag
@@ -112,6 +114,9 @@ class JWE implements JWT
     }
 
     /**
+     * Set the payload.
+     * This method is immutable and a new object will be returned.
+     *
      * @param string $payload
      *
      * @return JWE
@@ -135,6 +140,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns true is the JWE has already been encrypted.
+     *
      * @return bool
      */
     public function isEncrypted(): bool
@@ -153,6 +160,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the recipient object at the given index.
+     *
      * @param int $id
      *
      * @return Recipient
@@ -167,6 +176,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the ciphertext. This method will return null is the JWE has not yet been encrypted.
+     *
      * @return string|null The cyphertext
      */
     public function getCiphertext(): ?string
@@ -175,6 +186,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the Additional Authentication Data if available.
+     *
      * @return string|null
      */
     public function getAAD(): ?string
@@ -183,6 +196,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the Initialization Vector if available.
+     *
      * @return string|null
      */
     public function getIV(): ?string
@@ -191,6 +206,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the tag if available.
+     *
      * @return string|null
      */
     public function getTag(): ?string
@@ -199,6 +216,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the encoded shared protected header.
+     *
      * @return string
      */
     public function getEncodedSharedProtectedHeader(): string
@@ -207,6 +226,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the shared protected header.
+     *
      * @return array
      */
     public function getSharedProtectedHeader(): array
@@ -215,9 +236,12 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the shared protected header parameter identified by the given key.
+     * Throws an exception is the the parameter is not available.
+     *
      * @param string $key The key
      *
-     * @return mixed|null Header value
+     * @return mixed|null
      */
     public function getSharedProtectedHeaderParameter(string $key)
     {
@@ -229,6 +253,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns true if the shared protected header has the parameter identified by the given key.
+     *
      * @param string $key The key
      *
      * @return bool
@@ -239,6 +265,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the shared header.
+     *
      * @return array
      */
     public function getSharedHeader(): array
@@ -247,9 +275,12 @@ class JWE implements JWT
     }
 
     /**
+     * Returns the shared header parameter identified by the given key.
+     * Throws an exception is the the parameter is not available.
+     *
      * @param string $key The key
      *
-     * @return mixed|null Header value
+     * @return mixed|null
      */
     public function getSharedHeaderParameter(string $key)
     {
@@ -261,6 +292,8 @@ class JWE implements JWT
     }
 
     /**
+     * Returns true if the shared header has the parameter identified by the given key.
+     *
      * @param string $key The key
      *
      * @return bool

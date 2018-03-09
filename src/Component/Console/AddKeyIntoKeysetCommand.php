@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AddKeyIntoKeysetCommand extends ObjectOutputCommand
+final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
     /**
      * KeyAnalyzerCommand constructor.

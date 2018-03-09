@@ -28,7 +28,7 @@ interface KeyWrapping extends KeyEncryptionAlgorithm
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
-     * @return string The encrypted CEK
+     * @return string
      */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string;
 
@@ -41,7 +41,7 @@ interface KeyWrapping extends KeyEncryptionAlgorithm
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
-     * @return string The decrypted CEK
+     * @return string
      */
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string;
 }

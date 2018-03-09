@@ -19,11 +19,13 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 interface DirectEncryption extends KeyEncryptionAlgorithm
 {
     /**
+     * Returns the CEK.
+     *
      * @param JWK $key The key used to get the CEK
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
-     * @return string The CEK
+     * @return string
      */
     public function getCEK(JWK $key): string;
 }

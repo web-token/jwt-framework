@@ -41,6 +41,8 @@ class JWEDecrypterFactory
     }
 
     /**
+     * Creates a JWE Decrypter object using the given key encryption algorithms, content encryption algorithms and compression methods.
+     *
      * @param string[] $keyEncryptionAlgorithms
      * @param string[] $contentEncryptionAlgorithms
      * @param string[] $compressionMethods

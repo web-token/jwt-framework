@@ -40,6 +40,8 @@ class NestedTokenLoaderFactory
     }
 
     /**
+     * This method creates a Nested Token Loader with the given encryption/signature algorithms, serializers, compression methods and header checkers.
+     *
      * @param array $jweSerializers
      * @param array $keyEncryptionAlgorithms
      * @param array $contentEncryptionAlgorithms

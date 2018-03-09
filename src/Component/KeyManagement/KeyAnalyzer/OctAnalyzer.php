@@ -17,7 +17,7 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use ZxcvbnPhp\Zxcvbn;
 
-class OctAnalyzer implements KeyAnalyzer
+final class OctAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class P12CertificateLoaderCommand extends GeneratorCommand
+final class P12CertificateLoaderCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

@@ -18,7 +18,7 @@ use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
-class JSONFlattenedSerializer implements JWESerializer
+final class JSONFlattenedSerializer implements JWESerializer
 {
     public const NAME = 'jwe_json_flattened';
 

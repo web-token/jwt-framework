@@ -15,7 +15,7 @@ namespace Jose\Component\Signature\Algorithm;
 
 use Jose\Component\Core\JWK;
 
-class None implements SignatureAlgorithm
+final class None implements SignatureAlgorithm
 {
     /**
      * {@inheritdoc}
