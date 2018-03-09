@@ -125,7 +125,7 @@ class JWECollector implements Collector
         $data['jwe']['jwe_loaders'] = [];
         foreach ($this->jweLoaders as $id => $jweLoader) {
             $data['jwe']['jwe_loaders'][$id] = [
-                'serializers'                   => $jweLoader->getSerializerManager()->list(),
+                'serializers'                   => $jweLoader->getSerializerManager()->names(),
                 'key_encryption_algorithms'     => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweLoader->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list(),
                 'compression_methods'           => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Converter;
 
-class StandardConverter implements JsonConverter
+final class StandardConverter implements JsonConverter
 {
     /**
      * @var int

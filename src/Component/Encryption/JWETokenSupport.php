@@ -16,7 +16,7 @@ namespace Jose\Component\Encryption;
 use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
-class JWETokenSupport implements TokenTypeSupport
+final class JWETokenSupport implements TokenTypeSupport
 {
     /**
      * {@inheritdoc}

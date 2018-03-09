@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class X5ULoaderCommand extends ObjectOutputCommand
+final class X5ULoaderCommand extends ObjectOutputCommand
 {
     /**
      * @var X5UFactory

@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class KeysetAnalyzerCommand extends Command
+final class KeysetAnalyzerCommand extends Command
 {
     /**
      * @var KeyAnalyzerManager

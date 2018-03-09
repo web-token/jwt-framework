@@ -45,7 +45,7 @@ class CompressionTest extends EncryptionTest
      */
     public function testGetInvalidCompressionAlgorithm()
     {
-        $manager = new CompressionMethodManager();
+        $manager = CompressionMethodManager::create([]);
         self::assertFalse($manager->has('FOO'));
         $manager->get('FOO');
     }

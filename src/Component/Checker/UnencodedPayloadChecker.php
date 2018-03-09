@@ -19,7 +19,7 @@ namespace Jose\Component\Checker;
  *
  * The use of this checker will allow the use of token with unencoded payload.
  */
-class UnencodedPayloadChecker implements HeaderChecker
+final class UnencodedPayloadChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'b64';
 

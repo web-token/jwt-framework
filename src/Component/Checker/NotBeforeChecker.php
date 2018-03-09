@@ -19,7 +19,7 @@ namespace Jose\Component\Checker;
  *
  * A time drift is allowed but its use is NOT recommended.
  */
-class NotBeforeChecker implements ClaimChecker
+final class NotBeforeChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'nbf';
 

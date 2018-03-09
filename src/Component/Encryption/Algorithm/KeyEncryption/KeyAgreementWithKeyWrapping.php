@@ -19,7 +19,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
 {
     /**
-     * Wrap the agreement key.
+     * Compute and wrap the agreement key.
      *
      * @param JWK    $receiver_key             The receiver's key
      * @param string $cek                      The CEK to wrap
@@ -29,12 +29,12 @@ interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
-     * @return string The encrypted CEK
+     * @return string
      */
     public function wrapAgreementKey(JWK $receiver_key, string $cek, int $encryption_key_length, array $complete_header, array &$additional_header_values): string;
 
     /**
-     * Unwrap the agreement key.
+     * Unwrap and compute the agreement key.
      *
      * @param JWK    $receiver_key          The receiver's key
      * @param string $encrypted_cek         The encrypted CEK

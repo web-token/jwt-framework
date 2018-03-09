@@ -21,6 +21,8 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
     private $messages = [];
 
     /**
+     * Adds a message to the message bag.
+     *
      * @param Message $message
      *
      * @return MessageBag
@@ -33,6 +35,8 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
     }
 
     /**
+     * Returns all messages.
+     *
      * @return Message[]
      */
     public function all(): array

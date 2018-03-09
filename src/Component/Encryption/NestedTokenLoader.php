@@ -42,6 +42,9 @@ class NestedTokenLoader
     }
 
     /**
+     * This method will try to load, decrypt and verify the token.
+     * In case of failure, an exception is thrown, otherwise returns the JWS and populates the $signature variable.
+     *
      * @param string   $token
      * @param JWKSet   $encryptionKeySet
      * @param JWKSet   $signatureKeySet

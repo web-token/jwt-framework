@@ -19,7 +19,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RsaKeysetGeneratorCommand extends GeneratorCommand
+final class RsaKeysetGeneratorCommand extends GeneratorCommand
 {
     /**
      * {@inheritdoc}

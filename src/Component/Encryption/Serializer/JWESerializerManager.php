@@ -35,6 +35,8 @@ class JWESerializerManager
     }
 
     /**
+     * Creates a serializer manager using the given serializers.
+     *
      * @param JWESerializer[] $serializers
      *
      * @return JWESerializerManager
@@ -45,6 +47,8 @@ class JWESerializerManager
     }
 
     /**
+     * Adds a serializer to the manager.
+     *
      * @param JWESerializer $serializer
      *
      * @return JWESerializerManager
@@ -57,15 +61,30 @@ class JWESerializerManager
     }
 
     /**
+     * Return the serializer names supported by the manager.
+     *
+     * @deprecated Will be removed in v2.0. Please use names() instead.
+     *
      * @return string[]
      */
     public function list(): array
+    {
+        return $this->names();
+    }
+
+    /**
+     * Return the serializer names supported by the manager.
+     *
+     * @return string[]
+     */
+    public function names(): array
     {
         return array_keys($this->serializers);
     }
 
     /**
      * Converts a JWE into a string.
+     * Throws an exception if none of the serializer was able to convert the input.
      *
      * @param string   $name
      * @param JWE      $jws
@@ -86,6 +105,7 @@ class JWESerializerManager
 
     /**
      * Loads data and return a JWE object.
+     * Throws an exception if none of the serializer was able to convert the input.
      *
      * @param string      $input A string that represents a JWE
      * @param string|null $name  the name of the serializer if the input is unserialized

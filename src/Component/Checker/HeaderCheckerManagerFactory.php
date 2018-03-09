@@ -49,6 +49,8 @@ class HeaderCheckerManagerFactory
 
     /**
      * This method adds a header parameter checker to this factory.
+     * The checker is uniquely identified by an alias. This allows the same header parameter checker to be added twice (or more)
+     * using several configuration options.
      *
      * @param string        $alias
      * @param HeaderChecker $checker

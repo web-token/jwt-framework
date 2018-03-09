@@ -18,19 +18,23 @@ use Jose\Component\Encryption\JWE;
 interface JWESerializer
 {
     /**
-     * The name of the serialization.
+     * The name of the serialization method.
      *
      * @return string
      */
     public function name(): string;
 
     /**
+     * Display name of the serialization method.
+     *
      * @return string
      */
     public function displayName(): string;
 
     /**
      * Converts a JWE into a string.
+     * If the JWE is designed for multiple recipients and the serializer only supports one recipient,
+     * the recipient index has to be set.
      *
      * @param JWE      $jws
      * @param int|null $recipientIndex
@@ -43,6 +47,7 @@ interface JWESerializer
 
     /**
      * Loads data and return a JWE object.
+     * Throws an exception in case of failure.
      *
      * @param string $input A string that represents a JWE
      *

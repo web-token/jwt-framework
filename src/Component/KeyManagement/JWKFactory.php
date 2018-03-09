@@ -23,6 +23,8 @@ use Jose\Component\KeyManagement\KeyConverter\RSAKey;
 class JWKFactory
 {
     /**
+     * Creates a RSA key with the given key size and additional values.
+     *
      * @param int   $size   The key size in bits
      * @param array $values values to configure the key
      *
@@ -53,6 +55,8 @@ class JWKFactory
     }
 
     /**
+     * Creates a EC key with the given curve and additional values.
+     *
      * @param string $curve  The curve
      * @param array  $values values to configure the key
      *
@@ -95,6 +99,8 @@ class JWKFactory
     }
 
     /**
+     * Creates a octet key with the given key size and additional values.
+     *
      * @param int   $size   The key size in bits
      * @param array $values values to configure the key
      *
@@ -117,6 +123,8 @@ class JWKFactory
     }
 
     /**
+     * Creates a OKP key with the given curve and additional values.
+     *
      * @param string $curve  The curve
      * @param array  $values values to configure the key
      *
@@ -155,6 +163,10 @@ class JWKFactory
     }
 
     /**
+     * Creates a none key with the given additional values.
+     * Please note that this key type is not pat of any specification.
+     * It is used to prevent the use of the "none" algorithm with other key types.
+     *
      * @param array $values values to configure the key
      *
      * @return JWK
@@ -174,6 +186,8 @@ class JWKFactory
     }
 
     /**
+     * Creates a key from a Json string.
+     *
      * @param string $value
      *
      * @return JWK|JWKSet
@@ -189,6 +203,8 @@ class JWKFactory
     }
 
     /**
+     * Creates a key or key set from the given input.
+     *
      * @param array $values
      *
      * @return JWK|JWKSet
@@ -224,6 +240,8 @@ class JWKFactory
     }
 
     /**
+     * This method will try to load a X.509 certificate and convert it into a public key.
+     *
      * @param string $file
      * @param array  $additional_values
      *
@@ -238,6 +256,8 @@ class JWKFactory
     }
 
     /**
+     * Extract a keyfrom a key set identified by the given index .
+     *
      * @param JWKSet     $jwkset
      * @param int|string $index
      *
@@ -249,6 +269,8 @@ class JWKFactory
     }
 
     /**
+     * This method will try to load a PKCS#12 file and convert it into a public key.
+     *
      * @param string      $file
      * @param null|string $secret
      * @param array       $additional_values
@@ -268,6 +290,8 @@ class JWKFactory
     }
 
     /**
+     * This method will try to convert a X.509 certificate into a public key.
+     *
      * @param string $certificate
      * @param array  $additional_values
      *
@@ -282,6 +306,8 @@ class JWKFactory
     }
 
     /**
+     * This method will try to convert a X.509 certificate resource into a public key.
+     *
      * @param resource $res
      * @param array    $additional_values
      *
@@ -298,6 +324,9 @@ class JWKFactory
     }
 
     /**
+     * This method will try to load and convert a key file into a JWK object.
+     * If the key is encrypted, the password must be set.
+     *
      * @param string      $file
      * @param null|string $password
      * @param array       $additional_values
@@ -315,6 +344,9 @@ class JWKFactory
     }
 
     /**
+     * This method will try to load and convert a key into a JWK object.
+     * If the key is encrypted, the password must be set.
+     *
      * @param string      $key
      * @param null|string $password
      * @param array       $additional_values
@@ -332,6 +364,8 @@ class JWKFactory
     }
 
     /**
+     * This method will try to load and convert a X.509 certificate chain into a public key.
+     *
      * @param array $x5c
      * @param array $additional_values
      *

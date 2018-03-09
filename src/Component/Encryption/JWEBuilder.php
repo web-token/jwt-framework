@@ -126,6 +126,8 @@ class JWEBuilder
     }
 
     /**
+     * Returns the key encryption algorithm manager.
+     *
      * @return AlgorithmManager
      */
     public function getKeyEncryptionAlgorithmManager(): AlgorithmManager
@@ -134,6 +136,8 @@ class JWEBuilder
     }
 
     /**
+     * Returns the content encryption algorithm manager.
+     *
      * @return AlgorithmManager
      */
     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
@@ -142,6 +146,8 @@ class JWEBuilder
     }
 
     /**
+     * Returns the compression method manager.
+     *
      * @return CompressionMethodManager
      */
     public function getCompressionMethodManager(): CompressionMethodManager
@@ -150,6 +156,8 @@ class JWEBuilder
     }
 
     /**
+     * Set the payload of the JWE to build.
+     *
      * @param mixed $payload
      *
      * @return JWEBuilder
@@ -167,6 +175,8 @@ class JWEBuilder
     }
 
     /**
+     * Set the Additional Authenticated Data of the JWE to build.
+     *
      * @param string|null $aad
      *
      * @return JWEBuilder
@@ -180,6 +190,8 @@ class JWEBuilder
     }
 
     /**
+     * Set the shared protected header of the JWE to build.
+     *
      * @param array $sharedProtectedHeader
      *
      * @return JWEBuilder
@@ -197,6 +209,8 @@ class JWEBuilder
     }
 
     /**
+     * Set the shared header of the JWE to build.
+     *
      * @param array $sharedHeader
      *
      * @return JWEBuilder
@@ -214,6 +228,8 @@ class JWEBuilder
     }
 
     /**
+     * Adds a recipient to the JWE to build.
+     *
      * @param JWK   $recipientKey
      * @param array $recipientHeader
      *
@@ -257,6 +273,8 @@ class JWEBuilder
     }
 
     /**
+     * Builds the JWE.
+     *
      * @return JWE
      */
     public function build(): JWE
@@ -292,7 +310,7 @@ class JWEBuilder
     /**
      * @param array $completeHeader
      */
-    protected function checkAndSetContentEncryptionAlgorithm(array $completeHeader): void
+    private function checkAndSetContentEncryptionAlgorithm(array $completeHeader): void
     {
         $contentEncryptionAlgorithm = $this->getContentEncryptionAlgorithm($completeHeader);
         if (null === $this->contentEncryptionAlgorithm) {
@@ -429,7 +447,7 @@ class JWEBuilder
      * @param KeyEncryptionAlgorithm $keyEncryptionAlgorithm
      * @param JWK                    $recipientKey
      */
-    protected function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey)
+    private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey)
     {
         KeyChecker::checkKeyUsage($recipientKey, 'encryption');
         if ('dir' !== $keyEncryptionAlgorithm->name()) {
@@ -482,7 +500,7 @@ class JWEBuilder
      *
      * @return CompressionMethod|null
      */
-    protected function getCompressionMethod(array $completeHeader): ?CompressionMethod
+    private function getCompressionMethod(array $completeHeader): ?CompressionMethod
     {
         if (!array_key_exists('zip', $completeHeader)) {
             return null;
@@ -497,7 +515,7 @@ class JWEBuilder
      *
      * @return bool
      */
-    protected function areKeyManagementModesCompatible(string $current, string $new): bool
+    private function areKeyManagementModesCompatible(string $current, string $new): bool
     {
         $agree = KeyEncryptionAlgorithm::MODE_AGREEMENT;
         $dir = KeyEncryptionAlgorithm::MODE_DIRECT;
@@ -537,7 +555,7 @@ class JWEBuilder
      *
      * @return KeyEncryptionAlgorithm
      */
-    protected function getKeyEncryptionAlgorithm(array $completeHeader): KeyEncryptionAlgorithm
+    private function getKeyEncryptionAlgorithm(array $completeHeader): KeyEncryptionAlgorithm
     {
         if (!array_key_exists('alg', $completeHeader)) {
             throw new \InvalidArgumentException('Parameter "alg" is missing.');

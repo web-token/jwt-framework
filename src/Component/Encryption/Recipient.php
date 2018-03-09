@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+/**
+ * @internal
+ */
 class Recipient
 {
     /**
@@ -38,6 +41,9 @@ class Recipient
     }
 
     /**
+     * Creates a recipient.
+     * The creation of this object is meant to be used by the library, not by third party applications.
+     *
      * @param array       $header
      * @param null|string $encryptedKey
      *
@@ -49,6 +55,8 @@ class Recipient
     }
 
     /**
+     * Returns the recipient header.
+     *
      * @return array
      */
     public function getHeader(): array
@@ -57,11 +65,11 @@ class Recipient
     }
 
     /**
-     * Returns the value of the unprotected header of the specified key.
+     * Returns the value of the recipient header parameter with the specified key.
      *
      * @param string $key The key
      *
-     * @return mixed|null Header value
+     * @return mixed|null
      */
     public function getHeaderParameter(string $key)
     {
@@ -73,6 +81,8 @@ class Recipient
     }
 
     /**
+     * Returns true if the recipient header contains the parameter with the specified key.
+     *
      * @param string $key The key
      *
      * @return bool
@@ -83,6 +93,8 @@ class Recipient
     }
 
     /**
+     * Returns the encrypted key.
+     *
      * @return null|string
      */
     public function getEncryptedKey(): ?string

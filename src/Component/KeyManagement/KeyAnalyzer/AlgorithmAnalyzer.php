@@ -15,7 +15,7 @@ namespace Jose\Component\KeyManagement\KeyAnalyzer;
 
 use Jose\Component\Core\JWK;
 
-class AlgorithmAnalyzer implements KeyAnalyzer
+final class AlgorithmAnalyzer implements KeyAnalyzer
 {
     /**
      * {@inheritdoc}

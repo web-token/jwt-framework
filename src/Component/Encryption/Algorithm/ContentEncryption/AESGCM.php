@@ -62,7 +62,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getIVSize(): int
     {

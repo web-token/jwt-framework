@@ -21,6 +21,17 @@ class CompressionMethodManager
     private $compressionMethods = [];
 
     /**
+     * CompressionMethodManager constructor.
+     *
+     * @deprecated Will be private in v2.x. Please use CompressionManager::create() instead.
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * This method creates a Compression Manager with the selected compression methods.
+     *
      * @param CompressionMethod[] $methods
      *
      * @return CompressionMethodManager
@@ -36,6 +47,8 @@ class CompressionMethodManager
     }
 
     /**
+     * Add the given compression method to the manager.
+     *
      * @param CompressionMethod $compressionMethod
      */
     protected function add(CompressionMethod $compressionMethod)
@@ -49,6 +62,8 @@ class CompressionMethodManager
     }
 
     /**
+     * Returns true if the givn compression method is supported.
+     *
      * @param string $name
      *
      * @return bool
@@ -59,7 +74,8 @@ class CompressionMethodManager
     }
 
     /**
-     * This method will try to find a CompressionInterface object able to support the compression method.
+     * This method returns the compression method with the given name.
+     * Throws an exception if the method is not supported.
      *
      * @param string $name The name of the compression method
      *
@@ -75,6 +91,8 @@ class CompressionMethodManager
     }
 
     /**
+     * Returns the list of compression method names supported by the manager.
+     *
      * @return string[]
      */
     public function list(): array
