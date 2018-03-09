@@ -25,7 +25,7 @@ interface JsonConverter
     public function encode($payload): string;
 
     /**
-     * Convert a string into payload
+     * Convert a string into payload.
      *
      * @param string $payload
      * @param bool   $associativeArray

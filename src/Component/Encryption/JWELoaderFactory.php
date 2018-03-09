@@ -50,7 +50,7 @@ class JWELoaderFactory
     /**
      * Creates a JWELoader using the given serializer aliases, encryption algorithm aliases, compression method aliases
      * and header checker aliases.
-     * 
+     *
      * @param array $serializers
      * @param array $keyEncryptionAlgorithms
      * @param array $contentEncryptionAlgorithms

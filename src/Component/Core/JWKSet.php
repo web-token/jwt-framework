@@ -97,7 +97,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
-     * Returns an array of keys stored in the key set
+     * Returns an array of keys stored in the key set.
      *
      * @return JWK[]
      */
