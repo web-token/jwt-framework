@@ -264,17 +264,13 @@ final class ECDHES implements KeyAgreement
      */
     public function createECKey(string $crv): JWK
     {
-        $curve = $this->getCurve($crv);
-        $privateKey = $curve->createPrivateKey();
-        $point = $curve->createPublicKey($privateKey)->getPoint();
+        try {
+            $jwk = self::createECKeyUsingOpenSSL($crv);
+        } catch (\Exception $e) {
+            $jwk = self::createECKeyUsingPurePhp($crv);
+        }
 
-        return JWK::create([
-            'kty' => 'EC',
-            'crv' => $crv,
-            'x'   => Base64Url::encode($this->convertDecToBin($point->getX())),
-            'y'   => Base64Url::encode($this->convertDecToBin($point->getY())),
-            'd'   => Base64Url::encode($this->convertDecToBin($privateKey->getSecret())),
-        ]);
+        return JWK::create($jwk);
     }
 
     /**
@@ -307,5 +303,88 @@ final class ECDHES implements KeyAgreement
             'x'   => Base64Url::encode($x),
             'd'   => Base64Url::encode($d),
         ]);
+    }
+
+    /**
+     * @param string $curve
+     *
+     * @return array
+     */
+    private static function createECKeyUsingPurePhp(string $curve): array
+    {
+        switch ($curve) {
+            case 'P-256':
+                $nistCurve = NistCurve::curve256();
+
+                break;
+            case 'P-384':
+                $nistCurve = NistCurve::curve384();
+
+                break;
+            case 'P-521':
+                $nistCurve = NistCurve::curve521();
+
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+        }
+
+        $privateKey = $nistCurve->createPrivateKey();
+        $publicKey = $nistCurve->createPublicKey($privateKey);
+
+        return [
+            'kty' => 'EC',
+            'crv' => $curve,
+            'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
+            'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
+            'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+        ];
+    }
+
+    /**
+     * @param string $curve
+     *
+     * @return array
+     */
+    private static function createECKeyUsingOpenSSL(string $curve): array
+    {
+        $key = openssl_pkey_new([
+            'curve_name'       => self::getOpensslCurveName($curve),
+            'private_key_type' => OPENSSL_KEYTYPE_EC,
+        ]);
+        $res = openssl_pkey_export($key, $out);
+        if (false === $res) {
+            throw new \RuntimeException('Unable to create the key');
+        }
+        $res = openssl_pkey_get_private($out);
+
+        $details = openssl_pkey_get_details($res);
+
+        return [
+            'kty' => 'EC',
+            'crv' => $curve,
+            'd'   => Base64Url::encode($details['ec']['d']),
+            'x'   => Base64Url::encode($details['ec']['x']),
+            'y'   => Base64Url::encode($details['ec']['y']),
+        ];
+    }
+
+    /**
+     * @param string $curve
+     *
+     * @return string
+     */
+    private static function getOpensslCurveName(string $curve): string
+    {
+        switch ($curve) {
+            case 'P-256':
+                return 'prime256v1';
+            case 'P-384':
+                return 'secp384r1';
+            case 'P-521':
+                return 'secp521r1';
+            default:
+                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+        }
     }
 }

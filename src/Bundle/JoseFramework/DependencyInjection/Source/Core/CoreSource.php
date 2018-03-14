@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Core;
 
+use Jose\Bundle\JoseFramework\DataCollector\JoseCollector;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Core\Converter\JsonConverter;
@@ -22,7 +23,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class CoreSource implements SourceWithCompilerPasses
 {
@@ -39,20 +40,21 @@ class CoreSource implements SourceWithCompilerPasses
      */
     public function load(array $config, ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('services.yml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('services.php');
 
         if (interface_exists(EnvVarProcessorInterface::class)) {
-            $loader->load('env_var.yml');
+            $loader->load('env_var.php');
         }
 
         if (true === $container->getParameter('kernel.debug')) {
-            $loader->load('dev_services.yml');
+            $container->registerForAutoconfiguration(JoseCollector::class)->addTag('jose.data_collector');
+            $loader->load('dev_services.php');
         }
 
         $container->setAlias(JsonConverter::class, $config['json_converter']);
         if (StandardConverter::class === $config['json_converter']) {
-            $loader->load('json_converter.yml');
+            $loader->load('json_converter.php');
         }
     }
 
