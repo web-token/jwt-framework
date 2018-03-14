@@ -1,9 +1,0 @@
-services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
-
-    Jose\Bundle\JoseFramework\EnvVarProcessor\:
-        resource: '../../EnvVarProcessor'
-        tags: ['container.env_var_processor']

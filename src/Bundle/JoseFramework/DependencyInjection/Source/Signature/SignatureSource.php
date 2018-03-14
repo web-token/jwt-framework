@@ -22,7 +22,7 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class SignatureSource implements SourceWithCompilerPasses
 {
@@ -60,10 +60,11 @@ class SignatureSource implements SourceWithCompilerPasses
         if (!$this->isEnabled()) {
             return;
         }
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('jws_services.yml');
-        $loader->load('jws_serializers.yml');
-        $loader->load('signature_algorithms.yml');
+        $container->registerForAutoconfiguration(\Jose\Component\Signature\Serializer\JWSSerializer::class)->addTag('jose.jws.serializer');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('jws_services.php');
+        $loader->load('jws_serializers.php');
+        $loader->load('signature_algorithms.php');
 
         if (array_key_exists('jws', $configs)) {
             foreach ($this->sources as $source) {

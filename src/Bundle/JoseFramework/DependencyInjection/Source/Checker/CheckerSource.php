@@ -18,11 +18,12 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Component\Checker\TokenTypeSupport;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class CheckerSource implements SourceWithCompilerPasses
 {
@@ -58,8 +59,9 @@ class CheckerSource implements SourceWithCompilerPasses
         if (!$this->isEnabled()) {
             return;
         }
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('checkers.yml');
+        $container->registerForAutoconfiguration(TokenTypeSupport::class)->addTag('jose.checker.token_type');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('checkers.php');
 
         if (array_key_exists('checkers', $configs)) {
             foreach ($this->sources as $source) {
