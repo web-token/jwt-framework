@@ -22,7 +22,7 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class EncryptionSource implements SourceWithCompilerPasses
 {
@@ -60,11 +60,12 @@ class EncryptionSource implements SourceWithCompilerPasses
         if (!$this->isEnabled()) {
             return;
         }
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('jwe_services.yml');
-        $loader->load('encryption_algorithms.yml');
-        $loader->load('jwe_serializers.yml');
-        $loader->load('compression_methods.yml');
+        $container->registerForAutoconfiguration(\Jose\Component\Encryption\Serializer\JWESerializer::class)->addTag('jose.jwe.serializer');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('jwe_services.php');
+        $loader->load('encryption_algorithms.php');
+        $loader->load('jwe_serializers.php');
+        $loader->load('compression_methods.php');
 
         if (array_key_exists('jwe', $configs)) {
             foreach ($this->sources as $source) {
