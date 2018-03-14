@@ -118,7 +118,7 @@ class JWKFactory
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
         $key = openssl_pkey_new([
-            'curve_name' => self::getOpensslCurveName($curve),
+            'curve_name'       => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
         $res = openssl_pkey_export($key, $out);

@@ -232,7 +232,7 @@ final class ECDHES implements KeyAgreement
      */
     private function convertBase64ToGmp(string $value): \GMP
     {
-        $value = unpack('H*', Base64Url::decode($value));;
+        $value = unpack('H*', Base64Url::decode($value));
 
         return gmp_init($value[1], 16);
     }
@@ -349,7 +349,7 @@ final class ECDHES implements KeyAgreement
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
         $key = openssl_pkey_new([
-            'curve_name' => self::getOpensslCurveName($curve),
+            'curve_name'       => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
         $res = openssl_pkey_export($key, $out);
