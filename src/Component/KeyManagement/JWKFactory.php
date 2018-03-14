@@ -64,6 +64,23 @@ class JWKFactory
      */
     public static function createECKey(string $curve, array $values = []): JWK
     {
+        try {
+            $jwk = self::createECKeyUsingOpenSSL($curve);
+        } catch (\Exception $e) {
+            $jwk = self::createECKeyUsingPurePhp($curve);
+        }
+        $values = array_merge($values, $jwk);
+
+        return JWK::create($values);
+    }
+
+    /**
+     * @param string $curve
+     *
+     * @return array
+     */
+    private static function createECKeyUsingPurePhp(string $curve): array
+    {
         switch ($curve) {
             case 'P-256':
                 $nistCurve = NistCurve::curve256();
@@ -84,18 +101,60 @@ class JWKFactory
         $privateKey = $nistCurve->createPrivateKey();
         $publicKey = $nistCurve->createPublicKey($privateKey);
 
-        $values = array_merge(
-            $values,
-            [
-                'kty' => 'EC',
-                'crv' => $curve,
-                'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
-                'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
-                'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
-            ]
-        );
+        return [
+            'kty' => 'EC',
+            'crv' => $curve,
+            'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
+            'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
+            'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+        ];
+    }
 
-        return JWK::create($values);
+    /**
+     * @param string $curve
+     *
+     * @return array
+     */
+    private static function createECKeyUsingOpenSSL(string $curve): array
+    {
+        $key = openssl_pkey_new([
+            'curve_name'       => self::getOpensslCurveName($curve),
+            'private_key_type' => OPENSSL_KEYTYPE_EC,
+        ]);
+        $res = openssl_pkey_export($key, $out);
+        if (false === $res) {
+            throw new \RuntimeException('Unable to create the key');
+        }
+        $res = openssl_pkey_get_private($out);
+
+        $details = openssl_pkey_get_details($res);
+
+        return [
+            'kty' => 'EC',
+            'crv' => $curve,
+            'x'   => Base64Url::encode(bin2hex($details['ec']['x'])),
+            'y'   => Base64Url::encode(bin2hex($details['ec']['y'])),
+            'd'   => Base64Url::encode(bin2hex($details['ec']['d'])),
+        ];
+    }
+
+    /**
+     * @param string $curve
+     *
+     * @return string
+     */
+    private static function getOpensslCurveName(string $curve): string
+    {
+        switch ($curve) {
+            case 'P-256':
+                return 'prime256v1';
+            case 'P-384':
+                return 'secp384r1';
+            case 'P-521':
+                return 'secp521r1';
+            default:
+                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+        }
     }
 
     /**
