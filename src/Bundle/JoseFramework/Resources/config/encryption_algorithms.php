@@ -87,6 +87,8 @@ return function (ContainerConfigurator $container) {
 
     $container->set(KeyEncryption\A128CTR::class)
         ->tag('jose.algorithm', ['alias' => 'A128CTR']);
+    $container->set(KeyEncryption\A192CTR::class)
+        ->tag('jose.algorithm', ['alias' => 'A192CTR']);
     $container->set(KeyEncryption\A256CTR::class)
         ->tag('jose.algorithm', ['alias' => 'A256CTR']);
 
