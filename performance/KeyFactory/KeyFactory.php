@@ -18,7 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 
 /**
- * @Revs(100)
+ * @Revs(1000)
  * @Groups({"KeyFactory"})
  */
 final class KeyFactory
@@ -28,9 +28,9 @@ final class KeyFactory
      */
     public function usingThePurePhpMethod()
     {
-        $nistCurve = NistCurve::curve256();
-        $privateKey = $nistCurve->createPrivateKey();
-        $publicKey = $nistCurve->createPublicKey($privateKey);
+        $curve = NistCurve::curve256();
+        $privateKey = $curve->createPrivateKey();
+        $publicKey = $curve->createPublicKey($privateKey);
 
         JWK::create([
             'kty' => 'EC',
