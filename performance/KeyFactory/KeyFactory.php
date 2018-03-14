@@ -47,7 +47,7 @@ final class KeyFactory
     public function usingOpenSSL()
     {
         $key = openssl_pkey_new([
-            'curve_name' => 'prime256v1',
+            'curve_name'       => 'prime256v1',
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
         $res = openssl_pkey_export($key, $out);
