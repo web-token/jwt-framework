@@ -75,7 +75,6 @@ return function (ContainerConfigurator $container) {
     $container->set(KeyEncryption\RSAOAEP256::class)
         ->tag('jose.algorithm', ['alias' => 'RSA-OAEP-256']);
 
-
     // ---- New algorithms ----
     // These algorithms are out of the main specifications but referenced in
     // some WebAuthn documents.

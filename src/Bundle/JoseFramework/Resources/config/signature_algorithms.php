@@ -54,7 +54,6 @@ return function (ContainerConfigurator $container) {
     $container->set(Algorithm\None::class)
         ->tag('jose.algorithm', ['alias' => 'none']);
 
-
     // ---- New algorithms ----
     // These algorithms are out of the main specifications but referenced in
     // some WebAuthn documents.
