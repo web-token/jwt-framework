@@ -15,7 +15,7 @@ namespace Jose\Performance\KeyFactory;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Core\Util\Ecc\NistCurve;
 
 /**
  * @Revs(100)
@@ -26,9 +26,19 @@ final class KeyFactory
     /**
      * @Subject()
      */
-    public function usingTheFactoryMethod()
+    public function usingThePurePhpMethod()
     {
-        JWKFactory::createECKey('P-256');
+        $nistCurve = NistCurve::curve256();
+        $privateKey = $nistCurve->createPrivateKey();
+        $publicKey = $nistCurve->createPublicKey($privateKey);
+
+        JWK::create([
+            'kty' => 'EC',
+            'crv' => $curve,
+            'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
+            'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
+            'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+        ]);
     }
 
     /**
@@ -48,12 +58,12 @@ final class KeyFactory
 
         $details = openssl_pkey_get_details($res);
 
-        $jwk = JWK::create([
+        JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
-            'x'   => Base64Url::encode(bin2hex($details['ec']['x'])),
-            'y'   => Base64Url::encode(bin2hex($details['ec']['y'])),
-            'd'   => Base64Url::encode(bin2hex($details['ec']['d'])),
+            'x'   => Base64Url::encode($details['ec']['x']),
+            'y'   => Base64Url::encode($details['ec']['y']),
+            'd'   => Base64Url::encode($details['ec']['d']),
         ]);
     }
 }

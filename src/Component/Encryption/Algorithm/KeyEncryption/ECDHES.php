@@ -232,7 +232,7 @@ final class ECDHES implements KeyAgreement
      */
     private function convertBase64ToGmp(string $value): \GMP
     {
-        $value = unpack('H*', Base64Url::decode($value));
+        $value = unpack('H*', Base64Url::decode($value));;
 
         return gmp_init($value[1], 16);
     }
@@ -363,9 +363,9 @@ final class ECDHES implements KeyAgreement
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'x'   => Base64Url::encode(bin2hex($details['ec']['x'])),
-            'y'   => Base64Url::encode(bin2hex($details['ec']['y'])),
-            'd'   => Base64Url::encode(bin2hex($details['ec']['d'])),
+            'd'   => Base64Url::encode($details['ec']['d']),
+            'x'   => Base64Url::encode($details['ec']['x']),
+            'y'   => Base64Url::encode($details['ec']['y']),
         ];
     }
 

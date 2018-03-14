@@ -64,11 +64,11 @@ class JWKFactory
      */
     public static function createECKey(string $curve, array $values = []): JWK
     {
-        /*try {
+        try {
             $jwk = self::createECKeyUsingOpenSSL($curve);
-        } catch (\Exception $e) {*/
+        } catch (\Exception $e) {
             $jwk = self::createECKeyUsingPurePhp($curve);
-        //}
+        }
         $values = array_merge($values, $jwk);
 
         return JWK::create($values);
