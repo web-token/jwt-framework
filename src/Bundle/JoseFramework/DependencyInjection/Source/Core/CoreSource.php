@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Core;
 
-use Jose\Bundle\JoseFramework\DataCollector\JoseCollector;
+use Jose\Bundle\JoseFramework\DataCollector\Collector;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Core\Converter\JsonConverter;
@@ -48,7 +48,7 @@ class CoreSource implements SourceWithCompilerPasses
         }
 
         if (true === $container->getParameter('kernel.debug')) {
-            $container->registerForAutoconfiguration(JoseCollector::class)->addTag('jose.data_collector');
+            $container->registerForAutoconfiguration(Collector::class)->addTag('jose.data_collector');
             $loader->load('dev_services.php');
         }
 
