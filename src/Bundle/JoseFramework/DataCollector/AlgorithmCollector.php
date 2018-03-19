@@ -44,7 +44,10 @@ class AlgorithmCollector implements Collector
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $algorithms = $this->algorithmManagerFactory->all();
-        $data['algorithm']['algorithms'] = [];
+        $data['algorithm'] = [
+            'messages'   => $this->getAlgorithmMessages(),
+            'algorithms' => [],
+        ];
         $signatureAlgorithms = 0;
         $keyEncryptionAlgorithms = 0;
         $contentEncryptionAlgorithms = 0;
@@ -91,5 +94,38 @@ class AlgorithmCollector implements Collector
             default:
                 return 'Unknown';
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function getAlgorithmMessages(): array
+    {
+        return [
+            'none' => [
+                'severity' => 'severity-low',
+                'message' => 'This algorithm is not secured. Please use with caution.',
+            ],
+            'RSA1_5' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
+            ],
+            'ECDH-ES' => [
+                'severity' => 'severity-medium',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+            ],
+            'ECDH-ES+A128KW' => [
+                'severity' => 'severity-medium',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+            ],
+            'ECDH-ES+A192KW' => [
+                'severity' => 'severity-medium',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+            ],
+            'ECDH-ES+A256KW' => [
+                'severity' => 'severity-medium',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+            ],
+        ];
     }
 }
