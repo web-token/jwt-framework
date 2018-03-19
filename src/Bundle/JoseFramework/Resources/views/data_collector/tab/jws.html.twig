@@ -16,7 +16,14 @@
                     <td>
                         <ul>
                             {% for algorithm in data.signature_algorithms %}
-                                <li><span{% if algorithm == 'none' %} class="severity-low"{% endif %}>{{ algorithm }}</span></li>
+                                <li>
+                                    <span{% if algorithm in collector.getData().algorithm.messages|keys %}
+                                        class="{{ collector.getData().algorithm.messages[algorithm]['severity'] }}"
+                                            {% else %}
+                                            {% endif %}>
+                                        {{ algorithm }}
+                                    </span>
+                                </li>
                             {% endfor %}
                         </ul>
                     </td>
@@ -39,7 +46,13 @@
                     <td>
                         <ul>
                             {% for algorithm in data.signature_algorithms %}
-                                <li><span{% if algorithm == 'none' %} class="severity-low"{% endif %}>{{ algorithm }}</span></li>
+                                <li>
+                                    <span{% if algorithm in collector.getData().algorithm.messages|keys %}
+                                        class="{{ collector.getData().algorithm.messages[algorithm]['severity'] }}"
+                                            {% endif %}>
+                                        {{ algorithm }}
+                                    </span>
+                                </li>
                             {% endfor %}
                         </ul>
                     </td>
@@ -81,19 +94,53 @@
         {% set signatureAlgorithms = collector.getData().algorithm.algorithms %}
         {% if signatureAlgorithms['Signature'] is defined %}
             <h4>Available Signature Algorithms</h4>
-            <ul>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Alias</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for alias, alg in signatureAlgorithms['Signature'] %}
-                    <li><span{% if alg.name == 'none' %} class="severity-low"{% endif %}>{{ alg.name }} (alias: <i>{{ alias }})</i>{% if alg.name == 'none' %}. This algorithm is not secured. Please use with caution{% endif %}</span></li>
+                    <tr>
+                        <td {% if alg.name in collector.getData().algorithm.messages|keys %}
+                            class="{{ collector.getData().algorithm.messages[alg.name]['severity'] }}"
+                                {% endif %}>{{ alg.name }}</td>
+                        <td {% if alg.name in collector.getData().algorithm.messages|keys %}
+                            class="{{ collector.getData().algorithm.messages[alg.name]['severity'] }}"
+                                {% endif %}>{{ alias }}</td>
+                        <td {% if alg.name in collector.getData().algorithm.messages|keys %}
+                            class="{{ collector.getData().algorithm.messages[alg.name]['severity'] }}"
+                                {% endif %}>
+                            {% if alg.name in collector.getData().algorithm.messages|keys %}
+                                {{ collector.getData().algorithm.messages[alg.name]['message']|raw }}
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
-            </ul>
+                </tbody>
+            </table>
             <h4>Serialization Modes</h4>
-            <ul>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Alias</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for alias, name in collector.getData().jws.jws_serialization %}
-                    <li>{{ name }} (alias: <i>{{ alias }})</i></li>
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ alias }}</td>
+                    </tr>
                 {% endfor %}
-            </ul>
+                </tbody>
+            </table>
         {% else %}
-            The is no signature algorithm. Did you installed "web-token/jwt-signature-bundle"?
+            There is no signature algorithm. Did you installed "web-token/jwt-signature-bundle"?
         {% endif %}
     </div>
 </div>
