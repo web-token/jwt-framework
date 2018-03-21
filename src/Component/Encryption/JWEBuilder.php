@@ -354,8 +354,7 @@ class JWEBuilder
         $iv_size = $this->contentEncryptionAlgorithm->getIVSize();
         $iv = $this->createIV($iv_size);
         $payload = $this->preparePayload();
-        $aad = $this->aad ? Base64Url::encode($this->aad) : null;
-        $ciphertext = $this->contentEncryptionAlgorithm->encryptContent($payload, $cek, $iv, $aad, $encodedSharedProtectedHeader, $tag);
+        $ciphertext = $this->contentEncryptionAlgorithm->encryptContent($payload, $cek, $iv, $this->aad, $encodedSharedProtectedHeader, $tag);
 
         return [$ciphertext, $iv, $tag];
     }

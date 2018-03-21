@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Base64Url\Base64Url;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 
 abstract class AESCBCHS implements ContentEncryptionAlgorithm
@@ -72,7 +73,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     {
         $calculated_aad = $encoded_header;
         if (null !== $aad) {
-            $calculated_aad .= '.'.$aad;
+            $calculated_aad .= '.'.Base64Url::encode($aad);
         }
         $mac_key = mb_substr($cek, 0, $this->getCEKSize() / 16, '8bit');
         $auth_data_length = mb_strlen($encoded_header, '8bit');
