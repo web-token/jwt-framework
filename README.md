@@ -12,7 +12,6 @@ If you really love that project, then you can help me out for a couple of :beers
 [![Dependency Status](https://beta.gemnasium.com/badges/github.com/web-token/jwt-framework.svg)](https://beta.gemnasium.com/projects/github.com/web-token/jwt-framework)
 
 [![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=master)](https://travis-ci.org/web-token/jwt-framework)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/web-token/jwt-framework/badge.svg)](https://travis-ci.org/web-token/jwt-framework)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a/big.png)](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a)
 
