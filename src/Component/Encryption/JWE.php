@@ -302,4 +302,29 @@ class JWE implements JWT
     {
         return array_key_exists($key, $this->sharedHeader);
     }
+
+    /**
+     * This method splits the JWE into a list of JWEs.
+     * It is only useful when the JWE contains more than one recipient (JSON General Serialization).
+     *
+     * @return JWE[]
+     */
+    public function split(): array
+    {
+        $result = [];
+        foreach ($this->recipients as $recipient) {
+            $result[] = JWE::create(
+                $this->ciphertext,
+                $this->iv,
+                $this->tag,
+                $this->aad,
+                $this->sharedHeader,
+                $this->sharedProtectedHeader,
+                $this->encodedSharedProtectedHeader,
+                [$recipient]
+            );
+        }
+
+        return $result;
+    }
 }

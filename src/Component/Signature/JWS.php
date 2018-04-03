@@ -154,4 +154,32 @@ class JWS implements JWT
     {
         return count($this->signatures);
     }
+
+    /**
+     * This method splits the JWS into a list of JWSs.
+     * It is only useful when the JWS contains more than one signature (JSON General Serialization).
+     *
+     * @return JWS[]
+     */
+    public function split(): array
+    {
+        $result = [];
+        foreach ($this->signatures as $signature) {
+             $jws = JWS::create(
+                $this->payload,
+                $this->encodedPayload,
+                $this->isPayloadDetached
+            );
+             $jws = $jws->addSignature(
+                 $signature->getSignature(),
+                 $signature->getProtectedHeader(),
+                 $signature->getEncodedProtectedHeader(),
+                 $signature->getHeader()
+             );
+
+            $result[] = $jws;
+        }
+
+        return $result;
+    }
 }
