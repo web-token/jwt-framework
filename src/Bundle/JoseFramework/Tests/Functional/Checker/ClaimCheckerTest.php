@@ -29,7 +29,7 @@ class ClaimCheckerTest extends WebTestCase
     protected function setUp()
     {
         if (!class_exists(ClaimCheckerManagerFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+            self::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
 
