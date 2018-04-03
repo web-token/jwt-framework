@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Serializer\JWESerializerManagerFactory:
+        public: true
+
+    Jose\Component\Encryption\Serializer\CompactSerializer: ~
+    Jose\Component\Encryption\Serializer\JSONFlattenedSerializer: ~
+    Jose\Component\Encryption\Serializer\JSONGeneralSerializer: ~

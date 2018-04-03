@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\JWEBuilderFactory:
+        public: true
+
+    Jose\Component\Encryption\JWEDecrypterFactory:
+        public: true
+
+    Jose\Component\Encryption\JWELoaderFactory:
+        public: true
+
+    Jose\Component\Encryption\JWETokenSupport: ~
