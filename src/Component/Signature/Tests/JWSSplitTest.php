@@ -13,12 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Tests;
 
-use Base64Url\Base64Url;
 use Jose\Component\Core\Converter\StandardConverter;
-use Jose\Component\Core\JWK;
-use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
-use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 
 /**

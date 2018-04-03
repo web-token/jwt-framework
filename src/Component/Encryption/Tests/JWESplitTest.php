@@ -46,7 +46,7 @@ class JWESplitTest extends EncryptionTest
             self::assertEquals($jwe->getIV(), $tempJwe->getIV());
             self::assertEquals($jwe->getTag(), $tempJwe->getTag());
             self::assertEquals($jwe->isEncrypted(), $tempJwe->isEncrypted());
-            
+
             $recipient2 = $tempJwe->getRecipient(0);
             self::assertEquals($recipient1->getHeader(), $recipient2->getHeader());
             self::assertEquals($recipient1->getEncryptedKey(), $recipient2->getEncryptedKey());
