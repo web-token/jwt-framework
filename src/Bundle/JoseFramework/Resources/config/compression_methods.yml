@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Compression\CompressionMethodManagerFactory:
+        public: true
+
+    Jose\Component\Encryption\Compression\Deflate:
+        tags:
+            - {'name': 'jose.compression_method', 'alias': 'DEF'}
+    Jose\Component\Encryption\Compression\GZip:
+        tags:
+            - {'name': 'jose.compression_method', 'alias': 'GZ'}
+    Jose\Component\Encryption\Compression\ZLib:
+        tags:
+            - {'name': 'jose.compression_method', 'alias': 'ZLIB'}

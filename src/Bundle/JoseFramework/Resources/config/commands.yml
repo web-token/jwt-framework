@@ -1,0 +1,29 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Console\EcKeyGeneratorCommand: ~
+    Jose\Component\Console\EcKeysetGeneratorCommand: ~
+    Jose\Component\Console\OctKeyGeneratorCommand: ~
+    Jose\Component\Console\OctKeysetGeneratorCommand: ~
+    Jose\Component\Console\OkpKeyGeneratorCommand: ~
+    Jose\Component\Console\OkpKeysetGeneratorCommand: ~
+    Jose\Component\Console\RsaKeyGeneratorCommand: ~
+    Jose\Component\Console\RsaKeysetGeneratorCommand: ~
+    Jose\Component\Console\NoneKeyGeneratorCommand: ~
+    Jose\Component\Console\SecretKeyGeneratorCommand: ~
+    Jose\Component\Console\KeyFileLoaderCommand: ~
+    Jose\Component\Console\P12CertificateLoaderCommand: ~
+    Jose\Component\Console\X509CertificateLoaderCommand: ~
+    Jose\Component\Console\OptimizeRsaKeyCommand: ~
+    Jose\Component\Console\KeyAnalyzerCommand: ~
+    Jose\Component\Console\KeysetAnalyzerCommand: ~
+    Jose\Component\Console\PublicKeyCommand: ~
+    Jose\Component\Console\PublicKeysetCommand: ~
+    Jose\Component\Console\MergeKeysetCommand: ~
+    Jose\Component\Console\RotateKeysetCommand: ~
+    Jose\Component\Console\AddKeyIntoKeysetCommand: ~
+    Jose\Component\Console\PemConverterCommand: ~
+    Jose\Component\Console\GetThumbprintCommand: ~
