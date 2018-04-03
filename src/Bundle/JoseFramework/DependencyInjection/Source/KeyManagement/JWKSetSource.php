@@ -18,7 +18,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class JWKSetSource implements Source
 {
@@ -100,8 +100,8 @@ class JWKSetSource implements Source
         // load bundled adapter factories
         $tempContainer = new ContainerBuilder();
         $tempContainer->registerForAutoconfiguration(JWKSetSourceInterface::class)->addTag('jose.jwkset_source');
-        $loader = new PhpFileLoader($tempContainer, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('jwkset_sources.php');
+        $loader = new YamlFileLoader($tempContainer, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('jwkset_sources.yml');
 
         $services = $tempContainer->findTaggedServiceIds('jose.jwkset_source');
         $jwkset_sources = [];

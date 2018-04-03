@@ -23,7 +23,7 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class CheckerSource implements SourceWithCompilerPasses
 {
@@ -60,8 +60,8 @@ class CheckerSource implements SourceWithCompilerPasses
             return;
         }
         $container->registerForAutoconfiguration(TokenTypeSupport::class)->addTag('jose.checker.token_type');
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('checkers.php');
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('checkers.yml');
 
         if (array_key_exists('checkers', $configs)) {
             foreach ($this->sources as $source) {

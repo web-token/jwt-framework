@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Signature\JWSBuilderFactory:
+        public: true
+
+    Jose\Component\Signature\JWSVerifierFactory:
+        public: true
+
+    Jose\Component\Signature\JWSLoaderFactory:
+        public: true
+
+    Jose\Component\Signature\JWSTokenSupport: ~

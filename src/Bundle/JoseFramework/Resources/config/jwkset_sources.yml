@@ -1,0 +1,16 @@
+services:
+    jose.jwk_set_source.jwkset:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSet'
+        tags:
+            - {'name': 'jose.jwkset_source'}
+    jose.jwk_set_source.jku:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JKU'
+        tags:
+            - {'name': 'jose.jwkset_source'}
+    jose.jwk_set_source.x5u:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\X5U'
+        tags:
+            - {'name': 'jose.jwkset_source'}

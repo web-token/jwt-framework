@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Bundle\JoseFramework\DataCollector\JoseCollector:
+        tags:
+            -
+                name:     'data_collector'
+                template: '@JoseFramework/data_collector/template.html.twig'
+                id:       'jose_collector'
+
+    Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector: ~
+    Jose\Bundle\JoseFramework\DataCollector\CheckerCollector: ~
+    Jose\Bundle\JoseFramework\DataCollector\JWECollector: ~
+    Jose\Bundle\JoseFramework\DataCollector\JWSCollector: ~
+    Jose\Bundle\JoseFramework\DataCollector\KeyCollector: ~

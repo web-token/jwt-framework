@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\NestedTokenBuilderFactory:
+        public: true
+
+    Jose\Component\Encryption\NestedTokenLoaderFactory:
+        public: true
