@@ -165,12 +165,12 @@ class JWS implements JWT
     {
         $result = [];
         foreach ($this->signatures as $signature) {
-             $jws = JWS::create(
+            $jws = self::create(
                 $this->payload,
                 $this->encodedPayload,
                 $this->isPayloadDetached
             );
-             $jws = $jws->addSignature(
+            $jws = $jws->addSignature(
                  $signature->getSignature(),
                  $signature->getProtectedHeader(),
                  $signature->getEncodedProtectedHeader(),

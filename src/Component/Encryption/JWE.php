@@ -313,7 +313,7 @@ class JWE implements JWT
     {
         $result = [];
         foreach ($this->recipients as $recipient) {
-            $result[] = JWE::create(
+            $result[] = self::create(
                 $this->ciphertext,
                 $this->iv,
                 $this->tag,
