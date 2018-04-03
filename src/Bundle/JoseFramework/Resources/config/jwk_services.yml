@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Bundle\JoseFramework\Controller\JWKSetControllerFactory: ~
+    Jose\Bundle\JoseFramework\Routing\JWKSetLoader:
+        tags:
+            - {'name': 'routing.loader'}

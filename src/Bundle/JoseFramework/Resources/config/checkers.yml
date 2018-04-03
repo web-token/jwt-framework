@@ -1,0 +1,23 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Checker\HeaderCheckerManagerFactory:
+        public: true
+
+    Jose\Component\Checker\ClaimCheckerManagerFactory:
+        public: true
+
+    Jose\Component\Checker\ExpirationTimeChecker:
+        tags:
+            - { name: 'jose.checker.claim', alias: 'exp' }
+
+    Jose\Component\Checker\IssuedAtChecker:
+        tags:
+            - { name: 'jose.checker.claim', alias: 'iat' }
+
+    Jose\Component\Checker\NotBeforeChecker:
+        tags:
+            - { name: 'jose.checker.claim', alias: 'nbf' }

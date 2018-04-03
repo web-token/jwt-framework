@@ -1,0 +1,36 @@
+services:
+    jose.jwk_source.keyfile:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\KeyFile'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.certificatefile:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\CertificateFile'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.values:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Values'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.secret:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Secret'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.jwk:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWK'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.x5c:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\X5C'
+        tags:
+            - {'name': 'jose.jwk_source'}
+    jose.jwk_source.jwkset:
+        public: false
+        class: 'Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSet'
+        tags:
+            - {'name': 'jose.jwk_source'}

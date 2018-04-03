@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager: ~
+    Jose\Component\KeyManagement\KeyAnalyzer\AlgorithmAnalyzer: ~
+    Jose\Component\KeyManagement\KeyAnalyzer\UsageAnalyzer: ~
+    Jose\Component\KeyManagement\KeyAnalyzer\KeyIdentifierAnalyzer: ~
+    Jose\Component\KeyManagement\KeyAnalyzer\NoneAnalyzer: ~
+    Jose\Component\KeyManagement\KeyAnalyzer\OctAnalyzer: ~
+    Jose\Component\KeyManagement\KeyAnalyzer\RsaAnalyzer: ~
