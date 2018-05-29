@@ -51,3 +51,16 @@ services:
     Jose\Component\Signature\Algorithm\None:
         tags:
             - {'name': 'jose.algorithm', 'alias': 'none'}
+
+# ---- New algorithms ----
+# These algorithms are out of the main specifications but referenced in
+# some WebAuthn documents.
+#
+# They may be subject to changes.
+# ------------------------
+    Jose\Component\Signature\Algorithm\HS1:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'HS1'}
+    Jose\Component\Signature\Algorithm\HS256_64:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'HS256/64'}

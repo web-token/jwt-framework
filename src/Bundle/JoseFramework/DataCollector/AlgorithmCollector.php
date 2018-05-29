@@ -106,6 +106,82 @@ class AlgorithmCollector implements Collector
                 'severity' => 'severity-low',
                 'message'  => 'This algorithm is not secured. Please use with caution.',
             ],
+            'HS256/64' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental. Please use for testing purpose only.',
+            ],
+            'hs1' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm has known vulnerabilities. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17</a>.',
+            ],
+            'A128CTR' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A192CTR' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A256CTR' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A128CBC' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A192CBC' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A256CBC' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'chacha20-poly1305' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental. Please use for testing purpose only.',
+            ],
+            'RSA-OAEP-384' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental. Please use for testing purpose only.',
+            ],
+            'RSA-OAEP-512' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-64-128' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-64-256' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-64-128' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-64-256' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-128-128' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-128-256' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-128-128' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-128-256' => [
+                'severity' => 'severity-low',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
             'RSA1_5' => [
                 'severity' => 'severity-high',
                 'message'  => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
