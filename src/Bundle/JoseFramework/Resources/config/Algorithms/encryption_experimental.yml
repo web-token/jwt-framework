@@ -18,6 +18,9 @@ services:
     Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR:
         tags:
             - {'name': 'jose.algorithm', 'alias': 'A128CTR'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\A192CTR:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A192CTR'}
     Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR:
         tags:
             - {'name': 'jose.algorithm', 'alias': 'A256CTR'}
