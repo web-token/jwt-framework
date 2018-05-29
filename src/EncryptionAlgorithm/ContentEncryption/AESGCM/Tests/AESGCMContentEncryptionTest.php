@@ -11,17 +11,18 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Tests;
+namespace Jose\Component\Encryption\Algorithm\ContentEncryption\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group Unit
  */
-class AESGCMContentEncryptionTest extends EncryptionTest
+class AESGCMContentEncryptionTest extends TestCase
 {
     public function testA128GCMEncryptAndDecrypt()
     {
@@ -97,7 +98,7 @@ class AESGCMContentEncryptionTest extends EncryptionTest
      *
      * @return string
      */
-    private function convertArrayToBinString(array $data)
+    private function convertArrayToBinString(array $data): string
     {
         foreach ($data as $key => $value) {
             $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);

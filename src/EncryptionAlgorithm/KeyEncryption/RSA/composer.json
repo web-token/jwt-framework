@@ -1,0 +1,36 @@
+{
+    "name": "web-token/jwt-encryption-algorithm-rsa",
+    "description": "RSA Based Key Encryption Algorithms the JWT Framework.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
+    "homepage": "https://github.com/web-token",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },{
+            "name": "All contributors",
+            "homepage": "https://github.com/web-token/jwt-core/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\":  ""
+        }
+    },
+    "require": {
+        "web-token/jwt-encryption": "^1.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0|^7.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.2.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

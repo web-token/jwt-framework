@@ -11,13 +11,14 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Tests;
+namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class PBES2_HS_AESKWKeyEncryptionTest.
@@ -25,7 +26,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
  * @group PBES2HSAESKW
  * @group Unit
  */
-class PBES2_HS_AESKWKeyEncryptionTest extends EncryptionTest
+class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7517#appendix-C
