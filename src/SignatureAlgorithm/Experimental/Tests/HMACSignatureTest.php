@@ -30,6 +30,8 @@ class HMACSignatureTest extends TestCase
         $hmac = new HS1();
         $data = 'Live long and Prosper.';
 
+        self::assertEquals('HS1', $hmac->name());
+
         $signature = $hmac->sign($key, $data);
 
         self::assertTrue($hmac->verify($key, $data, $signature));
@@ -40,6 +42,8 @@ class HMACSignatureTest extends TestCase
         $key = $this->getKey();
         $hmac = new HS256_64();
         $data = 'Live long and Prosper.';
+
+        self::assertEquals('HS256/64', $hmac->name());
 
         $signature = $hmac->sign($key, $data);
 
