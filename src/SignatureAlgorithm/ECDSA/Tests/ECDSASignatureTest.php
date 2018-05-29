@@ -11,19 +11,20 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Tests;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group ECDSA
  * @group Unit
  */
-class ECDSASignatureTest extends SignatureTest
+class ECDSASignatureTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

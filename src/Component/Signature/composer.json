@@ -22,10 +22,22 @@
     "require": {
         "php": "^7.1",
         "lib-openssl": "*",
-        "web-token/jwt-core": "^1.2"
+        "web-token/jwt-core": "^1.2",
+        "web-token/jwt-signature-algorithm-ecdsa": "^1.2",
+        "web-token/jwt-signature-algorithm-eddsa": "^1.2",
+        "web-token/jwt-signature-algorithm-hmac": "^1.2",
+        "web-token/jwt-signature-algorithm-none": "^1.2",
+        "web-token/jwt-signature-algorithm-rsa": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0|^7.0"
+    },
+    "suggest": {
+        "web-token/jwt-signature-algorithm-ecdsa": "ECDSA Based Signature Algorithms",
+        "web-token/jwt-signature-algorithm-eddsa": "EdDSA Based Signature Algorithms",
+        "web-token/jwt-signature-algorithm-hmac": "HMAC Based Signature Algorithms",
+        "web-token/jwt-signature-algorithm-none": "None Signature Algorithm",
+        "web-token/jwt-signature-algorithm-rsa": "RSA Based Signature Algorithms"
     },
     "extra": {
         "branch-alias": {
