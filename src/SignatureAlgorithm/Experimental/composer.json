@@ -20,6 +20,7 @@
         }
     },
     "require": {
+        "web-token/jwt-signature-algorithm-rsa": "^1.2",
         "web-token/jwt-signature-algorithm-hmac": "^1.2"
     },
     "require-dev": {

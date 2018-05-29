@@ -110,9 +110,13 @@ class AlgorithmCollector implements Collector
                 'severity' => 'severity-low',
                 'message'  => 'Experimental. Please use for testing purpose only.',
             ],
-            'hs1' => [
+            'RS1' => [
                 'severity' => 'severity-high',
-                'message'  => 'This algorithm has known vulnerabilities. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17</a>.',
+                'message'  => 'Experimental. Please use for testing purpose only. SHA-1 hashing function is not recommended.',
+            ],
+            'HS1' => [
+                'severity' => 'severity-high',
+                'message'  => 'This algorithm has known vulnerabilities. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17</a>. SHA-1 hashing function is not recommended.',
             ],
             'A128CTR' => [
                 'severity' => 'severity-high',

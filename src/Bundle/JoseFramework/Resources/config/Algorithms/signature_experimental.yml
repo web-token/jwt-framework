@@ -10,6 +10,10 @@ services:
 #
 # They may be subject to changes.
 # ------------------------
+    Jose\Component\Signature\Algorithm\RS1:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'RS1'}
+
     Jose\Component\Signature\Algorithm\HS1:
         tags:
             - {'name': 'jose.algorithm', 'alias': 'HS1'}
