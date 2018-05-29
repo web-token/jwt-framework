@@ -16,6 +16,12 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Jose\Component\Signature\Algorithm\ECDSA;
+use Jose\Component\Signature\Algorithm\EdDSA;
+use Jose\Component\Signature\Algorithm\HMAC;
+use Jose\Component\Signature\Algorithm\HS1;
+use Jose\Component\Signature\Algorithm\None;
+use Jose\Component\Signature\Algorithm\RSA;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
@@ -61,16 +67,37 @@ class SignatureSource implements SourceWithCompilerPasses
             return;
         }
         $container->registerForAutoconfiguration(\Jose\Component\Signature\Serializer\JWSSerializer::class)->addTag('jose.jws.serializer');
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/'));
         $loader->load('jws_services.yml');
         $loader->load('jws_serializers.yml');
-        $loader->load('signature_algorithms.yml');
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
+        foreach ($this->getAlgorithmsFiles() as $class => $file) {
+            if (class_exists($class)) {
+                $loader->load($file);
+            }
+        }
 
         if (array_key_exists('jws', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['jws'], $container);
             }
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    private function getAlgorithmsFiles(): array
+    {
+        return [
+            RSA::class => 'signature_rsa.yml',
+            ECDSA::class => 'signature_ecdsa.yml',
+            EdDSA::class => 'signature_eddsa.yml',
+            HMAC::class => 'signature_hmac.yml',
+            None::class => 'signature_none.yml',
+            HS1::class => 'signature_experimental.yml',
+        ];
     }
 
     /**

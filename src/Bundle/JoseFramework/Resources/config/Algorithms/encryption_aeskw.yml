@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A128KW'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A192KW'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A256KW'}

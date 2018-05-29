@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'PBES2-HS256+A128KW'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'PBES2-HS384+A192KW'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'PBES2-HS512+A256KW'}

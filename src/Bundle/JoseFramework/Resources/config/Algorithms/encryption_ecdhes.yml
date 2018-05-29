@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'ECDH-ES'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'ECDH-ES+A128KW'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'ECDH-ES+A192KW'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'ECDH-ES+A256KW'}

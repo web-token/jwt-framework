@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'RSA1_5'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'RSA-OAEP'}
+    Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'RSA-OAEP-256'}

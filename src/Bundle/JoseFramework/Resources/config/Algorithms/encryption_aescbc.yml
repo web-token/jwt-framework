@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A128CBC-HS256'}
+    Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A192CBC-HS384'}
+    Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A256CBC-HS512'}

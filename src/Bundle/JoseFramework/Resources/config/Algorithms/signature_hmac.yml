@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Signature\Algorithm\HS256:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'HS256'}
+    Jose\Component\Signature\Algorithm\HS384:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'HS384'}
+    Jose\Component\Signature\Algorithm\HS512:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'HS512'}

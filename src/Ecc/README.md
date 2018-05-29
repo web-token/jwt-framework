@@ -1,5 +1,5 @@
-AES CBC Based Content Encryption Algorithms For JWT-Framework
-=============================================================
+ECC Tools For JWT-Framework
+============================
 
 This repository is a sub repository of [the JWT Framework](https://github.com/web-token/jwt-framework) project and is READ ONLY.
 

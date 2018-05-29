@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Algorithm\KeyEncryption\Dir:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'dir'}

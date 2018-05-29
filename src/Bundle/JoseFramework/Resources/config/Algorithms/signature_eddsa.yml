@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Signature\Algorithm\EdDSA:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'EdDSA'}

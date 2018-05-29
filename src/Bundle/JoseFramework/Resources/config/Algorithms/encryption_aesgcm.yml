@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A128GCM'}
+    Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A192GCM'}
+    Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'A256GCM'}
