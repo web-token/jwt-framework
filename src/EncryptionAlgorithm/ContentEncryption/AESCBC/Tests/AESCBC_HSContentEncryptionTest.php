@@ -11,18 +11,19 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Tests;
+namespace Jose\Component\Encryption\Algorithm\ContentEncryption\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group AESCBC
  * @group Unit
  */
-class AESCBC_HSContentEncryptionTest extends EncryptionTest
+class AESCBC_HSContentEncryptionTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B
@@ -162,13 +163,7 @@ class AESCBC_HSContentEncryptionTest extends EncryptionTest
         self::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
     }
 
-    /**
-     * @param string $class
-     * @param string $name
-     *
-     * @return \ReflectionMethod
-     */
-    protected static function getMethod($class, $name)
+    protected static function getMethod(string $class, string $name): \ReflectionMethod
     {
         $class = new \ReflectionClass($class);
         $method = $class->getMethod($name);

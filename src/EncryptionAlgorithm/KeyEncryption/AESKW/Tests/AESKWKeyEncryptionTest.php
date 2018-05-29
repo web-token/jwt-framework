@@ -11,21 +11,22 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Tests;
+namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @group AESGCMKW
+ * @group AESKW
  * @group Unit
  */
-class AESGCMKWKeyEncryptionTest extends EncryptionTest
+class AESKWKeyEncryptionTest extends TestCase
 {
-    public function testA128GCMKW()
+    public function testA128KW()
     {
         $header = [];
         $key = JWK::create([
@@ -35,20 +36,17 @@ class AESGCMKWKeyEncryptionTest extends EncryptionTest
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
 
-        $aeskw = new A128GCMKW();
+        $aeskw = new A128KW();
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        self::assertTrue(array_key_exists('iv', $header));
-        self::assertTrue(array_key_exists('tag', $header));
-        self::assertNotNull($header['iv']);
-        self::assertNotNull($header['tag']);
+        self::assertEquals($wrapped_cek, hex2bin('11826840774D993FF9C2FA02CCA3CEA0E93B1E1CF96361F93EA6DC2F345194E7B30F964C79F9E61D'));
         self::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Wrong key type.
+     * @expectedExceptionMessage  Wrong key type
      */
     public function testBadKey()
     {
@@ -59,31 +57,12 @@ class AESGCMKWKeyEncryptionTest extends EncryptionTest
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
 
-        $aeskw = new A128GCMKW();
+        $aeskw = new A128KW();
 
         $aeskw->wrapKey($key, $cek, $header, $header);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Parameter "iv" is missing.
-     */
-    public function testMissingParameters()
-    {
-        $header = [];
-        $key = JWK::create([
-            'kty' => 'oct',
-            'k'   => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
-        ]);
-
-        $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
-
-        $aeskw = new A128GCMKW();
-
-        $aeskw->unwrapKey($key, $cek, $header);
-    }
-
-    public function testA192GCMKW()
+    public function testA192KW()
     {
         $header = [];
         $key = JWK::create([
@@ -93,18 +72,15 @@ class AESGCMKWKeyEncryptionTest extends EncryptionTest
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
 
-        $aeskw = new A192GCMKW();
+        $aeskw = new A192KW();
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        self::assertTrue(array_key_exists('iv', $header));
-        self::assertTrue(array_key_exists('tag', $header));
-        self::assertNotNull($header['iv']);
-        self::assertNotNull($header['tag']);
+        self::assertEquals($wrapped_cek, hex2bin('08861E000AABFA4479C7191F9DC51CCA37C50F16CC14441C6EA4980CFCE0F41D9285758C6F74AC6D'));
         self::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 
-    public function testA256GCMKW()
+    public function testA256KW()
     {
         $header = [];
         $key = JWK::create([
@@ -114,14 +90,11 @@ class AESGCMKWKeyEncryptionTest extends EncryptionTest
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
 
-        $aeskw = new A256GCMKW();
+        $aeskw = new A256KW();
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        self::assertTrue(array_key_exists('iv', $header));
-        self::assertTrue(array_key_exists('tag', $header));
-        self::assertNotNull($header['iv']);
-        self::assertNotNull($header['tag']);
+        self::assertEquals($wrapped_cek, hex2bin('28C9F404C4B810F4CBCCB35CFB87F8263F5786E2D80ED326CBC7F0E71A99F43BFB988B9B7A02DD21'));
         self::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 }

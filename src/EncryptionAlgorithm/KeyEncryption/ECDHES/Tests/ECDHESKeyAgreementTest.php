@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Tests;
+namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
@@ -19,6 +19,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ECDHESKeyAgreementTest.
@@ -26,7 +27,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
  * @group ECDHES
  * @group Unit
  */
-class ECDHESKeyAgreementTest extends EncryptionTest
+class ECDHESKeyAgreementTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C

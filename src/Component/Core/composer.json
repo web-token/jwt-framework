@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
-    "homepage": "https://github.com/web-token/jwt-core",
+    "homepage": "https://github.com/web-token",
     "authors": [
         {
             "name": "Florent Morselli",
@@ -27,7 +27,7 @@
         "spomky-labs/base64url": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.0|^7.0"
     },
     "conflict": {
         "spomky-labs/jose": "*"

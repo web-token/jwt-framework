@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
-    "homepage": "https://github.com/web-token/jwt-encryption",
+    "homepage": "https://github.com/web-token",
     "authors": [
         {
             "name": "Florent Morselli",
@@ -24,10 +24,28 @@
         "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.2",
         "spomky-labs/aes-key-wrap": "^4.0.1",
-        "web-token/jwt-core": "^1.1"
+        "web-token/jwt-core": "^1.2",
+        "web-token/jwt-encryption-algorithm-aescbc": "^1.2",
+        "web-token/jwt-encryption-algorithm-aesgcm": "^1.2",
+        "web-token/jwt-encryption-algorithm-aesgcmkw": "^1.2",
+        "web-token/jwt-encryption-algorithm-aeskw": "^1.2",
+        "web-token/jwt-encryption-algorithm-dir": "^1.2",
+        "web-token/jwt-encryption-algorithm-ecdhes": "^1.2",
+        "web-token/jwt-encryption-algorithm-pbes2": "^1.2",
+        "web-token/jwt-encryption-algorithm-rsa": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.0|^7.0"
+    },
+    "suggest": {
+        "web-token/jwt-encryption-algorithm-aescbc": "AES CBC Based Content Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-aesgcm": "AES GCM Based Content Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-aesgcmkw": "AES GCM Key Wrapping Based Key Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-aeskw": "AES Key Wrapping Based Key Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-dir": "Direct Key Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-ecdhes": "ECDH-ES Based Key Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-pbes2": "PBES2 Based Key Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-rsa2": "RSA Based Key Encryption Algorithms"
     },
     "extra": {
         "branch-alias": {

@@ -4,7 +4,7 @@
     "type": "library",
     "license": "MIT",
     "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
-    "homepage": "https://github.com/web-token/jwt-key-mgmt",
+    "homepage": "https://github.com/web-token",
     "authors": [
         {
             "name": "Florent Morselli",
@@ -23,13 +23,13 @@
         "php": "^7.1",
         "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.2",
-        "web-token/jwt-core": "^1.1"
+        "web-token/jwt-core": "^1.2"
     },
     "require-dev": {
         "php-http/message-factory": "^1.0",
         "php-http/httplug": "^1.1",
         "php-http/mock-client": "^1.0",
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.0|^7.0"
     },
     "suggest": {
         "php-http/message-factory": "To enable JKU/X5U support.",
