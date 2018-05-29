@@ -95,14 +95,14 @@ class EncryptionSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         return [
-            AESCBCHS::class => 'encryption_aescbc.yml',
-            AESGCM::class => 'encryption_aesgcm.yml',
-            AESGCMKW::class => 'encryption_aesgcmkw.yml',
-            AESKW::class => 'encryption_aeskw.yml',
-            Dir::class => 'encryption_dir.yml',
-            ECDHES::class => 'encryption_ecdhes.yml',
-            PBES2AESKW::class => 'encryption_pbes2.yml',
-            RSA::class => 'encryption_rsa.yml',
+            AESCBCHS::class         => 'encryption_aescbc.yml',
+            AESGCM::class           => 'encryption_aesgcm.yml',
+            AESGCMKW::class         => 'encryption_aesgcmkw.yml',
+            AESKW::class            => 'encryption_aeskw.yml',
+            Dir::class              => 'encryption_dir.yml',
+            ECDHES::class           => 'encryption_ecdhes.yml',
+            PBES2AESKW::class       => 'encryption_pbes2.yml',
+            RSA::class              => 'encryption_rsa.yml',
             Chacha20Poly1305::class => 'encryption_experimental.yml',
         ];
     }
