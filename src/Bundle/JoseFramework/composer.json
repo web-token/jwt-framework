@@ -20,7 +20,6 @@
         }
     },
     "require": {
-        "php": "^7.1",
         "symfony/config": "^3.3|^4.0",
         "symfony/dependency-injection": "^3.3|^4.0",
         "symfony/http-kernel": "^3.3|^4.0",

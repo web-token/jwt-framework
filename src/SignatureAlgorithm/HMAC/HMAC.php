@@ -41,12 +41,7 @@ abstract class HMAC implements SignatureAlgorithm
     {
         $this->checkKey($key);
 
-        $signature = hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
-        if (method_exists($this, 'truncatedAt')) {
-            $signature = mb_substr($signature, 0, $this->truncatedAt(), '8bit');
-        }
-
-        return $signature;
+        return hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
     }
 
     /**

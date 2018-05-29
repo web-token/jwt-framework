@@ -20,7 +20,6 @@
         }
     },
     "require": {
-        "php": "^7.1",
         "web-token/jwt-core": "^1.2"
     },
     "require-dev": {

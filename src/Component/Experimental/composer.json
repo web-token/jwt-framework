@@ -20,9 +20,6 @@
         }
     },
     "require": {
-        "php": "^7.1",
-        "lib-openssl": "*",
-        "web-token/jwt-core": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0|^7.0"

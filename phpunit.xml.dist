@@ -16,6 +16,7 @@
             <directory>./src/Component/*/Tests/</directory>
             <directory>./src/EncryptionAlgorithm/ContentEncryption/*/Tests/</directory>
             <directory>./src/EncryptionAlgorithm/KeyEncryption/*/Tests/</directory>
+            <directory>./src/EncryptionAlgorithm/Experimental/Tests/</directory>
             <directory>./src/SignatureAlgorithm/*/Tests/</directory>
         </testsuite>
     </testsuites>

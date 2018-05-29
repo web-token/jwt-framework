@@ -22,7 +22,11 @@
                 "src/SignatureAlgorithm/EdDSA",
                 "src/SignatureAlgorithm/HMAC",
                 "src/SignatureAlgorithm/None",
-                "src/SignatureAlgorithm/RSA"
+                "src/SignatureAlgorithm/RSA",
+                "src/SignatureAlgorithm/Experimental"
+            ],
+            "Jose\\Component\\Encryption\\Algorithm\\": [
+                "src/EncryptionAlgorithm/Experimental"
             ],
             "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": [
                 "src/EncryptionAlgorithm/KeyEncryption/AESGCMKW",
@@ -94,7 +98,9 @@
         "web-token/jwt-signature-algorithm-eddsa": "self.version",
         "web-token/jwt-signature-algorithm-none": "self.version",
         "web-token/jwt-signature-algorithm-hmac": "self.version",
-        "web-token/jwt-signature-algorithm-rsa": "self.version"
+        "web-token/jwt-signature-algorithm-rsa": "self.version",
+        "web-token/jwt-signature-algorithm-experimental": "self.version",
+        "web-token/jwt-encryption-algorithm-experimental": "self.version"
     },
    "suggest":{
        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",

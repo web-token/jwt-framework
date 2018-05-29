@@ -43,6 +43,10 @@ splits:
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-signature-algorithm-hmac.git"
     - prefix: "src/SignatureAlgorithm/RSA"
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-signature-algorithm-rsa.git"
+    - prefix: "src/SignatureAlgorithm/Experimental"
+      target: "https://${GH_TOKEN}@github.com/web-token/jwt-signature-algorithm-experimental.git"
+    - prefix: "src/EncryptionAlgorithm/Experimental"
+      target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-experimental.git"
 
 origins:
     - ^master$
