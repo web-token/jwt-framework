@@ -133,4 +133,3 @@ services:
     Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_64_128:
         tags:
             - {'name': 'jose.algorithm', 'alias': 'A256CCM-64-256'}
-

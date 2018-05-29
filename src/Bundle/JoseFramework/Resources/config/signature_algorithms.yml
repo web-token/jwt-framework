@@ -64,4 +64,3 @@ services:
     Jose\Component\Signature\Algorithm\HS256_64:
         tags:
             - {'name': 'jose.algorithm', 'alias': 'HS256/64'}
-
