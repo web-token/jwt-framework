@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "web-token/jwt-encryption": "^1.2"
+        "web-token/jwt-signature": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0|^7.0"

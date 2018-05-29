@@ -9,7 +9,6 @@ If you really love that project, then you can help me out for a couple of :beers
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/web-token/jwt-framework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/web-token/jwt-framework/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg?branch=master)](https://coveralls.io/github/web-token/jwt-framework?branch=master)
-[![Dependency Status](https://beta.gemnasium.com/badges/github.com/web-token/jwt-framework.svg)](https://beta.gemnasium.com/projects/github.com/web-token/jwt-framework)
 
 [![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=master)](https://travis-ci.org/web-token/jwt-framework)
 
