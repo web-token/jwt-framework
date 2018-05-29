@@ -91,12 +91,12 @@ class SignatureSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         return [
-            RSA::class => 'signature_rsa.yml',
+            RSA::class   => 'signature_rsa.yml',
             ECDSA::class => 'signature_ecdsa.yml',
             EdDSA::class => 'signature_eddsa.yml',
-            HMAC::class => 'signature_hmac.yml',
-            None::class => 'signature_none.yml',
-            HS1::class => 'signature_experimental.yml',
+            HMAC::class  => 'signature_hmac.yml',
+            None::class  => 'signature_none.yml',
+            HS1::class   => 'signature_experimental.yml',
         ];
     }
 
