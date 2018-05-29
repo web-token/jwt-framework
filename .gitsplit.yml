@@ -28,7 +28,7 @@ splits:
     - prefix: "src/EncryptionAlgorithm/KeyEncryption/Direct"
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-dir.git"
     - prefix: "src/EncryptionAlgorithm/KeyEncryption/ECDHES"
-      target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-ecdhes.git"
+      target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-ecdh-es.git"
     - prefix: "src/EncryptionAlgorithm/KeyEncryption/PBES2"
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-pbes2.git"
     - prefix: "src/EncryptionAlgorithm/KeyEncryption/RSA"
