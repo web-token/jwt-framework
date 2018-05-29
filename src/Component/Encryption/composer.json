@@ -30,7 +30,7 @@
         "web-token/jwt-encryption-algorithm-aesgcmkw": "^1.2",
         "web-token/jwt-encryption-algorithm-aeskw": "^1.2",
         "web-token/jwt-encryption-algorithm-dir": "^1.2",
-        "web-token/jwt-encryption-algorithm-ecdhes": "^1.2",
+        "web-token/jwt-encryption-algorithm-ecdh-es": "^1.2",
         "web-token/jwt-encryption-algorithm-pbes2": "^1.2",
         "web-token/jwt-encryption-algorithm-rsa": "^1.2"
     },
@@ -43,7 +43,7 @@
         "web-token/jwt-encryption-algorithm-aesgcmkw": "AES GCM Key Wrapping Based Key Encryption Algorithms",
         "web-token/jwt-encryption-algorithm-aeskw": "AES Key Wrapping Based Key Encryption Algorithms",
         "web-token/jwt-encryption-algorithm-dir": "Direct Key Encryption Algorithms",
-        "web-token/jwt-encryption-algorithm-ecdhes": "ECDH-ES Based Key Encryption Algorithms",
+        "web-token/jwt-encryption-algorithm-ecdh-es": "ECDH-ES Based Key Encryption Algorithms",
         "web-token/jwt-encryption-algorithm-pbes2": "PBES2 Based Key Encryption Algorithms",
         "web-token/jwt-encryption-algorithm-rsa2": "RSA Based Key Encryption Algorithms"
     },

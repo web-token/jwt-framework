@@ -82,8 +82,19 @@
         "web-token/jwt-key-mgmt": "self.version",
         "web-token/jwt-console": "self.version",
         "web-token/jwt-bundle": "self.version",
-        "jwt-encryption-algorithm-aescbc": "self.version",
-        "jwt-encryption-algorithm-aesgcm": "self.version"
+        "web-token/jwt-encryption-algorithm-aescbc": "self.version",
+        "web-token/jwt-encryption-algorithm-aesgcm": "self.version",
+        "web-token/jwt-encryption-algorithm-aesgcmkw": "self.version",
+        "web-token/jwt-encryption-algorithm-aeskw": "self.version",
+        "web-token/jwt-encryption-algorithm-dir": "self.version",
+        "web-token/jwt-encryption-algorithm-ecdh-es": "self.version",
+        "web-token/jwt-encryption-algorithm-pbes2": "self.version",
+        "web-token/jwt-encryption-algorithm-rsa": "self.version",
+        "web-token/jwt-signature-algorithm-ecdsa": "self.version",
+        "web-token/jwt-signature-algorithm-eddsa": "self.version",
+        "web-token/jwt-signature-algorithm-none": "self.version",
+        "web-token/jwt-signature-algorithm-hmac": "self.version",
+        "web-token/jwt-signature-algorithm-rsa": "self.version"
     },
    "suggest":{
        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
