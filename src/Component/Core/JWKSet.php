@@ -182,7 +182,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return ['keys' => $this->keys];
+        return ['keys' => array_values($this->keys)];
     }
 
     /**
