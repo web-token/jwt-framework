@@ -45,7 +45,7 @@
         "web-token/jwt-encryption-algorithm-dir": "Direct Key Encryption Algorithms",
         "web-token/jwt-encryption-algorithm-ecdh-es": "ECDH-ES Based Key Encryption Algorithms",
         "web-token/jwt-encryption-algorithm-pbes2": "PBES2 Based Key Encryption Algorithms",
-        "web-token/jwt-encryption-algorithm-rsa2": "RSA Based Key Encryption Algorithms"
+        "web-token/jwt-encryption-algorithm-rsa": "RSA Based Key Encryption Algorithms"
     },
     "extra": {
         "branch-alias": {
