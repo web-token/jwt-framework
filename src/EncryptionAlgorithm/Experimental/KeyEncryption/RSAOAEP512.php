@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
 use Jose\Component\Encryption\Util\RSACrypt;
 
 final class RSAOAEP512 extends RSA

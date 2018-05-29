@@ -15,7 +15,6 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 
 abstract class AESCTR implements KeyEncryption
 {
