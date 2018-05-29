@@ -35,7 +35,8 @@
         "web-token/jwt-signature-algorithm-eddsa": "EdDSA Based Signature Algorithms",
         "web-token/jwt-signature-algorithm-hmac": "HMAC Based Signature Algorithms",
         "web-token/jwt-signature-algorithm-none": "None Signature Algorithm",
-        "web-token/jwt-signature-algorithm-rsa": "RSA Based Signature Algorithms"
+        "web-token/jwt-signature-algorithm-rsa": "RSA Based Signature Algorithms",
+        "web-token/jwt-signature-algorithm-experimental": "Experimental Signature Algorithms"
     },
     "extra": {
         "branch-alias": {
