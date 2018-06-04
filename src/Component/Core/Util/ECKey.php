@@ -165,7 +165,7 @@ class ECKey
                     .$d
                 .'a00a' // TAGGED OBJECT #0, length 10
                     .'0608' // OID, length 8
-                        .'2a8648ce3d030107' // 1.3.132.0.34 = P-384 Curve
+                        .'2a8648ce3d030107' // 1.3.132.0.34 = P-256 Curve
                 .'a144' //  TAGGED OBJECT #1, length 68
                     .'0342' // BIT STRING, length 66
                     .'00' // prepend with NUL - pubkey will follow
