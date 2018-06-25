@@ -23,7 +23,7 @@ before_script:
     - if [ "$TRAVIS_PHP_VERSION" = '7.1' ]; then ./tests/install_php_ext.sh; fi
     - composer self-update
     - mkdir -p build/logs
-    - composer require -no-update phpunit/phpunit:"^6.0|^7.0" phpstan/phpstan:"^0.9|^0.10"
+    - composer require --no-update --dev phpunit/phpunit:"^6.0|^7.0" phpstan/phpstan:"^0.9|^0.10"
     - if [[ $deps = low ]]; then composer update --no-interaction --prefer-lowest ; fi
     - if [[ !$deps ]]; then composer install --no-interaction ; fi
 
