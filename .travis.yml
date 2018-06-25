@@ -25,6 +25,7 @@ before_script:
     - mkdir -p build/logs
     - if [[ $deps = low ]]; then composer update --no-interaction --prefer-lowest ; fi
     - if [[ !$deps ]]; then composer install --no-interaction ; fi
+    - composer require phpunit/phpunit phpstan/phpstan
 
 script:
     - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
