@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+# ---- New algorithms ----
+# These algorithms are out of the main specifications but referenced in
+# some WebAuthn documents.
+#
+# Specifically, chacha20-poly1305 requires a up to date OpenSSL version
+#
+# They may be subject to changes.
+# ------------------------
+
+    Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305:
+        tags:
+            - {'name': 'jose.algorithm', 'alias': 'chacha20-poly1305'}

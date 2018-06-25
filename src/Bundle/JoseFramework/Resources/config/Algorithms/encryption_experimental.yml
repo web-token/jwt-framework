@@ -11,10 +11,6 @@ services:
 # They may be subject to changes.
 # ------------------------
 
-    Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305:
-        tags:
-            - {'name': 'jose.algorithm', 'alias': 'chacha20-poly1305'}
-
     Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR:
         tags:
             - {'name': 'jose.algorithm', 'alias': 'A128CTR'}

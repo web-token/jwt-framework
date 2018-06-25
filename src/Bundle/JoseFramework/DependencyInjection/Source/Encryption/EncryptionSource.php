@@ -18,6 +18,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\AESCBCHS;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\AESGCM;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\AESGCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
@@ -94,7 +95,7 @@ class EncryptionSource implements SourceWithCompilerPasses
      */
     private function getAlgorithmsFiles(): array
     {
-        return [
+        $list = [
             AESCBCHS::class => 'encryption_aescbc.yml',
             AESGCM::class => 'encryption_aesgcm.yml',
             AESGCMKW::class => 'encryption_aesgcmkw.yml',
@@ -103,8 +104,11 @@ class EncryptionSource implements SourceWithCompilerPasses
             ECDHES::class => 'encryption_ecdhes.yml',
             PBES2AESKW::class => 'encryption_pbes2.yml',
             RSA::class => 'encryption_rsa.yml',
-            Chacha20Poly1305::class => 'encryption_experimental.yml',
+            A128CTR::class => 'encryption_experimental.yml',
         ];
+        if (!in_array('chacha20-poly1305', openssl_get_cipher_methods())) {
+            $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.yml';
+        }
     }
 
     /**
