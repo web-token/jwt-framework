@@ -106,7 +106,7 @@ abstract class EncryptionBench
     /**
      * @param array $params
      *
-     * @Subject()
+     * @Subject
      * @ParamProviders({"dataPayloads", "dataHeadersAndAlgorithms", "dataRecipientPublicKeys"})
      */
     public function encryption(array $params)
@@ -129,7 +129,7 @@ abstract class EncryptionBench
     /**
      * @param array $params
      *
-     * @Subject()
+     * @Subject
      * @ParamProviders({"dataInputs", "dataPrivateKeys"})
      */
     public function decryption(array $params)

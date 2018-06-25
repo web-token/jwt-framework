@@ -43,7 +43,7 @@ class CoreSource implements SourceWithCompilerPasses
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('services.yml');
 
-        if (interface_exists(EnvVarProcessorInterface::class)) {
+        if (\interface_exists(EnvVarProcessorInterface::class)) {
             $loader->load('env_var.yml');
         }
 

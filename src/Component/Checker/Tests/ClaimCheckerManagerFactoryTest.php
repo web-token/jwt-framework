@@ -60,9 +60,9 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     public function iCanCheckValidPayloadClaims()
     {
         $payload = [
-            'exp' => time() + 3600,
-            'iat' => time() - 1000,
-            'nbf' => time() - 100,
+            'exp' => \time() + 3600,
+            'iat' => \time() - 1000,
+            'nbf' => \time() - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;
@@ -80,9 +80,9 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     public function theMandatoryClaimsAreNotSet()
     {
         $payload = [
-            'exp' => time() + 3600,
-            'iat' => time() - 1000,
-            'nbf' => time() - 100,
+            'exp' => \time() + 3600,
+            'iat' => \time() - 1000,
+            'nbf' => \time() - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;

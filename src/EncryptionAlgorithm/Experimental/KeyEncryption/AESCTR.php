@@ -29,13 +29,13 @@ abstract class AESCTR implements KeyEncryption
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
-        $iv = random_bytes(16);
+        $iv = \random_bytes(16);
         $k = Base64Url::decode($key->get('k'));
 
         // We set header parameters
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
-        return openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        return \openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
     }
 
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
@@ -45,7 +45,7 @@ abstract class AESCTR implements KeyEncryption
         $k = Base64Url::decode($key->get('k'));
         $iv = Base64Url::decode($header['iv']);
 
-        return openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        return \openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
     }
 
     /**
@@ -61,7 +61,7 @@ abstract class AESCTR implements KeyEncryption
      */
     private function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
@@ -75,11 +75,11 @@ abstract class AESCTR implements KeyEncryption
     private function checkHeaderAdditionalParameters(array $header)
     {
         foreach (['iv'] as $k) {
-            if (!array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(sprintf('The header parameter "%s" is missing.', $k));
+            if (!\array_key_exists($k, $header)) {
+                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is missing.', $k));
             }
             if (empty($header[$k])) {
-                throw new \InvalidArgumentException(sprintf('The header parameter "%s" is not valid.', $k));
+                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is not valid.', $k));
             }
         }
     }

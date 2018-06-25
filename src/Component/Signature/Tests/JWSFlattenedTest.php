@@ -29,6 +29,6 @@ class JWSFlattenedTest extends SignatureTest
 
         self::assertInstanceOf(JWS::class, $loaded);
         self::assertEquals('ES256', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
-        self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($loaded->getPayload(), true));
+        self::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], \json_decode($loaded->getPayload(), true));
     }
 }

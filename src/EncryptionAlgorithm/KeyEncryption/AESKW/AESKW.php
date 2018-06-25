@@ -61,7 +61,7 @@ abstract class AESKW implements KeyWrapping
      */
     protected function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {

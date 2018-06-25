@@ -117,7 +117,7 @@ class JWSLoader
         try {
             $jws = $this->serializerManager->unserialize($token);
             $nbSignatures = $jws->countSignatures();
-            for ($i = 0; $i < $nbSignatures; $i++) {
+            for ($i = 0; $i < $nbSignatures; ++$i) {
                 if ($this->processSignature($jws, $keyset, $i, $payload)) {
                     $signature = $i;
 

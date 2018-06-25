@@ -43,7 +43,7 @@ class HMACSignatureTest extends SignatureTest
 
         $signature = $hmac->sign($key, $data);
 
-        self::assertEquals(hex2bin('89f750759cb8ad93'), $signature);
+        self::assertEquals(\hex2bin('89f750759cb8ad93'), $signature);
         self::assertTrue($hmac->verify($key, $data, $signature));
     }
 
@@ -51,7 +51,7 @@ class HMACSignatureTest extends SignatureTest
     {
         return JWK::create([
             'kty' => 'oct',
-            'k'   => 'foo',
+            'k' => 'foo',
         ]);
     }
 }

@@ -37,7 +37,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
             'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
             'use' => 'enc',
             'alg' => 'A128GCM',
-            'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
+            'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
         ]);
 
         $protectedHeader = [
@@ -86,7 +86,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
             'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
             'use' => 'enc',
             'alg' => 'A128GCM',
-            'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
+            'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
         ]);
 
         $protectedHeader = [

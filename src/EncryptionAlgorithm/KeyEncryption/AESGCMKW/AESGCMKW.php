@@ -33,12 +33,12 @@ abstract class AESGCMKW implements KeyWrapping
     {
         $this->checkKey($key);
         $kek = Base64Url::decode($key->get('k'));
-        $iv = random_bytes(96 / 8);
+        $iv = \random_bytes(96 / 8);
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
-        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
+        $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
         $tag = null;
-        $encrypted_cek = openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
+        $encrypted_cek = \openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
         if (false === $encrypted_cek) {
             throw new \RuntimeException('Unable to encrypt the data.');
         }
@@ -59,8 +59,8 @@ abstract class AESGCMKW implements KeyWrapping
         $tag = Base64Url::decode($completeHeader['tag']);
         $iv = Base64Url::decode($completeHeader['iv']);
 
-        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
-        $cek = openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
+        $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
+        $cek = \openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
         if (false === $cek) {
             throw new \RuntimeException('Unable to decrypt or to verify the tag.');
         }
@@ -81,7 +81,7 @@ abstract class AESGCMKW implements KeyWrapping
      */
     protected function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
@@ -95,8 +95,8 @@ abstract class AESGCMKW implements KeyWrapping
     protected function checkAdditionalParameters(array $header)
     {
         foreach (['iv', 'tag'] as $k) {
-            if (!array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(sprintf('Parameter "%s" is missing.', $k));
+            if (!\array_key_exists($k, $header)) {
+                throw new \InvalidArgumentException(\sprintf('Parameter "%s" is missing.', $k));
             }
         }
     }

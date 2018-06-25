@@ -7,11 +7,11 @@
         convertWarningsToExceptions="true"
         processIsolation="false"
         stopOnFailure="false"
-        syntaxCheck="true"
         bootstrap="vendor/autoload.php"
         colors="true">
     <testsuites>
         <testsuite name="Test Suite">
+            <directory>./tests/</directory>
             <directory>./src/Bundle/*/Tests/</directory>
             <directory>./src/Component/*/Tests/</directory>
             <directory>./src/Ecc/*/Tests/</directory>

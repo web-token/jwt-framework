@@ -45,7 +45,7 @@ class AlgorithmManagerFactory
      */
     public function aliases(): array
     {
-        return array_keys($this->algorithms);
+        return \array_keys($this->algorithms);
     }
 
     /**
@@ -70,10 +70,10 @@ class AlgorithmManagerFactory
     {
         $algorithms = [];
         foreach ($aliases as $alias) {
-            if (array_key_exists($alias, $this->algorithms)) {
+            if (\array_key_exists($alias, $this->algorithms)) {
                 $algorithms[] = $this->algorithms[$alias];
             } else {
-                throw new \InvalidArgumentException(sprintf('The algorithm with the alias "%s" is not supported.', $alias));
+                throw new \InvalidArgumentException(\sprintf('The algorithm with the alias "%s" is not supported.', $alias));
             }
         }
 

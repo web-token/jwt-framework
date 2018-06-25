@@ -108,7 +108,7 @@ class Curve
             throw new \RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
         }
         $point = Point::create($x, $y, $order);
-        if (!is_null($order)) {
+        if (!\is_null($order)) {
             $mul = $this->mul($point, $order);
             if (!$mul->isInfinity()) {
                 throw new \RuntimeException('SELF * ORDER MUST EQUAL INFINITY. ('.(string) $mul.' found instead)');
@@ -126,7 +126,7 @@ class Curve
      */
     public function getPublicKeyFrom(\GMP $x, \GMP $y): PublicKey
     {
-        $zero = gmp_init(0, 10);
+        $zero = \gmp_init(0, 10);
         if (Math::cmp($x, $zero) < 0 || Math::cmp($this->generator->getOrder(), $x) <= 0 || Math::cmp($y, $zero) < 0 || Math::cmp($this->generator->getOrder(), $y) <= 0) {
             throw new \RuntimeException('Generator point has x and y out of range.');
         }
@@ -155,7 +155,7 @@ class Curve
                 ),
                 $this->getPrime()
             ),
-            gmp_init(0, 10)
+            \gmp_init(0, 10)
         );
 
         return $eq_zero;
@@ -219,7 +219,7 @@ class Curve
         }
 
         /** @var \GMP $zero */
-        $zero = gmp_init(0, 10);
+        $zero = \gmp_init(0, 10);
         if (Math::cmp($one->getOrder(), $zero) > 0) {
             $n = Math::mod($n, $one->getOrder());
         }
@@ -235,9 +235,9 @@ class Curve
         ];
 
         $k = $this->getSize();
-        $n = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
+        $n = \str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
 
-        for ($i = 0; $i < $k; $i++) {
+        for ($i = 0; $i < $k; ++$i) {
             $j = $n[$i];
             Point::cswap($r[0], $r[1], $j ^ 1);
             $r[0] = $this->add($r[0], $r[1]);
@@ -304,17 +304,17 @@ class Curve
         }
 
         $a = $this->getA();
-        $threeX2 = Math::mul(gmp_init(3, 10), Math::pow($point->getX(), 2));
+        $threeX2 = Math::mul(\gmp_init(3, 10), Math::pow($point->getX(), 2));
 
         $tangent = ModularArithmetic::div(
             Math::add($threeX2, $a),
-            Math::mul(gmp_init(2, 10), $point->getY()),
+            Math::mul(\gmp_init(2, 10), $point->getY()),
             $this->getPrime()
         );
 
         $x3 = ModularArithmetic::sub(
             Math::pow($tangent, 2),
-            Math::mul(gmp_init(2, 10), $point->getX()),
+            Math::mul(\gmp_init(2, 10), $point->getX()),
             $this->getPrime()
         );
 
@@ -354,12 +354,12 @@ class Curve
     {
         $max = $this->generator->getOrder();
         $numBits = $this->bnNumBits($max);
-        $numBytes = (int) ceil($numBits / 8);
+        $numBytes = (int) \ceil($numBits / 8);
         // Generate an integer of size >= $numBits
-        $bytes = random_bytes($numBytes);
+        $bytes = \random_bytes($numBytes);
         $value = Math::stringToInt($bytes);
-        $mask = gmp_sub(gmp_pow(2, $numBits), 1);
-        $integer = gmp_and($value, $mask);
+        $mask = \gmp_sub(\gmp_pow(2, $numBits), 1);
+        $integer = \gmp_and($value, $mask);
 
         return $integer;
     }
@@ -375,14 +375,14 @@ class Curve
      */
     private function bnNumBits(\GMP $x): int
     {
-        $zero = gmp_init(0, 10);
+        $zero = \gmp_init(0, 10);
         if (Math::equals($x, $zero)) {
             return 0;
         }
         $log2 = 0;
         while (false === Math::equals($x, $zero)) {
             $x = Math::rightShift($x, 1);
-            $log2++;
+            ++$log2;
         }
 
         return $log2;

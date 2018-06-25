@@ -37,7 +37,7 @@ class JWSSerializer implements Source
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.jws_serializer.%s', $name);
+            $service_id = \sprintf('jose.jws_serializer.%s', $name);
             $definition = new Definition(JWSSerializerManager::class);
             $definition
                 ->setFactory([new Reference(JWSSerializerManagerFactory::class), 'create'])

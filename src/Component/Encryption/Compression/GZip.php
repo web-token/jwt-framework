@@ -54,7 +54,7 @@ final class GZip implements CompressionMethod
      */
     public function compress(string $data): string
     {
-        $data = gzencode($data, $this->getCompressionLevel());
+        $data = \gzencode($data, $this->getCompressionLevel());
         if (false === $data) {
             throw new \InvalidArgumentException('Unable to compress data.');
         }
@@ -67,7 +67,7 @@ final class GZip implements CompressionMethod
      */
     public function uncompress(string $data): string
     {
-        $data = gzdecode($data);
+        $data = \gzdecode($data);
         if (false === $data) {
             throw new \InvalidArgumentException('Unable to uncompress data.');
         }

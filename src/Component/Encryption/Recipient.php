@@ -77,7 +77,7 @@ class Recipient
             return $this->header[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The header "%s" does not exist.', $key));
+        throw new \InvalidArgumentException(\sprintf('The header "%s" does not exist.', $key));
     }
 
     /**
@@ -89,7 +89,7 @@ class Recipient
      */
     public function hasHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->header);
+        return \array_key_exists($key, $this->header);
     }
 
     /**

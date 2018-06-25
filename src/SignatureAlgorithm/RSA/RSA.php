@@ -68,12 +68,12 @@ abstract class RSA implements SignatureAlgorithm
      */
     private function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         foreach (['n', 'e'] as $k) {
             if (!$key->has($k)) {
-                throw new \InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
             }
         }
     }

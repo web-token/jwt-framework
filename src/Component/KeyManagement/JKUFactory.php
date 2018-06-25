@@ -50,7 +50,7 @@ class JKUFactory extends UrlKeySetFactory
     {
         $content = $this->getContent($url, $header);
         $data = $this->jsonConverter->decode($content);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             throw new \RuntimeException('Invalid content.');
         }
 

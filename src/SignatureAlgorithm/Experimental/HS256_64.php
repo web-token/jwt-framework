@@ -32,7 +32,7 @@ final class HS256_64 extends HMAC
     {
         $signature = parent::sign($key, $input);
 
-        return mb_substr($signature, 0, 8, '8bit');
+        return \mb_substr($signature, 0, 8, '8bit');
     }
 
     /**

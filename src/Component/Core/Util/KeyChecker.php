@@ -49,30 +49,30 @@ class KeyChecker
     private static function checkOperation(JWK $key, string $usage): bool
     {
         $ops = $key->get('key_ops');
-        if (!is_array($ops)) {
+        if (!\is_array($ops)) {
             $ops = [$ops];
         }
         switch ($usage) {
             case 'verification':
-                if (!in_array('verify', $ops)) {
+                if (!\in_array('verify', $ops, true)) {
                     throw new \InvalidArgumentException('Key cannot be used to verify a signature');
                 }
 
                 return true;
             case 'signature':
-                if (!in_array('sign', $ops)) {
+                if (!\in_array('sign', $ops, true)) {
                     throw new \InvalidArgumentException('Key cannot be used to sign');
                 }
 
                 return true;
             case 'encryption':
-                if (!in_array('encrypt', $ops) && !in_array('wrapKey', $ops)) {
+                if (!\in_array('encrypt', $ops, true) && !\in_array('wrapKey', $ops, true)) {
                     throw new \InvalidArgumentException('Key cannot be used to encrypt');
                 }
 
                 return true;
             case 'decryption':
-                if (!in_array('decrypt', $ops) && !in_array('unwrapKey', $ops)) {
+                if (!\in_array('decrypt', $ops, true) && !\in_array('unwrapKey', $ops, true)) {
                     throw new \InvalidArgumentException('Key cannot be used to decrypt');
                 }
 
@@ -122,7 +122,7 @@ class KeyChecker
         }
 
         if ($key->get('alg') !== $algorithm) {
-            throw new \InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
+            throw new \InvalidArgumentException(\sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
         }
     }
 }

@@ -55,7 +55,7 @@ final class ZLib implements CompressionMethod
      */
     public function compress(string $data): string
     {
-        $data = gzcompress($data, $this->getCompressionLevel());
+        $data = \gzcompress($data, $this->getCompressionLevel());
         if (false === $data) {
             throw new \InvalidArgumentException('Unable to compress data.');
         }
@@ -68,7 +68,7 @@ final class ZLib implements CompressionMethod
      */
     public function uncompress(string $data): string
     {
-        $data = gzuncompress($data);
+        $data = \gzuncompress($data);
         if (false === $data) {
             throw new \InvalidArgumentException('Unable to uncompress data.');
         }

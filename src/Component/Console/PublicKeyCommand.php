@@ -65,7 +65,7 @@ final class PublicKeyCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwk);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWK::create($json);
         }
 

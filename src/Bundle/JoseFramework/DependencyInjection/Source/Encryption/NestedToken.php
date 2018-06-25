@@ -59,7 +59,7 @@ class NestedToken implements Source
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('nested_token.yml');
 
-        if (array_key_exists('nested_token', $configs)) {
+        if (\array_key_exists('nested_token', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['nested_token'], $container);
             }
@@ -105,8 +105,8 @@ class NestedToken implements Source
      */
     private function isEnabled(): bool
     {
-        return class_exists(JWEDecrypterFactory::class)
-            && class_exists(JWSVerifierFactory::class)
-            && class_exists(HeaderCheckerManagerFactory::class);
+        return \class_exists(JWEDecrypterFactory::class)
+            && \class_exists(JWSVerifierFactory::class)
+            && \class_exists(HeaderCheckerManagerFactory::class);
     }
 }

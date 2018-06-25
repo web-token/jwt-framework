@@ -41,7 +41,7 @@ class NotBeforeClaimCheckerTest extends TestCase
     public function theNotBeforeClaimIsInTheFutur()
     {
         $checker = new NotBeforeChecker();
-        $checker->checkClaim(time() + 3600);
+        $checker->checkClaim(\time() + 3600);
     }
 
     /**
@@ -50,7 +50,7 @@ class NotBeforeClaimCheckerTest extends TestCase
     public function theNotBeforeClaimIsInThePast()
     {
         $checker = new NotBeforeChecker();
-        $checker->checkClaim(time() - 3600);
+        $checker->checkClaim(\time() - 3600);
         self::assertEquals('nbf', $checker->supportedClaim());
     }
 }

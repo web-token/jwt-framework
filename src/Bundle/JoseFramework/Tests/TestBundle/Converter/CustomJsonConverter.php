@@ -38,7 +38,7 @@ class CustomJsonConverter implements JsonConverter
      */
     public function encode($payload): string
     {
-        return json_encode($payload, $this->options, 512);
+        return \json_encode($payload, $this->options, 512);
     }
 
     /**
@@ -46,6 +46,6 @@ class CustomJsonConverter implements JsonConverter
      */
     public function decode(string $payload, bool $associativeArray = true)
     {
-        return json_decode($payload, $associativeArray, 512, $this->options);
+        return \json_decode($payload, $associativeArray, 512, $this->options);
     }
 }

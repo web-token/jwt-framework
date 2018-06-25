@@ -77,12 +77,12 @@ class EncryptionSource implements SourceWithCompilerPasses
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
-            if (class_exists($class)) {
+            if (\class_exists($class)) {
                 $loader->load($file);
             }
         }
 
-        if (array_key_exists('jwe', $configs)) {
+        if (\array_key_exists('jwe', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['jwe'], $container);
             }
@@ -95,14 +95,14 @@ class EncryptionSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         return [
-            AESCBCHS::class         => 'encryption_aescbc.yml',
-            AESGCM::class           => 'encryption_aesgcm.yml',
-            AESGCMKW::class         => 'encryption_aesgcmkw.yml',
-            AESKW::class            => 'encryption_aeskw.yml',
-            Dir::class              => 'encryption_dir.yml',
-            ECDHES::class           => 'encryption_ecdhes.yml',
-            PBES2AESKW::class       => 'encryption_pbes2.yml',
-            RSA::class              => 'encryption_rsa.yml',
+            AESCBCHS::class => 'encryption_aescbc.yml',
+            AESGCM::class => 'encryption_aesgcm.yml',
+            AESGCMKW::class => 'encryption_aesgcmkw.yml',
+            AESKW::class => 'encryption_aeskw.yml',
+            Dir::class => 'encryption_dir.yml',
+            ECDHES::class => 'encryption_ecdhes.yml',
+            PBES2AESKW::class => 'encryption_pbes2.yml',
+            RSA::class => 'encryption_rsa.yml',
             Chacha20Poly1305::class => 'encryption_experimental.yml',
         ];
     }
@@ -150,7 +150,7 @@ class EncryptionSource implements SourceWithCompilerPasses
      */
     private function isEnabled(): bool
     {
-        return class_exists(JWEBuilderFactory::class) && class_exists(JWEDecrypterFactory::class);
+        return \class_exists(JWEBuilderFactory::class) && \class_exists(JWEDecrypterFactory::class);
     }
 
     /**

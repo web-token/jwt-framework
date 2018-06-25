@@ -31,7 +31,7 @@ class KeyEnvVarProcessor implements EnvVarProcessorInterface
             case 'jwkset':
                 return JWKSet::createFromJson($env);
             default:
-                throw new \RuntimeException(sprintf('Unsupported prefix "%s".', $prefix));
+                throw new \RuntimeException(\sprintf('Unsupported prefix "%s".', $prefix));
         }
     }
 
@@ -41,7 +41,7 @@ class KeyEnvVarProcessor implements EnvVarProcessorInterface
     public static function getProvidedTypes()
     {
         return [
-            'jwk'    => 'string',
+            'jwk' => 'string',
             'jwkset' => 'string',
         ];
     }

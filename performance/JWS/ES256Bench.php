@@ -84,9 +84,9 @@ final class ES256Bench extends SignatureBench
             'kid' => 'meriadoc.brandybuck@buckland.example',
             'use' => 'sig',
             'crv' => 'P-256',
-            'x'   => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
-            'y'   => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
-            'd'   => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
+            'x' => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
+            'y' => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
+            'd' => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
         ]);
     }
 

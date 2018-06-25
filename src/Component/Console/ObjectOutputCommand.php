@@ -67,7 +67,7 @@ abstract class ObjectOutputCommand extends Command
     {
         $file = $input->getOption('out');
         if (null !== $file) {
-            file_put_contents($file, $data, LOCK_EX);
+            \file_put_contents($file, $data, LOCK_EX);
         } else {
             $output->write($data);
         }

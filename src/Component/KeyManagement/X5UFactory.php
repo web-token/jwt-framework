@@ -52,17 +52,17 @@ class X5UFactory extends UrlKeySetFactory
     {
         $content = $this->getContent($url, $header);
         $data = $this->jsonConverter->decode($content);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             throw new \RuntimeException('Invalid content.');
         }
 
         $keys = [];
         foreach ($data as $kid => $cert) {
-            if (false === strpos($cert, '-----BEGIN CERTIFICATE-----')) {
+            if (false === \mb_strpos($cert, '-----BEGIN CERTIFICATE-----')) {
                 $cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
             }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
-            if (is_string($kid)) {
+            if (\is_string($kid)) {
                 $jwk['kid'] = $kid;
                 $keys[$kid] = JWK::create($jwk);
             } else {

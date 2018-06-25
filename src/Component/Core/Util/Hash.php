@@ -91,7 +91,7 @@ class Hash
      */
     public function hash(string $text): string
     {
-        return hash($this->hash, $text, true);
+        return \hash($this->hash, $text, true);
     }
 
     /**

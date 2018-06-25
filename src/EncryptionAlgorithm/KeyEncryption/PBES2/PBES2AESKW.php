@@ -56,14 +56,14 @@ abstract class PBES2AESKW implements KeyWrapping
         $wrapper = $this->getWrapper();
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
-        $salt = random_bytes($this->salt_size);
+        $salt = \random_bytes($this->salt_size);
         $password = Base64Url::decode($key->get('k'));
 
         // We set header parameters
         $additionalHeader['p2s'] = Base64Url::encode($salt);
         $additionalHeader['p2c'] = $this->nb_count;
 
-        $derived_key = hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
+        $derived_key = \hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
 
         return $wrapper::wrap($derived_key, $cek);
     }
@@ -83,7 +83,7 @@ abstract class PBES2AESKW implements KeyWrapping
         $count = $completeHeader['p2c'];
         $password = Base64Url::decode($key->get('k'));
 
-        $derived_key = hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
+        $derived_key = \hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
 
         return $wrapper::unwrap($derived_key, $encrypted_cek);
     }
@@ -101,7 +101,7 @@ abstract class PBES2AESKW implements KeyWrapping
      */
     protected function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
@@ -114,10 +114,10 @@ abstract class PBES2AESKW implements KeyWrapping
      */
     protected function checkHeaderAlgorithm(array $header)
     {
-        if (!array_key_exists('alg', $header)) {
+        if (!\array_key_exists('alg', $header)) {
             throw new \InvalidArgumentException('The header parameter "alg" is missing.');
         }
-        if (!is_string($header['alg'])) {
+        if (!\is_string($header['alg'])) {
             throw new \InvalidArgumentException('The header parameter "alg" is not valid.');
         }
     }
@@ -128,11 +128,11 @@ abstract class PBES2AESKW implements KeyWrapping
     protected function checkHeaderAdditionalParameters(array $header)
     {
         foreach (['p2s', 'p2c'] as $k) {
-            if (!array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(sprintf('The header parameter "%s" is missing.', $k));
+            if (!\array_key_exists($k, $header)) {
+                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is missing.', $k));
             }
             if (empty($header[$k])) {
-                throw new \InvalidArgumentException(sprintf('The header parameter "%s" is not valid.', $k));
+                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is not valid.', $k));
             }
         }
     }

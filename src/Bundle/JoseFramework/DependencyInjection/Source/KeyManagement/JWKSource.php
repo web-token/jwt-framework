@@ -43,11 +43,11 @@ class JWKSource implements Source
         $sources = $this->getJWKSources();
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             foreach ($itemConfig as $sourceName => $sourceConfig) {
-                if (array_key_exists($sourceName, $sources)) {
+                if (\array_key_exists($sourceName, $sources)) {
                     $source = $sources[$sourceName];
                     $source->create($container, 'key', $name, $sourceConfig);
                 } else {
-                    throw new \LogicException(sprintf('The JWK definition "%s" is not configured.', $name));
+                    throw new \LogicException(\sprintf('The JWK definition "%s" is not configured.', $name));
                 }
             }
         }
@@ -67,7 +67,7 @@ class JWKSource implements Source
                     ->arrayPrototype()
                         ->validate()
                             ->ifTrue(function ($config) {
-                                return count($config) !== 1;
+                                return 1 !== \count($config);
                             })
                             ->thenInvalid('One key type must be set.')
                         ->end()
@@ -104,12 +104,12 @@ class JWKSource implements Source
         $loader->load('jwk_sources.yml');
         $services = $tempContainer->findTaggedServiceIds('jose.jwk_source');
         $jwkSources = [];
-        foreach (array_keys($services) as $id) {
+        foreach (\array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
             if (!$factory instanceof JWKSourceInterface) {
                 throw new \InvalidArgumentException();
             }
-            $jwkSources[str_replace('-', '_', $factory->getKey())] = $factory;
+            $jwkSources[\str_replace('-', '_', $factory->getKey())] = $factory;
         }
 
         $this->jwkSources = $jwkSources;

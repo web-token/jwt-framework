@@ -33,7 +33,7 @@ class KeyCollectorCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(KeyCollector::class);
 
         $services = [
-            'addJWK'    => 'jose.jwk',
+            'addJWK' => 'jose.jwk',
             'addJWKSet' => 'jose.jwkset',
         ];
         foreach ($services as $method => $tag) {

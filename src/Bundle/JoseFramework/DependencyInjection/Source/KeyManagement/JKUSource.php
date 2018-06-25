@@ -38,7 +38,7 @@ class JKUSource implements Source
         if (true === $configs[$this->name()]['enabled']) {
             $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
             $loader->load('jku_source.yml');
-            if (class_exists(JKULoaderCommand::class)) {
+            if (\class_exists(JKULoaderCommand::class)) {
                 $loader->load('jku_commands.yml');
             }
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);

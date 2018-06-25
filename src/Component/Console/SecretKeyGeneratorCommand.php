@@ -41,7 +41,7 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
     {
         $secret = $input->getArgument('secret');
         if ($input->getOption('is_b64')) {
-            $secret = base64_decode($secret);
+            $secret = \base64_decode($secret, true);
         }
         $args = $this->getOptions($input);
 

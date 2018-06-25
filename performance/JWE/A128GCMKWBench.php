@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
@@ -25,33 +26,33 @@ final class A128GCMKWBench extends EncryptionBench
         return [
             [
                 'shared_protected_header' => ['alg' => 'A128GCMKW', 'enc' => 'A128CBC-HS256'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A128GCMKW', 'enc' => 'A192CBC-HS384'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A128GCMKW', 'enc' => 'A256CBC-HS512'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A128GCMKW', 'enc' => 'A128GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A128GCMKW', 'enc' => 'A192GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A128GCMKW', 'enc' => 'A256GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
         ];
     }
@@ -83,7 +84,7 @@ final class A128GCMKWBench extends EncryptionBench
             [
                 'recipient_keys' => ['keys' => [[
                     'kty' => 'oct',
-                    'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                    'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
                 ]]],
             ],
         ];
@@ -98,7 +99,7 @@ final class A128GCMKWBench extends EncryptionBench
             [
                 'recipient_key' => [
                     'kty' => 'oct',
-                    'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                    'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
                 ],
             ],
         ];

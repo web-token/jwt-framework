@@ -32,7 +32,7 @@ class SerializerConfigurationTest extends TestCase
      */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
+        if (!\class_exists(JWEBuilderFactory::class)) {
             $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }

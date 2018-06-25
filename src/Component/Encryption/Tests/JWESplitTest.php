@@ -32,9 +32,9 @@ class JWESplitTest extends EncryptionTest
         $split = $jwe->split();
 
         self::assertEquals(3, $jwe->countRecipients());
-        self::assertEquals(3, count($split));
+        self::assertEquals(3, \count($split));
 
-        for ($i = 0; $i < $jwe->countRecipients(); $i++) {
+        for ($i = 0; $i < $jwe->countRecipients(); ++$i) {
             $recipient1 = $jwe->getRecipient($i);
             $tempJwe = $split[$i];
             self::assertEquals(1, $tempJwe->countRecipients());

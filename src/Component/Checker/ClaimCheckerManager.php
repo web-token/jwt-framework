@@ -92,7 +92,7 @@ class ClaimCheckerManager
         $this->checkMandatoryClaims($mandatoryClaims, $claims);
         $checkedClaims = [];
         foreach ($this->checkers as $claim => $checker) {
-            if (array_key_exists($claim, $claims)) {
+            if (\array_key_exists($claim, $claims)) {
                 $checker->checkClaim($claims[$claim]);
                 $checkedClaims[$claim] = $claims[$claim];
             }
@@ -112,10 +112,10 @@ class ClaimCheckerManager
         if (empty($mandatoryClaims)) {
             return;
         }
-        $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
+        $diff = \array_keys(\array_diff_key(\array_flip($mandatoryClaims), $claims));
 
         if (!empty($diff)) {
-            throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', implode(', ', $diff)), $diff);
+            throw new MissingMandatoryClaimException(\sprintf('The following claims are mandatory: %s.', \implode(', ', $diff)), $diff);
         }
     }
 }

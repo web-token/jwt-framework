@@ -29,10 +29,10 @@ class KeyConverter
      */
     public static function loadKeyFromCertificateFile(string $file): array
     {
-        if (!file_exists($file)) {
-            throw new \InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
+        if (!\file_exists($file)) {
+            throw new \InvalidArgumentException(\sprintf('File "%s" does not exist.', $file));
         }
-        $content = file_get_contents($file);
+        $content = \file_get_contents($file);
 
         return self::loadKeyFromCertificate($content);
     }
@@ -47,17 +47,17 @@ class KeyConverter
     public static function loadKeyFromCertificate(string $certificate): array
     {
         try {
-            $res = openssl_x509_read($certificate);
+            $res = \openssl_x509_read($certificate);
         } catch (\Exception $e) {
             $certificate = self::convertDerToPem($certificate);
-            $res = openssl_x509_read($certificate);
+            $res = \openssl_x509_read($certificate);
         }
         if (false === $res) {
             throw new \InvalidArgumentException('Unable to load the certificate.');
         }
 
         $values = self::loadKeyFromX509Resource($res);
-        openssl_x509_free($res);
+        \openssl_x509_free($res);
 
         return $values;
     }
@@ -71,19 +71,19 @@ class KeyConverter
      */
     public static function loadKeyFromX509Resource($res): array
     {
-        $key = openssl_get_publickey($res);
+        $key = \openssl_get_publickey($res);
 
-        $details = openssl_pkey_get_details($key);
+        $details = \openssl_pkey_get_details($key);
         if (isset($details['key'])) {
             $values = self::loadKeyFromPEM($details['key']);
-            openssl_x509_export($res, $out);
-            $x5c = preg_replace('#-.*-#', '', $out);
-            $x5c = preg_replace('~\R~', PHP_EOL, $x5c);
-            $x5c = trim($x5c);
+            \openssl_x509_export($res, $out);
+            $x5c = \preg_replace('#-.*-#', '', $out);
+            $x5c = \preg_replace('~\R~', PHP_EOL, $x5c);
+            $x5c = \trim($x5c);
             $values['x5c'] = [$x5c];
 
-            $values['x5t'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha1', true));
-            $values['x5t#256'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha256', true));
+            $values['x5t'] = Base64Url::encode(\openssl_x509_fingerprint($res, 'sha1', true));
+            $values['x5t#256'] = Base64Url::encode(\openssl_x509_fingerprint($res, 'sha256', true));
 
             return $values;
         }
@@ -101,7 +101,7 @@ class KeyConverter
      */
     public static function loadFromKeyFile(string $file, ?string $password = null): array
     {
-        $content = file_get_contents($file);
+        $content = \file_get_contents($file);
 
         return self::loadFromKey($content, $password);
     }
@@ -148,22 +148,22 @@ class KeyConverter
      */
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
-        if (preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
+        if (\preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
             $pem = self::decodePem($pem, $matches, $password);
         }
 
         self::sanitizePEM($pem);
 
-        $res = openssl_pkey_get_private($pem);
+        $res = \openssl_pkey_get_private($pem);
         if (false === $res) {
-            $res = openssl_pkey_get_public($pem);
+            $res = \openssl_pkey_get_public($pem);
         }
         if (false === $res) {
             throw new \InvalidArgumentException('Unable to load the key.');
         }
 
-        $details = openssl_pkey_get_details($res);
-        if (!is_array($details) || !array_key_exists('type', $details)) {
+        $details = \openssl_pkey_get_details($res);
+        if (!\is_array($details) || !\array_key_exists('type', $details)) {
             throw new \InvalidArgumentException('Unable to get details of the key');
         }
 
@@ -189,11 +189,11 @@ class KeyConverter
      */
     private static function sanitizePEM(string &$pem)
     {
-        preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
-        $ciphertext = preg_replace('#-.*-|\r|\n| #', '', $pem);
+        \preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
+        $ciphertext = \preg_replace('#-.*-|\r|\n| #', '', $pem);
 
         $pem = $matches[0][0].PHP_EOL;
-        $pem .= chunk_split($ciphertext, 64, PHP_EOL);
+        $pem .= \chunk_split($ciphertext, 64, PHP_EOL);
         $pem .= $matches[0][1].PHP_EOL;
     }
 
@@ -209,16 +209,16 @@ class KeyConverter
         $last_subject = null;
         foreach ($x5c as $cert) {
             $current_cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
-            $x509 = openssl_x509_read($current_cert);
+            $x509 = \openssl_x509_read($current_cert);
             if (false === $x509) {
                 $last_issuer = null;
                 $last_subject = null;
 
                 break;
             }
-            $parsed = openssl_x509_parse($x509);
+            $parsed = \openssl_x509_parse($x509);
 
-            openssl_x509_free($x509);
+            \openssl_x509_free($x509);
             if (false === $parsed) {
                 $last_issuer = null;
                 $last_subject = null;
@@ -230,7 +230,7 @@ class KeyConverter
                 $last_issuer = $parsed['issuer'];
                 $certificate = $current_cert;
             } else {
-                if (json_encode($last_issuer) === json_encode($parsed['subject'])) {
+                if (\json_encode($last_issuer) === \json_encode($parsed['subject'])) {
                     $last_subject = $parsed['subject'];
                     $last_issuer = $parsed['issuer'];
                 } else {
@@ -241,7 +241,7 @@ class KeyConverter
                 }
             }
         }
-        if (null === $certificate || null !== $last_issuer && json_encode($last_issuer) !== json_encode($last_subject)) {
+        if (null === $certificate || null !== $last_issuer && \json_encode($last_issuer) !== \json_encode($last_subject)) {
             throw new \InvalidArgumentException('Invalid certificate chain.');
         }
 
@@ -261,25 +261,25 @@ class KeyConverter
             throw new \InvalidArgumentException('Password required for encrypted keys.');
         }
 
-        $iv = pack('H*', trim($matches[2]));
-        $iv_sub = mb_substr($iv, 0, 8, '8bit');
-        $symkey = pack('H*', md5($password.$iv_sub));
-        $symkey .= pack('H*', md5($symkey.$password.$iv_sub));
-        $key = preg_replace('#^(?:Proc-Type|DEK-Info): .*#m', '', $pem);
-        $ciphertext = base64_decode(preg_replace('#-.*-|\r|\n#', '', $key));
+        $iv = \pack('H*', \trim($matches[2]));
+        $iv_sub = \mb_substr($iv, 0, 8, '8bit');
+        $symkey = \pack('H*', \md5($password.$iv_sub));
+        $symkey .= \pack('H*', \md5($symkey.$password.$iv_sub));
+        $key = \preg_replace('#^(?:Proc-Type|DEK-Info): .*#m', '', $pem);
+        $ciphertext = \base64_decode(\preg_replace('#-.*-|\r|\n#', '', $key), true);
 
-        $decoded = openssl_decrypt($ciphertext, strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
-        if (!is_string($decoded)) {
+        $decoded = \openssl_decrypt($ciphertext, \mb_strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
+        if (!\is_string($decoded)) {
             throw new \InvalidArgumentException('Incorrect password. Key decryption failed.');
         }
 
-        $number = preg_match_all('#-{5}.*-{5}#', $pem, $result);
+        $number = \preg_match_all('#-{5}.*-{5}#', $pem, $result);
         if (2 !== $number) {
             throw new \InvalidArgumentException('Unable to load the key');
         }
 
         $pem = $result[0][0].PHP_EOL;
-        $pem .= chunk_split(base64_encode($decoded), 64);
+        $pem .= \chunk_split(\base64_encode($decoded), 64);
         $pem .= $result[0][1].PHP_EOL;
 
         return $pem;
@@ -292,7 +292,7 @@ class KeyConverter
      */
     private static function convertDerToPem(string $der_data): string
     {
-        $pem = chunk_split(base64_encode($der_data), 64, PHP_EOL);
+        $pem = \chunk_split(\base64_encode($der_data), 64, PHP_EOL);
         $pem = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$pem.'-----END CERTIFICATE-----'.PHP_EOL;
 
         return $pem;

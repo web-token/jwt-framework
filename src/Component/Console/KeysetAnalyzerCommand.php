@@ -79,7 +79,7 @@ final class KeysetAnalyzerCommand extends Command
         $mixedKeys = false;
 
         foreach ($jwkset as $kid => $jwk) {
-            $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
+            $output->writeln(\sprintf('Analysing key with index/kid "%s"', $kid));
             $messages = $this->analyzerManager->analyze($jwk);
             if (0 === $messages->count()) {
                 $output->writeln('    <success>All good! No issue found.</success>');
@@ -97,14 +97,14 @@ final class KeysetAnalyzerCommand extends Command
                     }
 
                     break;
-                case in_array($jwk->get('kty'), ['RSA', 'EC', 'OKP']):
+                case \in_array($jwk->get('kty'), ['RSA', 'EC', 'OKP'], true):
                     if ($jwk->has('d')) {
-                        $privateKeys++;
+                        ++$privateKeys;
                         if (0 !== $sharedKeys + $publicKeys) {
                             $mixedKeys = true;
                         }
                     } else {
-                        $publicKeys++;
+                        ++$publicKeys;
                         if (0 !== $privateKeys + $sharedKeys) {
                             $mixedKeys = true;
                         }
@@ -130,7 +130,7 @@ final class KeysetAnalyzerCommand extends Command
     {
         $jwkset = $input->getArgument('jwkset');
         $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
         }
 

@@ -40,7 +40,7 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwk);
-        if (!is_array($json)) {
+        if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid input.');
         }
         $key = RSAKey::createFromJWK(JWK::create($json));

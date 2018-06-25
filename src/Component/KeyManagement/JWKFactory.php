@@ -40,13 +40,13 @@ class JWKFactory
             throw new \InvalidArgumentException('Key length is too short. It needs to be at least 384 bits.');
         }
 
-        $key = openssl_pkey_new([
+        $key = \openssl_pkey_new([
             'private_key_bits' => $size,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);
-        openssl_pkey_export($key, $out);
+        \openssl_pkey_export($key, $out);
         $rsa = RSAKey::createFromPEM($out);
-        $values = array_merge(
+        $values = \array_merge(
             $values,
             $rsa->toArray()
         );
@@ -69,7 +69,7 @@ class JWKFactory
         } catch (\Exception $e) {
             $jwk = self::createECKeyUsingPurePhp($curve);
         }
-        $values = array_merge($values, $jwk);
+        $values = \array_merge($values, $jwk);
 
         return JWK::create($values);
     }
@@ -95,7 +95,7 @@ class JWKFactory
 
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported.', $curve));
         }
 
         $privateKey = $nistCurve->createPrivateKey();
@@ -104,9 +104,9 @@ class JWKFactory
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
-            'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
-            'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+            'd' => Base64Url::encode(\gmp_export($privateKey->getSecret())),
+            'x' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getX())),
+            'y' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getY())),
         ];
     }
 
@@ -117,24 +117,24 @@ class JWKFactory
      */
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
-        $key = openssl_pkey_new([
-            'curve_name'       => self::getOpensslCurveName($curve),
+        $key = \openssl_pkey_new([
+            'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
-        $res = openssl_pkey_export($key, $out);
+        $res = \openssl_pkey_export($key, $out);
         if (false === $res) {
             throw new \RuntimeException('Unable to create the key');
         }
-        $res = openssl_pkey_get_private($out);
+        $res = \openssl_pkey_get_private($out);
 
-        $details = openssl_pkey_get_details($res);
+        $details = \openssl_pkey_get_details($res);
 
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'x'   => Base64Url::encode(bin2hex($details['ec']['x'])),
-            'y'   => Base64Url::encode(bin2hex($details['ec']['y'])),
-            'd'   => Base64Url::encode(bin2hex($details['ec']['d'])),
+            'x' => Base64Url::encode(\bin2hex($details['ec']['x'])),
+            'y' => Base64Url::encode(\bin2hex($details['ec']['y'])),
+            'd' => Base64Url::encode(\bin2hex($details['ec']['d'])),
         ];
     }
 
@@ -153,7 +153,7 @@ class JWKFactory
             case 'P-521':
                 return 'secp521r1';
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported.', $curve));
         }
     }
 
@@ -170,11 +170,11 @@ class JWKFactory
         if (0 !== $size % 8) {
             throw new \InvalidArgumentException('Invalid key size.');
         }
-        $values = array_merge(
+        $values = \array_merge(
             $values,
             [
                 'kty' => 'oct',
-                'k'   => Base64Url::encode(random_bytes($size / 8)),
+                'k' => Base64Url::encode(\random_bytes($size / 8)),
             ]
         );
 
@@ -193,28 +193,28 @@ class JWKFactory
     {
         switch ($curve) {
             case 'X25519':
-                $keyPair = sodium_crypto_box_keypair();
-                $d = sodium_crypto_box_secretkey($keyPair);
-                $x = sodium_crypto_box_publickey($keyPair);
+                $keyPair = \sodium_crypto_box_keypair();
+                $d = \sodium_crypto_box_secretkey($keyPair);
+                $x = \sodium_crypto_box_publickey($keyPair);
 
                 break;
             case 'Ed25519':
-                $keyPair = sodium_crypto_sign_keypair();
-                $d = sodium_crypto_sign_secretkey($keyPair);
-                $x = sodium_crypto_sign_publickey($keyPair);
+                $keyPair = \sodium_crypto_sign_keypair();
+                $d = \sodium_crypto_sign_secretkey($keyPair);
+                $x = \sodium_crypto_sign_publickey($keyPair);
 
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
+                throw new \InvalidArgumentException(\sprintf('Unsupported "%s" curve', $curve));
         }
 
-        $values = array_merge(
+        $values = \array_merge(
             $values,
             [
                 'kty' => 'OKP',
                 'crv' => $curve,
-                'x'   => Base64Url::encode($x),
-                'd'   => Base64Url::encode($d),
+                'x' => Base64Url::encode($x),
+                'd' => Base64Url::encode($d),
             ]
         );
 
@@ -232,7 +232,7 @@ class JWKFactory
      */
     public static function createNoneKey(array $values = []): JWK
     {
-        $values = array_merge(
+        $values = \array_merge(
             $values,
             [
                 'kty' => 'none',
@@ -253,8 +253,8 @@ class JWKFactory
      */
     public static function createFromJsonObject(string $value)
     {
-        $json = json_decode($value, true);
-        if (!is_array($json)) {
+        $json = \json_decode($value, true);
+        if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid key or key set.');
         }
 
@@ -270,7 +270,7 @@ class JWKFactory
      */
     public static function createFromValues(array $values)
     {
-        if (array_key_exists('keys', $values) && is_array($values['keys'])) {
+        if (\array_key_exists('keys', $values) && \is_array($values['keys'])) {
             return JWKSet::createFromKeyData($values);
         }
 
@@ -287,11 +287,11 @@ class JWKFactory
      */
     public static function createFromSecret(string $secret, array $additional_values = []): JWK
     {
-        $values = array_merge(
+        $values = \array_merge(
             $additional_values,
             [
                 'kty' => 'oct',
-                'k'   => Base64Url::encode($secret),
+                'k' => Base64Url::encode($secret),
             ]
         );
 
@@ -309,7 +309,7 @@ class JWKFactory
     public static function createFromCertificateFile(string $file, array $additional_values = []): JWK
     {
         $values = KeyConverter::loadKeyFromCertificateFile($file);
-        $values = array_merge($values, $additional_values);
+        $values = \array_merge($values, $additional_values);
 
         return JWK::create($values);
     }
@@ -340,8 +340,8 @@ class JWKFactory
      */
     public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
     {
-        $res = openssl_pkcs12_read(file_get_contents($file), $certs, $secret);
-        if (false === $res || !is_array($certs) || !array_key_exists('pkey', $certs)) {
+        $res = \openssl_pkcs12_read(\file_get_contents($file), $certs, $secret);
+        if (false === $res || !\is_array($certs) || !\array_key_exists('pkey', $certs)) {
             throw new \RuntimeException('Unable to load the certificates.');
         }
 
@@ -359,7 +359,7 @@ class JWKFactory
     public static function createFromCertificate(string $certificate, array $additional_values = []): JWK
     {
         $values = KeyConverter::loadKeyFromCertificate($certificate);
-        $values = array_merge($values, $additional_values);
+        $values = \array_merge($values, $additional_values);
 
         return JWK::create($values);
     }
@@ -377,7 +377,7 @@ class JWKFactory
     public static function createFromX509Resource($res, array $additional_values = []): JWK
     {
         $values = KeyConverter::loadKeyFromX509Resource($res);
-        $values = array_merge($values, $additional_values);
+        $values = \array_merge($values, $additional_values);
 
         return JWK::create($values);
     }
@@ -397,7 +397,7 @@ class JWKFactory
     public static function createFromKeyFile(string $file, ?string $password = null, array $additional_values = []): JWK
     {
         $values = KeyConverter::loadFromKeyFile($file, $password);
-        $values = array_merge($values, $additional_values);
+        $values = \array_merge($values, $additional_values);
 
         return JWK::create($values);
     }
@@ -417,7 +417,7 @@ class JWKFactory
     public static function createFromKey(string $key, ?string $password = null, array $additional_values = []): JWK
     {
         $values = KeyConverter::loadFromKey($key, $password);
-        $values = array_merge($values, $additional_values);
+        $values = \array_merge($values, $additional_values);
 
         return JWK::create($values);
     }
@@ -433,7 +433,7 @@ class JWKFactory
     public static function createFromX5C(array $x5c, array $additional_values = []): JWK
     {
         $values = KeyConverter::loadFromX5C($x5c);
-        $values = array_merge($values, $additional_values);
+        $values = \array_merge($values, $additional_values);
 
         return JWK::create($values);
     }

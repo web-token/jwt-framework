@@ -31,7 +31,7 @@ abstract class HMAC implements SignatureAlgorithm
      */
     public function verify(JWK $key, string $input, string $signature): bool
     {
-        return hash_equals($this->sign($key, $input), $signature);
+        return \hash_equals($this->sign($key, $input), $signature);
     }
 
     /**
@@ -41,7 +41,7 @@ abstract class HMAC implements SignatureAlgorithm
     {
         $this->checkKey($key);
 
-        return hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
+        return \hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class HMAC implements SignatureAlgorithm
      */
     protected function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {

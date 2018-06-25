@@ -39,10 +39,10 @@ class AESCCMContentEncryptionTest extends TestCase
     {
         /** @var AESCCM $algorithm */
         $algorithm = new $algorithmClass();
-        $header = Base64Url::encode(json_encode(['alg' => 'ECDH-ES', 'enc' => $algorithm->name()]));
+        $header = Base64Url::encode(\json_encode(['alg' => 'ECDH-ES', 'enc' => $algorithm->name()]));
         $tag = null;
-        $cek = random_bytes($algorithm->getCEKSize() / 8);
-        $iv = random_bytes($algorithm->getIVSize());
+        $cek = \random_bytes($algorithm->getCEKSize() / 8);
+        $iv = \random_bytes($algorithm->getIVSize());
         $plaintext = 'Live long and Prosper.';
 
         $cyphertext = $algorithm->encryptContent($plaintext, $cek, $iv, null, $header, $tag);

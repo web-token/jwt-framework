@@ -42,7 +42,7 @@ class JWK implements \JsonSerializable
      */
     public static function create(array $values): self
     {
-        if (!array_key_exists('kty', $values)) {
+        if (!\array_key_exists('kty', $values)) {
             throw new \InvalidArgumentException('The parameter "kty" is mandatory.');
         }
 
@@ -58,8 +58,8 @@ class JWK implements \JsonSerializable
      */
     public static function createFromJson(string $json): self
     {
-        $data = json_decode($json, true);
-        if (!is_array($data)) {
+        $data = \json_decode($json, true);
+        if (!\is_array($data)) {
             throw new \InvalidArgumentException('Invalid argument.');
         }
 
@@ -88,7 +88,7 @@ class JWK implements \JsonSerializable
     public function get(string $key)
     {
         if (!$this->has($key)) {
-            throw new \InvalidArgumentException(sprintf('The value identified by "%s" does not exist.', $key));
+            throw new \InvalidArgumentException(\sprintf('The value identified by "%s" does not exist.', $key));
         }
 
         return $this->values[$key];
@@ -103,7 +103,7 @@ class JWK implements \JsonSerializable
      */
     public function has(string $key): bool
     {
-        return array_key_exists($key, $this->values);
+        return \array_key_exists($key, $this->values);
     }
 
     /**
@@ -129,15 +129,15 @@ class JWK implements \JsonSerializable
      */
     public function thumbprint(string $hash_algorithm): string
     {
-        if (!in_array($hash_algorithm, hash_algos())) {
-            throw new \InvalidArgumentException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
+        if (!\in_array($hash_algorithm, \hash_algos(), true)) {
+            throw new \InvalidArgumentException(\sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         }
 
-        $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
-        ksort($values);
-        $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $values = \array_intersect_key($this->values, \array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
+        \ksort($values);
+        $input = \json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        return Base64Url::encode(hash($hash_algorithm, $input, true));
+        return Base64Url::encode(\hash($hash_algorithm, $input, true));
     }
 
     /**
@@ -153,7 +153,7 @@ class JWK implements \JsonSerializable
      */
     public function toPublic(): self
     {
-        $values = array_diff_key($this->values, array_flip(['p', 'd', 'q', 'dp', 'dq', 'qi']));
+        $values = \array_diff_key($this->values, \array_flip(['p', 'd', 'q', 'dp', 'dq', 'qi']));
 
         return new self($values);
     }

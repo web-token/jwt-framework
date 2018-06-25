@@ -55,10 +55,10 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         $jwkset = $this->getKeyset($input)->all();
         $jwk = $this->getKey($input);
 
-        if (0 !== count($jwkset)) {
-            array_pop($jwkset);
+        if (0 !== \count($jwkset)) {
+            \array_pop($jwkset);
         }
-        array_unshift($jwkset, $jwk);
+        \array_unshift($jwkset, $jwk);
 
         $this->prepareJsonOutput($input, $output, JWKSet::createFromKeys($jwkset));
     }
@@ -72,7 +72,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
     {
         $jwkset = $input->getArgument('jwkset');
         $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
         }
 
@@ -88,7 +88,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
     {
         $jwkset = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWK::create($json);
         }
 

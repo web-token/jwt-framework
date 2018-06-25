@@ -62,7 +62,7 @@ class KeySetCreationCommandTest extends TestCase
         $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
-            'curve'    => 'P-128',
+            'curve' => 'P-128',
         ]);
         $output = new BufferedOutput();
         $command = new Console\EcKeysetGeneratorCommand($converter);
@@ -77,8 +77,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'curve'       => 'P-256',
+            'quantity' => 2,
+            'curve' => 'P-256',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -114,8 +114,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'size'        => 256,
+            'quantity' => 2,
+            'size' => 256,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -151,8 +151,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'curve'       => 'X25519',
+            'quantity' => 2,
+            'curve' => 'X25519',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -188,8 +188,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'size'        => 1024,
+            'quantity' => 2,
+            'size' => 1024,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();

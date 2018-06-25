@@ -69,7 +69,7 @@ class NoneSignatureTest extends SignatureTest
         self::assertEquals(1, $jws->countSignatures());
 
         $compact = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-        self::assertTrue(is_string($compact));
+        self::assertTrue(\is_string($compact));
 
         $result = $this->getJWSSerializerManager()->unserialize($compact);
 

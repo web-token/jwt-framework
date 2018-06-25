@@ -97,7 +97,7 @@ class JWSCollector implements Collector
         $data['jws']['jws_loaders'] = [];
         foreach ($this->jwsLoaders as $id => $jwsLoader) {
             $data['jws']['jws_loaders'][$id] = [
-                'serializers'          => $jwsLoader->getSerializerManager()->list(),
+                'serializers' => $jwsLoader->getSerializerManager()->list(),
                 'signature_algorithms' => $jwsLoader->getJwsVerifier()->getSignatureAlgorithmManager()->list(),
             ];
         }

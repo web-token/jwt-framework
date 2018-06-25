@@ -111,7 +111,7 @@ class Signature
             return $this->getProtectedHeader()[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The protected header "%s" does not exist', $key));
+        throw new \InvalidArgumentException(\sprintf('The protected header "%s" does not exist', $key));
     }
 
     /**
@@ -123,7 +123,7 @@ class Signature
      */
     public function hasProtectedHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->getProtectedHeader());
+        return \array_key_exists($key, $this->getProtectedHeader());
     }
 
     /**
@@ -139,7 +139,7 @@ class Signature
             return $this->header[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The header "%s" does not exist', $key));
+        throw new \InvalidArgumentException(\sprintf('The header "%s" does not exist', $key));
     }
 
     /**
@@ -151,7 +151,7 @@ class Signature
      */
     public function hasHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->header);
+        return \array_key_exists($key, $this->header);
     }
 
     /**

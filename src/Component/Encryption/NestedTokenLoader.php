@@ -88,7 +88,7 @@ class NestedTokenLoader
                 throw new \InvalidArgumentException('The token is not a nested token.');
         }
 
-        if (0 !== strcasecmp($cty, 'jwt')) {
+        if (0 !== \strcasecmp($cty, 'jwt')) {
             throw new \InvalidArgumentException('The token is not a nested token.');
         }
     }

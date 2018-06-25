@@ -26,7 +26,7 @@ final class RsaAnalyzer implements KeyAnalyzer
         if ('RSA' !== $jwk->get('kty')) {
             return;
         }
-        $n = 8 * mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
+        $n = 8 * \mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
         if ($n < 2048) {
             $bag->add(Message::high('The key length is less than 2048 bits.'));
         }

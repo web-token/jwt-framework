@@ -41,7 +41,7 @@ class IssuedAtClaimCheckerTest extends TestCase
     public function theIssuedAtClaimIsInTheFutur()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkClaim(time() + 3600);
+        $checker->checkClaim(\time() + 3600);
     }
 
     /**
@@ -50,7 +50,7 @@ class IssuedAtClaimCheckerTest extends TestCase
     public function theIssuedAtClaimIsInThePast()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkClaim(time() - 3600);
+        $checker->checkClaim(\time() - 3600);
         self::assertEquals('iat', $checker->supportedClaim());
     }
 }

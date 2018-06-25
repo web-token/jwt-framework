@@ -35,7 +35,7 @@ class JWSVerifier extends AbstractSignatureSource
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.jws_verifier.%s', $name);
+            $service_id = \sprintf('jose.jws_verifier.%s', $name);
             $definition = new Definition(JWSVerifierService::class);
             $definition
                 ->setFactory([new Reference(JWSVerifierFactory::class), 'create'])

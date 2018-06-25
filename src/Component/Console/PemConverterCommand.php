@@ -41,7 +41,7 @@ final class PemConverterCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwk);
-        if (!is_array($json)) {
+        if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid key.');
         }
         $key = JWK::create($json);

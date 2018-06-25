@@ -28,7 +28,7 @@ final class UnencodedPayloadChecker implements HeaderChecker
      */
     public function checkHeader($value)
     {
-        if (!is_bool($value)) {
+        if (!\is_bool($value)) {
             throw new InvalidHeaderException('"b64" must be a boolean.', self::HEADER_NAME, $value);
         }
     }

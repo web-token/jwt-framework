@@ -42,7 +42,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
             new JWKSource(),
             new JWKUriSource(),
         ];
-        if (class_exists(HttplugBundle::class)) {
+        if (\class_exists(HttplugBundle::class)) {
             $this->sources[] = new JKUSource();
         }
     }
@@ -111,7 +111,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
      */
     private function isEnabled(): bool
     {
-        return class_exists(JWKFactory::class);
+        return \class_exists(JWKFactory::class);
     }
 
     /**

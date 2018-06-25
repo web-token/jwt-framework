@@ -41,7 +41,7 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     public function theExpirationTimeIsInThePast()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkClaim(time() - 1);
+        $checker->checkClaim(\time() - 1);
     }
 
     /**
@@ -50,7 +50,7 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     public function theExpirationTimeIsInTheFutur()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkClaim(time() + 3600);
+        $checker->checkClaim(\time() + 3600);
         self::assertEquals('exp', $checker->supportedClaim());
     }
 }

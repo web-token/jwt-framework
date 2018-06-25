@@ -35,7 +35,7 @@ abstract class AbstractSource
      */
     public function create(ContainerBuilder $container, string $type, string $name, array $config)
     {
-        $service_id = sprintf('jose.%s.%s', $type, $name);
+        $service_id = \sprintf('jose.%s.%s', $type, $name);
         $definition = $this->createDefinition($container, $config);
         $definition->setPublic($config['is_public']);
         foreach ($config['tags'] as $id => $attributes) {

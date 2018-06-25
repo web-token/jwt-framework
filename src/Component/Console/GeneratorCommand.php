@@ -25,7 +25,7 @@ abstract class GeneratorCommand extends ObjectOutputCommand
      */
     public function isEnabled()
     {
-        return class_exists(JWKFactory::class);
+        return \class_exists(JWKFactory::class);
     }
 
     /**
@@ -66,6 +66,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
      */
     private function generateKeyID(): string
     {
-        return Base64Url::encode(random_bytes(32));
+        return Base64Url::encode(\random_bytes(32));
     }
 }

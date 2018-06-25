@@ -152,7 +152,7 @@ class JWS implements JWT
      */
     public function countSignatures(): int
     {
-        return count($this->signatures);
+        return \count($this->signatures);
     }
 
     /**

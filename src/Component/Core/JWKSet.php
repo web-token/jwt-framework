@@ -39,7 +39,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromKeyData(array $data): self
     {
-        if (!array_key_exists('keys', $data) || !is_array($data['keys'])) {
+        if (!\array_key_exists('keys', $data) || !\is_array($data['keys'])) {
             throw new \InvalidArgumentException('Invalid data.');
         }
 
@@ -66,7 +66,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromKeys(array $keys): self
     {
-        $keys = array_filter($keys, function () {
+        $keys = \array_filter($keys, function () {
             return true;
         });
         foreach ($keys as $k => $v) {
@@ -88,8 +88,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromJson(string $json): self
     {
-        $data = json_decode($json, true);
-        if (!is_array($data)) {
+        $data = \json_decode($json, true);
+        if (!\is_array($data)) {
             throw new \InvalidArgumentException('Invalid argument.');
         }
 
@@ -156,7 +156,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function has($index): bool
     {
-        return array_key_exists($index, $this->keys);
+        return \array_key_exists($index, $this->keys);
     }
 
     /**
@@ -182,7 +182,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return ['keys' => array_values($this->keys)];
+        return ['keys' => \array_values($this->keys)];
     }
 
     /**
@@ -194,7 +194,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function count($mode = COUNT_NORMAL): int
     {
-        return count($this->keys, $mode);
+        return \count($this->keys, $mode);
     }
 
     /**
@@ -209,7 +209,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
-        if (!in_array($type, ['enc', 'sig'])) {
+        if (!\in_array($type, ['enc', 'sig'], true)) {
             throw new \InvalidArgumentException('Allowed key types are "sig" or "enc".');
         }
 
@@ -240,7 +240,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             return null;
         }
 
-        usort($result, [$this, 'sortKeys']);
+        \usort($result, [$this, 'sortKeys']);
 
         return $result[0]['key'];
     }
@@ -274,7 +274,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
         if (null === $algorithm) {
             return 0;
         }
-        if (!in_array($key->get('kty'), $algorithm->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $algorithm->allowedKeyTypes(), true)) {
             return false;
         }
         if ($key->has('alg')) {
@@ -318,7 +318,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             case 'unwrapKey':
                 return 'enc';
             default:
-                throw new \InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
+                throw new \InvalidArgumentException(\sprintf('Unsupported key operation value "%s"', $key_ops));
         }
     }
 

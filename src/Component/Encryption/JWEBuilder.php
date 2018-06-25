@@ -164,8 +164,8 @@ class JWEBuilder
      */
     public function withPayload($payload): self
     {
-        $payload = is_string($payload) ? $payload : $this->jsonConverter->encode($payload);
-        if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
+        $payload = \is_string($payload) ? $payload : $this->jsonConverter->encode($payload);
+        if (false === \mb_detect_encoding($payload, 'UTF-8', true)) {
             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
         }
         $clone = clone $this;
@@ -240,7 +240,7 @@ class JWEBuilder
         $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $recipientHeader);
         $this->checkDuplicatedHeaderParameters($this->sharedHeader, $recipientHeader);
         $clone = clone $this;
-        $completeHeader = array_merge($clone->sharedHeader, $recipientHeader, $clone->sharedProtectedHeader);
+        $completeHeader = \array_merge($clone->sharedHeader, $recipientHeader, $clone->sharedProtectedHeader);
         $clone->checkAndSetContentEncryptionAlgorithm($completeHeader);
         $keyEncryptionAlgorithm = $clone->getKeyEncryptionAlgorithm($completeHeader);
         if (null === $clone->keyManagementMode) {
@@ -264,8 +264,8 @@ class JWEBuilder
         }
         $clone->checkKey($keyEncryptionAlgorithm, $recipientKey);
         $clone->recipients[] = [
-            'key'                      => $recipientKey,
-            'header'                   => $recipientHeader,
+            'key' => $recipientKey,
+            'header' => $recipientHeader,
             'key_encryption_algorithm' => $keyEncryptionAlgorithm,
         ];
 
@@ -282,7 +282,7 @@ class JWEBuilder
         if (null === $this->payload) {
             throw new \LogicException('Payload not set.');
         }
-        if (0 === count($this->recipients)) {
+        if (0 === \count($this->recipients)) {
             throw new \LogicException('No recipient.');
         }
 
@@ -295,8 +295,8 @@ class JWEBuilder
             $recipients[] = $recipient;
         }
 
-        if (!empty($additionalHeader) && 1 === count($this->recipients)) {
-            $sharedProtectedHeader = array_merge($additionalHeader, $this->sharedProtectedHeader);
+        if (!empty($additionalHeader) && 1 === \count($this->recipients)) {
+            $sharedProtectedHeader = \array_merge($additionalHeader, $this->sharedProtectedHeader);
         } else {
             $sharedProtectedHeader = $this->sharedProtectedHeader;
         }
@@ -329,13 +329,13 @@ class JWEBuilder
      */
     private function processRecipient(array $recipient, string $cek, array &$additionalHeader): Recipient
     {
-        $completeHeader = array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
+        $completeHeader = \array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
         /** @var KeyEncryptionAlgorithm $keyEncryptionAlgorithm */
         $keyEncryptionAlgorithm = $recipient['key_encryption_algorithm'];
         $encryptedContentEncryptionKey = $this->getEncryptedKey($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipient['key']);
         $recipientHeader = $recipient['header'];
-        if (!empty($additionalHeader) && 1 !== count($this->recipients)) {
-            $recipientHeader = array_merge($recipientHeader, $additionalHeader);
+        if (!empty($additionalHeader) && 1 !== \count($this->recipients)) {
+            $recipientHeader = \array_merge($recipientHeader, $additionalHeader);
             $additionalHeader = [];
         }
 
@@ -469,18 +469,18 @@ class JWEBuilder
             case KeyEncryption::MODE_WRAP:
                 return $this->createCEK($this->contentEncryptionAlgorithm->getCEKSize());
             case KeyEncryption::MODE_AGREEMENT:
-                if (1 !== count($this->recipients)) {
+                if (1 !== \count($this->recipients)) {
                     throw new \LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
                 /** @var JWK $key */
                 $key = $this->recipients[0]['key'];
                 /** @var KeyAgreement $algorithm */
                 $algorithm = $this->recipients[0]['key_encryption_algorithm'];
-                $completeHeader = array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
+                $completeHeader = \array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
 
                 return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $key, $completeHeader, $additionalHeader);
             case KeyEncryption::MODE_DIRECT:
-                if (1 !== count($this->recipients)) {
+                if (1 !== \count($this->recipients)) {
                     throw new \LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
                 /** @var JWK $key */
@@ -491,7 +491,7 @@ class JWEBuilder
 
                 return Base64Url::decode($key->get('k'));
             default:
-                throw new \InvalidArgumentException(sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));
+                throw new \InvalidArgumentException(\sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));
         }
     }
 
@@ -502,7 +502,7 @@ class JWEBuilder
      */
     private function getCompressionMethod(array $completeHeader): ?CompressionMethod
     {
-        if (!array_key_exists('zip', $completeHeader)) {
+        if (!\array_key_exists('zip', $completeHeader)) {
             return null;
         }
 
@@ -523,7 +523,7 @@ class JWEBuilder
         $wrap = KeyEncryptionAlgorithm::MODE_WRAP;
         $supportedKeyManagementModeCombinations = [$enc.$enc => true, $enc.$wrap => true, $wrap.$enc => true, $wrap.$wrap => true, $agree.$agree => false, $agree.$dir => false, $agree.$enc => false, $agree.$wrap => false, $dir.$agree => false, $dir.$dir => false, $dir.$enc => false, $dir.$wrap => false, $enc.$agree => false, $enc.$dir => false, $wrap.$agree => false, $wrap.$dir => false];
 
-        if (array_key_exists($current.$new, $supportedKeyManagementModeCombinations)) {
+        if (\array_key_exists($current.$new, $supportedKeyManagementModeCombinations)) {
             return $supportedKeyManagementModeCombinations[$current.$new];
         }
 
@@ -537,7 +537,7 @@ class JWEBuilder
      */
     private function createCEK(int $size): string
     {
-        return random_bytes($size / 8);
+        return \random_bytes($size / 8);
     }
 
     /**
@@ -547,7 +547,7 @@ class JWEBuilder
      */
     private function createIV(int $size): string
     {
-        return random_bytes($size / 8);
+        return \random_bytes($size / 8);
     }
 
     /**
@@ -557,12 +557,12 @@ class JWEBuilder
      */
     private function getKeyEncryptionAlgorithm(array $completeHeader): KeyEncryptionAlgorithm
     {
-        if (!array_key_exists('alg', $completeHeader)) {
+        if (!\array_key_exists('alg', $completeHeader)) {
             throw new \InvalidArgumentException('Parameter "alg" is missing.');
         }
         $keyEncryptionAlgorithm = $this->keyEncryptionAlgorithmManager->get($completeHeader['alg']);
         if (!$keyEncryptionAlgorithm instanceof KeyEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or not a key encryption algorithm instance.', $completeHeader['alg']));
+            throw new \InvalidArgumentException(\sprintf('The key encryption algorithm "%s" is not supported or not a key encryption algorithm instance.', $completeHeader['alg']));
         }
 
         return $keyEncryptionAlgorithm;
@@ -575,12 +575,12 @@ class JWEBuilder
      */
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
-        if (!array_key_exists('enc', $completeHeader)) {
+        if (!\array_key_exists('enc', $completeHeader)) {
             throw new \InvalidArgumentException('Parameter "enc" is missing.');
         }
         $contentEncryptionAlgorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
         if (!$contentEncryptionAlgorithm instanceof ContentEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(sprintf('The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.', $completeHeader['alg']));
+            throw new \InvalidArgumentException(\sprintf('The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.', $completeHeader['alg']));
         }
 
         return $contentEncryptionAlgorithm;
@@ -592,9 +592,9 @@ class JWEBuilder
      */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2)
     {
-        $inter = array_intersect_key($header1, $header2);
+        $inter = \array_intersect_key($header1, $header2);
         if (!empty($inter)) {
-            throw new \InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
+            throw new \InvalidArgumentException(\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
         }
     }
 }

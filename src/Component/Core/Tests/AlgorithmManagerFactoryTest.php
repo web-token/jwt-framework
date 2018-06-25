@@ -30,7 +30,7 @@ class AlgorithmManagerFactoryTest extends TestCase
     public function iCanListSupportedAliases()
     {
         self::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
-        self::assertEquals(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
+        self::assertEquals(['foo'], \array_keys($this->getAlgorithmManagerFactory()->all()));
     }
 
     /**

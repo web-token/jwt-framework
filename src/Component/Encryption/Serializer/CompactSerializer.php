@@ -67,7 +67,7 @@ final class CompactSerializer implements JWESerializer
         $this->checkHasSharedProtectedHeader($jwe);
         $this->checkRecipientHasNoHeader($jwe, $recipientIndex);
 
-        return sprintf(
+        return \sprintf(
             '%s.%s.%s.%s.%s',
             $jwe->getEncodedSharedProtectedHeader(),
             Base64Url::encode(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),
@@ -82,8 +82,8 @@ final class CompactSerializer implements JWESerializer
      */
     public function unserialize(string $input): JWE
     {
-        $parts = explode('.', $input);
-        if (5 !== count($parts)) {
+        $parts = \explode('.', $input);
+        if (5 !== \count($parts)) {
             throw new \InvalidArgumentException('Unsupported input');
         }
 

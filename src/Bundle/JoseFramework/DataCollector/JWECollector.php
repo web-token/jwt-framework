@@ -95,9 +95,9 @@ class JWECollector implements Collector
         $data['jwe']['jwe_builders'] = [];
         foreach ($this->jweBuilders as $id => $jweBuilder) {
             $data['jwe']['jwe_builders'][$id] = [
-                'key_encryption_algorithms'     => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
+                'key_encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods'           => $jweBuilder->getCompressionMethodManager()->list(),
+                'compression_methods' => $jweBuilder->getCompressionMethodManager()->list(),
             ];
         }
     }
@@ -110,9 +110,9 @@ class JWECollector implements Collector
         $data['jwe']['jwe_decrypters'] = [];
         foreach ($this->jweDecrypters as $id => $jweDecrypter) {
             $data['jwe']['jwe_decrypters'][$id] = [
-                'key_encryption_algorithms'     => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
+                'key_encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods'           => $jweDecrypter->getCompressionMethodManager()->list(),
+                'compression_methods' => $jweDecrypter->getCompressionMethodManager()->list(),
             ];
         }
     }
@@ -125,10 +125,10 @@ class JWECollector implements Collector
         $data['jwe']['jwe_loaders'] = [];
         foreach ($this->jweLoaders as $id => $jweLoader) {
             $data['jwe']['jwe_loaders'][$id] = [
-                'serializers'                   => $jweLoader->getSerializerManager()->names(),
-                'key_encryption_algorithms'     => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
+                'serializers' => $jweLoader->getSerializerManager()->names(),
+                'key_encryption_algorithms' => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweLoader->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods'           => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
+                'compression_methods' => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
             ];
         }
     }

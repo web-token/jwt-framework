@@ -29,7 +29,7 @@ class JWSLoaderTest extends WebTestCase
      */
     protected function setUp()
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
+        if (!\class_exists(JWSBuilderFactory::class)) {
             $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }

@@ -26,34 +26,34 @@ final class PBES2HS512A256KWBench extends EncryptionBench
     {
         return [
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A128CBC-HS256'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A128CBC-HS256'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A192CBC-HS384'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A192CBC-HS384'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A256CBC-HS512'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A256CBC-HS512'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A128GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A128GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A192GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A192GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A256GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS512+A256KW', 'enc' => 'A256GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
         ];
     }
@@ -85,7 +85,7 @@ final class PBES2HS512A256KWBench extends EncryptionBench
             [
                 'recipient_keys' => ['keys' => [[
                     'kty' => 'oct',
-                    'k'   => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
+                    'k' => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
                 ]]],
             ],
         ];
@@ -100,7 +100,7 @@ final class PBES2HS512A256KWBench extends EncryptionBench
             [
                 'recipient_key' => [
                     'kty' => 'oct',
-                    'k'   => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
+                    'k' => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
                 ],
             ],
         ];

@@ -32,7 +32,7 @@ class JWSComputationTest extends WebTestCase
      */
     protected function setUp()
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
+        if (!\class_exists(JWSBuilderFactory::class)) {
             $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
@@ -44,7 +44,7 @@ class JWSComputationTest extends WebTestCase
 
         $jwk = JWK::create([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
         /** @var JWSBuilder $builder */

@@ -28,12 +28,12 @@ final class OctAnalyzer implements KeyAnalyzer
             return;
         }
         $k = Base64Url::decode($jwk->get('k'));
-        $kLength = 8 * mb_strlen($k, '8bit');
+        $kLength = 8 * \mb_strlen($k, '8bit');
         if ($kLength < 128) {
             $bag->add(Message::high('The key length is less than 128 bits.'));
         }
 
-        if (class_exists(Zxcvbn::class)) {
+        if (\class_exists(Zxcvbn::class)) {
             $zxcvbn = new Zxcvbn();
             $strength = $zxcvbn->passwordStrength($k);
             switch (true) {

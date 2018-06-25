@@ -24,7 +24,7 @@ abstract class ECDSA implements SignatureAlgorithm
      */
     public function __construct()
     {
-        if (!defined('OPENSSL_KEYTYPE_EC')) {
+        if (!\defined('OPENSSL_KEYTYPE_EC')) {
             throw new \RuntimeException('Elliptic Curve key type not supported by your environment.');
         }
     }
@@ -48,7 +48,7 @@ abstract class ECDSA implements SignatureAlgorithm
         }
 
         $pem = ECKey::convertPrivateKeyToPEM($key);
-        $result = openssl_sign($input, $signature, $pem, $this->getHashAlgorithm());
+        $result = \openssl_sign($input, $signature, $pem, $this->getHashAlgorithm());
         if (false === $result) {
             throw new \RuntimeException('Signature failed.');
         }
@@ -67,7 +67,7 @@ abstract class ECDSA implements SignatureAlgorithm
             $der = ECSignature::toDER($signature, $this->getSignaturePartLength());
             $pem = ECKey::convertPublicKeyToPEM($key);
 
-            return 1 === openssl_verify($input, $der, $pem, $this->getHashAlgorithm());
+            return 1 === \openssl_verify($input, $der, $pem, $this->getHashAlgorithm());
         } catch (\Exception $e) {
             return false;
         }
@@ -88,12 +88,12 @@ abstract class ECDSA implements SignatureAlgorithm
      */
     private function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'y', 'crv'] as $k) {
             if (!$key->has($k)) {
-                throw new \InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
             }
         }
     }

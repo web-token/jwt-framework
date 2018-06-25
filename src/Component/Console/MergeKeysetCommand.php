@@ -54,7 +54,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         $newJwkset = JWKSet::createFromKeys([]);
         foreach ($keySets as $keySet) {
             $json = $this->jsonConverter->decode($keySet);
-            if (!is_array($json)) {
+            if (!\is_array($json)) {
                 throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
             }
             $jwkset = JWKSet::createFromKeyData($json);

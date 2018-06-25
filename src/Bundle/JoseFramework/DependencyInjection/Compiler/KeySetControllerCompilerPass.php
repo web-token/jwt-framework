@@ -33,8 +33,8 @@ class KeySetControllerCompilerPass implements CompilerPassInterface
         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwk_uri.controller');
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!array_key_exists('path', $attributes)) {
-                    throw new \InvalidArgumentException(sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
+                if (!\array_key_exists('path', $attributes)) {
+                    throw new \InvalidArgumentException(\sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
                 }
                 $definition->addMethodCall('add', [$attributes['path'], $id]);
             }

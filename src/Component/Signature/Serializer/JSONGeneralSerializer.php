@@ -73,7 +73,7 @@ final class JSONGeneralSerializer extends Serializer
             $tmp = ['signature' => Base64Url::encode($signature->getSignature())];
             $values = [
                 'protected' => $signature->getEncodedProtectedHeader(),
-                'header'    => $signature->getHeader(),
+                'header' => $signature->getHeader(),
             ];
 
             foreach ($values as $key => $value) {
@@ -92,7 +92,7 @@ final class JSONGeneralSerializer extends Serializer
      */
     private function checkData($data)
     {
-        if (!is_array($data) || !array_key_exists('signatures', $data)) {
+        if (!\is_array($data) || !\array_key_exists('signatures', $data)) {
             throw new \InvalidArgumentException('Unsupported input.');
         }
     }
@@ -102,7 +102,7 @@ final class JSONGeneralSerializer extends Serializer
      */
     private function checkSignature($signature)
     {
-        if (!is_array($signature) || !array_key_exists('signature', $signature)) {
+        if (!\is_array($signature) || !\array_key_exists('signature', $signature)) {
             throw new \InvalidArgumentException('Unsupported input.');
         }
     }
@@ -116,16 +116,16 @@ final class JSONGeneralSerializer extends Serializer
         $this->checkData($data);
 
         $isPayloadEncoded = null;
-        $rawPayload = array_key_exists('payload', $data) ? $data['payload'] : null;
+        $rawPayload = \array_key_exists('payload', $data) ? $data['payload'] : null;
         $signatures = [];
         foreach ($data['signatures'] as $signature) {
             $this->checkSignature($signature);
             list($encodedProtectedHeader, $protectedHeader, $header) = $this->processHeaders($signature);
             $signatures[] = [
-                'signature'         => Base64Url::decode($signature['signature']),
-                'protected'         => $protectedHeader,
+                'signature' => Base64Url::decode($signature['signature']),
+                'protected' => $protectedHeader,
                 'encoded_protected' => $encodedProtectedHeader,
-                'header'            => $header,
+                'header' => $header,
             ];
             $isPayloadEncoded = $this->processIsPayloadEncoded($isPayloadEncoded, $protectedHeader);
         }
@@ -169,9 +169,9 @@ final class JSONGeneralSerializer extends Serializer
      */
     private function processHeaders(array $signature): array
     {
-        $encodedProtectedHeader = array_key_exists('protected', $signature) ? $signature['protected'] : null;
+        $encodedProtectedHeader = \array_key_exists('protected', $signature) ? $signature['protected'] : null;
         $protectedHeader = null !== $encodedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedProtectedHeader)) : [];
-        $header = array_key_exists('header', $signature) ? $signature['header'] : [];
+        $header = \array_key_exists('header', $signature) ? $signature['header'] : [];
 
         return [$encodedProtectedHeader, $protectedHeader, $header];
     }

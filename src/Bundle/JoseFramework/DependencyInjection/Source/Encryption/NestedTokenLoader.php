@@ -36,7 +36,7 @@ class NestedTokenLoader implements Source
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.nested_token_loader.%s', $name);
+            $service_id = \sprintf('jose.nested_token_loader.%s', $name);
             $definition = new Definition(self::class);
             $definition
                 ->setFactory([new Reference(NestedTokenLoaderFactory::class), 'create'])

@@ -32,10 +32,10 @@ class ClaimCheckerManagerFactory
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            if (array_key_exists($alias, $this->checkers)) {
+            if (\array_key_exists($alias, $this->checkers)) {
                 $checkers[] = $this->checkers[$alias];
             } else {
-                throw new \InvalidArgumentException(sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+                throw new \InvalidArgumentException(\sprintf('The claim checker with the alias "%s" is not supported.', $alias));
             }
         }
 
@@ -64,7 +64,7 @@ class ClaimCheckerManagerFactory
      */
     public function aliases(): array
     {
-        return array_keys($this->checkers);
+        return \array_keys($this->checkers);
     }
 
     /**

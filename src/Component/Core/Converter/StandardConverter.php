@@ -43,7 +43,7 @@ final class StandardConverter implements JsonConverter
      */
     public function encode($payload): string
     {
-        return json_encode($payload, $this->options, $this->depth);
+        return \json_encode($payload, $this->options, $this->depth);
     }
 
     /**
@@ -51,6 +51,6 @@ final class StandardConverter implements JsonConverter
      */
     public function decode(string $payload, bool $associativeArray = true)
     {
-        return json_decode($payload, $associativeArray, $this->depth, $this->options);
+        return \json_decode($payload, $associativeArray, $this->depth, $this->options);
     }
 }

@@ -37,7 +37,7 @@ class JWELoader implements Source
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.jwe_loader.%s', $name);
+            $service_id = \sprintf('jose.jwe_loader.%s', $name);
             $definition = new Definition(JWELoaderService::class);
             $definition
                 ->setFactory([new Reference(JWELoaderFactory::class), 'create'])

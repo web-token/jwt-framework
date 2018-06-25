@@ -136,7 +136,7 @@ class JWE implements JWT
      */
     public function countRecipients(): int
     {
-        return count($this->recipients);
+        return \count($this->recipients);
     }
 
     /**
@@ -168,7 +168,7 @@ class JWE implements JWT
      */
     public function getRecipient(int $id): Recipient
     {
-        if (!array_key_exists($id, $this->recipients)) {
+        if (!\array_key_exists($id, $this->recipients)) {
             throw new \InvalidArgumentException('The recipient does not exist.');
         }
 
@@ -249,7 +249,7 @@ class JWE implements JWT
             return $this->sharedProtectedHeader[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The shared protected header "%s" does not exist.', $key));
+        throw new \InvalidArgumentException(\sprintf('The shared protected header "%s" does not exist.', $key));
     }
 
     /**
@@ -261,7 +261,7 @@ class JWE implements JWT
      */
     public function hasSharedProtectedHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->sharedProtectedHeader);
+        return \array_key_exists($key, $this->sharedProtectedHeader);
     }
 
     /**
@@ -288,7 +288,7 @@ class JWE implements JWT
             return $this->sharedHeader[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The shared header "%s" does not exist.', $key));
+        throw new \InvalidArgumentException(\sprintf('The shared header "%s" does not exist.', $key));
     }
 
     /**
@@ -300,7 +300,7 @@ class JWE implements JWT
      */
     public function hasSharedHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->sharedHeader);
+        return \array_key_exists($key, $this->sharedHeader);
     }
 
     /**

@@ -37,7 +37,7 @@ class JWSLoader implements Source
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.jws_loader.%s', $name);
+            $service_id = \sprintf('jose.jws_loader.%s', $name);
             $definition = new Definition(JWSLoaderService::class);
             $definition
                 ->setFactory([new Reference(JWSLoaderFactory::class), 'create'])

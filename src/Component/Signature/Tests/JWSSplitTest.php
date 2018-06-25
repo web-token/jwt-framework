@@ -33,9 +33,9 @@ class JWSSplitTest extends SignatureTest
         $split = $jws->split();
 
         self::assertEquals(3, $jws->countSignatures());
-        self::assertEquals(3, count($jws->split()));
+        self::assertEquals(3, \count($jws->split()));
 
-        for ($i = 0; $i < $jws->countSignatures(); $i++) {
+        for ($i = 0; $i < $jws->countSignatures(); ++$i) {
             $signature1 = $jws->getSignature($i);
             $tempJws = $split[$i];
             self::assertEquals(1, $tempJws->countSignatures());

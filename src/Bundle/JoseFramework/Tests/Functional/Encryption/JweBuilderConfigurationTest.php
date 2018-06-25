@@ -32,7 +32,7 @@ class JweBuilderConfigurationTest extends TestCase
      */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
+        if (!\class_exists(JWEBuilderFactory::class)) {
             $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
@@ -174,7 +174,7 @@ class JweBuilderConfigurationTest extends TestCase
                     'jwe' => [
                         'builders' => [
                             'foo' => [
-                                'key_encryption_algorithms'     => ['A256GCMKW'],
+                                'key_encryption_algorithms' => ['A256GCMKW'],
                                 'content_encryption_algorithms' => [],
                             ],
                         ],

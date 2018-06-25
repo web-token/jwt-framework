@@ -32,7 +32,7 @@ class JwsVerifierConfigurationTest extends TestCase
      */
     protected function setUp()
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
+        if (!\class_exists(JWSBuilderFactory::class)) {
             $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }

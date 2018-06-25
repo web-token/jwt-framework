@@ -48,8 +48,8 @@ class JWKSetController
             $this->jwkset,
             Response::HTTP_OK,
             [
-                'Content-Type'  => 'application/jwk-set+json; charset=UTF-8',
-                'Cache-Control' => sprintf('public, max-age=%d, must-revalidate, no-transform', $this->maxAge),
+                'Content-Type' => 'application/jwk-set+json; charset=UTF-8',
+                'Cache-Control' => \sprintf('public, max-age=%d, must-revalidate, no-transform', $this->maxAge),
             ]
         );
     }

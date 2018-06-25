@@ -22,6 +22,6 @@ abstract class Serializer implements JWSSerializer
      */
     protected function isPayloadEncoded(array $protectedHeader): bool
     {
-        return !array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
+        return !\array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
     }
 }

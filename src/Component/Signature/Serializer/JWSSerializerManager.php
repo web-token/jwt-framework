@@ -61,7 +61,7 @@ class JWSSerializerManager
      */
     public function list(): array
     {
-        return array_keys($this->serializers);
+        return \array_keys($this->serializers);
     }
 
     /**
@@ -77,8 +77,8 @@ class JWSSerializerManager
      */
     public function serialize(string $name, JWS $jws, ?int $signatureIndex = null): string
     {
-        if (!array_key_exists($name, $this->serializers)) {
-            throw new \InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
+        if (!\array_key_exists($name, $this->serializers)) {
+            throw new \InvalidArgumentException(\sprintf('Unsupported serializer "%s".', $name));
         }
 
         return ($this->serializers[$name])->serialize($jws, $signatureIndex);

@@ -35,7 +35,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.$aad;
         }
 
-        $C = openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        $C = \openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if (false === $C) {
             throw new \InvalidArgumentException('Unable to encrypt the data.');
         }
@@ -53,7 +53,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.$aad;
         }
 
-        $P = openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        $P = \openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if (false === $P) {
             throw new \InvalidArgumentException('Unable to decrypt or to verify the tag.');
         }

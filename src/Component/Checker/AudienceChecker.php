@@ -67,11 +67,11 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
      */
     private function checkValue($value, string $class)
     {
-        if (is_string($value) && $value !== $this->audience) {
+        if (\is_string($value) && $value !== $this->audience) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        } elseif (is_array($value) && !in_array($this->audience, $value)) {
+        } elseif (\is_array($value) && !\in_array($this->audience, $value, true)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        } elseif (!is_array($value) && !is_string($value)) {
+        } elseif (!\is_array($value) && !\is_string($value)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
     }

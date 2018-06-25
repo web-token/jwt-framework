@@ -81,7 +81,7 @@ abstract class SignatureBench
     /**
      * @param array $params
      *
-     * @Subject()
+     * @Subject
      * @ParamProviders({"dataSignature"})
      */
     public function sign($params)
@@ -96,7 +96,7 @@ abstract class SignatureBench
     /**
      * @param array $params
      *
-     * @Subject()
+     * @Subject
      * @ParamProviders({"dataVerification"})
      */
     public function verify($params)

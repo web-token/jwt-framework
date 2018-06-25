@@ -17,6 +17,7 @@
     "autoload": {
         "psr-4": {
             "Jose\\":  "src/",
+            "Jose\\Tests\\":  "test/",
             "Jose\\Component\\Signature\\Algorithm\\": [
                 "src/SignatureAlgorithm/ECDSA",
                 "src/SignatureAlgorithm/EdDSA",
@@ -69,13 +70,14 @@
     "require-dev": {
         "ext-curl": "*",
         "bjeavons/zxcvbn-php": "^0.3.0",
+        "blackfire/php-sdk": "^1.14",
         "guzzlehttp/psr7": "^1.4",
         "matthiasnoback/symfony-config-test": "^3.1|^4.0",
+        "php-coveralls/php-coveralls": "^2.0",
         "php-http/httplug-bundle": "^1.7",
         "php-http/mock-client": "^1.0",
         "phpstan/phpstan": "^0.9.2",
         "phpunit/phpunit": "^6.0|^7.0",
-        "php-coveralls/php-coveralls": "^2.0",
         "symfony/browser-kit": "^3.4|^4.0",
         "symfony/finder": "^3.4|^4.0",
         "symfony/phpunit-bridge": "^3.4|^4.0",

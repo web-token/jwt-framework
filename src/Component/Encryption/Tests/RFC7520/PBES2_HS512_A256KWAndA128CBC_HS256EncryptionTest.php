@@ -36,26 +36,26 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
                 'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
                 'use' => 'enc',
                 'alg' => 'A128GCM',
-                'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
+                'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
             ], [
                 'kty' => 'oct',
                 'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
                 'use' => 'enc',
                 'alg' => 'A128KW',
-                'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
             ], [
                 'kty' => 'oct',
                 'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
                 'use' => 'enc',
                 'alg' => 'A256GCMKW',
-                'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+                'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
             ],
         ]];
 
         $private_key = JWK::create([
             'kty' => 'oct',
             'use' => 'enc',
-            'k'   => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
+            'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
         $protectedHeader = [
@@ -103,9 +103,9 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         self::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
         self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
-        self::assertEquals($expected_payload, json_decode($loaded_compact_json->getPayload(), true));
-        self::assertEquals($expected_payload, json_decode($loaded_flattened_json->getPayload(), true));
-        self::assertEquals($expected_payload, json_decode($loaded_json->getPayload(), true));
+        self::assertEquals($expected_payload, \json_decode($loaded_compact_json->getPayload(), true));
+        self::assertEquals($expected_payload, \json_decode($loaded_flattened_json->getPayload(), true));
+        self::assertEquals($expected_payload, \json_decode($loaded_json->getPayload(), true));
     }
 
     /**
@@ -113,32 +113,32 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
      */
     public function testPBES2_HS512_A256KWAndA128CBC_HS256EncryptionBis()
     {
-        $expected_payload = json_encode(['keys' => [
+        $expected_payload = \json_encode(['keys' => [
             [
                 'kty' => 'oct',
                 'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
                 'use' => 'enc',
                 'alg' => 'A128GCM',
-                'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
+                'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
             ], [
                 'kty' => 'oct',
                 'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
                 'use' => 'enc',
                 'alg' => 'A128KW',
-                'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
             ], [
                 'kty' => 'oct',
                 'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
                 'use' => 'enc',
                 'alg' => 'A256GCMKW',
-                'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+                'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
             ],
         ]]);
 
         $private_key = JWK::create([
             'kty' => 'oct',
             'use' => 'enc',
-            'k'   => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
+            'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
         $protectedHeader = [
@@ -162,11 +162,11 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertTrue(array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeader()));
-        self::assertTrue(array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeader()));
+        self::assertTrue(\array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeader()));
+        self::assertTrue(\array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeader()));
 
-        self::assertTrue(array_key_exists('p2s', $loaded_json->getSharedProtectedHeader()));
-        self::assertTrue(array_key_exists('p2c', $loaded_json->getSharedProtectedHeader()));
+        self::assertTrue(\array_key_exists('p2s', $loaded_json->getSharedProtectedHeader()));
+        self::assertTrue(\array_key_exists('p2c', $loaded_json->getSharedProtectedHeader()));
 
         self::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
         self::assertEquals($expected_payload, $loaded_json->getPayload());

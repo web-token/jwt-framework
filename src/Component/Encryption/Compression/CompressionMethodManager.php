@@ -55,7 +55,7 @@ class CompressionMethodManager
     {
         $name = $compressionMethod->name();
         if ($this->has($name)) {
-            throw new \InvalidArgumentException(sprintf('The compression method "%s" is already supported.', $name));
+            throw new \InvalidArgumentException(\sprintf('The compression method "%s" is already supported.', $name));
         }
 
         $this->compressionMethods[$name] = $compressionMethod;
@@ -70,7 +70,7 @@ class CompressionMethodManager
      */
     public function has(string $name): bool
     {
-        return array_key_exists($name, $this->compressionMethods);
+        return \array_key_exists($name, $this->compressionMethods);
     }
 
     /**
@@ -84,7 +84,7 @@ class CompressionMethodManager
     public function get(string $name): CompressionMethod
     {
         if (!$this->has($name)) {
-            throw new \InvalidArgumentException(sprintf('The compression method "%s" is not supported.', $name));
+            throw new \InvalidArgumentException(\sprintf('The compression method "%s" is not supported.', $name));
         }
 
         return $this->compressionMethods[$name];
@@ -97,6 +97,6 @@ class CompressionMethodManager
      */
     public function list(): array
     {
-        return array_keys($this->compressionMethods);
+        return \array_keys($this->compressionMethods);
     }
 }

@@ -60,7 +60,7 @@ class ECKey
         }
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN PUBLIC KEY-----'.PHP_EOL;
-        $pem .= chunk_split(base64_encode($der), 64, PHP_EOL);
+        $pem .= \chunk_split(\base64_encode($der), 64, PHP_EOL);
         $pem .= '-----END PUBLIC KEY-----'.PHP_EOL;
 
         return $pem;
@@ -91,7 +91,7 @@ class ECKey
         }
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN EC PRIVATE KEY-----'.PHP_EOL;
-        $pem .= chunk_split(base64_encode($der), 64, PHP_EOL);
+        $pem .= \chunk_split(\base64_encode($der), 64, PHP_EOL);
         $pem .= '-----END EC PRIVATE KEY-----'.PHP_EOL;
 
         return $pem;
@@ -102,7 +102,7 @@ class ECKey
      */
     private static function p256PublicKey(): string
     {
-        return pack('H*',
+        return \pack('H*',
             '3059' // SEQUENCE, length 89
                 .'3013' // SEQUENCE, length 19
                     .'0607' // OID, length 7
@@ -119,7 +119,7 @@ class ECKey
      */
     private static function p384PublicKey(): string
     {
-        return pack('H*',
+        return \pack('H*',
             '3076' // SEQUENCE, length 118
                 .'3010' // SEQUENCE, length 16
                     .'0607' // OID, length 7
@@ -136,7 +136,7 @@ class ECKey
      */
     private static function p521PublicKey(): string
     {
-        return pack('H*',
+        return \pack('H*',
             '30819b' // SEQUENCE, length 154
                 .'3010' // SEQUENCE, length 16
                     .'0607' // OID, length 7
@@ -155,13 +155,13 @@ class ECKey
      */
     private static function p256PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = mb_strlen($d, '8bit') / 2;
+        $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
+        $dl = \mb_strlen($d, '8bit') / 2;
 
-        return pack('H*',
-            '30'.dechex(87 + $dl) // SEQUENCE, length 87+length($d)
+        return \pack('H*',
+            '30'.\dechex(87 + $dl) // SEQUENCE, length 87+length($d)
                 .'020101' // INTEGER, 1
-                .'04'.dechex($dl)   // OCTET STRING, length($d)
+                .'04'.\dechex($dl)   // OCTET STRING, length($d)
                     .$d
                 .'a00a' // TAGGED OBJECT #0, length 10
                     .'0608' // OID, length 8
@@ -179,13 +179,13 @@ class ECKey
      */
     private static function p384PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = mb_strlen($d, '8bit') / 2;
+        $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
+        $dl = \mb_strlen($d, '8bit') / 2;
 
-        return pack('H*',
-            '3081'.dechex(116 + $dl) // SEQUENCE, length 116 + length($d)
+        return \pack('H*',
+            '3081'.\dechex(116 + $dl) // SEQUENCE, length 116 + length($d)
                 .'020101' // INTEGER, 1
-                .'04'.dechex($dl)   // OCTET STRING, length($d)
+                .'04'.\dechex($dl)   // OCTET STRING, length($d)
                     .$d
                 .'a007' // TAGGED OBJECT #0, length 7
                     .'0605' // OID, length 5
@@ -203,13 +203,13 @@ class ECKey
      */
     private static function p521PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = mb_strlen($d, '8bit') / 2;
+        $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
+        $dl = \mb_strlen($d, '8bit') / 2;
 
-        return pack('H*',
-            '3081'.dechex(154 + $dl) // SEQUENCE, length 154+length(d)
+        return \pack('H*',
+            '3081'.\dechex(154 + $dl) // SEQUENCE, length 154+length(d)
                 .'020101' // INTEGER, 1
-                .'04'.dechex($dl)   // OCTET STRING, length(d)
+                .'04'.\dechex($dl)   // OCTET STRING, length(d)
                     .$d
                 .'a007' // TAGGED OBJECT #0, length 7
                     .'0605' // OID, length 5
@@ -228,7 +228,7 @@ class ECKey
     private static function getKey(JWK $jwk): string
     {
         return
-            pack('H*', '04')
+            \pack('H*', '04')
             .Base64Url::decode($jwk->get('x'))
             .Base64Url::decode($jwk->get('y'));
     }

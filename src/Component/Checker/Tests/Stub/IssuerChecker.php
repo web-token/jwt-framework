@@ -40,7 +40,7 @@ class IssuerChecker implements HeaderChecker
      */
     public function checkHeader($value)
     {
-        if (!is_string($value) || $value !== $this->issuer) {
+        if (!\is_string($value) || $value !== $this->issuer) {
             throw new InvalidHeaderException('Bad issuer.', 'iss', $value);
         }
     }

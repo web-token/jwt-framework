@@ -34,15 +34,15 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function testPBES2HS256A128KW()
     {
         $header = [
-          'alg' => 'PBES2-HS256+A128KW',
-          'p2s' => '2WCTcJZ1Rvd_CJuJripQ1w',
-          'p2c' => 4096,
-          'enc' => 'A128CBC-HS256',
-          'cty' => 'jwk+json',
+            'alg' => 'PBES2-HS256+A128KW',
+            'p2s' => '2WCTcJZ1Rvd_CJuJripQ1w',
+            'p2c' => 4096,
+            'enc' => 'A128CBC-HS256',
+            'cty' => 'jwk+json',
         ];
         $key = JWK::create([
             'kty' => 'oct',
-            'k'   => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $expected_cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -57,13 +57,13 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function testPBES2HS256A128KW_Bis()
     {
         $header = [
-          'alg' => 'PBES2-HS256+A128KW',
-          'enc' => 'A128CBC-HS256',
-          'cty' => 'jwk+json',
+            'alg' => 'PBES2-HS256+A128KW',
+            'enc' => 'A128CBC-HS256',
+            'cty' => 'jwk+json',
         ];
         $key = JWK::create([
             'kty' => 'oct',
-            'k'   => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -78,13 +78,13 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function testPBES2HS384A192KW()
     {
         $header = [
-          'alg' => 'PBES2-HS384+A192KW',
-          'enc' => 'A192CBC-HS384',
-          'cty' => 'jwk+json',
+            'alg' => 'PBES2-HS384+A192KW',
+            'enc' => 'A192CBC-HS384',
+            'cty' => 'jwk+json',
         ];
         $key = JWK::create([
             'kty' => 'oct',
-            'k'   => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -99,13 +99,13 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function testPBES2HS512A256KW()
     {
         $header = [
-          'alg' => 'PBES2-HS512+A256KW',
-          'enc' => 'A256CBC-HS512',
-          'cty' => 'jwk+json',
+            'alg' => 'PBES2-HS512+A256KW',
+            'enc' => 'A256CBC-HS512',
+            'cty' => 'jwk+json',
         ];
         $key = JWK::create([
             'kty' => 'oct',
-            'k'   => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -124,9 +124,9 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function testBadKeyType()
     {
         $header = [
-          'alg' => 'PBES2-HS512+A256KW',
-          'enc' => 'A256CBC-HS512',
-          'cty' => 'jwk+json',
+            'alg' => 'PBES2-HS512+A256KW',
+            'enc' => 'A256CBC-HS512',
+            'cty' => 'jwk+json',
         ];
         $key = JWK::create([
             'kty' => 'dir',
@@ -146,9 +146,9 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function testInvalidKeyType()
     {
         $header = [
-          'alg' => 'PBES2-HS512+A256KW',
-          'enc' => 'A256CBC-HS512',
-          'cty' => 'jwk+json',
+            'alg' => 'PBES2-HS512+A256KW',
+            'enc' => 'A256CBC-HS512',
+            'cty' => 'jwk+json',
         ];
         $key = JWK::create([
             'kty' => 'oct',
@@ -168,12 +168,12 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function testAlgorithmParameterIsMissing()
     {
         $header = [
-          'enc' => 'A256CBC-HS512',
-          'cty' => 'jwk+json',
+            'enc' => 'A256CBC-HS512',
+            'cty' => 'jwk+json',
         ];
         $key = JWK::create([
             'kty' => 'oct',
-            'k'   => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -196,7 +196,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = JWK::create([
             'kty' => 'oct',
-            'k'   => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $pbes2 = new PBES2HS256A128KW();
@@ -220,7 +220,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = JWK::create([
             'kty' => 'oct',
-            'k'   => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $pbes2 = new PBES2HS256A128KW();
@@ -238,9 +238,9 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     private function convertArrayToBinString(array $data)
     {
         foreach ($data as $key => $value) {
-            $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $data[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
         }
 
-        return hex2bin(implode('', $data));
+        return \hex2bin(\implode('', $data));
     }
 }

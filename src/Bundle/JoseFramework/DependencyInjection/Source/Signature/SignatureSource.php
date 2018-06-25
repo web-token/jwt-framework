@@ -73,12 +73,12 @@ class SignatureSource implements SourceWithCompilerPasses
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
-            if (class_exists($class)) {
+            if (\class_exists($class)) {
                 $loader->load($file);
             }
         }
 
-        if (array_key_exists('jws', $configs)) {
+        if (\array_key_exists('jws', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['jws'], $container);
             }
@@ -91,12 +91,12 @@ class SignatureSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         return [
-            RSA::class   => 'signature_rsa.yml',
+            RSA::class => 'signature_rsa.yml',
             ECDSA::class => 'signature_ecdsa.yml',
             EdDSA::class => 'signature_eddsa.yml',
-            HMAC::class  => 'signature_hmac.yml',
-            None::class  => 'signature_none.yml',
-            HS1::class   => 'signature_experimental.yml',
+            HMAC::class => 'signature_hmac.yml',
+            None::class => 'signature_none.yml',
+            HS1::class => 'signature_experimental.yml',
         ];
     }
 
@@ -143,7 +143,7 @@ class SignatureSource implements SourceWithCompilerPasses
      */
     private function isEnabled(): bool
     {
-        return class_exists(JWSBuilderFactory::class) && class_exists(JWSVerifierFactory::class);
+        return \class_exists(JWSBuilderFactory::class) && \class_exists(JWSVerifierFactory::class);
     }
 
     /**

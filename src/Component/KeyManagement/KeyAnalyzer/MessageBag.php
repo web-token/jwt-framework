@@ -49,7 +49,7 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
      */
     public function jsonSerialize()
     {
-        return array_values($this->messages);
+        return \array_values($this->messages);
     }
 
     /**
@@ -57,7 +57,7 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
      */
     public function count()
     {
-        return count($this->messages);
+        return \count($this->messages);
     }
 
     /**

@@ -115,7 +115,7 @@ class JWELoader
         try {
             $jwe = $this->serializerManager->unserialize($token);
             $nbRecipients = $jwe->countRecipients();
-            for ($i = 0; $i < $nbRecipients; $i++) {
+            for ($i = 0; $i < $nbRecipients; ++$i) {
                 if ($this->processRecipient($jwe, $keyset, $i)) {
                     $recipient = $i;
 

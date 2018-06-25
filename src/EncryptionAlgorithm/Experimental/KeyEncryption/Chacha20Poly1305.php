@@ -34,13 +34,13 @@ final class Chacha20Poly1305 implements KeyEncryption
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
-        $nonce = random_bytes(12);
+        $nonce = \random_bytes(12);
         $k = Base64Url::decode($key->get('k'));
 
         // We set header parameters
         $additionalHeader['nonce'] = Base64Url::encode($nonce);
 
-        return openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
+        return \openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
     }
 
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
@@ -50,7 +50,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         $k = Base64Url::decode($key->get('k'));
         $nonce = Base64Url::decode($header['nonce']);
 
-        return openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
+        return \openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
     }
 
     /**
@@ -66,7 +66,7 @@ final class Chacha20Poly1305 implements KeyEncryption
      */
     private function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
@@ -80,11 +80,11 @@ final class Chacha20Poly1305 implements KeyEncryption
     private function checkHeaderAdditionalParameters(array $header)
     {
         foreach (['nonce'] as $k) {
-            if (!array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(sprintf('The header parameter "%s" is missing.', $k));
+            if (!\array_key_exists($k, $header)) {
+                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is missing.', $k));
             }
             if (empty($header[$k])) {
-                throw new \InvalidArgumentException(sprintf('The header parameter "%s" is not valid.', $k));
+                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is not valid.', $k));
             }
         }
     }

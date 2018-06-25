@@ -28,7 +28,7 @@ class HeaderCheckerTest extends WebTestCase
      */
     protected function setUp()
     {
-        if (!class_exists(HeaderCheckerManagerFactory::class)) {
+        if (!\class_exists(HeaderCheckerManagerFactory::class)) {
             $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }

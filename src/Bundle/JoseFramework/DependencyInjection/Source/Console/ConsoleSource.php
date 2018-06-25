@@ -62,6 +62,6 @@ class ConsoleSource implements Source
      */
     private function isEnabled(): bool
     {
-        return class_exists(EcKeyGeneratorCommand::class);
+        return \class_exists(EcKeyGeneratorCommand::class);
     }
 }

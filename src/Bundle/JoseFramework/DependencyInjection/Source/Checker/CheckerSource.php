@@ -63,7 +63,7 @@ class CheckerSource implements SourceWithCompilerPasses
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('checkers.yml');
 
-        if (array_key_exists('checkers', $configs)) {
+        if (\array_key_exists('checkers', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['checkers'], $container);
             }
@@ -114,7 +114,7 @@ class CheckerSource implements SourceWithCompilerPasses
      */
     private function isEnabled(): bool
     {
-        return class_exists(HeaderCheckerManagerFactory::class) && class_exists(ClaimCheckerManagerFactory::class);
+        return \class_exists(HeaderCheckerManagerFactory::class) && \class_exists(ClaimCheckerManagerFactory::class);
     }
 
     /**

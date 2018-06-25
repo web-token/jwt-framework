@@ -53,7 +53,7 @@ class AlgorithmManager
      */
     public function has(string $algorithm): bool
     {
-        return array_key_exists($algorithm, $this->algorithms);
+        return \array_key_exists($algorithm, $this->algorithms);
     }
 
     /**
@@ -63,7 +63,7 @@ class AlgorithmManager
      */
     public function list(): array
     {
-        return array_keys($this->algorithms);
+        return \array_keys($this->algorithms);
     }
 
     /**
@@ -76,7 +76,7 @@ class AlgorithmManager
     public function get(string $algorithm): Algorithm
     {
         if (!$this->has($algorithm)) {
-            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $algorithm));
+            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not supported.', $algorithm));
         }
 
         return $this->algorithms[$algorithm];

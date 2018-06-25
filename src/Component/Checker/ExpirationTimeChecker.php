@@ -43,10 +43,10 @@ final class ExpirationTimeChecker implements ClaimChecker
      */
     public function checkClaim($value)
     {
-        if (!is_int($value)) {
+        if (!\is_int($value)) {
             throw new InvalidClaimException('"exp" must be an integer.', self::CLAIM_NAME, $value);
         }
-        if (time() > $value + $this->allowedTimeDrift) {
+        if (\time() > $value + $this->allowedTimeDrift) {
             throw new InvalidClaimException('The JWT has expired.', self::CLAIM_NAME, $value);
         }
     }

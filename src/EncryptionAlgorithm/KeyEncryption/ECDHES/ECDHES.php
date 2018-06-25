@@ -44,8 +44,8 @@ final class ECDHES implements KeyAgreement
 
         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
 
-        $apu = array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
-        $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
+        $apu = \array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
+        $apv = \array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
 
         return ConcatKDF::generate($agreed_key, $algorithm, $encryption_key_length, $apu, $apv);
     }
@@ -72,7 +72,7 @@ final class ECDHES implements KeyAgreement
 
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
         $epk = $private_key->toPublic()->all();
         $additional_header_values['epk'] = $epk;
@@ -126,9 +126,9 @@ final class ECDHES implements KeyAgreement
                 $sKey = Base64Url::decode($private_key->get('d'));
                 $recipientPublickey = Base64Url::decode($public_key->get('x'));
 
-                return sodium_crypto_scalarmult($sKey, $recipientPublickey);
+                return \sodium_crypto_scalarmult($sKey, $recipientPublickey);
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
     }
 
@@ -155,10 +155,10 @@ final class ECDHES implements KeyAgreement
      */
     private function getPublicKey(array $complete_header)
     {
-        if (!array_key_exists('epk', $complete_header)) {
+        if (!\array_key_exists('epk', $complete_header)) {
             throw new \InvalidArgumentException('The header parameter "epk" is missing');
         }
-        if (!is_array($complete_header['epk'])) {
+        if (!\is_array($complete_header['epk'])) {
             throw new \InvalidArgumentException('The header parameter "epk" is not an array of parameter');
         }
 
@@ -174,12 +174,12 @@ final class ECDHES implements KeyAgreement
      */
     private function checkKey(JWK $key, $is_private)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {
             if (!$key->has($k)) {
-                throw new \InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
             }
         }
 
@@ -195,7 +195,7 @@ final class ECDHES implements KeyAgreement
             case 'X25519':
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $key->get('crv')));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported', $key->get('crv')));
         }
         if (true === $is_private) {
             if (!$key->has('d')) {
@@ -221,7 +221,7 @@ final class ECDHES implements KeyAgreement
             case 'P-521':
                 return NistCurve::curve521();
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported', $crv));
         }
     }
 
@@ -232,9 +232,9 @@ final class ECDHES implements KeyAgreement
      */
     private function convertBase64ToGmp(string $value): \GMP
     {
-        $value = unpack('H*', Base64Url::decode($value));
+        $value = \unpack('H*', Base64Url::decode($value));
 
-        return gmp_init($value[1], 16);
+        return \gmp_init($value[1], 16);
     }
 
     /**
@@ -244,17 +244,17 @@ final class ECDHES implements KeyAgreement
      */
     private function convertDecToBin(\GMP $dec): string
     {
-        if (gmp_cmp($dec, 0) < 0) {
+        if (\gmp_cmp($dec, 0) < 0) {
             throw new \InvalidArgumentException('Unable to convert negative integer to string');
         }
 
-        $hex = gmp_strval($dec, 16);
+        $hex = \gmp_strval($dec, 16);
 
-        if (0 !== mb_strlen($hex, '8bit') % 2) {
+        if (0 !== \mb_strlen($hex, '8bit') % 2) {
             $hex = '0'.$hex;
         }
 
-        return hex2bin($hex);
+        return \hex2bin($hex);
     }
 
     /**
@@ -282,26 +282,26 @@ final class ECDHES implements KeyAgreement
     {
         switch ($curve) {
             case 'X25519':
-                $keyPair = sodium_crypto_box_keypair();
-                $d = sodium_crypto_box_secretkey($keyPair);
-                $x = sodium_crypto_box_publickey($keyPair);
+                $keyPair = \sodium_crypto_box_keypair();
+                $d = \sodium_crypto_box_secretkey($keyPair);
+                $x = \sodium_crypto_box_publickey($keyPair);
 
                 break;
             case 'Ed25519':
-                $keyPair = sodium_crypto_sign_keypair();
-                $d = sodium_crypto_sign_secretkey($keyPair);
-                $x = sodium_crypto_sign_publickey($keyPair);
+                $keyPair = \sodium_crypto_sign_keypair();
+                $d = \sodium_crypto_sign_secretkey($keyPair);
+                $x = \sodium_crypto_sign_publickey($keyPair);
 
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
+                throw new \InvalidArgumentException(\sprintf('Unsupported "%s" curve', $curve));
         }
 
         return JWK::create([
             'kty' => 'OKP',
             'crv' => $curve,
-            'x'   => Base64Url::encode($x),
-            'd'   => Base64Url::encode($d),
+            'x' => Base64Url::encode($x),
+            'd' => Base64Url::encode($d),
         ]);
     }
 
@@ -326,7 +326,7 @@ final class ECDHES implements KeyAgreement
 
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported.', $curve));
         }
 
         $privateKey = $nistCurve->createPrivateKey();
@@ -335,9 +335,9 @@ final class ECDHES implements KeyAgreement
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
-            'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
-            'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+            'd' => Base64Url::encode(\gmp_export($privateKey->getSecret())),
+            'x' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getX())),
+            'y' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getY())),
         ];
     }
 
@@ -348,24 +348,24 @@ final class ECDHES implements KeyAgreement
      */
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
-        $key = openssl_pkey_new([
-            'curve_name'       => self::getOpensslCurveName($curve),
+        $key = \openssl_pkey_new([
+            'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
-        $res = openssl_pkey_export($key, $out);
+        $res = \openssl_pkey_export($key, $out);
         if (false === $res) {
             throw new \RuntimeException('Unable to create the key');
         }
-        $res = openssl_pkey_get_private($out);
+        $res = \openssl_pkey_get_private($out);
 
-        $details = openssl_pkey_get_details($res);
+        $details = \openssl_pkey_get_details($res);
 
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd'   => Base64Url::encode($details['ec']['d']),
-            'x'   => Base64Url::encode($details['ec']['x']),
-            'y'   => Base64Url::encode($details['ec']['y']),
+            'd' => Base64Url::encode($details['ec']['d']),
+            'x' => Base64Url::encode($details['ec']['x']),
+            'y' => Base64Url::encode($details['ec']['y']),
         ];
     }
 
@@ -384,7 +384,7 @@ final class ECDHES implements KeyAgreement
             case 'P-521':
                 return 'secp521r1';
             default:
-                throw new \InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+                throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported.', $curve));
         }
     }
 }

@@ -36,12 +36,12 @@ final class EdDSA implements SignatureAlgorithm
             throw new \InvalidArgumentException('The key is not private.');
         }
         $secret = Base64Url::decode($key->get('d'));
-        $keyPair = sodium_crypto_sign_seed_keypair($secret);
-        $secretKey = sodium_crypto_sign_secretkey($keyPair);
+        $keyPair = \sodium_crypto_sign_seed_keypair($secret);
+        $secretKey = \sodium_crypto_sign_secretkey($keyPair);
 
         switch ($key->get('crv')) {
             case 'Ed25519':
-                return sodium_crypto_sign_detached($input, $secretKey);
+                return \sodium_crypto_sign_detached($input, $secretKey);
             default:
                 throw new \InvalidArgumentException('Unsupported curve');
         }
@@ -58,7 +58,7 @@ final class EdDSA implements SignatureAlgorithm
 
         switch ($key->get('crv')) {
             case 'Ed25519':
-                return sodium_crypto_sign_verify_detached($signature, $input, $public);
+                return \sodium_crypto_sign_verify_detached($signature, $input, $public);
             default:
                 throw new \InvalidArgumentException('Unsupported curve');
         }
@@ -69,15 +69,15 @@ final class EdDSA implements SignatureAlgorithm
      */
     private function checkKey(JWK $key)
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes())) {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {
             if (!$key->has($k)) {
-                throw new \InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
             }
         }
-        if (!in_array($key->get('crv'), ['Ed25519'])) {
+        if (!\in_array($key->get('crv'), ['Ed25519'], true)) {
             throw new \InvalidArgumentException('Unsupported curve.');
         }
     }

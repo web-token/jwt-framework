@@ -29,7 +29,7 @@ class JKUAndX5UFactoriesTest extends WebTestCase
      */
     protected function setUp()
     {
-        if (!class_exists(JKUFactory::class)) {
+        if (!\class_exists(JKUFactory::class)) {
             $this->markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }
