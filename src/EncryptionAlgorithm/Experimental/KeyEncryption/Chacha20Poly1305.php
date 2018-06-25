@@ -20,7 +20,7 @@ final class Chacha20Poly1305 implements KeyEncryption
 {
     public function __construct()
     {
-        if (!in_array('chacha20-poly1305', openssl_get_cipher_methods())) {
+        if (!\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
             throw new \RuntimeException('The algorithm "chacha20-poly1305" is not supported in this platform.');
         }
     }

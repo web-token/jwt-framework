@@ -106,9 +106,11 @@ class EncryptionSource implements SourceWithCompilerPasses
             RSA::class => 'encryption_rsa.yml',
             A128CTR::class => 'encryption_experimental.yml',
         ];
-        if (!in_array('chacha20-poly1305', openssl_get_cipher_methods())) {
+        if (!\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
             $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.yml';
         }
+
+        return $list;
     }
 
     /**

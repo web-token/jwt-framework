@@ -28,7 +28,7 @@ class Chacha20Poly1305ContentEncryptionTest extends TestCase
      */
     protected function setUp()
     {
-        if (!in_array('chacha20-poly1305', openssl_get_cipher_methods())) {
+        if (!\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
             $this->markTestSkipped('The algorithm "chacha20-poly1305" is not supported in this platform.');
         }
     }
