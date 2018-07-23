@@ -77,9 +77,6 @@ class RSAKey
      */
     private $coefficient = null;
 
-    /**
-     * @param JWK $data
-     */
     private function __construct(JWK $data)
     {
         $this->loadJWK($data->all());
@@ -88,8 +85,6 @@ class RSAKey
     }
 
     /**
-     * @param JWK $jwk
-     *
      * @return RSAKey
      */
     public static function createFromJWK(JWK $jwk): self
@@ -97,25 +92,16 @@ class RSAKey
         return new self($jwk);
     }
 
-    /**
-     * @return BigInteger
-     */
     public function getModulus(): BigInteger
     {
         return $this->modulus;
     }
 
-    /**
-     * @return int
-     */
     public function getModulusLength(): int
     {
         return $this->modulus_length;
     }
 
-    /**
-     * @return BigInteger
-     */
     public function getExponent(): BigInteger
     {
         $d = $this->getPrivateExponent();
@@ -126,17 +112,11 @@ class RSAKey
         return $this->getPublicExponent();
     }
 
-    /**
-     * @return BigInteger
-     */
     public function getPublicExponent(): BigInteger
     {
         return $this->public_exponent;
     }
 
-    /**
-     * @return BigInteger|null
-     */
     public function getPrivateExponent(): ?BigInteger
     {
         return $this->private_exponent;
@@ -158,17 +138,11 @@ class RSAKey
         return $this->exponents;
     }
 
-    /**
-     * @return BigInteger|null
-     */
     public function getCoefficient(): ?BigInteger
     {
         return $this->coefficient;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublic(): bool
     {
         return !\array_key_exists('d', $this->values);
@@ -192,17 +166,11 @@ class RSAKey
         return new self(JWK::create($data));
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return $this->values;
     }
 
-    /**
-     * @param array $jwk
-     */
     private function loadJWK(array $jwk)
     {
         if (!\array_key_exists('kty', $jwk)) {
@@ -240,11 +208,6 @@ class RSAKey
         }
     }
 
-    /**
-     * @param string $value
-     *
-     * @return BigInteger
-     */
     private function convertBase64StringToBigInteger(string $value): BigInteger
     {
         return BigInteger::createFromBinaryString(Base64Url::decode($value));
@@ -252,8 +215,6 @@ class RSAKey
 
     /**
      * @throws \Exception
-     *
-     * @return string
      */
     public function toPEM(): string
     {
@@ -334,10 +295,7 @@ class RSAKey
      * Exponentiate with or without Chinese Remainder Theorem.
      * Operation with primes 'p' and 'q' is appox. 2x faster.
      *
-     * @param RSAKey     $key
-     * @param BigInteger $c
-     *
-     * @return BigInteger
+     * @param RSAKey $key
      */
     public static function exponentiate(self $key, BigInteger $c): BigInteger
     {

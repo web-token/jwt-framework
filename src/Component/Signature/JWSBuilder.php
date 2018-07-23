@@ -54,9 +54,6 @@ class JWSBuilder
 
     /**
      * JWSBuilder constructor.
-     *
-     * @param JsonConverter    $jsonConverter
-     * @param AlgorithmManager $signatureAlgorithmManager
      */
     public function __construct(JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
     {
@@ -66,8 +63,6 @@ class JWSBuilder
 
     /**
      * Returns the algorithm manager associated to the builder.
-     *
-     * @return AlgorithmManager
      */
     public function getSignatureAlgorithmManager(): AlgorithmManager
     {
@@ -93,8 +88,6 @@ class JWSBuilder
      * Set the payload.
      * This method will return a new JWSBuilder object.
      *
-     * @param string $payload
-     * @param bool   $isPayloadDetached
      *
      * @return JWSBuilder
      */
@@ -114,9 +107,6 @@ class JWSBuilder
      * Adds the information needed to compute the signature.
      * This method will return a new JWSBuilder object.
      *
-     * @param JWK   $signatureKey
-     * @param array $protectedHeader
-     * @param array $header
      *
      * @return JWSBuilder
      */
@@ -146,8 +136,6 @@ class JWSBuilder
 
     /**
      * Computes all signatures and return the expected JWS object.
-     *
-     * @return JWS
      */
     public function build(): JWS
     {
@@ -178,19 +166,11 @@ class JWSBuilder
         return $jws;
     }
 
-    /**
-     * @param array $protectedHeader
-     *
-     * @return bool
-     */
     private function checkIfPayloadIsEncoded(array $protectedHeader): bool
     {
         return !\array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
     }
 
-    /**
-     * @param array $protectedHeader
-     */
     private function checkB64AndCriticalHeader(array $protectedHeader)
     {
         if (!\array_key_exists('b64', $protectedHeader)) {
@@ -207,13 +187,6 @@ class JWSBuilder
         }
     }
 
-    /**
-     * @param array $protectedHeader
-     * @param array $header
-     * @param JWK   $key
-     *
-     * @return SignatureAlgorithm
-     */
     private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): SignatureAlgorithm
     {
         $completeHeader = \array_merge($header, $protectedHeader);
@@ -232,10 +205,6 @@ class JWSBuilder
         return $signatureAlgorithm;
     }
 
-    /**
-     * @param array $header1
-     * @param array $header2
-     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2)
     {
         $inter = \array_intersect_key($header1, $header2);

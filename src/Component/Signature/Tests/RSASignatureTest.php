@@ -413,9 +413,6 @@ class RSASignatureTest extends SignatureTest
         self::assertEquals('ES512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getPrivateKeySet(): JWKSet
     {
         $keys = ['keys' => [

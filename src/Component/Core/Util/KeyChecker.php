@@ -21,12 +21,7 @@ use Jose\Component\Core\JWK;
 class KeyChecker
 {
     /**
-     * @param JWK    $key
-     * @param string $usage
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return bool
      */
     public static function checkKeyUsage(JWK $key, string $usage): bool
     {
@@ -40,12 +35,6 @@ class KeyChecker
         return true;
     }
 
-    /**
-     * @param JWK    $key
-     * @param string $usage
-     *
-     * @return bool
-     */
     private static function checkOperation(JWK $key, string $usage): bool
     {
         $ops = $key->get('key_ops');
@@ -82,12 +71,6 @@ class KeyChecker
         }
     }
 
-    /**
-     * @param JWK    $key
-     * @param string $usage
-     *
-     * @return bool
-     */
     private static function checkUsage(JWK $key, string $usage): bool
     {
         $use = $key->get('use');
@@ -111,10 +94,6 @@ class KeyChecker
         }
     }
 
-    /**
-     * @param JWK    $key
-     * @param string $algorithm
-     */
     public static function checkKeyAlgorithm(JWK $key, string $algorithm)
     {
         if (!$key->has('alg')) {

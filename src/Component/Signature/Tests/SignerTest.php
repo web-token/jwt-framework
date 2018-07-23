@@ -719,9 +719,6 @@ class SignerTest extends SignatureTest
         self::assertTrue($jwsVerifier->verifyWithKey($loaded, JWK::create(['kty' => 'EC']), 1));
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey1(): JWK
     {
         $key = JWK::create([
@@ -732,9 +729,6 @@ class SignerTest extends SignatureTest
         return $key;
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey2(): JWK
     {
         $key = JWK::create([
@@ -754,9 +748,6 @@ class SignerTest extends SignatureTest
         return $key;
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey3(): JWK
     {
         $key = JWK::create([
@@ -772,9 +763,6 @@ class SignerTest extends SignatureTest
         return $key;
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey4(): JWK
     {
         $key = JWK::create([
@@ -794,9 +782,6 @@ class SignerTest extends SignatureTest
         return $key;
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey5(): JWK
     {
         $key = JWK::create([
@@ -816,9 +801,6 @@ class SignerTest extends SignatureTest
         return $key;
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getKeyset(): JWKSet
     {
         $keyset = JWKSet::createFromKeys([$this->getKey1(), $this->getKey2()]);
@@ -826,9 +808,6 @@ class SignerTest extends SignatureTest
         return $keyset;
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getPublicKeySet(): JWKSet
     {
         $keys = ['keys' => [
@@ -880,9 +859,6 @@ class SignerTest extends SignatureTest
         return JWKSet::createFromKeyData($keys);
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getSymmetricKeySet(): JWKSet
     {
         $keys = ['keys' => [

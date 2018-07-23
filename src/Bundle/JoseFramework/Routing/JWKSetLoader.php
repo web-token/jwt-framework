@@ -33,10 +33,6 @@ class JWKSetLoader implements LoaderInterface
         $this->routes = new RouteCollection();
     }
 
-    /**
-     * @param string $pattern
-     * @param string $name
-     */
     public function add(string $pattern, string $name)
     {
         $controller_id = \sprintf('%s:getAction', $name);

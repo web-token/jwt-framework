@@ -57,16 +57,16 @@ class CertificateFile extends AbstractSource implements JWKSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('path')
-                    ->info('Path of the certificate file.')
-                    ->isRequired()
-                ->end()
-                ->arrayNode('additional_values')
-                    ->info('Additional values to be added to the key.')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->variablePrototype()->end()
-                ->end()
+            ->scalarNode('path')
+            ->info('Path of the certificate file.')
+            ->isRequired()
+            ->end()
+            ->arrayNode('additional_values')
+            ->info('Additional values to be added to the key.')
+            ->defaultValue([])
+            ->useAttributeAsKey('key')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

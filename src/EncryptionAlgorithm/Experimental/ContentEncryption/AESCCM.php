@@ -61,13 +61,7 @@ abstract class AESCCM implements ContentEncryptionAlgorithm
         return $P;
     }
 
-    /**
-     * @return string
-     */
     abstract protected function getMode(): string;
 
-    /**
-     * @return int
-     */
     abstract protected function getTagLength(): int;
 }

@@ -56,9 +56,6 @@ abstract class AESCTR implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
-    /**
-     * @param JWK $key
-     */
     private function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -69,9 +66,6 @@ abstract class AESCTR implements KeyEncryption
         }
     }
 
-    /**
-     * @param array $header
-     */
     private function checkHeaderAdditionalParameters(array $header)
     {
         foreach (['iv'] as $k) {
@@ -84,8 +78,5 @@ abstract class AESCTR implements KeyEncryption
         }
     }
 
-    /**
-     * @return string
-     */
     abstract protected function getMode(): string;
 }

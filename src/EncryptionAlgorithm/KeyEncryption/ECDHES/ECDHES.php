@@ -51,9 +51,6 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
-     * @param JWK   $recipient_key
-     * @param array $additional_header_values
-     *
      * @return JWK[]
      */
     private function getKeysFromPublicKey(JWK $recipient_key, array &$additional_header_values): array
@@ -81,9 +78,6 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
-     * @param JWK   $recipient_key
-     * @param array $complete_header
-     *
      * @return JWK[]
      */
     private function getKeysFromPrivateKeyAndHeader(JWK $recipient_key, array $complete_header): array
@@ -99,12 +93,7 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
-     * @param JWK $private_key
-     * @param JWK $public_key
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return string
      */
     public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
     {
@@ -149,8 +138,6 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
-     * @param array $complete_header
-     *
      * @return JWK
      */
     private function getPublicKey(array $complete_header)
@@ -169,7 +156,6 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
-     * @param JWK  $key
      * @param bool $is_private
      */
     private function checkKey(JWK $key, $is_private)
@@ -205,11 +191,7 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
-     * @param string $crv
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return Curve
      */
     private function getCurve(string $crv): Curve
     {
@@ -225,11 +207,6 @@ final class ECDHES implements KeyAgreement
         }
     }
 
-    /**
-     * @param string $value
-     *
-     * @return \GMP
-     */
     private function convertBase64ToGmp(string $value): \GMP
     {
         $value = \unpack('H*', Base64Url::decode($value));
@@ -237,11 +214,6 @@ final class ECDHES implements KeyAgreement
         return \gmp_init($value[1], 16);
     }
 
-    /**
-     * @param \GMP $dec
-     *
-     * @return string
-     */
     private function convertDecToBin(\GMP $dec): string
     {
         if (\gmp_cmp($dec, 0) < 0) {
@@ -259,8 +231,6 @@ final class ECDHES implements KeyAgreement
 
     /**
      * @param string $crv The curve
-     *
-     * @return JWK
      */
     public function createECKey(string $crv): JWK
     {
@@ -275,8 +245,6 @@ final class ECDHES implements KeyAgreement
 
     /**
      * @param string $curve The curve
-     *
-     * @return JWK
      */
     public static function createOKPKey(string $curve): JWK
     {
@@ -305,11 +273,6 @@ final class ECDHES implements KeyAgreement
         ]);
     }
 
-    /**
-     * @param string $curve
-     *
-     * @return array
-     */
     private static function createECKeyUsingPurePhp(string $curve): array
     {
         switch ($curve) {
@@ -341,11 +304,6 @@ final class ECDHES implements KeyAgreement
         ];
     }
 
-    /**
-     * @param string $curve
-     *
-     * @return array
-     */
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
         $key = \openssl_pkey_new([
@@ -369,11 +327,6 @@ final class ECDHES implements KeyAgreement
         ];
     }
 
-    /**
-     * @param string $curve
-     *
-     * @return string
-     */
     private static function getOpensslCurveName(string $curve): string
     {
         switch ($curve) {

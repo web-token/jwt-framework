@@ -54,13 +54,13 @@ class JWKSet extends AbstractSource implements JWKSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('key_set')
-                    ->info('The key set service.')
-                    ->isRequired()->end()
-                ->integerNode('index')
-                    ->info('The index of the key in the key set.')
-                    ->isRequired()
-                ->end()
+            ->scalarNode('key_set')
+            ->info('The key set service.')
+            ->isRequired()->end()
+            ->integerNode('index')
+            ->info('The index of the key in the key set.')
+            ->isRequired()
+            ->end()
             ->end();
     }
 }

@@ -24,8 +24,6 @@ class JWESerializerManagerFactory
      * Creates a serializer manager factory using the given serializers.
      *
      * @param string[] $names
-     *
-     * @return JWESerializerManager
      */
     public function create(array $names): JWESerializerManager
     {
@@ -63,7 +61,6 @@ class JWESerializerManagerFactory
     /**
      * Adds a serializer to the manager.
      *
-     * @param JWESerializer $serializer
      *
      * @return JWESerializerManagerFactory
      */

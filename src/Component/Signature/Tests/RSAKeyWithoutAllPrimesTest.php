@@ -23,8 +23,6 @@ use Jose\Component\Signature\JWS;
 class RSAKeyWithoutAllPrimesTest extends SignatureTest
 {
     /**
-     * @param string $signature_algorithm
-     *
      * @dataProvider dataSignatureAlgorithms
      */
     public function testSignatureAlgorithms(string $signature_algorithm)
@@ -74,9 +72,6 @@ class RSAKeyWithoutAllPrimesTest extends SignatureTest
         ];
     }
 
-    /**
-     * @return JWK
-     */
     private function getPrivateKey(): JWK
     {
         return JWK::create([

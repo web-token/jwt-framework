@@ -58,17 +58,17 @@ class JKU extends AbstractSource implements JWKSetSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('url')
-                    ->info('URL of the key set.')
-                    ->isRequired()
-                ->end()
-                ->arrayNode('headers')
-                    ->treatNullLike([])
-                    ->treatFalseLike([])
-                    ->info('Header key/value pairs added to the request.')
-                    ->useAttributeAsKey('name')
-                    ->variablePrototype()->end()
-                ->end()
+            ->scalarNode('url')
+            ->info('URL of the key set.')
+            ->isRequired()
+            ->end()
+            ->arrayNode('headers')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->info('Header key/value pairs added to the request.')
+            ->useAttributeAsKey('name')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

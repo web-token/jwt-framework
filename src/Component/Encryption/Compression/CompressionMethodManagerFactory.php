@@ -25,8 +25,6 @@ class CompressionMethodManagerFactory
      * The method is uniquely identified by an alias. This allows the same method to be added twice (or more)
      * using several configuration options.
      *
-     * @param string            $alias
-     * @param CompressionMethod $compressionMethod
      *
      * @return CompressionMethodManagerFactory
      */
@@ -65,8 +63,6 @@ class CompressionMethodManagerFactory
      * If one of the aliases does not exist, an exception is thrown.
      *
      * @param string[] $aliases
-     *
-     * @return CompressionMethodManager
      */
     public function create(array $aliases): CompressionMethodManager
     {

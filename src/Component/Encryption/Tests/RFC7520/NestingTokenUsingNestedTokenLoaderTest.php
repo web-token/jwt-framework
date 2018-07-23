@@ -126,9 +126,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jwsLoaderFactory;
 
-    /**
-     * @return JWSLoaderFactory
-     */
     protected function getJWSLoaderFactory(): JWSLoaderFactory
     {
         if (null === $this->jwsLoaderFactory) {
@@ -147,9 +144,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jweLoaderFactory;
 
-    /**
-     * @return JWELoaderFactory
-     */
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
         if (null === $this->jweLoaderFactory) {
@@ -168,9 +162,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $nestedTokenLoaderFactory;
 
-    /**
-     * @return NestedTokenLoaderFactory
-     */
     private function getNestedTokenLoaderFactory(): NestedTokenLoaderFactory
     {
         if (null === $this->nestedTokenLoaderFactory) {
@@ -183,9 +174,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $this->nestedTokenLoaderFactory;
     }
 
-    /**
-     * @return HeaderCheckerManagerFactory
-     */
     private function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
     {
         $headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
@@ -195,9 +183,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $headerCheckerManagerFactory;
     }
 
-    /**
-     * @return JwsSerializer\JWSSerializerManagerFactory
-     */
     private function getJWSSerializerManagerFactory(): JwsSerializer\JWSSerializerManagerFactory
     {
         $jwsSerializerManagerFactory = new JwsSerializer\JWSSerializerManagerFactory();
@@ -208,9 +193,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $jwsSerializerManagerFactory;
     }
 
-    /**
-     * @return JWSVerifierFactory
-     */
     private function getJWSVerifierFactory(): JWSVerifierFactory
     {
         $jwsVerifierFactory = new JWSVerifierFactory(
@@ -225,9 +207,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $algorithmManagerFactory;
 
-    /**
-     * @return AlgorithmManagerFactory
-     */
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {
@@ -246,9 +225,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $compressionMethodManagerFactory;
 
-    /**
-     * @return CompressionMethodManagerFactory
-     */
     private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
         if (null === $this->compressionMethodManagerFactory) {
@@ -267,9 +243,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jweDecrypterFactory;
 
-    /**
-     * @return JWEDecrypterFactory
-     */
     private function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
         if (null === $this->jweDecrypterFactory) {
@@ -287,9 +260,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jwsSerializerManagerFactory = null;
 
-    /**
-     * @return JweSerializer\JWESerializerManagerFactory
-     */
     private function getJWESerializerManagerFactory(): JweSerializer\JWESerializerManagerFactory
     {
         if (null === $this->jwsSerializerManagerFactory) {

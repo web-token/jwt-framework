@@ -25,8 +25,6 @@ use Jose\Component\Encryption\JWE;
 class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {
     /**
-     * @param string $encryption_algorithm
-     *
      * @dataProvider dataEncryptionAlgorithms
      */
     public function testEncryptionAlgorithms(string $encryption_algorithm)
@@ -52,8 +50,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
     }
 
     /**
-     * @param string $encryption_algorithm
-     *
      * @dataProvider dataEncryptionAlgorithms
      */
     public function testEncryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm)
@@ -78,9 +74,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
-    /**
-     * @return array
-     */
     public function dataEncryptionAlgorithms(): array
     {
         return [
@@ -90,9 +83,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataEncryptionAlgorithmsWithSimpleKey(): array
     {
         return [
@@ -101,9 +91,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         ];
     }
 
-    /**
-     * @return JWK
-     */
     private function getPrivateKey(): JWK
     {
         return JWK::create(
@@ -119,9 +106,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         );
     }
 
-    /**
-     * @return JWK
-     */
     private function getMinimalPrivateKey(): JWK
     {
         return JWK::create(

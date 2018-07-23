@@ -104,8 +104,6 @@ abstract class EncryptionBench
     }
 
     /**
-     * @param array $params
-     *
      * @Subject
      * @ParamProviders({"dataPayloads", "dataHeadersAndAlgorithms", "dataRecipientPublicKeys"})
      */
@@ -127,8 +125,6 @@ abstract class EncryptionBench
     }
 
     /**
-     * @param array $params
-     *
      * @Subject
      * @ParamProviders({"dataInputs", "dataPrivateKeys"})
      */
@@ -144,9 +140,6 @@ abstract class EncryptionBench
         $jweLoader->decryptUsingKeySet($jwe, $keyset, 0);
     }
 
-    /**
-     * @return array
-     */
     public function dataPayloads(): array
     {
         return [
@@ -156,14 +149,8 @@ abstract class EncryptionBench
         ];
     }
 
-    /**
-     * @return array
-     */
     abstract public function dataHeadersAndAlgorithms(): array;
 
-    /**
-     * @return array
-     */
     abstract public function dataRecipientPublicKeys(): array;
 
     /**
@@ -171,25 +158,16 @@ abstract class EncryptionBench
      */
     abstract protected function getAAD(): ?string;
 
-    /**
-     * @return AlgorithmManager
-     */
     private function getKeyEncryptionAlgorithmsManager(): AlgorithmManager
     {
         return $this->keyEncryptionAlgorithmsManager;
     }
 
-    /**
-     * @return AlgorithmManager
-     */
     private function getContentEncryptionAlgorithmsManager(): AlgorithmManager
     {
         return $this->contentEncryptionAlgorithmsManager;
     }
 
-    /**
-     * @return CompressionMethodManager
-     */
     private function getCompressionMethodsManager(): CompressionMethodManager
     {
         return $this->compressionMethodsManager;

@@ -25,7 +25,6 @@ class KeyAnalyzerManager
     /**
      * Adds a Key Analyzer to the manager.
      *
-     * @param KeyAnalyzer $analyzer
      *
      * @return KeyAnalyzerManager
      */
@@ -39,10 +38,6 @@ class KeyAnalyzerManager
     /**
      * This method will analyze the JWK object using all analyzers.
      * It returns a message bag that may contains messages.
-     *
-     * @param JWK $jwk
-     *
-     * @return MessageBag
      */
     public function analyze(JWK $jwk): MessageBag
     {

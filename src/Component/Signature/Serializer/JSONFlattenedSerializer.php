@@ -28,8 +28,6 @@ final class JSONFlattenedSerializer extends Serializer
 
     /**
      * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
      */
     public function __construct(JsonConverter $jsonConverter)
     {

@@ -63,9 +63,6 @@ class RSAEncryptionTest extends EncryptionTest
         self::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getPrivateKeySet(): JWKSet
     {
         $keys = ['keys' => [

@@ -80,10 +80,10 @@ class CheckerSource implements SourceWithCompilerPasses
         }
         $childNode = $node
             ->children()
-                ->arrayNode($this->name())
-                    ->addDefaultsIfNotSet()
-                    ->treatFalseLike([])
-                    ->treatNullLike([]);
+            ->arrayNode($this->name())
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+            ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -109,9 +109,6 @@ class CheckerSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
         return \class_exists(HeaderCheckerManagerFactory::class) && \class_exists(ClaimCheckerManagerFactory::class);

@@ -28,8 +28,6 @@ interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
      * @param array  $additional_header_values Set additional header values if needed
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
-     *
-     * @return string
      */
     public function wrapAgreementKey(JWK $receiver_key, string $cek, int $encryption_key_length, array $complete_header, array &$additional_header_values): string;
 

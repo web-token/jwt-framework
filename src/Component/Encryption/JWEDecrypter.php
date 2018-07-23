@@ -47,10 +47,6 @@ class JWEDecrypter
 
     /**
      * JWEDecrypter constructor.
-     *
-     * @param AlgorithmManager         $keyEncryptionAlgorithmManager
-     * @param AlgorithmManager         $contentEncryptionAlgorithmManager
-     * @param CompressionMethodManager $compressionMethodManager
      */
     public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager)
     {
@@ -61,8 +57,6 @@ class JWEDecrypter
 
     /**
      * Returns the key encryption algorithm manager.
-     *
-     * @return AlgorithmManager
      */
     public function getKeyEncryptionAlgorithmManager(): AlgorithmManager
     {
@@ -71,8 +65,6 @@ class JWEDecrypter
 
     /**
      * Returns the content encryption algorithm manager.
-     *
-     * @return AlgorithmManager
      */
     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
     {
@@ -81,8 +73,6 @@ class JWEDecrypter
 
     /**
      * Returns the compression method manager.
-     *
-     * @return CompressionMethodManager
      */
     public function getCompressionMethodManager(): CompressionMethodManager
     {
@@ -95,8 +85,6 @@ class JWEDecrypter
      * @param JWE $jwe       A JWE object to decrypt
      * @param JWK $jwk       The key used to decrypt the input
      * @param int $recipient The recipient used to decrypt the token
-     *
-     * @return bool
      */
     public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient): bool
     {
@@ -111,8 +99,6 @@ class JWEDecrypter
      * @param JWE    $jwe       A JWE object to decrypt
      * @param JWKSet $jwkset    The key set used to decrypt the input
      * @param int    $recipient The recipient used to decrypt the token
-     *
-     * @return bool
      */
     public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient): bool
     {
@@ -130,13 +116,6 @@ class JWEDecrypter
         return false;
     }
 
-    /**
-     * @param JWE    $jwe
-     * @param JWKSet $jwkset
-     * @param int    $i
-     *
-     * @return string|null
-     */
     private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i): ?string
     {
         $recipient = $jwe->getRecipient($i);
@@ -167,9 +146,6 @@ class JWEDecrypter
         return null;
     }
 
-    /**
-     * @param JWE $jwe
-     */
     private function checkRecipients(JWE $jwe)
     {
         if (0 === $jwe->countRecipients()) {
@@ -177,9 +153,6 @@ class JWEDecrypter
         }
     }
 
-    /**
-     * @param JWE $jwe
-     */
     private function checkPayload(JWE $jwe)
     {
         if (null !== $jwe->getPayload()) {
@@ -187,9 +160,6 @@ class JWEDecrypter
         }
     }
 
-    /**
-     * @param JWKSet $jwkset
-     */
     private function checkJWKSet(JWKSet $jwkset)
     {
         if (0 === $jwkset->count()) {
@@ -198,39 +168,29 @@ class JWEDecrypter
     }
 
     /**
-     * @param Algorithm                  $key_encryption_algorithm
-     * @param ContentEncryptionAlgorithm $content_encryption_algorithm
-     * @param JWK                        $key
-     * @param Recipient                  $recipient
-     * @param array                      $completeHeader
-     *
      * @return null|string
      */
     private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $key, Recipient $recipient, array $completeHeader): ?string
     {
         if ($key_encryption_algorithm instanceof DirectEncryption) {
             return $key_encryption_algorithm->getCEK($key);
-        } elseif ($key_encryption_algorithm instanceof KeyAgreement) {
+        }
+        if ($key_encryption_algorithm instanceof KeyAgreement) {
             return $key_encryption_algorithm->getAgreementKey($content_encryption_algorithm->getCEKSize(), $content_encryption_algorithm->name(), $key, $completeHeader);
-        } elseif ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+        }
+        if ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
             return $key_encryption_algorithm->unwrapAgreementKey($key, $recipient->getEncryptedKey(), $content_encryption_algorithm->getCEKSize(), $completeHeader);
-        } elseif ($key_encryption_algorithm instanceof KeyEncryption) {
+        }
+        if ($key_encryption_algorithm instanceof KeyEncryption) {
             return $key_encryption_algorithm->decryptKey($key, $recipient->getEncryptedKey(), $completeHeader);
-        } elseif ($key_encryption_algorithm instanceof KeyWrapping) {
+        }
+        if ($key_encryption_algorithm instanceof KeyWrapping) {
             return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $completeHeader);
         } else {
             throw new \InvalidArgumentException('Unsupported CEK generation');
         }
     }
 
-    /**
-     * @param JWE                        $jwe
-     * @param string                     $cek
-     * @param ContentEncryptionAlgorithm $content_encryption_algorithm
-     * @param array                      $completeHeader
-     *
-     * @return string
-     */
     private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $completeHeader): string
     {
         $payload = $content_encryption_algorithm->decryptContent($jwe->getCiphertext(), $cek, $jwe->getIV(), null === $jwe->getAAD() ? null : Base64Url::encode($jwe->getAAD()), $jwe->getEncodedSharedProtectedHeader(), $jwe->getTag());
@@ -238,12 +198,6 @@ class JWEDecrypter
         return $this->decompressIfNeeded($payload, $completeHeader);
     }
 
-    /**
-     * @param string $payload
-     * @param array  $completeHeaders
-     *
-     * @return string
-     */
     private function decompressIfNeeded(string $payload, array $completeHeaders): string
     {
         if (\array_key_exists('zip', $completeHeaders)) {
@@ -258,8 +212,6 @@ class JWEDecrypter
     }
 
     /**
-     * @param array $completeHeaders
-     *
      * @throws \InvalidArgumentException
      */
     private function checkCompleteHeader(array $completeHeaders)
@@ -271,11 +223,6 @@ class JWEDecrypter
         }
     }
 
-    /**
-     * @param array $completeHeaders
-     *
-     * @return KeyEncryptionAlgorithm
-     */
     private function getKeyEncryptionAlgorithm(array $completeHeaders): KeyEncryptionAlgorithm
     {
         $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($completeHeaders['alg']);
@@ -286,11 +233,6 @@ class JWEDecrypter
         return $key_encryption_algorithm;
     }
 
-    /**
-     * @param array $completeHeader
-     *
-     * @return ContentEncryptionAlgorithm
-     */
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
         $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);

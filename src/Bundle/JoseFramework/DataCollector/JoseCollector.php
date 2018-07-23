@@ -34,9 +34,6 @@ class JoseCollector extends DataCollector
         }
     }
 
-    /**
-     * @param Collector $collector
-     */
     public function add(Collector $collector)
     {
         $this->collectors[] = $collector;
@@ -50,9 +47,6 @@ class JoseCollector extends DataCollector
         return 'jose_collector';
     }
 
-    /**
-     * @return array
-     */
     public function getData(): array
     {
         return $this->data;

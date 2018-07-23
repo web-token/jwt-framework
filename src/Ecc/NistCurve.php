@@ -44,8 +44,6 @@ class NistCurve
 {
     /**
      * Returns an NIST P-256 curve.
-     *
-     * @return Curve
      */
     public static function curve256(): Curve
     {
@@ -62,8 +60,6 @@ class NistCurve
 
     /**
      * Returns an NIST P-384 curve.
-     *
-     * @return Curve
      */
     public static function curve384(): Curve
     {
@@ -80,8 +76,6 @@ class NistCurve
 
     /**
      * Returns an NIST P-521 curve.
-     *
-     * @return Curve
      */
     public static function curve521(): Curve
     {

@@ -56,9 +56,6 @@ abstract class AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    /**
-     * @param JWK $key
-     */
     protected function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

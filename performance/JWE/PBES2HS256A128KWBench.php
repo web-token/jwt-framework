@@ -19,9 +19,6 @@ namespace Jose\Performance\JWE;
  */
 final class PBES2HS256A128KWBench extends EncryptionBench
 {
-    /**
-     * @return array
-     */
     public function dataHeadersAndAlgorithms(): array
     {
         return [

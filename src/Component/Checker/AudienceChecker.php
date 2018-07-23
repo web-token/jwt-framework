@@ -33,9 +33,6 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
 
     /**
      * AudienceChecker constructor.
-     *
-     * @param string $audience
-     * @param bool   $protectedHeader
      */
     public function __construct(string $audience, bool $protectedHeader = false)
     {
@@ -60,18 +57,17 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     }
 
     /**
-     * @param mixed  $value
-     * @param string $class
-     *
      * @throws \InvalidArgumentException
      */
     private function checkValue($value, string $class)
     {
         if (\is_string($value) && $value !== $this->audience) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        } elseif (\is_array($value) && !\in_array($this->audience, $value, true)) {
+        }
+        if (\is_array($value) && !\in_array($this->audience, $value, true)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        } elseif (!\is_array($value) && !\is_string($value)) {
+        }
+        if (!\is_array($value) && !\is_string($value)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
     }

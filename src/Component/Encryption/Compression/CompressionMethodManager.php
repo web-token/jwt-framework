@@ -48,8 +48,6 @@ class CompressionMethodManager
 
     /**
      * Add the given compression method to the manager.
-     *
-     * @param CompressionMethod $compressionMethod
      */
     protected function add(CompressionMethod $compressionMethod)
     {
@@ -63,10 +61,6 @@ class CompressionMethodManager
 
     /**
      * Returns true if the givn compression method is supported.
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function has(string $name): bool
     {
@@ -78,8 +72,6 @@ class CompressionMethodManager
      * Throws an exception if the method is not supported.
      *
      * @param string $name The name of the compression method
-     *
-     * @return CompressionMethod
      */
     public function get(string $name): CompressionMethod
     {

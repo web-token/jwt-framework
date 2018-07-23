@@ -41,11 +41,6 @@ class NestedTokenBuilder
 
     /**
      * NestedTokenBuilder constructor.
-     *
-     * @param JWEBuilder           $jweBuilder
-     * @param JWESerializerManager $jweSerializerManager
-     * @param JWSBuilder           $jwsBuilder
-     * @param JWSSerializerManager $jwsSerializerManager
      */
     public function __construct(JWEBuilder $jweBuilder, JWESerializerManager $jweSerializerManager, JWSBuilder $jwsBuilder, JWSSerializerManager $jwsSerializerManager)
     {
@@ -58,18 +53,10 @@ class NestedTokenBuilder
     /**
      * Creates a nested token.
      *
-     * @param string      $payload
-     * @param array[]     $signatures
-     * @param string      $jws_serialization_mode
-     * @param array       $jweSharedProtectedHeader
-     * @param array       $jweSharedHeader
-     * @param array[]     $recipients
-     * @param string      $jwe_serialization_mode
-     * @param string|null $aad
+     * @param array[] $signatures
+     * @param array[] $recipients
      *
      * @throws \Exception
-     *
-     * @return string
      */
     public function create(string $payload, array $signatures, string $jws_serialization_mode, array $jweSharedProtectedHeader, array $jweSharedHeader, array $recipients, string $jwe_serialization_mode, ?string $aad = null): string
     {

@@ -56,12 +56,12 @@ class Values extends AbstractSource implements JWKSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->arrayNode('values')
-                    ->info('Values of the key.')
-                    ->isRequired()
-                    ->useAttributeAsKey('key')
-                    ->variablePrototype()->end()
-                ->end()
+            ->arrayNode('values')
+            ->info('Values of the key.')
+            ->isRequired()
+            ->useAttributeAsKey('key')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

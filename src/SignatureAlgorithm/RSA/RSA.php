@@ -19,14 +19,8 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 abstract class RSA implements SignatureAlgorithm
 {
-    /**
-     * @return string
-     */
     abstract protected function getAlgorithm(): string;
 
-    /**
-     * @return int
-     */
     abstract protected function getSignatureMethod(): int;
 
     /**
@@ -63,9 +57,6 @@ abstract class RSA implements SignatureAlgorithm
         return JoseRSA::sign($priv, $input, $this->getAlgorithm(), $this->getSignatureMethod());
     }
 
-    /**
-     * @param JWK $key
-     */
     private function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

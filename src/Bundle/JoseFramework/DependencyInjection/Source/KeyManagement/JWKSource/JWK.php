@@ -56,10 +56,10 @@ class JWK extends AbstractSource implements JWKSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('value')
-                    ->info('The JWK object')
-                    ->isRequired()
-                ->end()
+            ->scalarNode('value')
+            ->info('The JWK object')
+            ->isRequired()
+            ->end()
             ->end();
     }
 }

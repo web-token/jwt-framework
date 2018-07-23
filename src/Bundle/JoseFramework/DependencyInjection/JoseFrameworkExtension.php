@@ -34,7 +34,6 @@ class JoseFrameworkExtension extends Extension implements PrependExtensionInterf
     /**
      * JoseFrameworkExtension constructor.
      *
-     * @param string   $alias
      * @param Source[] $sources
      */
     public function __construct(string $alias, array $sources)
@@ -64,12 +63,6 @@ class JoseFrameworkExtension extends Extension implements PrependExtensionInterf
         }
     }
 
-    /**
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     *
-     * @return Configuration
-     */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration($this->getAlias(), $this->sources);

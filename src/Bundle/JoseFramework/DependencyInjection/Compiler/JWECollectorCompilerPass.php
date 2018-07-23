@@ -42,12 +42,6 @@ class JWECollectorCompilerPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param string           $method
-     * @param string           $tag
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
     {
         $taggedJWEServices = $container->findTaggedServiceIds($tag);

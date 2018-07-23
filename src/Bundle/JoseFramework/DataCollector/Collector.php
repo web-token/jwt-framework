@@ -18,11 +18,5 @@ use Symfony\Component\HttpFoundation\Response;
 
 interface Collector
 {
-    /**
-     * @param array           $data
-     * @param Request         $request
-     * @param Response        $response
-     * @param \Exception|null $exception
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null);
 }

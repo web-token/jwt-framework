@@ -30,8 +30,6 @@ final class ExpirationTimeChecker implements ClaimChecker
 
     /**
      * ExpirationTimeChecker constructor.
-     *
-     * @param int $allowedTimeDrift
      */
     public function __construct(int $allowedTimeDrift = 0)
     {

@@ -160,9 +160,6 @@ class HeaderCheckerManagerFactoryTest extends TestCase
      */
     private $headerCheckerManagerFactory = null;
 
-    /**
-     * @return HeaderCheckerManagerFactory
-     */
     private function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
     {
         if (null === $this->headerCheckerManagerFactory) {

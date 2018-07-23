@@ -93,11 +93,6 @@ class AESGCMContentEncryptionTest extends TestCase
         self::assertEquals($expected_plaintext, $algorithm->decryptContent($cyphertext, $cek, $iv, null, $header, $tag));
     }
 
-    /**
-     * @param array $data
-     *
-     * @return string
-     */
     private function convertArrayToBinString(array $data): string
     {
         foreach ($data as $key => $value) {

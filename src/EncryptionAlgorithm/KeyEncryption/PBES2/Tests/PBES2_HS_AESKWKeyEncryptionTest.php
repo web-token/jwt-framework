@@ -231,8 +231,6 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     }
 
     /**
-     * @param array $data
-     *
      * @return string
      */
     private function convertArrayToBinString(array $data)

@@ -76,9 +76,6 @@ abstract class AESGCMKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    /**
-     * @param JWK $key
-     */
     protected function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -89,9 +86,6 @@ abstract class AESGCMKW implements KeyWrapping
         }
     }
 
-    /**
-     * @param array $header
-     */
     protected function checkAdditionalParameters(array $header)
     {
         foreach (['iv', 'tag'] as $k) {
@@ -101,8 +95,5 @@ abstract class AESGCMKW implements KeyWrapping
         }
     }
 
-    /**
-     * @return int
-     */
     abstract protected function getKeySize(): int;
 }

@@ -103,9 +103,6 @@ class JWKSetTest extends TestCase
         self::assertFalse($jwkset->has(0));
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getPublicKeySet(): JWKSet
     {
         $keys = ['keys' => [

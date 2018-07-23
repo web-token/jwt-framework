@@ -23,7 +23,6 @@ class MissingMandatoryClaimException extends \Exception
     /**
      * MissingMandatoryClaimException constructor.
      *
-     * @param string   $message
      * @param string[] $claims
      */
     public function __construct(string $message, array $claims)

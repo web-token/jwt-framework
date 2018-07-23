@@ -29,8 +29,6 @@ class JWSCollector implements Collector
 
     /**
      * JWSCollector constructor.
-     *
-     * @param JWSSerializerManagerFactory|null $jwsSerializerManagerFactory
      */
     public function __construct(?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null)
     {
@@ -48,9 +46,6 @@ class JWSCollector implements Collector
         $this->collectSupportedJWSLoaders($data);
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWSSerializations(array &$data)
     {
         $data['jws']['jws_serialization'] = [];
@@ -63,9 +58,6 @@ class JWSCollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWSBuilders(array &$data)
     {
         $data['jws']['jws_builders'] = [];
@@ -76,9 +68,6 @@ class JWSCollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWSVerifiers(array &$data)
     {
         $data['jws']['jws_verifiers'] = [];
@@ -89,9 +78,6 @@ class JWSCollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWSLoaders(array &$data)
     {
         $data['jws']['jws_loaders'] = [];
@@ -108,10 +94,6 @@ class JWSCollector implements Collector
      */
     private $jwsBuilders = [];
 
-    /**
-     * @param string     $id
-     * @param JWSBuilder $jwsBuilder
-     */
     public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder)
     {
         $this->jwsBuilders[$id] = $jwsBuilder;
@@ -122,10 +104,6 @@ class JWSCollector implements Collector
      */
     private $jwsVerifiers = [];
 
-    /**
-     * @param string      $id
-     * @param JWSVerifier $jwsVerifier
-     */
     public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier)
     {
         $this->jwsVerifiers[$id] = $jwsVerifier;
@@ -136,10 +114,6 @@ class JWSCollector implements Collector
      */
     private $jwsLoaders = [];
 
-    /**
-     * @param string    $id
-     * @param JWSLoader $jwsLoader
-     */
     public function addJWSLoader(string $id, JWSLoader $jwsLoader)
     {
         $this->jwsLoaders[$id] = $jwsLoader;

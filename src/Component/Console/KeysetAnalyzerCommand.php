@@ -36,10 +36,6 @@ final class KeysetAnalyzerCommand extends Command
 
     /**
      * KeyAnalyzerCommand constructor.
-     *
-     * @param KeyAnalyzerManager $analyzerManager
-     * @param JsonConverter      $jsonConverter
-     * @param string|null        $name
      */
     public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
@@ -121,11 +117,6 @@ final class KeysetAnalyzerCommand extends Command
         }
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWKSet
-     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');

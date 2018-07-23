@@ -24,9 +24,6 @@ final class RotateKeysetCommand extends ObjectOutputCommand
 {
     /**
      * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
      */
     public function __construct(JsonConverter $jsonConverter, string $name = null)
     {
@@ -63,11 +60,6 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         $this->prepareJsonOutput($input, $output, JWKSet::createFromKeys($jwkset));
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWKSet
-     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
@@ -79,11 +71,6 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWK
-     */
     private function getKey(InputInterface $input): JWK
     {
         $jwkset = $input->getArgument('jwk');

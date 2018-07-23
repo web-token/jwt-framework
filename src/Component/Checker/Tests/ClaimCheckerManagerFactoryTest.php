@@ -96,9 +96,6 @@ class ClaimCheckerManagerFactoryTest extends TestCase
      */
     private $claimCheckerManagerFactory = null;
 
-    /**
-     * @return ClaimCheckerManagerFactory
-     */
     private function getClaimCheckerManagerFactory(): ClaimCheckerManagerFactory
     {
         if (null === $this->claimCheckerManagerFactory) {

@@ -123,9 +123,9 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
         $childNode = $node->children()
             ->arrayNode($this->name())
-                ->addDefaultsIfNotSet()
-                ->treatFalseLike([])
-                ->treatNullLike([]);
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+            ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -151,9 +151,6 @@ class EncryptionSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
         return \class_exists(JWEBuilderFactory::class) && \class_exists(JWEDecrypterFactory::class);

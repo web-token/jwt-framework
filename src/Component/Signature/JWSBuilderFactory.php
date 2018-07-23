@@ -30,9 +30,6 @@ class JWSBuilderFactory
 
     /**
      * JWSBuilderFactory constructor.
-     *
-     * @param JsonConverter           $jsonEncoder
-     * @param AlgorithmManagerFactory $signatureAlgorithmManagerFactory
      */
     public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
     {
@@ -44,8 +41,6 @@ class JWSBuilderFactory
      * This method creates a JWSBuilder using the given algorithm aliases.
      *
      * @param string[] $algorithms
-     *
-     * @return JWSBuilder
      */
     public function create(array $algorithms): JWSBuilder
     {

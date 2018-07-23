@@ -106,31 +106,16 @@ abstract class SignatureBench
         $jwsLoader->verifyWithKey($jws, $this->getPublicKey(), 0);
     }
 
-    /**
-     * @return AlgorithmManager
-     */
     protected function getSignatureAlgorithmsManager(): AlgorithmManager
     {
         return $this->signatureAlgorithmsManager;
     }
 
-    /**
-     * @return SignatureAlgorithm
-     */
     abstract protected function getAlgorithm(): SignatureAlgorithm;
 
-    /**
-     * @return string
-     */
     abstract protected function getInput(): string;
 
-    /**
-     * @return JWK
-     */
     abstract protected function getPrivateKey(): JWK;
 
-    /**
-     * @return JWK
-     */
     abstract protected function getPublicKey(): JWK;
 }

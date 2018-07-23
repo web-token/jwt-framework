@@ -22,9 +22,6 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
  */
 final class ES512Bench extends SignatureBench
 {
-    /**
-     * @return array
-     */
     public function dataSignature(): array
     {
         return [
@@ -34,9 +31,6 @@ final class ES512Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerification(): array
     {
         return [
@@ -46,9 +40,6 @@ final class ES512Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerify(): array
     {
         return [

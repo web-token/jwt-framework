@@ -89,9 +89,6 @@ class AnalyzeCommandTest extends TestCase
      */
     private $keyAnalyzerManager;
 
-    /**
-     * @return KeyAnalyzer\KeyAnalyzerManager
-     */
     private function getKeyAnalyzer(): KeyAnalyzer\KeyAnalyzerManager
     {
         if (null === $this->keyAnalyzerManager) {

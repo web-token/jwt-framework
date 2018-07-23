@@ -30,15 +30,11 @@ interface JWKSource
 
     /**
      * Returns the key for the Key Source configuration.
-     *
-     * @return string
      */
     public function getKey(): string;
 
     /**
      * Adds configuration nodes for this service.
-     *
-     * @param NodeDefinition $builder
      */
     public function addConfiguration(NodeDefinition $builder);
 }

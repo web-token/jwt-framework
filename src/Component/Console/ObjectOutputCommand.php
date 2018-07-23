@@ -28,9 +28,6 @@ abstract class ObjectOutputCommand extends Command
 
     /**
      * AbstractGeneratorCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
      */
     public function __construct(JsonConverter $jsonConverter, string $name = null)
     {
@@ -47,22 +44,12 @@ abstract class ObjectOutputCommand extends Command
             ->addOption('out', 'o', InputOption::VALUE_OPTIONAL, 'File where to save the key. Must be a valid and writable file name.');
     }
 
-    /**
-     * @param InputInterface    $input
-     * @param OutputInterface   $output
-     * @param \JsonSerializable $json
-     */
     protected function prepareJsonOutput(InputInterface $input, OutputInterface $output, \JsonSerializable $json)
     {
         $json = $this->jsonConverter->encode($json);
         $this->prepareOutput($input, $output, $json);
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $data
-     */
     protected function prepareOutput(InputInterface $input, OutputInterface $output, string $data)
     {
         $file = $input->getOption('out');
