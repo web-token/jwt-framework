@@ -35,10 +35,6 @@ class JWSLoaderFactory
 
     /**
      * JWSLoaderFactory constructor.
-     *
-     * @param JWSSerializerManagerFactory      $jwsSerializerManagerFactory
-     * @param JWSVerifierFactory               $jwsVerifierFactory
-     * @param HeaderCheckerManagerFactory|null $headerCheckerManagerFactory
      */
     public function __construct(JWSSerializerManagerFactory $jwsSerializerManagerFactory, JWSVerifierFactory $jwsVerifierFactory, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory)
     {
@@ -50,12 +46,6 @@ class JWSLoaderFactory
     /**
      * Creates a JWSLoader using the given serializer aliases, signature algorithm aliases and (optionally)
      * the header checker aliases.
-     *
-     * @param array $serializers
-     * @param array $algorithms
-     * @param array $headerCheckers
-     *
-     * @return JWSLoader
      */
     public function create(array $serializers, array $algorithms, array $headerCheckers = []): JWSLoader
     {

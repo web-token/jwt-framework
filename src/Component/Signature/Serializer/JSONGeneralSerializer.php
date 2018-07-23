@@ -28,8 +28,6 @@ final class JSONGeneralSerializer extends Serializer
 
     /**
      * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
      */
     public function __construct(JsonConverter $jsonConverter)
     {
@@ -87,9 +85,6 @@ final class JSONGeneralSerializer extends Serializer
         return $this->jsonConverter->encode($data);
     }
 
-    /**
-     * @param mixed $data
-     */
     private function checkData($data)
     {
         if (!\is_array($data) || !\array_key_exists('signatures', $data)) {
@@ -97,9 +92,6 @@ final class JSONGeneralSerializer extends Serializer
         }
     }
 
-    /**
-     * @param mixed $signature
-     */
     private function checkSignature($signature)
     {
         if (!\is_array($signature) || !\array_key_exists('signature', $signature)) {
@@ -144,12 +136,6 @@ final class JSONGeneralSerializer extends Serializer
         return $jws;
     }
 
-    /**
-     * @param bool|null $isPayloadEncoded
-     * @param array     $protectedHeader
-     *
-     * @return bool
-     */
     private function processIsPayloadEncoded(?bool $isPayloadEncoded, array $protectedHeader): bool
     {
         if (null === $isPayloadEncoded) {
@@ -162,11 +148,6 @@ final class JSONGeneralSerializer extends Serializer
         return $isPayloadEncoded;
     }
 
-    /**
-     * @param array $signature
-     *
-     * @return array
-     */
     private function processHeaders(array $signature): array
     {
         $encodedProtectedHeader = \array_key_exists('protected', $signature) ? $signature['protected'] : null;
@@ -178,7 +159,6 @@ final class JSONGeneralSerializer extends Serializer
 
     /**
      * @param null|string $rawPayload
-     * @param bool|null   $isPayloadEncoded
      *
      * @return null|string
      */
@@ -191,9 +171,6 @@ final class JSONGeneralSerializer extends Serializer
         return false === $isPayloadEncoded ? $rawPayload : Base64Url::decode($rawPayload);
     }
 
-    /**
-     * @param JWS $jws
-     */
     private function checkPayloadEncoding(JWS $jws)
     {
         if ($jws->isPayloadDetached()) {

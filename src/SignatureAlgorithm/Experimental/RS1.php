@@ -26,17 +26,11 @@ final class RS1 extends RSA
         return 'sha1';
     }
 
-    /**
-     * @return int
-     */
     protected function getSignatureMethod(): int
     {
         return JoseRSA::SIGNATURE_PKCS1;
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return 'RS1';

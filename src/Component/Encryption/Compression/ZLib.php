@@ -22,8 +22,6 @@ final class ZLib implements CompressionMethod
 
     /**
      * ZLib constructor.
-     *
-     * @param int $compression_level
      */
     public function __construct(int $compression_level = -1)
     {
@@ -34,9 +32,6 @@ final class ZLib implements CompressionMethod
         $this->compression_level = $compression_level;
     }
 
-    /**
-     * @return int
-     */
     private function getCompressionLevel(): int
     {
         return $this->compression_level;

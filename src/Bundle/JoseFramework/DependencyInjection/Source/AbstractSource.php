@@ -19,20 +19,8 @@ use Symfony\Component\DependencyInjection\Definition;
 
 abstract class AbstractSource
 {
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     *
-     * @return Definition
-     */
     abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $type
-     * @param string           $name
-     * @param array            $config
-     */
     public function create(ContainerBuilder $container, string $type, string $name, array $config)
     {
         $service_id = \sprintf('jose.%s.%s', $type, $name);
@@ -44,24 +32,21 @@ abstract class AbstractSource
         $container->setDefinition($service_id, $definition);
     }
 
-    /**
-     * @param NodeDefinition $node
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         $node
             ->children()
-                ->booleanNode('is_public')
-                    ->info('If true, the service will be public, else private.')
-                    ->defaultTrue()
-                ->end()
-                ->arrayNode('tags')
-                    ->info('A list of tags to be associated to the service.')
-                    ->useAttributeAsKey('name')
-                    ->treatNullLike([])
-                    ->treatFalseLike([])
-                    ->variablePrototype()->end()
-                ->end()
+            ->booleanNode('is_public')
+            ->info('If true, the service will be public, else private.')
+            ->defaultTrue()
+            ->end()
+            ->arrayNode('tags')
+            ->info('A list of tags to be associated to the service.')
+            ->useAttributeAsKey('name')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

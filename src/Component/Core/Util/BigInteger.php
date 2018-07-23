@@ -25,17 +25,12 @@ class BigInteger
      */
     private $value;
 
-    /**
-     * @param \GMP $value
-     */
     private function __construct(\GMP $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @param \GMP $value
-     *
      * @return BigInteger
      */
     public static function createFromGMPResource(\GMP $value): self
@@ -44,8 +39,6 @@ class BigInteger
     }
 
     /**
-     * @param string $value
-     *
      * @return BigInteger
      */
     public static function createFromBinaryString(string $value): self
@@ -57,8 +50,6 @@ class BigInteger
     }
 
     /**
-     * @param int $value
-     *
      * @return BigInteger
      */
     public static function createFromDecimal(int $value): self
@@ -70,8 +61,6 @@ class BigInteger
 
     /**
      * Converts a BigInteger to a binary string.
-     *
-     * @return string
      */
     public function toBytes(): string
     {
@@ -189,8 +178,6 @@ class BigInteger
      * Compares two numbers.
      *
      * @param BigInteger $y
-     *
-     * @return int
      */
     public function compare(self $y): int
     {
@@ -199,8 +186,6 @@ class BigInteger
 
     /**
      * @param BigInteger $y
-     *
-     * @return bool
      */
     public function equals(self $y): bool
     {
@@ -231,17 +216,12 @@ class BigInteger
 
     /**
      * @param BigInteger $y
-     *
-     * @return bool
      */
     public function lowerThan(self $y): bool
     {
         return 0 > $this->compare($y);
     }
 
-    /**
-     * @return bool
-     */
     public function isEven(): bool
     {
         $zero = self::createFromDecimal(0);

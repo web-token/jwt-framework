@@ -27,8 +27,6 @@ interface ContentEncryptionAlgorithm extends Algorithm
      * @param string|null $aad                      Additional Additional Authenticated Data
      * @param string      $encoded_protected_header The Protected Header encoded in Base64Url
      * @param string      $tag                      Tag
-     *
-     * @return string
      */
     public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string;
 
@@ -41,22 +39,16 @@ interface ContentEncryptionAlgorithm extends Algorithm
      * @param string|null $aad                      Additional Additional Authenticated Data
      * @param string      $encoded_protected_header The Protected Header encoded in Base64Url
      * @param string      $tag                      Tag
-     *
-     * @return string
      */
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string;
 
     /**
      * Returns the size of the IV used by this encryption method.
-     *
-     * @return int
      */
     public function getIVSize(): int;
 
     /**
      * Returns the size of the CEK used by this encryption method.
-     *
-     * @return int
      */
     public function getCEKSize(): int;
 }

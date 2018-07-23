@@ -23,7 +23,6 @@ class MissingMandatoryHeaderParameterException extends \Exception
     /**
      * MissingMandatoryHeaderParameterException constructor.
      *
-     * @param string   $message
      * @param string[] $parameters
      */
     public function __construct(string $message, array $parameters)

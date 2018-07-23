@@ -113,9 +113,6 @@ class UrlKeySetFactoryTest extends TestCase
      */
     private $jkuFactory;
 
-    /**
-     * @return JKUFactory
-     */
     private function getJKUFactory(): JKUFactory
     {
         if (null === $this->jkuFactory) {
@@ -134,9 +131,6 @@ class UrlKeySetFactoryTest extends TestCase
      */
     private $x5uFactory;
 
-    /**
-     * @return X5UFactory
-     */
     private function getX5UFactory(): X5UFactory
     {
         if (null === $this->x5uFactory) {
@@ -155,9 +149,6 @@ class UrlKeySetFactoryTest extends TestCase
      */
     private $httpClient;
 
-    /**
-     * @return Client
-     */
     private function getHttpClient(): Client
     {
         if (null === $this->httpClient) {

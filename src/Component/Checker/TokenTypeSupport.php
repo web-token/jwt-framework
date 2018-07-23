@@ -22,20 +22,11 @@ interface TokenTypeSupport
      * The index is useful when the token is serialized using the Json General Serialization mode.
      * For example the JWE Json General Serialization Mode allows several recipients to be set.
      * The unprotected headers correspond to the share unprotected header and the selected recipient header.
-     *
-     * @param JWT   $jwt
-     * @param int   $index
-     * @param array $protectedHeader
-     * @param array $unprotectedHeader
      */
     public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void;
 
     /**
      * This method returns true if the token in argument is supported, otherwise false.
-     *
-     * @param JWT $jwt
-     *
-     * @return bool
      */
     public function supports(JWT $jwt): bool;
 }

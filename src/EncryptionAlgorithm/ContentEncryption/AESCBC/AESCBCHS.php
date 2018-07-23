@@ -60,13 +60,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     }
 
     /**
-     * @param string      $encrypted_data
-     * @param string      $cek
-     * @param string      $iv
      * @param null|string $aad
-     * @param string      $encoded_header
-     *
-     * @return string
      */
     protected function calculateAuthenticationTag(string $encrypted_data, string $cek, string $iv, ?string $aad, string $encoded_header): string
     {
@@ -88,29 +82,13 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
         return  \mb_substr($hash, 0, \mb_strlen($hash, '8bit') / 2, '8bit');
     }
 
-    /**
-     * @param string      $authentication_tag
-     * @param string      $encoded_header
-     * @param string      $encrypted_data
-     * @param string      $cek
-     * @param string      $iv
-     * @param string|null $aad
-     *
-     * @return bool
-     */
     protected function isTagValid(string $encrypted_data, string $cek, string $iv, ?string $aad, string $encoded_header, string $authentication_tag): bool
     {
         return \hash_equals($authentication_tag, $this->calculateAuthenticationTag($encrypted_data, $cek, $iv, $aad, $encoded_header));
     }
 
-    /**
-     * @return string
-     */
     abstract protected function getHashAlgorithm(): string;
 
-    /**
-     * @return string
-     */
     abstract protected function getMode(): string;
 
     /**

@@ -30,15 +30,11 @@ interface JWKSetSource
 
     /**
      * Returns the key set for the Key Set Source configuration.
-     *
-     * @return string
      */
     public function getKeySet(): string;
 
     /**
      * Adds configuration nodes for this service.
-     *
-     * @param NodeDefinition $builder
      */
     public function addConfiguration(NodeDefinition $builder);
 }

@@ -111,9 +111,6 @@ class JWELoaderTest extends EncryptionTest
      */
     private $jweLoader = null;
 
-    /**
-     * @return JWELoader
-     */
     private function getJWELoader(): JWELoader
     {
         if (null === $this->jweLoader) {

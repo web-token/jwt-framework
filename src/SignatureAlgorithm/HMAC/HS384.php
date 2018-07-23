@@ -15,17 +15,11 @@ namespace Jose\Component\Signature\Algorithm;
 
 final class HS384 extends HMAC
 {
-    /**
-     * @return string
-     */
     protected function getHashAlgorithm(): string
     {
         return 'sha384';
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return 'HS384';

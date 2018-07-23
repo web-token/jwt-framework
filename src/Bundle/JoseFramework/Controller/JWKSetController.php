@@ -29,9 +29,6 @@ class JWKSetController
 
     /**
      * JWKSetController constructor.
-     *
-     * @param string $jwkset
-     * @param int    $maxAge
      */
     public function __construct(string $jwkset, int $maxAge)
     {
@@ -39,9 +36,6 @@ class JWKSetController
         $this->maxAge = $maxAge;
     }
 
-    /**
-     * @return Response
-     */
     public function getAction(): Response
     {
         return new Response(

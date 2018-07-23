@@ -105,9 +105,6 @@ class JWSLoaderTest extends SignatureTest
      */
     private $jwsLoader = null;
 
-    /**
-     * @return JWSLoader
-     */
     private function getJWSLoader(): JWSLoader
     {
         if (null === $this->jwsLoader) {

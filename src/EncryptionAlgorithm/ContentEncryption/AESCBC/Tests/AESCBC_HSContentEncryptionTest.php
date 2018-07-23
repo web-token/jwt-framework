@@ -65,8 +65,6 @@ class AESCBC_HSContentEncryptionTest extends TestCase
     }
 
     /**
-     * @param array $data
-     *
      * @return string
      */
     private function convertArrayToBinString(array $data)

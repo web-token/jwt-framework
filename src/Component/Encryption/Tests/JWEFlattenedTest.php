@@ -41,9 +41,6 @@ class JWEFlattenedTest extends EncryptionTest
         self::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getSymmetricKeySet(): JWKSet
     {
         $keys = ['keys' => [

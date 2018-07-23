@@ -23,9 +23,6 @@ final class PublicKeysetCommand extends ObjectOutputCommand
 {
     /**
      * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
      */
     public function __construct(JsonConverter $jsonConverter, string $name = null)
     {
@@ -59,11 +56,6 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         $this->prepareJsonOutput($input, $output, $newJwkset);
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWKSet
-     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');

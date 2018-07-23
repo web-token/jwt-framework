@@ -19,9 +19,6 @@ namespace Jose\Performance\JWE;
  */
 final class ECDHESA192KWBench extends EncryptionBench
 {
-    /**
-     * @return array
-     */
     public function dataHeadersAndAlgorithms(): array
     {
         return [

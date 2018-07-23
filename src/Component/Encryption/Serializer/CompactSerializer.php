@@ -29,8 +29,6 @@ final class CompactSerializer implements JWESerializer
 
     /**
      * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
      */
     public function __construct(JsonConverter $jsonConverter)
     {
@@ -109,9 +107,6 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
-    /**
-     * @param JWE $jwe
-     */
     private function checkHasNoAAD(JWE $jwe)
     {
         if (!empty($jwe->getAAD())) {
@@ -119,10 +114,6 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
-    /**
-     * @param JWE $jwe
-     * @param int $id
-     */
     private function checkRecipientHasNoHeader(JWE $jwe, int $id)
     {
         if (!empty($jwe->getSharedHeader()) || !empty($jwe->getRecipient($id)->getHeader())) {
@@ -130,9 +121,6 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
-    /**
-     * @param JWE $jwe
-     */
     private function checkHasSharedProtectedHeader(JWE $jwe)
     {
         if (empty($jwe->getSharedProtectedHeader())) {

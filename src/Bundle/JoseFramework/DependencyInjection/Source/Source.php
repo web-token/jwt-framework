@@ -18,27 +18,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 interface Source
 {
-    /**
-     * @return string
-     */
     public function name(): string;
 
-    /**
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     */
     public function load(array $configs, ContainerBuilder $container);
 
-    /**
-     * @param NodeDefinition $node
-     */
     public function getNodeDefinition(NodeDefinition $node);
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     *
-     * @return array
-     */
     public function prepend(ContainerBuilder $container, array $config): array;
 }

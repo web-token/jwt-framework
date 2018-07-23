@@ -17,14 +17,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ConfigurationHelper
 {
-    const BUNDLE_ALIAS = 'jose';
+    public const BUNDLE_ALIAS = 'jose';
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $signatureAlgorithms
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $signatureAlgorithms
      */
     public static function addJWSBuilder(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
     {
@@ -45,11 +41,7 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $signatureAlgorithms
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $signatureAlgorithms
      */
     public static function addJWSVerifier(ContainerBuilder $container, string $name, array $signatureAlgorithms, bool $is_public = true, array $tags = [])
     {
@@ -71,11 +63,7 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $serializers
      */
     public static function addJWSSerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
     {
@@ -97,13 +85,9 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param string[]         $signature_algorithms
-     * @param string[]         $header_checkers
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $serializers
+     * @param string[] $signature_algorithms
+     * @param string[] $header_checkers
      */
     public static function addJWSLoader(ContainerBuilder $container, string $name, array $serializers, array $signature_algorithms, array $header_checkers, bool $is_public = true, array $tags = [])
     {
@@ -127,18 +111,14 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $jwe_serializers
-     * @param string[]         $key_encryption_algorithms
-     * @param string[]         $content_encryption_algorithms
-     * @param string[]         $compression_methods
-     * @param string[]         $jwe_header_checkers
-     * @param string[]         $jws_serializers
-     * @param string[]         $signature_algorithms
-     * @param string[]         $jws_header_checkers
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $jwe_serializers
+     * @param string[] $key_encryption_algorithms
+     * @param string[] $content_encryption_algorithms
+     * @param string[] $compression_methods
+     * @param string[] $jwe_header_checkers
+     * @param string[] $jws_serializers
+     * @param string[] $signature_algorithms
+     * @param string[] $jws_header_checkers
      */
     public static function addNestedTokenLoader(ContainerBuilder $container, string $name, array $jwe_serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $jwe_header_checkers, array $jws_serializers, array $signature_algorithms, array $jws_header_checkers, bool $is_public = true, array $tags = [])
     {
@@ -167,16 +147,12 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $jwe_serializers
-     * @param string[]         $key_encryption_algorithms
-     * @param string[]         $content_encryption_algorithms
-     * @param string[]         $compression_methods
-     * @param string[]         $jws_serializers
-     * @param string[]         $signature_algorithms
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $jwe_serializers
+     * @param string[] $key_encryption_algorithms
+     * @param string[] $content_encryption_algorithms
+     * @param string[] $compression_methods
+     * @param string[] $jws_serializers
+     * @param string[] $signature_algorithms
      */
     public static function addNestedTokenBuilder(ContainerBuilder $container, string $name, array $jwe_serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $jws_serializers, array $signature_algorithms, bool $is_public = true, array $tags = [])
     {
@@ -203,11 +179,7 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $serializers
      */
     public static function addJWESerializer(ContainerBuilder $container, string $name, array $serializers, bool $is_public = true, array $tags = [])
     {
@@ -229,15 +201,11 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $serializers
-     * @param string[]         $key_encryption_algorithms
-     * @param string[]         $content_encryption_algorithms
-     * @param string[]         $compression_methods
-     * @param string[]         $header_checkers
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $serializers
+     * @param string[] $key_encryption_algorithms
+     * @param string[] $content_encryption_algorithms
+     * @param string[] $compression_methods
+     * @param string[] $header_checkers
      */
     public static function addJWELoader(ContainerBuilder $container, string $name, array $serializers, array $key_encryption_algorithms, array $content_encryption_algorithms, array $compression_methods, array $header_checkers, bool $is_public = true, array $tags = [])
     {
@@ -263,11 +231,7 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $claimCheckers
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $claimCheckers
      */
     public static function addClaimChecker(ContainerBuilder $container, string $name, array  $claimCheckers, bool $is_public = true, array $tags = [])
     {
@@ -289,11 +253,7 @@ class ConfigurationHelper
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string[]         $headerCheckers
-     * @param bool             $is_public
-     * @param array            $tags
+     * @param string[] $headerCheckers
      */
     public static function addHeaderChecker(ContainerBuilder $container, string $name, array  $headerCheckers, bool $is_public = true, array $tags = [])
     {
@@ -314,14 +274,6 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'checkers');
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string           $type
-     * @param array            $parameters
-     * @param bool             $is_public
-     * @param array            $tags
-     */
     public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters, bool $is_public = true, array $tags = [])
     {
         $parameters['is_public'] = $is_public;
@@ -339,14 +291,6 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'keys');
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string           $type
-     * @param array            $parameters
-     * @param bool             $is_public
-     * @param array            $tags
-     */
     public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters, bool $is_public = true, array $tags = [])
     {
         $parameters['is_public'] = $is_public;
@@ -364,13 +308,6 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'key_sets');
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param array            $parameters
-     * @param bool             $is_public
-     * @param array            $tags
-     */
     public static function addKeyUri(ContainerBuilder $container, string $name, array $parameters, bool $is_public = true, array $tags = [])
     {
         $parameters['is_public'] = $is_public;
@@ -386,15 +323,6 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'jwk_uris');
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param array            $keyEncryptionAlgorithm
-     * @param array            $contentEncryptionAlgorithms
-     * @param array            $compressionMethods
-     * @param bool             $is_public
-     * @param array            $tags
-     */
     public static function addJWEBuilder(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
     {
         $config = [
@@ -416,15 +344,6 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'jwe');
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param array            $keyEncryptionAlgorithm
-     * @param array            $contentEncryptionAlgorithms
-     * @param array            $compressionMethods
-     * @param bool             $is_public
-     * @param array            $tags
-     */
     public static function addJWEDecrypter(ContainerBuilder $container, string $name, array $keyEncryptionAlgorithm, array $contentEncryptionAlgorithms, array $compressionMethods = ['DEF'], bool $is_public = true, array $tags = [])
     {
         $config = [
@@ -446,11 +365,6 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'jwe');
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @param array            $config
-     * @param string           $element
-     */
     private static function updateJoseConfiguration(ContainerBuilder $container, array $config, string $element)
     {
         $jose_config = \current($container->getExtensionConfig(self::BUNDLE_ALIAS));

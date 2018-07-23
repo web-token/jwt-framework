@@ -27,8 +27,6 @@ interface KeyWrapping extends KeyEncryptionAlgorithm
      * @param array                    $additionalHeader The complete header of the JWT
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
-     *
-     * @return string
      */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string;
 
@@ -40,8 +38,6 @@ interface KeyWrapping extends KeyEncryptionAlgorithm
      * @param array                    $completeHeader The complete header of the JWT
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
-     *
-     * @return string
      */
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string;
 }

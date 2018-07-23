@@ -60,18 +60,18 @@ class JWKSource implements Source
     {
         $sourceNodeBuilder = $node
             ->children()
-                ->arrayNode('keys')
-                    ->treatFalseLike([])
-                    ->treatNullLike([])
-                    ->useAttributeAsKey('name')
-                    ->arrayPrototype()
-                        ->validate()
-                            ->ifTrue(function ($config) {
-                                return 1 !== \count($config);
-                            })
-                            ->thenInvalid('One key type must be set.')
-                        ->end()
-                        ->children();
+            ->arrayNode('keys')
+            ->treatFalseLike([])
+            ->treatNullLike([])
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+            ->validate()
+            ->ifTrue(function ($config) {
+                return 1 !== \count($config);
+            })
+            ->thenInvalid('One key type must be set.')
+            ->end()
+            ->children();
         foreach ($this->getJWKSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
             $source->addConfiguration($sourceNode);

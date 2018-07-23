@@ -73,19 +73,10 @@ abstract class ECDSA implements SignatureAlgorithm
         }
     }
 
-    /**
-     * @return string
-     */
     abstract protected function getHashAlgorithm(): string;
 
-    /**
-     * @return int
-     */
     abstract protected function getSignaturePartLength(): int;
 
-    /**
-     * @param JWK $key
-     */
     private function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

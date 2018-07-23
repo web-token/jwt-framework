@@ -21,11 +21,7 @@ use Base64Url\Base64Url;
 class KeyConverter
 {
     /**
-     * @param string $file
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return array
      */
     public static function loadKeyFromCertificateFile(string $file): array
     {
@@ -38,11 +34,7 @@ class KeyConverter
     }
 
     /**
-     * @param string $certificate
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return array
      */
     public static function loadKeyFromCertificate(string $certificate): array
     {
@@ -66,8 +58,6 @@ class KeyConverter
      * @param resource $res
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public static function loadKeyFromX509Resource($res): array
     {
@@ -92,12 +82,9 @@ class KeyConverter
     }
 
     /**
-     * @param string      $file
      * @param null|string $password
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public static function loadFromKeyFile(string $file, ?string $password = null): array
     {
@@ -107,12 +94,9 @@ class KeyConverter
     }
 
     /**
-     * @param string      $key
      * @param null|string $password
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public static function loadFromKey(string $key, ?string $password = null): array
     {
@@ -124,12 +108,9 @@ class KeyConverter
     }
 
     /**
-     * @param string      $der
      * @param null|string $password
      *
      * @throws \Exception
-     *
-     * @return array
      */
     private static function loadKeyFromDER(string $der, ?string $password = null): array
     {
@@ -139,12 +120,9 @@ class KeyConverter
     }
 
     /**
-     * @param string      $pem
      * @param null|string $password
      *
      * @throws \Exception
-     *
-     * @return array
      */
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
@@ -184,8 +162,6 @@ class KeyConverter
 
     /**
      * This method modifies the PEM to get 64 char lines and fix bug with old OpenSSL versions.
-     *
-     * @param string $pem
      */
     private static function sanitizePEM(string &$pem)
     {
@@ -197,11 +173,6 @@ class KeyConverter
         $pem .= $matches[0][1].PHP_EOL;
     }
 
-    /**
-     * @param array $x5c
-     *
-     * @return array
-     */
     public static function loadFromX5C(array $x5c): array
     {
         $certificate = null;
@@ -249,11 +220,8 @@ class KeyConverter
     }
 
     /**
-     * @param string      $pem
      * @param string[]    $matches
      * @param null|string $password
-     *
-     * @return string
      */
     private static function decodePem(string $pem, array $matches, ?string $password = null): string
     {
@@ -285,11 +253,6 @@ class KeyConverter
         return $pem;
     }
 
-    /**
-     * @param string $der_data
-     *
-     * @return string
-     */
     private static function convertDerToPem(string $der_data): string
     {
         $pem = \chunk_split(\base64_encode($der_data), 64, PHP_EOL);

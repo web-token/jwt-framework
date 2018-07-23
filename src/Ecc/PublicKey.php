@@ -49,8 +49,6 @@ class PublicKey
 
     /**
      * PublicKey constructor.
-     *
-     * @param Point $point
      */
     private function __construct(Point $point)
     {
@@ -58,8 +56,6 @@ class PublicKey
     }
 
     /**
-     * @param Point $point
-     *
      * @return PublicKey
      */
     public static function create(Point $point): self
@@ -67,9 +63,6 @@ class PublicKey
         return new self($point);
     }
 
-    /**
-     * @return Point
-     */
     public function getPoint(): Point
     {
         return $this->point;

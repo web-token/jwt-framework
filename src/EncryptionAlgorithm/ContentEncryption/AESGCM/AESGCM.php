@@ -69,8 +69,5 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         return 96;
     }
 
-    /**
-     * @return string
-     */
     abstract protected function getMode(): string;
 }

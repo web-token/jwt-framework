@@ -31,7 +31,6 @@ class Recipient
     /**
      * Recipient constructor.
      *
-     * @param array       $header
      * @param null|string $encryptedKey
      */
     private function __construct(array $header, ?string $encryptedKey)
@@ -44,7 +43,6 @@ class Recipient
      * Creates a recipient.
      * The creation of this object is meant to be used by the library, not by third party applications.
      *
-     * @param array       $header
      * @param null|string $encryptedKey
      *
      * @return Recipient
@@ -56,8 +54,6 @@ class Recipient
 
     /**
      * Returns the recipient header.
-     *
-     * @return array
      */
     public function getHeader(): array
     {
@@ -84,8 +80,6 @@ class Recipient
      * Returns true if the recipient header contains the parameter with the specified key.
      *
      * @param string $key The key
-     *
-     * @return bool
      */
     public function hasHeaderParameter(string $key): bool
     {

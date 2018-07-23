@@ -30,8 +30,6 @@ class AlgorithmCollector implements Collector
 
     /**
      * AlgorithmCollector constructor.
-     *
-     * @param AlgorithmManagerFactory $algorithmManagerFactory
      */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
     {
@@ -68,14 +66,6 @@ class AlgorithmCollector implements Collector
         ];
     }
 
-    /**
-     * @param Algorithm $algorithm
-     * @param int       $signatureAlgorithms
-     * @param int       $keyEncryptionAlgorithms
-     * @param int       $contentEncryptionAlgorithms
-     *
-     * @return string
-     */
     private function getAlgorithmType(Algorithm $algorithm, int &$signatureAlgorithms, int &$keyEncryptionAlgorithms, int &$contentEncryptionAlgorithms): string
     {
         switch (true) {
@@ -96,9 +86,6 @@ class AlgorithmCollector implements Collector
         }
     }
 
-    /**
-     * @return array
-     */
     private function getAlgorithmMessages(): array
     {
         return [

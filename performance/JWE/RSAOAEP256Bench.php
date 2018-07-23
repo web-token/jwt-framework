@@ -19,9 +19,6 @@ namespace Jose\Performance\JWE;
  */
 final class RSAOAEP256Bench extends EncryptionBench
 {
-    /**
-     * @return array
-     */
     public function dataHeadersAndAlgorithms(): array
     {
         return [

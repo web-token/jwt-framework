@@ -17,25 +17,16 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 final class PS512 extends RSA
 {
-    /**
-     * @return string
-     */
     protected function getAlgorithm(): string
     {
         return 'sha512';
     }
 
-    /**
-     * @return int
-     */
     protected function getSignatureMethod(): int
     {
         return JoseRSA::SIGNATURE_PSS;
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return 'PS512';

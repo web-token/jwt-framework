@@ -34,8 +34,6 @@ class ECKey
 
     /**
      * ECKey constructor.
-     *
-     * @param array $data
      */
     private function __construct(array $data)
     {
@@ -43,8 +41,6 @@ class ECKey
     }
 
     /**
-     * @param string $pem
-     *
      * @return ECKey
      */
     public static function createFromPEM(string $pem): self
@@ -55,11 +51,7 @@ class ECKey
     }
 
     /**
-     * @param string $data
-     *
      * @throws \Exception
-     *
-     * @return array
      */
     private static function loadPEM(string $data): array
     {
@@ -76,7 +68,8 @@ class ECKey
 
         if (4 === \count($children)) {
             return self::loadPrivatePEM($children);
-        } elseif (2 === \count($children)) {
+        }
+        if (2 === \count($children)) {
             return self::loadPublicPEM($children);
         }
 
@@ -85,8 +78,6 @@ class ECKey
 
     /**
      * @param ASNObject[] $children
-     *
-     * @return array
      */
     private static function loadPKCS8(array $children): array
     {
@@ -101,8 +92,6 @@ class ECKey
 
     /**
      * @param ASNObject[] $children
-     *
-     * @return array
      */
     private static function loadPublicPEM(array $children): array
     {
@@ -138,11 +127,6 @@ class ECKey
         return $values;
     }
 
-    /**
-     * @param string $oid
-     *
-     * @return string
-     */
     private static function getCurve(string $oid): string
     {
         $curves = self::getSupportedCurves();
@@ -154,9 +138,6 @@ class ECKey
         return $curve;
     }
 
-    /**
-     * @return array
-     */
     private static function getSupportedCurves(): array
     {
         return [
@@ -166,9 +147,6 @@ class ECKey
         ];
     }
 
-    /**
-     * @param ASNObject $children
-     */
     private static function verifyVersion(ASNObject $children)
     {
         if (!$children instanceof Integer || '1' !== $children->getContent()) {
@@ -176,11 +154,6 @@ class ECKey
         }
     }
 
-    /**
-     * @param ASNObject   $children
-     * @param string|null $x
-     * @param string|null $y
-     */
     private static function getXAndY(ASNObject $children, ?string &$x, ?string &$y)
     {
         if (!$children instanceof ExplicitlyTaggedObject || !\is_array($children->getContent())) {
@@ -201,11 +174,6 @@ class ECKey
         $y = \mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit');
     }
 
-    /**
-     * @param ASNObject $children
-     *
-     * @return string
-     */
     private static function getD(ASNObject $children): string
     {
         if (!$children instanceof OctetString) {
@@ -215,11 +183,6 @@ class ECKey
         return $children->getContent();
     }
 
-    /**
-     * @param array $children
-     *
-     * @return array
-     */
     private static function loadPrivatePEM(array $children): array
     {
         self::verifyVersion($children[0]);
@@ -248,8 +211,6 @@ class ECKey
 
     /**
      * @param ASNObject[] $children
-     *
-     * @return bool
      */
     private static function isPKCS8(array $children): bool
     {
@@ -290,9 +251,6 @@ class ECKey
         return $this->values;
     }
 
-    /**
-     * @param array $jwk
-     */
     private function loadJWK(array $jwk)
     {
         $keys = [

@@ -73,8 +73,8 @@ class NestedToken implements Source
         }
         $childNode = $node->children()
             ->arrayNode($this->name())
-                ->treatNullLike([])
-                ->treatFalseLike([]);
+            ->treatNullLike([])
+            ->treatFalseLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -100,9 +100,6 @@ class NestedToken implements Source
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
         return \class_exists(JWEDecrypterFactory::class)

@@ -29,8 +29,6 @@ final class JSONGeneralSerializer implements JWESerializer
 
     /**
      * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
      */
     public function __construct(JsonConverter $jsonConverter)
     {
@@ -121,9 +119,6 @@ final class JSONGeneralSerializer implements JWESerializer
             $recipients);
     }
 
-    /**
-     * @param mixed $data
-     */
     private function checkData($data)
     {
         if (!\is_array($data) || !\array_key_exists('ciphertext', $data) || !\array_key_exists('recipients', $data)) {
@@ -131,11 +126,6 @@ final class JSONGeneralSerializer implements JWESerializer
         }
     }
 
-    /**
-     * @param array $recipient
-     *
-     * @return array
-     */
     private function processRecipient(array $recipient): array
     {
         $encryptedKey = \array_key_exists('encrypted_key', $recipient) ? Base64Url::decode($recipient['encrypted_key']) : null;
@@ -144,11 +134,6 @@ final class JSONGeneralSerializer implements JWESerializer
         return [$encryptedKey, $header];
     }
 
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
     private function processHeaders(array $data): array
     {
         $encodedSharedProtectedHeader = \array_key_exists('protected', $data) ? $data['protected'] : null;

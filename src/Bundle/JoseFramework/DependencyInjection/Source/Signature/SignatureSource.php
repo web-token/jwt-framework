@@ -110,9 +110,9 @@ class SignatureSource implements SourceWithCompilerPasses
         }
         $childNode = $node->children()
             ->arrayNode($this->name())
-                ->addDefaultsIfNotSet()
-                ->treatFalseLike([])
-                ->treatNullLike([]);
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+            ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -138,9 +138,6 @@ class SignatureSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
         return \class_exists(JWSBuilderFactory::class) && \class_exists(JWSVerifierFactory::class);

@@ -115,9 +115,6 @@ class NestingTokenBuilderTest extends TestCase
      */
     private $jwsBuilderFactory;
 
-    /**
-     * @return JWSBuilderFactory
-     */
     protected function getJWSBuilderFactory(): JWSBuilderFactory
     {
         if (null === $this->jwsBuilderFactory) {
@@ -135,9 +132,6 @@ class NestingTokenBuilderTest extends TestCase
      */
     private $jweBuilderFactory;
 
-    /**
-     * @return JWEBuilderFactory
-     */
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
         if (null === $this->jweBuilderFactory) {
@@ -156,9 +150,6 @@ class NestingTokenBuilderTest extends TestCase
      */
     private $nestedTokenBuilderFactory;
 
-    /**
-     * @return NestedTokenBuilderFactory
-     */
     private function getNestedTokenBuilderFactory(): NestedTokenBuilderFactory
     {
         if (null === $this->nestedTokenBuilderFactory) {
@@ -173,9 +164,6 @@ class NestingTokenBuilderTest extends TestCase
         return $this->nestedTokenBuilderFactory;
     }
 
-    /**
-     * @return JwsSerializer\JWSSerializerManagerFactory
-     */
     private function getJWSSerializerManagerFactory(): JwsSerializer\JWSSerializerManagerFactory
     {
         $jwsSerializerManagerFactory = new JwsSerializer\JWSSerializerManagerFactory();
@@ -191,9 +179,6 @@ class NestingTokenBuilderTest extends TestCase
      */
     private $algorithmManagerFactory;
 
-    /**
-     * @return AlgorithmManagerFactory
-     */
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {
@@ -212,9 +197,6 @@ class NestingTokenBuilderTest extends TestCase
      */
     private $compressionMethodManagerFactory;
 
-    /**
-     * @return CompressionMethodManagerFactory
-     */
     private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
         if (null === $this->compressionMethodManagerFactory) {
@@ -233,9 +215,6 @@ class NestingTokenBuilderTest extends TestCase
      */
     private $jwsSerializerManagerFactory = null;
 
-    /**
-     * @return JweSerializer\JWESerializerManagerFactory
-     */
     private function getJWESerializerManagerFactory(): JweSerializer\JWESerializerManagerFactory
     {
         if (null === $this->jwsSerializerManagerFactory) {

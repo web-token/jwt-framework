@@ -64,9 +64,6 @@ final class EdDSA implements SignatureAlgorithm
         }
     }
 
-    /**
-     * @param JWK $key
-     */
     private function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

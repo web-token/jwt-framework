@@ -17,8 +17,6 @@ interface CompressionMethod
 {
     /**
      * Returns the name of the method.
-     *
-     * @return string
      */
     public function name(): string;
 
@@ -29,8 +27,6 @@ interface CompressionMethod
      * @param string $data The data to compress
      *
      * @throws \RuntimeException
-     *
-     * @return string
      */
     public function compress(string $data): string;
 
@@ -41,8 +37,6 @@ interface CompressionMethod
      * @param string $data The data to uncompress
      *
      * @throws \RuntimeException
-     *
-     * @return string
      */
     public function uncompress(string $data): string;
 }

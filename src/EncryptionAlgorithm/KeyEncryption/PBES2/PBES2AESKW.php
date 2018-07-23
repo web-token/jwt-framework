@@ -28,10 +28,6 @@ abstract class PBES2AESKW implements KeyWrapping
      */
     private $nb_count;
 
-    /**
-     * @param int $salt_size
-     * @param int $nb_count
-     */
     public function __construct(int $salt_size = 64, int $nb_count = 4096)
     {
         $this->salt_size = $salt_size;
@@ -96,9 +92,6 @@ abstract class PBES2AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    /**
-     * @param JWK $key
-     */
     protected function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -109,9 +102,6 @@ abstract class PBES2AESKW implements KeyWrapping
         }
     }
 
-    /**
-     * @param array $header
-     */
     protected function checkHeaderAlgorithm(array $header)
     {
         if (!\array_key_exists('alg', $header)) {
@@ -122,9 +112,6 @@ abstract class PBES2AESKW implements KeyWrapping
         }
     }
 
-    /**
-     * @param array $header
-     */
     protected function checkHeaderAdditionalParameters(array $header)
     {
         foreach (['p2s', 'p2c'] as $k) {
@@ -142,13 +129,7 @@ abstract class PBES2AESKW implements KeyWrapping
      */
     abstract protected function getWrapper();
 
-    /**
-     * @return string
-     */
     abstract protected function getHashAlgorithm(): string;
 
-    /**
-     * @return int
-     */
     abstract protected function getKeySize(): int;
 }

@@ -631,9 +631,6 @@ class EncrypterTest extends EncryptionTest
         return $key;
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getPrivateKeySet(): JWKSet
     {
         $keys = ['keys' => [
@@ -723,9 +720,6 @@ class EncrypterTest extends EncryptionTest
         return JWKSet::createFromKeyData($keys);
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getSymmetricKeySet(): JWKSet
     {
         $keys = ['keys' => [

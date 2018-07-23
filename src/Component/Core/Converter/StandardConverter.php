@@ -28,9 +28,6 @@ final class StandardConverter implements JsonConverter
     /**
      * StandardJsonEncoder constructor.
      * See also json_encode and json_decode parameters.
-     *
-     * @param int $options
-     * @param int $depth
      */
     public function __construct(int $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE, int $depth = 512)
     {

@@ -54,9 +54,6 @@ class RSAOAEPKeyEncryptionTest extends TestCase
         self::assertEquals($cek, $decrypted);
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey(): JWK
     {
         return JWK::create([

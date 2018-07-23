@@ -67,9 +67,6 @@ class CertificateTest extends TestCase
     }
 
     /**
-     * @param string $file
-     * @param array  $expected_values
-     *
      * @dataProvider dataLoadCertificate
      */
     public function testLoadCertificate(string $file, array $expected_values)

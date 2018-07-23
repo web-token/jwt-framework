@@ -36,10 +36,6 @@ final class KeyAnalyzerCommand extends Command
 
     /**
      * KeyAnalyzerCommand constructor.
-     *
-     * @param KeyAnalyzerManager $analyzerManager
-     * @param JsonConverter      $jsonConverter
-     * @param string|null        $name
      */
     public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
@@ -82,11 +78,6 @@ final class KeyAnalyzerCommand extends Command
         }
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWK
-     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');

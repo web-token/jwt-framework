@@ -15,25 +15,16 @@ namespace Jose\Component\Signature\Algorithm;
 
 final class ES512 extends ECDSA
 {
-    /**
-     * @return string
-     */
     protected function getHashAlgorithm(): string
     {
         return 'sha512';
     }
 
-    /**
-     * @return int
-     */
     protected function getSignaturePartLength(): int
     {
         return 132;
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return 'ES512';

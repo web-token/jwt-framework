@@ -30,8 +30,6 @@ class HeaderCheckerManagerFactory
      * If the alias is not supported, an InvalidArgumentException is thrown.
      *
      * @param string[] $aliases
-     *
-     * @return HeaderCheckerManager
      */
     public function create(array $aliases): HeaderCheckerManager
     {
@@ -52,8 +50,6 @@ class HeaderCheckerManagerFactory
      * The checker is uniquely identified by an alias. This allows the same header parameter checker to be added twice (or more)
      * using several configuration options.
      *
-     * @param string        $alias
-     * @param HeaderChecker $checker
      *
      * @return HeaderCheckerManagerFactory
      */
@@ -67,7 +63,6 @@ class HeaderCheckerManagerFactory
     /**
      * This method adds a token type support to this factory.
      *
-     * @param TokenTypeSupport $tokenType
      *
      * @return HeaderCheckerManagerFactory
      */

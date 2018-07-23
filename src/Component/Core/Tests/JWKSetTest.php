@@ -251,9 +251,6 @@ class JWKSetTest extends TestCase
         $jwkset->get(2);
     }
 
-    /**
-     * @return JWKSet
-     */
     private function getPublicKeySet(): JWKSet
     {
         $keys = ['keys' => [

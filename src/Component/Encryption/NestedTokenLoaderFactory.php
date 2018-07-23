@@ -29,9 +29,6 @@ class NestedTokenLoaderFactory
 
     /**
      * NestedTokenLoaderFactory constructor.
-     *
-     * @param JWELoaderFactory $jweLoaderFactory
-     * @param JWSLoaderFactory $jwsLoaderFactory
      */
     public function __construct(JWELoaderFactory $jweLoaderFactory, JWSLoaderFactory $jwsLoaderFactory)
     {
@@ -41,17 +38,6 @@ class NestedTokenLoaderFactory
 
     /**
      * This method creates a Nested Token Loader with the given encryption/signature algorithms, serializers, compression methods and header checkers.
-     *
-     * @param array $jweSerializers
-     * @param array $keyEncryptionAlgorithms
-     * @param array $contentEncryptionAlgorithms
-     * @param array $compressionMethods
-     * @param array $jweHeaderCheckers
-     * @param array $jwsSerializers
-     * @param array $signatureAlgorithms
-     * @param array $jwsHeaderCheckers
-     *
-     * @return NestedTokenLoader
      */
     public function create(array $jweSerializers, array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $jweHeaderCheckers, array $jwsSerializers, array $signatureAlgorithms, array $jwsHeaderCheckers): NestedTokenLoader
     {

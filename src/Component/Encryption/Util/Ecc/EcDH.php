@@ -46,13 +46,6 @@ use Jose\Component\Core\Util\Ecc\PublicKey;
  */
 class EcDH
 {
-    /**
-     * @param Curve      $curve
-     * @param PublicKey  $publicKey
-     * @param PrivateKey $privateKey
-     *
-     * @return \GMP
-     */
     public static function computeSharedKey(Curve $curve, PublicKey $publicKey, PrivateKey $privateKey): \GMP
     {
         return $curve->mul($publicKey->getPoint(), $privateKey->getSecret())->getX();

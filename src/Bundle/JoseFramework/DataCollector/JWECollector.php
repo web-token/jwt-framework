@@ -35,9 +35,6 @@ class JWECollector implements Collector
 
     /**
      * JWECollector constructor.
-     *
-     * @param CompressionMethodManagerFactory|null $compressionMethodManagerFactory
-     * @param JWESerializerManagerFactory|null     $jweSerializerManagerFactory
      */
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
     {
@@ -57,9 +54,6 @@ class JWECollector implements Collector
         $this->collectSupportedJWELoaders($data);
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedCompressionMethods(array &$data)
     {
         $data['jwe']['compression_methods'] = [];
@@ -72,9 +66,6 @@ class JWECollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWESerializations(array &$data)
     {
         $data['jwe']['jwe_serialization'] = [];
@@ -87,9 +78,6 @@ class JWECollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWEBuilders(array &$data)
     {
         $data['jwe']['jwe_builders'] = [];
@@ -102,9 +90,6 @@ class JWECollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWEDecrypters(array &$data)
     {
         $data['jwe']['jwe_decrypters'] = [];
@@ -117,9 +102,6 @@ class JWECollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWELoaders(array &$data)
     {
         $data['jwe']['jwe_loaders'] = [];
@@ -138,10 +120,6 @@ class JWECollector implements Collector
      */
     private $jweBuilders = [];
 
-    /**
-     * @param string     $id
-     * @param JWEBuilder $jweBuilder
-     */
     public function addJWEBuilder(string $id, JWEBuilder $jweBuilder)
     {
         $this->jweBuilders[$id] = $jweBuilder;
@@ -152,10 +130,6 @@ class JWECollector implements Collector
      */
     private $jweDecrypters = [];
 
-    /**
-     * @param string       $id
-     * @param JWEDecrypter $jweDecrypter
-     */
     public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter)
     {
         $this->jweDecrypters[$id] = $jweDecrypter;
@@ -166,10 +140,6 @@ class JWECollector implements Collector
      */
     private $jweLoaders = [];
 
-    /**
-     * @param string    $id
-     * @param JWELoader $jweLoader
-     */
     public function addJWELoader(string $id, JWELoader $jweLoader)
     {
         $this->jweLoaders[$id] = $jweLoader;

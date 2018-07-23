@@ -22,8 +22,6 @@ final class GZip implements CompressionMethod
 
     /**
      * GZip constructor.
-     *
-     * @param int $compression_level
      */
     public function __construct(int $compression_level = -1)
     {
@@ -33,9 +31,6 @@ final class GZip implements CompressionMethod
         $this->compression_level = $compression_level;
     }
 
-    /**
-     * @return int
-     */
     private function getCompressionLevel(): int
     {
         return $this->compression_level;
