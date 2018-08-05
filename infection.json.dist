@@ -6,7 +6,17 @@
         ],
         "exclude": [
             "Bundle\/*\/Tests",
-            "Component\/*\/Tests"
+            "Component\/*\/Tests",
+            "Ecc\/*\/Tests",
+            "EncryptionAlgorithm\/ContentEncryption\/*\/Tests",
+            "EncryptionAlgorithm\/KeyEncryption\/*\/Tests",
+            "EncryptionAlgorithm\/Experimental\/*\/Tests",
+            "Signaturelgorithm\/ECDSA\/*\/Tests",
+            "Signaturelgorithm\/EdDSA\/*\/Tests",
+            "Signaturelgorithm\/HMAC\/*\/Tests",
+            "Signaturelgorithm\/None\/*\/Tests",
+            "Signaturelgorithm\/RSA\/*\/Tests",
+            "Signaturelgorithm\/Experimental\/*\/Tests"
         ]
     },
     "logs": {
