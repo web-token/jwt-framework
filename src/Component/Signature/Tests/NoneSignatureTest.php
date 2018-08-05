@@ -23,7 +23,10 @@ use Jose\Component\Signature\JWS;
  */
 class NoneSignatureTest extends SignatureTest
 {
-    public function testNoneSignAndVerifyAlgorithm()
+    /**
+     * @test
+     */
+    public function noneSignAndVerifyAlgorithm()
     {
         $key = JWK::create([
             'kty' => 'none',
@@ -34,15 +37,17 @@ class NoneSignatureTest extends SignatureTest
 
         $signature = $none->sign($key, $data);
 
-        self::assertEquals($signature, '');
-        self::assertTrue($none->verify($key, $data, $signature));
+        static::assertEquals($signature, '');
+        static::assertTrue($none->verify($key, $data, $signature));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong key type.
+     *
+     * @test
      */
-    public function testInvalidKey()
+    public function invalidKey()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -54,7 +59,10 @@ class NoneSignatureTest extends SignatureTest
         $none->sign($key, $data);
     }
 
-    public function testNoneSignAndVerifyComplete()
+    /**
+     * @test
+     */
+    public function noneSignAndVerifyComplete()
     {
         $jwk = JWK::create([
             'kty' => 'none',
@@ -66,18 +74,18 @@ class NoneSignatureTest extends SignatureTest
             ->addSignature($jwk, ['alg' => 'none'])
             ->build();
 
-        self::assertEquals(1, $jws->countSignatures());
+        static::assertEquals(1, $jws->countSignatures());
 
         $compact = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
-        self::assertTrue(\is_string($compact));
+        static::assertTrue(\is_string($compact));
 
         $result = $this->getJWSSerializerManager()->unserialize($compact);
 
-        self::assertInstanceOf(JWS::class, $result);
+        static::assertInstanceOf(JWS::class, $result);
 
-        self::assertEquals('Live long and Prosper.', $result->getPayload());
-        self::assertEquals(1, $result->countSignatures());
-        self::assertTrue($result->getSignature(0)->hasProtectedHeaderParameter('alg'));
-        self::assertEquals('none', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
+        static::assertEquals('Live long and Prosper.', $result->getPayload());
+        static::assertEquals(1, $result->countSignatures());
+        static::assertTrue($result->getSignature(0)->hasProtectedHeaderParameter('alg'));
+        static::assertEquals('none', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 }

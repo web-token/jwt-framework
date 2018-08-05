@@ -33,12 +33,7 @@ class RSACrypt
     public const ENCRYPTION_PKCS1 = 2;
 
     /**
-     * @param RSAKey      $key
-     * @param string      $data
-     * @param int         $mode
      * @param null|string $hash
-     *
-     * @return string
      */
     public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
     {
@@ -53,12 +48,7 @@ class RSACrypt
     }
 
     /**
-     * @param RSAKey      $key
-     * @param string      $plaintext
-     * @param int         $mode
      * @param null|string $hash
-     *
-     * @return string
      */
     public static function decrypt(RSAKey $key, string $plaintext, int $mode, ?string $hash = null): string
     {
@@ -72,12 +62,6 @@ class RSACrypt
         }
     }
 
-    /**
-     * @param RSAKey $key
-     * @param string $data
-     *
-     * @return string
-     */
     public static function encryptWithRSA15(RSAKey $key, string $data): string
     {
         $mLen = \mb_strlen($data, '8bit');
@@ -103,12 +87,6 @@ class RSACrypt
         return $c;
     }
 
-    /**
-     * @param RSAKey $key
-     * @param string $c
-     *
-     * @return string
-     */
     public static function decryptWithRSA15(RSAKey $key, string $c): string
     {
         if (\mb_strlen($c, '8bit') !== $key->getModulusLength()) {
@@ -119,7 +97,7 @@ class RSACrypt
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
 
-        if (0 != \ord($em[0]) || \ord($em[1]) > 2) {
+        if (0 !== \ord($em[0]) || \ord($em[1]) > 2) {
             throw new \InvalidArgumentException('Unable to decrypt');
         }
 
@@ -135,12 +113,6 @@ class RSACrypt
 
     /**
      * Encryption.
-     *
-     * @param RSAKey $key
-     * @param string $plaintext
-     * @param string $hash_algorithm
-     *
-     * @return string
      */
     public static function encryptWithRSAOAEP(RSAKey $key, string $plaintext, string $hash_algorithm): string
     {
@@ -161,12 +133,6 @@ class RSACrypt
 
     /**
      * Decryption.
-     *
-     * @param RSAKey $key
-     * @param string $ciphertext
-     * @param string $hash_algorithm
-     *
-     * @return string
      */
     public static function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
     {
@@ -185,12 +151,6 @@ class RSACrypt
         return $plaintext;
     }
 
-    /**
-     * @param BigInteger $x
-     * @param int        $xLen
-     *
-     * @return string
-     */
     private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
     {
         $x = $x->toBytes();
@@ -203,10 +163,6 @@ class RSACrypt
 
     /**
      * Octet-String-to-Integer primitive.
-     *
-     * @param string $x
-     *
-     * @return BigInteger
      */
     private static function convertOctetStringToInteger(string $x): BigInteger
     {
@@ -215,11 +171,6 @@ class RSACrypt
 
     /**
      * RSA EP.
-     *
-     * @param RSAKey     $key
-     * @param BigInteger $m
-     *
-     * @return BigInteger
      */
     private static function getRSAEP(RSAKey $key, BigInteger $m): BigInteger
     {
@@ -232,11 +183,6 @@ class RSACrypt
 
     /**
      * RSA DP.
-     *
-     * @param RSAKey     $key
-     * @param BigInteger $c
-     *
-     * @return BigInteger
      */
     private static function getRSADP(RSAKey $key, BigInteger $c): BigInteger
     {
@@ -249,12 +195,6 @@ class RSACrypt
 
     /**
      * MGF1.
-     *
-     * @param string $mgfSeed
-     * @param int    $maskLen
-     * @param Hash   $mgfHash
-     *
-     * @return string
      */
     private static function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
     {
@@ -270,12 +210,6 @@ class RSACrypt
 
     /**
      * RSAES-OAEP-ENCRYPT.
-     *
-     * @param RSAKey $key
-     * @param string $m
-     * @param Hash   $hash
-     *
-     * @return string
      */
     private static function encryptRSAESOAEP(RSAKey $key, string $m, Hash $hash): string
     {
@@ -299,12 +233,6 @@ class RSACrypt
 
     /**
      * RSAES-OAEP-DECRYPT.
-     *
-     * @param RSAKey $key
-     * @param string $c
-     * @param Hash   $hash
-     *
-     * @return string
      */
     private static function getRSAESOAEP(RSAKey $key, string $c, Hash $hash): string
     {

@@ -33,7 +33,7 @@ class JWEComputationTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
@@ -70,7 +70,7 @@ class JWEComputationTest extends WebTestCase
         $token = $serializer->serialize($jwe, 0);
 
         $loaded = $serializer->unserialize($token);
-        self::assertTrue($loader->decryptUsingKey($loaded, $jwk, 0));
-        self::assertEquals('Hello World!', $loaded->getPayload());
+        static::assertTrue($loader->decryptUsingKey($loaded, $jwk, 0));
+        static::assertEquals('Hello World!', $loaded->getPayload());
     }
 }

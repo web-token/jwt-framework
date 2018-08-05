@@ -26,9 +26,6 @@ class AlgorithmManagerFactory
      * Each algorithm is identified by an alias hence it is allowed to have the same algorithm twice (or more).
      * This can be helpful when an algorithm have several configuration options.
      *
-     * @param string    $alias
-     * @param Algorithm $algorithm
-     *
      * @return AlgorithmManagerFactory
      */
     public function add(string $alias, Algorithm $algorithm): self
@@ -63,8 +60,6 @@ class AlgorithmManagerFactory
      * Create an algorithm manager using the given aliases.
      *
      * @param string[] $aliases
-     *
-     * @return AlgorithmManager
      */
     public function create(array $aliases): AlgorithmManager
     {

@@ -37,10 +37,6 @@ class JWSLoader
 
     /**
      * JWSLoader constructor.
-     *
-     * @param JWSSerializerManager      $serializerManager
-     * @param JWSVerifier               $jwsVerifier
-     * @param HeaderCheckerManager|null $headerCheckerManager
      */
     public function __construct(JWSSerializerManager $serializerManager, JWSVerifier $jwsVerifier, ?HeaderCheckerManager $headerCheckerManager)
     {
@@ -51,8 +47,6 @@ class JWSLoader
 
     /**
      * Returns the JWSVerifier associated to the JWSLoader.
-     *
-     * @return JWSVerifier
      */
     public function getJwsVerifier(): JWSVerifier
     {
@@ -61,8 +55,6 @@ class JWSLoader
 
     /**
      * Returns the Header Checker Manager associated to the JWSLoader.
-     *
-     * @return HeaderCheckerManager|null
      */
     public function getHeaderCheckerManager(): ?HeaderCheckerManager
     {
@@ -71,8 +63,6 @@ class JWSLoader
 
     /**
      * Returns the JWSSerializer associated to the JWSLoader.
-     *
-     * @return JWSSerializerManager
      */
     public function getSerializerManager(): JWSSerializerManager
     {
@@ -83,14 +73,10 @@ class JWSLoader
      * This method will try to load and verify the token using the given key.
      * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown.
      *
-     * @param string      $token
-     * @param JWK         $key
      * @param null|int    $signature
      * @param null|string $payload
      *
      * @throws \Exception
-     *
-     * @return JWS
      */
     public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
     {
@@ -103,14 +89,10 @@ class JWSLoader
      * This method will try to load and verify the token using the given key set.
      * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown.
      *
-     * @param string      $token
-     * @param JWKSet      $keyset
      * @param null|int    $signature
      * @param null|string $payload
      *
      * @throws \Exception
-     *
-     * @return JWS
      */
     public function loadAndVerifyWithKeySet(string $token, JWKSet $keyset, ?int &$signature, ?string $payload = null): JWS
     {
@@ -132,12 +114,7 @@ class JWSLoader
     }
 
     /**
-     * @param JWS         $jws
-     * @param JWKSet      $keyset
-     * @param int         $signature
      * @param null|string $payload
-     *
-     * @return bool
      */
     private function processSignature(JWS $jws, JWKSet $keyset, int $signature, ?string $payload): bool
     {

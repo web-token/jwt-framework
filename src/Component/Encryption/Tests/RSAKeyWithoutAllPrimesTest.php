@@ -25,11 +25,11 @@ use Jose\Component\Encryption\JWE;
 class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {
     /**
-     * @param string $encryption_algorithm
-     *
      * @dataProvider dataEncryptionAlgorithms
+     *
+     * @test
      */
-    public function testEncryptionAlgorithms(string $encryption_algorithm)
+    public function encryptionAlgorithms(string $encryption_algorithm)
     {
         $key = $this->getPrivateKey();
 
@@ -46,17 +46,17 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
-        self::assertInstanceOf(JWE::class, $loaded);
+        static::assertInstanceOf(JWE::class, $loaded);
 
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
     /**
-     * @param string $encryption_algorithm
-     *
      * @dataProvider dataEncryptionAlgorithms
+     *
+     * @test
      */
-    public function testEncryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm)
+    public function encryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm)
     {
         $key = $this->getMinimalPrivateKey();
 
@@ -73,14 +73,11 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
-        self::assertInstanceOf(JWE::class, $loaded);
+        static::assertInstanceOf(JWE::class, $loaded);
 
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
-    /**
-     * @return array
-     */
     public function dataEncryptionAlgorithms(): array
     {
         return [
@@ -90,9 +87,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataEncryptionAlgorithmsWithSimpleKey(): array
     {
         return [
@@ -101,9 +95,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         ];
     }
 
-    /**
-     * @return JWK
-     */
     private function getPrivateKey(): JWK
     {
         return JWK::create(
@@ -119,9 +110,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         );
     }
 
-    /**
-     * @return JWK
-     */
     private function getMinimalPrivateKey(): JWK
     {
         return JWK::create(

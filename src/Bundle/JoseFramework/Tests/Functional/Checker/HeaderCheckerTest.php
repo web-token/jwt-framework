@@ -29,7 +29,7 @@ class HeaderCheckerTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(HeaderCheckerManagerFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
 
@@ -40,8 +40,8 @@ class HeaderCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(HeaderCheckerManagerFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(HeaderCheckerManagerFactory::class));
     }
 
     /**
@@ -56,7 +56,7 @@ class HeaderCheckerTest extends WebTestCase
         $aliases = $headerCheckerManagerFactory->aliases();
         $headerCheckerManager = $headerCheckerManagerFactory->create($aliases);
 
-        self::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
+        static::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
     }
 
     /**
@@ -66,10 +66,10 @@ class HeaderCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.header_checker.checker1'));
+        static::assertTrue($container->has('jose.header_checker.checker1'));
 
         $headerCheckerManager = $container->get('jose.header_checker.checker1');
-        self::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
+        static::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
     }
 
     /**
@@ -79,9 +79,9 @@ class HeaderCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.header_checker.checker2'));
+        static::assertTrue($container->has('jose.header_checker.checker2'));
 
         $headerCheckerManager = $container->get('jose.header_checker.checker2');
-        self::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
+        static::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
     }
 }

@@ -27,8 +27,10 @@ class ECKeysTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unsupported key type
+     *
+     * @test
      */
-    public function testKeyTypeNotSupported()
+    public function keyTypeNotSupported()
     {
         $file = 'file://'.__DIR__.DIRECTORY_SEPARATOR.'DSA'.DIRECTORY_SEPARATOR.'DSA.key';
         KeyConverter::loadFromKeyFile($file);
@@ -37,12 +39,14 @@ class ECKeysTest extends TestCase
     /**
      * @see https://github.com/Spomky-Labs/jose/issues/141
      * @see https://gist.github.com/Spomky/246eca6aaeeb7a40f11d3a2d98960282
+     *
+     * @test
      */
-    public function testLoadPrivateEC256KeyGenerateByAPN()
+    public function loadPrivateEC256KeyGenerateByAPN()
     {
         $pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.from.APN.key');
         $details = KeyConverter::loadFromKey($pem);
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-256',
             'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
@@ -51,11 +55,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadPublicEC256Key()
+    /**
+     * @test
+     */
+    public function loadPublicEC256Key()
     {
         $pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'public.es256.key');
         $details = KeyConverter::loadFromKey($pem);
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U',
@@ -63,11 +70,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadPrivateEC256Key()
+    /**
+     * @test
+     */
+    public function loadPrivateEC256Key()
     {
         $private_pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.key');
         $details = KeyConverter::loadFromKey($private_pem);
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-256',
             'd' => 'q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ',
@@ -76,11 +86,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadEncryptedPrivateEC256Key()
+    /**
+     * @test
+     */
+    public function loadEncryptedPrivateEC256Key()
     {
         $private_pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.encrypted.key');
         $details = KeyConverter::loadFromKey($private_pem, 'test');
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-256',
             'd' => 'q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ',
@@ -92,17 +105,22 @@ class ECKeysTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Password required for encrypted keys.
+     *
+     * @test
      */
-    public function testLoadEncryptedPrivateEC256KeyWithoutPassword()
+    public function loadEncryptedPrivateEC256KeyWithoutPassword()
     {
         KeyConverter::loadFromKeyFile('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.encrypted.key');
     }
 
-    public function testLoadPublicEC384Key()
+    /**
+     * @test
+     */
+    public function loadPublicEC384Key()
     {
         $pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'public.es384.key');
         $details = KeyConverter::loadFromKey($pem);
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-384',
             'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
@@ -110,11 +128,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadPrivateEC384Key()
+    /**
+     * @test
+     */
+    public function loadPrivateEC384Key()
     {
         $private_pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es384.key');
         $details = KeyConverter::loadFromKey($private_pem);
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-384',
             'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
@@ -123,11 +144,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadEncryptedPrivateEC384Key()
+    /**
+     * @test
+     */
+    public function loadEncryptedPrivateEC384Key()
     {
         $private_pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es384.encrypted.key');
         $details = KeyConverter::loadFromKey($private_pem, 'test');
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-384',
             'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
@@ -136,11 +160,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadPublicEC512Key()
+    /**
+     * @test
+     */
+    public function loadPublicEC512Key()
     {
         $pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'public.es512.key');
         $details = KeyConverter::loadFromKey($pem);
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-521',
             'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
@@ -148,11 +175,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadPrivateEC512Key()
+    /**
+     * @test
+     */
+    public function loadPrivateEC512Key()
     {
         $private_pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es512.key');
         $details = KeyConverter::loadFromKey($private_pem);
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-521',
             'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
@@ -161,11 +191,14 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testLoadEncryptedPrivateEC512Key()
+    /**
+     * @test
+     */
+    public function loadEncryptedPrivateEC512Key()
     {
         $private_pem = \file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es512.encrypted.key');
         $details = KeyConverter::loadFromKey($private_pem, 'test');
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'EC',
             'crv' => 'P-521',
             'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
@@ -174,7 +207,10 @@ class ECKeysTest extends TestCase
         ]);
     }
 
-    public function testConvertPrivateKeyToPublic()
+    /**
+     * @test
+     */
+    public function convertPrivateKeyToPublic()
     {
         $jwk = JWK::create([
             'kty' => 'EC',
@@ -187,7 +223,7 @@ class ECKeysTest extends TestCase
             'foo' => 'bar',
         ]);
 
-        self::assertEquals([
+        static::assertEquals([
             'kty' => 'EC',
             'kid' => 'Foo',
             'crv' => 'P-256',
@@ -198,33 +234,42 @@ class ECKeysTest extends TestCase
         ], $jwk->toPublic()->all());
     }
 
-    public function testCreateECKeyOnP256()
+    /**
+     * @test
+     */
+    public function createECKeyOnP256()
     {
         $jwk = JWKFactory::createECKey('P-256');
 
-        self::assertEquals('EC', $jwk->get('kty'));
-        self::assertTrue($jwk->has('d'));
-        self::assertTrue($jwk->has('x'));
-        self::assertTrue($jwk->has('y'));
+        static::assertEquals('EC', $jwk->get('kty'));
+        static::assertTrue($jwk->has('d'));
+        static::assertTrue($jwk->has('x'));
+        static::assertTrue($jwk->has('y'));
     }
 
-    public function testCreateECKeyOnP384()
+    /**
+     * @test
+     */
+    public function createECKeyOnP384()
     {
         $jwk = JWKFactory::createECKey('P-384');
 
-        self::assertEquals('EC', $jwk->get('kty'));
-        self::assertTrue($jwk->has('d'));
-        self::assertTrue($jwk->has('x'));
-        self::assertTrue($jwk->has('y'));
+        static::assertEquals('EC', $jwk->get('kty'));
+        static::assertTrue($jwk->has('d'));
+        static::assertTrue($jwk->has('x'));
+        static::assertTrue($jwk->has('y'));
     }
 
-    public function testCreateECKeyOnP521()
+    /**
+     * @test
+     */
+    public function createECKeyOnP521()
     {
         $jwk = JWKFactory::createECKey('P-521');
 
-        self::assertEquals('EC', $jwk->get('kty'));
-        self::assertTrue($jwk->has('d'));
-        self::assertTrue($jwk->has('x'));
-        self::assertTrue($jwk->has('y'));
+        static::assertEquals('EC', $jwk->get('kty'));
+        static::assertTrue($jwk->has('d'));
+        static::assertTrue($jwk->has('x'));
+        static::assertTrue($jwk->has('y'));
     }
 }

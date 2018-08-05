@@ -29,7 +29,7 @@ class ClaimCheckerTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(ClaimCheckerManagerFactory::class)) {
-            self::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
 
@@ -40,8 +40,8 @@ class ClaimCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(ClaimCheckerManagerFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(ClaimCheckerManagerFactory::class));
     }
 
     /**
@@ -56,7 +56,7 @@ class ClaimCheckerTest extends WebTestCase
         $aliases = $claimCheckerManagerFactory->aliases();
         $claimCheckerManager = $claimCheckerManagerFactory->create($aliases);
 
-        self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
+        static::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
     }
 
     /**
@@ -66,10 +66,10 @@ class ClaimCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.claim_checker.checker1'));
+        static::assertTrue($container->has('jose.claim_checker.checker1'));
 
         $claimCheckerManager = $container->get('jose.claim_checker.checker1');
-        self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
+        static::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
     }
 
     /**
@@ -79,9 +79,9 @@ class ClaimCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.claim_checker.checker2'));
+        static::assertTrue($container->has('jose.claim_checker.checker2'));
 
         $claimCheckerManager = $container->get('jose.claim_checker.checker2');
-        self::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
+        static::assertInstanceOf(ClaimCheckerManager::class, $claimCheckerManager);
     }
 }

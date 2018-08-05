@@ -32,7 +32,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
      */
     public function theAliasListOfTheHeaderCheckerManagerFactoryIsAvailable()
     {
-        self::assertEquals(['aud', 'iss'], $this->getHeaderCheckerManagerFactory()->aliases());
+        static::assertEquals(['aud', 'iss'], $this->getHeaderCheckerManagerFactory()->aliases());
     }
 
     /**
@@ -78,7 +78,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $unprotected = ['iss' => 'Another Service'];
         $token = Token::create(\json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
-        self::assertTrue(true);
+        static::assertTrue(true);
     }
 
     /**
@@ -122,7 +122,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $unprotected = [];
         $token = Token::create(\json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
-        self::assertTrue(true);
+        static::assertTrue(true);
     }
 
     /**
@@ -160,9 +160,6 @@ class HeaderCheckerManagerFactoryTest extends TestCase
      */
     private $headerCheckerManagerFactory = null;
 
-    /**
-     * @return HeaderCheckerManagerFactory
-     */
     private function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
     {
         if (null === $this->headerCheckerManagerFactory) {

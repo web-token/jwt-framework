@@ -27,8 +27,10 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B
+     *
+     * @test
      */
-    public function testA128CBCHS256EncryptAndDecrypt()
+    public function a128CBCHS256EncryptAndDecrypt()
     {
         $header = Base64Url::encode(\json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
@@ -42,16 +44,18 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
         $cyphertext = $algorithm->encryptContent($plaintext, $K, $iv, null, $header, $T);
 
-        self::assertEquals($expected_cyphertext, $cyphertext);
-        self::assertEquals($plaintext, $algorithm->decryptContent($cyphertext, $K, $iv, null, $header, $T));
-        self::assertEquals($expected_T, $T);
+        static::assertEquals($expected_cyphertext, $cyphertext);
+        static::assertEquals($plaintext, $algorithm->decryptContent($cyphertext, $K, $iv, null, $header, $T));
+        static::assertEquals($expected_T, $T);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage  Unable to verify the tag.
+     *
+     * @test
      */
-    public function testBadTag()
+    public function badTag()
     {
         $header = Base64Url::encode(\json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $algorithm = new A128CBCHS256();
@@ -65,8 +69,6 @@ class AESCBC_HSContentEncryptionTest extends TestCase
     }
 
     /**
-     * @param array $data
-     *
      * @return string
      */
     private function convertArrayToBinString(array $data)
@@ -80,8 +82,10 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.1
+     *
+     * @test
      */
-    public function testA128CBCHS256EncryptAndDecrypt_Bis()
+    public function a128CBCHS256EncryptAndDecrypt_Bis()
     {
         $header = Base64Url::encode(\json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
@@ -96,21 +100,23 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
         $cyphertext = $algorithm->encryptContent($plaintext, $K, $iv, $aad, $header, $T);
 
-        self::assertEquals($expected_cyphertext, $cyphertext);
+        static::assertEquals($expected_cyphertext, $cyphertext);
 
         //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 
         $T = $calc_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad]);
-        self::assertEquals($expected_T, $T);
-        self::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
+        static::assertEquals($expected_T, $T);
+        static::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
     }
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.2
+     *
+     * @test
      */
-    public function testA192CBC_HS384EncryptAndDecrypt()
+    public function a192CBC_HS384EncryptAndDecrypt()
     {
         $header = Base64Url::encode(\json_encode([]));
         $algorithm = new A192CBCHS384();
@@ -124,21 +130,23 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
         $cyphertext = $algorithm->encryptContent($plaintext, $K, $iv, $aad, $header, $T);
 
-        self::assertEquals($expected_cyphertext, $cyphertext);
+        static::assertEquals($expected_cyphertext, $cyphertext);
 
         //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 
         $T = $calc_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad]);
-        self::assertEquals($expected_T, $T);
-        self::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
+        static::assertEquals($expected_T, $T);
+        static::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
     }
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.3
+     *
+     * @test
      */
-    public function testA256CBC_HS512EncryptAndDecrypt()
+    public function a256CBC_HS512EncryptAndDecrypt()
     {
         $header = Base64Url::encode(\json_encode([]));
         $algorithm = new A256CBCHS512();
@@ -152,15 +160,15 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
         $cyphertext = $algorithm->encryptContent($plaintext, $K, $iv, $aad, $header, $T);
 
-        self::assertEquals($expected_cyphertext, $cyphertext);
+        static::assertEquals($expected_cyphertext, $cyphertext);
 
         //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 
         $T = $calc_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad]);
-        self::assertEquals($expected_T, $T);
-        self::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
+        static::assertEquals($expected_T, $T);
+        static::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
     }
 
     protected static function getMethod(string $class, string $name): \ReflectionMethod

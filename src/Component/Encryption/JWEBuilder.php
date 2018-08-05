@@ -92,11 +92,6 @@ class JWEBuilder
 
     /**
      * JWEBuilder constructor.
-     *
-     * @param JsonConverter            $jsonConverter
-     * @param AlgorithmManager         $keyEncryptionAlgorithmManager
-     * @param AlgorithmManager         $contentEncryptionAlgorithmManager
-     * @param CompressionMethodManager $compressionManager
      */
     public function __construct(JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
     {
@@ -127,8 +122,6 @@ class JWEBuilder
 
     /**
      * Returns the key encryption algorithm manager.
-     *
-     * @return AlgorithmManager
      */
     public function getKeyEncryptionAlgorithmManager(): AlgorithmManager
     {
@@ -137,8 +130,6 @@ class JWEBuilder
 
     /**
      * Returns the content encryption algorithm manager.
-     *
-     * @return AlgorithmManager
      */
     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
     {
@@ -147,8 +138,6 @@ class JWEBuilder
 
     /**
      * Returns the compression method manager.
-     *
-     * @return CompressionMethodManager
      */
     public function getCompressionMethodManager(): CompressionMethodManager
     {
@@ -157,8 +146,6 @@ class JWEBuilder
 
     /**
      * Set the payload of the JWE to build.
-     *
-     * @param mixed $payload
      *
      * @return JWEBuilder
      */
@@ -177,8 +164,6 @@ class JWEBuilder
     /**
      * Set the Additional Authenticated Data of the JWE to build.
      *
-     * @param string|null $aad
-     *
      * @return JWEBuilder
      */
     public function withAAD(?string $aad): self
@@ -191,8 +176,6 @@ class JWEBuilder
 
     /**
      * Set the shared protected header of the JWE to build.
-     *
-     * @param array $sharedProtectedHeader
      *
      * @return JWEBuilder
      */
@@ -211,8 +194,6 @@ class JWEBuilder
     /**
      * Set the shared header of the JWE to build.
      *
-     * @param array $sharedHeader
-     *
      * @return JWEBuilder
      */
     public function withSharedHeader(array $sharedHeader): self
@@ -229,9 +210,6 @@ class JWEBuilder
 
     /**
      * Adds a recipient to the JWE to build.
-     *
-     * @param JWK   $recipientKey
-     * @param array $recipientHeader
      *
      * @return JWEBuilder
      */
@@ -274,8 +252,6 @@ class JWEBuilder
 
     /**
      * Builds the JWE.
-     *
-     * @return JWE
      */
     public function build(): JWE
     {
@@ -307,9 +283,6 @@ class JWEBuilder
         return JWE::create($ciphertext, $iv, $tag, $this->aad, $this->sharedHeader, $sharedProtectedHeader, $encodedSharedProtectedHeader, $recipients);
     }
 
-    /**
-     * @param array $completeHeader
-     */
     private function checkAndSetContentEncryptionAlgorithm(array $completeHeader): void
     {
         $contentEncryptionAlgorithm = $this->getContentEncryptionAlgorithm($completeHeader);
@@ -320,13 +293,6 @@ class JWEBuilder
         }
     }
 
-    /**
-     * @param array  $recipient
-     * @param string $cek
-     * @param array  $additionalHeader
-     *
-     * @return Recipient
-     */
     private function processRecipient(array $recipient, string $cek, array &$additionalHeader): Recipient
     {
         $completeHeader = \array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
@@ -342,12 +308,6 @@ class JWEBuilder
         return Recipient::create($recipientHeader, $encryptedContentEncryptionKey);
     }
 
-    /**
-     * @param string $cek
-     * @param string $encodedSharedProtectedHeader
-     *
-     * @return array
-     */
     private function encryptJWE(string $cek, string $encodedSharedProtectedHeader): array
     {
         $tag = null;
@@ -375,78 +335,42 @@ class JWEBuilder
         return $compressedPayload;
     }
 
-    /**
-     * @param array                  $completeHeader
-     * @param string                 $cek
-     * @param KeyEncryptionAlgorithm $keyEncryptionAlgorithm
-     * @param JWK                    $recipientKey
-     * @param array                  $additionalHeader
-     *
-     * @return string|null
-     */
     private function getEncryptedKey(array $completeHeader, string $cek, KeyEncryptionAlgorithm $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey): ?string
     {
         if ($keyEncryptionAlgorithm instanceof KeyEncryption) {
             return $this->getEncryptedKeyFromKeyEncryptionAlgorithm($completeHeader, $cek, $keyEncryptionAlgorithm, $recipientKey, $additionalHeader);
-        } elseif ($keyEncryptionAlgorithm instanceof KeyWrapping) {
+        }
+        if ($keyEncryptionAlgorithm instanceof KeyWrapping) {
             return $this->getEncryptedKeyFromKeyWrappingAlgorithm($completeHeader, $cek, $keyEncryptionAlgorithm, $recipientKey, $additionalHeader);
-        } elseif ($keyEncryptionAlgorithm instanceof KeyAgreementWithKeyWrapping) {
+        }
+        if ($keyEncryptionAlgorithm instanceof KeyAgreementWithKeyWrapping) {
             return $this->getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipientKey);
-        } elseif ($keyEncryptionAlgorithm instanceof KeyAgreement) {
+        }
+        if ($keyEncryptionAlgorithm instanceof KeyAgreement) {
             return null;
-        } elseif ($keyEncryptionAlgorithm instanceof DirectEncryption) {
+        }
+        if ($keyEncryptionAlgorithm instanceof DirectEncryption) {
             return null;
         }
 
         throw new \InvalidArgumentException('Unsupported key encryption algorithm.');
     }
 
-    /**
-     * @param array                       $completeHeader
-     * @param string                      $cek
-     * @param KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm
-     * @param array                       $additionalHeader
-     * @param JWK                         $recipientKey
-     *
-     * @return string
-     */
     private function getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey): string
     {
         return $keyEncryptionAlgorithm->wrapAgreementKey($recipientKey, $cek, $this->contentEncryptionAlgorithm->getCEKSize(), $completeHeader, $additionalHeader);
     }
 
-    /**
-     * @param array         $completeHeader
-     * @param string        $cek
-     * @param KeyEncryption $keyEncryptionAlgorithm
-     * @param JWK           $recipientKey
-     * @param array         $additionalHeader
-     *
-     * @return string
-     */
     private function getEncryptedKeyFromKeyEncryptionAlgorithm(array $completeHeader, string $cek, KeyEncryption $keyEncryptionAlgorithm, JWK $recipientKey, array &$additionalHeader): string
     {
         return $keyEncryptionAlgorithm->encryptKey($recipientKey, $cek, $completeHeader, $additionalHeader);
     }
 
-    /**
-     * @param array       $completeHeader
-     * @param string      $cek
-     * @param KeyWrapping $keyEncryptionAlgorithm
-     * @param JWK         $recipientKey
-     * @param array       $additionalHeader
-     *
-     * @return string
-     */
     private function getEncryptedKeyFromKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyWrapping $keyEncryptionAlgorithm, JWK $recipientKey, array &$additionalHeader): string
     {
         return $keyEncryptionAlgorithm->wrapKey($recipientKey, $cek, $completeHeader, $additionalHeader);
     }
 
-    /**
-     * @param KeyEncryptionAlgorithm $keyEncryptionAlgorithm
-     * @param JWK                    $recipientKey
-     */
     private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey)
     {
         KeyChecker::checkKeyUsage($recipientKey, 'encryption');
@@ -457,11 +381,6 @@ class JWEBuilder
         }
     }
 
-    /**
-     * @param array $additionalHeader
-     *
-     * @return string
-     */
     private function determineCEK(array &$additionalHeader): string
     {
         switch ($this->keyManagementMode) {
@@ -495,11 +414,6 @@ class JWEBuilder
         }
     }
 
-    /**
-     * @param array $completeHeader
-     *
-     * @return CompressionMethod|null
-     */
     private function getCompressionMethod(array $completeHeader): ?CompressionMethod
     {
         if (!\array_key_exists('zip', $completeHeader)) {
@@ -509,12 +423,6 @@ class JWEBuilder
         return $this->compressionManager->get($completeHeader['zip']);
     }
 
-    /**
-     * @param string $current
-     * @param string $new
-     *
-     * @return bool
-     */
     private function areKeyManagementModesCompatible(string $current, string $new): bool
     {
         $agree = KeyEncryptionAlgorithm::MODE_AGREEMENT;
@@ -530,31 +438,16 @@ class JWEBuilder
         return false;
     }
 
-    /**
-     * @param int $size
-     *
-     * @return string
-     */
     private function createCEK(int $size): string
     {
         return \random_bytes($size / 8);
     }
 
-    /**
-     * @param int $size
-     *
-     * @return string
-     */
     private function createIV(int $size): string
     {
         return \random_bytes($size / 8);
     }
 
-    /**
-     * @param array $completeHeader
-     *
-     * @return KeyEncryptionAlgorithm
-     */
     private function getKeyEncryptionAlgorithm(array $completeHeader): KeyEncryptionAlgorithm
     {
         if (!\array_key_exists('alg', $completeHeader)) {
@@ -568,11 +461,6 @@ class JWEBuilder
         return $keyEncryptionAlgorithm;
     }
 
-    /**
-     * @param array $completeHeader
-     *
-     * @return ContentEncryptionAlgorithm
-     */
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
         if (!\array_key_exists('enc', $completeHeader)) {
@@ -586,10 +474,6 @@ class JWEBuilder
         return $contentEncryptionAlgorithm;
     }
 
-    /**
-     * @param array $header1
-     * @param array $header2
-     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2)
     {
         $inter = \array_intersect_key($header1, $header2);

@@ -17,8 +17,6 @@ interface Algorithm
 {
     /**
      * Returns the name of the algorithm.
-     *
-     * @return string
      */
     public function name(): string;
 

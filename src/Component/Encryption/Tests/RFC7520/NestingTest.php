@@ -23,7 +23,10 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  */
 class NestingTest extends EncryptionTest
 {
-    public function testDecryption()
+    /**
+     * @test
+     */
+    public function decryption()
     {
         $payload = 'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJob2JiaXRvbi5leGFtcGxlIiwiZXhwIjoxMzAwODE5MzgwLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZX0.dPpMqwRZxFYi1UfcDAaf8M99o7kwUWtiXZ-ByvVuJih4MhJ_aZqciprz0OWaIAkIvn1qskChirjKvY9ESZNUCP4JjvfyPS-nqjJxYoA5ztWOyFk2cZNIPXjcJXSQwXPO9tEe-v4VSqgD0aKHqPxYog4N6Cz1lKph1U1sYDSI67_bLL7elg_vkjfMp5_W5l5LuUYGMeh6hxQIaIUXf9EwV2JmvTMuZ-vBOWy0Sniy1EFo72CRTvmtrIf5AROo5MNliY3KtUxeP-SOmD-LEYwW9SlkohYzMVAZDDOrVbv7KVRHpeYNaK75KEQqdCEEkS_rskZS-Qtt_nlegTWh1mEYaA';
 
@@ -58,17 +61,17 @@ class NestingTest extends EncryptionTest
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($json_flattened);
         $loaded_json = $this->getJWESerializerManager()->unserialize($json);
 
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $encryption_key, 0));
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $encryption_key, 0));
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $encryption_key, 0));
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $encryption_key, 0));
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $encryption_key, 0));
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $encryption_key, 0));
 
-        self::assertEquals($encryption_header, $loaded_compact_json->getSharedProtectedHeader());
-        self::assertEquals($payload, $loaded_compact_json->getPayload());
+        static::assertEquals($encryption_header, $loaded_compact_json->getSharedProtectedHeader());
+        static::assertEquals($payload, $loaded_compact_json->getPayload());
 
-        self::assertEquals($encryption_header, $loaded_flattened_json->getSharedProtectedHeader());
-        self::assertEquals($payload, $loaded_flattened_json->getPayload());
+        static::assertEquals($encryption_header, $loaded_flattened_json->getSharedProtectedHeader());
+        static::assertEquals($payload, $loaded_flattened_json->getPayload());
 
-        self::assertEquals($encryption_header, $loaded_json->getSharedProtectedHeader());
-        self::assertEquals($payload, $loaded_json->getPayload());
+        static::assertEquals($encryption_header, $loaded_json->getSharedProtectedHeader());
+        static::assertEquals($payload, $loaded_json->getPayload());
     }
 }

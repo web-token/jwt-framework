@@ -28,8 +28,10 @@ class ECDSASignatureTest extends SignatureTest
      * This test case create a signature and verifies it.
      * Then the output given in the RFC is used and verified.
      * This way, we can say that the library is able to create/verify ECDSA signatures and verify signature from test vectors.
+     *
+     * @test
      */
-    public function testES512()
+    public function eS512()
     {
         /*
          * Payload
@@ -64,7 +66,7 @@ class ECDSASignatureTest extends SignatureTest
             ->addSignature($private_key, $header)
             ->build();
 
-        self::assertTrue($jwsVerifier->verifyWithKey($jws, $private_key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($jws, $private_key, 0));
 
         /*
          * Header
@@ -75,12 +77,12 @@ class ECDSASignatureTest extends SignatureTest
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJFUzUxMiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"AE_R_YZCChjn4791jSQCrdPZCNYqHXCTZH0-JZGYNlaAjP2kqaluUIIUnC9qvbu9Plon7KRTzoNEuT4Va2cmL1eJAQy3mtPBu_u_sDDyYjnAMDxXPn7XrT0lw-kvAD890jl8e2puQens_IEKBpHABlsbEPX6sFY8OcGDqoRuBomu9xQ2"}]}';
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $private_key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $private_key, 0));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $private_key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $private_key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $private_key, 0));
     }
 }

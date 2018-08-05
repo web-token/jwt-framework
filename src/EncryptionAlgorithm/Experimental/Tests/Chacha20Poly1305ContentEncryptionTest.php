@@ -29,11 +29,14 @@ class Chacha20Poly1305ContentEncryptionTest extends TestCase
     protected function setUp()
     {
         if (!\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
-            $this->markTestSkipped('The algorithm "chacha20-poly1305" is not supported in this platform.');
+            static::markTestSkipped('The algorithm "chacha20-poly1305" is not supported in this platform.');
         }
     }
 
-    public function testContentEncryptionAndDecryption()
+    /**
+     * @test
+     */
+    public function contentEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new Chacha20Poly1305();
@@ -44,12 +47,9 @@ class Chacha20Poly1305ContentEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
 
-        self::assertEquals($cek, $decrypted);
+        static::assertEquals($cek, $decrypted);
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey(): JWK
     {
         return JWK::create([

@@ -18,37 +18,16 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 class ModularArithmetic
 {
-    /**
-     * @param \GMP $minuend
-     * @param \GMP $subtrahend
-     * @param \GMP $modulus
-     *
-     * @return \GMP
-     */
     public static function sub(\GMP $minuend, \GMP $subtrahend, \GMP $modulus): \GMP
     {
         return Math::mod(Math::sub($minuend, $subtrahend), $modulus);
     }
 
-    /**
-     * @param \GMP $multiplier
-     * @param \GMP $muliplicand
-     * @param \GMP $modulus
-     *
-     * @return \GMP
-     */
     public static function mul(\GMP $multiplier, \GMP $muliplicand, \GMP $modulus): \GMP
     {
         return Math::mod(Math::mul($multiplier, $muliplicand), $modulus);
     }
 
-    /**
-     * @param \GMP $dividend
-     * @param \GMP $divisor
-     * @param \GMP $modulus
-     *
-     * @return \GMP
-     */
     public static function div(\GMP $dividend, \GMP $divisor, \GMP $modulus): \GMP
     {
         return self::mul($dividend, Math::inverseMod($divisor, $modulus), $modulus);

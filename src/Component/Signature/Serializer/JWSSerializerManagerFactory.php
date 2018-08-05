@@ -22,8 +22,6 @@ class JWSSerializerManagerFactory
 
     /**
      * @param string[] $names
-     *
-     * @return JWSSerializerManager
      */
     public function create(array $names): JWSSerializerManager
     {
@@ -55,8 +53,6 @@ class JWSSerializerManagerFactory
     }
 
     /**
-     * @param JWSSerializer $serializer
-     *
      * @return JWSSerializerManagerFactory
      */
     public function add(JWSSerializer $serializer): self

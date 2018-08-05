@@ -57,16 +57,16 @@ class X5C extends AbstractSource implements JWKSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('value')
-                    ->info('X509 certificate')
-                    ->isRequired()
-                ->end()
-                ->arrayNode('additional_values')
-                    ->info('Additional values to be added to the key.')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->variablePrototype()->end()
-                ->end()
+            ->scalarNode('value')
+            ->info('X509 certificate')
+            ->isRequired()
+            ->end()
+            ->arrayNode('additional_values')
+            ->info('Additional values to be added to the key.')
+            ->defaultValue([])
+            ->useAttributeAsKey('key')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

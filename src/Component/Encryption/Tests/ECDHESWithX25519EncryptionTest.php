@@ -25,8 +25,10 @@ class ECDHESWithX25519EncryptionTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B
+     *
+     * @test
      */
-    public function testA128CBCHS256EncryptAndDecrypt()
+    public function a128CBCHS256EncryptAndDecrypt()
     {
         $receiverKey = JWK::create([
             'kty' => 'OKP',
@@ -52,8 +54,8 @@ class ECDHESWithX25519EncryptionTest extends EncryptionTest
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $jwe = $this->getJWESerializerManager()->unserialize($jwt);
-        self::assertTrue($jweDecrypter->decryptUsingKey($jwe, $receiverKey, 0));
-        self::assertTrue($jwe->hasSharedProtectedHeaderParameter('epk'));
-        self::assertEquals($input, $jwe->getPayload());
+        static::assertTrue($jweDecrypter->decryptUsingKey($jwe, $receiverKey, 0));
+        static::assertTrue($jwe->hasSharedProtectedHeaderParameter('epk'));
+        static::assertEquals($input, $jwe->getPayload());
     }
 }

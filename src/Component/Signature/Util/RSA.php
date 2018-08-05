@@ -32,12 +32,6 @@ class RSA
      */
     public const SIGNATURE_PKCS1 = 2;
 
-    /**
-     * @param BigInteger $x
-     * @param int        $xLen
-     *
-     * @return string
-     */
     private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
     {
         $x = $x->toBytes();
@@ -50,12 +44,6 @@ class RSA
 
     /**
      * MGF1.
-     *
-     * @param string $mgfSeed
-     * @param int    $maskLen
-     * @param Hash   $mgfHash
-     *
-     * @return string
      */
     private static function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
     {
@@ -71,12 +59,6 @@ class RSA
 
     /**
      * EMSA-PSS-ENCODE.
-     *
-     * @param string $message
-     * @param int    $modulusLength
-     * @param Hash   $hash
-     *
-     * @return string
      */
     private static function encodeEMSAPSS(string $message, int $modulusLength, Hash $hash): string
     {
@@ -101,13 +83,6 @@ class RSA
 
     /**
      * EMSA-PSS-VERIFY.
-     *
-     * @param string $m
-     * @param string $em
-     * @param int    $emBits
-     * @param Hash   $hash
-     *
-     * @return bool
      */
     private static function verifyEMSAPSS(string $m, string $em, int $emBits, Hash $hash): bool
     {
@@ -143,13 +118,6 @@ class RSA
         return \hash_equals($h, $h2);
     }
 
-    /**
-     * @param string $m
-     * @param int    $emBits
-     * @param Hash   $hash
-     *
-     * @return string
-     */
     private static function encodeEMSA15(string $m, int $emBits, Hash $hash): string
     {
         $h = $hash->hash($m);
@@ -180,14 +148,6 @@ class RSA
         return $em2;
     }
 
-    /**
-     * @param RSAKey $key
-     * @param string $message
-     * @param string $hash
-     * @param int    $mode
-     *
-     * @return string
-     */
     public static function sign(RSAKey $key, string $message, string $hash, int $mode): string
     {
         switch ($mode) {
@@ -202,12 +162,6 @@ class RSA
 
     /**
      * Create a signature.
-     *
-     * @param RSAKey $key
-     * @param string $message
-     * @param string $hash
-     *
-     * @return string
      */
     public static function signWithPSS(RSAKey $key, string $message, string $hash): string
     {
@@ -220,12 +174,6 @@ class RSA
 
     /**
      * Create a signature.
-     *
-     * @param RSAKey $key
-     * @param string $message
-     * @param string $hash
-     *
-     * @return string
      */
     public static function signWithPKCS15(RSAKey $key, string $message, string $hash): string
     {
@@ -236,15 +184,6 @@ class RSA
         return self::convertIntegerToOctetString($signature, $key->getModulusLength());
     }
 
-    /**
-     * @param RSAKey $key
-     * @param string $message
-     * @param string $signature
-     * @param string $hash
-     * @param int    $mode
-     *
-     * @return bool
-     */
     public static function verify(RSAKey $key, string $message, string $signature, string $hash, int $mode): bool
     {
         switch ($mode) {
@@ -259,13 +198,6 @@ class RSA
 
     /**
      * Verifies a signature.
-     *
-     * @param RSAKey $key
-     * @param string $message
-     * @param string $signature
-     * @param string $hash
-     *
-     * @return bool
      */
     public static function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
     {
@@ -282,13 +214,6 @@ class RSA
 
     /**
      * Verifies a signature.
-     *
-     * @param RSAKey $key
-     * @param string $message
-     * @param string $signature
-     * @param string $hash
-     *
-     * @return bool
      */
     public static function verifyWithPKCS15(RSAKey $key, string $message, string $signature, string $hash): bool
     {

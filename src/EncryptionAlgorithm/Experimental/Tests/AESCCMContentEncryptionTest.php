@@ -32,10 +32,11 @@ use PHPUnit\Framework\TestCase;
 class AESCCMContentEncryptionTest extends TestCase
 {
     /**
-     * @param string $algorithmClass
      * @dataProvider getAlgorithms
+     *
+     * @test
      */
-    public function testContentEncryptionAndDecryption(string $algorithmClass)
+    public function contentEncryptionAndDecryption(string $algorithmClass)
     {
         /** @var AESCCM $algorithm */
         $algorithm = new $algorithmClass();
@@ -47,13 +48,10 @@ class AESCCMContentEncryptionTest extends TestCase
 
         $cyphertext = $algorithm->encryptContent($plaintext, $cek, $iv, null, $header, $tag);
 
-        self::assertNotNull($tag);
-        self::assertEquals($plaintext, $algorithm->decryptContent($cyphertext, $cek, $iv, null, $header, $tag));
+        static::assertNotNull($tag);
+        static::assertEquals($plaintext, $algorithm->decryptContent($cyphertext, $cek, $iv, null, $header, $tag));
     }
 
-    /**
-     * @return array
-     */
     public function getAlgorithms(): array
     {
         return [

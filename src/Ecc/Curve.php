@@ -47,13 +47,6 @@ class Curve
      */
     private $generator;
 
-    /**
-     * @param int   $size
-     * @param \GMP  $prime
-     * @param \GMP  $a
-     * @param \GMP  $b
-     * @param Point $generator
-     */
     public function __construct(int $size, \GMP $prime, \GMP $a, \GMP $b, Point $generator)
     {
         $this->size = $size;
@@ -63,45 +56,26 @@ class Curve
         $this->generator = $generator;
     }
 
-    /**
-     * @return \GMP
-     */
     public function getA(): \GMP
     {
         return $this->a;
     }
 
-    /**
-     * @return \GMP
-     */
     public function getB(): \GMP
     {
         return $this->b;
     }
 
-    /**
-     * @return \GMP
-     */
     public function getPrime(): \GMP
     {
         return $this->prime;
     }
 
-    /**
-     * @return int
-     */
     public function getSize(): int
     {
         return $this->size;
     }
 
-    /**
-     * @param \GMP      $x
-     * @param \GMP      $y
-     * @param \GMP|null $order
-     *
-     * @return Point
-     */
     public function getPoint(\GMP $x, \GMP $y, ?\GMP $order = null): Point
     {
         if (!$this->contains($x, $y)) {
@@ -118,12 +92,6 @@ class Curve
         return $point;
     }
 
-    /**
-     * @param \GMP $x
-     * @param \GMP $y
-     *
-     * @return PublicKey
-     */
     public function getPublicKeyFrom(\GMP $x, \GMP $y): PublicKey
     {
         $zero = \gmp_init(0, 10);
@@ -135,12 +103,6 @@ class Curve
         return PublicKey::create($point);
     }
 
-    /**
-     * @param \GMP $x
-     * @param \GMP $y
-     *
-     * @return bool
-     */
     public function contains(\GMP $x, \GMP $y): bool
     {
         $eq_zero = Math::equals(
@@ -161,12 +123,6 @@ class Curve
         return $eq_zero;
     }
 
-    /**
-     * @param Point $one
-     * @param Point $two
-     *
-     * @return Point
-     */
     public function add(Point $one, Point $two): Point
     {
         if ($two->isInfinity()) {
@@ -206,12 +162,6 @@ class Curve
         return $this->getPoint($xR, $yR, $one->getOrder());
     }
 
-    /**
-     * @param Point $one
-     * @param \GMP  $n
-     *
-     * @return Point
-     */
     public function mul(Point $one, \GMP $n): Point
     {
         if ($one->isInfinity()) {
@@ -252,8 +202,6 @@ class Curve
 
     /**
      * @param Curve $other
-     *
-     * @return int
      */
     public function cmp(self $other): int
     {
@@ -266,25 +214,17 @@ class Curve
 
     /**
      * @param Curve $other
-     *
-     * @return bool
      */
     public function equals(self $other): bool
     {
         return 0 === $this->cmp($other);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return 'curve('.Math::toString($this->getA()).', '.Math::toString($this->getB()).', '.Math::toString($this->getPrime()).')';
     }
 
-    /**
-     * @param Point $point
-     */
     private function validate(Point $point)
     {
         if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
@@ -292,11 +232,6 @@ class Curve
         }
     }
 
-    /**
-     * @param Point $point
-     *
-     * @return Point
-     */
     public function getDouble(Point $point): Point
     {
         if ($point->isInfinity()) {
@@ -327,19 +262,11 @@ class Curve
         return $this->getPoint($x3, $y3, $point->getOrder());
     }
 
-    /**
-     * @return PrivateKey
-     */
     public function createPrivateKey(): PrivateKey
     {
         return PrivateKey::create($this->generate());
     }
 
-    /**
-     * @param PrivateKey $privateKey
-     *
-     * @return PublicKey
-     */
     public function createPublicKey(PrivateKey $privateKey): PublicKey
     {
         $point = $this->mul($this->generator, $privateKey->getSecret());
@@ -347,9 +274,6 @@ class Curve
         return PublicKey::create($point);
     }
 
-    /**
-     * @return \GMP
-     */
     private function generate(): \GMP
     {
         $max = $this->generator->getOrder();
@@ -366,10 +290,6 @@ class Curve
 
     /**
      * Returns the number of bits used to store this number. Non-significant upper bits are not counted.
-     *
-     * @param \GMP $x
-     *
-     * @return int
      *
      * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
      */
@@ -388,9 +308,6 @@ class Curve
         return $log2;
     }
 
-    /**
-     * @return Point
-     */
     public function getGenerator(): Point
     {
         return $this->generator;

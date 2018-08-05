@@ -27,8 +27,6 @@ class IssuerChecker implements HeaderChecker
 
     /**
      * IssuerChecker constructor.
-     *
-     * @param string $issuer
      */
     public function __construct(string $issuer)
     {

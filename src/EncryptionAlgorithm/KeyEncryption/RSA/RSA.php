@@ -60,9 +60,6 @@ abstract class RSA implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
-    /**
-     * @param JWK $key
-     */
     protected function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -70,9 +67,6 @@ abstract class RSA implements KeyEncryption
         }
     }
 
-    /**
-     * @return int
-     */
     abstract protected function getEncryptionMode(): int;
 
     /**

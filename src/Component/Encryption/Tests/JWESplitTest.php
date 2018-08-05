@@ -31,25 +31,25 @@ class JWESplitTest extends EncryptionTest
         $jwe = $serializer->unserialize($input);
         $split = $jwe->split();
 
-        self::assertEquals(3, $jwe->countRecipients());
-        self::assertEquals(3, \count($split));
+        static::assertEquals(3, $jwe->countRecipients());
+        static::assertEquals(3, \count($split));
 
         for ($i = 0; $i < $jwe->countRecipients(); ++$i) {
             $recipient1 = $jwe->getRecipient($i);
             $tempJwe = $split[$i];
-            self::assertEquals(1, $tempJwe->countRecipients());
-            self::assertEquals($jwe->getAAD(), $tempJwe->getAAD());
-            self::assertEquals($jwe->getCiphertext(), $tempJwe->getCiphertext());
-            self::assertEquals($jwe->getEncodedSharedProtectedHeader(), $tempJwe->getEncodedSharedProtectedHeader());
-            self::assertEquals($jwe->getSharedProtectedHeader(), $tempJwe->getSharedProtectedHeader());
-            self::assertEquals($jwe->getSharedHeader(), $tempJwe->getSharedHeader());
-            self::assertEquals($jwe->getIV(), $tempJwe->getIV());
-            self::assertEquals($jwe->getTag(), $tempJwe->getTag());
-            self::assertEquals($jwe->isEncrypted(), $tempJwe->isEncrypted());
+            static::assertEquals(1, $tempJwe->countRecipients());
+            static::assertEquals($jwe->getAAD(), $tempJwe->getAAD());
+            static::assertEquals($jwe->getCiphertext(), $tempJwe->getCiphertext());
+            static::assertEquals($jwe->getEncodedSharedProtectedHeader(), $tempJwe->getEncodedSharedProtectedHeader());
+            static::assertEquals($jwe->getSharedProtectedHeader(), $tempJwe->getSharedProtectedHeader());
+            static::assertEquals($jwe->getSharedHeader(), $tempJwe->getSharedHeader());
+            static::assertEquals($jwe->getIV(), $tempJwe->getIV());
+            static::assertEquals($jwe->getTag(), $tempJwe->getTag());
+            static::assertEquals($jwe->isEncrypted(), $tempJwe->isEncrypted());
 
             $recipient2 = $tempJwe->getRecipient(0);
-            self::assertEquals($recipient1->getHeader(), $recipient2->getHeader());
-            self::assertEquals($recipient1->getEncryptedKey(), $recipient2->getEncryptedKey());
+            static::assertEquals($recipient1->getHeader(), $recipient2->getHeader());
+            static::assertEquals($recipient1->getEncryptedKey(), $recipient2->getEncryptedKey());
         }
     }
 }

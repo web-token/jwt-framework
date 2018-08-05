@@ -35,7 +35,6 @@ final class AlgorithmChecker implements HeaderChecker
      * AlgorithmChecker constructor.
      *
      * @param string[] $supportedAlgorithms
-     * @param bool     $protectedHeader
      */
     public function __construct(array $supportedAlgorithms, bool $protectedHeader = false)
     {

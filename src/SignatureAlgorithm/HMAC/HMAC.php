@@ -44,9 +44,6 @@ abstract class HMAC implements SignatureAlgorithm
         return \hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
     }
 
-    /**
-     * @param JWK $key
-     */
     protected function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -57,8 +54,5 @@ abstract class HMAC implements SignatureAlgorithm
         }
     }
 
-    /**
-     * @return string
-     */
     abstract protected function getHashAlgorithm(): string;
 }

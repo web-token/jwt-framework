@@ -32,7 +32,7 @@ class JWKAnalyzerTest extends TestCase
         $key = JWKFactory::createNoneKey();
         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
+        static::assertNotEmpty($messages);
     }
 
     /**
@@ -48,7 +48,7 @@ class JWKAnalyzerTest extends TestCase
         ]);
         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
+        static::assertNotEmpty($messages);
     }
 
     /**
@@ -59,7 +59,7 @@ class JWKAnalyzerTest extends TestCase
         $key = JWKFactory::createOctKey(16, ['use' => 'foo', 'key_ops' => 'foo']);
         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
+        static::assertNotEmpty($messages);
     }
 
     /**
@@ -67,9 +67,6 @@ class JWKAnalyzerTest extends TestCase
      */
     private $keyAnalyzerManager;
 
-    /**
-     * @return KeyAnalyzer\KeyAnalyzerManager
-     */
     private function getKeyAnalyzer(): KeyAnalyzer\KeyAnalyzerManager
     {
         if (null === $this->keyAnalyzerManager) {

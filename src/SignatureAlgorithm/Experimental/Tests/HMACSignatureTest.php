@@ -24,31 +24,37 @@ use PHPUnit\Framework\TestCase;
  */
 class HMACSignatureTest extends TestCase
 {
-    public function testHS1SignAndVerify()
+    /**
+     * @test
+     */
+    public function hS1SignAndVerify()
     {
         $key = $this->getKey();
         $hmac = new HS1();
         $data = 'Live long and Prosper.';
 
-        self::assertEquals('HS1', $hmac->name());
+        static::assertEquals('HS1', $hmac->name());
 
         $signature = $hmac->sign($key, $data);
 
-        self::assertTrue($hmac->verify($key, $data, $signature));
+        static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
-    public function testHS256SignAndVerify()
+    /**
+     * @test
+     */
+    public function hS256SignAndVerify()
     {
         $key = $this->getKey();
         $hmac = new HS256_64();
         $data = 'Live long and Prosper.';
 
-        self::assertEquals('HS256/64', $hmac->name());
+        static::assertEquals('HS256/64', $hmac->name());
 
         $signature = $hmac->sign($key, $data);
 
-        self::assertEquals(\hex2bin('89f750759cb8ad93'), $signature);
-        self::assertTrue($hmac->verify($key, $data, $signature));
+        static::assertEquals(\hex2bin('89f750759cb8ad93'), $signature);
+        static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
     private function getKey(): JWK

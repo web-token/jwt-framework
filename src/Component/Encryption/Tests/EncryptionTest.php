@@ -32,9 +32,6 @@ abstract class EncryptionTest extends TestCase
      */
     private $algorithmManagerFactory;
 
-    /**
-     * @return AlgorithmManagerFactory
-     */
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {
@@ -73,9 +70,6 @@ abstract class EncryptionTest extends TestCase
      */
     private $compressionMethodManagerFactory;
 
-    /**
-     * @return CompressionMethodManagerFactory
-     */
     protected function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
         if (null === $this->compressionMethodManagerFactory) {
@@ -94,9 +88,6 @@ abstract class EncryptionTest extends TestCase
      */
     private $jweBuilderFactory;
 
-    /**
-     * @return JWEBuilderFactory
-     */
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
         if (null === $this->jweBuilderFactory) {
@@ -115,9 +106,6 @@ abstract class EncryptionTest extends TestCase
      */
     private $jweDecrypterFactory;
 
-    /**
-     * @return JWEDecrypterFactory
-     */
     protected function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
         if (null === $this->jweDecrypterFactory) {
@@ -135,9 +123,6 @@ abstract class EncryptionTest extends TestCase
      */
     private $jweLoaderFactory;
 
-    /**
-     * @return JWELoaderFactory
-     */
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
         if (null === $this->jweLoaderFactory) {
@@ -156,9 +141,6 @@ abstract class EncryptionTest extends TestCase
      */
     private $jwsSerializerManagerFactory = null;
 
-    /**
-     * @return Serializer\JWESerializerManagerFactory
-     */
     protected function getJWESerializerManagerFactory(): Serializer\JWESerializerManagerFactory
     {
         if (null === $this->jwsSerializerManagerFactory) {
@@ -176,9 +158,6 @@ abstract class EncryptionTest extends TestCase
      */
     private $jwsSerializerManager = null;
 
-    /**
-     * @return Serializer\JWESerializerManager
-     */
     protected function getJWESerializerManager(): Serializer\JWESerializerManager
     {
         if (null === $this->jwsSerializerManager) {

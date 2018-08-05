@@ -25,8 +25,6 @@ class ClaimCheckerManagerFactory
      * If the alias is not supported, an InvalidArgumentException is thrown.
      *
      * @param string[] $aliases
-     *
-     * @return ClaimCheckerManager
      */
     public function create(array $aliases): ClaimCheckerManager
     {
@@ -44,9 +42,6 @@ class ClaimCheckerManagerFactory
 
     /**
      * This method adds a claim checker to this factory.
-     *
-     * @param string       $alias
-     * @param ClaimChecker $checker
      *
      * @return ClaimCheckerManagerFactory
      */

@@ -33,11 +33,14 @@ class JWSComputationTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
-    public function testCreateAndLoadAToken()
+    /**
+     * @test
+     */
+    public function createAndLoadAToken()
     {
         $client = static::createClient();
         $container = $client->getContainer();
@@ -65,6 +68,6 @@ class JWSComputationTest extends WebTestCase
         $token = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($token);
-        self::assertTrue($loader->verifyWithKey($loaded, $jwk, 0));
+        static::assertTrue($loader->verifyWithKey($loaded, $jwk, 0));
     }
 }

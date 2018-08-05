@@ -25,7 +25,10 @@ use PHPUnit\Framework\TestCase;
  */
 class AESCTRContentEncryptionTest extends TestCase
 {
-    public function testA128CTRKeyEncryptionAndDecryption()
+    /**
+     * @test
+     */
+    public function a128CTRKeyEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new A128CTR();
@@ -36,10 +39,13 @@ class AESCTRContentEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
 
-        self::assertEquals($cek, $decrypted);
+        static::assertEquals($cek, $decrypted);
     }
 
-    public function testA192CTRKeyEncryptionAndDecryption()
+    /**
+     * @test
+     */
+    public function a192CTRKeyEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new A192CTR();
@@ -50,10 +56,13 @@ class AESCTRContentEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
 
-        self::assertEquals($cek, $decrypted);
+        static::assertEquals($cek, $decrypted);
     }
 
-    public function testA256CTRKeyEncryptionAndDecryption()
+    /**
+     * @test
+     */
+    public function a256CTRKeyEncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new A256CTR();
@@ -64,12 +73,9 @@ class AESCTRContentEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
 
-        self::assertEquals($cek, $decrypted);
+        static::assertEquals($cek, $decrypted);
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey(): JWK
     {
         return JWK::create([

@@ -29,24 +29,31 @@ class CertificateTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage File "file:///foo/bar" does not exist.
+     *
+     * @test
      */
-    public function testFileNotFound()
+    public function fileNotFound()
     {
         KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
     }
 
     /**
      * @expectedException \InvalidArgumentException
+     *
+     * @test
      */
-    public function testFileNotValid()
+    public function fileNotValid()
     {
         KeyConverter::loadKeyFromCertificateFile(__DIR__.__FILE__);
     }
 
-    public function testCertificateConversion()
+    /**
+     * @test
+     */
+    public function certificateConversion()
     {
         $details = KeyConverter::loadFromKeyFile(__DIR__.'/Keys/RSA/private.encrypted.key', 'tests');
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -59,7 +66,7 @@ class CertificateTest extends TestCase
         ]);
 
         $details = KeyConverter::loadFromKeyFile(__DIR__.'/Keys/RSA/public.key');
-        self::assertEquals($details, [
+        static::assertEquals($details, [
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -67,16 +74,15 @@ class CertificateTest extends TestCase
     }
 
     /**
-     * @param string $file
-     * @param array  $expected_values
-     *
      * @dataProvider dataLoadCertificate
+     *
+     * @test
      */
-    public function testLoadCertificate(string $file, array $expected_values)
+    public function loadCertificate(string $file, array $expected_values)
     {
         $result = KeyConverter::loadKeyFromCertificateFile($file);
 
-        self::assertEquals($expected_values, $result);
+        static::assertEquals($expected_values, $result);
     }
 
     public function dataLoadCertificate()
@@ -263,7 +269,10 @@ class CertificateTest extends TestCase
         ];
     }
 
-    public function testLoadX5CParameter()
+    /**
+     * @test
+     */
+    public function loadX5CParameter()
     {
         $key = JWK::create([
             'kty' => 'RSA',
@@ -276,7 +285,7 @@ class CertificateTest extends TestCase
 
         $certificate = JWKFactory::createFromX5C($key->get('x5c'), ['use' => 'sig', 'kid' => '1b94c']);
 
-        self::assertEquals([
+        static::assertEquals([
             'kty' => 'RSA',
             'use' => 'sig',
             'kid' => '1b94c',

@@ -51,6 +51,6 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     {
         $checker = new ExpirationTimeChecker();
         $checker->checkClaim(\time() + 3600);
-        self::assertEquals('exp', $checker->supportedClaim());
+        static::assertEquals('exp', $checker->supportedClaim());
     }
 }

@@ -36,10 +36,6 @@ class JWEBuilderFactory
 
     /**
      * JWEBuilderFactory constructor.
-     *
-     * @param JsonConverter                   $jsonEncoder
-     * @param AlgorithmManagerFactory         $algorithmManagerFactory
-     * @param CompressionMethodManagerFactory $compressionMethodManagerFactory
      */
     public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
     {
@@ -54,8 +50,6 @@ class JWEBuilderFactory
      * @param string[] $keyEncryptionAlgorithms
      * @param string[] $contentEncryptionAlgorithm
      * @param string[] $compressionMethods
-     *
-     * @return JWEBuilder
      */
     public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithm, array $compressionMethods): JWEBuilder
     {

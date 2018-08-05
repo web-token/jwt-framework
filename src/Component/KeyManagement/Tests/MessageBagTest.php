@@ -30,8 +30,8 @@ class MessageBagTest extends TestCase
     {
         $message = Message::low('Not important');
 
-        self::assertEquals(Message::SEVERITY_LOW, $message->getSeverity());
-        self::assertEquals('Not important', $message->getMessage());
+        static::assertEquals(Message::SEVERITY_LOW, $message->getSeverity());
+        static::assertEquals('Not important', $message->getMessage());
     }
 
     /**
@@ -41,8 +41,8 @@ class MessageBagTest extends TestCase
     {
         $message = Message::medium('Quite important');
 
-        self::assertEquals(Message::SEVERITY_MEDIUM, $message->getSeverity());
-        self::assertEquals('Quite important', $message->getMessage());
+        static::assertEquals(Message::SEVERITY_MEDIUM, $message->getSeverity());
+        static::assertEquals('Quite important', $message->getMessage());
     }
 
     /**
@@ -52,8 +52,8 @@ class MessageBagTest extends TestCase
     {
         $message = Message::high('Very important');
 
-        self::assertEquals(Message::SEVERITY_HIGH, $message->getSeverity());
-        self::assertEquals('Very important', $message->getMessage());
+        static::assertEquals(Message::SEVERITY_HIGH, $message->getSeverity());
+        static::assertEquals('Very important', $message->getMessage());
     }
 
     /**
@@ -63,7 +63,7 @@ class MessageBagTest extends TestCase
     {
         $message = Message::high('Very important');
 
-        self::assertEquals('{"message":"Very important","severity":"high"}', \json_encode($message));
+        static::assertEquals('{"message":"Very important","severity":"high"}', \json_encode($message));
     }
 
     /**
@@ -74,11 +74,11 @@ class MessageBagTest extends TestCase
         $bag = new MessageBag();
         $bag->add(Message::high('Very important'));
 
-        self::assertEquals(1, $bag->count());
-        self::assertEquals(1, \count($bag));
-        self::assertEquals(1, \count($bag->all()));
+        static::assertEquals(1, $bag->count());
+        static::assertEquals(1, \count($bag));
+        static::assertEquals(1, \count($bag->all()));
         foreach ($bag as $message) {
-            self::assertInstanceOf(Message::class, $message);
+            static::assertInstanceOf(Message::class, $message);
         }
     }
 
@@ -90,6 +90,6 @@ class MessageBagTest extends TestCase
         $bag = new MessageBag();
         $bag->add(Message::high('Very important'));
 
-        self::assertEquals('[{"message":"Very important","severity":"high"}]', \json_encode($bag));
+        static::assertEquals('[{"message":"Very important","severity":"high"}]', \json_encode($bag));
     }
 }

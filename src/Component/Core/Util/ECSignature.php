@@ -18,12 +18,6 @@ namespace Jose\Component\Core\Util;
  */
 class ECSignature
 {
-    /**
-     * @param string $signature
-     * @param int    $partLength
-     *
-     * @return string
-     */
     public static function toDER(string $signature, int $partLength): string
     {
         $signature = \unpack('H*', $signature)[1];
@@ -46,12 +40,6 @@ class ECSignature
         return $der;
     }
 
-    /**
-     * @param string $der
-     * @param int    $partLength
-     *
-     * @return string
-     */
     public static function fromDER(string $der, int $partLength): string
     {
         $hex = \unpack('H*', $der)[1];
@@ -82,11 +70,6 @@ class ECSignature
         return \pack('H*', $R.$S);
     }
 
-    /**
-     * @param string $data
-     *
-     * @return string
-     */
     private static function preparePositiveInteger(string $data): string
     {
         if (\mb_substr($data, 0, 2, '8bit') > '7f') {
@@ -99,11 +82,6 @@ class ECSignature
         return $data;
     }
 
-    /**
-     * @param string $data
-     *
-     * @return string
-     */
     private static function retrievePositiveInteger(string $data): string
     {
         while ('00' === \mb_substr($data, 0, 2, '8bit') && \mb_substr($data, 2, 2, '8bit') > '7f') {

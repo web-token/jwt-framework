@@ -25,8 +25,10 @@ class NoneKeysTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7638#section-3.1
+     *
+     * @test
      */
-    public function testKeyThumbprint()
+    public function keyThumbprint()
     {
         $key = JWK::create([
             'kty' => 'none',
@@ -35,23 +37,26 @@ class NoneKeysTest extends TestCase
             'kid' => '2011-04-29',
         ]);
 
-        self::assertEquals('{"kty":"none","alg":"none","use":"sig","kid":"2011-04-29"}', \json_encode($key));
-        self::assertEquals('BC69Ls25CLRh1KQrXvQAAB22oyuW3eQabDSMdv9xMNk', $key->thumbprint('sha256'));
-        self::assertEquals('hCnBo6v87V-Gz5Bp7eoFTrdvkGA', $key->thumbprint('sha1'));
-        self::assertEquals('JI3gujreJtPt2gzxlbGnLQ', $key->thumbprint('md5'));
+        static::assertEquals('{"kty":"none","alg":"none","use":"sig","kid":"2011-04-29"}', \json_encode($key));
+        static::assertEquals('BC69Ls25CLRh1KQrXvQAAB22oyuW3eQabDSMdv9xMNk', $key->thumbprint('sha256'));
+        static::assertEquals('hCnBo6v87V-Gz5Bp7eoFTrdvkGA', $key->thumbprint('sha1'));
+        static::assertEquals('JI3gujreJtPt2gzxlbGnLQ', $key->thumbprint('md5'));
     }
 
-    public function testCreateNoneKey()
+    /**
+     * @test
+     */
+    public function createNoneKey()
     {
         $key = JWKFactory::createNoneKey(['kid' => 'NONE_KEY']);
 
-        self::assertEquals('none', $key->get('kty'));
-        self::assertEquals('none', $key->get('alg'));
-        self::assertEquals('sig', $key->get('use'));
-        self::assertEquals('NONE_KEY', $key->get('kid'));
+        static::assertEquals('none', $key->get('kty'));
+        static::assertEquals('none', $key->get('alg'));
+        static::assertEquals('sig', $key->get('use'));
+        static::assertEquals('NONE_KEY', $key->get('kid'));
 
-        self::assertEquals('BC69Ls25CLRh1KQrXvQAAB22oyuW3eQabDSMdv9xMNk', $key->thumbprint('sha256'));
-        self::assertEquals('hCnBo6v87V-Gz5Bp7eoFTrdvkGA', $key->thumbprint('sha1'));
-        self::assertEquals('JI3gujreJtPt2gzxlbGnLQ', $key->thumbprint('md5'));
+        static::assertEquals('BC69Ls25CLRh1KQrXvQAAB22oyuW3eQabDSMdv9xMNk', $key->thumbprint('sha256'));
+        static::assertEquals('hCnBo6v87V-Gz5Bp7eoFTrdvkGA', $key->thumbprint('sha1'));
+        static::assertEquals('JI3gujreJtPt2gzxlbGnLQ', $key->thumbprint('md5'));
     }
 }

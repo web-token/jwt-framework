@@ -32,22 +32,22 @@ class JWSSplitTest extends SignatureTest
         $jws = $serializer->unserialize($input);
         $split = $jws->split();
 
-        self::assertEquals(3, $jws->countSignatures());
-        self::assertEquals(3, \count($jws->split()));
+        static::assertEquals(3, $jws->countSignatures());
+        static::assertEquals(3, \count($jws->split()));
 
         for ($i = 0; $i < $jws->countSignatures(); ++$i) {
             $signature1 = $jws->getSignature($i);
             $tempJws = $split[$i];
-            self::assertEquals(1, $tempJws->countSignatures());
-            self::assertEquals($jws->isPayloadDetached(), $tempJws->isPayloadDetached());
-            self::assertEquals($jws->getEncodedPayload(), $tempJws->getEncodedPayload());
-            self::assertEquals($jws->getPayload(), $tempJws->getPayload());
+            static::assertEquals(1, $tempJws->countSignatures());
+            static::assertEquals($jws->isPayloadDetached(), $tempJws->isPayloadDetached());
+            static::assertEquals($jws->getEncodedPayload(), $tempJws->getEncodedPayload());
+            static::assertEquals($jws->getPayload(), $tempJws->getPayload());
 
             $signature2 = $tempJws->getSignature(0);
-            self::assertEquals($signature1->getSignature(), $signature2->getSignature());
-            self::assertEquals($signature1->getHeader(), $signature2->getHeader());
-            self::assertEquals($signature1->getEncodedProtectedHeader(), $signature2->getEncodedProtectedHeader());
-            self::assertEquals($signature1->getProtectedHeader(), $signature2->getProtectedHeader());
+            static::assertEquals($signature1->getSignature(), $signature2->getSignature());
+            static::assertEquals($signature1->getHeader(), $signature2->getHeader());
+            static::assertEquals($signature1->getEncodedProtectedHeader(), $signature2->getEncodedProtectedHeader());
+            static::assertEquals($signature1->getProtectedHeader(), $signature2->getProtectedHeader());
         }
     }
 }

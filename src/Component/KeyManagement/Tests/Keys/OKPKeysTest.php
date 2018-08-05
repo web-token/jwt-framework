@@ -25,13 +25,18 @@ class OKPKeysTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Unsupported "Ed455" curve
+     *
+     * @test
      */
-    public function testCreateOKPKeyWithInvalidKeySize()
+    public function createOKPKeyWithInvalidKeySize()
     {
         JWKFactory::createOKPKey('Ed455');
     }
 
-    public function testCreateOKPKeyWithCurveX25519()
+    /**
+     * @test
+     */
+    public function createOKPKeyWithCurveX25519()
     {
         $jwk = JWKFactory::createOKPKey(
             'X25519',
@@ -42,15 +47,18 @@ class OKPKeysTest extends TestCase
             ]
         );
 
-        self::assertEquals('OKP', $jwk->get('kty'));
-        self::assertTrue($jwk->has('x'));
-        self::assertTrue($jwk->has('d'));
-        self::assertEquals('KEY', $jwk->get('kid'));
-        self::assertEquals('ECDH-ES', $jwk->get('alg'));
-        self::assertEquals('enc', $jwk->get('use'));
+        static::assertEquals('OKP', $jwk->get('kty'));
+        static::assertTrue($jwk->has('x'));
+        static::assertTrue($jwk->has('d'));
+        static::assertEquals('KEY', $jwk->get('kid'));
+        static::assertEquals('ECDH-ES', $jwk->get('alg'));
+        static::assertEquals('enc', $jwk->get('use'));
     }
 
-    public function testCreateOKPKeyWithCurveEd25519()
+    /**
+     * @test
+     */
+    public function createOKPKeyWithCurveEd25519()
     {
         $jwk = JWKFactory::createOKPKey(
             'Ed25519',
@@ -61,11 +69,11 @@ class OKPKeysTest extends TestCase
             ]
         );
 
-        self::assertEquals('OKP', $jwk->get('kty'));
-        self::assertTrue($jwk->has('x'));
-        self::assertTrue($jwk->has('d'));
-        self::assertEquals('KEY', $jwk->get('kid'));
-        self::assertEquals('EdDSA', $jwk->get('alg'));
-        self::assertEquals('sig', $jwk->get('use'));
+        static::assertEquals('OKP', $jwk->get('kty'));
+        static::assertTrue($jwk->has('x'));
+        static::assertTrue($jwk->has('d'));
+        static::assertEquals('KEY', $jwk->get('kid'));
+        static::assertEquals('EdDSA', $jwk->get('alg'));
+        static::assertEquals('sig', $jwk->get('use'));
     }
 }

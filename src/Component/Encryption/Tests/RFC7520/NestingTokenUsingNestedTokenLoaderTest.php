@@ -49,14 +49,17 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     protected function setUp()
     {
         if (!\class_exists(HeaderCheckerManagerFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
         if (!\class_exists(JWSLoader::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
-    public function testDecryption()
+    /**
+     * @test
+     */
+    public function decryption()
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
 
@@ -109,16 +112,16 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         $json_general = '{"recipients": [{"encrypted_key": "a0JHRoITfpX4qRewImjlStn8m3CPxBV1ueYlVhjurCyrBg3I7YhCRYjphDOOS4E7rXbr2Fn6NyQq-A-gqT0FXqNjVOGrG-bi13mwy7RoYhjTkBEC6P7sMYMXXx4gzMedpiJHQVeyI-zkZV7A9matpgevAJWrXzOUysYGTtwoSN6gtUVtlLaivjvb21O0ul4YxSHV-ByK1kyeetRp_fuYJxHoKLQL9P424sKx2WGYb4zsBIPF4ssl_e5IR7nany-25_UmC2urosNkoFz9cQ82MypZP8gqbQJyPN-Fpp4Z-5o6yV64x6yzDUF_5JCIdl-Qv6H5dMVIY7q1eKpXcV1lWO_2FefEBqXxXvIjLeZivjNkzogCq3-IapSjVFnMjBxjpYLT8muaawo1yy1XXMuinIpNcOY3n4KKrXLrCcteX85m4IIHMZa38s1Hpr56fPPseMA-Jltmt-a9iEDtOzhtxz8AXy9tsCAZV2XBWNG8c3kJusAamBKOYwfk7JhLRDgOnJjlJLhn7TI4UxDp9dCmUXEN6z0v23W15qJIEXNJtqnblpymooeWAHCT4e_Owbim1g0AEpTHUdA2iiLNs9WTX_H_TXuPC8yDDhi1smxS_X_xpkIHkiIHWDOLx03BpqDTivpKkBYwqP2UZkcxqX2Fo_GnVrNwlK7Lgxw6FSQvDO0"}],"protected": "eyJhbGciOiJSU0EtT0FFUCIsImN0eSI6IkpXVCIsImVuYyI6IkExMjhHQ00ifQ","iv": "GbX1i9kXz0sxXPmA","ciphertext": "SZI4IvKHmwpazl_pJQXX3mHv1ANnOU4Wf9-utWYUcKrBNgCe2OFMf66cSJ8k2QkxaQD3_R60MGE9ofomwtky3GFxMeGRjtpMt9OAvVLsAXB0_UTCBGyBg3C2bWLXqZlfJAAoJRUPRk-BimYZY81zVBuIhc7HsQePCpu33SzMsFHjn4lP_idrJz_glZTNgKDt8zdnUPauKTKDNOH1DD4fuzvDYfDIAfqGPyL5sVRwbiXpXdGokEszM-9ChMPqW1QNhzuX_Zul3bvrJwr7nuGZs4cUScY3n8yE3AHCLurgls-A9mz1X38xEaulV18l4Fg9tLejdkAuQZjPbqeHQBJe4IwGD5Ee0dQ-Mtz4NnhkIWx-YKBb_Xo2zI3Q_1sYjKUuis7yWW-HTr_vqvFt0bj7WJf2vzB0TZ3dvsoGaTvPH2dyWwumUrlx4gmPUzBdwTO6ubfYSDUEEz5py0d_OtWeUSYcCYBKD-aM7tXg26qJo21gYjLfhn9zy-W19sOCZGuzgFjPhawXHpvnj_t-0_ES96kogjJLxS1IMU9Y5XmnwZMyNc9EIwnogsCg-hVuvzyP0sIruktmI94_SL1xgMl7o03phcTMxtlMizR88NKU1WkBsiXMCjy1Noue7MD-ShDp5dmM","tag": "KnIKEhN8U-3C9s4gtSpjSw"}';
 
         $loaded_compact_json = $nestedTokenLoader->load($json_compact, $encryption_key_set, $signature_key_set, $json_compact_signature);
-        self::assertEquals($payload, $loaded_compact_json->getPayload());
-        self::assertEquals(0, $json_compact_signature);
+        static::assertEquals($payload, $loaded_compact_json->getPayload());
+        static::assertEquals(0, $json_compact_signature);
 
         $loaded_flattened_json = $nestedTokenLoader->load($json_flattened, $encryption_key_set, $signature_key_set, $json_flattened_signature);
-        self::assertEquals($payload, $loaded_flattened_json->getPayload());
-        self::assertEquals(0, $json_flattened_signature);
+        static::assertEquals($payload, $loaded_flattened_json->getPayload());
+        static::assertEquals(0, $json_flattened_signature);
 
         $loaded_json = $nestedTokenLoader->load($json_general, $encryption_key_set, $signature_key_set, $json_general_signature);
-        self::assertEquals($payload, $loaded_json->getPayload());
-        self::assertEquals(0, $json_general_signature);
+        static::assertEquals($payload, $loaded_json->getPayload());
+        static::assertEquals(0, $json_general_signature);
     }
 
     /**
@@ -126,9 +129,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jwsLoaderFactory;
 
-    /**
-     * @return JWSLoaderFactory
-     */
     protected function getJWSLoaderFactory(): JWSLoaderFactory
     {
         if (null === $this->jwsLoaderFactory) {
@@ -147,9 +147,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jweLoaderFactory;
 
-    /**
-     * @return JWELoaderFactory
-     */
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
         if (null === $this->jweLoaderFactory) {
@@ -168,9 +165,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $nestedTokenLoaderFactory;
 
-    /**
-     * @return NestedTokenLoaderFactory
-     */
     private function getNestedTokenLoaderFactory(): NestedTokenLoaderFactory
     {
         if (null === $this->nestedTokenLoaderFactory) {
@@ -183,9 +177,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $this->nestedTokenLoaderFactory;
     }
 
-    /**
-     * @return HeaderCheckerManagerFactory
-     */
     private function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
     {
         $headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
@@ -195,9 +186,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $headerCheckerManagerFactory;
     }
 
-    /**
-     * @return JwsSerializer\JWSSerializerManagerFactory
-     */
     private function getJWSSerializerManagerFactory(): JwsSerializer\JWSSerializerManagerFactory
     {
         $jwsSerializerManagerFactory = new JwsSerializer\JWSSerializerManagerFactory();
@@ -208,9 +196,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $jwsSerializerManagerFactory;
     }
 
-    /**
-     * @return JWSVerifierFactory
-     */
     private function getJWSVerifierFactory(): JWSVerifierFactory
     {
         $jwsVerifierFactory = new JWSVerifierFactory(
@@ -225,9 +210,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $algorithmManagerFactory;
 
-    /**
-     * @return AlgorithmManagerFactory
-     */
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {
@@ -246,9 +228,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $compressionMethodManagerFactory;
 
-    /**
-     * @return CompressionMethodManagerFactory
-     */
     private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
         if (null === $this->compressionMethodManagerFactory) {
@@ -267,9 +246,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jweDecrypterFactory;
 
-    /**
-     * @return JWEDecrypterFactory
-     */
     private function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
         if (null === $this->jweDecrypterFactory) {
@@ -287,9 +263,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jwsSerializerManagerFactory = null;
 
-    /**
-     * @return JweSerializer\JWESerializerManagerFactory
-     */
     private function getJWESerializerManagerFactory(): JweSerializer\JWESerializerManagerFactory
     {
         if (null === $this->jwsSerializerManagerFactory) {

@@ -29,7 +29,7 @@ class ConsoleTest extends KernelTestCase
     protected function setUp()
     {
         if (!\class_exists(EcKeyGeneratorCommand::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-console" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-console" is not installed.');
         }
     }
 
@@ -63,6 +63,6 @@ class ConsoleTest extends KernelTestCase
         self::bootKernel();
         $application = new Application(self::$kernel);
 
-        self::assertEmpty(\array_diff($expectedCommands, \array_keys($application->all())));
+        static::assertEmpty(\array_diff($expectedCommands, \array_keys($application->all())));
     }
 }

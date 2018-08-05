@@ -21,11 +21,6 @@ use Jose\Component\Core\JWK;
  */
 class ECKey
 {
-    /**
-     * @param JWK $jwk
-     *
-     * @return string
-     */
     public static function convertToPEM(JWK $jwk): string
     {
         if ($jwk->has('d')) {
@@ -35,11 +30,6 @@ class ECKey
         }
     }
 
-    /**
-     * @param JWK $jwk
-     *
-     * @return string
-     */
     public static function convertPublicKeyToPEM(JWK $jwk): string
     {
         switch ($jwk->get('crv')) {
@@ -66,11 +56,6 @@ class ECKey
         return $pem;
     }
 
-    /**
-     * @param JWK $jwk
-     *
-     * @return string
-     */
     public static function convertPrivateKeyToPEM(JWK $jwk): string
     {
         switch ($jwk->get('crv')) {
@@ -97,9 +82,6 @@ class ECKey
         return $pem;
     }
 
-    /**
-     * @return string
-     */
     private static function p256PublicKey(): string
     {
         return \pack('H*',
@@ -114,9 +96,6 @@ class ECKey
         );
     }
 
-    /**
-     * @return string
-     */
     private static function p384PublicKey(): string
     {
         return \pack('H*',
@@ -131,9 +110,6 @@ class ECKey
         );
     }
 
-    /**
-     * @return string
-     */
     private static function p521PublicKey(): string
     {
         return \pack('H*',
@@ -148,11 +124,6 @@ class ECKey
         );
     }
 
-    /**
-     * @param JWK $jwk
-     *
-     * @return string
-     */
     private static function p256PrivateKey(JWK $jwk): string
     {
         $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
@@ -172,11 +143,6 @@ class ECKey
         );
     }
 
-    /**
-     * @param JWK $jwk
-     *
-     * @return string
-     */
     private static function p384PrivateKey(JWK $jwk): string
     {
         $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
@@ -196,11 +162,6 @@ class ECKey
         );
     }
 
-    /**
-     * @param JWK $jwk
-     *
-     * @return string
-     */
     private static function p521PrivateKey(JWK $jwk): string
     {
         $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
@@ -220,11 +181,6 @@ class ECKey
         );
     }
 
-    /**
-     * @param JWK $jwk
-     *
-     * @return string
-     */
     private static function getKey(JWK $jwk): string
     {
         return

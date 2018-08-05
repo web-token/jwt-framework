@@ -95,9 +95,9 @@ class JWSLoaderTest extends SignatureTest
         ]);
 
         $jws = $this->getJWSLoader()->loadAndVerifyWithKey($token, $key, $signature);
-        self::assertInstanceOf(JWS::class, $jws);
-        self::assertEquals("It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.", $jws->getPayload());
-        self::assertEquals(0, $signature);
+        static::assertInstanceOf(JWS::class, $jws);
+        static::assertEquals("It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.", $jws->getPayload());
+        static::assertEquals(0, $signature);
     }
 
     /**
@@ -105,9 +105,6 @@ class JWSLoaderTest extends SignatureTest
      */
     private $jwsLoader = null;
 
-    /**
-     * @return JWSLoader
-     */
     private function getJWSLoader(): JWSLoader
     {
         if (null === $this->jwsLoader) {

@@ -29,8 +29,6 @@ class RSAKey
 
     /**
      * RSAKey constructor.
-     *
-     * @param array $data
      */
     private function __construct(array $data)
     {
@@ -38,8 +36,6 @@ class RSAKey
     }
 
     /**
-     * @param string $pem
-     *
      * @return RSAKey
      */
     public static function createFromPEM(string $pem): self
@@ -50,8 +46,6 @@ class RSAKey
     }
 
     /**
-     * @param JWK $jwk
-     *
      * @return RSAKey
      */
     public static function createFromJWK(JWK $jwk): self
@@ -59,11 +53,6 @@ class RSAKey
         return new self($jwk->all());
     }
 
-    /**
-     * @param string $data
-     *
-     * @return array
-     */
     private static function loadPEM(string $data): array
     {
         $res = \openssl_pkey_get_private($data);
@@ -100,9 +89,6 @@ class RSAKey
         return $values;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublic(): bool
     {
         return !\array_key_exists('d', $this->values);
@@ -126,17 +112,11 @@ class RSAKey
         return new self($data);
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return $this->values;
     }
 
-    /**
-     * @param array $jwk
-     */
     private function loadJWK(array $jwk)
     {
         if (!\array_key_exists('kty', $jwk)) {
@@ -149,9 +129,6 @@ class RSAKey
         $this->values = $jwk;
     }
 
-    /**
-     * @return JWK
-     */
     public function toJwk(): JWK
     {
         return JWK::create($this->values);
@@ -198,10 +175,6 @@ class RSAKey
     }
 
     /**
-     * @param BigInteger $d
-     * @param BigInteger $e
-     * @param BigInteger $n
-     *
      * @return BigInteger[]
      */
     private function findPrimeFactors(BigInteger $d, BigInteger $e, BigInteger $n): array

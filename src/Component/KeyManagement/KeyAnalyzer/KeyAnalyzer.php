@@ -19,9 +19,6 @@ interface KeyAnalyzer
 {
     /**
      * This method will analyse the key and add messages to the message bag if needed.
-     *
-     * @param JWK        $jwk
-     * @param MessageBag $bag
      */
     public function analyze(JWK $jwk, MessageBag $bag);
 }

@@ -41,7 +41,7 @@ class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -59,7 +59,7 @@ class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -77,7 +77,7 @@ class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -94,7 +94,7 @@ class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -117,12 +117,12 @@ class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
-        self::assertTrue($jwk->has('p'));
-        self::assertTrue($jwk->has('q'));
-        self::assertTrue($jwk->has('dp'));
-        self::assertTrue($jwk->has('dq'));
-        self::assertTrue($jwk->has('qi'));
+        static::assertInstanceOf(JWK::class, $jwk);
+        static::assertTrue($jwk->has('p'));
+        static::assertTrue($jwk->has('q'));
+        static::assertTrue($jwk->has('dp'));
+        static::assertTrue($jwk->has('dq'));
+        static::assertTrue($jwk->has('qi'));
     }
 
     /**
@@ -149,7 +149,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PemConverterCommand($converter);
         $command->run($input, $output);
         $content = $output->fetch();
-        self::assertContains('-----BEGIN RSA PRIVATE KEY-----', $content);
+        static::assertContains('-----BEGIN RSA PRIVATE KEY-----', $content);
     }
 
     /**
@@ -172,7 +172,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PemConverterCommand($converter);
         $command->run($input, $output);
         $content = $output->fetch();
-        self::assertContains('-----BEGIN EC PRIVATE KEY-----', $content);
+        static::assertContains('-----BEGIN EC PRIVATE KEY-----', $content);
     }
 
     /**
@@ -195,7 +195,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PublicKeyCommand($converter);
         $command->run($input, $output);
         $content = $output->fetch();
-        self::assertContains('{"kty":"EC","crv":"P-256","x":"YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0","y":"bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8"}', $content);
+        static::assertContains('{"kty":"EC","crv":"P-256","x":"YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0","y":"bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8"}', $content);
     }
 
     /**
@@ -225,7 +225,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PublicKeysetCommand($converter);
         $command->run($input, $output);
         $content = $output->fetch();
-        self::assertContains('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"},{"kty":"EC","crv":"P-521","x":"AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk","y":"ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2"}]}', $content);
+        static::assertContains('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"},{"kty":"EC","crv":"P-521","x":"AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk","y":"ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2"}]}', $content);
     }
 
     /**
@@ -248,6 +248,6 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\GetThumbprintCommand($converter);
         $command->run($input, $output);
         $content = $output->fetch();
-        self::assertEquals('NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs', $content);
+        static::assertEquals('NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs', $content);
     }
 }

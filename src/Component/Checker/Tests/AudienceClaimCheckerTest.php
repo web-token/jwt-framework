@@ -63,6 +63,6 @@ class AudienceClaimCheckerTest extends TestCase
         $checker = new AudienceChecker('foo');
         $checker->checkClaim('foo');
         $checker->checkClaim(['foo']);
-        self::assertEquals('aud', $checker->supportedClaim());
+        static::assertEquals('aud', $checker->supportedClaim());
     }
 }

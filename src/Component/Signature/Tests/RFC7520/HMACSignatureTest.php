@@ -29,8 +29,10 @@ class HMACSignatureTest extends SignatureTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.4
+     *
+     * @test
      */
-    public function testHS256()
+    public function hS256()
     {
         /*
          * Payload
@@ -71,26 +73,28 @@ class HMACSignatureTest extends SignatureTest
         $expected_flattened_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","protected":"eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9","signature":"s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0"}';
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9","signature":"s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0"}]}';
 
-        self::assertEquals($expected_compact_json, $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
+        static::assertEquals($expected_compact_json, $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
 
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
-        self::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
-        self::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $key, 0));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
     }
 
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.5
+     *
+     * @test
      */
-    public function testHS256WithDetachedPayload()
+    public function hS256WithDetachedPayload()
     {
         /*
          * Payload
@@ -131,27 +135,29 @@ class HMACSignatureTest extends SignatureTest
         $expected_flattened_json = '{"protected":"eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9","signature":"s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0"}';
         $expected_json = '{"signatures":[{"protected":"eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9","signature":"s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0"}]}';
 
-        self::assertEquals($expected_compact_json, $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
+        static::assertEquals($expected_compact_json, $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
 
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
-        self::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
 
-        self::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $key, 0, $payload));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $key, 0, $payload));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0, $payload));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0, $payload));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0, $payload));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0, $payload));
     }
 
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.6
+     *
+     * @test
      */
-    public function testHS256WithUnprotectedHeader()
+    public function hS256WithUnprotectedHeader()
     {
         /*
          * Payload
@@ -194,20 +200,22 @@ class HMACSignatureTest extends SignatureTest
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJIUzI1NiJ9","header":{"kid":"018c0ae5-4d9b-471b-bfd6-eef314bc7037"},"signature":"bWUSVaxorn7bEF1djytBd0kHv70Ly5pvbomzMWSOr20"}]}';
 
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
-        self::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
-        self::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
     }
 
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.7
+     *
+     * @test
      */
-    public function testHS256WithoutProtectedHeader()
+    public function hS256WithoutProtectedHeader()
     {
         /*
          * Payload
@@ -248,13 +256,13 @@ class HMACSignatureTest extends SignatureTest
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"header":{"alg":"HS256","kid":"018c0ae5-4d9b-471b-bfd6-eef314bc7037"},"signature":"xuLifqLGiblpv9zBpuZczWhNj1gARaLV3UxvxhJxZuk"}]}';
 
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
-        self::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
-        self::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
     }
 }

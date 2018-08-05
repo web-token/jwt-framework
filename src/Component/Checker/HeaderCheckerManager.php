@@ -70,8 +70,6 @@ class HeaderCheckerManager
     }
 
     /**
-     * @param TokenTypeSupport $tokenType
-     *
      * @return HeaderCheckerManager
      */
     private function addTokenTypeSupport(TokenTypeSupport $tokenType): self
@@ -82,8 +80,6 @@ class HeaderCheckerManager
     }
 
     /**
-     * @param HeaderChecker $checker
-     *
      * @return HeaderCheckerManager
      */
     private function add(HeaderChecker $checker): self
@@ -99,8 +95,6 @@ class HeaderCheckerManager
      * All header parameters are checked against the header parameter checkers.
      * If one fails, the InvalidHeaderException is thrown.
      *
-     * @param JWT      $jwt
-     * @param int      $index
      * @param string[] $mandatoryHeaderParameters
      *
      * @throws InvalidHeaderException
@@ -124,10 +118,6 @@ class HeaderCheckerManager
         throw new \InvalidArgumentException('Unsupported token type.');
     }
 
-    /**
-     * @param array $header1
-     * @param array $header2
-     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2)
     {
         $inter = \array_intersect_key($header1, $header2);
@@ -138,8 +128,6 @@ class HeaderCheckerManager
 
     /**
      * @param string[] $mandatoryHeaderParameters
-     * @param array    $protected
-     * @param array    $unprotected
      *
      * @throws MissingMandatoryHeaderParameterException
      */
@@ -156,9 +144,6 @@ class HeaderCheckerManager
     }
 
     /**
-     * @param array $protected
-     * @param array $header
-     *
      * @throws InvalidHeaderException
      */
     private function checkHeaders(array $protected, array $header)
@@ -186,10 +171,6 @@ class HeaderCheckerManager
     }
 
     /**
-     * @param array $protected
-     * @param array $header
-     * @param array $checkedHeaderParameters
-     *
      * @throws InvalidHeaderException
      */
     private function checkCriticalHeader(array $protected, array $header, array $checkedHeaderParameters)

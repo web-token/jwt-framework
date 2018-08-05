@@ -51,6 +51,6 @@ class NotBeforeClaimCheckerTest extends TestCase
     {
         $checker = new NotBeforeChecker();
         $checker->checkClaim(\time() - 3600);
-        self::assertEquals('nbf', $checker->supportedClaim());
+        static::assertEquals('nbf', $checker->supportedClaim());
     }
 }

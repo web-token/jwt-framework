@@ -46,9 +46,9 @@ class AnalyzeCommandTest extends TestCase
         $command = new Console\KeyAnalyzerCommand($this->getKeyAnalyzer(), $converter);
         $command->run($input, $output);
         $content = $output->fetch();
-        self::assertContains('* The parameter "alg" should be added.', $content);
-        self::assertContains('* The parameter "kid" should be added.', $content);
-        self::assertContains('* The parameter "use" should be added.', $content);
+        static::assertContains('* The parameter "alg" should be added.', $content);
+        static::assertContains('* The parameter "kid" should be added.', $content);
+        static::assertContains('* The parameter "use" should be added.', $content);
     }
 
     /**
@@ -78,10 +78,10 @@ class AnalyzeCommandTest extends TestCase
         $command = new Console\KeysetAnalyzerCommand($this->getKeyAnalyzer(), $converter);
         $command->run($input, $output);
         $content = $output->fetch();
-        self::assertContains('Analysing key with index/kid "1"', $content);
-        self::assertContains('* The parameter "alg" should be added.', $content);
-        self::assertContains('* The parameter "kid" should be added.', $content);
-        self::assertContains('* The parameter "use" should be added.', $content);
+        static::assertContains('Analysing key with index/kid "1"', $content);
+        static::assertContains('* The parameter "alg" should be added.', $content);
+        static::assertContains('* The parameter "kid" should be added.', $content);
+        static::assertContains('* The parameter "use" should be added.', $content);
     }
 
     /**
@@ -89,9 +89,6 @@ class AnalyzeCommandTest extends TestCase
      */
     private $keyAnalyzerManager;
 
-    /**
-     * @return KeyAnalyzer\KeyAnalyzerManager
-     */
     private function getKeyAnalyzer(): KeyAnalyzer\KeyAnalyzerManager
     {
         if (null === $this->keyAnalyzerManager) {

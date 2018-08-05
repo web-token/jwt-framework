@@ -101,9 +101,9 @@ class JWELoaderTest extends EncryptionTest
         $recipient = 0;
         $jwe = $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
 
-        self::assertInstanceOf(JWE::class, $jwe);
-        self::assertEquals('You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.', $jwe->getPayload());
-        self::assertEquals(0, $recipient);
+        static::assertInstanceOf(JWE::class, $jwe);
+        static::assertEquals('You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.', $jwe->getPayload());
+        static::assertEquals(0, $recipient);
     }
 
     /**
@@ -111,9 +111,6 @@ class JWELoaderTest extends EncryptionTest
      */
     private $jweLoader = null;
 
-    /**
-     * @return JWELoader
-     */
     private function getJWELoader(): JWELoader
     {
         if (null === $this->jweLoader) {

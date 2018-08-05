@@ -40,11 +40,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
             ->addOption('random_id', null, InputOption::VALUE_NONE, 'If this option is set, a random key ID (kid) will be generated.');
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return array
-     */
     protected function getOptions(InputInterface $input): array
     {
         $args = [];
@@ -61,9 +56,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
         return $args;
     }
 
-    /**
-     * @return string
-     */
     private function generateKeyID(): string
     {
         return Base64Url::encode(\random_bytes(32));

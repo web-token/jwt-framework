@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests;
 
+use Blackfire\Bridge\PhpUnit\TestCaseTrait;
+use Blackfire\Profile;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
@@ -20,8 +22,6 @@ use Jose\Component\Signature\Algorithm\None;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use PHPUnit\Framework\TestCase;
-use Blackfire\Bridge\PhpUnit\TestCaseTrait;
-use Blackfire\Profile;
 
 /**
  * @group Performance

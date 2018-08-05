@@ -30,8 +30,10 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7517#appendix-C
+     *
+     * @test
      */
-    public function testPBES2HS256A128KW()
+    public function pBES2HS256A128KW()
     {
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -51,10 +53,13 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = Base64Url::decode('TrqXOwuNUfDV9VPTNbyGvEJ9JMjefAVn-TR1uIxR9p6hsRQh9Tk7BA');
 
-        self::assertEquals($expected_cek, $pbes2->unwrapKey($key, $wrapped_cek, $header));
+        static::assertEquals($expected_cek, $pbes2->unwrapKey($key, $wrapped_cek, $header));
     }
 
-    public function testPBES2HS256A128KW_Bis()
+    /**
+     * @test
+     */
+    public function pBES2HS256A128KW_Bis()
     {
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -70,12 +75,15 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 
         $pbes2 = new PBES2HS256A128KW();
         $encrypted_cek = $pbes2->wrapKey($key, $cek, $header, $header);
-        self::assertTrue(isset($header['p2s']));
-        self::assertEquals(4096, $header['p2c']);
-        self::assertEquals($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
+        static::assertTrue(isset($header['p2s']));
+        static::assertEquals(4096, $header['p2c']);
+        static::assertEquals($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
 
-    public function testPBES2HS384A192KW()
+    /**
+     * @test
+     */
+    public function pBES2HS384A192KW()
     {
         $header = [
             'alg' => 'PBES2-HS384+A192KW',
@@ -91,12 +99,15 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 
         $pbes2 = new PBES2HS384A192KW();
         $encrypted_cek = $pbes2->wrapKey($key, $cek, $header, $header);
-        self::assertTrue(isset($header['p2s']));
-        self::assertEquals(4096, $header['p2c']);
-        self::assertEquals($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
+        static::assertTrue(isset($header['p2s']));
+        static::assertEquals(4096, $header['p2c']);
+        static::assertEquals($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
 
-    public function testPBES2HS512A256KW()
+    /**
+     * @test
+     */
+    public function pBES2HS512A256KW()
     {
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
@@ -112,16 +123,18 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 
         $pbes2 = new PBES2HS512A256KW();
         $encrypted_cek = $pbes2->wrapKey($key, $cek, $header, $header);
-        self::assertTrue(isset($header['p2s']));
-        self::assertEquals(4096, $header['p2c']);
-        self::assertEquals($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
+        static::assertTrue(isset($header['p2s']));
+        static::assertEquals(4096, $header['p2c']);
+        static::assertEquals($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong key type.
+     *
+     * @test
      */
-    public function testBadKeyType()
+    public function badKeyType()
     {
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
@@ -142,8 +155,10 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The key parameter "k" is missing.
+     *
+     * @test
      */
-    public function testInvalidKeyType()
+    public function invalidKeyType()
     {
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
@@ -164,8 +179,10 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header parameter "alg" is missing.
+     *
+     * @test
      */
-    public function testAlgorithmParameterIsMissing()
+    public function algorithmParameterIsMissing()
     {
         $header = [
             'enc' => 'A256CBC-HS512',
@@ -185,8 +202,10 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header parameter "p2s" is missing.
+     *
+     * @test
      */
-    public function testP2CParameterIsMissing()
+    public function p2CParameterIsMissing()
     {
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -209,8 +228,10 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header parameter "p2c" is missing.
+     *
+     * @test
      */
-    public function testP2SParameterIsMissing()
+    public function p2SParameterIsMissing()
     {
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -231,8 +252,6 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     }
 
     /**
-     * @param array $data
-     *
      * @return string
      */
     private function convertArrayToBinString(array $data)

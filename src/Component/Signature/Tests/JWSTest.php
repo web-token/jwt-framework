@@ -22,7 +22,10 @@ use Jose\Component\Signature\JWS;
  */
 class JWSTest extends SignatureTest
 {
-    public function testJWS()
+    /**
+     * @test
+     */
+    public function jWS()
     {
         $claims = [
             'nbf' => \time(),
@@ -36,19 +39,21 @@ class JWSTest extends SignatureTest
         $jws = JWS::create(\json_encode($claims), \json_encode($claims))
             ->addSignature('', $header, Base64Url::encode(\json_encode($header)));
 
-        self::assertEquals(\json_encode($claims), $jws->getPayload());
-        self::assertEquals(1, $jws->countSignatures());
-        self::assertTrue($jws->getSignature(0)->hasProtectedHeaderParameter('alg'));
-        self::assertEquals($header, $jws->getSignature(0)->getProtectedHeader());
-        self::assertEquals('none', $jws->getSignature(0)->getProtectedHeaderParameter('alg'));
-        self::assertEquals([], $jws->getSignature(0)->getHeader());
+        static::assertEquals(\json_encode($claims), $jws->getPayload());
+        static::assertEquals(1, $jws->countSignatures());
+        static::assertTrue($jws->getSignature(0)->hasProtectedHeaderParameter('alg'));
+        static::assertEquals($header, $jws->getSignature(0)->getProtectedHeader());
+        static::assertEquals('none', $jws->getSignature(0)->getProtectedHeaderParameter('alg'));
+        static::assertEquals([], $jws->getSignature(0)->getHeader());
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The signature does not exist.
+     *
+     * @test
      */
-    public function testToCompactJSONFailed()
+    public function toCompactJSONFailed()
     {
         $claims = [
             'nbf' => \time(),
@@ -65,8 +70,10 @@ class JWSTest extends SignatureTest
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The signature does not exist.
+     *
+     * @test
      */
-    public function testToFlattenedJSONFailed()
+    public function toFlattenedJSONFailed()
     {
         $claims = [
             'nbf' => \time(),
@@ -83,8 +90,10 @@ class JWSTest extends SignatureTest
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage No signature.
+     *
+     * @test
      */
-    public function testToJSONFailed()
+    public function toJSONFailed()
     {
         $claims = [
             'nbf' => \time(),
@@ -101,8 +110,10 @@ class JWSTest extends SignatureTest
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage The signature contains unprotected header parameters and cannot be converted into compact JSON
+     *
+     * @test
      */
-    public function testSignatureContainsUnprotectedHeader()
+    public function signatureContainsUnprotectedHeader()
     {
         $claims = [
             'nbf' => \time(),
@@ -122,8 +133,10 @@ class JWSTest extends SignatureTest
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header "foo" does not exist
+     *
+     * @test
      */
-    public function testSignatureDoesNotContainHeader()
+    public function signatureDoesNotContainHeader()
     {
         $claims = [
             'nbf' => \time(),
@@ -142,8 +155,10 @@ class JWSTest extends SignatureTest
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The protected header "foo" does not exist
+     *
+     * @test
      */
-    public function testSignatureDoesNotContainProtectedHeader()
+    public function signatureDoesNotContainProtectedHeader()
     {
         $claims = [
             'nbf' => \time(),

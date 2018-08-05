@@ -47,17 +47,12 @@ class PrivateKey
      */
     private $secret;
 
-    /**
-     * @param \GMP $secret
-     */
     private function __construct(\GMP $secret)
     {
         $this->secret = $secret;
     }
 
     /**
-     * @param \GMP $secret
-     *
      * @return PrivateKey
      */
     public static function create(\GMP $secret): self
@@ -65,9 +60,6 @@ class PrivateKey
         return new self($secret);
     }
 
-    /**
-     * @return \GMP
-     */
     public function getSecret(): \GMP
     {
         return $this->secret;

@@ -27,8 +27,6 @@ class JWKFactory
      *
      * @param int   $size   The key size in bits
      * @param array $values values to configure the key
-     *
-     * @return JWK
      */
     public static function createRSAKey(int $size, array $values = []): JWK
     {
@@ -59,8 +57,6 @@ class JWKFactory
      *
      * @param string $curve  The curve
      * @param array  $values values to configure the key
-     *
-     * @return JWK
      */
     public static function createECKey(string $curve, array $values = []): JWK
     {
@@ -74,11 +70,6 @@ class JWKFactory
         return JWK::create($values);
     }
 
-    /**
-     * @param string $curve
-     *
-     * @return array
-     */
     private static function createECKeyUsingPurePhp(string $curve): array
     {
         switch ($curve) {
@@ -110,11 +101,6 @@ class JWKFactory
         ];
     }
 
-    /**
-     * @param string $curve
-     *
-     * @return array
-     */
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
         $key = \openssl_pkey_new([
@@ -138,11 +124,6 @@ class JWKFactory
         ];
     }
 
-    /**
-     * @param string $curve
-     *
-     * @return string
-     */
     private static function getOpensslCurveName(string $curve): string
     {
         switch ($curve) {
@@ -162,8 +143,6 @@ class JWKFactory
      *
      * @param int   $size   The key size in bits
      * @param array $values values to configure the key
-     *
-     * @return JWK
      */
     public static function createOctKey(int $size, array $values = []): JWK
     {
@@ -186,8 +165,6 @@ class JWKFactory
      *
      * @param string $curve  The curve
      * @param array  $values values to configure the key
-     *
-     * @return JWK
      */
     public static function createOKPKey(string $curve, array $values = []): JWK
     {
@@ -227,8 +204,6 @@ class JWKFactory
      * It is used to prevent the use of the "none" algorithm with other key types.
      *
      * @param array $values values to configure the key
-     *
-     * @return JWK
      */
     public static function createNoneKey(array $values = []): JWK
     {
@@ -247,8 +222,6 @@ class JWKFactory
     /**
      * Creates a key from a Json string.
      *
-     * @param string $value
-     *
      * @return JWK|JWKSet
      */
     public static function createFromJsonObject(string $value)
@@ -264,8 +237,6 @@ class JWKFactory
     /**
      * Creates a key or key set from the given input.
      *
-     * @param array $values
-     *
      * @return JWK|JWKSet
      */
     public static function createFromValues(array $values)
@@ -279,11 +250,6 @@ class JWKFactory
 
     /**
      * This method create a JWK object using a shared secret.
-     *
-     * @param string $secret
-     * @param array  $additional_values
-     *
-     * @return JWK
      */
     public static function createFromSecret(string $secret, array $additional_values = []): JWK
     {
@@ -300,11 +266,6 @@ class JWKFactory
 
     /**
      * This method will try to load a X.509 certificate and convert it into a public key.
-     *
-     * @param string $file
-     * @param array  $additional_values
-     *
-     * @return JWK
      */
     public static function createFromCertificateFile(string $file, array $additional_values = []): JWK
     {
@@ -317,10 +278,7 @@ class JWKFactory
     /**
      * Extract a keyfrom a key set identified by the given index .
      *
-     * @param JWKSet     $jwkset
      * @param int|string $index
-     *
-     * @return JWK
      */
     public static function createFromKeySet(JWKSet $jwkset, $index): JWK
     {
@@ -330,13 +288,9 @@ class JWKFactory
     /**
      * This method will try to load a PKCS#12 file and convert it into a public key.
      *
-     * @param string      $file
      * @param null|string $secret
-     * @param array       $additional_values
      *
      * @throws \Exception
-     *
-     * @return JWK
      */
     public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
     {
@@ -350,11 +304,6 @@ class JWKFactory
 
     /**
      * This method will try to convert a X.509 certificate into a public key.
-     *
-     * @param string $certificate
-     * @param array  $additional_values
-     *
-     * @return JWK
      */
     public static function createFromCertificate(string $certificate, array $additional_values = []): JWK
     {
@@ -368,11 +317,8 @@ class JWKFactory
      * This method will try to convert a X.509 certificate resource into a public key.
      *
      * @param resource $res
-     * @param array    $additional_values
      *
      * @throws \Exception
-     *
-     * @return JWK
      */
     public static function createFromX509Resource($res, array $additional_values = []): JWK
     {
@@ -386,13 +332,9 @@ class JWKFactory
      * This method will try to load and convert a key file into a JWK object.
      * If the key is encrypted, the password must be set.
      *
-     * @param string      $file
      * @param null|string $password
-     * @param array       $additional_values
      *
      * @throws \Exception
-     *
-     * @return JWK
      */
     public static function createFromKeyFile(string $file, ?string $password = null, array $additional_values = []): JWK
     {
@@ -406,13 +348,9 @@ class JWKFactory
      * This method will try to load and convert a key into a JWK object.
      * If the key is encrypted, the password must be set.
      *
-     * @param string      $key
      * @param null|string $password
-     * @param array       $additional_values
      *
      * @throws \Exception
-     *
-     * @return JWK
      */
     public static function createFromKey(string $key, ?string $password = null, array $additional_values = []): JWK
     {
@@ -424,11 +362,6 @@ class JWKFactory
 
     /**
      * This method will try to load and convert a X.509 certificate chain into a public key.
-     *
-     * @param array $x5c
-     * @param array $additional_values
-     *
-     * @return JWK
      */
     public static function createFromX5C(array $x5c, array $additional_values = []): JWK
     {

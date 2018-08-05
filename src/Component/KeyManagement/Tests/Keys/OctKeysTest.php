@@ -25,17 +25,22 @@ class OctKeysTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Invalid key size.
+     *
+     * @test
      */
-    public function testCreateOctKeyWithInvalidKeySize()
+    public function createOctKeyWithInvalidKeySize()
     {
         JWKFactory::createOctKey(12);
     }
 
-    public function testCreateOctKey()
+    /**
+     * @test
+     */
+    public function createOctKey()
     {
         $jwk = JWKFactory::createOctKey(64);
 
-        self::assertEquals('oct', $jwk->get('kty'));
-        self::assertTrue($jwk->has('k'));
+        static::assertEquals('oct', $jwk->get('kty'));
+        static::assertTrue($jwk->has('k'));
     }
 }

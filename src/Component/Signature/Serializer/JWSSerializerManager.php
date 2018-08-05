@@ -45,8 +45,6 @@ class JWSSerializerManager
     }
 
     /**
-     * @param JWSSerializer $serializer
-     *
      * @return JWSSerializerManager
      */
     private function add(JWSSerializer $serializer): self
@@ -67,13 +65,7 @@ class JWSSerializerManager
     /**
      * Converts a JWS into a string.
      *
-     * @param string   $name
-     * @param JWS      $jws
-     * @param int|null $signatureIndex
-     *
      * @throws \Exception
-     *
-     * @return string
      */
     public function serialize(string $name, JWS $jws, ?int $signatureIndex = null): string
     {
@@ -91,8 +83,6 @@ class JWSSerializerManager
      * @param string|null $name  the name of the serializer if the input is unserialized
      *
      * @throws \Exception
-     *
-     * @return JWS
      */
     public function unserialize(string $input, ?string &$name = null): JWS
     {

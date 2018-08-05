@@ -29,8 +29,10 @@ class ECDSASignatureTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong key type.
+     *
+     * @test
      */
-    public function testInvalidKey()
+    public function invalidKey()
     {
         $key = JWK::create([
             'kty' => 'RSA',
@@ -42,7 +44,10 @@ class ECDSASignatureTest extends TestCase
         $ecdsa->sign($key, $data);
     }
 
-    public function testES256Verify()
+    /**
+     * @test
+     */
+    public function eS256Verify()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -58,11 +63,14 @@ class ECDSASignatureTest extends TestCase
 
         $sign = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $sign));
-        self::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+        static::assertTrue($ecdsa->verify($key, $data, $sign));
+        static::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
     }
 
-    public function testES256SignVerify()
+    /**
+     * @test
+     */
+    public function eS256SignVerify()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -77,14 +85,16 @@ class ECDSASignatureTest extends TestCase
         $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
         $signature = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $signature));
+        static::assertTrue($ecdsa->verify($key, $data, $signature));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The EC key is not private
+     *
+     * @test
      */
-    public function testKeyNotPrivate()
+    public function keyNotPrivate()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -99,7 +109,10 @@ class ECDSASignatureTest extends TestCase
         $ecdsa->sign($key, $data);
     }
 
-    public function testHS384SignVerify()
+    /**
+     * @test
+     */
+    public function hS384SignVerify()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -114,10 +127,13 @@ class ECDSASignatureTest extends TestCase
         $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
         $signature = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $signature));
+        static::assertTrue($ecdsa->verify($key, $data, $signature));
     }
 
-    public function testHS512Verify()
+    /**
+     * @test
+     */
+    public function hS512Verify()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -133,11 +149,14 @@ class ECDSASignatureTest extends TestCase
 
         $sign = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $sign));
-        self::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+        static::assertTrue($ecdsa->verify($key, $data, $sign));
+        static::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
     }
 
-    public function testHS512SignVerify()
+    /**
+     * @test
+     */
+    public function hS512SignVerify()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -152,10 +171,13 @@ class ECDSASignatureTest extends TestCase
         $data = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
         $signature = $ecdsa->sign($key, $data);
 
-        self::assertTrue($ecdsa->verify($key, $data, $signature));
+        static::assertTrue($ecdsa->verify($key, $data, $signature));
     }
 
-    public function testBadSignature()
+    /**
+     * @test
+     */
+    public function badSignature()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -169,6 +191,6 @@ class ECDSASignatureTest extends TestCase
         $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
         $signature = 'DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3';
 
-        self::assertFalse($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+        static::assertFalse($ecdsa->verify($key, $data, Base64Url::decode($signature)));
     }
 }

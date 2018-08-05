@@ -23,9 +23,6 @@ final class PublicKeyCommand extends ObjectOutputCommand
 {
     /**
      * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
      */
     public function __construct(JsonConverter $jsonConverter, string $name = null)
     {
@@ -56,11 +53,6 @@ final class PublicKeyCommand extends ObjectOutputCommand
         $this->prepareJsonOutput($input, $output, $jwk);
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWK
-     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');

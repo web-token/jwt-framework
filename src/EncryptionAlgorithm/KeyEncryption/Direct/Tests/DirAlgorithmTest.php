@@ -28,8 +28,10 @@ class DirAlgorithmTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong key type.
+     *
+     * @test
      */
-    public function testInvalidKey()
+    public function invalidKey()
     {
         $key = JWK::create([
             'kty' => 'EC',
@@ -40,7 +42,10 @@ class DirAlgorithmTest extends TestCase
         $dir->getCEK($key);
     }
 
-    public function testValidCEK()
+    /**
+     * @test
+     */
+    public function validCEK()
     {
         $key = JWK::create([
             'kty' => 'oct',
@@ -49,6 +54,6 @@ class DirAlgorithmTest extends TestCase
 
         $dir = new Dir();
 
-        self::assertEquals('ABCD', $dir->getCEK($key));
+        static::assertEquals('ABCD', $dir->getCEK($key));
     }
 }

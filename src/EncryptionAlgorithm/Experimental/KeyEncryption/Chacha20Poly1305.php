@@ -68,9 +68,6 @@ final class Chacha20Poly1305 implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
-    /**
-     * @param JWK $key
-     */
     private function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -81,9 +78,6 @@ final class Chacha20Poly1305 implements KeyEncryption
         }
     }
 
-    /**
-     * @param array $header
-     */
     private function checkHeaderAdditionalParameters(array $header)
     {
         foreach (['nonce'] as $k) {

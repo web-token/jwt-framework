@@ -24,8 +24,6 @@ class JWSVerifierFactory
 
     /**
      * JWSVerifierFactory constructor.
-     *
-     * @param AlgorithmManagerFactory $algorithmManagerFactory
      */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
     {
@@ -36,8 +34,6 @@ class JWSVerifierFactory
      * Creates a JWSVerifier using the given signature algorithm aliases.
      *
      * @param string[] $algorithms
-     *
-     * @return JWSVerifier
      */
     public function create(array $algorithms): JWSVerifier
     {

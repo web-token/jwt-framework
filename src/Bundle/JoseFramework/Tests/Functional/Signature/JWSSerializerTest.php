@@ -29,27 +29,33 @@ class JWSSerializerTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
-    public function testJWSSerializerManagerFromConfigurationIsAvailable()
+    /**
+     * @test
+     */
+    public function jWSSerializerManagerFromConfigurationIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_serializer.jws_serializer1'));
+        static::assertTrue($container->has('jose.jws_serializer.jws_serializer1'));
 
         $jws = $container->get('jose.jws_serializer.jws_serializer1');
-        self::assertInstanceOf(JWSSerializerManager::class, $jws);
+        static::assertInstanceOf(JWSSerializerManager::class, $jws);
     }
 
-    public function testJWSSerializerManagerFromExternalBundleExtensionIsAvailable()
+    /**
+     * @test
+     */
+    public function jWSSerializerManagerFromExternalBundleExtensionIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_serializer.jws_serializer2'));
+        static::assertTrue($container->has('jose.jws_serializer.jws_serializer2'));
 
         $jws = $container->get('jose.jws_serializer.jws_serializer2');
-        self::assertInstanceOf(JWSSerializerManager::class, $jws);
+        static::assertInstanceOf(JWSSerializerManager::class, $jws);
     }
 }

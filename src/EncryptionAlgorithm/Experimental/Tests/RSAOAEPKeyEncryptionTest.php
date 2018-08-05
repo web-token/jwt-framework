@@ -26,7 +26,10 @@ use PHPUnit\Framework\TestCase;
  */
 class RSAOAEPKeyEncryptionTest extends TestCase
 {
-    public function testRSAOAEP384EncryptionAndDecryption()
+    /**
+     * @test
+     */
+    public function rSAOAEP384EncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new RSAOAEP384();
@@ -37,10 +40,13 @@ class RSAOAEPKeyEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $header);
 
-        self::assertEquals($cek, $decrypted);
+        static::assertEquals($cek, $decrypted);
     }
 
-    public function testRSAOAEP512EncryptionAndDecryption()
+    /**
+     * @test
+     */
+    public function rSAOAEP512EncryptionAndDecryption()
     {
         $header = [];
         $algorithm = new RSAOAEP512();
@@ -51,12 +57,9 @@ class RSAOAEPKeyEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $header);
 
-        self::assertEquals($cek, $decrypted);
+        static::assertEquals($cek, $decrypted);
     }
 
-    /**
-     * @return JWK
-     */
     private function getKey(): JWK
     {
         return JWK::create([

@@ -36,13 +36,13 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     protected function setUp()
     {
         if (!\class_exists(JWELoaderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
         if (!\class_exists(JWSLoaderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
         if (!\class_exists(HeaderCheckerManagerFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
 

@@ -41,11 +41,6 @@ class NestedTokenBuilderFactory
 
     /**
      * NestedTokenBuilderFactory constructor.
-     *
-     * @param JWEBuilderFactory           $jweBuilderFactory
-     * @param JWESerializerManagerFactory $jweSerializerManagerFactory
-     * @param JWSBuilderFactory           $jwsBuilderFactory
-     * @param JWSSerializerManagerFactory $jwsSerializerManagerFactory
      */
     public function __construct(JWEBuilderFactory $jweBuilderFactory, JWESerializerManagerFactory $jweSerializerManagerFactory, JWSBuilderFactory $jwsBuilderFactory, JWSSerializerManagerFactory $jwsSerializerManagerFactory)
     {
@@ -57,15 +52,6 @@ class NestedTokenBuilderFactory
 
     /**
      * This method creates a Nested Token Builder with the given encryption/signature algorithms, serializers and compression methods.
-     *
-     * @param array $jwe_serializers
-     * @param array $keyEncryptionAlgorithms
-     * @param array $contentEncryptionAlgorithms
-     * @param array $compressionMethods
-     * @param array $jws_serializers
-     * @param array $signatureAlgorithms
-     *
-     * @return NestedTokenBuilder
      */
     public function create(array $jwe_serializers, array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $jws_serializers, array $signatureAlgorithms): NestedTokenBuilder
     {

@@ -23,8 +23,6 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
     /**
      * Adds a message to the message bag.
      *
-     * @param Message $message
-     *
      * @return MessageBag
      */
     public function add(Message $message): self

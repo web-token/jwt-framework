@@ -24,7 +24,10 @@ use Jose\Component\Signature\Tests\SignatureTest;
  */
 class HMACSignatureTest extends SignatureTest
 {
-    public function testHS1SignAndVerify()
+    /**
+     * @test
+     */
+    public function hS1SignAndVerify()
     {
         $key = $this->getKey();
         $hmac = new HS1();
@@ -32,10 +35,13 @@ class HMACSignatureTest extends SignatureTest
 
         $signature = $hmac->sign($key, $data);
 
-        self::assertTrue($hmac->verify($key, $data, $signature));
+        static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
-    public function testHS256SignAndVerify()
+    /**
+     * @test
+     */
+    public function hS256SignAndVerify()
     {
         $key = $this->getKey();
         $hmac = new HS256_64();
@@ -43,8 +49,8 @@ class HMACSignatureTest extends SignatureTest
 
         $signature = $hmac->sign($key, $data);
 
-        self::assertEquals(\hex2bin('89f750759cb8ad93'), $signature);
-        self::assertTrue($hmac->verify($key, $data, $signature));
+        static::assertEquals(\hex2bin('89f750759cb8ad93'), $signature);
+        static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
     private function getKey(): JWK

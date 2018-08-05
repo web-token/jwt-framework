@@ -43,9 +43,6 @@ final class None implements SignatureAlgorithm
         return '' === $signature;
     }
 
-    /**
-     * @param JWK $key
-     */
     private function checkKey(JWK $key)
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -53,9 +50,6 @@ final class None implements SignatureAlgorithm
         }
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return 'none';

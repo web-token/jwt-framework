@@ -28,8 +28,10 @@ class RSAPSSSignatureTest extends SignatureTest
      * This test case create a signature and verifies it.
      * Then the output given in the RFC is used and verified.
      * This way, we can say that the library is able to create/verify RSA-PSS signatures and verify signature from test vectors.
+     *
+     * @test
      */
-    public function testPS384()
+    public function pS384()
     {
         /*
          * Payload,
@@ -79,12 +81,12 @@ class RSAPSSSignatureTest extends SignatureTest
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw"}]}';
 
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0));
 
         $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey, 0));
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $privateKey, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $privateKey, 0));
     }
 }

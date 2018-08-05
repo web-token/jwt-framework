@@ -31,8 +31,10 @@ class ECDHESKeyAgreementTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C
+     *
+     * @test
      */
-    public function testGetAgreementKey()
+    public function getAgreementKey()
     {
         $receiver = JWK::create([
             'kty' => 'EC',
@@ -50,14 +52,17 @@ class ECDHESKeyAgreementTest extends TestCase
         $additional_header_values = [];
 
         $ecdh_es->getAgreementKey(128, 'A128GCM', $receiver, $header, $additional_header_values);
-        self::assertTrue(\array_key_exists('epk', $additional_header_values));
-        self::assertTrue(\array_key_exists('kty', $additional_header_values['epk']));
-        self::assertTrue(\array_key_exists('crv', $additional_header_values['epk']));
-        self::assertTrue(\array_key_exists('x', $additional_header_values['epk']));
-        self::assertTrue(\array_key_exists('y', $additional_header_values['epk']));
+        static::assertTrue(\array_key_exists('epk', $additional_header_values));
+        static::assertTrue(\array_key_exists('kty', $additional_header_values['epk']));
+        static::assertTrue(\array_key_exists('crv', $additional_header_values['epk']));
+        static::assertTrue(\array_key_exists('x', $additional_header_values['epk']));
+        static::assertTrue(\array_key_exists('y', $additional_header_values['epk']));
     }
 
-    public function testGetAgreementKeyWithA128KeyWrap()
+    /**
+     * @test
+     */
+    public function getAgreementKeyWithA128KeyWrap()
     {
         $header = ['enc' => 'A128GCM'];
 
@@ -84,17 +89,20 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA128KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 128, $header, $header);
-        self::assertTrue(\array_key_exists('epk', $header));
-        self::assertTrue(\array_key_exists('crv', $header['epk']));
-        self::assertTrue(\array_key_exists('kty', $header['epk']));
-        self::assertTrue(\array_key_exists('x', $header['epk']));
-        self::assertTrue(\array_key_exists('y', $header['epk']));
-        self::assertEquals('P-256', $header['epk']['crv']);
-        self::assertEquals('EC', $header['epk']['kty']);
-        self::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 128, $header));
+        static::assertTrue(\array_key_exists('epk', $header));
+        static::assertTrue(\array_key_exists('crv', $header['epk']));
+        static::assertTrue(\array_key_exists('kty', $header['epk']));
+        static::assertTrue(\array_key_exists('x', $header['epk']));
+        static::assertTrue(\array_key_exists('y', $header['epk']));
+        static::assertEquals('P-256', $header['epk']['crv']);
+        static::assertEquals('EC', $header['epk']['kty']);
+        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 128, $header));
     }
 
-    public function testGetAgreementKeyWithA192KeyWrap()
+    /**
+     * @test
+     */
+    public function getAgreementKeyWithA192KeyWrap()
     {
         $header = ['enc' => 'A192GCM'];
 
@@ -121,17 +129,20 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA192KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 192, $header, $header);
-        self::assertTrue(\array_key_exists('epk', $header));
-        self::assertTrue(\array_key_exists('crv', $header['epk']));
-        self::assertTrue(\array_key_exists('kty', $header['epk']));
-        self::assertTrue(\array_key_exists('x', $header['epk']));
-        self::assertTrue(\array_key_exists('y', $header['epk']));
-        self::assertEquals('P-256', $header['epk']['crv']);
-        self::assertEquals('EC', $header['epk']['kty']);
-        self::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 192, $header));
+        static::assertTrue(\array_key_exists('epk', $header));
+        static::assertTrue(\array_key_exists('crv', $header['epk']));
+        static::assertTrue(\array_key_exists('kty', $header['epk']));
+        static::assertTrue(\array_key_exists('x', $header['epk']));
+        static::assertTrue(\array_key_exists('y', $header['epk']));
+        static::assertEquals('P-256', $header['epk']['crv']);
+        static::assertEquals('EC', $header['epk']['kty']);
+        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 192, $header));
     }
 
-    public function testGetAgreementKeyWithA256KeyWrap()
+    /**
+     * @test
+     */
+    public function getAgreementKeyWithA256KeyWrap()
     {
         $header = ['enc' => 'A256GCM'];
 
@@ -158,21 +169,23 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA256KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 256, $header, $header);
-        self::assertTrue(\array_key_exists('epk', $header));
-        self::assertTrue(\array_key_exists('crv', $header['epk']));
-        self::assertTrue(\array_key_exists('kty', $header['epk']));
-        self::assertTrue(\array_key_exists('x', $header['epk']));
-        self::assertTrue(\array_key_exists('y', $header['epk']));
-        self::assertEquals('P-256', $header['epk']['crv']);
-        self::assertEquals('EC', $header['epk']['kty']);
-        self::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 256, $header));
+        static::assertTrue(\array_key_exists('epk', $header));
+        static::assertTrue(\array_key_exists('crv', $header['epk']));
+        static::assertTrue(\array_key_exists('kty', $header['epk']));
+        static::assertTrue(\array_key_exists('x', $header['epk']));
+        static::assertTrue(\array_key_exists('y', $header['epk']));
+        static::assertEquals('P-256', $header['epk']['crv']);
+        static::assertEquals('EC', $header['epk']['kty']);
+        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 256, $header));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header parameter "epk" is missing
+     *
+     * @test
      */
-    public function testEPKParameterAreMissing()
+    public function ePKParameterAreMissing()
     {
         $sender = JWK::create([
             'kty' => 'EC',
@@ -189,8 +202,10 @@ class ECDHESKeyAgreementTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header parameter "epk" is not an array of parameter
+     *
+     * @test
      */
-    public function testBadEPKParameter()
+    public function badEPKParameter()
     {
         $header = ['epk' => 'foo'];
         $sender = JWK::create([
@@ -208,8 +223,10 @@ class ECDHESKeyAgreementTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The key parameter "x" is missing.
+     *
+     * @test
      */
-    public function testECKeyHasMissingParameters()
+    public function eCKeyHasMissingParameters()
     {
         $receiver = JWK::create([
             'kty' => 'EC',
@@ -223,8 +240,10 @@ class ECDHESKeyAgreementTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The curve "P-192" is not supported
+     *
+     * @test
      */
-    public function testUnsupportedCurve()
+    public function unsupportedCurve()
     {
         $header = [
             'enc' => 'A128GCM',

@@ -57,16 +57,16 @@ class Secret extends AbstractSource implements JWKSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('secret')
-                    ->info('The shared secret.')
-                    ->isRequired()
-                ->end()
-                ->arrayNode('additional_values')
-                    ->info('Additional values to be added to the key.')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->variablePrototype()->end()
-                ->end()
+            ->scalarNode('secret')
+            ->info('The shared secret.')
+            ->isRequired()
+            ->end()
+            ->arrayNode('additional_values')
+            ->info('Additional values to be added to the key.')
+            ->defaultValue([])
+            ->useAttributeAsKey('key')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

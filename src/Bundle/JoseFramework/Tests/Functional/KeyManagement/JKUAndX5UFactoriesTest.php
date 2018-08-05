@@ -30,7 +30,7 @@ class JKUAndX5UFactoriesTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(JKUFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }
 
@@ -42,7 +42,7 @@ class JKUAndX5UFactoriesTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has(JKUFactory::class));
+        static::assertTrue($container->has(JKUFactory::class));
     }
 
     /**
@@ -53,6 +53,6 @@ class JKUAndX5UFactoriesTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has(X5UFactory::class));
+        static::assertTrue($container->has(X5UFactory::class));
     }
 }

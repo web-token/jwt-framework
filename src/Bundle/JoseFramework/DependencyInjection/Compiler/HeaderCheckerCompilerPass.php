@@ -35,10 +35,6 @@ class HeaderCheckerCompilerPass implements CompilerPassInterface
         $this->addTokenType($definition, $container);
     }
 
-    /**
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
     private function addHeaderCheckers(Definition $definition, ContainerBuilder $container)
     {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.header');
@@ -52,10 +48,6 @@ class HeaderCheckerCompilerPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
     private function addTokenType(Definition $definition, ContainerBuilder $container)
     {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.token_type');

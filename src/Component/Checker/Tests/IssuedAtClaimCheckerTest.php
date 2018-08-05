@@ -51,6 +51,6 @@ class IssuedAtClaimCheckerTest extends TestCase
     {
         $checker = new IssuedAtChecker();
         $checker->checkClaim(\time() - 3600);
-        self::assertEquals('iat', $checker->supportedClaim());
+        static::assertEquals('iat', $checker->supportedClaim());
     }
 }

@@ -24,10 +24,6 @@ class JKUFactory extends UrlKeySetFactory
 
     /**
      * JKUFactory constructor.
-     *
-     * @param JsonConverter  $jsonConverter
-     * @param HttpClient     $client
-     * @param RequestFactory $requestFactory
      */
     public function __construct(JsonConverter $jsonConverter, HttpClient $client, RequestFactory $requestFactory)
     {
@@ -39,12 +35,7 @@ class JKUFactory extends UrlKeySetFactory
      * This method will try to fetch the url a retrieve the key set.
      * Throws an exception in case of failure.
      *
-     * @param string $url
-     * @param array  $header
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return JWKSet
      */
     public function loadFromUrl(string $url, array $header = []): JWKSet
     {

@@ -65,11 +65,6 @@ class Point
     /**
      * Initialize a new instance.
      *
-     * @param \GMP $x
-     * @param \GMP $y
-     * @param \GMP $order
-     * @param bool $infinity
-     *
      * @throws \RuntimeException when either the curve does not contain the given coordinates or
      *                           when order is not null and P(x, y) * order is not equal to infinity
      */
@@ -82,10 +77,6 @@ class Point
     }
 
     /**
-     * @param \GMP      $x
-     * @param \GMP      $y
-     * @param \GMP|null $order
-     *
      * @return Point
      */
     public static function create(\GMP $x, \GMP $y, ?\GMP $order = null): self
@@ -103,33 +94,21 @@ class Point
         return new self($zero, $zero, $zero, true);
     }
 
-    /**
-     * @return bool
-     */
     public function isInfinity(): bool
     {
         return $this->infinity;
     }
 
-    /**
-     * @return \GMP
-     */
     public function getOrder(): \GMP
     {
         return $this->order;
     }
 
-    /**
-     * @return \GMP
-     */
     public function getX(): \GMP
     {
         return $this->x;
     }
 
-    /**
-     * @return \GMP
-     */
     public function getY(): \GMP
     {
         return $this->y;
@@ -138,7 +117,6 @@ class Point
     /**
      * @param Point $a
      * @param Point $b
-     * @param int   $cond
      */
     public static function cswap(self $a, self $b, int $cond)
     {
@@ -148,11 +126,6 @@ class Point
         self::cswapBoolean($a->infinity, $b->infinity, $cond);
     }
 
-    /**
-     * @param bool $a
-     * @param bool $b
-     * @param int  $cond
-     */
     private static function cswapBoolean(bool &$a, bool &$b, int $cond)
     {
         $sa = \gmp_init(\intval($a), 10);
@@ -164,11 +137,6 @@ class Point
         $b = (bool) \gmp_strval($sb, 10);
     }
 
-    /**
-     * @param \GMP $sa
-     * @param \GMP $sb
-     * @param int  $cond
-     */
     private static function cswapGMP(\GMP &$sa, \GMP &$sb, int $cond)
     {
         $size = \max(\mb_strlen(\gmp_strval($sa, 2), '8bit'), \mb_strlen(\gmp_strval($sb, 2), '8bit'));

@@ -33,13 +33,13 @@ class NestedTokenBuilderTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
         if (!\class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
         if (!\class_exists(HeaderCheckerManagerFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
 
@@ -50,8 +50,8 @@ class NestedTokenBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(NestedTokenBuilderFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(NestedTokenBuilderFactory::class));
     }
 
     /**
@@ -61,8 +61,8 @@ class NestedTokenBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_1'));
+        static::assertNotNull($container);
+        static::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_1'));
     }
 
     /**
@@ -72,8 +72,8 @@ class NestedTokenBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_2'));
+        static::assertNotNull($container);
+        static::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_2'));
     }
 
     /**
@@ -83,7 +83,7 @@ class NestedTokenBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
+        static::assertNotNull($container);
 
         /** @var NestedTokenBuilder $builder */
         $builder = $container->get('jose.nested_token_builder.nested_token_builder_1');
@@ -134,7 +134,7 @@ class NestedTokenBuilderTest extends WebTestCase
             'jwe_compact'
         );
 
-        self::assertTrue(true);
+        static::assertTrue(true);
     }
 
     /**
@@ -144,7 +144,7 @@ class NestedTokenBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
+        static::assertNotNull($container);
 
         /** @var NestedTokenBuilder $builder */
         $builder = $container->get('jose.nested_token_builder.nested_token_builder_2');
@@ -195,6 +195,6 @@ class NestedTokenBuilderTest extends WebTestCase
             'jwe_compact'
         );
 
-        self::assertTrue(true);
+        static::assertTrue(true);
     }
 }

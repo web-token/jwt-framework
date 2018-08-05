@@ -26,8 +26,10 @@ class EdDSASignatureTest extends SignatureTest
 {
     /**
      * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5
+     *
+     * @test
      */
-    public function testEdDSAVerifyAlgorithm()
+    public function edDSAVerifyAlgorithm()
     {
         $key = JWK::create([
             'kty' => 'OKP',
@@ -42,13 +44,15 @@ class EdDSASignatureTest extends SignatureTest
 
         $result = $eddsa->verify($key, $input, $signature);
 
-        self::assertTrue($result);
+        static::assertTrue($result);
     }
 
     /**
      * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5
+     *
+     * @test
      */
-    public function testEdDSASignAndVerifyAlgorithm()
+    public function edDSASignAndVerifyAlgorithm()
     {
         $key = JWK::create([
             'kty' => 'OKP',
@@ -69,12 +73,12 @@ class EdDSASignatureTest extends SignatureTest
 
         $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
 
-        self::assertEquals('eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc.hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg', $jws);
+        static::assertEquals('eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc.hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg', $jws);
 
         $loaded = $this->getJWSSerializerManager()->unserialize($jws);
 
-        self::assertInstanceOf(JWS::class, $loaded);
-        self::assertEquals(1, $loaded->countSignatures());
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
+        static::assertInstanceOf(JWS::class, $loaded);
+        static::assertEquals(1, $loaded->countSignatures());
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
     }
 }

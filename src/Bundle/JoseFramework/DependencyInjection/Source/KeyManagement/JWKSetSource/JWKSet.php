@@ -56,10 +56,10 @@ class JWKSet extends AbstractSource implements JWKSetSource
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('value')
-                    ->info('The JWKSet object.')
-                    ->isRequired()
-                ->end()
+            ->scalarNode('value')
+            ->info('The JWKSet object.')
+            ->isRequired()
+            ->end()
             ->end();
     }
 }

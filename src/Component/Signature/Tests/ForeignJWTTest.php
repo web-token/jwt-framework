@@ -26,7 +26,10 @@ class ForeignJWTTest extends SignatureTest
      * The following test uses an assertion created with another library.
      * This assertion is valid if verified with the JWK.
      */
-    public function testValidJWTFromOtherLibrary()
+    /**
+     * @test
+     */
+    public function validJWTFromOtherLibrary()
     {
         $jwk = JWK::create([
             'kty' => 'RSA',
@@ -39,14 +42,14 @@ class ForeignJWTTest extends SignatureTest
 
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS256']);
         $jwt = $this->getJWSSerializerManager()->unserialize($challenge);
-        self::assertTrue($jwsVerifier->verifyWithKey($jwt, $jwk, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($jwt, $jwk, 0));
 
         $expectedHeader = [
             'alg' => 'RS256',
             'typ' => 'JWT',
         ];
 
-        self::assertInstanceOf(JWS::class, $jwt);
-        self::assertEquals($expectedHeader, $jwt->getSignature(0)->getProtectedHeader());
+        static::assertInstanceOf(JWS::class, $jwt);
+        static::assertEquals($expectedHeader, $jwt->getSignature(0)->getProtectedHeader());
     }
 }

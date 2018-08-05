@@ -15,11 +15,6 @@ namespace Jose\Component\Signature\Serializer;
 
 abstract class Serializer implements JWSSerializer
 {
-    /**
-     * @param array $protectedHeader
-     *
-     * @return bool
-     */
     protected function isPayloadEncoded(array $protectedHeader): bool
     {
         return !\array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];

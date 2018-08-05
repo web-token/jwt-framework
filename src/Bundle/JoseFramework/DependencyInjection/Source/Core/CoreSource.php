@@ -65,10 +65,10 @@ class CoreSource implements SourceWithCompilerPasses
     {
         $node
             ->children()
-                ->scalarNode('json_converter')
-                    ->defaultValue(StandardConverter::class)
-                    ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
-                ->end()
+            ->scalarNode('json_converter')
+            ->defaultValue(StandardConverter::class)
+            ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
+            ->end()
             ->end();
     }
 

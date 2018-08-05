@@ -26,7 +26,10 @@ use Jose\Component\Encryption\Compression\ZLib;
  */
 class CompressionTest extends EncryptionTest
 {
-    public function testGetValidCompressionAlgorithm()
+    /**
+     * @test
+     */
+    public function getValidCompressionAlgorithm()
     {
         $manager = CompressionMethodManager::create([
             new Deflate(),
@@ -34,60 +37,73 @@ class CompressionTest extends EncryptionTest
             new ZLib(),
         ]);
 
-        self::assertEquals(['DEF', 'GZ', 'ZLIB'], $manager->list());
+        static::assertEquals(['DEF', 'GZ', 'ZLIB'], $manager->list());
         $compression = $manager->get('DEF');
-        self::assertInstanceOf(CompressionMethod::class, $compression);
+        static::assertInstanceOf(CompressionMethod::class, $compression);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The compression method "FOO" is not supported.
+     *
+     * @test
      */
-    public function testGetInvalidCompressionAlgorithm()
+    public function getInvalidCompressionAlgorithm()
     {
         $manager = CompressionMethodManager::create([]);
-        self::assertFalse($manager->has('FOO'));
+        static::assertFalse($manager->has('FOO'));
         $manager->get('FOO');
     }
 
-    public function testDeflate()
+    /**
+     * @test
+     */
+    public function deflate()
     {
         $compression = new Deflate(9);
 
         $data = 'Live long and Prosper.';
         $compressed = $compression->compress($data);
         $uncompressed = $compression->uncompress($compressed);
-        self::assertNotNull($compressed);
-        self::assertSame($data, $uncompressed);
+        static::assertNotNull($compressed);
+        static::assertSame($data, $uncompressed);
     }
 
-    public function testGZip()
+    /**
+     * @test
+     */
+    public function gZip()
     {
         $compression = new GZip(9);
 
         $data = 'Live long and Prosper.';
         $compressed = $compression->compress($data);
         $uncompressed = $compression->uncompress($compressed);
-        self::assertNotNull($compressed);
-        self::assertSame($data, $uncompressed);
+        static::assertNotNull($compressed);
+        static::assertSame($data, $uncompressed);
     }
 
-    public function testZLib()
+    /**
+     * @test
+     */
+    public function zLib()
     {
         $compression = new ZLib(9);
 
         $data = 'Live long and Prosper.';
         $compressed = $compression->compress($data);
         $uncompressed = $compression->uncompress($compressed);
-        self::assertNotNull($compressed);
-        self::assertSame($data, $uncompressed);
+        static::assertNotNull($compressed);
+        static::assertSame($data, $uncompressed);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.
+     *
+     * @test
      */
-    public function testDeflateInvalidCompressionLevel()
+    public function deflateInvalidCompressionLevel()
     {
         new Deflate(100);
     }
@@ -95,8 +111,10 @@ class CompressionTest extends EncryptionTest
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.
+     *
+     * @test
      */
-    public function testGZipInvalidCompressionLevel()
+    public function gZipInvalidCompressionLevel()
     {
         new GZip(100);
     }
@@ -104,8 +122,10 @@ class CompressionTest extends EncryptionTest
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.
+     *
+     * @test
      */
-    public function testZLibInvalidCompressionLevel()
+    public function zLibInvalidCompressionLevel()
     {
         new ZLib(100);
     }

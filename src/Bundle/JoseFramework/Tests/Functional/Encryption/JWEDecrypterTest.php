@@ -30,7 +30,7 @@ class JWEDecrypterTest extends WebTestCase
     protected function setUp()
     {
         if (!\class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
@@ -41,8 +41,8 @@ class JWEDecrypterTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(JWEDecrypterFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(JWEDecrypterFactory::class));
     }
 
     /**
@@ -57,7 +57,7 @@ class JWEDecrypterTest extends WebTestCase
 
         $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
 
-        self::assertInstanceOf(JWEDecrypter::class, $jwe);
+        static::assertInstanceOf(JWEDecrypter::class, $jwe);
     }
 
     /**
@@ -67,10 +67,10 @@ class JWEDecrypterTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_decrypter.loader1'));
+        static::assertTrue($container->has('jose.jwe_decrypter.loader1'));
 
         $jwe = $container->get('jose.jwe_decrypter.loader1');
-        self::assertInstanceOf(JWEDecrypter::class, $jwe);
+        static::assertInstanceOf(JWEDecrypter::class, $jwe);
     }
 
     /**
@@ -80,9 +80,9 @@ class JWEDecrypterTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_decrypter.loader2'));
+        static::assertTrue($container->has('jose.jwe_decrypter.loader2'));
 
         $jwe = $container->get('jose.jwe_decrypter.loader2');
-        self::assertInstanceOf(JWEDecrypter::class, $jwe);
+        static::assertInstanceOf(JWEDecrypter::class, $jwe);
     }
 }

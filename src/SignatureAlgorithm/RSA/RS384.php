@@ -17,25 +17,16 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 final class RS384 extends RSA
 {
-    /**
-     * @return string
-     */
     protected function getAlgorithm(): string
     {
         return 'sha384';
     }
 
-    /**
-     * @return int
-     */
     protected function getSignatureMethod(): int
     {
         return JoseRSA::SIGNATURE_PKCS1;
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return 'RS384';

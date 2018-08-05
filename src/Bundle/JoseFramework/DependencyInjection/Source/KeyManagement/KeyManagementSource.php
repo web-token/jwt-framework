@@ -106,9 +106,6 @@ class KeyManagementSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
         return \class_exists(JWKFactory::class);

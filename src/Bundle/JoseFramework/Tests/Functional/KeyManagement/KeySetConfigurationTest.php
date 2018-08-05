@@ -33,7 +33,7 @@ class KeySetConfigurationTest extends TestCase
     protected function setUp()
     {
         if (!\class_exists(JWKFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
+            static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }
 

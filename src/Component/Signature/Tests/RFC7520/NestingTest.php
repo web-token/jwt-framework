@@ -23,7 +23,10 @@ use Jose\Component\Signature\Tests\SignatureTest;
  */
 class NestingTest extends SignatureTest
 {
-    public function testSignatureVerification()
+    /**
+     * @test
+     */
+    public function signatureVerification()
     {
         $payload = [
             'iss' => 'hobbiton.example',
@@ -55,8 +58,8 @@ class NestingTest extends SignatureTest
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS256']);
         $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($json_compact);
 
-        self::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
-        self::assertEquals($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
-        self::assertEquals($payload, \json_decode($loaded_compact_json->getPayload(), true));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
+        static::assertEquals($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
+        static::assertEquals($payload, \json_decode($loaded_compact_json->getPayload(), true));
     }
 }

@@ -51,7 +51,7 @@ class AlgorithmHeaderCheckerTest extends TestCase
     {
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader('foo');
-        self::assertFalse($checker->protectedHeaderOnly());
-        self::assertEquals('alg', $checker->supportedHeader());
+        static::assertFalse($checker->protectedHeaderOnly());
+        static::assertEquals('alg', $checker->supportedHeader());
     }
 }

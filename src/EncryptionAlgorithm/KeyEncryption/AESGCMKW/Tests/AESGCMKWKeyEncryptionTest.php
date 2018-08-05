@@ -26,7 +26,10 @@ use PHPUnit\Framework\TestCase;
  */
 class AESGCMKWKeyEncryptionTest extends TestCase
 {
-    public function testA128GCMKW()
+    /**
+     * @test
+     */
+    public function a128GCMKW()
     {
         $header = [];
         $key = JWK::create([
@@ -40,18 +43,20 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        self::assertTrue(\array_key_exists('iv', $header));
-        self::assertTrue(\array_key_exists('tag', $header));
-        self::assertNotNull($header['iv']);
-        self::assertNotNull($header['tag']);
-        self::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
+        static::assertTrue(\array_key_exists('iv', $header));
+        static::assertTrue(\array_key_exists('tag', $header));
+        static::assertNotNull($header['iv']);
+        static::assertNotNull($header['tag']);
+        static::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Wrong key type.
+     *
+     * @test
      */
-    public function testBadKey()
+    public function badKey()
     {
         $header = [];
         $key = JWK::create([
@@ -68,8 +73,10 @@ class AESGCMKWKeyEncryptionTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Parameter "iv" is missing.
+     *
+     * @test
      */
-    public function testMissingParameters()
+    public function missingParameters()
     {
         $header = [];
         $key = JWK::create([
@@ -84,7 +91,10 @@ class AESGCMKWKeyEncryptionTest extends TestCase
         $aeskw->unwrapKey($key, $cek, $header);
     }
 
-    public function testA192GCMKW()
+    /**
+     * @test
+     */
+    public function a192GCMKW()
     {
         $header = [];
         $key = JWK::create([
@@ -98,14 +108,17 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        self::assertTrue(\array_key_exists('iv', $header));
-        self::assertTrue(\array_key_exists('tag', $header));
-        self::assertNotNull($header['iv']);
-        self::assertNotNull($header['tag']);
-        self::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
+        static::assertTrue(\array_key_exists('iv', $header));
+        static::assertTrue(\array_key_exists('tag', $header));
+        static::assertNotNull($header['iv']);
+        static::assertNotNull($header['tag']);
+        static::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 
-    public function testA256GCMKW()
+    /**
+     * @test
+     */
+    public function a256GCMKW()
     {
         $header = [];
         $key = JWK::create([
@@ -119,10 +132,10 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        self::assertTrue(\array_key_exists('iv', $header));
-        self::assertTrue(\array_key_exists('tag', $header));
-        self::assertNotNull($header['iv']);
-        self::assertNotNull($header['tag']);
-        self::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
+        static::assertTrue(\array_key_exists('iv', $header));
+        static::assertTrue(\array_key_exists('tag', $header));
+        static::assertNotNull($header['iv']);
+        static::assertNotNull($header['tag']);
+        static::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /*
  * The MIT License (MIT)
  *
@@ -18,9 +19,6 @@ namespace Jose\Performance\JWE;
  */
 final class A128GCMKWBench extends EncryptionBench
 {
-    /**
-     * @return array
-     */
     public function dataHeadersAndAlgorithms(): array
     {
         return [

@@ -48,8 +48,6 @@ class AlgorithmManager
      * Returns true if the algorithm is supported.
      *
      * @param string $algorithm The algorithm
-     *
-     * @return bool
      */
     public function has(string $algorithm): bool
     {
@@ -70,8 +68,6 @@ class AlgorithmManager
      * Returns the algorithm if supported, otherwise throw an exception.
      *
      * @param string $algorithm The algorithm
-     *
-     * @return Algorithm
      */
     public function get(string $algorithm): Algorithm
     {
@@ -84,8 +80,6 @@ class AlgorithmManager
 
     /**
      * Adds an algorithm to the manager.
-     *
-     * @param Algorithm $algorithm
      *
      * @return AlgorithmManager
      */

@@ -38,18 +38,18 @@ use Jose\Component\Signature\Tests\SignatureTest;
 class ECDSASignatureTest extends SignatureTest
 {
     /**
-     * @param SignatureAlgorithm       $algorithm
-     * @param string                   $message
-     * @param \Jose\Component\Core\JWK $key
-     * @param string                   $signature
+     * @param string $message
+     * @param string $signature
      *
      * @dataProvider dataWithVectors
+     *
+     * @test
      */
-    public function testWithVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature)
+    public function withVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature)
     {
         $is_valid = $algorithm->verify($key, $message, $signature);
 
-        self::assertTrue($is_valid);
+        static::assertTrue($is_valid);
     }
 
     /**
