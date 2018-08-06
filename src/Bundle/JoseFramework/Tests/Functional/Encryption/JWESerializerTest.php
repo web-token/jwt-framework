@@ -23,9 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWESerializerTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(JWEBuilderFactory::class)) {

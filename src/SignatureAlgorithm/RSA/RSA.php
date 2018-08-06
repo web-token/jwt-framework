@@ -23,17 +23,11 @@ abstract class RSA implements SignatureAlgorithm
 
     abstract protected function getSignatureMethod(): int;
 
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function verify(JWK $key, string $input, string $signature): bool
     {
         $this->checkKey($key);
@@ -42,9 +36,6 @@ abstract class RSA implements SignatureAlgorithm
         return JoseRSA::verify($pub, $input, $signature, $this->getAlgorithm(), $this->getSignatureMethod());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);

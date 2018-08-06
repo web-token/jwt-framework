@@ -54,9 +54,6 @@ class Token implements JWT
         return new self($payload, $protectedHeader, $unprotectedHeader);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPayload(): ?string
     {
         return $this->payload;

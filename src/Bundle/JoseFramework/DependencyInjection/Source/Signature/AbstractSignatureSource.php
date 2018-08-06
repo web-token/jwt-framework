@@ -19,9 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 abstract class AbstractSignatureSource implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
@@ -54,9 +51,6 @@ abstract class AbstractSignatureSource implements Source
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

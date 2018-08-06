@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class EcKeysetGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,9 +31,6 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $quantity = \intval($input->getArgument('quantity'));

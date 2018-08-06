@@ -17,17 +17,11 @@ use AESKW\A128KW as Wrapper;
 
 final class A128KW extends AESKW
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getWrapper()
     {
         return new Wrapper();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'A128KW';

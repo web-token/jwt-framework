@@ -19,9 +19,6 @@ use ZxcvbnPhp\Zxcvbn;
 
 final class OctAnalyzer implements KeyAnalyzer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function analyze(JWK $jwk, MessageBag $bag)
     {
         if ('oct' !== $jwk->get('kty')) {

@@ -21,17 +21,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWSVerifier extends AbstractSignatureSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'verifiers';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {

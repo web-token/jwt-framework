@@ -23,17 +23,11 @@ use Jose\Component\Encryption\Util\Ecc\EcDH;
 
 final class ECDHES implements KeyAgreement
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['EC', 'OKP'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAgreementKey(int $encryption_key_length, string $algorithm, JWK $recipient_key, array $complete_header = [], array &$additional_header_values = []): string
     {
         if ($recipient_key->has('d')) {
@@ -121,17 +115,11 @@ final class ECDHES implements KeyAgreement
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'ECDH-ES';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_AGREEMENT;

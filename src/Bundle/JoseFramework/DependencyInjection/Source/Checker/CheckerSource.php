@@ -43,17 +43,11 @@ class CheckerSource implements SourceWithCompilerPasses
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'checkers';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -70,9 +64,6 @@ class CheckerSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
@@ -90,9 +81,6 @@ class CheckerSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {

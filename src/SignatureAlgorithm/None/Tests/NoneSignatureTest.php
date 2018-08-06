@@ -11,17 +11,22 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Tests;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\None;
 use Jose\Component\Signature\JWS;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group None
  * @group Unit
  */
-class NoneSignatureTest extends SignatureTest
+class NoneSignatureTest extends TestCase
 {
     /**
      * @test
@@ -68,7 +73,13 @@ class NoneSignatureTest extends SignatureTest
             'kty' => 'none',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['none']);
+        $jwsBuilder = new JWSBuilder(
+            new StandardConverter(),
+            AlgorithmManager::create([new None()])
+        );
+        $serializer = new CompactSerializer(
+            new StandardConverter()
+        );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($jwk, ['alg' => 'none'])
@@ -76,10 +87,10 @@ class NoneSignatureTest extends SignatureTest
 
         static::assertEquals(1, $jws->countSignatures());
 
-        $compact = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+        $compact = $serializer->serialize($jws, 0);
         static::assertTrue(\is_string($compact));
 
-        $result = $this->getJWSSerializerManager()->unserialize($compact);
+        $result = $serializer->unserialize($compact);
 
         static::assertInstanceOf(JWS::class, $result);
 

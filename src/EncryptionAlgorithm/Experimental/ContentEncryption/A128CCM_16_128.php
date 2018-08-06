@@ -15,25 +15,16 @@ namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 final class A128CCM_16_128 extends AESCCM
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getCEKSize(): int
     {
         return 128;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getMode(): string
     {
         return 'aes-128-ccm';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'A128CCM-16-128';

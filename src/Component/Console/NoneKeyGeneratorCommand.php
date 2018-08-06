@@ -19,9 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class NoneKeyGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -30,9 +27,6 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
             ->setDescription('Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $args = $this->getOptions($input);

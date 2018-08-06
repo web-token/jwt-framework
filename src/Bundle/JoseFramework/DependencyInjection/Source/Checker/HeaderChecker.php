@@ -23,17 +23,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class HeaderChecker implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'headers';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -53,9 +47,6 @@ class HeaderChecker implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
@@ -90,9 +81,6 @@ class HeaderChecker implements Source
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

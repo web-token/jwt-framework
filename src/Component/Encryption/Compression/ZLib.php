@@ -37,17 +37,11 @@ final class ZLib implements CompressionMethod
         return $this->compression_level;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'ZLIB';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function compress(string $data): string
     {
         $data = \gzcompress($data, $this->getCompressionLevel());
@@ -58,9 +52,6 @@ final class ZLib implements CompressionMethod
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function uncompress(string $data): string
     {
         $data = \gzuncompress($data);

@@ -17,17 +17,11 @@ use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 
 abstract class AESCCM implements ContentEncryptionAlgorithm
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return []; //Irrelevant
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string
     {
         $calculated_aad = $encoded_protected_header;

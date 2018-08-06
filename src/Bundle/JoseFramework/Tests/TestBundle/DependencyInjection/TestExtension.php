@@ -25,18 +25,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class TestExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container)
     {
         ConfigurationHelper::addKey($container, 'jwk2', 'jwk', [

@@ -17,33 +17,21 @@ use AESKW\A128KW as Wrapper;
 
 final class PBES2HS256A128KW extends PBES2AESKW
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getWrapper()
     {
         return new Wrapper();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getHashAlgorithm(): string
     {
         return 'sha256';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getKeySize(): int
     {
         return 16;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'PBES2-HS256+A128KW';

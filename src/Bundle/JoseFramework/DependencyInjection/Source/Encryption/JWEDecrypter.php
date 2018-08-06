@@ -21,17 +21,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWEDecrypter extends AbstractEncryptionSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'decrypters';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {

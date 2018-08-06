@@ -55,17 +55,11 @@ final class ECDHESA256KWBench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAAD(): ?string
     {
         return 'A,B,C,D';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataInputs(): array
     {
         return [
@@ -96,9 +90,6 @@ final class ECDHESA256KWBench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataPrivateKeys(): array
     {
         return [
@@ -131,9 +122,6 @@ final class ECDHESA256KWBench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataRecipientPublicKeys(): array
     {
         return [

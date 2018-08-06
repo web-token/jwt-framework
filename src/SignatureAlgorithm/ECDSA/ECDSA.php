@@ -19,9 +19,6 @@ use Jose\Component\Core\Util\ECSignature;
 
 abstract class ECDSA implements SignatureAlgorithm
 {
-    /**
-     * ECDSA constructor.
-     */
     public function __construct()
     {
         if (!\defined('OPENSSL_KEYTYPE_EC')) {
@@ -29,17 +26,11 @@ abstract class ECDSA implements SignatureAlgorithm
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['EC'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -56,9 +47,6 @@ abstract class ECDSA implements SignatureAlgorithm
         return ECSignature::fromDER($signature, $this->getSignaturePartLength());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function verify(JWK $key, string $input, string $signature): bool
     {
         $this->checkKey($key);

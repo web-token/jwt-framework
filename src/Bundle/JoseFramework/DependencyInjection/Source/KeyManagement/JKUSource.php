@@ -22,17 +22,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class JKUSource implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'jku_factory';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (true === $configs[$this->name()]['enabled']) {
@@ -46,9 +40,6 @@ class JKUSource implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
@@ -70,9 +61,6 @@ class JKUSource implements Source
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

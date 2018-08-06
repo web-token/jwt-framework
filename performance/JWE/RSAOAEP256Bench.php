@@ -55,17 +55,11 @@ final class RSAOAEP256Bench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAAD(): ?string
     {
         return 'A,B,C,D';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataInputs(): array
     {
         return [
@@ -90,9 +84,6 @@ final class RSAOAEP256Bench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataPrivateKeys(): array
     {
         return [
@@ -132,9 +123,6 @@ final class RSAOAEP256Bench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataRecipientPublicKeys(): array
     {
         return [

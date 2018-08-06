@@ -17,17 +17,11 @@ use Jose\Component\Core\JWK;
 
 final class None implements SignatureAlgorithm
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['none'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -35,9 +29,6 @@ final class None implements SignatureAlgorithm
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function verify(JWK $key, string $input, string $signature): bool
     {
         return '' === $signature;

@@ -36,17 +36,11 @@ final class Deflate implements CompressionMethod
         return $this->compression_level;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'DEF';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function compress(string $data): string
     {
         $data = \gzdeflate($data, $this->getCompressionLevel());
@@ -57,9 +51,6 @@ final class Deflate implements CompressionMethod
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function uncompress(string $data): string
     {
         $data = \gzinflate($data);

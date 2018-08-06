@@ -19,9 +19,6 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 class KeyEnvVarProcessor implements EnvVarProcessorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getEnv($prefix, $name, \Closure $getEnv)
     {
         $env = $getEnv($name);
@@ -35,9 +32,6 @@ class KeyEnvVarProcessor implements EnvVarProcessorInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getProvidedTypes()
     {
         return [

@@ -27,9 +27,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWSComputationTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(JWSBuilderFactory::class)) {

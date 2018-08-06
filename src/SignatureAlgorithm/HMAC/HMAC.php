@@ -18,25 +18,16 @@ use Jose\Component\Core\JWK;
 
 abstract class HMAC implements SignatureAlgorithm
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['oct'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function verify(JWK $key, string $input, string $signature): bool
     {
         return \hash_equals($this->sign($key, $input), $signature);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);

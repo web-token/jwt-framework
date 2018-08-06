@@ -22,17 +22,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class NestedTokenBuilder implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'builders';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -124,9 +118,6 @@ class NestedTokenBuilder implements Source
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

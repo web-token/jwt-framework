@@ -35,17 +35,11 @@ final class StandardConverter implements JsonConverter
         $this->depth = $depth;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function encode($payload): string
     {
         return \json_encode($payload, $this->options, $this->depth);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function decode(string $payload, bool $associativeArray = true)
     {
         return \json_decode($payload, $associativeArray, $this->depth, $this->options);

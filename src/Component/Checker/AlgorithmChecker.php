@@ -42,9 +42,6 @@ final class AlgorithmChecker implements HeaderChecker
         $this->protectedHeader = $protectedHeader;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkHeader($value)
     {
         if (!\is_string($value)) {
@@ -55,17 +52,11 @@ final class AlgorithmChecker implements HeaderChecker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedHeader(): string
     {
         return self::HEADER_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;

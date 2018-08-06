@@ -34,17 +34,11 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class AppKernel extends Kernel
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(string $environment, bool $debug)
     {
         parent::__construct($environment, false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function registerBundles()
     {
         $bundles = [
@@ -57,9 +51,6 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');

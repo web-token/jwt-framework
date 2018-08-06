@@ -23,9 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 class ConsoleTest extends KernelTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(EcKeyGeneratorCommand::class)) {

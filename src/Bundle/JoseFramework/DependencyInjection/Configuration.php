@@ -40,9 +40,6 @@ class Configuration implements ConfigurationInterface
         $this->sources = $sources;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();

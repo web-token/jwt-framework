@@ -33,9 +33,6 @@ class IssuerChecker implements HeaderChecker
         $this->issuer = $issuer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkHeader($value)
     {
         if (!\is_string($value) || $value !== $this->issuer) {
@@ -43,17 +40,11 @@ class IssuerChecker implements HeaderChecker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedHeader(): string
     {
         return self::CLAIM_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function protectedHeaderOnly(): bool
     {
         return false;

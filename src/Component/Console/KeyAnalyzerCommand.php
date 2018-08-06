@@ -44,9 +44,6 @@ final class KeyAnalyzerCommand extends Command
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -57,9 +54,6 @@ final class KeyAnalyzerCommand extends Command
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));

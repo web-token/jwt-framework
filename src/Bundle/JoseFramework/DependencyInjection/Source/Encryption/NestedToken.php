@@ -40,17 +40,11 @@ class NestedToken implements Source
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'nested_token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -81,9 +75,6 @@ class NestedToken implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {

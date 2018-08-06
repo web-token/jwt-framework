@@ -15,17 +15,11 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 final class A128CTR extends AESCTR
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'A128CTR';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getMode(): string
     {
         return 'aes-128-ctr';

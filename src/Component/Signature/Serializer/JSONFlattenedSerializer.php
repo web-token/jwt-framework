@@ -34,25 +34,16 @@ final class JSONFlattenedSerializer extends Serializer
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWS JSON Flattened';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (null === $signatureIndex) {
@@ -77,9 +68,6 @@ final class JSONFlattenedSerializer extends Serializer
         return $this->jsonConverter->encode($data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWS
     {
         $data = $this->jsonConverter->decode($input);

@@ -19,9 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class KeySetControllerCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(JWKSetLoader::class)) {

@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class RsaKeysetGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,9 +31,6 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $quantity = \intval($input->getArgument('quantity'));

@@ -34,9 +34,6 @@ class KeyCollector implements Collector
         $this->jwkAnalyzerManager = $jwkAnalyzerManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $this->collectJWK($data);

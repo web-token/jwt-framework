@@ -36,9 +36,6 @@ final class IssuedAtChecker implements ClaimChecker
         $this->allowedTimeDrift = $allowedTimeDrift;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkClaim($value)
     {
         if (!\is_int($value)) {
@@ -49,9 +46,6 @@ final class IssuedAtChecker implements ClaimChecker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedClaim(): string
     {
         return self::CLAIM_NAME;

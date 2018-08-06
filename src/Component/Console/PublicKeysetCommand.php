@@ -29,9 +29,6 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -42,9 +39,6 @@ final class PublicKeysetCommand extends ObjectOutputCommand
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwkset = $this->getKeyset($input);

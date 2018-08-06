@@ -41,32 +41,20 @@ class JWKSetLoader implements LoaderInterface
         $this->routes->add(\sprintf('jwkset_%s', $name), $route);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load($resource, $type = null)
     {
         return $this->routes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports($resource, $type = null)
     {
         return 'jwkset' === $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getResolver()
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setResolver(LoaderResolverInterface $resolver)
     {
     }

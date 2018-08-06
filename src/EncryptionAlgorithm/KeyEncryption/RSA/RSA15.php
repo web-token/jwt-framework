@@ -17,25 +17,16 @@ use Jose\Component\Encryption\Util\RSACrypt;
 
 final class RSA15 extends RSA
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getEncryptionMode(): int
     {
         return RSACrypt::ENCRYPTION_PKCS1;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getHashAlgorithm(): ?string
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'RSA1_5';

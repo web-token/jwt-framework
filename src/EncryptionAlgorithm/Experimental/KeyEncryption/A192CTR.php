@@ -15,17 +15,11 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 final class A192CTR extends AESCTR
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'A192CTR';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getMode(): string
     {
         return 'aes-192-ctr';

@@ -35,25 +35,16 @@ final class JSONGeneralSerializer implements JWESerializer
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWE JSON General';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
         if (0 === $jwe->countRecipients()) {
@@ -89,9 +80,6 @@ final class JSONGeneralSerializer implements JWESerializer
         return $this->jsonConverter->encode($data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWE
     {
         $data = $this->jsonConverter->decode($input);

@@ -27,9 +27,6 @@ class SerializerConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(JWEBuilderFactory::class)) {
@@ -37,9 +34,6 @@ class SerializerConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [

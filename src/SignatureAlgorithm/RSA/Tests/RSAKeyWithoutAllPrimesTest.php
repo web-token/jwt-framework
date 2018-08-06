@@ -11,16 +11,23 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Tests;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
+use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWS;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group RSA2
  * @group Unit
  */
-class RSAKeyWithoutAllPrimesTest extends SignatureTest
+class RSAKeyWithoutAllPrimesTest extends TestCase
 {
     /**
      * @dataProvider dataSignatureAlgorithms
@@ -29,19 +36,28 @@ class RSAKeyWithoutAllPrimesTest extends SignatureTest
      */
     public function signatureAlgorithms(string $signature_algorithm)
     {
+        $algorithm = new $signature_algorithm();
         $key = $this->getPrivateKey();
 
         $claims = \json_encode(['foo' => 'bar']);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create([$signature_algorithm]);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create([$signature_algorithm]);
+        $jwsBuilder = new JWSBuilder(
+            new StandardConverter(),
+            AlgorithmManager::create([$algorithm])
+        );
+        $jwsVerifier = new JWSVerifier(
+            AlgorithmManager::create([$algorithm])
+        );
+        $serializer = new CompactSerializer(
+            new StandardConverter()
+        );
         $jws = $jwsBuilder
             ->create()->withPayload($claims)
-            ->addSignature($key, ['alg' => $signature_algorithm])
+            ->addSignature($key, ['alg' => $algorithm->name()])
             ->build();
-        $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+        $jws = $serializer->serialize($jws, 0);
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
+        $loaded = $serializer->unserialize($jws);
         static::assertInstanceOf(JWS::class, $loaded);
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
@@ -53,12 +69,12 @@ class RSAKeyWithoutAllPrimesTest extends SignatureTest
     public function dataSignatureAlgorithms()
     {
         return [
-            ['RS256'],
-            ['RS384'],
-            ['RS512'],
-            ['PS256'],
-            ['PS384'],
-            ['PS512'],
+            [Algorithm\RS256::class],
+            [Algorithm\RS384::class],
+            [Algorithm\RS512::class],
+            [Algorithm\PS256::class],
+            [Algorithm\PS384::class],
+            [Algorithm\PS512::class],
         ];
     }
 
@@ -68,9 +84,9 @@ class RSAKeyWithoutAllPrimesTest extends SignatureTest
     public function dataSignatureAlgorithmsWithSimpleKey()
     {
         return [
-            ['PS256'],
-            ['PS384'],
-            ['PS512'],
+            [Algorithm\PS256::class],
+            [Algorithm\PS384::class],
+            [Algorithm\PS512::class],
         ];
     }
 

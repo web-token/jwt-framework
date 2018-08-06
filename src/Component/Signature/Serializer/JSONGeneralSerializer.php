@@ -34,25 +34,16 @@ final class JSONGeneralSerializer extends Serializer
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWS JSON General';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (0 === $jws->countSignatures()) {
@@ -99,9 +90,6 @@ final class JSONGeneralSerializer extends Serializer
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWS
     {
         $data = $this->jsonConverter->decode($input);

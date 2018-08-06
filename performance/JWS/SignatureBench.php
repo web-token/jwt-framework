@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
@@ -32,24 +31,9 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
  */
 abstract class SignatureBench
 {
-    /**
-     * @var string
-     */
     private $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-
-    /**
-     * @param JWAManager
-     */
     private $signatureAlgorithmsManager;
-
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
-
-    /**
-     * @var JWSSerializerManager
-     */
     private $serializerManager;
 
     public function init()
@@ -79,12 +63,10 @@ abstract class SignatureBench
     }
 
     /**
-     * @param array $params
-     *
      * @Subject
      * @ParamProviders({"dataSignature"})
      */
-    public function sign($params)
+    public function sign(array $params)
     {
         $jwsBuilder = new JWSBuilder($this->jsonConverter, $this->signatureAlgorithmsManager);
         $jwsBuilder
@@ -94,12 +76,10 @@ abstract class SignatureBench
     }
 
     /**
-     * @param array $params
-     *
      * @Subject
      * @ParamProviders({"dataVerification"})
      */
-    public function verify($params)
+    public function verify(array $params)
     {
         $jwsLoader = new JWSVerifier($this->signatureAlgorithmsManager);
         $jws = $this->serializerManager->unserialize($params['input']);

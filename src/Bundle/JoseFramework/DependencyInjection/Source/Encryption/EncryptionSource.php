@@ -54,17 +54,11 @@ class EncryptionSource implements SourceWithCompilerPasses
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'jwe';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -90,9 +84,6 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     private function getAlgorithmsFiles(): array
     {
         $list = [
@@ -113,9 +104,6 @@ class EncryptionSource implements SourceWithCompilerPasses
         return $list;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
@@ -132,9 +120,6 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {

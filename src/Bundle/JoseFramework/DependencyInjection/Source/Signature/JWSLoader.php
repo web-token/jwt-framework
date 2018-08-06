@@ -23,17 +23,11 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWSLoader implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'loaders';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -101,9 +95,6 @@ class JWSLoader implements Source
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

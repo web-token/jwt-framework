@@ -36,9 +36,6 @@ class AlgorithmCollector implements Collector
         $this->algorithmManagerFactory = $algorithmManagerFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $algorithms = $this->algorithmManagerFactory->all();

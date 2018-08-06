@@ -17,25 +17,16 @@ use AESKW\A256KW as Wrapper;
 
 final class ECDHESA256KW extends ECDHESAESKW
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getWrapper()
     {
         return new Wrapper();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'ECDH-ES+A256KW';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getKeyLength(): int
     {
         return 256;

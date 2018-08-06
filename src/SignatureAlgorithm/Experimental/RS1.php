@@ -17,10 +17,6 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 final class RS1 extends RSA
 {
-    /*
-    /**
-     * @return string
-     */
     protected function getAlgorithm(): string
     {
         return 'sha1';

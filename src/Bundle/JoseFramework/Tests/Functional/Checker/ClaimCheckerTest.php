@@ -23,9 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class ClaimCheckerTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(ClaimCheckerManagerFactory::class)) {

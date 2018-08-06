@@ -35,9 +35,6 @@ class JWSCollector implements Collector
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $this->collectSupportedJWSSerializations($data);

@@ -22,9 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class Secret extends AbstractSource implements JWKSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWK::class);
@@ -41,17 +38,11 @@ class Secret extends AbstractSource implements JWKSource
         return $definition;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKey(): string
     {
         return 'secret';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         parent::addConfiguration($node);

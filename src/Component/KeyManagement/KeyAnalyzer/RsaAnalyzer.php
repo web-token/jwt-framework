@@ -18,9 +18,6 @@ use Jose\Component\Core\JWK;
 
 final class RsaAnalyzer implements KeyAnalyzer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function analyze(JWK $jwk, MessageBag $bag)
     {
         if ('RSA' !== $jwk->get('kty')) {

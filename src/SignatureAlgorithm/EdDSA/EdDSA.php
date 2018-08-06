@@ -18,17 +18,11 @@ use Jose\Component\Core\JWK;
 
 final class EdDSA implements SignatureAlgorithm
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['OKP'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -47,9 +41,6 @@ final class EdDSA implements SignatureAlgorithm
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function verify(JWK $key, string $input, string $signature): bool
     {
         $this->checkKey($key);
@@ -79,9 +70,6 @@ final class EdDSA implements SignatureAlgorithm
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'EdDSA';

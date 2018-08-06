@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class GetThumbprintCommand extends ObjectOutputCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,9 +31,6 @@ final class GetThumbprintCommand extends ObjectOutputCommand
             ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');

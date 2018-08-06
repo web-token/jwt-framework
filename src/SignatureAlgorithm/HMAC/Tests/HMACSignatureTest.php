@@ -11,18 +11,19 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Tests;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS256;
 use Jose\Component\Signature\Algorithm\HS384;
 use Jose\Component\Signature\Algorithm\HS512;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group HMAC
  * @group Unit
  */
-class HMACSignatureTest extends SignatureTest
+class HMACSignatureTest extends TestCase
 {
     /**
      * @expectedException \InvalidArgumentException

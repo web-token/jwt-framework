@@ -19,17 +19,11 @@ use Jose\Component\Encryption\Util\RSACrypt;
 
 abstract class RSA implements KeyEncryption
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
@@ -38,9 +32,6 @@ abstract class RSA implements KeyEncryption
         return RSACrypt::encrypt($pub, $cek, $this->getEncryptionMode(), $this->getHashAlgorithm());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $this->checkKey($key);
@@ -52,9 +43,6 @@ abstract class RSA implements KeyEncryption
         return RSACrypt::decrypt($priv, $encrypted_cek, $this->getEncryptionMode(), $this->getHashAlgorithm());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_ENCRYPT;

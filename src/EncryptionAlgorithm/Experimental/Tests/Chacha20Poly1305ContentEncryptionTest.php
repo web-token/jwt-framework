@@ -23,9 +23,6 @@ use PHPUnit\Framework\TestCase;
  */
 class Chacha20Poly1305ContentEncryptionTest extends TestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {

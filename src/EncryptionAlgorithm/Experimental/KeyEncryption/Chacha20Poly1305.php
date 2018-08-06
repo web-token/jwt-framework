@@ -25,9 +25,6 @@ final class Chacha20Poly1305 implements KeyEncryption
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['oct'];
@@ -60,9 +57,6 @@ final class Chacha20Poly1305 implements KeyEncryption
         return \openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_ENCRYPT;

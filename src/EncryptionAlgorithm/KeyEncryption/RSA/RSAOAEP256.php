@@ -17,25 +17,16 @@ use Jose\Component\Encryption\Util\RSACrypt;
 
 final class RSAOAEP256 extends RSA
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getEncryptionMode(): int
     {
         return RSACrypt::ENCRYPTION_OAEP;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getHashAlgorithm(): string
     {
         return 'sha256';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'RSA-OAEP-256';

@@ -20,9 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class OkpKeyGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -32,9 +29,6 @@ final class OkpKeyGeneratorCommand extends GeneratorCommand
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $curve = $input->getArgument('curve');

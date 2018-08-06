@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWECollectorCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(JWECollector::class)) {

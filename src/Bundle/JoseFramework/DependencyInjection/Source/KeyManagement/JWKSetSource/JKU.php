@@ -23,9 +23,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JKU extends AbstractSource implements JWKSetSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWKSet::class);
@@ -42,17 +39,11 @@ class JKU extends AbstractSource implements JWKSetSource
         return $definition;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeySet(): string
     {
         return 'jku';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         parent::addConfiguration($node);

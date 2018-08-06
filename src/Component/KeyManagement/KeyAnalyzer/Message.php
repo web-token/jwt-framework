@@ -86,9 +86,6 @@ class Message implements \JsonSerializable
         return $this->severity;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function jsonSerialize()
     {
         return [

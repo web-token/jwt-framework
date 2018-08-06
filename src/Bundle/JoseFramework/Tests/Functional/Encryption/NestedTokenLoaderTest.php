@@ -28,9 +28,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class NestedTokenLoaderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(JWELoaderFactory::class)) {

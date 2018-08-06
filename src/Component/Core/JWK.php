@@ -62,8 +62,6 @@ class JWK implements \JsonSerializable
 
     /**
      * Returns the values to be serialized.
-     *
-     * {@inheritdoc}
      */
     public function jsonSerialize()
     {

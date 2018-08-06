@@ -27,9 +27,6 @@ class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(ClaimCheckerManagerFactory::class)) {
@@ -37,9 +34,6 @@ class ConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [

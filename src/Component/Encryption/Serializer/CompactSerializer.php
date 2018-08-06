@@ -35,25 +35,16 @@ final class CompactSerializer implements JWESerializer
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWE Compact';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
         if (null === $recipientIndex) {
@@ -75,9 +66,6 @@ final class CompactSerializer implements JWESerializer
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWE
     {
         $parts = \explode('.', $input);

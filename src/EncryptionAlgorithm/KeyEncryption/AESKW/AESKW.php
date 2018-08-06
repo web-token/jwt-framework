@@ -18,17 +18,11 @@ use Jose\Component\Core\JWK;
 
 abstract class AESKW implements KeyWrapping
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['oct'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
@@ -37,9 +31,6 @@ abstract class AESKW implements KeyWrapping
         return $wrapper::wrap(Base64Url::decode($key->get('k')), $cek);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $this->checkKey($key);
@@ -48,9 +39,6 @@ abstract class AESKW implements KeyWrapping
         return $wrapper::unwrap(Base64Url::decode($key->get('k')), $encrypted_cek);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_WRAP;

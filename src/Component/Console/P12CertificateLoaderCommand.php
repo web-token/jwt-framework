@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class P12CertificateLoaderCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,9 +31,6 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
             ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filename = $input->getArgument('file');

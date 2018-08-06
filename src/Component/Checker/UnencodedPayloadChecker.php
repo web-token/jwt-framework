@@ -23,9 +23,6 @@ final class UnencodedPayloadChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'b64';
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkHeader($value)
     {
         if (!\is_bool($value)) {
@@ -33,17 +30,11 @@ final class UnencodedPayloadChecker implements HeaderChecker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedHeader(): string
     {
         return self::HEADER_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function protectedHeaderOnly(): bool
     {
         return true;

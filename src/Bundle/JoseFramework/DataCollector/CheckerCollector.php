@@ -41,9 +41,6 @@ class CheckerCollector implements Collector
         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $this->collectHeaderCheckerManagers($data);

@@ -27,17 +27,11 @@ class JWKSetSource implements Source
      */
     private $jwkset_sources = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'key_sets';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $sources = $this->getJWKSetSources();
@@ -53,9 +47,6 @@ class JWKSetSource implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $sourceNodeBuilder = $node
@@ -78,9 +69,6 @@ class JWKSetSource implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

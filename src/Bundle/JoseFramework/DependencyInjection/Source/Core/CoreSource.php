@@ -27,17 +27,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class CoreSource implements SourceWithCompilerPasses
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'core';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $config, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
@@ -58,9 +52,6 @@ class CoreSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
@@ -72,9 +63,6 @@ class CoreSource implements SourceWithCompilerPasses
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

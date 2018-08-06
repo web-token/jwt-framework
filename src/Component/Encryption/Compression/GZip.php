@@ -36,17 +36,11 @@ final class GZip implements CompressionMethod
         return $this->compression_level;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'GZ';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function compress(string $data): string
     {
         $data = \gzencode($data, $this->getCompressionLevel());
@@ -57,9 +51,6 @@ final class GZip implements CompressionMethod
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function uncompress(string $data): string
     {
         $data = \gzdecode($data);

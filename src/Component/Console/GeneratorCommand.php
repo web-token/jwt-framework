@@ -20,9 +20,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 abstract class GeneratorCommand extends ObjectOutputCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function isEnabled()
     {
         return \class_exists(JWKFactory::class);

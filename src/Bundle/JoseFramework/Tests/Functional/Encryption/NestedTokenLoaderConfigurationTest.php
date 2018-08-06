@@ -30,9 +30,6 @@ class NestedTokenLoaderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(JWELoaderFactory::class)) {
@@ -46,9 +43,6 @@ class NestedTokenLoaderConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [

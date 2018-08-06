@@ -20,9 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class X509CertificateLoaderCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -32,9 +29,6 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the X.509 certificate.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filename = $input->getArgument('file');

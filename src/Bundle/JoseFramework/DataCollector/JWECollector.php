@@ -42,9 +42,6 @@ class JWECollector implements Collector
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $this->collectSupportedCompressionMethods($data);

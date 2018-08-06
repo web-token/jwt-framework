@@ -57,9 +57,6 @@ class JWS implements JWT
         return new self($payload, $encodedPayload, $isPayloadDetached);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPayload(): ?string
     {
         return $this->payload;

@@ -30,9 +30,6 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -44,9 +41,6 @@ final class RotateKeysetCommand extends ObjectOutputCommand
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwkset = $this->getKeyset($input)->all();

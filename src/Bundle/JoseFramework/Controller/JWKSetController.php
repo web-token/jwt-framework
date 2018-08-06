@@ -17,23 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class JWKSetController
 {
-    /**
-     * @var string
-     */
     private $jwkset;
 
-    /**
-     * @var int
-     */
-    private $maxAge;
-
-    /**
-     * JWKSetController constructor.
-     */
     public function __construct(string $jwkset, int $maxAge)
     {
         $this->jwkset = $jwkset;
-        $this->maxAge = $maxAge;
     }
 
     public function getAction(): Response
@@ -43,7 +31,6 @@ class JWKSetController
             Response::HTTP_OK,
             [
                 'Content-Type' => 'application/jwk-set+json; charset=UTF-8',
-                'Cache-Control' => \sprintf('public, max-age=%d, must-revalidate, no-transform', $this->maxAge),
             ]
         );
     }

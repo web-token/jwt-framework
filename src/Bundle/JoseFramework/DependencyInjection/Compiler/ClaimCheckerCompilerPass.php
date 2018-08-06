@@ -20,9 +20,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ClaimCheckerCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(ClaimCheckerManagerFactory::class)) {

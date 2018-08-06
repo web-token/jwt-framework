@@ -29,9 +29,6 @@ final class PublicKeyCommand extends ObjectOutputCommand
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -42,9 +39,6 @@ final class PublicKeyCommand extends ObjectOutputCommand
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $this->getKey($input);

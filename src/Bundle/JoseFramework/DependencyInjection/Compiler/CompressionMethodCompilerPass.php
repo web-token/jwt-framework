@@ -20,9 +20,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class CompressionMethodCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(CompressionMethodManagerFactory::class)) {

@@ -50,17 +50,11 @@ class SignatureSource implements SourceWithCompilerPasses
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'jws';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -85,9 +79,6 @@ class SignatureSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     private function getAlgorithmsFiles(): array
     {
         return [
@@ -100,9 +91,6 @@ class SignatureSource implements SourceWithCompilerPasses
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
@@ -119,9 +107,6 @@ class SignatureSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {

@@ -17,9 +17,6 @@ use Jose\Component\Core\JWK;
 
 final class AlgorithmAnalyzer implements KeyAnalyzer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function analyze(JWK $jwk, MessageBag $bag)
     {
         if (!$jwk->has('alg')) {

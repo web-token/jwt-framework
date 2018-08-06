@@ -17,9 +17,6 @@ use Jose\Component\Core\JWK;
 
 final class UsageAnalyzer implements KeyAnalyzer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function analyze(JWK $jwk, MessageBag $bag)
     {
         if (!$jwk->has('use')) {

@@ -18,14 +18,8 @@ use Jose\Component\Core\JWKSet;
 
 class JWKSetControllerFactory
 {
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
 
-    /**
-     * JWKSetControllerFactory constructor.
-     */
     public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;

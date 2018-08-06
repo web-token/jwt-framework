@@ -11,17 +11,23 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Tests\RFC7520;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Tests\SignatureTest;
+use Jose\Component\Signature\Algorithm\RS256;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\Serializer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.1
  *
  * @group RFC7520
  */
-class RSA15SignatureTest extends SignatureTest
+class RSA15SignatureTest extends TestCase
 {
     /**
      * @test
@@ -58,8 +64,22 @@ class RSA15SignatureTest extends SignatureTest
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS256']);
+        $jwsBuilder = new JWSBuilder(
+            new StandardConverter(),
+            AlgorithmManager::create([new RS256()])
+        );
+        $jwsVerifier = new JWSVerifier(
+            AlgorithmManager::create([new RS256()])
+        );
+        $compactSerializer = new Serializer\CompactSerializer(
+            new StandardConverter()
+        );
+        $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
+            new StandardConverter()
+        );
+        $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
+            new StandardConverter()
+        );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($privateKey, $header)
@@ -73,19 +93,19 @@ class RSA15SignatureTest extends SignatureTest
         $expected_flattened_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","protected":"eyJhbGciOiJSUzI1NiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg"}';
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJSUzI1NiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg"}]}';
 
-        static::assertEquals($expected_compact_json, $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0));
+        static::assertEquals($expected_compact_json, $compactSerializer->serialize($jws, 0));
 
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
-        static::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0), true));
-        static::assertEquals(\json_decode($expected_json, true), \json_decode($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0), true));
+        static::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($jsonFlattenedSerializer->serialize($jws, 0), true));
+        static::assertEquals(\json_decode($expected_json, true), \json_decode($jsonGeneralSerializer->serialize($jws, 0), true));
 
-        $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
+        $loaded_compact_json = $compactSerializer->unserialize($expected_compact_json);
         $jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0);
 
-        $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
+        $loaded_flattened_json = $jsonFlattenedSerializer->unserialize($expected_flattened_json);
         $jwsVerifier->verifyWithKey($loaded_flattened_json, $privateKey, 0);
 
-        $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
+        $loaded_json = $jsonGeneralSerializer->unserialize($expected_json);
         $jwsVerifier->verifyWithKey($loaded_json, $privateKey, 0);
     }
 }

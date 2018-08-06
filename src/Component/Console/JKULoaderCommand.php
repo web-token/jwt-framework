@@ -37,9 +37,6 @@ final class JKULoaderCommand extends ObjectOutputCommand
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -50,9 +47,6 @@ final class JKULoaderCommand extends ObjectOutputCommand
             ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');

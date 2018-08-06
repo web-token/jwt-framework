@@ -19,9 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 abstract class AbstractEncryptionSource implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
@@ -67,9 +64,6 @@ abstract class AbstractEncryptionSource implements Source
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

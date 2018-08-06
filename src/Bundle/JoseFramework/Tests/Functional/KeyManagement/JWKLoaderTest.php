@@ -25,9 +25,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWKLoaderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(JWKFactory::class)) {

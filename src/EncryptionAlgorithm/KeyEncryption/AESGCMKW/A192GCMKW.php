@@ -15,17 +15,11 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 final class A192GCMKW extends AESGCMKW
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getKeySize(): int
     {
         return 192;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'A192GCMKW';

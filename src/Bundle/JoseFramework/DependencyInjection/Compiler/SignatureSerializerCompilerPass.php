@@ -20,9 +20,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class SignatureSerializerCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(JWSSerializerManagerFactory::class)) {

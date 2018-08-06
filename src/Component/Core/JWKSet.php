@@ -310,7 +310,6 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      * Internal method only. Should not be used.
      *
      * @internal
-     * {@inheritdoc}
      */
     public function getIterator()
     {

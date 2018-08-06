@@ -22,9 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PemConverterCommand extends ObjectOutputCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,9 +31,6 @@ final class PemConverterCommand extends ObjectOutputCommand
             ->addArgument('jwk', InputArgument::REQUIRED, 'The key');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');

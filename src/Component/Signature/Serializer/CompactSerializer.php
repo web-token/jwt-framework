@@ -34,25 +34,16 @@ final class CompactSerializer extends Serializer
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWS Compact';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (null === $signatureIndex) {
@@ -76,9 +67,6 @@ final class CompactSerializer extends Serializer
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWS
     {
         $parts = \explode('.', $input);

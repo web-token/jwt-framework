@@ -43,9 +43,6 @@ use PHPUnit\Framework\TestCase;
  */
 class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
         if (!\class_exists(HeaderCheckerManagerFactory::class)) {

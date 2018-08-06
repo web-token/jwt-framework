@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Performance\JWE;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -36,29 +35,10 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
  */
 abstract class EncryptionBench
 {
-    /**
-     * @param JWAManager
-     */
     private $contentEncryptionAlgorithmsManager;
-
-    /**
-     * @param JWAManager
-     */
     private $keyEncryptionAlgorithmsManager;
-
-    /**
-     * @param CompressionManager
-     */
     private $compressionMethodsManager;
-
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
-
-    /**
-     * @var JWESerializerManager
-     */
     private $serializerManager;
 
     public function init()
@@ -153,9 +133,6 @@ abstract class EncryptionBench
 
     abstract public function dataRecipientPublicKeys(): array;
 
-    /**
-     * @return null|string
-     */
     abstract protected function getAAD(): ?string;
 
     private function getKeyEncryptionAlgorithmsManager(): AlgorithmManager

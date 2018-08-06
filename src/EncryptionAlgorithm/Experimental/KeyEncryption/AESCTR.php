@@ -18,9 +18,6 @@ use Jose\Component\Core\JWK;
 
 abstract class AESCTR implements KeyEncryption
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['oct'];
@@ -48,9 +45,6 @@ abstract class AESCTR implements KeyEncryption
         return \openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_ENCRYPT;

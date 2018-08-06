@@ -40,17 +40,11 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         $this->protectedHeader = $protectedHeader;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkClaim($value)
     {
         return $this->checkValue($value, InvalidClaimException::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkHeader($value)
     {
         return $this->checkValue($value, InvalidHeaderException::class);
@@ -72,25 +66,16 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedClaim(): string
     {
         return self::CLAIM_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedHeader(): string
     {
         return self::CLAIM_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;

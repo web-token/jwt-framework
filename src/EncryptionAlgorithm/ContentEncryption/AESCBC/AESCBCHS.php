@@ -17,17 +17,11 @@ use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 
 abstract class AESCBCHS implements ContentEncryptionAlgorithm
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return []; //Irrelevant
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string
     {
         $k = \mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
@@ -41,9 +35,6 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
         return $cyphertext;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string
     {
         if (!$this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
@@ -91,9 +82,6 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
 
     abstract protected function getMode(): string;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIVSize(): int
     {
         return 128;

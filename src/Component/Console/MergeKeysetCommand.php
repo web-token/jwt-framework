@@ -29,9 +29,6 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -42,9 +39,6 @@ final class MergeKeysetCommand extends ObjectOutputCommand
             ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $keySets = $input->getArgument('jwksets');

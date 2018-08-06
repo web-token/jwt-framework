@@ -38,17 +38,11 @@ class JoseFrameworkBundle extends Bundle
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension()
     {
         return new JoseFrameworkExtension('jose', $this->sources);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

@@ -34,17 +34,11 @@ abstract class PBES2AESKW implements KeyWrapping
         $this->nb_count = $nb_count;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['oct'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
@@ -64,9 +58,6 @@ abstract class PBES2AESKW implements KeyWrapping
         return $wrapper::wrap($derived_key, $cek);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $this->checkKey($key);
@@ -84,9 +75,6 @@ abstract class PBES2AESKW implements KeyWrapping
         return $wrapper::unwrap($derived_key, $encrypted_cek);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_WRAP;

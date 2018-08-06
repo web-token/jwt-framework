@@ -93,9 +93,6 @@ class JWE implements JWT
         return new self($ciphertext, $iv, $tag, $aad, $sharedHeader, $sharedProtectedHeader, $encodedSharedProtectedHeader, $recipients);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPayload(): ?string
     {
         return $this->payload;

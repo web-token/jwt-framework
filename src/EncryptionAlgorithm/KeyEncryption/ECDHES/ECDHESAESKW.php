@@ -17,17 +17,11 @@ use Jose\Component\Core\JWK;
 
 abstract class ECDHESAESKW implements KeyAgreementWithKeyWrapping
 {
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['EC', 'OKP'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function wrapAgreementKey(JWK $receiver_key, string $cek, int $encryption_key_length, array $complete_header, array &$additional_header_values): string
     {
         $ecdh_es = new ECDHES();
@@ -37,9 +31,6 @@ abstract class ECDHESAESKW implements KeyAgreementWithKeyWrapping
         return $wrapper::wrap($agreement_key, $cek);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unwrapAgreementKey(JWK $receiver_key, string $encrypted_cek, int $encryption_key_length, array $complete_header): string
     {
         $ecdh_es = new ECDHES();
@@ -49,9 +40,6 @@ abstract class ECDHESAESKW implements KeyAgreementWithKeyWrapping
         return $wrapper::unwrap($agreement_key, $encrypted_cek);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_WRAP;

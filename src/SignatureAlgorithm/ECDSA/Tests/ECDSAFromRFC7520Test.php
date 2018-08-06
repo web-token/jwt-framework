@@ -11,17 +11,23 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Tests\RFC7520;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Tests\SignatureTest;
+use Jose\Component\Signature\Algorithm\ES512;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\Serializer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.3
  *
  * @group RFC7520
  */
-class ECDSASignatureTest extends SignatureTest
+class ECDSAFromRFC7520Test extends TestCase
 {
     /**
      * Please note that we cannot create the signature and get the same result as the example (ECDSA signatures are always different).
@@ -59,8 +65,22 @@ class ECDSASignatureTest extends SignatureTest
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['ES512']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['ES512']);
+        $jwsBuilder = new JWSBuilder(
+            new StandardConverter(),
+            AlgorithmManager::create([new ES512()])
+        );
+        $jwsVerifier = new JWSVerifier(
+            AlgorithmManager::create([new ES512()])
+        );
+        $compactSerializer = new Serializer\CompactSerializer(
+            new StandardConverter()
+        );
+        $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
+            new StandardConverter()
+        );
+        $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
+            new StandardConverter()
+        );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($private_key, $header)
@@ -76,13 +96,13 @@ class ECDSASignatureTest extends SignatureTest
         $expected_flattened_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","protected":"eyJhbGciOiJFUzUxMiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"AE_R_YZCChjn4791jSQCrdPZCNYqHXCTZH0-JZGYNlaAjP2kqaluUIIUnC9qvbu9Plon7KRTzoNEuT4Va2cmL1eJAQy3mtPBu_u_sDDyYjnAMDxXPn7XrT0lw-kvAD890jl8e2puQens_IEKBpHABlsbEPX6sFY8OcGDqoRuBomu9xQ2"}';
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJFUzUxMiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"AE_R_YZCChjn4791jSQCrdPZCNYqHXCTZH0-JZGYNlaAjP2kqaluUIIUnC9qvbu9Plon7KRTzoNEuT4Va2cmL1eJAQy3mtPBu_u_sDDyYjnAMDxXPn7XrT0lw-kvAD890jl8e2puQens_IEKBpHABlsbEPX6sFY8OcGDqoRuBomu9xQ2"}]}';
 
-        $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($expected_compact_json);
+        $loaded_compact_json = $compactSerializer->unserialize($expected_compact_json);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $private_key, 0));
 
-        $loaded_flattened_json = $this->getJWSSerializerManager()->unserialize($expected_flattened_json);
+        $loaded_flattened_json = $jsonFlattenedSerializer->unserialize($expected_flattened_json);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $private_key, 0));
 
-        $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
+        $loaded_json = $jsonGeneralSerializer->unserialize($expected_json);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $private_key, 0));
     }
 }

@@ -49,25 +49,16 @@ final class PS384Bench extends SignatureBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAlgorithm(): SignatureAlgorithm
     {
         return $this->getSignatureAlgorithmsManager()->get('PS384');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInput(): string
     {
         return 'eyJhbGciOiJQUzM4NCJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPrivateKey(): JWK
     {
         return JWK::create([
@@ -85,9 +76,6 @@ final class PS384Bench extends SignatureBench
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPublicKey(): JWK
     {
         return $this->getPrivateKey()->toPublic();

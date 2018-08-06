@@ -13,8 +13,6 @@ splits:
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-key-mgmt.git"
     - prefix: "src/Component/Console"
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-console.git"
-    - prefix: "src/Component/Experimental"
-      target: "https://${GH_TOKEN}@github.com/web-token/jwt-experimental.git"
     - prefix: "src/Bundle/JoseFramework"
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-bundle.git"
     - prefix: "src/EncryptionAlgorithm/ContentEncryption/AESCBC"

@@ -18,9 +18,6 @@ use Jose\Component\Core\JWK;
 
 final class Dir implements DirectEncryption
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getCEK(JWK $key): string
     {
         if ('oct' !== $key->get('kty')) {
@@ -33,25 +30,16 @@ final class Dir implements DirectEncryption
         return Base64Url::decode($key->get('k'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'dir';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['oct'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeyManagementMode(): string
     {
         return self::MODE_DIRECT;

@@ -11,18 +11,24 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Tests;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Base64Url\Base64Url;
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Signature\JWS;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group EdDSA
  * @group Unit
  */
-class EdDSASignatureTest extends SignatureTest
+class EdDSASignatureTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5
@@ -64,18 +70,26 @@ class EdDSASignatureTest extends SignatureTest
         $header = ['alg' => 'EdDSA'];
         $input = Base64Url::decode('RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc');
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['EdDSA']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['EdDSA']);
+        $jwsBuilder = new JWSBuilder(
+            new StandardConverter(),
+            AlgorithmManager::create([new EdDSA()])
+        );
+        $jwsVerifier = new JWSVerifier(
+            AlgorithmManager::create([new EdDSA()])
+        );
+        $serializer = new CompactSerializer(
+            new StandardConverter()
+        );
         $jws = $jwsBuilder
             ->create()->withPayload($input)
             ->addSignature($key, $header)
             ->build();
 
-        $jws = $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+        $jws = $serializer->serialize($jws, 0);
 
         static::assertEquals('eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc.hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg', $jws);
 
-        $loaded = $this->getJWSSerializerManager()->unserialize($jws);
+        $loaded = $serializer->unserialize($jws);
 
         static::assertInstanceOf(JWS::class, $loaded);
         static::assertEquals(1, $loaded->countSignatures());
