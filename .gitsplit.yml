@@ -1,5 +1,3 @@
-cache_dir: "/cache/gitsplit"
-
 splits:
     - prefix: "src/Component/Core"
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-core.git"
