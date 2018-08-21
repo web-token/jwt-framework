@@ -145,11 +145,6 @@ final class JSONGeneralSerializer extends Serializer
         return [$encodedProtectedHeader, $protectedHeader, $header];
     }
 
-    /**
-     * @param null|string $rawPayload
-     *
-     * @return null|string
-     */
     private function processPayload(?string $rawPayload, ?bool $isPayloadEncoded): ?string
     {
         if (null === $rawPayload) {

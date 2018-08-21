@@ -245,8 +245,6 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     }
 
     /**
-     * @param null|Algorithm $algorithm
-     *
      * @return bool|int
      */
     private function canKeyBeUsedWithAlgorithm(?Algorithm $algorithm, JWK $key)

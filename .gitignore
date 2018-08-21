@@ -1,3 +1,4 @@
+.phpunit.result.cache
 .travis/phar-private.pem
 jose.phar
 jose.phar.pubkey

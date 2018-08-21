@@ -288,8 +288,6 @@ class JWKFactory
     /**
      * This method will try to load a PKCS#12 file and convert it into a public key.
      *
-     * @param null|string $secret
-     *
      * @throws \Exception
      */
     public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
@@ -332,8 +330,6 @@ class JWKFactory
      * This method will try to load and convert a key file into a JWK object.
      * If the key is encrypted, the password must be set.
      *
-     * @param null|string $password
-     *
      * @throws \Exception
      */
     public static function createFromKeyFile(string $file, ?string $password = null, array $additional_values = []): JWK
@@ -347,8 +343,6 @@ class JWKFactory
     /**
      * This method will try to load and convert a key into a JWK object.
      * If the key is encrypted, the password must be set.
-     *
-     * @param null|string $password
      *
      * @throws \Exception
      */

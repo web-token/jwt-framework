@@ -30,8 +30,6 @@ class Recipient
 
     /**
      * Recipient constructor.
-     *
-     * @param null|string $encryptedKey
      */
     private function __construct(array $header, ?string $encryptedKey)
     {
@@ -42,8 +40,6 @@ class Recipient
     /**
      * Creates a recipient.
      * The creation of this object is meant to be used by the library, not by third party applications.
-     *
-     * @param null|string $encryptedKey
      *
      * @return Recipient
      */
@@ -88,8 +84,6 @@ class Recipient
 
     /**
      * Returns the encrypted key.
-     *
-     * @return null|string
      */
     public function getEncryptedKey(): ?string
     {

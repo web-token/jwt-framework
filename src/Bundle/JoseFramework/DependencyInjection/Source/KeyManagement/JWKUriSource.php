@@ -66,6 +66,7 @@ class JWKUriSource implements Source
             ->integerNode('max_age')
             ->info('When share, this value indicates how many seconds the HTTP client should keep the key in cache. Default is 21600 = 6 hours.')
             ->defaultValue(21600)
+            ->setDeprecated()
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the service.')

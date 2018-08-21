@@ -82,8 +82,6 @@ class KeyConverter
     }
 
     /**
-     * @param null|string $password
-     *
      * @throws \Exception
      */
     public static function loadFromKeyFile(string $file, ?string $password = null): array
@@ -94,8 +92,6 @@ class KeyConverter
     }
 
     /**
-     * @param null|string $password
-     *
      * @throws \Exception
      */
     public static function loadFromKey(string $key, ?string $password = null): array
@@ -108,8 +104,6 @@ class KeyConverter
     }
 
     /**
-     * @param null|string $password
-     *
      * @throws \Exception
      */
     private static function loadKeyFromDER(string $der, ?string $password = null): array
@@ -120,8 +114,6 @@ class KeyConverter
     }
 
     /**
-     * @param null|string $password
-     *
      * @throws \Exception
      */
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
@@ -220,8 +212,7 @@ class KeyConverter
     }
 
     /**
-     * @param string[]    $matches
-     * @param null|string $password
+     * @param string[] $matches
      */
     private static function decodePem(string $pem, array $matches, ?string $password = null): string
     {

@@ -47,8 +47,6 @@ class JWSVerifier
      * This method will try to verify the JWS object using the given key and for the given signature.
      * It returns true if the signature is verified, otherwise false.
      *
-     * @param null|string $detachedPayload
-     *
      * @return bool true if the verification of the signature succeeded, else false
      */
     public function verifyWithKey(JWS $jws, JWK $jwk, int $signature, ?string $detachedPayload = null): bool
@@ -79,9 +77,6 @@ class JWSVerifier
         return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload);
     }
 
-    /**
-     * @param null|string $detachedPayload
-     */
     private function verifySignature(JWS $jws, JWKSet $jwkset, Signature $signature, ?string $detachedPayload = null): bool
     {
         $input = $this->getInputToVerify($jws, $signature, $detachedPayload);
@@ -138,9 +133,6 @@ class JWSVerifier
         }
     }
 
-    /**
-     * @param null|string $detachedPayload
-     */
     private function checkPayload(JWS $jws, ?string $detachedPayload = null)
     {
         if (null !== $detachedPayload && !empty($jws->getPayload())) {

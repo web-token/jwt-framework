@@ -64,9 +64,6 @@ class JWE implements JWT
 
     /**
      * JWE constructor.
-     *
-     * @param null|string $aad
-     * @param null|string $encodedSharedProtectedHeader
      */
     private function __construct(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeader = [], array $sharedProtectedHeader = [], ?string $encodedSharedProtectedHeader = null, array $recipients = [])
     {
@@ -82,9 +79,6 @@ class JWE implements JWT
 
     /**
      * Creates a new JWE object.
-     *
-     * @param null|string $aad
-     * @param null|string $encodedSharedProtectedHeader
      *
      * @return JWE
      */

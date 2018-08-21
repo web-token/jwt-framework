@@ -34,8 +34,6 @@ class OtherToken implements JWT
 
     /**
      * Token constructor.
-     *
-     * @param null|string $payload
      */
     private function __construct(?string $payload, array $protectedHeader, array $unprotectedHeader)
     {
@@ -44,9 +42,6 @@ class OtherToken implements JWT
         $this->unprotectedHeader = $unprotectedHeader;
     }
 
-    /**
-     * @param null|string $payload
-     */
     public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): self
     {
         return new self($payload, $protectedHeader, $unprotectedHeader);

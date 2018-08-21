@@ -32,9 +32,6 @@ class RSACrypt
      */
     public const ENCRYPTION_PKCS1 = 2;
 
-    /**
-     * @param null|string $hash
-     */
     public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
     {
         switch ($mode) {
@@ -47,9 +44,6 @@ class RSACrypt
         }
     }
 
-    /**
-     * @param null|string $hash
-     */
     public static function decrypt(RSAKey $key, string $plaintext, int $mode, ?string $hash = null): string
     {
         switch ($mode) {

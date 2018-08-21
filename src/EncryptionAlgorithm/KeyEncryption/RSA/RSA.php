@@ -57,8 +57,5 @@ abstract class RSA implements KeyEncryption
 
     abstract protected function getEncryptionMode(): int;
 
-    /**
-     * @return null|string
-     */
     abstract protected function getHashAlgorithm(): ?string;
 }

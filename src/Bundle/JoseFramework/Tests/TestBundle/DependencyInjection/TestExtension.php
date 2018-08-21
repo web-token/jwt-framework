@@ -44,7 +44,6 @@ class TestExtension extends Extension implements PrependExtensionInterface
         ConfigurationHelper::addKeyUri($container, 'jwkset2', [
             'id' => 'jose.key_set.jwkset2',
             'path' => '/2.jwkset',
-            'max_age' => 3600,
         ]);
         ConfigurationHelper::addClaimChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
         ConfigurationHelper::addHeaderChecker($container, 'checker2', ['custom_checker'], true);

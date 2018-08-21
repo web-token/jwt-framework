@@ -28,8 +28,6 @@ final class JKULoaderCommand extends ObjectOutputCommand
 
     /**
      * JKULoaderCommand constructor.
-     *
-     * @param null|string $name
      */
     public function __construct(JKUFactory $jkuFactory, JsonConverter $jsonConverter, ?string $name = null)
     {

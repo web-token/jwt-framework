@@ -50,9 +50,6 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
         return $plaintext;
     }
 
-    /**
-     * @param null|string $aad
-     */
     protected function calculateAuthenticationTag(string $encrypted_data, string $cek, string $iv, ?string $aad, string $encoded_header): string
     {
         $calculated_aad = $encoded_header;

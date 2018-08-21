@@ -37,8 +37,6 @@ class Signature
 
     /**
      * Signature constructor.
-     *
-     * @param null|string $encodedProtectedHeader
      */
     private function __construct(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header)
     {
@@ -78,8 +76,6 @@ class Signature
 
     /**
      * The protected header associated with the signature.
-     *
-     * @return null|string
      */
     public function getEncodedProtectedHeader(): ?string
     {

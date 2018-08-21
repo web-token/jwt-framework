@@ -34,8 +34,6 @@ class Token implements JWT
 
     /**
      * Token constructor.
-     *
-     * @param null|string $payload
      */
     private function __construct(?string $payload, array $protectedHeader, array $unprotectedHeader)
     {
@@ -45,8 +43,6 @@ class Token implements JWT
     }
 
     /**
-     * @param null|string $payload
-     *
      * @return Token
      */
     public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): self

@@ -26,6 +26,7 @@ class ForeignJWTTest extends SignatureTest
      * The following test uses an assertion created with another library.
      * This assertion is valid if verified with the JWK.
      */
+
     /**
      * @test
      */

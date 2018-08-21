@@ -167,9 +167,6 @@ class JWEDecrypter
         }
     }
 
-    /**
-     * @return null|string
-     */
     private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $key, Recipient $recipient, array $completeHeader): ?string
     {
         if ($key_encryption_algorithm instanceof DirectEncryption) {
