@@ -44,8 +44,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($this->alias);
-        $rootNode->setDeprecated('The child node "%node%" at path "%path%" is deprecated and will be removed on v2.x. It has no effect anymore. Please refer to https://github.com/symfony/symfony/pull/25699');
-
+        
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($rootNode);
         }
