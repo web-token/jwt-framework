@@ -22,7 +22,7 @@
     "require": {
         "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.2",
-        "spomky-labs/aes-key-wrap": "^4.0.1",
+        "spomky-labs/aes-key-wrap": "^4.0.1|^5.0",
         "web-token/jwt-core": "^1.2",
         "web-token/jwt-encryption-algorithm-aescbc": "^1.2",
         "web-token/jwt-encryption-algorithm-aesgcm": "^1.2",
