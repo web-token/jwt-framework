@@ -25,9 +25,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
         return \class_exists(JWKFactory::class);
     }
 
-    /**
-     * Configures the current command.
-     */
     protected function configure()
     {
         parent::configure();

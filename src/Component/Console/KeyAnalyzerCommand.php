@@ -24,19 +24,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class KeyAnalyzerCommand extends Command
 {
-    /**
-     * @var KeyAnalyzerManager
-     */
     private $analyzerManager;
 
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
 
-    /**
-     * KeyAnalyzerCommand constructor.
-     */
     public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($name);

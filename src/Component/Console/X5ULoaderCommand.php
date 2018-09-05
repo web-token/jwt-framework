@@ -21,14 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class X5ULoaderCommand extends ObjectOutputCommand
 {
-    /**
-     * @var X5UFactory
-     */
     private $x5uFactory;
 
-    /**
-     * X5ULoaderCommand constructor.
-     */
     public function __construct(X5UFactory $x5uFactory, JsonConverter $jsonConverter, ?string $name = null)
     {
         $this->x5uFactory = $x5uFactory;
