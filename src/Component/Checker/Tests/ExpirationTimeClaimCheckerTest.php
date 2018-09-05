@@ -36,7 +36,7 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     /**
      * @test
      * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage The JWT has expired.
+     * @expectedExceptionMessage The token expired.
      */
     public function theExpirationTimeIsInThePast()
     {

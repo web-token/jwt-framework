@@ -15,7 +15,7 @@ namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Checker\Tests\Stub\IssuerChecker;
+use Jose\Component\Checker\IssuerChecker;
 use Jose\Component\Checker\Tests\Stub\OtherToken;
 use Jose\Component\Checker\Tests\Stub\Token;
 use Jose\Component\Checker\Tests\Stub\TokenSupport;
@@ -165,7 +165,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         if (null === $this->headerCheckerManagerFactory) {
             $this->headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
             $this->headerCheckerManagerFactory->add('aud', new AudienceChecker('My Service', true));
-            $this->headerCheckerManagerFactory->add('iss', new IssuerChecker('Another Service'));
+            $this->headerCheckerManagerFactory->add('iss', new IssuerChecker(['Another Service']));
             $this->headerCheckerManagerFactory->addTokenTypeSupport(new TokenSupport());
         }
 

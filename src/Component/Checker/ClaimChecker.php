@@ -21,7 +21,7 @@ interface ClaimChecker
      *
      * @throws InvalidClaimException
      */
-    public function checkClaim($value);
+    public function checkClaim($value): void;
 
     /**
      * The method returns the claim to be checked.

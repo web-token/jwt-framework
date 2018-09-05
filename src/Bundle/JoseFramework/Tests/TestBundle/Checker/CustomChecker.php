@@ -18,7 +18,7 @@ use Jose\Component\Checker\HeaderChecker;
 
 class CustomChecker implements ClaimChecker, HeaderChecker
 {
-    public function checkClaim($value)
+    public function checkClaim($value): void
     {
         if (true === $value) {
             throw new \InvalidArgumentException('Custom checker!');
@@ -30,7 +30,7 @@ class CustomChecker implements ClaimChecker, HeaderChecker
         return 'custom';
     }
 
-    public function checkHeader($value)
+    public function checkHeader($value): void
     {
         if (true === $value) {
             throw new \InvalidArgumentException('Custom checker!');
