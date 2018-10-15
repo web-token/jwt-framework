@@ -108,6 +108,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
     {
         return [
             new Compiler\KeyAnalyzerCompilerPass(),
+            new Compiler\KeysetAnalyzerCompilerPass(),
             new Compiler\KeySetControllerCompilerPass(),
         ];
     }

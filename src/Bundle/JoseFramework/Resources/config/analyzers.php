@@ -31,4 +31,7 @@ return function (ContainerConfigurator $container) {
     $container->set(Analyzer\KeyIdentifierAnalyzer::class);
     $container->set(Analyzer\NoneAnalyzer::class);
     $container->set(Analyzer\OctAnalyzer::class);
+
+    $container->set(Analyzer\MixedKeyTypes::class);
+    $container->set(Analyzer\MixedPublicAndPrivateKeys::class);
 };

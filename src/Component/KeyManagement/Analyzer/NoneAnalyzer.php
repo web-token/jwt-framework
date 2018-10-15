@@ -17,7 +17,7 @@ use Jose\Component\Core\JWK;
 
 final class NoneAnalyzer implements KeyAnalyzer
 {
-    public function analyze(JWK $jwk, MessageBag $bag)
+    public function analyze(JWK $jwk, MessageBag $bag): void
     {
         if ('none' !== $jwk->get('kty')) {
             return;

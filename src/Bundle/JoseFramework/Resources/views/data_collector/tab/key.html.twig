@@ -45,6 +45,18 @@
                     <td>{{ id }}</td>
                     <td>{{ data.jwkset.count() }}</td>
                     <td>
+                        {% for kid, messages in data.analyze_jwkset %}
+                            Analyze of the key set:<br>
+                            <ul>
+                                {% if messages.count() == 0 %}
+                                    <li>No message. All good!</li>
+                                {% else %}
+                                    {% for message in messages %}
+                                        <li><span class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }} ({{ message.getSeverity() }})</span></li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        {% endfor %}
                         {% for kid, messages in data.analyze %}
                             Analyze of key at index/key ID "{{ kid }}":<br>
                                 <ul>
