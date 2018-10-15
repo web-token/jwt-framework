@@ -21,12 +21,19 @@ final class ExpirationTimeChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'exp';
 
+    private $allowedTimeDrift;
+
+    public function __construct(int $allowedTimeDrift = 0)
+    {
+        $this->allowedTimeDrift = $allowedTimeDrift;
+    }
+
     public function checkClaim($value): void
     {
         if (!\is_int($value)) {
             throw new InvalidClaimException('"exp" must be an integer.', self::CLAIM_NAME, $value);
         }
-        if (\time() > $value) {
+        if (\time() > $value + $this->allowedTimeDrift) {
             throw new InvalidClaimException('The token expired.', self::CLAIM_NAME, $value);
         }
     }
