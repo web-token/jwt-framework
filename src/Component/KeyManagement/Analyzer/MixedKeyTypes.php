@@ -19,7 +19,7 @@ final class MixedKeyTypes implements KeysetAnalyzer
 {
     public function analyze(JWKSet $jwkset, MessageBag $bag): void
     {
-        if ($jwkset->count() === 0) {
+        if (0 === $jwkset->count()) {
             return;
         }
 

@@ -74,9 +74,9 @@ class JWKSetAnalyzerTest extends TestCase
     public function theKeysetHasOnlyPrivateKeys()
     {
         $jwkset = JWKSet::createFromKeys([
-            JWK::create(['kty' => 'OKP','d' => 'foo']),
-            JWK::create(['kty' => 'RSA','d' => 'foo']),
-            JWK::create(['kty' => 'EC','d' => 'foo']),
+            JWK::create(['kty' => 'OKP', 'd' => 'foo']),
+            JWK::create(['kty' => 'RSA', 'd' => 'foo']),
+            JWK::create(['kty' => 'EC', 'd' => 'foo']),
         ]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
 
