@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Tests;
 
-use Jose\Component\KeyManagement\KeyAnalyzer\Message;
-use Jose\Component\KeyManagement\KeyAnalyzer\MessageBag;
+use Jose\Component\KeyManagement\Analyzer\Message;
+use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use PHPUnit\Framework\TestCase;
 
 /**

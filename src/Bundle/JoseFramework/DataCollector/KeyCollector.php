@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

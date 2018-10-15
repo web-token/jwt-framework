@@ -22,14 +22,14 @@
     "require": {
         "lib-openssl": "*",
         "paragonie/sodium_compat": "^1.2",
-        "web-token/jwt-core": "^1.2",
-        "web-token/jwt-util-ecc": "^1.2"
+        "web-token/jwt-core": "^2.0",
+        "web-token/jwt-util-ecc": "^2.0"
     },
     "require-dev": {
         "php-http/message-factory": "^1.0",
         "php-http/httplug": "^1.1",
         "php-http/mock-client": "^1.0",
-        "phpunit/phpunit": "^6.0|^7.0"
+        "phpunit/phpunit": "^7.0"
     },
     "suggest": {
         "php-http/message-factory": "To enable JKU/X5U support.",
@@ -37,7 +37,10 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.2.x-dev"
+            "v1.0": "1.0.x-dev",
+            "v1.1": "1.1.x-dev",
+            "v1.2": "1.2.x-dev",
+            "v2.0": "2.0.x-dev"
         }
     },
     "config": {

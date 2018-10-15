@@ -20,7 +20,7 @@ use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class NestedToken implements Source
 {
@@ -50,8 +50,8 @@ class NestedToken implements Source
         if (!$this->isEnabled()) {
             return;
         }
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('nested_token.yml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('nested_token.php');
 
         if (\array_key_exists('nested_token', $configs)) {
             foreach ($this->sources as $source) {

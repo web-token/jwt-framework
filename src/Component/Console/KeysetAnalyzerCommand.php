@@ -15,7 +15,7 @@ namespace Jose\Component\Console;
 
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;

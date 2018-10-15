@@ -28,7 +28,7 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class SignatureSource implements SourceWithCompilerPasses
 {
@@ -61,11 +61,11 @@ class SignatureSource implements SourceWithCompilerPasses
             return;
         }
         $container->registerForAutoconfiguration(\Jose\Component\Signature\Serializer\JWSSerializer::class)->addTag('jose.jws.serializer');
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/'));
-        $loader->load('jws_services.yml');
-        $loader->load('jws_serializers.yml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/'));
+        $loader->load('jws_services.php');
+        $loader->load('jws_serializers.php');
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
             if (\class_exists($class)) {
                 $loader->load($file);
@@ -82,12 +82,12 @@ class SignatureSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         return [
-            RSA::class => 'signature_rsa.yml',
-            ECDSA::class => 'signature_ecdsa.yml',
-            EdDSA::class => 'signature_eddsa.yml',
-            HMAC::class => 'signature_hmac.yml',
-            None::class => 'signature_none.yml',
-            HS1::class => 'signature_experimental.yml',
+            RSA::class => 'signature_rsa.php',
+            ECDSA::class => 'signature_ecdsa.php',
+            EdDSA::class => 'signature_eddsa.php',
+            HMAC::class => 'signature_hmac.php',
+            None::class => 'signature_none.php',
+            HS1::class => 'signature_experimental.php',
         ];
     }
 
