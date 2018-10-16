@@ -16,27 +16,19 @@ namespace Jose\Component\Checker;
 /**
  * This class is a claim checker.
  * When the "iat" is present, it will compare the value with the current timestamp.
- *
- * A time drift is allowed but its use is NOT recommended.
  */
 final class IssuedAtChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'iat';
 
-    /**
-     * @var int
-     */
     private $allowedTimeDrift;
 
-    /**
-     * ExpirationTimeChecker constructor.
-     */
     public function __construct(int $allowedTimeDrift = 0)
     {
         $this->allowedTimeDrift = $allowedTimeDrift;
     }
 
-    public function checkClaim($value)
+    public function checkClaim($value): void
     {
         if (!\is_int($value)) {
             throw new InvalidClaimException('The claim "iat" must be an integer.', self::CLAIM_NAME, $value);

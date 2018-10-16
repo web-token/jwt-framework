@@ -21,7 +21,7 @@ interface HeaderChecker
      *
      * @throws InvalidHeaderException
      */
-    public function checkHeader($value);
+    public function checkHeader($value): void;
 
     /**
      * The method returns the header parameter to be checked.

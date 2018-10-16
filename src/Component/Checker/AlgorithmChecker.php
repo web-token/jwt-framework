@@ -42,7 +42,7 @@ final class AlgorithmChecker implements HeaderChecker
         $this->protectedHeader = $protectedHeader;
     }
 
-    public function checkHeader($value)
+    public function checkHeader($value): void
     {
         if (!\is_string($value)) {
             throw new InvalidHeaderException('"alg" must be a string.', self::HEADER_NAME, $value);

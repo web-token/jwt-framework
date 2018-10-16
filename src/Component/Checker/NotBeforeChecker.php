@@ -16,27 +16,19 @@ namespace Jose\Component\Checker;
 /**
  * This class is a claim checker.
  * When the "nbf" is present, it will compare the value with the current timestamp.
- *
- * A time drift is allowed but its use is NOT recommended.
  */
 final class NotBeforeChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'nbf';
 
-    /**
-     * @var int
-     */
     private $allowedTimeDrift;
 
-    /**
-     * ExpirationTimeChecker constructor.
-     */
     public function __construct(int $allowedTimeDrift = 0)
     {
         $this->allowedTimeDrift = $allowedTimeDrift;
     }
 
-    public function checkClaim($value)
+    public function checkClaim($value): void
     {
         if (!\is_int($value)) {
             throw new InvalidClaimException('"nbf" must be an integer.', self::CLAIM_NAME, $value);

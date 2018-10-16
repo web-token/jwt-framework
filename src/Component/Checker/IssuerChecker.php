@@ -17,26 +17,17 @@ namespace Jose\Component\Checker;
  * This class is a header parameter and claim checker.
  * When the "aud" header parameter or claim is present, it will check if the value is within the allowed ones.
  */
-final class AudienceChecker implements ClaimChecker, HeaderChecker
+final class IssuerChecker implements ClaimChecker, HeaderChecker
 {
-    private const CLAIM_NAME = 'aud';
+    private const CLAIM_NAME = 'iss';
 
-    /**
-     * @var bool
-     */
     private $protectedHeader = false;
 
-    /**
-     * @var string
-     */
-    private $audience;
+    private $issuers;
 
-    /**
-     * AudienceChecker constructor.
-     */
-    public function __construct(string $audience, bool $protectedHeader = false)
+    public function __construct(array $issuer, bool $protectedHeader = false)
     {
-        $this->audience = $audience;
+        $this->issuers = $issuer;
         $this->protectedHeader = $protectedHeader;
     }
 
@@ -51,18 +42,16 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidClaimException
+     * @throws InvalidHeaderException
      */
     private function checkValue($value, string $class): void
     {
-        if (\is_string($value) && $value !== $this->audience) {
-            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
+        if (!\is_string($value)) {
+            throw new $class('Invalid value.', self::CLAIM_NAME, $value);
         }
-        if (\is_array($value) && !\in_array($this->audience, $value, true)) {
-            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        }
-        if (!\is_array($value) && !\is_string($value)) {
-            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
+        if (!\in_array($value, $this->issuers, true)) {
+            throw new $class('Unknown issuer.', self::CLAIM_NAME, $value);
         }
     }
 
