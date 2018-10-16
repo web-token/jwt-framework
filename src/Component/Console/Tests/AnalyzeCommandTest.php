@@ -17,7 +17,7 @@ use Jose\Component\Console;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\KeyManagement\KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -85,21 +85,21 @@ class AnalyzeCommandTest extends TestCase
     }
 
     /**
-     * @var KeyAnalyzer\KeyAnalyzerManager|null
+     * @var Analyzer\KeyAnalyzerManager|null
      */
     private $keyAnalyzerManager;
 
-    private function getKeyAnalyzer(): KeyAnalyzer\KeyAnalyzerManager
+    private function getKeyAnalyzer(): Analyzer\KeyAnalyzerManager
     {
         if (null === $this->keyAnalyzerManager) {
-            $this->keyAnalyzerManager = new KeyAnalyzer\KeyAnalyzerManager();
+            $this->keyAnalyzerManager = new Analyzer\KeyAnalyzerManager();
             $this->keyAnalyzerManager
-                ->add(new KeyAnalyzer\AlgorithmAnalyzer())
-                ->add(new KeyAnalyzer\KeyIdentifierAnalyzer())
-                ->add(new KeyAnalyzer\NoneAnalyzer())
-                ->add(new KeyAnalyzer\OctAnalyzer())
-                ->add(new KeyAnalyzer\RsaAnalyzer())
-                ->add(new KeyAnalyzer\UsageAnalyzer());
+                ->add(new Analyzer\AlgorithmAnalyzer())
+                ->add(new Analyzer\KeyIdentifierAnalyzer())
+                ->add(new Analyzer\NoneAnalyzer())
+                ->add(new Analyzer\OctAnalyzer())
+                ->add(new Analyzer\RsaAnalyzer())
+                ->add(new Analyzer\UsageAnalyzer());
         }
 
         return $this->keyAnalyzerManager;

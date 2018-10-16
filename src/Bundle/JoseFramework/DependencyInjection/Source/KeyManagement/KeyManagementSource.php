@@ -17,13 +17,14 @@ use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzer;
 use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzer;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class KeyManagementSource implements SourceWithCompilerPasses
 {
@@ -58,10 +59,11 @@ class KeyManagementSource implements SourceWithCompilerPasses
             return;
         }
         $container->registerForAutoconfiguration(KeyAnalyzer::class)->addTag('jose.key_analyzer');
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('analyzers.yml');
-        $loader->load('jwk_factory.yml');
-        $loader->load('jwk_services.yml');
+        $container->registerForAutoconfiguration(KeysetAnalyzer::class)->addTag('jose.keyset_analyzer');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('analyzers.php');
+        $loader->load('jwk_factory.php');
+        $loader->load('jwk_services.php');
 
         foreach ($this->sources as $source) {
             $source->load($configs, $container);
@@ -106,6 +108,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
     {
         return [
             new Compiler\KeyAnalyzerCompilerPass(),
+            new Compiler\KeysetAnalyzerCompilerPass(),
             new Compiler\KeySetControllerCompilerPass(),
         ];
     }

@@ -18,7 +18,7 @@ use Jose\Component\Console\JKULoaderCommand;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class JKUSource implements Source
 {
@@ -30,10 +30,10 @@ class JKUSource implements Source
     public function load(array $configs, ContainerBuilder $container)
     {
         if (true === $configs[$this->name()]['enabled']) {
-            $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-            $loader->load('jku_source.yml');
+            $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+            $loader->load('jku_source.php');
             if (\class_exists(JKULoaderCommand::class)) {
-                $loader->load('jku_commands.yml');
+                $loader->load('jku_commands.php');
             }
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
             $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);

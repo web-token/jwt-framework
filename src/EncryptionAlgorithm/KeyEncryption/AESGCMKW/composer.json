@@ -20,14 +20,17 @@
         }
     },
     "require": {
-        "web-token/jwt-encryption": "^1.2"
+        "web-token/jwt-encryption": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0|^7.0"
+        "phpunit/phpunit": "^7.0"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.2.x-dev"
+            "v1.0": "1.0.x-dev",
+            "v1.1": "1.1.x-dev",
+            "v1.2": "1.2.x-dev",
+            "v2.0": "2.0.x-dev"
         }
     },
     "config": {

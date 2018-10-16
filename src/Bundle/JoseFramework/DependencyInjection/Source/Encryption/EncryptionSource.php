@@ -32,7 +32,7 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class EncryptionSource implements SourceWithCompilerPasses
 {
@@ -65,12 +65,12 @@ class EncryptionSource implements SourceWithCompilerPasses
             return;
         }
         $container->registerForAutoconfiguration(\Jose\Component\Encryption\Serializer\JWESerializer::class)->addTag('jose.jwe.serializer');
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
-        $loader->load('jwe_services.yml');
-        $loader->load('jwe_serializers.yml');
-        $loader->load('compression_methods.yml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader->load('jwe_services.php');
+        $loader->load('jwe_serializers.php');
+        $loader->load('compression_methods.php');
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
             if (\class_exists($class)) {
                 $loader->load($file);
@@ -87,18 +87,18 @@ class EncryptionSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         $list = [
-            AESCBCHS::class => 'encryption_aescbc.yml',
-            AESGCM::class => 'encryption_aesgcm.yml',
-            AESGCMKW::class => 'encryption_aesgcmkw.yml',
-            AESKW::class => 'encryption_aeskw.yml',
-            Dir::class => 'encryption_dir.yml',
-            ECDHES::class => 'encryption_ecdhes.yml',
-            PBES2AESKW::class => 'encryption_pbes2.yml',
-            RSA::class => 'encryption_rsa.yml',
-            A128CTR::class => 'encryption_experimental.yml',
+            AESCBCHS::class => 'encryption_aescbc.php',
+            AESGCM::class => 'encryption_aesgcm.php',
+            AESGCMKW::class => 'encryption_aesgcmkw.php',
+            AESKW::class => 'encryption_aeskw.php',
+            Dir::class => 'encryption_dir.php',
+            ECDHES::class => 'encryption_ecdhes.php',
+            PBES2AESKW::class => 'encryption_pbes2.php',
+            RSA::class => 'encryption_rsa.php',
+            A128CTR::class => 'encryption_experimental.php',
         ];
         if (\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
-            $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.yml';
+            $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.php';
         }
 
         return $list;

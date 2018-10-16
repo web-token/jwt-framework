@@ -15,23 +15,20 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class KeyCollector implements Collector
 {
-    /**
-     * @var KeyAnalyzerManager|null
-     */
     private $jwkAnalyzerManager;
+    private $jwksetAnalyzerManager;
 
-    /**
-     * KeyCollector constructor.
-     */
-    public function __construct(?KeyAnalyzerManager $jwkAnalyzerManager = null)
+    public function __construct(?KeyAnalyzerManager $jwkAnalyzerManager = null, ?KeysetAnalyzerManager $jwksetAnalyzerManager = null)
     {
         $this->jwkAnalyzerManager = $jwkAnalyzerManager;
+        $this->jwksetAnalyzerManager = $jwksetAnalyzerManager;
     }
 
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
@@ -56,14 +53,19 @@ class KeyCollector implements Collector
         $data['key']['jwkset'] = [];
         foreach ($this->jwksets as $id => $jwkset) {
             $analyze = [];
+            $analyzeJWKSet = [];
             if (null !== $this->jwkAnalyzerManager) {
                 foreach ($jwkset as $kid => $jwk) {
                     $analyze[$kid] = $this->jwkAnalyzerManager->analyze($jwk);
                 }
             }
+            if (null !== $this->jwksetAnalyzerManager) {
+                $analyzeJWKSet[$kid] = $this->jwksetAnalyzerManager->analyze($jwkset);
+            }
             $data['key']['jwkset'][$id] = [
                 'jwkset' => $jwkset,
                 'analyze' => $analyze,
+                'analyze_jwkset' => $analyzeJWKSet,
             ];
         }
     }
