@@ -21,14 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class JKULoaderCommand extends ObjectOutputCommand
 {
-    /**
-     * @var JKUFactory
-     */
     private $jkuFactory;
 
-    /**
-     * JKULoaderCommand constructor.
-     */
     public function __construct(JKUFactory $jkuFactory, JsonConverter $jsonConverter, ?string $name = null)
     {
         $this->jkuFactory = $jkuFactory;

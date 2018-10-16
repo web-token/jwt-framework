@@ -40,6 +40,6 @@ final class GetThumbprintCommand extends ObjectOutputCommand
             throw new \InvalidArgumentException('Invalid input.');
         }
         $key = JWK::create($json);
-        $this->prepareOutput($input, $output, $key->thumbprint($hash));
+        $output->write($key->thumbprint($hash));
     }
 }

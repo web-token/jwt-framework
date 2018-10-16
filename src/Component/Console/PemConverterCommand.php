@@ -51,6 +51,6 @@ final class PemConverterCommand extends ObjectOutputCommand
             default:
                 throw new \InvalidArgumentException('Not a RSA or EC key.');
         }
-        $this->prepareOutput($input, $output, $pem);
+        $output->write($pem);
     }
 }
