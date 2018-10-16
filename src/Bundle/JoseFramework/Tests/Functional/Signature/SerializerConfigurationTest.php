@@ -27,19 +27,13 @@ class SerializerConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        if (!\class_exists(JWSBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [

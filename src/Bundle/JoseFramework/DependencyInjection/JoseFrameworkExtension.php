@@ -34,7 +34,6 @@ class JoseFrameworkExtension extends Extension implements PrependExtensionInterf
     /**
      * JoseFrameworkExtension constructor.
      *
-     * @param string   $alias
      * @param Source[] $sources
      */
     public function __construct(string $alias, array $sources)
@@ -43,17 +42,11 @@ class JoseFrameworkExtension extends Extension implements PrependExtensionInterf
         $this->sources = $sources;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias(): string
     {
         return $this->alias;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
@@ -64,20 +57,11 @@ class JoseFrameworkExtension extends Extension implements PrependExtensionInterf
         }
     }
 
-    /**
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     *
-     * @return Configuration
-     */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration($this->getAlias(), $this->sources);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig($this->getAlias());

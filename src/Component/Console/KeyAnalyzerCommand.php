@@ -15,7 +15,7 @@ namespace Jose\Component\Console;
 
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,23 +24,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class KeyAnalyzerCommand extends Command
 {
-    /**
-     * @var KeyAnalyzerManager
-     */
     private $analyzerManager;
 
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
 
-    /**
-     * KeyAnalyzerCommand constructor.
-     *
-     * @param KeyAnalyzerManager $analyzerManager
-     * @param JsonConverter      $jsonConverter
-     * @param string|null        $name
-     */
     public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($name);
@@ -48,9 +35,6 @@ final class KeyAnalyzerCommand extends Command
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -61,9 +45,6 @@ final class KeyAnalyzerCommand extends Command
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
@@ -82,16 +63,11 @@ final class KeyAnalyzerCommand extends Command
         }
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWK
-     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwk);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWK::create($json);
         }
 

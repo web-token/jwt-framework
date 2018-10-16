@@ -64,15 +64,6 @@ class JWE implements JWT
 
     /**
      * JWE constructor.
-     *
-     * @param string      $ciphertext
-     * @param string      $iv
-     * @param string      $tag
-     * @param null|string $aad
-     * @param array       $sharedHeader
-     * @param array       $sharedProtectedHeader
-     * @param null|string $encodedSharedProtectedHeader
-     * @param array       $recipients
      */
     private function __construct(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeader = [], array $sharedProtectedHeader = [], ?string $encodedSharedProtectedHeader = null, array $recipients = [])
     {
@@ -89,15 +80,6 @@ class JWE implements JWT
     /**
      * Creates a new JWE object.
      *
-     * @param string      $ciphertext
-     * @param string      $iv
-     * @param string      $tag
-     * @param null|string $aad
-     * @param array       $sharedHeader
-     * @param array       $sharedProtectedHeader
-     * @param null|string $encodedSharedProtectedHeader
-     * @param array       $recipients
-     *
      * @return JWE
      */
     public static function create(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeader = [], array $sharedProtectedHeader = [], ?string $encodedSharedProtectedHeader = null, array $recipients = []): self
@@ -105,9 +87,6 @@ class JWE implements JWT
         return new self($ciphertext, $iv, $tag, $aad, $sharedHeader, $sharedProtectedHeader, $encodedSharedProtectedHeader, $recipients);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPayload(): ?string
     {
         return $this->payload;
@@ -116,8 +95,6 @@ class JWE implements JWT
     /**
      * Set the payload.
      * This method is immutable and a new object will be returned.
-     *
-     * @param string $payload
      *
      * @return JWE
      */
@@ -131,18 +108,14 @@ class JWE implements JWT
 
     /**
      * Returns the number of recipients associated with the JWS.
-     *
-     * @return int
      */
     public function countRecipients(): int
     {
-        return count($this->recipients);
+        return \count($this->recipients);
     }
 
     /**
      * Returns true is the JWE has already been encrypted.
-     *
-     * @return bool
      */
     public function isEncrypted(): bool
     {
@@ -161,14 +134,10 @@ class JWE implements JWT
 
     /**
      * Returns the recipient object at the given index.
-     *
-     * @param int $id
-     *
-     * @return Recipient
      */
     public function getRecipient(int $id): Recipient
     {
-        if (!array_key_exists($id, $this->recipients)) {
+        if (!\array_key_exists($id, $this->recipients)) {
             throw new \InvalidArgumentException('The recipient does not exist.');
         }
 
@@ -187,8 +156,6 @@ class JWE implements JWT
 
     /**
      * Returns the Additional Authentication Data if available.
-     *
-     * @return string|null
      */
     public function getAAD(): ?string
     {
@@ -197,8 +164,6 @@ class JWE implements JWT
 
     /**
      * Returns the Initialization Vector if available.
-     *
-     * @return string|null
      */
     public function getIV(): ?string
     {
@@ -207,8 +172,6 @@ class JWE implements JWT
 
     /**
      * Returns the tag if available.
-     *
-     * @return string|null
      */
     public function getTag(): ?string
     {
@@ -217,8 +180,6 @@ class JWE implements JWT
 
     /**
      * Returns the encoded shared protected header.
-     *
-     * @return string
      */
     public function getEncodedSharedProtectedHeader(): string
     {
@@ -227,8 +188,6 @@ class JWE implements JWT
 
     /**
      * Returns the shared protected header.
-     *
-     * @return array
      */
     public function getSharedProtectedHeader(): array
     {
@@ -249,25 +208,21 @@ class JWE implements JWT
             return $this->sharedProtectedHeader[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The shared protected header "%s" does not exist.', $key));
+        throw new \InvalidArgumentException(\sprintf('The shared protected header "%s" does not exist.', $key));
     }
 
     /**
      * Returns true if the shared protected header has the parameter identified by the given key.
      *
      * @param string $key The key
-     *
-     * @return bool
      */
     public function hasSharedProtectedHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->sharedProtectedHeader);
+        return \array_key_exists($key, $this->sharedProtectedHeader);
     }
 
     /**
      * Returns the shared header.
-     *
-     * @return array
      */
     public function getSharedHeader(): array
     {
@@ -288,18 +243,41 @@ class JWE implements JWT
             return $this->sharedHeader[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The shared header "%s" does not exist.', $key));
+        throw new \InvalidArgumentException(\sprintf('The shared header "%s" does not exist.', $key));
     }
 
     /**
      * Returns true if the shared header has the parameter identified by the given key.
      *
      * @param string $key The key
-     *
-     * @return bool
      */
     public function hasSharedHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->sharedHeader);
+        return \array_key_exists($key, $this->sharedHeader);
+    }
+
+    /**
+     * This method splits the JWE into a list of JWEs.
+     * It is only useful when the JWE contains more than one recipient (JSON General Serialization).
+     *
+     * @return JWE[]
+     */
+    public function split(): array
+    {
+        $result = [];
+        foreach ($this->recipients as $recipient) {
+            $result[] = self::create(
+                $this->ciphertext,
+                $this->iv,
+                $this->tag,
+                $this->aad,
+                $this->sharedHeader,
+                $this->sharedProtectedHeader,
+                $this->encodedSharedProtectedHeader,
+                [$recipient]
+            );
+        }
+
+        return $result;
     }
 }

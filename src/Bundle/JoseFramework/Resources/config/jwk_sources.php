@@ -16,35 +16,15 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
-        ->private()
+        ->public()
         ->autoconfigure()
         ->autowire();
 
-    $container->set('jose.jwk_source.keyfile')
-        ->class(JWKSource\KeyFile::class)
-        ->tag('jose.jwk_source');
-
-    $container->set('jose.jwk_source.certificatefile')
-        ->class(JWKSource\CertificateFile::class)
-        ->tag('jose.jwk_source');
-
-    $container->set('jose.jwk_source.values')
-        ->class(JWKSource\Values::class)
-        ->tag('jose.jwk_source');
-
-    $container->set('jose.jwk_source.secret')
-        ->class(JWKSource\Secret::class)
-        ->tag('jose.jwk_source');
-
-    $container->set('jose.jwk_source.jwk')
-        ->class(JWKSource\JWK::class)
-        ->tag('jose.jwk_source');
-
-    $container->set('jose.jwk_source.x5c')
-        ->class(JWKSource\X5C::class)
-        ->tag('jose.jwk_source');
-
-    $container->set('jose.jwk_source.jwkset')
-        ->class(JWKSource\JWKSet::class)
-        ->tag('jose.jwk_source');
+    $container->set(JWKSource\KeyFile::class);
+    $container->set(JWKSource\CertificateFile::class);
+    $container->set(JWKSource\Values::class);
+    $container->set(JWKSource\Secret::class);
+    $container->set(JWKSource\JWK::class);
+    $container->set(JWKSource\X5C::class);
+    $container->set(JWKSource\JWKSet::class);
 };

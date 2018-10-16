@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class OkpKeysetGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,16 +31,13 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $quantity = intval($input->getArgument('quantity'));
+        $quantity = \intval($input->getArgument('quantity'));
         $curve = $input->getArgument('curve');
 
         $keyset = JWKSet::createFromKeys([]);
-        for ($i = 0; $i < $quantity; $i++) {
+        for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
             $keyset = $keyset->with(JWKFactory::createOKPKey($curve, $args));
         }

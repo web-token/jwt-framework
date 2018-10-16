@@ -48,12 +48,10 @@ class AlgorithmManager
      * Returns true if the algorithm is supported.
      *
      * @param string $algorithm The algorithm
-     *
-     * @return bool
      */
     public function has(string $algorithm): bool
     {
-        return array_key_exists($algorithm, $this->algorithms);
+        return \array_key_exists($algorithm, $this->algorithms);
     }
 
     /**
@@ -63,20 +61,18 @@ class AlgorithmManager
      */
     public function list(): array
     {
-        return array_keys($this->algorithms);
+        return \array_keys($this->algorithms);
     }
 
     /**
      * Returns the algorithm if supported, otherwise throw an exception.
      *
      * @param string $algorithm The algorithm
-     *
-     * @return Algorithm
      */
     public function get(string $algorithm): Algorithm
     {
         if (!$this->has($algorithm)) {
-            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $algorithm));
+            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not supported.', $algorithm));
         }
 
         return $this->algorithms[$algorithm];
@@ -84,8 +80,6 @@ class AlgorithmManager
 
     /**
      * Adds an algorithm to the manager.
-     *
-     * @param Algorithm $algorithm
      *
      * @return AlgorithmManager
      */

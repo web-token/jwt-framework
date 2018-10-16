@@ -22,23 +22,17 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class JKUSource implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'jku_factory';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (true === $configs[$this->name()]['enabled']) {
             $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
             $loader->load('jku_source.php');
-            if (class_exists(JKULoaderCommand::class)) {
+            if (\class_exists(JKULoaderCommand::class)) {
                 $loader->load('jku_commands.php');
             }
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
@@ -46,33 +40,27 @@ class JKUSource implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
             ->children()
-                ->arrayNode('jku_factory')
-                    ->canBeEnabled()
-                    ->children()
-                        ->scalarNode('client')
-                            ->info('HTTP Client used to retrieve key sets.')
-                            ->isRequired()
-                            ->defaultNull()
-                        ->end()
-                        ->scalarNode('request_factory')
-                            ->info('The request factory service.')
-                            ->isRequired()
-                        ->end()
-                    ->end()
-                ->end()
+            ->arrayNode('jku_factory')
+            ->canBeEnabled()
+            ->children()
+            ->scalarNode('client')
+            ->info('HTTP Client used to retrieve key sets.')
+            ->isRequired()
+            ->defaultNull()
+            ->end()
+            ->scalarNode('request_factory')
+            ->info('The request factory service.')
+            ->isRequired()
+            ->end()
+            ->end()
+            ->end()
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

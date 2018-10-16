@@ -23,21 +23,15 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWSSerializer implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'serializers';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.jws_serializer.%s', $name);
+            $service_id = \sprintf('jose.jws_serializer.%s', $name);
             $definition = new Definition(JWSSerializerManager::class);
             $definition
                 ->setFactory([new Reference(JWSSerializerManagerFactory::class), 'create'])
@@ -51,46 +45,40 @@ class JWSSerializer implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node->children()
             ->arrayNode($this->name())
-                ->treatFalseLike([])
-                ->treatNullLike([])
-                ->useAttributeAsKey('name')
-                ->arrayPrototype()
-                    ->children()
-                        ->booleanNode('is_public')
-                            ->info('If true, the service will be public, else private.')
-                            ->defaultTrue()
-                        ->end()
-                        ->arrayNode('serializers')
-                            ->info('A list of JWS serializers aliases.')
-                            ->isRequired()
-                            ->scalarPrototype()->end()
-                            ->treatNullLike([])
-                            ->treatFalseLike([])
-                            ->requiresAtLeastOneElement()
-                        ->end()
-                        ->arrayNode('tags')
-                            ->info('A list of tags to be associated to the service.')
-                            ->useAttributeAsKey('name')
-                            ->treatNullLike([])
-                            ->treatFalseLike([])
-                            ->variablePrototype()->end()
-                        ->end()
-                    ->end()
-                ->end()
+            ->treatFalseLike([])
+            ->treatNullLike([])
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+            ->children()
+            ->booleanNode('is_public')
+            ->info('If true, the service will be public, else private.')
+            ->defaultTrue()
             ->end()
-        ->end();
+            ->arrayNode('serializers')
+            ->info('A list of JWS serializers aliases.')
+            ->isRequired()
+            ->scalarPrototype()->end()
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->requiresAtLeastOneElement()
+            ->end()
+            ->arrayNode('tags')
+            ->info('A list of tags to be associated to the service.')
+            ->useAttributeAsKey('name')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->variablePrototype()->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

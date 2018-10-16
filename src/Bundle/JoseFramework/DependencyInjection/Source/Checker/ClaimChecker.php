@@ -23,21 +23,15 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ClaimChecker implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'claims';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.claim_checker.%s', $name);
+            $service_id = \sprintf('jose.claim_checker.%s', $name);
             $definition = new Definition(JWSVerifierService::class);
             $definition
                 ->setFactory([new Reference(ClaimCheckerManagerFactory::class), 'create'])
@@ -53,46 +47,40 @@ class ClaimChecker implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
             ->children()
-                ->arrayNode($this->name())
-                    ->treatFalseLike([])
-                    ->treatNullLike([])
-                    ->useAttributeAsKey('name')
-                    ->arrayPrototype()
-                        ->children()
-                            ->booleanNode('is_public')
-                                ->info('If true, the service will be public, else private.')
-                                ->defaultTrue()
-                            ->end()
-                            ->arrayNode('claims')
-                                ->info('A list of claim aliases to be set in the claim checker.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->scalarPrototype()->end()
-                            ->end()
-                            ->arrayNode('tags')
-                                ->info('A list of tags to be associated to the claim checker.')
-                                ->useAttributeAsKey('name')
-                                ->treatNullLike([])
-                                ->treatFalseLike([])
-                                ->variablePrototype()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
+            ->arrayNode($this->name())
+            ->treatFalseLike([])
+            ->treatNullLike([])
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+            ->children()
+            ->booleanNode('is_public')
+            ->info('If true, the service will be public, else private.')
+            ->defaultTrue()
+            ->end()
+            ->arrayNode('claims')
+            ->info('A list of claim aliases to be set in the claim checker.')
+            ->useAttributeAsKey('name')
+            ->isRequired()
+            ->scalarPrototype()->end()
+            ->end()
+            ->arrayNode('tags')
+            ->info('A list of tags to be associated to the claim checker.')
+            ->useAttributeAsKey('name')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->variablePrototype()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

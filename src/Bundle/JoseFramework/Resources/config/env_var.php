@@ -11,6 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
+use Jose\Bundle\JoseFramework\EnvVarProcessor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -19,8 +20,5 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->load(
-            'Jose\\Bundle\\JoseFramework\\EnvVarProcessor\\',
-            '../../EnvVarProcessor'
-        );
+    $container->set(EnvVarProcessor\KeyEnvVarProcessor::class);
 };

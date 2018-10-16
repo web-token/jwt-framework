@@ -49,8 +49,6 @@ class ClaimCheckerManager
     }
 
     /**
-     * @param ClaimChecker $checker
-     *
      * @return ClaimCheckerManager
      */
     private function add(ClaimChecker $checker): self
@@ -79,20 +77,17 @@ class ClaimCheckerManager
      * This method returns an array with all checked claims.
      * It is up to the implementor to decide use the claims that have not been checked.
      *
-     * @param array    $claims
      * @param string[] $mandatoryClaims
      *
      * @throws InvalidClaimException
      * @throws MissingMandatoryClaimException
-     *
-     * @return array
      */
     public function check(array $claims, array $mandatoryClaims = []): array
     {
         $this->checkMandatoryClaims($mandatoryClaims, $claims);
         $checkedClaims = [];
         foreach ($this->checkers as $claim => $checker) {
-            if (array_key_exists($claim, $claims)) {
+            if (\array_key_exists($claim, $claims)) {
                 $checker->checkClaim($claims[$claim]);
                 $checkedClaims[$claim] = $claims[$claim];
             }
@@ -103,7 +98,6 @@ class ClaimCheckerManager
 
     /**
      * @param string[] $mandatoryClaims
-     * @param array    $claims
      *
      * @throws MissingMandatoryClaimException
      */
@@ -112,10 +106,10 @@ class ClaimCheckerManager
         if (empty($mandatoryClaims)) {
             return;
         }
-        $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
+        $diff = \array_keys(\array_diff_key(\array_flip($mandatoryClaims), $claims));
 
         if (!empty($diff)) {
-            throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', implode(', ', $diff)), $diff);
+            throw new MissingMandatoryClaimException(\sprintf('The following claims are mandatory: %s.', \implode(', ', $diff)), $diff);
         }
     }
 }

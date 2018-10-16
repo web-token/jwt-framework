@@ -24,15 +24,13 @@ class JWESerializerManagerFactory
      * Creates a serializer manager factory using the given serializers.
      *
      * @param string[] $names
-     *
-     * @return JWESerializerManager
      */
     public function create(array $names): JWESerializerManager
     {
         $serializers = [];
         foreach ($names as $name) {
-            if (!array_key_exists($name, $this->serializers)) {
-                throw new \InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
+            if (!\array_key_exists($name, $this->serializers)) {
+                throw new \InvalidArgumentException(\sprintf('Unsupported serializer "%s".', $name));
             }
             $serializers[] = $this->serializers[$name];
         }
@@ -47,7 +45,7 @@ class JWESerializerManagerFactory
      */
     public function names(): array
     {
-        return array_keys($this->serializers);
+        return \array_keys($this->serializers);
     }
 
     /**
@@ -62,8 +60,6 @@ class JWESerializerManagerFactory
 
     /**
      * Adds a serializer to the manager.
-     *
-     * @param JWESerializer $serializer
      *
      * @return JWESerializerManagerFactory
      */

@@ -49,8 +49,6 @@ class JWESerializerManager
     /**
      * Adds a serializer to the manager.
      *
-     * @param JWESerializer $serializer
-     *
      * @return JWESerializerManager
      */
     private function add(JWESerializer $serializer): self
@@ -79,25 +77,19 @@ class JWESerializerManager
      */
     public function names(): array
     {
-        return array_keys($this->serializers);
+        return \array_keys($this->serializers);
     }
 
     /**
      * Converts a JWE into a string.
      * Throws an exception if none of the serializer was able to convert the input.
      *
-     * @param string   $name
-     * @param JWE      $jws
-     * @param int|null $recipientIndex
-     *
      * @throws \Exception
-     *
-     * @return string
      */
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
-        if (!array_key_exists($name, $this->serializers)) {
-            throw new \InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
+        if (!\array_key_exists($name, $this->serializers)) {
+            throw new \InvalidArgumentException(\sprintf('Unsupported serializer "%s".', $name));
         }
 
         return ($this->serializers[$name])->serialize($jws, $recipientIndex);
@@ -111,8 +103,6 @@ class JWESerializerManager
      * @param string|null $name  the name of the serializer if the input is unserialized
      *
      * @throws \Exception
-     *
-     * @return JWE
      */
     public function unserialize(string $input, ?string &$name = null): JWE
     {

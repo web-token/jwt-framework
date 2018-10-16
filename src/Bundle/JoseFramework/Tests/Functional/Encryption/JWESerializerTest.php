@@ -23,39 +23,36 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWESerializerTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWEBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
     /**
      * @test
      */
-    public function testJWESerializerManagerFromConfigurationIsAvailable()
+    public function jWESerializerManagerFromConfigurationIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer1'));
+        static::assertTrue($container->has('jose.jwe_serializer.jwe_serializer1'));
 
         $jwe = $container->get('jose.jwe_serializer.jwe_serializer1');
-        self::assertInstanceOf(JWESerializerManager::class, $jwe);
+        static::assertInstanceOf(JWESerializerManager::class, $jwe);
     }
 
     /**
      * @test
      */
-    public function testJWESerializerManagerFromExternalBundleExtensionIsAvailable()
+    public function jWESerializerManagerFromExternalBundleExtensionIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_serializer.jwe_serializer2'));
+        static::assertTrue($container->has('jose.jwe_serializer.jwe_serializer2'));
 
         $jwe = $container->get('jose.jwe_serializer.jwe_serializer2');
-        self::assertInstanceOf(JWESerializerManager::class, $jwe);
+        static::assertInstanceOf(JWESerializerManager::class, $jwe);
     }
 }

@@ -34,9 +34,6 @@ class CheckerCollector implements Collector
 
     /**
      * CheckerCollector constructor.
-     *
-     * @param ClaimCheckerManagerFactory|null  $claimCheckerManagerFactory
-     * @param HeaderCheckerManagerFactory|null $headerCheckerManagerFactory
      */
     public function __construct(?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null)
     {
@@ -44,9 +41,6 @@ class CheckerCollector implements Collector
         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $this->collectHeaderCheckerManagers($data);
@@ -55,9 +49,6 @@ class CheckerCollector implements Collector
         $this->collectSupportedClaimCheckers($data);
     }
 
-    /**
-     * @param array $data
-     */
     private function collectHeaderCheckerManagers(array &$data)
     {
         $data['checker']['header_checker_managers'] = [];
@@ -65,16 +56,13 @@ class CheckerCollector implements Collector
             $data['checker']['header_checker_managers'][$id] = [];
             foreach ($checkerManager->getCheckers() as $checker) {
                 $data['checker']['header_checker_managers'][$id][] = [
-                    'header'    => $checker->supportedHeader(),
+                    'header' => $checker->supportedHeader(),
                     'protected' => $checker->protectedHeaderOnly(),
                 ];
             }
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedHeaderCheckers(array &$data)
     {
         $data['checker']['header_checkers'] = [];
@@ -82,16 +70,13 @@ class CheckerCollector implements Collector
             $aliases = $this->headerCheckerManagerFactory->all();
             foreach ($aliases as $alias => $checker) {
                 $data['checker']['header_checkers'][$alias] = [
-                    'header'    => $checker->supportedHeader(),
+                    'header' => $checker->supportedHeader(),
                     'protected' => $checker->protectedHeaderOnly(),
                 ];
             }
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectClaimCheckerManagers(array &$data)
     {
         $data['checker']['claim_checker_managers'] = [];
@@ -105,9 +90,6 @@ class CheckerCollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedClaimCheckers(array &$data)
     {
         $data['checker']['claim_checkers'] = [];
@@ -126,10 +108,6 @@ class CheckerCollector implements Collector
      */
     private $headerCheckerManagers = [];
 
-    /**
-     * @param string               $id
-     * @param HeaderCheckerManager $headerCheckerManager
-     */
     public function addHeaderCheckerManager(string $id, HeaderCheckerManager $headerCheckerManager)
     {
         $this->headerCheckerManagers[$id] = $headerCheckerManager;
@@ -140,10 +118,6 @@ class CheckerCollector implements Collector
      */
     private $claimCheckerManagers = [];
 
-    /**
-     * @param string              $id
-     * @param ClaimCheckerManager $claimCheckerManager
-     */
     public function addClaimCheckerManager(string $id, ClaimCheckerManager $claimCheckerManager)
     {
         $this->claimCheckerManagers[$id] = $claimCheckerManager;

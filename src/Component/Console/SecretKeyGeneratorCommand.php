@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class SecretKeyGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,14 +31,11 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
             ->addOption('is_b64', 'b', InputOption::VALUE_NONE, 'Indicates if the secret is Base64 encoded (useful for binary secrets)');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $secret = $input->getArgument('secret');
         if ($input->getOption('is_b64')) {
-            $secret = base64_decode($secret);
+            $secret = \base64_decode($secret, true);
         }
         $args = $this->getOptions($input);
 

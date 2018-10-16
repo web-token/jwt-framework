@@ -23,7 +23,10 @@ use PHPUnit\Framework\TestCase;
  */
 final class ClaimCheckerManagerTest extends TestCase
 {
-    public function testGetCheckers(): void
+    /**
+     * @test
+     */
+    public function getCheckers(): void
     {
         $checkers = [
             new AudienceChecker('some-expected-audience'),
@@ -35,7 +38,7 @@ final class ClaimCheckerManagerTest extends TestCase
 
         $sut = ClaimCheckerManager::create($checkers);
 
-        $this->assertEquals(
+        static::assertEquals(
             $expectedCheckers,
             $sut->getCheckers()
         );

@@ -18,9 +18,6 @@ use Jose\Component\Core\JWT;
 
 class TokenSupport implements TokenTypeSupport
 {
-    /**
-     * {@inheritdoc}
-     */
     public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof Token) {
@@ -31,9 +28,6 @@ class TokenSupport implements TokenTypeSupport
         $unprotectedHeader = $jwt->getUnprotectedHeader();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports(JWT $jwt): bool
     {
         return $jwt instanceof Token;

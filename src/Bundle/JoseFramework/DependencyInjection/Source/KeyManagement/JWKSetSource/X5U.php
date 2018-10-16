@@ -23,9 +23,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class X5U extends AbstractSource implements JWKSetSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWKSet::class);
@@ -42,33 +39,27 @@ class X5U extends AbstractSource implements JWKSetSource
         return $definition;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeySet(): string
     {
         return 'x5u';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('url')
-                    ->info('URL of the key set.')
-                    ->isRequired()
-                ->end()
-                ->arrayNode('headers')
-                    ->treatNullLike([])
-                    ->treatFalseLike([])
-                    ->info('Header key/value pairs added to the request.')
-                    ->useAttributeAsKey('name')
-                    ->variablePrototype()->end()
-                ->end()
+            ->scalarNode('url')
+            ->info('URL of the key set.')
+            ->isRequired()
+            ->end()
+            ->arrayNode('headers')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->info('Header key/value pairs added to the request.')
+            ->useAttributeAsKey('name')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

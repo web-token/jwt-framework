@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class GetThumbprintCommand extends ObjectOutputCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,18 +31,15 @@ final class GetThumbprintCommand extends ObjectOutputCommand
             ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
         $hash = $input->getOption('hash');
         $json = $this->jsonConverter->decode($jwk);
-        if (!is_array($json)) {
+        if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid input.');
         }
         $key = JWK::create($json);
-        $this->prepareOutput($input, $output, $key->thumbprint($hash));
+        $output->write($key->thumbprint($hash));
     }
 }

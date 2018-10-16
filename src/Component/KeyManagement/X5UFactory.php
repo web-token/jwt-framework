@@ -26,10 +26,6 @@ class X5UFactory extends UrlKeySetFactory
 
     /**
      * X5UFactory constructor.
-     *
-     * @param JsonConverter  $jsonConverter
-     * @param HttpClient     $client
-     * @param RequestFactory $requestFactory
      */
     public function __construct(JsonConverter $jsonConverter, HttpClient $client, RequestFactory $requestFactory)
     {
@@ -41,28 +37,23 @@ class X5UFactory extends UrlKeySetFactory
      * This method will try to fetch the url a retrieve the key set.
      * Throws an exception in case of failure.
      *
-     * @param string $url
-     * @param array  $header
-     *
      * @throws \InvalidArgumentException
-     *
-     * @return JWKSet
      */
     public function loadFromUrl(string $url, array $header = []): JWKSet
     {
         $content = $this->getContent($url, $header);
         $data = $this->jsonConverter->decode($content);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             throw new \RuntimeException('Invalid content.');
         }
 
         $keys = [];
         foreach ($data as $kid => $cert) {
-            if (false === strpos($cert, '-----BEGIN CERTIFICATE-----')) {
+            if (false === \mb_strpos($cert, '-----BEGIN CERTIFICATE-----')) {
                 $cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
             }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
-            if (is_string($kid)) {
+            if (\is_string($kid)) {
                 $jwk['kid'] = $kid;
                 $keys[$kid] = JWK::create($jwk);
             } else {

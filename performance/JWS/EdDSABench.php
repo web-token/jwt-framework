@@ -22,9 +22,6 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
  */
 final class EdDSABench extends SignatureBench
 {
-    /**
-     * @return array
-     */
     public function dataSignature(): array
     {
         return [
@@ -34,9 +31,6 @@ final class EdDSABench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerification(): array
     {
         return [
@@ -46,9 +40,6 @@ final class EdDSABench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerify(): array
     {
         return [
@@ -58,38 +49,26 @@ final class EdDSABench extends SignatureBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAlgorithm(): SignatureAlgorithm
     {
         return $this->getSignatureAlgorithmsManager()->get('EdDSA');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInput(): string
     {
         return 'eyJhbGciOiJFZERTQSJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPrivateKey(): JWK
     {
         return JWK::create([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
-            'd'   => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
-            'x'   => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
+            'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
+            'x' => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPublicKey(): JWK
     {
         return $this->getPrivateKey()->toPublic();

@@ -27,19 +27,13 @@ class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(ClaimCheckerManagerFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+        if (!\class_exists(ClaimCheckerManagerFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [
@@ -91,7 +85,7 @@ class ConfigurationTest extends TestCase
             [
                 ['checkers' => [
                     'headers' => [],
-                    'claims'  => [],
+                    'claims' => [],
                 ]],
             ]
         );
@@ -126,7 +120,7 @@ class ConfigurationTest extends TestCase
                 ['checkers' => [
                     'headers' => [
                         'foo' => [
-                            'headers'   => [],
+                            'headers' => [],
                             'is_public' => false,
                         ],
                     ],
@@ -164,7 +158,7 @@ class ConfigurationTest extends TestCase
                 ['checkers' => [
                     'claims' => [
                         'foo' => [
-                            'claims'    => [],
+                            'claims' => [],
                             'is_public' => false,
                         ],
                     ],

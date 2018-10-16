@@ -41,11 +41,6 @@ class NestedTokenBuilder
 
     /**
      * NestedTokenBuilder constructor.
-     *
-     * @param JWEBuilder           $jweBuilder
-     * @param JWESerializerManager $jweSerializerManager
-     * @param JWSBuilder           $jwsBuilder
-     * @param JWSSerializerManager $jwsSerializerManager
      */
     public function __construct(JWEBuilder $jweBuilder, JWESerializerManager $jweSerializerManager, JWSBuilder $jwsBuilder, JWSSerializerManager $jwsSerializerManager)
     {
@@ -58,28 +53,20 @@ class NestedTokenBuilder
     /**
      * Creates a nested token.
      *
-     * @param string      $payload
-     * @param array[]     $signatures
-     * @param string      $jws_serialization_mode
-     * @param array       $jweSharedProtectedHeader
-     * @param array       $jweSharedHeader
-     * @param array[]     $recipients
-     * @param string      $jwe_serialization_mode
-     * @param string|null $aad
+     * @param array[] $signatures
+     * @param array[] $recipients
      *
      * @throws \Exception
-     *
-     * @return string
      */
     public function create(string $payload, array $signatures, string $jws_serialization_mode, array $jweSharedProtectedHeader, array $jweSharedHeader, array $recipients, string $jwe_serialization_mode, ?string $aad = null): string
     {
         $jws = $this->jwsBuilder->create()->withPayload($payload);
         foreach ($signatures as $signature) {
-            if (!is_array($signature) || !array_key_exists('key', $signature)) {
+            if (!\is_array($signature) || !\array_key_exists('key', $signature)) {
                 throw new \InvalidArgumentException('The signatures must be an array of arrays containing a key, a protected header and a header');
             }
-            $signature['protected_header'] = array_key_exists('protected_header', $signature) ? $signature['protected_header'] : [];
-            $signature['header'] = array_key_exists('header', $signature) ? $signature['header'] : [];
+            $signature['protected_header'] = \array_key_exists('protected_header', $signature) ? $signature['protected_header'] : [];
+            $signature['header'] = \array_key_exists('header', $signature) ? $signature['header'] : [];
             $jws = $jws->addSignature($signature['key'], $signature['protected_header'], $signature['header']);
         }
         $jws = $jws->build();
@@ -94,10 +81,10 @@ class NestedTokenBuilder
             ->withSharedHeader($jweSharedHeader)
             ->withAAD($aad);
         foreach ($recipients as $recipient) {
-            if (!is_array($recipient) || !array_key_exists('key', $recipient)) {
+            if (!\is_array($recipient) || !\array_key_exists('key', $recipient)) {
                 throw new \InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');
             }
-            $recipient['header'] = array_key_exists('header', $recipient) ? $recipient['header'] : [];
+            $recipient['header'] = \array_key_exists('header', $recipient) ? $recipient['header'] : [];
             $jwe = $jwe->addRecipient($recipient['key'], $recipient['header']);
         }
         $jwe = $jwe->build();

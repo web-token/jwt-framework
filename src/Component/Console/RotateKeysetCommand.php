@@ -22,20 +22,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class RotateKeysetCommand extends ObjectOutputCommand
 {
-    /**
-     * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
-     */
-    public function __construct(JsonConverter $jsonConverter, string $name = null)
+    public function __construct(JsonConverter $jsonConverter, ?string $name = null)
     {
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -47,48 +38,35 @@ final class RotateKeysetCommand extends ObjectOutputCommand
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwkset = $this->getKeyset($input)->all();
         $jwk = $this->getKey($input);
 
-        if (0 !== count($jwkset)) {
-            array_pop($jwkset);
+        if (0 !== \count($jwkset)) {
+            \array_pop($jwkset);
         }
-        array_unshift($jwkset, $jwk);
+        \array_unshift($jwkset, $jwk);
 
         $this->prepareJsonOutput($input, $output, JWKSet::createFromKeys($jwkset));
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWKSet
-     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
         $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
         }
 
         throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWK
-     */
     private function getKey(InputInterface $input): JWK
     {
         $jwkset = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWK::create($json);
         }
 

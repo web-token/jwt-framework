@@ -41,7 +41,7 @@ class UnencodedPayloadHeaderCheckerTest extends TestCase
         $checker = new UnencodedPayloadChecker();
         $checker->checkHeader(true);
         $checker->checkHeader(false);
-        self::assertTrue($checker->protectedHeaderOnly());
-        self::assertEquals('b64', $checker->supportedHeader());
+        static::assertTrue($checker->protectedHeaderOnly());
+        static::assertEquals('b64', $checker->supportedHeader());
     }
 }

@@ -19,17 +19,11 @@ use Http\Message\MessageFactory as Psr7MessageFactory;
 
 class HttpMessageFactory implements Psr7MessageFactory
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createRequest($method, $uri, array $header = [], $body = null, $protocolVersion = '1.1')
     {
         return new Request($method, $uri, $header, $body, $protocolVersion);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createResponse($statusCode = 200, $reasonPhrase = null, array $header = [], $body = null, $protocolVersion = '1.1')
     {
         return new Response($statusCode, $header, $body, $protocolVersion, $reasonPhrase);

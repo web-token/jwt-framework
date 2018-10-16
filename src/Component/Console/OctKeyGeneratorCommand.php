@@ -20,9 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class OctKeyGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -32,12 +29,9 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $size = intval($input->getArgument('size'));
+        $size = \intval($input->getArgument('size'));
         $args = $this->getOptions($input);
 
         $jwk = JWKFactory::createOctKey($size, $args);

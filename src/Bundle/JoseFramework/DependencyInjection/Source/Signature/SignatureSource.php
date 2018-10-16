@@ -16,6 +16,12 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Jose\Component\Signature\Algorithm\ECDSA;
+use Jose\Component\Signature\Algorithm\EdDSA;
+use Jose\Component\Signature\Algorithm\HMAC;
+use Jose\Component\Signature\Algorithm\HS1;
+use Jose\Component\Signature\Algorithm\None;
+use Jose\Component\Signature\Algorithm\RSA;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
@@ -44,38 +50,47 @@ class SignatureSource implements SourceWithCompilerPasses
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'jws';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
             return;
         }
         $container->registerForAutoconfiguration(\Jose\Component\Signature\Serializer\JWSSerializer::class)->addTag('jose.jws.serializer');
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/'));
         $loader->load('jws_services.php');
         $loader->load('jws_serializers.php');
-        $loader->load('signature_algorithms.php');
 
-        if (array_key_exists('jws', $configs)) {
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
+        foreach ($this->getAlgorithmsFiles() as $class => $file) {
+            if (\class_exists($class)) {
+                $loader->load($file);
+            }
+        }
+
+        if (\array_key_exists('jws', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['jws'], $container);
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    private function getAlgorithmsFiles(): array
+    {
+        return [
+            RSA::class => 'signature_rsa.php',
+            ECDSA::class => 'signature_ecdsa.php',
+            EdDSA::class => 'signature_eddsa.php',
+            HMAC::class => 'signature_hmac.php',
+            None::class => 'signature_none.php',
+            HS1::class => 'signature_experimental.php',
+        ];
+    }
+
     public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
@@ -83,18 +98,15 @@ class SignatureSource implements SourceWithCompilerPasses
         }
         $childNode = $node->children()
             ->arrayNode($this->name())
-                ->addDefaultsIfNotSet()
-                ->treatFalseLike([])
-                ->treatNullLike([]);
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+            ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {
@@ -111,12 +123,9 @@ class SignatureSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
-        return class_exists(JWSBuilderFactory::class) && class_exists(JWSVerifierFactory::class);
+        return \class_exists(JWSBuilderFactory::class) && \class_exists(JWSVerifierFactory::class);
     }
 
     /**

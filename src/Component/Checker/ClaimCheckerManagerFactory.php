@@ -25,17 +25,15 @@ class ClaimCheckerManagerFactory
      * If the alias is not supported, an InvalidArgumentException is thrown.
      *
      * @param string[] $aliases
-     *
-     * @return ClaimCheckerManager
      */
     public function create(array $aliases): ClaimCheckerManager
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            if (array_key_exists($alias, $this->checkers)) {
+            if (\array_key_exists($alias, $this->checkers)) {
                 $checkers[] = $this->checkers[$alias];
             } else {
-                throw new \InvalidArgumentException(sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+                throw new \InvalidArgumentException(\sprintf('The claim checker with the alias "%s" is not supported.', $alias));
             }
         }
 
@@ -44,9 +42,6 @@ class ClaimCheckerManagerFactory
 
     /**
      * This method adds a claim checker to this factory.
-     *
-     * @param string       $alias
-     * @param ClaimChecker $checker
      *
      * @return ClaimCheckerManagerFactory
      */
@@ -64,7 +59,7 @@ class ClaimCheckerManagerFactory
      */
     public function aliases(): array
     {
-        return array_keys($this->checkers);
+        return \array_keys($this->checkers);
     }
 
     /**

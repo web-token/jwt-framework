@@ -29,33 +29,22 @@ final class CompactSerializer implements JWESerializer
 
     /**
      * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
      */
     public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWE Compact';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
         if (null === $recipientIndex) {
@@ -67,7 +56,7 @@ final class CompactSerializer implements JWESerializer
         $this->checkHasSharedProtectedHeader($jwe);
         $this->checkRecipientHasNoHeader($jwe, $recipientIndex);
 
-        return sprintf(
+        return \sprintf(
             '%s.%s.%s.%s.%s',
             $jwe->getEncodedSharedProtectedHeader(),
             Base64Url::encode(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),
@@ -77,13 +66,10 @@ final class CompactSerializer implements JWESerializer
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWE
     {
-        $parts = explode('.', $input);
-        if (5 !== count($parts)) {
+        $parts = \explode('.', $input);
+        if (5 !== \count($parts)) {
             throw new \InvalidArgumentException('Unsupported input');
         }
 
@@ -109,9 +95,6 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
-    /**
-     * @param JWE $jwe
-     */
     private function checkHasNoAAD(JWE $jwe)
     {
         if (!empty($jwe->getAAD())) {
@@ -119,10 +102,6 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
-    /**
-     * @param JWE $jwe
-     * @param int $id
-     */
     private function checkRecipientHasNoHeader(JWE $jwe, int $id)
     {
         if (!empty($jwe->getSharedHeader()) || !empty($jwe->getRecipient($id)->getHeader())) {
@@ -130,9 +109,6 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
-    /**
-     * @param JWE $jwe
-     */
     private function checkHasSharedProtectedHeader(JWE $jwe)
     {
         if (empty($jwe->getSharedProtectedHeader())) {

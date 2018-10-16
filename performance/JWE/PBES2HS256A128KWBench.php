@@ -19,56 +19,47 @@ namespace Jose\Performance\JWE;
  */
 final class PBES2HS256A128KWBench extends EncryptionBench
 {
-    /**
-     * @return array
-     */
     public function dataHeadersAndAlgorithms(): array
     {
         return [
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A128CBC-HS256'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A128CBC-HS256'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A192CBC-HS384'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A192CBC-HS384'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A256CBC-HS512'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A256CBC-HS512'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A128GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A128GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A192GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A192GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A256GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'PBES2-HS256+A128KW', 'enc' => 'A256GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAAD(): ?string
     {
         return 'A,B,C,D';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataInputs(): array
     {
         return [
@@ -76,31 +67,25 @@ final class PBES2HS256A128KWBench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataPrivateKeys(): array
     {
         return [
             [
                 'recipient_keys' => ['keys' => [[
                     'kty' => 'oct',
-                    'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                    'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
                 ]]],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataRecipientPublicKeys(): array
     {
         return [
             [
                 'recipient_key' => [
                     'kty' => 'oct',
-                    'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                    'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
                 ],
             ],
         ];

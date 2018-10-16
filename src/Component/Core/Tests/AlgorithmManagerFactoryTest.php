@@ -29,8 +29,8 @@ class AlgorithmManagerFactoryTest extends TestCase
      */
     public function iCanListSupportedAliases()
     {
-        self::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
-        self::assertEquals(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
+        static::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
+        static::assertEquals(['foo'], \array_keys($this->getAlgorithmManagerFactory()->all()));
     }
 
     /**
@@ -38,7 +38,7 @@ class AlgorithmManagerFactoryTest extends TestCase
      */
     public function iCanCreateAnAlgorithmManagerUsingAliases()
     {
-        self::assertInstanceOf(AlgorithmManager::class, $this->getAlgorithmManagerFactory()->create(['foo']));
+        static::assertInstanceOf(AlgorithmManager::class, $this->getAlgorithmManagerFactory()->create(['foo']));
     }
 
     /**
@@ -59,10 +59,10 @@ class AlgorithmManagerFactoryTest extends TestCase
     {
         $manager = AlgorithmManager::create([new FooAlgorithm()]);
 
-        self::assertEquals(['foo'], $manager->list());
-        self::assertTrue($manager->has('foo'));
-        self::assertFalse($manager->has('HS384'));
-        self::assertInstanceOf(Algorithm::class, $manager->get('foo'));
+        static::assertEquals(['foo'], $manager->list());
+        static::assertTrue($manager->has('foo'));
+        static::assertFalse($manager->has('HS384'));
+        static::assertInstanceOf(Algorithm::class, $manager->get('foo'));
         $manager->get('HS384');
     }
 
@@ -71,9 +71,6 @@ class AlgorithmManagerFactoryTest extends TestCase
      */
     private $algorithmManagerFactory;
 
-    /**
-     * @return AlgorithmManagerFactory
-     */
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {

@@ -22,9 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWKSet extends AbstractSource implements JWKSetSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(\Jose\Component\Core\JWKSet::class);
@@ -40,26 +37,20 @@ class JWKSet extends AbstractSource implements JWKSetSource
         return $definition;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKeySet(): string
     {
         return 'jwkset';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('value')
-                    ->info('The JWKSet object.')
-                    ->isRequired()
-                ->end()
+            ->scalarNode('value')
+            ->info('The JWKSet object.')
+            ->isRequired()
+            ->end()
             ->end();
     }
 }

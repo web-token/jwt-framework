@@ -33,19 +33,13 @@ class CustomJsonConverter implements JsonConverter
         $this->options = JSON_UNESCAPED_UNICODE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function encode($payload): string
     {
-        return json_encode($payload, $this->options, 512);
+        return \json_encode($payload, $this->options, 512);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function decode(string $payload, bool $associativeArray = true)
     {
-        return json_decode($payload, $associativeArray, 512, $this->options);
+        return \json_decode($payload, $associativeArray, 512, $this->options);
     }
 }

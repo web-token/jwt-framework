@@ -37,10 +37,6 @@ class JWELoader
 
     /**
      * JWELoader constructor.
-     *
-     * @param JWESerializerManager      $serializerManager
-     * @param JWEDecrypter              $jweDecrypter
-     * @param HeaderCheckerManager|null $headerCheckerManager
      */
     public function __construct(JWESerializerManager $serializerManager, JWEDecrypter $jweDecrypter, ?HeaderCheckerManager $headerCheckerManager)
     {
@@ -51,8 +47,6 @@ class JWELoader
 
     /**
      * Returns the JWE Decrypter object.
-     *
-     * @return JWEDecrypter
      */
     public function getJweDecrypter(): JWEDecrypter
     {
@@ -61,8 +55,6 @@ class JWELoader
 
     /**
      * Returns the header checker manager if set.
-     *
-     * @return HeaderCheckerManager|null
      */
     public function getHeaderCheckerManager(): ?HeaderCheckerManager
     {
@@ -71,8 +63,6 @@ class JWELoader
 
     /**
      * Returns the serializer manager.
-     *
-     * @return JWESerializerManager
      */
     public function getSerializerManager(): JWESerializerManager
     {
@@ -83,13 +73,7 @@ class JWELoader
      * This method will try to load and decrypt the given token using a JWK.
      * If succeeded, the methods will populate the $recipient variable and returns the JWE.
      *
-     * @param string   $token
-     * @param JWK      $key
-     * @param null|int $recipient
-     *
      * @throws \Exception
-     *
-     * @return JWE
      */
     public function loadAndDecryptWithKey(string $token, JWK $key, ?int &$recipient): JWE
     {
@@ -102,20 +86,14 @@ class JWELoader
      * This method will try to load and decrypt the given token using a JWKSet.
      * If succeeded, the methods will populate the $recipient variable and returns the JWE.
      *
-     * @param string   $token
-     * @param JWKSet   $keyset
-     * @param null|int $recipient
-     *
      * @throws \Exception
-     *
-     * @return JWE
      */
     public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, ?int &$recipient): JWE
     {
         try {
             $jwe = $this->serializerManager->unserialize($token);
             $nbRecipients = $jwe->countRecipients();
-            for ($i = 0; $i < $nbRecipients; $i++) {
+            for ($i = 0; $i < $nbRecipients; ++$i) {
                 if ($this->processRecipient($jwe, $keyset, $i)) {
                     $recipient = $i;
 
@@ -129,13 +107,6 @@ class JWELoader
         throw new \Exception('Unable to load and decrypt the token.');
     }
 
-    /**
-     * @param JWE    $jwe
-     * @param JWKSet $keyset
-     * @param int    $recipient
-     *
-     * @return bool
-     */
     private function processRecipient(JWE &$jwe, JWKSet $keyset, int $recipient): bool
     {
         try {

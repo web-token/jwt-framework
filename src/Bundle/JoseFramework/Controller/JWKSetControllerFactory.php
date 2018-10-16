@@ -18,27 +18,13 @@ use Jose\Component\Core\JWKSet;
 
 class JWKSetControllerFactory
 {
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
 
-    /**
-     * JWKSetControllerFactory constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     */
     public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * @param JWKSet $jwkset
-     * @param int    $maxAge
-     *
-     * @return JWKSetController
-     */
     public function create(JWKSet $jwkset, int $maxAge): JWKSetController
     {
         return new JWKSetController($this->jsonConverter->encode($jwkset), $maxAge);

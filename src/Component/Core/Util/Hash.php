@@ -64,19 +64,12 @@ class Hash
         return new self('sha512', 64);
     }
 
-    /**
-     * @param string $hash
-     * @param int    $length
-     */
     private function __construct(string $hash, int $length)
     {
         $this->hash = $hash;
         $this->length = $length;
     }
 
-    /**
-     * @return int
-     */
     public function getLength(): int
     {
         return $this->length;
@@ -84,19 +77,12 @@ class Hash
 
     /**
      * Compute the HMAC.
-     *
-     * @param string $text
-     *
-     * @return string
      */
     public function hash(string $text): string
     {
-        return hash($this->hash, $text, true);
+        return \hash($this->hash, $text, true);
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return $this->hash;

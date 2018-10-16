@@ -35,7 +35,7 @@ class KeyCreationCommandTest extends TestCase
         $converter = new StandardConverter();
         $command = new Console\EcKeyGeneratorCommand($converter);
 
-        self::assertTrue($command->isEnabled());
+        static::assertTrue($command->isEnabled());
     }
 
     /**
@@ -77,7 +77,7 @@ class KeyCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'curve'       => 'P-256',
+            'curve' => 'P-256',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -86,7 +86,7 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -112,7 +112,7 @@ class KeyCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'size'        => 256,
+            'size' => 256,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -121,7 +121,7 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -139,9 +139,9 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
-        self::assertTrue($jwk->has('k'));
-        self::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
+        static::assertInstanceOf(JWK::class, $jwk);
+        static::assertTrue($jwk->has('k'));
+        static::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
     }
 
     /**
@@ -149,7 +149,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateAnOctetKeyUsingABinarySecret()
     {
-        $secret = random_bytes(20);
+        $secret = \random_bytes(20);
         $converter = new StandardConverter();
         $input = new ArrayInput([
             'secret' => $secret,
@@ -161,9 +161,9 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
-        self::assertTrue($jwk->has('k'));
-        self::assertEquals($secret, Base64Url::decode($jwk->get('k')));
+        static::assertInstanceOf(JWK::class, $jwk);
+        static::assertTrue($jwk->has('k'));
+        static::assertEquals($secret, Base64Url::decode($jwk->get('k')));
     }
 
     /**
@@ -189,7 +189,7 @@ class KeyCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'curve'       => 'X25519',
+            'curve' => 'X25519',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -198,7 +198,7 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -216,7 +216,7 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 
     /**
@@ -242,7 +242,7 @@ class KeyCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'size'        => 1024,
+            'size' => 1024,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -251,6 +251,6 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        self::assertInstanceOf(JWK::class, $jwk);
+        static::assertInstanceOf(JWK::class, $jwk);
     }
 }

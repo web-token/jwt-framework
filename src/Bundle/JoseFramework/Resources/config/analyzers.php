@@ -11,13 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\KeyManagement\KeyAnalyzer\AlgorithmAnalyzer;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyIdentifierAnalyzer;
-use Jose\Component\KeyManagement\KeyAnalyzer\NoneAnalyzer;
-use Jose\Component\KeyManagement\KeyAnalyzer\OctAnalyzer;
-use Jose\Component\KeyManagement\KeyAnalyzer\RsaAnalyzer;
-use Jose\Component\KeyManagement\KeyAnalyzer\UsageAnalyzer;
+use Jose\Component\KeyManagement\Analyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -26,11 +20,18 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(KeyAnalyzerManager::class);
-    $container->set(AlgorithmAnalyzer::class);
-    $container->set(UsageAnalyzer::class);
-    $container->set(KeyIdentifierAnalyzer::class);
-    $container->set(NoneAnalyzer::class);
-    $container->set(OctAnalyzer::class);
-    $container->set(RsaAnalyzer::class);
+    $container->set(Analyzer\KeyAnalyzerManager::class)
+        ->public();
+
+    $container->set(Analyzer\KeysetAnalyzerManager::class)
+        ->public();
+
+    $container->set(Analyzer\AlgorithmAnalyzer::class);
+    $container->set(Analyzer\UsageAnalyzer::class);
+    $container->set(Analyzer\KeyIdentifierAnalyzer::class);
+    $container->set(Analyzer\NoneAnalyzer::class);
+    $container->set(Analyzer\OctAnalyzer::class);
+
+    $container->set(Analyzer\MixedKeyTypes::class);
+    $container->set(Analyzer\MixedPublicAndPrivateKeys::class);
 };

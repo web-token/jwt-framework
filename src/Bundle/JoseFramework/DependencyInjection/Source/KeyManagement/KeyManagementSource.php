@@ -17,8 +17,9 @@ use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzer;
 use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzer;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -42,28 +43,23 @@ class KeyManagementSource implements SourceWithCompilerPasses
             new JWKSource(),
             new JWKUriSource(),
         ];
-        if (class_exists(HttplugBundle::class)) {
+        if (\class_exists(HttplugBundle::class)) {
             $this->sources[] = new JKUSource();
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'key_mgmt';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
             return;
         }
         $container->registerForAutoconfiguration(KeyAnalyzer::class)->addTag('jose.key_analyzer');
+        $container->registerForAutoconfiguration(KeysetAnalyzer::class)->addTag('jose.keyset_analyzer');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('analyzers.php');
         $loader->load('jwk_factory.php');
@@ -74,9 +70,6 @@ class KeyManagementSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
@@ -87,9 +80,6 @@ class KeyManagementSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {
@@ -106,12 +96,9 @@ class KeyManagementSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
-        return class_exists(JWKFactory::class);
+        return \class_exists(JWKFactory::class);
     }
 
     /**
@@ -121,6 +108,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
     {
         return [
             new Compiler\KeyAnalyzerCompilerPass(),
+            new Compiler\KeysetAnalyzerCompilerPass(),
             new Compiler\KeySetControllerCompilerPass(),
         ];
     }

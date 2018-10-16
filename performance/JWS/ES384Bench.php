@@ -22,9 +22,6 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
  */
 final class ES384Bench extends SignatureBench
 {
-    /**
-     * @return array
-     */
     public function dataSignature(): array
     {
         return [
@@ -34,9 +31,6 @@ final class ES384Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerification(): array
     {
         return [
@@ -46,9 +40,6 @@ final class ES384Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerify(): array
     {
         return [
@@ -58,25 +49,16 @@ final class ES384Bench extends SignatureBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAlgorithm(): SignatureAlgorithm
     {
         return $this->getSignatureAlgorithmsManager()->get('ES384');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInput(): string
     {
         return 'eyJhbGciOiJFUzM4NCJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPrivateKey(): JWK
     {
         return JWK::create([
@@ -84,15 +66,12 @@ final class ES384Bench extends SignatureBench
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'sig',
             'crv' => 'P-384',
-            'x'   => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
-            'y'   => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
-            'd'   => 'iTx2pk7wW-GqJkHcEkFQb2EFyYcO7RugmaW3mRrQVAOUiPommT0IdnYK2xDlZh-j',
+            'x' => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
+            'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
+            'd' => 'iTx2pk7wW-GqJkHcEkFQb2EFyYcO7RugmaW3mRrQVAOUiPommT0IdnYK2xDlZh-j',
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPublicKey(): JWK
     {
         return $this->getPrivateKey()->toPublic();

@@ -21,17 +21,11 @@ use Jose\Component\Core\Algorithm;
  */
 class FooAlgorithm implements Algorithm
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'foo';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function allowedKeyTypes(): array
     {
         return ['FOO'];

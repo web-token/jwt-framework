@@ -20,5 +20,6 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(AlgorithmManagerFactory::class);
+    $container->set(AlgorithmManagerFactory::class)
+        ->public();
 };

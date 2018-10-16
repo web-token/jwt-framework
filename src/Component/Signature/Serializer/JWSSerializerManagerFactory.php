@@ -22,15 +22,13 @@ class JWSSerializerManagerFactory
 
     /**
      * @param string[] $names
-     *
-     * @return JWSSerializerManager
      */
     public function create(array $names): JWSSerializerManager
     {
         $serializers = [];
         foreach ($names as $name) {
-            if (!array_key_exists($name, $this->serializers)) {
-                throw new \InvalidArgumentException(sprintf('Unsupported serialiser "%s".', $name));
+            if (!\array_key_exists($name, $this->serializers)) {
+                throw new \InvalidArgumentException(\sprintf('Unsupported serialiser "%s".', $name));
             }
             $serializers[] = $this->serializers[$name];
         }
@@ -43,7 +41,7 @@ class JWSSerializerManagerFactory
      */
     public function names(): array
     {
-        return array_keys($this->serializers);
+        return \array_keys($this->serializers);
     }
 
     /**
@@ -55,8 +53,6 @@ class JWSSerializerManagerFactory
     }
 
     /**
-     * @param JWSSerializer $serializer
-     *
      * @return JWSSerializerManagerFactory
      */
     public function add(JWSSerializer $serializer): self

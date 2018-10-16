@@ -22,9 +22,6 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
  */
 final class ES256Bench extends SignatureBench
 {
-    /**
-     * @return array
-     */
     public function dataSignature(): array
     {
         return [
@@ -34,9 +31,6 @@ final class ES256Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerification(): array
     {
         return [
@@ -46,9 +40,6 @@ final class ES256Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerify(): array
     {
         return [
@@ -58,25 +49,16 @@ final class ES256Bench extends SignatureBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAlgorithm(): SignatureAlgorithm
     {
         return $this->getSignatureAlgorithmsManager()->get('ES256');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInput(): string
     {
         return 'eyJhbGciOiJFUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPrivateKey(): JWK
     {
         return JWK::create([
@@ -84,15 +66,12 @@ final class ES256Bench extends SignatureBench
             'kid' => 'meriadoc.brandybuck@buckland.example',
             'use' => 'sig',
             'crv' => 'P-256',
-            'x'   => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
-            'y'   => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
-            'd'   => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
+            'x' => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
+            'y' => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
+            'd' => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPublicKey(): JWK
     {
         return $this->getPrivateKey()->toPublic();

@@ -28,9 +28,6 @@ final class StandardConverter implements JsonConverter
     /**
      * StandardJsonEncoder constructor.
      * See also json_encode and json_decode parameters.
-     *
-     * @param int $options
-     * @param int $depth
      */
     public function __construct(int $options = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE, int $depth = 512)
     {
@@ -38,19 +35,13 @@ final class StandardConverter implements JsonConverter
         $this->depth = $depth;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function encode($payload): string
     {
-        return json_encode($payload, $this->options, $this->depth);
+        return \json_encode($payload, $this->options, $this->depth);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function decode(string $payload, bool $associativeArray = true)
     {
-        return json_decode($payload, $associativeArray, $this->depth, $this->options);
+        return \json_decode($payload, $associativeArray, $this->depth, $this->options);
     }
 }

@@ -27,23 +27,17 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class CoreSource implements SourceWithCompilerPasses
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'core';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $config, ContainerBuilder $container)
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('services.php');
 
-        if (interface_exists(EnvVarProcessorInterface::class)) {
+        if (\interface_exists(EnvVarProcessorInterface::class)) {
             $loader->load('env_var.php');
         }
 
@@ -58,23 +52,17 @@ class CoreSource implements SourceWithCompilerPasses
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
             ->children()
-                ->scalarNode('json_converter')
-                    ->defaultValue(StandardConverter::class)
-                    ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
-                ->end()
+            ->scalarNode('json_converter')
+            ->defaultValue(StandardConverter::class)
+            ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
+            ->end()
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

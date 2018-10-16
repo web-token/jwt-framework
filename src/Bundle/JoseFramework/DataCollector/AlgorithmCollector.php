@@ -30,22 +30,17 @@ class AlgorithmCollector implements Collector
 
     /**
      * AlgorithmCollector constructor.
-     *
-     * @param AlgorithmManagerFactory $algorithmManagerFactory
      */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $algorithms = $this->algorithmManagerFactory->all();
         $data['algorithm'] = [
-            'messages'   => $this->getAlgorithmMessages(),
+            'messages' => $this->getAlgorithmMessages(),
             'algorithms' => [],
         ];
         $signatureAlgorithms = 0;
@@ -53,7 +48,7 @@ class AlgorithmCollector implements Collector
         $contentEncryptionAlgorithms = 0;
         foreach ($algorithms as $alias => $algorithm) {
             $type = $this->getAlgorithmType($algorithm, $signatureAlgorithms, $keyEncryptionAlgorithms, $contentEncryptionAlgorithms);
-            if (!array_key_exists($type, $data['algorithm']['algorithms'])) {
+            if (!\array_key_exists($type, $data['algorithm']['algorithms'])) {
                 $data['algorithm']['algorithms'][$type] = [];
             }
             $data['algorithm']['algorithms'][$type][$alias] = [
@@ -62,20 +57,12 @@ class AlgorithmCollector implements Collector
         }
 
         $data['algorithm']['types'] = [
-            'signature'          => $signatureAlgorithms,
-            'key_encryption'     => $keyEncryptionAlgorithms,
+            'signature' => $signatureAlgorithms,
+            'key_encryption' => $keyEncryptionAlgorithms,
             'content_encryption' => $contentEncryptionAlgorithms,
         ];
     }
 
-    /**
-     * @param Algorithm $algorithm
-     * @param int       $signatureAlgorithms
-     * @param int       $keyEncryptionAlgorithms
-     * @param int       $contentEncryptionAlgorithms
-     *
-     * @return string
-     */
     private function getAlgorithmType(Algorithm $algorithm, int &$signatureAlgorithms, int &$keyEncryptionAlgorithms, int &$contentEncryptionAlgorithms): string
     {
         switch (true) {
@@ -96,35 +83,112 @@ class AlgorithmCollector implements Collector
         }
     }
 
-    /**
-     * @return array
-     */
     private function getAlgorithmMessages(): array
     {
         return [
             'none' => [
                 'severity' => 'severity-low',
-                'message'  => 'This algorithm is not secured. Please use with caution.',
+                'message' => 'This algorithm is not secured. Please use with caution.',
+            ],
+            'HS256/64' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental. Please use for testing purpose only.',
+            ],
+            'RS1' => [
+                'severity' => 'severity-high',
+                'message' => 'Experimental. Please use for testing purpose only. SHA-1 hashing function is not recommended.',
+            ],
+            'HS1' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm has known vulnerabilities. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17</a>. SHA-1 hashing function is not recommended.',
+            ],
+            'A128CTR' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A192CTR' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A256CTR' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A128CBC' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A192CBC' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'A256CBC' => [
+                'severity' => 'severity-high',
+                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+            ],
+            'chacha20-poly1305' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental. Please use for testing purpose only.',
+            ],
+            'RSA-OAEP-384' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental. Please use for testing purpose only.',
+            ],
+            'RSA-OAEP-512' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-64-128' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-64-256' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-64-128' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-64-256' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-128-128' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-16-128-256' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-128-128' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+            ],
+            'AES-CCM-64-128-256' => [
+                'severity' => 'severity-low',
+                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'RSA1_5' => [
                 'severity' => 'severity-high',
-                'message'  => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
+                'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
             ],
             'ECDH-ES' => [
                 'severity' => 'severity-medium',
-                'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
             ],
             'ECDH-ES+A128KW' => [
                 'severity' => 'severity-medium',
-                'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
             ],
             'ECDH-ES+A192KW' => [
                 'severity' => 'severity-medium',
-                'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
             ],
             'ECDH-ES+A256KW' => [
                 'severity' => 'severity-medium',
-                'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
+                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
             ],
         ];
     }

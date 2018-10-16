@@ -161,7 +161,6 @@ jose:
         jwkset1:
             id: 'jose.key_set.jwkset1'
             path: '/1.jwkset'
-            max_age: 100
 
 httplug:
     profiling: false

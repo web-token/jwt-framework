@@ -30,9 +30,6 @@ class JWEDecrypterFactory
 
     /**
      * JWEDecrypterFactory constructor.
-     *
-     * @param AlgorithmManagerFactory         $algorithmManagerFactory
-     * @param CompressionMethodManagerFactory $compressionMethodManagerFactory
      */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
     {
@@ -46,8 +43,6 @@ class JWEDecrypterFactory
      * @param string[] $keyEncryptionAlgorithms
      * @param string[] $contentEncryptionAlgorithms
      * @param string[] $compressionMethods
-     *
-     * @return JWEDecrypter
      */
     public function create(array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods): JWEDecrypter
     {

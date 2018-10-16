@@ -23,13 +23,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWEBuilderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWEBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
@@ -40,8 +37,8 @@ class JWEBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(JWEBuilderFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(JWEBuilderFactory::class));
     }
 
     /**
@@ -56,7 +53,7 @@ class JWEBuilderTest extends WebTestCase
 
         $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
 
-        self::assertInstanceOf(JWEBuilder::class, $jwe);
+        static::assertInstanceOf(JWEBuilder::class, $jwe);
     }
 
     /**
@@ -66,10 +63,10 @@ class JWEBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_builder.builder1'));
+        static::assertTrue($container->has('jose.jwe_builder.builder1'));
 
         $jwe = $container->get('jose.jwe_builder.builder1');
-        self::assertInstanceOf(JWEBuilder::class, $jwe);
+        static::assertInstanceOf(JWEBuilder::class, $jwe);
     }
 
     /**
@@ -79,9 +76,9 @@ class JWEBuilderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_builder.builder2'));
+        static::assertTrue($container->has('jose.jwe_builder.builder2'));
 
         $jwe = $container->get('jose.jwe_builder.builder2');
-        self::assertInstanceOf(JWEBuilder::class, $jwe);
+        static::assertInstanceOf(JWEBuilder::class, $jwe);
     }
 }

@@ -63,7 +63,7 @@ class AudienceHeaderCheckerTest extends TestCase
         $checker = new AudienceChecker('foo');
         $checker->checkHeader('foo');
         $checker->checkHeader(['foo']);
-        self::assertFalse($checker->protectedHeaderOnly());
-        self::assertEquals('aud', $checker->supportedHeader());
+        static::assertFalse($checker->protectedHeaderOnly());
+        static::assertEquals('aud', $checker->supportedHeader());
     }
 }

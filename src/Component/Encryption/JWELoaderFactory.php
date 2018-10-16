@@ -35,10 +35,6 @@ class JWELoaderFactory
 
     /**
      * JWELoaderFactory constructor.
-     *
-     * @param JWESerializerManagerFactory      $jweSerializerManagerFactory
-     * @param JWEDecrypterFactory              $jweDecrypterFactory
-     * @param HeaderCheckerManagerFactory|null $headerCheckerManagerFactory
      */
     public function __construct(JWESerializerManagerFactory $jweSerializerManagerFactory, JWEDecrypterFactory $jweDecrypterFactory, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory)
     {
@@ -50,14 +46,6 @@ class JWELoaderFactory
     /**
      * Creates a JWELoader using the given serializer aliases, encryption algorithm aliases, compression method aliases
      * and header checker aliases.
-     *
-     * @param array $serializers
-     * @param array $keyEncryptionAlgorithms
-     * @param array $contentEncryptionAlgorithms
-     * @param array $compressionMethods
-     * @param array $headerCheckers
-     *
-     * @return JWELoader
      */
     public function create(array $serializers, array $keyEncryptionAlgorithms, array $contentEncryptionAlgorithms, array $compressionMethods, array $headerCheckers = []): JWELoader
     {

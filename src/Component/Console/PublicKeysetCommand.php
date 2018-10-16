@@ -21,20 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PublicKeysetCommand extends ObjectOutputCommand
 {
-    /**
-     * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
-     */
-    public function __construct(JsonConverter $jsonConverter, string $name = null)
+    public function __construct(JsonConverter $jsonConverter, ?string $name = null)
     {
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -45,9 +36,6 @@ final class PublicKeysetCommand extends ObjectOutputCommand
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwkset = $this->getKeyset($input);
@@ -59,16 +47,11 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         $this->prepareJsonOutput($input, $output, $newJwkset);
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWKSet
-     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
         $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
         }
 

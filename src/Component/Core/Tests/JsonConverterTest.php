@@ -28,7 +28,7 @@ class JsonConverterTest extends TestCase
     public function iCanConvertAnObjectIntoAJsonString()
     {
         $converter = new StandardConverter();
-        self::assertEquals('{"foo":"BAR"}', $converter->encode(['foo' => 'BAR']));
-        self::assertEquals(['foo' => 'BAR'], $converter->decode('{"foo":"BAR"}'));
+        static::assertEquals('{"foo":"BAR"}', $converter->encode(['foo' => 'BAR']));
+        static::assertEquals(['foo' => 'BAR'], $converter->decode('{"foo":"BAR"}'));
     }
 }

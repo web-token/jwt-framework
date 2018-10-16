@@ -21,27 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class X5ULoaderCommand extends ObjectOutputCommand
 {
-    /**
-     * @var X5UFactory
-     */
     private $x5uFactory;
 
-    /**
-     * X5ULoaderCommand constructor.
-     *
-     * @param X5UFactory    $x5uFactory
-     * @param JsonConverter $jsonConverter
-     * @param null|string   $name
-     */
     public function __construct(X5UFactory $x5uFactory, JsonConverter $jsonConverter, ?string $name = null)
     {
         $this->x5uFactory = $x5uFactory;
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -52,9 +39,6 @@ final class X5ULoaderCommand extends ObjectOutputCommand
             ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');

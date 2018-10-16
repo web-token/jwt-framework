@@ -16,19 +16,11 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
-        ->private()
+        ->public()
         ->autoconfigure()
         ->autowire();
 
-    $container->set('jose.jwk_set_source.jwkset')
-        ->class(JWKSetSource\JWKSet::class)
-        ->tag('jose.jwkset_source');
-
-    $container->set('jose.jwk_set_source.jku')
-        ->class(JWKSetSource\JKU::class)
-        ->tag('jose.jwkset_source');
-
-    $container->set('jose.jwk_set_source.x5u')
-        ->class(JWKSetSource\X5U::class)
-        ->tag('jose.jwkset_source');
+    $container->set(JWKSetSource\JWKSet::class);
+    $container->set(JWKSetSource\JKU::class);
+    $container->set(JWKSetSource\X5U::class);
 };

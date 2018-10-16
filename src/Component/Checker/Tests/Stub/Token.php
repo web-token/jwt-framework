@@ -34,10 +34,6 @@ class Token implements JWT
 
     /**
      * Token constructor.
-     *
-     * @param null|string $payload
-     * @param array       $protectedHeader
-     * @param array       $unprotectedHeader
      */
     private function __construct(?string $payload, array $protectedHeader, array $unprotectedHeader)
     {
@@ -47,10 +43,6 @@ class Token implements JWT
     }
 
     /**
-     * @param null|string $payload
-     * @param array       $protectedHeader
-     * @param array       $unprotectedHeader
-     *
      * @return Token
      */
     public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): self
@@ -58,25 +50,16 @@ class Token implements JWT
         return new self($payload, $protectedHeader, $unprotectedHeader);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPayload(): ?string
     {
         return $this->payload;
     }
 
-    /**
-     * @return array
-     */
     public function getProtectedHeader(): array
     {
         return $this->protectedHeader;
     }
 
-    /**
-     * @return array
-     */
     public function getUnprotectedHeader(): array
     {
         return $this->unprotectedHeader;

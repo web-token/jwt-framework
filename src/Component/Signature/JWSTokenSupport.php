@@ -18,17 +18,11 @@ use Jose\Component\Core\JWT;
 
 final class JWSTokenSupport implements TokenTypeSupport
 {
-    /**
-     * {@inheritdoc}
-     */
     public function supports(JWT $jwt): bool
     {
         return $jwt instanceof JWS;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof JWS) {

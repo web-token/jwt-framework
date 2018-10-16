@@ -23,21 +23,15 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWKUriSource implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'jwk_uris';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.controller.%s', $name);
+            $service_id = \sprintf('jose.controller.%s', $name);
             $definition = new Definition(JWKSetController::class);
             $definition->setFactory([new Reference(JWKSetControllerFactory::class), 'create']);
             $definition->setArguments([new Reference($itemConfig['id']), $itemConfig['max_age']]);
@@ -51,51 +45,46 @@ class JWKUriSource implements Source
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $node
             ->children()
-                ->arrayNode('jwk_uris')
-                    ->treatFalseLike([])
-                    ->treatNullLike([])
-                    ->useAttributeAsKey('name')
-                    ->arrayPrototype()
-                        ->children()
-                            ->scalarNode('id')
-                                ->info('The service ID of the Key Set to share.')
-                                ->isRequired()
-                            ->end()
-                            ->scalarNode('path')
-                                ->info('To share the JWKSet, then set a valid path (e.g. "/jwkset.json").')
-                                ->isRequired()
-                            ->end()
-                            ->integerNode('max_age')
-                                ->info('When share, this value indicates how many seconds the HTTP client should keep the key in cache. Default is 21600 = 6 hours.')
-                                ->defaultValue(21600)
-                            ->end()
-                            ->arrayNode('tags')
-                                ->info('A list of tags to be associated to the service.')
-                                ->useAttributeAsKey('name')
-                                ->treatNullLike([])
-                                ->treatFalseLike([])
-                                ->variablePrototype()->end()
-                            ->end()
-                            ->booleanNode('is_public')
-                                ->info('If true, the service will be public, else private.')
-                                ->defaultTrue()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
+            ->arrayNode('jwk_uris')
+            ->treatFalseLike([])
+            ->treatNullLike([])
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+            ->children()
+            ->scalarNode('id')
+            ->info('The service ID of the Key Set to share.')
+            ->isRequired()
+            ->end()
+            ->scalarNode('path')
+            ->info('To share the JWKSet, then set a valid path (e.g. "/jwkset.json").')
+            ->isRequired()
+            ->end()
+            ->integerNode('max_age')
+            ->info('When share, this value indicates how many seconds the HTTP client should keep the key in cache. Default is 21600 = 6 hours.')
+            ->defaultValue(21600)
+            ->setDeprecated()
+            ->end()
+            ->arrayNode('tags')
+            ->info('A list of tags to be associated to the service.')
+            ->useAttributeAsKey('name')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->variablePrototype()->end()
+            ->end()
+            ->booleanNode('is_public')
+            ->info('If true, the service will be public, else private.')
+            ->defaultTrue()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

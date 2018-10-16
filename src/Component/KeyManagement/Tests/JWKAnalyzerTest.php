@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Tests;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\KeyManagement\Analyzer;
 use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\KeyManagement\KeyAnalyzer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -32,7 +32,7 @@ class JWKAnalyzerTest extends TestCase
         $key = JWKFactory::createNoneKey();
         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
+        static::assertNotEmpty($messages);
     }
 
     /**
@@ -42,13 +42,13 @@ class JWKAnalyzerTest extends TestCase
     {
         $key = JWK::create([
             'kty' => 'RSA',
-            'n'   => 'oaAQyGUwgwCfZQym0QQCeCJu6GfApv6nQBKJ3MgzT85kCUO3xDiudiDbJqgqn2ol',
-            'e'   => 'AQAB',
-            'd'   => 'asuBS2jRbT50FCkP8PxdRVQ7RIWJ3s5UWAi-c233cQam1kRjGN2QzAv79hrpjLQB',
+            'n' => 'oaAQyGUwgwCfZQym0QQCeCJu6GfApv6nQBKJ3MgzT85kCUO3xDiudiDbJqgqn2ol',
+            'e' => 'AQAB',
+            'd' => 'asuBS2jRbT50FCkP8PxdRVQ7RIWJ3s5UWAi-c233cQam1kRjGN2QzAv79hrpjLQB',
         ]);
         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
+        static::assertNotEmpty($messages);
     }
 
     /**
@@ -59,28 +59,25 @@ class JWKAnalyzerTest extends TestCase
         $key = JWKFactory::createOctKey(16, ['use' => 'foo', 'key_ops' => 'foo']);
         $messages = $this->getKeyAnalyzer()->analyze($key);
 
-        self::assertNotEmpty($messages);
+        static::assertNotEmpty($messages);
     }
 
     /**
-     * @var KeyAnalyzer\KeyAnalyzerManager|null
+     * @var Analyzer\KeyAnalyzerManager|null
      */
     private $keyAnalyzerManager;
 
-    /**
-     * @return KeyAnalyzer\KeyAnalyzerManager
-     */
-    private function getKeyAnalyzer(): KeyAnalyzer\KeyAnalyzerManager
+    private function getKeyAnalyzer(): Analyzer\KeyAnalyzerManager
     {
         if (null === $this->keyAnalyzerManager) {
-            $this->keyAnalyzerManager = new KeyAnalyzer\KeyAnalyzerManager();
+            $this->keyAnalyzerManager = new Analyzer\KeyAnalyzerManager();
             $this->keyAnalyzerManager
-                ->add(new KeyAnalyzer\AlgorithmAnalyzer())
-                ->add(new KeyAnalyzer\KeyIdentifierAnalyzer())
-                ->add(new KeyAnalyzer\NoneAnalyzer())
-                ->add(new KeyAnalyzer\OctAnalyzer())
-                ->add(new KeyAnalyzer\RsaAnalyzer())
-                ->add(new KeyAnalyzer\UsageAnalyzer());
+                ->add(new Analyzer\AlgorithmAnalyzer())
+                ->add(new Analyzer\KeyIdentifierAnalyzer())
+                ->add(new Analyzer\NoneAnalyzer())
+                ->add(new Analyzer\OctAnalyzer())
+                ->add(new Analyzer\RsaAnalyzer())
+                ->add(new Analyzer\UsageAnalyzer());
         }
 
         return $this->keyAnalyzerManager;

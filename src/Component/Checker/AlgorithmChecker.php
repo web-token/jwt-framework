@@ -35,7 +35,6 @@ final class AlgorithmChecker implements HeaderChecker
      * AlgorithmChecker constructor.
      *
      * @param string[] $supportedAlgorithms
-     * @param bool     $protectedHeader
      */
     public function __construct(array $supportedAlgorithms, bool $protectedHeader = false)
     {
@@ -43,30 +42,21 @@ final class AlgorithmChecker implements HeaderChecker
         $this->protectedHeader = $protectedHeader;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function checkHeader($value)
+    public function checkHeader($value): void
     {
-        if (!is_string($value)) {
+        if (!\is_string($value)) {
             throw new InvalidHeaderException('"alg" must be a string.', self::HEADER_NAME, $value);
         }
-        if (!in_array($value, $this->supportedAlgorithms)) {
+        if (!\in_array($value, $this->supportedAlgorithms, true)) {
             throw new InvalidHeaderException('Unsupported algorithm.', self::HEADER_NAME, $value);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedHeader(): string
     {
         return self::HEADER_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;

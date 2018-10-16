@@ -19,56 +19,47 @@ namespace Jose\Performance\JWE;
  */
 final class ECDHESA256KWBench extends EncryptionBench
 {
-    /**
-     * @return array
-     */
     public function dataHeadersAndAlgorithms(): array
     {
         return [
             [
-                    'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A128CBC-HS256'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A128CBC-HS256'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A192CBC-HS384'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A192CBC-HS384'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A256CBC-HS512'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A256CBC-HS512'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A128GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A128GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A192GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A192GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
-                    'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A256GCM'],
-                    'shared_header'           => [],
-                    'recipient_header'        => [],
+                'shared_protected_header' => ['alg' => 'ECDH-ES+A256KW', 'enc' => 'A256GCM'],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAAD(): ?string
     {
         return 'A,B,C,D';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataInputs(): array
     {
         return [
@@ -99,9 +90,6 @@ final class ECDHESA256KWBench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataPrivateKeys(): array
     {
         return [
@@ -109,34 +97,31 @@ final class ECDHESA256KWBench extends EncryptionBench
                 'recipient_keys' => ['keys' => [[
                     'crv' => 'P-256',
                     'kty' => 'EC',
-                    'd'   => '_gUgAjx9zU5BKlHq--TiCjZmsdNQAgrv536DCTUM2vo',
-                    'x'   => 'Kuh77MGkweIENgR_3WjzJ4gEF47yn6yQWAeeNqYC5qo',
-                    'y'   => '1koAqIfb5C2PkCT1GYEcW4IcIEdrgOdMcua6G0Eyhtc',
+                    'd' => '_gUgAjx9zU5BKlHq--TiCjZmsdNQAgrv536DCTUM2vo',
+                    'x' => 'Kuh77MGkweIENgR_3WjzJ4gEF47yn6yQWAeeNqYC5qo',
+                    'y' => '1koAqIfb5C2PkCT1GYEcW4IcIEdrgOdMcua6G0Eyhtc',
                 ], [
                     'crv' => 'P-384',
                     'kty' => 'EC',
-                    'd'   => 'Fn_Le74znJfY33TkqCoskx1pkgA_1sLnKvfvM_78lTZT2zfj4XC6uY_L8iRknOii',
-                    'x'   => 'o5CqgE0jIlCVwGKMXDsQmkOgxohJcod4hv7jo4h7qeRoysAV0YPtokMgv7CUpSCG',
-                    'y'   => 'Z3ZGVhyv3T-MudQI5fYNmkO1BzqlHQJHCQ9RQzqa05QOsUZo39gjVC2EhRv1Z9kz',
+                    'd' => 'Fn_Le74znJfY33TkqCoskx1pkgA_1sLnKvfvM_78lTZT2zfj4XC6uY_L8iRknOii',
+                    'x' => 'o5CqgE0jIlCVwGKMXDsQmkOgxohJcod4hv7jo4h7qeRoysAV0YPtokMgv7CUpSCG',
+                    'y' => 'Z3ZGVhyv3T-MudQI5fYNmkO1BzqlHQJHCQ9RQzqa05QOsUZo39gjVC2EhRv1Z9kz',
                 ], [
                     'crv' => 'P-521',
                     'kty' => 'EC',
-                    'd'   => 'ACebnk5N5RV4VFhrCmvp-5w6rsQJvHdvvBdJkIKmq3pDDreKC0vU-K2oYrQaX5vPuI1umnVw9qxFq6QCsShJ38Fh',
-                    'x'   => 'AR05Z1Xe74_lcrJbhKg12jijs5LPbLwcpHDGETssYKRgbO3-4l7egk_WtLjSeXmDvRfkww9kKpFdKHTqmDYSIzxf',
-                    'y'   => 'AL7NyrGpwcXqfvmQb4d7N6vO7REegUaFv8ea-_EXyA2eJciZJSmvipwpxRnoSfkNuJ5yJUGdjg_FtaddKaLdJEf_',
+                    'd' => 'ACebnk5N5RV4VFhrCmvp-5w6rsQJvHdvvBdJkIKmq3pDDreKC0vU-K2oYrQaX5vPuI1umnVw9qxFq6QCsShJ38Fh',
+                    'x' => 'AR05Z1Xe74_lcrJbhKg12jijs5LPbLwcpHDGETssYKRgbO3-4l7egk_WtLjSeXmDvRfkww9kKpFdKHTqmDYSIzxf',
+                    'y' => 'AL7NyrGpwcXqfvmQb4d7N6vO7REegUaFv8ea-_EXyA2eJciZJSmvipwpxRnoSfkNuJ5yJUGdjg_FtaddKaLdJEf_',
                 ], [
                     'crv' => 'X25519',
                     'kty' => 'OKP',
-                    'x'   => 'LD7PfRPxq03bd0WJyf_1z-LQevmrbcYx7jJafep3gmk',
-                    'd'   => 'pSdgXFRYMvOa7giAm3Rrf5Mf8GnvLz7HtZKu_KN06KY',
+                    'x' => 'LD7PfRPxq03bd0WJyf_1z-LQevmrbcYx7jJafep3gmk',
+                    'd' => 'pSdgXFRYMvOa7giAm3Rrf5Mf8GnvLz7HtZKu_KN06KY',
                 ]]],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataRecipientPublicKeys(): array
     {
         return [
@@ -144,32 +129,32 @@ final class ECDHESA256KWBench extends EncryptionBench
                 'recipient_key' => [
                     'crv' => 'P-256',
                     'kty' => 'EC',
-                    'x'   => 'Kuh77MGkweIENgR_3WjzJ4gEF47yn6yQWAeeNqYC5qo',
-                    'y'   => '1koAqIfb5C2PkCT1GYEcW4IcIEdrgOdMcua6G0Eyhtc',
+                    'x' => 'Kuh77MGkweIENgR_3WjzJ4gEF47yn6yQWAeeNqYC5qo',
+                    'y' => '1koAqIfb5C2PkCT1GYEcW4IcIEdrgOdMcua6G0Eyhtc',
                 ],
             ],
             [
                 'recipient_key' => [
                     'crv' => 'P-384',
                     'kty' => 'EC',
-                    'x'   => 'o5CqgE0jIlCVwGKMXDsQmkOgxohJcod4hv7jo4h7qeRoysAV0YPtokMgv7CUpSCG',
-                    'y'   => 'Z3ZGVhyv3T-MudQI5fYNmkO1BzqlHQJHCQ9RQzqa05QOsUZo39gjVC2EhRv1Z9kz',
+                    'x' => 'o5CqgE0jIlCVwGKMXDsQmkOgxohJcod4hv7jo4h7qeRoysAV0YPtokMgv7CUpSCG',
+                    'y' => 'Z3ZGVhyv3T-MudQI5fYNmkO1BzqlHQJHCQ9RQzqa05QOsUZo39gjVC2EhRv1Z9kz',
                 ],
             ],
             [
                 'recipient_key' => [
                     'crv' => 'P-521',
                     'kty' => 'EC',
-                    'x'   => 'AR05Z1Xe74_lcrJbhKg12jijs5LPbLwcpHDGETssYKRgbO3-4l7egk_WtLjSeXmDvRfkww9kKpFdKHTqmDYSIzxf',
-                    'y'   => 'AL7NyrGpwcXqfvmQb4d7N6vO7REegUaFv8ea-_EXyA2eJciZJSmvipwpxRnoSfkNuJ5yJUGdjg_FtaddKaLdJEf_',
+                    'x' => 'AR05Z1Xe74_lcrJbhKg12jijs5LPbLwcpHDGETssYKRgbO3-4l7egk_WtLjSeXmDvRfkww9kKpFdKHTqmDYSIzxf',
+                    'y' => 'AL7NyrGpwcXqfvmQb4d7N6vO7REegUaFv8ea-_EXyA2eJciZJSmvipwpxRnoSfkNuJ5yJUGdjg_FtaddKaLdJEf_',
                 ],
             ],
             [
                 'recipient_key' => [
                     'crv' => 'X25519',
                     'kty' => 'OKP',
-                    'x'   => 'LD7PfRPxq03bd0WJyf_1z-LQevmrbcYx7jJafep3gmk',
-                    'd'   => 'pSdgXFRYMvOa7giAm3Rrf5Mf8GnvLz7HtZKu_KN06KY',
+                    'x' => 'LD7PfRPxq03bd0WJyf_1z-LQevmrbcYx7jJafep3gmk',
+                    'd' => 'pSdgXFRYMvOa7giAm3Rrf5Mf8GnvLz7HtZKu_KN06KY',
                 ],
             ],
         ];

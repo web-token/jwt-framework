@@ -24,9 +24,6 @@ class JoseCollector extends DataCollector
      */
     private $collectors = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         foreach ($this->collectors as $collector) {
@@ -34,33 +31,21 @@ class JoseCollector extends DataCollector
         }
     }
 
-    /**
-     * @param Collector $collector
-     */
     public function add(Collector $collector)
     {
         $this->collectors[] = $collector;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'jose_collector';
     }
 
-    /**
-     * @return array
-     */
     public function getData(): array
     {
         return $this->data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function reset()
     {
         $this->data = [];

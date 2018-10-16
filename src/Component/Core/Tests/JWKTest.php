@@ -28,32 +28,32 @@ class JWKTest extends TestCase
     public function aKeyContainsAllExpectedParameters()
     {
         $jwk = JWK::create([
-            'kty'     => 'EC',
-            'crv'     => 'P-256',
-            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use'     => 'sig',
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sig',
             'key_ops' => ['sign'],
-            'alg'     => 'ES256',
-            'bar'     => 'plic',
+            'alg' => 'ES256',
+            'bar' => 'plic',
         ]);
 
-        self::assertEquals('EC', $jwk->get('kty'));
-        self::assertEquals('ES256', $jwk->get('alg'));
-        self::assertEquals('sig', $jwk->get('use'));
-        self::assertFalse($jwk->has('kid'));
-        self::assertEquals(['sign'], $jwk->get('key_ops'));
-        self::assertEquals('P-256', $jwk->get('crv'));
-        self::assertFalse($jwk->has('x5u'));
-        self::assertFalse($jwk->has('x5c'));
-        self::assertFalse($jwk->has('x5t'));
-        self::assertFalse($jwk->has('x5t#256'));
-        self::assertEquals('f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU', $jwk->get('x'));
-        self::assertEquals('x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0', $jwk->get('y'));
-        self::assertEquals('{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sig","key_ops":["sign"],"alg":"ES256","bar":"plic"}', json_encode($jwk));
-        self::assertEquals('oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U', $jwk->thumbprint('sha256'));
-        self::assertEquals('EMMMl6Rj75mqhcABihxxl_VCN9s', $jwk->thumbprint('sha1'));
-        self::assertEquals('dqwHnan4iJ1_eEll-o4Egw', $jwk->thumbprint('md5'));
+        static::assertEquals('EC', $jwk->get('kty'));
+        static::assertEquals('ES256', $jwk->get('alg'));
+        static::assertEquals('sig', $jwk->get('use'));
+        static::assertFalse($jwk->has('kid'));
+        static::assertEquals(['sign'], $jwk->get('key_ops'));
+        static::assertEquals('P-256', $jwk->get('crv'));
+        static::assertFalse($jwk->has('x5u'));
+        static::assertFalse($jwk->has('x5c'));
+        static::assertFalse($jwk->has('x5t'));
+        static::assertFalse($jwk->has('x5t#256'));
+        static::assertEquals('f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU', $jwk->get('x'));
+        static::assertEquals('x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0', $jwk->get('y'));
+        static::assertEquals('{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sig","key_ops":["sign"],"alg":"ES256","bar":"plic"}', \json_encode($jwk));
+        static::assertEquals('oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U', $jwk->thumbprint('sha256'));
+        static::assertEquals('EMMMl6Rj75mqhcABihxxl_VCN9s', $jwk->thumbprint('sha1'));
+        static::assertEquals('dqwHnan4iJ1_eEll-o4Egw', $jwk->thumbprint('md5'));
     }
 
     /**
@@ -64,14 +64,14 @@ class JWKTest extends TestCase
     public function iCannotGetTheThumbprintOfTheKeyWhenIUseAnUnsupportedHashingAlgorithm()
     {
         $jwk = JWK::create([
-            'kty'     => 'EC',
-            'crv'     => 'P-256',
-            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use'     => 'sig',
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sig',
             'key_ops' => ['sign'],
-            'alg'     => 'ES256',
-            'bar'     => 'plic',
+            'alg' => 'ES256',
+            'bar' => 'plic',
         ]);
 
         $jwk->thumbprint('foo');
@@ -95,14 +95,14 @@ class JWKTest extends TestCase
     public function iCannotGetAParameterThatDoesNotExist()
     {
         $jwk = JWK::create([
-            'kty'     => 'EC',
-            'crv'     => 'P-256',
-            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use'     => 'sign',
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sign',
             'key_ops' => ['sign'],
-            'alg'     => 'ES256',
-            'bar'     => 'plic',
+            'alg' => 'ES256',
+            'bar' => 'plic',
         ]);
 
         $jwk->get('ABCD');
@@ -114,28 +114,28 @@ class JWKTest extends TestCase
     public function iCanConvertAPrivateKeyIntoPublicKey()
     {
         $private = JWK::create([
-            'kty'     => 'EC',
-            'crv'     => 'P-256',
-            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'd'       => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
-            'use'     => 'sign',
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use' => 'sign',
             'key_ops' => ['verify'],
-            'alg'     => 'ES256',
-            'kid'     => '9876543210',
+            'alg' => 'ES256',
+            'kid' => '9876543210',
         ]);
 
         $public = $private->toPublic();
 
-        self::assertEquals(json_encode([
-            'kty'     => 'EC',
-            'crv'     => 'P-256',
-            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use'     => 'sign',
+        static::assertEquals(\json_encode([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use' => 'sign',
             'key_ops' => ['verify'],
-            'alg'     => 'ES256',
-            'kid'     => '9876543210',
-        ]), json_encode($public));
+            'alg' => 'ES256',
+            'kid' => '9876543210',
+        ]), \json_encode($public));
     }
 }

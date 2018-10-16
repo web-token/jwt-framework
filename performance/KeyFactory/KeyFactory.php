@@ -24,7 +24,7 @@ use Jose\Component\Core\Util\Ecc\NistCurve;
 final class KeyFactory
 {
     /**
-     * @Subject()
+     * @Subject
      */
     public function usingThePurePhpMethod()
     {
@@ -35,35 +35,35 @@ final class KeyFactory
         JWK::create([
             'kty' => 'EC',
             'crv' => $curve,
-            'd'   => Base64Url::encode(gmp_export($privateKey->getSecret())),
-            'x'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
-            'y'   => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+            'd' => Base64Url::encode(\gmp_export($privateKey->getSecret())),
+            'x' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getX())),
+            'y' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getY())),
         ]);
     }
 
     /**
-     * @Subject()
+     * @Subject
      */
     public function usingOpenSSL()
     {
-        $key = openssl_pkey_new([
-            'curve_name'       => 'prime256v1',
+        $key = \openssl_pkey_new([
+            'curve_name' => 'prime256v1',
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
-        $res = openssl_pkey_export($key, $out);
+        $res = \openssl_pkey_export($key, $out);
         if (false === $res) {
             throw new \RuntimeException('Unable to create the key');
         }
-        $res = openssl_pkey_get_private($out);
+        $res = \openssl_pkey_get_private($out);
 
-        $details = openssl_pkey_get_details($res);
+        $details = \openssl_pkey_get_details($res);
 
         JWK::create([
             'kty' => 'EC',
             'crv' => 'P-256',
-            'x'   => Base64Url::encode($details['ec']['x']),
-            'y'   => Base64Url::encode($details['ec']['y']),
-            'd'   => Base64Url::encode($details['ec']['d']),
+            'x' => Base64Url::encode($details['ec']['x']),
+            'y' => Base64Url::encode($details['ec']['y']),
+            'd' => Base64Url::encode($details['ec']['d']),
         ]);
     }
 }

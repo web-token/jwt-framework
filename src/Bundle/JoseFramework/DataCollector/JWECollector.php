@@ -35,9 +35,6 @@ class JWECollector implements Collector
 
     /**
      * JWECollector constructor.
-     *
-     * @param CompressionMethodManagerFactory|null $compressionMethodManagerFactory
-     * @param JWESerializerManagerFactory|null     $jweSerializerManagerFactory
      */
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
     {
@@ -45,9 +42,6 @@ class JWECollector implements Collector
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
     {
         $this->collectSupportedCompressionMethods($data);
@@ -57,9 +51,6 @@ class JWECollector implements Collector
         $this->collectSupportedJWELoaders($data);
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedCompressionMethods(array &$data)
     {
         $data['jwe']['compression_methods'] = [];
@@ -72,9 +63,6 @@ class JWECollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWESerializations(array &$data)
     {
         $data['jwe']['jwe_serialization'] = [];
@@ -87,48 +75,39 @@ class JWECollector implements Collector
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWEBuilders(array &$data)
     {
         $data['jwe']['jwe_builders'] = [];
         foreach ($this->jweBuilders as $id => $jweBuilder) {
             $data['jwe']['jwe_builders'][$id] = [
-                'key_encryption_algorithms'     => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
+                'key_encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods'           => $jweBuilder->getCompressionMethodManager()->list(),
+                'compression_methods' => $jweBuilder->getCompressionMethodManager()->list(),
             ];
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWEDecrypters(array &$data)
     {
         $data['jwe']['jwe_decrypters'] = [];
         foreach ($this->jweDecrypters as $id => $jweDecrypter) {
             $data['jwe']['jwe_decrypters'][$id] = [
-                'key_encryption_algorithms'     => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
+                'key_encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods'           => $jweDecrypter->getCompressionMethodManager()->list(),
+                'compression_methods' => $jweDecrypter->getCompressionMethodManager()->list(),
             ];
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function collectSupportedJWELoaders(array &$data)
     {
         $data['jwe']['jwe_loaders'] = [];
         foreach ($this->jweLoaders as $id => $jweLoader) {
             $data['jwe']['jwe_loaders'][$id] = [
-                'serializers'                   => $jweLoader->getSerializerManager()->names(),
-                'key_encryption_algorithms'     => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
+                'serializers' => $jweLoader->getSerializerManager()->names(),
+                'key_encryption_algorithms' => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweLoader->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods'           => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
+                'compression_methods' => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
             ];
         }
     }
@@ -138,10 +117,6 @@ class JWECollector implements Collector
      */
     private $jweBuilders = [];
 
-    /**
-     * @param string     $id
-     * @param JWEBuilder $jweBuilder
-     */
     public function addJWEBuilder(string $id, JWEBuilder $jweBuilder)
     {
         $this->jweBuilders[$id] = $jweBuilder;
@@ -152,10 +127,6 @@ class JWECollector implements Collector
      */
     private $jweDecrypters = [];
 
-    /**
-     * @param string       $id
-     * @param JWEDecrypter $jweDecrypter
-     */
     public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter)
     {
         $this->jweDecrypters[$id] = $jweDecrypter;
@@ -166,10 +137,6 @@ class JWECollector implements Collector
      */
     private $jweLoaders = [];
 
-    /**
-     * @param string    $id
-     * @param JWELoader $jweLoader
-     */
     public function addJWELoader(string $id, JWELoader $jweLoader)
     {
         $this->jweLoaders[$id] = $jweLoader;

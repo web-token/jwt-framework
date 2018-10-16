@@ -22,9 +22,6 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
  */
 final class HS256Bench extends SignatureBench
 {
-    /**
-     * @return array
-     */
     public function dataSignature(): array
     {
         return [
@@ -34,9 +31,6 @@ final class HS256Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerification(): array
     {
         return [
@@ -46,9 +40,6 @@ final class HS256Bench extends SignatureBench
         ];
     }
 
-    /**
-     * @return array
-     */
     public function dataVerify(): array
     {
         return [
@@ -58,38 +49,26 @@ final class HS256Bench extends SignatureBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAlgorithm(): SignatureAlgorithm
     {
         return $this->getSignatureAlgorithmsManager()->get('HS256');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getInput(): string
     {
         return 'eyJhbGciOiJIUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPrivateKey(): JWK
     {
         return JWK::create([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
-            'k'   => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getPublicKey(): JWK
     {
         return $this->getPrivateKey();

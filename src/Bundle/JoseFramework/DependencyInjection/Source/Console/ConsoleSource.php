@@ -22,17 +22,11 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 class ConsoleSource implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'console';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -42,26 +36,17 @@ class ConsoleSource implements Source
         $loader->load('commands.php');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
-        return class_exists(EcKeyGeneratorCommand::class);
+        return \class_exists(EcKeyGeneratorCommand::class);
     }
 }

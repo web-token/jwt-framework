@@ -16,6 +16,16 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\AESCBCHS;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\AESGCM;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AESGCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AESKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2AESKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
@@ -44,17 +54,11 @@ class EncryptionSource implements SourceWithCompilerPasses
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'jwe';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -63,20 +67,43 @@ class EncryptionSource implements SourceWithCompilerPasses
         $container->registerForAutoconfiguration(\Jose\Component\Encryption\Serializer\JWESerializer::class)->addTag('jose.jwe.serializer');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('jwe_services.php');
-        $loader->load('encryption_algorithms.php');
         $loader->load('jwe_serializers.php');
         $loader->load('compression_methods.php');
 
-        if (array_key_exists('jwe', $configs)) {
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
+        foreach ($this->getAlgorithmsFiles() as $class => $file) {
+            if (\class_exists($class)) {
+                $loader->load($file);
+            }
+        }
+
+        if (\array_key_exists('jwe', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['jwe'], $container);
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    private function getAlgorithmsFiles(): array
+    {
+        $list = [
+            AESCBCHS::class => 'encryption_aescbc.php',
+            AESGCM::class => 'encryption_aesgcm.php',
+            AESGCMKW::class => 'encryption_aesgcmkw.php',
+            AESKW::class => 'encryption_aeskw.php',
+            Dir::class => 'encryption_dir.php',
+            ECDHES::class => 'encryption_ecdhes.php',
+            PBES2AESKW::class => 'encryption_pbes2.php',
+            RSA::class => 'encryption_rsa.php',
+            A128CTR::class => 'encryption_experimental.php',
+        ];
+        if (\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
+            $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.php';
+        }
+
+        return $list;
+    }
+
     public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
@@ -84,18 +111,15 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
         $childNode = $node->children()
             ->arrayNode($this->name())
-                ->addDefaultsIfNotSet()
-                ->treatFalseLike([])
-                ->treatNullLike([]);
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+            ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {
@@ -112,12 +136,9 @@ class EncryptionSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
-        return class_exists(JWEBuilderFactory::class) && class_exists(JWEDecrypterFactory::class);
+        return \class_exists(JWEBuilderFactory::class) && \class_exists(JWEDecrypterFactory::class);
     }
 
     /**

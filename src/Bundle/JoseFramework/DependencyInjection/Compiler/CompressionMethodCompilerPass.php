@@ -20,9 +20,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class CompressionMethodCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(CompressionMethodManagerFactory::class)) {
@@ -34,8 +31,8 @@ class CompressionMethodCompilerPass implements CompilerPassInterface
         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.compression_method');
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!array_key_exists('alias', $attributes)) {
-                    throw new \InvalidArgumentException(sprintf("The compression method '%s' does not have any 'alias' attribute.", $id));
+                if (!\array_key_exists('alias', $attributes)) {
+                    throw new \InvalidArgumentException(\sprintf("The compression method '%s' does not have any 'alias' attribute.", $id));
                 }
                 $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
             }

@@ -22,9 +22,12 @@ return function (ContainerConfigurator $container) {
 
     $container->set(Signature\JWSBuilderFactory::class)
         ->public();
+
     $container->set(Signature\JWSVerifierFactory::class)
         ->public();
+
     $container->set(Signature\JWSLoaderFactory::class)
         ->public();
+
     $container->set(Signature\JWSTokenSupport::class);
 };

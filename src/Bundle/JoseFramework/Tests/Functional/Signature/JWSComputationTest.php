@@ -27,24 +27,24 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWSComputationTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        if (!\class_exists(JWSBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
-    public function testCreateAndLoadAToken()
+    /**
+     * @test
+     */
+    public function createAndLoadAToken()
     {
         $client = static::createClient();
         $container = $client->getContainer();
 
         $jwk = JWK::create([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
         /** @var JWSBuilder $builder */
@@ -65,6 +65,6 @@ class JWSComputationTest extends WebTestCase
         $token = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($token);
-        self::assertTrue($loader->verifyWithKey($loaded, $jwk, 0));
+        static::assertTrue($loader->verifyWithKey($loaded, $jwk, 0));
     }
 }

@@ -37,11 +37,6 @@ class Signature
 
     /**
      * Signature constructor.
-     *
-     * @param string      $signature
-     * @param array       $protectedHeader
-     * @param null|string $encodedProtectedHeader
-     * @param array       $header
      */
     private function __construct(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header)
     {
@@ -56,11 +51,6 @@ class Signature
      *
      * @internal
      *
-     * @param string      $signature
-     * @param array       $protectedHeader
-     * @param string|null $encodedProtectedHeader
-     * @param array       $header
-     *
      * @return Signature
      */
     public static function create(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header = []): self
@@ -70,8 +60,6 @@ class Signature
 
     /**
      * The protected header associated with the signature.
-     *
-     * @return array
      */
     public function getProtectedHeader(): array
     {
@@ -80,8 +68,6 @@ class Signature
 
     /**
      * The unprotected header associated with the signature.
-     *
-     * @return array
      */
     public function getHeader(): array
     {
@@ -90,8 +76,6 @@ class Signature
 
     /**
      * The protected header associated with the signature.
-     *
-     * @return null|string
      */
     public function getEncodedProtectedHeader(): ?string
     {
@@ -111,19 +95,17 @@ class Signature
             return $this->getProtectedHeader()[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The protected header "%s" does not exist', $key));
+        throw new \InvalidArgumentException(\sprintf('The protected header "%s" does not exist', $key));
     }
 
     /**
      * Returns true if the protected header has the given parameter.
      *
      * @param string $key The key
-     *
-     * @return bool
      */
     public function hasProtectedHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->getProtectedHeader());
+        return \array_key_exists($key, $this->getProtectedHeader());
     }
 
     /**
@@ -139,25 +121,21 @@ class Signature
             return $this->header[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The header "%s" does not exist', $key));
+        throw new \InvalidArgumentException(\sprintf('The header "%s" does not exist', $key));
     }
 
     /**
      * Returns true if the unprotected header has the given parameter.
      *
      * @param string $key The key
-     *
-     * @return bool
      */
     public function hasHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->header);
+        return \array_key_exists($key, $this->header);
     }
 
     /**
      * Returns the value of the signature.
-     *
-     * @return string
      */
     public function getSignature(): string
     {

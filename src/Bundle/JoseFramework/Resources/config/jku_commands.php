@@ -11,8 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Console\JKULoaderCommand;
-use Jose\Component\Console\X5ULoaderCommand;
+use Jose\Component\Console;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -21,6 +20,6 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(JKULoaderCommand::class);
-    $container->set(X5ULoaderCommand::class);
+    $container->set(Console\JKULoaderCommand::class);
+    $container->set(Console\X5ULoaderCommand::class);
 };

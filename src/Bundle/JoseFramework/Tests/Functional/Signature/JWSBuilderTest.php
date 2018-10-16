@@ -23,25 +23,28 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWSBuilderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        if (!\class_exists(JWSBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
-    public function testJWSBuilderFactoryIsAvailable()
+    /**
+     * @test
+     */
+    public function jWSBuilderFactoryIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(JWSBuilderFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(JWSBuilderFactory::class));
     }
 
-    public function testJWSBuilderFactoryCanCreateAJWSBuilder()
+    /**
+     * @test
+     */
+    public function jWSBuilderFactoryCanCreateAJWSBuilder()
     {
         $client = static::createClient();
 
@@ -50,26 +53,32 @@ class JWSBuilderTest extends WebTestCase
 
         $jws = $jwsFactory->create(['none']);
 
-        self::assertInstanceOf(JWSBuilder::class, $jws);
+        static::assertInstanceOf(JWSBuilder::class, $jws);
     }
 
-    public function testJWSBuilderFromConfigurationIsAvailable()
+    /**
+     * @test
+     */
+    public function jWSBuilderFromConfigurationIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_builder.builder1'));
+        static::assertTrue($container->has('jose.jws_builder.builder1'));
 
         $jws = $container->get('jose.jws_builder.builder1');
-        self::assertInstanceOf(JWSBuilder::class, $jws);
+        static::assertInstanceOf(JWSBuilder::class, $jws);
     }
 
-    public function testJWSBuilderFromExternalBundleExtensionIsAvailable()
+    /**
+     * @test
+     */
+    public function jWSBuilderFromExternalBundleExtensionIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_builder.builder2'));
+        static::assertTrue($container->has('jose.jws_builder.builder2'));
 
         $jws = $container->get('jose.jws_builder.builder2');
-        self::assertInstanceOf(JWSBuilder::class, $jws);
+        static::assertInstanceOf(JWSBuilder::class, $jws);
     }
 }

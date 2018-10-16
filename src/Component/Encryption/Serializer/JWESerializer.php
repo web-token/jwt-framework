@@ -19,15 +19,11 @@ interface JWESerializer
 {
     /**
      * The name of the serialization method.
-     *
-     * @return string
      */
     public function name(): string;
 
     /**
      * Display name of the serialization method.
-     *
-     * @return string
      */
     public function displayName(): string;
 
@@ -36,12 +32,7 @@ interface JWESerializer
      * If the JWE is designed for multiple recipients and the serializer only supports one recipient,
      * the recipient index has to be set.
      *
-     * @param JWE      $jws
-     * @param int|null $recipientIndex
-     *
      * @throws \Exception
-     *
-     * @return string
      */
     public function serialize(JWE $jws, ?int $recipientIndex = null): string;
 
@@ -52,8 +43,6 @@ interface JWESerializer
      * @param string $input A string that represents a JWE
      *
      * @throws \Exception
-     *
-     * @return JWE
      */
     public function unserialize(string $input): JWE;
 }

@@ -43,17 +43,11 @@ class CheckerSource implements SourceWithCompilerPasses
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'checkers';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -63,16 +57,13 @@ class CheckerSource implements SourceWithCompilerPasses
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('checkers.php');
 
-        if (array_key_exists('checkers', $configs)) {
+        if (\array_key_exists('checkers', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['checkers'], $container);
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         if (!$this->isEnabled()) {
@@ -80,19 +71,16 @@ class CheckerSource implements SourceWithCompilerPasses
         }
         $childNode = $node
             ->children()
-                ->arrayNode($this->name())
-                    ->addDefaultsIfNotSet()
-                    ->treatFalseLike([])
-                    ->treatNullLike([]);
+            ->arrayNode($this->name())
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+            ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {
@@ -109,12 +97,9 @@ class CheckerSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
-        return class_exists(HeaderCheckerManagerFactory::class) && class_exists(ClaimCheckerManagerFactory::class);
+        return \class_exists(HeaderCheckerManagerFactory::class) && \class_exists(ClaimCheckerManagerFactory::class);
     }
 
     /**

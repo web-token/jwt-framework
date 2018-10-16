@@ -33,9 +33,6 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
 
     /**
      * AudienceChecker constructor.
-     *
-     * @param string $audience
-     * @param bool   $protectedHeader
      */
     public function __construct(string $audience, bool $protectedHeader = false)
     {
@@ -43,58 +40,42 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         $this->protectedHeader = $protectedHeader;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function checkClaim($value)
+    public function checkClaim($value): void
     {
-        return $this->checkValue($value, InvalidClaimException::class);
+        $this->checkValue($value, InvalidClaimException::class);
+    }
+
+    public function checkHeader($value): void
+    {
+        $this->checkValue($value, InvalidHeaderException::class);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function checkHeader($value)
-    {
-        return $this->checkValue($value, InvalidHeaderException::class);
-    }
-
-    /**
-     * @param mixed  $value
-     * @param string $class
-     *
      * @throws \InvalidArgumentException
      */
-    private function checkValue($value, string $class)
+    private function checkValue($value, string $class): void
     {
-        if (is_string($value) && $value !== $this->audience) {
+        if (\is_string($value) && $value !== $this->audience) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        } elseif (is_array($value) && !in_array($this->audience, $value)) {
+        }
+        if (\is_array($value) && !\in_array($this->audience, $value, true)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        } elseif (!is_array($value) && !is_string($value)) {
+        }
+        if (!\is_array($value) && !\is_string($value)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedClaim(): string
     {
         return self::CLAIM_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportedHeader(): string
     {
         return self::CLAIM_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;

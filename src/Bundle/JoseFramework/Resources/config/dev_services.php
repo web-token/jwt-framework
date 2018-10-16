@@ -22,8 +22,8 @@ return function (ContainerConfigurator $container) {
 
     $container->set(DataCollector\JoseCollector::class)
         ->tag('data_collector', [
-                'template' => '@JoseFramework/data_collector/template.html.twig',
-                'id'       => 'jose_collector',
+            'id' => 'jose_collector',
+            'template' => '@JoseFramework/data_collector/template.html.twig',
         ]);
 
     $container->set(DataCollector\AlgorithmCollector::class);

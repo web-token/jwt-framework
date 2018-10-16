@@ -15,7 +15,7 @@ namespace Jose\Component\Console;
 
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\KeyManagement\KeyAnalyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,23 +24,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class KeysetAnalyzerCommand extends Command
 {
-    /**
-     * @var KeyAnalyzerManager
-     */
     private $analyzerManager;
 
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
 
-    /**
-     * KeyAnalyzerCommand constructor.
-     *
-     * @param KeyAnalyzerManager $analyzerManager
-     * @param JsonConverter      $jsonConverter
-     * @param string|null        $name
-     */
     public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($name);
@@ -48,9 +35,6 @@ final class KeysetAnalyzerCommand extends Command
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -61,9 +45,6 @@ final class KeysetAnalyzerCommand extends Command
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
@@ -79,7 +60,7 @@ final class KeysetAnalyzerCommand extends Command
         $mixedKeys = false;
 
         foreach ($jwkset as $kid => $jwk) {
-            $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
+            $output->writeln(\sprintf('Analysing key with index/kid "%s"', $kid));
             $messages = $this->analyzerManager->analyze($jwk);
             if (0 === $messages->count()) {
                 $output->writeln('    <success>All good! No issue found.</success>');
@@ -97,14 +78,14 @@ final class KeysetAnalyzerCommand extends Command
                     }
 
                     break;
-                case in_array($jwk->get('kty'), ['RSA', 'EC', 'OKP']):
+                case \in_array($jwk->get('kty'), ['RSA', 'EC', 'OKP'], true):
                     if ($jwk->has('d')) {
-                        $privateKeys++;
+                        ++$privateKeys;
                         if (0 !== $sharedKeys + $publicKeys) {
                             $mixedKeys = true;
                         }
                     } else {
-                        $publicKeys++;
+                        ++$publicKeys;
                         if (0 !== $privateKeys + $sharedKeys) {
                             $mixedKeys = true;
                         }
@@ -121,16 +102,11 @@ final class KeysetAnalyzerCommand extends Command
         }
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return JWKSet
-     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
         $json = $this->jsonConverter->decode($jwkset);
-        if (is_array($json)) {
+        if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
         }
 

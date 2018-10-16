@@ -25,13 +25,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWKLoaderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWKFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
+        if (!\class_exists(JWKFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }
 
@@ -43,8 +40,8 @@ class JWKLoaderTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.key.jwk1'));
-        self::assertInstanceOf(JWK::class, $container->get('jose.key.jwk1'));
+        static::assertTrue($container->has('jose.key.jwk1'));
+        static::assertInstanceOf(JWK::class, $container->get('jose.key.jwk1'));
     }
 
     /**
@@ -55,8 +52,8 @@ class JWKLoaderTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.key.jwk2'));
-        self::assertInstanceOf(JWK::class, $container->get('jose.key.jwk2'));
+        static::assertTrue($container->has('jose.key.jwk2'));
+        static::assertInstanceOf(JWK::class, $container->get('jose.key.jwk2'));
     }
 
     /**
@@ -67,8 +64,8 @@ class JWKLoaderTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.key.certificate1'));
-        self::assertInstanceOf(JWK::class, $container->get('jose.key.certificate1'));
+        static::assertTrue($container->has('jose.key.certificate1'));
+        static::assertInstanceOf(JWK::class, $container->get('jose.key.certificate1'));
     }
 
     /**
@@ -79,8 +76,8 @@ class JWKLoaderTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.key.x5c1'));
-        self::assertInstanceOf(JWK::class, $container->get('jose.key.x5c1'));
+        static::assertTrue($container->has('jose.key.x5c1'));
+        static::assertInstanceOf(JWK::class, $container->get('jose.key.x5c1'));
     }
 
     /**
@@ -91,8 +88,8 @@ class JWKLoaderTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.key.file1'));
-        self::assertInstanceOf(JWK::class, $container->get('jose.key.file1'));
+        static::assertTrue($container->has('jose.key.file1'));
+        static::assertInstanceOf(JWK::class, $container->get('jose.key.file1'));
     }
 
     /**
@@ -103,8 +100,8 @@ class JWKLoaderTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.key.jwkset1'));
-        self::assertInstanceOf(JWK::class, $container->get('jose.key.jwkset1'));
+        static::assertTrue($container->has('jose.key.jwkset1'));
+        static::assertInstanceOf(JWK::class, $container->get('jose.key.jwkset1'));
     }
 
     /**
@@ -115,13 +112,13 @@ class JWKLoaderTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.key.secret1'));
+        static::assertTrue($container->has('jose.key.secret1'));
         $jwk = $container->get('jose.key.secret1');
 
-        self::assertInstanceOf(JWK::class, $jwk);
-        self::assertEquals('oct', $jwk->get('kty'));
-        self::assertEquals('enc', $jwk->get('use'));
-        self::assertEquals('RS512', $jwk->get('alg'));
-        self::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
+        static::assertInstanceOf(JWK::class, $jwk);
+        static::assertEquals('oct', $jwk->get('kty'));
+        static::assertEquals('enc', $jwk->get('use'));
+        static::assertEquals('RS512', $jwk->get('alg'));
+        static::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
     }
 }

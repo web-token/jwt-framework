@@ -23,21 +23,15 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWELoader implements Source
 {
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'loaders';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = sprintf('jose.jwe_loader.%s', $name);
+            $service_id = \sprintf('jose.jwe_loader.%s', $name);
             $definition = new Definition(JWELoaderService::class);
             $definition
                 ->setFactory([new Reference(JWELoaderFactory::class), 'create'])
@@ -62,62 +56,59 @@ class JWELoader implements Source
     {
         $node
             ->children()
-                ->arrayNode($this->name())
-                    ->requiresAtLeastOneElement()
-                    ->useAttributeAsKey('name')
-                    ->arrayPrototype()
-                        ->children()
-                            ->booleanNode('is_public')
-                                ->info('If true, the service will be public, else private.')
-                                ->defaultTrue()
-                            ->end()
-                            ->arrayNode('key_encryption_algorithms')
-                                ->info('A list of key encryption algorithm aliases.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->scalarPrototype()->end()
-                            ->end()
-                            ->arrayNode('content_encryption_algorithms')
-                                ->info('A list of key encryption algorithm aliases.')
-                                ->useAttributeAsKey('name')
-                                ->isRequired()
-                                ->scalarPrototype()->end()
-                            ->end()
-                            ->arrayNode('compression_methods')
-                                ->info('A list of compression method aliases.')
-                                ->useAttributeAsKey('name')
-                                ->defaultValue(['DEF'])
-                                ->scalarPrototype()->end()
-                            ->end()
-                            ->arrayNode('serializers')
-                                ->info('A list of signature serializer aliases.')
-                                ->useAttributeAsKey('name')
-                                ->requiresAtLeastOneElement()
-                                ->scalarPrototype()->end()
-                            ->end()
-                            ->arrayNode('header_checkers')
-                                ->info('A list of header checker aliases.')
-                                ->useAttributeAsKey('name')
-                                ->treatNullLike([])
-                                ->treatFalseLike([])
-                                ->scalarPrototype()->end()
-                            ->end()
-                            ->arrayNode('tags')
-                                ->info('A list of tags to be associated to the service.')
-                                ->useAttributeAsKey('name')
-                                ->treatNullLike([])
-                                ->treatFalseLike([])
-                                ->variablePrototype()->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
+            ->arrayNode($this->name())
+            ->requiresAtLeastOneElement()
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+            ->children()
+            ->booleanNode('is_public')
+            ->info('If true, the service will be public, else private.')
+            ->defaultTrue()
+            ->end()
+            ->arrayNode('key_encryption_algorithms')
+            ->info('A list of key encryption algorithm aliases.')
+            ->useAttributeAsKey('name')
+            ->isRequired()
+            ->scalarPrototype()->end()
+            ->end()
+            ->arrayNode('content_encryption_algorithms')
+            ->info('A list of key encryption algorithm aliases.')
+            ->useAttributeAsKey('name')
+            ->isRequired()
+            ->scalarPrototype()->end()
+            ->end()
+            ->arrayNode('compression_methods')
+            ->info('A list of compression method aliases.')
+            ->useAttributeAsKey('name')
+            ->defaultValue(['DEF'])
+            ->scalarPrototype()->end()
+            ->end()
+            ->arrayNode('serializers')
+            ->info('A list of signature serializer aliases.')
+            ->useAttributeAsKey('name')
+            ->requiresAtLeastOneElement()
+            ->scalarPrototype()->end()
+            ->end()
+            ->arrayNode('header_checkers')
+            ->info('A list of header checker aliases.')
+            ->useAttributeAsKey('name')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->scalarPrototype()->end()
+            ->end()
+            ->arrayNode('tags')
+            ->info('A list of tags to be associated to the service.')
+            ->useAttributeAsKey('name')
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->variablePrototype()->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
             ->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

@@ -29,8 +29,6 @@ class RSAKey
 
     /**
      * RSAKey constructor.
-     *
-     * @param array $data
      */
     private function __construct(array $data)
     {
@@ -38,8 +36,6 @@ class RSAKey
     }
 
     /**
-     * @param string $pem
-     *
      * @return RSAKey
      */
     public static function createFromPEM(string $pem): self
@@ -50,8 +46,6 @@ class RSAKey
     }
 
     /**
-     * @param JWK $jwk
-     *
      * @return RSAKey
      */
     public static function createFromJWK(JWK $jwk): self
@@ -59,53 +53,45 @@ class RSAKey
         return new self($jwk->all());
     }
 
-    /**
-     * @param string $data
-     *
-     * @return array
-     */
     private static function loadPEM(string $data): array
     {
-        $res = openssl_pkey_get_private($data);
+        $res = \openssl_pkey_get_private($data);
         if (false === $res) {
-            $res = openssl_pkey_get_public($data);
+            $res = \openssl_pkey_get_public($data);
         }
         if (false === $res) {
             throw new \InvalidArgumentException('Unable to load the key.');
         }
 
-        $details = openssl_pkey_get_details($res);
-        if (!array_key_exists('rsa', $details)) {
+        $details = \openssl_pkey_get_details($res);
+        if (!\array_key_exists('rsa', $details)) {
             throw new \InvalidArgumentException('Unable to load the key.');
         }
 
         $values = ['kty' => 'RSA'];
         $keys = [
-            'n'  => 'n',
-            'e'  => 'e',
-            'd'  => 'd',
-            'p'  => 'p',
-            'q'  => 'q',
+            'n' => 'n',
+            'e' => 'e',
+            'd' => 'd',
+            'p' => 'p',
+            'q' => 'q',
             'dp' => 'dmp1',
             'dq' => 'dmq1',
             'qi' => 'iqmp',
         ];
         foreach ($details['rsa'] as $key => $value) {
-            if (in_array($key, $keys)) {
+            if (\in_array($key, $keys, true)) {
                 $value = Base64Url::encode($value);
-                $values[array_search($key, $keys)] = $value;
+                $values[\array_search($key, $keys, true)] = $value;
             }
         }
 
         return $values;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublic(): bool
     {
-        return !array_key_exists('d', $this->values);
+        return !\array_key_exists('d', $this->values);
     }
 
     /**
@@ -118,7 +104,7 @@ class RSAKey
         $data = $private->toArray();
         $keys = ['p', 'd', 'q', 'dp', 'dq', 'qi'];
         foreach ($keys as $key) {
-            if (array_key_exists($key, $data)) {
+            if (\array_key_exists($key, $data)) {
                 unset($data[$key]);
             }
         }
@@ -126,20 +112,14 @@ class RSAKey
         return new self($data);
     }
 
-    /**
-     * @return array
-     */
     public function toArray(): array
     {
         return $this->values;
     }
 
-    /**
-     * @param array $jwk
-     */
     private function loadJWK(array $jwk)
     {
-        if (!array_key_exists('kty', $jwk)) {
+        if (!\array_key_exists('kty', $jwk)) {
             throw new \InvalidArgumentException('The key parameter "kty" is missing.');
         }
         if ('RSA' !== $jwk['kty']) {
@@ -149,9 +129,6 @@ class RSAKey
         $this->values = $jwk;
     }
 
-    /**
-     * @return JWK
-     */
     public function toJwk(): JWK
     {
         return JWK::create($this->values);
@@ -163,7 +140,7 @@ class RSAKey
      */
     public function optimize()
     {
-        if (array_key_exists('d', $this->values)) {
+        if (\array_key_exists('d', $this->values)) {
             $this->populateCRT();
         }
     }
@@ -173,7 +150,7 @@ class RSAKey
      */
     private function populateCRT()
     {
-        if (!array_key_exists('p', $this->values) && !array_key_exists('q', $this->values)) {
+        if (!\array_key_exists('p', $this->values) && !\array_key_exists('q', $this->values)) {
             $d = BigInteger::createFromBinaryString(Base64Url::decode($this->values['d']));
             $e = BigInteger::createFromBinaryString(Base64Url::decode($this->values['e']));
             $n = BigInteger::createFromBinaryString(Base64Url::decode($this->values['n']));
@@ -183,7 +160,7 @@ class RSAKey
             $this->values['q'] = Base64Url::encode($q->toBytes());
         }
 
-        if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists('qi', $this->values)) {
+        if (\array_key_exists('dp', $this->values) && \array_key_exists('dq', $this->values) && \array_key_exists('qi', $this->values)) {
             return;
         }
 
@@ -198,10 +175,6 @@ class RSAKey
     }
 
     /**
-     * @param BigInteger $d
-     * @param BigInteger $e
-     * @param BigInteger $n
-     *
      * @return BigInteger[]
      */
     private function findPrimeFactors(BigInteger $d, BigInteger $e, BigInteger $n): array
@@ -224,7 +197,7 @@ class RSAKey
             $found = false;
             $y = null;
 
-            for ($i = 1; $i <= 100; $i++) {
+            for ($i = 1; $i <= 100; ++$i) {
                 $g = BigInteger::random($n->subtract($one));
                 $y = $g->modPow($r, $n);
 

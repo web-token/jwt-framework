@@ -32,7 +32,7 @@ class ClaimCheckerManagerFactoryTest extends TestCase
      */
     public function theAliasListOfTheClaimCheckerManagerFactoryIsAvailable()
     {
-        self::assertEquals(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
+        static::assertEquals(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
     }
 
     /**
@@ -51,7 +51,7 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     public function iCanCreateAClaimCheckerManager()
     {
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
-        self::assertInstanceOf(ClaimCheckerManager::class, $manager);
+        static::assertInstanceOf(ClaimCheckerManager::class, $manager);
     }
 
     /**
@@ -60,16 +60,16 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     public function iCanCheckValidPayloadClaims()
     {
         $payload = [
-            'exp' => time() + 3600,
-            'iat' => time() - 1000,
-            'nbf' => time() - 100,
+            'exp' => \time() + 3600,
+            'iat' => \time() - 1000,
+            'nbf' => \time() - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;
         unset($expected['foo']);
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
         $result = $manager->check($payload);
-        self::assertEquals($expected, $result);
+        static::assertEquals($expected, $result);
     }
 
     /**
@@ -80,9 +80,9 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     public function theMandatoryClaimsAreNotSet()
     {
         $payload = [
-            'exp' => time() + 3600,
-            'iat' => time() - 1000,
-            'nbf' => time() - 100,
+            'exp' => \time() + 3600,
+            'iat' => \time() - 1000,
+            'nbf' => \time() - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;
@@ -96,9 +96,6 @@ class ClaimCheckerManagerFactoryTest extends TestCase
      */
     private $claimCheckerManagerFactory = null;
 
-    /**
-     * @return ClaimCheckerManagerFactory
-     */
     private function getClaimCheckerManagerFactory(): ClaimCheckerManagerFactory
     {
         if (null === $this->claimCheckerManagerFactory) {

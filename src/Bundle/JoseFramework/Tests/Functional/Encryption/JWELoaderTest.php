@@ -24,13 +24,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWELoaderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWEBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
@@ -41,8 +38,8 @@ class JWELoaderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(JWELoaderFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(JWELoaderFactory::class));
     }
 
     /**
@@ -57,11 +54,11 @@ class JWELoaderTest extends WebTestCase
 
         $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5'], ['A256GCM'], ['DEF']);
 
-        self::assertInstanceOf(JWELoader::class, $jwe);
-        self::assertEquals(['jwe_compact'], $jwe->getSerializerManager()->names());
-        self::assertEquals(['RSA1_5'], $jwe->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list());
-        self::assertEquals(['A256GCM'], $jwe->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list());
-        self::assertEquals(['DEF'], $jwe->getJweDecrypter()->getCompressionMethodManager()->list());
+        static::assertInstanceOf(JWELoader::class, $jwe);
+        static::assertEquals(['jwe_compact'], $jwe->getSerializerManager()->names());
+        static::assertEquals(['RSA1_5'], $jwe->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list());
+        static::assertEquals(['A256GCM'], $jwe->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list());
+        static::assertEquals(['DEF'], $jwe->getJweDecrypter()->getCompressionMethodManager()->list());
     }
 
     /**
@@ -71,10 +68,10 @@ class JWELoaderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_loader.jwe_loader1'));
+        static::assertTrue($container->has('jose.jwe_loader.jwe_loader1'));
 
         $jwe = $container->get('jose.jwe_loader.jwe_loader1');
-        self::assertInstanceOf(JWELoader::class, $jwe);
+        static::assertInstanceOf(JWELoader::class, $jwe);
     }
 
     /**
@@ -84,9 +81,9 @@ class JWELoaderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jwe_loader.jwe_loader2'));
+        static::assertTrue($container->has('jose.jwe_loader.jwe_loader2'));
 
         $jwe = $container->get('jose.jwe_loader.jwe_loader2');
-        self::assertInstanceOf(JWELoader::class, $jwe);
+        static::assertInstanceOf(JWELoader::class, $jwe);
     }
 }

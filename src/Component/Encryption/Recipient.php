@@ -30,9 +30,6 @@ class Recipient
 
     /**
      * Recipient constructor.
-     *
-     * @param array       $header
-     * @param null|string $encryptedKey
      */
     private function __construct(array $header, ?string $encryptedKey)
     {
@@ -44,9 +41,6 @@ class Recipient
      * Creates a recipient.
      * The creation of this object is meant to be used by the library, not by third party applications.
      *
-     * @param array       $header
-     * @param null|string $encryptedKey
-     *
      * @return Recipient
      */
     public static function create(array $header, ?string $encryptedKey): self
@@ -56,8 +50,6 @@ class Recipient
 
     /**
      * Returns the recipient header.
-     *
-     * @return array
      */
     public function getHeader(): array
     {
@@ -77,25 +69,21 @@ class Recipient
             return $this->header[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The header "%s" does not exist.', $key));
+        throw new \InvalidArgumentException(\sprintf('The header "%s" does not exist.', $key));
     }
 
     /**
      * Returns true if the recipient header contains the parameter with the specified key.
      *
      * @param string $key The key
-     *
-     * @return bool
      */
     public function hasHeaderParameter(string $key): bool
     {
-        return array_key_exists($key, $this->header);
+        return \array_key_exists($key, $this->header);
     }
 
     /**
      * Returns the encrypted key.
-     *
-     * @return null|string
      */
     public function getEncryptedKey(): ?string
     {

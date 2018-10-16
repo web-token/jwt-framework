@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class CheckerCollectorCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(CheckerCollector::class)) {
@@ -34,19 +31,13 @@ class CheckerCollectorCompilerPass implements CompilerPassInterface
 
         $services = [
             'addHeaderCheckerManager' => 'jose.header_checker_manager',
-            'addClaimCheckerManager'  => 'jose.claim_checker_manager',
+            'addClaimCheckerManager' => 'jose.claim_checker_manager',
         ];
         foreach ($services as $method => $tag) {
             $this->collectServices($method, $tag, $definition, $container);
         }
     }
 
-    /**
-     * @param string           $method
-     * @param string           $tag
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
     {
         $taggedCheckerServices = $container->findTaggedServiceIds($tag);

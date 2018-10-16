@@ -34,7 +34,7 @@ class KeySetCreationCommandTest extends TestCase
         $converter = new StandardConverter();
         $command = new Console\EcKeysetGeneratorCommand($converter);
 
-        self::assertTrue($command->isEnabled());
+        static::assertTrue($command->isEnabled());
     }
 
     /**
@@ -62,7 +62,7 @@ class KeySetCreationCommandTest extends TestCase
         $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
-            'curve'    => 'P-128',
+            'curve' => 'P-128',
         ]);
         $output = new BufferedOutput();
         $command = new Console\EcKeysetGeneratorCommand($converter);
@@ -77,8 +77,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'curve'       => 'P-256',
+            'quantity' => 2,
+            'curve' => 'P-256',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -87,7 +87,7 @@ class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWKSet::createFromJson($content);
-        self::assertInstanceOf(JWKSet::class, $jwk);
+        static::assertInstanceOf(JWKSet::class, $jwk);
     }
 
     /**
@@ -114,8 +114,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'size'        => 256,
+            'quantity' => 2,
+            'size' => 256,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -124,7 +124,7 @@ class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWKSet::createFromJson($content);
-        self::assertInstanceOf(JWKSet::class, $jwk);
+        static::assertInstanceOf(JWKSet::class, $jwk);
     }
 
     /**
@@ -151,8 +151,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'curve'       => 'X25519',
+            'quantity' => 2,
+            'curve' => 'X25519',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -161,7 +161,7 @@ class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWKSet::createFromJson($content);
-        self::assertInstanceOf(JWKSet::class, $jwk);
+        static::assertInstanceOf(JWKSet::class, $jwk);
     }
 
     /**
@@ -188,8 +188,8 @@ class KeySetCreationCommandTest extends TestCase
     {
         $converter = new StandardConverter();
         $input = new ArrayInput([
-            'quantity'    => 2,
-            'size'        => 1024,
+            'quantity' => 2,
+            'size' => 1024,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -198,6 +198,6 @@ class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWKSet::createFromJson($content);
-        self::assertInstanceOf(JWKSet::class, $jwk);
+        static::assertInstanceOf(JWKSet::class, $jwk);
     }
 }

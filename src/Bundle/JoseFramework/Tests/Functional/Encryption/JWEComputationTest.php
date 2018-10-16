@@ -27,13 +27,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWEComputationTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWEBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
@@ -47,7 +44,7 @@ class JWEComputationTest extends WebTestCase
 
         $jwk = JWK::create([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
         /** @var JWEBuilder $builder */
@@ -70,7 +67,7 @@ class JWEComputationTest extends WebTestCase
         $token = $serializer->serialize($jwe, 0);
 
         $loaded = $serializer->unserialize($token);
-        self::assertTrue($loader->decryptUsingKey($loaded, $jwk, 0));
-        self::assertEquals('Hello World!', $loaded->getPayload());
+        static::assertTrue($loader->decryptUsingKey($loaded, $jwk, 0));
+        static::assertEquals('Hello World!', $loaded->getPayload());
     }
 }

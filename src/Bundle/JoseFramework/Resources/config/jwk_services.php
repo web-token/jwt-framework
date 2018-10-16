@@ -22,6 +22,7 @@ return function (ContainerConfigurator $container) {
         ->autowire();
 
     $container->set(JWKSetControllerFactory::class);
+
     $container->set(JWKSetLoader::class)
         ->tag('routing.loader');
 };

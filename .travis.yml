@@ -15,14 +15,18 @@ matrix:
         - php: 7.1
           env: deps=low
         - php: 7.1
-        - php: nightly
+          emv: SYMFONY_DEPRECATIONS_HELPER=weak
         - php: 7.2
+          emv: SYMFONY_DEPRECATIONS_HELPER=weak
+        - php: nightly
+          emv: SYMFONY_DEPRECATIONS_HELPER=weak
 
 before_script:
     - chmod +x ./tests/install_php_ext.sh
     - if [ "$TRAVIS_PHP_VERSION" = '7.1' ]; then ./tests/install_php_ext.sh; fi
     - composer self-update
     - mkdir -p build/logs
+    - composer require --no-update --dev phpunit/phpunit:"^6.0|^7.0" phpstan/phpstan:"^0.9|^0.10"
     - if [[ $deps = low ]]; then composer update --no-interaction --prefer-lowest ; fi
     - if [[ !$deps ]]; then composer install --no-interaction ; fi
 
@@ -31,3 +35,4 @@ script:
 
 after_success:
     - ./vendor/bin/coveralls --no-interaction
+    - ./vendor/bin/phpstan analyze --level max -c phpstan.neon src

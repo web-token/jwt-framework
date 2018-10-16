@@ -30,10 +30,6 @@ class InvalidClaimException extends \Exception
 
     /**
      * InvalidClaimException constructor.
-     *
-     * @param string $message
-     * @param string $claim
-     * @param mixed  $value
      */
     public function __construct(string $message, string $claim, $value)
     {
@@ -45,8 +41,6 @@ class InvalidClaimException extends \Exception
 
     /**
      * Returns the claim that caused the exception.
-     *
-     * @return string
      */
     public function getClaim(): string
     {
@@ -55,8 +49,6 @@ class InvalidClaimException extends \Exception
 
     /**
      * Returns the claim value that caused the exception.
-     *
-     * @return mixed
      */
     public function getValue()
     {

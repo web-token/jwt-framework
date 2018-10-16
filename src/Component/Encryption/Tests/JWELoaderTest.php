@@ -38,8 +38,8 @@ class JWELoaderTest extends EncryptionTest
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
             'crv' => 'P-384',
-            'x'   => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
-            'y'   => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
+            'x' => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
+            'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
         $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
@@ -58,8 +58,8 @@ class JWELoaderTest extends EncryptionTest
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
             'crv' => 'P-384',
-            'x'   => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
-            'y'   => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
+            'x' => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
+            'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
         $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
@@ -78,8 +78,8 @@ class JWELoaderTest extends EncryptionTest
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
             'crv' => 'P-384',
-            'x'   => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
-            'y'   => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
+            'x' => 'YU4rRUzdmVqmRtWOs2OpDE_T5fsNIodcG8G5FWPrTPMyxpzsSOGaQLpe2FpxBmu2',
+            'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
         $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
@@ -96,14 +96,14 @@ class JWELoaderTest extends EncryptionTest
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'use' => 'enc',
             'alg' => 'A128KW',
-            'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+            'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
         $recipient = 0;
         $jwe = $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
 
-        self::assertInstanceOf(JWE::class, $jwe);
-        self::assertEquals('You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.', $jwe->getPayload());
-        self::assertEquals(0, $recipient);
+        static::assertInstanceOf(JWE::class, $jwe);
+        static::assertEquals('You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.', $jwe->getPayload());
+        static::assertEquals(0, $recipient);
     }
 
     /**
@@ -111,9 +111,6 @@ class JWELoaderTest extends EncryptionTest
      */
     private $jweLoader = null;
 
-    /**
-     * @return JWELoader
-     */
     private function getJWELoader(): JWELoader
     {
         if (null === $this->jweLoader) {

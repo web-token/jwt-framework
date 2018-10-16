@@ -22,9 +22,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PemConverterCommand extends ObjectOutputCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,14 +31,11 @@ final class PemConverterCommand extends ObjectOutputCommand
             ->addArgument('jwk', InputArgument::REQUIRED, 'The key');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwk);
-        if (!is_array($json)) {
+        if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid key.');
         }
         $key = JWK::create($json);
@@ -57,6 +51,6 @@ final class PemConverterCommand extends ObjectOutputCommand
             default:
                 throw new \InvalidArgumentException('Not a RSA or EC key.');
         }
-        $this->prepareOutput($input, $output, $pem);
+        $output->write($pem);
     }
 }

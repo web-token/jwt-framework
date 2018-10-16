@@ -28,33 +28,22 @@ final class CompactSerializer extends Serializer
 
     /**
      * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
      */
     public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWS Compact';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (null === $signatureIndex) {
@@ -65,12 +54,12 @@ final class CompactSerializer extends Serializer
             throw new \LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
         }
         if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !empty($jws->getEncodedPayload())) {
-            if (1 !== preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
+            if (1 !== \preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
                 throw new \LogicException('Unable to convert the JWS with non-encoded payload.');
             }
         }
 
-        return sprintf(
+        return \sprintf(
             '%s.%s.%s',
             $signature->getEncodedProtectedHeader(),
             $jws->getEncodedPayload(),
@@ -78,13 +67,10 @@ final class CompactSerializer extends Serializer
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWS
     {
-        $parts = explode('.', $input);
-        if (3 !== count($parts)) {
+        $parts = \explode('.', $input);
+        if (3 !== \count($parts)) {
             throw new \InvalidArgumentException('Unsupported input');
         }
 

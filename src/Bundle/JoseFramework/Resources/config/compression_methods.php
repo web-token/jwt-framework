@@ -11,10 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
-use Jose\Component\Encryption\Compression\Deflate;
-use Jose\Component\Encryption\Compression\GZip;
-use Jose\Component\Encryption\Compression\ZLib;
+use Jose\Component\Encryption\Compression;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -23,13 +20,13 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(CompressionMethodManagerFactory::class)
+    $container->set(Compression\CompressionMethodManagerFactory::class)
         ->public();
 
-    $container->set(Deflate::class)
+    $container->set(Compression\Deflate::class)
         ->tag('jose.compression_method', ['alias' => 'DEF']);
-    $container->set(GZip::class)
+    $container->set(Compression\GZip::class)
         ->tag('jose.compression_method', ['alias' => 'GZ']);
-    $container->set(ZLib::class)
+    $container->set(Compression\ZLib::class)
         ->tag('jose.compression_method', ['alias' => 'ZLIB']);
 };

@@ -21,20 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MergeKeysetCommand extends ObjectOutputCommand
 {
-    /**
-     * KeyAnalyzerCommand constructor.
-     *
-     * @param JsonConverter $jsonConverter
-     * @param string|null   $name
-     */
-    public function __construct(JsonConverter $jsonConverter, string $name = null)
+    public function __construct(JsonConverter $jsonConverter, ?string $name = null)
     {
         parent::__construct($jsonConverter, $name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -45,16 +36,13 @@ final class MergeKeysetCommand extends ObjectOutputCommand
             ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $keySets = $input->getArgument('jwksets');
         $newJwkset = JWKSet::createFromKeys([]);
         foreach ($keySets as $keySet) {
             $json = $this->jsonConverter->decode($keySet);
-            if (!is_array($json)) {
+            if (!\is_array($json)) {
                 throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
             }
             $jwkset = JWKSet::createFromKeyData($json);

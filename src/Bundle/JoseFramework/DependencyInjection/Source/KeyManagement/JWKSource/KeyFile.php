@@ -22,9 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class KeyFile extends AbstractSource implements JWKSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWK::class);
@@ -42,36 +39,30 @@ class KeyFile extends AbstractSource implements JWKSource
         return $definition;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKey(): string
     {
         return 'file';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('path')
-                    ->info('Path of the key file.')
-                    ->isRequired()
-                ->end()
-                ->scalarNode('password')
-                    ->info('Password used to decrypt the key (optional).')
-                    ->defaultNull()
-                ->end()
-                ->arrayNode('additional_values')
-                    ->info('Additional values to be added to the key.')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->variablePrototype()->end()
-                ->end()
+            ->scalarNode('path')
+            ->info('Path of the key file.')
+            ->isRequired()
+            ->end()
+            ->scalarNode('password')
+            ->info('Password used to decrypt the key (optional).')
+            ->defaultNull()
+            ->end()
+            ->arrayNode('additional_values')
+            ->info('Additional values to be added to the key.')
+            ->defaultValue([])
+            ->useAttributeAsKey('key')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Performance\JWE;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -36,29 +35,10 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
  */
 abstract class EncryptionBench
 {
-    /**
-     * @param JWAManager
-     */
     private $contentEncryptionAlgorithmsManager;
-
-    /**
-     * @param JWAManager
-     */
     private $keyEncryptionAlgorithmsManager;
-
-    /**
-     * @param CompressionManager
-     */
     private $compressionMethodsManager;
-
-    /**
-     * @var JsonConverter
-     */
     private $jsonConverter;
-
-    /**
-     * @var JWESerializerManager
-     */
     private $serializerManager;
 
     public function init()
@@ -104,9 +84,7 @@ abstract class EncryptionBench
     }
 
     /**
-     * @param array $params
-     *
-     * @Subject()
+     * @Subject
      * @ParamProviders({"dataPayloads", "dataHeadersAndAlgorithms", "dataRecipientPublicKeys"})
      */
     public function encryption(array $params)
@@ -127,9 +105,7 @@ abstract class EncryptionBench
     }
 
     /**
-     * @param array $params
-     *
-     * @Subject()
+     * @Subject
      * @ParamProviders({"dataInputs", "dataPrivateKeys"})
      */
     public function decryption(array $params)
@@ -144,9 +120,6 @@ abstract class EncryptionBench
         $jweLoader->decryptUsingKeySet($jwe, $keyset, 0);
     }
 
-    /**
-     * @return array
-     */
     public function dataPayloads(): array
     {
         return [
@@ -156,40 +129,22 @@ abstract class EncryptionBench
         ];
     }
 
-    /**
-     * @return array
-     */
     abstract public function dataHeadersAndAlgorithms(): array;
 
-    /**
-     * @return array
-     */
     abstract public function dataRecipientPublicKeys(): array;
 
-    /**
-     * @return null|string
-     */
     abstract protected function getAAD(): ?string;
 
-    /**
-     * @return AlgorithmManager
-     */
     private function getKeyEncryptionAlgorithmsManager(): AlgorithmManager
     {
         return $this->keyEncryptionAlgorithmsManager;
     }
 
-    /**
-     * @return AlgorithmManager
-     */
     private function getContentEncryptionAlgorithmsManager(): AlgorithmManager
     {
         return $this->contentEncryptionAlgorithmsManager;
     }
 
-    /**
-     * @return CompressionMethodManager
-     */
     private function getCompressionMethodsManager(): CompressionMethodManager
     {
         return $this->compressionMethodsManager;

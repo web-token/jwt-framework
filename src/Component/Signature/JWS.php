@@ -39,10 +39,6 @@ class JWS implements JWT
 
     /**
      * JWS constructor.
-     *
-     * @param string|null $payload
-     * @param string|null $encodedPayload
-     * @param bool        $isPayloadDetached
      */
     private function __construct(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false)
     {
@@ -54,10 +50,6 @@ class JWS implements JWT
     /**
      * Creates a JWS object.
      *
-     * @param string|null $payload
-     * @param string|null $encodedPayload
-     * @param bool        $isPayloadDetached
-     *
      * @return JWS
      */
     public static function create(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false): self
@@ -65,9 +57,6 @@ class JWS implements JWT
         return new self($payload, $encodedPayload, $isPayloadDetached);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getPayload(): ?string
     {
         return $this->payload;
@@ -75,8 +64,6 @@ class JWS implements JWT
 
     /**
      * Returns true if the payload is detached.
-     *
-     * @return bool
      */
     public function isPayloadDetached(): bool
     {
@@ -86,8 +73,6 @@ class JWS implements JWT
     /**
      * Returns the Base64Url encoded payload.
      * If the payload is detached, this method returns null.
-     *
-     * @return string|null
      */
     public function getEncodedPayload(): ?string
     {
@@ -110,10 +95,6 @@ class JWS implements JWT
 
     /**
      * Returns the signature at the given index.
-     *
-     * @param int $id
-     *
-     * @return Signature
      */
     public function getSignature(int $id): Signature
     {
@@ -130,11 +111,6 @@ class JWS implements JWT
      *
      * @internal
      *
-     * @param string      $signature
-     * @param array       $protectedHeader
-     * @param string|null $encodedProtectedHeader
-     * @param array       $header
-     *
      * @return JWS
      */
     public function addSignature(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header = []): self
@@ -147,11 +123,37 @@ class JWS implements JWT
 
     /**
      * Returns the number of signature associated with the JWS.
-     *
-     * @return int
      */
     public function countSignatures(): int
     {
-        return count($this->signatures);
+        return \count($this->signatures);
+    }
+
+    /**
+     * This method splits the JWS into a list of JWSs.
+     * It is only useful when the JWS contains more than one signature (JSON General Serialization).
+     *
+     * @return JWS[]
+     */
+    public function split(): array
+    {
+        $result = [];
+        foreach ($this->signatures as $signature) {
+            $jws = self::create(
+                $this->payload,
+                $this->encodedPayload,
+                $this->isPayloadDetached
+            );
+            $jws = $jws->addSignature(
+                 $signature->getSignature(),
+                 $signature->getProtectedHeader(),
+                 $signature->getEncodedProtectedHeader(),
+                 $signature->getHeader()
+             );
+
+            $result[] = $jws;
+        }
+
+        return $result;
     }
 }

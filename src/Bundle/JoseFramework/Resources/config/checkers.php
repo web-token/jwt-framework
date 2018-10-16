@@ -11,11 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Checker\ClaimCheckerManagerFactory;
-use Jose\Component\Checker\ExpirationTimeChecker;
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Checker\IssuedAtChecker;
-use Jose\Component\Checker\NotBeforeChecker;
+use Jose\Component\Checker;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -24,17 +20,18 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(HeaderCheckerManagerFactory::class)
-        ->public();
-    $container->set(ClaimCheckerManagerFactory::class)
+    $container->set(Checker\HeaderCheckerManagerFactory::class)
         ->public();
 
-    $container->set(ExpirationTimeChecker::class)
+    $container->set(Checker\ClaimCheckerManagerFactory::class)
+        ->public();
+
+    $container->set(Checker\ExpirationTimeChecker::class)
         ->tag('jose.checker.claim', ['alias' => 'exp']);
 
-    $container->set(IssuedAtChecker::class)
+    $container->set(Checker\IssuedAtChecker::class)
         ->tag('jose.checker.claim', ['alias' => 'iat']);
 
-    $container->set(NotBeforeChecker::class)
+    $container->set(Checker\NotBeforeChecker::class)
         ->tag('jose.checker.claim', ['alias' => 'nbf']);
 };

@@ -27,8 +27,10 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
      * The output given in the RFC is used and only decrypted.
+     *
+     * @test
      */
-    public function testECDH_ES_AndA128CBC_HS256Encryption()
+    public function eCDH_ES_AndA128CBC_HS256Encryption()
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -37,9 +39,9 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             'kid' => 'meriadoc.brandybuck@buckland.example',
             'use' => 'enc',
             'crv' => 'P-256',
-            'x'   => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
-            'y'   => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
-            'd'   => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
+            'x' => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
+            'y' => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
+            'd' => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
         ]);
 
         $protectedHeader = [
@@ -48,8 +50,8 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             'epk' => [
                 'kty' => 'EC',
                 'crv' => 'P-256',
-                'x'   => 'mPUKT_bAWGHIhg0TpjjqVsP1rXWQu_vwVOHHtNkdYoA',
-                'y'   => '8BQAsImGeAS46fyWw5MhYfGTT0IjBpFw2SS34Dv4Irs',
+                'x' => 'mPUKT_bAWGHIhg0TpjjqVsP1rXWQu_vwVOHHtNkdYoA',
+                'y' => '8BQAsImGeAS46fyWw5MhYfGTT0IjBpFw2SS34Dv4Irs',
             ],
             'enc' => 'A128CBC-HS256',
         ];
@@ -66,27 +68,29 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
 
-        self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
-        self::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
-        self::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
-        self::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
+        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
+        static::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
+        static::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
+        static::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
 
-        self::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
-        self::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        self::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
-        self::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
+        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
+        static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        static::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
+        static::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
-        self::assertEquals($expected_payload, $loaded_compact_json->getPayload());
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
+        static::assertEquals($expected_payload, $loaded_compact_json->getPayload());
 
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
-        self::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
+        static::assertEquals($expected_payload, $loaded_json->getPayload());
     }
 
     /**
      * Same input as before, but we perform the encryption first.
+     *
+     * @test
      */
-    public function testECDH_ES_AndA128CBC_HS256EncryptionBis()
+    public function eCDH_ES_AndA128CBC_HS256EncryptionBis()
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -95,8 +99,8 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             'kid' => 'meriadoc.brandybuck@buckland.example',
             'use' => 'enc',
             'crv' => 'P-256',
-            'x'   => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
-            'y'   => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
+            'x' => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
+            'y' => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
         ]);
 
         $private_key = JWK::create([
@@ -104,9 +108,9 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             'kid' => 'meriadoc.brandybuck@buckland.example',
             'use' => 'enc',
             'crv' => 'P-256',
-            'x'   => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
-            'y'   => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
-            'd'   => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
+            'x' => 'Ze2loSV3wrroKUN_4zhwGhCqo3Xhu1td4QjeQ5wIVR0',
+            'y' => 'HlLtdXARY_f55A3fnzQbPcm6hgr34Mp8p-nuzQCE0Zw',
+            'd' => 'r_kHyZ-a06rmxM3yESK84r1otSg-aQcVStkRhA-iCM8',
         ]);
 
         $protectedHeader = [
@@ -125,10 +129,10 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             ->build();
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        self::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
+        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        self::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeader()));
+        static::assertTrue(\array_key_exists('epk', $loaded_json->getSharedProtectedHeader()));
 
-        self::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertEquals($expected_payload, $loaded_json->getPayload());
     }
 }

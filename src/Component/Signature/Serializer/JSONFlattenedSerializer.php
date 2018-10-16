@@ -28,33 +28,22 @@ final class JSONFlattenedSerializer extends Serializer
 
     /**
      * JSONFlattenedSerializer constructor.
-     *
-     * @param JsonConverter $jsonConverter
      */
     public function __construct(JsonConverter $jsonConverter)
     {
         $this->jsonConverter = $jsonConverter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function displayName(): string
     {
         return 'JWS JSON Flattened';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return self::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (null === $signatureIndex) {
@@ -64,9 +53,9 @@ final class JSONFlattenedSerializer extends Serializer
 
         $data = [];
         $values = [
-            'payload'   => $jws->getEncodedPayload(),
+            'payload' => $jws->getEncodedPayload(),
             'protected' => $signature->getEncodedProtectedHeader(),
-            'header'    => $signature->getHeader(),
+            'header' => $signature->getHeader(),
         ];
 
         foreach ($values as $key => $value) {
@@ -79,27 +68,24 @@ final class JSONFlattenedSerializer extends Serializer
         return $this->jsonConverter->encode($data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function unserialize(string $input): JWS
     {
         $data = $this->jsonConverter->decode($input);
-        if (!is_array($data) || !array_key_exists('signature', $data)) {
+        if (!\is_array($data) || !\array_key_exists('signature', $data)) {
             throw new \InvalidArgumentException('Unsupported input.');
         }
 
         $signature = Base64Url::decode($data['signature']);
 
-        if (array_key_exists('protected', $data)) {
+        if (\array_key_exists('protected', $data)) {
             $encodedProtectedHeader = $data['protected'];
             $protectedHeader = $this->jsonConverter->decode(Base64Url::decode($data['protected']));
         } else {
             $encodedProtectedHeader = null;
             $protectedHeader = [];
         }
-        if (array_key_exists('header', $data)) {
-            if (!is_array($data['header'])) {
+        if (\array_key_exists('header', $data)) {
+            if (!\is_array($data['header'])) {
                 throw new \InvalidArgumentException('Bad header.');
             }
             $header = $data['header'];
@@ -107,7 +93,7 @@ final class JSONFlattenedSerializer extends Serializer
             $header = [];
         }
 
-        if (array_key_exists('payload', $data)) {
+        if (\array_key_exists('payload', $data)) {
             $encodedPayload = $data['payload'];
             $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
         } else {

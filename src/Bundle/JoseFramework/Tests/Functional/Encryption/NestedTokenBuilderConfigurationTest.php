@@ -30,25 +30,19 @@ class NestedTokenBuilderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWEBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
-        if (!class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-signature" is not installed.');
+        if (!\class_exists(JWSBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
-        if (!class_exists(HeaderCheckerManagerFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+        if (!\class_exists(HeaderCheckerManagerFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [
@@ -165,7 +159,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms'      => ['RS256'],
+                                'signature_algorithms' => ['RS256'],
                                 'key_encryption_algorithms' => ['RSA-OAEP'],
                             ],
                         ],
@@ -187,8 +181,8 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms'          => ['RS256'],
-                                'key_encryption_algorithms'     => ['RSA-OAEP'],
+                                'signature_algorithms' => ['RS256'],
+                                'key_encryption_algorithms' => ['RSA-OAEP'],
                                 'content_encryption_algorithms' => ['A128GCM'],
                             ],
                         ],
@@ -210,10 +204,10 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms'          => ['RS256'],
-                                'key_encryption_algorithms'     => ['RSA-OAEP'],
+                                'signature_algorithms' => ['RS256'],
+                                'key_encryption_algorithms' => ['RSA-OAEP'],
                                 'content_encryption_algorithms' => ['A128GCM'],
-                                'jws_serializers'               => ['jws_compact'],
+                                'jws_serializers' => ['jws_compact'],
                             ],
                         ],
                     ],
@@ -234,11 +228,11 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms'          => ['RS256'],
-                                'key_encryption_algorithms'     => ['RSA-OAEP'],
+                                'signature_algorithms' => ['RS256'],
+                                'key_encryption_algorithms' => ['RSA-OAEP'],
                                 'content_encryption_algorithms' => ['A128GCM'],
-                                'jws_serializers'               => ['jws_compact'],
-                                'jwe_serializers'               => ['jwe_compact'],
+                                'jws_serializers' => ['jws_compact'],
+                                'jwe_serializers' => ['jwe_compact'],
                             ],
                         ],
                     ],

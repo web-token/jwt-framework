@@ -25,14 +25,16 @@ class ECDHESWithX25519EncryptionTest extends EncryptionTest
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B
+     *
+     * @test
      */
-    public function testA128CBCHS256EncryptAndDecrypt()
+    public function a128CBCHS256EncryptAndDecrypt()
     {
         $receiverKey = JWK::create([
             'kty' => 'OKP',
             'crv' => 'X25519',
-            'x'   => 'azBwhSxIIhQIri4QdT__5q7ybEhKItJlGeyuLNN5ZCQ',
-            'd'   => 'aCaXuAvPEuLVqQSihzryIWaQqmXZxA-3ZrF6CEm180c',
+            'x' => 'azBwhSxIIhQIri4QdT__5q7ybEhKItJlGeyuLNN5ZCQ',
+            'd' => 'aCaXuAvPEuLVqQSihzryIWaQqmXZxA-3ZrF6CEm180c',
         ]);
         $input = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -52,8 +54,8 @@ class ECDHESWithX25519EncryptionTest extends EncryptionTest
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $jwe = $this->getJWESerializerManager()->unserialize($jwt);
-        self::assertTrue($jweDecrypter->decryptUsingKey($jwe, $receiverKey, 0));
-        self::assertTrue($jwe->hasSharedProtectedHeaderParameter('epk'));
-        self::assertEquals($input, $jwe->getPayload());
+        static::assertTrue($jweDecrypter->decryptUsingKey($jwe, $receiverKey, 0));
+        static::assertTrue($jwe->hasSharedProtectedHeaderParameter('epk'));
+        static::assertEquals($input, $jwe->getPayload());
     }
 }

@@ -25,17 +25,12 @@ class BigInteger
      */
     private $value;
 
-    /**
-     * @param \GMP $value
-     */
     private function __construct(\GMP $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @param \GMP $value
-     *
      * @return BigInteger
      */
     public static function createFromGMPResource(\GMP $value): self
@@ -44,46 +39,40 @@ class BigInteger
     }
 
     /**
-     * @param string $value
-     *
      * @return BigInteger
      */
     public static function createFromBinaryString(string $value): self
     {
-        $value = '0x'.unpack('H*', $value)[1];
-        $value = gmp_init($value, 16);
+        $value = '0x'.\unpack('H*', $value)[1];
+        $value = \gmp_init($value, 16);
 
         return new self($value);
     }
 
     /**
-     * @param int $value
-     *
      * @return BigInteger
      */
     public static function createFromDecimal(int $value): self
     {
-        $value = gmp_init($value, 10);
+        $value = \gmp_init($value, 10);
 
         return new self($value);
     }
 
     /**
      * Converts a BigInteger to a binary string.
-     *
-     * @return string
      */
     public function toBytes(): string
     {
-        if (0 === gmp_cmp($this->value, gmp_init(0))) {
+        if (0 === \gmp_cmp($this->value, \gmp_init(0))) {
             return '';
         }
 
-        $temp = gmp_strval(gmp_abs($this->value), 16);
-        $temp = mb_strlen($temp, '8bit') & 1 ? '0'.$temp : $temp;
-        $temp = hex2bin($temp);
+        $temp = \gmp_strval(\gmp_abs($this->value), 16);
+        $temp = \mb_strlen($temp, '8bit') & 1 ? '0'.$temp : $temp;
+        $temp = \hex2bin($temp);
 
-        return ltrim($temp, chr(0));
+        return \ltrim($temp, \chr(0));
     }
 
     /**
@@ -95,7 +84,7 @@ class BigInteger
      */
     public function add(self $y): self
     {
-        $value = gmp_add($this->value, $y->value);
+        $value = \gmp_add($this->value, $y->value);
 
         return self::createFromGMPResource($value);
     }
@@ -109,7 +98,7 @@ class BigInteger
      */
     public function subtract(self $y): self
     {
-        $value = gmp_sub($this->value, $y->value);
+        $value = \gmp_sub($this->value, $y->value);
 
         return self::createFromGMPResource($value);
     }
@@ -123,7 +112,7 @@ class BigInteger
      */
     public function multiply(self $x): self
     {
-        $value = gmp_mul($this->value, $x->value);
+        $value = \gmp_mul($this->value, $x->value);
 
         return self::createFromGMPResource($value);
     }
@@ -137,7 +126,7 @@ class BigInteger
      */
     public function divide(self $x): self
     {
-        $value = gmp_div($this->value, $x->value);
+        $value = \gmp_div($this->value, $x->value);
 
         return self::createFromGMPResource($value);
     }
@@ -152,7 +141,7 @@ class BigInteger
      */
     public function modPow(self $e, self $n): self
     {
-        $value = gmp_powm($this->value, $e->value, $n->value);
+        $value = \gmp_powm($this->value, $e->value, $n->value);
 
         return self::createFromGMPResource($value);
     }
@@ -166,7 +155,7 @@ class BigInteger
      */
     public function mod(self $d): self
     {
-        $value = gmp_mod($this->value, $d->value);
+        $value = \gmp_mod($this->value, $d->value);
 
         return self::createFromGMPResource($value);
     }
@@ -180,7 +169,7 @@ class BigInteger
      */
     public function modInverse(self $n): self
     {
-        $value = gmp_invert($this->value, $n->value);
+        $value = \gmp_invert($this->value, $n->value);
 
         return self::createFromGMPResource($value);
     }
@@ -189,18 +178,14 @@ class BigInteger
      * Compares two numbers.
      *
      * @param BigInteger $y
-     *
-     * @return int
      */
     public function compare(self $y): int
     {
-        return gmp_cmp($this->value, $y->value);
+        return \gmp_cmp($this->value, $y->value);
     }
 
     /**
      * @param BigInteger $y
-     *
-     * @return bool
      */
     public function equals(self $y): bool
     {
@@ -216,7 +201,7 @@ class BigInteger
     {
         $zero = self::createFromDecimal(0);
 
-        return self::createFromGMPResource(gmp_random_range($zero->value, $y->value));
+        return self::createFromGMPResource(\gmp_random_range($zero->value, $y->value));
     }
 
     /**
@@ -226,22 +211,17 @@ class BigInteger
      */
     public function gcd(self $y): self
     {
-        return self::createFromGMPResource(gmp_gcd($this->value, $y->value));
+        return self::createFromGMPResource(\gmp_gcd($this->value, $y->value));
     }
 
     /**
      * @param BigInteger $y
-     *
-     * @return bool
      */
     public function lowerThan(self $y): bool
     {
         return 0 > $this->compare($y);
     }
 
-    /**
-     * @return bool
-     */
     public function isEven(): bool
     {
         $zero = self::createFromDecimal(0);

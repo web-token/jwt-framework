@@ -11,10 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Encryption\Serializer\CompactSerializer;
-use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
-use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
-use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Jose\Component\Encryption\Serializer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -23,9 +20,10 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(JWESerializerManagerFactory::class)
+    $container->set(Serializer\JWESerializerManagerFactory::class)
         ->public();
-    $container->set(CompactSerializer::class);
-    $container->set(JSONFlattenedSerializer::class);
-    $container->set(JSONGeneralSerializer::class);
+
+    $container->set(Serializer\CompactSerializer::class);
+    $container->set(Serializer\JSONFlattenedSerializer::class);
+    $container->set(Serializer\JSONGeneralSerializer::class);
 };

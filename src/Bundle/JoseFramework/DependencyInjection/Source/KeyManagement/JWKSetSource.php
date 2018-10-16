@@ -23,72 +23,58 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 class JWKSetSource implements Source
 {
     /**
-     * @var null|JWKSetSourceInterface[]
+     * @var JWKSetSourceInterface[]
      */
-    private $jwkset_sources = null;
+    private $jwkset_sources;
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'key_sets';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $sources = $this->getJWKSetSources();
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             foreach ($itemConfig as $sourceName => $sourceConfig) {
-                if (array_key_exists($sourceName, $sources)) {
+                if (\array_key_exists($sourceName, $sources)) {
                     $source = $sources[$sourceName];
                     $source->create($container, 'key_set', $name, $sourceConfig);
                 } else {
-                    throw new \LogicException(sprintf('The JWKSet definition "%s" is not configured.', $name));
+                    throw new \LogicException(\sprintf('The JWKSet definition "%s" is not configured.', $name));
                 }
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeDefinition(NodeDefinition $node)
     {
         $sourceNodeBuilder = $node
             ->children()
-                ->arrayNode('key_sets')
-                    ->treatFalseLike([])
-                    ->treatNullLike([])
-                    ->useAttributeAsKey('name')
-                    ->arrayPrototype()
-                        ->validate()
-                            ->ifTrue(function ($config) {
-                                return count($config) !== 1;
-                            })
-                            ->thenInvalid('One key set type must be set.')
-                        ->end()
-                        ->children();
+            ->arrayNode('key_sets')
+            ->treatFalseLike([])
+            ->treatNullLike([])
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+            ->validate()
+            ->ifTrue(function ($config) {
+                return 1 !== \count($config);
+            })
+            ->thenInvalid('One key set type must be set.')
+            ->end()
+            ->children();
         foreach ($this->getJWKSetSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
             $source->addConfiguration($sourceNode);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];
     }
 
     /**
-     * @throws \Exception
-     *
      * @return JWKSetSourceInterface[]
      */
     private function getJWKSetSources(): array
@@ -102,15 +88,16 @@ class JWKSetSource implements Source
         $tempContainer->registerForAutoconfiguration(JWKSetSourceInterface::class)->addTag('jose.jwkset_source');
         $loader = new PhpFileLoader($tempContainer, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('jwkset_sources.php');
+        $tempContainer->compile();
 
         $services = $tempContainer->findTaggedServiceIds('jose.jwkset_source');
         $jwkset_sources = [];
-        foreach (array_keys($services) as $id) {
+        foreach (\array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
             if (!$factory instanceof JWKSetSourceInterface) {
                 throw new \InvalidArgumentException();
             }
-            $jwkset_sources[str_replace('-', '_', $factory->getKeySet())] = $factory;
+            $jwkset_sources[\str_replace('-', '_', $factory->getKeySet())] = $factory;
         }
 
         return $this->jwkset_sources = $jwkset_sources;

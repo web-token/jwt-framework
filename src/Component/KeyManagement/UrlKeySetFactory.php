@@ -30,9 +30,6 @@ abstract class UrlKeySetFactory
 
     /**
      * UrlKeySetFactory constructor.
-     *
-     * @param HttpClient     $client
-     * @param RequestFactory $requestFactory
      */
     public function __construct(HttpClient $client, RequestFactory $requestFactory)
     {
@@ -41,12 +38,7 @@ abstract class UrlKeySetFactory
     }
 
     /**
-     * @param string $url
-     * @param array  $header
-     *
      * @throws \RuntimeException
-     *
-     * @return string
      */
     protected function getContent(string $url, array $header = []): string
     {

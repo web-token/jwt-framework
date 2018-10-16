@@ -19,25 +19,15 @@ interface JWSSerializer
 {
     /**
      * The name of the serialization.
-     *
-     * @return string
      */
     public function name(): string;
 
-    /**
-     * @return string
-     */
     public function displayName(): string;
 
     /**
      * Converts a JWS into a string.
      *
-     * @param JWS      $jws
-     * @param int|null $signatureIndex
-     *
      * @throws \Exception
-     *
-     * @return string
      */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string;
 
@@ -47,8 +37,6 @@ interface JWSSerializer
      * @param string $input A string that represents a JWS
      *
      * @throws \Exception
-     *
-     * @return JWS
      */
     public function unserialize(string $input): JWS;
 }

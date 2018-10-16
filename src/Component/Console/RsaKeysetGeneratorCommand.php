@@ -21,9 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class RsaKeysetGeneratorCommand extends GeneratorCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         parent::configure();
@@ -34,16 +31,13 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $quantity = intval($input->getArgument('quantity'));
-        $size = intval($input->getArgument('size'));
+        $quantity = \intval($input->getArgument('quantity'));
+        $size = \intval($input->getArgument('size'));
 
         $keyset = JWKSet::createFromKeys([]);
-        for ($i = 0; $i < $quantity; $i++) {
+        for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
             $keyset = $keyset->with(JWKFactory::createRSAKey($size, $args));
         }

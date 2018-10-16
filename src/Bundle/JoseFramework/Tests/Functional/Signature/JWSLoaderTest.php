@@ -24,13 +24,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWSLoaderTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWSBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
@@ -41,8 +38,8 @@ class JWSLoaderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertNotNull($container);
-        self::assertTrue($container->has(JWSLoaderFactory::class));
+        static::assertNotNull($container);
+        static::assertTrue($container->has(JWSLoaderFactory::class));
     }
 
     /**
@@ -57,9 +54,9 @@ class JWSLoaderTest extends WebTestCase
 
         $jws = $jwsLoaderFactory->create(['jws_compact'], ['RS512']);
 
-        self::assertInstanceOf(JWSLoader::class, $jws);
-        self::assertEquals(['jws_compact'], $jws->getSerializerManager()->list());
-        self::assertEquals(['RS512'], $jws->getJwsVerifier()->getSignatureAlgorithmManager()->list());
+        static::assertInstanceOf(JWSLoader::class, $jws);
+        static::assertEquals(['jws_compact'], $jws->getSerializerManager()->list());
+        static::assertEquals(['RS512'], $jws->getJwsVerifier()->getSignatureAlgorithmManager()->list());
     }
 
     /**
@@ -69,10 +66,10 @@ class JWSLoaderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_loader.jws_loader1'));
+        static::assertTrue($container->has('jose.jws_loader.jws_loader1'));
 
         $jws = $container->get('jose.jws_loader.jws_loader1');
-        self::assertInstanceOf(JWSLoader::class, $jws);
+        static::assertInstanceOf(JWSLoader::class, $jws);
     }
 
     /**
@@ -82,9 +79,9 @@ class JWSLoaderTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
-        self::assertTrue($container->has('jose.jws_loader.jws_loader2'));
+        static::assertTrue($container->has('jose.jws_loader.jws_loader2'));
 
         $jws = $container->get('jose.jws_loader.jws_loader2');
-        self::assertInstanceOf(JWSLoader::class, $jws);
+        static::assertInstanceOf(JWSLoader::class, $jws);
     }
 }

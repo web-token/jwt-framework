@@ -20,17 +20,11 @@ use Symfony\Component\Console\Input\InputOption;
 
 abstract class GeneratorCommand extends ObjectOutputCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     public function isEnabled()
     {
-        return class_exists(JWKFactory::class);
+        return \class_exists(JWKFactory::class);
     }
 
-    /**
-     * Configures the current command.
-     */
     protected function configure()
     {
         parent::configure();
@@ -40,11 +34,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
             ->addOption('random_id', null, InputOption::VALUE_NONE, 'If this option is set, a random key ID (kid) will be generated.');
     }
 
-    /**
-     * @param InputInterface $input
-     *
-     * @return array
-     */
     protected function getOptions(InputInterface $input): array
     {
         $args = [];
@@ -61,11 +50,8 @@ abstract class GeneratorCommand extends ObjectOutputCommand
         return $args;
     }
 
-    /**
-     * @return string
-     */
     private function generateKeyID(): string
     {
-        return Base64Url::encode(random_bytes(32));
+        return Base64Url::encode(\random_bytes(32));
     }
 }

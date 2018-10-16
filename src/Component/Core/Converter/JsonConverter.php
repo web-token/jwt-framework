@@ -17,20 +17,11 @@ interface JsonConverter
 {
     /**
      * Convert the payload into a string.
-     *
-     * @param mixed $payload
-     *
-     * @return string
      */
     public function encode($payload): string;
 
     /**
      * Convert a string into payload.
-     *
-     * @param string $payload
-     * @param bool   $associativeArray
-     *
-     * @return mixed
      */
     public function decode(string $payload, bool $associativeArray = true);
 }

@@ -25,8 +25,6 @@ interface SignatureAlgorithm extends Algorithm
      * @param string $input The input
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
-     *
-     * @return string
      */
     public function sign(JWK $key, string $input): string;
 
@@ -38,8 +36,6 @@ interface SignatureAlgorithm extends Algorithm
      * @param string $signature The signature to verify
      *
      * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
-     *
-     * @return bool
      */
     public function verify(JWK $key, string $input, string $signature): bool;
 }

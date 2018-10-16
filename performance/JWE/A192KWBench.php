@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * The MIT License (MIT)
  *
@@ -17,56 +19,47 @@ namespace Jose\Performance\JWE;
  */
 final class A192KWBench extends EncryptionBench
 {
-    /**
-     * @return array
-     */
     public function dataHeadersAndAlgorithms(): array
     {
         return [
             [
                 'shared_protected_header' => ['alg' => 'A192KW', 'enc' => 'A128CBC-HS256'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192KW', 'enc' => 'A192CBC-HS384'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192KW', 'enc' => 'A256CBC-HS512'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192KW', 'enc' => 'A128GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192KW', 'enc' => 'A192GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A192KW', 'enc' => 'A256GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getAAD(): ?string
     {
         return 'A,B,C,D';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataInputs(): array
     {
         return [
@@ -74,31 +67,25 @@ final class A192KWBench extends EncryptionBench
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataPrivateKeys(): array
     {
         return [
             [
                 'recipient_keys' => ['keys' => [[
                     'kty' => 'oct',
-                    'k'   => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
+                    'k' => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
                 ]]],
             ],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function dataRecipientPublicKeys(): array
     {
         return [
             [
                 'recipient_key' => [
                     'kty' => 'oct',
-                    'k'   => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
+                    'k' => 'KuFiR-n2ngkDNZfBXWS6cCGXrYonVUiH',
                 ],
             ],
         ];

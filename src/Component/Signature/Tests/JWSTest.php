@@ -22,99 +22,110 @@ use Jose\Component\Signature\JWS;
  */
 class JWSTest extends SignatureTest
 {
-    public function testJWS()
+    /**
+     * @test
+     */
+    public function jWS()
     {
         $claims = [
-            'nbf' => time(),
-            'iat' => time(),
-            'exp' => time() + 3600,
+            'nbf' => \time(),
+            'iat' => \time(),
+            'exp' => \time() + 3600,
             'iss' => 'Me',
             'aud' => 'You',
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(json_encode($claims), json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(json_encode($header)));
+        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
+            ->addSignature('', $header, Base64Url::encode(\json_encode($header)));
 
-        self::assertEquals(json_encode($claims), $jws->getPayload());
-        self::assertEquals(1, $jws->countSignatures());
-        self::assertTrue($jws->getSignature(0)->hasProtectedHeaderParameter('alg'));
-        self::assertEquals($header, $jws->getSignature(0)->getProtectedHeader());
-        self::assertEquals('none', $jws->getSignature(0)->getProtectedHeaderParameter('alg'));
-        self::assertEquals([], $jws->getSignature(0)->getHeader());
+        static::assertEquals(\json_encode($claims), $jws->getPayload());
+        static::assertEquals(1, $jws->countSignatures());
+        static::assertTrue($jws->getSignature(0)->hasProtectedHeaderParameter('alg'));
+        static::assertEquals($header, $jws->getSignature(0)->getProtectedHeader());
+        static::assertEquals('none', $jws->getSignature(0)->getProtectedHeaderParameter('alg'));
+        static::assertEquals([], $jws->getSignature(0)->getHeader());
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The signature does not exist.
+     *
+     * @test
      */
-    public function testToCompactJSONFailed()
+    public function toCompactJSONFailed()
     {
         $claims = [
-            'nbf' => time(),
-            'iat' => time(),
-            'exp' => time() + 3600,
+            'nbf' => \time(),
+            'iat' => \time(),
+            'exp' => \time() + 3600,
             'iss' => 'Me',
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = JWS::create(json_encode($claims), json_encode($claims));
+        $jws = JWS::create(\json_encode($claims), \json_encode($claims));
         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The signature does not exist.
+     *
+     * @test
      */
-    public function testToFlattenedJSONFailed()
+    public function toFlattenedJSONFailed()
     {
         $claims = [
-            'nbf' => time(),
-            'iat' => time(),
-            'exp' => time() + 3600,
+            'nbf' => \time(),
+            'iat' => \time(),
+            'exp' => \time() + 3600,
             'iss' => 'Me',
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = JWS::create(json_encode($claims), json_encode($claims));
+        $jws = JWS::create(\json_encode($claims), \json_encode($claims));
         $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
     }
 
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage No signature.
+     *
+     * @test
      */
-    public function testToJSONFailed()
+    public function toJSONFailed()
     {
         $claims = [
-            'nbf' => time(),
-            'iat' => time(),
-            'exp' => time() + 3600,
+            'nbf' => \time(),
+            'iat' => \time(),
+            'exp' => \time() + 3600,
             'iss' => 'Me',
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = JWS::create(json_encode($claims), json_encode($claims));
+        $jws = JWS::create(\json_encode($claims), \json_encode($claims));
         $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0);
     }
 
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage The signature contains unprotected header parameters and cannot be converted into compact JSON
+     *
+     * @test
      */
-    public function testSignatureContainsUnprotectedHeader()
+    public function signatureContainsUnprotectedHeader()
     {
         $claims = [
-            'nbf' => time(),
-            'iat' => time(),
-            'exp' => time() + 3600,
+            'nbf' => \time(),
+            'iat' => \time(),
+            'exp' => \time() + 3600,
             'iss' => 'Me',
             'aud' => 'You',
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(json_encode($claims), json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(json_encode($header)), ['foo' => 'bar']);
+        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
+            ->addSignature('', $header, Base64Url::encode(\json_encode($header)), ['foo' => 'bar']);
 
         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
     }
@@ -122,40 +133,44 @@ class JWSTest extends SignatureTest
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The header "foo" does not exist
+     *
+     * @test
      */
-    public function testSignatureDoesNotContainHeader()
+    public function signatureDoesNotContainHeader()
     {
         $claims = [
-            'nbf' => time(),
-            'iat' => time(),
-            'exp' => time() + 3600,
+            'nbf' => \time(),
+            'iat' => \time(),
+            'exp' => \time() + 3600,
             'iss' => 'Me',
             'aud' => 'You',
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(json_encode($claims), json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(json_encode($header)));
+        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
+            ->addSignature('', $header, Base64Url::encode(\json_encode($header)));
         $jws->getSignature(0)->getHeaderParameter('foo');
     }
 
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The protected header "foo" does not exist
+     *
+     * @test
      */
-    public function testSignatureDoesNotContainProtectedHeader()
+    public function signatureDoesNotContainProtectedHeader()
     {
         $claims = [
-            'nbf' => time(),
-            'iat' => time(),
-            'exp' => time() + 3600,
+            'nbf' => \time(),
+            'iat' => \time(),
+            'exp' => \time() + 3600,
             'iss' => 'Me',
             'aud' => 'You',
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(json_encode($claims), json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(json_encode($header)));
+        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
+            ->addSignature('', $header, Base64Url::encode(\json_encode($header)));
         $jws->getSignature(0)->getProtectedHeaderParameter('foo');
     }
 }

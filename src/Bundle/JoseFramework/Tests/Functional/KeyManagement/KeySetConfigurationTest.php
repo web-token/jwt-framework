@@ -27,19 +27,13 @@ class KeySetConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWKFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
+        if (!\class_exists(JWKFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [

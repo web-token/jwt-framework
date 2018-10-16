@@ -11,8 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Encryption\NestedTokenBuilderFactory;
-use Jose\Component\Encryption\NestedTokenLoaderFactory;
+use Jose\Component\Encryption;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -21,8 +20,9 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(NestedTokenLoaderFactory::class)
+    $container->set(Encryption\NestedTokenBuilderFactory::class)
         ->public();
-    $container->set(NestedTokenBuilderFactory::class)
+
+    $container->set(Encryption\NestedTokenLoaderFactory::class)
         ->public();
 };

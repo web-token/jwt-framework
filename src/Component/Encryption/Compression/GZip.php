@@ -22,8 +22,6 @@ final class GZip implements CompressionMethod
 
     /**
      * GZip constructor.
-     *
-     * @param int $compression_level
      */
     public function __construct(int $compression_level = -1)
     {
@@ -33,28 +31,19 @@ final class GZip implements CompressionMethod
         $this->compression_level = $compression_level;
     }
 
-    /**
-     * @return int
-     */
     private function getCompressionLevel(): int
     {
         return $this->compression_level;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'GZ';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function compress(string $data): string
     {
-        $data = gzencode($data, $this->getCompressionLevel());
+        $data = \gzencode($data, $this->getCompressionLevel());
         if (false === $data) {
             throw new \InvalidArgumentException('Unable to compress data.');
         }
@@ -62,12 +51,9 @@ final class GZip implements CompressionMethod
         return $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function uncompress(string $data): string
     {
-        $data = gzdecode($data);
+        $data = \gzdecode($data);
         if (false === $data) {
             throw new \InvalidArgumentException('Unable to uncompress data.');
         }

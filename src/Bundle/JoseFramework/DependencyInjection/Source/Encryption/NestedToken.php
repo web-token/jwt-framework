@@ -40,17 +40,11 @@ class NestedToken implements Source
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function name(): string
     {
         return 'nested_token';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         if (!$this->isEnabled()) {
@@ -59,7 +53,7 @@ class NestedToken implements Source
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('nested_token.php');
 
-        if (array_key_exists('nested_token', $configs)) {
+        if (\array_key_exists('nested_token', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['nested_token'], $container);
             }
@@ -73,17 +67,14 @@ class NestedToken implements Source
         }
         $childNode = $node->children()
             ->arrayNode($this->name())
-                ->treatNullLike([])
-                ->treatFalseLike([]);
+            ->treatNullLike([])
+            ->treatFalseLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container, array $config): array
     {
         if (!$this->isEnabled()) {
@@ -100,13 +91,10 @@ class NestedToken implements Source
         return $result;
     }
 
-    /**
-     * @return bool
-     */
     private function isEnabled(): bool
     {
-        return class_exists(JWEDecrypterFactory::class)
-            && class_exists(JWSVerifierFactory::class)
-            && class_exists(HeaderCheckerManagerFactory::class);
+        return \class_exists(JWEDecrypterFactory::class)
+            && \class_exists(JWSVerifierFactory::class)
+            && \class_exists(HeaderCheckerManagerFactory::class);
     }
 }

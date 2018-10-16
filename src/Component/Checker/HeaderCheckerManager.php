@@ -70,8 +70,6 @@ class HeaderCheckerManager
     }
 
     /**
-     * @param TokenTypeSupport $tokenType
-     *
      * @return HeaderCheckerManager
      */
     private function addTokenTypeSupport(TokenTypeSupport $tokenType): self
@@ -82,8 +80,6 @@ class HeaderCheckerManager
     }
 
     /**
-     * @param HeaderChecker $checker
-     *
      * @return HeaderCheckerManager
      */
     private function add(HeaderChecker $checker): self
@@ -99,8 +95,6 @@ class HeaderCheckerManager
      * All header parameters are checked against the header parameter checkers.
      * If one fails, the InvalidHeaderException is thrown.
      *
-     * @param JWT      $jwt
-     * @param int      $index
      * @param string[] $mandatoryHeaderParameters
      *
      * @throws InvalidHeaderException
@@ -124,22 +118,16 @@ class HeaderCheckerManager
         throw new \InvalidArgumentException('Unsupported token type.');
     }
 
-    /**
-     * @param array $header1
-     * @param array $header2
-     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2)
     {
-        $inter = array_intersect_key($header1, $header2);
+        $inter = \array_intersect_key($header1, $header2);
         if (!empty($inter)) {
-            throw new \InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
+            throw new \InvalidArgumentException(\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
         }
     }
 
     /**
      * @param string[] $mandatoryHeaderParameters
-     * @param array    $protected
-     * @param array    $unprotected
      *
      * @throws MissingMandatoryHeaderParameterException
      */
@@ -148,17 +136,14 @@ class HeaderCheckerManager
         if (empty($mandatoryHeaderParameters)) {
             return;
         }
-        $diff = array_keys(array_diff_key(array_flip($mandatoryHeaderParameters), array_merge($protected, $unprotected)));
+        $diff = \array_keys(\array_diff_key(\array_flip($mandatoryHeaderParameters), \array_merge($protected, $unprotected)));
 
         if (!empty($diff)) {
-            throw new MissingMandatoryHeaderParameterException(sprintf('The following header parameters are mandatory: %s.', implode(', ', $diff)), $diff);
+            throw new MissingMandatoryHeaderParameterException(\sprintf('The following header parameters are mandatory: %s.', \implode(', ', $diff)), $diff);
         }
     }
 
     /**
-     * @param array $protected
-     * @param array $header
-     *
      * @throws InvalidHeaderException
      */
     private function checkHeaders(array $protected, array $header)
@@ -166,17 +151,17 @@ class HeaderCheckerManager
         $checkedHeaderParameters = [];
         foreach ($this->checkers as $headerParameter => $checker) {
             if ($checker->protectedHeaderOnly()) {
-                if (array_key_exists($headerParameter, $protected)) {
+                if (\array_key_exists($headerParameter, $protected)) {
                     $checker->checkHeader($protected[$headerParameter]);
                     $checkedHeaderParameters[] = $headerParameter;
-                } elseif (array_key_exists($headerParameter, $header)) {
-                    throw new InvalidHeaderException(sprintf('The headerParameter "%s" must be protected.', $headerParameter), $headerParameter, $header[$headerParameter]);
+                } elseif (\array_key_exists($headerParameter, $header)) {
+                    throw new InvalidHeaderException(\sprintf('The headerParameter "%s" must be protected.', $headerParameter), $headerParameter, $header[$headerParameter]);
                 }
             } else {
-                if (array_key_exists($headerParameter, $protected)) {
+                if (\array_key_exists($headerParameter, $protected)) {
                     $checker->checkHeader($protected[$headerParameter]);
                     $checkedHeaderParameters[] = $headerParameter;
-                } elseif (array_key_exists($headerParameter, $header)) {
+                } elseif (\array_key_exists($headerParameter, $header)) {
                     $checker->checkHeader($header[$headerParameter]);
                     $checkedHeaderParameters[] = $headerParameter;
                 }
@@ -186,23 +171,19 @@ class HeaderCheckerManager
     }
 
     /**
-     * @param array $protected
-     * @param array $header
-     * @param array $checkedHeaderParameters
-     *
      * @throws InvalidHeaderException
      */
     private function checkCriticalHeader(array $protected, array $header, array $checkedHeaderParameters)
     {
-        if (array_key_exists('crit', $protected)) {
-            if (!is_array($protected['crit'])) {
+        if (\array_key_exists('crit', $protected)) {
+            if (!\is_array($protected['crit'])) {
                 throw new InvalidHeaderException('The header "crit" mus be a list of header parameters.', 'crit', $protected['crit']);
             }
-            $diff = array_diff($protected['crit'], $checkedHeaderParameters);
+            $diff = \array_diff($protected['crit'], $checkedHeaderParameters);
             if (!empty($diff)) {
-                throw new InvalidHeaderException(sprintf('One or more header parameters are marked as critical, but they are missing or have not been checked: %s.', implode(', ', array_values($diff))), 'crit', $protected['crit']);
+                throw new InvalidHeaderException(\sprintf('One or more header parameters are marked as critical, but they are missing or have not been checked: %s.', \implode(', ', \array_values($diff))), 'crit', $protected['crit']);
             }
-        } elseif (array_key_exists('crit', $header)) {
+        } elseif (\array_key_exists('crit', $header)) {
             throw new InvalidHeaderException('The header parameter "crit" must be protected.', 'crit', $header['crit']);
         }
     }

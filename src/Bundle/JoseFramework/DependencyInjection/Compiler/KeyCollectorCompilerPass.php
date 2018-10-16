@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class KeyCollectorCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(KeyCollector::class)) {
@@ -33,7 +30,7 @@ class KeyCollectorCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(KeyCollector::class);
 
         $services = [
-            'addJWK'    => 'jose.jwk',
+            'addJWK' => 'jose.jwk',
             'addJWKSet' => 'jose.jwkset',
         ];
         foreach ($services as $method => $tag) {
@@ -41,12 +38,6 @@ class KeyCollectorCompilerPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @param string           $method
-     * @param string           $tag
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
     private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
     {
         $taggedJWSServices = $container->findTaggedServiceIds($tag);

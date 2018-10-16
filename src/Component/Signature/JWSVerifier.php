@@ -29,8 +29,6 @@ class JWSVerifier
 
     /**
      * JWSVerifier constructor.
-     *
-     * @param AlgorithmManager $signatureAlgorithmManager
      */
     public function __construct(AlgorithmManager $signatureAlgorithmManager)
     {
@@ -39,8 +37,6 @@ class JWSVerifier
 
     /**
      * Returns the algorithm manager associated to the JWSVerifier.
-     *
-     * @return AlgorithmManager
      */
     public function getSignatureAlgorithmManager(): AlgorithmManager
     {
@@ -50,11 +46,6 @@ class JWSVerifier
     /**
      * This method will try to verify the JWS object using the given key and for the given signature.
      * It returns true if the signature is verified, otherwise false.
-     *
-     * @param JWS         $jws
-     * @param JWK         $jwk
-     * @param int         $signature
-     * @param null|string $detachedPayload
      *
      * @return bool true if the verification of the signature succeeded, else false
      */
@@ -71,7 +62,6 @@ class JWSVerifier
      *
      * @param JWS         $jws             A JWS object
      * @param JWKSet      $jwkset          The signature will be verified using keys in the key set
-     * @param int         $signature
      * @param null|string $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
      * @return bool true if the verification of the signature succeeded, else false
@@ -87,14 +77,6 @@ class JWSVerifier
         return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload);
     }
 
-    /**
-     * @param JWS         $jws
-     * @param JWKSet      $jwkset
-     * @param Signature   $signature
-     * @param null|string $detachedPayload
-     *
-     * @return bool
-     */
     private function verifySignature(JWS $jws, JWKSet $jwkset, Signature $signature, ?string $detachedPayload = null): bool
     {
         $input = $this->getInputToVerify($jws, $signature, $detachedPayload);
@@ -104,7 +86,7 @@ class JWSVerifier
             try {
                 KeyChecker::checkKeyUsage($jwk, 'verification');
                 KeyChecker::checkKeyAlgorithm($jwk, $algorithm->name());
-                if (!in_array($jwk->get('kty'), $algorithm->allowedKeyTypes())) {
+                if (!\in_array($jwk->get('kty'), $algorithm->allowedKeyTypes(), true)) {
                     throw new \InvalidArgumentException('Wrong key type.');
                 }
                 if (true === $algorithm->verify($jwk, $input, $signature->getSignature())) {
@@ -119,34 +101,24 @@ class JWSVerifier
         return false;
     }
 
-    /**
-     * @param JWS         $jws
-     * @param Signature   $signature
-     * @param string|null $detachedPayload
-     *
-     * @return string
-     */
     private function getInputToVerify(JWS $jws, Signature $signature, ?string $detachedPayload): string
     {
         $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
         if (!$signature->hasProtectedHeaderParameter('b64') || true === $signature->getProtectedHeaderParameter('b64')) {
             if (null !== $jws->getEncodedPayload()) {
-                return sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
+                return \sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
             }
 
             $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
 
-            return sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
+            return \sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
         }
 
         $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
 
-        return sprintf('%s.%s', $encodedProtectedHeader, $payload);
+        return \sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }
 
-    /**
-     * @param JWS $jws
-     */
     private function checkSignatures(JWS $jws)
     {
         if (0 === $jws->countSignatures()) {
@@ -154,20 +126,13 @@ class JWSVerifier
         }
     }
 
-    /**
-     * @param JWKSet $jwkset
-     */
     private function checkJWKSet(JWKSet $jwkset)
     {
-        if (0 === count($jwkset)) {
+        if (0 === \count($jwkset)) {
             throw new \InvalidArgumentException('There is no key in the key set.');
         }
     }
 
-    /**
-     * @param JWS         $jws
-     * @param null|string $detachedPayload
-     */
     private function checkPayload(JWS $jws, ?string $detachedPayload = null)
     {
         if (null !== $detachedPayload && !empty($jws->getPayload())) {
@@ -178,21 +143,16 @@ class JWSVerifier
         }
     }
 
-    /**
-     * @param Signature $signature
-     *
-     * @return SignatureAlgorithm
-     */
     private function getAlgorithm(Signature $signature): SignatureAlgorithm
     {
-        $completeHeader = array_merge($signature->getProtectedHeader(), $signature->getHeader());
-        if (!array_key_exists('alg', $completeHeader)) {
+        $completeHeader = \array_merge($signature->getProtectedHeader(), $signature->getHeader());
+        if (!\array_key_exists('alg', $completeHeader)) {
             throw new \InvalidArgumentException('No "alg" parameter set in the header.');
         }
 
         $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
         if (!$algorithm instanceof SignatureAlgorithm) {
-            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
+            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
         }
 
         return $algorithm;

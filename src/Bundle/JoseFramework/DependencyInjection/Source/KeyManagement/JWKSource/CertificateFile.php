@@ -22,9 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class CertificateFile extends AbstractSource implements JWKSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWK::class);
@@ -41,32 +38,26 @@ class CertificateFile extends AbstractSource implements JWKSource
         return $definition;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKey(): string
     {
         return 'certificate';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('path')
-                    ->info('Path of the certificate file.')
-                    ->isRequired()
-                ->end()
-                ->arrayNode('additional_values')
-                    ->info('Additional values to be added to the key.')
-                    ->defaultValue([])
-                    ->useAttributeAsKey('key')
-                    ->variablePrototype()->end()
-                ->end()
+            ->scalarNode('path')
+            ->info('Path of the certificate file.')
+            ->isRequired()
+            ->end()
+            ->arrayNode('additional_values')
+            ->info('Additional values to be added to the key.')
+            ->defaultValue([])
+            ->useAttributeAsKey('key')
+            ->variablePrototype()->end()
+            ->end()
             ->end();
     }
 }

@@ -27,19 +27,13 @@ class JweDecrypterConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp()
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
-            $this->markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWEBuilderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getConfiguration()
     {
         return new Configuration('jose', [
@@ -174,7 +168,7 @@ class JweDecrypterConfigurationTest extends TestCase
                     'jwe' => [
                         'decrypters' => [
                             'foo' => [
-                                'key_encryption_algorithms'     => ['A256GCMKW'],
+                                'key_encryption_algorithms' => ['A256GCMKW'],
                                 'content_encryption_algorithms' => [],
                             ],
                         ],

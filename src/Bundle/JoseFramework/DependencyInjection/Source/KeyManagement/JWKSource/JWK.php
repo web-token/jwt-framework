@@ -22,9 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWK extends AbstractSource implements JWKSource
 {
-    /**
-     * {@inheritdoc}
-     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(\Jose\Component\Core\JWK::class);
@@ -40,26 +37,20 @@ class JWK extends AbstractSource implements JWKSource
         return $definition;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getKey(): string
     {
         return 'jwk';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(NodeDefinition $node)
     {
         parent::addConfiguration($node);
         $node
             ->children()
-                ->scalarNode('value')
-                    ->info('The JWK object')
-                    ->isRequired()
-                ->end()
+            ->scalarNode('value')
+            ->info('The JWK object')
+            ->isRequired()
+            ->end()
             ->end();
     }
 }

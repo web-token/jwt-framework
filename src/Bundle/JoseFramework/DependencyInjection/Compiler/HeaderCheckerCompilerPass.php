@@ -21,9 +21,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class HeaderCheckerCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(HeaderCheckerManagerFactory::class)) {
@@ -35,27 +32,19 @@ class HeaderCheckerCompilerPass implements CompilerPassInterface
         $this->addTokenType($definition, $container);
     }
 
-    /**
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
     private function addHeaderCheckers(Definition $definition, ContainerBuilder $container)
     {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.header');
         foreach ($taggedHeaderCheckerServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!array_key_exists('alias', $attributes)) {
-                    throw new \InvalidArgumentException(sprintf("The header checker '%s' does not have any 'alias' attribute.", $id));
+                if (!\array_key_exists('alias', $attributes)) {
+                    throw new \InvalidArgumentException(\sprintf("The header checker '%s' does not have any 'alias' attribute.", $id));
                 }
                 $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
             }
         }
     }
 
-    /**
-     * @param Definition       $definition
-     * @param ContainerBuilder $container
-     */
     private function addTokenType(Definition $definition, ContainerBuilder $container)
     {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.token_type');
