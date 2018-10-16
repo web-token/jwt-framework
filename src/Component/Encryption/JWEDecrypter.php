@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use Base64Url\Base64Url;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -190,7 +189,7 @@ class JWEDecrypter
 
     private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $completeHeader): string
     {
-        $payload = $content_encryption_algorithm->decryptContent($jwe->getCiphertext(), $cek, $jwe->getIV(), null === $jwe->getAAD() ? null : Base64Url::encode($jwe->getAAD()), $jwe->getEncodedSharedProtectedHeader(), $jwe->getTag());
+        $payload = $content_encryption_algorithm->decryptContent($jwe->getCiphertext(), $cek, $jwe->getIV(), $jwe->getAAD(), $jwe->getEncodedSharedProtectedHeader(), $jwe->getTag());
 
         return $this->decompressIfNeeded($payload, $completeHeader);
     }

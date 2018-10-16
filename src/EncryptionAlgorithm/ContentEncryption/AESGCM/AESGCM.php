@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Base64Url\Base64Url;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 
 abstract class AESGCM implements ContentEncryptionAlgorithm
@@ -26,7 +27,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
     {
         $calculated_aad = $encoded_protected_header;
         if (null !== $aad) {
-            $calculated_aad .= '.'.$aad;
+            $calculated_aad .= '.'.Base64Url::encode($aad);
         }
 
         $C = \openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
@@ -44,7 +45,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
     {
         $calculated_aad = $encoded_protected_header;
         if (null !== $aad) {
-            $calculated_aad .= '.'.$aad;
+            $calculated_aad .= '.'.Base64Url::encode($aad);
         }
 
         $P = \openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
