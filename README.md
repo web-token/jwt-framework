@@ -17,7 +17,7 @@ If you really love that project, then you can help me out for a couple of :beers
 [![Latest Stable Version](https://poser.pugx.org/web-token/jwt-framework/v/stable.png)](https://packagist.org/packages/web-token/jwt-framework)
 [![Total Downloads](https://poser.pugx.org/web-token/jwt-framework/downloads.png)](https://packagist.org/packages/web-token/jwt-framework)
 [![Latest Unstable Version](https://poser.pugx.org/web-token/jwt-framework/v/unstable.png)](https://packagist.org/packages/web-token/jwt-framework)
-[![License](https://poser.pugx.org/web-token/jwt-framework/license.png)](https://packagist.org/packages/web-token/jwt-framework)
+[![License](https://poser.pugx.org/web-token/jwt-framework/license.png)](https://packagist.org/packages/web-token/jwt-framework) [![GuardRails badge](https://badges.production.guardrails.io/web-token/jwt-framework.svg)](https://www.guardrails.io)
 
 # The Release Process
 
