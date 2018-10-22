@@ -83,8 +83,6 @@ class JWESerializerManager
     /**
      * Converts a JWE into a string.
      * Throws an exception if none of the serializer was able to convert the input.
-     *
-     * @throws \Exception
      */
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
@@ -101,8 +99,6 @@ class JWESerializerManager
      *
      * @param string      $input A string that represents a JWE
      * @param string|null $name  the name of the serializer if the input is unserialized
-     *
-     * @throws \Exception
      */
     public function unserialize(string $input, ?string &$name = null): JWE
     {

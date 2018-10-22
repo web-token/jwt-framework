@@ -31,13 +31,13 @@ class KeyCollector implements Collector
         $this->jwksetAnalyzerManager = $jwksetAnalyzerManager;
     }
 
-    public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
+    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
     {
         $this->collectJWK($data);
         $this->collectJWKSet($data);
     }
 
-    private function collectJWK(array &$data)
+    private function collectJWK(array &$data): void
     {
         $data['key']['jwk'] = [];
         foreach ($this->jwks as $id => $jwk) {
@@ -48,7 +48,7 @@ class KeyCollector implements Collector
         }
     }
 
-    private function collectJWKSet(array &$data)
+    private function collectJWKSet(array &$data): void
     {
         $data['key']['jwkset'] = [];
         foreach ($this->jwksets as $id => $jwkset) {
@@ -75,7 +75,7 @@ class KeyCollector implements Collector
      */
     private $jwks = [];
 
-    public function addJWK(string $id, JWK $jwk)
+    public function addJWK(string $id, JWK $jwk): void
     {
         $this->jwks[$id] = $jwk;
     }
@@ -85,7 +85,7 @@ class KeyCollector implements Collector
      */
     private $jwksets = [];
 
-    public function addJWKSet(string $id, JWKSet $jwkset)
+    public function addJWKSet(string $id, JWKSet $jwkset): void
     {
         $this->jwksets[$id] = $jwkset;
     }

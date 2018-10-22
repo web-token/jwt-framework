@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Encryption;
+use Jose\Bundle\JoseFramework\Services;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -20,9 +20,9 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(Encryption\NestedTokenBuilderFactory::class)
+    $container->set(Services\NestedTokenBuilderFactory::class)
         ->public();
 
-    $container->set(Encryption\NestedTokenLoaderFactory::class)
+    $container->set(Services\NestedTokenLoaderFactory::class)
         ->public();
 };

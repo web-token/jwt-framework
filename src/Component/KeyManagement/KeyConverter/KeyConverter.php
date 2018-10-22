@@ -20,9 +20,6 @@ use Base64Url\Base64Url;
  */
 class KeyConverter
 {
-    /**
-     * @throws \InvalidArgumentException
-     */
     public static function loadKeyFromCertificateFile(string $file): array
     {
         if (!\file_exists($file)) {
@@ -33,9 +30,6 @@ class KeyConverter
         return self::loadKeyFromCertificate($content);
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     public static function loadKeyFromCertificate(string $certificate): array
     {
         try {
@@ -56,8 +50,6 @@ class KeyConverter
 
     /**
      * @param resource $res
-     *
-     * @throws \Exception
      */
     public static function loadKeyFromX509Resource($res): array
     {
@@ -81,9 +73,6 @@ class KeyConverter
         throw new \InvalidArgumentException('Unable to load the certificate');
     }
 
-    /**
-     * @throws \Exception
-     */
     public static function loadFromKeyFile(string $file, ?string $password = null): array
     {
         $content = \file_get_contents($file);
@@ -91,9 +80,6 @@ class KeyConverter
         return self::loadFromKey($content, $password);
     }
 
-    /**
-     * @throws \Exception
-     */
     public static function loadFromKey(string $key, ?string $password = null): array
     {
         try {
@@ -103,9 +89,6 @@ class KeyConverter
         }
     }
 
-    /**
-     * @throws \Exception
-     */
     private static function loadKeyFromDER(string $der, ?string $password = null): array
     {
         $pem = self::convertDerToPem($der);
@@ -113,9 +96,6 @@ class KeyConverter
         return self::loadKeyFromPEM($pem, $password);
     }
 
-    /**
-     * @throws \Exception
-     */
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
         if (\preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {

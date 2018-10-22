@@ -39,7 +39,7 @@ class JWELoaderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(JWELoaderFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWELoaderFactory::class));
     }
 
     /**
@@ -50,7 +50,7 @@ class JWELoaderTest extends WebTestCase
         $client = static::createClient();
 
         /** @var JWELoaderFactory $jweLoaderFactory */
-        $jweLoaderFactory = $client->getContainer()->get(JWELoaderFactory::class);
+        $jweLoaderFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWELoaderFactory::class);
 
         $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5'], ['A256GCM'], ['DEF']);
 

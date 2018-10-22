@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
-use Jose\Component\Signature\JWSBuilder;
+use Jose\Bundle\JoseFramework\Services\JWSBuilder;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -38,7 +38,7 @@ class JWSBuilderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(JWSBuilderFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWSBuilderFactory::class));
     }
 
     /**
@@ -49,7 +49,7 @@ class JWSBuilderTest extends WebTestCase
         $client = static::createClient();
 
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWSBuilderFactory::class);
 
         $jws = $jwsFactory->create(['none']);
 

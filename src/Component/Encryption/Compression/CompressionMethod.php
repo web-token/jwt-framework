@@ -25,8 +25,6 @@ interface CompressionMethod
      * Throws an exception in case of failure.
      *
      * @param string $data The data to compress
-     *
-     * @throws \RuntimeException
      */
     public function compress(string $data): string;
 
@@ -35,8 +33,6 @@ interface CompressionMethod
      * Throws an exception in case of failure.
      *
      * @param string $data The data to uncompress
-     *
-     * @throws \RuntimeException
      */
     public function uncompress(string $data): string;
 }

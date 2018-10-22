@@ -20,9 +20,6 @@ use Jose\Component\Core\JWK;
  */
 class KeyChecker
 {
-    /**
-     * @throws \InvalidArgumentException
-     */
     public static function checkKeyUsage(JWK $key, string $usage): bool
     {
         if ($key->has('use')) {

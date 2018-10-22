@@ -18,24 +18,12 @@ use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 
 class JWSLoaderFactory
 {
-    /**
-     * @var JWSVerifierFactory
-     */
     private $jwsVerifierFactory;
 
-    /**
-     * @var JWSSerializerManagerFactory
-     */
     private $jwsSerializerManagerFactory;
 
-    /**
-     * @var HeaderCheckerManagerFactory|null
-     */
-    private $headerCheckerManagerFactory = null;
+    private $headerCheckerManagerFactory;
 
-    /**
-     * JWSLoaderFactory constructor.
-     */
     public function __construct(JWSSerializerManagerFactory $jwsSerializerManagerFactory, JWSVerifierFactory $jwsVerifierFactory, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory)
     {
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;

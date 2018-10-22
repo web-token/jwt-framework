@@ -26,8 +26,6 @@ interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
      * @param int    $encryption_key_length    Size of the key expected for the algorithm used for data encryption
      * @param array  $complete_header          The complete header of the JWT
      * @param array  $additional_header_values Set additional header values if needed
-     *
-     * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      */
     public function wrapAgreementKey(JWK $receiver_key, string $cek, int $encryption_key_length, array $complete_header, array &$additional_header_values): string;
 
@@ -38,8 +36,6 @@ interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
      * @param string $encrypted_cek         The encrypted CEK
      * @param int    $encryption_key_length Size of the key expected for the algorithm used for data encryption
      * @param array  $complete_header       The complete header of the JWT
-     *
-     * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      *
      * @return string The decrypted CEK
      */

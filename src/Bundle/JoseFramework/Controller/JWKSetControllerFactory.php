@@ -25,8 +25,8 @@ class JWKSetControllerFactory
         $this->jsonConverter = $jsonConverter;
     }
 
-    public function create(JWKSet $jwkset, int $maxAge): JWKSetController
+    public function create(JWKSet $jwkset): JWKSetController
     {
-        return new JWKSetController($this->jsonConverter->encode($jwkset), $maxAge);
+        return new JWKSetController($this->jsonConverter->encode($jwkset));
     }
 }

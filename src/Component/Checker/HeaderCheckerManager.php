@@ -96,9 +96,6 @@ class HeaderCheckerManager
      * If one fails, the InvalidHeaderException is thrown.
      *
      * @param string[] $mandatoryHeaderParameters
-     *
-     * @throws InvalidHeaderException
-     * @throws MissingMandatoryHeaderParameterException
      */
     public function check(JWT $jwt, int $index, array $mandatoryHeaderParameters = [])
     {
@@ -128,8 +125,6 @@ class HeaderCheckerManager
 
     /**
      * @param string[] $mandatoryHeaderParameters
-     *
-     * @throws MissingMandatoryHeaderParameterException
      */
     private function checkMandatoryHeaderParameters(array $mandatoryHeaderParameters, array $protected, array $unprotected)
     {
@@ -143,10 +138,7 @@ class HeaderCheckerManager
         }
     }
 
-    /**
-     * @throws InvalidHeaderException
-     */
-    private function checkHeaders(array $protected, array $header)
+    private function checkHeaders(array $protected, array $header): void
     {
         $checkedHeaderParameters = [];
         foreach ($this->checkers as $headerParameter => $checker) {
@@ -170,10 +162,7 @@ class HeaderCheckerManager
         $this->checkCriticalHeader($protected, $header, $checkedHeaderParameters);
     }
 
-    /**
-     * @throws InvalidHeaderException
-     */
-    private function checkCriticalHeader(array $protected, array $header, array $checkedHeaderParameters)
+    private function checkCriticalHeader(array $protected, array $header, array $checkedHeaderParameters): void
     {
         if (\array_key_exists('crit', $protected)) {
             if (!\is_array($protected['crit'])) {

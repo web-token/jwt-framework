@@ -26,8 +26,6 @@ interface JWSSerializer
 
     /**
      * Converts a JWS into a string.
-     *
-     * @throws \Exception
      */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string;
 
@@ -35,8 +33,6 @@ interface JWSSerializer
      * Loads data and return a JWS object.
      *
      * @param string $input A string that represents a JWS
-     *
-     * @throws \Exception
      */
     public function unserialize(string $input): JWS;
 }

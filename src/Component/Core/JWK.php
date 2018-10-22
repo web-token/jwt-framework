@@ -73,8 +73,6 @@ class JWK implements \JsonSerializable
      *
      * @param string $key The key
      *
-     * @throws \InvalidArgumentException
-     *
      * @return mixed|null
      */
     public function get(string $key)
@@ -110,8 +108,6 @@ class JWK implements \JsonSerializable
      * Returns the thumbprint of the key.
      *
      * @see https://tools.ietf.org/html/rfc7638
-     *
-     * @throws \InvalidArgumentException
      */
     public function thumbprint(string $hash_algorithm): string
     {

@@ -48,7 +48,7 @@ abstract class RSA implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
-    protected function checkKey(JWK $key)
+    protected function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');

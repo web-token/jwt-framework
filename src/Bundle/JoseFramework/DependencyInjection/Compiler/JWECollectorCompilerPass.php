@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JWECollectorCompilerPass implements CompilerPassInterface
+final class JWECollectorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -39,7 +39,7 @@ class JWECollectorCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
+    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container): void
     {
         $taggedJWEServices = $container->findTaggedServiceIds($tag);
         foreach ($taggedJWEServices as $id => $tags) {

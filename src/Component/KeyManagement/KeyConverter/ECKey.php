@@ -27,22 +27,13 @@ use FG\ASN1\Universal\Sequence;
  */
 class ECKey
 {
-    /**
-     * @var array
-     */
     private $values = [];
 
-    /**
-     * ECKey constructor.
-     */
     private function __construct(array $data)
     {
         $this->loadJWK($data);
     }
 
-    /**
-     * @return ECKey
-     */
     public static function createFromPEM(string $pem): self
     {
         $data = self::loadPEM($pem);
@@ -50,9 +41,6 @@ class ECKey
         return new self($data);
     }
 
-    /**
-     * @throws \Exception
-     */
     private static function loadPEM(string $data): array
     {
         $data = \base64_decode(\preg_replace('#-.*-|\r|\n#', '', $data), true);

@@ -22,20 +22,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class JWSCollector implements Collector
 {
-    /**
-     * @var JWSSerializerManagerFactory|null
-     */
     private $jwsSerializerManagerFactory;
 
-    /**
-     * JWSCollector constructor.
-     */
     public function __construct(?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null)
     {
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
+    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
     {
         $this->collectSupportedJWSSerializations($data);
         $this->collectSupportedJWSBuilders($data);
@@ -43,7 +37,7 @@ class JWSCollector implements Collector
         $this->collectSupportedJWSLoaders($data);
     }
 
-    private function collectSupportedJWSSerializations(array &$data)
+    private function collectSupportedJWSSerializations(array &$data): void
     {
         $data['jws']['jws_serialization'] = [];
         if (null === $this->jwsSerializerManagerFactory) {
@@ -55,7 +49,7 @@ class JWSCollector implements Collector
         }
     }
 
-    private function collectSupportedJWSBuilders(array &$data)
+    private function collectSupportedJWSBuilders(array &$data): void
     {
         $data['jws']['jws_builders'] = [];
         foreach ($this->jwsBuilders as $id => $jwsBuilder) {
@@ -65,7 +59,7 @@ class JWSCollector implements Collector
         }
     }
 
-    private function collectSupportedJWSVerifiers(array &$data)
+    private function collectSupportedJWSVerifiers(array &$data): void
     {
         $data['jws']['jws_verifiers'] = [];
         foreach ($this->jwsVerifiers as $id => $jwsVerifier) {
@@ -75,7 +69,7 @@ class JWSCollector implements Collector
         }
     }
 
-    private function collectSupportedJWSLoaders(array &$data)
+    private function collectSupportedJWSLoaders(array &$data): void
     {
         $data['jws']['jws_loaders'] = [];
         foreach ($this->jwsLoaders as $id => $jwsLoader) {
@@ -91,7 +85,7 @@ class JWSCollector implements Collector
      */
     private $jwsBuilders = [];
 
-    public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder)
+    public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder): void
     {
         $this->jwsBuilders[$id] = $jwsBuilder;
     }
@@ -101,7 +95,7 @@ class JWSCollector implements Collector
      */
     private $jwsVerifiers = [];
 
-    public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier)
+    public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier): void
     {
         $this->jwsVerifiers[$id] = $jwsVerifier;
     }
@@ -111,7 +105,7 @@ class JWSCollector implements Collector
      */
     private $jwsLoaders = [];
 
-    public function addJWSLoader(string $id, JWSLoader $jwsLoader)
+    public function addJWSLoader(string $id, JWSLoader $jwsLoader): void
     {
         $this->jwsLoaders[$id] = $jwsLoader;
     }

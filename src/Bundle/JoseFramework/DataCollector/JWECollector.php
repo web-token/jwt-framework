@@ -42,7 +42,7 @@ class JWECollector implements Collector
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
+    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
     {
         $this->collectSupportedCompressionMethods($data);
         $this->collectSupportedJWESerializations($data);
@@ -51,7 +51,7 @@ class JWECollector implements Collector
         $this->collectSupportedJWELoaders($data);
     }
 
-    private function collectSupportedCompressionMethods(array &$data)
+    private function collectSupportedCompressionMethods(array &$data): void
     {
         $data['jwe']['compression_methods'] = [];
         if (null === $this->compressionMethodManagerFactory) {
@@ -63,7 +63,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWESerializations(array &$data)
+    private function collectSupportedJWESerializations(array &$data): void
     {
         $data['jwe']['jwe_serialization'] = [];
         if (null === $this->jweSerializerManagerFactory) {
@@ -75,7 +75,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWEBuilders(array &$data)
+    private function collectSupportedJWEBuilders(array &$data): void
     {
         $data['jwe']['jwe_builders'] = [];
         foreach ($this->jweBuilders as $id => $jweBuilder) {
@@ -87,7 +87,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWEDecrypters(array &$data)
+    private function collectSupportedJWEDecrypters(array &$data): void
     {
         $data['jwe']['jwe_decrypters'] = [];
         foreach ($this->jweDecrypters as $id => $jweDecrypter) {
@@ -99,7 +99,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWELoaders(array &$data)
+    private function collectSupportedJWELoaders(array &$data): void
     {
         $data['jwe']['jwe_loaders'] = [];
         foreach ($this->jweLoaders as $id => $jweLoader) {
@@ -117,7 +117,7 @@ class JWECollector implements Collector
      */
     private $jweBuilders = [];
 
-    public function addJWEBuilder(string $id, JWEBuilder $jweBuilder)
+    public function addJWEBuilder(string $id, JWEBuilder $jweBuilder): void
     {
         $this->jweBuilders[$id] = $jweBuilder;
     }
@@ -127,7 +127,7 @@ class JWECollector implements Collector
      */
     private $jweDecrypters = [];
 
-    public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter)
+    public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter): void
     {
         $this->jweDecrypters[$id] = $jweDecrypter;
     }
@@ -137,8 +137,22 @@ class JWECollector implements Collector
      */
     private $jweLoaders = [];
 
-    public function addJWELoader(string $id, JWELoader $jweLoader)
+    public function addJWELoader(string $id, JWELoader $jweLoader): void
     {
         $this->jweLoaders[$id] = $jweLoader;
+    }
+
+    private function getCompressionMethodMessages(): array
+    {
+        return [
+            'GZ' => [
+                'severity' => 'severity-low',
+                'message' => 'This algorithm is described in any specification. Use for specific applications only.',
+            ],
+            'ZLIB' => [
+                'severity' => 'severity-low',
+                'message' => 'This algorithm is described in any specification. Use for specific applications only.',
+            ],
+        ];
     }
 }

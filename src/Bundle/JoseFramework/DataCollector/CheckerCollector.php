@@ -22,26 +22,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckerCollector implements Collector
 {
-    /**
-     * @var ClaimCheckerManagerFactory|null
-     */
     private $claimCheckerManagerFactory;
 
-    /**
-     * @var HeaderCheckerManagerFactory|null
-     */
     private $headerCheckerManagerFactory;
 
-    /**
-     * CheckerCollector constructor.
-     */
     public function __construct(?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null)
     {
         $this->claimCheckerManagerFactory = $claimCheckerManagerFactory;
         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
+    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
     {
         $this->collectHeaderCheckerManagers($data);
         $this->collectSupportedHeaderCheckers($data);
@@ -49,7 +40,7 @@ class CheckerCollector implements Collector
         $this->collectSupportedClaimCheckers($data);
     }
 
-    private function collectHeaderCheckerManagers(array &$data)
+    private function collectHeaderCheckerManagers(array &$data): void
     {
         $data['checker']['header_checker_managers'] = [];
         foreach ($this->headerCheckerManagers as $id => $checkerManager) {
@@ -63,7 +54,7 @@ class CheckerCollector implements Collector
         }
     }
 
-    private function collectSupportedHeaderCheckers(array &$data)
+    private function collectSupportedHeaderCheckers(array &$data): void
     {
         $data['checker']['header_checkers'] = [];
         if (null !== $this->headerCheckerManagerFactory) {
@@ -77,7 +68,7 @@ class CheckerCollector implements Collector
         }
     }
 
-    private function collectClaimCheckerManagers(array &$data)
+    private function collectClaimCheckerManagers(array &$data): void
     {
         $data['checker']['claim_checker_managers'] = [];
         foreach ($this->claimCheckerManagers as $id => $checkerManager) {
@@ -90,7 +81,7 @@ class CheckerCollector implements Collector
         }
     }
 
-    private function collectSupportedClaimCheckers(array &$data)
+    private function collectSupportedClaimCheckers(array &$data): void
     {
         $data['checker']['claim_checkers'] = [];
         if (null !== $this->claimCheckerManagerFactory) {
@@ -108,7 +99,7 @@ class CheckerCollector implements Collector
      */
     private $headerCheckerManagers = [];
 
-    public function addHeaderCheckerManager(string $id, HeaderCheckerManager $headerCheckerManager)
+    public function addHeaderCheckerManager(string $id, HeaderCheckerManager $headerCheckerManager): void
     {
         $this->headerCheckerManagers[$id] = $headerCheckerManager;
     }
@@ -118,7 +109,7 @@ class CheckerCollector implements Collector
      */
     private $claimCheckerManagers = [];
 
-    public function addClaimCheckerManager(string $id, ClaimCheckerManager $claimCheckerManager)
+    public function addClaimCheckerManager(string $id, ClaimCheckerManager $claimCheckerManager): void
     {
         $this->claimCheckerManagers[$id] = $claimCheckerManager;
     }

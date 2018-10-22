@@ -17,7 +17,7 @@ use Jose\Bundle\JoseFramework\Routing\JWKSetLoader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class KeySetControllerCompilerPass implements CompilerPassInterface
+final class KeySetControllerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

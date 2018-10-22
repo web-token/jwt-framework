@@ -50,7 +50,7 @@ abstract class AESCTR implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
-    private function checkKey(JWK $key)
+    private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -60,7 +60,7 @@ abstract class AESCTR implements KeyEncryption
         }
     }
 
-    private function checkHeaderAdditionalParameters(array $header)
+    private function checkHeaderAdditionalParameters(array $header): void
     {
         foreach (['iv'] as $k) {
             if (!\array_key_exists($k, $header)) {

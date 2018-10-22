@@ -18,19 +18,10 @@ use Jose\Component\Core\Converter\JsonConverter;
 
 class JWSBuilderFactory
 {
-    /**
-     * @var JsonConverter
-     */
     private $jsonEncoder;
 
-    /**
-     * @var AlgorithmManagerFactory
-     */
     private $signatureAlgorithmManagerFactory;
 
-    /**
-     * JWSBuilderFactory constructor.
-     */
     public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
     {
         $this->jsonEncoder = $jsonEncoder;
