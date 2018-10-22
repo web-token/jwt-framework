@@ -17,7 +17,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 use Symfony\Component\EventDispatcher\Event;
 
-final class JWELoadingSuccessEvent extends Event
+final class JWEDecryptionSuccessEvent extends Event
 {
     private $jwe;
 
@@ -25,24 +25,16 @@ final class JWELoadingSuccessEvent extends Event
 
     private $recipient;
 
-    private $token;
-
-    public function __construct(string $token, JWE $jwe, JWKSet $JWKSet, int $recipient)
+    public function __construct(JWE $jwe, JWKSet $JWKSet, int $recipient)
     {
         $this->jwe = $jwe;
         $this->JWKSet = $JWKSet;
         $this->recipient = $recipient;
-        $this->token = $token;
     }
 
     public function getJws(): JWE
     {
         return $this->jwe;
-    }
-
-    public function getToken(): string
-    {
-        return $this->token;
     }
 
     public function getJWKSet(): JWKSet

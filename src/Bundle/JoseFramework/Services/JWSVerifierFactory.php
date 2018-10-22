@@ -11,28 +11,27 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature;
+namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class JWSVerifierFactory
+final class JWSVerifierFactory
 {
+    private $eventDispatcher;
+
     private $algorithmManagerFactory;
 
-    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, EventDispatcherInterface $eventDispatcher)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
-    /**
-     * Creates a JWSVerifier using the given signature algorithm aliases.
-     *
-     * @param string[] $algorithms
-     */
     public function create(array $algorithms): JWSVerifier
     {
         $algorithmManager = $this->algorithmManagerFactory->create($algorithms);
 
-        return new JWSVerifier($algorithmManager);
+        return new JWSVerifier($algorithmManager, $this->eventDispatcher);
     }
 }

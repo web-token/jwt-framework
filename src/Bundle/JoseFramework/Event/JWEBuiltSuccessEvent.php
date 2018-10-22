@@ -13,20 +13,20 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Event;
 
-use Jose\Component\Signature\JWS;
+use Jose\Component\Encryption\JWE;
 use Symfony\Component\EventDispatcher\Event;
 
-final class JWSBuiltEvent extends Event
+final class JWEBuiltSuccessEvent extends Event
 {
-    private $jws;
+    private $jwe;
 
-    public function __construct(JWS $jws)
+    public function __construct(JWE $jwe)
     {
-        $this->jws = $jws;
+        $this->jwe = $jwe;
     }
 
-    public function getJws(): JWS
+    public function getJwe(): JWE
     {
-        return $this->jws;
+        return $this->jwe;
     }
 }

@@ -1,7 +1,12 @@
 <div class="tab">
-    <h3 class="tab-title">JWS Services</h3>
+    <h2 class="tab-title">JWS</h2>
     <div class="tab-content">
-        <h4>JWS Builders</h4>
+        <h3>JWS Builders</h3>
+        <p class="help">
+            The following table lists all JWS Builders declared as services in your application configuration
+            or using the Configuration Helper.<br>
+            Builders directly created through the JWS Builder Factory cannot be listed.
+        </p>
         <table>
             <thead>
             <tr>
@@ -31,7 +36,45 @@
             {% endfor %}
             </tbody>
         </table>
-        <h4>JWS Verifiers</h4>
+
+        <h4>Built Tokens</h4>
+        <p class="help">
+            The following tables list all tokens issued by the JWS Builders.
+        </p>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Success</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in collector.getData().jws.events.built_success %}
+                <tr>
+                    <td>{{ profiler_dump(event.jws) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Failure</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in collector.getData().jws.events.built_failure %}
+                <tr>
+                    <td>{{ profiler_dump(event.jws) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3>JWS Verifiers</h3>
+        <p class="help">
+            The following table lists all JWS Verifiers declared as services in your application configuration
+            or using the Configuration Helper.<br>
+            Verifiers directly created through the JWS Verifier Factory cannot be listed.
+        </p>
         <table>
             <thead>
             <tr>
@@ -60,7 +103,56 @@
             {% endfor %}
             </tbody>
         </table>
-        <h4>JWS Loaders</h4>
+
+        <h4>Verified Tokens</h4>
+        <p class="help">
+            The following tables list all tokens verified (or not) by the JWS Verifiers.<br>
+            Failure reason is related to the key(s) used.
+        </p>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Success</th>
+                <th scope="col">Key set</th>
+                <th scope="col">Signature index</th>
+                <th scope="col">Detached Payload (optional)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in collector.getData().jws.events.verification_success %}
+                <tr>
+                    <td>{{ profiler_dump(event.jws) }}</td>
+                    <td>{{ profiler_dump(event.JWKSet) }}</td>
+                    <td>{{ event.signature }}</td>
+                    <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.detachedPayload) }}{% else %}<i>none</i>{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Failure</th>
+                <th scope="col">Key set</th>
+                <th scope="col">Detached Payload (optional)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in collector.getData().jws.events.verification_failure %}
+                <tr>
+                    <td>{{ profiler_dump(event.jws) }}</td>
+                    <td>{{ profiler_dump(event.JWKSet) }}</td>
+                    <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.detachedPayload) }}{% else %}<i>none</i>{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3>JWS Loaders</h3>
+        <p class="help">
+            The following table lists all JWS Loaders declared as services in your application configuration
+            or using the Configuration Helper.<br>
+            Loaders directly created through the JWS Loader Factory cannot be listed.
+        </p>
         <table>
             <thead>
             <tr>
@@ -93,7 +185,7 @@
         </table>
         {% set signatureAlgorithms = collector.getData().algorithm.algorithms %}
         {% if signatureAlgorithms['Signature'] is defined %}
-            <h4>Available Signature Algorithms</h4>
+            <h3>Available Signature Algorithms</h3>
             <table>
                 <thead>
                 <tr>
@@ -122,7 +214,11 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <h4>Serialization Modes</h4>
+            <h3>Serialization Modes</h3>
+            <p class="help">
+                The serialization modes are used to convert a JWS object into a JSON object.<br>
+                The JWS Compact serialization mode is the most common as it allows tokens to be used in a web context.
+            </p>
             <table>
                 <thead>
                 <tr>

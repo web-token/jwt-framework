@@ -13,16 +13,25 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Event;
 
+use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 use Symfony\Component\EventDispatcher\Event;
 
-final class JWEBuiltEvent extends Event
+final class JWEDecryptionFailureEvent extends Event
 {
+    private $JWKSet;
+
     private $jwe;
 
-    public function __construct(JWE $jwe)
+    public function __construct(JWE $jwe, JWKSet $JWKSet)
     {
+        $this->JWKSet = $JWKSet;
         $this->jwe = $jwe;
+    }
+
+    public function getJWKSet(): JWKSet
+    {
+        return $this->JWKSet;
     }
 
     public function getJwe(): JWE

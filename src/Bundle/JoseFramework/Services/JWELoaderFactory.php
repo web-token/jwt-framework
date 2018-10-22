@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

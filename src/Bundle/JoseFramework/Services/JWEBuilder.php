@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\Events;
-use Jose\Bundle\JoseFramework\Event\JWEBuiltEvent;
+use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
@@ -35,7 +35,7 @@ final class JWEBuilder extends BaseJWEBuilder
     public function build(): JWE
     {
         $jws = parent::build();
-        $this->eventDispatcher->dispatch(Events::JWE_BUILT, new JWEBuiltEvent($jws));
+        $this->eventDispatcher->dispatch(Events::JWE_BUILT_SUCCESS, new JWEBuiltSuccessEvent($jws));
 
         return $jws;
     }

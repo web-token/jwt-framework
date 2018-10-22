@@ -15,11 +15,17 @@ namespace Jose\Bundle\JoseFramework\Event;
 
 final class Events
 {
-    public const JWS_BUILT = 'jws_built';
+    public const JWS_BUILT_SUCCESS = 'jws_built_success';
+    public const JWS_BUILT_FAILURE = 'jws_built_failure';
+    public const JWS_VERIFICATION_SUCCESS = 'jws_verification_success';
+    public const JWS_VERIFICATION_FAILURE = 'jws_verification_failure';
     public const JWS_LOADING_SUCCESS = 'jws_loading_success';
     public const JWS_LOADING_FAILURE = 'jws_loading_failure';
 
-    public const JWE_BUILT = 'jwe_built';
+    public const JWE_BUILT_SUCCESS = 'jwe_built_success';
+    public const JWE_BUILT_FAILURE = 'jwe_built_failure';
+    public const JWE_DECRYPTION_SUCCESS = 'jwe_decryption_success';
+    public const JWE_DECRYPTION_FAILURE = 'jwe_decryption_failure';
     public const JWE_LOADING_SUCCESS = 'jwe_loading_success';
     public const JWE_LOADING_FAILURE = 'jwe_loading_failure';
 
