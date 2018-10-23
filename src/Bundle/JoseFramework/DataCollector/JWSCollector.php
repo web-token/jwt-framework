@@ -150,7 +150,7 @@ class JWSCollector implements Collector, EventSubscriberInterface
             Events::JWS_VERIFICATION_FAILURE => ['catchJwsVerificationFailure'],
             Events::JWS_BUILT_SUCCESS => ['catchJwsBuiltSuccess'],
             Events::JWS_BUILT_FAILURE => ['catchJwsBuiltFailure'],
-            Events::JWS_LOADING_SUCCESS => ['catchJwsLoadingFailure'],
+            Events::JWS_LOADING_SUCCESS => ['catchJwsLoadingSuccess'],
             Events::JWS_LOADING_FAILURE => ['catchJwsLoadingFailure'],
         ];
     }

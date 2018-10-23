@@ -53,20 +53,22 @@
 
 {% block head %}
     {{ parent() }}
-
     <style>
         .severity-low {
-            background-color: yellow;
-            color: #000;
+            background: rgba(150, 151, 88, 0.3);
         }
         .severity-medium {
-            background-color: orange;
-            color: #000;
+            background: rgba(164, 106, 31, 0.3);
         }
         .severity-high {
-            background-color: #B0413E;
-            color: #FFF;
+            background: rgba(176, 65, 62, 0.2);
             font-weight: bold;
+        }
+        .no-severity {
+            background: rgba(94, 151, 110, 0.3);
+        }
+        .severity-low td, .severity-medium td, .severity-high td, .no-severity td {
+            background: transparent;
         }
     </style>
 {% endblock %}
