@@ -14,7 +14,7 @@
     <tbody>
     {%  if collector.getData().jws.jws_builders is empty %}
     <tr>
-        <td colspan="3"><i>No verifier</i></td>
+        <td colspan="2"><i>No verifier</i></td>
     </tr>
     {% else %}
     {% for id, data in collector.getData().jws.jws_verifiers %}
@@ -23,12 +23,8 @@
             <td>
                 <ul>
                     {% for algorithm in data.signature_algorithms %}
-                        <li>
-                            <span{% if algorithm in collector.getData().algorithm.messages|keys %}
-                                class="{{ collector.getData().algorithm.messages[algorithm]['severity'] }}"
-                                    {% endif %}>
-                                {{ algorithm }}
-                            </span>
+                        <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                            {{ algorithm }}
                         </li>
                     {% endfor %}
                 </ul>
@@ -47,37 +43,30 @@
 <table>
     <thead>
     <tr>
-        <th scope="col">Success</th>
+        <th scope="col">Status</th>
+        <th scope="col">JWS</th>
         <th scope="col">Key set</th>
-        <th scope="col">Signature index</th>
-        <th scope="col">Detached Payload (optional)</th>
+        <th scope="col" width="35%">Detached Payload (optional)</th>
+        <th scope="col">Signature index / Exception</th>
     </tr>
     </thead>
     <tbody>
     {% for event in collector.getData().jws.events.verification_success %}
-        <tr>
-            <td>{{ profiler_dump(event.jws) }}</td>
-            <td>{{ profiler_dump(event.JWKSet) }}</td>
+        <tr class="status-success">
+            <td>Success</td>
+            <td>{{ profiler_dump(event.seek("jws")) }}</td>
+            <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
+            <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.seek("detachedPayload")) }}{% else %}<i>none</i>{% endif %}</td>
             <td>{{ event.signature }}</td>
-            <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.detachedPayload) }}{% else %}<i>none</i>{% endif %}</td>
         </tr>
     {% endfor %}
-    </tbody>
-</table>
-<table>
-    <thead>
-    <tr>
-        <th scope="col">Failure</th>
-        <th scope="col">Key set</th>
-        <th scope="col">Detached Payload (optional)</th>
-    </tr>
-    </thead>
-    <tbody>
     {% for event in collector.getData().jws.events.verification_failure %}
-        <tr>
-            <td>{{ profiler_dump(event.jws) }}</td>
-            <td>{{ profiler_dump(event.JWKSet) }}</td>
-            <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.detachedPayload) }}{% else %}<i>none</i>{% endif %}</td>
+        <tr class="status-error">
+            <td>Failure</td>
+            <td>{{ profiler_dump(event.seek("jws")) }}</td>
+            <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
+            <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.seek("detachedPayload")) }}{% else %}<i>none</i>{% endif %}</td>
+            <td><i>none</i></td>
         </tr>
     {% endfor %}
     </tbody>

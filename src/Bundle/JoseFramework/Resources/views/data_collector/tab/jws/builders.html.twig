@@ -13,61 +13,50 @@
     </thead>
     <tbody>
     {%  if collector.getData().jws.jws_builders is empty %}
-    <tr>
-        <td colspan="3"><i>No builder</i></td>
-    </tr>
-    {% else %}
-    {% for id, data in collector.getData().jws.jws_builders %}
         <tr>
-            <td>{{ id }}</td>
-            <td>
-                <ul>
-                    {% for algorithm in data.signature_algorithms %}
-                        <li>
-                                    <span{% if algorithm in collector.getData().algorithm.messages|keys %}
-                                        class="{{ collector.getData().algorithm.messages[algorithm]['severity'] }}"
-                                            {% else %}
-                                            {% endif %}>
-                                        {{ algorithm }}
-                                    </span>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </td>
+            <td colspan="3"><i>No builder</i></td>
         </tr>
-    {% endfor %}
+    {% else %}
+        {% for id, data in collector.getData().jws.jws_builders %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.signature_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
     {% endif %}
     </tbody>
 </table>
 
 <h4>Built Tokens</h4>
 <p class="help">
-    The following tables list all tokens issued by the JWS Builders.
+    The following table list all tokens issued by the JWS Builders.
 </p>
 <table>
     <thead>
     <tr>
-        <th scope="col">Success</th>
+        <th scope="col">Status</th>
+        <th scope="col">Built Token</th>
     </tr>
     </thead>
     <tbody>
     {% for event in collector.getData().jws.events.built_success %}
-        <tr>
-            <td>{{ profiler_dump(event.jws) }}</td>
+        <tr class="status-success">
+            <td>Success</td>
+            <td>{{ profiler_dump(event.seek("jws")) }}</td>
         </tr>
     {% endfor %}
-    </tbody>
-</table>
-<table>
-    <thead>
-    <tr>
-        <th scope="col">Failure</th>
-    </tr>
-    </thead>
-    <tbody>
     {% for event in collector.getData().jws.events.built_failure %}
-        <tr>
-            <td>{{ profiler_dump(event.jws) }}</td>
+        <tr class="status-error">
+            <td>Failure</td>
+            <td>{{ profiler_dump(event.seek("jws")) }}</td>
         </tr>
     {% endfor %}
     </tbody>

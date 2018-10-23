@@ -19,6 +19,7 @@ use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class KeyCollector implements Collector
 {
@@ -39,10 +40,11 @@ class KeyCollector implements Collector
 
     private function collectJWK(array &$data): void
     {
+        $cloner = new VarCloner();
         $data['key']['jwk'] = [];
         foreach ($this->jwks as $id => $jwk) {
             $data['key']['jwk'][$id] = [
-                'jwk' => $jwk,
+                'jwk' => $cloner->cloneVar($jwk),
                 'analyze' => null === $this->jwkAnalyzerManager ? [] : $this->jwkAnalyzerManager->analyze($jwk),
             ];
         }
@@ -50,6 +52,7 @@ class KeyCollector implements Collector
 
     private function collectJWKSet(array &$data): void
     {
+        $cloner = new VarCloner();
         $data['key']['jwkset'] = [];
         foreach ($this->jwksets as $id => $jwkset) {
             $analyze = [];
@@ -63,7 +66,7 @@ class KeyCollector implements Collector
                 $analyzeJWKSet[$kid] = $this->jwksetAnalyzerManager->analyze($jwkset);
             }
             $data['key']['jwkset'][$id] = [
-                'jwkset' => $jwkset,
+                'jwkset' => $cloner->cloneVar($jwkset),
                 'analyze' => $analyze,
                 'analyze_jwkset' => $analyzeJWKSet,
             ];

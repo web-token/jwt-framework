@@ -31,53 +31,14 @@
                 <td>
                     <ul>
                         {% for algorithm in data.signature_algorithms %}
-                            <li><span{% if algorithm == 'none' %} class="severity-low"{% endif %}>{{ algorithm }}</span></li>
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
                         {% endfor %}
                     </ul>
                 </td>
             </tr>
         {% endfor %}
-    {% endif %}
-    </tbody>
-</table>
-
-<h4>Loaded Tokens</h4>
-<p class="help">
-    The following tables list all tokens loaded by the JWS Loaders.
-</p>
-<table>
-    <thead>
-    <tr>
-        <th scope="col">Status</th>
-        <th scope="col" width="45%">Token</th>
-        <th scope="col">Key Set</th>
-        <th scope="col">Loaded JWS</th>
-        <th scope="col">Signature</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% if not collector.getData().jws.events.loading_success is empty and not collector.getData().jws.events.loading_failure is empty %}
-        {% for event in collector.getData().jws.events.loading_success %}
-            <tr class="status-success">
-                <td>Success</td>
-                <td>{{ profiler_dump(event.seek('token')) }}</td>
-                <td>{{ profiler_dump(event.seek('JWKSet')) }}</td>
-                <td>{{ profiler_dump(event.seek('jws')) }}</td>
-                <td>{{ event.signature }}</td>
-            </tr>
-        {% endfor %}
-        {% for event in collector.getData().jws.events.loading_failure %}
-            <tr class="status-error">
-                <td>Failure</td>
-                <td>{{ profiler_dump(event.seek('token')) }}</td>
-                <td>{{ profiler_dump(event.seek('JWKSet')) }}</td>
-                <td colspan="2">{{ profiler_dump(event.seek('throwable')) }}</td>
-            </tr>
-        {% endfor %}
-    {% else %}
-        <tr>
-            <td colspan="5"><i>No data</i></td>
-        </tr>
     {% endif %}
     </tbody>
 </table>
