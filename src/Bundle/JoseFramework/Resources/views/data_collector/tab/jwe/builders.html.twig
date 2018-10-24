@@ -52,3 +52,30 @@
     {% endif %}
     </tbody>
 </table>
+
+<h4>Built Tokens</h4>
+<p class="help">
+    The following table list all tokens issued by the JWE Builders.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Built Token</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for event in collector.getData().jwe.events.built_success %}
+        <tr class="status-success">
+            <td>Success</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+        </tr>
+    {% endfor %}
+    {% for event in collector.getData().jwe.events.built_failure %}
+        <tr class="status-error">
+            <td>Failure</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

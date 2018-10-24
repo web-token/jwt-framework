@@ -52,3 +52,37 @@
     {% endif %}
     </tbody>
 </table>
+
+<h4>Decrypted Tokens</h4>
+<p class="help">
+    The following tables list all tokens decrypted (or not) by the JWE Decrypters.<br>
+    Failure reason is related to the key(s) used.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">JWE</th>
+        <th scope="col">Key set</th>
+        <th scope="col">Recipient index / Exception</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for event in collector.getData().jwe.events.decryption_success %}
+        <tr class="status-success">
+            <td>Success</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+            <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
+            <td>{{ event.recipient }}</td>
+        </tr>
+    {% endfor %}
+    {% for event in collector.getData().jwe.events.decryption_failure %}
+        <tr class="status-error">
+            <td>Failure</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+            <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
+            <td><i>none</i></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
