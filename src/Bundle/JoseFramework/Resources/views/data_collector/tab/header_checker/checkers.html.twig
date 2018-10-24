@@ -1,0 +1,29 @@
+<h3>Available Header Checkers</h3>
+<p class="help">
+    Each Header Checker will check a dedicated header parameter.<br>
+    Please note that the header "crit" (critical) is always checked.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Alias</th>
+        <th>Checked header</th>
+        <th>Is protected?</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().checker.header_checkers is empty %}
+        {% for alias, data in collector.getData().checker.header_checkers %}
+            <tr>
+                <td>{{ alias }}</td>
+                <td>{{ data.header }}</td>
+                <td>{% if data.protected %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="3">There is no registered header checker</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

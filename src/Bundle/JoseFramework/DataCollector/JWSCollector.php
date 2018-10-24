@@ -15,8 +15,6 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent;
-use Jose\Bundle\JoseFramework\Event\JWSLoadingFailureEvent;
-use Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWSVerificationFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent;
 use Jose\Component\Signature\JWSBuilder;
@@ -54,10 +52,6 @@ class JWSCollector implements Collector, EventSubscriberInterface
     private $jwsBuiltSuccesses = [];
 
     private $jwsBuiltFailures = [];
-
-    private $jwsLoadingSuccesses = [];
-
-    private $jwsLoadingFailures = [];
 
     public function __construct(?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null)
     {
@@ -121,8 +115,6 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $data['jws']['events'] = [
             'verification_success' => $this->jwsVerificationSuccesses,
             'verification_failure' => $this->jwsVerificationFailures,
-            'loading_success' => $this->jwsLoadingSuccesses,
-            'loading_failure' => $this->jwsLoadingFailures,
             'built_success' => $this->jwsBuiltSuccesses,
             'built_failure' => $this->jwsBuiltFailures,
         ];
@@ -150,50 +142,30 @@ class JWSCollector implements Collector, EventSubscriberInterface
             Events::JWS_VERIFICATION_FAILURE => ['catchJwsVerificationFailure'],
             Events::JWS_BUILT_SUCCESS => ['catchJwsBuiltSuccess'],
             Events::JWS_BUILT_FAILURE => ['catchJwsBuiltFailure'],
-            Events::JWS_LOADING_SUCCESS => ['catchJwsLoadingSuccess'],
-            Events::JWS_LOADING_FAILURE => ['catchJwsLoadingFailure'],
         ];
     }
 
     public function catchJwsVerificationSuccess(JWSVerificationSuccessEvent $event): void
     {
-
         $cloner = new VarCloner();
         $this->jwsVerificationSuccesses[] = $cloner->cloneVar($event);
     }
 
     public function catchJwsVerificationFailure(JWSVerificationFailureEvent $event): void
     {
-
         $cloner = new VarCloner();
         $this->jwsVerificationFailures[] = $cloner->cloneVar($event);
     }
 
     public function catchJwsBuiltSuccess(JWSBuiltSuccessEvent $event): void
     {
-
         $cloner = new VarCloner();
         $this->jwsBuiltSuccesses[] = $cloner->cloneVar($event);
     }
 
     public function catchJwsBuiltFailure(JWSBuiltFailureEvent $event): void
     {
-
         $cloner = new VarCloner();
         $this->jwsBuiltFailures[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJwsLoadingSuccess(JWSLoadingSuccessEvent $event): void
-    {
-
-        $cloner = new VarCloner();
-        $this->jwsLoadingSuccesses[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJwsLoadingFailure(JWSLoadingFailureEvent $event): void
-    {
-
-        $cloner = new VarCloner();
-        $this->jwsLoadingFailures[] = $cloner->cloneVar($event);
     }
 }

@@ -1,0 +1,26 @@
+<h3>Available Claim Checkers</h3>
+<p class="help">
+    Each Claim Checker will check a dedicated header parameter.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Alias</th>
+        <th>Checked claim</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().checker.claim_checkers is empty %}
+        {% for alias, data in collector.getData().checker.claim_checkers %}
+            <tr>
+                <td>{{ alias }}</td>
+                <td>{{ data.claim }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">There is no registered claim checker</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

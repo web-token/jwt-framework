@@ -13,29 +13,26 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Jose\Bundle\JoseFramework\Event\Events;
+use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
+use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
+use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWELoader;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 
-class JWECollector implements Collector
+class JWECollector implements Collector, EventSubscriberInterface
 {
-    /**
-     * @var JWESerializerManagerFactory|null
-     */
     private $jweSerializerManagerFactory;
 
-    /**
-     * @var CompressionMethodManagerFactory|null
-     */
     private $compressionMethodManagerFactory;
 
-    /**
-     * JWECollector constructor.
-     */
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
     {
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
@@ -147,12 +144,46 @@ class JWECollector implements Collector
         return [
             'GZ' => [
                 'severity' => 'severity-low',
-                'message' => 'This algorithm is described in any specification. Use for specific applications only.',
+                'message' => 'This algorithm is not described in any specification. Use for specific applications only.',
             ],
             'ZLIB' => [
                 'severity' => 'severity-low',
-                'message' => 'This algorithm is described in any specification. Use for specific applications only.',
+                'message' => 'This algorithm is not described in any specification. Use for specific applications only.',
             ],
         ];
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::JWE_DECRYPTION_SUCCESS => ['catchJweDecryptionSuccess'],
+            Events::JWE_DECRYPTION_FAILURE => ['catchJweDecryptionFailure'],
+            Events::JWE_BUILT_SUCCESS => ['catchJweBuiltSuccess'],
+            Events::JWE_BUILT_FAILURE => ['catchJweBuiltFailure'],
+        ];
+    }
+
+    public function catchJweDecryptionSuccess(JWEDecryptionSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweDecryptionSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweDecryptionFailure(JWEDecryptionFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweDecryptionFailures[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweBuiltSuccess(JWEBuiltSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweBuiltSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweBuiltFailure(JWEBuiltFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweBuiltFailures[] = $cloner->cloneVar($event);
     }
 }
