@@ -33,6 +33,11 @@ class JWECollector implements Collector, EventSubscriberInterface
 
     private $compressionMethodManagerFactory;
 
+    private $jweDecryptionSuccesses = [];
+    private $jweDecryptionFailures = [];
+    private $jweBuiltSuccesses = [];
+    private $jweBuiltFailures = [];
+
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
     {
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
@@ -46,6 +51,7 @@ class JWECollector implements Collector, EventSubscriberInterface
         $this->collectSupportedJWEBuilders($data);
         $this->collectSupportedJWEDecrypters($data);
         $this->collectSupportedJWELoaders($data);
+        $this->collectEvents($data);
     }
 
     private function collectSupportedCompressionMethods(array &$data): void
@@ -107,6 +113,16 @@ class JWECollector implements Collector, EventSubscriberInterface
                 'compression_methods' => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
             ];
         }
+    }
+
+    private function collectEvents(array &$data): void
+    {
+        $data['jwe']['events'] = [
+            'decryption_success' => $this->jweDecryptionSuccesses,
+            'decryption_failure' => $this->jweDecryptionFailures,
+            'built_success' => $this->jweBuiltSuccesses,
+            'built_failure' => $this->jweBuiltFailures,
+        ];
     }
 
     /**
