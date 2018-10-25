@@ -25,14 +25,10 @@ class AlgorithmManagerFactory
      *
      * Each algorithm is identified by an alias hence it is allowed to have the same algorithm twice (or more).
      * This can be helpful when an algorithm have several configuration options.
-     *
-     * @return AlgorithmManagerFactory
      */
-    public function add(string $alias, Algorithm $algorithm): self
+    public function add(string $alias, Algorithm $algorithm): void
     {
         $this->algorithms[$alias] = $algorithm;
-
-        return $this;
     }
 
     /**
@@ -72,6 +68,6 @@ class AlgorithmManagerFactory
             }
         }
 
-        return AlgorithmManager::create($algorithms);
+        return new AlgorithmManager($algorithms);
     }
 }

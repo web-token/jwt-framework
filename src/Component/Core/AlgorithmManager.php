@@ -21,27 +21,13 @@ class AlgorithmManager
     private $algorithms = [];
 
     /**
-     * AlgorithmManager constructor.
-     *
      * @param Algorithm[] $algorithms
      */
-    private function __construct(array $algorithms)
+    public function __construct(array $algorithms)
     {
         foreach ($algorithms as $algorithm) {
             $this->add($algorithm);
         }
-    }
-
-    /**
-     * This method creates an alogithm manager using the given algorithms.
-     *
-     * @param Algorithm[] $algorithms
-     *
-     * @return AlgorithmManager
-     */
-    public static function create(array $algorithms): self
-    {
-        return new self($algorithms);
     }
 
     /**
@@ -83,11 +69,9 @@ class AlgorithmManager
      *
      * @return AlgorithmManager
      */
-    private function add(Algorithm $algorithm): self
+    private function add(Algorithm $algorithm): void
     {
         $name = $algorithm->name();
         $this->algorithms[$name] = $algorithm;
-
-        return $this;
     }
 }

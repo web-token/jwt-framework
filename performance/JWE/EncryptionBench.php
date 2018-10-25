@@ -44,7 +44,7 @@ abstract class EncryptionBench
     public function init()
     {
         $this->jsonConverter = new StandardConverter();
-        $this->keyEncryptionAlgorithmsManager = AlgorithmManager::create([
+        $this->keyEncryptionAlgorithmsManager = new AlgorithmManager([
             new KeyEncryption\A128KW(),
             new KeyEncryption\A192KW(),
             new KeyEncryption\A256KW(),
@@ -63,7 +63,7 @@ abstract class EncryptionBench
             new KeyEncryption\RSAOAEP(),
             new KeyEncryption\RSAOAEP256(),
         ]);
-        $this->contentEncryptionAlgorithmsManager = AlgorithmManager::create([
+        $this->contentEncryptionAlgorithmsManager = new AlgorithmManager([
             new ContentEncryption\A128CBCHS256(),
             new ContentEncryption\A192CBCHS384(),
             new ContentEncryption\A256CBCHS512(),
@@ -71,12 +71,12 @@ abstract class EncryptionBench
             new ContentEncryption\A192GCM(),
             new ContentEncryption\A256GCM(),
         ]);
-        $this->compressionMethodsManager = CompressionMethodManager::create([
+        $this->compressionMethodsManager = new CompressionMethodManager([
             new Compression\Deflate(),
             new Compression\GZip(),
             new Compression\ZLib(),
         ]);
-        $this->serializerManager = JWESerializerManager::create([
+        $this->serializerManager = new JWESerializerManager([
             new CompactSerializer($this->jsonConverter),
             new JSONFlattenedSerializer($this->jsonConverter),
             new JSONGeneralSerializer($this->jsonConverter),

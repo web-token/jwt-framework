@@ -87,7 +87,7 @@ class Curve
         }
         $point = $this->getPoint($x, $y);
 
-        return PublicKey::create($point);
+        return new PublicKey($point);
     }
 
     public function contains(\GMP $x, \GMP $y): bool
@@ -258,7 +258,7 @@ class Curve
     {
         $point = $this->mul($this->generator, $privateKey->getSecret());
 
-        return PublicKey::create($point);
+        return new PublicKey($point);
     }
 
     private function generate(): \GMP

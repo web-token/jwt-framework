@@ -36,7 +36,7 @@ final class ClaimCheckerManagerTest extends TestCase
             'aud' => $checkers[0],
         ];
 
-        $sut = ClaimCheckerManager::create($checkers);
+        $sut = new ClaimCheckerManager($checkers);
 
         static::assertEquals(
             $expectedCheckers,

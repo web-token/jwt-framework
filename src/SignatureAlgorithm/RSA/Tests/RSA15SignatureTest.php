@@ -66,10 +66,10 @@ class RSA15SignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new RS256()])
+            new AlgorithmManager([new RS256()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new RS256()])
+            new AlgorithmManager([new RS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
             new StandardConverter()

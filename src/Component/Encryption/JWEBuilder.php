@@ -280,7 +280,7 @@ class JWEBuilder
 
         list($ciphertext, $iv, $tag) = $this->encryptJWE($cek, $encodedSharedProtectedHeader);
 
-        return JWE::create($ciphertext, $iv, $tag, $this->aad, $this->sharedHeader, $sharedProtectedHeader, $encodedSharedProtectedHeader, $recipients);
+        return new JWE($ciphertext, $iv, $tag, $this->aad, $this->sharedHeader, $sharedProtectedHeader, $encodedSharedProtectedHeader, $recipients);
     }
 
     private function checkAndSetContentEncryptionAlgorithm(array $completeHeader): void
@@ -305,7 +305,7 @@ class JWEBuilder
             $additionalHeader = [];
         }
 
-        return Recipient::create($recipientHeader, $encryptedContentEncryptionKey);
+        return new Recipient($recipientHeader, $encryptedContentEncryptionKey);
     }
 
     private function encryptJWE(string $cek, string $encodedSharedProtectedHeader): array

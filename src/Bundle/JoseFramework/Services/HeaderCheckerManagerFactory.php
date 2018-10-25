@@ -11,10 +11,16 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Checker;
+namespace Jose\Bundle\JoseFramework\Services;
 
-class HeaderCheckerManagerFactory
+use Jose\Component\Checker\HeaderChecker;
+use Jose\Component\Checker\TokenTypeSupport;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+final class HeaderCheckerManagerFactory
 {
+    private $eventDispatcher;
+
     /**
      * @var HeaderChecker[]
      */
@@ -24,6 +30,11 @@ class HeaderCheckerManagerFactory
      * @var TokenTypeSupport[]
      */
     private $tokenTypes = [];
+
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     /**
      * This method creates a Header Checker Manager and populate it with the header parameter checkers found based on the alias.
@@ -42,7 +53,7 @@ class HeaderCheckerManagerFactory
             }
         }
 
-        return new HeaderCheckerManager($checkers, $this->tokenTypes);
+        return new HeaderCheckerManager($checkers, $this->tokenTypes, $this->eventDispatcher);
     }
 
     /**

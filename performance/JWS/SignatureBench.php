@@ -39,7 +39,7 @@ abstract class SignatureBench
     public function init()
     {
         $this->jsonConverter = new StandardConverter();
-        $this->signatureAlgorithmsManager = AlgorithmManager::create([
+        $this->signatureAlgorithmsManager = new AlgorithmManager([
             new Algorithm\HS256(),
             new Algorithm\HS384(),
             new Algorithm\HS512(),
@@ -55,7 +55,7 @@ abstract class SignatureBench
             new Algorithm\None(),
             new Algorithm\EdDSA(),
         ]);
-        $this->serializerManager = JWSSerializerManager::create([
+        $this->serializerManager = new JWSSerializerManager([
             new CompactSerializer($this->jsonConverter),
             new JSONFlattenedSerializer($this->jsonConverter),
             new JSONGeneralSerializer($this->jsonConverter),

@@ -71,10 +71,10 @@ class RSAPSSSignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new PS384()])
+            new AlgorithmManager([new PS384()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new PS384()])
+            new AlgorithmManager([new PS384()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
             new StandardConverter()

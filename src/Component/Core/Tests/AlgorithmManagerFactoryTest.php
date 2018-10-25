@@ -47,7 +47,7 @@ class AlgorithmManagerFactoryTest extends TestCase
      */
     public function iCannotCreateAnAlgorithmManagerWithABadArgument()
     {
-        AlgorithmManager::create(['foo']);
+        new AlgorithmManager(['foo']);
     }
 
     /**
@@ -57,7 +57,7 @@ class AlgorithmManagerFactoryTest extends TestCase
      */
     public function iCannotGetAnAlgorithmThatDoesNotExist()
     {
-        $manager = AlgorithmManager::create([new FooAlgorithm()]);
+        $manager = new AlgorithmManager([new FooAlgorithm()]);
 
         static::assertEquals(['foo'], $manager->list());
         static::assertTrue($manager->has('foo'));

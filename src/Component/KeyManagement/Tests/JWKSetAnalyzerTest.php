@@ -122,10 +122,8 @@ class JWKSetAnalyzerTest extends TestCase
     {
         if (null === $this->keysetAnalyzerManager) {
             $this->keysetAnalyzerManager = new Analyzer\KeysetAnalyzerManager();
-            $this->keysetAnalyzerManager
-                ->add(new Analyzer\MixedPublicAndPrivateKeys())
-                ->add(new Analyzer\MixedKeyTypes())
-            ;
+            $this->keysetAnalyzerManager->add(new Analyzer\MixedPublicAndPrivateKeys());
+            $this->keysetAnalyzerManager->add(new Analyzer\MixedKeyTypes());
         }
 
         return $this->keysetAnalyzerManager;

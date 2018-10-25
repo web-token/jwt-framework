@@ -71,13 +71,12 @@ class JWKAnalyzerTest extends TestCase
     {
         if (null === $this->keyAnalyzerManager) {
             $this->keyAnalyzerManager = new Analyzer\KeyAnalyzerManager();
-            $this->keyAnalyzerManager
-                ->add(new Analyzer\AlgorithmAnalyzer())
-                ->add(new Analyzer\KeyIdentifierAnalyzer())
-                ->add(new Analyzer\NoneAnalyzer())
-                ->add(new Analyzer\OctAnalyzer())
-                ->add(new Analyzer\RsaAnalyzer())
-                ->add(new Analyzer\UsageAnalyzer());
+            $this->keyAnalyzerManager->add(new Analyzer\AlgorithmAnalyzer());
+            $this->keyAnalyzerManager->add(new Analyzer\KeyIdentifierAnalyzer());
+            $this->keyAnalyzerManager->add(new Analyzer\NoneAnalyzer());
+            $this->keyAnalyzerManager->add(new Analyzer\OctAnalyzer());
+            $this->keyAnalyzerManager->add(new Analyzer\RsaAnalyzer());
+            $this->keyAnalyzerManager->add(new Analyzer\UsageAnalyzer());
         }
 
         return $this->keyAnalyzerManager;

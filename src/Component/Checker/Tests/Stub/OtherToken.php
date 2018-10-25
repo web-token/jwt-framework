@@ -17,34 +17,17 @@ use Jose\Component\Core\JWT;
 
 class OtherToken implements JWT
 {
-    /**
-     * @var null|string
-     */
     private $payload;
 
-    /**
-     * @var array
-     */
     private $protectedHeader;
 
-    /**
-     * @var array
-     */
     private $unprotectedHeader;
 
-    /**
-     * Token constructor.
-     */
-    private function __construct(?string $payload, array $protectedHeader, array $unprotectedHeader)
+    public function __construct(?string $payload, array $protectedHeader, array $unprotectedHeader)
     {
         $this->payload = $payload;
         $this->protectedHeader = $protectedHeader;
         $this->unprotectedHeader = $unprotectedHeader;
-    }
-
-    public static function create(?string $payload, array $protectedHeader = [], array $unprotectedHeader = []): self
-    {
-        return new self($payload, $protectedHeader, $unprotectedHeader);
     }
 
     public function getPayload(): ?string

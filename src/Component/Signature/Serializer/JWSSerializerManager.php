@@ -23,35 +23,18 @@ class JWSSerializerManager
     private $serializers = [];
 
     /**
-     * JWSSerializerManager constructor.
-     *
      * @param JWSSerializer[] $serializers
      */
-    private function __construct(array $serializers)
+    public function __construct(array $serializers)
     {
         foreach ($serializers as $serializer) {
             $this->add($serializer);
         }
     }
 
-    /**
-     * @param JWSSerializer[] $serializers
-     *
-     * @return JWSSerializerManager
-     */
-    public static function create(array $serializers): self
-    {
-        return new self($serializers);
-    }
-
-    /**
-     * @return JWSSerializerManager
-     */
-    private function add(JWSSerializer $serializer): self
+    private function add(JWSSerializer $serializer): void
     {
         $this->serializers[$serializer->name()] = $serializer;
-
-        return $this;
     }
 
     /**

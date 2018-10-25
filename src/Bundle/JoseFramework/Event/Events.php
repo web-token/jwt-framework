@@ -32,4 +32,10 @@ final class Events
     public const NESTED_TOKEN_ISSUED = 'nested_token_issued';
     public const NESTED_TOKEN_LOADING_SUCCESS = 'nested_token_loading_success';
     public const NESTED_TOKEN_LOADING_FAILURE = 'nested_token_loading_failure';
+
+    public const HEADER_CHECK_SUCCESS = 'header_check_success';
+    public const HEADER_CHECK_FAILURE = 'header_check_failure';
+
+    public const CLAIM_CHECK_SUCCESS = 'claim_check_success';
+    public const CLAIM_CHECK_FAILURE = 'laim_check_failure';
 }

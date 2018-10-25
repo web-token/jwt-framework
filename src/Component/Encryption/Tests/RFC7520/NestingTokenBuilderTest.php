@@ -183,10 +183,9 @@ class NestingTokenBuilderTest extends TestCase
     {
         if (null === $this->algorithmManagerFactory) {
             $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory
-                ->add('A128GCM', new A128GCM())
-                ->add('RSA-OAEP', new RSAOAEP())
-                ->add('PS256', new PS256());
+            $this->algorithmManagerFactory->add('A128GCM', new A128GCM());
+            $this->algorithmManagerFactory->add('RSA-OAEP', new RSAOAEP());
+            $this->algorithmManagerFactory->add('PS256', new PS256());
         }
 
         return $this->algorithmManagerFactory;
@@ -201,10 +200,9 @@ class NestingTokenBuilderTest extends TestCase
     {
         if (null === $this->compressionMethodManagerFactory) {
             $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
-            $this->compressionMethodManagerFactory
-                ->add('DEF', new Compression\Deflate())
-                ->add('ZLIB', new Compression\ZLib())
-                ->add('GZ', new Compression\GZip());
+            $this->compressionMethodManagerFactory->add('DEF', new Compression\Deflate());
+            $this->compressionMethodManagerFactory->add('ZLIB', new Compression\ZLib());
+            $this->compressionMethodManagerFactory->add('GZ', new Compression\GZip());
         }
 
         return $this->compressionMethodManagerFactory;

@@ -43,10 +43,10 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([$algorithm])
+            new AlgorithmManager([$algorithm])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([$algorithm])
+            new AlgorithmManager([$algorithm])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()

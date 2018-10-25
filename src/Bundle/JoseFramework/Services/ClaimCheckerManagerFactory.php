@@ -11,14 +11,24 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Checker;
+namespace Jose\Bundle\JoseFramework\Services;
 
-class ClaimCheckerManagerFactory
+use Jose\Component\Checker\ClaimChecker;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+final class ClaimCheckerManagerFactory
 {
+    private $eventDispatcher;
+
     /**
      * @var ClaimChecker[]
      */
     private $checkers = [];
+
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     /**
      * This method creates a Claim Checker Manager and populate it with the claim checkers found based on the alias.
@@ -37,13 +47,11 @@ class ClaimCheckerManagerFactory
             }
         }
 
-        return new ClaimCheckerManager($checkers);
+        return new ClaimCheckerManager($checkers, $this->eventDispatcher);
     }
 
     /**
      * This method adds a claim checker to this factory.
-     *
-     * @return ClaimCheckerManagerFactory
      */
     public function add(string $alias, ClaimChecker $checker): void
     {

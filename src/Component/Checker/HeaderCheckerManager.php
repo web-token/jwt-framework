@@ -33,7 +33,7 @@ class HeaderCheckerManager
      * @param HeaderChecker[]    $checkers
      * @param TokenTypeSupport[] $tokenTypes
      */
-    private function __construct(array $checkers, array $tokenTypes)
+    public function __construct(array $checkers, array $tokenTypes)
     {
         foreach ($checkers as $checker) {
             $this->add($checker);
@@ -41,22 +41,6 @@ class HeaderCheckerManager
         foreach ($tokenTypes as $tokenType) {
             $this->addTokenTypeSupport($tokenType);
         }
-    }
-
-    /**
-     * This method creates the HeaderCheckerManager.
-     * The first argument is a list of header parameter checkers objects.
-     * The second argument is a list of token type support objects.
-     * It is recommended to support only one token type per manager.
-     *
-     * @param HeaderChecker[]    $checkers
-     * @param TokenTypeSupport[] $tokenTypes
-     *
-     * @return HeaderCheckerManager
-     */
-    public static function create(array $checkers, array $tokenTypes): self
-    {
-        return new self($checkers, $tokenTypes);
     }
 
     /**
@@ -72,22 +56,18 @@ class HeaderCheckerManager
     /**
      * @return HeaderCheckerManager
      */
-    private function addTokenTypeSupport(TokenTypeSupport $tokenType): self
+    private function addTokenTypeSupport(TokenTypeSupport $tokenType): void
     {
         $this->tokenTypes[] = $tokenType;
-
-        return $this;
     }
 
     /**
      * @return HeaderCheckerManager
      */
-    private function add(HeaderChecker $checker): self
+    private function add(HeaderChecker $checker): void
     {
         $header = $checker->supportedHeader();
         $this->checkers[$header] = $checker;
-
-        return $this;
     }
 
     /**
@@ -97,7 +77,7 @@ class HeaderCheckerManager
      *
      * @param string[] $mandatoryHeaderParameters
      */
-    public function check(JWT $jwt, int $index, array $mandatoryHeaderParameters = [])
+    public function check(JWT $jwt, int $index, array $mandatoryHeaderParameters = []): void
     {
         foreach ($this->tokenTypes as $tokenType) {
             if ($tokenType->supports($jwt)) {
@@ -115,7 +95,7 @@ class HeaderCheckerManager
         throw new \InvalidArgumentException('Unsupported token type.');
     }
 
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2)
+    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = \array_intersect_key($header1, $header2);
         if (!empty($inter)) {
@@ -126,7 +106,7 @@ class HeaderCheckerManager
     /**
      * @param string[] $mandatoryHeaderParameters
      */
-    private function checkMandatoryHeaderParameters(array $mandatoryHeaderParameters, array $protected, array $unprotected)
+    private function checkMandatoryHeaderParameters(array $mandatoryHeaderParameters, array $protected, array $unprotected): void
     {
         if (empty($mandatoryHeaderParameters)) {
             return;

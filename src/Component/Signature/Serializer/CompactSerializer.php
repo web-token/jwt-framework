@@ -86,7 +86,7 @@ final class CompactSerializer extends Serializer
             }
             $signature = Base64Url::decode($parts[2]);
 
-            $jws = JWS::create($payload, $encodedPayload, empty($parts[1]));
+            $jws = new JWS($payload, $encodedPayload, empty($parts[1]));
             $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
 
             return $jws;
