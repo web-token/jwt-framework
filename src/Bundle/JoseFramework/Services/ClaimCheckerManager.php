@@ -34,14 +34,14 @@ final class ClaimCheckerManager extends BaseClaimCheckerManager
         try {
             $checkedClaims = BaseClaimCheckerManager::check($claims, $mandatoryClaims);
             $this->eventDispatcher->dispatch(
-                Events::HEADER_CHECK_SUCCESS,
+                Events::CLAIM_CHECK_SUCCESS,
                 new ClaimCheckedSuccessEvent($claims, $mandatoryClaims, $checkedClaims)
             );
 
             return $checkedClaims;
         } catch (\Throwable $throwable) {
             $this->eventDispatcher->dispatch(
-                Events::HEADER_CHECK_SUCCESS,
+                Events::CLAIM_CHECK_FAILURE,
                 new ClaimCheckedFailureEvent($claims, $mandatoryClaims, $throwable)
             );
 
