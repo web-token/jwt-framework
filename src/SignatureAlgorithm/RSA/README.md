@@ -8,7 +8,7 @@ You should go to [the main repository](https://github.com/web-token/jwt-framewor
 
 # Documentation
 
-The official documentation is available as https://web-token.spomky-labs.com/ 
+The official documentation is available as https://web-token.spomky-labs.com/
 
 # Licence
 

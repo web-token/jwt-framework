@@ -1,12 +1,6 @@
 PHP JWT Framework
 =================
 
-If you really love that project, then you can help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/Spomky-Labs/jose/badge.svg?style=beer-square)](https://beerpay.io/Spomky-Labs/jose)  [![Beerpay](https://beerpay.io/Spomky-Labs/jose/make-wish.svg?style=flat-square)](https://beerpay.io/Spomky-Labs/jose?focus=wish)
-
---- 
-
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/web-token/jwt-framework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/web-token/jwt-framework/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg?branch=master)](https://coveralls.io/github/web-token/jwt-framework?branch=master)
 
@@ -19,13 +13,17 @@ If you really love that project, then you can help me out for a couple of :beers
 [![Latest Unstable Version](https://poser.pugx.org/web-token/jwt-framework/v/unstable.png)](https://packagist.org/packages/web-token/jwt-framework)
 [![License](https://poser.pugx.org/web-token/jwt-framework/license.png)](https://packagist.org/packages/web-token/jwt-framework)
 
-# The Release Process
-
-The release process [is described here](https://github.com/web-token/jwt-doc/Release.md).
-
 # Documentation
 
 The official documentation is available as https://web-token.spomky-labs.com/
+
+# Support
+
+I bring solutions to your problems and answer your questions.
+
+If you really love that project and the work I have done or if you want I prioritize your issues, then you can help me out for a couple of :beers: or more!
+
+[![Become a Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/FlorentMorselli)
 
 # Contributing
 
