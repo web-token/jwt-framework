@@ -280,9 +280,9 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function createRSAKey384Bits()
+    public function createRSAKey512Bits()
     {
-        $jwk = JWKFactory::createRSAKey(384);
+        $jwk = JWKFactory::createRSAKey(512);
 
         static::assertEquals('RSA', $jwk->get('kty'));
         static::assertTrue($jwk->has('p'));

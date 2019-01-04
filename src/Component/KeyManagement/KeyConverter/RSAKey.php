@@ -38,36 +38,8 @@ class RSAKey
     /**
      * @return RSAKey
      */
-    public static function createFromPEM(string $pem): self
+    public static function createFromKeyDetails(array $details): self
     {
-        $data = self::loadPEM($pem);
-
-        return new self($data);
-    }
-
-    /**
-     * @return RSAKey
-     */
-    public static function createFromJWK(JWK $jwk): self
-    {
-        return new self($jwk->all());
-    }
-
-    private static function loadPEM(string $data): array
-    {
-        $res = \openssl_pkey_get_private($data);
-        if (false === $res) {
-            $res = \openssl_pkey_get_public($data);
-        }
-        if (false === $res) {
-            throw new \InvalidArgumentException('Unable to load the key.');
-        }
-
-        $details = \openssl_pkey_get_details($res);
-        if (!\array_key_exists('rsa', $details)) {
-            throw new \InvalidArgumentException('Unable to load the key.');
-        }
-
         $values = ['kty' => 'RSA'];
         $keys = [
             'n' => 'n',
@@ -79,14 +51,44 @@ class RSAKey
             'dq' => 'dmq1',
             'qi' => 'iqmp',
         ];
-        foreach ($details['rsa'] as $key => $value) {
+        foreach ($details as $key => $value) {
             if (\in_array($key, $keys, true)) {
                 $value = Base64Url::encode($value);
                 $values[\array_search($key, $keys, true)] = $value;
             }
         }
 
-        return $values;
+        return new self($values);
+    }
+
+    /**
+     * @return RSAKey
+     */
+    public static function createFromPEM(string $pem): self
+    {
+        $res = \openssl_pkey_get_private($pem);
+        if (false === $res) {
+            $res = \openssl_pkey_get_public($pem);
+        }
+        if (false === $res) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
+
+        $details = \openssl_pkey_get_details($res);
+        \openssl_free_key($res);
+        if (!\array_key_exists('rsa', $details)) {
+            throw new \InvalidArgumentException('Unable to load the key.');
+        }
+
+        return self::createFromKeyDetails($details['rsa']);
+    }
+
+    /**
+     * @return RSAKey
+     */
+    public static function createFromJWK(JWK $jwk): self
+    {
+        return new self($jwk->all());
     }
 
     public function isPublic(): bool
