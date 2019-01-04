@@ -36,8 +36,8 @@ class JWSTest extends SignatureTest
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(\json_encode($header)));
+        $jws = new JWS(\json_encode($claims), \json_encode($claims));
+        $jws = $jws->addSignature('', $header, Base64Url::encode(\json_encode($header)));
 
         static::assertEquals(\json_encode($claims), $jws->getPayload());
         static::assertEquals(1, $jws->countSignatures());
@@ -63,7 +63,7 @@ class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = JWS::create(\json_encode($claims), \json_encode($claims));
+        $jws = new JWS(\json_encode($claims), \json_encode($claims));
         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
     }
 
@@ -83,7 +83,7 @@ class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = JWS::create(\json_encode($claims), \json_encode($claims));
+        $jws = new JWS(\json_encode($claims), \json_encode($claims));
         $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
     }
 
@@ -103,7 +103,7 @@ class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = JWS::create(\json_encode($claims), \json_encode($claims));
+        $jws = new JWS(\json_encode($claims), \json_encode($claims));
         $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0);
     }
 
@@ -124,8 +124,8 @@ class JWSTest extends SignatureTest
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(\json_encode($header)), ['foo' => 'bar']);
+        $jws = new JWS(\json_encode($claims), \json_encode($claims));
+        $jws = $jws->addSignature('', $header, Base64Url::encode(\json_encode($header)), ['foo' => 'bar']);
 
         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
     }
@@ -147,8 +147,8 @@ class JWSTest extends SignatureTest
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(\json_encode($header)));
+        $jws = new JWS(\json_encode($claims), \json_encode($claims));
+        $jws = $jws->addSignature('', $header, Base64Url::encode(\json_encode($header)));
         $jws->getSignature(0)->getHeaderParameter('foo');
     }
 
@@ -169,8 +169,8 @@ class JWSTest extends SignatureTest
             'sub' => 'My friend',
         ];
         $header = ['alg' => 'none'];
-        $jws = JWS::create(\json_encode($claims), \json_encode($claims))
-            ->addSignature('', $header, Base64Url::encode(\json_encode($header)));
+        $jws = new JWS(\json_encode($claims), \json_encode($claims));
+        $jws = $jws->addSignature('', $header, Base64Url::encode(\json_encode($header)));
         $jws->getSignature(0)->getProtectedHeaderParameter('foo');
     }
 }

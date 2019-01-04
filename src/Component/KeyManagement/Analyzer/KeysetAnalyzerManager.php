@@ -24,14 +24,10 @@ class KeysetAnalyzerManager
 
     /**
      * Adds a Keyset Analyzer to the manager.
-     *
-     * @return KeysetAnalyzerManager
      */
-    public function add(KeysetAnalyzer $analyzer): self
+    public function add(KeysetAnalyzer $analyzer): void
     {
         $this->analyzers[] = $analyzer;
-
-        return $this;
     }
 
     /**

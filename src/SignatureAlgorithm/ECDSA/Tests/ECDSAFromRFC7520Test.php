@@ -67,10 +67,10 @@ class ECDSAFromRFC7520Test extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new ES512()])
+            new AlgorithmManager([new ES512()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new ES512()])
+            new AlgorithmManager([new ES512()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
             new StandardConverter()

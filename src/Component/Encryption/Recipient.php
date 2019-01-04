@@ -18,34 +18,14 @@ namespace Jose\Component\Encryption;
  */
 class Recipient
 {
-    /**
-     * @var array
-     */
     private $header = [];
 
-    /**
-     * @var null|string
-     */
     private $encryptedKey = null;
 
-    /**
-     * Recipient constructor.
-     */
-    private function __construct(array $header, ?string $encryptedKey)
+    public function __construct(array $header, ?string $encryptedKey)
     {
         $this->header = $header;
         $this->encryptedKey = $encryptedKey;
-    }
-
-    /**
-     * Creates a recipient.
-     * The creation of this object is meant to be used by the library, not by third party applications.
-     *
-     * @return Recipient
-     */
-    public static function create(array $header, ?string $encryptedKey): self
-    {
-        return new self($header, $encryptedKey);
     }
 
     /**

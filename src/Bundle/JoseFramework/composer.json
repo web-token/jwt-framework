@@ -22,13 +22,14 @@
     "require": {
         "symfony/config": "^4.1",
         "symfony/dependency-injection": "^4.1",
+        "symfony/event-dispatcher": "^4.1",
         "symfony/http-kernel": "^4.1",
         "web-token/jwt-core": "^2.0"
     },
     "require-dev": {
         "symfony/framework-bundle": "^4.1",
-        "symfony/yaml": "^4.1",
         "symfony/browser-kit": "^4.1",
+        "symfony/var-dumper": "^4.1",
         "phpunit/phpunit": "^7.0",
         "symfony/phpunit-bridge": "^4.1",
         "guzzlehttp/psr7": "^1.4",

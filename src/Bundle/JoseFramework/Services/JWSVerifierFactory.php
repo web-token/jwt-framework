@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014-2018 Spomky-Labs
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
+namespace Jose\Bundle\JoseFramework\Services;
+
+use Jose\Component\Core\AlgorithmManagerFactory;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+final class JWSVerifierFactory
+{
+    private $eventDispatcher;
+
+    private $algorithmManagerFactory;
+
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, EventDispatcherInterface $eventDispatcher)
+    {
+        $this->algorithmManagerFactory = $algorithmManagerFactory;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    public function create(array $algorithms): JWSVerifier
+    {
+        $algorithmManager = $this->algorithmManagerFactory->create($algorithms);
+
+        return new JWSVerifier($algorithmManager, $this->eventDispatcher);
+    }
+}

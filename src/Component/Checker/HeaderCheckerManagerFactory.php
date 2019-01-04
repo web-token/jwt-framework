@@ -42,33 +42,25 @@ class HeaderCheckerManagerFactory
             }
         }
 
-        return HeaderCheckerManager::create($checkers, $this->tokenTypes);
+        return new HeaderCheckerManager($checkers, $this->tokenTypes);
     }
 
     /**
      * This method adds a header parameter checker to this factory.
      * The checker is uniquely identified by an alias. This allows the same header parameter checker to be added twice (or more)
      * using several configuration options.
-     *
-     * @return HeaderCheckerManagerFactory
      */
-    public function add(string $alias, HeaderChecker $checker): self
+    public function add(string $alias, HeaderChecker $checker): void
     {
         $this->checkers[$alias] = $checker;
-
-        return $this;
     }
 
     /**
      * This method adds a token type support to this factory.
-     *
-     * @return HeaderCheckerManagerFactory
      */
-    public function addTokenTypeSupport(TokenTypeSupport $tokenType): self
+    public function addTokenTypeSupport(TokenTypeSupport $tokenType): void
     {
         $this->tokenTypes[] = $tokenType;
-
-        return $this;
     }
 
     /**

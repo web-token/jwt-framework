@@ -1,0 +1,68 @@
+<h3>Available Claim Checkers</h3>
+<p class="help">
+    Each Claim Checker will check a specific header parameter.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Alias</th>
+        <th>Checked claim</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().checker.claim_checkers is empty %}
+        {% for alias, data in collector.getData().checker.claim_checkers %}
+            <tr>
+                <td>{{ alias }}</td>
+                <td>{{ data.claim }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">There is no registered claim checker</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+<h4>Checked Claims</h4>
+<p class="help">
+    The following table list all claims parameters checked by the Claim Checker Managers.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Claims to check</th>
+        <th scope="col">Mandatory claims</th>
+        <th scope="col">Checked claims</th>
+        <th scope="col">Error</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().checker.events.claim_check_success is empty or not collector.getData().checker.events.claim_check_failure is empty %}
+        {% for event in collector.getData().checker.events.claim_check_success %}
+            <tr class="status-success">
+                <td>Success</td>
+                <td>{{ profiler_dump(event.seek("claims")) }}</td>
+                <td>{{ profiler_dump(event.seek("mandatoryClaims")) }}</td>
+                <td>{{ profiler_dump(event.seek("checkedClaims")) }}</td>
+                <td>---</td>
+            </tr>
+        {% endfor %}
+        {% for event in collector.getData().checker.events.claim_check_failure %}
+            <tr class="status-error">
+                <td>Failure</td>
+                <td>{{ profiler_dump(event.seek("claims")) }}</td>
+                <td>{{ profiler_dump(event.seek("mandatoryClaims")) }}</td>
+                <td>---</td>
+                <td>{{ profiler_dump(event.seek("throwable")) }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="1">No checked claims</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

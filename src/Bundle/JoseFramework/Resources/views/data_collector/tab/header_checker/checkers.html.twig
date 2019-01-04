@@ -1,0 +1,71 @@
+<h3>Available Header Checkers</h3>
+<p class="help">
+    Each Header Checker will check a specific header parameter.<br>
+    Please note that the header "crit" (critical) is always checked.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Alias</th>
+        <th>Checked header</th>
+        <th>Is protected?</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().checker.header_checkers is empty %}
+        {% for alias, data in collector.getData().checker.header_checkers %}
+            <tr>
+                <td>{{ alias }}</td>
+                <td>{{ data.header }}</td>
+                <td>{% if data.protected %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="3">There is no registered header checker</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+<h4>Checked Headers</h4>
+<p class="help">
+    The following table list all header parameters checked by the Header Checker Managers.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Token</th>
+        <th scope="col">Signature / Recipient Index</th>
+        <th scope="col">Mandatory Parameters</th>
+        <th scope="col">Error</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().checker.events.header_check_success is empty or not collector.getData().checker.events.header_check_failure is empty %}
+        {% for event in collector.getData().checker.events.header_check_success %}
+            <tr class="status-success">
+                <td>Success</td>
+                <td>{{ profiler_dump(event.seek("jwt")) }}</td>
+                <td>{{ event.seek("index") }}</td>
+                <td>{{ profiler_dump(event.mandatoryHeaderParameters) }}</td>
+                <td>---</td>
+            </tr>
+        {% endfor %}
+        {% for event in collector.getData().checker.events.header_check_failure %}
+            <tr class="status-error">
+                <td>Failure</td>
+                <td>{{ profiler_dump(event.seek("jwt")) }}</td>
+                <td>{{ event.seek("index") }}</td>
+                <td>{{ profiler_dump(event.mandatoryHeaderParameters) }}</td>
+                <td>{{ profiler_dump(event.seek("throwable")) }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="1">No checked header parameters</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

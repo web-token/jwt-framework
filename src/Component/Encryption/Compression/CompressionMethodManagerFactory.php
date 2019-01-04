@@ -24,17 +24,13 @@ class CompressionMethodManagerFactory
      * This method adds a compression method to this factory.
      * The method is uniquely identified by an alias. This allows the same method to be added twice (or more)
      * using several configuration options.
-     *
-     * @return CompressionMethodManagerFactory
      */
-    public function add(string $alias, CompressionMethod $compressionMethod): self
+    public function add(string $alias, CompressionMethod $compressionMethod): void
     {
         if (\array_key_exists($alias, $this->compressionMethods)) {
             throw new \InvalidArgumentException(\sprintf('The alias "%s" already exists.', $alias));
         }
         $this->compressionMethods[$alias] = $compressionMethod;
-
-        return $this;
     }
 
     /**
@@ -74,6 +70,6 @@ class CompressionMethodManagerFactory
             }
         }
 
-        return CompressionMethodManager::create($compressionMethods);
+        return new CompressionMethodManager($compressionMethods);
     }
 }

@@ -88,7 +88,7 @@ final class JSONFlattenedSerializer implements JWESerializer
         $encryptedKey = \array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
         $header = \array_key_exists('header', $data) ? $data['header'] : [];
 
-        return JWE::create(
+        return new JWE(
             $ciphertext,
             $iv,
             $tag,
@@ -96,7 +96,7 @@ final class JSONFlattenedSerializer implements JWESerializer
             $sharedHeader,
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
-            [Recipient::create($header, $encryptedKey)]);
+            [new Recipient($header, $encryptedKey)]);
     }
 
     private function checkData($data)

@@ -33,21 +33,20 @@ abstract class SignatureTest extends TestCase
     {
         if (null === $this->algorithmManagerFactory) {
             $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory
-                ->add('HS256', new Algorithm\HS256())
-                ->add('HS384', new Algorithm\HS384())
-                ->add('HS512', new Algorithm\HS512())
-                ->add('ES256', new Algorithm\ES256())
-                ->add('ES384', new Algorithm\ES384())
-                ->add('ES512', new Algorithm\ES512())
-                ->add('RS256', new Algorithm\RS256())
-                ->add('RS384', new Algorithm\RS384())
-                ->add('RS512', new Algorithm\RS512())
-                ->add('PS256', new Algorithm\PS256())
-                ->add('PS384', new Algorithm\PS384())
-                ->add('PS512', new Algorithm\PS512())
-                ->add('none', new Algorithm\None())
-                ->add('EdDSA', new Algorithm\EdDSA());
+            $this->algorithmManagerFactory->add('HS256', new Algorithm\HS256());
+            $this->algorithmManagerFactory->add('HS384', new Algorithm\HS384());
+            $this->algorithmManagerFactory->add('HS512', new Algorithm\HS512());
+            $this->algorithmManagerFactory->add('ES256', new Algorithm\ES256());
+            $this->algorithmManagerFactory->add('ES384', new Algorithm\ES384());
+            $this->algorithmManagerFactory->add('ES512', new Algorithm\ES512());
+            $this->algorithmManagerFactory->add('RS256', new Algorithm\RS256());
+            $this->algorithmManagerFactory->add('RS384', new Algorithm\RS384());
+            $this->algorithmManagerFactory->add('RS512', new Algorithm\RS512());
+            $this->algorithmManagerFactory->add('PS256', new Algorithm\PS256());
+            $this->algorithmManagerFactory->add('PS384', new Algorithm\PS384());
+            $this->algorithmManagerFactory->add('PS512', new Algorithm\PS512());
+            $this->algorithmManagerFactory->add('none', new Algorithm\None());
+            $this->algorithmManagerFactory->add('EdDSA', new Algorithm\EdDSA());
         }
 
         return $this->algorithmManagerFactory;
@@ -111,7 +110,7 @@ abstract class SignatureTest extends TestCase
     protected function getJWSSerializerManager(): Serializer\JWSSerializerManager
     {
         if (null === $this->jwsSerializerManager) {
-            $this->jwsSerializerManager = Serializer\JWSSerializerManager::create([
+            $this->jwsSerializerManager = new Serializer\JWSSerializerManager([
                 new Serializer\CompactSerializer(new StandardConverter()),
                 new Serializer\JSONFlattenedSerializer(new StandardConverter()),
                 new Serializer\JSONGeneralSerializer(new StandardConverter()),

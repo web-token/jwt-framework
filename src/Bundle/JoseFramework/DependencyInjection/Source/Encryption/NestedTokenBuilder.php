@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Component\Encryption\NestedTokenBuilderFactory;
+use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

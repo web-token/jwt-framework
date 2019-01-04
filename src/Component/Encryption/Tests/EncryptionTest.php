@@ -36,30 +36,29 @@ abstract class EncryptionTest extends TestCase
     {
         if (null === $this->algorithmManagerFactory) {
             $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory
-                ->add('A128GCM', new ContentEncryption\A128GCM())
-                ->add('A192GCM', new ContentEncryption\A192GCM())
-                ->add('A256GCM', new ContentEncryption\A256GCM())
-                ->add('A128CBC-HS256', new ContentEncryption\A128CBCHS256())
-                ->add('A192CBC-HS384', new ContentEncryption\A192CBCHS384())
-                ->add('A256CBC-HS512', new ContentEncryption\A256CBCHS512())
-                ->add('A128GCMKW', new KeyEncryption\A128GCMKW())
-                ->add('A192GCMKW', new KeyEncryption\A192GCMKW())
-                ->add('A256GCMKW', new KeyEncryption\A256GCMKW())
-                ->add('A128KW', new KeyEncryption\A128KW())
-                ->add('A192KW', new KeyEncryption\A192KW())
-                ->add('A256KW', new KeyEncryption\A256KW())
-                ->add('dir', new KeyEncryption\Dir())
-                ->add('ECDH-ES', new KeyEncryption\ECDHES())
-                ->add('ECDH-ES+A128KW', new KeyEncryption\ECDHESA128KW())
-                ->add('ECDH-ES+A192KW', new KeyEncryption\ECDHESA192KW())
-                ->add('ECDH-ES+A256KW', new KeyEncryption\ECDHESA256KW())
-                ->add('PBES2-HS256+A128KW', new KeyEncryption\PBES2HS256A128KW())
-                ->add('PBES2-HS384+A192KW', new KeyEncryption\PBES2HS384A192KW())
-                ->add('PBES2-HS512+A256KW', new KeyEncryption\PBES2HS512A256KW())
-                ->add('RSA1_5', new KeyEncryption\RSA15())
-                ->add('RSA-OAEP', new KeyEncryption\RSAOAEP())
-                ->add('RSA-OAEP-256', new KeyEncryption\RSAOAEP256());
+            $this->algorithmManagerFactory->add('A128GCM', new ContentEncryption\A128GCM());
+            $this->algorithmManagerFactory->add('A192GCM', new ContentEncryption\A192GCM());
+            $this->algorithmManagerFactory->add('A256GCM', new ContentEncryption\A256GCM());
+            $this->algorithmManagerFactory->add('A128CBC-HS256', new ContentEncryption\A128CBCHS256());
+            $this->algorithmManagerFactory->add('A192CBC-HS384', new ContentEncryption\A192CBCHS384());
+            $this->algorithmManagerFactory->add('A256CBC-HS512', new ContentEncryption\A256CBCHS512());
+            $this->algorithmManagerFactory->add('A128GCMKW', new KeyEncryption\A128GCMKW());
+            $this->algorithmManagerFactory->add('A192GCMKW', new KeyEncryption\A192GCMKW());
+            $this->algorithmManagerFactory->add('A256GCMKW', new KeyEncryption\A256GCMKW());
+            $this->algorithmManagerFactory->add('A128KW', new KeyEncryption\A128KW());
+            $this->algorithmManagerFactory->add('A192KW', new KeyEncryption\A192KW());
+            $this->algorithmManagerFactory->add('A256KW', new KeyEncryption\A256KW());
+            $this->algorithmManagerFactory->add('dir', new KeyEncryption\Dir());
+            $this->algorithmManagerFactory->add('ECDH-ES', new KeyEncryption\ECDHES());
+            $this->algorithmManagerFactory->add('ECDH-ES+A128KW', new KeyEncryption\ECDHESA128KW());
+            $this->algorithmManagerFactory->add('ECDH-ES+A192KW', new KeyEncryption\ECDHESA192KW());
+            $this->algorithmManagerFactory->add('ECDH-ES+A256KW', new KeyEncryption\ECDHESA256KW());
+            $this->algorithmManagerFactory->add('PBES2-HS256+A128KW', new KeyEncryption\PBES2HS256A128KW());
+            $this->algorithmManagerFactory->add('PBES2-HS384+A192KW', new KeyEncryption\PBES2HS384A192KW());
+            $this->algorithmManagerFactory->add('PBES2-HS512+A256KW', new KeyEncryption\PBES2HS512A256KW());
+            $this->algorithmManagerFactory->add('RSA1_5', new KeyEncryption\RSA15());
+            $this->algorithmManagerFactory->add('RSA-OAEP', new KeyEncryption\RSAOAEP());
+            $this->algorithmManagerFactory->add('RSA-OAEP-256', new KeyEncryption\RSAOAEP256());
         }
 
         return $this->algorithmManagerFactory;
@@ -74,10 +73,9 @@ abstract class EncryptionTest extends TestCase
     {
         if (null === $this->compressionMethodManagerFactory) {
             $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
-            $this->compressionMethodManagerFactory
-                ->add('DEF', new Compression\Deflate())
-                ->add('ZLIB', new Compression\ZLib())
-                ->add('GZ', new Compression\GZip());
+            $this->compressionMethodManagerFactory->add('DEF', new Compression\Deflate());
+            $this->compressionMethodManagerFactory->add('ZLIB', new Compression\ZLib());
+            $this->compressionMethodManagerFactory->add('GZ', new Compression\GZip());
         }
 
         return $this->compressionMethodManagerFactory;
@@ -161,7 +159,7 @@ abstract class EncryptionTest extends TestCase
     protected function getJWESerializerManager(): Serializer\JWESerializerManager
     {
         if (null === $this->jwsSerializerManager) {
-            $this->jwsSerializerManager = Serializer\JWESerializerManager::create([
+            $this->jwsSerializerManager = new Serializer\JWESerializerManager([
                 new Serializer\CompactSerializer(new StandardConverter()),
                 new Serializer\JSONFlattenedSerializer(new StandardConverter()),
                 new Serializer\JSONGeneralSerializer(new StandardConverter()),

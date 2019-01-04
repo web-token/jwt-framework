@@ -62,10 +62,7 @@ class JWE implements JWT
      */
     private $payload = null;
 
-    /**
-     * JWE constructor.
-     */
-    private function __construct(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeader = [], array $sharedProtectedHeader = [], ?string $encodedSharedProtectedHeader = null, array $recipients = [])
+    public function __construct(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeader = [], array $sharedProtectedHeader = [], ?string $encodedSharedProtectedHeader = null, array $recipients = [])
     {
         $this->ciphertext = $ciphertext;
         $this->iv = $iv;
@@ -75,16 +72,6 @@ class JWE implements JWT
         $this->sharedProtectedHeader = $sharedProtectedHeader;
         $this->encodedSharedProtectedHeader = $encodedSharedProtectedHeader;
         $this->recipients = $recipients;
-    }
-
-    /**
-     * Creates a new JWE object.
-     *
-     * @return JWE
-     */
-    public static function create(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeader = [], array $sharedProtectedHeader = [], ?string $encodedSharedProtectedHeader = null, array $recipients = []): self
-    {
-        return new self($ciphertext, $iv, $tag, $aad, $sharedHeader, $sharedProtectedHeader, $encodedSharedProtectedHeader, $recipients);
     }
 
     public function getPayload(): ?string
@@ -266,7 +253,7 @@ class JWE implements JWT
     {
         $result = [];
         foreach ($this->recipients as $recipient) {
-            $result[] = self::create(
+            $result[] = new self(
                 $this->ciphertext,
                 $this->iv,
                 $this->tag,

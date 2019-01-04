@@ -1,0 +1,63 @@
+<h3>JWS Builders</h3>
+<p class="help">
+    The following table lists all JWS Builders declared as services in your application configuration
+    or using the Configuration Helper.<br>
+    Builders directly created through the JWS Builder Factory cannot be listed.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>Algorithms</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%  if collector.getData().jws.jws_builders is empty %}
+        <tr>
+            <td colspan="3"><i>No builder</i></td>
+        </tr>
+    {% else %}
+        {% for id, data in collector.getData().jws.jws_builders %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.signature_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>
+
+<h4>Built Tokens</h4>
+<p class="help">
+    The following table list all tokens issued by the JWS Builders.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Built Token</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for event in collector.getData().jws.events.built_success %}
+        <tr class="status-success">
+            <td>Success</td>
+            <td>{{ profiler_dump(event.seek("jws")) }}</td>
+        </tr>
+    {% endfor %}
+    {% for event in collector.getData().jws.events.built_failure %}
+        <tr class="status-error">
+            <td>Failure</td>
+            <td>{{ profiler_dump(event.seek("jws")) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

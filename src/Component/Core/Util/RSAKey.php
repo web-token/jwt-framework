@@ -213,9 +213,6 @@ class RSAKey
         return BigInteger::createFromBinaryString(Base64Url::decode($value));
     }
 
-    /**
-     * @throws \Exception
-     */
     public function toPEM(): string
     {
         if (null === $this->sequence) {
@@ -233,9 +230,6 @@ class RSAKey
         return $result;
     }
 
-    /**
-     * @throws \Exception
-     */
     private function initPublicKey()
     {
         $oid_sequence = new Sequence();

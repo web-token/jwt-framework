@@ -11,6 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
+use Jose\Bundle\JoseFramework\Services;
 use Jose\Component\Signature;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -20,13 +21,13 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(Signature\JWSBuilderFactory::class)
+    $container->set(Services\JWSBuilderFactory::class)
         ->public();
 
-    $container->set(Signature\JWSVerifierFactory::class)
+    $container->set(Services\JWSVerifierFactory::class)
         ->public();
 
-    $container->set(Signature\JWSLoaderFactory::class)
+    $container->set(Services\JWSLoaderFactory::class)
         ->public();
 
     $container->set(Signature\JWSTokenSupport::class);

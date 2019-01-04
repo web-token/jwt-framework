@@ -18,14 +18,8 @@ use Jose\Component\Core\JWK;
 
 abstract class PBES2AESKW implements KeyWrapping
 {
-    /**
-     * @var int
-     */
     private $salt_size;
 
-    /**
-     * @var int
-     */
     private $nb_count;
 
     public function __construct(int $salt_size = 64, int $nb_count = 4096)
@@ -80,7 +74,7 @@ abstract class PBES2AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key)
+    protected function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -90,7 +84,7 @@ abstract class PBES2AESKW implements KeyWrapping
         }
     }
 
-    protected function checkHeaderAlgorithm(array $header)
+    protected function checkHeaderAlgorithm(array $header): void
     {
         if (!\array_key_exists('alg', $header)) {
             throw new \InvalidArgumentException('The header parameter "alg" is missing.');
@@ -100,7 +94,7 @@ abstract class PBES2AESKW implements KeyWrapping
         }
     }
 
-    protected function checkHeaderAdditionalParameters(array $header)
+    protected function checkHeaderAdditionalParameters(array $header): void
     {
         foreach (['p2s', 'p2c'] as $k) {
             if (!\array_key_exists($k, $header)) {

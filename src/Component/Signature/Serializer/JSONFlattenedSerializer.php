@@ -101,7 +101,7 @@ final class JSONFlattenedSerializer extends Serializer
             $encodedPayload = null;
         }
 
-        $jws = JWS::create($payload, $encodedPayload, null === $encodedPayload);
+        $jws = new JWS($payload, $encodedPayload, null === $encodedPayload);
         $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader, $header);
 
         return $jws;

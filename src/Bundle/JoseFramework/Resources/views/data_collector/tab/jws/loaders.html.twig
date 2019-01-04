@@ -1,0 +1,44 @@
+<h3>JWS Loaders</h3>
+<p class="help">
+    The following table lists all JWS Loaders declared as services in your application configuration
+    or using the Configuration Helper.<br>
+    Loaders directly created through the JWS Loader Factory cannot be listed.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>Serializers</th>
+        <th>Algorithms</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%  if collector.getData().jws.jws_loaders is empty %}
+        <tr>
+            <td colspan="3"><i>No loader</i></td>
+        </tr>
+    {% else %}
+        {% for id, data in collector.getData().jws.jws_loaders %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>
+                    <ul>
+                        {% for serializer in data.serializers %}
+                            <li>{{ serializer }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.signature_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </tbody>
+</table>

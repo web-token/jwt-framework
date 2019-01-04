@@ -31,7 +31,7 @@ class CompressionTest extends EncryptionTest
      */
     public function getValidCompressionAlgorithm()
     {
-        $manager = CompressionMethodManager::create([
+        $manager = new CompressionMethodManager([
             new Deflate(),
             new GZip(),
             new ZLib(),
@@ -50,7 +50,7 @@ class CompressionTest extends EncryptionTest
      */
     public function getInvalidCompressionAlgorithm()
     {
-        $manager = CompressionMethodManager::create([]);
+        $manager = new CompressionMethodManager([]);
         static::assertFalse($manager->has('FOO'));
         $manager->get('FOO');
     }

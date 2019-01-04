@@ -18,19 +18,10 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 
 class JWEDecrypterFactory
 {
-    /**
-     * @var AlgorithmManagerFactory
-     */
     private $algorithmManagerFactory;
 
-    /**
-     * @var CompressionMethodManagerFactory
-     */
     private $compressionMethodManagerFactory;
 
-    /**
-     * JWEDecrypterFactory constructor.
-     */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;

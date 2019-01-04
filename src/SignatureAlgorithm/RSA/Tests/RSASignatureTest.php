@@ -51,7 +51,7 @@ class RSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new Algorithm\RS256()])
+            new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()
@@ -100,7 +100,7 @@ class RSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new Algorithm\RS256()])
+            new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()
@@ -148,7 +148,7 @@ class RSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new Algorithm\RS384()])
+            new AlgorithmManager([new Algorithm\RS384()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()
@@ -196,7 +196,7 @@ class RSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new Algorithm\RS512()])
+            new AlgorithmManager([new Algorithm\RS512()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()
@@ -246,7 +246,7 @@ class RSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new Algorithm\PS256()])
+            new AlgorithmManager([new Algorithm\PS256()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()
@@ -294,7 +294,7 @@ class RSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new Algorithm\PS384()])
+            new AlgorithmManager([new Algorithm\PS384()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()
@@ -341,7 +341,7 @@ class RSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new Algorithm\PS512()])
+            new AlgorithmManager([new Algorithm\PS512()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()
@@ -397,7 +397,7 @@ class RSASignatureTest extends TestCase
     public function loadJWSJSONSerializationWithDetachedPayload()
     {
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new Algorithm\RS256()])
+            new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new JSONGeneralSerializer(
             new StandardConverter()
@@ -420,7 +420,7 @@ class RSASignatureTest extends TestCase
     public function loadJWSJSONSerializationWithDetachedPayloadAndPayloadInJWS()
     {
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new Algorithm\RS256()])
+            new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new JSONGeneralSerializer(
             new StandardConverter()

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 
-use Jose\Component\Encryption\JWEBuilder;
+use Jose\Bundle\JoseFramework\Services\JWEBuilder;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -38,7 +38,7 @@ class JWEBuilderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(JWEBuilderFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWEBuilderFactory::class));
     }
 
     /**
@@ -49,7 +49,7 @@ class JWEBuilderTest extends WebTestCase
         $client = static::createClient();
 
         /** @var JWEBuilderFactory $jweFactory */
-        $jweFactory = $client->getContainer()->get(JWEBuilderFactory::class);
+        $jweFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWEBuilderFactory::class);
 
         $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
 

@@ -75,8 +75,6 @@ class JWKSource implements Source
     }
 
     /**
-     * @throws \Exception
-     *
      * @return JWKSourceInterface[]
      */
     private function getJWKSources(): array

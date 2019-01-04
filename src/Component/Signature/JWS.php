@@ -17,14 +17,8 @@ use Jose\Component\Core\JWT;
 
 class JWS implements JWT
 {
-    /**
-     * @var bool
-     */
     private $isPayloadDetached = false;
 
-    /**
-     * @var string|null
-     */
     private $encodedPayload = null;
 
     /**
@@ -32,29 +26,13 @@ class JWS implements JWT
      */
     private $signatures = [];
 
-    /**
-     * @var string|null
-     */
     private $payload = null;
 
-    /**
-     * JWS constructor.
-     */
-    private function __construct(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false)
+    public function __construct(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false)
     {
         $this->payload = $payload;
         $this->encodedPayload = $encodedPayload;
         $this->isPayloadDetached = $isPayloadDetached;
-    }
-
-    /**
-     * Creates a JWS object.
-     *
-     * @return JWS
-     */
-    public static function create(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false): self
-    {
-        return new self($payload, $encodedPayload, $isPayloadDetached);
     }
 
     public function getPayload(): ?string
@@ -116,7 +94,7 @@ class JWS implements JWT
     public function addSignature(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header = []): self
     {
         $jws = clone $this;
-        $jws->signatures[] = Signature::create($signature, $protectedHeader, $encodedProtectedHeader, $header);
+        $jws->signatures[] = new Signature($signature, $protectedHeader, $encodedProtectedHeader, $header);
 
         return $jws;
     }
@@ -139,7 +117,7 @@ class JWS implements JWT
     {
         $result = [];
         foreach ($this->signatures as $signature) {
-            $jws = self::create(
+            $jws = new self(
                 $this->payload,
                 $this->encodedPayload,
                 $this->isPayloadDetached

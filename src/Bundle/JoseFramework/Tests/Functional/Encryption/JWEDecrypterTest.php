@@ -39,7 +39,7 @@ class JWEDecrypterTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(JWEDecrypterFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory::class));
     }
 
     /**
@@ -50,7 +50,7 @@ class JWEDecrypterTest extends WebTestCase
         $client = static::createClient();
 
         /** @var JWEDecrypterFactory $jweFactory */
-        $jweFactory = $client->getContainer()->get(JWEDecrypterFactory::class);
+        $jweFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory::class);
 
         $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
 

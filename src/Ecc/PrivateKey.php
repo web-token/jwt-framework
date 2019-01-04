@@ -42,9 +42,6 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 class PrivateKey
 {
-    /**
-     * @var \GMP
-     */
     private $secret;
 
     private function __construct(\GMP $secret)
@@ -52,9 +49,6 @@ class PrivateKey
         $this->secret = $secret;
     }
 
-    /**
-     * @return PrivateKey
-     */
     public static function create(\GMP $secret): self
     {
         return new self($secret);

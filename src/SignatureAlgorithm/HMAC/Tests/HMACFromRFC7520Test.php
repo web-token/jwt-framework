@@ -66,10 +66,10 @@ class HMACFromRFC7520Test extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
             new StandardConverter()
@@ -142,10 +142,10 @@ class HMACFromRFC7520Test extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
             new StandardConverter()
@@ -221,10 +221,10 @@ class HMACFromRFC7520Test extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
             new StandardConverter()
@@ -291,10 +291,10 @@ class HMACFromRFC7520Test extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new HS256()])
+            new AlgorithmManager([new HS256()])
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
             new StandardConverter()

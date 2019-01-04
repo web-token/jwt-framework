@@ -25,8 +25,6 @@ interface KeyEncryption extends KeyEncryptionAlgorithm
      * @param string $cek              The CEK to encrypt
      * @param array  $completeHeader   The complete header of the JWT
      * @param array  $additionalHeader Additional header
-     *
-     * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      */
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string;
 
@@ -36,8 +34,6 @@ interface KeyEncryption extends KeyEncryptionAlgorithm
      * @param JWK    $key           The key used to wrap the CEK
      * @param string $encrypted_cek The CEK to decrypt
      * @param array  $header        The complete header of the JWT
-     *
-     * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string;
 }

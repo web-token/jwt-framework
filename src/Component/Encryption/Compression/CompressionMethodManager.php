@@ -20,36 +20,17 @@ class CompressionMethodManager
      */
     private $compressionMethods = [];
 
-    /**
-     * CompressionMethodManager constructor.
-     *
-     * @deprecated Will be private in v2.x. Please use CompressionManager::create() instead.
-     */
-    public function __construct()
+    public function __construct(array $methods = [])
     {
-    }
-
-    /**
-     * This method creates a Compression Manager with the selected compression methods.
-     *
-     * @param CompressionMethod[] $methods
-     *
-     * @return CompressionMethodManager
-     */
-    public static function create(array $methods): self
-    {
-        $manager = new self();
         foreach ($methods as $method) {
-            $manager->add($method);
+            $this->add($method);
         }
-
-        return $manager;
     }
 
     /**
      * Add the given compression method to the manager.
      */
-    protected function add(CompressionMethod $compressionMethod)
+    protected function add(CompressionMethod $compressionMethod): void
     {
         $name = $compressionMethod->name();
         if ($this->has($name)) {

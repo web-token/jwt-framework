@@ -33,7 +33,7 @@ class JWSSerializerManagerFactory
             $serializers[] = $this->serializers[$name];
         }
 
-        return JWSSerializerManager::create($serializers);
+        return new JWSSerializerManager($serializers);
     }
 
     /**
@@ -52,13 +52,8 @@ class JWSSerializerManagerFactory
         return $this->serializers;
     }
 
-    /**
-     * @return JWSSerializerManagerFactory
-     */
-    public function add(JWSSerializer $serializer): self
+    public function add(JWSSerializer $serializer): void
     {
         $this->serializers[$serializer->name()] = $serializer;
-
-        return $this;
     }
 }

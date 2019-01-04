@@ -23,11 +23,9 @@ class JWESerializerManager
     private $serializers = [];
 
     /**
-     * JWESerializerManager constructor.
-     *
      * @param JWESerializer[] $serializers
      */
-    private function __construct(array $serializers)
+    public function __construct(array $serializers)
     {
         foreach ($serializers as $serializer) {
             $this->add($serializer);
@@ -35,27 +33,11 @@ class JWESerializerManager
     }
 
     /**
-     * Creates a serializer manager using the given serializers.
-     *
-     * @param JWESerializer[] $serializers
-     *
-     * @return JWESerializerManager
-     */
-    public static function create(array $serializers): self
-    {
-        return new self($serializers);
-    }
-
-    /**
      * Adds a serializer to the manager.
-     *
-     * @return JWESerializerManager
      */
-    private function add(JWESerializer $serializer): self
+    private function add(JWESerializer $serializer): void
     {
         $this->serializers[$serializer->name()] = $serializer;
-
-        return $this;
     }
 
     /**
@@ -83,8 +65,6 @@ class JWESerializerManager
     /**
      * Converts a JWE into a string.
      * Throws an exception if none of the serializer was able to convert the input.
-     *
-     * @throws \Exception
      */
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
@@ -101,8 +81,6 @@ class JWESerializerManager
      *
      * @param string      $input A string that represents a JWE
      * @param string|null $name  the name of the serializer if the input is unserialized
-     *
-     * @throws \Exception
      */
     public function unserialize(string $input, ?string &$name = null): JWE
     {

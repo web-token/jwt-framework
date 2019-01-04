@@ -13,45 +13,48 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Jose\Bundle\JoseFramework\Event\Events;
+use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
+use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
+use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWELoader;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 
-class JWECollector implements Collector
+class JWECollector implements Collector, EventSubscriberInterface
 {
-    /**
-     * @var JWESerializerManagerFactory|null
-     */
     private $jweSerializerManagerFactory;
 
-    /**
-     * @var CompressionMethodManagerFactory|null
-     */
     private $compressionMethodManagerFactory;
 
-    /**
-     * JWECollector constructor.
-     */
+    private $jweDecryptionSuccesses = [];
+    private $jweDecryptionFailures = [];
+    private $jweBuiltSuccesses = [];
+    private $jweBuiltFailures = [];
+
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
     {
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
+    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
     {
         $this->collectSupportedCompressionMethods($data);
         $this->collectSupportedJWESerializations($data);
         $this->collectSupportedJWEBuilders($data);
         $this->collectSupportedJWEDecrypters($data);
         $this->collectSupportedJWELoaders($data);
+        $this->collectEvents($data);
     }
 
-    private function collectSupportedCompressionMethods(array &$data)
+    private function collectSupportedCompressionMethods(array &$data): void
     {
         $data['jwe']['compression_methods'] = [];
         if (null === $this->compressionMethodManagerFactory) {
@@ -63,7 +66,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWESerializations(array &$data)
+    private function collectSupportedJWESerializations(array &$data): void
     {
         $data['jwe']['jwe_serialization'] = [];
         if (null === $this->jweSerializerManagerFactory) {
@@ -75,7 +78,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWEBuilders(array &$data)
+    private function collectSupportedJWEBuilders(array &$data): void
     {
         $data['jwe']['jwe_builders'] = [];
         foreach ($this->jweBuilders as $id => $jweBuilder) {
@@ -87,7 +90,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWEDecrypters(array &$data)
+    private function collectSupportedJWEDecrypters(array &$data): void
     {
         $data['jwe']['jwe_decrypters'] = [];
         foreach ($this->jweDecrypters as $id => $jweDecrypter) {
@@ -99,7 +102,7 @@ class JWECollector implements Collector
         }
     }
 
-    private function collectSupportedJWELoaders(array &$data)
+    private function collectSupportedJWELoaders(array &$data): void
     {
         $data['jwe']['jwe_loaders'] = [];
         foreach ($this->jweLoaders as $id => $jweLoader) {
@@ -112,12 +115,22 @@ class JWECollector implements Collector
         }
     }
 
+    private function collectEvents(array &$data): void
+    {
+        $data['jwe']['events'] = [
+            'decryption_success' => $this->jweDecryptionSuccesses,
+            'decryption_failure' => $this->jweDecryptionFailures,
+            'built_success' => $this->jweBuiltSuccesses,
+            'built_failure' => $this->jweBuiltFailures,
+        ];
+    }
+
     /**
      * @var JWEBuilder[]
      */
     private $jweBuilders = [];
 
-    public function addJWEBuilder(string $id, JWEBuilder $jweBuilder)
+    public function addJWEBuilder(string $id, JWEBuilder $jweBuilder): void
     {
         $this->jweBuilders[$id] = $jweBuilder;
     }
@@ -127,7 +140,7 @@ class JWECollector implements Collector
      */
     private $jweDecrypters = [];
 
-    public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter)
+    public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter): void
     {
         $this->jweDecrypters[$id] = $jweDecrypter;
     }
@@ -137,8 +150,56 @@ class JWECollector implements Collector
      */
     private $jweLoaders = [];
 
-    public function addJWELoader(string $id, JWELoader $jweLoader)
+    public function addJWELoader(string $id, JWELoader $jweLoader): void
     {
         $this->jweLoaders[$id] = $jweLoader;
+    }
+
+    private function getCompressionMethodMessages(): array
+    {
+        return [
+            'GZ' => [
+                'severity' => 'severity-low',
+                'message' => 'This algorithm is not described in any specification. Use for specific applications only.',
+            ],
+            'ZLIB' => [
+                'severity' => 'severity-low',
+                'message' => 'This algorithm is not described in any specification. Use for specific applications only.',
+            ],
+        ];
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::JWE_DECRYPTION_SUCCESS => ['catchJweDecryptionSuccess'],
+            Events::JWE_DECRYPTION_FAILURE => ['catchJweDecryptionFailure'],
+            Events::JWE_BUILT_SUCCESS => ['catchJweBuiltSuccess'],
+            Events::JWE_BUILT_FAILURE => ['catchJweBuiltFailure'],
+        ];
+    }
+
+    public function catchJweDecryptionSuccess(JWEDecryptionSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweDecryptionSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweDecryptionFailure(JWEDecryptionFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweDecryptionFailures[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweBuiltSuccess(JWEBuiltSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweBuiltSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweBuiltFailure(JWEBuiltFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweBuiltFailures[] = $cloner->cloneVar($event);
     }
 }

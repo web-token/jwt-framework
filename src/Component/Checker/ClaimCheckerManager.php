@@ -24,11 +24,9 @@ class ClaimCheckerManager
     private $checkers = [];
 
     /**
-     * ClaimCheckerManager constructor.
-     *
      * @param ClaimChecker[] $checkers
      */
-    private function __construct(array $checkers)
+    public function __construct(array $checkers)
     {
         foreach ($checkers as $checker) {
             $this->add($checker);
@@ -36,27 +34,12 @@ class ClaimCheckerManager
     }
 
     /**
-     * This method creates the ClaimCheckerManager.
-     * The argument is a list of claim checkers objects.
-     *
-     * @param ClaimChecker[] $checkers
-     *
      * @return ClaimCheckerManager
      */
-    public static function create(array $checkers): self
-    {
-        return new self($checkers);
-    }
-
-    /**
-     * @return ClaimCheckerManager
-     */
-    private function add(ClaimChecker $checker): self
+    private function add(ClaimChecker $checker): void
     {
         $claim = $checker->supportedClaim();
         $this->checkers[$claim] = $checker;
-
-        return $this;
     }
 
     /**
@@ -78,9 +61,6 @@ class ClaimCheckerManager
      * It is up to the implementor to decide use the claims that have not been checked.
      *
      * @param string[] $mandatoryClaims
-     *
-     * @throws InvalidClaimException
-     * @throws MissingMandatoryClaimException
      */
     public function check(array $claims, array $mandatoryClaims = []): array
     {
@@ -98,8 +78,6 @@ class ClaimCheckerManager
 
     /**
      * @param string[] $mandatoryClaims
-     *
-     * @throws MissingMandatoryClaimException
      */
     private function checkMandatoryClaims(array $mandatoryClaims, array $claims)
     {

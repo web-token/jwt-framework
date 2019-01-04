@@ -11,6 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
+use Jose\Bundle\JoseFramework\Services;
 use Jose\Component\Checker;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -20,10 +21,10 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(Checker\HeaderCheckerManagerFactory::class)
+    $container->set(Services\HeaderCheckerManagerFactory::class)
         ->public();
 
-    $container->set(Checker\ClaimCheckerManagerFactory::class)
+    $container->set(Services\ClaimCheckerManagerFactory::class)
         ->public();
 
     $container->set(Checker\ExpirationTimeChecker::class)

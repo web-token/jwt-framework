@@ -37,7 +37,7 @@ class ClaimCheckerManagerFactory
             }
         }
 
-        return ClaimCheckerManager::create($checkers);
+        return new ClaimCheckerManager($checkers);
     }
 
     /**
@@ -45,11 +45,9 @@ class ClaimCheckerManagerFactory
      *
      * @return ClaimCheckerManagerFactory
      */
-    public function add(string $alias, ClaimChecker $checker): self
+    public function add(string $alias, ClaimChecker $checker): void
     {
         $this->checkers[$alias] = $checker;
-
-        return $this;
     }
 
     /**
