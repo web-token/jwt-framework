@@ -65,6 +65,7 @@
         <th scope="col">JWE</th>
         <th scope="col">Key set</th>
         <th scope="col">Recipient index / Exception</th>
+        <th scope="col">Key used for decryption</th>
     </tr>
     </thead>
     <tbody>
@@ -74,6 +75,7 @@
             <td>{{ profiler_dump(event.seek("jwe")) }}</td>
             <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
             <td>{{ event.recipient }}</td>
+            <td>{{ profiler_dump(event.seek("JWK")) }}</td>
         </tr>
     {% endfor %}
     {% for event in collector.getData().jwe.events.decryption_failure %}
@@ -81,7 +83,8 @@
             <td>Failure</td>
             <td>{{ profiler_dump(event.seek("jwe")) }}</td>
             <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
-            <td><i>none</i></td>
+            <td><i>---</i></td>
+            <td><i>---</i></td>
         </tr>
     {% endfor %}
     </tbody>

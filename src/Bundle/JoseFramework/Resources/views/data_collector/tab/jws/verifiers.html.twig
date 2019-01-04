@@ -48,6 +48,7 @@
         <th scope="col">Key set</th>
         <th scope="col" width="35%">Detached Payload (optional)</th>
         <th scope="col">Signature index / Exception</th>
+        <th scope="col">Key used for verification</th>
     </tr>
     </thead>
     <tbody>
@@ -58,6 +59,7 @@
             <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
             <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.seek("detachedPayload")) }}{% else %}<i>none</i>{% endif %}</td>
             <td>{{ event.signature }}</td>
+            <td>{{ profiler_dump(event.seek("JWK")) }}</td>
         </tr>
     {% endfor %}
     {% for event in collector.getData().jws.events.verification_failure %}
@@ -66,7 +68,8 @@
             <td>{{ profiler_dump(event.seek("jws")) }}</td>
             <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
             <td>{% if not event.detachedPayload is null %}{{ profiler_dump(event.seek("detachedPayload")) }}{% else %}<i>none</i>{% endif %}</td>
-            <td><i>none</i></td>
+            <td><i>---</i></td>
+            <td><i>---</i></td>
         </tr>
     {% endfor %}
     </tbody>
