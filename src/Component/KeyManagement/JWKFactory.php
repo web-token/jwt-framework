@@ -34,16 +34,17 @@ class JWKFactory
             throw new \InvalidArgumentException('Invalid key size.');
         }
 
-        if (384 > $size) {
-            throw new \InvalidArgumentException('Key length is too short. It needs to be at least 384 bits.');
+        if (512 > $size) {
+            throw new \InvalidArgumentException('Key length is too short. It needs to be at least 512 bits.');
         }
 
         $key = \openssl_pkey_new([
             'private_key_bits' => $size,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);
-        \openssl_pkey_export($key, $out);
-        $rsa = RSAKey::createFromPEM($out);
+        $details = \openssl_pkey_get_details($key);
+        \openssl_free_key($key);
+        $rsa = RSAKey::createFromKeyDetails($details['rsa']);
         $values = \array_merge(
             $values,
             $rsa->toArray()

@@ -57,7 +57,7 @@
         "ext-gmp": "*",
         "ext-mbstring": "*",
         "ext-json": "*",
-        "lib-openssl": "*",
+        "ext-openssl": "*",
         "fgrosse/phpasn1": "^2.0",
         "paragonie/sodium_compat": "^1.2",
         "spomky-labs/aes-key-wrap": "^4.0.1|^5.0",
