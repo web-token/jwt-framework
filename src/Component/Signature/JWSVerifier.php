@@ -62,11 +62,12 @@ class JWSVerifier
      *
      * @param JWS         $jws             A JWS object
      * @param JWKSet      $jwkset          The signature will be verified using keys in the key set
+     * @param JWK         $jwk             The key used to verify the signature in case of success
      * @param null|string $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
      * @return bool true if the verification of the signature succeeded, else false
      */
-    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signature, ?string $detachedPayload = null): bool
+    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signature, ?string $detachedPayload = null, JWK &$jwk = null): bool
     {
         $this->checkJWKSet($jwkset);
         $this->checkSignatures($jws);
@@ -74,10 +75,10 @@ class JWSVerifier
 
         $signature = $jws->getSignature($signature);
 
-        return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload);
+        return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload, $jwk);
     }
 
-    private function verifySignature(JWS $jws, JWKSet $jwkset, Signature $signature, ?string $detachedPayload = null): bool
+    private function verifySignature(JWS $jws, JWKSet $jwkset, Signature $signature, ?string $detachedPayload = null, JWK &$successJwk = null): bool
     {
         $input = $this->getInputToVerify($jws, $signature, $detachedPayload);
         foreach ($jwkset->all() as $jwk) {
@@ -90,6 +91,8 @@ class JWSVerifier
                     throw new \InvalidArgumentException('Wrong key type.');
                 }
                 if (true === $algorithm->verify($jwk, $input, $signature->getSignature())) {
+                    $successJwk = $jwk;
+
                     return true;
                 }
             } catch (\Exception $e) {

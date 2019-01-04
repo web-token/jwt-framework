@@ -17,6 +17,7 @@ use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
@@ -33,13 +34,14 @@ final class JWEDecrypter extends BaseJWEDecrypter
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient): bool
+    public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient, JWK &$jwk = null): bool
     {
-        $success = parent::decryptUsingKeySet($jwe, $jwkset, $recipient);
+        $success = parent::decryptUsingKeySet($jwe, $jwkset, $recipient, $jwk);
         if ($success) {
             $this->eventDispatcher->dispatch(Events::JWE_DECRYPTION_SUCCESS, new JWEDecryptionSuccessEvent(
                 $jwe,
                 $jwkset,
+                $jwk,
                 $recipient
             ));
         } else {

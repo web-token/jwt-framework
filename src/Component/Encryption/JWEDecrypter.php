@@ -85,15 +85,16 @@ class JWEDecrypter
      *
      * @param JWE    $jwe       A JWE object to decrypt
      * @param JWKSet $jwkset    The key set used to decrypt the input
-     * @param int    $recipient The recipient used to decrypt the token
+     * @param JWK    $jwk       The key used to decrypt the token in case of success
+     * @param int    $recipient The recipient used to decrypt the token in case of success
      */
-    public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient): bool
+    public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient, JWK &$jwk = null): bool
     {
         $this->checkJWKSet($jwkset);
         $this->checkPayload($jwe);
         $this->checkRecipients($jwe);
 
-        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient);
+        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk);
         if (null !== $plaintext) {
             $jwe = $jwe->withPayload($plaintext);
 
@@ -103,7 +104,7 @@ class JWEDecrypter
         return false;
     }
 
-    private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i): ?string
+    private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i, JWK &$successJwk = null): ?string
     {
         $recipient = $jwe->getRecipient($i);
         $completeHeader = \array_merge($jwe->getSharedProtectedHeader(), $jwe->getSharedHeader(), $recipient->getHeader());
@@ -122,7 +123,10 @@ class JWEDecrypter
                 }
                 $cek = $this->decryptCEK($key_encryption_algorithm, $content_encryption_algorithm, $jwk, $recipient, $completeHeader);
                 if (null !== $cek) {
-                    return $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
+                    $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
+                    $successJwk = $jwk;
+
+                    return $payload;
                 }
             } catch (\Exception $e) {
                 //We do nothing, we continue with other keys

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Event;
 
+use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 use Symfony\Component\EventDispatcher\Event;
@@ -22,13 +23,15 @@ final class JWEDecryptionSuccessEvent extends Event
     private $jwe;
 
     private $JWKSet;
+    private $JWK;
 
     private $recipient;
 
-    public function __construct(JWE $jwe, JWKSet $JWKSet, int $recipient)
+    public function __construct(JWE $jwe, JWKSet $JWKSet, JWK $JWK, int $recipient)
     {
         $this->jwe = $jwe;
         $this->JWKSet = $JWKSet;
+        $this->JWK = $JWK;
         $this->recipient = $recipient;
     }
 
@@ -40,6 +43,11 @@ final class JWEDecryptionSuccessEvent extends Event
     public function getJWKSet(): JWKSet
     {
         return $this->JWKSet;
+    }
+
+    public function getJWK(): JWK
+    {
+        return $this->JWK;
     }
 
     public function getRecipient(): int

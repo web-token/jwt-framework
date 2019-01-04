@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Event;
 
+use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
 use Symfony\Component\EventDispatcher\Event;
@@ -23,14 +24,17 @@ final class JWSVerificationSuccessEvent extends Event
 
     private $JWKSet;
 
+    private $JWK;
+
     private $signature;
 
     private $detachedPayload;
 
-    public function __construct(JWS $jws, JWKSet $JWKSet, int $signature, ?string $detachedPayload)
+    public function __construct(JWS $jws, JWKSet $JWKSet, int $signature, ?string $detachedPayload, JWK $JWK)
     {
         $this->jws = $jws;
         $this->JWKSet = $JWKSet;
+        $this->JWK = $JWK;
         $this->signature = $signature;
         $this->detachedPayload = $detachedPayload;
     }
@@ -43,6 +47,11 @@ final class JWSVerificationSuccessEvent extends Event
     public function getJWKSet(): JWKSet
     {
         return $this->JWKSet;
+    }
+
+    public function getJWK(): JWK
+    {
+        return $this->JWK;
     }
 
     public function getSignature(): int
