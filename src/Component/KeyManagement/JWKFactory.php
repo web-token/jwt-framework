@@ -118,9 +118,9 @@ class JWKFactory
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'x' => Base64Url::encode(\bin2hex($details['ec']['x'])),
-            'y' => Base64Url::encode(\bin2hex($details['ec']['y'])),
-            'd' => Base64Url::encode(\bin2hex($details['ec']['d'])),
+            'x' => Base64Url::encode($details['ec']['x']),
+            'y' => Base64Url::encode($details['ec']['y']),
+            'd' => Base64Url::encode($details['ec']['d']),
         ];
     }
 
