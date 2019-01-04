@@ -64,7 +64,7 @@ abstract class AESGCMKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key)
+    protected function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -74,7 +74,7 @@ abstract class AESGCMKW implements KeyWrapping
         }
     }
 
-    protected function checkAdditionalParameters(array $header)
+    protected function checkAdditionalParameters(array $header): void
     {
         foreach (['iv', 'tag'] as $k) {
             if (!\array_key_exists($k, $header)) {

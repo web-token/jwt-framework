@@ -1,0 +1,81 @@
+<h3>JWE Builders</h3>
+<p class="help">
+    The following table lists all JWE Builders declared as services in your application configuration
+    or using the Configuration Helper.<br>
+    Builders directly created through the JWE Builder Factory cannot be listed.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>Key Encryption Algorithms</th>
+        <th>Content Encryption Algorithms</th>
+        <th>Compression Methods</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%  if not collector.getData().jwe.jwe_builders is empty %}
+        {% for id, data in collector.getData().jwe.jwe_builders %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.key_encryption_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.content_encryption_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for method in data.compression_methods %}
+                            <li>{{ method }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">There is no JWE Builder</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+<h4>Built Tokens</h4>
+<p class="help">
+    The following table list all tokens issued by the JWE Builders.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">Built Token</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for event in collector.getData().jwe.events.built_success %}
+        <tr class="status-success">
+            <td>Success</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+        </tr>
+    {% endfor %}
+    {% for event in collector.getData().jwe.events.built_failure %}
+        <tr class="status-error">
+            <td>Failure</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

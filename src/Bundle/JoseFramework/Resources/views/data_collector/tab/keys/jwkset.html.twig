@@ -1,0 +1,56 @@
+<h3>Key Sets</h3>
+<p class="help">
+    This table lists all key sets registered as service through the bundle configuration
+    or the Configuration Helper. <br>
+    For each key in the key sets, it shows the result of the analyze performed on that key.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>keys</th>
+        <th>Analyze Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().key.jwkset is empty %}
+        {% for id, data in collector.getData().key.jwkset %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>{{ profiler_dump(data.jwkset) }}</td>
+                <td>
+                    {% for kid, messages in data.analyze_jwkset %}
+                        <h5>Key set:</h5>
+                        <ul>
+                            {% if messages.count() == 0 %}
+                                <li>No message. All good!</li>
+                            {% else %}
+                                {% for message in messages %}
+                                    <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    {% endfor %}
+                    <hr>
+                    {% for kid, messages in data.analyze %}
+                        <h5>Key index / Key ID "{{ kid }}":</h5>
+                        <ul>
+                            {% if messages.count() == 0 %}
+                                <li>No message. All good!</li>
+                            {% else %}
+                                {% for message in messages %}
+                                    <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="3">No registered key set</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

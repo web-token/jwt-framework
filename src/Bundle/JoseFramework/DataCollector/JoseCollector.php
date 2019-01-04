@@ -24,14 +24,14 @@ class JoseCollector extends DataCollector
      */
     private $collectors = [];
 
-    public function collect(Request $request, Response $response, \Exception $exception = null)
+    public function collect(Request $request, Response $response, ?\Exception $exception = null): void
     {
         foreach ($this->collectors as $collector) {
             $collector->collect($this->data, $request, $response, $exception);
         }
     }
 
-    public function add(Collector $collector)
+    public function add(Collector $collector): void
     {
         $this->collectors[] = $collector;
     }
@@ -46,7 +46,7 @@ class JoseCollector extends DataCollector
         return $this->data;
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
     }

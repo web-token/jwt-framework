@@ -21,19 +21,10 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
 {
     private const CLAIM_NAME = 'aud';
 
-    /**
-     * @var bool
-     */
     private $protectedHeader = false;
 
-    /**
-     * @var string
-     */
     private $audience;
 
-    /**
-     * AudienceChecker constructor.
-     */
     public function __construct(string $audience, bool $protectedHeader = false)
     {
         $this->audience = $audience;
@@ -50,9 +41,6 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         $this->checkValue($value, InvalidHeaderException::class);
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     private function checkValue($value, string $class): void
     {
         if (\is_string($value) && $value !== $this->audience) {

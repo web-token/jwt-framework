@@ -86,9 +86,6 @@ final class ECDHES implements KeyAgreement
         return [$public_key, $private_key];
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
     {
         switch ($public_key->get('crv')) {
@@ -125,10 +122,7 @@ final class ECDHES implements KeyAgreement
         return self::MODE_AGREEMENT;
     }
 
-    /**
-     * @return JWK
-     */
-    private function getPublicKey(array $complete_header)
+    private function getPublicKey(array $complete_header): JWK
     {
         if (!\array_key_exists('epk', $complete_header)) {
             throw new \InvalidArgumentException('The header parameter "epk" is missing');
@@ -143,10 +137,7 @@ final class ECDHES implements KeyAgreement
         return $public_key;
     }
 
-    /**
-     * @param bool $is_private
-     */
-    private function checkKey(JWK $key, $is_private)
+    private function checkKey(JWK $key, bool $is_private): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -178,9 +169,6 @@ final class ECDHES implements KeyAgreement
         }
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     private function getCurve(string $crv): Curve
     {
         switch ($crv) {

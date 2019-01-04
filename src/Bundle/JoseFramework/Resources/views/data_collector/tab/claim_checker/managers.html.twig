@@ -1,0 +1,34 @@
+<h3>Claim Checker Managers</h3>
+<p class="help">
+    The following table lists all Claim Checker Managers declared as services in your application configuration
+    or using the Configuration Helper.<br>
+    Managers directly created through the Claim Checker Manager Factory cannot be listed.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>Checked Claims</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().checker.claim_checker_managers is empty %}
+        {% for id, data in collector.getData().checker.claim_checker_managers %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>
+                    <ul>
+                        {% for checker in data %}
+                            <li>{{ checker.claim }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">There is no registered Claim Checker Manager</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

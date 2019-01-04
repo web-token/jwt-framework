@@ -72,8 +72,6 @@ class JWELoader
     /**
      * This method will try to load and decrypt the given token using a JWK.
      * If succeeded, the methods will populate the $recipient variable and returns the JWE.
-     *
-     * @throws \Exception
      */
     public function loadAndDecryptWithKey(string $token, JWK $key, ?int &$recipient): JWE
     {
@@ -85,8 +83,6 @@ class JWELoader
     /**
      * This method will try to load and decrypt the given token using a JWKSet.
      * If succeeded, the methods will populate the $recipient variable and returns the JWE.
-     *
-     * @throws \Exception
      */
     public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, ?int &$recipient): JWE
     {

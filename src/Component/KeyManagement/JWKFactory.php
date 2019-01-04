@@ -287,8 +287,6 @@ class JWKFactory
 
     /**
      * This method will try to load a PKCS#12 file and convert it into a public key.
-     *
-     * @throws \Exception
      */
     public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
     {
@@ -315,8 +313,6 @@ class JWKFactory
      * This method will try to convert a X.509 certificate resource into a public key.
      *
      * @param resource $res
-     *
-     * @throws \Exception
      */
     public static function createFromX509Resource($res, array $additional_values = []): JWK
     {
@@ -329,8 +325,6 @@ class JWKFactory
     /**
      * This method will try to load and convert a key file into a JWK object.
      * If the key is encrypted, the password must be set.
-     *
-     * @throws \Exception
      */
     public static function createFromKeyFile(string $file, ?string $password = null, array $additional_values = []): JWK
     {
@@ -343,8 +337,6 @@ class JWKFactory
     /**
      * This method will try to load and convert a key into a JWK object.
      * If the key is encrypted, the password must be set.
-     *
-     * @throws \Exception
      */
     public static function createFromKey(string $key, ?string $password = null, array $additional_values = []): JWK
     {

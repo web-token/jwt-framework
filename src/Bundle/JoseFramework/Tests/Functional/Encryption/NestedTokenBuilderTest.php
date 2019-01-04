@@ -17,7 +17,6 @@ use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\NestedTokenBuilder;
-use Jose\Component\Encryption\NestedTokenBuilderFactory;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -48,7 +47,7 @@ class NestedTokenBuilderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(NestedTokenBuilderFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory::class));
     }
 
     /**

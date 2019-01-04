@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
-use Jose\Component\Checker\ClaimCheckerManagerFactory;
+use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ClaimCheckerCompilerPass implements CompilerPassInterface
+final class ClaimCheckerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

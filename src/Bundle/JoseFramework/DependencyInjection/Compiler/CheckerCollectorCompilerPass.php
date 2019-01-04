@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class CheckerCollectorCompilerPass implements CompilerPassInterface
+final class CheckerCollectorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -38,7 +38,7 @@ class CheckerCollectorCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container)
+    private function collectServices(string $method, string $tag, Definition $definition, ContainerBuilder $container): void
     {
         $taggedCheckerServices = $container->findTaggedServiceIds($tag);
         foreach ($taggedCheckerServices as $id => $tags) {

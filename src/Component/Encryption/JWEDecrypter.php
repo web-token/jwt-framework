@@ -29,24 +29,12 @@ use Jose\Component\Encryption\Compression\CompressionMethodManager;
 
 class JWEDecrypter
 {
-    /**
-     * @var AlgorithmManager
-     */
     private $keyEncryptionAlgorithmManager;
 
-    /**
-     * @var AlgorithmManager
-     */
     private $contentEncryptionAlgorithmManager;
 
-    /**
-     * @var CompressionMethodManager
-     */
     private $compressionMethodManager;
 
-    /**
-     * JWEDecrypter constructor.
-     */
     public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager)
     {
         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
@@ -207,9 +195,6 @@ class JWEDecrypter
         return $payload;
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     private function checkCompleteHeader(array $completeHeaders)
     {
         foreach (['enc', 'alg'] as $key) {

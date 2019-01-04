@@ -18,16 +18,10 @@ use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-class JWKSetLoader implements LoaderInterface
+final class JWKSetLoader implements LoaderInterface
 {
-    /**
-     * @var RouteCollection
-     */
     private $routes;
 
-    /**
-     * JWKSetLoader Constructor.
-     */
     public function __construct()
     {
         $this->routes = new RouteCollection();
@@ -35,8 +29,7 @@ class JWKSetLoader implements LoaderInterface
 
     public function add(string $pattern, string $name)
     {
-        $controller_id = \sprintf('%s::getAction', $name);
-        $defaults = ['_controller' => $controller_id];
+        $defaults = ['_controller' => $name];
         $route = new Route($pattern, $defaults);
         $this->routes->add(\sprintf('jwkset_%s', $name), $route);
     }

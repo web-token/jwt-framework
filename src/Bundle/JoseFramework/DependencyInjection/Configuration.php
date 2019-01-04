@@ -17,21 +17,13 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
-    /**
-     * @var Source[]
-     */
     private $sources;
 
-    /**
-     * @var string
-     */
     private $alias;
 
     /**
-     * Configuration constructor.
-     *
      * @param Source[] $sources
      */
     public function __construct(string $alias, array $sources)

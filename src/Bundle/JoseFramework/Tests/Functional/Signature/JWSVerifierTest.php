@@ -39,7 +39,7 @@ class JWSVerifierTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(JWSVerifierFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWSVerifierFactory::class));
     }
 
     /**
@@ -50,7 +50,7 @@ class JWSVerifierTest extends WebTestCase
         $client = static::createClient();
 
         /** @var JWSVerifierFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSVerifierFactory::class);
+        $jwsFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWSVerifierFactory::class);
 
         $jws = $jwsFactory->create(['none']);
 

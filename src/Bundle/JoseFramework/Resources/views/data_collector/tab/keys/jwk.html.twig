@@ -1,0 +1,40 @@
+<h3>Keys</h3>
+<p class="help">
+    This table lists all keys registered as service through the bundle configuration
+    or the Configuration Helper. <br>
+    For each key, it shows the result of the analyze performed on the key.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>Key</th>
+        <th>Analyze Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().key.jwk is empty %}
+        {% for id, data in collector.getData().key.jwk %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>{{ profiler_dump(data.seek('jwk')) }}</td>
+                <td>
+                    {% if data.analyze.count() == 0 %}
+                        No message. All good!
+                    {% else %}
+                        <ul>
+                            {% for message in data.analyze %}
+                                <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="3">No registered key</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

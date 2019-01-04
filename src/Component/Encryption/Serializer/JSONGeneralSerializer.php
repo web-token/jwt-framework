@@ -93,10 +93,10 @@ final class JSONGeneralSerializer implements JWESerializer
         $recipients = [];
         foreach ($data['recipients'] as $recipient) {
             list($encryptedKey, $header) = $this->processRecipient($recipient);
-            $recipients[] = Recipient::create($header, $encryptedKey);
+            $recipients[] = new Recipient($header, $encryptedKey);
         }
 
-        return JWE::create(
+        return new JWE(
             $ciphertext,
             $iv,
             $tag,

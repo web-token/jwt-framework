@@ -48,7 +48,7 @@ abstract class RSA implements SignatureAlgorithm
         return JoseRSA::sign($priv, $input, $this->getAlgorithm(), $this->getSignatureMethod());
     }
 
-    private function checkKey(JWK $key)
+    private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');

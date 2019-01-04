@@ -19,12 +19,12 @@ class JWKSetController
 {
     private $jwkset;
 
-    public function __construct(string $jwkset, int $maxAge)
+    public function __construct(string $jwkset)
     {
         $this->jwkset = $jwkset;
     }
 
-    public function getAction(): Response
+    public function __invoke(): Response
     {
         return new Response(
             $this->jwkset,

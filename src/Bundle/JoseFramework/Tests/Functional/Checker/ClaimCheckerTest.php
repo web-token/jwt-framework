@@ -38,7 +38,7 @@ class ClaimCheckerTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(ClaimCheckerManagerFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory::class));
     }
 
     /**
@@ -48,7 +48,7 @@ class ClaimCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         /** @var ClaimCheckerManagerFactory $claimCheckerManagerFactory */
-        $claimCheckerManagerFactory = $client->getContainer()->get(ClaimCheckerManagerFactory::class);
+        $claimCheckerManagerFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory::class);
 
         $aliases = $claimCheckerManagerFactory->aliases();
         $claimCheckerManager = $claimCheckerManagerFactory->create($aliases);

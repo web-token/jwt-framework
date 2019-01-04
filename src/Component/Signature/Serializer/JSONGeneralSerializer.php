@@ -111,7 +111,7 @@ final class JSONGeneralSerializer extends Serializer
         }
 
         $payload = $this->processPayload($rawPayload, $isPayloadEncoded);
-        $jws = JWS::create($payload, $rawPayload);
+        $jws = new JWS($payload, $rawPayload);
         foreach ($signatures as $signature) {
             $jws = $jws->addSignature(
                 $signature['signature'],

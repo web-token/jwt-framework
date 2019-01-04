@@ -39,7 +39,7 @@ class JWSLoaderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(JWSLoaderFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWSLoaderFactory::class));
     }
 
     /**
@@ -50,7 +50,7 @@ class JWSLoaderTest extends WebTestCase
         $client = static::createClient();
 
         /** @var JWSLoaderFactory $jwsLoaderFactory */
-        $jwsLoaderFactory = $client->getContainer()->get(JWSLoaderFactory::class);
+        $jwsLoaderFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWSLoaderFactory::class);
 
         $jws = $jwsLoaderFactory->create(['jws_compact'], ['RS512']);
 

@@ -1,0 +1,66 @@
+<h3>JWE Loaders</h3>
+<p class="help">
+    The following table lists all JWE Loaders declared as services in your application configuration
+    or using the Configuration Helper.<br>
+    Loaders directly created through the JWE Loader Factory cannot be listed.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>Serializers</th>
+        <th>Key Encryption Algorithms</th>
+        <th>Content Encryption Algorithms</th>
+        <th>Compression Methods</th>
+        <th>Header Checkers</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%  if not collector.getData().jwe.jwe_loaders is empty %}
+        {% for id, data in collector.getData().jwe.jwe_loaders %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>
+                    <ul>
+                        {% for serializer in data.serializers %}
+                            <li>{{ serializer }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.key_encryption_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.content_encryption_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for method in data.compression_methods %}
+                            <li>{{ method }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    ---
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">There is no JWE Loader</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

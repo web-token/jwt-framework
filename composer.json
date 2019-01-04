@@ -65,6 +65,7 @@
         "symfony/config": "^4.1",
         "symfony/console": "^4.1",
         "symfony/dependency-injection": "^4.1",
+        "symfony/event-dispatcher": "^4.1",
         "symfony/framework-bundle": "^4.1",
         "symfony/http-kernel": "^4.1"
     },
@@ -81,7 +82,7 @@
         "symfony/browser-kit": "^4.1",
         "symfony/finder": "^4.1",
         "symfony/phpunit-bridge": "^4.1",
-        "symfony/yaml": "^4.1"
+        "symfony/var-dumper": "^4.1"
     },
     "replace": {
         "web-token/jwt-core": "self.version",

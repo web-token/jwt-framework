@@ -72,10 +72,10 @@ class EdDSASignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new EdDSA()])
+            new AlgorithmManager([new EdDSA()])
         );
         $jwsVerifier = new JWSVerifier(
-            AlgorithmManager::create([new EdDSA()])
+            new AlgorithmManager([new EdDSA()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()

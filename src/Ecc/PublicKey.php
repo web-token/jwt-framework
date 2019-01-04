@@ -42,25 +42,11 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 class PublicKey
 {
-    /**
-     * @var Point
-     */
     private $point;
 
-    /**
-     * PublicKey constructor.
-     */
-    private function __construct(Point $point)
+    public function __construct(Point $point)
     {
         $this->point = $point;
-    }
-
-    /**
-     * @return PublicKey
-     */
-    public static function create(Point $point): self
-    {
-        return new self($point);
     }
 
     public function getPoint(): Point

@@ -21,19 +21,11 @@ final class AlgorithmChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'alg';
 
-    /**
-     * @var bool
-     */
     private $protectedHeader = false;
 
-    /**
-     * @var string[]
-     */
     private $supportedAlgorithms;
 
     /**
-     * AlgorithmChecker constructor.
-     *
      * @param string[] $supportedAlgorithms
      */
     public function __construct(array $supportedAlgorithms, bool $protectedHeader = false)

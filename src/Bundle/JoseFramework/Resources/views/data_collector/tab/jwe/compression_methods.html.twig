@@ -1,0 +1,27 @@
+<h3>Compression Methods</h3>
+<p class="help">
+    The compression methods are used to shrink the size of the tokens.<br>
+    Their use is optional, but may be needed in case of heavy payloads.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Alias</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%  if not collector.getData().jwe.compression_methods is empty %}
+        {% for alias, name in collector.getData().jwe.compression_methods %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ alias }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">There is no compression method.</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

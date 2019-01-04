@@ -18,19 +18,13 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-/**
- * Class JoseFrameworkBundle.
- */
-class JoseFrameworkBundle extends Bundle
+final class JoseFrameworkBundle extends Bundle
 {
     /**
      * @var Source\Source[]
      */
     private $sources = [];
 
-    /**
-     * JoseFrameworkBundle constructor.
-     */
     public function __construct()
     {
         foreach ($this->getSources() as $source) {
@@ -59,7 +53,7 @@ class JoseFrameworkBundle extends Bundle
     /**
      * @return Source\Source[]
      */
-    private function getSources(): array
+    private function getSources(): iterable
     {
         return [
             new Source\Core\CoreSource(),

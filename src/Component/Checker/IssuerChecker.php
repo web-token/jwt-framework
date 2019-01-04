@@ -15,7 +15,7 @@ namespace Jose\Component\Checker;
 
 /**
  * This class is a header parameter and claim checker.
- * When the "aud" header parameter or claim is present, it will check if the value is within the allowed ones.
+ * When the "iss" header parameter or claim is present, it will check if the value is within the allowed ones.
  */
 final class IssuerChecker implements ClaimChecker, HeaderChecker
 {
@@ -41,10 +41,6 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
         $this->checkValue($value, InvalidHeaderException::class);
     }
 
-    /**
-     * @throws InvalidClaimException
-     * @throws InvalidHeaderException
-     */
     private function checkValue($value, string $class): void
     {
         if (!\is_string($value)) {

@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class SignatureSerializerCompilerPass implements CompilerPassInterface
+final class SignatureSerializerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

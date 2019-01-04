@@ -22,8 +22,6 @@ interface DirectEncryption extends KeyEncryptionAlgorithm
      * Returns the CEK.
      *
      * @param JWK $key The key used to get the CEK
-     *
-     * @throws \Exception If key does not support the algorithm or if the key usage does not authorize the operation
      */
     public function getCEK(JWK $key): string;
 }

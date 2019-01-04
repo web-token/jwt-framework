@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-class KeysetAnalyzerCompilerPass implements CompilerPassInterface
+final class KeysetAnalyzerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

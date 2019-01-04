@@ -75,7 +75,7 @@ class NoneSignatureTest extends TestCase
 
         $jwsBuilder = new JWSBuilder(
             new StandardConverter(),
-            AlgorithmManager::create([new None()])
+            new AlgorithmManager([new None()])
         );
         $serializer = new CompactSerializer(
             new StandardConverter()

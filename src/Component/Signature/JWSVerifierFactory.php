@@ -17,14 +17,8 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 
 class JWSVerifierFactory
 {
-    /**
-     * @var AlgorithmManagerFactory
-     */
     private $algorithmManagerFactory;
 
-    /**
-     * JWSVerifierFactory constructor.
-     */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;

@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class HeaderCheckerCompilerPass implements CompilerPassInterface
+final class HeaderCheckerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
@@ -32,7 +32,7 @@ class HeaderCheckerCompilerPass implements CompilerPassInterface
         $this->addTokenType($definition, $container);
     }
 
-    private function addHeaderCheckers(Definition $definition, ContainerBuilder $container)
+    private function addHeaderCheckers(Definition $definition, ContainerBuilder $container): void
     {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.header');
         foreach ($taggedHeaderCheckerServices as $id => $tags) {
@@ -45,7 +45,7 @@ class HeaderCheckerCompilerPass implements CompilerPassInterface
         }
     }
 
-    private function addTokenType(Definition $definition, ContainerBuilder $container)
+    private function addTokenType(Definition $definition, ContainerBuilder $container): void
     {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.token_type');
         foreach ($taggedHeaderCheckerServices as $id => $tags) {

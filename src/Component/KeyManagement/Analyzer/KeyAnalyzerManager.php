@@ -24,14 +24,10 @@ class KeyAnalyzerManager
 
     /**
      * Adds a Key Analyzer to the manager.
-     *
-     * @return KeyAnalyzerManager
      */
-    public function add(KeyAnalyzer $analyzer): self
+    public function add(KeyAnalyzer $analyzer): void
     {
         $this->analyzers[] = $analyzer;
-
-        return $this;
     }
 
     /**

@@ -42,32 +42,14 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 class Point
 {
-    /**
-     * @var \GMP
-     */
     private $x;
 
-    /**
-     * @var \GMP
-     */
     private $y;
 
-    /**
-     * @var \GMP
-     */
     private $order;
 
-    /**
-     * @var bool
-     */
     private $infinity = false;
 
-    /**
-     * Initialize a new instance.
-     *
-     * @throws \RuntimeException when either the curve does not contain the given coordinates or
-     *                           when order is not null and P(x, y) * order is not equal to infinity
-     */
     private function __construct(\GMP $x, \GMP $y, \GMP $order, bool $infinity = false)
     {
         $this->x = $x;
@@ -76,17 +58,11 @@ class Point
         $this->infinity = $infinity;
     }
 
-    /**
-     * @return Point
-     */
     public static function create(\GMP $x, \GMP $y, ?\GMP $order = null): self
     {
         return new self($x, $y, null === $order ? \gmp_init(0, 10) : $order);
     }
 
-    /**
-     * @return Point
-     */
     public static function infinity(): self
     {
         $zero = \gmp_init(0, 10);
@@ -114,11 +90,7 @@ class Point
         return $this->y;
     }
 
-    /**
-     * @param Point $a
-     * @param Point $b
-     */
-    public static function cswap(self $a, self $b, int $cond)
+    public static function cswap(self $a, self $b, int $cond): void
     {
         self::cswapGMP($a->x, $b->x, $cond);
         self::cswapGMP($a->y, $b->y, $cond);
@@ -126,7 +98,7 @@ class Point
         self::cswapBoolean($a->infinity, $b->infinity, $cond);
     }
 
-    private static function cswapBoolean(bool &$a, bool &$b, int $cond)
+    private static function cswapBoolean(bool &$a, bool &$b, int $cond): void
     {
         $sa = \gmp_init(\intval($a), 10);
         $sb = \gmp_init(\intval($b), 10);
@@ -137,7 +109,7 @@ class Point
         $b = (bool) \gmp_strval($sb, 10);
     }
 
-    private static function cswapGMP(\GMP &$sa, \GMP &$sb, int $cond)
+    private static function cswapGMP(\GMP &$sa, \GMP &$sb, int $cond): void
     {
         $size = \max(\mb_strlen(\gmp_strval($sa, 2), '8bit'), \mb_strlen(\gmp_strval($sb, 2), '8bit'));
         $mask = \strval(1 - \intval($cond));

@@ -23,35 +23,18 @@ class JWSSerializerManager
     private $serializers = [];
 
     /**
-     * JWSSerializerManager constructor.
-     *
      * @param JWSSerializer[] $serializers
      */
-    private function __construct(array $serializers)
+    public function __construct(array $serializers)
     {
         foreach ($serializers as $serializer) {
             $this->add($serializer);
         }
     }
 
-    /**
-     * @param JWSSerializer[] $serializers
-     *
-     * @return JWSSerializerManager
-     */
-    public static function create(array $serializers): self
-    {
-        return new self($serializers);
-    }
-
-    /**
-     * @return JWSSerializerManager
-     */
-    private function add(JWSSerializer $serializer): self
+    private function add(JWSSerializer $serializer): void
     {
         $this->serializers[$serializer->name()] = $serializer;
-
-        return $this;
     }
 
     /**
@@ -64,8 +47,6 @@ class JWSSerializerManager
 
     /**
      * Converts a JWS into a string.
-     *
-     * @throws \Exception
      */
     public function serialize(string $name, JWS $jws, ?int $signatureIndex = null): string
     {
@@ -81,8 +62,6 @@ class JWSSerializerManager
      *
      * @param string      $input A string that represents a JWS
      * @param string|null $name  the name of the serializer if the input is unserialized
-     *
-     * @throws \Exception
      */
     public function unserialize(string $input, ?string &$name = null): JWS
     {

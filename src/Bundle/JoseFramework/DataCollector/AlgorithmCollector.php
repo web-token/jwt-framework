@@ -21,22 +21,16 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AlgorithmCollector implements Collector
+final class AlgorithmCollector implements Collector
 {
-    /**
-     * @var AlgorithmManagerFactory
-     */
     private $algorithmManagerFactory;
 
-    /**
-     * AlgorithmCollector constructor.
-     */
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)
     {
         $this->algorithmManagerFactory = $algorithmManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
+    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
     {
         $algorithms = $this->algorithmManagerFactory->all();
         $data['algorithm'] = [
@@ -138,35 +132,35 @@ class AlgorithmCollector implements Collector
                 'severity' => 'severity-low',
                 'message' => 'Experimental. Please use for testing purpose only.',
             ],
-            'AES-CCM-16-64-128' => [
+            'A128CCM-16-64' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
-            'AES-CCM-16-64-256' => [
+            'A256CCM-16-64' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
-            'AES-CCM-64-64-128' => [
+            'A128CCM-64-64' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
-            'AES-CCM-64-64-256' => [
+            'A256CCM-64-64' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
-            'AES-CCM-16-128-128' => [
+            'A128CCM-16-128' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
-            'AES-CCM-16-128-256' => [
+            'A256CCM-16-128' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
-            'AES-CCM-64-128-128' => [
+            'A128CCM-64-128' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
-            'AES-CCM-64-128-256' => [
+            'A256CCM-64-128' => [
                 'severity' => 'severity-low',
                 'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],

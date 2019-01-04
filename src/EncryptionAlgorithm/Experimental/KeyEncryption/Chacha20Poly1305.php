@@ -62,7 +62,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
-    private function checkKey(JWK $key)
+    private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -72,7 +72,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         }
     }
 
-    private function checkHeaderAdditionalParameters(array $header)
+    private function checkHeaderAdditionalParameters(array $header): void
     {
         foreach (['nonce'] as $k) {
             if (!\array_key_exists($k, $header)) {

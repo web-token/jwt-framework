@@ -1,0 +1,88 @@
+<h3>JWE Decrypters</h3>
+<p class="help">
+    The following table lists all JWE Decrypters declared as services in your application configuration
+    or using the Configuration Helper.<br>
+    Decrypters directly created through the JWE Decrypter Factory cannot be listed.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Service ID</th>
+        <th>Key Encryption Algorithms</th>
+        <th>Content Encryption Algorithms</th>
+        <th>Compression Methods</th>
+    </tr>
+    </thead>
+    <tbody>
+    {%  if not collector.getData().jwe.jwe_decrypters is empty %}
+        {% for id, data in collector.getData().jwe.jwe_decrypters %}
+            <tr>
+                <td>{{ id }}</td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.key_encryption_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for algorithm in data.content_encryption_algorithms %}
+                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
+                                {{ algorithm }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        {% for method in data.compression_methods %}
+                            <li>{{ method }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4">There is no JWE Decrypter</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+<h4>Decrypted Tokens</h4>
+<p class="help">
+    The following tables list all tokens decrypted (or not) by the JWE Decrypters.<br>
+    Failure reason is related to the key(s) used.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Status</th>
+        <th scope="col">JWE</th>
+        <th scope="col">Key set</th>
+        <th scope="col">Recipient index / Exception</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for event in collector.getData().jwe.events.decryption_success %}
+        <tr class="status-success">
+            <td>Success</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+            <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
+            <td>{{ event.recipient }}</td>
+        </tr>
+    {% endfor %}
+    {% for event in collector.getData().jwe.events.decryption_failure %}
+        <tr class="status-error">
+            <td>Failure</td>
+            <td>{{ profiler_dump(event.seek("jwe")) }}</td>
+            <td>{{ profiler_dump(event.seek("JWKSet")) }}</td>
+            <td><i>none</i></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

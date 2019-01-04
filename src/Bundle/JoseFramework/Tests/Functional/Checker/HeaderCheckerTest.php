@@ -38,7 +38,7 @@ class HeaderCheckerTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(HeaderCheckerManagerFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory::class));
     }
 
     /**
@@ -48,7 +48,7 @@ class HeaderCheckerTest extends WebTestCase
     {
         $client = static::createClient();
         /** @var HeaderCheckerManagerFactory $headerCheckerManagerFactory */
-        $headerCheckerManagerFactory = $client->getContainer()->get(HeaderCheckerManagerFactory::class);
+        $headerCheckerManagerFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory::class);
 
         $aliases = $headerCheckerManagerFactory->aliases();
         $headerCheckerManager = $headerCheckerManagerFactory->create($aliases);

@@ -13,37 +13,61 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Jose\Bundle\JoseFramework\Event\Events;
+use Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent;
+use Jose\Bundle\JoseFramework\Event\JWSVerificationFailureEvent;
+use Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 
-class JWSCollector implements Collector
+class JWSCollector implements Collector, EventSubscriberInterface
 {
-    /**
-     * @var JWSSerializerManagerFactory|null
-     */
     private $jwsSerializerManagerFactory;
 
     /**
-     * JWSCollector constructor.
+     * @var JWSBuilder[]
      */
+    private $jwsBuilders = [];
+
+    /**
+     * @var JWSVerifier[]
+     */
+    private $jwsVerifiers = [];
+
+    /**
+     * @var JWSLoader[]
+     */
+    private $jwsLoaders = [];
+
+    private $jwsVerificationSuccesses = [];
+
+    private $jwsVerificationFailures = [];
+
+    private $jwsBuiltSuccesses = [];
+
+    private $jwsBuiltFailures = [];
+
     public function __construct(?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null)
     {
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, \Exception $exception = null)
+    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
     {
         $this->collectSupportedJWSSerializations($data);
         $this->collectSupportedJWSBuilders($data);
         $this->collectSupportedJWSVerifiers($data);
         $this->collectSupportedJWSLoaders($data);
+        $this->collectEvents($data);
     }
 
-    private function collectSupportedJWSSerializations(array &$data)
+    private function collectSupportedJWSSerializations(array &$data): void
     {
         $data['jws']['jws_serialization'] = [];
         if (null === $this->jwsSerializerManagerFactory) {
@@ -55,7 +79,7 @@ class JWSCollector implements Collector
         }
     }
 
-    private function collectSupportedJWSBuilders(array &$data)
+    private function collectSupportedJWSBuilders(array &$data): void
     {
         $data['jws']['jws_builders'] = [];
         foreach ($this->jwsBuilders as $id => $jwsBuilder) {
@@ -65,7 +89,7 @@ class JWSCollector implements Collector
         }
     }
 
-    private function collectSupportedJWSVerifiers(array &$data)
+    private function collectSupportedJWSVerifiers(array &$data): void
     {
         $data['jws']['jws_verifiers'] = [];
         foreach ($this->jwsVerifiers as $id => $jwsVerifier) {
@@ -75,7 +99,7 @@ class JWSCollector implements Collector
         }
     }
 
-    private function collectSupportedJWSLoaders(array &$data)
+    private function collectSupportedJWSLoaders(array &$data): void
     {
         $data['jws']['jws_loaders'] = [];
         foreach ($this->jwsLoaders as $id => $jwsLoader) {
@@ -86,33 +110,62 @@ class JWSCollector implements Collector
         }
     }
 
-    /**
-     * @var JWSBuilder[]
-     */
-    private $jwsBuilders = [];
+    private function collectEvents(array &$data): void
+    {
+        $data['jws']['events'] = [
+            'verification_success' => $this->jwsVerificationSuccesses,
+            'verification_failure' => $this->jwsVerificationFailures,
+            'built_success' => $this->jwsBuiltSuccesses,
+            'built_failure' => $this->jwsBuiltFailures,
+        ];
+    }
 
-    public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder)
+    public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder): void
     {
         $this->jwsBuilders[$id] = $jwsBuilder;
     }
 
-    /**
-     * @var JWSVerifier[]
-     */
-    private $jwsVerifiers = [];
-
-    public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier)
+    public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier): void
     {
         $this->jwsVerifiers[$id] = $jwsVerifier;
     }
 
-    /**
-     * @var JWSLoader[]
-     */
-    private $jwsLoaders = [];
-
-    public function addJWSLoader(string $id, JWSLoader $jwsLoader)
+    public function addJWSLoader(string $id, JWSLoader $jwsLoader): void
     {
         $this->jwsLoaders[$id] = $jwsLoader;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::JWS_VERIFICATION_SUCCESS => ['catchJwsVerificationSuccess'],
+            Events::JWS_VERIFICATION_FAILURE => ['catchJwsVerificationFailure'],
+            Events::JWS_BUILT_SUCCESS => ['catchJwsBuiltSuccess'],
+            Events::JWS_BUILT_FAILURE => ['catchJwsBuiltFailure'],
+        ];
+    }
+
+    public function catchJwsVerificationSuccess(JWSVerificationSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsVerificationSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJwsVerificationFailure(JWSVerificationFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsVerificationFailures[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJwsBuiltSuccess(JWSBuiltSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsBuiltSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJwsBuiltFailure(JWSBuiltFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsBuiltFailures[] = $cloner->cloneVar($event);
     }
 }

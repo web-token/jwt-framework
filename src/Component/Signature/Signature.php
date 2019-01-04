@@ -15,47 +15,20 @@ namespace Jose\Component\Signature;
 
 class Signature
 {
-    /**
-     * @var null|string
-     */
     private $encodedProtectedHeader;
 
-    /**
-     * @var array
-     */
     private $protectedHeader;
 
-    /**
-     * @var array
-     */
     private $header;
 
-    /**
-     * @var string
-     */
     private $signature;
 
-    /**
-     * Signature constructor.
-     */
-    private function __construct(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header)
+    public function __construct(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header)
     {
         $this->protectedHeader = null === $encodedProtectedHeader ? [] : $protectedHeader;
         $this->encodedProtectedHeader = $encodedProtectedHeader;
         $this->signature = $signature;
         $this->header = $header;
-    }
-
-    /**
-     * Creates a new signature.
-     *
-     * @internal
-     *
-     * @return Signature
-     */
-    public static function create(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header = []): self
-    {
-        return new self($signature, $protectedHeader, $encodedProtectedHeader, $header);
     }
 
     /**

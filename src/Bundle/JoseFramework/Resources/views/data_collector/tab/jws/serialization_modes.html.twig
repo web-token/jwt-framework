@@ -1,0 +1,27 @@
+<h3>Serialization Modes</h3>
+<p class="help">
+    The serialization modes are used to convert a JWS object into a JSON object.<br>
+    The JWS Compact serialization mode is the most common as it allows tokens to be used in a web context.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Alias</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if not collector.getData().jws.jws_serialization is empty %}
+        {% for alias, name in collector.getData().jws.jws_serialization %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ alias }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="2">There is no serialization modes. Did you installed "web-token/jwt-signature"?</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

@@ -18,7 +18,6 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWELoaderFactory;
 use Jose\Component\Encryption\NestedTokenLoader;
-use Jose\Component\Encryption\NestedTokenLoaderFactory;
 use Jose\Component\Signature\JWSLoaderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -49,7 +48,7 @@ class NestedTokenLoaderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(NestedTokenLoaderFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory::class));
     }
 
     /**

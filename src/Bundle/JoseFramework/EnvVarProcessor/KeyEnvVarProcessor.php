@@ -17,7 +17,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
-class KeyEnvVarProcessor implements EnvVarProcessorInterface
+final class KeyEnvVarProcessor implements EnvVarProcessorInterface
 {
     public function getEnv($prefix, $name, \Closure $getEnv)
     {

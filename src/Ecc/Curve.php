@@ -20,31 +20,18 @@ class Curve
 {
     /**
      * Elliptic curve over the field of integers modulo a prime.
-     *
-     * @var \GMP
      */
     private $a;
 
-    /**
-     * @var \GMP
-     */
     private $b;
 
-    /**
-     * @var \GMP
-     */
     private $prime;
 
     /**
      * Binary length of keys associated with these curve parameters.
-     *
-     * @var int
      */
     private $size;
 
-    /**
-     * @var Point
-     */
     private $generator;
 
     public function __construct(int $size, \GMP $prime, \GMP $a, \GMP $b, Point $generator)
@@ -100,7 +87,7 @@ class Curve
         }
         $point = $this->getPoint($x, $y);
 
-        return PublicKey::create($point);
+        return new PublicKey($point);
     }
 
     public function contains(\GMP $x, \GMP $y): bool
@@ -271,7 +258,7 @@ class Curve
     {
         $point = $this->mul($this->generator, $privateKey->getSecret());
 
-        return PublicKey::create($point);
+        return new PublicKey($point);
     }
 
     private function generate(): \GMP

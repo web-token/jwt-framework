@@ -81,7 +81,7 @@ final class CompactSerializer implements JWESerializer
             $ciphertext = Base64Url::decode($parts[3]);
             $tag = Base64Url::decode($parts[4]);
 
-            return JWE::create(
+            return new JWE(
                 $ciphertext,
                 $iv,
                 $tag,
@@ -89,7 +89,7 @@ final class CompactSerializer implements JWESerializer
                 [],
                 $sharedProtectedHeader,
                 $encodedSharedProtectedHeader,
-                [Recipient::create([], $encryptedKey)]);
+                [new Recipient([], $encryptedKey)]);
         } catch (\Error | \Exception $e) {
             throw new \InvalidArgumentException('Unsupported input');
         }
