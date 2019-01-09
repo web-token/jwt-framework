@@ -7,3 +7,7 @@ jose.phar.version
 .travis/secrets.tar
 report.md
 composer.lock
+.php_cs
+.php_cs.cache
+vendor/
+src/Bundle/JoseFramework/var/
