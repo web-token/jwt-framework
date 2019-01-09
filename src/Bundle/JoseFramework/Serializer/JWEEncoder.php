@@ -18,6 +18,7 @@ use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
 class JWEEncoder implements EncoderInterface, DecoderInterface
 {
@@ -52,7 +53,13 @@ class JWEEncoder implements EncoderInterface, DecoderInterface
         try {
             return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getRecipientIndex($context));
         } catch (\Exception $ex) {
-            throw new NotEncodableValueException(sprintf('Cannot encode JWE to %s format.', $format), 0, $ex);
+            $message = sprintf('Cannot encode JWE to %s format.', $format);
+            
+            if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
+                throw new NotEncodableValueException($message, 0, $ex);
+            }
+            
+            throw new UnexpectedValueException($message, 0, $ex);
         }
     }
 
@@ -60,8 +67,14 @@ class JWEEncoder implements EncoderInterface, DecoderInterface
     {
         try {
             return $this->serializerManager->unserialize($data);
-        } catch (\Exception $ex) {
-            throw new NotEncodableValueException(sprintf('Cannot decode JWE from %s format.', $format), 0, $ex);
+        } catch (\Exception $ex) {            
+            $message = sprintf('Cannot decode JWE from %s format.', $format);
+            
+            if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
+                throw new NotEncodableValueException($message, 0, $ex);
+            }
+            
+            throw new UnexpectedValueException($message, 0, $ex);
         }
     }
 
