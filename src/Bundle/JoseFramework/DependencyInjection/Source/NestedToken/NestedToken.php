@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2019 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -16,9 +16,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Encryption\JWEDecrypterFactory;
-use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

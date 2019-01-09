@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2019 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -47,9 +47,10 @@ final class Configuration implements ConfigurationInterface
     private function getRootNode(TreeBuilder $treeBuilder, $name)
     {
         // BC layer for symfony/config 4.1 and older
-        if (! \method_exists($treeBuilder, 'getRootNode')) {
+        if (!\method_exists($treeBuilder, 'getRootNode')) {
             return $treeBuilder->root($name);
         }
+
         return $treeBuilder->getRootNode();
     }
 }

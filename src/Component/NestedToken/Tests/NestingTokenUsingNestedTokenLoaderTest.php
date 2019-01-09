@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2019 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -25,8 +25,8 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWELoaderFactory;
 use Jose\Component\Encryption\JWETokenSupport;
-use Jose\Component\NestedToken\NestedTokenLoaderFactory;
 use Jose\Component\Encryption\Serializer as JweSerializer;
+use Jose\Component\NestedToken\NestedTokenLoaderFactory;
 use Jose\Component\Signature\Algorithm\PS256;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
