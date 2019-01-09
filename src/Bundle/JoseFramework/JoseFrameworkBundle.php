@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\SymfonySerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -46,6 +48,7 @@ class JoseFrameworkBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
         foreach ($this->sources as $source) {
             if ($source instanceof Source\SourceWithCompilerPasses) {
                 $compilerPasses = $source->getCompilerPasses();
@@ -54,6 +57,8 @@ class JoseFrameworkBundle extends Bundle
                 }
             }
         }
+
+        $container->addCompilerPass(new SymfonySerializerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 10);
     }
 
     /**
