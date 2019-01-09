@@ -11,9 +11,11 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
+namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
+use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
@@ -93,8 +95,7 @@ class NestedToken implements Source
 
     private function isEnabled(): bool
     {
-        return \class_exists(JWEDecrypterFactory::class)
-            && \class_exists(JWSVerifierFactory::class)
-            && \class_exists(HeaderCheckerManagerFactory::class);
+        return \class_exists(NestedTokenBuilderFactory::class)
+            && \class_exists(NestedTokenLoaderFactory::class);
     }
 }

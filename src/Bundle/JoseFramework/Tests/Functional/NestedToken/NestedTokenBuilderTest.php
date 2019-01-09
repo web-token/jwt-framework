@@ -11,79 +11,70 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
+namespace Jose\Bundle\JoseFramework\Tests\Functional\NestedToken;
 
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\Core\JWK;
-use Jose\Component\Core\JWKSet;
-use Jose\Component\Encryption\JWELoaderFactory;
-use Jose\Component\Encryption\NestedTokenLoader;
-use Jose\Component\Signature\JWSLoaderFactory;
+use Jose\Component\NestedToken\NestedTokenBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @group Bundle
  * @group Functional
  */
-class NestedTokenLoaderTest extends WebTestCase
+class NestedTokenBuilderTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(JWELoaderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-        if (!\class_exists(JWSLoaderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-        if (!\class_exists(HeaderCheckerManagerFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+        if (!\class_exists(NestedTokenLoaderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
         }
     }
 
     /**
      * @test
      */
-    public function theNestedTokenLoaderFactoryIsAvailable()
+    public function theNestedTokenBuilderFactoryIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory::class));
+        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory::class));
     }
 
     /**
      * @test
      */
-    public function theNestedTokenLoaderFromTheConfigurationIsAvailable()
+    public function theNestedTokenBuilderFromTheConfigurationIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has('jose.nested_token_loader.nested_token_loader_1'));
+        static::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_1'));
     }
 
     /**
      * @test
      */
-    public function theNestedTokenLoaderFromTheConfigurationHelperIsAvailable()
+    public function theNestedTokenBuilderFromTheConfigurationHelperIsAvailable()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has('jose.nested_token_loader.nested_token_loader_2'));
+        static::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_2'));
     }
 
     /**
      * @test
      */
-    public function aNestedTokenCanBeDecryptedAndVerifiedUsingTheServiceCreatedFromTheConfiguration()
+    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfiguration()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
 
-        /** @var NestedTokenLoader $loader */
-        $loader = $container->get('jose.nested_token_loader.nested_token_loader_1');
+        /** @var NestedTokenBuilder $builder */
+        $builder = $container->get('jose.nested_token_builder.nested_token_builder_1');
 
         $encryption_key = JWK::create([
             'kty' => 'RSA',
@@ -99,7 +90,6 @@ class NestedTokenLoaderTest extends WebTestCase
             'dq' => 'S6p59KrlmzGzaQYQM3o0XfHCGvfqHLYjCO557HYQf72O9kLMCfd_1VBEqeD-1jjwELKDjck8kOBl5UvohK1oDfSP1DleAy-cnmL29DqWmhgwM1ip0CCNmkmsmDSlqkUXDi6sAaZuntyukyflI-qSQ3C_BafPyFaKrt1fgdyEwYa08pESKwwWisy7KnmoUvaJ3SaHmohFS78TJ25cfc10wZ9hQNOrIChZlkiOdFCtxDqdmCqNacnhgE3bZQjGp3n83ODSz9zwJcSUvODlXBPc2AycH6Ci5yjbxt4Ppox_5pjm6xnQkiPgj01GpsUssMmBN7iHVsrE7N2iznBNCeOUIQ',
             'qi' => 'FZhClBMywVVjnuUud-05qd5CYU0dK79akAgy9oX6RX6I3IIIPckCciRrokxglZn-omAY5CnCe4KdrnjFOT5YUZE7G_Pg44XgCXaarLQf4hl80oPEf6-jJ5Iy6wPRx7G2e8qLxnh9cOdf-kRqgOS3F48Ucvw3ma5V6KGMwQqWFeV31XtZ8l5cVI-I3NzBS7qltpUVgz2Ju021eyc7IlqgzR98qKONl27DuEES0aK0WE97jnsyO27Yp88Wa2RiBrEocM89QZI1seJiGDizHRUP4UZxw9zsXww46wy0P6f9grnYp7t8LkyDDk8eoI4KX6SNMNVcyVS9IWjlq8EzqZEKIA',
         ]);
-        $encryption_key_set = JWKSet::createFromKeys([$encryption_key]);
 
         $signature_key = JWK::create([
             'kty' => 'RSA',
@@ -114,29 +104,38 @@ class NestedTokenLoaderTest extends WebTestCase
             'dq' => 'R9FUvU88OVzEkTkXl3-5-WusE4DjHmndeZIlu3rifBdfLpq_P-iWPBbGaq9wzQ1c-J7SzCdJqkEJDv5yd2C7rnZ6kpzwBh_nmL8zscAk1qsunnt9CJGAYz7-sGWy1JGShFazfP52ThB4rlCJ0YuEaQMrIzpY77_oLAhpmDA0hLk',
             'qi' => 'S8tC7ZknW6hPITkjcwttQOPLVmRfwirRlFAViuDb8NW9CrV_7F2OqUZCqmzHTYAumwGFHI1WVRep7anleWaJjxC_1b3fq_al4qH3Pe-EKiHg6IMazuRtZLUROcThrExDbF5dYbsciDnfRUWLErZ4N1Be0bnxYuPqxwKd9QZwMo0',
         ]);
-        $signature_key_set = JWKSet::createFromKeys([
-            $signature_key,
-        ]);
 
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
-        $token = 'eyJhbGciOiJSU0EtT0FFUCIsImN0eSI6IkpXVCIsImVuYyI6IkExMjhHQ00ifQ.a0JHRoITfpX4qRewImjlStn8m3CPxBV1ueYlVhjurCyrBg3I7YhCRYjphDOOS4E7rXbr2Fn6NyQq-A-gqT0FXqNjVOGrG-bi13mwy7RoYhjTkBEC6P7sMYMXXx4gzMedpiJHQVeyI-zkZV7A9matpgevAJWrXzOUysYGTtwoSN6gtUVtlLaivjvb21O0ul4YxSHV-ByK1kyeetRp_fuYJxHoKLQL9P424sKx2WGYb4zsBIPF4ssl_e5IR7nany-25_UmC2urosNkoFz9cQ82MypZP8gqbQJyPN-Fpp4Z-5o6yV64x6yzDUF_5JCIdl-Qv6H5dMVIY7q1eKpXcV1lWO_2FefEBqXxXvIjLeZivjNkzogCq3-IapSjVFnMjBxjpYLT8muaawo1yy1XXMuinIpNcOY3n4KKrXLrCcteX85m4IIHMZa38s1Hpr56fPPseMA-Jltmt-a9iEDtOzhtxz8AXy9tsCAZV2XBWNG8c3kJusAamBKOYwfk7JhLRDgOnJjlJLhn7TI4UxDp9dCmUXEN6z0v23W15qJIEXNJtqnblpymooeWAHCT4e_Owbim1g0AEpTHUdA2iiLNs9WTX_H_TXuPC8yDDhi1smxS_X_xpkIHkiIHWDOLx03BpqDTivpKkBYwqP2UZkcxqX2Fo_GnVrNwlK7Lgxw6FSQvDO0.GbX1i9kXz0sxXPmA.SZI4IvKHmwpazl_pJQXX3mHv1ANnOU4Wf9-utWYUcKrBNgCe2OFMf66cSJ8k2QkxaQD3_R60MGE9ofomwtky3GFxMeGRjtpMt9OAvVLsAXB0_UTCBGyBg3C2bWLXqZlfJAAoJRUPRk-BimYZY81zVBuIhc7HsQePCpu33SzMsFHjn4lP_idrJz_glZTNgKDt8zdnUPauKTKDNOH1DD4fuzvDYfDIAfqGPyL5sVRwbiXpXdGokEszM-9ChMPqW1QNhzuX_Zul3bvrJwr7nuGZs4cUScY3n8yE3AHCLurgls-A9mz1X38xEaulV18l4Fg9tLejdkAuQZjPbqeHQBJe4IwGD5Ee0dQ-Mtz4NnhkIWx-YKBb_Xo2zI3Q_1sYjKUuis7yWW-HTr_vqvFt0bj7WJf2vzB0TZ3dvsoGaTvPH2dyWwumUrlx4gmPUzBdwTO6ubfYSDUEEz5py0d_OtWeUSYcCYBKD-aM7tXg26qJo21gYjLfhn9zy-W19sOCZGuzgFjPhawXHpvnj_t-0_ES96kogjJLxS1IMU9Y5XmnwZMyNc9EIwnogsCg-hVuvzyP0sIruktmI94_SL1xgMl7o03phcTMxtlMizR88NKU1WkBsiXMCjy1Noue7MD-ShDp5dmM.KnIKEhN8U-3C9s4gtSpjSw';
 
-        $jws = $loader->load($token, $encryption_key_set, $signature_key_set, $signature);
-        static::assertEquals($payload, $jws->getPayload());
-        static::assertEquals(0, $signature);
+        $builder->create(
+            $payload,
+            [[
+                'key' => $signature_key,
+                'protected_header' => ['alg' => 'PS256'],
+            ]],
+            'jws_compact',
+            ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
+            [],
+            [[
+                'key' => $encryption_key,
+            ]],
+            'jwe_compact'
+        );
+
+        static::assertTrue(true);
     }
 
     /**
      * @test
      */
-    public function aNestedTokenCanBeDecryptedAndVerifiedUsingTheServiceCreatedFromTheConfigurationHelper()
+    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfigurationHelper()
     {
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
 
-        /** @var NestedTokenLoader $loader */
-        $loader = $container->get('jose.nested_token_loader.nested_token_loader_2');
+        /** @var NestedTokenBuilder $builder */
+        $builder = $container->get('jose.nested_token_builder.nested_token_builder_2');
 
         $encryption_key = JWK::create([
             'kty' => 'RSA',
@@ -152,7 +151,6 @@ class NestedTokenLoaderTest extends WebTestCase
             'dq' => 'S6p59KrlmzGzaQYQM3o0XfHCGvfqHLYjCO557HYQf72O9kLMCfd_1VBEqeD-1jjwELKDjck8kOBl5UvohK1oDfSP1DleAy-cnmL29DqWmhgwM1ip0CCNmkmsmDSlqkUXDi6sAaZuntyukyflI-qSQ3C_BafPyFaKrt1fgdyEwYa08pESKwwWisy7KnmoUvaJ3SaHmohFS78TJ25cfc10wZ9hQNOrIChZlkiOdFCtxDqdmCqNacnhgE3bZQjGp3n83ODSz9zwJcSUvODlXBPc2AycH6Ci5yjbxt4Ppox_5pjm6xnQkiPgj01GpsUssMmBN7iHVsrE7N2iznBNCeOUIQ',
             'qi' => 'FZhClBMywVVjnuUud-05qd5CYU0dK79akAgy9oX6RX6I3IIIPckCciRrokxglZn-omAY5CnCe4KdrnjFOT5YUZE7G_Pg44XgCXaarLQf4hl80oPEf6-jJ5Iy6wPRx7G2e8qLxnh9cOdf-kRqgOS3F48Ucvw3ma5V6KGMwQqWFeV31XtZ8l5cVI-I3NzBS7qltpUVgz2Ju021eyc7IlqgzR98qKONl27DuEES0aK0WE97jnsyO27Yp88Wa2RiBrEocM89QZI1seJiGDizHRUP4UZxw9zsXww46wy0P6f9grnYp7t8LkyDDk8eoI4KX6SNMNVcyVS9IWjlq8EzqZEKIA',
         ]);
-        $encryption_key_set = JWKSet::createFromKeys([$encryption_key]);
 
         $signature_key = JWK::create([
             'kty' => 'RSA',
@@ -167,15 +165,24 @@ class NestedTokenLoaderTest extends WebTestCase
             'dq' => 'R9FUvU88OVzEkTkXl3-5-WusE4DjHmndeZIlu3rifBdfLpq_P-iWPBbGaq9wzQ1c-J7SzCdJqkEJDv5yd2C7rnZ6kpzwBh_nmL8zscAk1qsunnt9CJGAYz7-sGWy1JGShFazfP52ThB4rlCJ0YuEaQMrIzpY77_oLAhpmDA0hLk',
             'qi' => 'S8tC7ZknW6hPITkjcwttQOPLVmRfwirRlFAViuDb8NW9CrV_7F2OqUZCqmzHTYAumwGFHI1WVRep7anleWaJjxC_1b3fq_al4qH3Pe-EKiHg6IMazuRtZLUROcThrExDbF5dYbsciDnfRUWLErZ4N1Be0bnxYuPqxwKd9QZwMo0',
         ]);
-        $signature_key_set = JWKSet::createFromKeys([
-            $signature_key,
-        ]);
 
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
-        $token = 'eyJhbGciOiJSU0EtT0FFUCIsImN0eSI6IkpXVCIsImVuYyI6IkExMjhHQ00ifQ.a0JHRoITfpX4qRewImjlStn8m3CPxBV1ueYlVhjurCyrBg3I7YhCRYjphDOOS4E7rXbr2Fn6NyQq-A-gqT0FXqNjVOGrG-bi13mwy7RoYhjTkBEC6P7sMYMXXx4gzMedpiJHQVeyI-zkZV7A9matpgevAJWrXzOUysYGTtwoSN6gtUVtlLaivjvb21O0ul4YxSHV-ByK1kyeetRp_fuYJxHoKLQL9P424sKx2WGYb4zsBIPF4ssl_e5IR7nany-25_UmC2urosNkoFz9cQ82MypZP8gqbQJyPN-Fpp4Z-5o6yV64x6yzDUF_5JCIdl-Qv6H5dMVIY7q1eKpXcV1lWO_2FefEBqXxXvIjLeZivjNkzogCq3-IapSjVFnMjBxjpYLT8muaawo1yy1XXMuinIpNcOY3n4KKrXLrCcteX85m4IIHMZa38s1Hpr56fPPseMA-Jltmt-a9iEDtOzhtxz8AXy9tsCAZV2XBWNG8c3kJusAamBKOYwfk7JhLRDgOnJjlJLhn7TI4UxDp9dCmUXEN6z0v23W15qJIEXNJtqnblpymooeWAHCT4e_Owbim1g0AEpTHUdA2iiLNs9WTX_H_TXuPC8yDDhi1smxS_X_xpkIHkiIHWDOLx03BpqDTivpKkBYwqP2UZkcxqX2Fo_GnVrNwlK7Lgxw6FSQvDO0.GbX1i9kXz0sxXPmA.SZI4IvKHmwpazl_pJQXX3mHv1ANnOU4Wf9-utWYUcKrBNgCe2OFMf66cSJ8k2QkxaQD3_R60MGE9ofomwtky3GFxMeGRjtpMt9OAvVLsAXB0_UTCBGyBg3C2bWLXqZlfJAAoJRUPRk-BimYZY81zVBuIhc7HsQePCpu33SzMsFHjn4lP_idrJz_glZTNgKDt8zdnUPauKTKDNOH1DD4fuzvDYfDIAfqGPyL5sVRwbiXpXdGokEszM-9ChMPqW1QNhzuX_Zul3bvrJwr7nuGZs4cUScY3n8yE3AHCLurgls-A9mz1X38xEaulV18l4Fg9tLejdkAuQZjPbqeHQBJe4IwGD5Ee0dQ-Mtz4NnhkIWx-YKBb_Xo2zI3Q_1sYjKUuis7yWW-HTr_vqvFt0bj7WJf2vzB0TZ3dvsoGaTvPH2dyWwumUrlx4gmPUzBdwTO6ubfYSDUEEz5py0d_OtWeUSYcCYBKD-aM7tXg26qJo21gYjLfhn9zy-W19sOCZGuzgFjPhawXHpvnj_t-0_ES96kogjJLxS1IMU9Y5XmnwZMyNc9EIwnogsCg-hVuvzyP0sIruktmI94_SL1xgMl7o03phcTMxtlMizR88NKU1WkBsiXMCjy1Noue7MD-ShDp5dmM.KnIKEhN8U-3C9s4gtSpjSw';
 
-        $jws = $loader->load($token, $encryption_key_set, $signature_key_set, $signature);
-        static::assertEquals($payload, $jws->getPayload());
-        static::assertEquals(0, $signature);
+        $builder->create(
+            $payload,
+            [[
+                'key' => $signature_key,
+                'protected_header' => ['alg' => 'PS256'],
+            ]],
+            'jws_compact',
+            ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
+            [],
+            [[
+                'key' => $encryption_key,
+            ]],
+            'jwe_compact'
+        );
+
+        static::assertTrue(true);
     }
 }

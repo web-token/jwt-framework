@@ -61,7 +61,7 @@ final class JoseFrameworkBundle extends Bundle
             new Source\Console\ConsoleSource(),
             new Source\Signature\SignatureSource(),
             new Source\Encryption\EncryptionSource(),
-            new Source\Encryption\NestedToken(),
+            new Source\NestedToken\NestedToken(),
             new Source\KeyManagement\KeyManagementSource(),
         ];
     }

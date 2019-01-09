@@ -16,7 +16,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\NestedTokenIssuedEvent;
 use Jose\Component\Encryption\JWEBuilder;
-use Jose\Component\Encryption\NestedTokenBuilder as BaseNestedTokenBuilder;
+use Jose\Component\NestedToken\NestedTokenBuilder as BaseNestedTokenBuilder;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;

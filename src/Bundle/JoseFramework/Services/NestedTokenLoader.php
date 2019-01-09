@@ -18,7 +18,7 @@ use Jose\Bundle\JoseFramework\Event\NestedTokenLoadingFailureEvent;
 use Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWELoader;
-use Jose\Component\Encryption\NestedTokenLoader as BaseNestedTokenLoader;
+use Jose\Component\NestedToken\NestedTokenLoader as BaseNestedTokenLoader;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

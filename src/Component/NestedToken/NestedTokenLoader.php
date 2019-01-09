@@ -11,27 +11,20 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption;
+namespace Jose\Component\NestedToken;
 
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Encryption\JWE;
+use Jose\Component\Encryption\JWELoader;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
 
 class NestedTokenLoader
 {
-    /**
-     * @var JWSLoader
-     */
     private $jwsLoader;
 
-    /**
-     * @var JWELoader
-     */
     private $jweLoader;
 
-    /**
-     * NestedToken constructor.
-     */
     public function __construct(JWELoader $jweLoader, JWSLoader $jwsLoader)
     {
         $this->jweLoader = $jweLoader;

@@ -11,37 +11,23 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption;
+namespace Jose\Component\NestedToken;
 
+use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 
 class NestedTokenBuilderFactory
 {
-    /**
-     * @var JWEBuilderFactory
-     */
     private $jweBuilderFactory;
 
-    /**
-     * @var JWESerializerManagerFactory
-     */
     private $jweSerializerManagerFactory;
 
-    /**
-     * @var JWSBuilderFactory
-     */
     private $jwsBuilderFactory;
 
-    /**
-     * @var JWSSerializerManagerFactory
-     */
     private $jwsSerializerManagerFactory;
 
-    /**
-     * NestedTokenBuilderFactory constructor.
-     */
     public function __construct(JWEBuilderFactory $jweBuilderFactory, JWESerializerManagerFactory $jweSerializerManagerFactory, JWSBuilderFactory $jwsBuilderFactory, JWSSerializerManagerFactory $jwsSerializerManagerFactory)
     {
         $this->jweBuilderFactory = $jweBuilderFactory;

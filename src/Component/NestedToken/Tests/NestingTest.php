@@ -11,17 +11,16 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Tests\RFC7520;
+namespace Jose\Component\NestedToken\Tests;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Tests\EncryptionTest;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
  * @group RFC7520
  */
-class NestingTest extends EncryptionTest
+class NestingTest extends NestedTokenTest
 {
     /**
      * @test

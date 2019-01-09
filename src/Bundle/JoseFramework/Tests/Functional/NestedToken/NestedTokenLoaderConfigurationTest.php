@@ -11,13 +11,11 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
+namespace Jose\Bundle\JoseFramework\Tests\Functional\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source;
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
-use Jose\Component\Encryption\JWEBuilderFactory;
-use Jose\Component\Signature\JWSBuilderFactory;
+use Jose\Component\Encryption\JWELoaderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
@@ -26,20 +24,14 @@ use PHPUnit\Framework\TestCase;
  * @group Functional
  * @group NestedToken
  */
-class NestedTokenBuilderConfigurationTest extends TestCase
+class NestedTokenLoaderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     protected function setUp()
     {
-        if (!\class_exists(JWEBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-        if (!\class_exists(JWSBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-        if (!\class_exists(HeaderCheckerManagerFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
+        if (!\class_exists(JWELoaderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
         }
     }
 
@@ -50,7 +42,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
             new Source\Checker\CheckerSource(),
             new Source\Signature\SignatureSource(),
             new Source\Encryption\EncryptionSource(),
-            new Source\Encryption\NestedToken(),
+            new Source\NestedToken\NestedToken(),
         ]);
     }
 
@@ -95,13 +87,13 @@ class NestedTokenBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoBuilderIsSet()
+    public function theConfigurationIsValidIfNoLoaderIsSet()
     {
         $this->assertConfigurationIsValid(
             [
                 [
                     'nested_token' => [
-                        'builders' => [],
+                        'loaders' => [],
                     ],
                 ],
             ]
@@ -117,13 +109,13 @@ class NestedTokenBuilderConfigurationTest extends TestCase
             [
                 [
                     'nested_token' => [
-                        'builders' => [
+                        'loaders' => [
                             'foo' => [],
                         ],
                     ],
                 ],
             ],
-            'The child node "signature_algorithms" at path "jose.nested_token.builders.foo" must be configured.'
+            'The child node "signature_algorithms" at path "jose.nested_token.loaders.foo" must be configured.'
         );
     }
 
@@ -136,7 +128,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
             [
                 [
                     'nested_token' => [
-                        'builders' => [
+                        'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
                             ],
@@ -144,7 +136,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child node "key_encryption_algorithms" at path "jose.nested_token.builders.foo" must be configured.'
+            'The child node "key_encryption_algorithms" at path "jose.nested_token.loaders.foo" must be configured.'
         );
     }
 
@@ -157,7 +149,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
             [
                 [
                     'nested_token' => [
-                        'builders' => [
+                        'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
                                 'key_encryption_algorithms' => ['RSA-OAEP'],
@@ -166,7 +158,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child node "content_encryption_algorithms" at path "jose.nested_token.builders.foo" must be configured.'
+            'The child node "content_encryption_algorithms" at path "jose.nested_token.loaders.foo" must be configured.'
         );
     }
 
@@ -179,7 +171,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
             [
                 [
                     'nested_token' => [
-                        'builders' => [
+                        'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
                                 'key_encryption_algorithms' => ['RSA-OAEP'],
@@ -189,7 +181,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child node "jws_serializers" at path "jose.nested_token.builders.foo" must be configured.'
+            'The child node "jws_serializers" at path "jose.nested_token.loaders.foo" must be configured.'
         );
     }
 
@@ -202,7 +194,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
             [
                 [
                     'nested_token' => [
-                        'builders' => [
+                        'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
                                 'key_encryption_algorithms' => ['RSA-OAEP'],
@@ -213,7 +205,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child node "jwe_serializers" at path "jose.nested_token.builders.foo" must be configured.'
+            'The child node "jwe_serializers" at path "jose.nested_token.loaders.foo" must be configured.'
         );
     }
 
@@ -226,7 +218,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
             [
                 [
                     'nested_token' => [
-                        'builders' => [
+                        'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
                                 'key_encryption_algorithms' => ['RSA-OAEP'],
