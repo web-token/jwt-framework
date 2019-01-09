@@ -90,6 +90,7 @@
         "web-token/jwt-encryption": "self.version",
         "web-token/jwt-key-mgmt": "self.version",
         "web-token/jwt-console": "self.version",
+        "web-token/jwt-nested-token": "self.version",
         "web-token/jwt-bundle": "self.version",
         "web-token/jwt-encryption-algorithm-aescbc": "self.version",
         "web-token/jwt-encryption-algorithm-aesgcm": "self.version",
