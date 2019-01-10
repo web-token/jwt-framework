@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
-use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -26,8 +25,8 @@ class JWSLoaderTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(JWSBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
+        if (!\class_exists(JWSLoaderFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
 
