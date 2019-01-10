@@ -27,21 +27,23 @@
         "web-token/jwt-core": "^2.0"
     },
     "require-dev": {
-        "symfony/framework-bundle": "^4.1",
-        "symfony/browser-kit": "^4.1",
-        "symfony/var-dumper": "^4.1",
-        "phpunit/phpunit": "^7.0",
-        "symfony/phpunit-bridge": "^4.1",
         "guzzlehttp/psr7": "^1.4",
         "php-http/httplug-bundle": "^1.7",
-        "php-http/mock-client": "^1.0"
+        "php-http/mock-client": "^1.0",
+        "phpunit/phpunit": "^6.0|^7.0",
+        "symfony/browser-kit": "^3.3|^4.0",
+        "symfony/framework-bundle": "^3.3|^4.0",
+        "symfony/phpunit-bridge": "^3.3|^4.0",
+        "symfony/serializer": "^3.3|^4.0",
+        "symfony/yaml": "^3.3|^4.0"
     },
     "suggest": {
         "web-token/jwt-checker": "Add header and claim checker managers as Symfony services.",
         "web-token/jwt-console": "Add Keys (JWK) and Key sets (JWKSet) management commands for your Symfony console.",
         "web-token/jwt-encryption": "Add Encrypted tokens (JWE) support and useful Symfony services.",
         "web-token/jwt-key-mgmt": "Add Keys (JWK) and Key sets (JWKSet) management tools.",
-        "web-token/jwt-signature": "Add signed tokens (JWS) support and useful Symfony services."
+        "web-token/jwt-signature": "Add signed tokens (JWS) support and useful Symfony services.",
+        "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens."
     },
     "extra": {
         "branch-alias": {
