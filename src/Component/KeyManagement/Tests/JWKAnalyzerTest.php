@@ -54,6 +54,24 @@ class JWKAnalyzerTest extends TestCase
     /**
      * @test
      */
+    public function theRsaKeyHasALowExponent()
+    {
+        $key = JWK::createFromJson('{"kty":"RSA","n":"sv2gihrIZaT4tkxb0B70Aw","e":"Aw","d":"d1PAXBHa7mzdZNOkuSwnSw","p":"4Kz0hhYYddk","q":"y_IaXqREQzs","dp":"lcijBA66-Ts","dq":"h_a8Pxgtgic","qi":"YehXzJzN5bw"}');
+        $messages = $this->getKeyAnalyzer()->analyze($key);
+
+        foreach ($messages->all() as $message) {
+            if ($message->getMessage() === 'The exponent is too low. It should be at least 65537.') {
+                static::assertTrue(true);
+
+                return;
+            }
+        }
+        $this->fail('The low exponent should be catched');
+    }
+
+    /**
+     * @test
+     */
     public function iCanAnalyzeAnOctKeyAndGetMessages()
     {
         $key = JWKFactory::createOctKey(16, ['use' => 'foo', 'key_ops' => 'foo']);

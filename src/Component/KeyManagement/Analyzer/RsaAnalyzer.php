@@ -30,7 +30,7 @@ final class RsaAnalyzer implements KeyAnalyzer
 
     private function checkExponent(JWK $jwk, MessageBag $bag): void
     {
-        $exponent = unpack('l', str_pad(Base64Url::decode($jwk->get('e')), 4, "\0"));
+        $exponent = unpack('l', str_pad(Base64Url::decode($jwk->get('e')), 4, "\0"))[1];
         if ($exponent < 65537) {
             $bag->add(Message::high('The exponent is too low. It should be at least 65537.'));
         }
