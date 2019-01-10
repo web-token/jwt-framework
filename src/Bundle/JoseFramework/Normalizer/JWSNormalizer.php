@@ -18,10 +18,7 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * JWS normalizer.
- */
-class JWSNormalizer implements NormalizerInterface, DenormalizerInterface
+final class JWSNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function supportsNormalization($data, $format = null)
     {

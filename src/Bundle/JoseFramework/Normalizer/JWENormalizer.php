@@ -18,10 +18,7 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-/**
- * JWE normalizer.
- */
-class JWENormalizer implements NormalizerInterface, DenormalizerInterface
+final class JWENormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function supportsNormalization($data, $format = null)
     {

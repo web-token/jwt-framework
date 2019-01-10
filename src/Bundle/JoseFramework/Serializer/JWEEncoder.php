@@ -20,12 +20,9 @@ use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
-class JWEEncoder implements EncoderInterface, DecoderInterface
+final class JWEEncoder implements EncoderInterface, DecoderInterface
 {
-    /**
-     * @var JWESerializerManager
-     */
-    protected $serializerManager;
+    private $serializerManager;
 
     public function __construct(
         JWESerializerManagerFactory $serializerManagerFactory,
@@ -80,7 +77,7 @@ class JWEEncoder implements EncoderInterface, DecoderInterface
     /**
      * Get JWE recipient index from context.
      */
-    protected function getRecipientIndex(array $context): int
+    private function getRecipientIndex(array $context): int
     {
         $recipientIndex = 0;
         if (isset($context['recipient_index']) && \is_int($context['recipient_index'])) {

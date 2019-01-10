@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Serializer;
  * @group Bundle
  * @group Functional
  */
-class JWSEncoderTest extends WebTestCase
+final class JWSEncoderTest extends WebTestCase
 {
     protected function setUp()
     {

@@ -23,6 +23,21 @@ final class RsaAnalyzer implements KeyAnalyzer
         if ('RSA' !== $jwk->get('kty')) {
             return;
         }
+
+        $this->checkExponent($jwk, $bag);
+        $this->checkModulus($jwk, $bag);
+    }
+
+    private function checkExponent(JWK $jwk, MessageBag $bag): void
+    {
+        $exponent = unpack('l', str_pad(Base64Url::decode($jwk->get('e')), 4, "\0"));
+        if ($exponent < 65537) {
+            $bag->add(Message::high('The exponent is too low. It should be at least 65537.'));
+        }
+    }
+
+    private function checkModulus(JWK $jwk, MessageBag $bag): void
+    {
         $n = 8 * \mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
         if ($n < 2048) {
             $bag->add(Message::high('The key length is less than 2048 bits.'));

@@ -20,12 +20,9 @@ use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
-class JWSEncoder implements EncoderInterface, DecoderInterface
+final class JWSEncoder implements EncoderInterface, DecoderInterface
 {
-    /**
-     * @var JWSSerializerManager
-     */
-    protected $serializerManager;
+    private $serializerManager;
 
     public function __construct(
         JWSSerializerManagerFactory $serializerManagerFactory,
@@ -76,7 +73,7 @@ class JWSEncoder implements EncoderInterface, DecoderInterface
     /**
      * Get JWS signature index from context.
      */
-    protected function getSignatureIndex(array $context): int
+    private function getSignatureIndex(array $context): int
     {
         $signatureIndex = 0;
         if (isset($context['signature_index']) && \is_int($context['signature_index'])) {

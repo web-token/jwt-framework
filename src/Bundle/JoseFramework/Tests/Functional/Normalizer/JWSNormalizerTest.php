@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Serializer;
  * @group Bundle
  * @group Functional
  */
-class JWSNormalizerTest extends WebTestCase
+final class JWSNormalizerTest extends WebTestCase
 {
     protected function setUp()
     {
