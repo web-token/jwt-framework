@@ -20,12 +20,12 @@
         }
     },
     "require": {
-        "web-token/jwt-core": "^1.2",
-        "web-token/jwt-signature-algorithm-ecdsa": "^1.2",
-        "web-token/jwt-signature-algorithm-eddsa": "^1.2",
-        "web-token/jwt-signature-algorithm-hmac": "^1.2",
-        "web-token/jwt-signature-algorithm-none": "^1.2",
-        "web-token/jwt-signature-algorithm-rsa": "^1.2"
+        "web-token/jwt-core": "^1.3",
+        "web-token/jwt-signature-algorithm-ecdsa": "^1.3",
+        "web-token/jwt-signature-algorithm-eddsa": "^1.3",
+        "web-token/jwt-signature-algorithm-hmac": "^1.3",
+        "web-token/jwt-signature-algorithm-none": "^1.3",
+        "web-token/jwt-signature-algorithm-rsa": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0|^7.0"
@@ -40,7 +40,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.2.x-dev"
+            "dev-master": "1.3.x-dev"
         }
     },
     "config": {
