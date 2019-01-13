@@ -65,20 +65,19 @@ class HMACFromRFC7520Test extends TestCase
         ];
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-            new StandardConverter()
+
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-            new StandardConverter()
+
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
@@ -141,20 +140,19 @@ class HMACFromRFC7520Test extends TestCase
         ];
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-            new StandardConverter()
+
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-            new StandardConverter()
+
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
@@ -220,20 +218,19 @@ class HMACFromRFC7520Test extends TestCase
         ];
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-            new StandardConverter()
+
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-            new StandardConverter()
+
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
@@ -290,17 +287,16 @@ class HMACFromRFC7520Test extends TestCase
         ];
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new HS256()])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new HS256()])
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-            new StandardConverter()
+
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)

@@ -71,14 +71,13 @@ class EdDSASignatureTest extends TestCase
         $input = Base64Url::decode('RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc');
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new EdDSA()])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new EdDSA()])
         );
         $serializer = new CompactSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload($input)

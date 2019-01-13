@@ -15,7 +15,6 @@ namespace Jose\Component\Console\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Console;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -32,8 +31,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function theEllipticCurveKeyCreationCommandIsAvailable()
     {
-        $converter = new StandardConverter();
-        $command = new Console\EcKeyGeneratorCommand($converter);
+        $command = new Console\EcKeyGeneratorCommand();
 
         static::assertTrue($command->isEnabled());
     }
@@ -45,10 +43,9 @@ class KeyCreationCommandTest extends TestCase
      */
     public function theEllipticCurveKeyCreationCommandNeedTheCurveArgument()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeyGeneratorCommand($converter);
+        $command = new Console\EcKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -60,12 +57,11 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnEllipticCurveKeyWithAnUnsupportedCurve()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'curve' => 'P-128',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeyGeneratorCommand($converter);
+        $command = new Console\EcKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -75,13 +71,12 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateAnEllipticCurveKeyWithCurveP256()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'curve' => 'P-256',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeyGeneratorCommand($converter);
+        $command = new Console\EcKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -96,11 +91,10 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnOctetKeyWithoutKeySize()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeyGeneratorCommand($converter);
+        $command = new Console\OctKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -110,13 +104,12 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateAnOctetKey()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'size' => 256,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeyGeneratorCommand($converter);
+        $command = new Console\OctKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -129,12 +122,11 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateAnOctetKeyUsingASecret()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'secret' => 'This is my secret',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\SecretKeyGeneratorCommand($converter);
+        $command = new Console\SecretKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -150,13 +142,13 @@ class KeyCreationCommandTest extends TestCase
     public function iCanCreateAnOctetKeyUsingABinarySecret()
     {
         $secret = \random_bytes(20);
-        $converter = new StandardConverter();
+
         $input = new ArrayInput([
             'secret' => $secret,
             '--is_b64',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\SecretKeyGeneratorCommand($converter);
+        $command = new Console\SecretKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -173,11 +165,10 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnOctetKeyPairWithoutKeyCurve()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeyGeneratorCommand($converter);
+        $command = new Console\OkpKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -187,13 +178,12 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateAnOctetKeyPair()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'curve' => 'X25519',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeyGeneratorCommand($converter);
+        $command = new Console\OkpKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -206,12 +196,11 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateANoneKey()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\NoneKeyGeneratorCommand($converter);
+        $command = new Console\NoneKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -226,11 +215,10 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnRsaKeyWithoutKeySize()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
         ]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeyGeneratorCommand($converter);
+        $command = new Console\RsaKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -240,13 +228,12 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateAnRsaKey()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'size' => 1024,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeyGeneratorCommand($converter);
+        $command = new Console\RsaKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();

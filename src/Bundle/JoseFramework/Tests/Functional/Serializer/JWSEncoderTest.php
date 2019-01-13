@@ -15,7 +15,6 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Serializer;
 
 use Jose\Bundle\JoseFramework\Serializer\JWSEncoder;
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilderFactory as BaseJWSBuilderFactory;
@@ -188,7 +187,7 @@ final class JWSEncoderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         $jwsSerializerManager = new JWSSerializerManager([
-            new CompactSerializer(new StandardConverter()),
+            new CompactSerializer(),
         ]);
         $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class), $jwsSerializerManager);
         /** @var JWSBuilderFactory $jwsFactory */
@@ -224,7 +223,7 @@ final class JWSEncoderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         $serializerManager = new JWSSerializerManager([
-            new CompactSerializer(new StandardConverter()),
+            new CompactSerializer(),
         ]);
         $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class), $serializerManager);
         /** @var JWSBuilderFactory $jwsFactory */
@@ -255,7 +254,7 @@ final class JWSEncoderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         $serializerManager = new JWSSerializerManager([
-            new CompactSerializer(new StandardConverter()),
+            new CompactSerializer(),
         ]);
         $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class), $serializerManager);
         /** @var JWSBuilderFactory $jwsFactory */

@@ -74,11 +74,10 @@ class NoneSignatureTest extends TestCase
         ]);
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new None()])
         );
         $serializer = new CompactSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')

@@ -15,6 +15,7 @@ namespace Jose\Component\Console;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\RSAKey;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +35,7 @@ final class PemConverterCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
-        $json = $this->jsonConverter->decode($jwk);
+        $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid key.');
         }

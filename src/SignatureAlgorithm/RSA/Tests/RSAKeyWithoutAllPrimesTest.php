@@ -42,14 +42,13 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         $claims = \json_encode(['foo' => 'bar']);
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([$algorithm])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([$algorithm])
         );
         $serializer = new CompactSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload($claims)

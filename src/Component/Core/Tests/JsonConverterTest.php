@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Tests;
 
-use Jose\Component\Core\Converter\StandardConverter;
+use Jose\Component\Core\Util\JsonConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,8 +27,7 @@ class JsonConverterTest extends TestCase
      */
     public function iCanConvertAnObjectIntoAJsonString()
     {
-        $converter = new StandardConverter();
-        static::assertEquals('{"foo":"BAR"}', $converter->encode(['foo' => 'BAR']));
-        static::assertEquals(['foo' => 'BAR'], $converter->decode('{"foo":"BAR"}'));
+        static::assertEquals('{"foo":"BAR"}', JsonConverter::encode(['foo' => 'BAR']));
+        static::assertEquals(['foo' => 'BAR'], JsonConverter::decode('{"foo":"BAR"}'));
     }
 }

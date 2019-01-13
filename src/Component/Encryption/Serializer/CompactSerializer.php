@@ -14,26 +14,13 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
 final class CompactSerializer implements JWESerializer
 {
     public const NAME = 'jwe_compact';
-
-    /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
-
-    /**
-     * JSONFlattenedSerializer constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
 
     public function displayName(): string
     {
@@ -75,7 +62,7 @@ final class CompactSerializer implements JWESerializer
 
         try {
             $encodedSharedProtectedHeader = $parts[0];
-            $sharedProtectedHeader = $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader));
+            $sharedProtectedHeader = JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader));
             $encryptedKey = empty($parts[1]) ? null : Base64Url::decode($parts[1]);
             $iv = Base64Url::decode($parts[2]);
             $ciphertext = Base64Url::decode($parts[3]);

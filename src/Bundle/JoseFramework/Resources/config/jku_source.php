@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
@@ -25,7 +25,6 @@ return function (ContainerConfigurator $container) {
     $container->set(KeyManagement\JKUFactory::class)
         ->public()
         ->args([
-            ref(JsonConverter::class),
             ref('jose.http_client'),
             ref('jose.request_factory'),
         ])
@@ -34,7 +33,6 @@ return function (ContainerConfigurator $container) {
     $container->set(KeyManagement\X5UFactory::class)
         ->public()
         ->args([
-            ref(JsonConverter::class),
             ref('jose.http_client'),
             ref('jose.request_factory'),
         ])

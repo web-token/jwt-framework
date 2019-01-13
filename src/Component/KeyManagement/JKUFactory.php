@@ -13,24 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
-use Http\Client\HttpClient;
-use Http\Message\RequestFactory;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\JsonConverter;
 
 class JKUFactory extends UrlKeySetFactory
 {
-    private $jsonConverter;
-
-    /**
-     * JKUFactory constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter, HttpClient $client, RequestFactory $requestFactory)
-    {
-        parent::__construct($client, $requestFactory);
-        $this->jsonConverter = $jsonConverter;
-    }
-
     /**
      * This method will try to fetch the url a retrieve the key set.
      * Throws an exception in case of failure.
@@ -38,7 +25,7 @@ class JKUFactory extends UrlKeySetFactory
     public function loadFromUrl(string $url, array $header = []): JWKSet
     {
         $content = $this->getContent($url, $header);
-        $data = $this->jsonConverter->decode($content);
+        $data = JsonConverter::decode($content);
         if (!\is_array($data)) {
             throw new \RuntimeException('Invalid content.');
         }

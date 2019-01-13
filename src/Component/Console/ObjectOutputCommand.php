@@ -13,24 +13,16 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class ObjectOutputCommand extends Command
 {
-    protected $jsonConverter;
-
-    public function __construct(JsonConverter $jsonConverter, ?string $name = null)
-    {
-        $this->jsonConverter = $jsonConverter;
-        parent::__construct($name);
-    }
-
     protected function prepareJsonOutput(InputInterface $input, OutputInterface $output, \JsonSerializable $json): void
     {
-        $data = $this->jsonConverter->encode($json);
+        $data = JsonConverter::encode($json);
         $output->write($data);
     }
 }

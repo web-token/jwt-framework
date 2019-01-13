@@ -14,25 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 
 final class CompactSerializer extends Serializer
 {
     public const NAME = 'jws_compact';
-
-    /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
-
-    /**
-     * JSONFlattenedSerializer constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
 
     public function displayName(): string
     {
@@ -76,7 +63,7 @@ final class CompactSerializer extends Serializer
 
         try {
             $encodedProtectedHeader = $parts[0];
-            $protectedHeader = $this->jsonConverter->decode(Base64Url::decode($parts[0]));
+            $protectedHeader = JsonConverter::decode(Base64Url::decode($parts[0]));
             if (empty($parts[1])) {
                 $payload = null;
                 $encodedPayload = null;

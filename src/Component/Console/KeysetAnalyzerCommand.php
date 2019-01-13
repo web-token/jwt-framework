@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -26,13 +26,10 @@ final class KeysetAnalyzerCommand extends Command
 {
     private $analyzerManager;
 
-    private $jsonConverter;
-
-    public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
+    public function __construct(KeyAnalyzerManager $analyzerManager, string $name = null)
     {
         parent::__construct($name);
         $this->analyzerManager = $analyzerManager;
-        $this->jsonConverter = $jsonConverter;
     }
 
     protected function configure()
@@ -105,7 +102,7 @@ final class KeysetAnalyzerCommand extends Command
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        $json = $this->jsonConverter->decode($jwkset);
+        $json = JsonConverter::decode($jwkset);
         if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
         }

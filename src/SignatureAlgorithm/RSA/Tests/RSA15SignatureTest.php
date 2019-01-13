@@ -65,20 +65,19 @@ class RSA15SignatureTest extends TestCase
         ];
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new RS256()])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new RS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-            new StandardConverter()
+
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-            new StandardConverter()
+
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-            new StandardConverter()
+
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)

@@ -114,7 +114,6 @@ class UrlKeySetFactoryTest extends TestCase
     {
         if (null === $this->jkuFactory) {
             $this->jkuFactory = new JKUFactory(
-                new StandardConverter(),
                 $this->getHttpClient(),
                 new HttpMessageFactory()
             );
@@ -132,7 +131,6 @@ class UrlKeySetFactoryTest extends TestCase
     {
         if (null === $this->x5uFactory) {
             $this->x5uFactory = new X5UFactory(
-                new StandardConverter(),
                 $this->getHttpClient(),
                 new HttpMessageFactory()
             );

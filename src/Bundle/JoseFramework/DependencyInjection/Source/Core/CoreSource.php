@@ -16,8 +16,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Core;
 use Jose\Bundle\JoseFramework\DataCollector\Collector;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
-use Jose\Component\Core\Converter\JsonConverter;
-use Jose\Component\Core\Converter\StandardConverter;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -45,22 +43,10 @@ class CoreSource implements SourceWithCompilerPasses
             $container->registerForAutoconfiguration(Collector::class)->addTag('jose.data_collector');
             $loader->load('dev_services.php');
         }
-
-        $container->setAlias(JsonConverter::class, $config['json_converter']);
-        if (StandardConverter::class === $config['json_converter']) {
-            $loader->load('json_converter.php');
-        }
     }
 
     public function getNodeDefinition(NodeDefinition $node)
     {
-        $node
-            ->children()
-            ->scalarNode('json_converter')
-            ->defaultValue(StandardConverter::class)
-            ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
-            ->end()
-            ->end();
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

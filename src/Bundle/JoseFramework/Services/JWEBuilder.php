@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilder as BaseJWEBuilder;
@@ -26,9 +25,9 @@ final class JWEBuilder extends BaseJWEBuilder
 {
     private $eventDispatcher;
 
-    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager, EventDispatcherInterface $eventDispatcher)
+    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager, EventDispatcherInterface $eventDispatcher)
     {
-        parent::__construct($jsonConverter, $keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionManager);
+        parent::__construct($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionManager);
         $this->eventDispatcher = $eventDispatcher;
     }
 
