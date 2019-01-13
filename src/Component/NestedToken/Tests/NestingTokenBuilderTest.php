@@ -15,7 +15,6 @@ namespace Jose\Component\NestedToken\Tests;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;

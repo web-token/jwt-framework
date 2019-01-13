@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Performance\JWE;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
@@ -38,12 +37,10 @@ abstract class EncryptionBench
     private $contentEncryptionAlgorithmsManager;
     private $keyEncryptionAlgorithmsManager;
     private $compressionMethodsManager;
-    private $jsonConverter;
     private $serializerManager;
 
     public function init()
     {
-        $this->jsonConverter = new StandardConverter();
         $this->keyEncryptionAlgorithmsManager = new AlgorithmManager([
             new KeyEncryption\A128KW(),
             new KeyEncryption\A192KW(),
@@ -77,9 +74,9 @@ abstract class EncryptionBench
             new Compression\ZLib(),
         ]);
         $this->serializerManager = new JWESerializerManager([
-            new CompactSerializer($this->jsonConverter),
-            new JSONFlattenedSerializer($this->jsonConverter),
-            new JSONGeneralSerializer($this->jsonConverter),
+            new CompactSerializer(),
+            new JSONFlattenedSerializer(),
+            new JSONGeneralSerializer(),
         ]);
     }
 
@@ -90,7 +87,6 @@ abstract class EncryptionBench
     public function encryption(array $params)
     {
         $jweBuilder = new JWEBuilder(
-            $this->jsonConverter,
             $this->getKeyEncryptionAlgorithmsManager(),
             $this->getContentEncryptionAlgorithmsManager(),
             $this->getCompressionMethodsManager()

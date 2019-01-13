@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWS;
@@ -48,7 +47,6 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
             new AlgorithmManager([$algorithm])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload($claims)

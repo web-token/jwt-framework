@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS256;
 use Jose\Component\Signature\JWSBuilder;
@@ -71,13 +70,10 @@ class HMACFromRFC7520Test extends TestCase
             new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
@@ -146,13 +142,10 @@ class HMACFromRFC7520Test extends TestCase
             new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
@@ -224,13 +217,10 @@ class HMACFromRFC7520Test extends TestCase
             new AlgorithmManager([new HS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
@@ -293,10 +283,8 @@ class HMACFromRFC7520Test extends TestCase
             new AlgorithmManager([new HS256()])
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)

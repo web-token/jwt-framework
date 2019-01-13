@@ -11,7 +11,6 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;

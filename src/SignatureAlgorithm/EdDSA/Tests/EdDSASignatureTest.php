@@ -15,7 +15,6 @@ namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Signature\JWS;
@@ -77,7 +76,6 @@ class EdDSASignatureTest extends TestCase
             new AlgorithmManager([new EdDSA()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload($input)

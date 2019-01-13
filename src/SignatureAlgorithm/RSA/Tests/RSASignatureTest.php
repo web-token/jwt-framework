@@ -15,7 +15,6 @@ namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Algorithm;
@@ -53,7 +52,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jwsBuilder = $jwsBuilder->create(['RS256']);
         $jws = $jwsBuilder
@@ -101,7 +99,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.', true)
@@ -148,7 +145,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\RS384()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
@@ -195,7 +191,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\RS512()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
@@ -244,7 +239,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\PS256()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
@@ -291,7 +285,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\PS384()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
@@ -337,7 +330,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\PS512()])
         );
         $serializer = new CompactSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
@@ -370,7 +362,6 @@ class RSASignatureTest extends TestCase
     public function loadJWSJSONSerialization()
     {
         $serializer = new JSONGeneralSerializer(
-
         );
         $result = $serializer->unserialize('{"payload":"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ","signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"2010-12-29"},"signature":"cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw"},{"protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}]}');
 
@@ -393,7 +384,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new JSONGeneralSerializer(
-
         );
         $result = $serializer->unserialize('{"signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"2010-12-29"},"signature":"cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw"},{"protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}]}');
 
@@ -416,7 +406,6 @@ class RSASignatureTest extends TestCase
             new AlgorithmManager([new Algorithm\RS256()])
         );
         $serializer = new JSONGeneralSerializer(
-
         );
         $result = $serializer->unserialize('{"payload":"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ","signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"2010-12-29"},"signature":"cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw"},{"protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}]}');
 
@@ -436,7 +425,6 @@ class RSASignatureTest extends TestCase
     public function loadInvalidInput()
     {
         $serializer = new CompactSerializer(
-
         );
         $serializer->unserialize('DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q');
     }
@@ -450,7 +438,6 @@ class RSASignatureTest extends TestCase
     public function loadInvalidInput2()
     {
         $serializer = new CompactSerializer(
-
         );
         $serializer->unserialize('DtEhU3ljb.Eg8L.38VWAf.UAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q');
     }
@@ -463,7 +450,6 @@ class RSASignatureTest extends TestCase
     public function loadIETFExample1()
     {
         $serializer = new CompactSerializer(
-
         );
         $result = $serializer->unserialize('eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk');
 
@@ -481,7 +467,6 @@ class RSASignatureTest extends TestCase
     public function loadIETFExample2()
     {
         $serializer = new CompactSerializer(
-
         );
         $result = $serializer->unserialize('eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw');
 
@@ -499,7 +484,6 @@ class RSASignatureTest extends TestCase
     public function loadIETFExample3()
     {
         $serializer = new CompactSerializer(
-
         );
         $result = $serializer->unserialize('eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q');
 
@@ -517,7 +501,6 @@ class RSASignatureTest extends TestCase
     public function loadIETFExample4()
     {
         $serializer = new CompactSerializer(
-
         );
         $result = $serializer->unserialize('eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA.AdwMgeerwtHoh-l192l60hp9wAHZFVJbLfD_UxMi70cwnZOYaRI1bKPWROc-mZZqwqT2SI-KGDKB34XO0aw_7XdtAG8GaSwFKdCAPZgoXD2YBJZCPEX3xKpRwcdOO8KpEHwJjyqOgzDO7iKvU8vcnwNrmxYbSW9ERBXukOXolLzeO_Jn');
 

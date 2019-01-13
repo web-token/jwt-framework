@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\RS256;
 use Jose\Component\Signature\JWSBuilder;
@@ -71,13 +70,10 @@ class RSA15SignatureTest extends TestCase
             new AlgorithmManager([new RS256()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Tests;
 
 use Http\Mock\Client;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
