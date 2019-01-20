@@ -17,7 +17,7 @@
     "autoload": {
         "psr-4": {
             "Jose\\":  "src/",
-            "Jose\\Tests\\":  "test/",
+            "Jose\\Tests\\":  "tests/",
             "Jose\\Component\\Signature\\Algorithm\\": [
                 "src/SignatureAlgorithm/ECDSA",
                 "src/SignatureAlgorithm/EdDSA",
@@ -76,6 +76,7 @@
         "php-coveralls/php-coveralls": "^2.0",
         "php-http/httplug-bundle": "^1.7",
         "php-http/mock-client": "^1.0",
+        "phpunit/phpunit": "^7.5",
         "symfony/browser-kit": "^3.4|^4.0",
         "symfony/finder": "^3.4|^4.0",
         "symfony/phpunit-bridge": "^3.4|^4.0",
