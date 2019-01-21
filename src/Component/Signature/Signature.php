@@ -16,7 +16,7 @@ namespace Jose\Component\Signature;
 class Signature
 {
     /**
-     * @var null|string
+     * @var string|null
      */
     private $encodedProtectedHeader;
 

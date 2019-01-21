@@ -24,7 +24,7 @@ class Recipient
     private $header = [];
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $encryptedKey = null;
 

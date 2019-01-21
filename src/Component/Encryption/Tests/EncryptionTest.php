@@ -137,7 +137,7 @@ abstract class EncryptionTest extends TestCase
     }
 
     /**
-     * @var null|Serializer\JWESerializerManagerFactory
+     * @var Serializer\JWESerializerManagerFactory|null
      */
     private $jwsSerializerManagerFactory = null;
 
@@ -154,7 +154,7 @@ abstract class EncryptionTest extends TestCase
     }
 
     /**
-     * @var null|Serializer\JWESerializerManager
+     * @var Serializer\JWESerializerManager|null
      */
     private $jwsSerializerManager = null;
 

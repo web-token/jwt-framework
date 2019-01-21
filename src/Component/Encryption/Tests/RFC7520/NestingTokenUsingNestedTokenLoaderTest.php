@@ -256,7 +256,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     }
 
     /**
-     * @var null|JweSerializer\JWESerializerManagerFactory
+     * @var JweSerializer\JWESerializerManagerFactory|null
      */
     private $jwsSerializerManagerFactory = null;
 

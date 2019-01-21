@@ -67,7 +67,7 @@ class AlgorithmManagerFactoryTest extends TestCase
     }
 
     /**
-     * @var null|AlgorithmManagerFactory
+     * @var AlgorithmManagerFactory|null
      */
     private $algorithmManagerFactory;
 

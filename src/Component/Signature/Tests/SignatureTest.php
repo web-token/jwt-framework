@@ -87,7 +87,7 @@ abstract class SignatureTest extends TestCase
     }
 
     /**
-     * @var null|Serializer\JWSSerializerManagerFactory
+     * @var Serializer\JWSSerializerManagerFactory|null
      */
     private $jwsSerializerManagerFactory = null;
 
@@ -104,7 +104,7 @@ abstract class SignatureTest extends TestCase
     }
 
     /**
-     * @var null|Serializer\JWSSerializerManager
+     * @var Serializer\JWSSerializerManager|null
      */
     private $jwsSerializerManager = null;
 

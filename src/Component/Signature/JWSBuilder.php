@@ -28,7 +28,7 @@ class JWSBuilder
     private $jsonConverter;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $payload;
 
@@ -48,7 +48,7 @@ class JWSBuilder
     private $signatureAlgorithmManager;
 
     /**
-     * @var null|bool
+     * @var bool|null
      */
     private $isPayloadEncoded = null;
 

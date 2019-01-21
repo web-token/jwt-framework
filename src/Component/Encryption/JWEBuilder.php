@@ -36,7 +36,7 @@ class JWEBuilder
     private $jsonConverter;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $payload;
 
@@ -76,17 +76,17 @@ class JWEBuilder
     private $sharedHeader = [];
 
     /**
-     * @var null|CompressionMethod
+     * @var CompressionMethod|null
      */
     private $compressionMethod = null;
 
     /**
-     * @var null|ContentEncryptionAlgorithm
+     * @var ContentEncryptionAlgorithm|null
      */
     private $contentEncryptionAlgorithm = null;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $keyManagementMode = null;
 

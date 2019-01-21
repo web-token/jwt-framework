@@ -62,7 +62,7 @@ class JWSVerifier
      *
      * @param JWS         $jws             A JWS object
      * @param JWKSet      $jwkset          The signature will be verified using keys in the key set
-     * @param null|string $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
+     * @param string|null $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
      * @return bool true if the verification of the signature succeeded, else false
      */
