@@ -18,6 +18,8 @@ matrix:
           emv: SYMFONY_DEPRECATIONS_HELPER=weak
         - php: 7.2
           emv: SYMFONY_DEPRECATIONS_HELPER=weak
+        - php: 7.3
+          emv: SYMFONY_DEPRECATIONS_HELPER=weak
         - php: nightly
           emv: SYMFONY_DEPRECATIONS_HELPER=weak
 

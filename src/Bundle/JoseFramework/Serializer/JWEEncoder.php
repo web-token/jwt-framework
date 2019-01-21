@@ -54,11 +54,11 @@ class JWEEncoder implements EncoderInterface, DecoderInterface
             return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getRecipientIndex($context));
         } catch (\Exception $ex) {
             $message = sprintf('Cannot encode JWE to %s format.', $format);
-            
+
             if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
             }
-            
+
             throw new UnexpectedValueException($message, 0, $ex);
         }
     }
@@ -67,13 +67,13 @@ class JWEEncoder implements EncoderInterface, DecoderInterface
     {
         try {
             return $this->serializerManager->unserialize($data);
-        } catch (\Exception $ex) {            
+        } catch (\Exception $ex) {
             $message = sprintf('Cannot decode JWE from %s format.', $format);
-            
+
             if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
             }
-            
+
             throw new UnexpectedValueException($message, 0, $ex);
         }
     }
