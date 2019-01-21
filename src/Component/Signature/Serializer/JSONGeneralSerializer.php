@@ -14,25 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 
 final class JSONGeneralSerializer extends Serializer
 {
     public const NAME = 'jws_json_general';
-
-    /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
-
-    /**
-     * JSONFlattenedSerializer constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
 
     public function displayName(): string
     {
@@ -73,7 +60,7 @@ final class JSONGeneralSerializer extends Serializer
             $data['signatures'][] = $tmp;
         }
 
-        return $this->jsonConverter->encode($data);
+        return JsonConverter::encode($data);
     }
 
     private function checkData($data)
@@ -92,7 +79,7 @@ final class JSONGeneralSerializer extends Serializer
 
     public function unserialize(string $input): JWS
     {
-        $data = $this->jsonConverter->decode($input);
+        $data = JsonConverter::decode($input);
         $this->checkData($data);
 
         $isPayloadEncoded = null;
@@ -139,7 +126,7 @@ final class JSONGeneralSerializer extends Serializer
     private function processHeaders(array $signature): array
     {
         $encodedProtectedHeader = \array_key_exists('protected', $signature) ? $signature['protected'] : null;
-        $protectedHeader = null !== $encodedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedProtectedHeader)) : [];
+        $protectedHeader = null !== $encodedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedProtectedHeader)) : [];
         $header = \array_key_exists('header', $signature) ? $signature['header'] : [];
 
         return [$encodedProtectedHeader, $protectedHeader, $header];

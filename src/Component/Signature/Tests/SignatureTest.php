@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSLoaderFactory;
@@ -61,7 +60,6 @@ abstract class SignatureTest extends TestCase
     {
         if (null === $this->jwsBuilderFactory) {
             $this->jwsBuilderFactory = new JWSBuilderFactory(
-                new StandardConverter(),
                 $this->getAlgorithmManagerFactory()
             );
         }
@@ -86,7 +84,7 @@ abstract class SignatureTest extends TestCase
     }
 
     /**
-     * @var null|Serializer\JWSSerializerManagerFactory
+     * @var Serializer\JWSSerializerManagerFactory|null
      */
     private $jwsSerializerManagerFactory = null;
 
@@ -94,16 +92,16 @@ abstract class SignatureTest extends TestCase
     {
         if (null === $this->jwsSerializerManagerFactory) {
             $this->jwsSerializerManagerFactory = new Serializer\JWSSerializerManagerFactory();
-            $this->jwsSerializerManagerFactory->add(new Serializer\CompactSerializer(new StandardConverter()));
-            $this->jwsSerializerManagerFactory->add(new Serializer\JSONFlattenedSerializer(new StandardConverter()));
-            $this->jwsSerializerManagerFactory->add(new Serializer\JSONGeneralSerializer(new StandardConverter()));
+            $this->jwsSerializerManagerFactory->add(new Serializer\CompactSerializer());
+            $this->jwsSerializerManagerFactory->add(new Serializer\JSONFlattenedSerializer());
+            $this->jwsSerializerManagerFactory->add(new Serializer\JSONGeneralSerializer());
         }
 
         return $this->jwsSerializerManagerFactory;
     }
 
     /**
-     * @var null|Serializer\JWSSerializerManager
+     * @var Serializer\JWSSerializerManager|null
      */
     private $jwsSerializerManager = null;
 
@@ -111,9 +109,9 @@ abstract class SignatureTest extends TestCase
     {
         if (null === $this->jwsSerializerManager) {
             $this->jwsSerializerManager = new Serializer\JWSSerializerManager([
-                new Serializer\CompactSerializer(new StandardConverter()),
-                new Serializer\JSONFlattenedSerializer(new StandardConverter()),
-                new Serializer\JSONGeneralSerializer(new StandardConverter()),
+                new Serializer\CompactSerializer(),
+                new Serializer\JSONFlattenedSerializer(),
+                new Serializer\JSONGeneralSerializer(),
             ]);
         }
 

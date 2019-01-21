@@ -14,20 +14,17 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWEBuilderFactory
 {
     private $eventDispatcher;
-    private $jsonEncoder;
     private $algorithmManagerFactory;
     private $compressionMethodManagerFactory;
 
-    public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory, EventDispatcherInterface $eventDispatcher)
+    public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory, EventDispatcherInterface $eventDispatcher)
     {
-        $this->jsonEncoder = $jsonEncoder;
         $this->eventDispatcher = $eventDispatcher;
         $this->algorithmManagerFactory = $algorithmManagerFactory;
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
@@ -46,6 +43,6 @@ final class JWEBuilderFactory
         $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithm);
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-        return new JWEBuilder($this->jsonEncoder, $keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager, $this->eventDispatcher);
+        return new JWEBuilder($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager, $this->eventDispatcher);
     }
 }

@@ -15,8 +15,8 @@ namespace Jose\Component\Encryption;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
@@ -31,12 +31,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManager;
 class JWEBuilder
 {
     /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
-
-    /**
-     * @var null|string
+     * @var string|null
      */
     private $payload;
 
@@ -76,26 +71,25 @@ class JWEBuilder
     private $sharedHeader = [];
 
     /**
-     * @var null|CompressionMethod
+     * @var CompressionMethod|null
      */
     private $compressionMethod = null;
 
     /**
-     * @var null|ContentEncryptionAlgorithm
+     * @var ContentEncryptionAlgorithm|null
      */
     private $contentEncryptionAlgorithm = null;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     private $keyManagementMode = null;
 
     /**
      * JWEBuilder constructor.
      */
-    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
+    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
     {
-        $this->jsonConverter = $jsonConverter;
         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
         $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
         $this->compressionManager = $compressionManager;
@@ -151,7 +145,7 @@ class JWEBuilder
      */
     public function withPayload($payload): self
     {
-        $payload = \is_string($payload) ? $payload : $this->jsonConverter->encode($payload);
+        $payload = \is_string($payload) ? $payload : JsonConverter::encode($payload);
         if (false === \mb_detect_encoding($payload, 'UTF-8', true)) {
             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
         }
@@ -276,7 +270,7 @@ class JWEBuilder
         } else {
             $sharedProtectedHeader = $this->sharedProtectedHeader;
         }
-        $encodedSharedProtectedHeader = empty($sharedProtectedHeader) ? '' : Base64Url::encode($this->jsonConverter->encode($sharedProtectedHeader));
+        $encodedSharedProtectedHeader = empty($sharedProtectedHeader) ? '' : Base64Url::encode(JsonConverter::encode($sharedProtectedHeader));
 
         list($ciphertext, $iv, $tag) = $this->encryptJWE($cek, $encodedSharedProtectedHeader);
 

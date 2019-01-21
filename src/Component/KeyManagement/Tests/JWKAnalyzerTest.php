@@ -60,13 +60,13 @@ class JWKAnalyzerTest extends TestCase
         $messages = $this->getKeyAnalyzer()->analyze($key);
 
         foreach ($messages->all() as $message) {
-            if ($message->getMessage() === 'The exponent is too low. It should be at least 65537.') {
+            if ('The exponent is too low. It should be at least 65537.' === $message->getMessage()) {
                 static::assertTrue(true);
 
                 return;
             }
         }
-        $this->fail('The low exponent should be catched');
+        static::fail('The low exponent should be catched');
     }
 
     /**

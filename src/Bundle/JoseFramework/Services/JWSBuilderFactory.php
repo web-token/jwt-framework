@@ -14,20 +14,16 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Core\Converter\JsonConverter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWSBuilderFactory
 {
     private $eventDispatcher;
 
-    private $jsonEncoder;
-
     private $signatureAlgorithmManagerFactory;
 
-    public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory, EventDispatcherInterface $eventDispatcher)
+    public function __construct(AlgorithmManagerFactory $signatureAlgorithmManagerFactory, EventDispatcherInterface $eventDispatcher)
     {
-        $this->jsonEncoder = $jsonEncoder;
         $this->signatureAlgorithmManagerFactory = $signatureAlgorithmManagerFactory;
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -41,6 +37,6 @@ final class JWSBuilderFactory
     {
         $algorithmManager = $this->signatureAlgorithmManagerFactory->create($algorithms);
 
-        return new JWSBuilder($this->jsonEncoder, $algorithmManager, $this->eventDispatcher);
+        return new JWSBuilder($algorithmManager, $this->eventDispatcher);
     }
 }

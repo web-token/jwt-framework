@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\KeyManagement\JKUFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,10 +22,10 @@ final class JKULoaderCommand extends ObjectOutputCommand
 {
     private $jkuFactory;
 
-    public function __construct(JKUFactory $jkuFactory, JsonConverter $jsonConverter, ?string $name = null)
+    public function __construct(JKUFactory $jkuFactory, ?string $name = null)
     {
         $this->jkuFactory = $jkuFactory;
-        parent::__construct($jsonConverter, $name);
+        parent::__construct($name);
     }
 
     protected function configure()

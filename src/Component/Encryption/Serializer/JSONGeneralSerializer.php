@@ -14,26 +14,13 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\Converter\JsonConverter;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 
 final class JSONGeneralSerializer implements JWESerializer
 {
     public const NAME = 'jwe_json_general';
-
-    /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
-
-    /**
-     * JSONFlattenedSerializer constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
 
     public function displayName(): string
     {
@@ -77,12 +64,12 @@ final class JSONGeneralSerializer implements JWESerializer
             $data['recipients'][] = $temp;
         }
 
-        return $this->jsonConverter->encode($data);
+        return JsonConverter::encode($data);
     }
 
     public function unserialize(string $input): JWE
     {
-        $data = $this->jsonConverter->decode($input);
+        $data = JsonConverter::decode($input);
         $this->checkData($data);
 
         $ciphertext = Base64Url::decode($data['ciphertext']);
@@ -125,7 +112,7 @@ final class JSONGeneralSerializer implements JWESerializer
     private function processHeaders(array $data): array
     {
         $encodedSharedProtectedHeader = \array_key_exists('protected', $data) ? $data['protected'] : null;
-        $sharedProtectedHeader = $encodedSharedProtectedHeader ? $this->jsonConverter->decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
+        $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
         $sharedHeader = \array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
 
         return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];

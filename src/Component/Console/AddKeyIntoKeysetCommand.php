@@ -13,20 +13,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
-    public function __construct(JsonConverter $jsonConverter, ?string $name = null)
-    {
-        parent::__construct($jsonConverter, $name);
-    }
-
     protected function configure()
     {
         parent::configure();
@@ -49,7 +44,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        $json = $this->jsonConverter->decode($jwkset);
+        $json = JsonConverter::decode($jwkset);
         if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
         }
@@ -60,7 +55,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     private function getKey(InputInterface $input): JWK
     {
         $jwkset = $input->getArgument('jwk');
-        $json = $this->jsonConverter->decode($jwkset);
+        $json = JsonConverter::decode($jwkset);
         if (\is_array($json)) {
             return JWK::create($json);
         }

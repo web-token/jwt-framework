@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
@@ -33,12 +32,10 @@ abstract class SignatureBench
 {
     private $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
     private $signatureAlgorithmsManager;
-    private $jsonConverter;
     private $serializerManager;
 
     public function init()
     {
-        $this->jsonConverter = new StandardConverter();
         $this->signatureAlgorithmsManager = new AlgorithmManager([
             new Algorithm\HS256(),
             new Algorithm\HS384(),
@@ -56,9 +53,9 @@ abstract class SignatureBench
             new Algorithm\EdDSA(),
         ]);
         $this->serializerManager = new JWSSerializerManager([
-            new CompactSerializer($this->jsonConverter),
-            new JSONFlattenedSerializer($this->jsonConverter),
-            new JSONGeneralSerializer($this->jsonConverter),
+            new CompactSerializer(),
+            new JSONFlattenedSerializer(),
+            new JSONGeneralSerializer(),
         ]);
     }
 
@@ -68,7 +65,7 @@ abstract class SignatureBench
      */
     public function sign(array $params)
     {
-        $jwsBuilder = new JWSBuilder($this->jsonConverter, $this->signatureAlgorithmsManager);
+        $jwsBuilder = new JWSBuilder($this->signatureAlgorithmsManager);
         $jwsBuilder
             ->withPayload($this->payload)
             ->addSignature($this->getPrivateKey(), ['alg' => $params['algorithm']])

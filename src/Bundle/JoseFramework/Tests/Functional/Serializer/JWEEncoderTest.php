@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Serializer;
 use Jose\Bundle\JoseFramework\Serializer\JWEEncoder;
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilderFactory as BaseJWEBuilderFactory;
@@ -204,7 +203,7 @@ final class JWEEncoderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         $jweSerializerManager = new JWESerializerManager([
-            new CompactSerializer(new StandardConverter()),
+            new CompactSerializer(),
         ]);
         $serializer = new JWEEncoder($container->get(JWESerializerManagerFactory::class), $jweSerializerManager);
         /** @var JWEBuilderFactory $jweFactory */
@@ -242,7 +241,7 @@ final class JWEEncoderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         $jweSerializerManager = new JWESerializerManager([
-            new CompactSerializer(new StandardConverter()),
+            new CompactSerializer(),
         ]);
         $serializer = new JWEEncoder($container->get(JWESerializerManagerFactory::class), $jweSerializerManager);
         /** @var JWEBuilderFactory $jweFactory */
@@ -275,7 +274,7 @@ final class JWEEncoderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         $jweSerializerManager = new JWESerializerManager([
-            new CompactSerializer(new StandardConverter()),
+            new CompactSerializer(),
         ]);
         $serializer = new JWEEncoder($container->get(JWESerializerManagerFactory::class), $jweSerializerManager);
         /** @var JWEBuilderFactory $jweFactory */

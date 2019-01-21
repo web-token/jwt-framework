@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSBuilderFactory;
@@ -53,7 +52,7 @@ class JWSComputationTest extends WebTestCase
         /** @var JWSVerifier $loader */
         $loader = $container->get('jose.jws_verifier.loader1');
 
-        $serializer = new CompactSerializer(new StandardConverter());
+        $serializer = new CompactSerializer();
 
         $jws = $builder
             ->create()

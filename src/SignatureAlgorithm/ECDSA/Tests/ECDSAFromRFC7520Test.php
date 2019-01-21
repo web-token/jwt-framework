@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES512;
 use Jose\Component\Signature\JWSBuilder;
@@ -66,20 +65,16 @@ class ECDSAFromRFC7520Test extends TestCase
         ];
 
         $jwsBuilder = new JWSBuilder(
-            new StandardConverter(),
             new AlgorithmManager([new ES512()])
         );
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new ES512()])
         );
         $compactSerializer = new Serializer\CompactSerializer(
-            new StandardConverter()
         );
         $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-            new StandardConverter()
         );
         $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-            new StandardConverter()
         );
         $jws = $jwsBuilder
             ->create()->withPayload($payload)

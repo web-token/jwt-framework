@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder as BaseJWSBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -25,9 +24,9 @@ final class JWSBuilder extends BaseJWSBuilder
 {
     private $eventDispatcher;
 
-    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager, EventDispatcherInterface $eventDispatcher)
+    public function __construct(AlgorithmManager $signatureAlgorithmManager, EventDispatcherInterface $eventDispatcher)
     {
-        parent::__construct($jsonConverter, $signatureAlgorithmManager);
+        parent::__construct($signatureAlgorithmManager);
         $this->eventDispatcher = $eventDispatcher;
     }
 

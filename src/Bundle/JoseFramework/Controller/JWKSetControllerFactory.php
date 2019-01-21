@@ -13,20 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Controller;
 
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\JsonConverter;
 
 class JWKSetControllerFactory
 {
-    private $jsonConverter;
-
-    public function __construct(JsonConverter $jsonConverter)
-    {
-        $this->jsonConverter = $jsonConverter;
-    }
-
     public function create(JWKSet $jwkset): JWKSetController
     {
-        return new JWKSetController($this->jsonConverter->encode($jwkset));
+        return new JWKSetController(JsonConverter::encode($jwkset));
     }
 }

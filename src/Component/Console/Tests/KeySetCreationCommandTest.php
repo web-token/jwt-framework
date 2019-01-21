@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Console\Tests;
 
 use Jose\Component\Console;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWKSet;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -31,8 +30,7 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function theEllipticCurveKeySetCreationCommandIsAvailable()
     {
-        $converter = new StandardConverter();
-        $command = new Console\EcKeysetGeneratorCommand($converter);
+        $command = new Console\EcKeysetGeneratorCommand();
 
         static::assertTrue($command->isEnabled());
     }
@@ -44,10 +42,9 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function theEllipticCurveKeySetCreationCommandNeedTheCurveAndQuantityArguments()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeysetGeneratorCommand($converter);
+        $command = new Console\EcKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -59,13 +56,12 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnEllipticCurveKeySetWithAnUnsupportedCurve()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
             'curve' => 'P-128',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeysetGeneratorCommand($converter);
+        $command = new Console\EcKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -75,14 +71,13 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCanCreateAnEllipticCurveKeySetWithCurveP256()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
             'curve' => 'P-256',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeysetGeneratorCommand($converter);
+        $command = new Console\EcKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -97,12 +92,11 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnOctetKeySetWithoutKeySetSize()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeysetGeneratorCommand($converter);
+        $command = new Console\OctKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -112,14 +106,13 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCanCreateAnOctetKeySet()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
             'size' => 256,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeysetGeneratorCommand($converter);
+        $command = new Console\OctKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -134,12 +127,11 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnOctetKeySetPairWithoutKeySetCurve()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeysetGeneratorCommand($converter);
+        $command = new Console\OkpKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -149,14 +141,13 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCanCreateAnOctetKeySetPair()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
             'curve' => 'X25519',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeysetGeneratorCommand($converter);
+        $command = new Console\OkpKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -171,12 +162,11 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnRsaKeySetWithoutKeySetSize()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeysetGeneratorCommand($converter);
+        $command = new Console\RsaKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -186,14 +176,13 @@ class KeySetCreationCommandTest extends TestCase
      */
     public function iCanCreateAnRsaKeySet()
     {
-        $converter = new StandardConverter();
         $input = new ArrayInput([
             'quantity' => 2,
             'size' => 1024,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeysetGeneratorCommand($converter);
+        $command = new Console\RsaKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();

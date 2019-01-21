@@ -15,7 +15,6 @@ namespace Jose\Component\NestedToken\Tests;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
@@ -186,9 +185,9 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     private function getJWSSerializerManagerFactory(): JwsSerializer\JWSSerializerManagerFactory
     {
         $jwsSerializerManagerFactory = new JwsSerializer\JWSSerializerManagerFactory();
-        $jwsSerializerManagerFactory->add(new JwsSerializer\CompactSerializer(new StandardConverter()));
-        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONFlattenedSerializer(new StandardConverter()));
-        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONGeneralSerializer(new StandardConverter()));
+        $jwsSerializerManagerFactory->add(new JwsSerializer\CompactSerializer());
+        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONFlattenedSerializer());
+        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONGeneralSerializer());
 
         return $jwsSerializerManagerFactory;
     }
@@ -254,7 +253,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     }
 
     /**
-     * @var null|JweSerializer\JWESerializerManagerFactory
+     * @var JweSerializer\JWESerializerManagerFactory|null
      */
     private $jwsSerializerManagerFactory = null;
 
@@ -262,9 +261,9 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     {
         if (null === $this->jwsSerializerManagerFactory) {
             $this->jwsSerializerManagerFactory = new JweSerializer\JWESerializerManagerFactory();
-            $this->jwsSerializerManagerFactory->add(new JweSerializer\CompactSerializer(new StandardConverter()));
-            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONFlattenedSerializer(new StandardConverter()));
-            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONGeneralSerializer(new StandardConverter()));
+            $this->jwsSerializerManagerFactory->add(new JweSerializer\CompactSerializer());
+            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONFlattenedSerializer());
+            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONGeneralSerializer());
         }
 
         return $this->jwsSerializerManagerFactory;

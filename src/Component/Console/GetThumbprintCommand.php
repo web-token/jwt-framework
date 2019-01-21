@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,7 +36,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         $hash = $input->getOption('hash');
-        $json = $this->jsonConverter->decode($jwk);
+        $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid input.');
         }

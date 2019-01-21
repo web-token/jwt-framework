@@ -15,7 +15,6 @@ namespace Jose\Component\NestedToken\Tests;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
@@ -119,7 +118,6 @@ class NestingTokenBuilderTest extends TestCase
     {
         if (null === $this->jwsBuilderFactory) {
             $this->jwsBuilderFactory = new JWSBuilderFactory(
-                new StandardConverter(),
                 $this->getAlgorithmManagerFactory()
             );
         }
@@ -136,7 +134,6 @@ class NestingTokenBuilderTest extends TestCase
     {
         if (null === $this->jweBuilderFactory) {
             $this->jweBuilderFactory = new JWEBuilderFactory(
-                new StandardConverter(),
                 $this->getAlgorithmManagerFactory(),
                 $this->getCompressionMethodManagerFactory()
             );
@@ -167,9 +164,9 @@ class NestingTokenBuilderTest extends TestCase
     private function getJWSSerializerManagerFactory(): JwsSerializer\JWSSerializerManagerFactory
     {
         $jwsSerializerManagerFactory = new JwsSerializer\JWSSerializerManagerFactory();
-        $jwsSerializerManagerFactory->add(new JwsSerializer\CompactSerializer(new StandardConverter()));
-        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONFlattenedSerializer(new StandardConverter()));
-        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONGeneralSerializer(new StandardConverter()));
+        $jwsSerializerManagerFactory->add(new JwsSerializer\CompactSerializer());
+        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONFlattenedSerializer());
+        $jwsSerializerManagerFactory->add(new JwsSerializer\JSONGeneralSerializer());
 
         return $jwsSerializerManagerFactory;
     }
@@ -209,7 +206,7 @@ class NestingTokenBuilderTest extends TestCase
     }
 
     /**
-     * @var null|JweSerializer\JWESerializerManagerFactory
+     * @var JweSerializer\JWESerializerManagerFactory|null
      */
     private $jwsSerializerManagerFactory = null;
 
@@ -217,9 +214,9 @@ class NestingTokenBuilderTest extends TestCase
     {
         if (null === $this->jwsSerializerManagerFactory) {
             $this->jwsSerializerManagerFactory = new JweSerializer\JWESerializerManagerFactory();
-            $this->jwsSerializerManagerFactory->add(new JweSerializer\CompactSerializer(new StandardConverter()));
-            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONFlattenedSerializer(new StandardConverter()));
-            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONGeneralSerializer(new StandardConverter()));
+            $this->jwsSerializerManagerFactory->add(new JweSerializer\CompactSerializer());
+            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONFlattenedSerializer());
+            $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONGeneralSerializer());
         }
 
         return $this->jwsSerializerManagerFactory;

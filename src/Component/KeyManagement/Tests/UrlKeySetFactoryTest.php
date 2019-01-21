@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Tests;
 
 use Http\Mock\Client;
-use Jose\Component\Core\Converter\StandardConverter;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
@@ -114,7 +113,6 @@ class UrlKeySetFactoryTest extends TestCase
     {
         if (null === $this->jkuFactory) {
             $this->jkuFactory = new JKUFactory(
-                new StandardConverter(),
                 $this->getHttpClient(),
                 new HttpMessageFactory()
             );
@@ -132,7 +130,6 @@ class UrlKeySetFactoryTest extends TestCase
     {
         if (null === $this->x5uFactory) {
             $this->x5uFactory = new X5UFactory(
-                new StandardConverter(),
                 $this->getHttpClient(),
                 new HttpMessageFactory()
             );

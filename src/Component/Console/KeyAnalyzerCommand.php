@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -26,13 +26,10 @@ final class KeyAnalyzerCommand extends Command
 {
     private $analyzerManager;
 
-    private $jsonConverter;
-
-    public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
+    public function __construct(KeyAnalyzerManager $analyzerManager, string $name = null)
     {
         parent::__construct($name);
         $this->analyzerManager = $analyzerManager;
-        $this->jsonConverter = $jsonConverter;
     }
 
     protected function configure()
@@ -66,7 +63,7 @@ final class KeyAnalyzerCommand extends Command
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
-        $json = $this->jsonConverter->decode($jwk);
+        $json = JsonConverter::decode($jwk);
         if (\is_array($json)) {
             return JWK::create($json);
         }

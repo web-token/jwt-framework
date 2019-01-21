@@ -15,20 +15,15 @@ namespace Jose\Component\Signature;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 
 class JWSBuilder
 {
     /**
-     * @var JsonConverter
-     */
-    private $jsonConverter;
-
-    /**
-     * @var null|string
+     * @var string|null
      */
     private $payload;
 
@@ -48,16 +43,15 @@ class JWSBuilder
     private $signatureAlgorithmManager;
 
     /**
-     * @var null|bool
+     * @var bool|null
      */
     private $isPayloadEncoded = null;
 
     /**
      * JWSBuilder constructor.
      */
-    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
+    public function __construct(AlgorithmManager $signatureAlgorithmManager)
     {
-        $this->jsonConverter = $jsonConverter;
         $this->signatureAlgorithmManager = $signatureAlgorithmManager;
     }
 
@@ -155,7 +149,7 @@ class JWSBuilder
             $protectedHeader = $signature['protected_header'];
             /** @var array $header */
             $header = $signature['header'];
-            $encodedProtectedHeader = empty($protectedHeader) ? null : Base64Url::encode($this->jsonConverter->encode($protectedHeader));
+            $encodedProtectedHeader = empty($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
             $input = \sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
             $s = $signatureAlgorithm->sign($signatureKey, $input);
             $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
