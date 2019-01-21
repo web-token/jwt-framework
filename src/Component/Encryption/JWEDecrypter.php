@@ -113,6 +113,8 @@ class JWEDecrypter
         $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($completeHeader);
         $content_encryption_algorithm = $this->getContentEncryptionAlgorithm($completeHeader);
 
+        $this->checkIvSize($jwe->getIV(), $content_encryption_algorithm->getIVSize());
+
         foreach ($jwkset as $jwk) {
             try {
                 KeyChecker::checkKeyUsage($jwk, 'decryption');
@@ -123,6 +125,7 @@ class JWEDecrypter
                 }
                 $cek = $this->decryptCEK($key_encryption_algorithm, $content_encryption_algorithm, $jwk, $recipient, $completeHeader);
                 if (null !== $cek) {
+                    $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
                     $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
                     $successJwk = $jwk;
 
@@ -135,6 +138,27 @@ class JWEDecrypter
         }
 
         return null;
+    }
+
+    private function checkCekSize(string $cek, KeyEncryptionAlgorithm $keyEncryptionAlgorithm, ContentEncryptionAlgorithm $algorithm): void
+    {
+        if ($keyEncryptionAlgorithm instanceof DirectEncryption || $keyEncryptionAlgorithm instanceof KeyAgreement) {
+            return;
+        }
+        if (mb_strlen($cek, '8bit') !== $algorithm->getCEKSize() / 8) {
+            var_dump(mb_strlen($cek, '8bit'), $algorithm->getCEKSize() / 8);
+            throw new \InvalidArgumentException('Invalid CEK size');
+        }
+    }
+
+    private function checkIvSize(?string $iv, int $requiredIvSize): void
+    {
+        if (null === $iv && 0 !== $requiredIvSize) {
+            throw new \InvalidArgumentException('Invalid IV size');
+        }
+        if (\is_string($iv) && mb_strlen($iv, '8bit') !== $requiredIvSize / 8) {
+            throw new \InvalidArgumentException('Invalid IV size');
+        }
     }
 
     private function checkRecipients(JWE $jwe)
