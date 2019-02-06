@@ -43,18 +43,6 @@ class JWESerializerManager
     /**
      * Return the serializer names supported by the manager.
      *
-     * @deprecated Will be removed in v2.0. Please use names() instead.
-     *
-     * @return string[]
-     */
-    public function list(): array
-    {
-        return $this->names();
-    }
-
-    /**
-     * Return the serializer names supported by the manager.
-     *
      * @return string[]
      */
     public function names(): array
