@@ -36,7 +36,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
 
     public function supportsEncoding($format)
     {
-        return \in_array(mb_strtolower($format), $this->serializerManager->list(), true);
+        return \in_array(mb_strtolower($format), $this->serializerManager->names(), true);
     }
 
     public function supportsDecoding($format)

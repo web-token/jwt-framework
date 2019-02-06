@@ -51,6 +51,5 @@ final class JWEBuilder extends BaseJWEBuilder
 
             throw $throwable;
         }
-
     }
 }

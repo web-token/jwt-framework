@@ -49,6 +49,5 @@ final class JWSBuilder extends BaseJWSBuilder
 
             throw $throwable;
         }
-
     }
 }

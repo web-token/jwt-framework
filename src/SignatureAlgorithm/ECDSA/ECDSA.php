@@ -44,7 +44,7 @@ abstract class ECDSA implements SignatureAlgorithm
             throw new \RuntimeException('Signature failed.');
         }
 
-        return ECSignature::fromDER($signature, $this->getSignaturePartLength());
+        return ECSignature::fromAsn1($signature, $this->getSignaturePartLength());
     }
 
     public function verify(JWK $key, string $input, string $signature): bool
@@ -52,7 +52,7 @@ abstract class ECDSA implements SignatureAlgorithm
         $this->checkKey($key);
 
         try {
-            $der = ECSignature::toDER($signature, $this->getSignaturePartLength());
+            $der = ECSignature::toAsn1($signature, $this->getSignaturePartLength());
             $pem = ECKey::convertPublicKeyToPEM($key);
 
             return 1 === \openssl_verify($input, $der, $pem, $this->getHashAlgorithm());

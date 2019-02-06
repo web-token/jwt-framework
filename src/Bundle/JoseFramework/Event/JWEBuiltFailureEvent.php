@@ -47,7 +47,7 @@ final class JWEBuiltFailureEvent extends Event
      */
     private $aad;
 
-    public function __construct(?string $payload, array $recipients, array $sharedProtectedHeader, array $sharedHeader, ?string $aad,\Throwable $throwable)
+    public function __construct(?string $payload, array $recipients, array $sharedProtectedHeader, array $sharedHeader, ?string $aad, \Throwable $throwable)
     {
         $this->throwable = $throwable;
         $this->payload = $payload;
