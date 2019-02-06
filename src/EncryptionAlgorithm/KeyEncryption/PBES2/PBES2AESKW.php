@@ -18,8 +18,14 @@ use Jose\Component\Core\JWK;
 
 abstract class PBES2AESKW implements KeyWrapping
 {
+    /**
+     * @var int
+     */
     private $salt_size;
 
+    /**
+     * @var int
+     */
     private $nb_count;
 
     public function __construct(int $salt_size = 64, int $nb_count = 4096)
@@ -99,9 +105,6 @@ abstract class PBES2AESKW implements KeyWrapping
         foreach (['p2s', 'p2c'] as $k) {
             if (!\array_key_exists($k, $header)) {
                 throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is missing.', $k));
-            }
-            if (empty($header[$k])) {
-                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is not valid.', $k));
             }
         }
     }

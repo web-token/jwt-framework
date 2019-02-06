@@ -18,7 +18,7 @@ use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group JWKAnalyzer
  */
 class MessageBagTest extends TestCase

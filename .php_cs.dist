@@ -10,7 +10,6 @@ of the MIT license.  See the LICENSE file for details.';
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/src')
     ->in(__DIR__.'/performance')
-    ->in(__DIR__.'/tests')
 ;
 
 return PhpCsFixer\Config::create()

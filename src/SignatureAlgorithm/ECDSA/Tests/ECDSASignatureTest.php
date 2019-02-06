@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group ECDSA
- * @group Unit
+ * @group unit
  */
 class ECDSASignatureTest extends TestCase
 {

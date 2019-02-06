@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group AESGCMKW
- * @group Unit
+ * @group unit
  */
 class AESGCMKWKeyEncryptionTest extends TestCase
 {

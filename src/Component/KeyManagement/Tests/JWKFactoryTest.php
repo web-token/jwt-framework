@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group JWKFactory
- * @group Unit
+ * @group unit
  */
 class JWKFactoryTest extends TestCase
 {

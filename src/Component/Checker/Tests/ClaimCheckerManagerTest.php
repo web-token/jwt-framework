@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group ClaimChecker
- * @group Unit
+ * @group unit
  */
 final class ClaimCheckerManagerTest extends TestCase
 {

@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * @group Bundle
- * @group Functional
+ * @group functional
  */
 class ConsoleTest extends KernelTestCase
 {

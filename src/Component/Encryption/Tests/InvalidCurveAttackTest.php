@@ -17,7 +17,7 @@ use Jose\Component\Core\JWK;
 
 /**
  * @group CVE
- * @group Functional
+ * @group functional
  */
 class InvalidCurveAttackTest extends EncryptionTest
 {

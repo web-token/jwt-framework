@@ -26,7 +26,7 @@ use Symfony\Component\Serializer\Serializer;
 
 /**
  * @group Bundle
- * @group Functional
+ * @group functional
  */
 final class JWSEncoderTest extends WebTestCase
 {

@@ -25,18 +25,18 @@ abstract class AESKW implements KeyWrapping
 
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
-        $this->checkKey($key);
+        $k = $this->getKey($key);
         $wrapper = $this->getWrapper();
 
-        return $wrapper::wrap(Base64Url::decode($key->get('k')), $cek);
+        return $wrapper::wrap($k, $cek);
     }
 
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
-        $this->checkKey($key);
+        $k = $this->getKey($key);
         $wrapper = $this->getWrapper();
 
-        return $wrapper::unwrap(Base64Url::decode($key->get('k')), $encrypted_cek);
+        return $wrapper::unwrap($k, $encrypted_cek);
     }
 
     public function getKeyManagementMode(): string
@@ -44,7 +44,7 @@ abstract class AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key): void
+    private function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -52,6 +52,12 @@ abstract class AESKW implements KeyWrapping
         if (!$key->has('k')) {
             throw new \InvalidArgumentException('The key parameter "k" is missing.');
         }
+        $k = $key->get('k');
+        if (!\is_string($k)) {
+            throw new \InvalidArgumentException('The key parameter "k" is invalid.');
+        }
+
+        return Base64Url::decode($k);
     }
 
     /**

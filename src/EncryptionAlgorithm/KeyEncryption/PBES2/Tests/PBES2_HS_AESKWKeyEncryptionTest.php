@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * Class PBES2_HS_AESKWKeyEncryptionTest.
  *
  * @group PBES2HSAESKW
- * @group Unit
+ * @group unit
  */
 class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 {

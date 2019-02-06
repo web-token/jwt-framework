@@ -22,7 +22,7 @@ use Jose\Component\Encryption\Compression\ZLib;
 /**
  * Class CompressionTest.
  *
- * @group Unit
+ * @group unit
  */
 class CompressionTest extends EncryptionTest
 {

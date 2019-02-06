@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @group Bundle
- * @group Functional
+ * @group functional
  */
 class JWELoaderTest extends WebTestCase
 {

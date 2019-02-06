@@ -1,40 +1,65 @@
+dist: trusty
+sudo: false
 language: php
 
-sudo: required
+php:
+    - 7.2
+    - 7.3
+    - nightly
 
 cache:
     directories:
-        - "$HOME/.composer/cache"
-        - "vendor"
-
-matrix:
-    allow_failures:
-        - php: nightly
-    fast_finish: true
-    include:
-        - php: 7.1
-          env: deps=low
-        - php: 7.1
-          emv: SYMFONY_DEPRECATIONS_HELPER=weak
-        - php: 7.2
-          emv: SYMFONY_DEPRECATIONS_HELPER=weak
-        - php: 7.3
-          emv: SYMFONY_DEPRECATIONS_HELPER=weak
-        - php: nightly
-          emv: SYMFONY_DEPRECATIONS_HELPER=weak
+        - $HOME/.composer/cache
+        - vendor
 
 before_script:
-    - chmod +x ./tests/install_php_ext.sh
-    - if [ "$TRAVIS_PHP_VERSION" = '7.1' ]; then ./tests/install_php_ext.sh; fi
-    - composer self-update
     - mkdir -p build/logs
-    - composer require --no-update --dev phpunit/phpunit:"^6.0|^7.0" phpstan/phpstan:"^0.9|^0.10"
-    - if [[ $deps = low ]]; then composer update --no-interaction --prefer-lowest ; fi
-    - if [[ !$deps ]]; then composer install --no-interaction ; fi
+
+before_install:
+    - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
+
+install: travis_retry composer install
 
 script:
-    - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+    - ./vendor/bin/phpunit --group=unit
+    - ./vendor/bin/phpunit --group=functional
 
-after_success:
-    - ./vendor/bin/coveralls --no-interaction
-    - ./vendor/bin/phpstan analyze --level max -c phpstan.neon src
+jobs:
+    allow_failures:
+        - php: nightly
+
+    include:
+        - stage: Metrics and quality
+          env: COVERAGE
+          before_script:
+              - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
+              - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
+          script:
+              - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+          after_script:
+              - ./vendor/bin/coveralls --no-interaction
+
+        - stage: Metrics and quality
+          env: BENCHMARK
+          script:
+              - echo "Disabled"
+              #- ./vendor/bin/phpbench run -l dots --report aggregate
+
+        - stage: Metrics and quality
+          env: CODE_STANDARD
+          script:
+              - echo "Disabled"
+              #- ./vendor/bin/phpcs
+
+        - stage: Metrics and quality
+          env: MUTATION
+          before_script:
+              - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
+              - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
+          script:
+              - ./vendor/bin/infection --test-framework-options="--group=unit" -s --threads=$(nproc) --min-msi=95 --min-covered-msi=95
+
+        - stage: Metrics and quality
+          env: STATIC_ANALYSIS
+          script:
+              - ./vendor/bin/phpstan analyse

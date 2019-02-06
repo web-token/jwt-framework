@@ -20,7 +20,7 @@ use Jose\Component\Encryption\JWE;
  * Class RSAKeyWithoutAllPrimesTest.
  *
  * @group RSA2
- * @group Unit
+ * @group unit
  */
 class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {

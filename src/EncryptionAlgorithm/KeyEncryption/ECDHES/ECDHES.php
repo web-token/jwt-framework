@@ -202,7 +202,12 @@ final class ECDHES implements KeyAgreement
             $hex = '0'.$hex;
         }
 
-        return \hex2bin($hex);
+        $result = \hex2bin($hex);
+        if (false === $result) {
+            throw new \InvalidArgumentException('Unable to convert negative integer to string');
+        }
+
+        return $result;
     }
 
     /**
@@ -222,7 +227,7 @@ final class ECDHES implements KeyAgreement
     /**
      * @param string $curve The curve
      */
-    public static function createOKPKey(string $curve): JWK
+    private function createOKPKey(string $curve): JWK
     {
         switch ($curve) {
             case 'X25519':
@@ -286,11 +291,17 @@ final class ECDHES implements KeyAgreement
             'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
+        if (false === $key) {
+            throw new \RuntimeException('Unable to create the key');
+        }
         $res = \openssl_pkey_export($key, $out);
         if (false === $res) {
             throw new \RuntimeException('Unable to create the key');
         }
         $res = \openssl_pkey_get_private($out);
+        if (false === $res) {
+            throw new \RuntimeException('Unable to create the key');
+        }
 
         $details = \openssl_pkey_get_details($res);
 

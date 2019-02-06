@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group None
- * @group Unit
+ * @group unit
  */
 class NoneSignatureTest extends TestCase
 {

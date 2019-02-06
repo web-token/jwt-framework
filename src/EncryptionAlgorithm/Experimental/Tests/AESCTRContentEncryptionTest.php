@@ -20,7 +20,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group NewAlgorithm
  */
 class AESCTRContentEncryptionTest extends TestCase

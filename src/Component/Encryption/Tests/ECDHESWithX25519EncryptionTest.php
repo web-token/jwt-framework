@@ -19,7 +19,7 @@ use Jose\Component\Core\JWK;
  * Class ECDHESWithX25519EncryptionTest.
  *
  * @group ECDHES
- * @group Unit
+ * @group unit
  */
 class ECDHESWithX25519EncryptionTest extends EncryptionTest
 {

@@ -19,7 +19,7 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group JWAManager
  */
 class AlgorithmManagerFactoryTest extends TestCase

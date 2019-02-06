@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group ECKeys
- * @group Unit
+ * @group unit
  */
 class ECKeysTest extends TestCase
 {

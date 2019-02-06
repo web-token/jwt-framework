@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  * Class ECDHESKeyAgreementTest.
  *
  * @group ECDHES
- * @group Unit
+ * @group unit
  */
 class ECDHESKeyAgreementTest extends TestCase
 {

@@ -18,7 +18,7 @@ use Jose\Component\Signature\JWS;
 
 /**
  * @group JWS
- * @group Unit
+ * @group unit
  */
 class JWSTest extends SignatureTest
 {

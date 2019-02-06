@@ -18,7 +18,7 @@ use Jose\Component\Signature\JWS;
 
 /**
  * @group ForeignJWT
- * @group Functional
+ * @group functional
  */
 class ForeignJWTTest extends SignatureTest
 {

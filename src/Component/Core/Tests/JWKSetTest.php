@@ -18,7 +18,7 @@ use Jose\Component\Core\JWKSet;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group JWKSet
  */
 class JWKSetTest extends TestCase

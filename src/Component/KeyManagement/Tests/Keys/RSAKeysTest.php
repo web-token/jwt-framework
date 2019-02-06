@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group RSAKeys
- * @group Unit
+ * @group unit
  */
 class RSAKeysTest extends TestCase
 {

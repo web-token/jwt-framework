@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group HMAC
- * @group Unit
+ * @group unit
  */
 class HMACSignatureTest extends TestCase
 {

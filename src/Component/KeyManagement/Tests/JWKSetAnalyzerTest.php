@@ -19,7 +19,7 @@ use Jose\Component\KeyManagement\Analyzer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group JWKSetAnalyzer
  */
 class JWKSetAnalyzerTest extends TestCase

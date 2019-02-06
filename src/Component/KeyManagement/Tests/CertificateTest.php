@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * @see http://fm4dd.com/openssl/certexamples.htm
  *
  * @group Certificate
- * @group Unit
+ * @group unit
  */
 class CertificateTest extends TestCase
 {

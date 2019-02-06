@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group HeaderChecker
- * @group Functional
+ * @group functional
  */
 class UnencodedPayloadHeaderCheckerTest extends TestCase
 {

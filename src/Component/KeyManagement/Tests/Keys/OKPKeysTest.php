@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group OKPKeys
- * @group Unit
+ * @group unit
  */
 class OKPKeysTest extends TestCase
 {
