@@ -17,7 +17,6 @@
     "autoload": {
         "psr-4": {
             "Jose\\":  "src/",
-            "Jose\\Tests\\":  "test/",
             "Jose\\Component\\Signature\\Algorithm\\": [
                 "src/SignatureAlgorithm/ECDSA",
                 "src/SignatureAlgorithm/EdDSA",
