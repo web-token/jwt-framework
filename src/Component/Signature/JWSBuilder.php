@@ -25,17 +25,17 @@ class JWSBuilder
     /**
      * @var string|null
      */
-    private $payload;
+    protected $payload;
 
     /**
      * @var bool
      */
-    private $isPayloadDetached;
+    protected $isPayloadDetached;
 
     /**
      * @var array
      */
-    private $signatures = [];
+    protected $signatures = [];
 
     /**
      * @var AlgorithmManager
@@ -45,11 +45,8 @@ class JWSBuilder
     /**
      * @var bool|null
      */
-    private $isPayloadEncoded = null;
+    protected $isPayloadEncoded = null;
 
-    /**
-     * JWSBuilder constructor.
-     */
     public function __construct(AlgorithmManager $signatureAlgorithmManager)
     {
         $this->signatureAlgorithmManager = $signatureAlgorithmManager;

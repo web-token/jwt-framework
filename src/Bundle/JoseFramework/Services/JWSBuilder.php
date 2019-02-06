@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\Events;
+use Jose\Bundle\JoseFramework\Event\JWSBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Signature\JWS;
@@ -32,9 +33,22 @@ final class JWSBuilder extends BaseJWSBuilder
 
     public function build(): JWS
     {
-        $jws = parent::build();
-        $this->eventDispatcher->dispatch(Events::JWS_BUILT_SUCCESS, new JWSBuiltSuccessEvent($jws));
+        try {
+            $jws = parent::build();
+            $this->eventDispatcher->dispatch(Events::JWS_BUILT_SUCCESS, new JWSBuiltSuccessEvent($jws));
 
-        return $jws;
+            return $jws;
+        } catch (\Throwable $throwable) {
+            $this->eventDispatcher->dispatch(Events::JWS_BUILT_FAILURE, new JWSBuiltFailureEvent(
+                $this->payload,
+                $this->signatures,
+                $this->isPayloadDetached,
+                $this->isPayloadEncoded,
+                $throwable
+            ));
+
+            throw $throwable;
+        }
+
     }
 }

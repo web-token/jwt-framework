@@ -17,10 +17,19 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class ClaimCheckedFailureEvent extends Event
 {
+    /**
+     * @var array
+     */
     private $claims;
 
+    /**
+     * @var array
+     */
     private $mandatoryClaims;
 
+    /**
+     * @var \Throwable
+     */
     private $throwable;
 
     public function __construct(array $claims, array $mandatoryClaims, \Throwable $throwable)

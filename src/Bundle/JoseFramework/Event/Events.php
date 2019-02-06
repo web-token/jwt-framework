@@ -37,5 +37,5 @@ final class Events
     public const HEADER_CHECK_FAILURE = 'header_check_failure';
 
     public const CLAIM_CHECK_SUCCESS = 'claim_check_success';
-    public const CLAIM_CHECK_FAILURE = 'laim_check_failure';
+    public const CLAIM_CHECK_FAILURE = 'claim_check_failure';
 }

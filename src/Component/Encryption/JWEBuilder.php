@@ -33,17 +33,17 @@ class JWEBuilder
     /**
      * @var string|null
      */
-    private $payload;
+    protected $payload;
 
     /**
      * @var string|null
      */
-    private $aad;
+    protected $aad;
 
     /**
      * @var array
      */
-    private $recipients = [];
+    protected $recipients = [];
 
     /**
      * @var AlgorithmManager
@@ -63,12 +63,12 @@ class JWEBuilder
     /**
      * @var array
      */
-    private $sharedProtectedHeader = [];
+    protected $sharedProtectedHeader = [];
 
     /**
      * @var array
      */
-    private $sharedHeader = [];
+    protected $sharedHeader = [];
 
     /**
      * @var CompressionMethod|null
@@ -85,9 +85,6 @@ class JWEBuilder
      */
     private $keyManagementMode = null;
 
-    /**
-     * JWEBuilder constructor.
-     */
     public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
     {
         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\Events;
+use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
@@ -33,9 +34,23 @@ final class JWEBuilder extends BaseJWEBuilder
 
     public function build(): JWE
     {
-        $jws = parent::build();
-        $this->eventDispatcher->dispatch(Events::JWE_BUILT_SUCCESS, new JWEBuiltSuccessEvent($jws));
+        try {
+            $jwe = parent::build();
+            $this->eventDispatcher->dispatch(Events::JWE_BUILT_SUCCESS, new JWEBuiltSuccessEvent($jwe));
 
-        return $jws;
+            return $jwe;
+        } catch (\Throwable $throwable) {
+            $this->eventDispatcher->dispatch(Events::JWE_BUILT_FAILURE, new JWEBuiltFailureEvent(
+                $this->payload,
+                $this->recipients,
+                $this->sharedProtectedHeader,
+                $this->sharedHeader,
+                $this->aad,
+                $throwable
+            ));
+
+            throw $throwable;
+        }
+
     }
 }
