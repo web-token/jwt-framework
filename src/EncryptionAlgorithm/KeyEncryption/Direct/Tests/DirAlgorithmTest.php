@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class DirAlgorithmTest.
  *
- * @group Unit
+ * @group unit
  */
 class DirAlgorithmTest extends TestCase
 {

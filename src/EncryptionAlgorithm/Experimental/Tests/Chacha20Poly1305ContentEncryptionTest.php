@@ -18,7 +18,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group NewAlgorithm
  */
 class Chacha20Poly1305ContentEncryptionTest extends TestCase

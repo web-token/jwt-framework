@@ -20,7 +20,7 @@ use Jose\Component\Encryption\JWE;
 
 /**
  * @group Encrypter
- * @group Functional
+ * @group functional
  */
 class EncrypterTest extends EncryptionTest
 {

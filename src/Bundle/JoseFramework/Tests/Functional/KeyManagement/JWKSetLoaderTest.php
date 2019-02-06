@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @group Bundle
- * @group Functional
+ * @group functional
  */
 class JWKSetLoaderTest extends WebTestCase
 {

@@ -20,7 +20,7 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group JWK
  */
 class JWKTest extends TestCase

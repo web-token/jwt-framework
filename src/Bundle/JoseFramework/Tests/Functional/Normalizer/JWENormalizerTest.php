@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Serializer;
 
 /**
  * @group Bundle
- * @group Functional
+ * @group functional
  */
 final class JWENormalizerTest extends WebTestCase
 {

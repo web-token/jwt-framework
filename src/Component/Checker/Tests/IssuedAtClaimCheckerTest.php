@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group ClaimChecker
- * @group Functional
+ * @group functional
  */
 class IssuedAtClaimCheckerTest extends TestCase
 {

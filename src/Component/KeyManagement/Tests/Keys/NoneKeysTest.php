@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group NoneKeys
- * @group Unit
+ * @group unit
  */
 class NoneKeysTest extends TestCase
 {

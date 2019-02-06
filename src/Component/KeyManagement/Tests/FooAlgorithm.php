@@ -16,7 +16,7 @@ namespace Jose\Component\KeyManagement\Tests;
 use Jose\Component\Core\Algorithm;
 
 /**
- * @group Unit
+ * @group unit
  * @group JWKSet
  */
 class FooAlgorithm implements Algorithm

@@ -19,7 +19,7 @@ use Jose\Component\Signature\JWSLoader;
 
 /**
  * @group JWSLoader
- * @group Unit
+ * @group unit
  */
 class JWSLoaderTest extends SignatureTest
 {

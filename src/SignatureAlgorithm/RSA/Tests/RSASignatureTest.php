@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group RSA
- * @group Unit
+ * @group unit
  */
 class RSASignatureTest extends TestCase
 {

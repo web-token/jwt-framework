@@ -19,7 +19,7 @@ use Jose\Component\Signature\Algorithm\HS256_64;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group NewAlgorithm
  */
 class HMACSignatureTest extends TestCase

@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group HeaderChecker
- * @group Functional
+ * @group functional
  */
 class HeaderCheckerManagerFactoryTest extends TestCase
 {

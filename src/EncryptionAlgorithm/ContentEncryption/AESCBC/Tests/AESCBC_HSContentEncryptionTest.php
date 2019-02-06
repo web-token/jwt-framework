@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group AESCBC
- * @group Unit
+ * @group unit
  */
 class AESCBC_HSContentEncryptionTest extends TestCase
 {

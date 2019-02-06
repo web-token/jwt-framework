@@ -1,25 +1,13 @@
 {
-    "timeout": 20,
     "source": {
-        "directories": [
-            "src"
-        ],
-        "exclude": [
-            "Bundle\/*\/Tests",
-            "Component\/*\/Tests",
-            "Ecc\/*\/Tests",
-            "EncryptionAlgorithm\/ContentEncryption\/*\/Tests",
-            "EncryptionAlgorithm\/KeyEncryption\/*\/Tests",
-            "EncryptionAlgorithm\/Experimental\/*\/Tests",
-            "Signaturelgorithm\/ECDSA\/*\/Tests",
-            "Signaturelgorithm\/EdDSA\/*\/Tests",
-            "Signaturelgorithm\/HMAC\/*\/Tests",
-            "Signaturelgorithm\/None\/*\/Tests",
-            "Signaturelgorithm\/RSA\/*\/Tests",
-            "Signaturelgorithm\/Experimental\/*\/Tests"
-        ]
+        "directories": ["src"]
     },
-    "logs": {
-        "text": "infection-log.txt"
+    "timeout": 3,
+        "logs": {
+        "text": "infection.txt"
+    },
+    "mutators": {
+        "@default": true,
+        "@function_signature": true
     }
 }

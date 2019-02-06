@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group ClaimChecker
- * @group Functional
+ * @group functional
  */
 class ClaimCheckerManagerFactoryTest extends TestCase
 {

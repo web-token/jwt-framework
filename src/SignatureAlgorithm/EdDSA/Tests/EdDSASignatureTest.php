@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group EdDSA
- * @group Unit
+ * @group unit
  */
 class EdDSASignatureTest extends TestCase
 {

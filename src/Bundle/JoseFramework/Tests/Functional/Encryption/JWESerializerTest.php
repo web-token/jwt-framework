@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @group Bundle
- * @group Functional
+ * @group functional
  */
 class JWESerializerTest extends WebTestCase
 {

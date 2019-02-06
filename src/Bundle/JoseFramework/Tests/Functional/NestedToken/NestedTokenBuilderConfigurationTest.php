@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group Bundle
- * @group Functional
+ * @group functional
  * @group NestedToken
  */
 class NestedTokenBuilderConfigurationTest extends TestCase

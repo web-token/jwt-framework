@@ -20,7 +20,7 @@ use Jose\Component\KeyManagement\X5UFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group UrlKeySetFactory
  */
 class UrlKeySetFactoryTest extends TestCase

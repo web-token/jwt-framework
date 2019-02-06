@@ -20,7 +20,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  */
 class AESGCMContentEncryptionTest extends TestCase
 {

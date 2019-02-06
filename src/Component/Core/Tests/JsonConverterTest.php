@@ -17,7 +17,7 @@ use Jose\Component\Core\Util\JsonConverter;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group JsonConverter
  */
 class JsonConverterTest extends TestCase

@@ -26,7 +26,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\AESCCM;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Unit
+ * @group unit
  * @group NewAlgorithm
  */
 class AESCCMContentEncryptionTest extends TestCase

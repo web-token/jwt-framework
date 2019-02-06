@@ -1,7 +1,20 @@
 parameters:
+    level: max
+    paths:
+        - src
     excludes_analyse:
+        - %currentWorkingDirectory%/src/Bundle/*/var/*
         - %currentWorkingDirectory%/src/Bundle/*/Tests/*
         - %currentWorkingDirectory%/src/Component/*/Tests/*
+        - %currentWorkingDirectory%/src/EncryptionAlgorithm/*/Tests/*
+        - %currentWorkingDirectory%/src/EncryptionAlgorithm/ContentEncryption/*/Tests/*
+        - %currentWorkingDirectory%/src/EncryptionAlgorithm/KeyEncryption/*/Tests/*
+        - %currentWorkingDirectory%/src/SignatureAlgorithm/*/Tests/*
     ignoreErrors:
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
         - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'
+    includes:
+        - vendor/phpstan/phpstan-phpunit/extension.neon
+        - vendor/phpstan/phpstan-phpunit/rules.neon
+        - vendor/phpstan/phpstan-strict-rules/rules.neon
+        - vendor/phpstan/phpstan-deprecation-rules/rules.neon
