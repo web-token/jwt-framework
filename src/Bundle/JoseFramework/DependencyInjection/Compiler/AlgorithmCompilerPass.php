@@ -20,6 +20,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class AlgorithmCompilerPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(AlgorithmManagerFactory::class)) {
