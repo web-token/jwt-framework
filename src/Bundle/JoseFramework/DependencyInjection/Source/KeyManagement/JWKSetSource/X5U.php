@@ -44,7 +44,7 @@ class X5U extends AbstractSource implements JWKSetSource
         return 'x5u';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
