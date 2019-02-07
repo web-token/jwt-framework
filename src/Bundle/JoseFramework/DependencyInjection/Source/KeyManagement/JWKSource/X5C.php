@@ -43,7 +43,7 @@ class X5C extends AbstractSource implements JWKSource
         return 'x5c';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
