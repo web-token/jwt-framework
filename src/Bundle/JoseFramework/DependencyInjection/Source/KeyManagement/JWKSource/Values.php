@@ -42,7 +42,7 @@ class Values extends AbstractSource implements JWKSource
         return 'values';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
