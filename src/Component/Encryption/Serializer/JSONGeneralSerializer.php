@@ -94,9 +94,9 @@ final class JSONGeneralSerializer implements JWESerializer
             $recipients);
     }
 
-    private function checkData($data)
+    private function checkData(array $data): void
     {
-        if (!\is_array($data) || !\array_key_exists('ciphertext', $data) || !\array_key_exists('recipients', $data)) {
+        if (!\array_key_exists('ciphertext', $data) || !\array_key_exists('recipients', $data)) {
             throw new \InvalidArgumentException('Unsupported input.');
         }
     }

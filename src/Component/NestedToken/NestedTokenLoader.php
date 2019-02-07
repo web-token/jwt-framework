@@ -53,7 +53,7 @@ class NestedTokenLoader
         return $this->jwsLoader->loadAndVerifyWithKeySet($jwe->getPayload(), $signatureKeySet, $signature);
     }
 
-    private function checkContentTypeHeader(JWE $jwe, int $recipient)
+    private function checkContentTypeHeader(JWE $jwe, int $recipient): void
     {
         switch (true) {
             case $jwe->hasSharedProtectedHeaderParameter('cty'):

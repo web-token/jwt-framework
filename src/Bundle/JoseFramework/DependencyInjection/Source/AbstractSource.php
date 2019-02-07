@@ -21,7 +21,7 @@ abstract class AbstractSource
 {
     abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;
 
-    public function create(ContainerBuilder $container, string $type, string $name, array $config)
+    public function create(ContainerBuilder $container, string $type, string $name, array $config): void
     {
         $service_id = \sprintf('jose.%s.%s', $type, $name);
         $definition = $this->createDefinition($container, $config);

@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class X509CertificateLoaderCommand extends GeneratorCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this

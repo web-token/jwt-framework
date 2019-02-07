@@ -140,9 +140,8 @@ class JWEBuilder
      *
      * @return JWEBuilder
      */
-    public function withPayload($payload): self
+    public function withPayload(string $payload): self
     {
-        $payload = \is_string($payload) ? $payload : JsonConverter::encode($payload);
         if (false === \mb_detect_encoding($payload, 'UTF-8', true)) {
             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
         }
@@ -361,7 +360,7 @@ class JWEBuilder
         return $keyEncryptionAlgorithm->wrapKey($recipientKey, $cek, $completeHeader, $additionalHeader);
     }
 
-    private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey)
+    private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey): void
     {
         KeyChecker::checkKeyUsage($recipientKey, 'encryption');
         if ('dir' !== $keyEncryptionAlgorithm->name()) {
@@ -464,7 +463,7 @@ class JWEBuilder
         return $contentEncryptionAlgorithm;
     }
 
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2)
+    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = \array_intersect_key($header1, $header2);
         if (!empty($inter)) {

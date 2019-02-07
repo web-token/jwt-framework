@@ -119,7 +119,7 @@ class RSAKey
         return $this->values;
     }
 
-    private function loadJWK(array $jwk)
+    private function loadJWK(array $jwk): void
     {
         if (!\array_key_exists('kty', $jwk)) {
             throw new \InvalidArgumentException('The key parameter "kty" is missing.');
@@ -140,7 +140,7 @@ class RSAKey
      * This method will try to add Chinese Remainder Theorem (CRT) parameters.
      * With those primes, the decryption process is really fast.
      */
-    public function optimize()
+    public function optimize(): void
     {
         if (\array_key_exists('d', $this->values)) {
             $this->populateCRT();
@@ -150,7 +150,7 @@ class RSAKey
     /**
      * This method adds Chinese Remainder Theorem (CRT) parameters if primes 'p' and 'q' are available.
      */
-    private function populateCRT()
+    private function populateCRT(): void
     {
         if (!\array_key_exists('p', $this->values) && !\array_key_exists('q', $this->values)) {
             $d = BigInteger::createFromBinaryString(Base64Url::decode($this->values['d']));

@@ -138,14 +138,14 @@ class ECKey
         ];
     }
 
-    private static function verifyVersion(ASNObject $children)
+    private static function verifyVersion(ASNObject $children): void
     {
         if (!$children instanceof Integer || '1' !== $children->getContent()) {
             throw new \InvalidArgumentException('Unable to load the key.');
         }
     }
 
-    private static function getXAndY(ASNObject $children, ?string &$x, ?string &$y)
+    private static function getXAndY(ASNObject $children, ?string &$x, ?string &$y): void
     {
         if (!$children instanceof ExplicitlyTaggedObject || !\is_array($children->getContent())) {
             throw new \InvalidArgumentException('Unable to load the key.');
@@ -242,7 +242,7 @@ class ECKey
         return $this->values;
     }
 
-    private function loadJWK(array $jwk)
+    private function loadJWK(array $jwk): void
     {
         $keys = [
             'kty' => 'The key parameter "kty" is missing.',

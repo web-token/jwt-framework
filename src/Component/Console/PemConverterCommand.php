@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PemConverterCommand extends ObjectOutputCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this

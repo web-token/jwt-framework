@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PublicKeysetCommand extends ObjectOutputCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this

@@ -53,7 +53,7 @@ final class JSONGeneralSerializer extends Serializer
             ];
 
             foreach ($values as $key => $value) {
-                if (!empty($value)) {
+                if ((\is_string($value) && '' !== $value) || (\is_array($value) && 0 !== \count($value))) {
                     $tmp[$key] = $value;
                 }
             }
@@ -63,16 +63,16 @@ final class JSONGeneralSerializer extends Serializer
         return JsonConverter::encode($data);
     }
 
-    private function checkData($data)
+    private function checkData(array $data): void
     {
-        if (!\is_array($data) || !\array_key_exists('signatures', $data)) {
+        if (!\array_key_exists('signatures', $data)) {
             throw new \InvalidArgumentException('Unsupported input.');
         }
     }
 
-    private function checkSignature($signature)
+    private function checkSignature(array $signature): void
     {
-        if (!\is_array($signature) || !\array_key_exists('signature', $signature)) {
+        if (!\array_key_exists('signature', $signature)) {
             throw new \InvalidArgumentException('Unsupported input.');
         }
     }
@@ -141,7 +141,7 @@ final class JSONGeneralSerializer extends Serializer
         return false === $isPayloadEncoded ? $rawPayload : Base64Url::decode($rawPayload);
     }
 
-    private function checkPayloadEncoding(JWS $jws)
+    private function checkPayloadEncoding(JWS $jws): void
     {
         if ($jws->isPayloadDetached()) {
             return;

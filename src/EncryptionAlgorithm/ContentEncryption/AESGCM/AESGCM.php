@@ -29,7 +29,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         if (null !== $aad) {
             $calculated_aad .= '.'.Base64Url::encode($aad);
         }
-
+        $tag = '';
         $C = \openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if (false === $C) {
             throw new \InvalidArgumentException('Unable to encrypt the data.');

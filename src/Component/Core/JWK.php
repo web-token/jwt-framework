@@ -63,7 +63,7 @@ class JWK implements \JsonSerializable
     /**
      * Returns the values to be serialized.
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->values;
     }

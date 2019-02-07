@@ -135,7 +135,7 @@ class KeyConverter
     /**
      * This method modifies the PEM to get 64 char lines and fix bug with old OpenSSL versions.
      */
-    private static function sanitizePEM(string &$pem)
+    private static function sanitizePEM(string &$pem): void
     {
         \preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
         $ciphertext = \preg_replace('#-.*-|\r|\n| #', '', $pem);

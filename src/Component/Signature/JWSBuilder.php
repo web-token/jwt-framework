@@ -160,7 +160,7 @@ class JWSBuilder
         return !\array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
     }
 
-    private function checkB64AndCriticalHeader(array $protectedHeader)
+    private function checkB64AndCriticalHeader(array $protectedHeader): void
     {
         if (!\array_key_exists('b64', $protectedHeader)) {
             return;
@@ -194,7 +194,7 @@ class JWSBuilder
         return $signatureAlgorithm;
     }
 
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2)
+    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = \array_intersect_key($header1, $header2);
         if (!empty($inter)) {

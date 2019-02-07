@@ -35,7 +35,7 @@ final class KeysetAnalyzerCommand extends Command
         $this->analyzerManager = $analyzerManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this

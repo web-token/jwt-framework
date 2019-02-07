@@ -31,7 +31,7 @@ final class X5ULoaderCommand extends ObjectOutputCommand
         parent::__construct($name);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this

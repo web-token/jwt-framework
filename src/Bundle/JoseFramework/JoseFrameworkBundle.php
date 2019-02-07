@@ -18,6 +18,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class JoseFrameworkBundle extends Bundle
@@ -34,12 +35,12 @@ final class JoseFrameworkBundle extends Bundle
         }
     }
 
-    public function getContainerExtension()
+    public function getContainerExtension(): ExtensionInterface
     {
         return new JoseFrameworkExtension('jose', $this->sources);
     }
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
         foreach ($this->sources as $source) {

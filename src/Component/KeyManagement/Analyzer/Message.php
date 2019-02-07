@@ -86,7 +86,7 @@ class Message implements \JsonSerializable
         return $this->severity;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'message' => $this->message,

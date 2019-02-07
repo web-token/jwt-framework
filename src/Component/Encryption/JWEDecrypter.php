@@ -170,21 +170,21 @@ class JWEDecrypter
         }
     }
 
-    private function checkRecipients(JWE $jwe)
+    private function checkRecipients(JWE $jwe): void
     {
         if (0 === $jwe->countRecipients()) {
             throw new \InvalidArgumentException('The JWE does not contain any recipient.');
         }
     }
 
-    private function checkPayload(JWE $jwe)
+    private function checkPayload(JWE $jwe): void
     {
         if (null !== $jwe->getPayload()) {
             throw new \InvalidArgumentException('The JWE is already decrypted.');
         }
     }
 
-    private function checkJWKSet(JWKSet $jwkset)
+    private function checkJWKSet(JWKSet $jwkset): void
     {
         if (0 === $jwkset->count()) {
             throw new \InvalidArgumentException('No key in the key set.');
@@ -224,15 +224,12 @@ class JWEDecrypter
         if (\array_key_exists('zip', $completeHeaders)) {
             $compression_method = $this->compressionMethodManager->get($completeHeaders['zip']);
             $payload = $compression_method->uncompress($payload);
-            if (!\is_string($payload)) {
-                throw new \InvalidArgumentException('Decompression failed');
-            }
         }
 
         return $payload;
     }
 
-    private function checkCompleteHeader(array $completeHeaders)
+    private function checkCompleteHeader(array $completeHeaders): void
     {
         foreach (['enc', 'alg'] as $key) {
             if (!\array_key_exists($key, $completeHeaders)) {

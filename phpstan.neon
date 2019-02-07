@@ -13,6 +13,8 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
         - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'
+        - '#Method Jose\\Component\\Core\\Util\\Ecc\\Math::rightShift\(\) should return GMP but returns resource\.#'
+        - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon

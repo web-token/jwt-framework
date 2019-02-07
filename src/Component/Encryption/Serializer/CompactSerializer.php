@@ -82,21 +82,21 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
-    private function checkHasNoAAD(JWE $jwe)
+    private function checkHasNoAAD(JWE $jwe): void
     {
         if (!empty($jwe->getAAD())) {
             throw new \LogicException('This JWE has AAD and cannot be converted into Compact JSON.');
         }
     }
 
-    private function checkRecipientHasNoHeader(JWE $jwe, int $id)
+    private function checkRecipientHasNoHeader(JWE $jwe, int $id): void
     {
         if (!empty($jwe->getSharedHeader()) || !empty($jwe->getRecipient($id)->getHeader())) {
             throw new \LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
         }
     }
 
-    private function checkHasSharedProtectedHeader(JWE $jwe)
+    private function checkHasSharedProtectedHeader(JWE $jwe): void
     {
         if (empty($jwe->getSharedProtectedHeader())) {
             throw new \LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');

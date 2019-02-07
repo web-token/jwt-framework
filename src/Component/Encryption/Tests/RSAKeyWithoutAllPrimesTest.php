@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Tests;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 
 /**
@@ -33,7 +34,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
     {
         $key = $this->getPrivateKey();
 
-        $claims = ['foo' => 'bar'];
+        $claims = JsonConverter::encode(['foo' => 'bar']);
 
         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
@@ -60,7 +61,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
     {
         $key = $this->getMinimalPrivateKey();
 
-        $claims = ['foo' => 'bar'];
+        $claims = JsonConverter::encode(['foo' => 'bar']);
 
         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);

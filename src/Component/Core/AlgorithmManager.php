@@ -66,8 +66,6 @@ class AlgorithmManager
 
     /**
      * Adds an algorithm to the manager.
-     *
-     * @return AlgorithmManager
      */
     private function add(Algorithm $algorithm): void
     {

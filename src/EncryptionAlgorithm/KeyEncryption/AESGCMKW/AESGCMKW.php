@@ -31,7 +31,7 @@ abstract class AESGCMKW implements KeyWrapping
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
         $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
-        $tag = null;
+        $tag = '';
         $encrypted_cek = \openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
         if (false === $encrypted_cek) {
             throw new \RuntimeException('Unable to encrypt the data.');

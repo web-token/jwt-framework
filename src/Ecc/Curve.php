@@ -85,7 +85,7 @@ class Curve
         if (!\is_null($order)) {
             $mul = $this->mul($point, $order);
             if (!$mul->isInfinity()) {
-                throw new \RuntimeException('SELF * ORDER MUST EQUAL INFINITY. ('.(string) $mul.' found instead)');
+                throw new \RuntimeException('SELF * ORDER MUST EQUAL INFINITY.');
             }
         }
 
@@ -225,7 +225,7 @@ class Curve
         return 'curve('.Math::toString($this->getA()).', '.Math::toString($this->getB()).', '.Math::toString($this->getPrime()).')';
     }
 
-    private function validate(Point $point)
+    private function validate(Point $point): void
     {
         if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
             throw new \RuntimeException('Invalid point');

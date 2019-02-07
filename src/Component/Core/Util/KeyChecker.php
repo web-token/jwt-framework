@@ -91,7 +91,7 @@ class KeyChecker
         }
     }
 
-    public static function checkKeyAlgorithm(JWK $key, string $algorithm)
+    public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
     {
         if (!$key->has('alg')) {
             return;

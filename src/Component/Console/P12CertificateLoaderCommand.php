@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class P12CertificateLoaderCommand extends GeneratorCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this

@@ -33,9 +33,6 @@ class ClaimCheckerManager
         }
     }
 
-    /**
-     * @return ClaimCheckerManager
-     */
     private function add(ClaimChecker $checker): void
     {
         $claim = $checker->supportedClaim();
@@ -79,7 +76,7 @@ class ClaimCheckerManager
     /**
      * @param string[] $mandatoryClaims
      */
-    private function checkMandatoryClaims(array $mandatoryClaims, array $claims)
+    private function checkMandatoryClaims(array $mandatoryClaims, array $claims): void
     {
         if (empty($mandatoryClaims)) {
             return;

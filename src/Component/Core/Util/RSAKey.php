@@ -171,7 +171,7 @@ class RSAKey
         return $this->values;
     }
 
-    private function loadJWK(array $jwk)
+    private function loadJWK(array $jwk): void
     {
         if (!\array_key_exists('kty', $jwk)) {
             throw new \InvalidArgumentException('The key parameter "kty" is missing.');
@@ -183,7 +183,7 @@ class RSAKey
         $this->values = $jwk;
     }
 
-    private function populateBigIntegers()
+    private function populateBigIntegers(): void
     {
         $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
         $this->modulus_length = \mb_strlen($this->getModulus()->toBytes(), '8bit');
@@ -230,7 +230,7 @@ class RSAKey
         return $result;
     }
 
-    private function initPublicKey()
+    private function initPublicKey(): void
     {
         $oid_sequence = new Sequence();
         $oid_sequence->addChild(new ObjectIdentifier('1.2.840.113549.1.1.1'));
@@ -245,7 +245,7 @@ class RSAKey
         $this->sequence->addChild($key_bit_string);
     }
 
-    private function initPrivateKey()
+    private function initPrivateKey(): void
     {
         $this->sequence->addChild(new Integer(0));
         $oid_sequence = new Sequence();

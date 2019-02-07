@@ -30,6 +30,9 @@ class CustomChecker implements ClaimChecker, HeaderChecker
         return 'custom';
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkHeader($value): void
     {
         if (true === $value) {

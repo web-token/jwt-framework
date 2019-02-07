@@ -17,7 +17,12 @@ final class JsonConverter
 {
     public static function encode($payload): string
     {
-        return \json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE, 512);
+        $result = \json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE, 512);
+        if (false === $result) {
+            throw new \InvalidArgumentException('Unable to encode the data');
+        }
+
+        return $result;
     }
 
     public static function decode(string $payload)

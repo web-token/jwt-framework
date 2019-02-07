@@ -25,24 +25,32 @@ abstract class AESCTR implements KeyEncryption
 
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
-        $this->checkKey($key);
+        $k = $this->getKey($key);
         $iv = \random_bytes(16);
-        $k = Base64Url::decode($key->get('k'));
 
         // We set header parameters
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
-        return \openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        $result = \openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        if (false === $result) {
+            throw new \InvalidArgumentException('Unable to encrypt the key.');
+        }
+
+        return $result;
     }
 
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
-        $this->checkKey($key);
+        $k = $this->getKey($key);
         $this->checkHeaderAdditionalParameters($header);
-        $k = Base64Url::decode($key->get('k'));
         $iv = Base64Url::decode($header['iv']);
 
-        return \openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        $result = \openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        if (false === $result) {
+            throw new \InvalidArgumentException('Unable to decrypt the key.');
+        }
+
+        return $result;
     }
 
     public function getKeyManagementMode(): string
@@ -50,7 +58,7 @@ abstract class AESCTR implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
-    private function checkKey(JWK $key): void
+    private function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -58,17 +66,21 @@ abstract class AESCTR implements KeyEncryption
         if (!$key->has('k')) {
             throw new \InvalidArgumentException('The key parameter "k" is missing.');
         }
+        $k = $key->get('k');
+        if (!\is_string($k)) {
+            throw new \InvalidArgumentException('The key parameter "k" is missing.');
+        }
+
+        return Base64Url::decode($k);
     }
 
     private function checkHeaderAdditionalParameters(array $header): void
     {
-        foreach (['iv'] as $k) {
-            if (!\array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is missing.', $k));
-            }
-            if (empty($header[$k])) {
-                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is not valid.', $k));
-            }
+        if (!\array_key_exists('iv', $header)) {
+            throw new \InvalidArgumentException('The header parameter "iv" is missing.');
+        }
+        if (!\is_string($header['iv']) || '' === $header['iv']) {
+            throw new \InvalidArgumentException('The header parameter "nonce" is not valid.');
         }
     }
 

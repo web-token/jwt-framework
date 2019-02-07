@@ -25,7 +25,7 @@ abstract class GeneratorCommand extends ObjectOutputCommand
         return \class_exists(JWKFactory::class);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this

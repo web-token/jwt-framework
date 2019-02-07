@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MergeKeysetCommand extends ObjectOutputCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -33,6 +33,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        /** @var string[] $keySets */
         $keySets = $input->getArgument('jwksets');
         $newJwkset = JWKSet::createFromKeys([]);
         foreach ($keySets as $keySet) {

@@ -38,17 +38,26 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
         return $this->messages;
     }
 
-    public function jsonSerialize()
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize(): array
     {
         return \array_values($this->messages);
     }
 
-    public function count()
+    /**
+     * {@inheritdoc}
+     */
+    public function count(): int
     {
         return \count($this->messages);
     }
 
-    public function getIterator()
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->messages);
     }
