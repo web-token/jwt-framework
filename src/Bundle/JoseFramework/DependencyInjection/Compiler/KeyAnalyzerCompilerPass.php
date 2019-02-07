@@ -20,6 +20,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class KeyAnalyzerCompilerPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(KeyAnalyzerManager::class)) {
