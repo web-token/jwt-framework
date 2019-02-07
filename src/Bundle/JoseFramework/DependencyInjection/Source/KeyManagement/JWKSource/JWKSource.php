@@ -36,5 +36,5 @@ interface JWKSource
     /**
      * Adds configuration nodes for this service.
      */
-    public function addConfiguration(NodeDefinition $builder);
+    public function addConfiguration(NodeDefinition $builder): void;
 }
