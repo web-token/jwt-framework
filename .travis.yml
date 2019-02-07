@@ -37,7 +37,7 @@ jobs:
           script:
               - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
           after_script:
-              - ./vendor/bin/coveralls --no-interaction
+              - ./vendor/bin/php-coveralls --no-interaction
 
         - stage: Metrics and quality
           env: STATIC_ANALYSIS
