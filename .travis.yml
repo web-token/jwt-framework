@@ -43,3 +43,11 @@ jobs:
           env: STATIC_ANALYSIS
           script:
               - ./vendor/bin/phpstan analyse
+
+        - stage: Security Check
+          env: SECURITY_CHECK
+          before_script:
+              - wget -c https://get.sensiolabs.org/security-checker.phar
+              - chmod +x security-checker.phar
+          script:
+              - ./security-checker.phar
