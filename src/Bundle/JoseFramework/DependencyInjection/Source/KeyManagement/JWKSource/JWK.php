@@ -42,7 +42,7 @@ class JWK extends AbstractSource implements JWKSource
         return 'jwk';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
