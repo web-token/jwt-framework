@@ -44,7 +44,7 @@ class KeyFile extends AbstractSource implements JWKSource
         return 'file';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
