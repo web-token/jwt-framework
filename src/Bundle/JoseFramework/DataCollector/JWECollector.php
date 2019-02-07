@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Bundle\JoseFramework\Event\Events;
+use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
