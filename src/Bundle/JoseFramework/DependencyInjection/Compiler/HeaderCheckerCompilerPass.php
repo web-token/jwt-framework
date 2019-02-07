@@ -21,6 +21,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class HeaderCheckerCompilerPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(HeaderCheckerManagerFactory::class)) {
