@@ -42,7 +42,7 @@ class JWKSet extends AbstractSource implements JWKSetSource
         return 'jwkset';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
