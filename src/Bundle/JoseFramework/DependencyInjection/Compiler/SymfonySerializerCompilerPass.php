@@ -24,6 +24,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SymfonySerializerCompilerPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (!\class_exists('Symfony\Component\Serializer\Serializer')) {
