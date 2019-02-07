@@ -21,6 +21,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class CheckerCollectorCompilerPass implements CompilerPassInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if (!$container->hasDefinition(CheckerCollector::class)) {
