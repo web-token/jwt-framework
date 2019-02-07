@@ -43,7 +43,7 @@ class CertificateFile extends AbstractSource implements JWKSource
         return 'certificate';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
