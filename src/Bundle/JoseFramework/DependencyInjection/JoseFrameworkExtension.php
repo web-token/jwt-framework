@@ -45,6 +45,9 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         return $this->alias;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
@@ -55,11 +58,17 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration($this->getAlias(), $this->sources);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function prepend(ContainerBuilder $container)
     {
         $configs = $container->getExtensionConfig($this->getAlias());
