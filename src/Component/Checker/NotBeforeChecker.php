@@ -21,6 +21,9 @@ final class NotBeforeChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'nbf';
 
+    /**
+     * @var int
+     */
     private $allowedTimeDrift;
 
     public function __construct(int $allowedTimeDrift = 0)

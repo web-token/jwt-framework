@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 abstract class AbstractSignatureSource implements Source
 {
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $node
             ->children()

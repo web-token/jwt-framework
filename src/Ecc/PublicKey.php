@@ -42,6 +42,9 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 class PublicKey
 {
+    /**
+     * @var Point
+     */
     private $point;
 
     public function __construct(Point $point)

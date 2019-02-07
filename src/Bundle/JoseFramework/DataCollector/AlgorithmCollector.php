@@ -23,6 +23,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class AlgorithmCollector implements Collector
 {
+    /**
+     * @var AlgorithmManagerFactory
+     */
     private $algorithmManagerFactory;
 
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)

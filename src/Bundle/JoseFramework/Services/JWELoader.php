@@ -26,6 +26,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWELoader extends BaseJWELoader
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(JWESerializerManager $serializerManager, JWEDecrypter $jweDecrypter, ?HeaderCheckerManager $headerCheckerManager, EventDispatcherInterface $eventDispatcher)

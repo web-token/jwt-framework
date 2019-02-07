@@ -42,6 +42,9 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 class PrivateKey
 {
+    /**
+     * @var \GMP
+     */
     private $secret;
 
     private function __construct(\GMP $secret)

@@ -22,6 +22,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class HeaderCheckerManager extends BaseHeaderCheckerManager
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(array $checkers, array $tokenTypes, EventDispatcherInterface $eventDispatcher)

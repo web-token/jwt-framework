@@ -48,7 +48,7 @@ class CheckerSource implements SourceWithCompilerPasses
         return 'checkers';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -64,7 +64,7 @@ class CheckerSource implements SourceWithCompilerPasses
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         if (!$this->isEnabled()) {
             return;

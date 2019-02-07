@@ -19,8 +19,14 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWEDecryptionFailureEvent extends Event
 {
+    /**
+     * @var JWKSet
+     */
     private $JWKSet;
 
+    /**
+     * @var JWE
+     */
     private $jwe;
 
     public function __construct(JWE $jwe, JWKSet $JWKSet)

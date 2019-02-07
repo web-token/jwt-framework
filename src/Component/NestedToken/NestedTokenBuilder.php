@@ -20,12 +20,24 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
 
 class NestedTokenBuilder
 {
+    /**
+     * @var JWSBuilder
+     */
     private $jwsBuilder;
 
+    /**
+     * @var JWSSerializerManager
+     */
     private $jwsSerializerManager;
 
+    /**
+     * @var JWEBuilder
+     */
     private $jweBuilder;
 
+    /**
+     * @var JWESerializerManager
+     */
     private $jweSerializerManager;
 
     public function __construct(JWEBuilder $jweBuilder, JWESerializerManager $jweSerializerManager, JWSBuilder $jwsBuilder, JWSSerializerManager $jwsSerializerManager)

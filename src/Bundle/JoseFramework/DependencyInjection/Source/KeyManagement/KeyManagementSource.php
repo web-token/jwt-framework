@@ -53,7 +53,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
         return 'key_mgmt';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -70,7 +70,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         if (!$this->isEnabled()) {
             return;

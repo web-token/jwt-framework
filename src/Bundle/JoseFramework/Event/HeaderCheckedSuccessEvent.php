@@ -18,10 +18,19 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class HeaderCheckedSuccessEvent extends Event
 {
+    /**
+     * @var JWT
+     */
     private $jwt;
 
+    /**
+     * @var int
+     */
     private $index;
 
+    /**
+     * @var array
+     */
     private $mandatoryHeaderParameters;
 
     public function __construct(JWT $jwt, int $index, array $mandatoryHeaderParameters)

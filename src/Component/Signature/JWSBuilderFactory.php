@@ -17,6 +17,9 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 
 class JWSBuilderFactory
 {
+    /**
+     * @var AlgorithmManagerFactory
+     */
     private $signatureAlgorithmManagerFactory;
 
     public function __construct(AlgorithmManagerFactory $signatureAlgorithmManagerFactory)

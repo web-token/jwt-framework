@@ -18,12 +18,24 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWELoaderFactory
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
+    /**
+     * @var JWESerializerManagerFactory
+     */
     private $jweSerializerManagerFactory;
 
+    /**
+     * @var JWEDecrypterFactory
+     */
     private $jweDecrypterFactory;
 
+    /**
+     * @var HeaderCheckerManagerFactory|null
+     */
     private $headerCheckerManagerFactory;
 
     public function __construct(JWESerializerManagerFactory $jweSerializerManagerFactory, JWEDecrypterFactory $jweDecrypterFactory, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory, EventDispatcherInterface $eventDispatcher)

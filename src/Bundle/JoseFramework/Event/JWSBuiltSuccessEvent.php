@@ -18,6 +18,9 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWSBuiltSuccessEvent extends Event
 {
+    /**
+     * @var JWS
+     */
     private $jws;
 
     public function __construct(JWS $jws)

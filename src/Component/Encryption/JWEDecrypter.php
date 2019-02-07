@@ -29,10 +29,19 @@ use Jose\Component\Encryption\Compression\CompressionMethodManager;
 
 class JWEDecrypter
 {
+    /**
+     * @var AlgorithmManager
+     */
     private $keyEncryptionAlgorithmManager;
 
+    /**
+     * @var AlgorithmManager
+     */
     private $contentEncryptionAlgorithmManager;
 
+    /**
+     * @var CompressionMethodManager
+     */
     private $compressionMethodManager;
 
     public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager)

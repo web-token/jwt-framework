@@ -28,6 +28,9 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class JWSCollector implements Collector, EventSubscriberInterface
 {
+    /**
+     * @var JWSSerializerManagerFactory|null
+     */
     private $jwsSerializerManagerFactory;
 
     /**
@@ -45,12 +48,24 @@ class JWSCollector implements Collector, EventSubscriberInterface
      */
     private $jwsLoaders = [];
 
+    /**
+     * @var array
+     */
     private $jwsVerificationSuccesses = [];
 
+    /**
+     * @var array
+     */
     private $jwsVerificationFailures = [];
 
+    /**
+     * @var array
+     */
     private $jwsBuiltSuccesses = [];
 
+    /**
+     * @var array
+     */
     private $jwsBuiltFailures = [];
 
     public function __construct(?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null)

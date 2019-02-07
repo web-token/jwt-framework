@@ -42,12 +42,24 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 class Point
 {
+    /**
+     * @var \GMP
+     */
     private $x;
 
+    /**
+     * @var \GMP
+     */
     private $y;
 
+    /**
+     * @var \GMP
+     */
     private $order;
 
+    /**
+     * @var bool
+     */
     private $infinity = false;
 
     private function __construct(\GMP $x, \GMP $y, \GMP $order, bool $infinity = false)

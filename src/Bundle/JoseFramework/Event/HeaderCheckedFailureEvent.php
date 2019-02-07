@@ -18,12 +18,24 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class HeaderCheckedFailureEvent extends Event
 {
+    /**
+     * @var JWT
+     */
     private $jwt;
 
+    /**
+     * @var int
+     */
     private $index;
 
+    /**
+     * @var array
+     */
     private $mandatoryHeaderParameters;
 
+    /**
+     * @var \Throwable
+     */
     private $throwable;
 
     public function __construct(JWT $jwt, int $index, array $mandatoryHeaderParameters, \Throwable $throwable)

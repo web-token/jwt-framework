@@ -23,6 +23,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWSBuilder extends BaseJWSBuilder
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(AlgorithmManager $signatureAlgorithmManager, EventDispatcherInterface $eventDispatcher)

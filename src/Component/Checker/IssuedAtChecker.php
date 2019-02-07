@@ -21,6 +21,9 @@ final class IssuedAtChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'iat';
 
+    /**
+     * @var int
+     */
     private $allowedTimeDrift;
 
     public function __construct(int $allowedTimeDrift = 0)

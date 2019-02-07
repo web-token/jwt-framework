@@ -22,6 +22,9 @@ use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
 final class JWEEncoder implements EncoderInterface, DecoderInterface
 {
+    /**
+     * @var JWESerializerManager|null
+     */
     private $serializerManager;
 
     public function __construct(

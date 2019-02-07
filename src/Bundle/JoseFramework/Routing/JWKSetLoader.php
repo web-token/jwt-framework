@@ -20,6 +20,9 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class JWKSetLoader implements LoaderInterface
 {
+    /**
+     * @var RouteCollection
+     */
     private $routes;
 
     public function __construct()

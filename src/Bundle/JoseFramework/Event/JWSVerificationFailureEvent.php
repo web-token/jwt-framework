@@ -19,10 +19,19 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWSVerificationFailureEvent extends Event
 {
+    /**
+     * @var JWKSet
+     */
     private $JWKSet;
 
+    /**
+     * @var string|null
+     */
     private $detachedPayload;
 
+    /**
+     * @var JWS
+     */
     private $jws;
 
     public function __construct(JWS $jws, JWKSet $JWKSet, ?string $detachedPayload)

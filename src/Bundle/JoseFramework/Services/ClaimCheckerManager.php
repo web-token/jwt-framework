@@ -21,6 +21,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class ClaimCheckerManager extends BaseClaimCheckerManager
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct($checkers, EventDispatcherInterface $eventDispatcher)

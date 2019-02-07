@@ -26,6 +26,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWEDecrypter extends BaseJWEDecrypter
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionMethodManager, EventDispatcherInterface $eventDispatcher)

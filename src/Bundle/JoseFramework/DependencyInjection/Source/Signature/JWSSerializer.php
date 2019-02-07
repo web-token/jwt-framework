@@ -28,7 +28,7 @@ class JWSSerializer implements Source
         return 'serializers';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = \sprintf('jose.jws_serializer.%s', $name);
@@ -45,7 +45,7 @@ class JWSSerializer implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $node->children()
             ->arrayNode($this->name())

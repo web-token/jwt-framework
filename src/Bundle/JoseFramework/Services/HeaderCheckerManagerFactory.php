@@ -19,6 +19,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class HeaderCheckerManagerFactory
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     /**

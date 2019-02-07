@@ -24,6 +24,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class NestedTokenBuilder extends BaseNestedTokenBuilder
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(JWEBuilder $jweBuilder, JWESerializerManager $jweSerializerManager, JWSBuilder $jwsBuilder, JWSSerializerManager $jwsSerializerManager, EventDispatcherInterface $eventDispatcher)

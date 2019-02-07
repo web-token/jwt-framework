@@ -86,7 +86,8 @@
         "symfony/browser-kit": "^4.1",
         "symfony/finder": "^4.1",
         "symfony/phpunit-bridge": "^4.1",
-        "symfony/serializer": "^4.1"
+        "symfony/serializer": "^4.1",
+        "symfony/var-dumper": "^4.2"
     },
     "replace": {
         "web-token/jwt-core": "self.version",
@@ -119,7 +120,8 @@
        "php-http/httplug": "To enable JKU/X5U support.",
        "php-http/httplug-bundle": "To enable JKU/X5U support.",
        "php-http/message-factory": "To enable JKU/X5U support.",
-       "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens."
+       "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
+       "symfony/var-dumper": "Used to show data on the debug toolbar."
    },
     "extra": {
         "branch-alias": {

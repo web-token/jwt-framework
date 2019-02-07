@@ -15,12 +15,24 @@ namespace Jose\Component\Signature;
 
 class Signature
 {
+    /**
+     * @var string|null
+     */
     private $encodedProtectedHeader;
 
+    /**
+     * @var array
+     */
     private $protectedHeader;
 
+    /**
+     * @var array
+     */
     private $header;
 
+    /**
+     * @var string
+     */
     private $signature;
 
     public function __construct(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header)

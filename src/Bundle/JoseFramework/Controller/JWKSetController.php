@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class JWKSetController
 {
+    /**
+     * @var string
+     */
     private $jwkset;
 
     public function __construct(string $jwkset)

@@ -21,8 +21,14 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
 {
     private const CLAIM_NAME = 'iss';
 
+    /**
+     * @var bool
+     */
     private $protectedHeader = false;
 
+    /**
+     * @var array
+     */
     private $issuers;
 
     public function __construct(array $issuer, bool $protectedHeader = false)

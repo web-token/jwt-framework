@@ -42,8 +42,6 @@ class ClaimCheckerManagerFactory
 
     /**
      * This method adds a claim checker to this factory.
-     *
-     * @return ClaimCheckerManagerFactory
      */
     public function add(string $alias, ClaimChecker $checker): void
     {

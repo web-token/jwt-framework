@@ -17,6 +17,9 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class NestedTokenIssuedEvent extends Event
 {
+    /**
+     * @var string
+     */
     private $nestedToken;
 
     public function __construct(string $nestedToken)

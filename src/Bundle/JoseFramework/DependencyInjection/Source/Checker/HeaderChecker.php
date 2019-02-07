@@ -28,7 +28,7 @@ class HeaderChecker implements Source
         return 'headers';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = \sprintf('jose.header_checker.%s', $name);
@@ -47,7 +47,7 @@ class HeaderChecker implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $node
             ->children()

@@ -21,6 +21,9 @@ final class ExpirationTimeChecker implements ClaimChecker
 {
     private const CLAIM_NAME = 'exp';
 
+    /**
+     * @var int
+     */
     private $allowedTimeDrift;
 
     public function __construct(int $allowedTimeDrift = 0)

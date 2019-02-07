@@ -122,21 +122,21 @@ class JWSVerifier
         return \sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }
 
-    private function checkSignatures(JWS $jws)
+    private function checkSignatures(JWS $jws): void
     {
         if (0 === $jws->countSignatures()) {
             throw new \InvalidArgumentException('The JWS does not contain any signature.');
         }
     }
 
-    private function checkJWKSet(JWKSet $jwkset)
+    private function checkJWKSet(JWKSet $jwkset): void
     {
         if (0 === \count($jwkset)) {
             throw new \InvalidArgumentException('There is no key in the key set.');
         }
     }
 
-    private function checkPayload(JWS $jws, ?string $detachedPayload = null)
+    private function checkPayload(JWS $jws, ?string $detachedPayload = null): void
     {
         if (null !== $detachedPayload && !empty($jws->getPayload())) {
             throw new \InvalidArgumentException('A detached payload is set, but the JWS already has a payload.');

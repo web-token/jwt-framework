@@ -21,8 +21,14 @@ use Jose\Component\Signature\JWSLoader;
 
 class NestedTokenLoader
 {
+    /**
+     * @var JWSLoader
+     */
     private $jwsLoader;
 
+    /**
+     * @var JWELoader
+     */
     private $jweLoader;
 
     public function __construct(JWELoader $jweLoader, JWSLoader $jwsLoader)

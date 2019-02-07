@@ -27,7 +27,7 @@ class NestedTokenBuilder implements Source
         return 'builders';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = \sprintf('jose.nested_token_builder.%s', $name);
@@ -51,7 +51,7 @@ class NestedTokenBuilder implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $node->children()
             ->arrayNode($this->name())

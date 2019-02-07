@@ -18,8 +18,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWSBuilderFactory
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
+    /**
+     * @var AlgorithmManagerFactory
+     */
     private $signatureAlgorithmManagerFactory;
 
     public function __construct(AlgorithmManagerFactory $signatureAlgorithmManagerFactory, EventDispatcherInterface $eventDispatcher)

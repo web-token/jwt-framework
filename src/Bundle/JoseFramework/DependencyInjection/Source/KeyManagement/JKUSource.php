@@ -27,7 +27,7 @@ class JKUSource implements Source
         return 'jku_factory';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (true === $configs[$this->name()]['enabled']) {
             $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
@@ -40,7 +40,7 @@ class JKUSource implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $node
             ->children()

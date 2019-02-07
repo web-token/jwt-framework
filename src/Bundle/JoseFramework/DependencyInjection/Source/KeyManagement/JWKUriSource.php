@@ -28,7 +28,7 @@ class JWKUriSource implements Source
         return 'jwk_uris';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = \sprintf('jose.controller.%s', $name);
@@ -45,7 +45,7 @@ class JWKUriSource implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $node->children()
             ->arrayNode('jwk_uris')

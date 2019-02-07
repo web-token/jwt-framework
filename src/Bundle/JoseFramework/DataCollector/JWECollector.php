@@ -29,13 +29,34 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class JWECollector implements Collector, EventSubscriberInterface
 {
+    /**
+     * @var JWESerializerManagerFactory|null
+     */
     private $jweSerializerManagerFactory;
 
+    /**
+     * @var CompressionMethodManagerFactory|null
+     */
     private $compressionMethodManagerFactory;
 
+    /**
+     * @var array
+     */
     private $jweDecryptionSuccesses = [];
+
+    /**
+     * @var array
+     */
     private $jweDecryptionFailures = [];
+
+    /**
+     * @var array
+     */
     private $jweBuiltSuccesses = [];
+
+    /**
+     * @var array
+     */
     private $jweBuiltFailures = [];
 
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)

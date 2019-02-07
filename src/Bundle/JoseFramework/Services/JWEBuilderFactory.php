@@ -19,8 +19,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWEBuilderFactory
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
+
+    /**
+     * @var AlgorithmManagerFactory
+     */
     private $algorithmManagerFactory;
+
+    /**
+     * @var CompressionMethodManagerFactory
+     */
     private $compressionMethodManagerFactory;
 
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory, EventDispatcherInterface $eventDispatcher)

@@ -19,10 +19,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWEDecrypterFactory
 {
+    /**
+     * @var AlgorithmManagerFactory
+     */
     private $algorithmManagerFactory;
 
+    /**
+     * @var CompressionMethodManagerFactory
+     */
     private $compressionMethodManagerFactory;
 
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory, EventDispatcherInterface $eventDispatcher)

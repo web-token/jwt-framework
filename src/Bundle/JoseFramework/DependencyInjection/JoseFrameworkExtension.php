@@ -21,8 +21,14 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 final class JoseFrameworkExtension extends Extension implements PrependExtensionInterface
 {
+    /**
+     * @var string
+     */
     private $alias;
 
+    /**
+     * @var Source[]
+     */
     private $sources = [];
 
     /**

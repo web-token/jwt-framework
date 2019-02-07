@@ -44,7 +44,7 @@ class NestedToken implements Source
         return 'nested_token';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -59,7 +59,7 @@ class NestedToken implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         if (!$this->isEnabled()) {
             return;

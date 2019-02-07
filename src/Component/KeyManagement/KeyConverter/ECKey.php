@@ -27,6 +27,9 @@ use FG\ASN1\Universal\Sequence;
  */
 class ECKey
 {
+    /**
+     * @var array
+     */
     private $values = [];
 
     private function __construct(array $data)

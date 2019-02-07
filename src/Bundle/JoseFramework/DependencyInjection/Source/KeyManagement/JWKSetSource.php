@@ -32,7 +32,7 @@ class JWKSetSource implements Source
         return 'key_sets';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $sources = $this->getJWKSetSources();
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -47,7 +47,7 @@ class JWKSetSource implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $sourceNodeBuilder = $node
             ->children()

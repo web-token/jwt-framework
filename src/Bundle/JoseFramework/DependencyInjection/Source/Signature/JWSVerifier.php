@@ -26,7 +26,7 @@ class JWSVerifier extends AbstractSignatureSource
         return 'verifiers';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = \sprintf('jose.jws_verifier.%s', $name);

@@ -18,12 +18,24 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class NestedTokenLoadingFailureEvent extends Event
 {
+    /**
+     * @var \Throwable
+     */
     private $throwable;
 
+    /**
+     * @var string
+     */
     private $token;
 
+    /**
+     * @var JWKSet
+     */
     private $signatureKeySet;
 
+    /**
+     * @var JWKSet
+     */
     private $encryptionKeySet;
 
     public function __construct(string $token, JWKSet $signatureKeySet, JWKSet $encryptionKeySet, \Throwable $throwable)

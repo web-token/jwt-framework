@@ -17,8 +17,14 @@ use Jose\Component\Core\JWT;
 
 class JWS implements JWT
 {
+    /**
+     * @var bool
+     */
     private $isPayloadDetached = false;
 
+    /**
+     * @var string|null
+     */
     private $encodedPayload = null;
 
     /**
@@ -26,6 +32,9 @@ class JWS implements JWT
      */
     private $signatures = [];
 
+    /**
+     * @var string|null
+     */
     private $payload = null;
 
     public function __construct(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false)

@@ -19,12 +19,24 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWELoadingSuccessEvent extends Event
 {
+    /**
+     * @var JWE
+     */
     private $jwe;
 
+    /**
+     * @var JWKSet
+     */
     private $JWKSet;
 
+    /**
+     * @var int
+     */
     private $recipient;
 
+    /**
+     * @var string
+     */
     private $token;
 
     public function __construct(string $token, JWE $jwe, JWKSet $JWKSet, int $recipient)

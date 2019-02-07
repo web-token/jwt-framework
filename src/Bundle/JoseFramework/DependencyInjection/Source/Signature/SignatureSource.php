@@ -55,7 +55,7 @@ class SignatureSource implements SourceWithCompilerPasses
         return 'jws';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -91,7 +91,7 @@ class SignatureSource implements SourceWithCompilerPasses
         ];
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         if (!$this->isEnabled()) {
             return;

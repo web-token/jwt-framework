@@ -17,6 +17,9 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 
 class JWSVerifierFactory
 {
+    /**
+     * @var AlgorithmManagerFactory
+     */
     private $algorithmManagerFactory;
 
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory)

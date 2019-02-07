@@ -20,14 +20,29 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWSVerificationSuccessEvent extends Event
 {
+    /**
+     * @var JWS
+     */
     private $jws;
 
+    /**
+     * @var JWKSet
+     */
     private $JWKSet;
 
+    /**
+     * @var JWK
+     */
     private $JWK;
 
+    /**
+     * @var int
+     */
     private $signature;
 
+    /**
+     * @var string|null
+     */
     private $detachedPayload;
 
     public function __construct(JWS $jws, JWKSet $JWKSet, int $signature, ?string $detachedPayload, JWK $JWK)

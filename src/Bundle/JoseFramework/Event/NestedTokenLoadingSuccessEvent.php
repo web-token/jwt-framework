@@ -19,14 +19,29 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class NestedTokenLoadingSuccessEvent extends Event
 {
+    /**
+     * @var JWS
+     */
     private $jws;
 
+    /**
+     * @var int
+     */
     private $signature;
 
+    /**
+     * @var string
+     */
     private $token;
 
+    /**
+     * @var JWKSet
+     */
     private $signatureKeySet;
 
+    /**
+     * @var JWKSet
+     */
     private $encryptionKeySet;
 
     public function __construct(string $token, JWS $jws, JWKSet $signatureKeySet, JWKSet $encryptionKeySet, int $signature)

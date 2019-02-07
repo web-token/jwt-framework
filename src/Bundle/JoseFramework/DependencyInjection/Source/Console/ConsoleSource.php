@@ -27,7 +27,7 @@ class ConsoleSource implements Source
         return 'console';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -36,7 +36,7 @@ class ConsoleSource implements Source
         $loader->load('commands.php');
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
     }
 

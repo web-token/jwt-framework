@@ -18,10 +18,19 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWSLoadingFailureEvent extends Event
 {
+    /**
+     * @var JWKSet
+     */
     private $JWKSet;
 
+    /**
+     * @var \Throwable
+     */
     private $throwable;
 
+    /**
+     * @var string
+     */
     private $token;
 
     public function __construct(string $token, JWKSet $JWKSet, \Throwable $throwable)

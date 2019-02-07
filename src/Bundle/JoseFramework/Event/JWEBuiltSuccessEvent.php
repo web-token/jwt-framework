@@ -18,6 +18,9 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWEBuiltSuccessEvent extends Event
 {
+    /**
+     * @var JWE
+     */
     private $jwe;
 
     public function __construct(JWE $jwe)

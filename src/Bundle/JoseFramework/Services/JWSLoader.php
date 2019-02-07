@@ -26,6 +26,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWSLoader extends BaseJWSLoader
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(JWSSerializerManager $serializerManager, JWSVerifier $jwsVerifier, ?HeaderCheckerManager $headerCheckerManager, EventDispatcherInterface $eventDispatcher)

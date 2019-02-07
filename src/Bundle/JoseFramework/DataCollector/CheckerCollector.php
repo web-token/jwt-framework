@@ -29,13 +29,34 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class CheckerCollector implements Collector, EventSubscriberInterface
 {
+    /**
+     * @var ClaimCheckerManagerFactory|null
+     */
     private $claimCheckerManagerFactory;
 
+    /**
+     * @var HeaderCheckerManagerFactory|null
+     */
     private $headerCheckerManagerFactory;
 
+    /**
+     * @var array
+     */
     private $headerCheckedSuccesses = [];
+
+    /**
+     * @var array
+     */
     private $headerCheckedFailures = [];
+
+    /**
+     * @var array
+     */
     private $claimCheckedSuccesses = [];
+
+    /**
+     * @var array
+     */
     private $claimCheckedFailures = [];
 
     public function __construct(?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null)

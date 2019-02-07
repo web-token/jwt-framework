@@ -18,8 +18,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWSVerifierFactory
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
+    /**
+     * @var AlgorithmManagerFactory
+     */
     private $algorithmManagerFactory;
 
     public function __construct(AlgorithmManagerFactory $algorithmManagerFactory, EventDispatcherInterface $eventDispatcher)

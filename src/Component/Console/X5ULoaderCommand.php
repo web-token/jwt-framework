@@ -20,6 +20,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class X5ULoaderCommand extends ObjectOutputCommand
 {
+    /**
+     * @var X5UFactory
+     */
     private $x5uFactory;
 
     public function __construct(X5UFactory $x5uFactory, ?string $name = null)

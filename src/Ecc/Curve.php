@@ -20,18 +20,31 @@ class Curve
 {
     /**
      * Elliptic curve over the field of integers modulo a prime.
+     *
+     * @var \GMP
      */
     private $a;
 
+    /**
+     * @var \GMP
+     */
     private $b;
 
+    /**
+     * @var \GMP
+     */
     private $prime;
 
     /**
      * Binary length of keys associated with these curve parameters.
+     *
+     * @var int
      */
     private $size;
 
+    /**
+     * @var Point
+     */
     private $generator;
 
     public function __construct(int $size, \GMP $prime, \GMP $a, \GMP $b, Point $generator)

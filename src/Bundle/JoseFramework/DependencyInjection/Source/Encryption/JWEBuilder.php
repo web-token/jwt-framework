@@ -26,7 +26,7 @@ class JWEBuilder extends AbstractEncryptionSource
         return 'builders';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = \sprintf('jose.jwe_builder.%s', $name);

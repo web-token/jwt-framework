@@ -30,7 +30,7 @@ class CoreSource implements SourceWithCompilerPasses
         return 'core';
     }
 
-    public function load(array $config, ContainerBuilder $container)
+    public function load(array $config, ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('services.php');
@@ -45,7 +45,7 @@ class CoreSource implements SourceWithCompilerPasses
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
     }
 

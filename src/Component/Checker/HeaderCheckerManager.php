@@ -53,17 +53,11 @@ class HeaderCheckerManager
         return $this->checkers;
     }
 
-    /**
-     * @return HeaderCheckerManager
-     */
     private function addTokenTypeSupport(TokenTypeSupport $tokenType): void
     {
         $this->tokenTypes[] = $tokenType;
     }
 
-    /**
-     * @return HeaderCheckerManager
-     */
     private function add(HeaderChecker $checker): void
     {
         $header = $checker->supportedHeader();

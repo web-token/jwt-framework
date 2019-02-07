@@ -18,8 +18,14 @@ use Jose\Component\Signature\JWSLoaderFactory;
 
 class NestedTokenLoaderFactory
 {
+    /**
+     * @var JWELoaderFactory
+     */
     private $jweLoaderFactory;
 
+    /**
+     * @var JWSLoaderFactory
+     */
     private $jwsLoaderFactory;
 
     public function __construct(JWELoaderFactory $jweLoaderFactory, JWSLoaderFactory $jwsLoaderFactory)

@@ -25,6 +25,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class JWSVerifier extends BaseJWSVerifier
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(AlgorithmManager $signatureAlgorithmManager, EventDispatcherInterface $eventDispatcher)

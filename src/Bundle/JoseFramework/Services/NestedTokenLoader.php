@@ -25,6 +25,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class NestedTokenLoader extends BaseNestedTokenLoader
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
     public function __construct(JWELoader $jweLoader, JWSLoader $jwsLoader, EventDispatcherInterface $eventDispatcher)

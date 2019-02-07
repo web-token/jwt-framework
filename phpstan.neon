@@ -1,5 +1,5 @@
 parameters:
-    level: max
+    level: 7
     paths:
         - src
     excludes_analyse:
@@ -13,8 +13,8 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
         - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'
-    includes:
-        - vendor/phpstan/phpstan-phpunit/extension.neon
-        - vendor/phpstan/phpstan-phpunit/rules.neon
-        - vendor/phpstan/phpstan-strict-rules/rules.neon
-        - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon

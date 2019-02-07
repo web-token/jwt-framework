@@ -17,10 +17,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class NestedTokenLoaderFactory
 {
+    /**
+     * @var EventDispatcherInterface
+     */
     private $eventDispatcher;
 
+    /**
+     * @var JWELoaderFactory
+     */
     private $jweLoaderFactory;
 
+    /**
+     * @var JWSLoaderFactory
+     */
     private $jwsLoaderFactory;
 
     public function __construct(JWELoaderFactory $jweLoaderFactory, JWSLoaderFactory $jwsLoaderFactory, EventDispatcherInterface $eventDispatcher)

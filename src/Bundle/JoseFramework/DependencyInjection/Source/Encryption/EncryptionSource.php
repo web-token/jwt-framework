@@ -59,7 +59,7 @@ class EncryptionSource implements SourceWithCompilerPasses
         return 'jwe';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         if (!$this->isEnabled()) {
             return;
@@ -104,7 +104,7 @@ class EncryptionSource implements SourceWithCompilerPasses
         return $list;
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         if (!$this->isEnabled()) {
             return;

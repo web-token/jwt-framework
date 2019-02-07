@@ -19,8 +19,14 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
+    /**
+     * @var Source[]
+     */
     private $sources;
 
+    /**
+     * @var string
+     */
     private $alias;
 
     /**

@@ -28,7 +28,7 @@ class JWELoader implements Source
         return 'loaders';
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = \sprintf('jose.jwe_loader.%s', $name);
@@ -52,7 +52,7 @@ class JWELoader implements Source
         }
     }
 
-    public function getNodeDefinition(NodeDefinition $node)
+    public function getNodeDefinition(NodeDefinition $node): void
     {
         $node
             ->children()

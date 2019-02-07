@@ -17,8 +17,8 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class ClaimCheckedSuccessEvent extends Event
 {
-    /*
-     *
+    /**
+     * @var array
      */
     private $claims;
 

@@ -18,8 +18,14 @@ namespace Jose\Component\Encryption;
  */
 class Recipient
 {
+    /**
+     * @var array
+     */
     private $header = [];
 
+    /**
+     * @var string|null
+     */
     private $encryptedKey = null;
 
     public function __construct(array $header, ?string $encryptedKey)

@@ -20,11 +20,24 @@ use Symfony\Component\EventDispatcher\Event;
 
 final class JWEDecryptionSuccessEvent extends Event
 {
+    /**
+     * @var JWE
+     */
     private $jwe;
 
+    /**
+     * @var JWKSet
+     */
     private $JWKSet;
+
+    /**
+     * @var JWK
+     */
     private $JWK;
 
+    /**
+     * @var int
+     */
     private $recipient;
 
     public function __construct(JWE $jwe, JWKSet $JWKSet, JWK $JWK, int $recipient)

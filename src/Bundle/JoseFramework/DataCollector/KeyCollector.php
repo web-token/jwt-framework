@@ -23,7 +23,14 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class KeyCollector implements Collector
 {
+    /**
+     * @var KeyAnalyzerManager|null
+     */
     private $jwkAnalyzerManager;
+
+    /**
+     * @var KeysetAnalyzerManager|null
+     */
     private $jwksetAnalyzerManager;
 
     public function __construct(?KeyAnalyzerManager $jwkAnalyzerManager = null, ?KeysetAnalyzerManager $jwksetAnalyzerManager = null)
