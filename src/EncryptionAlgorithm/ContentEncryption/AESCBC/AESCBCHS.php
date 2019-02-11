@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 
@@ -26,29 +27,23 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string
     {
         $k = \mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
-        $cyphertext = \openssl_encrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
-        if (false === $cyphertext) {
-            throw new \RuntimeException('Unable to encrypt.');
-        }
+        $result = \openssl_encrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        Assertion::false(false === $result, 'Unable to encrypt.');
 
-        $tag = $this->calculateAuthenticationTag($cyphertext, $cek, $iv, $aad, $encoded_protected_header);
+        $tag = $this->calculateAuthenticationTag($result, $cek, $iv, $aad, $encoded_protected_header);
 
-        return $cyphertext;
+        return $result;
     }
 
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string
     {
-        if (!$this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
-            throw new \InvalidArgumentException('Unable to verify the tag.');
-        }
+        Assertion::true($this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag), 'Unable to decrypt or to verify the tag.');
         $k = \mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
 
-        $plaintext = \openssl_decrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
-        if (false === $plaintext) {
-            throw new \RuntimeException('Unable to decrypt.');
-        }
+        $result = \openssl_decrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        Assertion::false(false === $result, 'Unable to decrypt or to verify the tag.');
 
-        return $plaintext;
+        return $result;
     }
 
     protected function calculateAuthenticationTag(string $encrypted_data, string $cek, string $iv, ?string $aad, string $encoded_header): string

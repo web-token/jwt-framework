@@ -20,9 +20,10 @@
         }
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.1|^8.0",
         "ext-gmp": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "beberlei/assert": "^3.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0"

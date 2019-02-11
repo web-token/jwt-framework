@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
@@ -20,9 +21,7 @@ final class Chacha20Poly1305 implements KeyEncryption
 {
     public function __construct()
     {
-        if (!\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
-            throw new \RuntimeException('The algorithm "chacha20-poly1305" is not supported in this platform.');
-        }
+        Assertion::inArray('chacha20-poly1305', \openssl_get_cipher_methods(), 'The algorithm "chacha20-poly1305" is not supported in this platform.');
     }
 
     public function allowedKeyTypes(): array
@@ -44,9 +43,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         $additionalHeader['nonce'] = Base64Url::encode($nonce);
 
         $result = \openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
-        if (false === $result) {
-            throw new \InvalidArgumentException('Unable to encrypt the key.');
-        }
+        Assertion::false(false === $result, 'Unable to encrypt the key.');
 
         return $result;
     }
@@ -58,9 +55,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         $nonce = Base64Url::decode($header['nonce']);
 
         $result = \openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
-        if (false === $result) {
-            throw new \InvalidArgumentException('Unable to decrypt the key.');
-        }
+        Assertion::false(false === $result, 'Unable to decrypt the key.');
 
         return $result;
     }
@@ -72,27 +67,17 @@ final class Chacha20Poly1305 implements KeyEncryption
 
     private function getKey(JWK $key): string
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
-        if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
         $k = $key->get('k');
-        if (!\is_string($k)) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
-        }
+        Assertion::string($k, 'The key parameter "k" is invalid.');
 
         return Base64Url::decode($k);
     }
 
     private function checkHeaderAdditionalParameters(array $header): void
     {
-        if (!\array_key_exists('nonce', $header)) {
-            throw new \InvalidArgumentException('The header parameter "nonce" is missing.');
-        }
-        if (!\is_string($header['nonce']) || '' === $header['nonce']) {
-            throw new \InvalidArgumentException('The header parameter "nonce" is not valid.');
-        }
+        Assertion::keyExists($header, 'nonce', 'The header parameter "nonce" is missing.');
+        Assertion::string($header['nonce'], 'The header parameter "nonce" is not valid.');
     }
 }

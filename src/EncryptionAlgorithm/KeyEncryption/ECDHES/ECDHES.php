@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
@@ -79,9 +80,7 @@ final class ECDHES implements KeyAgreement
         $this->checkKey($recipient_key, true);
         $private_key = $recipient_key;
         $public_key = $this->getPublicKey($complete_header);
-        if ($private_key->get('crv') !== $public_key->get('crv')) {
-            throw new \InvalidArgumentException('Curves are different');
-        }
+        Assertion::eq($private_key->get('crv'), $public_key->get('crv'), 'Curves are different');
 
         return [$public_key, $private_key];
     }
@@ -124,12 +123,8 @@ final class ECDHES implements KeyAgreement
 
     private function getPublicKey(array $complete_header): JWK
     {
-        if (!\array_key_exists('epk', $complete_header)) {
-            throw new \InvalidArgumentException('The header parameter "epk" is missing');
-        }
-        if (!\is_array($complete_header['epk'])) {
-            throw new \InvalidArgumentException('The header parameter "epk" is not an array of parameter');
-        }
+        Assertion::keyExists($complete_header, 'epk', 'The header parameter "epk" is missing');
+        Assertion::isArray($complete_header['epk'], 'The header parameter "epk" is not an array of parameter');
 
         $public_key = JWK::create($complete_header['epk']);
         $this->checkKey($public_key, false);
@@ -139,22 +134,16 @@ final class ECDHES implements KeyAgreement
 
     private function checkKey(JWK $key, bool $is_private): void
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
         foreach (['x', 'crv'] as $k) {
-            if (!$key->has($k)) {
-                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
-            }
+            Assertion::true($key->has($k), \sprintf('The key parameter "%s" is missing.', $k));
         }
 
         switch ($key->get('crv')) {
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                if (!$key->has('y')) {
-                    throw new \InvalidArgumentException('The key parameter "y" is missing.');
-                }
+                Assertion::true($key->has('y'), 'The key parameter "y" is missing.');
 
                 break;
             case 'X25519':
@@ -163,9 +152,7 @@ final class ECDHES implements KeyAgreement
                 throw new \InvalidArgumentException(\sprintf('The curve "%s" is not supported', $key->get('crv')));
         }
         if (true === $is_private) {
-            if (!$key->has('d')) {
-                throw new \InvalidArgumentException('The key parameter "d" is missing.');
-            }
+            Assertion::true($key->has('d'), 'The key parameter "d" is missing.');
         }
     }
 
@@ -192,10 +179,7 @@ final class ECDHES implements KeyAgreement
 
     private function convertDecToBin(\GMP $dec): string
     {
-        if (\gmp_cmp($dec, 0) < 0) {
-            throw new \InvalidArgumentException('Unable to convert negative integer to string');
-        }
-
+        Assertion::lessThan(0, \gmp_cmp($dec, 0), 'Unable to convert negative integer to string');
         $hex = \gmp_strval($dec, 16);
 
         if (0 !== \mb_strlen($hex, '8bit') % 2) {
@@ -203,9 +187,7 @@ final class ECDHES implements KeyAgreement
         }
 
         $result = \hex2bin($hex);
-        if (false === $result) {
-            throw new \InvalidArgumentException('Unable to convert negative integer to string');
-        }
+        Assertion::false(false === $result, 'Unable to convert negative integer to string');
 
         return $result;
     }
@@ -291,17 +273,13 @@ final class ECDHES implements KeyAgreement
             'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
-        if (false === $key) {
-            throw new \RuntimeException('Unable to create the key');
-        }
+        Assertion::false(false === $key, 'Unable to create the key');
+
         $res = \openssl_pkey_export($key, $out);
-        if (false === $res) {
-            throw new \RuntimeException('Unable to create the key');
-        }
+        Assertion::false(false === $res, 'Unable to create the key');
+
         $res = \openssl_pkey_get_private($out);
-        if (false === $res) {
-            throw new \RuntimeException('Unable to create the key');
-        }
+        Assertion::false(false === $res, 'Unable to create the key');
 
         $details = \openssl_pkey_get_details($res);
 

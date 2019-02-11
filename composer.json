@@ -47,16 +47,16 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jose\\Test\\":  "tests/",
             "Jose\\Performance\\":  "performance/"
         }
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.1|^8.0",
         "ext-gmp": "*",
-        "ext-mbstring": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "ext-openssl": "*",
+        "beberlei/assert": "^3.2",
         "fgrosse/phpasn1": "^2.0",
         "paragonie/sodium_compat": "^1.2",
         "spomky-labs/aes-key-wrap": "^4.0.1|^5.0",
@@ -79,6 +79,7 @@
         "php-http/httplug-bundle": "^1.7",
         "php-http/mock-client": "^1.0",
         "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan-beberlei-assert": "^0.11.0",
         "phpstan/phpstan-deprecation-rules": "^0.11",
         "phpstan/phpstan-phpunit": "^0.11",
         "phpstan/phpstan-strict-rules": "^0.11",

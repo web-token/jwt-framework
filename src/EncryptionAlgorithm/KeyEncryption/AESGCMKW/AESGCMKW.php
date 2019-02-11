@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
@@ -25,17 +26,14 @@ abstract class AESGCMKW implements KeyWrapping
 
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
-        $this->checkKey($key);
-        $kek = Base64Url::decode($key->get('k'));
+        $kek = $this->checkKey($key);
         $iv = \random_bytes(96 / 8);
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
         $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
         $tag = '';
         $encrypted_cek = \openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
-        if (false === $encrypted_cek) {
-            throw new \RuntimeException('Unable to encrypt the data.');
-        }
+        Assertion::false(false === $encrypted_cek, 'Unable to encrypt the data.');
         $additionalHeader['tag'] = Base64Url::encode($tag);
 
         return $encrypted_cek;
@@ -43,18 +41,15 @@ abstract class AESGCMKW implements KeyWrapping
 
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
-        $this->checkKey($key);
+        $kek = $this->checkKey($key);
         $this->checkAdditionalParameters($completeHeader);
 
-        $kek = Base64Url::decode($key->get('k'));
         $tag = Base64Url::decode($completeHeader['tag']);
         $iv = Base64Url::decode($completeHeader['iv']);
 
         $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
         $cek = \openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
-        if (false === $cek) {
-            throw new \RuntimeException('Unable to decrypt or to verify the tag.');
-        }
+        Assertion::false(false === $cek, 'Unable to decrypt or to verify the tag.');
 
         return $cek;
     }
@@ -64,22 +59,20 @@ abstract class AESGCMKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key): void
+    protected function checkKey(JWK $key): string
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
-        if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
+        $k = $key->get('k');
+        Assertion::string($k, 'The key parameter "k" is invalid.');
+
+        return Base64Url::decode($k);
     }
 
     protected function checkAdditionalParameters(array $header): void
     {
         foreach (['iv', 'tag'] as $k) {
-            if (!\array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(\sprintf('Parameter "%s" is missing.', $k));
-            }
+            Assertion::keyExists($header, $k, \sprintf('Parameter "%s" is missing.', $k));
         }
     }
 

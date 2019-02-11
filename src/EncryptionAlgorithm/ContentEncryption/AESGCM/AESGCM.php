@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 
@@ -30,12 +31,10 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.Base64Url::encode($aad);
         }
         $tag = '';
-        $C = \openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
-        if (false === $C) {
-            throw new \InvalidArgumentException('Unable to encrypt the data.');
-        }
+        $result = \openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        Assertion::false(false === $result, 'Unable to encrypt.');
 
-        return $C;
+        return $result;
     }
 
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string
@@ -45,12 +44,10 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.Base64Url::encode($aad);
         }
 
-        $P = \openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
-        if (false === $P) {
-            throw new \InvalidArgumentException('Unable to decrypt or to verify the tag.');
-        }
+        $result = \openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        Assertion::false(false === $result, 'Unable to decrypt or to verify the tag.');
 
-        return $P;
+        return $result;
     }
 
     public function getIVSize(): int

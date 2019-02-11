@@ -20,10 +20,11 @@
         }
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.1|^8.0",
         "ext-gmp": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "beberlei/assert": "^3.2",
         "fgrosse/phpasn1": "^2.0",
         "spomky-labs/base64url": "^1.0|^2.0"
     },

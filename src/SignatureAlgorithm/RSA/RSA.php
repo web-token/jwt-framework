@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Util\RSA as JoseRSA;
@@ -39,9 +40,7 @@ abstract class RSA implements SignatureAlgorithm
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
-        if (!$key->has('d')) {
-            throw new \InvalidArgumentException('The key is not a private key.');
-        }
+        Assertion::true($key->has('d'), 'The key is not a private key.');
 
         $priv = RSAKey::createFromJWK($key);
 
@@ -50,13 +49,9 @@ abstract class RSA implements SignatureAlgorithm
 
     private function checkKey(JWK $key): void
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
         foreach (['n', 'e'] as $k) {
-            if (!$key->has($k)) {
-                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
-            }
+            Assertion::true($key->has($k), \sprintf('The key parameter "%s" is missing.', $k));
         }
     }
 }

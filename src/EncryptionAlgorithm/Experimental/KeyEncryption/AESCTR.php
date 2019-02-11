@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
@@ -32,9 +33,7 @@ abstract class AESCTR implements KeyEncryption
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
         $result = \openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
-        if (false === $result) {
-            throw new \InvalidArgumentException('Unable to encrypt the key.');
-        }
+        Assertion::false(false === $result, 'Unable to encrypt the key.');
 
         return $result;
     }
@@ -46,9 +45,7 @@ abstract class AESCTR implements KeyEncryption
         $iv = Base64Url::decode($header['iv']);
 
         $result = \openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
-        if (false === $result) {
-            throw new \InvalidArgumentException('Unable to decrypt the key.');
-        }
+        Assertion::false(false === $result, 'Unable to decrypt the key.');
 
         return $result;
     }
@@ -60,28 +57,18 @@ abstract class AESCTR implements KeyEncryption
 
     private function getKey(JWK $key): string
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
-        if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
         $k = $key->get('k');
-        if (!\is_string($k)) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
-        }
+        Assertion::string($k, 'The key parameter "k" is invalid.');
 
         return Base64Url::decode($k);
     }
 
     private function checkHeaderAdditionalParameters(array $header): void
     {
-        if (!\array_key_exists('iv', $header)) {
-            throw new \InvalidArgumentException('The header parameter "iv" is missing.');
-        }
-        if (!\is_string($header['iv']) || '' === $header['iv']) {
-            throw new \InvalidArgumentException('The header parameter "nonce" is not valid.');
-        }
+        Assertion::keyExists($header, 'iv', 'The header parameter "iv" is missing.');
+        Assertion::string($header['iv'], 'The header parameter "iv" is not valid.');
     }
 
     abstract protected function getMode(): string;

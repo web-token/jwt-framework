@@ -51,7 +51,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage  Unable to verify the tag.
+     * @expectedExceptionMessage  Unable to decrypt or to verify the tag.
      *
      * @test
      */

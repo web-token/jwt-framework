@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
@@ -41,13 +42,12 @@ abstract class PBES2AESKW implements KeyWrapping
 
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
-        $this->checkKey($key);
+        $password = $this->getKey($key);
         $this->checkHeaderAlgorithm($completeHeader);
         $wrapper = $this->getWrapper();
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
         $salt = \random_bytes($this->salt_size);
-        $password = Base64Url::decode($key->get('k'));
 
         // We set header parameters
         $additionalHeader['p2s'] = Base64Url::encode($salt);
@@ -60,7 +60,7 @@ abstract class PBES2AESKW implements KeyWrapping
 
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
-        $this->checkKey($key);
+        $password = $this->getKey($key);
         $this->checkHeaderAlgorithm($completeHeader);
         $this->checkHeaderAdditionalParameters($completeHeader);
         $wrapper = $this->getWrapper();
@@ -68,7 +68,6 @@ abstract class PBES2AESKW implements KeyWrapping
         $key_size = $this->getKeySize();
         $salt = $completeHeader['alg']."\x00".Base64Url::decode($completeHeader['p2s']);
         $count = $completeHeader['p2c'];
-        $password = Base64Url::decode($key->get('k'));
 
         $derived_key = \hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
 
@@ -80,33 +79,29 @@ abstract class PBES2AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key): void
+    protected function getKey(JWK $key): string
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
-        if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
+        $k = $key->get('k');
+        Assertion::string($k, 'The key parameter "k" is invalid.');
+
+        return Base64Url::decode($k);
     }
 
     protected function checkHeaderAlgorithm(array $header): void
     {
-        if (!\array_key_exists('alg', $header)) {
-            throw new \InvalidArgumentException('The header parameter "alg" is missing.');
-        }
-        if (!\is_string($header['alg'])) {
-            throw new \InvalidArgumentException('The header parameter "alg" is not valid.');
-        }
+        Assertion::keyExists($header, 'alg', 'The header parameter "alg" is missing.');
+        Assertion::string($header['alg'], 'The header parameter "alg" is not valid.');
     }
 
     protected function checkHeaderAdditionalParameters(array $header): void
     {
-        foreach (['p2s', 'p2c'] as $k) {
-            if (!\array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is missing.', $k));
-            }
-        }
+        Assertion::keyExists($header, 'p2s', 'The header parameter "p2s" is missing.');
+        Assertion::string($header['p2s'], 'The header parameter "p2s" is not valid.');
+        Assertion::keyExists($header, 'p2c', 'The header parameter "p2c" is missing.');
+        Assertion::integer($header['p2c'], 'The header parameter "p2c" is not valid.');
+        Assertion::greaterThan($header['p2c'], 0, 'The header parameter "p2c" is not valid.');
     }
 
     /**

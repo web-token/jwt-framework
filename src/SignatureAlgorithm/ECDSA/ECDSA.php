@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
@@ -21,9 +22,7 @@ abstract class ECDSA implements SignatureAlgorithm
 {
     public function __construct()
     {
-        if (!\defined('OPENSSL_KEYTYPE_EC')) {
-            throw new \RuntimeException('Elliptic Curve key type not supported by your environment.');
-        }
+        Assertion::defined('OPENSSL_KEYTYPE_EC', 'Elliptic Curve key type not supported by your environment.');
     }
 
     public function allowedKeyTypes(): array
@@ -34,15 +33,11 @@ abstract class ECDSA implements SignatureAlgorithm
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
-        if (!$key->has('d')) {
-            throw new \InvalidArgumentException('The EC key is not private');
-        }
+        Assertion::true($key->has('d'), 'The EC key is not private');
 
         $pem = ECKey::convertPrivateKeyToPEM($key);
         $result = \openssl_sign($input, $signature, $pem, $this->getHashAlgorithm());
-        if (false === $result) {
-            throw new \RuntimeException('Signature failed.');
-        }
+        Assertion::true(false !== $result, 'Signature failed.');
 
         return ECSignature::fromAsn1($signature, $this->getSignaturePartLength());
     }
@@ -67,13 +62,9 @@ abstract class ECDSA implements SignatureAlgorithm
 
     private function checkKey(JWK $key): void
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
         foreach (['x', 'y', 'crv'] as $k) {
-            if (!$key->has($k)) {
-                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
-            }
+            Assertion::true($key->has($k), \sprintf('The key parameter "%s" is missing.', $k));
         }
     }
 }

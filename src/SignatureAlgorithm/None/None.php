@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWK;
 
 final class None implements SignatureAlgorithm
@@ -36,9 +37,7 @@ final class None implements SignatureAlgorithm
 
     private function checkKey(JWK $key): void
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
     }
 
     public function name(): string
