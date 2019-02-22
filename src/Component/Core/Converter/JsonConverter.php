@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Converter;
 
 /**
- * @deprecated This interface is deprecated in v1.3 and will be removed in v2.0
+ * @deprecated This interface is deprecated in v1.3 and will be removed in v2.0.
  */
 interface JsonConverter
 {

@@ -20,9 +20,9 @@ class JWKSetControllerFactory
 {
     private $jsonConverter;
 
-    public function __construct(JsonConverter $jsonConverter)
+    public function __construct(?JsonConverter $jsonConverter = null)
     {
-        $this->jsonConverter = $jsonConverter;
+        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
     }
 
     public function create(JWKSet $jwkset, int $maxAge): JWKSetController

@@ -18,6 +18,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Core\Converter\JsonConverter;
 use Jose\Component\Core\Converter\StandardConverter;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -46,7 +47,9 @@ class CoreSource implements SourceWithCompilerPasses
             $loader->load('dev_services.yml');
         }
 
-        $container->setAlias(JsonConverter::class, $config['json_converter']);
+        if (null !== $config['json_converter']) {
+            $container->setAlias(JsonConverter::class, $config['json_converter']);
+        }
         if (StandardConverter::class === $config['json_converter']) {
             $loader->load('json_converter.yml');
         }
@@ -54,11 +57,13 @@ class CoreSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node)
     {
+        /** @var ArrayNodeDefinition $node */
         $node
             ->children()
             ->scalarNode('json_converter')
-            ->defaultValue(StandardConverter::class)
+            ->defaultNull()
             ->info('Converter used to encode and decode JSON objects (JWT payloads, keys, key sets...).')
+            ->setDeprecated('This option is deprecated in v1.3 and will be removed in v2.0.')
             ->end()
             ->end();
     }

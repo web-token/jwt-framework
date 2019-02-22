@@ -23,16 +23,13 @@ final class CompactSerializer implements JWESerializer
     public const NAME = 'jwe_compact';
 
     /**
-     * @var JsonConverter
+     * @var JsonConverter|\Jose\Component\Core\Util\JsonConverter|null
      */
     private $jsonConverter;
 
-    /**
-     * JSONFlattenedSerializer constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter)
+    public function __construct(?JsonConverter $jsonConverter = null)
     {
-        $this->jsonConverter = $jsonConverter;
+        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter;
     }
 
     public function displayName(): string

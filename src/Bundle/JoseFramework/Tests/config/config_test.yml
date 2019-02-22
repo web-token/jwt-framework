@@ -20,7 +20,6 @@ services:
     Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory: ~
 
 jose:
-    json_converter: 'Jose\Bundle\JoseFramework\Tests\TestBundle\Converter\CustomJsonConverter'
     jku_factory:
         enabled: true
         client: 'httplug.client.mock'
