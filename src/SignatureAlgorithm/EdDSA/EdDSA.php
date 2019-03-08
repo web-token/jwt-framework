@@ -29,9 +29,8 @@ final class EdDSA implements SignatureAlgorithm
         if (!$key->has('d')) {
             throw new \InvalidArgumentException('The key is not private.');
         }
-        $secret = Base64Url::decode($key->get('d'));
-        $keyPair = \sodium_crypto_sign_seed_keypair($secret);
-        $secretKey = \sodium_crypto_sign_secretkey($keyPair);
+
+        $secretKey = Base64Url::decode($key->get('d'));
 
         switch ($key->get('crv')) {
             case 'Ed25519':
