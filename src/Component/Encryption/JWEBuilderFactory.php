@@ -37,7 +37,7 @@ class JWEBuilderFactory
     /**
      * JWEBuilderFactory constructor.
      */
-    public function __construct(?JsonConverter $jsonConverter = null, AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
     {
         $this->jsonConverter = $jsonConverter;
         $this->algorithmManagerFactory = $algorithmManagerFactory;

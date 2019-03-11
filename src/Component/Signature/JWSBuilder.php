@@ -55,7 +55,7 @@ class JWSBuilder
     /**
      * JWSBuilder constructor.
      */
-    public function __construct(?JsonConverter $jsonConverter = null,AlgorithmManager $signatureAlgorithmManager)
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManager $signatureAlgorithmManager)
     {
         $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
         $this->signatureAlgorithmManager = $signatureAlgorithmManager;

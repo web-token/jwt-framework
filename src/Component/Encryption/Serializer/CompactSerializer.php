@@ -29,7 +29,7 @@ final class CompactSerializer implements JWESerializer
 
     public function __construct(?JsonConverter $jsonConverter = null)
     {
-        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter;
+        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
     }
 
     public function displayName(): string

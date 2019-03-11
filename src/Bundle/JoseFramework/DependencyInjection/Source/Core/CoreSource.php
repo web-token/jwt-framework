@@ -57,7 +57,7 @@ class CoreSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node)
     {
-        /** @var ArrayNodeDefinition $node */
+        /* @var ArrayNodeDefinition $node */
         $node
             ->children()
             ->scalarNode('json_converter')

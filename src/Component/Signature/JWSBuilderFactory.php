@@ -31,7 +31,7 @@ class JWSBuilderFactory
     /**
      * JWSBuilderFactory constructor.
      */
-    public function __construct(?JsonConverter $jsonConverter = null,AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
     {
         $this->jsonConverter = $jsonConverter;
         $this->signatureAlgorithmManagerFactory = $signatureAlgorithmManagerFactory;

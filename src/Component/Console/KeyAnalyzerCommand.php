@@ -37,7 +37,7 @@ final class KeyAnalyzerCommand extends Command
     /**
      * KeyAnalyzerCommand constructor.
      */
-    public function __construct(KeyAnalyzerManager $analyzerManager, ?JsonConverter $jsonConverter = null, string $name = null)
+    public function __construct(KeyAnalyzerManager $analyzerManager, ?JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($name);
         $this->analyzerManager = $analyzerManager;

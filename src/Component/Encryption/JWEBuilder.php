@@ -93,7 +93,7 @@ class JWEBuilder
     /**
      * JWEBuilder constructor.
      */
-    public function __construct(?JsonConverter $jsonConverter = null, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
     {
         $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;

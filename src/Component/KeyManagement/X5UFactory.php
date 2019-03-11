@@ -27,7 +27,7 @@ class X5UFactory extends UrlKeySetFactory
     /**
      * X5UFactory constructor.
      */
-    public function __construct(?JsonConverter $jsonConverter = null, HttpClient $client, RequestFactory $requestFactory)
+    public function __construct(?JsonConverter $jsonConverter, HttpClient $client, RequestFactory $requestFactory)
     {
         $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
         parent::__construct($client, $requestFactory);

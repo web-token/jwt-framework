@@ -26,7 +26,7 @@ abstract class ObjectOutputCommand extends Command
      */
     protected $jsonConverter;
 
-    public function __construct(?JsonConverter $jsonConverter = null, string $name = null)
+    public function __construct(?JsonConverter $jsonConverter, string $name = null)
     {
         $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
         parent::__construct($name);

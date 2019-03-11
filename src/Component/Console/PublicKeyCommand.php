@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PublicKeyCommand extends ObjectOutputCommand
 {
-    public function __construct(?JsonConverter $jsonConverter = null, string $name = null)
+    public function __construct(?JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($jsonConverter, $name);
     }

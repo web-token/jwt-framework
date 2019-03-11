@@ -25,7 +25,7 @@ class JKUFactory extends UrlKeySetFactory
     /**
      * JKUFactory constructor.
      */
-    public function __construct(?JsonConverter $jsonConverter = null, HttpClient $client, RequestFactory $requestFactory)
+    public function __construct(?JsonConverter $jsonConverter, HttpClient $client, RequestFactory $requestFactory)
     {
         parent::__construct($client, $requestFactory);
         $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
