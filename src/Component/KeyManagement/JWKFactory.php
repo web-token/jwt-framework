@@ -172,27 +172,29 @@ class JWKFactory
         switch ($curve) {
             case 'X25519':
                 $keyPair = \sodium_crypto_box_keypair();
-                $d = \sodium_crypto_box_secretkey($keyPair);
+                $secret = \sodium_crypto_box_secretkey($keyPair);
                 $x = \sodium_crypto_box_publickey($keyPair);
 
                 break;
             case 'Ed25519':
                 $keyPair = \sodium_crypto_sign_keypair();
-                $d = \sodium_crypto_sign_secretkey($keyPair);
+                $secret = \sodium_crypto_sign_secretkey($keyPair);
                 $x = \sodium_crypto_sign_publickey($keyPair);
 
                 break;
             default:
                 throw new \InvalidArgumentException(\sprintf('Unsupported "%s" curve', $curve));
         }
+        $secretLength = mb_strlen($secret, '8bit');
+        $d = mb_substr($secret, 0, -$secretLength / 2, '8bit');
 
         $values = \array_merge(
             $values,
             [
                 'kty' => 'OKP',
                 'crv' => $curve,
-                'x' => Base64Url::encode($x),
                 'd' => Base64Url::encode($d),
+                'x' => Base64Url::encode($x),
             ]
         );
 
