@@ -17,10 +17,8 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\EdDSA;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
-use Jose\Component\Signature\Serializer\CompactSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,7 +28,7 @@ use PHPUnit\Framework\TestCase;
 class EdDSASignatureTest extends TestCase
 {
     /**
-     * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5
+     * @see https://tools.ietf.org/html/rfc8037#appendix-A.5
      *
      * @test
      */
@@ -47,13 +45,11 @@ class EdDSASignatureTest extends TestCase
         $input = 'eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc';
         $signature = Base64Url::decode('hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg');
 
-        $result = $eddsa->verify($key, $input, $signature);
-
-        static::assertTrue($result);
+        static::assertTrue($eddsa->verify($key, $input, $signature));
     }
 
     /**
-     * @see https://tools.ietf.org/html/draft-ietf-jose-cfrg-curves-00#appendix-A.5
+     * @see https://tools.ietf.org/html/rfc8037#appendix-A.5
      *
      * @test
      */
@@ -67,7 +63,7 @@ class EdDSASignatureTest extends TestCase
         ]);
 
         $header = ['alg' => 'EdDSA'];
-        $input = Base64Url::decode('RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc');
+        $input = 'Example of Ed25519 signing'; // Corresponds to "RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc"
 
         $jwsBuilder = new JWSBuilder(
             new AlgorithmManager([new EdDSA()])
@@ -75,21 +71,11 @@ class EdDSASignatureTest extends TestCase
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new EdDSA()])
         );
-        $serializer = new CompactSerializer(
-        );
         $jws = $jwsBuilder
             ->create()->withPayload($input)
             ->addSignature($key, $header)
             ->build();
 
-        $jws = $serializer->serialize($jws, 0);
-
-        static::assertEquals('eyJhbGciOiJFZERTQSJ9.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc.hgyY0il_MGCjP0JzlnLWG1PPOt7-09PGcvMg3AIbQR6dWbhijcNR4ki4iylGjg5BhVsPt9g7sVvpAr_MuM0KAg', $jws);
-
-        $loaded = $serializer->unserialize($jws);
-
-        static::assertInstanceOf(JWS::class, $loaded);
-        static::assertEquals(1, $loaded->countSignatures());
-        static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($jws, $key, 0));
     }
 }

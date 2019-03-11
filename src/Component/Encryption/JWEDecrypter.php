@@ -155,7 +155,6 @@ class JWEDecrypter
             return;
         }
         if (mb_strlen($cek, '8bit') !== $algorithm->getCEKSize() / 8) {
-            var_dump(mb_strlen($cek, '8bit'), $algorithm->getCEKSize() / 8);
             throw new \InvalidArgumentException('Invalid CEK size');
         }
     }
