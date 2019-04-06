@@ -359,6 +359,10 @@ class JWKFactory
 
     /**
      * This method will try to load and convert a X.509 certificate chain into a public key.
+     *
+     * Be careful! The certificate chain is loaded, but it is NOT VERIFIED by any mean!
+     * It is mandatory to verify the root CA or intermediate  CA are trusted.
+     * If not done, it may lead to potential security issues.
      */
     public static function createFromX5C(array $x5c, array $additional_values = []): JWK
     {

@@ -165,6 +165,11 @@ class KeyConverter
         $pem .= $matches[0][1].PHP_EOL;
     }
 
+    /**
+     * Be careful! The certificate chain is loaded, but it is NOT VERIFIED by any mean!
+     * It is mandatory to verify the root CA or intermediate  CA are trusted.
+     * If not done, it may lead to potential security issues.
+     */
     public static function loadFromX5C(array $x5c): array
     {
         $certificate = null;
@@ -203,9 +208,6 @@ class KeyConverter
                     break;
                 }
             }
-        }
-        if (null === $certificate || null !== $last_issuer && \json_encode($last_issuer) !== \json_encode($last_subject)) {
-            throw new \InvalidArgumentException('Invalid certificate chain.');
         }
 
         return self::loadKeyFromCertificate($certificate);
