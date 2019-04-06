@@ -30,18 +30,18 @@ final class KeyAnalyzerCommand extends Command
     private $analyzerManager;
 
     /**
-     * @var JsonConverter
+     * @var JsonConverter|\Jose\Component\Core\Util\JsonConverter|null
      */
     private $jsonConverter;
 
     /**
      * KeyAnalyzerCommand constructor.
      */
-    public function __construct(KeyAnalyzerManager $analyzerManager, JsonConverter $jsonConverter, string $name = null)
+    public function __construct(KeyAnalyzerManager $analyzerManager, ?JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($name);
         $this->analyzerManager = $analyzerManager;
-        $this->jsonConverter = $jsonConverter;
+        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
     }
 
     protected function configure()

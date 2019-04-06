@@ -22,16 +22,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class ObjectOutputCommand extends Command
 {
     /**
-     * @var JsonConverter
+     * @var JsonConverter|\Jose\Component\Core\Util\JsonConverter|null
      */
     protected $jsonConverter;
 
-    /**
-     * AbstractGeneratorCommand constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter, string $name = null)
+    public function __construct(?JsonConverter $jsonConverter, string $name = null)
     {
-        $this->jsonConverter = $jsonConverter;
+        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
         parent::__construct($name);
     }
 

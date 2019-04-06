@@ -21,10 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PublicKeyCommand extends ObjectOutputCommand
 {
-    /**
-     * KeyAnalyzerCommand constructor.
-     */
-    public function __construct(JsonConverter $jsonConverter, string $name = null)
+    public function __construct(?JsonConverter $jsonConverter, string $name = null)
     {
         parent::__construct($jsonConverter, $name);
     }

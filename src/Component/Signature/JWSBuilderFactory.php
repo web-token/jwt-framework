@@ -19,9 +19,9 @@ use Jose\Component\Core\Converter\JsonConverter;
 class JWSBuilderFactory
 {
     /**
-     * @var JsonConverter
+     * @var JsonConverter|null
      */
-    private $jsonEncoder;
+    private $jsonConverter;
 
     /**
      * @var AlgorithmManagerFactory
@@ -31,9 +31,9 @@ class JWSBuilderFactory
     /**
      * JWSBuilderFactory constructor.
      */
-    public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManagerFactory $signatureAlgorithmManagerFactory)
     {
-        $this->jsonEncoder = $jsonEncoder;
+        $this->jsonConverter = $jsonConverter;
         $this->signatureAlgorithmManagerFactory = $signatureAlgorithmManagerFactory;
     }
 
@@ -46,6 +46,6 @@ class JWSBuilderFactory
     {
         $algorithmManager = $this->signatureAlgorithmManagerFactory->create($algorithms);
 
-        return new JWSBuilder($this->jsonEncoder, $algorithmManager);
+        return new JWSBuilder($this->jsonConverter, $algorithmManager);
     }
 }

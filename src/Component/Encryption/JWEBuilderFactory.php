@@ -20,9 +20,9 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 class JWEBuilderFactory
 {
     /**
-     * @var JsonConverter
+     * @var JsonConverter|null
      */
-    private $jsonEncoder;
+    private $jsonConverter;
 
     /**
      * @var AlgorithmManagerFactory
@@ -37,9 +37,9 @@ class JWEBuilderFactory
     /**
      * JWEBuilderFactory constructor.
      */
-    public function __construct(JsonConverter $jsonEncoder, AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManagerFactory $algorithmManagerFactory, CompressionMethodManagerFactory $compressionMethodManagerFactory)
     {
-        $this->jsonEncoder = $jsonEncoder;
+        $this->jsonConverter = $jsonConverter;
         $this->algorithmManagerFactory = $algorithmManagerFactory;
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
     }
@@ -57,6 +57,6 @@ class JWEBuilderFactory
         $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithm);
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-        return new JWEBuilder($this->jsonEncoder, $keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
+        return new JWEBuilder($this->jsonConverter, $keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
     }
 }

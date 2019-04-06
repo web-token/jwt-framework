@@ -29,7 +29,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
     /**
      * JKULoaderCommand constructor.
      */
-    public function __construct(JKUFactory $jkuFactory, JsonConverter $jsonConverter, ?string $name = null)
+    public function __construct(JKUFactory $jkuFactory, ?JsonConverter $jsonConverter, ?string $name = null)
     {
         $this->jkuFactory = $jkuFactory;
         parent::__construct($jsonConverter, $name);

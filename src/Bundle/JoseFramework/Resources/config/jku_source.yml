@@ -7,13 +7,13 @@ services:
     Jose\Component\KeyManagement\JKUFactory:
         public: true
         arguments:
-            - '@Jose\Component\Core\Converter\JsonConverter'
+            - null
             - '@jose.http_client'
             - '@jose.request_factory'
 
     Jose\Component\KeyManagement\X5UFactory:
         public: true
         arguments:
-            - '@Jose\Component\Core\Converter\JsonConverter'
+            - null
             - '@jose.http_client'
             - '@jose.request_factory'

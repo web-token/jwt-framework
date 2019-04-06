@@ -31,7 +31,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManager;
 class JWEBuilder
 {
     /**
-     * @var JsonConverter
+     * @var JsonConverter|\Jose\Component\Core\Util\JsonConverter|null
      */
     private $jsonConverter;
 
@@ -93,9 +93,9 @@ class JWEBuilder
     /**
      * JWEBuilder constructor.
      */
-    public function __construct(JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
+    public function __construct(?JsonConverter $jsonConverter, AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
     {
-        $this->jsonConverter = $jsonConverter;
+        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
         $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
         $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
         $this->compressionManager = $compressionManager;

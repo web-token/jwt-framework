@@ -22,16 +22,16 @@ final class JSONGeneralSerializer extends Serializer
     public const NAME = 'jws_json_general';
 
     /**
-     * @var JsonConverter
+     * @var \Jose\Component\Core\Util\JsonConverter
      */
     private $jsonConverter;
 
     /**
      * JSONFlattenedSerializer constructor.
      */
-    public function __construct(JsonConverter $jsonConverter)
+    public function __construct(?JsonConverter $jsonConverter = null)
     {
-        $this->jsonConverter = $jsonConverter;
+        $this->jsonConverter = $jsonConverter ?? new \Jose\Component\Core\Util\JsonConverter();
     }
 
     public function displayName(): string

@@ -29,7 +29,7 @@ final class X5ULoaderCommand extends ObjectOutputCommand
     /**
      * X5ULoaderCommand constructor.
      */
-    public function __construct(X5UFactory $x5uFactory, JsonConverter $jsonConverter, ?string $name = null)
+    public function __construct(X5UFactory $x5uFactory, ?JsonConverter $jsonConverter, ?string $name = null)
     {
         $this->x5uFactory = $x5uFactory;
         parent::__construct($jsonConverter, $name);
