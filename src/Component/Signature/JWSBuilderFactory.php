@@ -19,7 +19,7 @@ use Jose\Component\Core\Converter\JsonConverter;
 class JWSBuilderFactory
 {
     /**
-     * @var JsonConverter
+     * @var JsonConverter|null
      */
     private $jsonConverter;
 

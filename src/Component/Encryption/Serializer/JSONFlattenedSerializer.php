@@ -23,7 +23,7 @@ final class JSONFlattenedSerializer implements JWESerializer
     public const NAME = 'jwe_json_flattened';
 
     /**
-     * @var
+     * @var JsonConverter|\Jose\Component\Core\Util\JsonConverter
      */
     private $jsonConverter;
 
