@@ -38,7 +38,7 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
      */
     public function checkClaim($value): void
     {
@@ -46,7 +46,7 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
      */
     public function checkHeader($value): void
     {

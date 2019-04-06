@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
+use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 final class JWSEncoder implements EncoderInterface, DecoderInterface
 {
     /**
-     * @var JWSSerializerManager|null
+     * @var JWSSerializerManager
      */
     private $serializerManager;
 
@@ -37,17 +38,17 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
         $this->serializerManager = $serializerManager;
     }
 
-    public function supportsEncoding($format)
+    public function supportsEncoding($format): bool
     {
         return \in_array(mb_strtolower($format), $this->serializerManager->list(), true);
     }
 
-    public function supportsDecoding($format)
+    public function supportsDecoding($format): bool
     {
         return $this->supportsEncoding($format);
     }
 
-    public function encode($data, $format, array $context = [])
+    public function encode($data, $format, array $context = []): string
     {
         try {
             return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getSignatureIndex($context));
@@ -60,7 +61,7 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
         }
     }
 
-    public function decode($data, $format, array $context = [])
+    public function decode($data, $format, array $context = []): JWS
     {
         try {
             return $this->serializerManager->unserialize($data);

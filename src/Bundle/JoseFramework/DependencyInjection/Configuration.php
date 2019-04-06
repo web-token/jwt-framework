@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -42,22 +41,12 @@ final class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder($this->alias);
-        $rootNode = $this->getRootNode($treeBuilder, $this->alias);
+        $rootNode = $treeBuilder->getRootNode();
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($rootNode);
         }
 
         return $treeBuilder;
-    }
-
-    private function getRootNode(TreeBuilder $treeBuilder, string $name): NodeDefinition
-    {
-        // BC layer for symfony/config 4.1 and older
-        if (!\method_exists($treeBuilder, 'getRootNode')) {
-            return $treeBuilder->root($name);
-        }
-
-        return $treeBuilder->getRootNode();
     }
 }

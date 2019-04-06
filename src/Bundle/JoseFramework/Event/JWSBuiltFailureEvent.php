@@ -42,7 +42,7 @@ final class JWSBuiltFailureEvent extends Event
      */
     protected $isPayloadEncoded = null;
 
-    public function __construct(?string $payload, array $signatures, ?bool $isPayloadDetached, ?bool $isPayloadEncoded, \Throwable $throwable)
+    public function __construct(?string $payload, array $signatures, bool $isPayloadDetached, ?bool $isPayloadEncoded, \Throwable $throwable)
     {
         $this->throwable = $throwable;
         $this->payload = $payload;

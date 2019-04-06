@@ -42,6 +42,9 @@ final class JWKSetLoader implements LoaderInterface
         return $this->routes;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function supports($resource, $type = null): bool
     {
         return 'jwkset' === $type;

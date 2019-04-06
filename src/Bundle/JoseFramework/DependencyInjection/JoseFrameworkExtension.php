@@ -76,7 +76,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
         foreach ($this->sources as $source) {
             $result = $source->prepend($container, $config);
-            if (!empty($result)) {
+            if (0 !== count($result)) {
                 $container->prependExtensionConfig($this->getAlias(), $result);
             }
         }

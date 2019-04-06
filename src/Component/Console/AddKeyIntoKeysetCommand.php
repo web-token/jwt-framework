@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -44,6 +45,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
+        Assertion::string($jwkset, 'The argument must be a valid JWKSet.');
         $json = JsonConverter::decode($jwkset);
         if (\is_array($json)) {
             return JWKSet::createFromKeyData($json);
@@ -55,6 +57,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     private function getKey(InputInterface $input): JWK
     {
         $jwkset = $input->getArgument('jwk');
+        Assertion::string($jwkset, 'The argument must be a valid JWK.');
         $json = JsonConverter::decode($jwkset);
         if (\is_array($json)) {
             return JWK::create($json);

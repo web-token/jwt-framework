@@ -54,7 +54,7 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
      */
     private function checkValue($value, string $class): void
     {

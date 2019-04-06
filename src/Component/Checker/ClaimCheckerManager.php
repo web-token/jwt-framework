@@ -78,12 +78,12 @@ class ClaimCheckerManager
      */
     private function checkMandatoryClaims(array $mandatoryClaims, array $claims): void
     {
-        if (empty($mandatoryClaims)) {
+        if (0 === count($mandatoryClaims)) {
             return;
         }
         $diff = \array_keys(\array_diff_key(\array_flip($mandatoryClaims), $claims));
 
-        if (!empty($diff)) {
+        if (0!==count($diff)) {
             throw new MissingMandatoryClaimException(\sprintf('The following claims are mandatory: %s.', \implode(', ', $diff)), $diff);
         }
     }
