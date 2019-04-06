@@ -20,22 +20,22 @@
         }
     },
     "require": {
-        "symfony/config": "^4.1",
-        "symfony/dependency-injection": "^4.1",
-        "symfony/event-dispatcher": "^4.1",
-        "symfony/http-kernel": "^4.1",
+        "symfony/config": "^4.2",
+        "symfony/dependency-injection": "^4.2",
+        "symfony/event-dispatcher": "^4.2",
+        "symfony/http-kernel": "^4.2",
         "web-token/jwt-core": "^2.0"
     },
     "require-dev": {
         "guzzlehttp/psr7": "^1.4",
         "php-http/httplug-bundle": "^1.7",
         "php-http/mock-client": "^1.0",
-        "phpunit/phpunit": "^6.0|^7.0",
-        "symfony/browser-kit": "^3.3|^4.0",
-        "symfony/framework-bundle": "^3.3|^4.0",
-        "symfony/phpunit-bridge": "^3.3|^4.0",
-        "symfony/serializer": "^3.3|^4.0",
-        "symfony/yaml": "^3.3|^4.0"
+        "phpunit/phpunit": "^7.0",
+        "symfony/browser-kit": "^4.2",
+        "symfony/framework-bundle": "^4.2",
+        "symfony/phpunit-bridge": "^4.2",
+        "symfony/serializer": "^4.2",
+        "symfony/yaml": "^4.2"
     },
     "suggest": {
         "web-token/jwt-checker": "Add header and claim checker managers as Symfony services.",

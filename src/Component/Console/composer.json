@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "symfony/console": "^4.1",
+        "symfony/console": "^4.2",
         "web-token/jwt-key-mgmt": "^2.0"
     },
     "require-dev": {
