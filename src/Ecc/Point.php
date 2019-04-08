@@ -112,8 +112,8 @@ class Point
 
     private static function cswapBoolean(bool &$a, bool &$b, int $cond): void
     {
-        $sa = \gmp_init(\intval($a), 10);
-        $sb = \gmp_init(\intval($b), 10);
+        $sa = \gmp_init((int) $a, 10);
+        $sb = \gmp_init((int) $b, 10);
 
         self::cswapGMP($sa, $sb, $cond);
 
@@ -124,7 +124,7 @@ class Point
     private static function cswapGMP(\GMP &$sa, \GMP &$sb, int $cond): void
     {
         $size = \max(\mb_strlen(\gmp_strval($sa, 2), '8bit'), \mb_strlen(\gmp_strval($sb, 2), '8bit'));
-        $mask = \strval(1 - \intval($cond));
+        $mask = (string) (1 - $cond);
         $mask = \str_pad('', $size, $mask, STR_PAD_LEFT);
         $mask = \gmp_init($mask, 2);
         $taA = Math::bitwiseAnd($sa, $mask);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -87,9 +88,7 @@ class JWSVerifier
             try {
                 KeyChecker::checkKeyUsage($jwk, 'verification');
                 KeyChecker::checkKeyAlgorithm($jwk, $algorithm->name());
-                if (!\in_array($jwk->get('kty'), $algorithm->allowedKeyTypes(), true)) {
-                    throw new \InvalidArgumentException('Wrong key type.');
-                }
+                Assertion::inArray($jwk->get('kty'), $algorithm->allowedKeyTypes(), 'Wrong key type.');
                 if (true === $algorithm->verify($jwk, $input, $signature->getSignature())) {
                     $successJwk = $jwk;
 

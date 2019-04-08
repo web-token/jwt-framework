@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,10 +37,10 @@ final class GetThumbprintCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         $hash = $input->getOption('hash');
+        Assertion::string($jwk, 'Invalid JWK');
+        Assertion::string($hash, 'Invalid hash algorithm');
         $json = JsonConverter::decode($jwk);
-        if (!\is_array($json)) {
-            throw new \InvalidArgumentException('Invalid input.');
-        }
+        Assertion::isArray($json, 'Invalid input.');
         $key = JWK::create($json);
         $output->write($key->thumbprint($hash));
     }

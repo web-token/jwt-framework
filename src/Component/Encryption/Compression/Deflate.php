@@ -43,21 +43,19 @@ final class Deflate implements CompressionMethod
 
     public function compress(string $data): string
     {
-        $data = \gzdeflate($data, $this->getCompressionLevel());
-        if (false === $data) {
-            throw new \InvalidArgumentException('Unable to compress data.');
+        try {
+            return \Safe\gzdeflate($data, $this->getCompressionLevel());
+        } catch (\Throwable $throwable) {
+            throw new \InvalidArgumentException('Unable to compress data.', $throwable->getCode(), $throwable);
         }
-
-        return $data;
     }
 
     public function uncompress(string $data): string
     {
-        $data = \gzinflate($data);
-        if (false === $data) {
-            throw new \InvalidArgumentException('Unable to uncompress data.');
+        try {
+            return \Safe\gzinflate($data);
+        } catch (\Throwable $throwable) {
+            throw new \InvalidArgumentException('Unable to uncompress data.', $throwable->getCode(), $throwable);
         }
-
-        return $data;
     }
 }

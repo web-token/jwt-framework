@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
+use Assert\Assertion;
 use Jose\Component\Checker\ClaimChecker;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -43,11 +44,8 @@ final class ClaimCheckerManagerFactory
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            if (\array_key_exists($alias, $this->checkers)) {
-                $checkers[] = $this->checkers[$alias];
-            } else {
-                throw new \InvalidArgumentException(\sprintf('The claim checker with the alias "%s" is not supported.', $alias));
-            }
+            Assertion::keyExists($this->checkers, $alias, \Safe\sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+            $checkers[] = $this->checkers[$alias];
         }
 
         return new ClaimCheckerManager($checkers, $this->eventDispatcher);

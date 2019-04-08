@@ -149,6 +149,7 @@ class RSAKey
 
     /**
      * This method adds Chinese Remainder Theorem (CRT) parameters if primes 'p' and 'q' are available.
+     * If 'p' and 'q' are missing, they are computed and added to the key data.
      */
     private function populateCRT(): void
     {

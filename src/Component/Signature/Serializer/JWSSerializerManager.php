@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
+use Assert\Assertion;
 use Jose\Component\Signature\JWS;
 
 class JWSSerializerManager
@@ -50,9 +51,7 @@ class JWSSerializerManager
      */
     public function serialize(string $name, JWS $jws, ?int $signatureIndex = null): string
     {
-        if (!\array_key_exists($name, $this->serializers)) {
-            throw new \InvalidArgumentException(\sprintf('Unsupported serializer "%s".', $name));
-        }
+        Assertion::keyExists($this->serializers, $name, \Safe\sprintf('Unsupported serializer "%s".', $name));
 
         return ($this->serializers[$name])->serialize($jws, $signatureIndex);
     }

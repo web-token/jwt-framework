@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,6 +34,7 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
     {
         $curve = $input->getArgument('curve');
         $args = $this->getOptions($input);
+        Assertion::string($curve, 'Invalid curve');
 
         $jwk = JWKFactory::createECKey($curve, $args);
         $this->prepareJsonOutput($input, $output, $jwk);

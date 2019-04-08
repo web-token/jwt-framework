@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,6 +33,7 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filename = $input->getArgument('file');
+        Assertion::string($filename, 'Invalid file');
         $args = [];
         foreach (['use', 'alg'] as $key) {
             $value = $input->getOption($key);

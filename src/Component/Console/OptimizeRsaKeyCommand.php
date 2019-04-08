@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
@@ -34,10 +35,9 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
+        Assertion::string($jwk, 'Invalid JWK');
         $json = JsonConverter::decode($jwk);
-        if (!\is_array($json)) {
-            throw new \InvalidArgumentException('Invalid input.');
-        }
+        Assertion::isArray($json, 'Invalid input.');
         $key = RSAKey::createFromJWK(JWK::create($json));
         $key->optimize();
         $this->prepareJsonOutput($input, $output, $key->toJwk());

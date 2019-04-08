@@ -33,8 +33,8 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $quantity = \intval($input->getArgument('quantity'));
-        $size = \intval($input->getArgument('size'));
+        $quantity = (int) $input->getArgument('quantity');
+        $size = (int) $input->getArgument('size');
 
         $keyset = JWKSet::createFromKeys([]);
         for ($i = 0; $i < $quantity; ++$i) {

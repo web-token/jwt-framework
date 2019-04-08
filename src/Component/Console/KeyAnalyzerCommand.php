@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -66,11 +67,10 @@ final class KeyAnalyzerCommand extends Command
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
+        Assertion::string($jwk, 'Invalid JWK');
         $json = JsonConverter::decode($jwk);
-        if (\is_array($json)) {
-            return JWK::create($json);
-        }
+        Assertion::isArray($json, 'Invalid input.');
 
-        throw new \InvalidArgumentException('The argument must be a valid JWK.');
+        return JWK::create($json);
     }
 }

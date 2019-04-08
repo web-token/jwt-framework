@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWT;
 
 class JWE implements JWT
@@ -124,9 +125,7 @@ class JWE implements JWT
      */
     public function getRecipient(int $id): Recipient
     {
-        if (!\array_key_exists($id, $this->recipients)) {
-            throw new \InvalidArgumentException('The recipient does not exist.');
-        }
+        Assertion::keyExists($this->recipients, $id, 'The recipient does not exist.');
 
         return $this->recipients[$id];
     }

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
@@ -44,11 +45,17 @@ final class JSONFlattenedSerializer extends Serializer
             'protected' => $signature->getEncodedProtectedHeader(),
             'header' => $signature->getHeader(),
         ];
-
-        foreach ($values as $key => $value) {
-            if (!empty($value)) {
-                $data[$key] = $value;
-            }
+        $encodedPayload = $jws->getEncodedPayload();
+        if (null !== $encodedPayload && '' !== $encodedPayload) {
+            $data['payload'] = $encodedPayload;
+        }
+        $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
+        if (null !== $encodedProtectedHeader && '' !== $encodedProtectedHeader) {
+            $data['protected'] = $encodedProtectedHeader;
+        }
+        $header = $signature->getHeader();
+        if (0 !== \count($header)) {
+            $data['header'] = $header;
         }
         $data['signature'] = Base64Url::encode($signature->getSignature());
 
@@ -58,10 +65,8 @@ final class JSONFlattenedSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);
-        if (!\is_array($data) || !\array_key_exists('signature', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
-        }
-
+        Assertion::isArray($data, 'Unsupported input.');
+        Assertion::keyExists($data, 'signature', 'Unsupported input.');
         $signature = Base64Url::decode($data['signature']);
 
         if (\array_key_exists('protected', $data)) {
@@ -72,9 +77,7 @@ final class JSONFlattenedSerializer extends Serializer
             $protectedHeader = [];
         }
         if (\array_key_exists('header', $data)) {
-            if (!\is_array($data['header'])) {
-                throw new \InvalidArgumentException('Bad header.');
-            }
+            Assertion::isArray($data['header'], 'Bad header.');
             $header = $data['header'];
         } else {
             $header = [];

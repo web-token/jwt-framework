@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use Assert\Assertion;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -99,9 +100,9 @@ class JWEDecrypter
      */
     public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient, JWK &$jwk = null): bool
     {
-        $this->checkJWKSet($jwkset);
-        $this->checkPayload($jwe);
-        $this->checkRecipients($jwe);
+        Assertion::greaterThan($jwkset->count(), 0, 'No key in the key set.');
+        Assertion::null($jwe->getPayload(), 'The JWE is already decrypted.');
+        Assertion::greaterThan($jwe->countRecipients(), 0, 'The JWE does not contain any recipient.');
 
         $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk);
         if (null !== $plaintext) {
@@ -154,9 +155,7 @@ class JWEDecrypter
         if ($keyEncryptionAlgorithm instanceof DirectEncryption || $keyEncryptionAlgorithm instanceof KeyAgreement) {
             return;
         }
-        if (mb_strlen($cek, '8bit') !== $algorithm->getCEKSize() / 8) {
-            throw new \InvalidArgumentException('Invalid CEK size');
-        }
+        Assertion::eq(mb_strlen($cek, '8bit'), $algorithm->getCEKSize() / 8, 'Invalid CEK size');
     }
 
     private function checkIvSize(?string $iv, int $requiredIvSize): void
@@ -166,27 +165,6 @@ class JWEDecrypter
         }
         if (\is_string($iv) && mb_strlen($iv, '8bit') !== $requiredIvSize / 8) {
             throw new \InvalidArgumentException('Invalid IV size');
-        }
-    }
-
-    private function checkRecipients(JWE $jwe): void
-    {
-        if (0 === $jwe->countRecipients()) {
-            throw new \InvalidArgumentException('The JWE does not contain any recipient.');
-        }
-    }
-
-    private function checkPayload(JWE $jwe): void
-    {
-        if (null !== $jwe->getPayload()) {
-            throw new \InvalidArgumentException('The JWE is already decrypted.');
-        }
-    }
-
-    private function checkJWKSet(JWKSet $jwkset): void
-    {
-        if (0 === $jwkset->count()) {
-            throw new \InvalidArgumentException('No key in the key set.');
         }
     }
 
@@ -231,18 +209,14 @@ class JWEDecrypter
     private function checkCompleteHeader(array $completeHeaders): void
     {
         foreach (['enc', 'alg'] as $key) {
-            if (!\array_key_exists($key, $completeHeaders)) {
-                throw new \InvalidArgumentException(\sprintf("Parameters '%s' is missing.", $key));
-            }
+            Assertion::keyExists($completeHeaders, $key, \Safe\sprintf("Parameters '%s' is missing.", $key));
         }
     }
 
     private function getKeyEncryptionAlgorithm(array $completeHeaders): KeyEncryptionAlgorithm
     {
         $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($completeHeaders['alg']);
-        if (!$key_encryption_algorithm instanceof KeyEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
-        }
+        Assertion::isInstanceOf($key_encryption_algorithm, KeyEncryptionAlgorithm::class, \Safe\sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
 
         return $key_encryption_algorithm;
     }
@@ -250,9 +224,7 @@ class JWEDecrypter
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
         $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
-        if (!$content_encryption_algorithm instanceof ContentEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
-        }
+        Assertion::isInstanceOf($content_encryption_algorithm, ContentEncryptionAlgorithm::class, \Safe\sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
 
         return $content_encryption_algorithm;
     }

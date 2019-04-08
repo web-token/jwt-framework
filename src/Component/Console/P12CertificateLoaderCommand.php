@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,6 +36,8 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
     {
         $filename = $input->getArgument('file');
         $password = $input->getOption('secret');
+        Assertion::string($filename, 'Invalid file');
+        Assertion::nullOrString($password, 'Invalid secret');
         $args = $this->getOptions($input);
 
         $jwk = JWKFactory::createFromPKCS12CertificateFile($filename, $password, $args);

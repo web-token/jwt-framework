@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +35,10 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $secret = $input->getArgument('secret');
-        if ($input->getOption('is_b64')) {
+        Assertion::string($secret, 'Invalid secret');
+        $isBsae64Encoded = $input->getOption('is_b64');
+        Assertion::boolean($isBsae64Encoded, 'Invalid option value for "is_b64"');
+        if ($isBsae64Encoded) {
             $secret = \base64_decode($secret, true);
         }
         $args = $this->getOptions($input);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
@@ -37,7 +38,7 @@ final class CompactSerializer extends Serializer
             $signatureIndex = 0;
         }
         $signature = $jws->getSignature($signatureIndex);
-        if (!empty($signature->getHeader())) {
+        if (0 !== \count($signature->getHeader())) {
             throw new \LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
         }
         if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !empty($jws->getEncodedPayload())) {
@@ -46,7 +47,7 @@ final class CompactSerializer extends Serializer
             }
         }
 
-        return \sprintf(
+        return \Safe\sprintf(
             '%s.%s.%s',
             $signature->getEncodedProtectedHeader(),
             $jws->getEncodedPayload(),
@@ -57,14 +58,13 @@ final class CompactSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $parts = \explode('.', $input);
-        if (3 !== \count($parts)) {
-            throw new \InvalidArgumentException('Unsupported input');
-        }
+        Assertion::eq(3, \count($parts), 'Unsupported input');
 
         try {
             $encodedProtectedHeader = $parts[0];
             $protectedHeader = JsonConverter::decode(Base64Url::decode($parts[0]));
-            if (empty($parts[1])) {
+            $hasPayload = '' !== $parts[1];
+            if (!$hasPayload) {
                 $payload = null;
                 $encodedPayload = null;
             } else {
@@ -73,12 +73,12 @@ final class CompactSerializer extends Serializer
             }
             $signature = Base64Url::decode($parts[2]);
 
-            $jws = new JWS($payload, $encodedPayload, empty($parts[1]));
+            $jws = new JWS($payload, $encodedPayload, !$hasPayload);
             $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
 
             return $jws;
-        } catch (\Error | \Exception $e) {
-            throw new \InvalidArgumentException('Unsupported input');
+        } catch (\Throwable $throwable) {
+            throw new \InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
         }
     }
 }

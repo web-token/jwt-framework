@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +38,9 @@ abstract class GeneratorCommand extends ObjectOutputCommand
     protected function getOptions(InputInterface $input): array
     {
         $args = [];
-        if ($input->getOption('random_id')) {
+        $useRandomId = $input->getOption('random_id');
+        Assertion::boolean($useRandomId, 'Invalid value for option "random_id"');
+        if ($useRandomId) {
             $args['kid'] = $this->generateKeyID();
         }
         foreach (['use', 'alg'] as $key) {

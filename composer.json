@@ -66,7 +66,8 @@
         "symfony/dependency-injection": "^4.2",
         "symfony/event-dispatcher": "^4.2",
         "symfony/framework-bundle": "^4.2",
-        "symfony/http-kernel": "^4.2"
+        "symfony/http-kernel": "^4.2",
+        "thecodingmachine/safe": "^0.1.14"
     },
     "require-dev": {
         "ext-curl": "*",

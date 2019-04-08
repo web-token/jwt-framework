@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Assert\Assertion;
 use Jose\Component\Core\JWT;
 
 class HeaderCheckerManager
@@ -92,9 +93,7 @@ class HeaderCheckerManager
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = \array_intersect_key($header1, $header2);
-        if (0!==count($inter)) {
-            throw new \InvalidArgumentException(\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
-        }
+        Assertion::count($inter, 0, \Safe\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
     }
 
     /**
@@ -102,12 +101,12 @@ class HeaderCheckerManager
      */
     private function checkMandatoryHeaderParameters(array $mandatoryHeaderParameters, array $protected, array $unprotected): void
     {
-        if (0 === count($mandatoryHeaderParameters)) {
+        if (0 === \count($mandatoryHeaderParameters)) {
             return;
         }
         $diff = \array_keys(\array_diff_key(\array_flip($mandatoryHeaderParameters), \array_merge($protected, $unprotected)));
 
-        if (0!==count($diff)) {
+        if (0 !== \count($diff)) {
             throw new MissingMandatoryHeaderParameterException(\sprintf('The following header parameters are mandatory: %s.', \implode(', ', $diff)), $diff);
         }
     }
@@ -143,7 +142,7 @@ class HeaderCheckerManager
                 throw new InvalidHeaderException('The header "crit" mus be a list of header parameters.', 'crit', $protected['crit']);
             }
             $diff = \array_diff($protected['crit'], $checkedHeaderParameters);
-            if (0!==count($diff)) {
+            if (0 !== \count($diff)) {
                 throw new InvalidHeaderException(\sprintf('One or more header parameters are marked as critical, but they are missing or have not been checked: %s.', \implode(', ', \array_values($diff))), 'crit', $protected['crit']);
             }
         } elseif (\array_key_exists('crit', $header)) {

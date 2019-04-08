@@ -43,7 +43,7 @@ final class JWKSetLoader implements LoaderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supports($resource, $type = null): bool
     {

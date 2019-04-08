@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+use Assert\Assertion;
+
 class CompressionMethodManager
 {
     /**
@@ -33,9 +35,7 @@ class CompressionMethodManager
     protected function add(CompressionMethod $compressionMethod): void
     {
         $name = $compressionMethod->name();
-        if ($this->has($name)) {
-            throw new \InvalidArgumentException(\sprintf('The compression method "%s" is already supported.', $name));
-        }
+        Assertion::false($this->has($name), \Safe\sprintf('The compression method "%s" is already supported.', $name));
 
         $this->compressionMethods[$name] = $compressionMethod;
     }
@@ -56,9 +56,7 @@ class CompressionMethodManager
      */
     public function get(string $name): CompressionMethod
     {
-        if (!$this->has($name)) {
-            throw new \InvalidArgumentException(\sprintf('The compression method "%s" is not supported.', $name));
-        }
+        Assertion::true($this->has($name), \Safe\sprintf('The compression method "%s" is not supported.', $name));
 
         return $this->compressionMethods[$name];
     }

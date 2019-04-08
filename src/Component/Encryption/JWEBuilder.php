@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -142,9 +143,7 @@ class JWEBuilder
      */
     public function withPayload(string $payload): self
     {
-        if (false === \mb_detect_encoding($payload, 'UTF-8', true)) {
-            throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
-        }
+        Assertion::eq('UTF-8', \mb_detect_encoding($payload, 'UTF-8', true), 'The payload must be encoded in UTF-8');
         $clone = clone $this;
         $clone->payload = $payload;
 
@@ -214,9 +213,7 @@ class JWEBuilder
         if (null === $clone->keyManagementMode) {
             $clone->keyManagementMode = $keyEncryptionAlgorithm->getKeyManagementMode();
         } else {
-            if (!$clone->areKeyManagementModesCompatible($clone->keyManagementMode, $keyEncryptionAlgorithm->getKeyManagementMode())) {
-                throw new \InvalidArgumentException('Foreign key management mode forbidden.');
-            }
+            Assertion::true($clone->areKeyManagementModesCompatible($clone->keyManagementMode, $keyEncryptionAlgorithm->getKeyManagementMode()), 'Foreign key management mode forbidden.');
         }
 
         $compressionMethod = $clone->getCompressionMethod($completeHeader);
@@ -439,26 +436,18 @@ class JWEBuilder
 
     private function getKeyEncryptionAlgorithm(array $completeHeader): KeyEncryptionAlgorithm
     {
-        if (!\array_key_exists('alg', $completeHeader)) {
-            throw new \InvalidArgumentException('Parameter "alg" is missing.');
-        }
+        Assertion::keyExists($completeHeader, 'alg', 'Parameter "alg" is missing.');
         $keyEncryptionAlgorithm = $this->keyEncryptionAlgorithmManager->get($completeHeader['alg']);
-        if (!$keyEncryptionAlgorithm instanceof KeyEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The key encryption algorithm "%s" is not supported or not a key encryption algorithm instance.', $completeHeader['alg']));
-        }
+        Assertion::isInstanceOf($keyEncryptionAlgorithm, KeyEncryptionAlgorithm::class, \Safe\sprintf('The key encryption algorithm "%s" is not supported or not a key encryption algorithm instance.', $completeHeader['alg']));
 
         return $keyEncryptionAlgorithm;
     }
 
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
-        if (!\array_key_exists('enc', $completeHeader)) {
-            throw new \InvalidArgumentException('Parameter "enc" is missing.');
-        }
+        Assertion::keyExists($completeHeader, 'enc', 'Parameter "enc" is missing.');
         $contentEncryptionAlgorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
-        if (!$contentEncryptionAlgorithm instanceof ContentEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.', $completeHeader['alg']));
-        }
+        Assertion::isInstanceOf($contentEncryptionAlgorithm, ContentEncryptionAlgorithm::class, \Safe\sprintf('The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.', $completeHeader['enc']));
 
         return $contentEncryptionAlgorithm;
     }
@@ -466,8 +455,6 @@ class JWEBuilder
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = \array_intersect_key($header1, $header2);
-        if (!empty($inter)) {
-            throw new \InvalidArgumentException(\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
-        }
+        Assertion::noContent($inter, \Safe\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
     }
 }

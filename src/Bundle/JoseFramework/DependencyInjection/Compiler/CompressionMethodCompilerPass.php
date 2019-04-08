@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
+use Assert\Assertion;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -34,9 +35,7 @@ final class CompressionMethodCompilerPass implements CompilerPassInterface
         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.compression_method');
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!\array_key_exists('alias', $attributes)) {
-                    throw new \InvalidArgumentException(\sprintf("The compression method '%s' does not have any 'alias' attribute.", $id));
-                }
+                Assertion::keyExists($attributes, 'alias', \Safe\sprintf("The compression method '%s' does not have any 'alias' attribute.", $id));
                 $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
             }
         }

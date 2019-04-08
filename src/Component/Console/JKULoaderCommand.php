@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\KeyManagement\JKUFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,6 +45,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');
+        Assertion::string($url, 'Invalid URL');
         $result = $this->jkuFactory->loadFromUrl($url);
         $this->prepareJsonOutput($input, $output, $result);
     }

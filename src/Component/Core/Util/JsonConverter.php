@@ -17,16 +17,19 @@ final class JsonConverter
 {
     public static function encode($payload): string
     {
-        $result = \json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE, 512);
-        if (false === $result) {
-            throw new \InvalidArgumentException('Unable to encode the data');
+        try {
+            return \Safe\json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $throwable) {
+            throw new \RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
         }
-
-        return $result;
     }
 
     public static function decode(string $payload)
     {
-        return \json_decode($payload, true, 512, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        try {
+            return \Safe\json_decode($payload, true, 512, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        } catch (\Throwable $throwable) {
+            throw new \RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
+        }
     }
 }

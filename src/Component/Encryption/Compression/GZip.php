@@ -43,21 +43,19 @@ final class GZip implements CompressionMethod
 
     public function compress(string $data): string
     {
-        $data = \gzencode($data, $this->getCompressionLevel());
-        if (false === $data) {
-            throw new \InvalidArgumentException('Unable to compress data.');
+        try {
+            return \Safe\gzencode($data, $this->getCompressionLevel());
+        } catch (\Throwable $throwable) {
+            throw new \InvalidArgumentException('Unable to compress data.', $throwable->getCode(), $throwable);
         }
-
-        return $data;
     }
 
     public function uncompress(string $data): string
     {
-        $data = \gzdecode($data);
-        if (false === $data) {
-            throw new \InvalidArgumentException('Unable to uncompress data.');
+        try {
+            return \Safe\gzdecode($data);
+        } catch (\Throwable $throwable) {
+            throw new \InvalidArgumentException('Unable to uncompress data.', $throwable->getCode(), $throwable);
         }
-
-        return $data;
     }
 }

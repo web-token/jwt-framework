@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use Assert\Assertion;
+
 class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
@@ -37,9 +39,8 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromKeyData(array $data): self
     {
-        if (!\array_key_exists('keys', $data) || !\is_array($data['keys'])) {
-            throw new \InvalidArgumentException('Invalid data.');
-        }
+        Assertion::keyExists($data, 'keys', 'Invalid data.');
+        Assertion::isArray($data['keys'], 'Invalid data.');
 
         $keys = [];
         foreach ($data['keys'] as $key) {
@@ -85,9 +86,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     public static function createFromJson(string $json): self
     {
         $data = \json_decode($json, true);
-        if (!\is_array($data)) {
-            throw new \InvalidArgumentException('Invalid argument.');
-        }
+        Assertion::isArray($data, 'Invalid argument.');
 
         return self::createFromKeyData($data);
     }
@@ -158,9 +157,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function get($index): JWK
     {
-        if (!$this->has($index)) {
-            throw new \InvalidArgumentException('Undefined index.');
-        }
+        Assertion::true($this->has($index), 'Undefined index.');
 
         return $this->keys[$index];
     }
@@ -193,9 +190,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
-        if (!\in_array($type, ['enc', 'sig'], true)) {
-            throw new \InvalidArgumentException('Allowed key types are "sig" or "enc".');
-        }
+        Assertion::inArray($type, ['enc', 'sig'], 'Allowed key types are "sig" or "enc".');
 
         $result = [];
         foreach ($this->keys as $key) {
@@ -285,7 +280,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             case 'unwrapKey':
                 return 'enc';
             default:
-                throw new \InvalidArgumentException(\sprintf('Unsupported key operation value "%s"', $key_ops));
+                throw new \InvalidArgumentException(\Safe\sprintf('Unsupported key operation value "%s"', $key_ops));
         }
     }
 

@@ -47,11 +47,9 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         $jwkset = $input->getArgument('jwkset');
         Assertion::string($jwkset, 'The argument must be a valid JWKSet.');
         $json = JsonConverter::decode($jwkset);
-        if (\is_array($json)) {
-            return JWKSet::createFromKeyData($json);
-        }
+        Assertion::isArray($json, 'The argument must be a valid JWKSet.');
 
-        throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
+        return JWKSet::createFromKeyData($json);
     }
 
     private function getKey(InputInterface $input): JWK
@@ -59,10 +57,8 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         $jwkset = $input->getArgument('jwk');
         Assertion::string($jwkset, 'The argument must be a valid JWK.');
         $json = JsonConverter::decode($jwkset);
-        if (\is_array($json)) {
-            return JWK::create($json);
-        }
+        Assertion::isArray($json, 'The argument must be a valid JWK.');
 
-        throw new \InvalidArgumentException('The argument must be a valid JWK.');
+        return JWK::create($json);
     }
 }

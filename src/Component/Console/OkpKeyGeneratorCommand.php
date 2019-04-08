@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use Assert\Assertion;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,6 +33,7 @@ final class OkpKeyGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $curve = $input->getArgument('curve');
+        Assertion::string($curve, 'Invalid curve');
         $args = $this->getOptions($input);
 
         $jwk = JWKFactory::createOKPKey($curve, $args);

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Assert\Assertion;
+
 class HeaderCheckerManagerFactory
 {
     /**
@@ -35,11 +37,8 @@ class HeaderCheckerManagerFactory
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            if (\array_key_exists($alias, $this->checkers)) {
-                $checkers[] = $this->checkers[$alias];
-            } else {
-                throw new \InvalidArgumentException(\sprintf('The header checker with the alias "%s" is not supported.', $alias));
-            }
+            Assertion::keyExists($this->checkers, $alias, \Safe\sprintf('The header checker with the alias "%s" is not supported.', $alias));
+            $checkers[] = $this->checkers[$alias];
         }
 
         return new HeaderCheckerManager($checkers, $this->tokenTypes);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
@@ -88,16 +89,15 @@ final class JSONFlattenedSerializer implements JWESerializer
 
     private function checkData(array $data): void
     {
-        if (!\array_key_exists('ciphertext', $data) || \array_key_exists('recipients', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
-        }
+        Assertion::keyExists($data, 'ciphertext', 'Unsupported input.');
+        Assertion::keyNotExists($data, 'recipients', 'Unsupported input.');
     }
 
     private function processHeaders(array $data): array
     {
         $encodedSharedProtectedHeader = \array_key_exists('protected', $data) ? $data['protected'] : null;
         $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
-        $sharedHeader = \array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+        $sharedHeader = $data['unprotected'] ?? [];
 
         return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];
     }
