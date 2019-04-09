@@ -20,10 +20,11 @@
         }
     },
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^7.2",
         "ext-gmp": "*",
         "ext-mbstring": "*",
-        "beberlei/assert": "^3.2"
+        "beberlei/assert": "^3.2",
+        "thecodingmachine/safe": "^0.1.14"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0"
