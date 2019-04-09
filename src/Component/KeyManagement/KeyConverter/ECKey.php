@@ -80,9 +80,6 @@ class ECKey
         return $asnObject->getChildren();
     }
 
-    /**
-     * @param ASNObject[] $children
-     */
     private static function loadPublicPEM(array $children): array
     {
         if (!$children[0] instanceof Sequence) {
@@ -112,7 +109,7 @@ class ECKey
         $values = ['kty' => 'EC'];
         $values['crv'] = self::getCurve($sub[1]->getContent());
         $values['x'] = Base64Url::encode(hex2bin(\mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
-        $values['y'] = Base64Url::encode(hex2bin(\mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit')));
+        $values['y'] = Base64Url::encode(hex2bin(\mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit')));
 
         return $values;
     }

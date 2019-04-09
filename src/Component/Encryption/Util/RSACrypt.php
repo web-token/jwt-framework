@@ -87,7 +87,7 @@ class RSACrypt
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
 
         Assertion::true(0 === \ord($em[0]) && \ord($em[1]) <= 2, 'Unable to decrypt');
-        $ps = \mb_substr($em, 2, \mb_strpos($em, \chr(0), 2, '8bit') - 2, '8bit');
+        $ps = \mb_substr($em, 2, (int) \mb_strpos($em, \chr(0), 2, '8bit') - 2, '8bit');
         $m = \mb_substr($em, \mb_strlen($ps, '8bit') + 3, null, '8bit');
 
         Assertion::greaterOrEqualThan(\mb_strlen($ps, '8bit'), 8, 'Unable to decrypt');

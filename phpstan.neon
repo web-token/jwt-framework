@@ -16,6 +16,8 @@ parameters:
         - '#Method Jose\\Component\\Core\\Util\\Ecc\\Math::rightShift\(\) should return GMP but returns resource\.#'
         - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
         - '#Call to static method Assert\\Assertion::integer\(\) with array<string>|string|null and .* will always evaluate to false\.#'
+        - '#Parameter \#1 \$value of static method Jose\\Component\\Core\\Util\\BigInteger::createFromGMPResource\(\) expects GMP, resource given\.#'
+        - '#Return type \(void\) of method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::getResolver\(\) should be compatible with return type \(Symfony\\Component\\Config\\Loader\\LoaderResolverInterface\) of method Symfony\\Component\\Config\\Loader\\LoaderInterface::getResolver\(\)#'
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon

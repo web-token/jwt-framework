@@ -344,6 +344,8 @@ class JWEBuilder
 
     private function getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey): string
     {
+        Assertion::notNull($this->contentEncryptionAlgorithm);
+
         return $keyEncryptionAlgorithm->wrapAgreementKey($recipientKey, $cek, $this->contentEncryptionAlgorithm->getCEKSize(), $completeHeader, $additionalHeader);
     }
 
@@ -359,6 +361,7 @@ class JWEBuilder
 
     private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey): void
     {
+        Assertion::notNull($this->contentEncryptionAlgorithm);
         KeyChecker::checkKeyUsage($recipientKey, 'encryption');
         if ('dir' !== $keyEncryptionAlgorithm->name()) {
             KeyChecker::checkKeyAlgorithm($recipientKey, $keyEncryptionAlgorithm->name());
@@ -369,6 +372,7 @@ class JWEBuilder
 
     private function determineCEK(array &$additionalHeader): string
     {
+        Assertion::notNull($this->contentEncryptionAlgorithm);
         switch ($this->keyManagementMode) {
             case KeyEncryption::MODE_ENCRYPT:
             case KeyEncryption::MODE_WRAP:
@@ -379,7 +383,6 @@ class JWEBuilder
                 }
                 /** @var JWK $key */
                 $key = $this->recipients[0]['key'];
-                /** @var KeyAgreement $algorithm */
                 $algorithm = $this->recipients[0]['key_encryption_algorithm'];
                 Assertion::isInstanceOf($algorithm, KeyAgreement::class);
                 $completeHeader = \array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);

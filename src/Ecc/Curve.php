@@ -205,9 +205,9 @@ class Curve
      */
     public function cmp(self $other): int
     {
-        $equal = Math::equals($this->getA(), $other->getA());
-        $equal &= Math::equals($this->getB(), $other->getB());
-        $equal &= Math::equals($this->getPrime(), $other->getPrime());
+        $equal = Math::equals($this->getA(), $other->getA()) &&
+                 Math::equals($this->getB(), $other->getB()) &&
+                 Math::equals($this->getPrime(), $other->getPrime());
 
         return $equal ? 0 : 1;
     }
