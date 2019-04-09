@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use FG\ASN1\ASNObject;
 use FG\ASN1\ExplicitlyTaggedObject;
@@ -21,6 +22,9 @@ use FG\ASN1\Universal\Integer;
 use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
+use function Safe\hex2bin;
+use function Safe\base64_decode;
+use function Safe\preg_replace;
 
 /**
  * @internal
@@ -46,12 +50,9 @@ class ECKey
 
     private static function loadPEM(string $data): array
     {
-        $data = \base64_decode(\preg_replace('#-.*-|\r|\n#', '', $data), true);
+        $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data), true);
         $asnObject = ASNObject::fromBinary($data);
-
-        if (!$asnObject instanceof Sequence) {
-            throw new \InvalidArgumentException('Unable to load the key.');
-        }
+        Assertion::isInstanceOf($asnObject, Sequence::class, 'Unable to load the key.');
         $children = $asnObject->getChildren();
         if (self::isPKCS8($children)) {
             $children = self::loadPKCS8($children);
@@ -72,11 +73,9 @@ class ECKey
      */
     private static function loadPKCS8(array $children): array
     {
-        $binary = \hex2bin($children[2]->getContent());
+        $binary = hex2bin($children[2]->getContent());
         $asnObject = ASNObject::fromBinary($binary);
-        if (!$asnObject instanceof Sequence) {
-            throw new \InvalidArgumentException('Unable to load the key.');
-        }
+        Assertion::isInstanceOf($asnObject, Sequence::class, 'Unable to load the key.');
 
         return $asnObject->getChildren();
     }
@@ -112,8 +111,8 @@ class ECKey
 
         $values = ['kty' => 'EC'];
         $values['crv'] = self::getCurve($sub[1]->getContent());
-        $values['x'] = Base64Url::encode(\hex2bin(\mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
-        $values['y'] = Base64Url::encode(\hex2bin(\mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit')));
+        $values['x'] = Base64Url::encode(hex2bin(\mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
+        $values['y'] = Base64Url::encode(hex2bin(\mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit')));
 
         return $values;
     }
@@ -145,7 +144,7 @@ class ECKey
         }
     }
 
-    private static function getXAndY(ASNObject $children, ?string &$x, ?string &$y): void
+    private static function getXAndY(ASNObject $children, string &$x, string &$y): void
     {
         if (!$children instanceof ExplicitlyTaggedObject || !\is_array($children->getContent())) {
             throw new \InvalidArgumentException('Unable to load the key.');
@@ -177,8 +176,8 @@ class ECKey
     private static function loadPrivatePEM(array $children): array
     {
         self::verifyVersion($children[0]);
-        $x = null;
-        $y = null;
+        $x = '';
+        $y = '';
         $d = self::getD($children[1]);
         self::getXAndY($children[3], $x, $y);
 
@@ -193,9 +192,9 @@ class ECKey
 
         $values = ['kty' => 'EC'];
         $values['crv'] = self::getCurve($curve);
-        $values['d'] = Base64Url::encode(\hex2bin($d));
-        $values['x'] = Base64Url::encode(\hex2bin($x));
-        $values['y'] = Base64Url::encode(\hex2bin($y));
+        $values['d'] = Base64Url::encode(hex2bin($d));
+        $values['x'] = Base64Url::encode(hex2bin($x));
+        $values['y'] = Base64Url::encode(hex2bin($y));
 
         return $values;
     }
