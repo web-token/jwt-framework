@@ -18,6 +18,7 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
+use function Safe\sprintf;
 
 final class CompactSerializer implements JWESerializer
 {
@@ -44,7 +45,7 @@ final class CompactSerializer implements JWESerializer
         $this->checkHasSharedProtectedHeader($jwe);
         $this->checkRecipientHasNoHeader($jwe, $recipientIndex);
 
-        return \sprintf(
+        return sprintf(
             '%s.%s.%s.%s.%s',
             $jwe->getEncodedSharedProtectedHeader(),
             Base64Url::encode(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),

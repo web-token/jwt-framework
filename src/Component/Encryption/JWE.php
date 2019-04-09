@@ -15,6 +15,7 @@ namespace Jose\Component\Encryption;
 
 use Assert\Assertion;
 use Jose\Component\Core\JWT;
+use function Safe\sprintf;
 
 class JWE implements JWT
 {
@@ -190,11 +191,9 @@ class JWE implements JWT
      */
     public function getSharedProtectedHeaderParameter(string $key)
     {
-        if ($this->hasSharedProtectedHeaderParameter($key)) {
-            return $this->sharedProtectedHeader[$key];
-        }
+        Assertion::true($this->hasSharedProtectedHeaderParameter($key), sprintf('The shared protected header "%s" does not exist.', $key));
 
-        throw new \InvalidArgumentException(\sprintf('The shared protected header "%s" does not exist.', $key));
+        return $this->sharedProtectedHeader[$key];
     }
 
     /**
@@ -225,11 +224,9 @@ class JWE implements JWT
      */
     public function getSharedHeaderParameter(string $key)
     {
-        if ($this->hasSharedHeaderParameter($key)) {
-            return $this->sharedHeader[$key];
-        }
+        Assertion::true($this->hasSharedHeaderParameter($key), sprintf('The shared header "%s" does not exist.', $key));
 
-        throw new \InvalidArgumentException(\sprintf('The shared header "%s" does not exist.', $key));
+        return $this->sharedHeader[$key];
     }
 
     /**

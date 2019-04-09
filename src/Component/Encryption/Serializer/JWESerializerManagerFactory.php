@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
+use Assert\Assertion;
+use function Safe\sprintf;
+
 class JWESerializerManagerFactory
 {
     /**
@@ -29,9 +32,7 @@ class JWESerializerManagerFactory
     {
         $serializers = [];
         foreach ($names as $name) {
-            if (!\array_key_exists($name, $this->serializers)) {
-                throw new \InvalidArgumentException(\sprintf('Unsupported serializer "%s".', $name));
-            }
+            Assertion::keyExists($this->serializers, $name, sprintf('Unsupported serializer "%s".', $name));
             $serializers[] = $this->serializers[$name];
         }
 

@@ -18,6 +18,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
 use PHPUnit\Framework\TestCase;
+use function Safe\hex2bin;
 
 /**
  * @group unit
@@ -110,6 +111,6 @@ class AESGCMContentEncryptionTest extends TestCase
             $data[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
         }
 
-        return \hex2bin(\implode('', $data));
+        return hex2bin(\implode('', $data));
     }
 }

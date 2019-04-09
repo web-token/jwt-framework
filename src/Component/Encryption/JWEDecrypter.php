@@ -27,6 +27,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
+use function Safe\sprintf;
 
 class JWEDecrypter
 {
@@ -141,7 +142,7 @@ class JWEDecrypter
 
                     return $payload;
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 //We do nothing, we continue with other keys
                 continue;
             }
@@ -184,9 +185,8 @@ class JWEDecrypter
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
             return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $completeHeader);
-        } else {
-            throw new \InvalidArgumentException('Unsupported CEK generation');
         }
+        throw new \InvalidArgumentException('Unsupported CEK generation');
     }
 
     private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $completeHeader): string
@@ -209,14 +209,14 @@ class JWEDecrypter
     private function checkCompleteHeader(array $completeHeaders): void
     {
         foreach (['enc', 'alg'] as $key) {
-            Assertion::keyExists($completeHeaders, $key, \Safe\sprintf("Parameters '%s' is missing.", $key));
+            Assertion::keyExists($completeHeaders, $key, sprintf("Parameters '%s' is missing.", $key));
         }
     }
 
     private function getKeyEncryptionAlgorithm(array $completeHeaders): KeyEncryptionAlgorithm
     {
         $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($completeHeaders['alg']);
-        Assertion::isInstanceOf($key_encryption_algorithm, KeyEncryptionAlgorithm::class, \Safe\sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
+        Assertion::isInstanceOf($key_encryption_algorithm, KeyEncryptionAlgorithm::class, sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
 
         return $key_encryption_algorithm;
     }
@@ -224,7 +224,7 @@ class JWEDecrypter
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
         $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
-        Assertion::isInstanceOf($content_encryption_algorithm, ContentEncryptionAlgorithm::class, \Safe\sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
+        Assertion::isInstanceOf($content_encryption_algorithm, ContentEncryptionAlgorithm::class, sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
 
         return $content_encryption_algorithm;
     }

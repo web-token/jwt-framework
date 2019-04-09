@@ -17,6 +17,8 @@ use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
+use function Safe\openssl_pkey_get_private;
+use function Safe\openssl_pkey_get_public;
 
 /**
  * @internal
@@ -67,12 +69,14 @@ class RSAKey
      */
     public static function createFromPEM(string $pem): self
     {
-        $res = openssl_pkey_get_private($pem);
-        if (false === $res) {
-            $res = \openssl_pkey_get_public($pem);
-        }
-        if (false === $res) {
-            throw new \InvalidArgumentException('Unable to load the key.');
+        try {
+            $res = openssl_pkey_get_private($pem);
+        } catch (\Throwable $throwable) {
+            try {
+                $res = openssl_pkey_get_public($pem);
+            } catch (\Throwable $throwable) {
+                throw new \InvalidArgumentException('Unable to load the key.');
+            }
         }
 
         $details = \openssl_pkey_get_details($res);

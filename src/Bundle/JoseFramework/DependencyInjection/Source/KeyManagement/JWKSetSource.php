@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 use Assert\Assertion;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource as JWKSetSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -42,7 +43,7 @@ class JWKSetSource implements Source
                     $source = $sources[$sourceName];
                     $source->create($container, 'key_set', $name, $sourceConfig);
                 } else {
-                    throw new \LogicException(\sprintf('The JWKSet definition "%s" is not configured.', $name));
+                    throw new \LogicException(sprintf('The JWKSet definition "%s" is not configured.', $name));
                 }
             }
         }

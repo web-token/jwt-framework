@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Compression;
 
 use Assert\Assertion;
+use function Safe\sprintf;
 
 class CompressionMethodManagerFactory
 {
@@ -29,7 +30,7 @@ class CompressionMethodManagerFactory
      */
     public function add(string $alias, CompressionMethod $compressionMethod): void
     {
-        Assertion::keyNotExists($this->compressionMethods, $alias, \Safe\sprintf('The alias "%s" already exists.', $alias));
+        Assertion::keyNotExists($this->compressionMethods, $alias, sprintf('The alias "%s" already exists.', $alias));
         $this->compressionMethods[$alias] = $compressionMethod;
     }
 
@@ -63,7 +64,7 @@ class CompressionMethodManagerFactory
     {
         $compressionMethods = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->compressionMethods, $alias, \Safe\sprintf('The compression method with the alias "%s" is not supported.', $alias));
+            Assertion::keyExists($this->compressionMethods, $alias, sprintf('The compression method with the alias "%s" is not supported.', $alias));
             $compressionMethods[] = $this->compressionMethods[$alias];
         }
 

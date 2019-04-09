@@ -56,7 +56,7 @@ final class JSONGeneralSerializer implements JWESerializer
         $data['recipients'] = [];
         foreach ($jwe->getRecipients() as $recipient) {
             $temp = [];
-            if (0 !== ($recipient->getHeader())) {
+            if (0 !== \count($recipient->getHeader())) {
                 $temp['header'] = $recipient->getHeader();
             }
             if (null !== $recipient->getEncryptedKey()) {

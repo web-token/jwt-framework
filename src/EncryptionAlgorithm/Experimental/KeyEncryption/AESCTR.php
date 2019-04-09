@@ -16,6 +16,8 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
+use function Safe\openssl_decrypt;
+use function Safe\openssl_encrypt;
 
 abstract class AESCTR implements KeyEncryption
 {
@@ -32,8 +34,7 @@ abstract class AESCTR implements KeyEncryption
         // We set header parameters
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
-        $result = \openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
-        Assertion::false(false === $result, 'Unable to encrypt the key.');
+        $result = openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
 
         return $result;
     }
@@ -44,8 +45,7 @@ abstract class AESCTR implements KeyEncryption
         $this->checkHeaderAdditionalParameters($header);
         $iv = Base64Url::decode($header['iv']);
 
-        $result = \openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
-        Assertion::false(false === $result, 'Unable to decrypt the key.');
+        $result = openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
 
         return $result;
     }

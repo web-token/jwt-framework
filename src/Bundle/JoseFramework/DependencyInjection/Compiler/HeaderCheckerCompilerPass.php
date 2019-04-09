@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use Assert\Assertion;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory;
+use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -41,7 +42,7 @@ final class HeaderCheckerCompilerPass implements CompilerPassInterface
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.header');
         foreach ($taggedHeaderCheckerServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                Assertion::keyExists($attributes, 'alias', \Safe\sprintf("The header checker '%s' does not have any 'alias' attribute.", $id));
+                Assertion::keyExists($attributes, 'alias', sprintf("The header checker '%s' does not have any 'alias' attribute.", $id));
                 $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
             }
         }

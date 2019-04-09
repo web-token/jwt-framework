@@ -18,6 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use function Safe\hex2bin;
 
 /**
  * @group Signer
@@ -935,7 +936,7 @@ class SignerTest extends SignatureTest
             [
                 'kid' => 'DIR_1',
                 'kty' => 'oct',
-                'k' => Base64Url::encode(\hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
+                'k' => Base64Url::encode(hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
             ],
             [
                 'kty' => 'oct',

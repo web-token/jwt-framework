@@ -17,6 +17,7 @@ use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Util\RSA as JoseRSA;
+use function Safe\sprintf;
 
 abstract class RSA implements SignatureAlgorithm
 {
@@ -51,7 +52,7 @@ abstract class RSA implements SignatureAlgorithm
     {
         Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
         foreach (['n', 'e'] as $k) {
-            Assertion::true($key->has($k), \sprintf('The key parameter "%s" is missing.', $k));
+            Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
         }
     }
 }

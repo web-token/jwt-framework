@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 use Assert\Assertion;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSource as JWKSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -42,7 +43,7 @@ class JWKSource implements Source
                     $source = $sources[$sourceName];
                     $source->create($container, 'key', $name, $sourceConfig);
                 } else {
-                    throw new \LogicException(\sprintf('The JWK definition "%s" is not configured.', $name));
+                    throw new \LogicException(sprintf('The JWK definition "%s" is not configured.', $name));
                 }
             }
         }

@@ -13,27 +13,29 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+use Assert\Assertion;
+use function Safe\gzdeflate;
+use function Safe\gzinflate;
+
 final class Deflate implements CompressionMethod
 {
     /**
      * @var int
      */
-    private $compression_level = -1;
+    private $compressionLevel = -1;
 
     /**
      * Deflate constructor.
      */
-    public function __construct(int $compression_level = -1)
+    public function __construct(int $compressionLevel = -1)
     {
-        if (-1 > $compression_level || 9 < $compression_level) {
-            throw new \InvalidArgumentException('The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.');
-        }
-        $this->compression_level = $compression_level;
+        Assertion::between($compressionLevel, -1, 9, 'The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.');
+        $this->compressionLevel = $compressionLevel;
     }
 
     private function getCompressionLevel(): int
     {
-        return $this->compression_level;
+        return $this->compressionLevel;
     }
 
     public function name(): string
@@ -44,7 +46,7 @@ final class Deflate implements CompressionMethod
     public function compress(string $data): string
     {
         try {
-            return \Safe\gzdeflate($data, $this->getCompressionLevel());
+            return gzdeflate($data, $this->getCompressionLevel());
         } catch (\Throwable $throwable) {
             throw new \InvalidArgumentException('Unable to compress data.', $throwable->getCode(), $throwable);
         }
@@ -53,7 +55,7 @@ final class Deflate implements CompressionMethod
     public function uncompress(string $data): string
     {
         try {
-            return \Safe\gzinflate($data);
+            return gzinflate($data);
         } catch (\Throwable $throwable) {
             throw new \InvalidArgumentException('Unable to uncompress data.', $throwable->getCode(), $throwable);
         }

@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use function Safe\json_decode;
+use function Safe\json_encode;
+
 final class JsonConverter
 {
     /**
@@ -21,7 +24,7 @@ final class JsonConverter
     public static function encode($payload): string
     {
         try {
-            return \Safe\json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            return json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $throwable) {
             throw new \RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
         }
@@ -33,7 +36,7 @@ final class JsonConverter
     public static function decode(string $payload)
     {
         try {
-            return \Safe\json_decode($payload, true, 512, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            return json_decode($payload, true, 512, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         } catch (\Throwable $throwable) {
             throw new \RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
         }

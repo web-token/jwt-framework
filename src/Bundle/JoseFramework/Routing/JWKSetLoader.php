@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Routing;
 
+use function Safe\sprintf;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
@@ -34,7 +35,7 @@ final class JWKSetLoader implements LoaderInterface
     {
         $defaults = ['_controller' => $name];
         $route = new Route($pattern, $defaults);
-        $this->routes->add(\sprintf('jwkset_%s', $name), $route);
+        $this->routes->add(sprintf('jwkset_%s', $name), $route);
     }
 
     public function load($resource, $type = null): RouteCollection

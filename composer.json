@@ -89,7 +89,8 @@
         "symfony/finder": "^4.2",
         "symfony/phpunit-bridge": "^4.2",
         "symfony/serializer": "^4.2",
-        "symfony/var-dumper": "^4.2"
+        "symfony/var-dumper": "^4.2",
+        "thecodingmachine/phpstan-safe-rule": "^0.1.3"
     },
     "replace": {
         "web-token/jwt-core": "self.version",

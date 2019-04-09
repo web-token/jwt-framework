@@ -15,6 +15,7 @@ namespace Jose\Component\Core\Util;
 
 use Assert\Assertion;
 use Jose\Component\Core\JWK;
+use function Safe\sprintf;
 
 /**
  * @internal
@@ -88,6 +89,6 @@ class KeyChecker
             return;
         }
 
-        Assertion::eq($key->get('alg'), $algorithm, \Safe\sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
+        Assertion::eq($key->get('alg'), $algorithm, sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
     }
 }

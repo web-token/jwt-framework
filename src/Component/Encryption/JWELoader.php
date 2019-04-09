@@ -96,7 +96,7 @@ class JWELoader
                     return $jwe;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Nothing to do. Exception thrown just after
         }
 
@@ -111,7 +111,7 @@ class JWELoader
             }
 
             return $this->jweDecrypter->decryptUsingKeySet($jwe, $keyset, $recipient);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false;
         }
     }

@@ -15,6 +15,10 @@ namespace Jose\Component\Core;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use function Safe\json_decode;
+use function Safe\json_encode;
+use function Safe\ksort;
+use function Safe\sprintf;
 
 class JWK implements \JsonSerializable
 {
@@ -51,7 +55,7 @@ class JWK implements \JsonSerializable
      */
     public static function createFromJson(string $json): self
     {
-        $data = \json_decode($json, true);
+        $data = json_decode($json, true);
         Assertion::isArray($data, 'Invalid argument.');
 
         return self::create($data);
@@ -74,7 +78,7 @@ class JWK implements \JsonSerializable
      */
     public function get(string $key)
     {
-        Assertion::true($this->has($key), \Safe\sprintf('The value identified by "%s" does not exist.', $key));
+        Assertion::true($this->has($key), sprintf('The value identified by "%s" does not exist.', $key));
 
         return $this->values[$key];
     }
@@ -106,10 +110,10 @@ class JWK implements \JsonSerializable
      */
     public function thumbprint(string $hash_algorithm): string
     {
-        Assertion::inArray($hash_algorithm, \hash_algos(), \Safe\sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
+        Assertion::inArray($hash_algorithm, \hash_algos(), sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         $values = \array_intersect_key($this->values, \array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
-        \ksort($values);
-        $input = \Safe\json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        ksort($values);
+        $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
         return Base64Url::encode(\hash($hash_algorithm, $input, true));
     }

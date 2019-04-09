@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Assert\Assertion;
 use Jose\Component\Checker\ClaimChecker;
+use function Safe\sprintf;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class ClaimCheckerManagerFactory
@@ -44,7 +45,7 @@ final class ClaimCheckerManagerFactory
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->checkers, $alias, \Safe\sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+            Assertion::keyExists($this->checkers, $alias, sprintf('The claim checker with the alias "%s" is not supported.', $alias));
             $checkers[] = $this->checkers[$alias];
         }
 

@@ -17,6 +17,8 @@ use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
+use function Safe\preg_match;
+use function Safe\sprintf;
 
 final class CompactSerializer extends Serializer
 {
@@ -43,12 +45,12 @@ final class CompactSerializer extends Serializer
         }
         $isEmptyPayload = null === $jws->getEncodedPayload() || '' === $jws->getEncodedPayload();
         if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !$isEmptyPayload) {
-            if (1 !== \preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
+            if (1 !== preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
                 throw new \LogicException('Unable to convert the JWS with non-encoded payload.');
             }
         }
 
-        return \Safe\sprintf(
+        return sprintf(
             '%s.%s.%s',
             $signature->getEncodedProtectedHeader(),
             $jws->getEncodedPayload(),

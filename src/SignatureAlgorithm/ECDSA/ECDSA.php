@@ -17,6 +17,8 @@ use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
+use function Safe\openssl_sign;
+use function Safe\sprintf;
 
 abstract class ECDSA implements SignatureAlgorithm
 {
@@ -36,8 +38,7 @@ abstract class ECDSA implements SignatureAlgorithm
         Assertion::true($key->has('d'), 'The EC key is not private');
 
         $pem = ECKey::convertPrivateKeyToPEM($key);
-        $result = \openssl_sign($input, $signature, $pem, $this->getHashAlgorithm());
-        Assertion::true(false !== $result, 'Signature failed.');
+        openssl_sign($input, $signature, $pem, $this->getHashAlgorithm());
 
         return ECSignature::fromAsn1($signature, $this->getSignaturePartLength());
     }
@@ -51,7 +52,7 @@ abstract class ECDSA implements SignatureAlgorithm
             $pem = ECKey::convertPublicKeyToPEM($key);
 
             return 1 === \openssl_verify($input, $der, $pem, $this->getHashAlgorithm());
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false;
         }
     }
@@ -64,7 +65,7 @@ abstract class ECDSA implements SignatureAlgorithm
     {
         Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
         foreach (['x', 'y', 'crv'] as $k) {
-            Assertion::true($key->has($k), \sprintf('The key parameter "%s" is missing.', $k));
+            Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
         }
     }
 }

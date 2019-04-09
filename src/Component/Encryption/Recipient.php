@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use Assert\Assertion;
+use function Safe\sprintf;
+
 /**
  * @internal
  */
@@ -51,11 +54,9 @@ class Recipient
      */
     public function getHeaderParameter(string $key)
     {
-        if ($this->hasHeaderParameter($key)) {
-            return $this->header[$key];
-        }
+        Assertion::true($this->hasHeaderParameter($key), sprintf('The header "%s" does not exist.', $key));
 
-        throw new \InvalidArgumentException(\sprintf('The header "%s" does not exist.', $key));
+        return $this->header[$key];
     }
 
     /**

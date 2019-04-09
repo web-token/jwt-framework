@@ -20,6 +20,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use function Safe\sprintf;
 
 class JWSVerifier
 {
@@ -94,7 +95,7 @@ class JWSVerifier
 
                     return true;
                 }
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 //We do nothing, we continue with other keys
                 continue;
             }
@@ -109,17 +110,17 @@ class JWSVerifier
         $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
         if (!$signature->hasProtectedHeaderParameter('b64') || true === $signature->getProtectedHeaderParameter('b64')) {
             if (null !== $jws->getEncodedPayload()) {
-                return \sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
+                return sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
             }
 
             $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
 
-            return \sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
+            return sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
         }
 
         $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
 
-        return \sprintf('%s.%s', $encodedProtectedHeader, $payload);
+        return sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }
 
     private function checkPayload(JWS $jws, ?string $detachedPayload = null): void
@@ -139,7 +140,7 @@ class JWSVerifier
         Assertion::keyExists($completeHeader, 'alg', 'No "alg" parameter set in the header.');
 
         $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
-        Assertion::isInstanceOf($algorithm, SignatureAlgorithm::class, \Safe\sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
+        Assertion::isInstanceOf($algorithm, SignatureAlgorithm::class, sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
 
         return $algorithm;
     }

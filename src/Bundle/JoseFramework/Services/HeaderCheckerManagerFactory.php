@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Assert\Assertion;
 use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\TokenTypeSupport;
+use function Safe\sprintf;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class HeaderCheckerManagerFactory
@@ -50,7 +51,7 @@ final class HeaderCheckerManagerFactory
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->checkers, $alias, \Safe\sprintf('The header checker with the alias "%s" is not supported.', $alias));
+            Assertion::keyExists($this->checkers, $alias, sprintf('The header checker with the alias "%s" is not supported.', $alias));
             $checkers[] = $this->checkers[$alias];
         }
 

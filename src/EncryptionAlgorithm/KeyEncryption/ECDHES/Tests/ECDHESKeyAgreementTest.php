@@ -20,6 +20,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
 use PHPUnit\Framework\TestCase;
+use function Safe\hex2bin;
 
 /**
  * Class ECDHESKeyAgreementTest.
@@ -85,7 +86,7 @@ class ECDHESKeyAgreementTest extends TestCase
         foreach ($cek as $key => $value) {
             $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(\implode('', $cek));
 
         $ecdh_es = new ECDHESA128KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 128, $header, $header);
@@ -125,7 +126,7 @@ class ECDHESKeyAgreementTest extends TestCase
         foreach ($cek as $key => $value) {
             $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(\implode('', $cek));
 
         $ecdh_es = new ECDHESA192KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 192, $header, $header);
@@ -165,7 +166,7 @@ class ECDHESKeyAgreementTest extends TestCase
         foreach ($cek as $key => $value) {
             $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(\implode('', $cek));
 
         $ecdh_es = new ECDHESA256KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 256, $header, $header);

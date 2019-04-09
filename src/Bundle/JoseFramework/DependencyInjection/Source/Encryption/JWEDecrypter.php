@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWEDecrypter as JWEDecrypterService;
+use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -29,7 +30,7 @@ class JWEDecrypter extends AbstractEncryptionSource
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.jwe_decrypter.%s', $name);
+            $service_id = sprintf('jose.jwe_decrypter.%s', $name);
             $definition = new Definition(JWEDecrypterService::class);
             $definition
                 ->setFactory([new Reference(JWEDecrypterFactory::class), 'create'])

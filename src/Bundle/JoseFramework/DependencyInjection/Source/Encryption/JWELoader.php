@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Encryption\JWELoader as JWELoaderService;
+use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -31,7 +32,7 @@ class JWELoader implements Source
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.jwe_loader.%s', $name);
+            $service_id = sprintf('jose.jwe_loader.%s', $name);
             $definition = new Definition(JWELoaderService::class);
             $definition
                 ->setFactory([new Reference(JWELoaderFactory::class), 'create'])

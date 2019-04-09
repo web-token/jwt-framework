@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Assert\Assertion;
+use function Safe\sprintf;
 
 class JWSSerializerManagerFactory
 {
@@ -29,7 +30,7 @@ class JWSSerializerManagerFactory
     {
         $serializers = [];
         foreach ($names as $name) {
-            Assertion::keyExists($this->serializers, $name, \Safe\sprintf('Unsupported serialiser "%s".', $name));
+            Assertion::keyExists($this->serializers, $name, sprintf('Unsupported serialiser "%s".', $name));
             $serializers[] = $this->serializers[$name];
         }
 

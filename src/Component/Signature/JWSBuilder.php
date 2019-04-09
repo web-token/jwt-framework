@@ -19,6 +19,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use function Safe\sprintf;
 
 class JWSBuilder
 {
@@ -147,7 +148,7 @@ class JWSBuilder
             /** @var array $header */
             $header = $signature['header'];
             $encodedProtectedHeader = 0 === \count($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
-            $input = \sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
+            $input = sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
             $s = $signatureAlgorithm->sign($signatureKey, $input);
             $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
         }
@@ -183,12 +184,12 @@ class JWSBuilder
             throw new \InvalidArgumentException('No "alg" parameter set in the header.');
         }
         if ($key->has('alg') && $key->get('alg') !== $completeHeader['alg']) {
-            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not allowed with this key.', $completeHeader['alg']));
+            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not allowed with this key.', $completeHeader['alg']));
         }
 
         $signatureAlgorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
         if (!$signatureAlgorithm instanceof SignatureAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not supported.', $completeHeader['alg']));
+            throw new \InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $completeHeader['alg']));
         }
 
         return $signatureAlgorithm;
@@ -198,7 +199,7 @@ class JWSBuilder
     {
         $inter = \array_intersect_key($header1, $header2);
         if (0 !== \count($inter)) {
-            throw new \InvalidArgumentException(\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
+            throw new \InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
         }
     }
 }

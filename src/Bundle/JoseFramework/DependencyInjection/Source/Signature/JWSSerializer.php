@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
+use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -31,7 +32,7 @@ class JWSSerializer implements Source
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.jws_serializer.%s', $name);
+            $service_id = sprintf('jose.jws_serializer.%s', $name);
             $definition = new Definition(JWSSerializerManager::class);
             $definition
                 ->setFactory([new Reference(JWSSerializerManagerFactory::class), 'create'])

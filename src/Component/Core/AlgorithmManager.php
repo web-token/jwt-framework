@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use Assert\Assertion;
+use function Safe\sprintf;
 
 class AlgorithmManager
 {
@@ -59,7 +60,7 @@ class AlgorithmManager
      */
     public function get(string $algorithm): Algorithm
     {
-        Assertion::true($this->has($algorithm), \Safe\sprintf('The algorithm "%s" is not supported.', $algorithm));
+        Assertion::true($this->has($algorithm), sprintf('The algorithm "%s" is not supported.', $algorithm));
 
         return $this->algorithms[$algorithm];
     }

@@ -28,6 +28,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
+use function Safe\sprintf;
 
 class JWEBuilder
 {
@@ -396,7 +397,7 @@ class JWEBuilder
 
                 return Base64Url::decode($key->get('k'));
             default:
-                throw new \InvalidArgumentException(\sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));
+                throw new \InvalidArgumentException(sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));
         }
     }
 
@@ -438,7 +439,7 @@ class JWEBuilder
     {
         Assertion::keyExists($completeHeader, 'alg', 'Parameter "alg" is missing.');
         $keyEncryptionAlgorithm = $this->keyEncryptionAlgorithmManager->get($completeHeader['alg']);
-        Assertion::isInstanceOf($keyEncryptionAlgorithm, KeyEncryptionAlgorithm::class, \Safe\sprintf('The key encryption algorithm "%s" is not supported or not a key encryption algorithm instance.', $completeHeader['alg']));
+        Assertion::isInstanceOf($keyEncryptionAlgorithm, KeyEncryptionAlgorithm::class, sprintf('The key encryption algorithm "%s" is not supported or not a key encryption algorithm instance.', $completeHeader['alg']));
 
         return $keyEncryptionAlgorithm;
     }
@@ -447,7 +448,7 @@ class JWEBuilder
     {
         Assertion::keyExists($completeHeader, 'enc', 'Parameter "enc" is missing.');
         $contentEncryptionAlgorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
-        Assertion::isInstanceOf($contentEncryptionAlgorithm, ContentEncryptionAlgorithm::class, \Safe\sprintf('The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.', $completeHeader['enc']));
+        Assertion::isInstanceOf($contentEncryptionAlgorithm, ContentEncryptionAlgorithm::class, sprintf('The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.', $completeHeader['enc']));
 
         return $contentEncryptionAlgorithm;
     }
@@ -455,6 +456,6 @@ class JWEBuilder
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = \array_intersect_key($header1, $header2);
-        Assertion::noContent($inter, \Safe\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
+        Assertion::noContent($inter, sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
     }
 }

@@ -19,6 +19,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
 use PHPUnit\Framework\TestCase;
+use function Safe\hex2bin;
 
 /**
  * Class PBES2_HS_AESKWKeyEncryptionTest.
@@ -260,6 +261,6 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
             $data[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
         }
 
-        return \hex2bin(\implode('', $data));
+        return hex2bin(\implode('', $data));
     }
 }

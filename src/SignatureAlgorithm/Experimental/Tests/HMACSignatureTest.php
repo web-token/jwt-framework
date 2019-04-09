@@ -17,6 +17,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\HS256_64;
 use PHPUnit\Framework\TestCase;
+use function Safe\hex2bin;
 
 /**
  * @group unit
@@ -53,7 +54,7 @@ class HMACSignatureTest extends TestCase
 
         $signature = $hmac->sign($key, $data);
 
-        static::assertEquals(\hex2bin('89f750759cb8ad93'), $signature);
+        static::assertEquals(hex2bin('89f750759cb8ad93'), $signature);
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
 

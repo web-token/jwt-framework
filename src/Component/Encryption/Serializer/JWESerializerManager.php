@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
+use Assert\Assertion;
 use Jose\Component\Encryption\JWE;
+use function Safe\sprintf;
 
 class JWESerializerManager
 {
@@ -56,9 +58,7 @@ class JWESerializerManager
      */
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
-        if (!\array_key_exists($name, $this->serializers)) {
-            throw new \InvalidArgumentException(\sprintf('Unsupported serializer "%s".', $name));
-        }
+        Assertion::keyExists($this->serializers, $name, sprintf('Unsupported serializer "%s".', $name));
 
         return ($this->serializers[$name])->serialize($jws, $recipientIndex);
     }

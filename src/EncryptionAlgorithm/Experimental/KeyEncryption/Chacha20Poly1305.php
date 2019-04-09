@@ -16,6 +16,8 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
+use function Safe\openssl_decrypt;
+use function Safe\openssl_encrypt;
 
 final class Chacha20Poly1305 implements KeyEncryption
 {
@@ -42,8 +44,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         // We set header parameters
         $additionalHeader['nonce'] = Base64Url::encode($nonce);
 
-        $result = \openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
-        Assertion::false(false === $result, 'Unable to encrypt the key.');
+        $result = openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
 
         return $result;
     }
@@ -54,8 +55,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         $this->checkHeaderAdditionalParameters($header);
         $nonce = Base64Url::decode($header['nonce']);
 
-        $result = \openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
-        Assertion::false(false === $result, 'Unable to decrypt the key.');
+        $result = openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
 
         return $result;
     }

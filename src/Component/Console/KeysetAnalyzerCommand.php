@@ -17,6 +17,7 @@ use Assert\Assertion;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
+use function Safe\sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -61,7 +62,7 @@ final class KeysetAnalyzerCommand extends Command
         $mixedKeys = false;
 
         foreach ($jwkset as $kid => $jwk) {
-            $output->writeln(\sprintf('Analysing key with index/kid "%s"', $kid));
+            $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
             $messages = $this->analyzerManager->analyze($jwk);
             if (0 === $messages->count()) {
                 $output->writeln('    <success>All good! No issue found.</success>');

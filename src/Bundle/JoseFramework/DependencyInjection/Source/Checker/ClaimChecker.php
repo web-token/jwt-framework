@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
 use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
+use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -31,7 +32,7 @@ class ClaimChecker implements Source
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.claim_checker.%s', $name);
+            $service_id = sprintf('jose.claim_checker.%s', $name);
             $definition = new Definition(JWSVerifierService::class);
             $definition
                 ->setFactory([new Reference(ClaimCheckerManagerFactory::class), 'create'])

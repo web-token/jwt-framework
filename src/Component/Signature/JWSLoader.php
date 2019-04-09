@@ -96,7 +96,7 @@ class JWSLoader
                     return $jws;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Nothing to do. Exception thrown just after
         }
 
@@ -111,7 +111,7 @@ class JWSLoader
             }
 
             return $this->jwsVerifier->verifyWithKeySet($jws, $keyset, $signature, $payload);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return false;
         }
     }

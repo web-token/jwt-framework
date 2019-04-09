@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use function Safe\openssl_decrypt;
+use function Safe\openssl_encrypt;
 
 abstract class AESGCM implements ContentEncryptionAlgorithm
 {
@@ -31,8 +32,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.Base64Url::encode($aad);
         }
         $tag = '';
-        $result = \openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
-        Assertion::false(false === $result, 'Unable to encrypt.');
+        $result = openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
 
         return $result;
     }
@@ -44,8 +44,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.Base64Url::encode($aad);
         }
 
-        $result = \openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
-        Assertion::false(false === $result, 'Unable to decrypt or to verify the tag.');
+        $result = openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
 
         return $result;
     }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use Assert\Assertion;
+use function Safe\sprintf;
 
 class AlgorithmManagerFactory
 {
@@ -63,7 +64,7 @@ class AlgorithmManagerFactory
     {
         $algorithms = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->algorithms, $alias, \Safe\sprintf('The algorithm with the alias "%s" is not supported.', $alias));
+            Assertion::keyExists($this->algorithms, $alias, sprintf('The algorithm with the alias "%s" is not supported.', $alias));
             $algorithms[] = $this->algorithms[$alias];
         }
 

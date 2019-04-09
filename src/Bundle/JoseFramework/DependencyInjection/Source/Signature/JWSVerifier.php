@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
 use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
+use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -29,7 +30,7 @@ class JWSVerifier extends AbstractSignatureSource
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.jws_verifier.%s', $name);
+            $service_id = sprintf('jose.jws_verifier.%s', $name);
             $definition = new Definition(JWSVerifierService::class);
             $definition
                 ->setFactory([new Reference(JWSVerifierFactory::class), 'create'])

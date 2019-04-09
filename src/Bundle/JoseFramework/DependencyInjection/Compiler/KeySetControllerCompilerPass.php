@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use Assert\Assertion;
 use Jose\Bundle\JoseFramework\Routing\JWKSetLoader;
+use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -34,7 +35,7 @@ final class KeySetControllerCompilerPass implements CompilerPassInterface
         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwk_uri.controller');
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                Assertion::keyExists($attributes, 'path', \Safe\sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
+                Assertion::keyExists($attributes, 'path', sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
                 $definition->addMethodCall('add', [$attributes['path'], $id]);
             }
         }

@@ -16,6 +16,7 @@ namespace Jose\Component\Signature\Algorithm;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
+use function Safe\sprintf;
 
 final class EdDSA implements SignatureAlgorithm
 {
@@ -58,7 +59,7 @@ final class EdDSA implements SignatureAlgorithm
     {
         Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
         foreach (['x', 'crv'] as $k) {
-            Assertion::true($key->has($k), \sprintf('The key parameter "%s" is missing.', $k));
+            Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
         }
         Assertion::inArray($key->get('crv'), ['Ed25519'], 'Unsupported curve.');
     }

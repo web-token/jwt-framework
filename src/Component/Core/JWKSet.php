@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use Assert\Assertion;
+use function Safe\json_decode;
+use function Safe\sprintf;
+use function Safe\usort;
 
 class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
 {
@@ -85,7 +88,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromJson(string $json): self
     {
-        $data = \json_decode($json, true);
+        $data = json_decode($json, true);
         Assertion::isArray($data, 'Invalid argument.');
 
         return self::createFromKeyData($data);
@@ -219,7 +222,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             return null;
         }
 
-        \usort($result, [$this, 'sortKeys']);
+        usort($result, [$this, 'sortKeys']);
 
         return $result[0]['key'];
     }
@@ -280,7 +283,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             case 'unwrapKey':
                 return 'enc';
             default:
-                throw new \InvalidArgumentException(\Safe\sprintf('Unsupported key operation value "%s"', $key_ops));
+                throw new \InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
         }
     }
 

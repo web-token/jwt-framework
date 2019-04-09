@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\EnvVarProcessor;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 final class KeyEnvVarProcessor implements EnvVarProcessorInterface
@@ -28,7 +29,7 @@ final class KeyEnvVarProcessor implements EnvVarProcessorInterface
             case 'jwkset':
                 return JWKSet::createFromJson($env);
             default:
-                throw new \RuntimeException(\sprintf('Unsupported prefix "%s".', $prefix));
+                throw new \RuntimeException(sprintf('Unsupported prefix "%s".', $prefix));
         }
     }
 

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Util;
 
 use Base64Url\Base64Url;
+use function Safe\hex2bin;
 
 /**
  * @internal
@@ -59,7 +60,7 @@ class ConcatKDF
      */
     private static function toInt32Bits(int $value): string
     {
-        return \hex2bin(\str_pad(\dechex($value), 8, '0', STR_PAD_LEFT));
+        return hex2bin(\str_pad(\dechex($value), 8, '0', STR_PAD_LEFT));
     }
 
     private static function isEmpty(?string $value): bool

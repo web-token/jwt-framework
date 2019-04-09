@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Assert\Assertion;
+use function Safe\sprintf;
 
 class ClaimCheckerManagerFactory
 {
@@ -32,7 +33,7 @@ class ClaimCheckerManagerFactory
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->checkers, $alias, \Safe\sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+            Assertion::keyExists($this->checkers, $alias, sprintf('The claim checker with the alias "%s" is not supported.', $alias));
             $checkers[] = $this->checkers[$alias];
         }
 

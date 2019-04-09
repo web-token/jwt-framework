@@ -16,6 +16,9 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
+use function Safe\openssl_decrypt;
+use function Safe\openssl_encrypt;
+use function Safe\sprintf;
 
 abstract class AESGCMKW implements KeyWrapping
 {
@@ -30,10 +33,9 @@ abstract class AESGCMKW implements KeyWrapping
         $iv = \random_bytes(96 / 8);
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
-        $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
+        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $tag = '';
-        $encrypted_cek = \openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
-        Assertion::false(false === $encrypted_cek, 'Unable to encrypt the data.');
+        $encrypted_cek = openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
         $additionalHeader['tag'] = Base64Url::encode($tag);
 
         return $encrypted_cek;
@@ -47,9 +49,8 @@ abstract class AESGCMKW implements KeyWrapping
         $tag = Base64Url::decode($completeHeader['tag']);
         $iv = Base64Url::decode($completeHeader['iv']);
 
-        $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
-        $cek = \openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
-        Assertion::false(false === $cek, 'Unable to decrypt or to verify the tag.');
+        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
+        $cek = openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
 
         return $cek;
     }
@@ -72,7 +73,7 @@ abstract class AESGCMKW implements KeyWrapping
     protected function checkAdditionalParameters(array $header): void
     {
         foreach (['iv', 'tag'] as $k) {
-            Assertion::keyExists($header, $k, \sprintf('Parameter "%s" is missing.', $k));
+            Assertion::keyExists($header, $k, sprintf('Parameter "%s" is missing.', $k));
         }
     }
 
