@@ -292,7 +292,7 @@ class RSAKey
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
             throw new \RuntimeException();
         }
-        if ($key->isPublic() || empty($key->getPrimes()) || empty($key->getExponents()) || null === $key->getCoefficient()) {
+        if ($key->isPublic() || 0 === \count($key->getPrimes()) || 0 === \count($key->getExponents()) || null === $key->getCoefficient()) {
             return $c->modPow($key->getExponent(), $key->getModulus());
         }
 

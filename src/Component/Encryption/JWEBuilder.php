@@ -258,12 +258,12 @@ class JWEBuilder
             $recipients[] = $recipient;
         }
 
-        if (!empty($additionalHeader) && 1 === \count($this->recipients)) {
+        if (0 !== \count($additionalHeader) && 1 === \count($this->recipients)) {
             $sharedProtectedHeader = \array_merge($additionalHeader, $this->sharedProtectedHeader);
         } else {
             $sharedProtectedHeader = $this->sharedProtectedHeader;
         }
-        $encodedSharedProtectedHeader = empty($sharedProtectedHeader) ? '' : Base64Url::encode(JsonConverter::encode($sharedProtectedHeader));
+        $encodedSharedProtectedHeader = 0 === \count($sharedProtectedHeader) ? '' : Base64Url::encode(JsonConverter::encode($sharedProtectedHeader));
 
         list($ciphertext, $iv, $tag) = $this->encryptJWE($cek, $encodedSharedProtectedHeader);
 
@@ -283,11 +283,11 @@ class JWEBuilder
     private function processRecipient(array $recipient, string $cek, array &$additionalHeader): Recipient
     {
         $completeHeader = \array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
-        /** @var KeyEncryptionAlgorithm $keyEncryptionAlgorithm */
         $keyEncryptionAlgorithm = $recipient['key_encryption_algorithm'];
+        Assertion::isInstanceOf($keyEncryptionAlgorithm, KeyEncryptionAlgorithm::class);
         $encryptedContentEncryptionKey = $this->getEncryptedKey($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipient['key']);
         $recipientHeader = $recipient['header'];
-        if (!empty($additionalHeader) && 1 !== \count($this->recipients)) {
+        if (0 !== \count($additionalHeader) && 1 !== \count($this->recipients)) {
             $recipientHeader = \array_merge($recipientHeader, $additionalHeader);
             $additionalHeader = [];
         }
@@ -298,6 +298,7 @@ class JWEBuilder
     private function encryptJWE(string $cek, string $encodedSharedProtectedHeader): array
     {
         $tag = null;
+        Assertion::isInstanceOf($this->contentEncryptionAlgorithm, ContentEncryptionAlgorithm::class);
         $iv_size = $this->contentEncryptionAlgorithm->getIVSize();
         $iv = $this->createIV($iv_size);
         $payload = $this->preparePayload();
@@ -312,13 +313,11 @@ class JWEBuilder
     private function preparePayload(): ?string
     {
         $prepared = $this->payload;
-
         if (null === $this->compressionMethod) {
             return $prepared;
         }
-        $compressedPayload = $this->compressionMethod->compress($prepared);
 
-        return $compressedPayload;
+        return $this->compressionMethod->compress($prepared);
     }
 
     private function getEncryptedKey(array $completeHeader, string $cek, KeyEncryptionAlgorithm $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey): ?string
@@ -381,6 +380,7 @@ class JWEBuilder
                 $key = $this->recipients[0]['key'];
                 /** @var KeyAgreement $algorithm */
                 $algorithm = $this->recipients[0]['key_encryption_algorithm'];
+                Assertion::isInstanceOf($algorithm, KeyAgreement::class);
                 $completeHeader = \array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
 
                 return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $key, $completeHeader, $additionalHeader);

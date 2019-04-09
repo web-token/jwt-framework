@@ -105,7 +105,7 @@ class HeaderCheckerManager
             return;
         }
         $diff = \array_keys(\array_diff_key(\array_flip($mandatoryHeaderParameters), \array_merge($protected, $unprotected)));
-
+        Assertion::allString($diff);
         if (0 !== \count($diff)) {
             throw new MissingMandatoryHeaderParameterException(\sprintf('The following header parameters are mandatory: %s.', \implode(', ', $diff)), $diff);
         }

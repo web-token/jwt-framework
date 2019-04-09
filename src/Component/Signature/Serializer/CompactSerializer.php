@@ -41,7 +41,8 @@ final class CompactSerializer extends Serializer
         if (0 !== \count($signature->getHeader())) {
             throw new \LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
         }
-        if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !empty($jws->getEncodedPayload())) {
+        $isEmptyPayload = null === $jws->getEncodedPayload() || '' === $jws->getEncodedPayload();
+        if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !$isEmptyPayload) {
             if (1 !== \preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
                 throw new \LogicException('Unable to convert the JWS with non-encoded payload.');
             }

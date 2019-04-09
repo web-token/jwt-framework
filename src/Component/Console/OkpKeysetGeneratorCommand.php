@@ -34,8 +34,9 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $quantity = (int) $input->getArgument('quantity');
+        $quantity = $input->getArgument('quantity');
         $curve = $input->getArgument('curve');
+        Assertion::integer($quantity, 'Invalid quantity');
         Assertion::string($curve, 'Invalid curve');
 
         $keyset = JWKSet::createFromKeys([]);

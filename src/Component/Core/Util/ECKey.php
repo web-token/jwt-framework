@@ -127,7 +127,7 @@ class ECKey
     private static function p256PrivateKey(JWK $jwk): string
     {
         $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = \mb_strlen($d, '8bit') / 2;
+        $dl = (int) (\mb_strlen($d, '8bit') / 2);
 
         return \pack('H*',
             '30'.\dechex(87 + $dl) // SEQUENCE, length 87+length($d)
@@ -146,7 +146,7 @@ class ECKey
     private static function p384PrivateKey(JWK $jwk): string
     {
         $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = \mb_strlen($d, '8bit') / 2;
+        $dl = (int) (\mb_strlen($d, '8bit') / 2);
 
         return \pack('H*',
             '3081'.\dechex(116 + $dl) // SEQUENCE, length 116 + length($d)
@@ -165,7 +165,7 @@ class ECKey
     private static function p521PrivateKey(JWK $jwk): string
     {
         $d = \unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = \mb_strlen($d, '8bit') / 2;
+        $dl = (int) (\mb_strlen($d, '8bit') / 2);
 
         return \pack('H*',
             '3081'.\dechex(154 + $dl) // SEQUENCE, length 154+length(d)

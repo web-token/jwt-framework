@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
@@ -66,7 +67,7 @@ class RSAKey
      */
     public static function createFromPEM(string $pem): self
     {
-        $res = \openssl_pkey_get_private($pem);
+        $res = openssl_pkey_get_private($pem);
         if (false === $res) {
             $res = \openssl_pkey_get_public($pem);
         }
@@ -76,9 +77,7 @@ class RSAKey
 
         $details = \openssl_pkey_get_details($res);
         \openssl_free_key($res);
-        if (!\array_key_exists('rsa', $details)) {
-            throw new \InvalidArgumentException('Unable to load the key.');
-        }
+        Assertion::keyExists($details, 'rsa', 'Unable to load the key.');
 
         return self::createFromKeyDetails($details['rsa']);
     }
@@ -231,7 +230,7 @@ class RSAKey
                     break;
                 }
             }
-
+            Assertion::notNull($y, 'Unable to find prime factors.');
             if (true === $found) {
                 $p = $y->subtract($one)->gcd($n);
                 $q = $n->divide($p);

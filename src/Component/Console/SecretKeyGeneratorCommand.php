@@ -39,7 +39,7 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
         $isBsae64Encoded = $input->getOption('is_b64');
         Assertion::boolean($isBsae64Encoded, 'Invalid option value for "is_b64"');
         if ($isBsae64Encoded) {
-            $secret = \base64_decode($secret, true);
+            $secret = \Safe\base64_decode($secret, true);
         }
         $args = $this->getOptions($input);
 

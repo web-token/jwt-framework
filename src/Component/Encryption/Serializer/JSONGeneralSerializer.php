@@ -47,16 +47,16 @@ final class JSONGeneralSerializer implements JWESerializer
         if (null !== $jwe->getAAD()) {
             $data['aad'] = Base64Url::encode($jwe->getAAD());
         }
-        if (!empty($jwe->getSharedProtectedHeader())) {
+        if (0 !== \count($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
         }
-        if (!empty($jwe->getSharedHeader())) {
+        if (0 !== \count($jwe->getSharedHeader())) {
             $data['unprotected'] = $jwe->getSharedHeader();
         }
         $data['recipients'] = [];
         foreach ($jwe->getRecipients() as $recipient) {
             $temp = [];
-            if (!empty($recipient->getHeader())) {
+            if (0 !== ($recipient->getHeader())) {
                 $temp['header'] = $recipient->getHeader();
             }
             if (null !== $recipient->getEncryptedKey()) {

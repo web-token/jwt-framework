@@ -69,7 +69,7 @@ class BigInteger
         }
 
         $temp = \gmp_strval(\gmp_abs($this->value), 16);
-        $temp = \mb_strlen($temp, '8bit') & 1 ? '0'.$temp : $temp;
+        $temp = 0 !== (\mb_strlen($temp, '8bit') & 1) ? '0'.$temp : $temp;
         $temp = \hex2bin($temp);
 
         return \ltrim($temp, \chr(0));

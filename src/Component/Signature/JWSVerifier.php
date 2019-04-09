@@ -70,8 +70,8 @@ class JWSVerifier
      */
     public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signature, ?string $detachedPayload = null, JWK &$jwk = null): bool
     {
-        $this->checkJWKSet($jwkset);
-        $this->checkSignatures($jws);
+        Assertion::greaterThan(\count($jwkset), 0, 'There is no key in the key set.');
+        Assertion::greaterThan($jws->countSignatures(), 0, 'The JWS does not contain any signature.');
         $this->checkPayload($jws, $detachedPayload);
 
         $signature = $jws->getSignature($signature);
@@ -105,42 +105,30 @@ class JWSVerifier
 
     private function getInputToVerify(JWS $jws, Signature $signature, ?string $detachedPayload): string
     {
+        $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
         $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
         if (!$signature->hasProtectedHeaderParameter('b64') || true === $signature->getProtectedHeaderParameter('b64')) {
             if (null !== $jws->getEncodedPayload()) {
                 return \sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
             }
 
-            $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
+            $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
 
             return \sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
         }
 
-        $payload = empty($jws->getPayload()) ? $detachedPayload : $jws->getPayload();
+        $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
 
         return \sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }
 
-    private function checkSignatures(JWS $jws): void
-    {
-        if (0 === $jws->countSignatures()) {
-            throw new \InvalidArgumentException('The JWS does not contain any signature.');
-        }
-    }
-
-    private function checkJWKSet(JWKSet $jwkset): void
-    {
-        if (0 === \count($jwkset)) {
-            throw new \InvalidArgumentException('There is no key in the key set.');
-        }
-    }
-
     private function checkPayload(JWS $jws, ?string $detachedPayload = null): void
     {
-        if (null !== $detachedPayload && !empty($jws->getPayload())) {
+        $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
+        if (null !== $detachedPayload && !$isPayloadEmpty) {
             throw new \InvalidArgumentException('A detached payload is set, but the JWS already has a payload.');
         }
-        if (empty($jws->getPayload()) && null === $detachedPayload) {
+        if ($isPayloadEmpty && null === $detachedPayload) {
             throw new \InvalidArgumentException('The JWS has a detached payload, but no payload is provided.');
         }
     }
@@ -148,15 +136,16 @@ class JWSVerifier
     private function getAlgorithm(Signature $signature): SignatureAlgorithm
     {
         $completeHeader = \array_merge($signature->getProtectedHeader(), $signature->getHeader());
-        if (!\array_key_exists('alg', $completeHeader)) {
-            throw new \InvalidArgumentException('No "alg" parameter set in the header.');
-        }
+        Assertion::keyExists($completeHeader, 'alg', 'No "alg" parameter set in the header.');
 
         $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
-        if (!$algorithm instanceof SignatureAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
-        }
+        Assertion::isInstanceOf($algorithm, SignatureAlgorithm::class, \Safe\sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
 
         return $algorithm;
+    }
+
+    private function isPayloadEmpty(?string $payload): bool
+    {
+        return null === $payload || '' === $payload;
     }
 }

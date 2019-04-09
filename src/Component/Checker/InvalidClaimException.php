@@ -28,6 +28,9 @@ class InvalidClaimException extends \Exception
      */
     private $value;
 
+    /**
+     * @param mixed $value
+     */
     public function __construct(string $message, string $claim, $value)
     {
         parent::__construct($message);
@@ -46,6 +49,8 @@ class InvalidClaimException extends \Exception
 
     /**
      * Returns the claim value that caused the exception.
+     *
+     * @return mixed
      */
     public function getValue()
     {

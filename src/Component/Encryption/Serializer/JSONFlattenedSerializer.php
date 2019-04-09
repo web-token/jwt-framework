@@ -47,13 +47,13 @@ final class JSONFlattenedSerializer implements JWESerializer
         if (null !== $jwe->getAAD()) {
             $data['aad'] = Base64Url::encode($jwe->getAAD());
         }
-        if (!empty($jwe->getSharedProtectedHeader())) {
+        if (0 !== ($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
         }
-        if (!empty($jwe->getSharedHeader())) {
+        if (0 !== ($jwe->getSharedHeader())) {
             $data['unprotected'] = $jwe->getSharedHeader();
         }
-        if (!empty($recipient->getHeader())) {
+        if (0 !== ($recipient->getHeader())) {
             $data['header'] = $recipient->getHeader();
         }
         if (null !== $recipient->getEncryptedKey()) {

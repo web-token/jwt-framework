@@ -37,7 +37,6 @@ return PhpCsFixer\Config::create()
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,
         'compact_nullable_typehint' => true,
-        'no_superfluous_phpdoc_tags' => true,
         'no_superfluous_elseif' => true,
         'phpdoc_trim_consecutive_blank_line_separation' => true,
         'phpdoc_order' => true,

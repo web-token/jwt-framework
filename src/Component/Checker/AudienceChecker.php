@@ -53,6 +53,9 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         $this->checkValue($value, InvalidHeaderException::class);
     }
 
+    /**
+     * @param mixed $value
+     */
     private function checkValue($value, string $class): void
     {
         if (\is_string($value) && $value !== $this->audience) {

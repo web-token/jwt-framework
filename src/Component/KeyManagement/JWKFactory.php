@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -30,18 +31,14 @@ class JWKFactory
      */
     public static function createRSAKey(int $size, array $values = []): JWK
     {
-        if (0 !== $size % 8) {
-            throw new \InvalidArgumentException('Invalid key size.');
-        }
-
-        if (512 > $size) {
-            throw new \InvalidArgumentException('Key length is too short. It needs to be at least 512 bits.');
-        }
+        Assertion::eq(0, $size % 8, 'Invalid key size.');
+        Assertion::greaterOrEqualThan($size, 512, 'Key length is too short. It needs to be at least 512 bits.');
 
         $key = \openssl_pkey_new([
             'private_key_bits' => $size,
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);
+        Assertion::isResource($key, 'Unable to create the key');
         $details = \openssl_pkey_get_details($key);
         \openssl_free_key($key);
         $rsa = RSAKey::createFromKeyDetails($details['rsa']);
@@ -108,12 +105,13 @@ class JWKFactory
             'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
+        Assertion::isResource($key, 'Unable to create the key');
         $res = \openssl_pkey_export($key, $out);
         if (false === $res) {
             throw new \RuntimeException('Unable to create the key');
         }
         $res = \openssl_pkey_get_private($out);
-
+        Assertion::isResource($res, 'Unable to create the key');
         $details = \openssl_pkey_get_details($res);
 
         return [

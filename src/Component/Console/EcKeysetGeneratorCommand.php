@@ -34,7 +34,8 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $quantity = (int) $input->getArgument('quantity');
+        $quantity = $input->getArgument('quantity');
+        Assertion::integer($quantity, 'Invalid quantity');
         $curve = $input->getArgument('curve');
         Assertion::string($curve, 'Invalid curve');
 

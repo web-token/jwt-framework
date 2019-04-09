@@ -51,8 +51,8 @@ class NestedTokenBuilder
     /**
      * Creates a nested token.
      *
-     * @param array[] $signatures
-     * @param array[] $recipients
+     * @param array $signatures
+     * @param array $recipients
      */
     public function create(string $payload, array $signatures, string $jws_serialization_mode, array $jweSharedProtectedHeader, array $jweSharedHeader, array $recipients, string $jwe_serialization_mode, ?string $aad = null): string
     {

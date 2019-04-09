@@ -15,6 +15,9 @@ namespace Jose\Component\Core\Util;
 
 final class JsonConverter
 {
+    /**
+     * @param mixed $payload
+     */
     public static function encode($payload): string
     {
         try {
@@ -24,6 +27,9 @@ final class JsonConverter
         }
     }
 
+    /**
+     * @return mixed
+     */
     public static function decode(string $payload)
     {
         try {

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use Assert\Assertion;
 use Base64Url\Base64Url;
 
 /**
@@ -54,11 +55,12 @@ class KeyConverter
     public static function loadKeyFromX509Resource($res): array
     {
         $key = \openssl_get_publickey($res);
-
-        $details = \openssl_pkey_get_details($key);
+        Assertion::isResource($key, 'Unable to load the certificate');
+        $details = openssl_pkey_get_details($key);
+        Assertion::isArray($details, 'Unable to load the certificate');
         if (isset($details['key'])) {
             $values = self::loadKeyFromPEM($details['key']);
-            \openssl_x509_export($res, $out);
+            \Safe\openssl_x509_export($res, $out);
             $x5c = \preg_replace('#-.*-#', '', $out);
             $x5c = \preg_replace('~\R~', PHP_EOL, $x5c);
             $x5c = \trim($x5c);
@@ -98,7 +100,7 @@ class KeyConverter
 
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
-        if (\preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
+        if (1 === \Safe\preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
             $pem = self::decodePem($pem, $matches, $password);
         }
 

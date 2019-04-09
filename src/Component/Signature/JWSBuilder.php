@@ -146,7 +146,7 @@ class JWSBuilder
             $protectedHeader = $signature['protected_header'];
             /** @var array $header */
             $header = $signature['header'];
-            $encodedProtectedHeader = empty($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
+            $encodedProtectedHeader = 0 === \count($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
             $input = \sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
             $s = $signatureAlgorithm->sign($signatureKey, $input);
             $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
@@ -197,7 +197,7 @@ class JWSBuilder
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = \array_intersect_key($header1, $header2);
-        if (!empty($inter)) {
+        if (0 !== \count($inter)) {
             throw new \InvalidArgumentException(\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
         }
     }

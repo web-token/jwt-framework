@@ -161,8 +161,8 @@ class ECKey
             throw new \InvalidArgumentException('Unsupported key type');
         }
 
-        $x = \mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit');
-        $y = \mb_substr($bits, ($bits_length - 2) / 2 + 2, ($bits_length - 2) / 2, '8bit');
+        $x = \mb_substr($bits, 2, (int) (($bits_length - 2) / 2), '8bit');
+        $y = \mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), (int) (($bits_length - 2) / 2), '8bit');
     }
 
     private static function getD(ASNObject $children): string

@@ -33,8 +33,8 @@ class ConcatKDF
      */
     public static function generate(string $Z, string $algorithm, int $encryption_key_size, string $apu = '', string $apv = ''): string
     {
-        $apu = !empty($apu) ? Base64Url::decode($apu) : '';
-        $apv = !empty($apv) ? Base64Url::decode($apv) : '';
+        $apu = !self::isEmpty($apu) ? Base64Url::decode($apu) : '';
+        $apv = !self::isEmpty($apv) ? Base64Url::decode($apv) : '';
         $encryption_segments = [
             self::toInt32Bits(1),                                  // Round number 1
             $Z,                                                          // Z (shared secret)
@@ -60,5 +60,10 @@ class ConcatKDF
     private static function toInt32Bits(int $value): string
     {
         return \hex2bin(\str_pad(\dechex($value), 8, '0', STR_PAD_LEFT));
+    }
+
+    private static function isEmpty(?string $value): bool
+    {
+        return null === $value || '' === $value;
     }
 }

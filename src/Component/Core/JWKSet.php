@@ -215,7 +215,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             $result[] = ['key' => $key, 'ind' => $ind];
         }
 
-        if (empty($result)) {
+        if (0 === \count($result)) {
             return null;
         }
 
