@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+/**
+ * @deprecated This compression method is deprecated in 1.3 and will be removed in 2.0
+ */
 final class ZLib implements CompressionMethod
 {
     /**
