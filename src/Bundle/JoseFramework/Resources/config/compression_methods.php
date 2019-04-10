@@ -25,8 +25,4 @@ return function (ContainerConfigurator $container) {
 
     $container->set(Compression\Deflate::class)
         ->tag('jose.compression_method', ['alias' => 'DEF']);
-    $container->set(Compression\GZip::class)
-        ->tag('jose.compression_method', ['alias' => 'GZ']);
-    $container->set(Compression\ZLib::class)
-        ->tag('jose.compression_method', ['alias' => 'ZLIB']);
 };
