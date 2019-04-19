@@ -22,6 +22,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group Bundle
  * @group Configuration
+ *
+ * @internal
+ * @coversNothing
  */
 class SerializerConfigurationTest extends TestCase
 {
@@ -29,17 +32,9 @@ class SerializerConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        if (!\class_exists(JWSBuilderFactory::class)) {
+        if (!class_exists(JWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
-    }
-
-    protected function getConfiguration()
-    {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Signature\SignatureSource(),
-        ]);
     }
 
     /**
@@ -134,5 +129,13 @@ class SerializerConfigurationTest extends TestCase
             ],
             'The path "jose.jws.serializers.foo.serializers" should have at least 1 element(s) defined.'
         );
+    }
+
+    protected function getConfiguration()
+    {
+        return new Configuration('jose', [
+            new Source\Core\CoreSource(),
+            new Source\Signature\SignatureSource(),
+        ]);
     }
 }

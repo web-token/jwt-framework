@@ -18,13 +18,16 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Analyzer\KeyAnalyzerManager::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Analyzer\KeysetAnalyzerManager::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Analyzer\AlgorithmAnalyzer::class);
     $container->set(Analyzer\UsageAnalyzer::class);

@@ -32,6 +32,12 @@ class Hash
      */
     private $length;
 
+    private function __construct(string $hash, int $length)
+    {
+        $this->hash = $hash;
+        $this->length = $length;
+    }
+
     /**
      * @return Hash
      */
@@ -64,12 +70,6 @@ class Hash
         return new self('sha512', 64);
     }
 
-    private function __construct(string $hash, int $length)
-    {
-        $this->hash = $hash;
-        $this->length = $length;
-    }
-
     public function getLength(): int
     {
         return $this->length;
@@ -80,7 +80,7 @@ class Hash
      */
     public function hash(string $text): string
     {
-        return \hash($this->hash, $text, true);
+        return hash($this->hash, $text, true);
     }
 
     public function name(): string

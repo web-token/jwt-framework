@@ -18,6 +18,9 @@ use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 
 /**
  * @group JWS
+ *
+ * @internal
+ * @coversNothing
  */
 class JWSSplitTest extends SignatureTest
 {

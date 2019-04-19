@@ -25,6 +25,9 @@ use PHPUnit\Framework\TestCase;
  * @see https://tools.ietf.org/html/rfc7520#section-4.2
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAPSSSignatureTest extends TestCase
 {
@@ -83,7 +86,8 @@ class RSAPSSSignatureTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($privateKey, $header)
-            ->build();
+            ->build()
+        ;
 
         $jwsVerifier->verifyWithKey($jws, $privateKey, 0);
 

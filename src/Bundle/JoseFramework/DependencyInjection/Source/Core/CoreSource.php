@@ -35,7 +35,7 @@ class CoreSource implements SourceWithCompilerPasses
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('services.php');
 
-        if (\interface_exists(EnvVarProcessorInterface::class)) {
+        if (interface_exists(EnvVarProcessorInterface::class)) {
             $loader->load('env_var.php');
         }
 

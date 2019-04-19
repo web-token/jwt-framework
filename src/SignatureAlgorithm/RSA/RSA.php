@@ -17,14 +17,9 @@ use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Util\RSA as JoseRSA;
-use function Safe\sprintf;
 
 abstract class RSA implements SignatureAlgorithm
 {
-    abstract protected function getAlgorithm(): string;
-
-    abstract protected function getSignatureMethod(): int;
-
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
@@ -47,6 +42,10 @@ abstract class RSA implements SignatureAlgorithm
 
         return JoseRSA::sign($priv, $input, $this->getAlgorithm(), $this->getSignatureMethod());
     }
+
+    abstract protected function getAlgorithm(): string;
+
+    abstract protected function getSignatureMethod(): int;
 
     private function checkKey(JWK $key): void
     {

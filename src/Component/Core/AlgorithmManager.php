@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 class AlgorithmManager
 {
@@ -50,7 +49,7 @@ class AlgorithmManager
      */
     public function list(): array
     {
-        return \array_keys($this->algorithms);
+        return array_keys($this->algorithms);
     }
 
     /**

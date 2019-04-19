@@ -15,7 +15,6 @@ namespace Jose\Component\Checker;
 
 use Assert\Assertion;
 use Jose\Component\Core\JWT;
-use function Safe\sprintf;
 
 class HeaderCheckerManager
 {
@@ -55,17 +54,6 @@ class HeaderCheckerManager
         return $this->checkers;
     }
 
-    private function addTokenTypeSupport(TokenTypeSupport $tokenType): void
-    {
-        $this->tokenTypes[] = $tokenType;
-    }
-
-    private function add(HeaderChecker $checker): void
-    {
-        $header = $checker->supportedHeader();
-        $this->checkers[$header] = $checker;
-    }
-
     /**
      * This method checks all the header parameters passed as argument.
      * All header parameters are checked against the header parameter checkers.
@@ -91,10 +79,21 @@ class HeaderCheckerManager
         throw new \InvalidArgumentException('Unsupported token type.');
     }
 
+    private function addTokenTypeSupport(TokenTypeSupport $tokenType): void
+    {
+        $this->tokenTypes[] = $tokenType;
+    }
+
+    private function add(HeaderChecker $checker): void
+    {
+        $header = $checker->supportedHeader();
+        $this->checkers[$header] = $checker;
+    }
+
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
-        $inter = \array_intersect_key($header1, $header2);
-        Assertion::count($inter, 0, sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
+        $inter = array_intersect_key($header1, $header2);
+        Assertion::count($inter, 0, sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
     }
 
     /**
@@ -105,10 +104,10 @@ class HeaderCheckerManager
         if (0 === \count($mandatoryHeaderParameters)) {
             return;
         }
-        $diff = \array_keys(\array_diff_key(\array_flip($mandatoryHeaderParameters), \array_merge($protected, $unprotected)));
+        $diff = array_keys(array_diff_key(array_flip($mandatoryHeaderParameters), array_merge($protected, $unprotected)));
         Assertion::allString($diff);
         if (0 !== \count($diff)) {
-            throw new MissingMandatoryHeaderParameterException(sprintf('The following header parameters are mandatory: %s.', \implode(', ', $diff)), $diff);
+            throw new MissingMandatoryHeaderParameterException(sprintf('The following header parameters are mandatory: %s.', implode(', ', $diff)), $diff);
         }
     }
 
@@ -142,9 +141,9 @@ class HeaderCheckerManager
             if (!\is_array($protected['crit'])) {
                 throw new InvalidHeaderException('The header "crit" mus be a list of header parameters.', 'crit', $protected['crit']);
             }
-            $diff = \array_diff($protected['crit'], $checkedHeaderParameters);
+            $diff = array_diff($protected['crit'], $checkedHeaderParameters);
             if (0 !== \count($diff)) {
-                throw new InvalidHeaderException(sprintf('One or more header parameters are marked as critical, but they are missing or have not been checked: %s.', \implode(', ', \array_values($diff))), 'crit', $protected['crit']);
+                throw new InvalidHeaderException(sprintf('One or more header parameters are marked as critical, but they are missing or have not been checked: %s.', implode(', ', array_values($diff))), 'crit', $protected['crit']);
             }
         } elseif (\array_key_exists('crit', $header)) {
             throw new InvalidHeaderException('The header parameter "crit" must be protected.', 'crit', $header['crit']);

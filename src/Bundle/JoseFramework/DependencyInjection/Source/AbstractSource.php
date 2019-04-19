@@ -13,15 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source;
 
-use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 abstract class AbstractSource
 {
-    abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;
-
     public function create(ContainerBuilder $container, string $type, string $name, array $config): void
     {
         $service_id = sprintf('jose.%s.%s', $type, $name);
@@ -48,6 +45,9 @@ abstract class AbstractSource
             ->treatFalseLike([])
             ->variablePrototype()->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
+
+    abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;
 }

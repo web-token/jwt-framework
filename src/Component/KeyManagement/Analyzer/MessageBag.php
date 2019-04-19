@@ -43,7 +43,7 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
      */
     public function jsonSerialize(): array
     {
-        return \array_values($this->messages);
+        return array_values($this->messages);
     }
 
     /**

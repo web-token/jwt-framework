@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 class AlgorithmManagerFactory
 {
@@ -41,7 +40,7 @@ class AlgorithmManagerFactory
      */
     public function aliases(): array
     {
-        return \array_keys($this->algorithms);
+        return array_keys($this->algorithms);
     }
 
     /**

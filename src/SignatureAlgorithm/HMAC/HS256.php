@@ -15,13 +15,13 @@ namespace Jose\Component\Signature\Algorithm;
 
 final class HS256 extends HMAC
 {
-    protected function getHashAlgorithm(): string
-    {
-        return 'sha256';
-    }
-
     public function name(): string
     {
         return 'HS256';
+    }
+
+    protected function getHashAlgorithm(): string
+    {
+        return 'sha256';
     }
 }

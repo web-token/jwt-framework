@@ -27,7 +27,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
-use function Safe\sprintf;
 
 class JWEDecrypter
 {
@@ -118,7 +117,7 @@ class JWEDecrypter
     private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i, JWK &$successJwk = null): ?string
     {
         $recipient = $jwe->getRecipient($i);
-        $completeHeader = \array_merge($jwe->getSharedProtectedHeader(), $jwe->getSharedHeader(), $recipient->getHeader());
+        $completeHeader = array_merge($jwe->getSharedProtectedHeader(), $jwe->getSharedHeader(), $recipient->getHeader());
         $this->checkCompleteHeader($completeHeader);
 
         $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($completeHeader);
@@ -186,6 +185,7 @@ class JWEDecrypter
         if ($key_encryption_algorithm instanceof KeyWrapping) {
             return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $completeHeader);
         }
+
         throw new \InvalidArgumentException('Unsupported CEK generation');
     }
 

@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.13
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class MultipleRecipientEncryptionTest extends EncryptionTest
 {
@@ -213,7 +216,8 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
             ->addRecipient($recipient_2_public_key, $recipient_2Header)
             ->addRecipient($recipient_3_private_key, $recipient_3Header)
-            ->build();
+            ->build()
+        ;
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
@@ -293,6 +297,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             ->withSharedHeader($header)
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
             ->addRecipient($recipient_2_public_key, $recipient_2Header)
-            ->build();
+            ->build()
+        ;
     }
 }

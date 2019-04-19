@@ -17,13 +17,13 @@ use AESKW\A256KW as Wrapper;
 
 final class A256KW extends AESKW
 {
-    protected function getWrapper()
-    {
-        return new Wrapper();
-    }
-
     public function name(): string
     {
         return 'A256KW';
+    }
+
+    protected function getWrapper()
+    {
+        return new Wrapper();
     }
 }

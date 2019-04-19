@@ -31,6 +31,36 @@ abstract class NestedTokenTest extends TestCase
      */
     private $algorithmManagerFactory;
 
+    /**
+     * @var CompressionMethodManagerFactory
+     */
+    private $compressionMethodManagerFactory;
+
+    /**
+     * @var JWEBuilderFactory
+     */
+    private $jweBuilderFactory;
+
+    /**
+     * @var JWEDecrypterFactory
+     */
+    private $jweDecrypterFactory;
+
+    /**
+     * @var JWELoaderFactory
+     */
+    private $jweLoaderFactory;
+
+    /**
+     * @var null|Serializer\JWESerializerManagerFactory
+     */
+    private $jwsSerializerManagerFactory;
+
+    /**
+     * @var null|Serializer\JWESerializerManager
+     */
+    private $jwsSerializerManager;
+
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {
@@ -63,11 +93,6 @@ abstract class NestedTokenTest extends TestCase
         return $this->algorithmManagerFactory;
     }
 
-    /**
-     * @var CompressionMethodManagerFactory
-     */
-    private $compressionMethodManagerFactory;
-
     protected function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
         if (null === $this->compressionMethodManagerFactory) {
@@ -77,11 +102,6 @@ abstract class NestedTokenTest extends TestCase
 
         return $this->compressionMethodManagerFactory;
     }
-
-    /**
-     * @var JWEBuilderFactory
-     */
-    private $jweBuilderFactory;
 
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
@@ -95,11 +115,6 @@ abstract class NestedTokenTest extends TestCase
         return $this->jweBuilderFactory;
     }
 
-    /**
-     * @var JWEDecrypterFactory
-     */
-    private $jweDecrypterFactory;
-
     protected function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
         if (null === $this->jweDecrypterFactory) {
@@ -111,11 +126,6 @@ abstract class NestedTokenTest extends TestCase
 
         return $this->jweDecrypterFactory;
     }
-
-    /**
-     * @var JWELoaderFactory
-     */
-    private $jweLoaderFactory;
 
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
@@ -130,11 +140,6 @@ abstract class NestedTokenTest extends TestCase
         return $this->jweLoaderFactory;
     }
 
-    /**
-     * @var Serializer\JWESerializerManagerFactory|null
-     */
-    private $jwsSerializerManagerFactory = null;
-
     protected function getJWESerializerManagerFactory(): Serializer\JWESerializerManagerFactory
     {
         if (null === $this->jwsSerializerManagerFactory) {
@@ -146,11 +151,6 @@ abstract class NestedTokenTest extends TestCase
 
         return $this->jwsSerializerManagerFactory;
     }
-
-    /**
-     * @var Serializer\JWESerializerManager|null
-     */
-    private $jwsSerializerManager = null;
 
     protected function getJWESerializerManager(): Serializer\JWESerializerManager
     {

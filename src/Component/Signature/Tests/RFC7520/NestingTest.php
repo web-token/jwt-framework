@@ -20,6 +20,9 @@ use Jose\Component\Signature\Tests\SignatureTest;
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class NestingTest extends SignatureTest
 {
@@ -60,6 +63,6 @@ class NestingTest extends SignatureTest
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
         static::assertEquals($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
-        static::assertEquals($payload, \json_decode($loaded_compact_json->getPayload(), true));
+        static::assertEquals($payload, json_decode($loaded_compact_json->getPayload(), true));
     }
 }

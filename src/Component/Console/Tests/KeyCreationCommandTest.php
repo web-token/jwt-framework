@@ -23,6 +23,9 @@ use Symfony\Component\Console\Output\BufferedOutput;
 /**
  * @group Console
  * @group KeyCreationCommand
+ *
+ * @internal
+ * @coversNothing
  */
 class KeyCreationCommandTest extends TestCase
 {
@@ -141,7 +144,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCanCreateAnOctetKeyUsingABinarySecret()
     {
-        $secret = \random_bytes(20);
+        $secret = random_bytes(20);
 
         $input = new ArrayInput([
             'secret' => $secret,

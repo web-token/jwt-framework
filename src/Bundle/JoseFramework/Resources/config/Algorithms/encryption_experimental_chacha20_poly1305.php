@@ -26,8 +26,10 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(KeyEncryption\Chacha20Poly1305::class)
-        ->tag('jose.algorithm', ['alias' => 'chacha20-poly1305']);
+        ->tag('jose.algorithm', ['alias' => 'chacha20-poly1305'])
+    ;
 };

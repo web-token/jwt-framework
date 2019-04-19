@@ -23,12 +23,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWSComputationTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(JWSBuilderFactory::class)) {
+        if (!class_exists(JWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
@@ -60,7 +63,8 @@ class JWSComputationTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         $token = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($token);

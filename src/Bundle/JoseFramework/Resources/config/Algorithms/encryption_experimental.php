@@ -27,44 +27,58 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(KeyEncryption\A128CTR::class)
-        ->tag('jose.algorithm', ['alias' => 'A128CTR']);
+        ->tag('jose.algorithm', ['alias' => 'A128CTR'])
+    ;
 
     $container->set(KeyEncryption\A192CTR::class)
-        ->tag('jose.algorithm', ['alias' => 'A192CTR']);
+        ->tag('jose.algorithm', ['alias' => 'A192CTR'])
+    ;
 
     $container->set(KeyEncryption\A256CTR::class)
-        ->tag('jose.algorithm', ['alias' => 'A256CTR']);
+        ->tag('jose.algorithm', ['alias' => 'A256CTR'])
+    ;
 
     $container->set(KeyEncryption\RSAOAEP384::class)
-        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP-384']);
+        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP-384'])
+    ;
 
     $container->set(KeyEncryption\RSAOAEP512::class)
-        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP-512']);
+        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP-512'])
+    ;
 
     $container->set(ContentEncryption\A128CCM_16_64::class)
-        ->tag('jose.algorithm', ['alias' => 'A128CCM-16-64']);
+        ->tag('jose.algorithm', ['alias' => 'A128CCM-16-64'])
+    ;
 
     $container->set(ContentEncryption\A128CCM_16_128::class)
-        ->tag('jose.algorithm', ['alias' => 'A128CCM-16-128']);
+        ->tag('jose.algorithm', ['alias' => 'A128CCM-16-128'])
+    ;
 
     $container->set(ContentEncryption\A128CCM_64_64::class)
-        ->tag('jose.algorithm', ['alias' => 'A128CCM-64-64']);
+        ->tag('jose.algorithm', ['alias' => 'A128CCM-64-64'])
+    ;
 
     $container->set(ContentEncryption\A128CCM_64_128::class)
-        ->tag('jose.algorithm', ['alias' => 'A128CCM-64-128']);
+        ->tag('jose.algorithm', ['alias' => 'A128CCM-64-128'])
+    ;
 
     $container->set(ContentEncryption\A256CCM_16_64::class)
-        ->tag('jose.algorithm', ['alias' => 'A256CCM-16-64']);
+        ->tag('jose.algorithm', ['alias' => 'A256CCM-16-64'])
+    ;
 
     $container->set(ContentEncryption\A256CCM_16_128::class)
-        ->tag('jose.algorithm', ['alias' => 'A256CCM-16-128']);
+        ->tag('jose.algorithm', ['alias' => 'A256CCM-16-128'])
+    ;
 
     $container->set(ContentEncryption\A256CCM_64_64::class)
-        ->tag('jose.algorithm', ['alias' => 'A256CCM-64-64']);
+        ->tag('jose.algorithm', ['alias' => 'A256CCM-64-64'])
+    ;
 
     $container->set(ContentEncryption\A256CCM_64_128::class)
-        ->tag('jose.algorithm', ['alias' => 'A256CCM-64-128']);
+        ->tag('jose.algorithm', ['alias' => 'A256CCM-64-128'])
+    ;
 };

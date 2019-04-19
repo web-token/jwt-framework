@@ -21,16 +21,24 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWAManager
+ *
+ * @internal
+ * @coversNothing
  */
 class AlgorithmManagerFactoryTest extends TestCase
 {
+    /**
+     * @var null|AlgorithmManagerFactory
+     */
+    private $algorithmManagerFactory;
+
     /**
      * @test
      */
     public function iCanListSupportedAliases()
     {
         static::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
-        static::assertEquals(['foo'], \array_keys($this->getAlgorithmManagerFactory()->all()));
+        static::assertEquals(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
     }
 
     /**
@@ -65,11 +73,6 @@ class AlgorithmManagerFactoryTest extends TestCase
         static::assertInstanceOf(Algorithm::class, $manager->get('foo'));
         $manager->get('HS384');
     }
-
-    /**
-     * @var AlgorithmManagerFactory|null
-     */
-    private $algorithmManagerFactory;
 
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {

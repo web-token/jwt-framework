@@ -22,6 +22,9 @@ use Jose\Component\Encryption\JWE;
  *
  * @group RSA2
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {
@@ -43,7 +46,8 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
             ->create()->withPayload($claims)
             ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
             ->addRecipient($key)
-            ->build();
+            ->build()
+        ;
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
@@ -70,7 +74,8 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
             ->create()->withPayload($claims)
             ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
             ->addRecipient($key)
-            ->build();
+            ->build()
+        ;
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);

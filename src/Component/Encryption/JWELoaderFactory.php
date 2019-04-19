@@ -29,9 +29,9 @@ class JWELoaderFactory
     private $jweSerializerManagerFactory;
 
     /**
-     * @var HeaderCheckerManagerFactory|null
+     * @var null|HeaderCheckerManagerFactory
      */
-    private $headerCheckerManagerFactory = null;
+    private $headerCheckerManagerFactory;
 
     /**
      * JWELoaderFactory constructor.

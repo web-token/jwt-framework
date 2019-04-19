@@ -17,8 +17,6 @@ use Assert\Assertion;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
-use function Safe\openssl_sign;
-use function Safe\sprintf;
 
 abstract class ECDSA implements SignatureAlgorithm
 {
@@ -51,7 +49,7 @@ abstract class ECDSA implements SignatureAlgorithm
             $der = ECSignature::toAsn1($signature, $this->getSignaturePartLength());
             $pem = ECKey::convertPublicKeyToPEM($key);
 
-            return 1 === \openssl_verify($input, $der, $pem, $this->getHashAlgorithm());
+            return 1 === openssl_verify($input, $der, $pem, $this->getHashAlgorithm());
         } catch (\Throwable $e) {
             return false;
         }

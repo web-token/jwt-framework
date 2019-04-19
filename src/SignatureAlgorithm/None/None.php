@@ -35,13 +35,13 @@ final class None implements SignatureAlgorithm
         return '' === $signature;
     }
 
-    private function checkKey(JWK $key): void
-    {
-        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
-    }
-
     public function name(): string
     {
         return 'none';
+    }
+
+    private function checkKey(JWK $key): void
+    {
+        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
     }
 }

@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group ClaimChecker
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class IssuedAtClaimCheckerTest extends TestCase
 {
@@ -41,7 +44,7 @@ class IssuedAtClaimCheckerTest extends TestCase
     public function theIssuedAtClaimIsInTheFutur()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkClaim(\time() + 3600);
+        $checker->checkClaim(time() + 3600);
     }
 
     /**
@@ -50,7 +53,7 @@ class IssuedAtClaimCheckerTest extends TestCase
     public function theIssuedAtClaimIsInThePast()
     {
         $checker = new IssuedAtChecker();
-        $checker->checkClaim(\time() - 3600);
+        $checker->checkClaim(time() - 3600);
         static::assertEquals('iat', $checker->supportedClaim());
     }
 }

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 class JWESerializerManagerFactory
 {
@@ -46,7 +45,7 @@ class JWESerializerManagerFactory
      */
     public function names(): array
     {
-        return \array_keys($this->serializers);
+        return array_keys($this->serializers);
     }
 
     /**

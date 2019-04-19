@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Util;
 
 use Base64Url\Base64Url;
-use function Safe\hex2bin;
 
 /**
  * @internal
@@ -39,18 +38,17 @@ class ConcatKDF
         $encryption_segments = [
             self::toInt32Bits(1),                                  // Round number 1
             $Z,                                                          // Z (shared secret)
-            self::toInt32Bits(\mb_strlen($algorithm, '8bit')).$algorithm, // Size of algorithm's name and algorithm
-            self::toInt32Bits(\mb_strlen($apu, '8bit')).$apu,             // PartyUInfo
-            self::toInt32Bits(\mb_strlen($apv, '8bit')).$apv,             // PartyVInfo
+            self::toInt32Bits(mb_strlen($algorithm, '8bit')).$algorithm, // Size of algorithm's name and algorithm
+            self::toInt32Bits(mb_strlen($apu, '8bit')).$apu,             // PartyUInfo
+            self::toInt32Bits(mb_strlen($apv, '8bit')).$apv,             // PartyVInfo
             self::toInt32Bits($encryption_key_size),                     // SuppPubInfo (the encryption key size)
             '',                                                          // SuppPrivInfo
         ];
 
-        $input = \implode('', $encryption_segments);
-        $hash = \hash('sha256', $input, true);
-        $kdf = \mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
+        $input = implode('', $encryption_segments);
+        $hash = hash('sha256', $input, true);
 
-        return $kdf;
+        return mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
     }
 
     /**
@@ -60,7 +58,7 @@ class ConcatKDF
      */
     private static function toInt32Bits(int $value): string
     {
-        return hex2bin(\str_pad(\dechex($value), 8, '0', STR_PAD_LEFT));
+        return hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
     }
 
     private static function isEmpty(?string $value): bool

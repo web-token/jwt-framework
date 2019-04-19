@@ -18,14 +18,18 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(KeyEncryption\A128KW::class)
-        ->tag('jose.algorithm', ['alias' => 'A128KW']);
+        ->tag('jose.algorithm', ['alias' => 'A128KW'])
+    ;
 
     $container->set(KeyEncryption\A192KW::class)
-        ->tag('jose.algorithm', ['alias' => 'A192KW']);
+        ->tag('jose.algorithm', ['alias' => 'A192KW'])
+    ;
 
     $container->set(KeyEncryption\A256KW::class)
-        ->tag('jose.algorithm', ['alias' => 'A256KW']);
+        ->tag('jose.algorithm', ['alias' => 'A256KW'])
+    ;
 };

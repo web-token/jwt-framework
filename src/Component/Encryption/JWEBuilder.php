@@ -28,17 +28,16 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
-use function Safe\sprintf;
 
 class JWEBuilder
 {
     /**
-     * @var string|null
+     * @var null|string
      */
     protected $payload;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     protected $aad;
 
@@ -46,6 +45,16 @@ class JWEBuilder
      * @var array
      */
     protected $recipients = [];
+
+    /**
+     * @var array
+     */
+    protected $sharedProtectedHeader = [];
+
+    /**
+     * @var array
+     */
+    protected $sharedHeader = [];
 
     /**
      * @var AlgorithmManager
@@ -63,29 +72,19 @@ class JWEBuilder
     private $compressionManager;
 
     /**
-     * @var array
+     * @var null|CompressionMethod
      */
-    protected $sharedProtectedHeader = [];
+    private $compressionMethod;
 
     /**
-     * @var array
+     * @var null|ContentEncryptionAlgorithm
      */
-    protected $sharedHeader = [];
+    private $contentEncryptionAlgorithm;
 
     /**
-     * @var CompressionMethod|null
+     * @var null|string
      */
-    private $compressionMethod = null;
-
-    /**
-     * @var ContentEncryptionAlgorithm|null
-     */
-    private $contentEncryptionAlgorithm = null;
-
-    /**
-     * @var string|null
-     */
-    private $keyManagementMode = null;
+    private $keyManagementMode;
 
     public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
     {
@@ -144,7 +143,7 @@ class JWEBuilder
      */
     public function withPayload(string $payload): self
     {
-        Assertion::eq('UTF-8', \mb_detect_encoding($payload, 'UTF-8', true), 'The payload must be encoded in UTF-8');
+        Assertion::eq('UTF-8', mb_detect_encoding($payload, 'UTF-8', true), 'The payload must be encoded in UTF-8');
         $clone = clone $this;
         $clone->payload = $payload;
 
@@ -208,7 +207,7 @@ class JWEBuilder
         $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $recipientHeader);
         $this->checkDuplicatedHeaderParameters($this->sharedHeader, $recipientHeader);
         $clone = clone $this;
-        $completeHeader = \array_merge($clone->sharedHeader, $recipientHeader, $clone->sharedProtectedHeader);
+        $completeHeader = array_merge($clone->sharedHeader, $recipientHeader, $clone->sharedProtectedHeader);
         $clone->checkAndSetContentEncryptionAlgorithm($completeHeader);
         $keyEncryptionAlgorithm = $clone->getKeyEncryptionAlgorithm($completeHeader);
         if (null === $clone->keyManagementMode) {
@@ -260,7 +259,7 @@ class JWEBuilder
         }
 
         if (0 !== \count($additionalHeader) && 1 === \count($this->recipients)) {
-            $sharedProtectedHeader = \array_merge($additionalHeader, $this->sharedProtectedHeader);
+            $sharedProtectedHeader = array_merge($additionalHeader, $this->sharedProtectedHeader);
         } else {
             $sharedProtectedHeader = $this->sharedProtectedHeader;
         }
@@ -283,13 +282,13 @@ class JWEBuilder
 
     private function processRecipient(array $recipient, string $cek, array &$additionalHeader): Recipient
     {
-        $completeHeader = \array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
+        $completeHeader = array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
         $keyEncryptionAlgorithm = $recipient['key_encryption_algorithm'];
         Assertion::isInstanceOf($keyEncryptionAlgorithm, KeyEncryptionAlgorithm::class);
         $encryptedContentEncryptionKey = $this->getEncryptedKey($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipient['key']);
         $recipientHeader = $recipient['header'];
         if (0 !== \count($additionalHeader) && 1 !== \count($this->recipients)) {
-            $recipientHeader = \array_merge($recipientHeader, $additionalHeader);
+            $recipientHeader = array_merge($recipientHeader, $additionalHeader);
             $additionalHeader = [];
         }
 
@@ -385,7 +384,7 @@ class JWEBuilder
                 $key = $this->recipients[0]['key'];
                 $algorithm = $this->recipients[0]['key_encryption_algorithm'];
                 Assertion::isInstanceOf($algorithm, KeyAgreement::class);
-                $completeHeader = \array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
+                $completeHeader = array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
 
                 return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $key, $completeHeader, $additionalHeader);
             case KeyEncryption::MODE_DIRECT:
@@ -430,12 +429,12 @@ class JWEBuilder
 
     private function createCEK(int $size): string
     {
-        return \random_bytes($size / 8);
+        return random_bytes($size / 8);
     }
 
     private function createIV(int $size): string
     {
-        return \random_bytes($size / 8);
+        return random_bytes($size / 8);
     }
 
     private function getKeyEncryptionAlgorithm(array $completeHeader): KeyEncryptionAlgorithm
@@ -458,7 +457,7 @@ class JWEBuilder
 
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
-        $inter = \array_intersect_key($header1, $header2);
-        Assertion::noContent($inter, sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
+        $inter = array_intersect_key($header1, $header2);
+        Assertion::noContent($inter, sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
     }
 }

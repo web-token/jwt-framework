@@ -19,16 +19,20 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Services\JWSBuilderFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Services\JWSVerifierFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Services\JWSLoaderFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Signature\JWSTokenSupport::class);
 };

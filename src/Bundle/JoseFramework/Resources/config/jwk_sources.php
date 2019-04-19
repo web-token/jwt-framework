@@ -18,7 +18,8 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->public()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(JWKSource\KeyFile::class);
     $container->set(JWKSource\CertificateFile::class);

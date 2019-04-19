@@ -19,10 +19,12 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(JWKSetControllerFactory::class);
 
     $container->set(JWKSetLoader::class)
-        ->tag('routing.loader');
+        ->tag('routing.loader')
+    ;
 };

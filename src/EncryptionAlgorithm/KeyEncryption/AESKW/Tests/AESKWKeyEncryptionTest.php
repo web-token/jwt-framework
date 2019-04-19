@@ -19,11 +19,13 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
 use PHPUnit\Framework\TestCase;
-use function Safe\hex2bin;
 
 /**
  * @group AESKW
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class AESKWKeyEncryptionTest extends TestCase
 {

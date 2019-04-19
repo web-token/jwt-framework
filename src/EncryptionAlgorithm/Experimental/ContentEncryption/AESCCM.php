@@ -14,8 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
-use function Safe\openssl_decrypt;
-use function Safe\openssl_encrypt;
+use RuntimeException;
 
 abstract class AESCCM implements ContentEncryptionAlgorithm
 {
@@ -32,6 +31,9 @@ abstract class AESCCM implements ContentEncryptionAlgorithm
         }
         $tag = '';
         $result = openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad, $this->getTagLength());
+        if (false === $result) {
+            throw new RuntimeException('Unable to encrypt the content');
+        }
 
         return $result;
     }
@@ -44,6 +46,9 @@ abstract class AESCCM implements ContentEncryptionAlgorithm
         }
 
         $result = openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        if (false === $result) {
+            throw new RuntimeException('Unable to decrypt the content');
+        }
 
         return $result;
     }

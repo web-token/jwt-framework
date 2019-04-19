@@ -16,8 +16,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use function Safe\openssl_decrypt;
-use function Safe\openssl_encrypt;
+use RuntimeException;
 
 abstract class AESCTR implements KeyEncryption
 {
@@ -29,12 +28,15 @@ abstract class AESCTR implements KeyEncryption
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
-        $iv = \random_bytes(16);
+        $iv = random_bytes(16);
 
         // We set header parameters
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
         $result = openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        if (false === $result) {
+            throw new RuntimeException('Unable to encrypt the CEK');
+        }
 
         return $result;
     }
@@ -46,6 +48,9 @@ abstract class AESCTR implements KeyEncryption
         $iv = Base64Url::decode($header['iv']);
 
         $result = openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
+        if (false === $result) {
+            throw new RuntimeException('Unable to decrypt the CEK');
+        }
 
         return $result;
     }
@@ -54,6 +59,8 @@ abstract class AESCTR implements KeyEncryption
     {
         return self::MODE_ENCRYPT;
     }
+
+    abstract protected function getMode(): string;
 
     private function getKey(JWK $key): string
     {
@@ -70,6 +77,4 @@ abstract class AESCTR implements KeyEncryption
         Assertion::keyExists($header, 'iv', 'The header parameter "iv" is missing.');
         Assertion::string($header['iv'], 'The header parameter "iv" is not valid.');
     }
-
-    abstract protected function getMode(): string;
 }

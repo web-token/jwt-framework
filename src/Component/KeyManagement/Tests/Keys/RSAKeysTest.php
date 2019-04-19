@@ -21,6 +21,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group RSAKeys
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAKeysTest extends TestCase
 {

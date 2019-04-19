@@ -24,6 +24,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group EdDSA
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class EdDSASignatureTest extends TestCase
 {
@@ -74,7 +77,8 @@ class EdDSASignatureTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($input)
             ->addSignature($key, $header)
-            ->build();
+            ->build()
+        ;
 
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $key, 0));
     }

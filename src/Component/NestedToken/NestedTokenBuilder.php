@@ -75,7 +75,8 @@ class NestedTokenBuilder
             ->withPayload($token)
             ->withSharedProtectedHeader($jweSharedProtectedHeader)
             ->withSharedHeader($jweSharedHeader)
-            ->withAAD($aad);
+            ->withAAD($aad)
+        ;
         foreach ($recipients as $recipient) {
             if (!\is_array($recipient) || !\array_key_exists('key', $recipient)) {
                 throw new \InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');
@@ -84,8 +85,7 @@ class NestedTokenBuilder
             $jwe = $jwe->addRecipient($recipient['key'], $recipient['header']);
         }
         $jwe = $jwe->build();
-        $token = $this->jweSerializerManager->serialize($jwe_serialization_mode, $jwe);
 
-        return $token;
+        return $this->jweSerializerManager->serialize($jwe_serialization_mode, $jwe);
     }
 }

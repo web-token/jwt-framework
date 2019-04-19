@@ -27,15 +27,18 @@ use Symfony\Component\Serializer\Serializer;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 final class JWSEncoderTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(BaseJWSBuilderFactory::class)) {
+        if (!class_exists(BaseJWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
-        if (!\class_exists(Serializer::class)) {
+        if (!class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -94,7 +97,8 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', $serializer->encode($jws, 'jws_compact'));
         static::assertEquals('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', $serializer->encode($jws, 'jws_json_flattened'));
@@ -122,7 +126,8 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals($jws, $serializer->decode('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', 'jws_compact'));
         static::assertEquals($jws, $serializer->decode('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', 'jws_json_flattened'));
@@ -157,7 +162,8 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk2, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         $context = [
             'signature_index' => 0,
         ];
@@ -203,7 +209,8 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsEncoding('jws_compact'));
         static::assertFalse($serializer->supportsEncoding('jws_json_flattened'));
@@ -239,7 +246,8 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', $serializer->encode($jws, 'jws_compact'));
         $this->expectExceptionMessage('Cannot encode JWS to jws_json_flattened format.');
@@ -270,7 +278,8 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals($jws, $serializer->decode('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', 'jws_compact'));
         $this->expectExceptionMessage('Cannot decode JWS from jws_json_flattened format.');

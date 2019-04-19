@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Assert\Assertion;
 use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\TokenTypeSupport;
-use function Safe\sprintf;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class HeaderCheckerManagerFactory
@@ -83,7 +82,7 @@ final class HeaderCheckerManagerFactory
      */
     public function aliases(): array
     {
-        return \array_keys($this->checkers);
+        return array_keys($this->checkers);
     }
 
     /**

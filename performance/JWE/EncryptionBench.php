@@ -95,7 +95,8 @@ abstract class EncryptionBench
             ->withSharedProtectedHeader($params['shared_protected_header'])
             ->withSharedHeader($params['shared_header'])
             ->addRecipient(JWK::create($params['recipient_key']), $params['recipient_header'])
-            ->build();
+            ->build()
+        ;
     }
 
     /**

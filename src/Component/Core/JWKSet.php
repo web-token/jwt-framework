@@ -14,9 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use Assert\Assertion;
-use function Safe\json_decode;
-use function Safe\sprintf;
-use function Safe\usort;
 
 class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
 {
@@ -68,7 +65,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromKeys(array $keys): self
     {
-        $keys = \array_filter($keys, function () {
+        $keys = array_filter($keys, function () {
             return true;
         });
         foreach ($keys as $k => $v) {
@@ -170,7 +167,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return ['keys' => \array_values($this->keys)];
+        return ['keys' => array_values($this->keys)];
     }
 
     /**
@@ -188,7 +185,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      * Returns null if not found.
      *
      * @param string         $type         Must be 'sig' (signature) or 'enc' (encryption)
-     * @param Algorithm|null $algorithm    Specifies the algorithm to be used
+     * @param null|Algorithm $algorithm    Specifies the algorithm to be used
      * @param array          $restrictions More restrictions such as 'kid' or 'kty'
      */
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
@@ -225,6 +222,31 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
         usort($result, [$this, 'sortKeys']);
 
         return $result[0]['key'];
+    }
+
+    /**
+     * Internal method only. Should not be used.
+     *
+     * @internal
+     * @internal
+     */
+    public static function sortKeys(array $a, array $b): int
+    {
+        if ($a['ind'] === $b['ind']) {
+            return 0;
+        }
+
+        return ($a['ind'] > $b['ind']) ? -1 : 1;
+    }
+
+    /**
+     * Internal method only. Should not be used.
+     *
+     * @internal
+     */
+    public function getIterator(): \Traversable
+    {
+        return new \ArrayIterator($this->keys);
     }
 
     /**
@@ -285,30 +307,5 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             default:
                 throw new \InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
         }
-    }
-
-    /**
-     * Internal method only. Should not be used.
-     *
-     * @internal
-     * @internal
-     */
-    public static function sortKeys(array $a, array $b): int
-    {
-        if ($a['ind'] === $b['ind']) {
-            return 0;
-        }
-
-        return ($a['ind'] > $b['ind']) ? -1 : 1;
-    }
-
-    /**
-     * Internal method only. Should not be used.
-     *
-     * @internal
-     */
-    public function getIterator(): \Traversable
-    {
-        return new \ArrayIterator($this->keys);
     }
 }

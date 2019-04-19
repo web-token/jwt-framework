@@ -17,7 +17,6 @@ use Assert\Assertion;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
-use function Safe\sprintf;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -44,7 +43,8 @@ final class KeysetAnalyzerCommand extends Command
             ->setName('keyset:analyze')
             ->setDescription('JWKSet quality analyzer.')
             ->setHelp('This command will analyze a JWKSet object and find security issues.')
-            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
+            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

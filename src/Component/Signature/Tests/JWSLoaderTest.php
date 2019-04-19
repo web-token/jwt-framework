@@ -20,9 +20,17 @@ use Jose\Component\Signature\JWSLoader;
 /**
  * @group JWSLoader
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class JWSLoaderTest extends SignatureTest
 {
+    /**
+     * @var null|JWSLoader
+     */
+    private $jwsLoader;
+
     /**
      * @test
      * @expectedException \Exception
@@ -99,11 +107,6 @@ class JWSLoaderTest extends SignatureTest
         static::assertEquals("It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.", $jws->getPayload());
         static::assertEquals(0, $signature);
     }
-
-    /**
-     * @var JWSLoader|null
-     */
-    private $jwsLoader = null;
 
     private function getJWSLoader(): JWSLoader
     {

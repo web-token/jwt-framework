@@ -24,9 +24,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group HeaderChecker
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class HeaderCheckerManagerFactoryTest extends TestCase
 {
+    /**
+     * @var null|HeaderCheckerManagerFactory
+     */
+    private $headerCheckerManagerFactory;
+
     /**
      * @test
      */
@@ -46,7 +54,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['alg' => 'foo'];
         $unprotected = ['alg' => 'foo'];
-        $token = new Token(\json_encode($payload), $protected, $unprotected);
+        $token = new Token(json_encode($payload), $protected, $unprotected);
 
         $headerCheckerManager->check($token, 0);
     }
@@ -62,7 +70,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['crit' => ['alg']];
         $unprotected = [];
-        $token = new Token(\json_encode($payload), $protected, $unprotected);
+        $token = new Token(json_encode($payload), $protected, $unprotected);
 
         $headerCheckerManager->check($token, 0);
     }
@@ -76,7 +84,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['crit' => ['aud'], 'aud' => 'My Service'];
         $unprotected = ['iss' => 'Another Service'];
-        $token = new Token(\json_encode($payload), $protected, $unprotected);
+        $token = new Token(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
         static::assertTrue(true);
     }
@@ -92,7 +100,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['aud' => 'My Service'];
         $unprotected = ['crit' => ['aud']];
-        $token = new Token(\json_encode($payload), $protected, $unprotected);
+        $token = new Token(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
     }
 
@@ -107,7 +115,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['aud' => 'My Service', 'crit' => true];
         $unprotected = [];
-        $token = new Token(\json_encode($payload), $protected, $unprotected);
+        $token = new Token(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
     }
 
@@ -120,7 +128,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['foo' => 'bar', 'iss' => 'Another Service'];
         $unprotected = [];
-        $token = new Token(\json_encode($payload), $protected, $unprotected);
+        $token = new Token(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
         static::assertTrue(true);
     }
@@ -136,7 +144,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['aud' => 'Audience', 'iss' => 'Another Service'];
         $unprotected = ['foo' => 'bar'];
-        $token = new Token(\json_encode($payload), $protected, $unprotected);
+        $token = new Token(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0, ['aud', 'iss', 'mandatory']);
     }
 
@@ -151,14 +159,9 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $payload = [];
         $protected = ['foo' => 'bar'];
         $unprotected = [];
-        $token = new OtherToken(\json_encode($payload), $protected, $unprotected);
+        $token = new OtherToken(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
     }
-
-    /**
-     * @var HeaderCheckerManagerFactory|null
-     */
-    private $headerCheckerManagerFactory = null;
 
     private function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
     {

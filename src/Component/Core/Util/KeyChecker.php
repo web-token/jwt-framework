@@ -15,7 +15,6 @@ namespace Jose\Component\Core\Util;
 
 use Assert\Assertion;
 use Jose\Component\Core\JWK;
-use function Safe\sprintf;
 
 /**
  * @internal
@@ -30,6 +29,15 @@ class KeyChecker
         if ($key->has('key_ops')) {
             self::checkOperation($key, $usage);
         }
+    }
+
+    public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
+    {
+        if (!$key->has('alg')) {
+            return;
+        }
+
+        Assertion::eq($key->get('alg'), $algorithm, sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
     }
 
     private static function checkOperation(JWK $key, string $usage): void
@@ -81,14 +89,5 @@ class KeyChecker
             default:
                 throw new \InvalidArgumentException('Unsupported key usage.');
         }
-    }
-
-    public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
-    {
-        if (!$key->has('alg')) {
-            return;
-        }
-
-        Assertion::eq($key->get('alg'), $algorithm, sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
     }
 }

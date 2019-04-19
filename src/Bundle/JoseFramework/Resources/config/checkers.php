@@ -19,20 +19,26 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Services\HeaderCheckerManagerFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Services\ClaimCheckerManagerFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Checker\ExpirationTimeChecker::class)
-        ->tag('jose.checker.claim', ['alias' => 'exp']);
+        ->tag('jose.checker.claim', ['alias' => 'exp'])
+    ;
 
     $container->set(Checker\IssuedAtChecker::class)
-        ->tag('jose.checker.claim', ['alias' => 'iat']);
+        ->tag('jose.checker.claim', ['alias' => 'iat'])
+    ;
 
     $container->set(Checker\NotBeforeChecker::class)
-        ->tag('jose.checker.claim', ['alias' => 'nbf']);
+        ->tag('jose.checker.claim', ['alias' => 'nbf'])
+    ;
 };

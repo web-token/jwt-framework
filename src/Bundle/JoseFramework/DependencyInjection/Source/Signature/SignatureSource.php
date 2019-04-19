@@ -67,7 +67,7 @@ class SignatureSource implements SourceWithCompilerPasses
 
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
-            if (\class_exists($class)) {
+            if (class_exists($class)) {
                 $loader->load($file);
             }
         }
@@ -79,18 +79,6 @@ class SignatureSource implements SourceWithCompilerPasses
         }
     }
 
-    private function getAlgorithmsFiles(): array
-    {
-        return [
-            RSA::class => 'signature_rsa.php',
-            ECDSA::class => 'signature_ecdsa.php',
-            EdDSA::class => 'signature_eddsa.php',
-            HMAC::class => 'signature_hmac.php',
-            None::class => 'signature_none.php',
-            HS1::class => 'signature_experimental.php',
-        ];
-    }
-
     public function getNodeDefinition(NodeDefinition $node): void
     {
         if (!$this->isEnabled()) {
@@ -100,7 +88,8 @@ class SignatureSource implements SourceWithCompilerPasses
             ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
             ->treatFalseLike([])
-            ->treatNullLike([]);
+            ->treatNullLike([])
+        ;
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -123,11 +112,6 @@ class SignatureSource implements SourceWithCompilerPasses
         return $result;
     }
 
-    private function isEnabled(): bool
-    {
-        return \class_exists(JWSBuilderFactory::class) && \class_exists(JWSVerifierFactory::class);
-    }
-
     /**
      * @return CompilerPassInterface[]
      */
@@ -136,5 +120,22 @@ class SignatureSource implements SourceWithCompilerPasses
         return [
             new Compiler\SignatureSerializerCompilerPass(),
         ];
+    }
+
+    private function getAlgorithmsFiles(): array
+    {
+        return [
+            RSA::class => 'signature_rsa.php',
+            ECDSA::class => 'signature_ecdsa.php',
+            EdDSA::class => 'signature_eddsa.php',
+            HMAC::class => 'signature_hmac.php',
+            None::class => 'signature_none.php',
+            HS1::class => 'signature_experimental.php',
+        ];
+    }
+
+    private function isEnabled(): bool
+    {
+        return class_exists(JWSBuilderFactory::class) && class_exists(JWSVerifierFactory::class);
     }
 }

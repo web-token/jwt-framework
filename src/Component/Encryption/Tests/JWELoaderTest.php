@@ -22,9 +22,17 @@ use Jose\Component\Encryption\JWELoader;
  *
  * @group JWELoader
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWELoaderTest extends EncryptionTest
 {
+    /**
+     * @var null|JWELoader
+     */
+    private $jweLoader;
+
     /**
      * @test
      * @expectedException \Exception
@@ -105,11 +113,6 @@ class JWELoaderTest extends EncryptionTest
         static::assertEquals('You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.', $jwe->getPayload());
         static::assertEquals(0, $recipient);
     }
-
-    /**
-     * @var JWELoader|null
-     */
-    private $jweLoader = null;
 
     private function getJWELoader(): JWELoader
     {

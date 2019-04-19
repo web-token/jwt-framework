@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.4
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
 {
@@ -30,7 +33,7 @@ class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function eCDH_ES_A128KWAndA128GCMEncryption()
+    public function eCDHESA128KWAndA128GCMEncryption()
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -103,7 +106,7 @@ class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function eCDH_ES_A128KWAndA128GCMEncryptionBis()
+    public function eCDHESA128KWAndA128GCMEncryptionBis()
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -139,7 +142,8 @@ class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($public_key)
-            ->build();
+            ->build()
+        ;
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));

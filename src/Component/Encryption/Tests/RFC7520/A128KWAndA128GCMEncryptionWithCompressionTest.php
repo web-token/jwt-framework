@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.9
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class A128KWAndA128GCMEncryptionWithCompressionTest extends EncryptionTest
 {
@@ -122,7 +125,8 @@ class A128KWAndA128GCMEncryptionWithCompressionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build();
+            ->build()
+        ;
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\TestBundle\Checker;
 
+use InvalidArgumentException;
 use Jose\Component\Checker\ClaimChecker;
 use Jose\Component\Checker\HeaderChecker;
 
@@ -21,7 +22,7 @@ class CustomChecker implements ClaimChecker, HeaderChecker
     public function checkClaim($value): void
     {
         if (true === $value) {
-            throw new \InvalidArgumentException('Custom checker!');
+            throw new InvalidArgumentException('Custom checker!');
         }
     }
 
@@ -36,7 +37,7 @@ class CustomChecker implements ClaimChecker, HeaderChecker
     public function checkHeader($value): void
     {
         if (true === $value) {
-            throw new \InvalidArgumentException('Custom checker!');
+            throw new InvalidArgumentException('Custom checker!');
         }
     }
 

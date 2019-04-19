@@ -21,9 +21,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWKAnalyzer
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKAnalyzerTest extends TestCase
 {
+    /**
+     * @var null|Analyzer\KeyAnalyzerManager
+     */
+    private $keyAnalyzerManager;
+
     /**
      * @test
      */
@@ -79,11 +87,6 @@ class JWKAnalyzerTest extends TestCase
 
         static::assertNotEmpty($messages);
     }
-
-    /**
-     * @var Analyzer\KeyAnalyzerManager|null
-     */
-    private $keyAnalyzerManager;
 
     private function getKeyAnalyzer(): Analyzer\KeyAnalyzerManager
     {

@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWK
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKTest extends TestCase
 {
@@ -50,7 +53,7 @@ class JWKTest extends TestCase
         static::assertFalse($jwk->has('x5t#256'));
         static::assertEquals('f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU', $jwk->get('x'));
         static::assertEquals('x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0', $jwk->get('y'));
-        static::assertEquals('{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sig","key_ops":["sign"],"alg":"ES256","bar":"plic"}', \json_encode($jwk));
+        static::assertEquals('{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sig","key_ops":["sign"],"alg":"ES256","bar":"plic"}', json_encode($jwk));
         static::assertEquals('oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U', $jwk->thumbprint('sha256'));
         static::assertEquals('EMMMl6Rj75mqhcABihxxl_VCN9s', $jwk->thumbprint('sha1'));
         static::assertEquals('dqwHnan4iJ1_eEll-o4Egw', $jwk->thumbprint('md5'));
@@ -127,7 +130,7 @@ class JWKTest extends TestCase
 
         $public = $private->toPublic();
 
-        static::assertEquals(\json_encode([
+        static::assertEquals(json_encode([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -136,6 +139,6 @@ class JWKTest extends TestCase
             'key_ops' => ['verify'],
             'alg' => 'ES256',
             'kid' => '9876543210',
-        ]), \json_encode($public));
+        ]), json_encode($public));
     }
 }

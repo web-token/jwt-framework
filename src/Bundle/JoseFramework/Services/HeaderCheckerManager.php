@@ -46,6 +46,7 @@ final class HeaderCheckerManager extends BaseHeaderCheckerManager
                 Events::HEADER_CHECK_FAILURE,
                 new HeaderCheckedFailureEvent($jwt, $index, $mandatoryHeaderParameters, $throwable)
             );
+
             throw $throwable;
         }
     }

@@ -18,13 +18,15 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(DataCollector\JoseCollector::class)
         ->tag('data_collector', [
             'id' => 'jose_collector',
             'template' => '@JoseFramework/data_collector/template.html.twig',
-        ]);
+        ])
+    ;
 
     $container->set(DataCollector\AlgorithmCollector::class);
     $container->set(DataCollector\CheckerCollector::class);

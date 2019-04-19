@@ -20,12 +20,15 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group NewAlgorithm
+ *
+ * @internal
+ * @coversNothing
  */
 class Chacha20Poly1305ContentEncryptionTest extends TestCase
 {
     protected function setUp()
     {
-        if (!\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
+        if (!\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
             static::markTestSkipped('The algorithm "chacha20-poly1305" is not supported in this platform.');
         }
     }
@@ -37,7 +40,7 @@ class Chacha20Poly1305ContentEncryptionTest extends TestCase
     {
         $header = [];
         $algorithm = new Chacha20Poly1305();
-        $cek = \random_bytes(256 / 8);
+        $cek = random_bytes(256 / 8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];

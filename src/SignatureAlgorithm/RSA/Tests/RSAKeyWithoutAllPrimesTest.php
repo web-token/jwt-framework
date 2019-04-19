@@ -25,6 +25,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group RSA2
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAKeyWithoutAllPrimesTest extends TestCase
 {
@@ -38,7 +41,7 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         $algorithm = new $signature_algorithm();
         $key = $this->getPrivateKey();
 
-        $claims = \json_encode(['foo' => 'bar']);
+        $claims = json_encode(['foo' => 'bar']);
 
         $jwsBuilder = new JWSBuilder(
             new AlgorithmManager([$algorithm])
@@ -51,7 +54,8 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($claims)
             ->addSignature($key, ['alg' => $algorithm->name()])
-            ->build();
+            ->build()
+        ;
         $jws = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($jws);

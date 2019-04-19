@@ -18,7 +18,8 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Console\JKULoaderCommand::class);
     $container->set(Console\X5ULoaderCommand::class);

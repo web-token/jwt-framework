@@ -29,7 +29,8 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
             ->setName('keyset:generate:ec')
             ->setDescription('Generate an EC key set (JWKSet format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
-            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.');
+            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

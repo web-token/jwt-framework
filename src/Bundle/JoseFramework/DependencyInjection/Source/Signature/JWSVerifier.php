@@ -15,7 +15,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
 use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
-use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -38,7 +37,8 @@ class JWSVerifier extends AbstractSignatureSource
                     $itemConfig['signature_algorithms'],
                 ])
                 ->addTag('jose.jws_verifier')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }

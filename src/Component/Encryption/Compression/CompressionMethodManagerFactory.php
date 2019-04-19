@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Compression;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 class CompressionMethodManagerFactory
 {
@@ -41,7 +40,7 @@ class CompressionMethodManagerFactory
      */
     public function aliases(): array
     {
-        return \array_keys($this->compressionMethods);
+        return array_keys($this->compressionMethods);
     }
 
     /**

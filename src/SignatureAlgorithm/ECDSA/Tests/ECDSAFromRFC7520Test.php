@@ -25,6 +25,9 @@ use PHPUnit\Framework\TestCase;
  * @see https://tools.ietf.org/html/rfc7520#section-4.3
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class ECDSAFromRFC7520Test extends TestCase
 {
@@ -79,7 +82,8 @@ class ECDSAFromRFC7520Test extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($private_key, $header)
-            ->build();
+            ->build()
+        ;
 
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $private_key, 0));
 

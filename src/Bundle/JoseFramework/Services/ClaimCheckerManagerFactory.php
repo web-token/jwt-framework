@@ -15,7 +15,6 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Assert\Assertion;
 use Jose\Component\Checker\ClaimChecker;
-use function Safe\sprintf;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class ClaimCheckerManagerFactory
@@ -67,7 +66,7 @@ final class ClaimCheckerManagerFactory
      */
     public function aliases(): array
     {
-        return \array_keys($this->checkers);
+        return array_keys($this->checkers);
     }
 
     /**

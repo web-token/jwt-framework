@@ -18,14 +18,18 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(KeyEncryption\RSA15::class)
-        ->tag('jose.algorithm', ['alias' => 'RSA1_5']);
+        ->tag('jose.algorithm', ['alias' => 'RSA1_5'])
+    ;
 
     $container->set(KeyEncryption\RSAOAEP::class)
-        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP']);
+        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP'])
+    ;
 
     $container->set(KeyEncryption\RSAOAEP256::class)
-        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP-256']);
+        ->tag('jose.algorithm', ['alias' => 'RSA-OAEP-256'])
+    ;
 };

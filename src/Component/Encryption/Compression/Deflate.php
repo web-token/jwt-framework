@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Compression;
 
 use Assert\Assertion;
-use function Safe\gzdeflate;
-use function Safe\gzinflate;
 
 final class Deflate implements CompressionMethod
 {
@@ -31,11 +29,6 @@ final class Deflate implements CompressionMethod
     {
         Assertion::between($compressionLevel, -1, 9, 'The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.');
         $this->compressionLevel = $compressionLevel;
-    }
-
-    private function getCompressionLevel(): int
-    {
-        return $this->compressionLevel;
     }
 
     public function name(): string
@@ -59,5 +52,10 @@ final class Deflate implements CompressionMethod
         } catch (\Throwable $throwable) {
             throw new \InvalidArgumentException('Unable to uncompress data.', $throwable->getCode(), $throwable);
         }
+    }
+
+    private function getCompressionLevel(): int
+    {
+        return $this->compressionLevel;
     }
 }

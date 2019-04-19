@@ -23,9 +23,9 @@ class JWS implements JWT
     private $isPayloadDetached = false;
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $encodedPayload = null;
+    private $encodedPayload;
 
     /**
      * @var Signature[]
@@ -33,9 +33,9 @@ class JWS implements JWT
     private $signatures = [];
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $payload = null;
+    private $payload;
 
     public function __construct(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false)
     {
@@ -132,10 +132,10 @@ class JWS implements JWT
                 $this->isPayloadDetached
             );
             $jws = $jws->addSignature(
-                 $signature->getSignature(),
-                 $signature->getProtectedHeader(),
-                 $signature->getEncodedProtectedHeader(),
-                 $signature->getHeader()
+                $signature->getSignature(),
+                $signature->getProtectedHeader(),
+                $signature->getEncodedProtectedHeader(),
+                $signature->getHeader()
              );
 
             $result[] = $jws;

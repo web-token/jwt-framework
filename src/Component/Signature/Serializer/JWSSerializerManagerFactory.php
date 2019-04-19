@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 class JWSSerializerManagerFactory
 {
@@ -42,7 +41,7 @@ class JWSSerializerManagerFactory
      */
     public function names(): array
     {
-        return \array_keys($this->serializers);
+        return array_keys($this->serializers);
     }
 
     /**

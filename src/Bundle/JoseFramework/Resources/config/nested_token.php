@@ -18,11 +18,14 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Services\NestedTokenBuilderFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Services\NestedTokenLoaderFactory::class)
-        ->public();
+        ->public()
+    ;
 };

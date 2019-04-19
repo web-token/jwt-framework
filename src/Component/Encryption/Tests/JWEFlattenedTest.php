@@ -16,10 +16,12 @@ namespace Jose\Component\Encryption\Tests;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
-use function Safe\hex2bin;
 
 /**
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWEFlattenedTest extends EncryptionTest
 {

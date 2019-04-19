@@ -21,9 +21,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWKSetAnalyzer
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKSetAnalyzerTest extends TestCase
 {
+    /**
+     * @var null|Analyzer\KeysetAnalyzerManager
+     */
+    private $keysetAnalyzerManager;
+
     /**
      * @test
      */
@@ -112,11 +120,6 @@ class JWKSetAnalyzerTest extends TestCase
 
         static::assertNotEmpty($messages);
     }
-
-    /**
-     * @var Analyzer\KeysetAnalyzerManager|null
-     */
-    private $keysetAnalyzerManager;
 
     private function getKeysetAnalyzer(): Analyzer\KeysetAnalyzerManager
     {

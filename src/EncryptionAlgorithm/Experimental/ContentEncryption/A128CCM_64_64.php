@@ -20,23 +20,23 @@ final class A128CCM_64_64 extends AESCCM
         return 128;
     }
 
-    protected function getMode(): string
-    {
-        return 'aes-128-ccm';
-    }
-
     public function name(): string
     {
         return 'A128CCM-64-64';
     }
 
-    protected function getTagLength(): int
-    {
-        return 8;
-    }
-
     public function getIVSize(): int
     {
         return 7;
+    }
+
+    protected function getMode(): string
+    {
+        return 'aes-128-ccm';
+    }
+
+    protected function getTagLength(): int
+    {
+        return 8;
     }
 }

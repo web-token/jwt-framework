@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.1
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
 {
@@ -30,7 +33,7 @@ class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function rSA1_5AndA128CBC_HS256Encryption()
+    public function rSA15AndA128CBCHS256Encryption()
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -101,7 +104,7 @@ class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function rSA1_5AndA128CBC_HS256EncryptionBis()
+    public function rSA15AndA128CBCHS256EncryptionBis()
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -132,7 +135,8 @@ class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build();
+            ->build()
+        ;
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));

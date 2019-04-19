@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use function Safe\json_decode;
-use function Safe\json_encode;
-
 final class JsonConverter
 {
     /**

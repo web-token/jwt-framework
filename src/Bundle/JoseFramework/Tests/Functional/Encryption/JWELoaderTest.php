@@ -21,12 +21,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWELoaderTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(JWEBuilderFactory::class)) {
+        if (!class_exists(JWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }

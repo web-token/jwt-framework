@@ -23,6 +23,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @group unit
  * @group NewAlgorithm
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAOAEPKeyEncryptionTest extends TestCase
 {
@@ -33,7 +36,7 @@ class RSAOAEPKeyEncryptionTest extends TestCase
     {
         $header = [];
         $algorithm = new RSAOAEP384();
-        $cek = \random_bytes(256 / 8);
+        $cek = random_bytes(256 / 8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];
@@ -50,7 +53,7 @@ class RSAOAEPKeyEncryptionTest extends TestCase
     {
         $header = [];
         $algorithm = new RSAOAEP512();
-        $cek = \random_bytes(256 / 8);
+        $cek = random_bytes(256 / 8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];

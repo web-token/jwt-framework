@@ -84,7 +84,8 @@ final class JSONFlattenedSerializer implements JWESerializer
             $sharedHeader,
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
-            [new Recipient($header, $encryptedKey)]);
+            [new Recipient($header, $encryptedKey)]
+        );
     }
 
     private function checkData(array $data): void

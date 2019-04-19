@@ -17,11 +17,13 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\HS256_64;
 use PHPUnit\Framework\TestCase;
-use function Safe\hex2bin;
 
 /**
  * @group unit
  * @group NewAlgorithm
+ *
+ * @internal
+ * @coversNothing
  */
 class HMACSignatureTest extends TestCase
 {

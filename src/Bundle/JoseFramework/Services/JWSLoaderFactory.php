@@ -34,7 +34,7 @@ final class JWSLoaderFactory
     private $jwsSerializerManagerFactory;
 
     /**
-     * @var HeaderCheckerManagerFactory|null
+     * @var null|HeaderCheckerManagerFactory
      */
     private $headerCheckerManagerFactory;
 

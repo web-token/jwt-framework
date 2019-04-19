@@ -15,7 +15,6 @@ namespace Jose\Component\Console;
 
 use Assert\Assertion;
 use Jose\Component\KeyManagement\JWKFactory;
-use function Safe\base64_decode;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,7 +29,8 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
             ->setName('key:generate:from_secret')
             ->setDescription('Generate an octet key (JWK format) using an existing secret')
             ->addArgument('secret', InputArgument::REQUIRED, 'The secret')
-            ->addOption('is_b64', 'b', InputOption::VALUE_NONE, 'Indicates if the secret is Base64 encoded (useful for binary secrets)');
+            ->addOption('is_b64', 'b', InputOption::VALUE_NONE, 'Indicates if the secret is Base64 encoded (useful for binary secrets)')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

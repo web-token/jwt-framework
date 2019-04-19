@@ -16,7 +16,6 @@ namespace Jose\Component\Signature\Algorithm;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use function Safe\sprintf;
 
 final class EdDSA implements SignatureAlgorithm
 {
@@ -35,7 +34,7 @@ final class EdDSA implements SignatureAlgorithm
 
         switch ($key->get('crv')) {
             case 'Ed25519':
-                return \sodium_crypto_sign_detached($input, $secret);
+                return sodium_crypto_sign_detached($input, $secret);
             default:
                 throw new \InvalidArgumentException('Unsupported curve');
         }
@@ -49,10 +48,15 @@ final class EdDSA implements SignatureAlgorithm
 
         switch ($key->get('crv')) {
             case 'Ed25519':
-                return \sodium_crypto_sign_verify_detached($signature, $input, $public);
+                return sodium_crypto_sign_verify_detached($signature, $input, $public);
             default:
                 throw new \InvalidArgumentException('Unsupported curve');
         }
+    }
+
+    public function name(): string
+    {
+        return 'EdDSA';
     }
 
     private function checkKey(JWK $key): void
@@ -62,10 +66,5 @@ final class EdDSA implements SignatureAlgorithm
             Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
         }
         Assertion::inArray($key->get('crv'), ['Ed25519'], 'Unsupported curve.');
-    }
-
-    public function name(): string
-    {
-        return 'EdDSA';
     }
 }

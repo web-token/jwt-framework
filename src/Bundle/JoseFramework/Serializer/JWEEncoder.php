@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\Serializer;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
-use function Safe\sprintf;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -56,7 +55,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         } catch (\Exception $ex) {
             $message = sprintf('Cannot encode JWE to %s format.', $format);
 
-            if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
+            if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
             }
 
@@ -71,7 +70,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         } catch (\Exception $ex) {
             $message = sprintf('Cannot decode JWE from %s format.', $format);
 
-            if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
+            if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
             }
 

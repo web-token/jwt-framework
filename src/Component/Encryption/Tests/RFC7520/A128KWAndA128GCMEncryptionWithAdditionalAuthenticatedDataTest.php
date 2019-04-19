@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.10
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extends EncryptionTest
 {
@@ -112,7 +115,8 @@ class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extends Encr
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build();
+            ->build()
+        ;
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));

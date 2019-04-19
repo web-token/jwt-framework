@@ -16,9 +16,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use function Safe\openssl_decrypt;
-use function Safe\openssl_encrypt;
-use function Safe\sprintf;
+use RuntimeException;
 
 abstract class AESGCMKW implements KeyWrapping
 {
@@ -30,12 +28,15 @@ abstract class AESGCMKW implements KeyWrapping
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $kek = $this->checkKey($key);
-        $iv = \random_bytes(96 / 8);
+        $iv = random_bytes(96 / 8);
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
         $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $tag = '';
         $encrypted_cek = openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
+        if (false === $encrypted_cek) {
+            throw new RuntimeException('Unable to encrypt the CEK');
+        }
         $additionalHeader['tag'] = Base64Url::encode($tag);
 
         return $encrypted_cek;
@@ -51,6 +52,9 @@ abstract class AESGCMKW implements KeyWrapping
 
         $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $cek = openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
+        if (false === $cek) {
+            throw new RuntimeException('Unable to decrypt the CEK');
+        }
 
         return $cek;
     }

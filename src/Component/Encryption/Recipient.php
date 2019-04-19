@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 /**
  * @internal
@@ -27,9 +26,9 @@ class Recipient
     private $header = [];
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $encryptedKey = null;
+    private $encryptedKey;
 
     public function __construct(array $header, ?string $encryptedKey)
     {
@@ -50,7 +49,7 @@ class Recipient
      *
      * @param string $key The key
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getHeaderParameter(string $key)
     {

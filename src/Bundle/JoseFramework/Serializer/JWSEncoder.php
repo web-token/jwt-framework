@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\Serializer;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
-use function Safe\sprintf;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -55,9 +54,10 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
             return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getSignatureIndex($context));
         } catch (\Exception $ex) {
             $message = sprintf('Cannot encode JWS to %s format.', $format);
-            if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
+            if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
             }
+
             throw new UnexpectedValueException($message, 0, $ex);
         }
     }
@@ -68,9 +68,10 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
             return $this->serializerManager->unserialize($data);
         } catch (\Exception $ex) {
             $message = sprintf('Cannot decode JWS from %s format.', $format);
-            if (\class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
+            if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
             }
+
             throw new UnexpectedValueException($message, 0, $ex);
         }
     }

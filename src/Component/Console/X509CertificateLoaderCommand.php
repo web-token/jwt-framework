@@ -27,7 +27,8 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
         $this
             ->setName('key:load:x509')
             ->setDescription('Load a key from a X.509 certificate file.')
-            ->addArgument('file', InputArgument::REQUIRED, 'Filename of the X.509 certificate.');
+            ->addArgument('file', InputArgument::REQUIRED, 'Filename of the X.509 certificate.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

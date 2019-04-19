@@ -15,7 +15,6 @@ namespace Jose\Component\Encryption;
 
 use Assert\Assertion;
 use Jose\Component\Core\JWT;
-use function Safe\sprintf;
 
 class JWE implements JWT
 {
@@ -25,9 +24,9 @@ class JWE implements JWT
     private $recipients = [];
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $ciphertext = null;
+    private $ciphertext;
 
     /**
      * @var string
@@ -35,9 +34,9 @@ class JWE implements JWT
     private $iv;
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $aad = null;
+    private $aad;
 
     /**
      * @var string
@@ -55,14 +54,14 @@ class JWE implements JWT
     private $sharedProtectedHeader = [];
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $encodedSharedProtectedHeader = null;
+    private $encodedSharedProtectedHeader;
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $payload = null;
+    private $payload;
 
     public function __construct(string $ciphertext, string $iv, string $tag, ?string $aad = null, array $sharedHeader = [], array $sharedProtectedHeader = [], ?string $encodedSharedProtectedHeader = null, array $recipients = [])
     {
@@ -134,7 +133,7 @@ class JWE implements JWT
     /**
      * Returns the ciphertext. This method will return null is the JWE has not yet been encrypted.
      *
-     * @return string|null The cyphertext
+     * @return null|string The cyphertext
      */
     public function getCiphertext(): ?string
     {
@@ -187,7 +186,7 @@ class JWE implements JWT
      *
      * @param string $key The key
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getSharedProtectedHeaderParameter(string $key)
     {
@@ -220,7 +219,7 @@ class JWE implements JWT
      *
      * @param string $key The key
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getSharedHeaderParameter(string $key)
     {

@@ -17,8 +17,6 @@ use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
-use function Safe\preg_match;
-use function Safe\sprintf;
 
 final class CompactSerializer extends Serializer
 {
@@ -60,7 +58,7 @@ final class CompactSerializer extends Serializer
 
     public function unserialize(string $input): JWS
     {
-        $parts = \explode('.', $input);
+        $parts = explode('.', $input);
         Assertion::eq(3, \count($parts), 'Unsupported input');
 
         try {
@@ -77,9 +75,8 @@ final class CompactSerializer extends Serializer
             $signature = Base64Url::decode($parts[2]);
 
             $jws = new JWS($payload, $encodedPayload, !$hasPayload);
-            $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
 
-            return $jws;
+            return $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
         } catch (\Throwable $throwable) {
             throw new \InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
         }

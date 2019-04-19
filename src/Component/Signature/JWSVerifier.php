@@ -20,7 +20,6 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
-use function Safe\sprintf;
 
 class JWSVerifier
 {
@@ -65,7 +64,7 @@ class JWSVerifier
      * @param JWS         $jws             A JWS object
      * @param JWKSet      $jwkset          The signature will be verified using keys in the key set
      * @param JWK         $jwk             The key used to verify the signature in case of success
-     * @param string|null $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
+     * @param null|string $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
      * @return bool true if the verification of the signature succeeded, else false
      */
@@ -136,7 +135,7 @@ class JWSVerifier
 
     private function getAlgorithm(Signature $signature): SignatureAlgorithm
     {
-        $completeHeader = \array_merge($signature->getProtectedHeader(), $signature->getHeader());
+        $completeHeader = array_merge($signature->getProtectedHeader(), $signature->getHeader());
         Assertion::keyExists($completeHeader, 'alg', 'No "alg" parameter set in the header.');
 
         $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);

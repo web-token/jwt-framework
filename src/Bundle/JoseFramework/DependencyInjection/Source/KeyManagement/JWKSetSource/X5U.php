@@ -60,6 +60,7 @@ class X5U extends AbstractSource implements JWKSetSource
             ->useAttributeAsKey('name')
             ->variablePrototype()->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

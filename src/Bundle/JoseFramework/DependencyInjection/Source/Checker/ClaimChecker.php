@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
 use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
-use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -40,7 +39,8 @@ class ClaimChecker implements Source
                     $itemConfig['claims'],
                 ])
                 ->addTag('jose.claim_checker_manager')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -79,7 +79,8 @@ class ClaimChecker implements Source
             ->end()
             ->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

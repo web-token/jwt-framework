@@ -18,11 +18,14 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Compression\CompressionMethodManagerFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Compression\Deflate::class)
-        ->tag('jose.compression_method', ['alias' => 'DEF']);
+        ->tag('jose.compression_method', ['alias' => 'DEF'])
+    ;
 };

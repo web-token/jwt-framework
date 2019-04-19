@@ -24,6 +24,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group None
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class NoneSignatureTest extends TestCase
 {
@@ -80,7 +83,8 @@ class NoneSignatureTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($jwk, ['alg' => 'none'])
-            ->build();
+            ->build()
+        ;
 
         static::assertEquals(1, $jws->countSignatures());
 

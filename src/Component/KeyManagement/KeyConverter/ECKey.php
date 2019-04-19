@@ -22,9 +22,6 @@ use FG\ASN1\Universal\Integer;
 use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
-use function Safe\hex2bin;
-use function Safe\base64_decode;
-use function Safe\preg_replace;
 
 /**
  * @internal
@@ -46,6 +43,29 @@ class ECKey
         $data = self::loadPEM($pem);
 
         return new self($data);
+    }
+
+    /**
+     * @param ECKey $private
+     *
+     * @return ECKey
+     */
+    public static function toPublic(self $private): self
+    {
+        $data = $private->toArray();
+        if (\array_key_exists('d', $data)) {
+            unset($data['d']);
+        }
+
+        return new self($data);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->values;
     }
 
     private static function loadPEM(string $data): array
@@ -101,15 +121,15 @@ class ECKey
         }
 
         $bits = $children[1]->getContent();
-        $bits_length = \mb_strlen($bits, '8bit');
-        if ('04' !== \mb_substr($bits, 0, 2, '8bit')) {
+        $bits_length = mb_strlen($bits, '8bit');
+        if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
             throw new \InvalidArgumentException('Unsupported key type');
         }
 
         $values = ['kty' => 'EC'];
         $values['crv'] = self::getCurve($sub[1]->getContent());
-        $values['x'] = Base64Url::encode(hex2bin(\mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
-        $values['y'] = Base64Url::encode(hex2bin(\mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit')));
+        $values['x'] = Base64Url::encode(hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
+        $values['y'] = Base64Url::encode(hex2bin(mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit')));
 
         return $values;
     }
@@ -117,7 +137,7 @@ class ECKey
     private static function getCurve(string $oid): string
     {
         $curves = self::getSupportedCurves();
-        $curve = \array_search($oid, $curves, true);
+        $curve = array_search($oid, $curves, true);
         if (!\is_string($curve)) {
             throw new \InvalidArgumentException('Unsupported OID.');
         }
@@ -151,14 +171,14 @@ class ECKey
         }
 
         $bits = $children->getContent()[0]->getContent();
-        $bits_length = \mb_strlen($bits, '8bit');
+        $bits_length = mb_strlen($bits, '8bit');
 
-        if ('04' !== \mb_substr($bits, 0, 2, '8bit')) {
+        if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
             throw new \InvalidArgumentException('Unsupported key type');
         }
 
-        $x = \mb_substr($bits, 2, (int) (($bits_length - 2) / 2), '8bit');
-        $y = \mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), (int) (($bits_length - 2) / 2), '8bit');
+        $x = mb_substr($bits, 2, (int) (($bits_length - 2) / 2), '8bit');
+        $y = mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), (int) (($bits_length - 2) / 2), '8bit');
     }
 
     private static function getD(ASNObject $children): string
@@ -213,29 +233,6 @@ class ECKey
         }
 
         return true;
-    }
-
-    /**
-     * @param ECKey $private
-     *
-     * @return ECKey
-     */
-    public static function toPublic(self $private): self
-    {
-        $data = $private->toArray();
-        if (\array_key_exists('d', $data)) {
-            unset($data['d']);
-        }
-
-        return new self($data);
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->values;
     }
 
     private function loadJWK(array $jwk): void

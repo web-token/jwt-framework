@@ -25,14 +25,24 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 class KeyCollector implements Collector
 {
     /**
-     * @var KeyAnalyzerManager|null
+     * @var null|KeyAnalyzerManager
      */
     private $jwkAnalyzerManager;
 
     /**
-     * @var KeysetAnalyzerManager|null
+     * @var null|KeysetAnalyzerManager
      */
     private $jwksetAnalyzerManager;
+
+    /**
+     * @var JWK[]
+     */
+    private $jwks = [];
+
+    /**
+     * @var JWKSet[]
+     */
+    private $jwksets = [];
 
     public function __construct(?KeyAnalyzerManager $jwkAnalyzerManager = null, ?KeysetAnalyzerManager $jwksetAnalyzerManager = null)
     {
@@ -44,6 +54,16 @@ class KeyCollector implements Collector
     {
         $this->collectJWK($data);
         $this->collectJWKSet($data);
+    }
+
+    public function addJWK(string $id, JWK $jwk): void
+    {
+        $this->jwks[$id] = $jwk;
+    }
+
+    public function addJWKSet(string $id, JWKSet $jwkset): void
+    {
+        $this->jwksets[$id] = $jwkset;
     }
 
     private function collectJWK(array &$data): void
@@ -79,25 +99,5 @@ class KeyCollector implements Collector
                 'analyze_jwkset' => $analyzeJWKSet,
             ];
         }
-    }
-
-    /**
-     * @var JWK[]
-     */
-    private $jwks = [];
-
-    public function addJWK(string $id, JWK $jwk): void
-    {
-        $this->jwks[$id] = $jwk;
-    }
-
-    /**
-     * @var JWKSet[]
-     */
-    private $jwksets = [];
-
-    public function addJWKSet(string $id, JWKSet $jwkset): void
-    {
-        $this->jwksets[$id] = $jwkset;
     }
 }

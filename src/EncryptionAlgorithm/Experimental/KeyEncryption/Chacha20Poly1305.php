@@ -16,14 +16,13 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use function Safe\openssl_decrypt;
-use function Safe\openssl_encrypt;
+use RuntimeException;
 
 final class Chacha20Poly1305 implements KeyEncryption
 {
     public function __construct()
     {
-        Assertion::inArray('chacha20-poly1305', \openssl_get_cipher_methods(), 'The algorithm "chacha20-poly1305" is not supported in this platform.');
+        Assertion::inArray('chacha20-poly1305', openssl_get_cipher_methods(), 'The algorithm "chacha20-poly1305" is not supported in this platform.');
     }
 
     public function allowedKeyTypes(): array
@@ -39,12 +38,15 @@ final class Chacha20Poly1305 implements KeyEncryption
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
-        $nonce = \random_bytes(12);
+        $nonce = random_bytes(12);
 
         // We set header parameters
         $additionalHeader['nonce'] = Base64Url::encode($nonce);
 
         $result = openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
+        if (false === $result) {
+            throw new RuntimeException('Unable to encrypt the CEK');
+        }
 
         return $result;
     }
@@ -56,6 +58,9 @@ final class Chacha20Poly1305 implements KeyEncryption
         $nonce = Base64Url::decode($header['nonce']);
 
         $result = openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
+        if (false === $result) {
+            throw new RuntimeException('Unable to decrypt the CEK');
+        }
 
         return $result;
     }

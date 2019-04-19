@@ -17,6 +17,11 @@ use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 final class PS256 extends RSA
 {
+    public function name(): string
+    {
+        return 'PS256';
+    }
+
     protected function getAlgorithm(): string
     {
         return 'sha256';
@@ -25,10 +30,5 @@ final class PS256 extends RSA
     protected function getSignatureMethod(): int
     {
         return JoseRSA::SIGNATURE_PSS;
-    }
-
-    public function name(): string
-    {
-        return 'PS256';
     }
 }

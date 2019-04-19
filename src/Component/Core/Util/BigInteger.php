@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use function Safe\hex2bin;
-
 /**
  * @internal
  */
@@ -45,8 +43,8 @@ class BigInteger
      */
     public static function createFromBinaryString(string $value): self
     {
-        $value = '0x'.\unpack('H*', $value)[1];
-        $value = \gmp_init($value, 16);
+        $value = '0x'.unpack('H*', $value)[1];
+        $value = gmp_init($value, 16);
 
         return new self($value);
     }
@@ -56,7 +54,7 @@ class BigInteger
      */
     public static function createFromDecimal(int $value): self
     {
-        $value = \gmp_init($value, 10);
+        $value = gmp_init($value, 10);
 
         return new self($value);
     }
@@ -66,15 +64,15 @@ class BigInteger
      */
     public function toBytes(): string
     {
-        if (0 === \gmp_cmp($this->value, \gmp_init(0))) {
+        if (0 === gmp_cmp($this->value, gmp_init(0))) {
             return '';
         }
 
-        $temp = \gmp_strval(\gmp_abs($this->value), 16);
-        $temp = 0 !== (\mb_strlen($temp, '8bit') & 1) ? '0'.$temp : $temp;
+        $temp = gmp_strval(gmp_abs($this->value), 16);
+        $temp = 0 !== (mb_strlen($temp, '8bit') & 1) ? '0'.$temp : $temp;
         $temp = hex2bin($temp);
 
-        return \ltrim($temp, \chr(0));
+        return ltrim($temp, \chr(0));
     }
 
     /**
@@ -86,7 +84,7 @@ class BigInteger
      */
     public function add(self $y): self
     {
-        $value = \gmp_add($this->value, $y->value);
+        $value = gmp_add($this->value, $y->value);
 
         return self::createFromGMPResource($value);
     }
@@ -100,7 +98,7 @@ class BigInteger
      */
     public function subtract(self $y): self
     {
-        $value = \gmp_sub($this->value, $y->value);
+        $value = gmp_sub($this->value, $y->value);
 
         return self::createFromGMPResource($value);
     }
@@ -114,7 +112,7 @@ class BigInteger
      */
     public function multiply(self $x): self
     {
-        $value = \gmp_mul($this->value, $x->value);
+        $value = gmp_mul($this->value, $x->value);
 
         return self::createFromGMPResource($value);
     }
@@ -128,7 +126,7 @@ class BigInteger
      */
     public function divide(self $x): self
     {
-        $value = \gmp_div($this->value, $x->value);
+        $value = gmp_div($this->value, $x->value);
 
         return self::createFromGMPResource($value);
     }
@@ -143,7 +141,7 @@ class BigInteger
      */
     public function modPow(self $e, self $n): self
     {
-        $value = \gmp_powm($this->value, $e->value, $n->value);
+        $value = gmp_powm($this->value, $e->value, $n->value);
 
         return self::createFromGMPResource($value);
     }
@@ -157,7 +155,7 @@ class BigInteger
      */
     public function mod(self $d): self
     {
-        $value = \gmp_mod($this->value, $d->value);
+        $value = gmp_mod($this->value, $d->value);
 
         return self::createFromGMPResource($value);
     }
@@ -171,7 +169,7 @@ class BigInteger
      */
     public function modInverse(self $n): self
     {
-        $value = \gmp_invert($this->value, $n->value);
+        $value = gmp_invert($this->value, $n->value);
 
         return self::createFromGMPResource($value);
     }
@@ -183,7 +181,7 @@ class BigInteger
      */
     public function compare(self $y): int
     {
-        return \gmp_cmp($this->value, $y->value);
+        return gmp_cmp($this->value, $y->value);
     }
 
     /**
@@ -203,7 +201,7 @@ class BigInteger
     {
         $zero = self::createFromDecimal(0);
 
-        return self::createFromGMPResource(\gmp_random_range($zero->value, $y->value));
+        return self::createFromGMPResource(gmp_random_range($zero->value, $y->value));
     }
 
     /**
@@ -213,7 +211,7 @@ class BigInteger
      */
     public function gcd(self $y): self
     {
-        return self::createFromGMPResource(\gmp_gcd($this->value, $y->value));
+        return self::createFromGMPResource(gmp_gcd($this->value, $y->value));
     }
 
     /**

@@ -18,8 +18,10 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Algorithm\None::class)
-        ->tag('jose.algorithm', ['alias' => 'none']);
+        ->tag('jose.algorithm', ['alias' => 'none'])
+    ;
 };

@@ -27,7 +27,8 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
         $this
             ->setName('key:generate:oct')
             ->setDescription('Generate an octet key (JWK format)')
-            ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
+            ->addArgument('size', InputArgument::REQUIRED, 'Key size.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -15,19 +15,8 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
-use function Safe\sprintf;
-use function Safe\openssl_x509_read;
-use function Safe\openssl_x509_fingerprint;
-use function Safe\file_get_contents;
-use function Safe\openssl_pkey_get_private;
-use function Safe\openssl_pkey_get_public;
-use function Safe\preg_replace;
-use function Safe\preg_match;
-use function Safe\preg_match_all;
-use function Safe\base64_decode;
-use function Safe\openssl_decrypt;
-use function Safe\openssl_x509_export;
-use function Safe\json_encode;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * @internal
@@ -46,17 +35,19 @@ class KeyConverter
     {
         try {
             $res = openssl_x509_read($certificate);
-        } catch (\Throwable $throwable) {
-            $certificate = self::convertDerToPem($certificate);
-            try {
-                $res = openssl_x509_read($certificate);
-            } catch (\Throwable $throwable) {
-                throw new \InvalidArgumentException('Unable to load the certificate.', $throwable->getCode(), $throwable);
+            if (false === $res) {
+                throw new InvalidArgumentException('Unable to load the certificate.');
             }
+        } catch (\Exception $e) {
+            $certificate = self::convertDerToPem($certificate);
+            $res = openssl_x509_read($certificate);
+        }
+        if (false === $res) {
+            throw new InvalidArgumentException('Unable to load the certificate.');
         }
 
         $values = self::loadKeyFromX509Resource($res);
-        \openssl_x509_free($res);
+        openssl_x509_free($res);
 
         return $values;
     }
@@ -75,7 +66,7 @@ class KeyConverter
             openssl_x509_export($res, $out);
             $x5c = preg_replace('#-.*-#', '', $out);
             $x5c = preg_replace('~\R~', PHP_EOL, $x5c);
-            $x5c = \trim($x5c);
+            $x5c = trim($x5c);
 
             $values['x5c'] = [$x5c];
             $values['x5t'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha1', true));
@@ -84,7 +75,7 @@ class KeyConverter
             return $values;
         }
 
-        throw new \InvalidArgumentException('Unable to load the certificate');
+        throw new InvalidArgumentException('Unable to load the certificate');
     }
 
     public static function loadFromKeyFile(string $file, ?string $password = null): array
@@ -103,6 +94,48 @@ class KeyConverter
         }
     }
 
+    /**
+     * Be careful! The certificate chain is loaded, but it is NOT VERIFIED by any mean!
+     * It is mandatory to verify the root CA or intermediate  CA are trusted.
+     * If not done, it may lead to potential security issues.
+     */
+    public static function loadFromX5C(array $x5c): array
+    {
+        Assertion::notEmpty($x5c, 'The certificate chain is empty');
+        $certificate = null;
+        $last_issuer = null;
+        $last_subject = null;
+        foreach ($x5c as $cert) {
+            $current_cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
+            $x509 = openssl_x509_read($current_cert);
+            if (false === $x509) {
+                throw new InvalidArgumentException('Unable to load the certificate chain');
+            }
+            $parsed = openssl_x509_parse($x509);
+
+            openssl_x509_free($x509);
+            if (false === $parsed) {
+                throw new InvalidArgumentException('Unable to load the certificate chain');
+            }
+            if (null === $last_subject) {
+                $last_subject = $parsed['subject'];
+                $last_issuer = $parsed['issuer'];
+                $certificate = $current_cert;
+            } else {
+                if (json_encode($last_issuer) === json_encode($parsed['subject'])) {
+                    $last_subject = $parsed['subject'];
+                    $last_issuer = $parsed['issuer'];
+
+                    continue;
+                }
+
+                throw new InvalidArgumentException('Unable to load the certificate chain');
+            }
+        }
+
+        return self::loadKeyFromCertificate($certificate);
+    }
+
     private static function loadKeyFromDER(string $der, ?string $password = null): array
     {
         $pem = self::convertDerToPem($der);
@@ -117,19 +150,17 @@ class KeyConverter
         }
 
         self::sanitizePEM($pem);
-        try {
-            $res = openssl_pkey_get_private($pem);
-        } catch (\Throwable $throwable) {
-            try {
-                $res = openssl_pkey_get_public($pem);
-            } catch (\Throwable $throwable) {
-                throw new \InvalidArgumentException('Unable to load the key.', $throwable->getCode(), $throwable);
-            }
+        $res = openssl_pkey_get_private($pem);
+        if (false === $res) {
+            $res = openssl_pkey_get_public($pem);
+        }
+        if (false === $res) {
+            throw new InvalidArgumentException('Unable to load the key.');
         }
 
-        $details = \openssl_pkey_get_details($res);
+        $details = openssl_pkey_get_details($res);
         if (!\is_array($details) || !\array_key_exists('type', $details)) {
-            throw new \InvalidArgumentException('Unable to get details of the key');
+            throw new InvalidArgumentException('Unable to get details of the key');
         }
 
         switch ($details['type']) {
@@ -143,7 +174,7 @@ class KeyConverter
 
                  return $rsa_key->toArray();
             default:
-                throw new \InvalidArgumentException('Unsupported key type');
+                throw new InvalidArgumentException('Unsupported key type');
         }
     }
 
@@ -156,49 +187,8 @@ class KeyConverter
         $ciphertext = preg_replace('#-.*-|\r|\n| #', '', $pem);
 
         $pem = $matches[0][0].PHP_EOL;
-        $pem .= \chunk_split($ciphertext, 64, PHP_EOL);
+        $pem .= chunk_split($ciphertext, 64, PHP_EOL);
         $pem .= $matches[0][1].PHP_EOL;
-    }
-
-    /**
-     * Be careful! The certificate chain is loaded, but it is NOT VERIFIED by any mean!
-     * It is mandatory to verify the root CA or intermediate  CA are trusted.
-     * If not done, it may lead to potential security issues.
-     */
-    public static function loadFromX5C(array $x5c): array
-    {
-        Assertion::notEmpty($x5c, 'The certificate chain is empty');
-        $certificate = null;
-        $last_issuer = null;
-        $last_subject = null;
-        foreach ($x5c as $cert) {
-            $current_cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
-            try {
-                $x509 = openssl_x509_read($current_cert);
-            } catch (\Throwable $throwable) {
-                throw new \InvalidArgumentException('Unable to load the certificate chain', $throwable->getCode(), $throwable);
-            }
-            $parsed = \openssl_x509_parse($x509);
-
-            \openssl_x509_free($x509);
-            if (false === $parsed) {
-                throw new \InvalidArgumentException('Unable to load the certificate chain');
-            }
-            if (null === $last_subject) {
-                $last_subject = $parsed['subject'];
-                $last_issuer = $parsed['issuer'];
-                $certificate = $current_cert;
-            } else {
-                if (json_encode($last_issuer) === json_encode($parsed['subject'])) {
-                    $last_subject = $parsed['subject'];
-                    $last_issuer = $parsed['issuer'];
-                    continue;
-                }
-                throw new \InvalidArgumentException('Unable to load the certificate chain');
-            }
-        }
-
-        return self::loadKeyFromCertificate($certificate);
     }
 
     /**
@@ -207,22 +197,25 @@ class KeyConverter
     private static function decodePem(string $pem, array $matches, ?string $password = null): string
     {
         if (null === $password) {
-            throw new \InvalidArgumentException('Password required for encrypted keys.');
+            throw new InvalidArgumentException('Password required for encrypted keys.');
         }
 
-        $iv = \pack('H*', \trim($matches[2]));
-        $iv_sub = \mb_substr($iv, 0, 8, '8bit');
-        $symkey = \pack('H*', \md5($password.$iv_sub));
-        $symkey .= \pack('H*', \md5($symkey.$password.$iv_sub));
+        $iv = pack('H*', trim($matches[2]));
+        $iv_sub = mb_substr($iv, 0, 8, '8bit');
+        $symkey = pack('H*', md5($password.$iv_sub));
+        $symkey .= pack('H*', md5($symkey.$password.$iv_sub));
         $key = preg_replace('#^(?:Proc-Type|DEK-Info): .*#m', '', $pem);
         $ciphertext = base64_decode(preg_replace('#-.*-|\r|\n#', '', $key), true);
 
-        $decoded = openssl_decrypt($ciphertext, \mb_strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
+        $decoded = openssl_decrypt($ciphertext, mb_strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
+        if (false === $decoded) {
+            throw new RuntimeException('Unable to decrypt the key');
+        }
         $number = preg_match_all('#-{5}.*-{5}#', $pem, $result);
         Assertion::eq(2, $number, 'Unable to load the key');
 
         $pem = $result[0][0].PHP_EOL;
-        $pem .= \chunk_split(\base64_encode($decoded), 64);
+        $pem .= chunk_split(base64_encode($decoded), 64);
         $pem .= $result[0][1].PHP_EOL;
 
         return $pem;
@@ -230,9 +223,8 @@ class KeyConverter
 
     private static function convertDerToPem(string $der_data): string
     {
-        $pem = \chunk_split(\base64_encode($der_data), 64, PHP_EOL);
-        $pem = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$pem.'-----END CERTIFICATE-----'.PHP_EOL;
+        $pem = chunk_split(base64_encode($der_data), 64, PHP_EOL);
 
-        return $pem;
+        return '-----BEGIN CERTIFICATE-----'.PHP_EOL.$pem.'-----END CERTIFICATE-----'.PHP_EOL;
     }
 }

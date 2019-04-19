@@ -15,7 +15,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Component\Signature\JWSBuilder as JWSBuilderService;
-use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -36,7 +35,8 @@ class JWSBuilder extends AbstractSignatureSource
                 ->setFactory([new Reference(JWSBuilderFactory::class), 'create'])
                 ->setArguments([$itemConfig['signature_algorithms']])
                 ->addTag('jose.jws_builder')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }

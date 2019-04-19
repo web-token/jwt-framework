@@ -23,6 +23,9 @@ use PHPUnit\Framework\TestCase;
  * @group Bundle
  * @group functional
  * @group NestedToken
+ *
+ * @internal
+ * @coversNothing
  */
 class NestedTokenBuilderConfigurationTest extends TestCase
 {
@@ -30,20 +33,9 @@ class NestedTokenBuilderConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        if (!\class_exists(NestedTokenLoaderFactory::class)) {
+        if (!class_exists(NestedTokenLoaderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
         }
-    }
-
-    protected function getConfiguration()
-    {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Checker\CheckerSource(),
-            new Source\Signature\SignatureSource(),
-            new Source\Encryption\EncryptionSource(),
-            new Source\NestedToken\NestedToken(),
-        ]);
     }
 
     /**
@@ -231,5 +223,16 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                 ],
             ]
         );
+    }
+
+    protected function getConfiguration()
+    {
+        return new Configuration('jose', [
+            new Source\Core\CoreSource(),
+            new Source\Checker\CheckerSource(),
+            new Source\Signature\SignatureSource(),
+            new Source\Encryption\EncryptionSource(),
+            new Source\NestedToken\NestedToken(),
+        ]);
     }
 }

@@ -26,14 +26,14 @@ abstract class HMAC implements SignatureAlgorithm
 
     public function verify(JWK $key, string $input, string $signature): bool
     {
-        return \hash_equals($this->sign($key, $input), $signature);
+        return hash_equals($this->sign($key, $input), $signature);
     }
 
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
 
-        return \hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
+        return hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
     }
 
     protected function checkKey(JWK $key): void

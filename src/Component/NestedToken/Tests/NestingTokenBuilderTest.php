@@ -34,15 +34,48 @@ use PHPUnit\Framework\TestCase;
  *
  * @group RFC7520
  * @group NestedToken
+ *
+ * @internal
+ * @coversNothing
  */
 class NestingTokenBuilderTest extends TestCase
 {
+    /**
+     * @var JWSBuilderFactory
+     */
+    private $jwsBuilderFactory;
+
+    /**
+     * @var JWEBuilderFactory
+     */
+    private $jweBuilderFactory;
+
+    /**
+     * @var NestedTokenBuilderFactory
+     */
+    private $nestedTokenBuilderFactory;
+
+    /**
+     * @var AlgorithmManagerFactory
+     */
+    private $algorithmManagerFactory;
+
+    /**
+     * @var CompressionMethodManagerFactory
+     */
+    private $compressionMethodManagerFactory;
+
+    /**
+     * @var null|JweSerializer\JWESerializerManagerFactory
+     */
+    private $jwsSerializerManagerFactory;
+
     protected function setUp()
     {
-        if (!\class_exists(HeaderCheckerManagerFactory::class)) {
+        if (!class_exists(HeaderCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
-        if (!\class_exists(JWSBuilder::class)) {
+        if (!class_exists(JWSBuilder::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
@@ -109,11 +142,6 @@ class NestingTokenBuilderTest extends TestCase
         static::assertTrue(true);
     }
 
-    /**
-     * @var JWSBuilderFactory
-     */
-    private $jwsBuilderFactory;
-
     protected function getJWSBuilderFactory(): JWSBuilderFactory
     {
         if (null === $this->jwsBuilderFactory) {
@@ -124,11 +152,6 @@ class NestingTokenBuilderTest extends TestCase
 
         return $this->jwsBuilderFactory;
     }
-
-    /**
-     * @var JWEBuilderFactory
-     */
-    private $jweBuilderFactory;
 
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
@@ -141,11 +164,6 @@ class NestingTokenBuilderTest extends TestCase
 
         return $this->jweBuilderFactory;
     }
-
-    /**
-     * @var NestedTokenBuilderFactory
-     */
-    private $nestedTokenBuilderFactory;
 
     private function getNestedTokenBuilderFactory(): NestedTokenBuilderFactory
     {
@@ -171,11 +189,6 @@ class NestingTokenBuilderTest extends TestCase
         return $jwsSerializerManagerFactory;
     }
 
-    /**
-     * @var AlgorithmManagerFactory
-     */
-    private $algorithmManagerFactory;
-
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {
@@ -188,11 +201,6 @@ class NestingTokenBuilderTest extends TestCase
         return $this->algorithmManagerFactory;
     }
 
-    /**
-     * @var CompressionMethodManagerFactory
-     */
-    private $compressionMethodManagerFactory;
-
     private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
         if (null === $this->compressionMethodManagerFactory) {
@@ -202,11 +210,6 @@ class NestingTokenBuilderTest extends TestCase
 
         return $this->compressionMethodManagerFactory;
     }
-
-    /**
-     * @var JweSerializer\JWESerializerManagerFactory|null
-     */
-    private $jwsSerializerManagerFactory = null;
 
     private function getJWESerializerManagerFactory(): JweSerializer\JWESerializerManagerFactory
     {

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 class HeaderCheckerManagerFactory
 {
@@ -70,7 +69,7 @@ class HeaderCheckerManagerFactory
      */
     public function aliases(): array
     {
-        return \array_keys($this->checkers);
+        return array_keys($this->checkers);
     }
 
     /**

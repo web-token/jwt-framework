@@ -25,9 +25,17 @@ use Symfony\Component\Console\Output\BufferedOutput;
 /**
  * @group Console
  * @group AnalyzeCommand
+ *
+ * @internal
+ * @coversNothing
  */
 class AnalyzeCommandTest extends TestCase
 {
+    /**
+     * @var null|Analyzer\KeyAnalyzerManager
+     */
+    private $keyAnalyzerManager;
+
     /**
      * @test
      */
@@ -83,11 +91,6 @@ class AnalyzeCommandTest extends TestCase
         static::assertContains('* The parameter "kid" should be added.', $content);
         static::assertContains('* The parameter "use" should be added.', $content);
     }
-
-    /**
-     * @var Analyzer\KeyAnalyzerManager|null
-     */
-    private $keyAnalyzerManager;
 
     private function getKeyAnalyzer(): Analyzer\KeyAnalyzerManager
     {

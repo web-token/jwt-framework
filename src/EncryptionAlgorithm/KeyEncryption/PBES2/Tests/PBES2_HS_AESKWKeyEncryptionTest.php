@@ -19,13 +19,15 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
 use PHPUnit\Framework\TestCase;
-use function Safe\hex2bin;
 
 /**
  * Class PBES2_HS_AESKWKeyEncryptionTest.
  *
  * @group PBES2HSAESKW
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 {
@@ -60,7 +62,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function pBES2HS256A128KW_Bis()
+    public function pBES2HS256A128KWBis()
     {
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -258,9 +260,9 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     private function convertArrayToBinString(array $data)
     {
         foreach ($data as $key => $value) {
-            $data[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
+            $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
 
-        return hex2bin(\implode('', $data));
+        return hex2bin(implode('', $data));
     }
 }

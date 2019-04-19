@@ -29,7 +29,8 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
             ->setName('keyset:generate:okp')
             ->setDescription('Generate a key set with Octet Key Pairs keys (JWKSet format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
-            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.');
+            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

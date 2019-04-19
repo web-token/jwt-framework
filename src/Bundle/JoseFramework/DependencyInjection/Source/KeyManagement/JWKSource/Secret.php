@@ -58,6 +58,7 @@ class Secret extends AbstractSource implements JWKSource
             ->useAttributeAsKey('key')
             ->variablePrototype()->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

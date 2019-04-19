@@ -92,7 +92,8 @@ final class JSONGeneralSerializer implements JWESerializer
             $sharedHeader,
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
-            $recipients);
+            $recipients
+        );
     }
 
     private function checkData(array $data): void

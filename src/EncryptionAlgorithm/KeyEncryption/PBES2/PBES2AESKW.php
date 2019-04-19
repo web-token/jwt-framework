@@ -47,13 +47,13 @@ abstract class PBES2AESKW implements KeyWrapping
         $wrapper = $this->getWrapper();
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
-        $salt = \random_bytes($this->salt_size);
+        $salt = random_bytes($this->salt_size);
 
         // We set header parameters
         $additionalHeader['p2s'] = Base64Url::encode($salt);
         $additionalHeader['p2c'] = $this->nb_count;
 
-        $derived_key = \hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
+        $derived_key = hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
 
         return $wrapper::wrap($derived_key, $cek);
     }
@@ -69,7 +69,7 @@ abstract class PBES2AESKW implements KeyWrapping
         $salt = $completeHeader['alg']."\x00".Base64Url::decode($completeHeader['p2s']);
         $count = $completeHeader['p2c'];
 
-        $derived_key = \hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
+        $derived_key = hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
 
         return $wrapper::unwrap($derived_key, $encrypted_cek);
     }

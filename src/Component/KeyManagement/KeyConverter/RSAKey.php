@@ -15,10 +15,9 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
-use function Safe\openssl_pkey_get_private;
-use function Safe\openssl_pkey_get_public;
 
 /**
  * @internal
@@ -57,7 +56,7 @@ class RSAKey
         foreach ($details as $key => $value) {
             if (\in_array($key, $keys, true)) {
                 $value = Base64Url::encode($value);
-                $values[\array_search($key, $keys, true)] = $value;
+                $values[array_search($key, $keys, true)] = $value;
             }
         }
 
@@ -69,18 +68,16 @@ class RSAKey
      */
     public static function createFromPEM(string $pem): self
     {
-        try {
-            $res = openssl_pkey_get_private($pem);
-        } catch (\Throwable $throwable) {
-            try {
-                $res = openssl_pkey_get_public($pem);
-            } catch (\Throwable $throwable) {
-                throw new \InvalidArgumentException('Unable to load the key.');
-            }
+        $res = openssl_pkey_get_private($pem);
+        if (false === $res) {
+            $res = openssl_pkey_get_public($pem);
+        }
+        if (false === $res) {
+            throw new InvalidArgumentException('Unable to load the key.');
         }
 
-        $details = \openssl_pkey_get_details($res);
-        \openssl_free_key($res);
+        $details = openssl_pkey_get_details($res);
+        openssl_free_key($res);
         Assertion::keyExists($details, 'rsa', 'Unable to load the key.');
 
         return self::createFromKeyDetails($details['rsa']);
@@ -122,18 +119,6 @@ class RSAKey
         return $this->values;
     }
 
-    private function loadJWK(array $jwk): void
-    {
-        if (!\array_key_exists('kty', $jwk)) {
-            throw new \InvalidArgumentException('The key parameter "kty" is missing.');
-        }
-        if ('RSA' !== $jwk['kty']) {
-            throw new \InvalidArgumentException('The JWK is not a RSA key.');
-        }
-
-        $this->values = $jwk;
-    }
-
     public function toJwk(): JWK
     {
         return JWK::create($this->values);
@@ -148,6 +133,18 @@ class RSAKey
         if (\array_key_exists('d', $this->values)) {
             $this->populateCRT();
         }
+    }
+
+    private function loadJWK(array $jwk): void
+    {
+        if (!\array_key_exists('kty', $jwk)) {
+            throw new \InvalidArgumentException('The key parameter "kty" is missing.');
+        }
+        if ('RSA' !== $jwk['kty']) {
+            throw new \InvalidArgumentException('The JWK is not a RSA key.');
+        }
+
+        $this->values = $jwk;
     }
 
     /**

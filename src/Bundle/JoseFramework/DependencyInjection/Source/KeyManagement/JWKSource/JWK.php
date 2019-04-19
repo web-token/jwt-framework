@@ -51,6 +51,7 @@ class JWK extends AbstractSource implements JWKSource
             ->info('The JWK object')
             ->isRequired()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

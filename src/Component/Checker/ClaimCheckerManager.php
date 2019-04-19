@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Assert\Assertion;
-use function Safe\sprintf;
 
 /**
  * This manager handles as many claim checkers as needed.
@@ -34,12 +33,6 @@ class ClaimCheckerManager
         foreach ($checkers as $checker) {
             $this->add($checker);
         }
-    }
-
-    private function add(ClaimChecker $checker): void
-    {
-        $claim = $checker->supportedClaim();
-        $this->checkers[$claim] = $checker;
     }
 
     /**
@@ -76,6 +69,12 @@ class ClaimCheckerManager
         return $checkedClaims;
     }
 
+    private function add(ClaimChecker $checker): void
+    {
+        $claim = $checker->supportedClaim();
+        $this->checkers[$claim] = $checker;
+    }
+
     /**
      * @param string[] $mandatoryClaims
      */
@@ -84,10 +83,10 @@ class ClaimCheckerManager
         if (0 === \count($mandatoryClaims)) {
             return;
         }
-        $diff = \array_keys(\array_diff_key(\array_flip($mandatoryClaims), $claims));
+        $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
         Assertion::allString($diff);
         if (0 !== \count($diff)) {
-            throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', \implode(', ', $diff)), $diff);
+            throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', implode(', ', $diff)), $diff);
         }
     }
 }

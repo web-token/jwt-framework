@@ -22,6 +22,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group Bundle
  * @group Configuration
+ *
+ * @internal
+ * @coversNothing
  */
 class ConfigurationTest extends TestCase
 {
@@ -29,17 +32,9 @@ class ConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        if (!\class_exists(ClaimCheckerManagerFactory::class)) {
+        if (!class_exists(ClaimCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
-    }
-
-    protected function getConfiguration()
-    {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Checker\CheckerSource(),
-        ]);
     }
 
     /**
@@ -165,5 +160,13 @@ class ConfigurationTest extends TestCase
                 ]],
             ]
         );
+    }
+
+    protected function getConfiguration()
+    {
+        return new Configuration('jose', [
+            new Source\Core\CoreSource(),
+            new Source\Checker\CheckerSource(),
+        ]);
     }
 }

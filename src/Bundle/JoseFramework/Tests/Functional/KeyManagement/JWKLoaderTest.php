@@ -22,12 +22,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group Bundle
  * @group functional
  * @group KeyManagement
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKLoaderTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(JWKFactory::class)) {
+        if (!class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }

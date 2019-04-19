@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\EnvVarProcessor;
 
+use Closure;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use function Safe\sprintf;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 final class KeyEnvVarProcessor implements EnvVarProcessorInterface
 {
-    public function getEnv($prefix, $name, \Closure $getEnv)
+    public function getEnv($prefix, $name, Closure $getEnv)
     {
         $env = $getEnv($name);
         switch ($prefix) {

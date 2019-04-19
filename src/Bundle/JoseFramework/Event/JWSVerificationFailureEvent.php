@@ -25,7 +25,7 @@ final class JWSVerificationFailureEvent extends Event
     private $JWKSet;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     private $detachedPayload;
 

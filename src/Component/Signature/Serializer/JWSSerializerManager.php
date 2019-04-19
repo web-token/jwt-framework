@@ -15,7 +15,6 @@ namespace Jose\Component\Signature\Serializer;
 
 use Assert\Assertion;
 use Jose\Component\Signature\JWS;
-use function Safe\sprintf;
 
 class JWSSerializerManager
 {
@@ -34,17 +33,12 @@ class JWSSerializerManager
         }
     }
 
-    private function add(JWSSerializer $serializer): void
-    {
-        $this->serializers[$serializer->name()] = $serializer;
-    }
-
     /**
      * @return string[]
      */
     public function list(): array
     {
-        return \array_keys($this->serializers);
+        return array_keys($this->serializers);
     }
 
     /**
@@ -61,7 +55,7 @@ class JWSSerializerManager
      * Loads data and return a JWS object.
      *
      * @param string      $input A string that represents a JWS
-     * @param string|null $name  the name of the serializer if the input is unserialized
+     * @param null|string $name  the name of the serializer if the input is unserialized
      */
     public function unserialize(string $input, ?string &$name = null): JWS
     {
@@ -77,5 +71,10 @@ class JWSSerializerManager
         }
 
         throw new \InvalidArgumentException('Unsupported input.');
+    }
+
+    private function add(JWSSerializer $serializer): void
+    {
+        $this->serializers[$serializer->name()] = $serializer;
     }
 }

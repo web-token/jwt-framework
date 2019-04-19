@@ -22,6 +22,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group NewAlgorithm
+ *
+ * @internal
+ * @coversNothing
  */
 class AESCTRContentEncryptionTest extends TestCase
 {
@@ -32,7 +35,7 @@ class AESCTRContentEncryptionTest extends TestCase
     {
         $header = [];
         $algorithm = new A128CTR();
-        $cek = \random_bytes(256 / 8);
+        $cek = random_bytes(256 / 8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];
@@ -49,7 +52,7 @@ class AESCTRContentEncryptionTest extends TestCase
     {
         $header = [];
         $algorithm = new A192CTR();
-        $cek = \random_bytes(256 / 8);
+        $cek = random_bytes(256 / 8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];
@@ -66,7 +69,7 @@ class AESCTRContentEncryptionTest extends TestCase
     {
         $header = [];
         $algorithm = new A256CTR();
-        $cek = \random_bytes(256 / 8);
+        $cek = random_bytes(256 / 8);
         $jwk = $this->getKey();
 
         $additionalHeader = [];

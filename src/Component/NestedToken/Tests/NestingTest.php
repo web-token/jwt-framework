@@ -19,6 +19,9 @@ use Jose\Component\Core\JWK;
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class NestingTest extends NestedTokenTest
 {

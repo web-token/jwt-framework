@@ -16,7 +16,6 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 use Jose\Bundle\JoseFramework\Controller\JWKSetController;
 use Jose\Bundle\JoseFramework\Controller\JWKSetControllerFactory;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use function Safe\sprintf;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -77,7 +76,8 @@ class JWKUriSource implements Source
             ->end()
             ->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

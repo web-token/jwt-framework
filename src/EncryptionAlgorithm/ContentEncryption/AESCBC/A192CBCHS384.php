@@ -15,16 +15,6 @@ namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 final class A192CBCHS384 extends AESCBCHS
 {
-    protected function getHashAlgorithm(): string
-    {
-        return 'sha384';
-    }
-
-    protected function getMode(): string
-    {
-        return 'aes-192-cbc';
-    }
-
     public function getCEKSize(): int
     {
         return 384;
@@ -33,5 +23,15 @@ final class A192CBCHS384 extends AESCBCHS
     public function name(): string
     {
         return 'A192CBC-HS384';
+    }
+
+    protected function getHashAlgorithm(): string
+    {
+        return 'sha384';
+    }
+
+    protected function getMode(): string
+    {
+        return 'aes-192-cbc';
     }
 }

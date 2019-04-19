@@ -20,8 +20,6 @@ use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use PHPUnit\Framework\TestCase;
-use function Safe\hex2bin;
-use function Safe\sprintf;
 
 /**
  * @see https://tools.ietf.org/html/rfc6979#appendix-A.2.5
@@ -36,6 +34,9 @@ use function Safe\sprintf;
  * Other curves or hash method combinaisons are not used by the Jot specification
  *
  * @group RFC6979
+ *
+ * @internal
+ * @coversNothing
  */
 class ECDSAFromRFC6979Test extends TestCase
 {

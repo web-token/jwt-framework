@@ -17,13 +17,13 @@ use AESKW\A128KW as Wrapper;
 
 final class A128KW extends AESKW
 {
-    protected function getWrapper()
-    {
-        return new Wrapper();
-    }
-
     public function name(): string
     {
         return 'A128KW';
+    }
+
+    protected function getWrapper()
+    {
+        return new Wrapper();
     }
 }

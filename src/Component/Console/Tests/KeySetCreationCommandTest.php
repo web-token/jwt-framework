@@ -22,6 +22,9 @@ use Symfony\Component\Console\Output\BufferedOutput;
 /**
  * @group Console
  * @group KeySetCreationCommand
+ *
+ * @internal
+ * @coversNothing
  */
 class KeySetCreationCommandTest extends TestCase
 {

@@ -26,7 +26,7 @@ class JWELoader
     private $jweDecrypter;
 
     /**
-     * @var HeaderCheckerManager|null
+     * @var null|HeaderCheckerManager
      */
     private $headerCheckerManager;
 

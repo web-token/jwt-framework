@@ -18,11 +18,13 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
 use PHPUnit\Framework\TestCase;
-use function Safe\hex2bin;
 
 /**
  * @group AESCBC
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class AESCBC_HSContentEncryptionTest extends TestCase
 {
@@ -33,7 +35,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      */
     public function a128CBCHS256EncryptAndDecrypt()
     {
-        $header = Base64Url::encode(\json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
+        $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
         $algorithm = new A128CBCHS256();
 
@@ -58,7 +60,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      */
     public function badTag()
     {
-        $header = Base64Url::encode(\json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
+        $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $algorithm = new A128CBCHS256();
 
         $K = $this->convertArrayToBinString([4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207]);
@@ -70,25 +72,13 @@ class AESCBC_HSContentEncryptionTest extends TestCase
     }
 
     /**
-     * @return string
-     */
-    private function convertArrayToBinString(array $data)
-    {
-        foreach ($data as $key => $value) {
-            $data[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
-        }
-
-        return hex2bin(\implode('', $data));
-    }
-
-    /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.1
      *
      * @test
      */
-    public function a128CBCHS256EncryptAndDecrypt_Bis()
+    public function a128CBCHS256EncryptAndDecryptBis()
     {
-        $header = Base64Url::encode(\json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
+        $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
         $algorithm = new A128CBCHS256();
 
@@ -117,9 +107,9 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      *
      * @test
      */
-    public function a192CBC_HS384EncryptAndDecrypt()
+    public function a192CBCHS384EncryptAndDecrypt()
     {
-        $header = Base64Url::encode(\json_encode([]));
+        $header = Base64Url::encode(json_encode([]));
         $algorithm = new A192CBCHS384();
 
         $K = hex2bin('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f');
@@ -147,9 +137,9 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      *
      * @test
      */
-    public function a256CBC_HS512EncryptAndDecrypt()
+    public function a256CBCHS512EncryptAndDecrypt()
     {
-        $header = Base64Url::encode(\json_encode([]));
+        $header = Base64Url::encode(json_encode([]));
         $algorithm = new A256CBCHS512();
 
         $K = hex2bin('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f');
@@ -179,5 +169,17 @@ class AESCBC_HSContentEncryptionTest extends TestCase
         $method->setAccessible(true);
 
         return $method;
+    }
+
+    /**
+     * @return string
+     */
+    private function convertArrayToBinString(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+        }
+
+        return hex2bin(implode('', $data));
     }
 }

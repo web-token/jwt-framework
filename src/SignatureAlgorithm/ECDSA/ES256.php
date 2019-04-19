@@ -15,6 +15,11 @@ namespace Jose\Component\Signature\Algorithm;
 
 final class ES256 extends ECDSA
 {
+    public function name(): string
+    {
+        return 'ES256';
+    }
+
     protected function getHashAlgorithm(): string
     {
         return 'sha256';
@@ -23,10 +28,5 @@ final class ES256 extends ECDSA
     protected function getSignaturePartLength(): int
     {
         return 64;
-    }
-
-    public function name(): string
-    {
-        return 'ES256';
     }
 }

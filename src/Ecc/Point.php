@@ -72,12 +72,12 @@ class Point
 
     public static function create(\GMP $x, \GMP $y, ?\GMP $order = null): self
     {
-        return new self($x, $y, null === $order ? \gmp_init(0, 10) : $order);
+        return new self($x, $y, null === $order ? gmp_init(0, 10) : $order);
     }
 
     public static function infinity(): self
     {
-        $zero = \gmp_init(0, 10);
+        $zero = gmp_init(0, 10);
 
         return new self($zero, $zero, $zero, true);
     }
@@ -112,21 +112,21 @@ class Point
 
     private static function cswapBoolean(bool &$a, bool &$b, int $cond): void
     {
-        $sa = \gmp_init((int) $a, 10);
-        $sb = \gmp_init((int) $b, 10);
+        $sa = gmp_init((int) $a, 10);
+        $sb = gmp_init((int) $b, 10);
 
         self::cswapGMP($sa, $sb, $cond);
 
-        $a = (bool) \gmp_strval($sa, 10);
-        $b = (bool) \gmp_strval($sb, 10);
+        $a = (bool) gmp_strval($sa, 10);
+        $b = (bool) gmp_strval($sb, 10);
     }
 
     private static function cswapGMP(\GMP &$sa, \GMP &$sb, int $cond): void
     {
-        $size = \max(\mb_strlen(\gmp_strval($sa, 2), '8bit'), \mb_strlen(\gmp_strval($sb, 2), '8bit'));
+        $size = max(mb_strlen(gmp_strval($sa, 2), '8bit'), mb_strlen(gmp_strval($sb, 2), '8bit'));
         $mask = (string) (1 - $cond);
-        $mask = \str_pad('', $size, $mask, STR_PAD_LEFT);
-        $mask = \gmp_init($mask, 2);
+        $mask = str_pad('', $size, $mask, STR_PAD_LEFT);
+        $mask = gmp_init($mask, 2);
         $taA = Math::bitwiseAnd($sa, $mask);
         $taB = Math::bitwiseAnd($sb, $mask);
         $sa = Math::bitwiseXor(Math::bitwiseXor($sa, $sb), $taB);

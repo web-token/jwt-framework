@@ -53,6 +53,21 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         $this->checkValue($value, InvalidHeaderException::class);
     }
 
+    public function supportedClaim(): string
+    {
+        return self::CLAIM_NAME;
+    }
+
+    public function supportedHeader(): string
+    {
+        return self::CLAIM_NAME;
+    }
+
+    public function protectedHeaderOnly(): bool
+    {
+        return $this->protectedHeader;
+    }
+
     /**
      * @param mixed $value
      */
@@ -67,20 +82,5 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         if (!\is_array($value) && !\is_string($value)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
-    }
-
-    public function supportedClaim(): string
-    {
-        return self::CLAIM_NAME;
-    }
-
-    public function supportedHeader(): string
-    {
-        return self::CLAIM_NAME;
-    }
-
-    public function protectedHeaderOnly(): bool
-    {
-        return $this->protectedHeader;
     }
 }

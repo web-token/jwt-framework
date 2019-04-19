@@ -39,7 +39,8 @@ final class JKULoaderCommand extends ObjectOutputCommand
             ->setName('keyset:load:jku')
             ->setDescription('Loads a key set from an url.')
             ->setHelp('This command will try to get a key set from an URL. The distant key set is a JWKSet.')
-            ->addArgument('url', InputArgument::REQUIRED, 'The URL');
+            ->addArgument('url', InputArgument::REQUIRED, 'The URL')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -18,10 +18,12 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Serializer\JWSSerializerManagerFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Serializer\CompactSerializer::class);
     $container->set(Serializer\JSONFlattenedSerializer::class);

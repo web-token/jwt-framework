@@ -34,7 +34,7 @@ final class JWELoaderFactory
     private $jweDecrypterFactory;
 
     /**
-     * @var HeaderCheckerManagerFactory|null
+     * @var null|HeaderCheckerManagerFactory
      */
     private $headerCheckerManagerFactory;
 

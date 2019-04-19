@@ -18,7 +18,6 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
-use function Safe\sprintf;
 
 final class CompactSerializer implements JWESerializer
 {
@@ -57,7 +56,7 @@ final class CompactSerializer implements JWESerializer
 
     public function unserialize(string $input): JWE
     {
-        $parts = \explode('.', $input);
+        $parts = explode('.', $input);
         Assertion::count($parts, 5, 'Unsupported input');
 
         try {
@@ -76,7 +75,8 @@ final class CompactSerializer implements JWESerializer
                 [],
                 $sharedProtectedHeader,
                 $encodedSharedProtectedHeader,
-                [new Recipient([], $encryptedKey)]);
+                [new Recipient([], $encryptedKey)]
+            );
         } catch (\Throwable $throwable) {
             throw new \InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
         }

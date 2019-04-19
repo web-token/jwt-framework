@@ -20,6 +20,9 @@ use Jose\Component\Core\JWK;
  *
  * @group ECDHES
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class ECDHESWithX25519EncryptionTest extends EncryptionTest
 {
@@ -50,7 +53,8 @@ class ECDHESWithX25519EncryptionTest extends EncryptionTest
             ->create()->withPayload($input)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($receiverKey)
-            ->build();
+            ->build()
+        ;
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $jwe = $this->getJWESerializerManager()->unserialize($jwt);

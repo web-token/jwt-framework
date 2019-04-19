@@ -45,6 +45,11 @@ abstract class AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
+    /**
+     * @return \AESKW\A128KW|\AESKW\A192KW|\AESKW\A256KW
+     */
+    abstract protected function getWrapper();
+
     private function getKey(JWK $key): string
     {
         Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
@@ -54,9 +59,4 @@ abstract class AESKW implements KeyWrapping
 
         return Base64Url::decode($k);
     }
-
-    /**
-     * @return \AESKW\A128KW|\AESKW\A192KW|\AESKW\A256KW
-     */
-    abstract protected function getWrapper();
 }

@@ -23,16 +23,12 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKSetLoaderTest extends WebTestCase
 {
-    protected function setUp()
-    {
-        if (!\class_exists(JWKFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
-        }
-    }
-
     /**
      * @var MessageFactory
      */
@@ -42,6 +38,13 @@ class JWKSetLoaderTest extends WebTestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->messageFactory = new MessageFactory();
+    }
+
+    protected function setUp()
+    {
+        if (!class_exists(JWKFactory::class)) {
+            static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
+        }
     }
 
     /**

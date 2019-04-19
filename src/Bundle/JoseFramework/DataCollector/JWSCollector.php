@@ -30,7 +30,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 class JWSCollector implements Collector, EventSubscriberInterface
 {
     /**
-     * @var JWSSerializerManagerFactory|null
+     * @var null|JWSSerializerManagerFactory
      */
     private $jwsSerializerManagerFactory;
 
@@ -81,6 +81,55 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $this->collectSupportedJWSVerifiers($data);
         $this->collectSupportedJWSLoaders($data);
         $this->collectEvents($data);
+    }
+
+    public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder): void
+    {
+        $this->jwsBuilders[$id] = $jwsBuilder;
+    }
+
+    public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier): void
+    {
+        $this->jwsVerifiers[$id] = $jwsVerifier;
+    }
+
+    public function addJWSLoader(string $id, JWSLoader $jwsLoader): void
+    {
+        $this->jwsLoaders[$id] = $jwsLoader;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::JWS_VERIFICATION_SUCCESS => ['catchJwsVerificationSuccess'],
+            Events::JWS_VERIFICATION_FAILURE => ['catchJwsVerificationFailure'],
+            Events::JWS_BUILT_SUCCESS => ['catchJwsBuiltSuccess'],
+            Events::JWS_BUILT_FAILURE => ['catchJwsBuiltFailure'],
+        ];
+    }
+
+    public function catchJwsVerificationSuccess(JWSVerificationSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsVerificationSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJwsVerificationFailure(JWSVerificationFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsVerificationFailures[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJwsBuiltSuccess(JWSBuiltSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsBuiltSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJwsBuiltFailure(JWSBuiltFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jwsBuiltFailures[] = $cloner->cloneVar($event);
     }
 
     private function collectSupportedJWSSerializations(array &$data): void
@@ -134,54 +183,5 @@ class JWSCollector implements Collector, EventSubscriberInterface
             'built_success' => $this->jwsBuiltSuccesses,
             'built_failure' => $this->jwsBuiltFailures,
         ];
-    }
-
-    public function addJWSBuilder(string $id, JWSBuilder $jwsBuilder): void
-    {
-        $this->jwsBuilders[$id] = $jwsBuilder;
-    }
-
-    public function addJWSVerifier(string $id, JWSVerifier $jwsVerifier): void
-    {
-        $this->jwsVerifiers[$id] = $jwsVerifier;
-    }
-
-    public function addJWSLoader(string $id, JWSLoader $jwsLoader): void
-    {
-        $this->jwsLoaders[$id] = $jwsLoader;
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            Events::JWS_VERIFICATION_SUCCESS => ['catchJwsVerificationSuccess'],
-            Events::JWS_VERIFICATION_FAILURE => ['catchJwsVerificationFailure'],
-            Events::JWS_BUILT_SUCCESS => ['catchJwsBuiltSuccess'],
-            Events::JWS_BUILT_FAILURE => ['catchJwsBuiltFailure'],
-        ];
-    }
-
-    public function catchJwsVerificationSuccess(JWSVerificationSuccessEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jwsVerificationSuccesses[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJwsVerificationFailure(JWSVerificationFailureEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jwsVerificationFailures[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJwsBuiltSuccess(JWSBuiltSuccessEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jwsBuiltSuccesses[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJwsBuiltFailure(JWSBuiltFailureEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jwsBuiltFailures[] = $cloner->cloneVar($event);
     }
 }

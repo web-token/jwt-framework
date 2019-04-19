@@ -19,12 +19,11 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
-use function Safe\sprintf;
 
 class JWSBuilder
 {
     /**
-     * @var string|null
+     * @var null|string
      */
     protected $payload;
 
@@ -39,14 +38,14 @@ class JWSBuilder
     protected $signatures = [];
 
     /**
+     * @var null|bool
+     */
+    protected $isPayloadEncoded;
+
+    /**
      * @var AlgorithmManager
      */
     private $signatureAlgorithmManager;
-
-    /**
-     * @var bool|null
-     */
-    protected $isPayloadEncoded = null;
 
     public function __construct(AlgorithmManager $signatureAlgorithmManager)
     {
@@ -84,7 +83,7 @@ class JWSBuilder
      */
     public function withPayload(string $payload, bool $isPayloadDetached = false): self
     {
-        if (false === \mb_detect_encoding($payload, 'UTF-8', true)) {
+        if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
             throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
         }
         $clone = clone $this;
@@ -179,7 +178,7 @@ class JWSBuilder
 
     private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): SignatureAlgorithm
     {
-        $completeHeader = \array_merge($header, $protectedHeader);
+        $completeHeader = array_merge($header, $protectedHeader);
         if (!\array_key_exists('alg', $completeHeader)) {
             throw new \InvalidArgumentException('No "alg" parameter set in the header.');
         }
@@ -197,9 +196,9 @@ class JWSBuilder
 
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
-        $inter = \array_intersect_key($header1, $header2);
+        $inter = array_intersect_key($header1, $header2);
         if (0 !== \count($inter)) {
-            throw new \InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
+            throw new \InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
         }
     }
 }

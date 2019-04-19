@@ -33,109 +33,6 @@ class RSA
      */
     public const SIGNATURE_PKCS1 = 2;
 
-    private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
-    {
-        $x = $x->toBytes();
-        if (\mb_strlen($x, '8bit') > $xLen) {
-            throw new \RuntimeException();
-        }
-
-        return \str_pad($x, $xLen, \chr(0), STR_PAD_LEFT);
-    }
-
-    /**
-     * MGF1.
-     */
-    private static function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
-    {
-        $t = '';
-        $count = \ceil($maskLen / $mgfHash->getLength());
-        for ($i = 0; $i < $count; ++$i) {
-            $c = \pack('N', $i);
-            $t .= $mgfHash->hash($mgfSeed.$c);
-        }
-
-        return \mb_substr($t, 0, $maskLen, '8bit');
-    }
-
-    /**
-     * EMSA-PSS-ENCODE.
-     */
-    private static function encodeEMSAPSS(string $message, int $modulusLength, Hash $hash): string
-    {
-        $emLen = ($modulusLength + 1) >> 3;
-        $sLen = $hash->getLength();
-        $mHash = $hash->hash($message);
-        if ($emLen <= $hash->getLength() + $sLen + 2) {
-            throw new \RuntimeException();
-        }
-        $salt = \random_bytes($sLen);
-        $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
-        $h = $hash->hash($m2);
-        $ps = \str_repeat(\chr(0), $emLen - $sLen - $hash->getLength() - 2);
-        $db = $ps.\chr(1).$salt;
-        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash);
-        $maskedDB = $db ^ $dbMask;
-        $maskedDB[0] = ~\chr(0xFF << ($modulusLength & 7)) & $maskedDB[0];
-        $em = $maskedDB.$h.\chr(0xBC);
-
-        return $em;
-    }
-
-    /**
-     * EMSA-PSS-VERIFY.
-     */
-    private static function verifyEMSAPSS(string $m, string $em, int $emBits, Hash $hash): bool
-    {
-        $emLen = ($emBits + 1) >> 3;
-        $sLen = $hash->getLength();
-        $mHash = $hash->hash($m);
-        Assertion::greaterOrEqualThan($emLen, $hash->getLength() + $sLen + 2);
-        Assertion::eq($em[\mb_strlen($em, '8bit') - 1], \chr(0xBC));
-        $maskedDB = \mb_substr($em, 0, -$hash->getLength() - 1, '8bit');
-        $h = \mb_substr($em, -$hash->getLength() - 1, $hash->getLength(), '8bit');
-        $temp = \chr(0xFF << ($emBits & 7));
-        Assertion::eq((~$maskedDB[0] & $temp), $temp);
-        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
-        $db = $maskedDB ^ $dbMask;
-        $db[0] = ~\chr(0xFF << ($emBits & 7)) & $db[0];
-        $temp = $emLen - $hash->getLength() - $sLen - 2;
-        Assertion::eq(\mb_substr($db, 0, $temp, '8bit'), \str_repeat(\chr(0), $temp));
-        Assertion::eq(1, \ord($db[$temp]));
-        $salt = \mb_substr($db, $temp + 1, null, '8bit'); // should be $sLen long
-        $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
-        $h2 = $hash->hash($m2);
-
-        return \hash_equals($h, $h2);
-    }
-
-    private static function encodeEMSA15(string $m, int $emBits, Hash $hash): string
-    {
-        $h = $hash->hash($m);
-        switch ($hash->name()) {
-            case 'sha256':
-                $t = "\x30\x31\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x01\x05\x00\x04\x20";
-
-                break;
-            case 'sha384':
-                $t = "\x30\x41\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x02\x05\x00\x04\x30";
-
-                break;
-            case 'sha512':
-                $t = "\x30\x51\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x03\x05\x00\x04\x40";
-
-                break;
-            default:
-                throw new \InvalidArgumentException();
-        }
-        $t .= $h;
-        $tLen = \mb_strlen($t, '8bit');
-        Assertion::greaterOrEqualThan($emBits, $tLen + 11);
-        $ps = \str_repeat(\chr(0xFF), $emBits - $tLen - 3);
-
-        return "\0\1$ps\0$t";
-    }
-
     public static function sign(RSAKey $key, string $message, string $hash, int $mode): string
     {
         switch ($mode) {
@@ -189,7 +86,7 @@ class RSA
      */
     public static function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
     {
-        Assertion::eq(\mb_strlen($signature, '8bit'), $key->getModulusLength());
+        Assertion::eq(mb_strlen($signature, '8bit'), $key->getModulusLength());
         $s2 = BigInteger::createFromBinaryString($signature);
         $m2 = RSAKey::exponentiate($key, $s2);
         $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
@@ -203,11 +100,114 @@ class RSA
      */
     public static function verifyWithPKCS15(RSAKey $key, string $message, string $signature, string $hash): bool
     {
-        Assertion::eq(\mb_strlen($signature, '8bit'), $key->getModulusLength());
+        Assertion::eq(mb_strlen($signature, '8bit'), $key->getModulusLength());
         $signature = BigInteger::createFromBinaryString($signature);
         $m2 = RSAKey::exponentiate($key, $signature);
         $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
 
-        return \hash_equals($em, self::encodeEMSA15($message, $key->getModulusLength(), Hash::$hash()));
+        return hash_equals($em, self::encodeEMSA15($message, $key->getModulusLength(), Hash::$hash()));
+    }
+
+    private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
+    {
+        $x = $x->toBytes();
+        if (mb_strlen($x, '8bit') > $xLen) {
+            throw new \RuntimeException();
+        }
+
+        return str_pad($x, $xLen, \chr(0), STR_PAD_LEFT);
+    }
+
+    /**
+     * MGF1.
+     */
+    private static function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
+    {
+        $t = '';
+        $count = ceil($maskLen / $mgfHash->getLength());
+        for ($i = 0; $i < $count; ++$i) {
+            $c = pack('N', $i);
+            $t .= $mgfHash->hash($mgfSeed.$c);
+        }
+
+        return mb_substr($t, 0, $maskLen, '8bit');
+    }
+
+    /**
+     * EMSA-PSS-ENCODE.
+     */
+    private static function encodeEMSAPSS(string $message, int $modulusLength, Hash $hash): string
+    {
+        $emLen = ($modulusLength + 1) >> 3;
+        $sLen = $hash->getLength();
+        $mHash = $hash->hash($message);
+        if ($emLen <= $hash->getLength() + $sLen + 2) {
+            throw new \RuntimeException();
+        }
+        $salt = random_bytes($sLen);
+        $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
+        $h = $hash->hash($m2);
+        $ps = str_repeat(\chr(0), $emLen - $sLen - $hash->getLength() - 2);
+        $db = $ps.\chr(1).$salt;
+        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash);
+        $maskedDB = $db ^ $dbMask;
+        $maskedDB[0] = ~\chr(0xFF << ($modulusLength & 7)) & $maskedDB[0];
+        $em = $maskedDB.$h.\chr(0xBC);
+
+        return $em;
+    }
+
+    /**
+     * EMSA-PSS-VERIFY.
+     */
+    private static function verifyEMSAPSS(string $m, string $em, int $emBits, Hash $hash): bool
+    {
+        $emLen = ($emBits + 1) >> 3;
+        $sLen = $hash->getLength();
+        $mHash = $hash->hash($m);
+        Assertion::greaterOrEqualThan($emLen, $hash->getLength() + $sLen + 2);
+        Assertion::eq($em[mb_strlen($em, '8bit') - 1], \chr(0xBC));
+        $maskedDB = mb_substr($em, 0, -$hash->getLength() - 1, '8bit');
+        $h = mb_substr($em, -$hash->getLength() - 1, $hash->getLength(), '8bit');
+        $temp = \chr(0xFF << ($emBits & 7));
+        Assertion::eq((~$maskedDB[0] & $temp), $temp);
+        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
+        $db = $maskedDB ^ $dbMask;
+        $db[0] = ~\chr(0xFF << ($emBits & 7)) & $db[0];
+        $temp = $emLen - $hash->getLength() - $sLen - 2;
+        Assertion::eq(mb_substr($db, 0, $temp, '8bit'), str_repeat(\chr(0), $temp));
+        Assertion::eq(1, \ord($db[$temp]));
+        $salt = mb_substr($db, $temp + 1, null, '8bit'); // should be $sLen long
+        $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
+        $h2 = $hash->hash($m2);
+
+        return hash_equals($h, $h2);
+    }
+
+    private static function encodeEMSA15(string $m, int $emBits, Hash $hash): string
+    {
+        $h = $hash->hash($m);
+        switch ($hash->name()) {
+            case 'sha256':
+                $t = "\x30\x31\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x01\x05\x00\x04\x20";
+
+                break;
+            case 'sha384':
+                $t = "\x30\x41\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x02\x05\x00\x04\x30";
+
+                break;
+            case 'sha512':
+                $t = "\x30\x51\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x03\x05\x00\x04\x40";
+
+                break;
+            default:
+                throw new \InvalidArgumentException();
+        }
+        $t .= $h;
+        $tLen = mb_strlen($t, '8bit');
+        Assertion::greaterOrEqualThan($emBits, $tLen + 11);
+        $ps = str_repeat(\chr(0xFF), $emBits - $tLen - 3);
+
+        return "\0\1${ps}\0${t}";
     }
 }

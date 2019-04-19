@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JsonConverter
+ *
+ * @internal
+ * @coversNothing
  */
 class JsonConverterTest extends TestCase
 {
