@@ -13,9 +13,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use ArrayIterator;
 use Assert\Assertion;
+use Countable;
+use InvalidArgumentException;
+use IteratorAggregate;
+use JsonSerializable;
+use Traversable;
 
-class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
+class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 {
     /**
      * @var array
@@ -244,9 +250,9 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      *
      * @internal
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->keys);
+        return new ArrayIterator($this->keys);
     }
 
     /**
@@ -305,7 +311,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             case 'unwrapKey':
                 return 'enc';
             default:
-                throw new \InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
+                throw new InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
         }
     }
 }

@@ -17,6 +17,7 @@ use Assert\Assertion;
 use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
+use LogicException;
 
 final class JSONGeneralSerializer extends Serializer
 {
@@ -35,7 +36,7 @@ final class JSONGeneralSerializer extends Serializer
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (0 === $jws->countSignatures()) {
-            throw new \LogicException('No signature.');
+            throw new LogicException('No signature.');
         }
 
         $data = [];
@@ -138,7 +139,7 @@ final class JSONGeneralSerializer extends Serializer
             }
             if (false === $jws->isPayloadDetached()) {
                 if ($is_encoded !== $this->isPayloadEncoded($signature->getProtectedHeader())) {
-                    throw new \LogicException('Foreign payload encoding detected.');
+                    throw new LogicException('Foreign payload encoding detected.');
                 }
             }
         }

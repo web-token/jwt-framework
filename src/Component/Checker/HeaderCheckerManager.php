@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
 class HeaderCheckerManager
@@ -76,7 +77,7 @@ class HeaderCheckerManager
             }
         }
 
-        throw new \InvalidArgumentException('Unsupported token type.');
+        throw new InvalidArgumentException('Unsupported token type.');
     }
 
     private function addTokenTypeSupport(TokenTypeSupport $tokenType): void

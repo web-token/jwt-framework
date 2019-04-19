@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-class Message implements \JsonSerializable
+use JsonSerializable;
+
+class Message implements JsonSerializable
 {
     public const SEVERITY_LOW = 'low';
 

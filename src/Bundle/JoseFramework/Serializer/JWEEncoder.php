@@ -52,7 +52,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
     {
         try {
             return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getRecipientIndex($context));
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
             $message = sprintf('Cannot encode JWE to %s format.', $format);
 
             if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {

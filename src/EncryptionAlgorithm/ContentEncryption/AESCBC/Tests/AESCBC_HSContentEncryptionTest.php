@@ -18,6 +18,8 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
 
 /**
  * @group AESCBC
@@ -162,9 +164,9 @@ class AESCBC_HSContentEncryptionTest extends TestCase
         static::assertTrue($check_method->invokeArgs($algorithm, [$cyphertext, $K, $iv, null, $aad, $T]));
     }
 
-    protected static function getMethod(string $class, string $name): \ReflectionMethod
+    protected static function getMethod(string $class, string $name): ReflectionMethod
     {
-        $class = new \ReflectionClass($class);
+        $class = new ReflectionClass($class);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
 

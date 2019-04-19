@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -161,10 +162,10 @@ class JWEDecrypter
     private function checkIvSize(?string $iv, int $requiredIvSize): void
     {
         if (null === $iv && 0 !== $requiredIvSize) {
-            throw new \InvalidArgumentException('Invalid IV size');
+            throw new InvalidArgumentException('Invalid IV size');
         }
         if (\is_string($iv) && mb_strlen($iv, '8bit') !== $requiredIvSize / 8) {
-            throw new \InvalidArgumentException('Invalid IV size');
+            throw new InvalidArgumentException('Invalid IV size');
         }
     }
 
@@ -186,7 +187,7 @@ class JWEDecrypter
             return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $completeHeader);
         }
 
-        throw new \InvalidArgumentException('Unsupported CEK generation');
+        throw new InvalidArgumentException('Unsupported CEK generation');
     }
 
     private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $completeHeader): string

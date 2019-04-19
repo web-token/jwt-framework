@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Util;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
+use RuntimeException;
 
 /**
  * @internal
@@ -41,7 +43,7 @@ class RSA
             case self::SIGNATURE_PKCS1:
                 return self::signWithPKCS15($key, $message, $hash);
             default:
-                throw new \InvalidArgumentException('Unsupported mode.');
+                throw new InvalidArgumentException('Unsupported mode.');
         }
     }
 
@@ -77,7 +79,7 @@ class RSA
             case self::SIGNATURE_PKCS1:
                 return self::verifyWithPKCS15($key, $message, $signature, $hash);
             default:
-                throw new \InvalidArgumentException('Unsupported mode.');
+                throw new InvalidArgumentException('Unsupported mode.');
         }
     }
 
@@ -112,7 +114,7 @@ class RSA
     {
         $x = $x->toBytes();
         if (mb_strlen($x, '8bit') > $xLen) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
 
         return str_pad($x, $xLen, \chr(0), STR_PAD_LEFT);
@@ -142,7 +144,7 @@ class RSA
         $sLen = $hash->getLength();
         $mHash = $hash->hash($message);
         if ($emLen <= $hash->getLength() + $sLen + 2) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
         $salt = random_bytes($sLen);
         $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
@@ -201,7 +203,7 @@ class RSA
 
                 break;
             default:
-                throw new \InvalidArgumentException();
+                throw new InvalidArgumentException();
         }
         $t .= $h;
         $tLen = mb_strlen($t, '8bit');

@@ -15,6 +15,7 @@ namespace Jose\Component\KeyManagement;
 
 use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
+use RuntimeException;
 
 abstract class UrlKeySetFactory
 {
@@ -43,7 +44,7 @@ abstract class UrlKeySetFactory
         $response = $this->client->sendRequest($request);
 
         if ($response->getStatusCode() >= 400) {
-            throw new \RuntimeException('Unable to get the key set.', $response->getStatusCode());
+            throw new RuntimeException('Unable to get the key set.', $response->getStatusCode());
         }
 
         return $response->getBody()->getContents();

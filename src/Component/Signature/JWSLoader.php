@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use Exception;
 use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -100,7 +101,7 @@ class JWSLoader
             // Nothing to do. Exception thrown just after
         }
 
-        throw new \Exception('Unable to load and verify the token.');
+        throw new Exception('Unable to load and verify the token.');
     }
 
     private function processSignature(JWS $jws, JWKSet $keyset, int $signature, ?string $payload): bool

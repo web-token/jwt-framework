@@ -22,6 +22,7 @@ use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
 use Jose\Component\Core\JWK;
+use RuntimeException;
 
 /**
  * @internal
@@ -198,7 +199,7 @@ class RSAKey
     public static function exponentiate(self $key, BigInteger $c): BigInteger
     {
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
         if ($key->isPublic() || 0 === \count($key->getPrimes()) || 0 === \count($key->getExponents()) || null === $key->getCoefficient()) {
             return $c->modPow($key->getExponent(), $key->getModulus());

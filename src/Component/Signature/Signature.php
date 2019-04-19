@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use InvalidArgumentException;
+
 class Signature
 {
     /**
@@ -80,7 +82,7 @@ class Signature
             return $this->getProtectedHeader()[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The protected header "%s" does not exist', $key));
+        throw new InvalidArgumentException(sprintf('The protected header "%s" does not exist', $key));
     }
 
     /**
@@ -106,7 +108,7 @@ class Signature
             return $this->header[$key];
         }
 
-        throw new \InvalidArgumentException(sprintf('The header "%s" does not exist', $key));
+        throw new InvalidArgumentException(sprintf('The header "%s" does not exist', $key));
     }
 
     /**

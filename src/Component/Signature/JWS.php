@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
 class JWS implements JWT
@@ -89,7 +90,7 @@ class JWS implements JWT
             return $this->signatures[$id];
         }
 
-        throw new \InvalidArgumentException('The signature does not exist.');
+        throw new InvalidArgumentException('The signature does not exist.');
     }
 
     /**

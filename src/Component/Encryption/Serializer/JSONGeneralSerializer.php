@@ -18,6 +18,7 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
+use LogicException;
 
 final class JSONGeneralSerializer implements JWESerializer
 {
@@ -36,7 +37,7 @@ final class JSONGeneralSerializer implements JWESerializer
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
         if (0 === $jwe->countRecipients()) {
-            throw new \LogicException('No recipient.');
+            throw new LogicException('No recipient.');
         }
 
         $data = [

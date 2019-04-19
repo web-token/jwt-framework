@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Signature\JWS;
 
 class JWSSerializerManager
@@ -65,12 +66,12 @@ class JWSSerializerManager
                 $name = $serializer->name();
 
                 return $jws;
-            } catch (\InvalidArgumentException $e) {
+            } catch (InvalidArgumentException $e) {
                 continue;
             }
         }
 
-        throw new \InvalidArgumentException('Unsupported input.');
+        throw new InvalidArgumentException('Unsupported input.');
     }
 
     private function add(JWSSerializer $serializer): void

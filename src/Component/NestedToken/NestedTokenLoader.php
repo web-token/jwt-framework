@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\NestedToken;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWELoader;
@@ -47,7 +48,7 @@ class NestedTokenLoader
         $jwe = $this->jweLoader->loadAndDecryptWithKeySet($token, $encryptionKeySet, $recipient);
         $this->checkContentTypeHeader($jwe, $recipient);
         if (null === $jwe->getPayload()) {
-            throw new \InvalidArgumentException('The token has no payload.');
+            throw new InvalidArgumentException('The token has no payload.');
         }
 
         return $this->jwsLoader->loadAndVerifyWithKeySet($jwe->getPayload(), $signatureKeySet, $signature);
@@ -69,11 +70,11 @@ class NestedTokenLoader
 
                 break;
             default:
-                throw new \InvalidArgumentException('The token is not a nested token.');
+                throw new InvalidArgumentException('The token is not a nested token.');
         }
 
         if (0 !== strcasecmp($cty, 'jwt')) {
-            throw new \InvalidArgumentException('The token is not a nested token.');
+            throw new InvalidArgumentException('The token is not a nested token.');
         }
     }
 }

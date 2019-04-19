@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Util;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
+use RuntimeException;
 
 /**
  * @internal
@@ -41,7 +43,7 @@ class RSACrypt
             case self::ENCRYPTION_PKCS1:
                 return self::encryptWithRSA15($key, $data);
             default:
-                throw new \InvalidArgumentException('Unsupported mode.');
+                throw new InvalidArgumentException('Unsupported mode.');
         }
     }
 
@@ -53,7 +55,7 @@ class RSACrypt
             case self::ENCRYPTION_PKCS1:
                 return self::decryptWithRSA15($key, $plaintext);
             default:
-                throw new \InvalidArgumentException('Unsupported mode.');
+                throw new InvalidArgumentException('Unsupported mode.');
         }
     }
 
@@ -118,7 +120,7 @@ class RSACrypt
     public static function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
     {
         if (0 >= $key->getModulusLength()) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
         $hash = Hash::$hash_algorithm();
         $ciphertext = str_split($ciphertext, $key->getModulusLength());
@@ -136,7 +138,7 @@ class RSACrypt
     {
         $x = $x->toBytes();
         if (mb_strlen($x, '8bit') > $xLen) {
-            throw new \RuntimeException('Invalid length.');
+            throw new RuntimeException('Invalid length.');
         }
 
         return str_pad($x, $xLen, \chr(0), STR_PAD_LEFT);
@@ -156,7 +158,7 @@ class RSACrypt
     private static function getRSAEP(RSAKey $key, BigInteger $m): BigInteger
     {
         if ($m->compare(BigInteger::createFromDecimal(0)) < 0 || $m->compare($key->getModulus()) > 0) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
 
         return RSAKey::exponentiate($key, $m);
@@ -168,7 +170,7 @@ class RSACrypt
     private static function getRSADP(RSAKey $key, BigInteger $c): BigInteger
     {
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
 
         return RSAKey::exponentiate($key, $c);
@@ -229,11 +231,11 @@ class RSACrypt
         $lHash2 = mb_substr($db, 0, $hash->getLength(), '8bit');
         $m = mb_substr($db, $hash->getLength(), null, '8bit');
         if (!hash_equals($lHash, $lHash2)) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
         $m = ltrim($m, \chr(0));
         if (1 !== \ord($m[0])) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
 
         return mb_substr($m, 1, null, '8bit');

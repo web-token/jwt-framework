@@ -17,6 +17,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
+use RuntimeException;
 
 class X5UFactory extends UrlKeySetFactory
 {
@@ -29,7 +30,7 @@ class X5UFactory extends UrlKeySetFactory
         $content = $this->getContent($url, $header);
         $data = JsonConverter::decode($content);
         if (!\is_array($data)) {
-            throw new \RuntimeException('Invalid content.');
+            throw new RuntimeException('Invalid content.');
         }
 
         $keys = [];

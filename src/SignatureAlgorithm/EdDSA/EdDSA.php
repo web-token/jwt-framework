@@ -15,6 +15,7 @@ namespace Jose\Component\Signature\Algorithm;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 final class EdDSA implements SignatureAlgorithm
@@ -36,7 +37,7 @@ final class EdDSA implements SignatureAlgorithm
             case 'Ed25519':
                 return sodium_crypto_sign_detached($input, $secret);
             default:
-                throw new \InvalidArgumentException('Unsupported curve');
+                throw new InvalidArgumentException('Unsupported curve');
         }
     }
 
@@ -50,7 +51,7 @@ final class EdDSA implements SignatureAlgorithm
             case 'Ed25519':
                 return sodium_crypto_sign_verify_detached($signature, $input, $public);
             default:
-                throw new \InvalidArgumentException('Unsupported curve');
+                throw new InvalidArgumentException('Unsupported curve');
         }
     }
 

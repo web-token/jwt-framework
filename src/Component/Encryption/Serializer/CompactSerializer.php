@@ -15,9 +15,12 @@ namespace Jose\Component\Encryption\Serializer;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
+use LogicException;
+use Throwable;
 
 final class CompactSerializer implements JWESerializer
 {
@@ -77,29 +80,29 @@ final class CompactSerializer implements JWESerializer
                 $encodedSharedProtectedHeader,
                 [new Recipient([], $encryptedKey)]
             );
-        } catch (\Throwable $throwable) {
-            throw new \InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
+        } catch (Throwable $throwable) {
+            throw new InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
         }
     }
 
     private function checkHasNoAAD(JWE $jwe): void
     {
         if (null !== $jwe->getAAD()) {
-            throw new \LogicException('This JWE has AAD and cannot be converted into Compact JSON.');
+            throw new LogicException('This JWE has AAD and cannot be converted into Compact JSON.');
         }
     }
 
     private function checkRecipientHasNoHeader(JWE $jwe, int $id): void
     {
         if (0 !== \count($jwe->getSharedHeader()) || 0 !== \count($jwe->getRecipient($id)->getHeader())) {
-            throw new \LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
+            throw new LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
         }
     }
 
     private function checkHasSharedProtectedHeader(JWE $jwe): void
     {
         if (0 === \count($jwe->getSharedProtectedHeader())) {
-            throw new \LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
+            throw new LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
         }
     }
 }

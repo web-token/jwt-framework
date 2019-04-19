@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 /**
@@ -57,18 +58,18 @@ class KeyChecker
                 break;
             case 'encryption':
                 if (!\in_array('encrypt', $ops, true) && !\in_array('wrapKey', $ops, true)) {
-                    throw new \InvalidArgumentException('Key cannot be used to encrypt');
+                    throw new InvalidArgumentException('Key cannot be used to encrypt');
                 }
 
                 break;
             case 'decryption':
                 if (!\in_array('decrypt', $ops, true) && !\in_array('unwrapKey', $ops, true)) {
-                    throw new \InvalidArgumentException('Key cannot be used to decrypt');
+                    throw new InvalidArgumentException('Key cannot be used to decrypt');
                 }
 
                 break;
             default:
-                throw new \InvalidArgumentException('Unsupported key usage.');
+                throw new InvalidArgumentException('Unsupported key usage.');
         }
     }
 
@@ -87,7 +88,7 @@ class KeyChecker
 
                 break;
             default:
-                throw new \InvalidArgumentException('Unsupported key usage.');
+                throw new InvalidArgumentException('Unsupported key usage.');
         }
     }
 }

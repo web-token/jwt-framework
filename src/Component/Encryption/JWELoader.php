@@ -17,6 +17,7 @@ use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
+use RuntimeException;
 
 class JWELoader
 {
@@ -100,7 +101,7 @@ class JWELoader
             // Nothing to do. Exception thrown just after
         }
 
-        throw new \Exception('Unable to load and decrypt the token.');
+        throw new RuntimeException('Unable to load and decrypt the token.');
     }
 
     private function processRecipient(JWE &$jwe, JWKSet $keyset, int $recipient): bool

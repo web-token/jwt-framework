@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-class MissingMandatoryHeaderParameterException extends \Exception
+use Exception;
+
+class MissingMandatoryHeaderParameterException extends Exception
 {
     /**
      * @var string[]

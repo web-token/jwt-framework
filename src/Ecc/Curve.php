@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
+use GMP;
+use RuntimeException;
+
 /**
  * @internal
  */
@@ -21,17 +24,17 @@ class Curve
     /**
      * Elliptic curve over the field of integers modulo a prime.
      *
-     * @var \GMP
+     * @var GMP
      */
     private $a;
 
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $b;
 
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $prime;
 
@@ -47,7 +50,7 @@ class Curve
      */
     private $generator;
 
-    public function __construct(int $size, \GMP $prime, \GMP $a, \GMP $b, Point $generator)
+    public function __construct(int $size, GMP $prime, GMP $a, GMP $b, Point $generator)
     {
         $this->size = $size;
         $this->prime = $prime;
@@ -61,17 +64,17 @@ class Curve
         return 'curve('.Math::toString($this->getA()).', '.Math::toString($this->getB()).', '.Math::toString($this->getPrime()).')';
     }
 
-    public function getA(): \GMP
+    public function getA(): GMP
     {
         return $this->a;
     }
 
-    public function getB(): \GMP
+    public function getB(): GMP
     {
         return $this->b;
     }
 
-    public function getPrime(): \GMP
+    public function getPrime(): GMP
     {
         return $this->prime;
     }
@@ -81,34 +84,34 @@ class Curve
         return $this->size;
     }
 
-    public function getPoint(\GMP $x, \GMP $y, ?\GMP $order = null): Point
+    public function getPoint(GMP $x, GMP $y, ?GMP $order = null): Point
     {
         if (!$this->contains($x, $y)) {
-            throw new \RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
+            throw new RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
         }
         $point = Point::create($x, $y, $order);
         if (!\is_null($order)) {
             $mul = $this->mul($point, $order);
             if (!$mul->isInfinity()) {
-                throw new \RuntimeException('SELF * ORDER MUST EQUAL INFINITY.');
+                throw new RuntimeException('SELF * ORDER MUST EQUAL INFINITY.');
             }
         }
 
         return $point;
     }
 
-    public function getPublicKeyFrom(\GMP $x, \GMP $y): PublicKey
+    public function getPublicKeyFrom(GMP $x, GMP $y): PublicKey
     {
         $zero = gmp_init(0, 10);
         if (Math::cmp($x, $zero) < 0 || Math::cmp($this->generator->getOrder(), $x) <= 0 || Math::cmp($y, $zero) < 0 || Math::cmp($this->generator->getOrder(), $y) <= 0) {
-            throw new \RuntimeException('Generator point has x and y out of range.');
+            throw new RuntimeException('Generator point has x and y out of range.');
         }
         $point = $this->getPoint($x, $y);
 
         return new PublicKey($point);
     }
 
-    public function contains(\GMP $x, \GMP $y): bool
+    public function contains(GMP $x, GMP $y): bool
     {
         return Math::equals(
             ModularArithmetic::sub(
@@ -165,13 +168,13 @@ class Curve
         return $this->getPoint($xR, $yR, $one->getOrder());
     }
 
-    public function mul(Point $one, \GMP $n): Point
+    public function mul(Point $one, GMP $n): Point
     {
         if ($one->isInfinity()) {
             return Point::infinity();
         }
 
-        /** @var \GMP $zero */
+        /** @var GMP $zero */
         $zero = gmp_init(0, 10);
         if (Math::cmp($one->getOrder(), $zero) > 0) {
             $n = Math::mod($n, $one->getOrder());
@@ -273,11 +276,11 @@ class Curve
     private function validate(Point $point): void
     {
         if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
-            throw new \RuntimeException('Invalid point');
+            throw new RuntimeException('Invalid point');
         }
     }
 
-    private function generate(): \GMP
+    private function generate(): GMP
     {
         $max = $this->generator->getOrder();
         $numBits = $this->bnNumBits($max);
@@ -295,7 +298,7 @@ class Curve
      *
      * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
      */
-    private function bnNumBits(\GMP $x): int
+    private function bnNumBits(GMP $x): int
     {
         $zero = gmp_init(0, 10);
         if (Math::equals($x, $zero)) {

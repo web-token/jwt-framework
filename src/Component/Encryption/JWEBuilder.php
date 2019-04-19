@@ -15,6 +15,7 @@ namespace Jose\Component\Encryption;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
@@ -28,6 +29,8 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
+use LogicException;
+use RuntimeException;
 
 class JWEBuilder
 {
@@ -221,11 +224,11 @@ class JWEBuilder
             if (null === $clone->compressionMethod) {
                 $clone->compressionMethod = $compressionMethod;
             } elseif ($clone->compressionMethod->name() !== $compressionMethod->name()) {
-                throw new \InvalidArgumentException('Incompatible compression method.');
+                throw new InvalidArgumentException('Incompatible compression method.');
             }
         }
         if (null === $compressionMethod && null !== $clone->compressionMethod) {
-            throw new \InvalidArgumentException('Inconsistent compression method.');
+            throw new InvalidArgumentException('Inconsistent compression method.');
         }
         $clone->checkKey($keyEncryptionAlgorithm, $recipientKey);
         $clone->recipients[] = [
@@ -243,10 +246,10 @@ class JWEBuilder
     public function build(): JWE
     {
         if (null === $this->payload) {
-            throw new \LogicException('Payload not set.');
+            throw new LogicException('Payload not set.');
         }
         if (0 === \count($this->recipients)) {
-            throw new \LogicException('No recipient.');
+            throw new LogicException('No recipient.');
         }
 
         $additionalHeader = [];
@@ -276,7 +279,7 @@ class JWEBuilder
         if (null === $this->contentEncryptionAlgorithm) {
             $this->contentEncryptionAlgorithm = $contentEncryptionAlgorithm;
         } elseif ($contentEncryptionAlgorithm->name() !== $this->contentEncryptionAlgorithm->name()) {
-            throw new \InvalidArgumentException('Inconsistent content encryption algorithm');
+            throw new InvalidArgumentException('Inconsistent content encryption algorithm');
         }
     }
 
@@ -338,7 +341,7 @@ class JWEBuilder
             return null;
         }
 
-        throw new \InvalidArgumentException('Unsupported key encryption algorithm.');
+        throw new InvalidArgumentException('Unsupported key encryption algorithm.');
     }
 
     private function getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey): string
@@ -378,7 +381,7 @@ class JWEBuilder
                 return $this->createCEK($this->contentEncryptionAlgorithm->getCEKSize());
             case KeyEncryption::MODE_AGREEMENT:
                 if (1 !== \count($this->recipients)) {
-                    throw new \LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
+                    throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
                 /** @var JWK $key */
                 $key = $this->recipients[0]['key'];
@@ -389,17 +392,17 @@ class JWEBuilder
                 return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $key, $completeHeader, $additionalHeader);
             case KeyEncryption::MODE_DIRECT:
                 if (1 !== \count($this->recipients)) {
-                    throw new \LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
+                    throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
                 /** @var JWK $key */
                 $key = $this->recipients[0]['key'];
                 if ('oct' !== $key->get('kty')) {
-                    throw new \RuntimeException('Wrong key type.');
+                    throw new RuntimeException('Wrong key type.');
                 }
 
                 return Base64Url::decode($key->get('k'));
             default:
-                throw new \InvalidArgumentException(sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));
+                throw new InvalidArgumentException(sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));
         }
     }
 

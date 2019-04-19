@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Exception;
+
 /**
  * This exception is thrown by header parameter checkers when a header parameter check failed.
  */
-class InvalidHeaderException extends \Exception
+class InvalidHeaderException extends Exception
 {
     /**
      * @var string

@@ -15,6 +15,7 @@ namespace Jose\Component\Signature;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -126,10 +127,10 @@ class JWSVerifier
     {
         $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
         if (null !== $detachedPayload && !$isPayloadEmpty) {
-            throw new \InvalidArgumentException('A detached payload is set, but the JWS already has a payload.');
+            throw new InvalidArgumentException('A detached payload is set, but the JWS already has a payload.');
         }
         if ($isPayloadEmpty && null === $detachedPayload) {
-            throw new \InvalidArgumentException('The JWS has a detached payload, but no payload is provided.');
+            throw new InvalidArgumentException('The JWS has a detached payload, but no payload is provided.');
         }
     }
 

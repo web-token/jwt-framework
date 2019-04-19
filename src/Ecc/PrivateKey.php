@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
+use GMP;
+
 /**
  * *********************************************************************
  * Copyright (C) 2012 Matyas Danter.
@@ -43,21 +45,21 @@ namespace Jose\Component\Core\Util\Ecc;
 class PrivateKey
 {
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $secret;
 
-    private function __construct(\GMP $secret)
+    private function __construct(GMP $secret)
     {
         $this->secret = $secret;
     }
 
-    public static function create(\GMP $secret): self
+    public static function create(GMP $secret): self
     {
         return new self($secret);
     }
 
-    public function getSecret(): \GMP
+    public function getSecret(): GMP
     {
         return $this->secret;
     }

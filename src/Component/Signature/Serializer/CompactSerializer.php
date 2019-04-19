@@ -15,8 +15,11 @@ namespace Jose\Component\Signature\Serializer;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
+use LogicException;
+use Throwable;
 
 final class CompactSerializer extends Serializer
 {
@@ -39,12 +42,12 @@ final class CompactSerializer extends Serializer
         }
         $signature = $jws->getSignature($signatureIndex);
         if (0 !== \count($signature->getHeader())) {
-            throw new \LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
+            throw new LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
         }
         $isEmptyPayload = null === $jws->getEncodedPayload() || '' === $jws->getEncodedPayload();
         if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !$isEmptyPayload) {
             if (1 !== preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
-                throw new \LogicException('Unable to convert the JWS with non-encoded payload.');
+                throw new LogicException('Unable to convert the JWS with non-encoded payload.');
             }
         }
 
@@ -77,8 +80,8 @@ final class CompactSerializer extends Serializer
             $jws = new JWS($payload, $encodedPayload, !$hasPayload);
 
             return $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
-        } catch (\Throwable $throwable) {
-            throw new \InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
+        } catch (Throwable $throwable) {
+            throw new InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
         }
     }
 }

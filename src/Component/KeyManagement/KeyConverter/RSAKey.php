@@ -138,10 +138,10 @@ class RSAKey
     private function loadJWK(array $jwk): void
     {
         if (!\array_key_exists('kty', $jwk)) {
-            throw new \InvalidArgumentException('The key parameter "kty" is missing.');
+            throw new InvalidArgumentException('The key parameter "kty" is missing.');
         }
         if ('RSA' !== $jwk['kty']) {
-            throw new \InvalidArgumentException('The JWK is not a RSA key.');
+            throw new InvalidArgumentException('The JWK is not a RSA key.');
         }
 
         $this->values = $jwk;
@@ -240,6 +240,6 @@ class RSAKey
             }
         }
 
-        throw new \InvalidArgumentException('Unable to find prime factors.');
+        throw new InvalidArgumentException('Unable to find prime factors.');
     }
 }

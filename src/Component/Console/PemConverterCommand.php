@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\JsonConverter;
@@ -51,7 +52,7 @@ final class PemConverterCommand extends ObjectOutputCommand
 
                 break;
             default:
-                throw new \InvalidArgumentException('Not a RSA or EC key.');
+                throw new InvalidArgumentException('Not a RSA or EC key.');
         }
         $output->write($pem);
     }

@@ -50,7 +50,7 @@ class ECKey
 
                 break;
             default:
-                throw new \InvalidArgumentException('Unsupported curve.');
+                throw new InvalidArgumentException('Unsupported curve.');
         }
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN PUBLIC KEY-----'.PHP_EOL;
@@ -76,7 +76,7 @@ class ECKey
 
                 break;
             default:
-                throw new \InvalidArgumentException('Unsupported curve.');
+                throw new InvalidArgumentException('Unsupported curve.');
         }
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN EC PRIVATE KEY-----'.PHP_EOL;
