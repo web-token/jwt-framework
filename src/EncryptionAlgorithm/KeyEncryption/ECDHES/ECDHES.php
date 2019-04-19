@@ -18,6 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
+use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Util\ConcatKDF;
 use Jose\Component\Encryption\Util\Ecc\EcDH;
 
@@ -55,7 +56,7 @@ final class ECDHES implements KeyAgreement
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                $private_key = $this->createECKey($public_key->get('crv'));
+                $private_key = ECKey::createECKey($public_key->get('crv'));
 
                 break;
             case 'X25519':
@@ -86,9 +87,6 @@ final class ECDHES implements KeyAgreement
         return [$public_key, $private_key];
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
     {
         switch ($public_key->get('crv')) {
@@ -125,10 +123,7 @@ final class ECDHES implements KeyAgreement
         return self::MODE_AGREEMENT;
     }
 
-    /**
-     * @return JWK
-     */
-    private function getPublicKey(array $complete_header)
+    private function getPublicKey(array $complete_header): JWK
     {
         if (!\array_key_exists('epk', $complete_header)) {
             throw new \InvalidArgumentException('The header parameter "epk" is missing');
@@ -143,10 +138,7 @@ final class ECDHES implements KeyAgreement
         return $public_key;
     }
 
-    /**
-     * @param bool $is_private
-     */
-    private function checkKey(JWK $key, $is_private)
+    private function checkKey(JWK $key, bool $is_private): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new \InvalidArgumentException('Wrong key type.');
@@ -178,9 +170,6 @@ final class ECDHES implements KeyAgreement
         }
     }
 
-    /**
-     * @throws \InvalidArgumentException
-     */
     private function getCurve(string $crv): Curve
     {
         switch ($crv) {
@@ -214,7 +203,12 @@ final class ECDHES implements KeyAgreement
             $hex = '0'.$hex;
         }
 
-        return \hex2bin($hex);
+        $result = \hex2bin($hex);
+        if (false === $result) {
+            throw new \InvalidArgumentException('Unable to convert negative integer to string');
+        }
+
+        return $result;
     }
 
     /**
@@ -234,7 +228,7 @@ final class ECDHES implements KeyAgreement
     /**
      * @param string $curve The curve
      */
-    public static function createOKPKey(string $curve): JWK
+    private function createOKPKey(string $curve): JWK
     {
         switch ($curve) {
             case 'X25519':
@@ -298,11 +292,17 @@ final class ECDHES implements KeyAgreement
             'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
+        if (false === $key) {
+            throw new \RuntimeException('Unable to create the key');
+        }
         $res = \openssl_pkey_export($key, $out);
         if (false === $res) {
             throw new \RuntimeException('Unable to create the key');
         }
         $res = \openssl_pkey_get_private($out);
+        if (false === $res) {
+            throw new \RuntimeException('Unable to create the key');
+        }
 
         $details = \openssl_pkey_get_details($res);
 
