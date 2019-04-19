@@ -14,7 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Ecc\Curve;
+use Jose\Component\Core\Util\Ecc\NistCurve;
+use RuntimeException;
 
 /**
  * @internal
@@ -80,6 +84,94 @@ class ECKey
         $pem .= '-----END EC PRIVATE KEY-----'.PHP_EOL;
 
         return $pem;
+    }
+
+    /**
+     * Creates a EC key with the given curve and additional values.
+     *
+     * @param string $curve  The curve
+     * @param array  $values values to configure the key
+     */
+    public static function createECKey(string $curve, array $values = []): JWK
+    {
+        try {
+            $jwk = self::createECKeyUsingOpenSSL($curve);
+        } catch (\Exception $e) {
+            $jwk = self::createECKeyUsingPurePhp($curve);
+        }
+        $values = \array_merge($values, $jwk);
+
+        return JWK::create($values);
+    }
+
+    private static function createECKeyUsingPurePhp(string $curve): array
+    {
+        $nistCurve = static::getCurve($curve);
+        $componentSize = (int) ceil($nistCurve->getSize() / 8);
+        $privateKey = $nistCurve->createPrivateKey();
+        $publicKey = $nistCurve->createPublicKey($privateKey);
+
+        return [
+            'kty' => 'EC',
+            'crv' => $curve,
+            'd' => Base64Url::encode(str_pad(gmp_export($privateKey->getSecret()), $componentSize, "\0", STR_PAD_LEFT)),
+            'x' => Base64Url::encode(str_pad(gmp_export($publicKey->getPoint()->getX()), $componentSize, "\0", STR_PAD_LEFT)),
+            'y' => Base64Url::encode(str_pad(gmp_export($publicKey->getPoint()->getY()), $componentSize, "\0", STR_PAD_LEFT)),
+        ];
+    }
+
+    private static function createECKeyUsingOpenSSL(string $curve): array
+    {
+        $key = openssl_pkey_new([
+            'curve_name' => self::getOpensslCurveName($curve),
+            'private_key_type' => OPENSSL_KEYTYPE_EC,
+        ]);
+        $res = openssl_pkey_export($key, $out);
+        if (false === $res) {
+            throw new RuntimeException('Unable to create the key');
+        }
+        $res = openssl_pkey_get_private($out);
+
+        $details = openssl_pkey_get_details($res);
+
+        $nistCurve = static::getCurve($curve);
+        $componentSize = (int) ceil($nistCurve->getSize() / 8);
+
+        return [
+            'kty' => 'EC',
+            'crv' => $curve,
+            'x' => Base64Url::encode(str_pad($details['ec']['x'], $componentSize, "\0", STR_PAD_LEFT)),
+            'y' => Base64Url::encode(str_pad($details['ec']['y'], $componentSize, "\0", STR_PAD_LEFT)),
+            'd' => Base64Url::encode(str_pad($details['ec']['d'], $componentSize, "\0", STR_PAD_LEFT)),
+        ];
+    }
+
+    private static function getCurve(string $curve): Curve
+    {
+        switch ($curve) {
+            case 'P-256':
+                return NistCurve::curve256();
+            case 'P-384':
+                return NistCurve::curve384();
+            case 'P-521':
+                return NistCurve::curve521();
+            default:
+                throw new InvalidArgumentException(\sprintf('The curve "%s" is not supported.', $curve));
+        }
+    }
+
+    private static function getOpensslCurveName(string $curve): string
+    {
+        switch ($curve) {
+            case 'P-256':
+                return 'prime256v1';
+            case 'P-384':
+                return 'secp384r1';
+            case 'P-521':
+                return 'secp521r1';
+            default:
+                throw new InvalidArgumentException(\sprintf('The curve "%s" is not supported.', $curve));
+        }
     }
 
     private static function p256PublicKey(): string

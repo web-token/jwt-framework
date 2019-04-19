@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use InvalidArgumentException;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use function openssl_decrypt;
+use function openssl_encrypt;
 
 abstract class AESCCM implements ContentEncryptionAlgorithm
 {
@@ -29,9 +32,9 @@ abstract class AESCCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.$aad;
         }
 
-        $C = \openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad, $this->getTagLength());
+        $C = openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad, $this->getTagLength());
         if (false === $C) {
-            throw new \InvalidArgumentException('Unable to encrypt the data.');
+            throw new InvalidArgumentException('Unable to encrypt the data.');
         }
 
         return $C;
@@ -47,9 +50,9 @@ abstract class AESCCM implements ContentEncryptionAlgorithm
             $calculated_aad .= '.'.$aad;
         }
 
-        $P = \openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
+        $P = openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if (false === $P) {
-            throw new \InvalidArgumentException('Unable to decrypt or to verify the tag.');
+            throw new InvalidArgumentException('Unable to decrypt or to verify the tag.');
         }
 
         return $P;
