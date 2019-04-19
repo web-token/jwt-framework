@@ -70,8 +70,6 @@ abstract class EncryptionBench
         ]);
         $this->compressionMethodsManager = new CompressionMethodManager([
             new Compression\Deflate(),
-            new Compression\GZip(),
-            new Compression\ZLib(),
         ]);
         $this->serializerManager = new JWESerializerManager([
             new CompactSerializer(),

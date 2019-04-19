@@ -73,8 +73,6 @@ abstract class NestedTokenTest extends TestCase
         if (null === $this->compressionMethodManagerFactory) {
             $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
             $this->compressionMethodManagerFactory->add('DEF', new Compression\Deflate());
-            $this->compressionMethodManagerFactory->add('ZLIB', new Compression\ZLib());
-            $this->compressionMethodManagerFactory->add('GZ', new Compression\GZip());
         }
 
         return $this->compressionMethodManagerFactory;
