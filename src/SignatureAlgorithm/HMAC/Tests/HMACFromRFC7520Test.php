@@ -49,7 +49,7 @@ class HMACFromRFC7520Test extends TestCase
          * @see https://tools.ietf.org/html/rfc7520#section-4.4.1
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
@@ -122,7 +122,7 @@ class HMACFromRFC7520Test extends TestCase
          * @see https://tools.ietf.org/html/rfc7520#section-4.5.1
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
@@ -196,7 +196,7 @@ class HMACFromRFC7520Test extends TestCase
          * @see https://tools.ietf.org/html/rfc7520#section-4.6.1
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
@@ -265,7 +265,7 @@ class HMACFromRFC7520Test extends TestCase
          * @see https://tools.ietf.org/html/rfc7520#section-4.7.1
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',

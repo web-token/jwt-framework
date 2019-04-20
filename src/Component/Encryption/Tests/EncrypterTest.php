@@ -194,7 +194,7 @@ class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        static::assertEquals($this->getKeyToEncrypt(), JWK::create(json_decode($loaded->getPayload(), true)));
+        static::assertEquals($this->getKeyToEncrypt(), new JWK(json_decode($loaded->getPayload(), true)));
     }
 
     /**
@@ -440,7 +440,7 @@ class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));
 
-        static::assertEquals($this->getKeyToEncrypt(), JWK::create(json_decode($loaded->getPayload(), true)));
+        static::assertEquals($this->getKeyToEncrypt(), new JWK(json_decode($loaded->getPayload(), true)));
     }
 
     /**
@@ -591,7 +591,7 @@ class EncrypterTest extends EncryptionTest
      */
     private function getKeyToEncrypt()
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'EC',
             'use' => 'enc',
             'crv' => 'P-256',
@@ -606,7 +606,7 @@ class EncrypterTest extends EncryptionTest
      */
     private function getKeySetToEncrypt()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'use' => 'enc',
             'crv' => 'P-256',
@@ -615,7 +615,7 @@ class EncrypterTest extends EncryptionTest
             'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
         ]);
 
-        return JWKSet::createFromKeys([$key]);
+        return new JWKSet([$key]);
     }
 
     /**
@@ -623,7 +623,7 @@ class EncrypterTest extends EncryptionTest
      */
     private function getRSARecipientKey()
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'RSA',
             'use' => 'enc',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
@@ -636,7 +636,7 @@ class EncrypterTest extends EncryptionTest
      */
     private function getRSARecipientKeyWithAlgorithm()
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'RSA',
             'use' => 'enc',
             'alg' => 'RSA-OAEP',
@@ -650,7 +650,7 @@ class EncrypterTest extends EncryptionTest
      */
     private function getSigningKey()
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'EC',
             'key_ops' => ['sign', 'verify'],
             'crv' => 'P-256',
@@ -665,7 +665,7 @@ class EncrypterTest extends EncryptionTest
      */
     private function getECDHRecipientPublicKey()
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'EC',
             'key_ops' => ['encrypt', 'decrypt'],
             'crv' => 'P-256',
@@ -679,7 +679,7 @@ class EncrypterTest extends EncryptionTest
      */
     private function getDirectKey()
     {
-        return JWK::create([
+        return new JWK([
             'kid' => 'DIR_1',
             'key_ops' => ['encrypt', 'decrypt'],
             'kty' => 'oct',

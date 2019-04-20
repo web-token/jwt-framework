@@ -52,18 +52,18 @@ class JWKSetSource implements Source
     {
         $sourceNodeBuilder = $node
             ->children()
-                ->arrayNode('key_sets')
-                    ->treatFalseLike([])
-                    ->treatNullLike([])
-                    ->useAttributeAsKey('name')
-                    ->arrayPrototype()
-                        ->validate()
-                            ->ifTrue(function ($config) {
-                                return 1 !== \count($config);
-                            })
-                            ->thenInvalid('One key set type must be set.')
-                        ->end()
-                    ->children()
+            ->arrayNode('key_sets')
+            ->treatFalseLike([])
+            ->treatNullLike([])
+            ->useAttributeAsKey('name')
+            ->arrayPrototype()
+            ->validate()
+            ->ifTrue(function ($config) {
+                return 1 !== \count($config);
+            })
+            ->thenInvalid('One key set type must be set.')
+            ->end()
+            ->children()
         ;
         foreach ($this->getJWKSetSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
@@ -96,7 +96,9 @@ class JWKSetSource implements Source
         $jwkset_sources = [];
         foreach (array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
-            Assertion::isInstanceOf($factory, JWKSetSourceInterface::class);
+            if (!$factory instanceof JWKSetSourceInterface) {
+                throw new \InvalidArgumentException('Invalid object');
+            }
             $jwkset_sources[str_replace('-', '_', $factory->getKeySet())] = $factory;
         }
 

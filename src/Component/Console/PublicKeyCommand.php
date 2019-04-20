@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -44,10 +44,14 @@ final class PublicKeyCommand extends ObjectOutputCommand
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
-        Assertion::string($jwk, 'Invalid JWK');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
         $json = JsonConverter::decode($jwk);
-        Assertion::isArray($json, 'The argument must be a valid JWK.');
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
 
-        return JWK::create($json);
+        return new JWK($json);
     }
 }

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
@@ -94,7 +93,9 @@ class HeaderCheckerManager
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = array_intersect_key($header1, $header2);
-        Assertion::count($inter, 0, sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
+        if (0 !== \count($inter)) {
+            throw new InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
+        }
     }
 
     /**
@@ -106,7 +107,6 @@ class HeaderCheckerManager
             return;
         }
         $diff = array_keys(array_diff_key(array_flip($mandatoryHeaderParameters), array_merge($protected, $unprotected)));
-        Assertion::allString($diff);
         if (0 !== \count($diff)) {
             throw new MissingMandatoryHeaderParameterException(sprintf('The following header parameters are mandatory: %s.', implode(', ', $diff)), $diff);
         }

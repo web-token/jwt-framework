@@ -61,7 +61,7 @@ final class ES384Bench extends SignatureBench
 
     protected function getPrivateKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'sig',

@@ -53,7 +53,7 @@ class JWSVerifier
      */
     public function verifyWithKey(JWS $jws, JWK $jwk, int $signature, ?string $detachedPayload = null): bool
     {
-        $jwkset = JWKSet::createFromKeys([$jwk]);
+        $jwkset = new JWKSet([$jwk]);
 
         return $this->verifyWithKeySet($jws, $jwkset, $signature, $detachedPayload);
     }

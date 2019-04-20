@@ -52,7 +52,7 @@ final class JWENormalizerTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -81,7 +81,7 @@ final class JWENormalizerTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -113,7 +113,7 @@ final class JWENormalizerTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);

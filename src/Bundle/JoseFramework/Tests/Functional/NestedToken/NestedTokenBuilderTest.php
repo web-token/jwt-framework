@@ -79,7 +79,7 @@ class NestedTokenBuilderTest extends WebTestCase
         /** @var NestedTokenBuilder $builder */
         $builder = $container->get('jose.nested_token_builder.nested_token_builder_1');
 
-        $encryption_key = JWK::create([
+        $encryption_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'samwise.gamgee@hobbiton.example',
             'use' => 'enc',
@@ -94,7 +94,7 @@ class NestedTokenBuilderTest extends WebTestCase
             'qi' => 'FZhClBMywVVjnuUud-05qd5CYU0dK79akAgy9oX6RX6I3IIIPckCciRrokxglZn-omAY5CnCe4KdrnjFOT5YUZE7G_Pg44XgCXaarLQf4hl80oPEf6-jJ5Iy6wPRx7G2e8qLxnh9cOdf-kRqgOS3F48Ucvw3ma5V6KGMwQqWFeV31XtZ8l5cVI-I3NzBS7qltpUVgz2Ju021eyc7IlqgzR98qKONl27DuEES0aK0WE97jnsyO27Yp88Wa2RiBrEocM89QZI1seJiGDizHRUP4UZxw9zsXww46wy0P6f9grnYp7t8LkyDDk8eoI4KX6SNMNVcyVS9IWjlq8EzqZEKIA',
         ]);
 
-        $signature_key = JWK::create([
+        $signature_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'hobbiton.example',
             'use' => 'sig',
@@ -140,7 +140,7 @@ class NestedTokenBuilderTest extends WebTestCase
         /** @var NestedTokenBuilder $builder */
         $builder = $container->get('jose.nested_token_builder.nested_token_builder_2');
 
-        $encryption_key = JWK::create([
+        $encryption_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'samwise.gamgee@hobbiton.example',
             'use' => 'enc',
@@ -155,7 +155,7 @@ class NestedTokenBuilderTest extends WebTestCase
             'qi' => 'FZhClBMywVVjnuUud-05qd5CYU0dK79akAgy9oX6RX6I3IIIPckCciRrokxglZn-omAY5CnCe4KdrnjFOT5YUZE7G_Pg44XgCXaarLQf4hl80oPEf6-jJ5Iy6wPRx7G2e8qLxnh9cOdf-kRqgOS3F48Ucvw3ma5V6KGMwQqWFeV31XtZ8l5cVI-I3NzBS7qltpUVgz2Ju021eyc7IlqgzR98qKONl27DuEES0aK0WE97jnsyO27Yp88Wa2RiBrEocM89QZI1seJiGDizHRUP4UZxw9zsXww46wy0P6f9grnYp7t8LkyDDk8eoI4KX6SNMNVcyVS9IWjlq8EzqZEKIA',
         ]);
 
-        $signature_key = JWK::create([
+        $signature_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'hobbiton.example',
             'use' => 'sig',

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 
 class AlgorithmManagerFactory
 {
@@ -63,7 +63,12 @@ class AlgorithmManagerFactory
     {
         $algorithms = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->algorithms, $alias, sprintf('The algorithm with the alias "%s" is not supported.', $alias));
+            if (!\is_string($alias)) {
+                throw new InvalidArgumentException('Invalid alias');
+            }
+            if (!isset($this->algorithms[$alias])) {
+                throw new InvalidArgumentException(sprintf('The algorithm with the alias "%s" is not supported.', $alias));
+            }
             $algorithms[] = $this->algorithms[$alias];
         }
 

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,7 +35,9 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
     {
         $size = $input->getArgument('size');
         $args = $this->getOptions($input);
-        Assertion::integer($size, 'Invalid size');
+        if (!\is_int($size) || $size < 2048) {
+            throw new InvalidArgumentException('Invalid size');
+        }
 
         $jwk = JWKFactory::createRSAKey($size, $args);
         $this->prepareJsonOutput($input, $output, $jwk);

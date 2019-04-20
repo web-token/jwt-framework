@@ -90,7 +90,7 @@ final class JWEEncoderTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         /** @var JWELoaderFactory $jweLoaderFactory */
         $jweLoaderFactory = $container->get(JWELoaderFactory::class);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -133,7 +133,7 @@ final class JWEEncoderTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $container->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -164,11 +164,11 @@ final class JWEEncoderTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $container->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
-        $jwk2 = JWK::create([
+        $jwk2 = new JWK([
             'kty' => 'oct',
             'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
         ]);
@@ -215,7 +215,7 @@ final class JWEEncoderTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $container->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -254,7 +254,7 @@ final class JWEEncoderTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $container->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -288,7 +288,7 @@ final class JWEEncoderTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $container->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);

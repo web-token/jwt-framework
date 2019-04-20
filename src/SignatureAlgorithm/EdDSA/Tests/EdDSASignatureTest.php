@@ -37,7 +37,7 @@ class EdDSASignatureTest extends TestCase
      */
     public function edDSAVerifyAlgorithm()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
             'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
@@ -58,7 +58,7 @@ class EdDSASignatureTest extends TestCase
      */
     public function edDSASignAndVerifyAlgorithm()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
             'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',

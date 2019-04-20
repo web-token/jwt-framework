@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 
 class ClaimCheckerManagerFactory
 {
@@ -32,7 +32,9 @@ class ClaimCheckerManagerFactory
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->checkers, $alias, sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+            if (!isset($this->checkers[$alias])) {
+                throw new InvalidArgumentException(sprintf('The claim checker with the alias "%s" is not supported.', $alias));
+            }
             $checkers[] = $this->checkers[$alias];
         }
 

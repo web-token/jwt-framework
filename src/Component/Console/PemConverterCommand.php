@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
@@ -38,10 +37,14 @@ final class PemConverterCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
-        Assertion::string($jwk, 'Invalid JWK');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
         $json = JsonConverter::decode($jwk);
-        Assertion::isArray($json, 'Invalid key.');
-        $key = JWK::create($json);
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('Invalid key.');
+        }
+        $key = new JWK($json);
         switch ($key->get('kty')) {
             case 'RSA':
                 $pem = RSAKey::createFromJWK($key)->toPEM();

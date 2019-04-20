@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use ArrayIterator;
-use Assert\Assertion;
 use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
@@ -33,9 +32,20 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      *
      * @param JWK[] $keys
      */
-    private function __construct(array $keys)
+    public function __construct(array $keys)
     {
-        $this->keys = $keys;
+        foreach ($keys as $k => $key) {
+            if (!$key instanceof JWK) {
+                throw new InvalidArgumentException('Invalid list. Should only contains JWK objects');
+            }
+
+            if ($key->has('kid')) {
+                unset($keys[$k]);
+                $this->keys[$key->get('kid')] = $key;
+            } else {
+                $this->keys[] = $key;
+            }
+        }
     }
 
     /**
@@ -45,43 +55,24 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public static function createFromKeyData(array $data): self
     {
-        Assertion::keyExists($data, 'keys', 'Invalid data.');
-        Assertion::isArray($data['keys'], 'Invalid data.');
+        if (!isset($data['keys'])) {
+            throw new InvalidArgumentException('Invalid data.');
+        }
+        if (!\is_array($data['keys'])) {
+            throw new InvalidArgumentException('Invalid data.');
+        }
 
-        $keys = [];
+        $jwkset = new self([]);
         foreach ($data['keys'] as $key) {
-            $jwk = JWK::create($key);
+            $jwk = new JWK($key);
             if ($jwk->has('kid')) {
-                $keys[$jwk->get('kid')] = $jwk;
-
-                continue;
-            }
-            $keys[] = $jwk;
-        }
-
-        return new self($keys);
-    }
-
-    /**
-     * Creates a JWKSet object using the given JWK objects.
-     *
-     * @param JWK[] $keys
-     *
-     * @return JWKSet
-     */
-    public static function createFromKeys(array $keys): self
-    {
-        $keys = array_filter($keys, function () {
-            return true;
-        });
-        foreach ($keys as $k => $v) {
-            if ($v->has('kid')) {
-                unset($keys[$k]);
-                $keys[$v->get('kid')] = $v;
+                $jwkset->keys[$jwk->get('kid')] = $jwk;
+            } else {
+                $jwkset->keys[] = $jwk;
             }
         }
 
-        return new self($keys);
+        return $jwkset;
     }
 
     /**
@@ -92,7 +83,9 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     public static function createFromJson(string $json): self
     {
         $data = json_decode($json, true);
-        Assertion::isArray($data, 'Invalid argument.');
+        if (!\is_array($data)) {
+            throw new InvalidArgumentException('Invalid argument.');
+        }
 
         return self::createFromKeyData($data);
     }
@@ -163,7 +156,9 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function get($index): JWK
     {
-        Assertion::true($this->has($index), 'Undefined index.');
+        if (!$this->has($index)) {
+            throw new InvalidArgumentException('Undefined index.');
+        }
 
         return $this->keys[$index];
     }
@@ -196,7 +191,9 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
-        Assertion::inArray($type, ['enc', 'sig'], 'Allowed key types are "sig" or "enc".');
+        if (!\in_array($type, ['enc', 'sig'], true)) {
+            throw new InvalidArgumentException('Allowed key types are "sig" or "enc".');
+        }
 
         $result = [];
         foreach ($this->keys as $key) {
@@ -264,7 +261,12 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
             return $type === $key->get('use') ? 1 : false;
         }
         if ($key->has('key_ops')) {
-            return $type === self::convertKeyOpsToKeyUse($key->get('use')) ? 1 : false;
+            $key_ops = $key->get('key_ops');
+            if (!\is_array($key_ops)) {
+                throw new InvalidArgumentException('Invalid key parameter "key_ops". Should be a list of key operations');
+            }
+
+            return $type === self::convertKeyOpsToKeyUse($key_ops) ? 1 : false;
         }
 
         return 0;
@@ -299,16 +301,18 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         return true;
     }
 
-    private static function convertKeyOpsToKeyUse(string $key_ops): string
+    private static function convertKeyOpsToKeyUse(array $key_ops): string
     {
-        switch ($key_ops) {
-            case 'verify':
-            case 'sign':
+        switch (true) {
+            case \in_array('verify', $key_ops, true):
+            case \in_array('sign', $key_ops, true):
                 return 'sig';
-            case 'encrypt':
-            case 'decrypt':
-            case 'wrapKey':
-            case 'unwrapKey':
+            case \in_array('encrypt', $key_ops, true):
+            case \in_array('decrypt', $key_ops, true):
+            case \in_array('wrapKey', $key_ops, true):
+            case \in_array('unwrapKey', $key_ops, true):
+            case \in_array('deriveKey', $key_ops, true):
+            case \in_array('deriveBits', $key_ops, true):
                 return 'enc';
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,11 +36,15 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $quantity = $input->getArgument('quantity');
-        Assertion::integer($quantity, 'Invalid quantity');
+        if (!\is_int($quantity)) {
+            throw new InvalidArgumentException('Invalid quantity');
+        }
         $curve = $input->getArgument('curve');
-        Assertion::string($curve, 'Invalid curve');
+        if (!\is_string($curve)) {
+            throw new InvalidArgumentException('Invalid curve');
+        }
 
-        $keyset = JWKSet::createFromKeys([]);
+        $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
             $keyset = $keyset->with(JWKFactory::createECKey($curve, $args));

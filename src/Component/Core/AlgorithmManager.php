@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 
 class AlgorithmManager
 {
@@ -59,7 +59,9 @@ class AlgorithmManager
      */
     public function get(string $algorithm): Algorithm
     {
-        Assertion::true($this->has($algorithm), sprintf('The algorithm "%s" is not supported.', $algorithm));
+        if (!$this->has($algorithm)) {
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $algorithm));
+        }
 
         return $this->algorithms[$algorithm];
     }

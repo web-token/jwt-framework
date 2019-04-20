@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
 class JWE implements JWT
@@ -125,7 +125,9 @@ class JWE implements JWT
      */
     public function getRecipient(int $id): Recipient
     {
-        Assertion::keyExists($this->recipients, $id, 'The recipient does not exist.');
+        if (!isset($this->recipients[$id])) {
+            throw new InvalidArgumentException('The recipient does not exist.');
+        }
 
         return $this->recipients[$id];
     }
@@ -190,7 +192,9 @@ class JWE implements JWT
      */
     public function getSharedProtectedHeaderParameter(string $key)
     {
-        Assertion::true($this->hasSharedProtectedHeaderParameter($key), sprintf('The shared protected header "%s" does not exist.', $key));
+        if (!$this->hasSharedProtectedHeaderParameter($key)) {
+            throw new InvalidArgumentException(sprintf('The shared protected header "%s" does not exist.', $key));
+        }
 
         return $this->sharedProtectedHeader[$key];
     }
@@ -223,7 +227,9 @@ class JWE implements JWT
      */
     public function getSharedHeaderParameter(string $key)
     {
-        Assertion::true($this->hasSharedHeaderParameter($key), sprintf('The shared header "%s" does not exist.', $key));
+        if (!$this->hasSharedHeaderParameter($key)) {
+            throw new InvalidArgumentException(sprintf('The shared header "%s" does not exist.', $key));
+        }
 
         return $this->sharedHeader[$key];
     }

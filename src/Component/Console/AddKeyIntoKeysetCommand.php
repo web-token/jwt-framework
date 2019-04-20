@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -46,20 +46,28 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        Assertion::string($jwkset, 'The argument must be a valid JWKSet.');
+        if (!\is_string($jwkset)) {
+            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+        }
         $json = JsonConverter::decode($jwkset);
-        Assertion::isArray($json, 'The argument must be a valid JWKSet.');
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+        }
 
         return JWKSet::createFromKeyData($json);
     }
 
     private function getKey(InputInterface $input): JWK
     {
-        $jwkset = $input->getArgument('jwk');
-        Assertion::string($jwkset, 'The argument must be a valid JWK.');
-        $json = JsonConverter::decode($jwkset);
-        Assertion::isArray($json, 'The argument must be a valid JWK.');
+        $jwk = $input->getArgument('jwk');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('The argument must be a valid JWK.');
+        }
+        $json = JsonConverter::decode($jwk);
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('The argument must be a valid JWK.');
+        }
 
-        return JWK::create($json);
+        return new JWK($json);
     }
 }

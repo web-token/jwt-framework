@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -67,7 +67,7 @@ final class KeysetAnalyzerCommand extends Command
             if (0 === $messages->count()) {
                 $output->writeln('    <success>All good! No issue found.</success>');
             } else {
-                foreach ($messages as $message) {
+                foreach ($messages->all() as $message) {
                     $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
                 }
             }
@@ -107,9 +107,13 @@ final class KeysetAnalyzerCommand extends Command
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        Assertion::string($jwkset, 'Invalid JWKSet');
+        if (!\is_string($jwkset)) {
+            throw new InvalidArgumentException('Invalid JWKSet');
+        }
         $json = JsonConverter::decode($jwkset);
-        Assertion::isArray($json, 'The argument must be a valid JWKSet.');
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+        }
 
         return JWKSet::createFromKeyData($json);
     }

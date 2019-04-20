@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -45,15 +45,19 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         }
         array_unshift($jwkset, $jwk);
 
-        $this->prepareJsonOutput($input, $output, JWKSet::createFromKeys($jwkset));
+        $this->prepareJsonOutput($input, $output, new JWKSet($jwkset));
     }
 
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        Assertion::string($jwkset, 'Invalid JWKSet');
+        if (!\is_string($jwkset)) {
+            throw new InvalidArgumentException('Invalid JWKSet');
+        }
         $json = JsonConverter::decode($jwkset);
-        Assertion::isArray($json, 'The argument must be a valid JWKSet.');
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('Invalid JWKSet');
+        }
 
         return JWKSet::createFromKeyData($json);
     }
@@ -61,10 +65,14 @@ final class RotateKeysetCommand extends ObjectOutputCommand
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
-        Assertion::string($jwk, 'Invalid JWK');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
         $json = JsonConverter::decode($jwk);
-        Assertion::isArray($json, 'The argument must be a valid JWK.');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
 
-        return JWK::create($json);
+        return new JWK($json);
     }
 }

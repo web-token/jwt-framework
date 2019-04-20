@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,7 +36,7 @@ final class PublicKeysetCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwkset = $this->getKeyset($input);
-        $newJwkset = JWKSet::createFromKeys([]);
+        $newJwkset = new JWKSet([]);
 
         foreach ($jwkset->all() as $jwk) {
             $newJwkset = $newJwkset->with($jwk->toPublic());
@@ -47,9 +47,13 @@ final class PublicKeysetCommand extends ObjectOutputCommand
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        Assertion::string($jwkset, 'Invalid JWKSet');
+        if (!\is_string($jwkset)) {
+            throw new InvalidArgumentException('Invalid JWKSet');
+        }
         $json = JsonConverter::decode($jwkset);
-        Assertion::isArray($json, 'The argument must be a valid JWKSet.');
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('Invalid JWKSet');
+        }
 
         return JWKSet::createFromKeyData($json);
     }

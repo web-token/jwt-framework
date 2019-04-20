@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
+use JsonSerializable;
 
-class JWK implements \JsonSerializable
+class JWK implements JsonSerializable
 {
     /**
      * @var array
@@ -24,24 +25,15 @@ class JWK implements \JsonSerializable
     private $values = [];
 
     /**
-     * JWK constructor.
-     */
-    private function __construct(array $values)
-    {
-        $this->values = $values;
-    }
-
-    /**
      * Creates a JWK object using the given values.
      * The member "kty" is mandatory. Other members are NOT checked.
-     *
-     * @return JWK
      */
-    public static function create(array $values): self
+    public function __construct(array $values)
     {
-        Assertion::keyExists($values, 'kty', 'The parameter "kty" is mandatory.');
-
-        return new self($values);
+        if (!isset($values['kty'])) {
+            throw new InvalidArgumentException('The parameter "kty" is mandatory.');
+        }
+        $this->values = $values;
     }
 
     /**
@@ -52,9 +44,11 @@ class JWK implements \JsonSerializable
     public static function createFromJson(string $json): self
     {
         $data = json_decode($json, true);
-        Assertion::isArray($data, 'Invalid argument.');
+        if (!\is_array($data)) {
+            throw new InvalidArgumentException('Invalid argument.');
+        }
 
-        return self::create($data);
+        return new self($data);
     }
 
     /**
@@ -74,7 +68,9 @@ class JWK implements \JsonSerializable
      */
     public function get(string $key)
     {
-        Assertion::true($this->has($key), sprintf('The value identified by "%s" does not exist.', $key));
+        if (!$this->has($key)) {
+            throw new InvalidArgumentException(sprintf('The value identified by "%s" does not exist.', $key));
+        }
 
         return $this->values[$key];
     }
@@ -106,7 +102,9 @@ class JWK implements \JsonSerializable
      */
     public function thumbprint(string $hash_algorithm): string
     {
-        Assertion::inArray($hash_algorithm, hash_algos(), sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
+        if (!\in_array($hash_algorithm, hash_algos(), true)) {
+            throw new InvalidArgumentException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
+        }
         $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
         ksort($values);
         $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);

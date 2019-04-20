@@ -232,7 +232,7 @@ class KeyCreationCommandTest extends TestCase
     public function iCanCreateAnRsaKey()
     {
         $input = new ArrayInput([
-            'size' => 1024,
+            'size' => 2048,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();

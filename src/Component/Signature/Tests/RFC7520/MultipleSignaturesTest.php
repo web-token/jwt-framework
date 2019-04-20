@@ -37,7 +37,7 @@ class MultipleSignaturesTest extends SignatureTest
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
 
-        $rsa_private_key = JWK::create([
+        $rsa_private_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',
@@ -51,7 +51,7 @@ class MultipleSignaturesTest extends SignatureTest
             'qi' => '3PiqvXQN0zwMeE-sBvZgi289XP9XCQF3VWqPzMKnIgQp7_Tugo6-NZBKCQsMf3HaEGBjTVJs_jcK8-TRXvaKe-7ZMaQj8VfBdYkssbu0NKDDhjJ-GtiseaDVWt7dcH0cfwxgFUHpQh7FoCrjFJ6h6ZEpMF6xmujs4qMpPz8aaI4',
         ]);
 
-        $ecdsa_private_key = JWK::create([
+        $ecdsa_private_key = new JWK([
             'kty' => 'EC',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',
@@ -61,7 +61,7 @@ class MultipleSignaturesTest extends SignatureTest
             'd' => 'AAhRON2r9cqXX1hg-RoI6R1tX5p2rUAYdmpHZoC1XNM56KtscrX6zbKipQrCW9CGZH3T4ubpnoTKLDYJ_fF3_rJt',
         ]);
 
-        $symmetric_key = JWK::create([
+        $symmetric_key = new JWK([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',

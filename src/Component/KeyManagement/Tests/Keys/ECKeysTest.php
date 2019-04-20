@@ -215,7 +215,7 @@ class ECKeysTest extends TestCase
      */
     public function convertPrivateKeyToPublic()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'kid' => 'Foo',
             'crv' => 'P-256',

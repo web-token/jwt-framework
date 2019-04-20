@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSource as JWKSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use LogicException;
@@ -97,7 +97,9 @@ class JWKSource implements Source
         $jwkSources = [];
         foreach (array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
-            Assertion::isInstanceOf($factory, JWKSourceInterface::class);
+            if (!$factory instanceof JWKSourceInterface) {
+                throw new InvalidArgumentException('Invalid object');
+            }
             $jwkSources[str_replace('-', '_', $factory->getKey())] = $factory;
         }
 

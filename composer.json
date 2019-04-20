@@ -56,6 +56,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
+        "beberlei/assert": "^3.2",
         "fgrosse/phpasn1": "^2.0",
         "spomky-labs/aes-key-wrap": "^4.0.1|^5.0",
         "spomky-labs/base64url": "^1.0|^2.0",

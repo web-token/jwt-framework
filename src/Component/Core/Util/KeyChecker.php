@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
@@ -37,33 +36,38 @@ class KeyChecker
         if (!$key->has('alg')) {
             return;
         }
-
-        Assertion::eq($key->get('alg'), $algorithm, sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
+        if ($key->get('alg') !== $algorithm) {
+            throw new InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
+        }
     }
 
     private static function checkOperation(JWK $key, string $usage): void
     {
         $ops = $key->get('key_ops');
         if (!\is_array($ops)) {
-            $ops = [$ops];
+            throw new InvalidArgumentException('Invalid key parameter "key_ops". Should be a list of key operations');
         }
         switch ($usage) {
             case 'verification':
-                Assertion::inArray('verify', $ops, 'Key cannot be used to verify a signature');
+                if (!\in_array('verify', $ops, true)) {
+                    throw new InvalidArgumentException('Key cannot be used to verify a signature');
+                }
 
                 break;
             case 'signature':
-                Assertion::inArray('sign', $ops, 'Key cannot be used to sign');
+                if (!\in_array('sign', $ops, true)) {
+                    throw new InvalidArgumentException('Key cannot be used to sign');
+                }
 
                 break;
             case 'encryption':
-                if (!\in_array('encrypt', $ops, true) && !\in_array('wrapKey', $ops, true)) {
+                if (!\in_array('encrypt', $ops, true) && !\in_array('wrapKey', $ops, true) && !\in_array('deriveKey', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to encrypt');
                 }
 
                 break;
             case 'decryption':
-                if (!\in_array('decrypt', $ops, true) && !\in_array('unwrapKey', $ops, true)) {
+                if (!\in_array('decrypt', $ops, true) && !\in_array('unwrapKey', $ops, true) && !\in_array('deriveBits', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to decrypt');
                 }
 
@@ -79,12 +83,16 @@ class KeyChecker
         switch ($usage) {
             case 'verification':
             case 'signature':
-                Assertion::eq($use, 'sig', 'Key cannot be used to sign or verify a signature.');
+                if ('sig' !== $use) {
+                    throw new InvalidArgumentException('Key cannot be used to sign or verify a signature.');
+                }
 
                 break;
             case 'encryption':
             case 'decryption':
-            Assertion::eq($use, 'enc', 'Key cannot be used to encrypt or decrypt.');
+                if ('enc' !== $use) {
+                    throw new InvalidArgumentException('Key cannot be used to encrypt or decrypt.');
+                }
 
                 break;
             default:

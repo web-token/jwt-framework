@@ -30,7 +30,7 @@ class JWKTest extends TestCase
      */
     public function aKeyContainsAllExpectedParameters()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -66,7 +66,7 @@ class JWKTest extends TestCase
      */
     public function iCannotGetTheThumbprintOfTheKeyWhenIUseAnUnsupportedHashingAlgorithm()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -87,7 +87,7 @@ class JWKTest extends TestCase
      */
     public function iMustSetAtLeastTheKtyParameter()
     {
-        JWK::create([]);
+        new JWK([]);
     }
 
     /**
@@ -97,7 +97,7 @@ class JWKTest extends TestCase
      */
     public function iCannotGetAParameterThatDoesNotExist()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -116,7 +116,7 @@ class JWKTest extends TestCase
      */
     public function iCanConvertAPrivateKeyIntoPublicKey()
     {
-        $private = JWK::create([
+        $private = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',

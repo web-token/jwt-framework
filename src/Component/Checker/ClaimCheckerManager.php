@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Assert\Assertion;
-
 /**
  * This manager handles as many claim checkers as needed.
  */
@@ -84,7 +82,6 @@ class ClaimCheckerManager
             return;
         }
         $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
-        Assertion::allString($diff);
         if (0 !== \count($diff)) {
             throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', implode(', ', $diff)), $diff);
         }

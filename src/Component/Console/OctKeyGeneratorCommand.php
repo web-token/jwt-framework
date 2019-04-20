@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +34,9 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $size = $input->getArgument('size');
-        Assertion::integer($size, 'Invalid size');
+        if (!\is_int($size)) {
+            throw new InvalidArgumentException('Invalid size');
+        }
         $args = $this->getOptions($input);
 
         $jwk = JWKFactory::createOctKey($size, $args);

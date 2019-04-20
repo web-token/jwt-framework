@@ -418,7 +418,7 @@ class SignerTest extends SignatureTest
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -447,7 +447,7 @@ class SignerTest extends SignatureTest
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -484,7 +484,7 @@ class SignerTest extends SignatureTest
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -525,7 +525,7 @@ class SignerTest extends SignatureTest
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -568,7 +568,7 @@ class SignerTest extends SignatureTest
             'alg' => 'HS256',
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -598,7 +598,7 @@ class SignerTest extends SignatureTest
             'b64' => false,
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -627,7 +627,7 @@ class SignerTest extends SignatureTest
             'crit' => 'foo',
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -656,7 +656,7 @@ class SignerTest extends SignatureTest
             'crit' => ['foo'],
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -685,7 +685,7 @@ class SignerTest extends SignatureTest
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -730,7 +730,7 @@ class SignerTest extends SignatureTest
             'crit' => ['b64'],
         ];
 
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -818,13 +818,13 @@ class SignerTest extends SignatureTest
         static::assertEquals(2, $loaded->countSignatures());
         static::assertInstanceOf(JWS::class, $loaded);
         static::assertEquals($this->getKeyset(), JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true)));
-        static::assertTrue($jwsVerifier->verifyWithKeySet($loaded, JWKSet::createFromKeys([]), 0));
-        static::assertTrue($jwsVerifier->verifyWithKey($loaded, JWK::create(['kty' => 'EC']), 1));
+        static::assertTrue($jwsVerifier->verifyWithKeySet($loaded, new JWKSet([]), 0));
+        static::assertTrue($jwsVerifier->verifyWithKey($loaded, new JWK(['kty' => 'EC']), 1));
     }
 
     private function getKey1(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'oct',
             'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
         ]);
@@ -832,7 +832,7 @@ class SignerTest extends SignatureTest
 
     private function getKey2(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'RSA',
             'use' => 'sig',
             'key_ops' => ['sign', 'verify'],
@@ -849,7 +849,7 @@ class SignerTest extends SignatureTest
 
     private function getKey3(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'use' => 'sig',
@@ -862,7 +862,7 @@ class SignerTest extends SignatureTest
 
     private function getKey4(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'RSA',
             'alg' => 'PS512',
             'key_ops' => ['encrypt', 'decrypt'],
@@ -879,7 +879,7 @@ class SignerTest extends SignatureTest
 
     private function getKey5(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'RSA',
             'alg' => 'PS512',
             'use' => 'sig',
@@ -896,7 +896,7 @@ class SignerTest extends SignatureTest
 
     private function getKeyset(): JWKSet
     {
-        return JWKSet::createFromKeys([$this->getKey1(), $this->getKey2()]);
+        return new JWKSet([$this->getKey1(), $this->getKey2()]);
     }
 
     private function getPublicKeySet(): JWKSet

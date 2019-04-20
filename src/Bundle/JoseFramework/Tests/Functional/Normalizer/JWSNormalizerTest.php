@@ -52,7 +52,7 @@ final class JWSNormalizerTest extends WebTestCase
         /** @var JWSBuilderFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -79,7 +79,7 @@ final class JWSNormalizerTest extends WebTestCase
         /** @var JWSBuilderFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -109,7 +109,7 @@ final class JWSNormalizerTest extends WebTestCase
         /** @var JWSBuilderFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);

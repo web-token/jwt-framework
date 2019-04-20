@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
@@ -81,7 +80,7 @@ class RSAKey
 
     private function __construct(JWK $data)
     {
-        $this->loadJWK($data->all());
+        $this->values = $data->all();
         $this->populateBigIntegers();
         $this->private = \array_key_exists('d', $this->values);
     }
@@ -165,7 +164,7 @@ class RSAKey
             }
         }
 
-        return new self(JWK::create($data));
+        return new self(new JWK($data));
     }
 
     public function toArray(): array
@@ -201,7 +200,7 @@ class RSAKey
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
             throw new RuntimeException();
         }
-        if ($key->isPublic() || 0 === \count($key->getPrimes()) || 0 === \count($key->getExponents()) || null === $key->getCoefficient()) {
+        if ($key->isPublic() || null === $key->getCoefficient() || 0 === \count($key->getPrimes()) || 0 === \count($key->getExponents())) {
             return $c->modPow($key->getExponent(), $key->getModulus());
         }
 
@@ -216,13 +215,6 @@ class RSAKey
         $h = $qInv->multiply($m1->subtract($m2)->add($p))->mod($p);
 
         return $m2->add($h->multiply($q));
-    }
-
-    private function loadJWK(array $jwk): void
-    {
-        Assertion::keyExists($jwk, 'kty', 'The key parameter "kty" is missing.');
-
-        $this->values = $jwk;
     }
 
     private function populateBigIntegers(): void

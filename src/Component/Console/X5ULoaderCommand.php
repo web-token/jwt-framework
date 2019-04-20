@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\KeyManagement\X5UFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,7 +46,9 @@ final class X5ULoaderCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');
-        Assertion::string($url, 'Invalid URL');
+        if (!\is_string($url)) {
+            throw new InvalidArgumentException('Invalid URL');
+        }
         $result = $this->x5uFactory->loadFromUrl($url);
         $this->prepareJsonOutput($input, $output, $result);
     }
