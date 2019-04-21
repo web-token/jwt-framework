@@ -39,7 +39,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $keySets = $input->getArgument('jwksets');
-        $newJwkset = JWKSet::createFromKeys([]);
+        $newJwkset = new JWKSet([]);
         foreach ($keySets as $keySet) {
             $json = $this->jsonConverter->decode($keySet);
             if (!\is_array($json)) {

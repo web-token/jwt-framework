@@ -59,7 +59,7 @@ class HMACSignatureTest extends TestCase
 
     private function getKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'oct',
             'k' => 'foo',
         ]);

@@ -48,7 +48,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         }
         \array_unshift($jwkset, $jwk);
 
-        $this->prepareJsonOutput($input, $output, JWKSet::createFromKeys($jwkset));
+        $this->prepareJsonOutput($input, $output, new JWKSet($jwkset));
     }
 
     private function getKeyset(InputInterface $input): JWKSet
@@ -67,7 +67,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         $jwkset = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwkset);
         if (\is_array($json)) {
-            return JWK::create($json);
+            return new JWK($json);
         }
 
         throw new \InvalidArgumentException('The argument must be a valid JWK.');

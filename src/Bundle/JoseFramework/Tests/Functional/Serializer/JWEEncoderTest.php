@@ -99,7 +99,7 @@ class JWEEncoderTest extends WebTestCase
         /** @var JWELoaderFactory $jweLoaderFactory */
         $jweLoaderFactory = $container->get(JWELoaderFactory::class);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -153,7 +153,7 @@ class JWEEncoderTest extends WebTestCase
 
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -190,12 +190,12 @@ class JWEEncoderTest extends WebTestCase
 
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
-        $jwk2 = JWK::create([
+        $jwk2 = new JWK([
             'kty' => 'oct',
             'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
         ]);
@@ -251,7 +251,7 @@ class JWEEncoderTest extends WebTestCase
 
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -299,7 +299,7 @@ class JWEEncoderTest extends WebTestCase
 
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -341,7 +341,7 @@ class JWEEncoderTest extends WebTestCase
 
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);

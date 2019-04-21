@@ -163,7 +163,7 @@ class RSAKey
             }
         }
 
-        return new self(JWK::create($data));
+        return new self(new JWK($data));
     }
 
     public function toArray(): array

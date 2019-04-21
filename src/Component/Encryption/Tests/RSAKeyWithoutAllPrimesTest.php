@@ -97,7 +97,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 
     private function getPrivateKey(): JWK
     {
-        return JWK::create(
+        return new JWK(
             [
                 'kty' => 'RSA',
                 'kid' => 'private',
@@ -112,7 +112,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 
     private function getMinimalPrivateKey(): JWK
     {
-        return JWK::create(
+        return new JWK(
             [
                 'd' => 'JSqz6ijkk3dfdSEA_0iMT_1HeIJ1ft4msZ6qw7_1JSCGQAALeZ1yM0QHO3uX-Jr7HC7v1rGVcwsonAhei2qu3rk-w_iCnRL6QkkMNBnDQycwaWpwGsMBFF-UqstOJNggE4AHX-aDnbd4wbKVvdX7ieehPngbPkHcJFdg_iSZCQNoajz6XfEruyIi7_IFXYEGmH_UyEbQkgNtriZysutgYdolUjo9flUlh20HbuV3NwsPjGyDG4dUMpNpdBpSuRHYKLX6h3FjeLhItBmhBfuL7d-G3EXwKlwfNXXYivqY5NQAkFNrRbvFlc_ARIws3zAfykPDIWGWFiPiN3H-hXMgAQ',
                 'e' => 'AQAB',

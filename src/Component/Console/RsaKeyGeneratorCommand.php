@@ -31,7 +31,7 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $size = \intval($input->getArgument('size'));
+        $size = (int) ($input->getArgument('size'));
         $args = $this->getOptions($input);
 
         $jwk = JWKFactory::createRSAKey($size, $args);

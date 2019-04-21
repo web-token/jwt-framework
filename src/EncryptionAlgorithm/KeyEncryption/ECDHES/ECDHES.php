@@ -132,7 +132,7 @@ final class ECDHES implements KeyAgreement
             throw new \InvalidArgumentException('The header parameter "epk" is not an array of parameter');
         }
 
-        $public_key = JWK::create($complete_header['epk']);
+        $public_key = new JWK($complete_header['epk']);
         $this->checkKey($public_key, false);
 
         return $public_key;
@@ -222,7 +222,7 @@ final class ECDHES implements KeyAgreement
             $jwk = self::createECKeyUsingPurePhp($crv);
         }
 
-        return JWK::create($jwk);
+        return new JWK($jwk);
     }
 
     /**
@@ -247,7 +247,7 @@ final class ECDHES implements KeyAgreement
                 throw new \InvalidArgumentException(\sprintf('Unsupported "%s" curve', $curve));
         }
 
-        return JWK::create([
+        return new JWK([
             'kty' => 'OKP',
             'crv' => $curve,
             'x' => Base64Url::encode($x),

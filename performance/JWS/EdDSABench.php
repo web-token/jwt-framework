@@ -61,7 +61,7 @@ final class EdDSABench extends SignatureBench
 
     protected function getPrivateKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
             'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',

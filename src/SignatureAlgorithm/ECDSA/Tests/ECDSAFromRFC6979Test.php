@@ -61,7 +61,7 @@ class ECDSAFromRFC6979Test extends TestCase
             [
                 new ES256(),
                 'sample',
-                JWK::create([
+                new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-256',
                     'd' => Base64Url::encode($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
@@ -77,7 +77,7 @@ class ECDSAFromRFC6979Test extends TestCase
             [
                 new ES256(),
                 'test',
-                JWK::create([
+                new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-256',
                     'd' => Base64Url::encode($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
@@ -93,7 +93,7 @@ class ECDSAFromRFC6979Test extends TestCase
             [
                 new ES384(),
                 'sample',
-                JWK::create([
+                new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-384',
                     'd' => Base64Url::encode($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
@@ -109,7 +109,7 @@ class ECDSAFromRFC6979Test extends TestCase
             [
                 new ES384(),
                 'test',
-                JWK::create([
+                new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-384',
                     'd' => Base64Url::encode($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
@@ -126,7 +126,7 @@ class ECDSAFromRFC6979Test extends TestCase
             [
                 new ES512(),
                 'sample',
-                JWK::create([
+                new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-521',
                     'd' => Base64Url::encode($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),
@@ -142,7 +142,7 @@ class ECDSAFromRFC6979Test extends TestCase
             [
                 new ES512(),
                 'test',
-                JWK::create([
+                new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-521',
                     'd' => Base64Url::encode($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),

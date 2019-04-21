@@ -133,7 +133,7 @@ class RSAKey
 
     public function toJwk(): JWK
     {
-        return JWK::create($this->values);
+        return new JWK($this->values);
     }
 
     /**

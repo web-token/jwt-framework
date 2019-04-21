@@ -25,8 +25,12 @@ class JWK implements \JsonSerializable
     /**
      * JWK constructor.
      */
-    private function __construct(array $values)
+    public function __construct(array $values)
     {
+        if (!\array_key_exists('kty', $values)) {
+            throw new \InvalidArgumentException('The parameter "kty" is mandatory.');
+        }
+
         $this->values = $values;
     }
 
@@ -34,14 +38,12 @@ class JWK implements \JsonSerializable
      * Creates a JWK object using the given values.
      * The member "kty" is mandatory. Other members are NOT checked.
      *
+     * @deprecated Will be removed in v2.0. Please use constructor instead
+     *
      * @return JWK
      */
     public static function create(array $values): self
     {
-        if (!\array_key_exists('kty', $values)) {
-            throw new \InvalidArgumentException('The parameter "kty" is mandatory.');
-        }
-
         return new self($values);
     }
 

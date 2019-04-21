@@ -38,7 +38,7 @@ final class PemConverterCommand extends ObjectOutputCommand
         if (!\is_array($json)) {
             throw new \InvalidArgumentException('Invalid key.');
         }
-        $key = JWK::create($json);
+        $key = new JWK($json);
         switch ($key->get('kty')) {
             case 'RSA':
                 $pem = RSAKey::createFromJWK($key)->toPEM();

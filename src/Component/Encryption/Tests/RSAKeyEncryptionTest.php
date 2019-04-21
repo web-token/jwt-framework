@@ -36,7 +36,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
      */
     public function invalidKey()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
         ]);
 
@@ -57,7 +57,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
     public function rSA1_5EncryptionAndDecryption()
     {
         $header = [];
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'sXchDaQebHnPiGvyDOAT4saGEUetSyo9MKLOoWFsueri23bOdgWp4Dy1WlUzewbgBHod5pcM9H95GQRV3JDXboIRROSBigeC5yjU1hGzHHyXss8UDprecbAYxknTcQkhslANGRUZmdTOQ5qTRsLAt6BTYuyvVRdhS8exSZEy_c4gs_7svlJJQ4H9_NxsiIoLwAEk7-Q3UXERGYw_75IDrGA84-lA_-Ct4eTlXHBIY2EaV7t7LjJaynVJCpkv4LKjTTAumiGUIuQhrNhZLuF_RJLqHpM2kgWFLU7-VTdL1VbC2tejvcI2BlMkEpk1BzBZI0KQB0GaDWFLN-aEAw3vRw',
             'e' => 'AQAB',
@@ -93,7 +93,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
     public function rSAOAEPEncryptionAndDecryption()
     {
         $header = [];
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'oahUIoWw0K0usKNuOR6H4wkf4oBUXHTxRvgb48E-BVvxkeDNjbC4he8rUWcJoZmds2h7M70imEVhRU5djINXtqllXI4DFqcI1DgjT9LewND8MW2Krf3Spsk_ZkoFnilakGygTwpZ3uesH-PFABNIUYpOiN15dsQRkgr0vEhxN92i2asbOenSZeyaxziK72UwxrrKoExv6kc5twXTq4h-QChLOln0_mtUZwfsRaMStPs6mS6XrgxnxbWhojf663tuEQueGC-FCMfra36C9knDFGzKsNa7LZK2djYgyD3JR_MB_4NUJW_TqOQtwHYbxevoJArm-L5StowjzGy-_bq6Gw',
             'e' => 'AQAB',
@@ -129,7 +129,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
     public function rSAOAEP256EncryptionAndDecryption()
     {
         $header = [];
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'oahUIoWw0K0usKNuOR6H4wkf4oBUXHTxRvgb48E-BVvxkeDNjbC4he8rUWcJoZmds2h7M70imEVhRU5djINXtqllXI4DFqcI1DgjT9LewND8MW2Krf3Spsk_ZkoFnilakGygTwpZ3uesH-PFABNIUYpOiN15dsQRkgr0vEhxN92i2asbOenSZeyaxziK72UwxrrKoExv6kc5twXTq4h-QChLOln0_mtUZwfsRaMStPs6mS6XrgxnxbWhojf663tuEQueGC-FCMfra36C9knDFGzKsNa7LZK2djYgyD3JR_MB_4NUJW_TqOQtwHYbxevoJArm-L5StowjzGy-_bq6Gw',
             'e' => 'AQAB',

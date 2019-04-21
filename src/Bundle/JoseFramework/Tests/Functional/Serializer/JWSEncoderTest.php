@@ -95,7 +95,7 @@ class JWSEncoderTest extends WebTestCase
 
         $builder = $jwsFactory->create(['HS256']);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -129,7 +129,7 @@ class JWSEncoderTest extends WebTestCase
 
         $builder = $jwsFactory->create(['HS256']);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -163,12 +163,12 @@ class JWSEncoderTest extends WebTestCase
 
         $builder = $jwsFactory->create(['HS256']);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
-        $jwk2 = JWK::create([
+        $jwk2 = new JWK([
             'kty' => 'oct',
             'k' => '45d2aGyfduzrkcmL7duvUTDTlXS2s3u4uMER2feQruU',
         ]);
@@ -229,7 +229,7 @@ class JWSEncoderTest extends WebTestCase
 
         $builder = $jwsFactory->create(['HS256']);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -275,7 +275,7 @@ class JWSEncoderTest extends WebTestCase
 
         $builder = $jwsFactory->create(['HS256']);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -315,7 +315,7 @@ class JWSEncoderTest extends WebTestCase
 
         $builder = $jwsFactory->create(['HS256']);
 
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);

@@ -77,7 +77,7 @@ final class KeyAnalyzerCommand extends Command
         $jwk = $input->getArgument('jwk');
         $json = $this->jsonConverter->decode($jwk);
         if (\is_array($json)) {
-            return JWK::create($json);
+            return new JWK($json);
         }
 
         throw new \InvalidArgumentException('The argument must be a valid JWK.');

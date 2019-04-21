@@ -33,7 +33,7 @@ class DirAlgorithmTest extends TestCase
      */
     public function invalidKey()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
         ]);
 
@@ -47,7 +47,7 @@ class DirAlgorithmTest extends TestCase
      */
     public function validCEK()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => Base64Url::encode('ABCD'),
         ]);

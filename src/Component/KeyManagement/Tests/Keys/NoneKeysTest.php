@@ -30,7 +30,7 @@ class NoneKeysTest extends TestCase
      */
     public function keyThumbprint()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'none',
             'alg' => 'none',
             'use' => 'sig',

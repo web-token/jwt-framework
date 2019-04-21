@@ -42,7 +42,7 @@ final class PublicKeysetCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwkset = $this->getKeyset($input);
-        $newJwkset = JWKSet::createFromKeys([]);
+        $newJwkset = new JWKSet([]);
 
         foreach ($jwkset->all() as $jwk) {
             $newJwkset = $newJwkset->with($jwk->toPublic());

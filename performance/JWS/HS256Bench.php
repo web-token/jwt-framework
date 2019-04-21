@@ -61,7 +61,7 @@ final class HS256Bench extends SignatureBench
 
     protected function getPrivateKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',

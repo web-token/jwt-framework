@@ -33,10 +33,10 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $quantity = \intval($input->getArgument('quantity'));
+        $quantity = (int) ($input->getArgument('quantity'));
         $curve = $input->getArgument('curve');
 
-        $keyset = JWKSet::createFromKeys([]);
+        $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
             $keyset = $keyset->with(JWKFactory::createECKey($curve, $args));

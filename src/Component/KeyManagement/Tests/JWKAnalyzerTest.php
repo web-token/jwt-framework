@@ -40,7 +40,7 @@ class JWKAnalyzerTest extends TestCase
      */
     public function iCanAnalyzeAnRsaKeyAndGetMessages()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'oaAQyGUwgwCfZQym0QQCeCJu6GfApv6nQBKJ3MgzT85kCUO3xDiudiDbJqgqn2ol',
             'e' => 'AQAB',

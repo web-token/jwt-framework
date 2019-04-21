@@ -55,12 +55,12 @@ class X5UFactory extends UrlKeySetFactory
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
             if (\is_string($kid)) {
                 $jwk['kid'] = $kid;
-                $keys[$kid] = JWK::create($jwk);
+                $keys[$kid] = new JWK($jwk);
             } else {
-                $keys[] = JWK::create($jwk);
+                $keys[] = new JWK($jwk);
             }
         }
 
-        return JWKSet::createFromKeys($keys);
+        return new JWKSet($keys);
     }
 }

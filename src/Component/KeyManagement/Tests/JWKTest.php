@@ -30,7 +30,7 @@ class JWKTest extends TestCase
      */
     public function key()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -64,7 +64,7 @@ class JWKTest extends TestCase
      */
     public function badConstruction()
     {
-        JWK::create([]);
+        new JWK([]);
     }
 
     /**
@@ -75,7 +75,7 @@ class JWKTest extends TestCase
      */
     public function badCall()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -94,7 +94,7 @@ class JWKTest extends TestCase
      */
     public function keySet()
     {
-        $jwk1 = JWK::create([
+        $jwk1 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -105,7 +105,7 @@ class JWKTest extends TestCase
             'kid' => '0123456789',
         ]);
 
-        $jwk2 = JWK::create([
+        $jwk2 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -117,7 +117,7 @@ class JWKTest extends TestCase
             'kid' => '9876543210',
         ]);
 
-        $jwkset = JWKSet::createFromKeys([$jwk1]);
+        $jwkset = new JWKSet([$jwk1]);
         $jwkset = $jwkset->with($jwk2);
 
         static::assertEquals('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}', \json_encode($jwkset));
@@ -152,7 +152,7 @@ class JWKTest extends TestCase
      */
     public function keySet2()
     {
-        $jwk1 = JWK::create([
+        $jwk1 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -163,7 +163,7 @@ class JWKTest extends TestCase
             'kid' => '0123456789',
         ]);
 
-        $jwk2 = JWK::create([
+        $jwk2 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -175,7 +175,7 @@ class JWKTest extends TestCase
             'kid' => '9876543210',
         ]);
 
-        $jwkset = JWKSet::createFromKeys([$jwk1, $jwk2]);
+        $jwkset = new JWKSet([$jwk1, $jwk2]);
 
         $jwkset->get(2);
     }
@@ -185,7 +185,7 @@ class JWKTest extends TestCase
      */
     public function privateToPublic()
     {
-        $private = JWK::create([
+        $private = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',

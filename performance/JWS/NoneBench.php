@@ -61,7 +61,7 @@ final class NoneBench extends SignatureBench
 
     protected function getPrivateKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'none',
         ]);
     }

@@ -77,7 +77,7 @@ class JWSLoader
      */
     public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
     {
-        $keyset = JWKSet::createFromKeys([$key]);
+        $keyset = new JWKSet([$key]);
 
         return $this->loadAndVerifyWithKeySet($token, $keyset, $signature, $payload);
     }

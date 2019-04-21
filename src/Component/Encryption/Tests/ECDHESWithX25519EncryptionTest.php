@@ -30,7 +30,7 @@ class ECDHESWithX25519EncryptionTest extends EncryptionTest
      */
     public function a128CBCHS256EncryptAndDecrypt()
     {
-        $receiverKey = JWK::create([
+        $receiverKey = new JWK([
             'kty' => 'OKP',
             'crv' => 'X25519',
             'x' => 'azBwhSxIIhQIri4QdT__5q7ybEhKItJlGeyuLNN5ZCQ',

@@ -32,7 +32,7 @@ class AESKWKeyEncryptionTest extends TestCase
     public function a128KW()
     {
         $header = [];
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => Base64Url::encode(\hex2bin('000102030405060708090A0B0C0D0E0F')),
         ]);
@@ -56,7 +56,7 @@ class AESKWKeyEncryptionTest extends TestCase
     public function badKey()
     {
         $header = [];
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
         ]);
 
@@ -73,7 +73,7 @@ class AESKWKeyEncryptionTest extends TestCase
     public function a192KW()
     {
         $header = [];
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => Base64Url::encode(\hex2bin('000102030405060708090A0B0C0D0E0F1011121314151617')),
         ]);
@@ -94,7 +94,7 @@ class AESKWKeyEncryptionTest extends TestCase
     public function a256KW()
     {
         $header = [];
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'oct',
             'k' => Base64Url::encode(\hex2bin('000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F')),
         ]);

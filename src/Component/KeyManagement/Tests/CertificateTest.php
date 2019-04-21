@@ -274,7 +274,7 @@ class CertificateTest extends TestCase
      */
     public function loadX5CParameter()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'use' => 'sig',
             'kid' => '1b94c',

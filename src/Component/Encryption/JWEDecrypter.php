@@ -88,7 +88,7 @@ class JWEDecrypter
      */
     public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient): bool
     {
-        $jwkset = JWKSet::createFromKeys([$jwk]);
+        $jwkset = new JWKSet([$jwk]);
 
         return $this->decryptUsingKeySet($jwe, $jwkset, $recipient);
     }

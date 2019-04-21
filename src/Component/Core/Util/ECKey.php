@@ -101,7 +101,7 @@ class ECKey
         }
         $values = \array_merge($values, $jwk);
 
-        return JWK::create($values);
+        return new JWK($values);
     }
 
     private static function createECKeyUsingPurePhp(string $curve): array

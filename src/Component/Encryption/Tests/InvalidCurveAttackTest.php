@@ -31,7 +31,7 @@ class InvalidCurveAttackTest extends EncryptionTest
         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['ECDH-ES+A128KW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($maliciousJWE);
-        $privateKey = JWK::create([
+        $privateKey = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
@@ -51,7 +51,7 @@ class InvalidCurveAttackTest extends EncryptionTest
         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['ECDH-ES+A128KW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($maliciousJWE);
-        $privateKey = JWK::create([
+        $privateKey = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',

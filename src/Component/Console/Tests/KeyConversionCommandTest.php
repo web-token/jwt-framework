@@ -102,7 +102,7 @@ class KeyConversionCommandTest extends TestCase
      */
     public function iCanOptimizeARsaKey()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'gVf-iyhwLn2J2Up4EKjwdLYmk5n24gjGk4oQkCHVcE7j8wkS1iSzcu0ApVcMPLklEp_PWycZE12vL90gPeVjF2IPL_MKFL0b6Wy7A1f4kCDkKv7TDDjt1IIwbS-Jdp-2pG7bPb3tWjJUu6QZBLoXfRtW3cMDkQjXaVGixENORLAZs6qdu2MMKV94jetCiFd0JYCjxGVC0HW2OKnM21B_2R1NubOvMlWA7gypdpvmBYDGpkw4mjV3walWlCZObG7IH84Ovl7wOP8XLzqi2un4e6fNzy3rdp4OUSPYItF4ZX5qThWYY2R47Z5sbrZxHjNeDECKUeio0KPQNrgr6FSKSw',
             'e' => 'AQAB',
@@ -130,7 +130,7 @@ class KeyConversionCommandTest extends TestCase
      */
     public function iCanConvertARsaKeyIntoPKCS1()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'gVf-iyhwLn2J2Up4EKjwdLYmk5n24gjGk4oQkCHVcE7j8wkS1iSzcu0ApVcMPLklEp_PWycZE12vL90gPeVjF2IPL_MKFL0b6Wy7A1f4kCDkKv7TDDjt1IIwbS-Jdp-2pG7bPb3tWjJUu6QZBLoXfRtW3cMDkQjXaVGixENORLAZs6qdu2MMKV94jetCiFd0JYCjxGVC0HW2OKnM21B_2R1NubOvMlWA7gypdpvmBYDGpkw4mjV3walWlCZObG7IH84Ovl7wOP8XLzqi2un4e6fNzy3rdp4OUSPYItF4ZX5qThWYY2R47Z5sbrZxHjNeDECKUeio0KPQNrgr6FSKSw',
             'e' => 'AQAB',
@@ -157,7 +157,7 @@ class KeyConversionCommandTest extends TestCase
      */
     public function iCanConvertAnEcKeyIntoPKCS1()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
@@ -180,7 +180,7 @@ class KeyConversionCommandTest extends TestCase
      */
     public function iCanConvertAPrivateKeyIntoPublicKey()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
@@ -233,7 +233,7 @@ class KeyConversionCommandTest extends TestCase
      */
     public function iCanGetTheThumbprintOfAKey()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
             'e' => 'AQAB',

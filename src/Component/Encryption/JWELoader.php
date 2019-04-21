@@ -77,7 +77,7 @@ class JWELoader
      */
     public function loadAndDecryptWithKey(string $token, JWK $key, ?int &$recipient): JWE
     {
-        $keyset = JWKSet::createFromKeys([$key]);
+        $keyset = new JWKSet([$key]);
 
         return $this->loadAndDecryptWithKeySet($token, $keyset, $recipient);
     }

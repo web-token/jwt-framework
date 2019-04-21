@@ -61,7 +61,7 @@ final class RS384Bench extends SignatureBench
 
     protected function getPrivateKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',

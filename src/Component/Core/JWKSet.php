@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use InvalidArgumentException;
+
 class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
@@ -25,9 +27,19 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      *
      * @param JWK[] $keys
      */
-    private function __construct(array $keys)
+    public function __construct(array $keys)
     {
-        $this->keys = $keys;
+        foreach ($keys as $k => $key) {
+            if (!$key instanceof JWK) {
+                throw new InvalidArgumentException('Invalid list. Should only contains JWK objects');
+            }
+            if ($key->has('kid')) {
+                unset($keys[$k]);
+                $this->keys[$key->get('kid')] = $key;
+            } else {
+                $this->keys[] = $key;
+            }
+        }
     }
 
     /**
@@ -37,26 +49,29 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromKeyData(array $data): self
     {
-        if (!\array_key_exists('keys', $data) || !\is_array($data['keys'])) {
-            throw new \InvalidArgumentException('Invalid data.');
+        if (!isset($data['keys'])) {
+            throw new InvalidArgumentException('Invalid data.');
         }
-
-        $keys = [];
+        if (!\is_array($data['keys'])) {
+            throw new InvalidArgumentException('Invalid data.');
+        }
+        $jwkset = new self([]);
         foreach ($data['keys'] as $key) {
-            $jwk = JWK::create($key);
+            $jwk = new JWK($key);
             if ($jwk->has('kid')) {
-                $keys[$jwk->get('kid')] = $jwk;
-
-                continue;
+                $jwkset->keys[$jwk->get('kid')] = $jwk;
+            } else {
+                $jwkset->keys[] = $jwk;
             }
-            $keys[] = $jwk;
         }
 
-        return new self($keys);
+        return $jwkset;
     }
 
     /**
      * Creates a JWKSet object using the given JWK objects.
+     *
+     * @deprecated Will be removed in v2.0. Please use constructor instead.
      *
      * @param JWK[] $keys
      *
@@ -64,16 +79,6 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
      */
     public static function createFromKeys(array $keys): self
     {
-        $keys = \array_filter($keys, function () {
-            return true;
-        });
-        foreach ($keys as $k => $v) {
-            if ($v->has('kid')) {
-                unset($keys[$k]);
-                $keys[$v->get('kid')] = $v;
-            }
-        }
-
         return new self($keys);
     }
 
@@ -86,7 +91,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     {
         $data = \json_decode($json, true);
         if (!\is_array($data)) {
-            throw new \InvalidArgumentException('Invalid argument.');
+            throw new InvalidArgumentException('Invalid argument.');
         }
 
         return self::createFromKeyData($data);
@@ -159,7 +164,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     public function get($index): JWK
     {
         if (!$this->has($index)) {
-            throw new \InvalidArgumentException('Undefined index.');
+            throw new InvalidArgumentException('Undefined index.');
         }
 
         return $this->keys[$index];
@@ -194,7 +199,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
         if (!\in_array($type, ['enc', 'sig'], true)) {
-            throw new \InvalidArgumentException('Allowed key types are "sig" or "enc".');
+            throw new InvalidArgumentException('Allowed key types are "sig" or "enc".');
         }
 
         $result = [];
@@ -285,7 +290,7 @@ class JWKSet implements \Countable, \IteratorAggregate, \JsonSerializable
             case 'unwrapKey':
                 return 'enc';
             default:
-                throw new \InvalidArgumentException(\sprintf('Unsupported key operation value "%s"', $key_ops));
+                throw new InvalidArgumentException(\sprintf('Unsupported key operation value "%s"', $key_ops));
         }
     }
 

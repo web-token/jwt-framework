@@ -34,7 +34,7 @@ class NestingTest extends SignatureTest
             'http://example.com/is_root' => true,
         ];
 
-        $signature_key = JWK::create([
+        $signature_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'hobbiton.example',
             'use' => 'sig',

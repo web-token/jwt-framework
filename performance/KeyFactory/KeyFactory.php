@@ -32,7 +32,7 @@ final class KeyFactory
         $privateKey = $curve->createPrivateKey();
         $publicKey = $curve->createPublicKey($privateKey);
 
-        JWK::create([
+        new JWK([
             'kty' => 'EC',
             'crv' => $curve,
             'd' => Base64Url::encode(\gmp_export($privateKey->getSecret())),
@@ -58,7 +58,7 @@ final class KeyFactory
 
         $details = \openssl_pkey_get_details($res);
 
-        JWK::create([
+        new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => Base64Url::encode($details['ec']['x']),
