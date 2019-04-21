@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use RuntimeException;
 
@@ -40,7 +40,9 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
 
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string
     {
-        Assertion::true($this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag), 'Unable to decrypt or to verify the tag.');
+        if (!$this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
+            throw new InvalidArgumentException('Unable to decrypt or to verify the tag.');
+        }
         $k = mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
 
         $result = openssl_decrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);

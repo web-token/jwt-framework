@@ -13,16 +13,19 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use LogicException;
 use RuntimeException;
 
 final class Chacha20Poly1305 implements KeyEncryption
 {
     public function __construct()
     {
-        Assertion::inArray('chacha20-poly1305', openssl_get_cipher_methods(), 'The algorithm "chacha20-poly1305" is not supported in this platform.');
+        if (!\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
+            throw new LogicException('The algorithm "chacha20-poly1305" is not supported in this platform.');
+        }
     }
 
     public function allowedKeyTypes(): array
@@ -72,17 +75,27 @@ final class Chacha20Poly1305 implements KeyEncryption
 
     private function getKey(JWK $key): string
     {
-        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
-        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
+        if (!$key->has('k')) {
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
+        }
         $k = $key->get('k');
-        Assertion::string($k, 'The key parameter "k" is invalid.');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
 
         return Base64Url::decode($k);
     }
 
     private function checkHeaderAdditionalParameters(array $header): void
     {
-        Assertion::keyExists($header, 'nonce', 'The header parameter "nonce" is missing.');
-        Assertion::string($header['nonce'], 'The header parameter "nonce" is not valid.');
+        if (!isset($header['nonce'])) {
+            throw new InvalidArgumentException('The header parameter "nonce" is missing.');
+        }
+        if (!\is_string($header['nonce'])) {
+            throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
+        }
     }
 }

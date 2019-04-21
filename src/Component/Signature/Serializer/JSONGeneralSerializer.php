@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
@@ -68,13 +68,17 @@ final class JSONGeneralSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);
-        Assertion::keyExists($data, 'signatures', 'Unsupported input.');
+        if (!isset($data['signatures'])) {
+            throw new InvalidArgumentException('Unsupported input.');
+        }
 
         $isPayloadEncoded = null;
-        $rawPayload = \array_key_exists('payload', $data) ? $data['payload'] : null;
+        $rawPayload = $data['payload'] ?? null;
         $signatures = [];
         foreach ($data['signatures'] as $signature) {
-            Assertion::keyExists($signature, 'signature', 'Unsupported input.');
+            if (!isset($signature['signature'])) {
+                throw new InvalidArgumentException('Unsupported input.');
+            }
             list($encodedProtectedHeader, $protectedHeader, $header) = $this->processHeaders($signature);
             $signatures[] = [
                 'signature' => Base64Url::decode($signature['signature']),
@@ -104,7 +108,9 @@ final class JSONGeneralSerializer extends Serializer
         if (null === $isPayloadEncoded) {
             return $this->isPayloadEncoded($protectedHeader);
         }
-        Assertion::eq($this->isPayloadEncoded($protectedHeader), $isPayloadEncoded, 'Foreign payload encoding detected.');
+        if ($this->isPayloadEncoded($protectedHeader) !== $isPayloadEncoded) {
+            throw new InvalidArgumentException('Foreign payload encoding detected.');
+        }
 
         return $isPayloadEncoded;
     }
@@ -112,7 +118,7 @@ final class JSONGeneralSerializer extends Serializer
     private function processHeaders(array $signature): array
     {
         $encodedProtectedHeader = $signature['protected'] ?? null;
-        $protectedHeader = null !== $encodedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedProtectedHeader)) : [];
+        $protectedHeader = null === $encodedProtectedHeader ? [] : JsonConverter::decode(Base64Url::decode($encodedProtectedHeader));
         $header = \array_key_exists('header', $signature) ? $signature['header'] : [];
 
         return [$encodedProtectedHeader, $protectedHeader, $header];

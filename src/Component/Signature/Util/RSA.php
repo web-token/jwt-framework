@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Util;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
@@ -88,7 +87,9 @@ class RSA
      */
     public static function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
     {
-        Assertion::eq(mb_strlen($signature, '8bit'), $key->getModulusLength());
+        if (mb_strlen($signature, '8bit') !== $key->getModulusLength()) {
+            throw new RuntimeException();
+        }
         $s2 = BigInteger::createFromBinaryString($signature);
         $m2 = RSAKey::exponentiate($key, $s2);
         $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
@@ -102,7 +103,9 @@ class RSA
      */
     public static function verifyWithPKCS15(RSAKey $key, string $message, string $signature, string $hash): bool
     {
-        Assertion::eq(mb_strlen($signature, '8bit'), $key->getModulusLength());
+        if (mb_strlen($signature, '8bit') !== $key->getModulusLength()) {
+            throw new RuntimeException();
+        }
         $signature = BigInteger::createFromBinaryString($signature);
         $m2 = RSAKey::exponentiate($key, $signature);
         $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
@@ -167,18 +170,28 @@ class RSA
         $emLen = ($emBits + 1) >> 3;
         $sLen = $hash->getLength();
         $mHash = $hash->hash($m);
-        Assertion::greaterOrEqualThan($emLen, $hash->getLength() + $sLen + 2);
-        Assertion::eq($em[mb_strlen($em, '8bit') - 1], \chr(0xBC));
+        if ($emLen < $hash->getLength() + $sLen + 2) {
+            throw new \InvalidArgumentException();
+        }
+        if ($em[mb_strlen($em, '8bit') - 1] !== \chr(0xBC)) {
+            throw new \InvalidArgumentException();
+        }
         $maskedDB = mb_substr($em, 0, -$hash->getLength() - 1, '8bit');
         $h = mb_substr($em, -$hash->getLength() - 1, $hash->getLength(), '8bit');
         $temp = \chr(0xFF << ($emBits & 7));
-        Assertion::eq((~$maskedDB[0] & $temp), $temp);
+        if ((~$maskedDB[0] & $temp) !== $temp) {
+            throw new \InvalidArgumentException();
+        }
         $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
         $db = $maskedDB ^ $dbMask;
         $db[0] = ~\chr(0xFF << ($emBits & 7)) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;
-        Assertion::eq(mb_substr($db, 0, $temp, '8bit'), str_repeat(\chr(0), $temp));
-        Assertion::eq(1, \ord($db[$temp]));
+        if (mb_substr($db, 0, $temp, '8bit') !== str_repeat(\chr(0), $temp)) {
+            throw new \InvalidArgumentException();
+        }
+        if (1 !== \ord($db[$temp])) {
+            throw new \InvalidArgumentException();
+        }
         $salt = mb_substr($db, $temp + 1, null, '8bit'); // should be $sLen long
         $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
         $h2 = $hash->hash($m2);
@@ -189,25 +202,12 @@ class RSA
     private static function encodeEMSA15(string $m, int $emBits, Hash $hash): string
     {
         $h = $hash->hash($m);
-        switch ($hash->name()) {
-            case 'sha256':
-                $t = "\x30\x31\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x01\x05\x00\x04\x20";
-
-                break;
-            case 'sha384':
-                $t = "\x30\x41\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x02\x05\x00\x04\x30";
-
-                break;
-            case 'sha512':
-                $t = "\x30\x51\x30\x0d\x06\x09\x60\x86\x48\x01\x65\x03\x04\x02\x03\x05\x00\x04\x40";
-
-                break;
-            default:
-                throw new InvalidArgumentException();
-        }
+        $t = $hash->t();
         $t .= $h;
         $tLen = mb_strlen($t, '8bit');
-        Assertion::greaterOrEqualThan($emBits, $tLen + 11);
+        if ($emBits < $tLen + 11) {
+            throw new RuntimeException();
+        }
         $ps = str_repeat(\chr(0xFF), $emBits - $tLen - 3);
 
         return "\0\1${ps}\0${t}";

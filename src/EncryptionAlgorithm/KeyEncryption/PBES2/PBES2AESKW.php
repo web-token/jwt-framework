@@ -85,9 +85,13 @@ abstract class PBES2AESKW implements KeyWrapping
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
-        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
+        if (!$key->has('k')) {
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
+        }
         $k = $key->get('k');
-        Assertion::string($k, 'The key parameter "k" is invalid.');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
 
         return Base64Url::decode($k);
     }

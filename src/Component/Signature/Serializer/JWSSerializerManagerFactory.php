@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 
 class JWSSerializerManagerFactory
 {
@@ -29,7 +29,9 @@ class JWSSerializerManagerFactory
     {
         $serializers = [];
         foreach ($names as $name) {
-            Assertion::keyExists($this->serializers, $name, sprintf('Unsupported serialiser "%s".', $name));
+            if (!isset($this->serializers[$name])) {
+                throw new InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
+            }
             $serializers[] = $this->serializers[$name];
         }
 

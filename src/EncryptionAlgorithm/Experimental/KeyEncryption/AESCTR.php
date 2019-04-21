@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -68,16 +67,24 @@ abstract class AESCTR implements KeyEncryption
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
-        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
+        if (!$key->has('k')) {
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
+        }
         $k = $key->get('k');
-        Assertion::string($k, 'The key parameter "k" is invalid.');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
 
         return Base64Url::decode($k);
     }
 
     private function checkHeaderAdditionalParameters(array $header): void
     {
-        Assertion::keyExists($header, 'iv', 'The header parameter "iv" is missing.');
-        Assertion::string($header['iv'], 'The header parameter "iv" is not valid.');
+        if (!isset($header['iv'])) {
+            throw new InvalidArgumentException('The header parameter "iv" is missing.');
+        }
+        if (!\is_string($header['iv'])) {
+            throw new InvalidArgumentException('The header parameter "iv" is not valid.');
+        }
     }
 }

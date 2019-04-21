@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
@@ -62,7 +61,9 @@ final class CompactSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $parts = explode('.', $input);
-        Assertion::eq(3, \count($parts), 'Unsupported input');
+        if (3 !== \count($parts)) {
+            throw new InvalidArgumentException('Unsupported input');
+        }
 
         try {
             $encodedProtectedHeader = $parts[0];

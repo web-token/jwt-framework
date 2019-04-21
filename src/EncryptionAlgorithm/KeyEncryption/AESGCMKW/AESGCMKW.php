@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -28,7 +27,7 @@ abstract class AESGCMKW implements KeyWrapping
 
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
-        $kek = $this->checkKey($key);
+        $kek = $this->getKey($key);
         $iv = random_bytes(96 / 8);
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
@@ -45,7 +44,7 @@ abstract class AESGCMKW implements KeyWrapping
 
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
-        $kek = $this->checkKey($key);
+        $kek = $this->getKey($key);
         $this->checkAdditionalParameters($completeHeader);
 
         $tag = Base64Url::decode($completeHeader['tag']);
@@ -65,14 +64,18 @@ abstract class AESGCMKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key): string
+    protected function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
-        Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
+        if (!$key->has('k')) {
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
+        }
         $k = $key->get('k');
-        Assertion::string($k, 'The key parameter "k" is invalid.');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
 
         return Base64Url::decode($k);
     }
@@ -80,7 +83,9 @@ abstract class AESGCMKW implements KeyWrapping
     protected function checkAdditionalParameters(array $header): void
     {
         foreach (['iv', 'tag'] as $k) {
-            Assertion::keyExists($header, $k, sprintf('Parameter "%s" is missing.', $k));
+            if (!isset($header[$k])) {
+                throw new InvalidArgumentException(sprintf('Parameter "%s" is missing.', $k));
+            }
         }
     }
 

@@ -36,14 +36,14 @@ final class JWSVerifier extends BaseJWSVerifier
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signature, ?string $detachedPayload = null, JWK &$jwk = null): bool
+    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signatureIndex, ?string $detachedPayload = null, JWK &$jwk = null): bool
     {
-        $success = parent::verifyWithKeySet($jws, $jwkset, $signature, $detachedPayload, $jwk);
+        $success = parent::verifyWithKeySet($jws, $jwkset, $signatureIndex, $detachedPayload, $jwk);
         if ($success) {
             $this->eventDispatcher->dispatch(Events::JWS_VERIFICATION_SUCCESS, new JWSVerificationSuccessEvent(
                 $jws,
                 $jwkset,
-                $signature,
+                $signatureIndex,
                 $detachedPayload,
                 $jwk
             ));

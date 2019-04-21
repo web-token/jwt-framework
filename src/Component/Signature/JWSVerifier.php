@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
@@ -21,6 +20,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use Throwable;
 
 class JWSVerifier
 {
@@ -69,13 +69,16 @@ class JWSVerifier
      *
      * @return bool true if the verification of the signature succeeded, else false
      */
-    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signature, ?string $detachedPayload = null, JWK &$jwk = null): bool
+    public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signatureIndex, ?string $detachedPayload = null, JWK &$jwk = null): bool
     {
-        Assertion::greaterThan(\count($jwkset), 0, 'There is no key in the key set.');
-        Assertion::greaterThan($jws->countSignatures(), 0, 'The JWS does not contain any signature.');
+        if (0 === $jwkset->count()) {
+            throw new InvalidArgumentException('There is no key in the key set.');
+        }
+        if (0 === $jws->countSignatures()) {
+            throw new InvalidArgumentException('The JWS does not contain any signature.');
+        }
         $this->checkPayload($jws, $detachedPayload);
-
-        $signature = $jws->getSignature($signature);
+        $signature = $jws->getSignature($signatureIndex);
 
         return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload, $jwk);
     }
@@ -89,13 +92,12 @@ class JWSVerifier
             try {
                 KeyChecker::checkKeyUsage($jwk, 'verification');
                 KeyChecker::checkKeyAlgorithm($jwk, $algorithm->name());
-                Assertion::inArray($jwk->get('kty'), $algorithm->allowedKeyTypes(), 'Wrong key type.');
                 if (true === $algorithm->verify($jwk, $input, $signature->getSignature())) {
                     $successJwk = $jwk;
 
                     return true;
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 //We do nothing, we continue with other keys
                 continue;
             }
@@ -137,10 +139,14 @@ class JWSVerifier
     private function getAlgorithm(Signature $signature): SignatureAlgorithm
     {
         $completeHeader = array_merge($signature->getProtectedHeader(), $signature->getHeader());
-        Assertion::keyExists($completeHeader, 'alg', 'No "alg" parameter set in the header.');
+        if (!isset($completeHeader['alg'])) {
+            throw new InvalidArgumentException('No "alg" parameter set in the header.');
+        }
 
         $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
-        Assertion::isInstanceOf($algorithm, SignatureAlgorithm::class, sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
+        if (!$algorithm instanceof SignatureAlgorithm) {
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
+        }
 
         return $algorithm;
     }

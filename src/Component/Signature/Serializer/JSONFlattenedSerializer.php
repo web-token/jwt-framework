@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 
@@ -65,25 +65,31 @@ final class JSONFlattenedSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);
-        Assertion::isArray($data, 'Unsupported input.');
-        Assertion::keyExists($data, 'signature', 'Unsupported input.');
+        if (!\is_array($data)) {
+            throw new InvalidArgumentException('Unsupported input.');
+        }
+        if (!isset($data['signature'])) {
+            throw new InvalidArgumentException('Unsupported input.');
+        }
         $signature = Base64Url::decode($data['signature']);
 
-        if (\array_key_exists('protected', $data)) {
+        if (isset($data['protected'])) {
             $encodedProtectedHeader = $data['protected'];
             $protectedHeader = JsonConverter::decode(Base64Url::decode($data['protected']));
         } else {
             $encodedProtectedHeader = null;
             $protectedHeader = [];
         }
-        if (\array_key_exists('header', $data)) {
-            Assertion::isArray($data['header'], 'Bad header.');
+        if (isset($data['header'])) {
+            if (!\is_array($data['header'])) {
+                throw new InvalidArgumentException('Bad header.');
+            }
             $header = $data['header'];
         } else {
             $header = [];
         }
 
-        if (\array_key_exists('payload', $data)) {
+        if (isset($data['payload'])) {
             $encodedPayload = $data['payload'];
             $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
         } else {
