@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -98,17 +97,28 @@ abstract class PBES2AESKW implements KeyWrapping
 
     protected function checkHeaderAlgorithm(array $header): void
     {
-        Assertion::keyExists($header, 'alg', 'The header parameter "alg" is missing.');
-        Assertion::string($header['alg'], 'The header parameter "alg" is not valid.');
+        if (!isset($header['alg'])) {
+            throw new InvalidArgumentException('The header parameter "alg" is missing.');
+        }
+        if (!\is_string($header['alg'])) {
+            throw new InvalidArgumentException('The header parameter "alg" is not valid.');
+        }
     }
 
     protected function checkHeaderAdditionalParameters(array $header): void
     {
-        Assertion::keyExists($header, 'p2s', 'The header parameter "p2s" is missing.');
-        Assertion::string($header['p2s'], 'The header parameter "p2s" is not valid.');
-        Assertion::keyExists($header, 'p2c', 'The header parameter "p2c" is missing.');
-        Assertion::integer($header['p2c'], 'The header parameter "p2c" is not valid.');
-        Assertion::greaterThan($header['p2c'], 0, 'The header parameter "p2c" is not valid.');
+        if (!isset($header['p2s'])) {
+            throw new InvalidArgumentException('The header parameter "p2s" is missing.');
+        }
+        if (!\is_string($header['p2s'])) {
+            throw new InvalidArgumentException('The header parameter "p2s" is not valid.');
+        }
+        if (!isset($header['p2c'])) {
+            throw new InvalidArgumentException('The header parameter "p2c" is missing.');
+        }
+        if (!\is_int($header['p2c']) || $header['p2c'] <= 0) {
+            throw new InvalidArgumentException('The header parameter "p2c" is not valid.');
+        }
     }
 
     /**

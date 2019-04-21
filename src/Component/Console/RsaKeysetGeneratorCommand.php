@@ -37,7 +37,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
     {
         $quantity = $input->getArgument('quantity');
         $size = $input->getArgument('size');
-        if (!\is_int($quantity) || $quantity < 0) {
+        if (!\is_int($quantity)) {
             throw new InvalidArgumentException('Invalid quantity');
         }
         if (!\is_int($size)) {

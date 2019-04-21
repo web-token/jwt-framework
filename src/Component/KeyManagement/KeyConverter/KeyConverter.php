@@ -59,7 +59,7 @@ class KeyConverter
     public static function loadKeyFromX509Resource($res): array
     {
         $key = openssl_get_publickey($res);
-        if (false === $res) {
+        if (false === $key) {
             throw new InvalidArgumentException('Unable to load the certificate.');
         }
         $details = openssl_pkey_get_details($key);

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
@@ -37,7 +36,9 @@ abstract class RSA implements KeyEncryption
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $this->checkKey($key);
-        Assertion::true($key->has('d'), 'The key is not a private key');
+        if (!$key->has('d')) {
+            throw new InvalidArgumentException('The key is not a private key');
+        }
         $priv = RSAKey::createFromJWK($key);
 
         return RSACrypt::decrypt($priv, $encrypted_cek, $this->getEncryptionMode(), $this->getHashAlgorithm());

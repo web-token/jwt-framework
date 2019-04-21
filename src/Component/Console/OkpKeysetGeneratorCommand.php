@@ -37,7 +37,7 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
     {
         $quantity = $input->getArgument('quantity');
         $curve = $input->getArgument('curve');
-        if (!\is_int($quantity) || $quantity < 0) {
+        if (!\is_int($quantity)) {
             throw new InvalidArgumentException('Invalid quantity');
         }
         if (!\is_string($curve)) {

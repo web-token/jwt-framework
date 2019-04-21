@@ -204,7 +204,7 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header parameter "epk" is not an array of parameter
+     * @expectedExceptionMessage The header parameter "epk" is not an array of parameters
      *
      * @test
      */

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use GMP;
 use InvalidArgumentException;
@@ -119,16 +118,21 @@ final class ECDHES implements KeyAgreement
         $this->checkKey($recipient_key, true);
         $private_key = $recipient_key;
         $public_key = $this->getPublicKey($complete_header);
-        Assertion::eq($private_key->get('crv'), $public_key->get('crv'), 'Curves are different');
+        if ($private_key->get('crv') !== $public_key->get('crv')) {
+            throw new InvalidArgumentException('Curves are different');
+        }
 
         return [$public_key, $private_key];
     }
 
     private function getPublicKey(array $complete_header): JWK
     {
-        Assertion::keyExists($complete_header, 'epk', 'The header parameter "epk" is missing');
-        Assertion::isArray($complete_header['epk'], 'The header parameter "epk" is not an array of parameter');
-
+        if (!isset($complete_header['epk'])) {
+            throw new InvalidArgumentException('The header parameter "epk" is missing.');
+        }
+        if (!\is_array($complete_header['epk'])) {
+            throw new InvalidArgumentException('The header parameter "epk" is not an array of parameters');
+        }
         $public_key = new JWK($complete_header['epk']);
         $this->checkKey($public_key, false);
 
@@ -141,14 +145,18 @@ final class ECDHES implements KeyAgreement
             throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {
-            Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
+            if (!$key->has($k)) {
+                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+            }
         }
 
         switch ($key->get('crv')) {
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                Assertion::true($key->has('y'), 'The key parameter "y" is missing.');
+                if (!$key->has('y')) {
+                    throw new InvalidArgumentException('The key parameter "y" is missing.');
+                }
 
                 break;
             case 'X25519':
@@ -156,8 +164,8 @@ final class ECDHES implements KeyAgreement
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $key->get('crv')));
         }
-        if (true === $is_private) {
-            Assertion::true($key->has('d'), 'The key parameter "d" is missing.');
+        if (true === $is_private && !$key->has('d')) {
+            throw new InvalidArgumentException('The key parameter "d" is missing.');
         }
     }
 
@@ -184,7 +192,9 @@ final class ECDHES implements KeyAgreement
 
     private function convertDecToBin(GMP $dec): string
     {
-        Assertion::lessThan(0, gmp_cmp($dec, 0), 'Unable to convert negative integer to string');
+        if (gmp_cmp($dec, 0) < 0) {
+            throw new \InvalidArgumentException('Unable to convert negative integer to string');
+        }
         $hex = gmp_strval($dec, 16);
 
         if (0 !== mb_strlen($hex, '8bit') % 2) {

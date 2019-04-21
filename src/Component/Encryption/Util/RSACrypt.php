@@ -62,7 +62,7 @@ class RSACrypt
     {
         $mLen = mb_strlen($data, '8bit');
         if ($mLen > $key->getModulusLength() - 11) {
-            throw new \InvalidArgumentException('Message too long');
+            throw new InvalidArgumentException('Message too long');
         }
 
         $psLen = $key->getModulusLength() - $mLen - 3;
@@ -84,18 +84,18 @@ class RSACrypt
     public static function decryptWithRSA15(RSAKey $key, string $c): string
     {
         if (mb_strlen($c, '8bit') !== $key->getModulusLength()) {
-            throw new \InvalidArgumentException('Unable to decrypt');
+            throw new InvalidArgumentException('Unable to decrypt');
         }
         $c = BigInteger::createFromBinaryString($c);
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
         if (0 !== \ord($em[0]) || \ord($em[1]) > 2) {
-            throw new \InvalidArgumentException('Unable to decrypt');
+            throw new InvalidArgumentException('Unable to decrypt');
         }
-        $ps = mb_substr($em, 2, mb_strpos($em, \chr(0), 2, '8bit') - 2, '8bit');
+        $ps = mb_substr($em, 2, (int) mb_strpos($em, \chr(0), 2, '8bit') - 2, '8bit');
         $m = mb_substr($em, mb_strlen($ps, '8bit') + 3, null, '8bit');
         if (mb_strlen($ps, '8bit') < 8) {
-            throw new \InvalidArgumentException('Unable to decrypt');
+            throw new InvalidArgumentException('Unable to decrypt');
         }
 
         return $m;

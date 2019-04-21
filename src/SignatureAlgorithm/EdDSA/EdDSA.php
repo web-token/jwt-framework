@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -28,7 +27,9 @@ final class EdDSA implements SignatureAlgorithm
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
-        Assertion::true($key->has('d'), 'The key is not private.');
+        if (!$key->has('d')) {
+            throw new InvalidArgumentException('The EC key is not private');
+        }
         $x = Base64Url::decode($key->get('x'));
         $d = Base64Url::decode($key->get('d'));
         $secret = $d.$x;
@@ -66,8 +67,12 @@ final class EdDSA implements SignatureAlgorithm
             throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {
-            Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
+            if (!$key->has($k)) {
+                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+            }
         }
-        Assertion::inArray($key->get('crv'), ['Ed25519'], 'Unsupported curve.');
+        if ('Ed25519' !== $key->get('crv')) {
+            throw new InvalidArgumentException('Unsupported curve.');
+        }
     }
 }

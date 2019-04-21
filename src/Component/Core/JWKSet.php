@@ -28,8 +28,6 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     private $keys = [];
 
     /**
-     * JWKSet constructor.
-     *
      * @param JWK[] $keys
      */
     public function __construct(array $keys)

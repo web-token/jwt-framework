@@ -13,17 +13,19 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
+use LogicException;
 
 abstract class ECDSA implements SignatureAlgorithm
 {
     public function __construct()
     {
-        Assertion::defined('OPENSSL_KEYTYPE_EC', 'Elliptic Curve key type not supported by your environment.');
+        if (!\defined('OPENSSL_KEYTYPE_EC')) {
+            throw new LogicException('Elliptic Curve key type not supported by your environment.');
+        }
     }
 
     public function allowedKeyTypes(): array
@@ -34,8 +36,9 @@ abstract class ECDSA implements SignatureAlgorithm
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
-        Assertion::true($key->has('d'), 'The EC key is not private');
-
+        if (!$key->has('d')) {
+            throw new InvalidArgumentException('The EC key is not private');
+        }
         $pem = ECKey::convertPrivateKeyToPEM($key);
         openssl_sign($input, $signature, $pem, $this->getHashAlgorithm());
 
@@ -66,7 +69,9 @@ abstract class ECDSA implements SignatureAlgorithm
             throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'y', 'crv'] as $k) {
-            Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
+            if (!$key->has($k)) {
+                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+            }
         }
     }
 }
