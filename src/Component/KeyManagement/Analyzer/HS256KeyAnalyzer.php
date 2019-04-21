@@ -16,17 +16,20 @@ namespace Jose\Component\KeyManagement\Analyzer;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 
-final class OctAnalyzer implements KeyAnalyzer
+final class HS256KeyAnalyzer implements KeyAnalyzer
 {
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
         if ('oct' !== $jwk->get('kty')) {
             return;
         }
+        if (!$jwk->has('alg') || 'HS256' !== $jwk->get('alg')) {
+            return;
+        }
         $k = Base64Url::decode($jwk->get('k'));
         $kLength = 8 * mb_strlen($k, '8bit');
-        if ($kLength < 128) {
-            $bag->add(Message::high('The key length is less than 128 bits.'));
+        if ($kLength < 256) {
+            $bag->add(Message::high('HS256 algorithm requires at least 256 bits key length.'));
         }
     }
 }
