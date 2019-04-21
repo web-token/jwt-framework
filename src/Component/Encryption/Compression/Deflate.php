@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 
 final class Deflate implements CompressionMethod
@@ -28,7 +27,9 @@ final class Deflate implements CompressionMethod
      */
     public function __construct(int $compressionLevel = -1)
     {
-        Assertion::between($compressionLevel, -1, 9, 'The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.');
+        if ($compressionLevel < -1 || $compressionLevel > 9) {
+            throw new InvalidArgumentException('The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.');
+        }
         $this->compressionLevel = $compressionLevel;
     }
 

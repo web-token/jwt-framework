@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Encryption\JWE;
 
@@ -50,9 +49,11 @@ class JWESerializerManager
      */
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
-        Assertion::keyExists($this->serializers, $name, sprintf('Unsupported serializer "%s".', $name));
+        if (!isset($this->serializers[$name])) {
+            throw new InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
+        }
 
-        return ($this->serializers[$name])->serialize($jws, $recipientIndex);
+        return $this->serializers[$name]->serialize($jws, $recipientIndex);
     }
 
     /**

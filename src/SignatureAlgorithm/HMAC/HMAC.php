@@ -15,6 +15,7 @@ namespace Jose\Component\Signature\Algorithm;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 abstract class HMAC implements SignatureAlgorithm
@@ -38,7 +39,9 @@ abstract class HMAC implements SignatureAlgorithm
 
     protected function checkKey(JWK $key): void
     {
-        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
         Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
     }
 

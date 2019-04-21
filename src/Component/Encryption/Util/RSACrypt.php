@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Util;
 
-use Assert\Assertion;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
@@ -62,7 +61,9 @@ class RSACrypt
     public static function encryptWithRSA15(RSAKey $key, string $data): string
     {
         $mLen = mb_strlen($data, '8bit');
-        Assertion::lessOrEqualThan($mLen, $key->getModulusLength() - 11, 'Message too long');
+        if ($mLen > $key->getModulusLength() - 11) {
+            throw new \InvalidArgumentException('Message too long');
+        }
 
         $psLen = $key->getModulusLength() - $mLen - 3;
         $ps = '';
@@ -82,16 +83,20 @@ class RSACrypt
 
     public static function decryptWithRSA15(RSAKey $key, string $c): string
     {
-        Assertion::eq(mb_strlen($c, '8bit'), $key->getModulusLength(), 'Unable to decrypt');
+        if (mb_strlen($c, '8bit') !== $key->getModulusLength()) {
+            throw new \InvalidArgumentException('Unable to decrypt');
+        }
         $c = BigInteger::createFromBinaryString($c);
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
-
-        Assertion::true(0 === \ord($em[0]) && \ord($em[1]) <= 2, 'Unable to decrypt');
-        $ps = mb_substr($em, 2, (int) mb_strpos($em, \chr(0), 2, '8bit') - 2, '8bit');
+        if (0 !== \ord($em[0]) || \ord($em[1]) > 2) {
+            throw new \InvalidArgumentException('Unable to decrypt');
+        }
+        $ps = mb_substr($em, 2, mb_strpos($em, \chr(0), 2, '8bit') - 2, '8bit');
         $m = mb_substr($em, mb_strlen($ps, '8bit') + 3, null, '8bit');
-
-        Assertion::greaterOrEqualThan(mb_strlen($ps, '8bit'), 8, 'Unable to decrypt');
+        if (mb_strlen($ps, '8bit') < 8) {
+            throw new \InvalidArgumentException('Unable to decrypt');
+        }
 
         return $m;
     }
@@ -104,7 +109,9 @@ class RSACrypt
         /** @var Hash $hash */
         $hash = Hash::$hash_algorithm();
         $length = $key->getModulusLength() - 2 * $hash->getLength() - 2;
-        Assertion::greaterThan($length, 0);
+        if (0 >= $length) {
+            throw new \RuntimeException();
+        }
         $plaintext = str_split($plaintext, $length);
         $ciphertext = '';
         foreach ($plaintext as $m) {

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm;
 
 use Assert\Assertion;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
@@ -61,7 +62,9 @@ abstract class ECDSA implements SignatureAlgorithm
 
     private function checkKey(JWK $key): void
     {
-        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
         foreach (['x', 'y', 'crv'] as $k) {
             Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
         }

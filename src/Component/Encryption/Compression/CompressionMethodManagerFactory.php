@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 
 class CompressionMethodManagerFactory
 {
@@ -29,7 +29,6 @@ class CompressionMethodManagerFactory
      */
     public function add(string $alias, CompressionMethod $compressionMethod): void
     {
-        Assertion::keyNotExists($this->compressionMethods, $alias, sprintf('The alias "%s" already exists.', $alias));
         $this->compressionMethods[$alias] = $compressionMethod;
     }
 
@@ -63,7 +62,9 @@ class CompressionMethodManagerFactory
     {
         $compressionMethods = [];
         foreach ($aliases as $alias) {
-            Assertion::keyExists($this->compressionMethods, $alias, sprintf('The compression method with the alias "%s" is not supported.', $alias));
+            if (!isset($this->compressionMethods[$alias])) {
+                throw new InvalidArgumentException(sprintf('The compression method with the alias "%s" is not supported.', $alias));
+            }
             $compressionMethods[] = $this->compressionMethods[$alias];
         }
 

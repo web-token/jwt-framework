@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -34,8 +33,12 @@ class JWKFactory
      */
     public static function createRSAKey(int $size, array $values = []): JWK
     {
-        Assertion::eq(0, $size % 8, 'Invalid key size.');
-        Assertion::greaterOrEqualThan($size, 512, 'Key length is too short. It needs to be at least 512 bits.');
+        if (0 !== $size % 8) {
+            throw new InvalidArgumentException('Invalid key size.');
+        }
+        if (512 > $size) {
+            throw new InvalidArgumentException('Key length is too short. It needs to be at least 512 bits.');
+        }
 
         $key = openssl_pkey_new([
             'private_key_bits' => $size,
@@ -74,7 +77,9 @@ class JWKFactory
      */
     public static function createOctKey(int $size, array $values = []): JWK
     {
-        Assertion::eq(0, $size % 8, 'Invalid key size.');
+        if (0 !== $size % 8) {
+            throw new InvalidArgumentException('Invalid key size.');
+        }
         $values = array_merge(
             $values,
             [
@@ -155,7 +160,9 @@ class JWKFactory
     public static function createFromJsonObject(string $value)
     {
         $json = json_decode($value, true);
-        Assertion::isArray($json, 'Invalid key or key set.');
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('Invalid key or key set.');
+        }
 
         return self::createFromValues($json);
     }

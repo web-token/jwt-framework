@@ -137,7 +137,9 @@ final class ECDHES implements KeyAgreement
 
     private function checkKey(JWK $key, bool $is_private): void
     {
-        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
         foreach (['x', 'crv'] as $k) {
             Assertion::true($key->has($k), sprintf('The key parameter "%s" is missing.', $k));
         }

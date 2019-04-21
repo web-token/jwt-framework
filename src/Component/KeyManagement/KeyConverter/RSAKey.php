@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -78,7 +77,9 @@ class RSAKey
 
         $details = openssl_pkey_get_details($res);
         openssl_free_key($res);
-        Assertion::keyExists($details, 'rsa', 'Unable to load the key.');
+        if (!isset($details['rsa'])) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
 
         return self::createFromKeyDetails($details['rsa']);
     }
@@ -231,7 +232,9 @@ class RSAKey
                     break;
                 }
             }
-            Assertion::notNull($y, 'Unable to find prime factors.');
+            if (null === $y) {
+                throw new InvalidArgumentException('Unable to find prime factors.');
+            }
             if (true === $found) {
                 $p = $y->subtract($one)->gcd($n);
                 $q = $n->divide($p);

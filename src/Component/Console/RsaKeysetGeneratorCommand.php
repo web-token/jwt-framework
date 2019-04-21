@@ -40,7 +40,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
         if (!\is_int($quantity) || $quantity < 0) {
             throw new InvalidArgumentException('Invalid quantity');
         }
-        if (!\is_int($size) || $size < 2048) {
+        if (!\is_int($size)) {
             throw new InvalidArgumentException('Invalid size');
         }
 

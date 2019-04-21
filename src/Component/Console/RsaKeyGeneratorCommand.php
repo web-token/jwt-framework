@@ -35,7 +35,7 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
     {
         $size = $input->getArgument('size');
         $args = $this->getOptions($input);
-        if (!\is_int($size) || $size < 2048) {
+        if (!\is_int($size)) {
             throw new InvalidArgumentException('Invalid size');
         }
 

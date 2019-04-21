@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use RuntimeException;
@@ -25,7 +24,9 @@ class KeyConverter
 {
     public static function loadKeyFromCertificateFile(string $file): array
     {
-        Assertion::file($file, sprintf('File "%s" does not exist.', $file));
+        if (!file_exists($file)) {
+            throw new InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
+        }
         $content = file_get_contents($file);
 
         return self::loadKeyFromCertificate($content);
@@ -58,9 +59,13 @@ class KeyConverter
     public static function loadKeyFromX509Resource($res): array
     {
         $key = openssl_get_publickey($res);
-        Assertion::isResource($key, 'Unable to load the certificate');
+        if (false === $res) {
+            throw new InvalidArgumentException('Unable to load the certificate.');
+        }
         $details = openssl_pkey_get_details($key);
-        Assertion::isArray($details, 'Unable to load the certificate');
+        if (!\is_array($details)) {
+            throw new InvalidArgumentException('Unable to load the certificate');
+        }
         if (isset($details['key'])) {
             $values = self::loadKeyFromPEM($details['key']);
             openssl_x509_export($res, $out);
@@ -101,7 +106,9 @@ class KeyConverter
      */
     public static function loadFromX5C(array $x5c): array
     {
-        Assertion::notEmpty($x5c, 'The certificate chain is empty');
+        if (0 === \count($x5c)) {
+            throw new InvalidArgumentException('The certificate chain is empty');
+        }
         $certificate = null;
         $last_issuer = null;
         $last_subject = null;
@@ -212,7 +219,9 @@ class KeyConverter
             throw new RuntimeException('Unable to decrypt the key');
         }
         $number = preg_match_all('#-{5}.*-{5}#', $pem, $result);
-        Assertion::eq(2, $number, 'Unable to load the key');
+        if (2 !== $number) {
+            throw new InvalidArgumentException('Unable to load the key');
+        }
 
         $pem = $result[0][0].PHP_EOL;
         $pem .= chunk_split(base64_encode($decoded), 64);

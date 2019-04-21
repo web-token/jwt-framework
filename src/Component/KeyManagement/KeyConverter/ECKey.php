@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
 use Exception;
 use FG\ASN1\ASNObject;
@@ -74,7 +73,9 @@ class ECKey
     {
         $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data), true);
         $asnObject = ASNObject::fromBinary($data);
-        Assertion::isInstanceOf($asnObject, Sequence::class, 'Unable to load the key.');
+        if (!$asnObject instanceof Sequence) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
         $children = $asnObject->getChildren();
         if (self::isPKCS8($children)) {
             $children = self::loadPKCS8($children);
@@ -97,7 +98,9 @@ class ECKey
     {
         $binary = hex2bin($children[2]->getContent());
         $asnObject = ASNObject::fromBinary($binary);
-        Assertion::isInstanceOf($asnObject, Sequence::class, 'Unable to load the key.');
+        if (!$asnObject instanceof Sequence) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
 
         return $asnObject->getChildren();
     }

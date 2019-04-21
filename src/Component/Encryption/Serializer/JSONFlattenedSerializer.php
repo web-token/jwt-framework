@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
@@ -90,8 +90,9 @@ final class JSONFlattenedSerializer implements JWESerializer
 
     private function checkData(array $data): void
     {
-        Assertion::keyExists($data, 'ciphertext', 'Unsupported input.');
-        Assertion::keyNotExists($data, 'recipients', 'Unsupported input.');
+        if (!isset($data['ciphertext']) || isset($data['recipients'])) {
+            throw new InvalidArgumentException('Unsupported input.');
+        }
     }
 
     private function processHeaders(array $data): array

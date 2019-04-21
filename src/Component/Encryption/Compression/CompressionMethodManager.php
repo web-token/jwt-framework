@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
-use Assert\Assertion;
+use InvalidArgumentException;
 
 class CompressionMethodManager
 {
@@ -45,7 +45,9 @@ class CompressionMethodManager
      */
     public function get(string $name): CompressionMethod
     {
-        Assertion::true($this->has($name), sprintf('The compression method "%s" is not supported.', $name));
+        if (!$this->has($name)) {
+            throw new InvalidArgumentException(sprintf('The compression method "%s" is not supported.', $name));
+        }
 
         return $this->compressionMethods[$name];
     }
@@ -66,8 +68,6 @@ class CompressionMethodManager
     protected function add(CompressionMethod $compressionMethod): void
     {
         $name = $compressionMethod->name();
-        Assertion::false($this->has($name), sprintf('The compression method "%s" is already supported.', $name));
-
         $this->compressionMethods[$name] = $compressionMethod;
     }
 }

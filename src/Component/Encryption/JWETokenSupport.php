@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use Assert\Assertion;
 use Jose\Component\Checker\TokenTypeSupport;
 use Jose\Component\Core\JWT;
 
@@ -29,8 +28,6 @@ final class JWETokenSupport implements TokenTypeSupport
         if (!$jwt instanceof JWE) {
             return;
         }
-
-        Assertion::lessThan($index, $jwt->countRecipients(), 'Unknown recipient index.');
         $protectedHeader = $jwt->getSharedProtectedHeader();
         $unprotectedHeader = $jwt->getSharedHeader();
         $recipient = $jwt->getRecipient($index)->getHeader();

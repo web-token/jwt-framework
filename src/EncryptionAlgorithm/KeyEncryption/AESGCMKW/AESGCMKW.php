@@ -15,6 +15,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use RuntimeException;
 
@@ -66,7 +67,9 @@ abstract class AESGCMKW implements KeyWrapping
 
     protected function checkKey(JWK $key): string
     {
-        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
         Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
         $k = $key->get('k');
         Assertion::string($k, 'The key parameter "k" is invalid.');

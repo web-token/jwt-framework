@@ -15,13 +15,16 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Assert\Assertion;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 final class Dir implements DirectEncryption
 {
     public function getCEK(JWK $key): string
     {
-        Assertion::inArray($key->get('kty'), $this->allowedKeyTypes(), 'Wrong key type.');
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
         Assertion::true($key->has('k'), 'The key parameter "k" is missing.');
 
         return Base64Url::decode($key->get('k'));
