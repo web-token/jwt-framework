@@ -78,7 +78,6 @@
         "php-http/httplug-bundle": "^1.7",
         "php-http/mock-client": "^1.0",
         "phpstan/phpstan": "^0.11",
-        "phpstan/phpstan-beberlei-assert": "^0.11.0",
         "phpstan/phpstan-deprecation-rules": "^0.11",
         "phpstan/phpstan-phpunit": "^0.11",
         "phpstan/phpstan-strict-rules": "^0.11",
@@ -120,7 +119,7 @@
        "php-http/httplug": "To enable JKU/X5U support.",
        "php-http/httplug-bundle": "To enable JKU/X5U support.",
        "php-http/message-factory": "To enable JKU/X5U support.",
-       "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens",
+       "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
        "symfony/var-dumper": "Used to show data on the debug toolbar."
    },
     "extra": {

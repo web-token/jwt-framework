@@ -22,6 +22,7 @@ use Jose\Component\NestedToken\NestedTokenLoader as BaseNestedTokenLoader;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 final class NestedTokenLoader extends BaseNestedTokenLoader
 {
@@ -49,7 +50,7 @@ final class NestedTokenLoader extends BaseNestedTokenLoader
             ));
 
             return $jws;
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(Events::NESTED_TOKEN_LOADING_FAILURE, new NestedTokenLoadingFailureEvent(
                 $token,
                 $signatureKeySet,

@@ -18,6 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use RuntimeException;
+use Throwable;
 
 class JWELoader
 {
@@ -97,7 +98,7 @@ class JWELoader
                     return $jwe;
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // Nothing to do. Exception thrown just after
         }
 
@@ -112,7 +113,7 @@ class JWELoader
             }
 
             return $this->jweDecrypter->decryptUsingKeySet($jwe, $keyset, $recipient);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

@@ -23,6 +23,7 @@ use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWELoader as BaseJWELoader;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 final class JWELoader extends BaseJWELoader
 {
@@ -49,7 +50,7 @@ final class JWELoader extends BaseJWELoader
             ));
 
             return $jwe;
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(Events::JWE_LOADING_FAILURE, new JWELoadingFailureEvent(
                 $token,
                 $keyset,

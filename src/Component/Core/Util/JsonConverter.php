@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use RuntimeException;
+use Throwable;
 
 final class JsonConverter
 {
@@ -24,7 +25,7 @@ final class JsonConverter
     {
         try {
             return json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             throw new RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
         }
     }
@@ -36,7 +37,7 @@ final class JsonConverter
     {
         try {
             return json_decode($payload, true, 512, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             throw new RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
         }
     }

@@ -16,6 +16,7 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 /**
  * @internal
@@ -39,7 +40,7 @@ class KeyConverter
             if (false === $res) {
                 throw new InvalidArgumentException('Unable to load the certificate.');
             }
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $certificate = self::convertDerToPem($certificate);
             $res = openssl_x509_read($certificate);
         }
@@ -94,7 +95,7 @@ class KeyConverter
     {
         try {
             return self::loadKeyFromDER($key, $password);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return self::loadKeyFromPEM($key, $password);
         }
     }

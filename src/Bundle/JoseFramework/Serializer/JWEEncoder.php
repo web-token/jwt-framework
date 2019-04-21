@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
+use Throwable;
 
 final class JWEEncoder implements EncoderInterface, DecoderInterface
 {
@@ -52,7 +53,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
     {
         try {
             return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getRecipientIndex($context));
-        } catch (\Throwable $ex) {
+        } catch (Throwable $ex) {
             $message = sprintf('Cannot encode JWE to %s format.', $format);
 
             if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {

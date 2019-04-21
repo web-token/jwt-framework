@@ -27,6 +27,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
+use Throwable;
 
 class JWEDecrypter
 {
@@ -147,7 +148,7 @@ class JWEDecrypter
 
                     return $payload;
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 //We do nothing, we continue with other keys
                 continue;
             }

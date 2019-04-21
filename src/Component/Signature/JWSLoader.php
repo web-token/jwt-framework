@@ -18,6 +18,7 @@ use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use Throwable;
 
 class JWSLoader
 {
@@ -97,7 +98,7 @@ class JWSLoader
                     return $jws;
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             // Nothing to do. Exception thrown just after
         }
 
@@ -112,7 +113,7 @@ class JWSLoader
             }
 
             return $this->jwsVerifier->verifyWithKeySet($jws, $keyset, $signature, $payload);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

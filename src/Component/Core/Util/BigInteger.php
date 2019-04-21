@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use GMP;
+
 /**
  * @internal
  */
@@ -21,11 +23,11 @@ class BigInteger
     /**
      * Holds the BigInteger's value.
      *
-     * @var \GMP
+     * @var GMP
      */
     private $value;
 
-    private function __construct(\GMP $value)
+    private function __construct(GMP $value)
     {
         $this->value = $value;
     }
@@ -33,7 +35,7 @@ class BigInteger
     /**
      * @return BigInteger
      */
-    public static function createFromGMPResource(\GMP $value): self
+    public static function createFromGMPResource(GMP $value): self
     {
         return new self($value);
     }

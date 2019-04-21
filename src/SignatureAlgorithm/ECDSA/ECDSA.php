@@ -18,6 +18,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
 use LogicException;
+use Throwable;
 
 abstract class ECDSA implements SignatureAlgorithm
 {
@@ -54,7 +55,7 @@ abstract class ECDSA implements SignatureAlgorithm
             $pem = ECKey::convertPublicKeyToPEM($key);
 
             return 1 === openssl_verify($input, $der, $pem, $this->getHashAlgorithm());
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

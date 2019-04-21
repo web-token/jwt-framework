@@ -21,6 +21,7 @@ use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilder as BaseJWEBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 final class JWEBuilder extends BaseJWEBuilder
 {
@@ -42,7 +43,7 @@ final class JWEBuilder extends BaseJWEBuilder
             $this->eventDispatcher->dispatch(Events::JWE_BUILT_SUCCESS, new JWEBuiltSuccessEvent($jwe));
 
             return $jwe;
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(Events::JWE_BUILT_FAILURE, new JWEBuiltFailureEvent(
                 $this->payload,
                 $this->recipients,

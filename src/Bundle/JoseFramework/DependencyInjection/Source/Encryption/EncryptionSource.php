@@ -28,6 +28,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
+use Jose\Component\Encryption\Serializer\JWESerializer as JWESerializerAlias;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -64,7 +65,7 @@ class EncryptionSource implements SourceWithCompilerPasses
         if (!$this->isEnabled()) {
             return;
         }
-        $container->registerForAutoconfiguration(\Jose\Component\Encryption\Serializer\JWESerializer::class)->addTag('jose.jwe.serializer');
+        $container->registerForAutoconfiguration(JWESerializerAlias::class)->addTag('jose.jwe.serializer');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('jwe_services.php');
         $loader->load('jwe_serializers.php');

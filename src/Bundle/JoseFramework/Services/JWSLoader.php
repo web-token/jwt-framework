@@ -23,6 +23,7 @@ use Jose\Component\Signature\JWSLoader as BaseJWSLoader;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 final class JWSLoader extends BaseJWSLoader
 {
@@ -49,7 +50,7 @@ final class JWSLoader extends BaseJWSLoader
             ));
 
             return $jws;
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(Events::JWS_LOADING_FAILURE, new JWSLoadingFailureEvent(
                 $token,
                 $keyset,
