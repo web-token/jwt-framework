@@ -21,12 +21,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWSVerifierTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(JWSBuilderFactory::class)) {
+        if (!class_exists(JWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }

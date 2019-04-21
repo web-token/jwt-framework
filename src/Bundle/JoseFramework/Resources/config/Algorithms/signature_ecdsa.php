@@ -18,14 +18,18 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Algorithm\ES256::class)
-        ->tag('jose.algorithm', ['alias' => 'ES256']);
+        ->tag('jose.algorithm', ['alias' => 'ES256'])
+    ;
 
     $container->set(Algorithm\ES384::class)
-        ->tag('jose.algorithm', ['alias' => 'ES384']);
+        ->tag('jose.algorithm', ['alias' => 'ES384'])
+    ;
 
     $container->set(Algorithm\ES512::class)
-        ->tag('jose.algorithm', ['alias' => 'ES512']);
+        ->tag('jose.algorithm', ['alias' => 'ES512'])
+    ;
 };

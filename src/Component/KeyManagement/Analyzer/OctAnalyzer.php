@@ -15,7 +15,6 @@ namespace Jose\Component\KeyManagement\Analyzer;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
-use ZxcvbnPhp\Zxcvbn;
 
 final class OctAnalyzer implements KeyAnalyzer
 {
@@ -25,26 +24,9 @@ final class OctAnalyzer implements KeyAnalyzer
             return;
         }
         $k = Base64Url::decode($jwk->get('k'));
-        $kLength = 8 * \mb_strlen($k, '8bit');
+        $kLength = 8 * mb_strlen($k, '8bit');
         if ($kLength < 128) {
             $bag->add(Message::high('The key length is less than 128 bits.'));
-        }
-
-        if (\class_exists(Zxcvbn::class)) {
-            $zxcvbn = new Zxcvbn();
-            $strength = $zxcvbn->passwordStrength($k);
-            switch (true) {
-                case $strength['score'] < 3:
-                    $bag->add(Message::high('The octet string is weak and easily guessable. Please change your key as soon as possible.'));
-
-                    break;
-                case 3 === $strength['score']:
-                    $bag->add(Message::medium('The octet string is safe, but a longer key is preferable.'));
-
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }

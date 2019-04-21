@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.13
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class MultipleRecipientEncryptionTest extends EncryptionTest
 {
@@ -34,7 +37,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $recipient_1_private_key = JWK::create([
+        $recipient_1_private_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'frodo.baggins@hobbiton.example',
             'use' => 'enc',
@@ -48,7 +51,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'qi' => 'kC-lzZOqoFaZCr5l0tOVtREKoVqaAYhQiqIRGL-MzS4sCmRkxm5vZlXYx6RtE1n_AagjqajlkjieGlxTTThHD8Iga6foGBMaAr5uR1hGQpSc7Gl7CF1DZkBJMTQN6EshYzZfxW08mIO8M6Rzuh0beL6fG9mkDcIyPrBXx2bQ_mM',
         ]);
 
-        $recipient_2_private_key = JWK::create([
+        $recipient_2_private_key = new JWK([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -58,7 +61,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'd' => 'iTx2pk7wW-GqJkHcEkFQb2EFyYcO7RugmaW3mRrQVAOUiPommT0IdnYK2xDlZh-j',
         ]);
 
-        $recipient_3_private_key = JWK::create([
+        $recipient_3_private_key = new JWK([
             'kty' => 'oct',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
@@ -139,7 +142,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $recipient_1_private_key = JWK::create([
+        $recipient_1_private_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'frodo.baggins@hobbiton.example',
             'use' => 'enc',
@@ -153,7 +156,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'qi' => 'kC-lzZOqoFaZCr5l0tOVtREKoVqaAYhQiqIRGL-MzS4sCmRkxm5vZlXYx6RtE1n_AagjqajlkjieGlxTTThHD8Iga6foGBMaAr5uR1hGQpSc7Gl7CF1DZkBJMTQN6EshYzZfxW08mIO8M6Rzuh0beL6fG9mkDcIyPrBXx2bQ_mM',
         ]);
 
-        $recipient_2_public_key = JWK::create([
+        $recipient_2_public_key = new JWK([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -162,7 +165,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
-        $recipient_2_private_key = JWK::create([
+        $recipient_2_private_key = new JWK([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -172,7 +175,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'd' => 'iTx2pk7wW-GqJkHcEkFQb2EFyYcO7RugmaW3mRrQVAOUiPommT0IdnYK2xDlZh-j',
         ]);
 
-        $recipient_3_private_key = JWK::create([
+        $recipient_3_private_key = new JWK([
             'kty' => 'oct',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
@@ -213,7 +216,8 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
             ->addRecipient($recipient_2_public_key, $recipient_2Header)
             ->addRecipient($recipient_3_private_key, $recipient_3Header)
-            ->build();
+            ->build()
+        ;
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
@@ -244,7 +248,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $recipient_1_private_key = JWK::create([
+        $recipient_1_private_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'frodo.baggins@hobbiton.example',
             'use' => 'enc',
@@ -258,7 +262,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'qi' => 'kC-lzZOqoFaZCr5l0tOVtREKoVqaAYhQiqIRGL-MzS4sCmRkxm5vZlXYx6RtE1n_AagjqajlkjieGlxTTThHD8Iga6foGBMaAr5uR1hGQpSc7Gl7CF1DZkBJMTQN6EshYzZfxW08mIO8M6Rzuh0beL6fG9mkDcIyPrBXx2bQ_mM',
         ]);
 
-        $recipient_2_public_key = JWK::create([
+        $recipient_2_public_key = new JWK([
             'kty' => 'EC',
             'kid' => 'peregrin.took@tuckborough.example',
             'use' => 'enc',
@@ -293,6 +297,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             ->withSharedHeader($header)
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
             ->addRecipient($recipient_2_public_key, $recipient_2Header)
-            ->build();
+            ->build()
+        ;
     }
 }

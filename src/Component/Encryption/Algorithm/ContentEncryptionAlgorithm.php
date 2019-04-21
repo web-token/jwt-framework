@@ -24,7 +24,7 @@ interface ContentEncryptionAlgorithm extends Algorithm
      * @param string      $data                     The data to encrypt
      * @param string      $cek                      The content encryption key
      * @param string      $iv                       The Initialization Vector
-     * @param string|null $aad                      Additional Additional Authenticated Data
+     * @param null|string $aad                      Additional Additional Authenticated Data
      * @param string      $encoded_protected_header The Protected Header encoded in Base64Url
      * @param string      $tag                      Tag
      */
@@ -36,7 +36,7 @@ interface ContentEncryptionAlgorithm extends Algorithm
      * @param string      $data                     The data to decrypt
      * @param string      $cek                      The content encryption key
      * @param string      $iv                       The Initialization Vector
-     * @param string|null $aad                      Additional Additional Authenticated Data
+     * @param null|string $aad                      Additional Additional Authenticated Data
      * @param string      $encoded_protected_header The Protected Header encoded in Base64Url
      * @param string      $tag                      Tag
      */

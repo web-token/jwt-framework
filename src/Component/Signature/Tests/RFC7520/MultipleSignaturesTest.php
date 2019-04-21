@@ -20,6 +20,9 @@ use Jose\Component\Signature\Tests\SignatureTest;
  * @see https://tools.ietf.org/html/rfc7520#section-4.8
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class MultipleSignaturesTest extends SignatureTest
 {
@@ -34,7 +37,7 @@ class MultipleSignaturesTest extends SignatureTest
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
 
-        $rsa_private_key = JWK::create([
+        $rsa_private_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',
@@ -48,7 +51,7 @@ class MultipleSignaturesTest extends SignatureTest
             'qi' => '3PiqvXQN0zwMeE-sBvZgi289XP9XCQF3VWqPzMKnIgQp7_Tugo6-NZBKCQsMf3HaEGBjTVJs_jcK8-TRXvaKe-7ZMaQj8VfBdYkssbu0NKDDhjJ-GtiseaDVWt7dcH0cfwxgFUHpQh7FoCrjFJ6h6ZEpMF6xmujs4qMpPz8aaI4',
         ]);
 
-        $ecdsa_private_key = JWK::create([
+        $ecdsa_private_key = new JWK([
             'kty' => 'EC',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',
@@ -58,7 +61,7 @@ class MultipleSignaturesTest extends SignatureTest
             'd' => 'AAhRON2r9cqXX1hg-RoI6R1tX5p2rUAYdmpHZoC1XNM56KtscrX6zbKipQrCW9CGZH3T4ubpnoTKLDYJ_fF3_rJt',
         ]);
 
-        $symmetric_key = JWK::create([
+        $symmetric_key = new JWK([
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
@@ -73,7 +76,8 @@ class MultipleSignaturesTest extends SignatureTest
             ->addSignature($ecdsa_private_key, [], ['alg' => 'ES512', 'kid' => 'bilbo.baggins@hobbiton.example']) //@see https://tools.ietf.org/html/rfc7520#section-4.8.2
             ->addSignature($rsa_private_key, ['alg' => 'RS256'], ['kid' => 'bilbo.baggins@hobbiton.example'])    //@see https://tools.ietf.org/html/rfc7520#section-4.8.3
             ->addSignature($symmetric_key, ['alg' => 'HS256', 'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037'])   //@see https://tools.ietf.org/html/rfc7520#section-4.8.4
-            ->build();
+            ->build()
+        ;
 
         static::assertEquals(3, $jws->countSignatures());
 
@@ -81,9 +85,7 @@ class MultipleSignaturesTest extends SignatureTest
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $rsa_private_key, 1));
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $symmetric_key, 2));
 
-        /*
-         * @see https://tools.ietf.org/html/rfc7520#section-4.8.5
-         */
+        // @see https://tools.ietf.org/html/rfc7520#section-4.8.5
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"bilbo.baggins@hobbiton.example"},"signature":"MIsjqtVlOpa71KE-Mss8_Nq2YH4FGhiocsqrgi5NvyG53uoimic1tcMdSg-qptrzZc7CG6Svw2Y13TDIqHzTUrL_lR2ZFcryNFiHkSw129EghGpwkpxaTn_THJTCglNbADko1MZBCdwzJxwqZc-1RlpO2HibUYyXSwO97BSe0_evZKdjvvKSgsIqjytKSeAMbhMBdMma622_BG5t4sdbuCHtFjp9iJmkio47AIwqkZV1aIZsv33uPUqBBCXbYoQJwt7mxPftHmNlGoOSMxR_3thmXTCm4US-xiNOyhbm8afKK64jU6_TPtQHiJeQJxz9G3Tx-083B745_AfYOnlC9w"},{"header":{"alg":"ES512","kid":"bilbo.baggins@hobbiton.example"},"signature":"ARcVLnaJJaUWG8fG-8t5BREVAuTY8n8YHjwDO1muhcdCoFZFFjfISu0Cdkn9Ybdlmi54ho0x924DUz8sK7ZXkhc7AFM8ObLfTvNCrqcI3Jkl2U5IX3utNhODH6v7xgy1Qahsn0fyb4zSAkje8bAWz4vIfj5pCMYxxm4fgV3q7ZYhm5eD"},{"protected":"eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9","signature":"s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0"}]}';
 
         $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);

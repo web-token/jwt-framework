@@ -50,4 +50,4 @@ jobs:
               - wget -c https://get.sensiolabs.org/security-checker.phar
               - chmod +x security-checker.phar
           script:
-              - ./security-checker.phar
+              - ./security-checker.phar security:check

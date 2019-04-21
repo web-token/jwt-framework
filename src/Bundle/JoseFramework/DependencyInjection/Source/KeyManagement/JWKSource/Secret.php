@@ -43,7 +43,7 @@ class Secret extends AbstractSource implements JWKSource
         return 'secret';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
@@ -58,6 +58,7 @@ class Secret extends AbstractSource implements JWKSource
             ->useAttributeAsKey('key')
             ->variablePrototype()->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

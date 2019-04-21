@@ -17,6 +17,8 @@ use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
+use RuntimeException;
+use Throwable;
 
 class JWELoader
 {
@@ -26,7 +28,7 @@ class JWELoader
     private $jweDecrypter;
 
     /**
-     * @var HeaderCheckerManager|null
+     * @var null|HeaderCheckerManager
      */
     private $headerCheckerManager;
 
@@ -75,7 +77,7 @@ class JWELoader
      */
     public function loadAndDecryptWithKey(string $token, JWK $key, ?int &$recipient): JWE
     {
-        $keyset = JWKSet::createFromKeys([$key]);
+        $keyset = new JWKSet([$key]);
 
         return $this->loadAndDecryptWithKeySet($token, $keyset, $recipient);
     }
@@ -96,11 +98,11 @@ class JWELoader
                     return $jwe;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             // Nothing to do. Exception thrown just after
         }
 
-        throw new \Exception('Unable to load and decrypt the token.');
+        throw new RuntimeException('Unable to load and decrypt the token.');
     }
 
     private function processRecipient(JWE &$jwe, JWKSet $keyset, int $recipient): bool
@@ -111,7 +113,7 @@ class JWELoader
             }
 
             return $this->jweDecrypter->decryptUsingKeySet($jwe, $keyset, $recipient);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

@@ -21,15 +21,23 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWKSetAnalyzer
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKSetAnalyzerTest extends TestCase
 {
+    /**
+     * @var null|Analyzer\KeysetAnalyzerManager
+     */
+    private $keysetAnalyzerManager;
+
     /**
      * @test
      */
     public function theKeysetHasNoKey()
     {
-        $jwkset = JWKSet::createFromKeys([]);
+        $jwkset = new JWKSet([]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
 
         static::assertEmpty($messages);
@@ -40,11 +48,11 @@ class JWKSetAnalyzerTest extends TestCase
      */
     public function theKeysetDoesNotMixesKeys()
     {
-        $jwkset = JWKSet::createFromKeys([
-            JWK::create(['kty' => 'OKP']),
-            JWK::create(['kty' => 'OKP']),
-            JWK::create(['kty' => 'EC']),
-            JWK::create(['kty' => 'EC']),
+        $jwkset = new JWKSet([
+            new JWK(['kty' => 'OKP']),
+            new JWK(['kty' => 'OKP']),
+            new JWK(['kty' => 'EC']),
+            new JWK(['kty' => 'EC']),
         ]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
 
@@ -56,12 +64,12 @@ class JWKSetAnalyzerTest extends TestCase
      */
     public function theKeysetMixesKeys()
     {
-        $jwkset = JWKSet::createFromKeys([
-            JWK::create(['kty' => 'oct']),
-            JWK::create(['kty' => 'OKP']),
-            JWK::create(['kty' => 'OKP']),
-            JWK::create(['kty' => 'EC']),
-            JWK::create(['kty' => 'EC']),
+        $jwkset = new JWKSet([
+            new JWK(['kty' => 'oct']),
+            new JWK(['kty' => 'OKP']),
+            new JWK(['kty' => 'OKP']),
+            new JWK(['kty' => 'EC']),
+            new JWK(['kty' => 'EC']),
         ]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
 
@@ -73,10 +81,10 @@ class JWKSetAnalyzerTest extends TestCase
      */
     public function theKeysetHasOnlyPrivateKeys()
     {
-        $jwkset = JWKSet::createFromKeys([
-            JWK::create(['kty' => 'OKP', 'd' => 'foo']),
-            JWK::create(['kty' => 'RSA', 'd' => 'foo']),
-            JWK::create(['kty' => 'EC', 'd' => 'foo']),
+        $jwkset = new JWKSet([
+            new JWK(['kty' => 'OKP', 'd' => 'foo']),
+            new JWK(['kty' => 'RSA', 'd' => 'foo']),
+            new JWK(['kty' => 'EC', 'd' => 'foo']),
         ]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
 
@@ -88,10 +96,10 @@ class JWKSetAnalyzerTest extends TestCase
      */
     public function theKeysetHasOnlyPublicKeys()
     {
-        $jwkset = JWKSet::createFromKeys([
-            JWK::create(['kty' => 'OKP']),
-            JWK::create(['kty' => 'RSA']),
-            JWK::create(['kty' => 'EC']),
+        $jwkset = new JWKSet([
+            new JWK(['kty' => 'OKP']),
+            new JWK(['kty' => 'RSA']),
+            new JWK(['kty' => 'EC']),
         ]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
 
@@ -103,20 +111,15 @@ class JWKSetAnalyzerTest extends TestCase
      */
     public function theKeysetMixesPublicAndPrivateKeys()
     {
-        $jwkset = JWKSet::createFromKeys([
-            JWK::create(['kty' => 'OKP']),
-            JWK::create(['kty' => 'RSA']),
-            JWK::create(['kty' => 'EC', 'd' => 'foo']),
+        $jwkset = new JWKSet([
+            new JWK(['kty' => 'OKP']),
+            new JWK(['kty' => 'RSA']),
+            new JWK(['kty' => 'EC', 'd' => 'foo']),
         ]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
 
         static::assertNotEmpty($messages);
     }
-
-    /**
-     * @var Analyzer\KeysetAnalyzerManager|null
-     */
-    private $keysetAnalyzerManager;
 
     private function getKeysetAnalyzer(): Analyzer\KeysetAnalyzerManager
     {

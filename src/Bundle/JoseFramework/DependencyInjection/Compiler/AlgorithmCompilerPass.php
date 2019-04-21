@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
+use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,7 +21,10 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class AlgorithmCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(AlgorithmManagerFactory::class)) {
             return;
@@ -31,8 +35,8 @@ final class AlgorithmCompilerPass implements CompilerPassInterface
         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.algorithm');
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!\array_key_exists('alias', $attributes)) {
-                    throw new \InvalidArgumentException(\sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
+                if (!isset($attributes['alias'])) {
+                    throw new InvalidArgumentException(sprintf('The algorithm "%s" does not have any "alias" attribute.', $id));
                 }
                 $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
             }

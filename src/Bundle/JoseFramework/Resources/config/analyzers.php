@@ -13,25 +13,38 @@ declare(strict_types=1);
 
 use Jose\Component\KeyManagement\Analyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use ZxcvbnPhp\Zxcvbn;
 
 return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Analyzer\KeyAnalyzerManager::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Analyzer\KeysetAnalyzerManager::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Analyzer\AlgorithmAnalyzer::class);
     $container->set(Analyzer\UsageAnalyzer::class);
     $container->set(Analyzer\KeyIdentifierAnalyzer::class);
     $container->set(Analyzer\NoneAnalyzer::class);
     $container->set(Analyzer\OctAnalyzer::class);
-
     $container->set(Analyzer\MixedKeyTypes::class);
     $container->set(Analyzer\MixedPublicAndPrivateKeys::class);
+    $container->set(Analyzer\ES256KeyAnalyzer::class);
+    $container->set(Analyzer\ES384KeyAnalyzer::class);
+    $container->set(Analyzer\ES512KeyAnalyzer::class);
+    $container->set(Analyzer\HS256KeyAnalyzer::class);
+    $container->set(Analyzer\HS384KeyAnalyzer::class);
+    $container->set(Analyzer\HS512KeyAnalyzer::class);
+
+    if (class_exists(Zxcvbn::class)) {
+        $container->set(Analyzer\ZxcvbnKeyAnalyzer::class);
+    }
 };

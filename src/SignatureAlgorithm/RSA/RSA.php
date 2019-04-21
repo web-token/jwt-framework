@@ -13,16 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Util\RSA as JoseRSA;
 
 abstract class RSA implements SignatureAlgorithm
 {
-    abstract protected function getAlgorithm(): string;
-
-    abstract protected function getSignatureMethod(): int;
-
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
@@ -40,7 +37,7 @@ abstract class RSA implements SignatureAlgorithm
     {
         $this->checkKey($key);
         if (!$key->has('d')) {
-            throw new \InvalidArgumentException('The key is not a private key.');
+            throw new InvalidArgumentException('The key is not a private key.');
         }
 
         $priv = RSAKey::createFromJWK($key);
@@ -48,14 +45,18 @@ abstract class RSA implements SignatureAlgorithm
         return JoseRSA::sign($priv, $input, $this->getAlgorithm(), $this->getSignatureMethod());
     }
 
+    abstract protected function getAlgorithm(): string;
+
+    abstract protected function getSignatureMethod(): int;
+
     private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
+            throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['n', 'e'] as $k) {
             if (!$key->has($k)) {
-                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
+                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
             }
         }
     }

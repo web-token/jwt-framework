@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-class MissingMandatoryClaimException extends \Exception
+use Exception;
+
+class MissingMandatoryClaimException extends Exception
 {
     /**
      * @var string[]

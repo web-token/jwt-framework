@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
+use JsonSerializable;
 
-class JWK implements \JsonSerializable
+class JWK implements JsonSerializable
 {
     /**
      * @var array
@@ -23,26 +25,15 @@ class JWK implements \JsonSerializable
     private $values = [];
 
     /**
-     * JWK constructor.
-     */
-    private function __construct(array $values)
-    {
-        $this->values = $values;
-    }
-
-    /**
      * Creates a JWK object using the given values.
      * The member "kty" is mandatory. Other members are NOT checked.
-     *
-     * @return JWK
      */
-    public static function create(array $values): self
+    public function __construct(array $values)
     {
-        if (!\array_key_exists('kty', $values)) {
-            throw new \InvalidArgumentException('The parameter "kty" is mandatory.');
+        if (!isset($values['kty'])) {
+            throw new InvalidArgumentException('The parameter "kty" is mandatory.');
         }
-
-        return new self($values);
+        $this->values = $values;
     }
 
     /**
@@ -52,18 +43,18 @@ class JWK implements \JsonSerializable
      */
     public static function createFromJson(string $json): self
     {
-        $data = \json_decode($json, true);
+        $data = json_decode($json, true);
         if (!\is_array($data)) {
-            throw new \InvalidArgumentException('Invalid argument.');
+            throw new InvalidArgumentException('Invalid argument.');
         }
 
-        return self::create($data);
+        return new self($data);
     }
 
     /**
      * Returns the values to be serialized.
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->values;
     }
@@ -73,12 +64,12 @@ class JWK implements \JsonSerializable
      *
      * @param string $key The key
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function get(string $key)
     {
         if (!$this->has($key)) {
-            throw new \InvalidArgumentException(\sprintf('The value identified by "%s" does not exist.', $key));
+            throw new InvalidArgumentException(sprintf('The value identified by "%s" does not exist.', $key));
         }
 
         return $this->values[$key];
@@ -111,15 +102,14 @@ class JWK implements \JsonSerializable
      */
     public function thumbprint(string $hash_algorithm): string
     {
-        if (!\in_array($hash_algorithm, \hash_algos(), true)) {
-            throw new \InvalidArgumentException(\sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
+        if (!\in_array($hash_algorithm, hash_algos(), true)) {
+            throw new InvalidArgumentException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         }
+        $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
+        ksort($values);
+        $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        $values = \array_intersect_key($this->values, \array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
-        \ksort($values);
-        $input = \json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-
-        return Base64Url::encode(\hash($hash_algorithm, $input, true));
+        return Base64Url::encode(hash($hash_algorithm, $input, true));
     }
 
     /**
@@ -135,7 +125,7 @@ class JWK implements \JsonSerializable
      */
     public function toPublic(): self
     {
-        $values = \array_diff_key($this->values, \array_flip(['p', 'd', 'q', 'dp', 'dq', 'qi']));
+        $values = array_diff_key($this->values, array_flip(['p', 'd', 'q', 'dp', 'dq', 'qi']));
 
         return new self($values);
     }

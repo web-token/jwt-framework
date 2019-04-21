@@ -22,6 +22,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group Bundle
  * @group Configuration
+ *
+ * @internal
+ * @coversNothing
  */
 class KeyConfigurationTest extends TestCase
 {
@@ -29,17 +32,9 @@ class KeyConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        if (!\class_exists(JWKFactory::class)) {
+        if (!class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
-    }
-
-    protected function getConfiguration()
-    {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\KeyManagement\KeyManagementSource(),
-        ]);
     }
 
     /**
@@ -249,5 +244,13 @@ class KeyConfigurationTest extends TestCase
             ],
             'The child node "value" at path "jose.keys.foo.x5c" must be configured.'
         );
+    }
+
+    protected function getConfiguration()
+    {
+        return new Configuration('jose', [
+            new Source\Core\CoreSource(),
+            new Source\KeyManagement\KeyManagementSource(),
+        ]);
     }
 }

@@ -18,7 +18,8 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Console\EcKeyGeneratorCommand::class);
     $container->set(Console\EcKeysetGeneratorCommand::class);

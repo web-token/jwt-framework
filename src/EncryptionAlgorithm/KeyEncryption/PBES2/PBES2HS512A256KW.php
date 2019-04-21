@@ -17,6 +17,11 @@ use AESKW\A256KW as Wrapper;
 
 final class PBES2HS512A256KW extends PBES2AESKW
 {
+    public function name(): string
+    {
+        return 'PBES2-HS512+A256KW';
+    }
+
     protected function getWrapper()
     {
         return new Wrapper();
@@ -30,10 +35,5 @@ final class PBES2HS512A256KW extends PBES2AESKW
     protected function getKeySize(): int
     {
         return 32;
-    }
-
-    public function name(): string
-    {
-        return 'PBES2-HS512+A256KW';
     }
 }

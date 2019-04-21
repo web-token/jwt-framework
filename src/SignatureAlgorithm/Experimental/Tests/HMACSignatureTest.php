@@ -21,6 +21,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group NewAlgorithm
+ *
+ * @internal
+ * @coversNothing
  */
 class HMACSignatureTest extends TestCase
 {
@@ -53,13 +56,13 @@ class HMACSignatureTest extends TestCase
 
         $signature = $hmac->sign($key, $data);
 
-        static::assertEquals(\hex2bin('89f750759cb8ad93'), $signature);
+        static::assertEquals(hex2bin('89f750759cb8ad93'), $signature);
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
     private function getKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'oct',
             'k' => 'foo',
         ]);

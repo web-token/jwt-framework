@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 abstract class HMAC implements SignatureAlgorithm
@@ -25,24 +26,30 @@ abstract class HMAC implements SignatureAlgorithm
 
     public function verify(JWK $key, string $input, string $signature): bool
     {
-        return \hash_equals($this->sign($key, $input), $signature);
+        return hash_equals($this->sign($key, $input), $signature);
     }
 
     public function sign(JWK $key, string $input): string
     {
-        $this->checkKey($key);
+        $k = $this->getKey($key);
 
-        return \hash_hmac($this->getHashAlgorithm(), $input, Base64Url::decode($key->get('k')), true);
+        return hash_hmac($this->getHashAlgorithm(), $input, $k, true);
     }
 
-    protected function checkKey(JWK $key): void
+    protected function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
+            throw new InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
         }
+        $k = $key->get('k');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
+
+        return Base64Url::decode($k);
     }
 
     abstract protected function getHashAlgorithm(): string;

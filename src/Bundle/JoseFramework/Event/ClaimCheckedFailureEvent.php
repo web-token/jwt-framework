@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use Throwable;
 
 final class ClaimCheckedFailureEvent extends Event
 {
@@ -28,11 +29,11 @@ final class ClaimCheckedFailureEvent extends Event
     private $mandatoryClaims;
 
     /**
-     * @var \Throwable
+     * @var Throwable
      */
     private $throwable;
 
-    public function __construct(array $claims, array $mandatoryClaims, \Throwable $throwable)
+    public function __construct(array $claims, array $mandatoryClaims, Throwable $throwable)
     {
         $this->claims = $claims;
         $this->mandatoryClaims = $mandatoryClaims;
@@ -49,7 +50,7 @@ final class ClaimCheckedFailureEvent extends Event
         return $this->mandatoryClaims;
     }
 
-    public function getThrowable(): \Throwable
+    public function getThrowable(): Throwable
     {
         return $this->throwable;
     }

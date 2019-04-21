@@ -17,6 +17,11 @@ use Jose\Component\Encryption\Util\RSACrypt;
 
 final class RSAOAEP extends RSA
 {
+    public function name(): string
+    {
+        return 'RSA-OAEP';
+    }
+
     protected function getEncryptionMode(): int
     {
         return RSACrypt::ENCRYPTION_OAEP;
@@ -25,10 +30,5 @@ final class RSAOAEP extends RSA
     protected function getHashAlgorithm(): string
     {
         return 'sha1';
-    }
-
-    public function name(): string
-    {
-        return 'RSA-OAEP';
     }
 }

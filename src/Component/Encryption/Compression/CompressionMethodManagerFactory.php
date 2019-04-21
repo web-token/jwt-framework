@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+use InvalidArgumentException;
+
 class CompressionMethodManagerFactory
 {
     /**
@@ -27,9 +29,6 @@ class CompressionMethodManagerFactory
      */
     public function add(string $alias, CompressionMethod $compressionMethod): void
     {
-        if (\array_key_exists($alias, $this->compressionMethods)) {
-            throw new \InvalidArgumentException(\sprintf('The alias "%s" already exists.', $alias));
-        }
         $this->compressionMethods[$alias] = $compressionMethod;
     }
 
@@ -40,7 +39,7 @@ class CompressionMethodManagerFactory
      */
     public function aliases(): array
     {
-        return \array_keys($this->compressionMethods);
+        return array_keys($this->compressionMethods);
     }
 
     /**
@@ -63,11 +62,10 @@ class CompressionMethodManagerFactory
     {
         $compressionMethods = [];
         foreach ($aliases as $alias) {
-            if (\array_key_exists($alias, $this->compressionMethods)) {
-                $compressionMethods[] = $this->compressionMethods[$alias];
-            } else {
-                throw new \InvalidArgumentException(\sprintf('The compression method with the alias "%s" is not supported.', $alias));
+            if (!isset($this->compressionMethods[$alias])) {
+                throw new InvalidArgumentException(sprintf('The compression method with the alias "%s" is not supported.', $alias));
             }
+            $compressionMethods[] = $this->compressionMethods[$alias];
         }
 
         return new CompressionMethodManager($compressionMethods);

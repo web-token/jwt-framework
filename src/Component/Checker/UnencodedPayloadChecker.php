@@ -23,6 +23,9 @@ final class UnencodedPayloadChecker implements HeaderChecker
 {
     private const HEADER_NAME = 'b64';
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkHeader($value): void
     {
         if (!\is_bool($value)) {

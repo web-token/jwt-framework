@@ -40,7 +40,7 @@ class JWKSet extends AbstractSource implements JWKSource
         return 'jwkset';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
@@ -52,6 +52,7 @@ class JWKSet extends AbstractSource implements JWKSource
             ->info('The index of the key in the key set.')
             ->isRequired()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

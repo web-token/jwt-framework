@@ -22,6 +22,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group Bundle
  * @group Configuration
+ *
+ * @internal
+ * @coversNothing
  */
 class JwkUriConfigurationTest extends TestCase
 {
@@ -29,17 +32,9 @@ class JwkUriConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        if (!\class_exists(JWKFactory::class)) {
+        if (!class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
-    }
-
-    protected function getConfiguration()
-    {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\KeyManagement\KeyManagementSource(),
-        ]);
     }
 
     /**
@@ -114,5 +109,13 @@ class JwkUriConfigurationTest extends TestCase
             ],
             'The child node "path" at path "jose.jwk_uris.foo" must be configured.'
         );
+    }
+
+    protected function getConfiguration()
+    {
+        return new Configuration('jose', [
+            new Source\Core\CoreSource(),
+            new Source\KeyManagement\KeyManagementSource(),
+        ]);
     }
 }

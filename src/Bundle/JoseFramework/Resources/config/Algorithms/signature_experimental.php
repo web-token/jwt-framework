@@ -26,14 +26,18 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Algorithm\RS1::class)
-        ->tag('jose.algorithm', ['alias' => 'RS1']);
+        ->tag('jose.algorithm', ['alias' => 'RS1'])
+    ;
 
     $container->set(Algorithm\HS1::class)
-        ->tag('jose.algorithm', ['alias' => 'HS1']);
+        ->tag('jose.algorithm', ['alias' => 'HS1'])
+    ;
 
     $container->set(Algorithm\HS256_64::class)
-        ->tag('jose.algorithm', ['alias' => 'HS256/64']);
+        ->tag('jose.algorithm', ['alias' => 'HS256/64'])
+    ;
 };

@@ -24,15 +24,18 @@ use Symfony\Component\Serializer\Serializer;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 final class JWSNormalizerTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(BaseJWSBuilderFactory::class)) {
+        if (!class_exists(BaseJWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
-        if (!\class_exists(Serializer::class)) {
+        if (!class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -49,7 +52,7 @@ final class JWSNormalizerTest extends WebTestCase
         /** @var JWSBuilderFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -59,7 +62,8 @@ final class JWSNormalizerTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsNormalization($jws));
     }
@@ -75,7 +79,7 @@ final class JWSNormalizerTest extends WebTestCase
         /** @var JWSBuilderFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -85,7 +89,8 @@ final class JWSNormalizerTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsNormalization($jws));
         static::assertEquals($jws, $serializer->normalize($jws));
@@ -104,7 +109,7 @@ final class JWSNormalizerTest extends WebTestCase
         /** @var JWSBuilderFactory $jwsFactory */
         $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -114,7 +119,8 @@ final class JWSNormalizerTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsNormalization($jws));
         static::assertEquals($jws, $serializer->normalize($jws));

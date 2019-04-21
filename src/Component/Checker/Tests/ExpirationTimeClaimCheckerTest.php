@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group ClaimChecker
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class ExpirationTimeClaimCheckerTest extends TestCase
 {
@@ -41,7 +44,7 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     public function theExpirationTimeIsInThePast()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkClaim(\time() - 1);
+        $checker->checkClaim(time() - 1);
     }
 
     /**
@@ -50,7 +53,7 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     public function theExpirationTimeIsInTheFutur()
     {
         $checker = new ExpirationTimeChecker();
-        $checker->checkClaim(\time() + 3600);
+        $checker->checkClaim(time() + 3600);
         static::assertEquals('exp', $checker->supportedClaim());
     }
 }

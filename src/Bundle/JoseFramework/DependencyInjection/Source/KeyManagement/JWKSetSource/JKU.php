@@ -44,7 +44,7 @@ class JKU extends AbstractSource implements JWKSetSource
         return 'jku';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
@@ -60,6 +60,7 @@ class JKU extends AbstractSource implements JWKSetSource
             ->useAttributeAsKey('name')
             ->variablePrototype()->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

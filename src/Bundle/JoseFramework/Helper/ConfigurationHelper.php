@@ -367,11 +367,11 @@ class ConfigurationHelper
 
     private static function updateJoseConfiguration(ContainerBuilder $container, array $config, string $element): void
     {
-        $jose_config = \current($container->getExtensionConfig(self::BUNDLE_ALIAS));
+        $jose_config = current($container->getExtensionConfig(self::BUNDLE_ALIAS));
         if (!isset($jose_config[$element])) {
             $jose_config[$element] = [];
         }
-        $jose_config[$element] = \array_merge($jose_config[$element], $config[self::BUNDLE_ALIAS][$element]);
+        $jose_config[$element] = array_merge($jose_config[$element], $config[self::BUNDLE_ALIAS][$element]);
         $container->prependExtensionConfig(self::BUNDLE_ALIAS, $jose_config);
     }
 }

@@ -31,7 +31,7 @@ class JWSLoader implements Source
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.jws_loader.%s', $name);
+            $service_id = sprintf('jose.jws_loader.%s', $name);
             $definition = new Definition(JWSLoaderService::class);
             $definition
                 ->setFactory([new Reference(JWSLoaderFactory::class), 'create'])
@@ -41,7 +41,8 @@ class JWSLoader implements Source
                     $itemConfig['header_checkers'],
                 ])
                 ->addTag('jose.jws_loader')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -92,7 +93,8 @@ class JWSLoader implements Source
             ->end()
             ->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

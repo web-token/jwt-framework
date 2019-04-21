@@ -18,8 +18,10 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Algorithm\EdDSA::class)
-        ->tag('jose.algorithm', ['alias' => 'EdDSA']);
+        ->tag('jose.algorithm', ['alias' => 'EdDSA'])
+    ;
 };

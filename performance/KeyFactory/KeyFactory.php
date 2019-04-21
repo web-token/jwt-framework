@@ -32,12 +32,12 @@ final class KeyFactory
         $privateKey = $curve->createPrivateKey();
         $publicKey = $curve->createPublicKey($privateKey);
 
-        JWK::create([
+        new JWK([
             'kty' => 'EC',
             'crv' => $curve,
-            'd' => Base64Url::encode(\gmp_export($privateKey->getSecret())),
-            'x' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getX())),
-            'y' => Base64Url::encode(\gmp_export($publicKey->getPoint()->getY())),
+            'd' => Base64Url::encode(gmp_export($privateKey->getSecret())),
+            'x' => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
+            'y' => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
         ]);
     }
 
@@ -46,19 +46,19 @@ final class KeyFactory
      */
     public function usingOpenSSL()
     {
-        $key = \openssl_pkey_new([
+        $key = openssl_pkey_new([
             'curve_name' => 'prime256v1',
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
-        $res = \openssl_pkey_export($key, $out);
+        $res = openssl_pkey_export($key, $out);
         if (false === $res) {
             throw new \RuntimeException('Unable to create the key');
         }
-        $res = \openssl_pkey_get_private($out);
+        $res = openssl_pkey_get_private($out);
 
-        $details = \openssl_pkey_get_details($res);
+        $details = openssl_pkey_get_details($res);
 
-        JWK::create([
+        new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => Base64Url::encode($details['ec']['x']),

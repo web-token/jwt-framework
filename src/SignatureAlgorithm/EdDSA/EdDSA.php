@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 final class EdDSA implements SignatureAlgorithm
@@ -27,7 +28,7 @@ final class EdDSA implements SignatureAlgorithm
     {
         $this->checkKey($key);
         if (!$key->has('d')) {
-            throw new \InvalidArgumentException('The key is not private.');
+            throw new InvalidArgumentException('The EC key is not private');
         }
         $x = Base64Url::decode($key->get('x'));
         $d = Base64Url::decode($key->get('d'));
@@ -35,9 +36,9 @@ final class EdDSA implements SignatureAlgorithm
 
         switch ($key->get('crv')) {
             case 'Ed25519':
-                return \sodium_crypto_sign_detached($input, $secret);
+                return sodium_crypto_sign_detached($input, $secret);
             default:
-                throw new \InvalidArgumentException('Unsupported curve');
+                throw new InvalidArgumentException('Unsupported curve');
         }
     }
 
@@ -49,29 +50,29 @@ final class EdDSA implements SignatureAlgorithm
 
         switch ($key->get('crv')) {
             case 'Ed25519':
-                return \sodium_crypto_sign_verify_detached($signature, $input, $public);
+                return sodium_crypto_sign_verify_detached($signature, $input, $public);
             default:
-                throw new \InvalidArgumentException('Unsupported curve');
-        }
-    }
-
-    private function checkKey(JWK $key): void
-    {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
-        foreach (['x', 'crv'] as $k) {
-            if (!$key->has($k)) {
-                throw new \InvalidArgumentException(\sprintf('The key parameter "%s" is missing.', $k));
-            }
-        }
-        if (!\in_array($key->get('crv'), ['Ed25519'], true)) {
-            throw new \InvalidArgumentException('Unsupported curve.');
+                throw new InvalidArgumentException('Unsupported curve');
         }
     }
 
     public function name(): string
     {
         return 'EdDSA';
+    }
+
+    private function checkKey(JWK $key): void
+    {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
+        foreach (['x', 'crv'] as $k) {
+            if (!$key->has($k)) {
+                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+            }
+        }
+        if ('Ed25519' !== $key->get('crv')) {
+            throw new InvalidArgumentException('Unsupported curve.');
+        }
     }
 }

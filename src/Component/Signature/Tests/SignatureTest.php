@@ -28,6 +28,31 @@ abstract class SignatureTest extends TestCase
      */
     private $algorithmManagerFactory;
 
+    /**
+     * @var JWSBuilderFactory
+     */
+    private $jwsBuilderFactory;
+
+    /**
+     * @var JWSVerifierFactory
+     */
+    private $jwsVerifierFactory;
+
+    /**
+     * @var null|Serializer\JWSSerializerManagerFactory
+     */
+    private $jwsSerializerManagerFactory;
+
+    /**
+     * @var null|Serializer\JWSSerializerManager
+     */
+    private $jwsSerializerManager;
+
+    /**
+     * @var JWSLoaderFactory
+     */
+    private $jwsLoaderFactory;
+
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if (null === $this->algorithmManagerFactory) {
@@ -51,11 +76,6 @@ abstract class SignatureTest extends TestCase
         return $this->algorithmManagerFactory;
     }
 
-    /**
-     * @var JWSBuilderFactory
-     */
-    private $jwsBuilderFactory;
-
     protected function getJWSBuilderFactory(): JWSBuilderFactory
     {
         if (null === $this->jwsBuilderFactory) {
@@ -67,11 +87,6 @@ abstract class SignatureTest extends TestCase
         return $this->jwsBuilderFactory;
     }
 
-    /**
-     * @var JWSVerifierFactory
-     */
-    private $jwsVerifierFactory;
-
     protected function getJWSVerifierFactory(): JWSVerifierFactory
     {
         if (null === $this->jwsVerifierFactory) {
@@ -82,11 +97,6 @@ abstract class SignatureTest extends TestCase
 
         return $this->jwsVerifierFactory;
     }
-
-    /**
-     * @var Serializer\JWSSerializerManagerFactory|null
-     */
-    private $jwsSerializerManagerFactory = null;
 
     protected function getJWSSerializerManagerFactory(): Serializer\JWSSerializerManagerFactory
     {
@@ -100,11 +110,6 @@ abstract class SignatureTest extends TestCase
         return $this->jwsSerializerManagerFactory;
     }
 
-    /**
-     * @var Serializer\JWSSerializerManager|null
-     */
-    private $jwsSerializerManager = null;
-
     protected function getJWSSerializerManager(): Serializer\JWSSerializerManager
     {
         if (null === $this->jwsSerializerManager) {
@@ -117,11 +122,6 @@ abstract class SignatureTest extends TestCase
 
         return $this->jwsSerializerManager;
     }
-
-    /**
-     * @var JWSLoaderFactory
-     */
-    private $jwsLoaderFactory;
 
     protected function getJWSLoaderFactory(): JWSLoaderFactory
     {

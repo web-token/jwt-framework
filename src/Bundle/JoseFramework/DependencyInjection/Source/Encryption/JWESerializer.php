@@ -31,13 +31,14 @@ class JWESerializer implements Source
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.jwe_serializer.%s', $name);
+            $service_id = sprintf('jose.jwe_serializer.%s', $name);
             $definition = new Definition(JWESerializerManager::class);
             $definition
                 ->setFactory([new Reference(JWESerializerManagerFactory::class), 'create'])
                 ->setArguments([$itemConfig['serializers']])
                 ->addTag('jose.jwe_serializer_manager')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -76,7 +77,8 @@ class JWESerializer implements Source
             ->end()
             ->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

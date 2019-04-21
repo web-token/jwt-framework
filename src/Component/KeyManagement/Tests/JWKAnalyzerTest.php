@@ -21,9 +21,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWKAnalyzer
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKAnalyzerTest extends TestCase
 {
+    /**
+     * @var null|Analyzer\KeyAnalyzerManager
+     */
+    private $keyAnalyzerManager;
+
     /**
      * @test
      */
@@ -40,7 +48,7 @@ class JWKAnalyzerTest extends TestCase
      */
     public function iCanAnalyzeAnRsaKeyAndGetMessages()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'oaAQyGUwgwCfZQym0QQCeCJu6GfApv6nQBKJ3MgzT85kCUO3xDiudiDbJqgqn2ol',
             'e' => 'AQAB',
@@ -79,11 +87,6 @@ class JWKAnalyzerTest extends TestCase
 
         static::assertNotEmpty($messages);
     }
-
-    /**
-     * @var Analyzer\KeyAnalyzerManager|null
-     */
-    private $keyAnalyzerManager;
 
     private function getKeyAnalyzer(): Analyzer\KeyAnalyzerManager
     {

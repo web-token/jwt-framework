@@ -18,23 +18,30 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Algorithm\RS256::class)
-        ->tag('jose.algorithm', ['alias' => 'RS256']);
+        ->tag('jose.algorithm', ['alias' => 'RS256'])
+    ;
 
     $container->set(Algorithm\RS384::class)
-        ->tag('jose.algorithm', ['alias' => 'RS384']);
+        ->tag('jose.algorithm', ['alias' => 'RS384'])
+    ;
 
     $container->set(Algorithm\RS512::class)
-        ->tag('jose.algorithm', ['alias' => 'RS512']);
+        ->tag('jose.algorithm', ['alias' => 'RS512'])
+    ;
 
     $container->set(Algorithm\PS256::class)
-        ->tag('jose.algorithm', ['alias' => 'PS256']);
+        ->tag('jose.algorithm', ['alias' => 'PS256'])
+    ;
 
     $container->set(Algorithm\PS384::class)
-        ->tag('jose.algorithm', ['alias' => 'PS384']);
+        ->tag('jose.algorithm', ['alias' => 'PS384'])
+    ;
 
     $container->set(Algorithm\PS512::class)
-        ->tag('jose.algorithm', ['alias' => 'PS512']);
+        ->tag('jose.algorithm', ['alias' => 'PS512'])
+    ;
 };

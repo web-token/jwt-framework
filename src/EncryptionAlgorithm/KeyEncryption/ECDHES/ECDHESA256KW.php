@@ -17,14 +17,14 @@ use AESKW\A256KW as Wrapper;
 
 final class ECDHESA256KW extends ECDHESAESKW
 {
-    protected function getWrapper()
-    {
-        return new Wrapper();
-    }
-
     public function name(): string
     {
         return 'ECDH-ES+A256KW';
+    }
+
+    protected function getWrapper()
+    {
+        return new Wrapper();
     }
 
     protected function getKeyLength(): int

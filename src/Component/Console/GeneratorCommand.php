@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,22 +23,27 @@ abstract class GeneratorCommand extends ObjectOutputCommand
 {
     public function isEnabled()
     {
-        return \class_exists(JWKFactory::class);
+        return class_exists(JWKFactory::class);
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->addOption('use', 'u', InputOption::VALUE_OPTIONAL, 'Usage of the key. Must be either "sig" or "enc".')
             ->addOption('alg', 'a', InputOption::VALUE_OPTIONAL, 'Algorithm for the key.')
-            ->addOption('random_id', null, InputOption::VALUE_NONE, 'If this option is set, a random key ID (kid) will be generated.');
+            ->addOption('random_id', null, InputOption::VALUE_NONE, 'If this option is set, a random key ID (kid) will be generated.')
+        ;
     }
 
     protected function getOptions(InputInterface $input): array
     {
         $args = [];
-        if ($input->getOption('random_id')) {
+        $useRandomId = $input->getOption('random_id');
+        if (!\is_bool($useRandomId)) {
+            throw new InvalidArgumentException('Invalid value for option "random_id"');
+        }
+        if ($useRandomId) {
             $args['kid'] = $this->generateKeyID();
         }
         foreach (['use', 'alg'] as $key) {
@@ -52,6 +58,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
 
     private function generateKeyID(): string
     {
-        return Base64Url::encode(\random_bytes(32));
+        return Base64Url::encode(random_bytes(32));
     }
 }

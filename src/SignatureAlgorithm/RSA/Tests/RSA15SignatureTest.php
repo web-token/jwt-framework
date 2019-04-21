@@ -25,6 +25,9 @@ use PHPUnit\Framework\TestCase;
  * @see https://tools.ietf.org/html/rfc7520#section-4.1
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class RSA15SignatureTest extends TestCase
 {
@@ -40,7 +43,7 @@ class RSA15SignatureTest extends TestCase
          * @see https://tools.ietf.org/html/rfc7520#section-4.1.1
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
-        $privateKey = JWK::create([
+        $privateKey = new JWK([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
             'use' => 'sig',
@@ -78,7 +81,8 @@ class RSA15SignatureTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($privateKey, $header)
-            ->build();
+            ->build()
+        ;
 
         /*
          * Header
@@ -91,8 +95,8 @@ class RSA15SignatureTest extends TestCase
         static::assertEquals($expected_compact_json, $compactSerializer->serialize($jws, 0));
 
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
-        static::assertEquals(\json_decode($expected_flattened_json, true), \json_decode($jsonFlattenedSerializer->serialize($jws, 0), true));
-        static::assertEquals(\json_decode($expected_json, true), \json_decode($jsonGeneralSerializer->serialize($jws, 0), true));
+        static::assertEquals(json_decode($expected_flattened_json, true), json_decode($jsonFlattenedSerializer->serialize($jws, 0), true));
+        static::assertEquals(json_decode($expected_json, true), json_decode($jsonGeneralSerializer->serialize($jws, 0), true));
 
         $loaded_compact_json = $compactSerializer->unserialize($expected_compact_json);
         $jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0);

@@ -38,12 +38,19 @@ final class RsaAnalyzer implements KeyAnalyzer
 
     private function checkModulus(JWK $jwk, MessageBag $bag): void
     {
-        $n = 8 * \mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
+        $n = 8 * mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
         if ($n < 2048) {
             $bag->add(Message::high('The key length is less than 2048 bits.'));
         }
         if ($jwk->has('d') && (!$jwk->has('p') || !$jwk->has('q') || !$jwk->has('dp') || !$jwk->has('dq') || !$jwk->has('p') || !$jwk->has('qi'))) {
             $bag->add(Message::medium('The key is a private RSA key, but Chinese Remainder Theorem primes are missing. These primes are not mandatory, but signatures and decryption processes are faster when available.'));
+        }
+    }
+
+    private function checkOtherPrimes(JWK $jwk, MessageBag $bag): void
+    {
+        if (!$jwk->has('p') || !$jwk->has('q') || !$jwk->has('dp') || !$jwk->has('dq') || !$jwk->has('qi')) {
+            $bag->add(Message::medium('Other primes are not set. The key can be optimized.'));
         }
     }
 }

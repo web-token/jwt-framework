@@ -20,6 +20,7 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder as BaseJWSBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 final class JWSBuilder extends BaseJWSBuilder
 {
@@ -41,7 +42,7 @@ final class JWSBuilder extends BaseJWSBuilder
             $this->eventDispatcher->dispatch(Events::JWS_BUILT_SUCCESS, new JWSBuiltSuccessEvent($jws));
 
             return $jws;
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(Events::JWS_BUILT_FAILURE, new JWSBuiltFailureEvent(
                 $this->payload,
                 $this->signatures,

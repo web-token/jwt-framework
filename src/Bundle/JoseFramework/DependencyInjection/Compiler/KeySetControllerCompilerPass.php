@@ -13,13 +13,17 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
+use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\Routing\JWKSetLoader;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class KeySetControllerCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(JWKSetLoader::class)) {
             return;
@@ -30,8 +34,8 @@ final class KeySetControllerCompilerPass implements CompilerPassInterface
         $taggedAlgorithmServices = $container->findTaggedServiceIds('jose.jwk_uri.controller');
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                if (!\array_key_exists('path', $attributes)) {
-                    throw new \InvalidArgumentException(\sprintf("The algorithm '%s' does not have any 'alias' attribute.", $id));
+                if (!isset($attributes['path'])) {
+                    throw new InvalidArgumentException(sprintf('The algorithm "%s" does not have any "path" attribute.', $id));
                 }
                 $definition->addMethodCall('add', [$attributes['path'], $id]);
             }

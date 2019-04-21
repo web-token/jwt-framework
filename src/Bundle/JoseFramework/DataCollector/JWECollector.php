@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Bundle\JoseFramework\Event\Events;
+use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
@@ -30,12 +31,12 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 class JWECollector implements Collector, EventSubscriberInterface
 {
     /**
-     * @var JWESerializerManagerFactory|null
+     * @var null|JWESerializerManagerFactory
      */
     private $jweSerializerManagerFactory;
 
     /**
-     * @var CompressionMethodManagerFactory|null
+     * @var null|CompressionMethodManagerFactory
      */
     private $compressionMethodManagerFactory;
 
@@ -59,6 +60,21 @@ class JWECollector implements Collector, EventSubscriberInterface
      */
     private $jweBuiltFailures = [];
 
+    /**
+     * @var JWEBuilder[]
+     */
+    private $jweBuilders = [];
+
+    /**
+     * @var JWEDecrypter[]
+     */
+    private $jweDecrypters = [];
+
+    /**
+     * @var JWELoader[]
+     */
+    private $jweLoaders = [];
+
     public function __construct(?CompressionMethodManagerFactory $compressionMethodManagerFactory = null, ?JWESerializerManagerFactory $jweSerializerManagerFactory = null)
     {
         $this->compressionMethodManagerFactory = $compressionMethodManagerFactory;
@@ -73,6 +89,55 @@ class JWECollector implements Collector, EventSubscriberInterface
         $this->collectSupportedJWEDecrypters($data);
         $this->collectSupportedJWELoaders($data);
         $this->collectEvents($data);
+    }
+
+    public function addJWEBuilder(string $id, JWEBuilder $jweBuilder): void
+    {
+        $this->jweBuilders[$id] = $jweBuilder;
+    }
+
+    public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter): void
+    {
+        $this->jweDecrypters[$id] = $jweDecrypter;
+    }
+
+    public function addJWELoader(string $id, JWELoader $jweLoader): void
+    {
+        $this->jweLoaders[$id] = $jweLoader;
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            Events::JWE_DECRYPTION_SUCCESS => ['catchJweDecryptionSuccess'],
+            Events::JWE_DECRYPTION_FAILURE => ['catchJweDecryptionFailure'],
+            Events::JWE_BUILT_SUCCESS => ['catchJweBuiltSuccess'],
+            Events::JWE_BUILT_FAILURE => ['catchJweBuiltFailure'],
+        ];
+    }
+
+    public function catchJweDecryptionSuccess(JWEDecryptionSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweDecryptionSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweDecryptionFailure(JWEDecryptionFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweDecryptionFailures[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweBuiltSuccess(JWEBuiltSuccessEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweBuiltSuccesses[] = $cloner->cloneVar($event);
+    }
+
+    public function catchJweBuiltFailure(JWEBuiltFailureEvent $event): void
+    {
+        $cloner = new VarCloner();
+        $this->jweBuiltFailures[] = $cloner->cloneVar($event);
     }
 
     private function collectSupportedCompressionMethods(array &$data): void
@@ -146,36 +211,6 @@ class JWECollector implements Collector, EventSubscriberInterface
         ];
     }
 
-    /**
-     * @var JWEBuilder[]
-     */
-    private $jweBuilders = [];
-
-    public function addJWEBuilder(string $id, JWEBuilder $jweBuilder): void
-    {
-        $this->jweBuilders[$id] = $jweBuilder;
-    }
-
-    /**
-     * @var JWEDecrypter[]
-     */
-    private $jweDecrypters = [];
-
-    public function addJWEDecrypter(string $id, JWEDecrypter $jweDecrypter): void
-    {
-        $this->jweDecrypters[$id] = $jweDecrypter;
-    }
-
-    /**
-     * @var JWELoader[]
-     */
-    private $jweLoaders = [];
-
-    public function addJWELoader(string $id, JWELoader $jweLoader): void
-    {
-        $this->jweLoaders[$id] = $jweLoader;
-    }
-
     private function getCompressionMethodMessages(): array
     {
         return [
@@ -188,39 +223,5 @@ class JWECollector implements Collector, EventSubscriberInterface
                 'message' => 'This algorithm is not described in any specification. Use for specific applications only.',
             ],
         ];
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return [
-            Events::JWE_DECRYPTION_SUCCESS => ['catchJweDecryptionSuccess'],
-            Events::JWE_DECRYPTION_FAILURE => ['catchJweDecryptionFailure'],
-            Events::JWE_BUILT_SUCCESS => ['catchJweBuiltSuccess'],
-            Events::JWE_BUILT_FAILURE => ['catchJweBuiltFailure'],
-        ];
-    }
-
-    public function catchJweDecryptionSuccess(JWEDecryptionSuccessEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jweDecryptionSuccesses[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJweDecryptionFailure(JWEDecryptionFailureEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jweDecryptionFailures[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJweBuiltSuccess(JWEBuiltSuccessEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jweBuiltSuccesses[] = $cloner->cloneVar($event);
-    }
-
-    public function catchJweBuiltFailure(JWEBuiltFailureEvent $event): void
-    {
-        $cloner = new VarCloner();
-        $this->jweBuiltFailures[] = $cloner->cloneVar($event);
     }
 }

@@ -14,9 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
+use LogicException;
+use Throwable;
 
 final class CompactSerializer implements JWESerializer
 {
@@ -43,7 +46,7 @@ final class CompactSerializer implements JWESerializer
         $this->checkHasSharedProtectedHeader($jwe);
         $this->checkRecipientHasNoHeader($jwe, $recipientIndex);
 
-        return \sprintf(
+        return sprintf(
             '%s.%s.%s.%s.%s',
             $jwe->getEncodedSharedProtectedHeader(),
             Base64Url::encode(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),
@@ -55,15 +58,15 @@ final class CompactSerializer implements JWESerializer
 
     public function unserialize(string $input): JWE
     {
-        $parts = \explode('.', $input);
+        $parts = explode('.', $input);
         if (5 !== \count($parts)) {
-            throw new \InvalidArgumentException('Unsupported input');
+            throw new InvalidArgumentException('Unsupported input');
         }
 
         try {
             $encodedSharedProtectedHeader = $parts[0];
             $sharedProtectedHeader = JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader));
-            $encryptedKey = empty($parts[1]) ? null : Base64Url::decode($parts[1]);
+            $encryptedKey = '' === $parts[1] ? null : Base64Url::decode($parts[1]);
             $iv = Base64Url::decode($parts[2]);
             $ciphertext = Base64Url::decode($parts[3]);
             $tag = Base64Url::decode($parts[4]);
@@ -76,30 +79,31 @@ final class CompactSerializer implements JWESerializer
                 [],
                 $sharedProtectedHeader,
                 $encodedSharedProtectedHeader,
-                [new Recipient([], $encryptedKey)]);
-        } catch (\Error | \Exception $e) {
-            throw new \InvalidArgumentException('Unsupported input');
+                [new Recipient([], $encryptedKey)]
+            );
+        } catch (Throwable $throwable) {
+            throw new InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
         }
     }
 
-    private function checkHasNoAAD(JWE $jwe)
+    private function checkHasNoAAD(JWE $jwe): void
     {
-        if (!empty($jwe->getAAD())) {
-            throw new \LogicException('This JWE has AAD and cannot be converted into Compact JSON.');
+        if (null !== $jwe->getAAD()) {
+            throw new LogicException('This JWE has AAD and cannot be converted into Compact JSON.');
         }
     }
 
-    private function checkRecipientHasNoHeader(JWE $jwe, int $id)
+    private function checkRecipientHasNoHeader(JWE $jwe, int $id): void
     {
-        if (!empty($jwe->getSharedHeader()) || !empty($jwe->getRecipient($id)->getHeader())) {
-            throw new \LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
+        if (0 !== \count($jwe->getSharedHeader()) || 0 !== \count($jwe->getRecipient($id)->getHeader())) {
+            throw new LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
         }
     }
 
-    private function checkHasSharedProtectedHeader(JWE $jwe)
+    private function checkHasSharedProtectedHeader(JWE $jwe): void
     {
-        if (empty($jwe->getSharedProtectedHeader())) {
-            throw new \LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
+        if (0 === \count($jwe->getSharedProtectedHeader())) {
+            throw new LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
         }
     }
 }

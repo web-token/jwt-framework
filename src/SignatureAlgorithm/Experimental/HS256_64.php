@@ -17,20 +17,20 @@ use Jose\Component\Core\JWK;
 
 final class HS256_64 extends HMAC
 {
-    protected function getHashAlgorithm(): string
-    {
-        return 'sha256';
-    }
-
     public function sign(JWK $key, string $input): string
     {
         $signature = parent::sign($key, $input);
 
-        return \mb_substr($signature, 0, 8, '8bit');
+        return mb_substr($signature, 0, 8, '8bit');
     }
 
     public function name(): string
     {
         return 'HS256/64';
+    }
+
+    protected function getHashAlgorithm(): string
+    {
+        return 'sha256';
     }
 }

@@ -37,27 +37,20 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         $this->protectedHeader = $protectedHeader;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkClaim($value): void
     {
         $this->checkValue($value, InvalidClaimException::class);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkHeader($value): void
     {
         $this->checkValue($value, InvalidHeaderException::class);
-    }
-
-    private function checkValue($value, string $class): void
-    {
-        if (\is_string($value) && $value !== $this->audience) {
-            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        }
-        if (\is_array($value) && !\in_array($this->audience, $value, true)) {
-            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        }
-        if (!\is_array($value) && !\is_string($value)) {
-            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
-        }
     }
 
     public function supportedClaim(): string
@@ -73,5 +66,21 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function checkValue($value, string $class): void
+    {
+        if (\is_string($value) && $value !== $this->audience) {
+            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
+        }
+        if (\is_array($value) && !\in_array($this->audience, $value, true)) {
+            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
+        }
+        if (!\is_array($value) && !\is_string($value)) {
+            throw new $class('Bad audience.', self::CLAIM_NAME, $value);
+        }
     }
 }

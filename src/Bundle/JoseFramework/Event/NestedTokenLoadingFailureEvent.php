@@ -15,11 +15,12 @@ namespace Jose\Bundle\JoseFramework\Event;
 
 use Jose\Component\Core\JWKSet;
 use Symfony\Component\EventDispatcher\Event;
+use Throwable;
 
 final class NestedTokenLoadingFailureEvent extends Event
 {
     /**
-     * @var \Throwable
+     * @var Throwable
      */
     private $throwable;
 
@@ -38,7 +39,7 @@ final class NestedTokenLoadingFailureEvent extends Event
      */
     private $encryptionKeySet;
 
-    public function __construct(string $token, JWKSet $signatureKeySet, JWKSet $encryptionKeySet, \Throwable $throwable)
+    public function __construct(string $token, JWKSet $signatureKeySet, JWKSet $encryptionKeySet, Throwable $throwable)
     {
         $this->throwable = $throwable;
         $this->token = $token;
@@ -61,7 +62,7 @@ final class NestedTokenLoadingFailureEvent extends Event
         return $this->encryptionKeySet;
     }
 
-    public function getThrowable(): \Throwable
+    public function getThrowable(): Throwable
     {
         return $this->throwable;
     }

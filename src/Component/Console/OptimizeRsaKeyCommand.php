@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
@@ -22,23 +23,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class OptimizeRsaKeyCommand extends ObjectOutputCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->setName('key:optimize')
             ->setDescription('Optimize a RSA key by calculating additional primes (CRT).')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.');
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
         $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
-            throw new \InvalidArgumentException('Invalid input.');
+            throw new InvalidArgumentException('Invalid input.');
         }
-        $key = RSAKey::createFromJWK(JWK::create($json));
+        $key = RSAKey::createFromJWK(new JWK($json));
         $key->optimize();
         $this->prepareJsonOutput($input, $output, $key->toJwk());
     }

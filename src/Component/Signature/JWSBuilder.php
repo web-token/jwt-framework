@@ -14,16 +14,19 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use LogicException;
+use RuntimeException;
 
 class JWSBuilder
 {
     /**
-     * @var string|null
+     * @var null|string
      */
     protected $payload;
 
@@ -38,14 +41,14 @@ class JWSBuilder
     protected $signatures = [];
 
     /**
+     * @var null|bool
+     */
+    protected $isPayloadEncoded;
+
+    /**
      * @var AlgorithmManager
      */
     private $signatureAlgorithmManager;
-
-    /**
-     * @var bool|null
-     */
-    protected $isPayloadEncoded = null;
 
     public function __construct(AlgorithmManager $signatureAlgorithmManager)
     {
@@ -83,8 +86,8 @@ class JWSBuilder
      */
     public function withPayload(string $payload, bool $isPayloadDetached = false): self
     {
-        if (false === \mb_detect_encoding($payload, 'UTF-8', true)) {
-            throw new \InvalidArgumentException('The payload must be encoded in UTF-8');
+        if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
+            throw new InvalidArgumentException('The payload must be encoded in UTF-8');
         }
         $clone = clone $this;
         $clone->payload = $payload;
@@ -106,7 +109,7 @@ class JWSBuilder
         if (null === $this->isPayloadEncoded) {
             $this->isPayloadEncoded = $isPayloadEncoded;
         } elseif ($this->isPayloadEncoded !== $isPayloadEncoded) {
-            throw new \InvalidArgumentException('Foreign payload encoding detected.');
+            throw new InvalidArgumentException('Foreign payload encoding detected.');
         }
         $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
         KeyChecker::checkKeyUsage($signatureKey, 'signature');
@@ -129,10 +132,10 @@ class JWSBuilder
     public function build(): JWS
     {
         if (null === $this->payload) {
-            throw new \RuntimeException('The payload is not set.');
+            throw new RuntimeException('The payload is not set.');
         }
         if (0 === \count($this->signatures)) {
-            throw new \RuntimeException('At least one signature must be set.');
+            throw new RuntimeException('At least one signature must be set.');
         }
 
         $encodedPayload = false === $this->isPayloadEncoded ? $this->payload : Base64Url::encode($this->payload);
@@ -146,8 +149,8 @@ class JWSBuilder
             $protectedHeader = $signature['protected_header'];
             /** @var array $header */
             $header = $signature['header'];
-            $encodedProtectedHeader = empty($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
-            $input = \sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
+            $encodedProtectedHeader = 0 === \count($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
+            $input = sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
             $s = $signatureAlgorithm->sign($signatureKey, $input);
             $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
         }
@@ -160,45 +163,45 @@ class JWSBuilder
         return !\array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
     }
 
-    private function checkB64AndCriticalHeader(array $protectedHeader)
+    private function checkB64AndCriticalHeader(array $protectedHeader): void
     {
         if (!\array_key_exists('b64', $protectedHeader)) {
             return;
         }
         if (!\array_key_exists('crit', $protectedHeader)) {
-            throw new \LogicException('The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.');
+            throw new LogicException('The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.');
         }
         if (!\is_array($protectedHeader['crit'])) {
-            throw new \LogicException('The protected header parameter "crit" must be an array.');
+            throw new LogicException('The protected header parameter "crit" must be an array.');
         }
         if (!\in_array('b64', $protectedHeader['crit'], true)) {
-            throw new \LogicException('The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.');
+            throw new LogicException('The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.');
         }
     }
 
     private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): SignatureAlgorithm
     {
-        $completeHeader = \array_merge($header, $protectedHeader);
+        $completeHeader = array_merge($header, $protectedHeader);
         if (!\array_key_exists('alg', $completeHeader)) {
-            throw new \InvalidArgumentException('No "alg" parameter set in the header.');
+            throw new InvalidArgumentException('No "alg" parameter set in the header.');
         }
         if ($key->has('alg') && $key->get('alg') !== $completeHeader['alg']) {
-            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not allowed with this key.', $completeHeader['alg']));
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not allowed with this key.', $completeHeader['alg']));
         }
 
         $signatureAlgorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
         if (!$signatureAlgorithm instanceof SignatureAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not supported.', $completeHeader['alg']));
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $completeHeader['alg']));
         }
 
         return $signatureAlgorithm;
     }
 
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2)
+    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
-        $inter = \array_intersect_key($header1, $header2);
-        if (!empty($inter)) {
-            throw new \InvalidArgumentException(\sprintf('The header contains duplicated entries: %s.', \implode(', ', \array_keys($inter))));
+        $inter = array_intersect_key($header1, $header2);
+        if (0 !== \count($inter)) {
+            throw new InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
         }
     }
 }

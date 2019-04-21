@@ -34,15 +34,6 @@ class ClaimCheckerManager
     }
 
     /**
-     * @return ClaimCheckerManager
-     */
-    private function add(ClaimChecker $checker): void
-    {
-        $claim = $checker->supportedClaim();
-        $this->checkers[$claim] = $checker;
-    }
-
-    /**
      * This method returns all checkers handled by this manager.
      *
      * @return ClaimChecker[]
@@ -76,18 +67,23 @@ class ClaimCheckerManager
         return $checkedClaims;
     }
 
+    private function add(ClaimChecker $checker): void
+    {
+        $claim = $checker->supportedClaim();
+        $this->checkers[$claim] = $checker;
+    }
+
     /**
      * @param string[] $mandatoryClaims
      */
-    private function checkMandatoryClaims(array $mandatoryClaims, array $claims)
+    private function checkMandatoryClaims(array $mandatoryClaims, array $claims): void
     {
-        if (empty($mandatoryClaims)) {
+        if (0 === \count($mandatoryClaims)) {
             return;
         }
-        $diff = \array_keys(\array_diff_key(\array_flip($mandatoryClaims), $claims));
-
-        if (!empty($diff)) {
-            throw new MissingMandatoryClaimException(\sprintf('The following claims are mandatory: %s.', \implode(', ', $diff)), $diff);
+        $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
+        if (0 !== \count($diff)) {
+            throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', implode(', ', $diff)), $diff);
         }
     }
 }

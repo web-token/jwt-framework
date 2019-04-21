@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -35,14 +36,15 @@ final class KeysetAnalyzerCommand extends Command
         $this->analyzerManager = $analyzerManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->setName('keyset:analyze')
             ->setDescription('JWKSet quality analyzer.')
             ->setHelp('This command will analyze a JWKSet object and find security issues.')
-            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
+            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -60,12 +62,12 @@ final class KeysetAnalyzerCommand extends Command
         $mixedKeys = false;
 
         foreach ($jwkset as $kid => $jwk) {
-            $output->writeln(\sprintf('Analysing key with index/kid "%s"', $kid));
+            $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
             $messages = $this->analyzerManager->analyze($jwk);
             if (0 === $messages->count()) {
                 $output->writeln('    <success>All good! No issue found.</success>');
             } else {
-                foreach ($messages as $message) {
+                foreach ($messages->all() as $message) {
                     $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
                 }
             }
@@ -105,11 +107,14 @@ final class KeysetAnalyzerCommand extends Command
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
+        if (!\is_string($jwkset)) {
+            throw new InvalidArgumentException('Invalid JWKSet');
+        }
         $json = JsonConverter::decode($jwkset);
-        if (\is_array($json)) {
-            return JWKSet::createFromKeyData($json);
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
+        return JWKSet::createFromKeyData($json);
     }
 }

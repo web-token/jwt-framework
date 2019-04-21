@@ -15,13 +15,13 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 final class A128GCMKW extends AESGCMKW
 {
-    protected function getKeySize(): int
-    {
-        return 128;
-    }
-
     public function name(): string
     {
         return 'A128GCMKW';
+    }
+
+    protected function getKeySize(): int
+    {
+        return 128;
     }
 }

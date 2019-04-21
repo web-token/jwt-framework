@@ -21,6 +21,7 @@ use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
 use Jose\Component\Core\JWK;
+use RuntimeException;
 
 /**
  * @internal
@@ -58,9 +59,9 @@ class RSAKey
     private $public_exponent;
 
     /**
-     * @var BigInteger|null
+     * @var null|BigInteger
      */
-    private $private_exponent = null;
+    private $private_exponent;
 
     /**
      * @var BigInteger[]
@@ -73,13 +74,13 @@ class RSAKey
     private $exponents = [];
 
     /**
-     * @var BigInteger|null
+     * @var null|BigInteger
      */
-    private $coefficient = null;
+    private $coefficient;
 
     private function __construct(JWK $data)
     {
-        $this->loadJWK($data->all());
+        $this->values = $data->all();
         $this->populateBigIntegers();
         $this->private = \array_key_exists('d', $this->values);
     }
@@ -163,7 +164,7 @@ class RSAKey
             }
         }
 
-        return new self(JWK::create($data));
+        return new self(new JWK($data));
     }
 
     public function toArray(): array
@@ -171,22 +172,55 @@ class RSAKey
         return $this->values;
     }
 
-    private function loadJWK(array $jwk)
+    public function toPEM(): string
     {
-        if (!\array_key_exists('kty', $jwk)) {
-            throw new \InvalidArgumentException('The key parameter "kty" is missing.');
+        if (null === $this->sequence) {
+            $this->sequence = new Sequence();
+            if (\array_key_exists('d', $this->values)) {
+                $this->initPrivateKey();
+            } else {
+                $this->initPublicKey();
+            }
         }
-        if ('RSA' !== $jwk['kty']) {
-            throw new \InvalidArgumentException('The JWK is not a RSA key.');
-        }
+        $result = '-----BEGIN '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
+        $result .= chunk_split(base64_encode($this->sequence->getBinary()), 64, PHP_EOL);
+        $result .= '-----END '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
 
-        $this->values = $jwk;
+        return $result;
     }
 
-    private function populateBigIntegers()
+    /**
+     * Exponentiate with or without Chinese Remainder Theorem.
+     * Operation with primes 'p' and 'q' is appox. 2x faster.
+     *
+     * @param RSAKey $key
+     */
+    public static function exponentiate(self $key, BigInteger $c): BigInteger
+    {
+        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
+            throw new RuntimeException();
+        }
+        if ($key->isPublic() || null === $key->getCoefficient() || 0 === \count($key->getPrimes()) || 0 === \count($key->getExponents())) {
+            return $c->modPow($key->getExponent(), $key->getModulus());
+        }
+
+        $p = $key->getPrimes()[0];
+        $q = $key->getPrimes()[1];
+        $dP = $key->getExponents()[0];
+        $dQ = $key->getExponents()[1];
+        $qInv = $key->getCoefficient();
+
+        $m1 = $c->modPow($dP, $p);
+        $m2 = $c->modPow($dQ, $q);
+        $h = $qInv->multiply($m1->subtract($m2)->add($p))->mod($p);
+
+        return $m2->add($h->multiply($q));
+    }
+
+    private function populateBigIntegers(): void
     {
         $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
-        $this->modulus_length = \mb_strlen($this->getModulus()->toBytes(), '8bit');
+        $this->modulus_length = mb_strlen($this->getModulus()->toBytes(), '8bit');
         $this->public_exponent = $this->convertBase64StringToBigInteger($this->values['e']);
 
         if (!$this->isPublic()) {
@@ -213,24 +247,7 @@ class RSAKey
         return BigInteger::createFromBinaryString(Base64Url::decode($value));
     }
 
-    public function toPEM(): string
-    {
-        if (null === $this->sequence) {
-            $this->sequence = new Sequence();
-            if (\array_key_exists('d', $this->values)) {
-                $this->initPrivateKey();
-            } else {
-                $this->initPublicKey();
-            }
-        }
-        $result = '-----BEGIN '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
-        $result .= \chunk_split(\base64_encode($this->sequence->getBinary()), 64, PHP_EOL);
-        $result .= '-----END '.($this->private ? 'RSA PRIVATE' : 'PUBLIC').' KEY-----'.PHP_EOL;
-
-        return $result;
-    }
-
-    private function initPublicKey()
+    private function initPublicKey(): void
     {
         $oid_sequence = new Sequence();
         $oid_sequence->addChild(new ObjectIdentifier('1.2.840.113549.1.1.1'));
@@ -241,11 +258,11 @@ class RSAKey
         $key_sequence = new Sequence();
         $key_sequence->addChild($n);
         $key_sequence->addChild($e);
-        $key_bit_string = new BitString(\bin2hex($key_sequence->getBinary()));
+        $key_bit_string = new BitString(bin2hex($key_sequence->getBinary()));
         $this->sequence->addChild($key_bit_string);
     }
 
-    private function initPrivateKey()
+    private function initPrivateKey(): void
     {
         $this->sequence->addChild(new Integer(0));
         $oid_sequence = new Sequence();
@@ -271,7 +288,7 @@ class RSAKey
         $key_sequence->addChild($dp);
         $key_sequence->addChild($dq);
         $key_sequence->addChild($qi);
-        $key_octet_string = new OctetString(\bin2hex($key_sequence->getBinary()));
+        $key_octet_string = new OctetString(bin2hex($key_sequence->getBinary()));
         $this->sequence->addChild($key_octet_string);
     }
 
@@ -282,35 +299,6 @@ class RSAKey
      */
     private function fromBase64ToInteger($value)
     {
-        return \gmp_strval(\gmp_init(\current(\unpack('H*', Base64Url::decode($value))), 16), 10);
-    }
-
-    /**
-     * Exponentiate with or without Chinese Remainder Theorem.
-     * Operation with primes 'p' and 'q' is appox. 2x faster.
-     *
-     * @param RSAKey $key
-     */
-    public static function exponentiate(self $key, BigInteger $c): BigInteger
-    {
-        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
-            throw new \RuntimeException();
-        }
-        if ($key->isPublic() || empty($key->getPrimes()) || empty($key->getExponents()) || null === $key->getCoefficient()) {
-            return $c->modPow($key->getExponent(), $key->getModulus());
-        }
-
-        $p = $key->getPrimes()[0];
-        $q = $key->getPrimes()[1];
-        $dP = $key->getExponents()[0];
-        $dQ = $key->getExponents()[1];
-        $qInv = $key->getCoefficient();
-
-        $m1 = $c->modPow($dP, $p);
-        $m2 = $c->modPow($dQ, $q);
-        $h = $qInv->multiply($m1->subtract($m2)->add($p))->mod($p);
-        $m = $m2->add($h->multiply($q));
-
-        return $m;
+        return gmp_strval(gmp_init(current(unpack('H*', Base64Url::decode($value))), 16), 10);
     }
 }

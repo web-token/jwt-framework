@@ -19,16 +19,20 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(Services\JWEBuilderFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Services\JWEDecrypterFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Services\JWELoaderFactory::class)
-        ->public();
+        ->public()
+    ;
 
     $container->set(Encryption\JWETokenSupport::class);
 };

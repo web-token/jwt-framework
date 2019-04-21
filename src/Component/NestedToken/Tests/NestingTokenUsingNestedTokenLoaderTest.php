@@ -39,15 +39,53 @@ use PHPUnit\Framework\TestCase;
  *
  * @group RFC7520
  * @group NestedToken
+ *
+ * @internal
+ * @coversNothing
  */
 class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 {
+    /**
+     * @var JWSLoaderFactory
+     */
+    private $jwsLoaderFactory;
+
+    /**
+     * @var JWELoaderFactory
+     */
+    private $jweLoaderFactory;
+
+    /**
+     * @var NestedTokenLoaderFactory
+     */
+    private $nestedTokenLoaderFactory;
+
+    /**
+     * @var AlgorithmManagerFactory
+     */
+    private $algorithmManagerFactory;
+
+    /**
+     * @var CompressionMethodManagerFactory
+     */
+    private $compressionMethodManagerFactory;
+
+    /**
+     * @var JWEDecrypterFactory
+     */
+    private $jweDecrypterFactory;
+
+    /**
+     * @var null|JweSerializer\JWESerializerManagerFactory
+     */
+    private $jwsSerializerManagerFactory;
+
     protected function setUp()
     {
-        if (!\class_exists(HeaderCheckerManagerFactory::class)) {
+        if (!class_exists(HeaderCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
-        if (!\class_exists(JWSLoader::class)) {
+        if (!class_exists(JWSLoader::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
@@ -59,7 +97,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
 
-        $encryption_key = JWK::create([
+        $encryption_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'samwise.gamgee@hobbiton.example',
             'use' => 'enc',
@@ -73,7 +111,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
             'dq' => 'S6p59KrlmzGzaQYQM3o0XfHCGvfqHLYjCO557HYQf72O9kLMCfd_1VBEqeD-1jjwELKDjck8kOBl5UvohK1oDfSP1DleAy-cnmL29DqWmhgwM1ip0CCNmkmsmDSlqkUXDi6sAaZuntyukyflI-qSQ3C_BafPyFaKrt1fgdyEwYa08pESKwwWisy7KnmoUvaJ3SaHmohFS78TJ25cfc10wZ9hQNOrIChZlkiOdFCtxDqdmCqNacnhgE3bZQjGp3n83ODSz9zwJcSUvODlXBPc2AycH6Ci5yjbxt4Ppox_5pjm6xnQkiPgj01GpsUssMmBN7iHVsrE7N2iznBNCeOUIQ',
             'qi' => 'FZhClBMywVVjnuUud-05qd5CYU0dK79akAgy9oX6RX6I3IIIPckCciRrokxglZn-omAY5CnCe4KdrnjFOT5YUZE7G_Pg44XgCXaarLQf4hl80oPEf6-jJ5Iy6wPRx7G2e8qLxnh9cOdf-kRqgOS3F48Ucvw3ma5V6KGMwQqWFeV31XtZ8l5cVI-I3NzBS7qltpUVgz2Ju021eyc7IlqgzR98qKONl27DuEES0aK0WE97jnsyO27Yp88Wa2RiBrEocM89QZI1seJiGDizHRUP4UZxw9zsXww46wy0P6f9grnYp7t8LkyDDk8eoI4KX6SNMNVcyVS9IWjlq8EzqZEKIA',
         ]);
-        $encryption_key_set = JWKSet::createFromKeys([$encryption_key]);
+        $encryption_key_set = new JWKSet([$encryption_key]);
 
         $nestedTokenLoader = $this->getNestedTokenLoaderFactory()->create(
             ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general'],
@@ -86,7 +124,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
             []
         );
 
-        $signature_key = JWK::create([
+        $signature_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'hobbiton.example',
             'use' => 'sig',
@@ -99,7 +137,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
             'dq' => 'R9FUvU88OVzEkTkXl3-5-WusE4DjHmndeZIlu3rifBdfLpq_P-iWPBbGaq9wzQ1c-J7SzCdJqkEJDv5yd2C7rnZ6kpzwBh_nmL8zscAk1qsunnt9CJGAYz7-sGWy1JGShFazfP52ThB4rlCJ0YuEaQMrIzpY77_oLAhpmDA0hLk',
             'qi' => 'S8tC7ZknW6hPITkjcwttQOPLVmRfwirRlFAViuDb8NW9CrV_7F2OqUZCqmzHTYAumwGFHI1WVRep7anleWaJjxC_1b3fq_al4qH3Pe-EKiHg6IMazuRtZLUROcThrExDbF5dYbsciDnfRUWLErZ4N1Be0bnxYuPqxwKd9QZwMo0',
         ]);
-        $signature_key_set = JWKSet::createFromKeys([
+        $signature_key_set = new JWKSet([
             $signature_key,
         ]);
 
@@ -120,11 +158,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         static::assertEquals(0, $json_general_signature);
     }
 
-    /**
-     * @var JWSLoaderFactory
-     */
-    private $jwsLoaderFactory;
-
     protected function getJWSLoaderFactory(): JWSLoaderFactory
     {
         if (null === $this->jwsLoaderFactory) {
@@ -138,11 +171,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $this->jwsLoaderFactory;
     }
 
-    /**
-     * @var JWELoaderFactory
-     */
-    private $jweLoaderFactory;
-
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
         if (null === $this->jweLoaderFactory) {
@@ -155,11 +183,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 
         return $this->jweLoaderFactory;
     }
-
-    /**
-     * @var NestedTokenLoaderFactory
-     */
-    private $nestedTokenLoaderFactory;
 
     private function getNestedTokenLoaderFactory(): NestedTokenLoaderFactory
     {
@@ -194,17 +217,10 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 
     private function getJWSVerifierFactory(): JWSVerifierFactory
     {
-        $jwsVerifierFactory = new JWSVerifierFactory(
+        return new JWSVerifierFactory(
             $this->getAlgorithmManagerFactory()
         );
-
-        return $jwsVerifierFactory;
     }
-
-    /**
-     * @var AlgorithmManagerFactory
-     */
-    private $algorithmManagerFactory;
 
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
@@ -218,11 +234,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $this->algorithmManagerFactory;
     }
 
-    /**
-     * @var CompressionMethodManagerFactory
-     */
-    private $compressionMethodManagerFactory;
-
     private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
         if (null === $this->compressionMethodManagerFactory) {
@@ -232,11 +243,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 
         return $this->compressionMethodManagerFactory;
     }
-
-    /**
-     * @var JWEDecrypterFactory
-     */
-    private $jweDecrypterFactory;
 
     private function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
@@ -249,11 +255,6 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 
         return $this->jweDecrypterFactory;
     }
-
-    /**
-     * @var JweSerializer\JWESerializerManagerFactory|null
-     */
-    private $jwsSerializerManagerFactory = null;
 
     private function getJWESerializerManagerFactory(): JweSerializer\JWESerializerManagerFactory
     {

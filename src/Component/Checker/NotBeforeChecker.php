@@ -31,12 +31,15 @@ final class NotBeforeChecker implements ClaimChecker
         $this->allowedTimeDrift = $allowedTimeDrift;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkClaim($value): void
     {
         if (!\is_int($value)) {
             throw new InvalidClaimException('"nbf" must be an integer.', self::CLAIM_NAME, $value);
         }
-        if (\time() < $value - $this->allowedTimeDrift) {
+        if (time() < $value - $this->allowedTimeDrift) {
             throw new InvalidClaimException('The JWT can not be used yet.', self::CLAIM_NAME, $value);
         }
     }

@@ -30,11 +30,13 @@ final class MixedKeyTypes implements KeysetAnalyzer
             switch ($jwk->get('kty')) {
                 case 'oct':
                     $hasSymmetricKeys = true;
+
                     break;
                 case 'OKP':
                 case 'RSA':
                 case 'EC':
                     $hasAsymmetricKeys = true;
+
                     break;
             }
         }

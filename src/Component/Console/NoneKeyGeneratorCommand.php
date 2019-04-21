@@ -19,12 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class NoneKeyGeneratorCommand extends GeneratorCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->setName('key:generate:none')
-            ->setDescription('Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.');
+            ->setDescription('Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

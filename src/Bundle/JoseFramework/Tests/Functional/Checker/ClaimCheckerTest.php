@@ -20,12 +20,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class ClaimCheckerTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(ClaimCheckerManagerFactory::class)) {
+        if (!class_exists(ClaimCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }

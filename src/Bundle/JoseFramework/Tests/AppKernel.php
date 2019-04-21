@@ -41,14 +41,12 @@ class AppKernel extends Kernel
 
     public function registerBundles()
     {
-        $bundles = [
+        return [
             new FrameworkBundle(),
             new HttplugBundle(),
             new JoseFrameworkBundle(),
             new TestBundle(),
         ];
-
-        return $bundles;
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

@@ -67,7 +67,8 @@ class NestedToken implements Source
         $childNode = $node->children()
             ->arrayNode($this->name())
             ->treatNullLike([])
-            ->treatFalseLike([]);
+            ->treatFalseLike([])
+        ;
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -82,7 +83,7 @@ class NestedToken implements Source
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (!empty($prepend)) {
+            if (0 !== \count($prepend)) {
                 $result[$source->name()] = $prepend;
             }
         }
@@ -92,7 +93,7 @@ class NestedToken implements Source
 
     private function isEnabled(): bool
     {
-        return \class_exists(NestedTokenBuilderFactory::class)
-            && \class_exists(NestedTokenLoaderFactory::class);
+        return class_exists(NestedTokenBuilderFactory::class)
+            && class_exists(NestedTokenLoaderFactory::class);
     }
 }

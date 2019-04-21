@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Tests;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 
 /**
@@ -21,6 +22,9 @@ use Jose\Component\Encryption\JWE;
  *
  * @group RSA2
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {
@@ -33,7 +37,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
     {
         $key = $this->getPrivateKey();
 
-        $claims = ['foo' => 'bar'];
+        $claims = JsonConverter::encode(['foo' => 'bar']);
 
         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
@@ -42,7 +46,8 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
             ->create()->withPayload($claims)
             ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
             ->addRecipient($key)
-            ->build();
+            ->build()
+        ;
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
@@ -60,7 +65,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
     {
         $key = $this->getMinimalPrivateKey();
 
-        $claims = ['foo' => 'bar'];
+        $claims = JsonConverter::encode(['foo' => 'bar']);
 
         $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
@@ -69,7 +74,8 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
             ->create()->withPayload($claims)
             ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
             ->addRecipient($key)
-            ->build();
+            ->build()
+        ;
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
@@ -97,7 +103,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 
     private function getPrivateKey(): JWK
     {
-        return JWK::create(
+        return new JWK(
             [
                 'kty' => 'RSA',
                 'kid' => 'private',
@@ -112,7 +118,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 
     private function getMinimalPrivateKey(): JWK
     {
-        return JWK::create(
+        return new JWK(
             [
                 'd' => 'JSqz6ijkk3dfdSEA_0iMT_1HeIJ1ft4msZ6qw7_1JSCGQAALeZ1yM0QHO3uX-Jr7HC7v1rGVcwsonAhei2qu3rk-w_iCnRL6QkkMNBnDQycwaWpwGsMBFF-UqstOJNggE4AHX-aDnbd4wbKVvdX7ieehPngbPkHcJFdg_iSZCQNoajz6XfEruyIi7_IFXYEGmH_UyEbQkgNtriZysutgYdolUjo9flUlh20HbuV3NwsPjGyDG4dUMpNpdBpSuRHYKLX6h3FjeLhItBmhBfuL7d-G3EXwKlwfNXXYivqY5NQAkFNrRbvFlc_ARIws3zAfykPDIWGWFiPiN3H-hXMgAQ',
                 'e' => 'AQAB',

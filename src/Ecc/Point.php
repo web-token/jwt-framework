@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
+use GMP;
+
 /**
  * *********************************************************************
  * Copyright (C) 2012 Matyas Danter.
@@ -43,17 +45,17 @@ namespace Jose\Component\Core\Util\Ecc;
 class Point
 {
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $x;
 
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $y;
 
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $order;
 
@@ -62,7 +64,7 @@ class Point
      */
     private $infinity = false;
 
-    private function __construct(\GMP $x, \GMP $y, \GMP $order, bool $infinity = false)
+    private function __construct(GMP $x, GMP $y, GMP $order, bool $infinity = false)
     {
         $this->x = $x;
         $this->y = $y;
@@ -70,14 +72,14 @@ class Point
         $this->infinity = $infinity;
     }
 
-    public static function create(\GMP $x, \GMP $y, ?\GMP $order = null): self
+    public static function create(GMP $x, GMP $y, ?GMP $order = null): self
     {
-        return new self($x, $y, null === $order ? \gmp_init(0, 10) : $order);
+        return new self($x, $y, null === $order ? gmp_init(0, 10) : $order);
     }
 
     public static function infinity(): self
     {
-        $zero = \gmp_init(0, 10);
+        $zero = gmp_init(0, 10);
 
         return new self($zero, $zero, $zero, true);
     }
@@ -87,17 +89,17 @@ class Point
         return $this->infinity;
     }
 
-    public function getOrder(): \GMP
+    public function getOrder(): GMP
     {
         return $this->order;
     }
 
-    public function getX(): \GMP
+    public function getX(): GMP
     {
         return $this->x;
     }
 
-    public function getY(): \GMP
+    public function getY(): GMP
     {
         return $this->y;
     }
@@ -112,21 +114,21 @@ class Point
 
     private static function cswapBoolean(bool &$a, bool &$b, int $cond): void
     {
-        $sa = \gmp_init(\intval($a), 10);
-        $sb = \gmp_init(\intval($b), 10);
+        $sa = gmp_init((int) $a, 10);
+        $sb = gmp_init((int) $b, 10);
 
         self::cswapGMP($sa, $sb, $cond);
 
-        $a = (bool) \gmp_strval($sa, 10);
-        $b = (bool) \gmp_strval($sb, 10);
+        $a = (bool) gmp_strval($sa, 10);
+        $b = (bool) gmp_strval($sb, 10);
     }
 
-    private static function cswapGMP(\GMP &$sa, \GMP &$sb, int $cond): void
+    private static function cswapGMP(GMP &$sa, GMP &$sb, int $cond): void
     {
-        $size = \max(\mb_strlen(\gmp_strval($sa, 2), '8bit'), \mb_strlen(\gmp_strval($sb, 2), '8bit'));
-        $mask = \strval(1 - \intval($cond));
-        $mask = \str_pad('', $size, $mask, STR_PAD_LEFT);
-        $mask = \gmp_init($mask, 2);
+        $size = max(mb_strlen(gmp_strval($sa, 2), '8bit'), mb_strlen(gmp_strval($sb, 2), '8bit'));
+        $mask = (string) (1 - $cond);
+        $mask = str_pad('', $size, $mask, STR_PAD_LEFT);
+        $mask = gmp_init($mask, 2);
         $taA = Math::bitwiseAnd($sa, $mask);
         $taB = Math::bitwiseAnd($sb, $mask);
         $sa = Math::bitwiseXor(Math::bitwiseXor($sa, $sb), $taB);

@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.3
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
 {
@@ -30,7 +33,7 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function pBES2_HS512_A256KWAndA128CBC_HS256Encryption()
+    public function pBES2HS512A256KWAndA128CBCHS256Encryption()
     {
         $expected_payload = ['keys' => [
             [
@@ -54,7 +57,7 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             ],
         ]];
 
-        $private_key = JWK::create([
+        $private_key = new JWK([
             'kty' => 'oct',
             'use' => 'enc',
             'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
@@ -105,9 +108,9 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         static::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
         static::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
 
-        static::assertEquals($expected_payload, \json_decode($loaded_compact_json->getPayload(), true));
-        static::assertEquals($expected_payload, \json_decode($loaded_flattened_json->getPayload(), true));
-        static::assertEquals($expected_payload, \json_decode($loaded_json->getPayload(), true));
+        static::assertEquals($expected_payload, json_decode($loaded_compact_json->getPayload(), true));
+        static::assertEquals($expected_payload, json_decode($loaded_flattened_json->getPayload(), true));
+        static::assertEquals($expected_payload, json_decode($loaded_json->getPayload(), true));
     }
 
     /**
@@ -115,9 +118,9 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function pBES2_HS512_A256KWAndA128CBC_HS256EncryptionBis()
+    public function pBES2HS512A256KWAndA128CBCHS256EncryptionBis()
     {
-        $expected_payload = \json_encode(['keys' => [
+        $expected_payload = json_encode(['keys' => [
             [
                 'kty' => 'oct',
                 'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
@@ -139,7 +142,7 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             ],
         ]]);
 
-        $private_key = JWK::create([
+        $private_key = new JWK([
             'kty' => 'oct',
             'use' => 'enc',
             'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
@@ -158,7 +161,8 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build();
+            ->build()
+        ;
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));

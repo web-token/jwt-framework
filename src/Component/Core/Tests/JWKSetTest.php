@@ -20,6 +20,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWKSet
+ *
+ * @internal
+ * @coversNothing
  */
 class JWKSetTest extends TestCase
 {
@@ -70,7 +73,7 @@ class JWKSetTest extends TestCase
     public function iCanAddKeysInAKeySet()
     {
         $jwkset = $this->getPublicKeySet();
-        $new_jwkset = $jwkset->with(JWK::create(['kty' => 'none']));
+        $new_jwkset = $jwkset->with(new JWK(['kty' => 'none']));
         static::assertEquals(4, \count($new_jwkset->all()));
         static::assertNotSame($jwkset, $new_jwkset);
     }
@@ -84,12 +87,13 @@ class JWKSetTest extends TestCase
 
         $jwk = $jwkset->selectKey('enc', new FooAlgorithm());
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertEquals([
-            'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
-            'kty' => 'FOO',
-            'alg' => 'foo',
-            'use' => 'enc',
-        ],
+        static::assertEquals(
+            [
+                'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
+                'kty' => 'FOO',
+                'alg' => 'foo',
+                'use' => 'enc',
+            ],
             $jwk->all()
         );
     }
@@ -103,12 +107,13 @@ class JWKSetTest extends TestCase
 
         $jwk = $jwkset->selectKey('sig', new FooAlgorithm(), ['kid' => '02491f945c951adf156f370788e8ccdabf8877a8']);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertEquals([
-            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-            'kty' => 'FOO',
-            'alg' => 'foo',
-            'use' => 'sig',
-        ],
+        static::assertEquals(
+            [
+                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+                'kty' => 'FOO',
+                'alg' => 'foo',
+                'use' => 'sig',
+            ],
             $jwk->all()
         );
     }
@@ -122,12 +127,13 @@ class JWKSetTest extends TestCase
 
         $jwk = $jwkset->selectKey('sig', null, ['kid' => '02491f945c951adf156f370788e8ccdabf8877a8']);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertEquals([
-            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-            'kty' => 'FOO',
-            'alg' => 'foo',
-            'use' => 'sig',
-        ],
+        static::assertEquals(
+            [
+                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+                'kty' => 'FOO',
+                'alg' => 'foo',
+                'use' => 'sig',
+            ],
             $jwk->all()
         );
     }
@@ -166,7 +172,7 @@ class JWKSetTest extends TestCase
      */
     public function keySet()
     {
-        $jwk1 = JWK::create([
+        $jwk1 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -177,7 +183,7 @@ class JWKSetTest extends TestCase
             'kid' => '0123456789',
         ]);
 
-        $jwk2 = JWK::create([
+        $jwk2 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -189,10 +195,10 @@ class JWKSetTest extends TestCase
             'kid' => '9876543210',
         ]);
 
-        $jwkset = JWKSet::createFromKeys([$jwk1]);
+        $jwkset = new JWKSet([$jwk1]);
         $jwkset = $jwkset->with($jwk2);
 
-        static::assertEquals('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}', \json_encode($jwkset));
+        static::assertEquals('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}', json_encode($jwkset));
         static::assertEquals(2, \count($jwkset));
         static::assertEquals(2, $jwkset->count());
         static::assertTrue($jwkset->has('0123456789'));
@@ -223,7 +229,7 @@ class JWKSetTest extends TestCase
      */
     public function keySet2()
     {
-        $jwk1 = JWK::create([
+        $jwk1 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -234,7 +240,7 @@ class JWKSetTest extends TestCase
             'kid' => '0123456789',
         ]);
 
-        $jwk2 = JWK::create([
+        $jwk2 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -246,7 +252,7 @@ class JWKSetTest extends TestCase
             'kid' => '9876543210',
         ]);
 
-        $jwkset = JWKSet::createFromKeys([$jwk1, $jwk2]);
+        $jwkset = new JWKSet([$jwk1, $jwk2]);
 
         $jwkset->get(2);
     }

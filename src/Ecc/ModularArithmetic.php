@@ -13,22 +13,24 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
+use GMP;
+
 /**
  * @internal
  */
 class ModularArithmetic
 {
-    public static function sub(\GMP $minuend, \GMP $subtrahend, \GMP $modulus): \GMP
+    public static function sub(GMP $minuend, GMP $subtrahend, GMP $modulus): GMP
     {
         return Math::mod(Math::sub($minuend, $subtrahend), $modulus);
     }
 
-    public static function mul(\GMP $multiplier, \GMP $muliplicand, \GMP $modulus): \GMP
+    public static function mul(GMP $multiplier, GMP $muliplicand, GMP $modulus): GMP
     {
         return Math::mod(Math::mul($multiplier, $muliplicand), $modulus);
     }
 
-    public static function div(\GMP $dividend, \GMP $divisor, \GMP $modulus): \GMP
+    public static function div(GMP $dividend, GMP $divisor, GMP $modulus): GMP
     {
         return self::mul($dividend, Math::inverseMod($divisor, $modulus), $modulus);
     }

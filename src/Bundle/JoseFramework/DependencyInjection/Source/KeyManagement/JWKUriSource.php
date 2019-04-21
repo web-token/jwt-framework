@@ -31,7 +31,7 @@ class JWKUriSource implements Source
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.controller.%s', $name);
+            $service_id = sprintf('jose.controller.%s', $name);
             $definition = new Definition(JWKSetController::class);
             $definition->setFactory([new Reference(JWKSetControllerFactory::class), 'create']);
             $definition->setArguments([new Reference($itemConfig['id'])]);
@@ -76,7 +76,8 @@ class JWKUriSource implements Source
             ->end()
             ->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

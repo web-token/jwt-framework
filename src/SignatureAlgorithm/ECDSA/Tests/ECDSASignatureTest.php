@@ -23,6 +23,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group ECDSA
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class ECDSASignatureTest extends TestCase
 {
@@ -34,7 +37,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function invalidKey()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
         ]);
 
@@ -49,7 +52,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function eS256Verify()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -72,7 +75,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function eS256SignVerify()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -96,7 +99,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function keyNotPrivate()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
@@ -114,7 +117,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function hS384SignVerify()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-384',
             'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
@@ -135,7 +138,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function hS512Verify()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-521',
             'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
@@ -158,7 +161,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function hS512SignVerify()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-521',
             'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
@@ -179,7 +182,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function badSignature()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',

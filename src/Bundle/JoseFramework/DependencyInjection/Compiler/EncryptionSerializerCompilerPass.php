@@ -20,7 +20,10 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class EncryptionSerializerCompilerPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    /**
+     * {@inheritdoc}
+     */
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition(JWESerializerManagerFactory::class)) {
             return;

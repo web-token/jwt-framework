@@ -26,7 +26,7 @@ interface JWKSource
      * @param string           $id        The id of the service
      * @param array            $config    An array of configuration
      */
-    public function create(ContainerBuilder $container, string $type, string $id, array $config);
+    public function create(ContainerBuilder $container, string $type, string $id, array $config): void;
 
     /**
      * Returns the key for the Key Source configuration.
@@ -36,5 +36,5 @@ interface JWKSource
     /**
      * Adds configuration nodes for this service.
      */
-    public function addConfiguration(NodeDefinition $builder);
+    public function addConfiguration(NodeDefinition $builder): void;
 }

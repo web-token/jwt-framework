@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use InvalidArgumentException;
+
 class AlgorithmManagerFactory
 {
     /**
@@ -38,7 +40,7 @@ class AlgorithmManagerFactory
      */
     public function aliases(): array
     {
-        return \array_keys($this->algorithms);
+        return array_keys($this->algorithms);
     }
 
     /**
@@ -61,11 +63,13 @@ class AlgorithmManagerFactory
     {
         $algorithms = [];
         foreach ($aliases as $alias) {
-            if (\array_key_exists($alias, $this->algorithms)) {
-                $algorithms[] = $this->algorithms[$alias];
-            } else {
-                throw new \InvalidArgumentException(\sprintf('The algorithm with the alias "%s" is not supported.', $alias));
+            if (!\is_string($alias)) {
+                throw new InvalidArgumentException('Invalid alias');
             }
+            if (!isset($this->algorithms[$alias])) {
+                throw new InvalidArgumentException(sprintf('The algorithm with the alias "%s" is not supported.', $alias));
+            }
+            $algorithms[] = $this->algorithms[$alias];
         }
 
         return new AlgorithmManager($algorithms);

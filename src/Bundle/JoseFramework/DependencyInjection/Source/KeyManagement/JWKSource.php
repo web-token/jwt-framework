@@ -13,8 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
+use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSource as JWKSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use LogicException;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,9 +25,9 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 class JWKSource implements Source
 {
     /**
-     * @var JWKSourceInterface[]|null
+     * @var null|JWKSourceInterface[]
      */
-    private $jwkSources = null;
+    private $jwkSources;
 
     public function name(): string
     {
@@ -41,7 +43,7 @@ class JWKSource implements Source
                     $source = $sources[$sourceName];
                     $source->create($container, 'key', $name, $sourceConfig);
                 } else {
-                    throw new \LogicException(\sprintf('The JWK definition "%s" is not configured.', $name));
+                    throw new LogicException(sprintf('The JWK definition "%s" is not configured.', $name));
                 }
             }
         }
@@ -62,7 +64,8 @@ class JWKSource implements Source
             })
             ->thenInvalid('One key type must be set.')
             ->end()
-            ->children();
+            ->children()
+        ;
         foreach ($this->getJWKSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
             $source->addConfiguration($sourceNode);
@@ -92,12 +95,12 @@ class JWKSource implements Source
 
         $services = $tempContainer->findTaggedServiceIds('jose.jwk_source');
         $jwkSources = [];
-        foreach (\array_keys($services) as $id) {
+        foreach (array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
             if (!$factory instanceof JWKSourceInterface) {
-                throw new \InvalidArgumentException();
+                throw new InvalidArgumentException('Invalid object');
             }
-            $jwkSources[\str_replace('-', '_', $factory->getKey())] = $factory;
+            $jwkSources[str_replace('-', '_', $factory->getKey())] = $factory;
         }
 
         $this->jwkSources = $jwkSources;

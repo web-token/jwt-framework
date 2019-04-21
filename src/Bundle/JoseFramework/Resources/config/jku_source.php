@@ -19,7 +19,8 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(KeyManagement\JKUFactory::class)
         ->public()

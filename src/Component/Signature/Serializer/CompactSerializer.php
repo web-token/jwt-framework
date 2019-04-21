@@ -14,8 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
+use LogicException;
+use Throwable;
 
 final class CompactSerializer extends Serializer
 {
@@ -37,16 +40,17 @@ final class CompactSerializer extends Serializer
             $signatureIndex = 0;
         }
         $signature = $jws->getSignature($signatureIndex);
-        if (!empty($signature->getHeader())) {
-            throw new \LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
+        if (0 !== \count($signature->getHeader())) {
+            throw new LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
         }
-        if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !empty($jws->getEncodedPayload())) {
-            if (1 !== \preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
-                throw new \LogicException('Unable to convert the JWS with non-encoded payload.');
+        $isEmptyPayload = null === $jws->getEncodedPayload() || '' === $jws->getEncodedPayload();
+        if (!$this->isPayloadEncoded($signature->getProtectedHeader()) && !$isEmptyPayload) {
+            if (1 !== preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload())) {
+                throw new LogicException('Unable to convert the JWS with non-encoded payload.');
             }
         }
 
-        return \sprintf(
+        return sprintf(
             '%s.%s.%s',
             $signature->getEncodedProtectedHeader(),
             $jws->getEncodedPayload(),
@@ -56,15 +60,16 @@ final class CompactSerializer extends Serializer
 
     public function unserialize(string $input): JWS
     {
-        $parts = \explode('.', $input);
+        $parts = explode('.', $input);
         if (3 !== \count($parts)) {
-            throw new \InvalidArgumentException('Unsupported input');
+            throw new InvalidArgumentException('Unsupported input');
         }
 
         try {
             $encodedProtectedHeader = $parts[0];
             $protectedHeader = JsonConverter::decode(Base64Url::decode($parts[0]));
-            if (empty($parts[1])) {
+            $hasPayload = '' !== $parts[1];
+            if (!$hasPayload) {
                 $payload = null;
                 $encodedPayload = null;
             } else {
@@ -73,12 +78,11 @@ final class CompactSerializer extends Serializer
             }
             $signature = Base64Url::decode($parts[2]);
 
-            $jws = new JWS($payload, $encodedPayload, empty($parts[1]));
-            $jws = $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
+            $jws = new JWS($payload, $encodedPayload, !$hasPayload);
 
-            return $jws;
-        } catch (\Error | \Exception $e) {
-            throw new \InvalidArgumentException('Unsupported input');
+            return $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
+        } catch (Throwable $throwable) {
+            throw new InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
         }
     }
 }

@@ -17,6 +17,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
+use RuntimeException;
 
 class X5UFactory extends UrlKeySetFactory
 {
@@ -29,23 +30,23 @@ class X5UFactory extends UrlKeySetFactory
         $content = $this->getContent($url, $header);
         $data = JsonConverter::decode($content);
         if (!\is_array($data)) {
-            throw new \RuntimeException('Invalid content.');
+            throw new RuntimeException('Invalid content.');
         }
 
         $keys = [];
         foreach ($data as $kid => $cert) {
-            if (false === \mb_strpos($cert, '-----BEGIN CERTIFICATE-----')) {
+            if (false === mb_strpos($cert, '-----BEGIN CERTIFICATE-----')) {
                 $cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
             }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
             if (\is_string($kid)) {
                 $jwk['kid'] = $kid;
-                $keys[$kid] = JWK::create($jwk);
+                $keys[$kid] = new JWK($jwk);
             } else {
-                $keys[] = JWK::create($jwk);
+                $keys[] = new JWK($jwk);
             }
         }
 
-        return JWKSet::createFromKeys($keys);
+        return new JWKSet($keys);
     }
 }

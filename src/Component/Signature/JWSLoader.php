@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use Exception;
 use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use Throwable;
 
 class JWSLoader
 {
@@ -26,7 +28,7 @@ class JWSLoader
     private $jwsVerifier;
 
     /**
-     * @var HeaderCheckerManager|null
+     * @var null|HeaderCheckerManager
      */
     private $headerCheckerManager;
 
@@ -75,7 +77,7 @@ class JWSLoader
      */
     public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
     {
-        $keyset = JWKSet::createFromKeys([$key]);
+        $keyset = new JWKSet([$key]);
 
         return $this->loadAndVerifyWithKeySet($token, $keyset, $signature, $payload);
     }
@@ -96,11 +98,11 @@ class JWSLoader
                     return $jws;
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             // Nothing to do. Exception thrown just after
         }
 
-        throw new \Exception('Unable to load and verify the token.');
+        throw new Exception('Unable to load and verify the token.');
     }
 
     private function processSignature(JWS $jws, JWKSet $keyset, int $signature, ?string $payload): bool
@@ -111,7 +113,7 @@ class JWSLoader
             }
 
             return $this->jwsVerifier->verifyWithKeySet($jws, $keyset, $signature, $payload);
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return false;
         }
     }

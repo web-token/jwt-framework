@@ -24,6 +24,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group None
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class NoneSignatureTest extends TestCase
 {
@@ -32,7 +35,7 @@ class NoneSignatureTest extends TestCase
      */
     public function noneSignAndVerifyAlgorithm()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'none',
         ]);
 
@@ -53,7 +56,7 @@ class NoneSignatureTest extends TestCase
      */
     public function invalidKey()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
         ]);
 
@@ -68,7 +71,7 @@ class NoneSignatureTest extends TestCase
      */
     public function noneSignAndVerifyComplete()
     {
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'none',
         ]);
 
@@ -80,7 +83,8 @@ class NoneSignatureTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature($jwk, ['alg' => 'none'])
-            ->build();
+            ->build()
+        ;
 
         static::assertEquals(1, $jws->countSignatures());
 

@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
+use GMP;
+use RuntimeException;
+
 /**
  * @internal
  */
@@ -21,17 +24,17 @@ class Curve
     /**
      * Elliptic curve over the field of integers modulo a prime.
      *
-     * @var \GMP
+     * @var GMP
      */
     private $a;
 
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $b;
 
     /**
-     * @var \GMP
+     * @var GMP
      */
     private $prime;
 
@@ -47,7 +50,7 @@ class Curve
      */
     private $generator;
 
-    public function __construct(int $size, \GMP $prime, \GMP $a, \GMP $b, Point $generator)
+    public function __construct(int $size, GMP $prime, GMP $a, GMP $b, Point $generator)
     {
         $this->size = $size;
         $this->prime = $prime;
@@ -56,17 +59,22 @@ class Curve
         $this->generator = $generator;
     }
 
-    public function getA(): \GMP
+    public function __toString(): string
+    {
+        return 'curve('.Math::toString($this->getA()).', '.Math::toString($this->getB()).', '.Math::toString($this->getPrime()).')';
+    }
+
+    public function getA(): GMP
     {
         return $this->a;
     }
 
-    public function getB(): \GMP
+    public function getB(): GMP
     {
         return $this->b;
     }
 
-    public function getPrime(): \GMP
+    public function getPrime(): GMP
     {
         return $this->prime;
     }
@@ -76,36 +84,36 @@ class Curve
         return $this->size;
     }
 
-    public function getPoint(\GMP $x, \GMP $y, ?\GMP $order = null): Point
+    public function getPoint(GMP $x, GMP $y, ?GMP $order = null): Point
     {
         if (!$this->contains($x, $y)) {
-            throw new \RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
+            throw new RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
         }
         $point = Point::create($x, $y, $order);
         if (!\is_null($order)) {
             $mul = $this->mul($point, $order);
             if (!$mul->isInfinity()) {
-                throw new \RuntimeException('SELF * ORDER MUST EQUAL INFINITY. ('.(string) $mul.' found instead)');
+                throw new RuntimeException('SELF * ORDER MUST EQUAL INFINITY.');
             }
         }
 
         return $point;
     }
 
-    public function getPublicKeyFrom(\GMP $x, \GMP $y): PublicKey
+    public function getPublicKeyFrom(GMP $x, GMP $y): PublicKey
     {
-        $zero = \gmp_init(0, 10);
+        $zero = gmp_init(0, 10);
         if (Math::cmp($x, $zero) < 0 || Math::cmp($this->generator->getOrder(), $x) <= 0 || Math::cmp($y, $zero) < 0 || Math::cmp($this->generator->getOrder(), $y) <= 0) {
-            throw new \RuntimeException('Generator point has x and y out of range.');
+            throw new RuntimeException('Generator point has x and y out of range.');
         }
         $point = $this->getPoint($x, $y);
 
         return new PublicKey($point);
     }
 
-    public function contains(\GMP $x, \GMP $y): bool
+    public function contains(GMP $x, GMP $y): bool
     {
-        $eq_zero = Math::equals(
+        return Math::equals(
             ModularArithmetic::sub(
                 Math::pow($y, 2),
                 Math::add(
@@ -117,10 +125,8 @@ class Curve
                 ),
                 $this->getPrime()
             ),
-            \gmp_init(0, 10)
+            gmp_init(0, 10)
         );
-
-        return $eq_zero;
     }
 
     public function add(Point $one, Point $two): Point
@@ -136,9 +142,9 @@ class Curve
         if (Math::equals($two->getX(), $one->getX())) {
             if (Math::equals($two->getY(), $one->getY())) {
                 return $this->getDouble($one);
-            } else {
-                return Point::infinity();
             }
+
+            return Point::infinity();
         }
 
         $slope = ModularArithmetic::div(
@@ -162,14 +168,14 @@ class Curve
         return $this->getPoint($xR, $yR, $one->getOrder());
     }
 
-    public function mul(Point $one, \GMP $n): Point
+    public function mul(Point $one, GMP $n): Point
     {
         if ($one->isInfinity()) {
             return Point::infinity();
         }
 
-        /** @var \GMP $zero */
-        $zero = \gmp_init(0, 10);
+        /** @var GMP $zero */
+        $zero = gmp_init(0, 10);
         if (Math::cmp($one->getOrder(), $zero) > 0) {
             $n = Math::mod($n, $one->getOrder());
         }
@@ -185,7 +191,7 @@ class Curve
         ];
 
         $k = $this->getSize();
-        $n = \str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
+        $n = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
 
         for ($i = 0; $i < $k; ++$i) {
             $j = $n[$i];
@@ -205,9 +211,9 @@ class Curve
      */
     public function cmp(self $other): int
     {
-        $equal = Math::equals($this->getA(), $other->getA());
-        $equal &= Math::equals($this->getB(), $other->getB());
-        $equal &= Math::equals($this->getPrime(), $other->getPrime());
+        $equal = Math::equals($this->getA(), $other->getA()) &&
+                 Math::equals($this->getB(), $other->getB()) &&
+                 Math::equals($this->getPrime(), $other->getPrime());
 
         return $equal ? 0 : 1;
     }
@@ -220,18 +226,6 @@ class Curve
         return 0 === $this->cmp($other);
     }
 
-    public function __toString(): string
-    {
-        return 'curve('.Math::toString($this->getA()).', '.Math::toString($this->getB()).', '.Math::toString($this->getPrime()).')';
-    }
-
-    private function validate(Point $point)
-    {
-        if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
-            throw new \RuntimeException('Invalid point');
-        }
-    }
-
     public function getDouble(Point $point): Point
     {
         if ($point->isInfinity()) {
@@ -239,17 +233,17 @@ class Curve
         }
 
         $a = $this->getA();
-        $threeX2 = Math::mul(\gmp_init(3, 10), Math::pow($point->getX(), 2));
+        $threeX2 = Math::mul(gmp_init(3, 10), Math::pow($point->getX(), 2));
 
         $tangent = ModularArithmetic::div(
             Math::add($threeX2, $a),
-            Math::mul(\gmp_init(2, 10), $point->getY()),
+            Math::mul(gmp_init(2, 10), $point->getY()),
             $this->getPrime()
         );
 
         $x3 = ModularArithmetic::sub(
             Math::pow($tangent, 2),
-            Math::mul(\gmp_init(2, 10), $point->getX()),
+            Math::mul(gmp_init(2, 10), $point->getX()),
             $this->getPrime()
         );
 
@@ -274,18 +268,29 @@ class Curve
         return new PublicKey($point);
     }
 
-    private function generate(): \GMP
+    public function getGenerator(): Point
+    {
+        return $this->generator;
+    }
+
+    private function validate(Point $point): void
+    {
+        if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
+            throw new RuntimeException('Invalid point');
+        }
+    }
+
+    private function generate(): GMP
     {
         $max = $this->generator->getOrder();
         $numBits = $this->bnNumBits($max);
-        $numBytes = (int) \ceil($numBits / 8);
+        $numBytes = (int) ceil($numBits / 8);
         // Generate an integer of size >= $numBits
-        $bytes = \random_bytes($numBytes);
+        $bytes = random_bytes($numBytes);
         $value = Math::stringToInt($bytes);
-        $mask = \gmp_sub(\gmp_pow(2, $numBits), 1);
-        $integer = \gmp_and($value, $mask);
+        $mask = gmp_sub(gmp_pow(2, $numBits), 1);
 
-        return $integer;
+        return gmp_and($value, $mask);
     }
 
     /**
@@ -293,9 +298,9 @@ class Curve
      *
      * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
      */
-    private function bnNumBits(\GMP $x): int
+    private function bnNumBits(GMP $x): int
     {
-        $zero = \gmp_init(0, 10);
+        $zero = gmp_init(0, 10);
         if (Math::equals($x, $zero)) {
             return 0;
         }
@@ -306,10 +311,5 @@ class Curve
         }
 
         return $log2;
-    }
-
-    public function getGenerator(): Point
-    {
-        return $this->generator;
     }
 }

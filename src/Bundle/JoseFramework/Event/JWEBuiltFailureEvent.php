@@ -14,16 +14,17 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use Throwable;
 
 final class JWEBuiltFailureEvent extends Event
 {
     /**
-     * @var \Throwable
+     * @var Throwable
      */
     private $throwable;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     private $payload;
 
@@ -43,11 +44,11 @@ final class JWEBuiltFailureEvent extends Event
     private $sharedHeader;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     private $aad;
 
-    public function __construct(?string $payload, array $recipients, array $sharedProtectedHeader, array $sharedHeader, ?string $aad, \Throwable $throwable)
+    public function __construct(?string $payload, array $recipients, array $sharedProtectedHeader, array $sharedHeader, ?string $aad, Throwable $throwable)
     {
         $this->throwable = $throwable;
         $this->payload = $payload;
@@ -82,7 +83,7 @@ final class JWEBuiltFailureEvent extends Event
         return $this->aad;
     }
 
-    public function getThrowable(): \Throwable
+    public function getThrowable(): Throwable
     {
         return $this->throwable;
     }

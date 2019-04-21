@@ -29,7 +29,7 @@ class JWSVerifier extends AbstractSignatureSource
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.jws_verifier.%s', $name);
+            $service_id = sprintf('jose.jws_verifier.%s', $name);
             $definition = new Definition(JWSVerifierService::class);
             $definition
                 ->setFactory([new Reference(JWSVerifierFactory::class), 'create'])
@@ -37,7 +37,8 @@ class JWSVerifier extends AbstractSignatureSource
                     $itemConfig['signature_algorithms'],
                 ])
                 ->addTag('jose.jws_verifier')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }

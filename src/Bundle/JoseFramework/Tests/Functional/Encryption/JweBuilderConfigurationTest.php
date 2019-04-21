@@ -22,6 +22,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group Bundle
  * @group Configuration
+ *
+ * @internal
+ * @coversNothing
  */
 class JweBuilderConfigurationTest extends TestCase
 {
@@ -29,17 +32,9 @@ class JweBuilderConfigurationTest extends TestCase
 
     protected function setUp()
     {
-        if (!\class_exists(JWEBuilderFactory::class)) {
+        if (!class_exists(JWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
-    }
-
-    protected function getConfiguration()
-    {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Encryption\EncryptionSource(),
-        ]);
     }
 
     /**
@@ -177,5 +172,13 @@ class JweBuilderConfigurationTest extends TestCase
             ],
             'The path "jose.jwe.builders.foo.content_encryption_algorithms" should have at least 1 element(s) defined.'
         );
+    }
+
+    protected function getConfiguration()
+    {
+        return new Configuration('jose', [
+            new Source\Core\CoreSource(),
+            new Source\Encryption\EncryptionSource(),
+        ]);
     }
 }

@@ -19,11 +19,9 @@ use Symfony\Component\DependencyInjection\Definition;
 
 abstract class AbstractSource
 {
-    abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;
-
-    public function create(ContainerBuilder $container, string $type, string $name, array $config)
+    public function create(ContainerBuilder $container, string $type, string $name, array $config): void
     {
-        $service_id = \sprintf('jose.%s.%s', $type, $name);
+        $service_id = sprintf('jose.%s.%s', $type, $name);
         $definition = $this->createDefinition($container, $config);
         $definition->setPublic($config['is_public']);
         foreach ($config['tags'] as $id => $attributes) {
@@ -32,7 +30,7 @@ abstract class AbstractSource
         $container->setDefinition($service_id, $definition);
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         $node
             ->children()
@@ -47,6 +45,9 @@ abstract class AbstractSource
             ->treatFalseLike([])
             ->variablePrototype()->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
+
+    abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;
 }

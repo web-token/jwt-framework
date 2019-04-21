@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Encryption\Util\RSACrypt;
@@ -36,7 +37,7 @@ abstract class RSA implements KeyEncryption
     {
         $this->checkKey($key);
         if (!$key->has('d')) {
-            throw new \InvalidArgumentException('The key is not a private key');
+            throw new InvalidArgumentException('The key is not a private key');
         }
         $priv = RSAKey::createFromJWK($key);
 
@@ -51,7 +52,7 @@ abstract class RSA implements KeyEncryption
     protected function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
+            throw new InvalidArgumentException('Wrong key type.');
         }
     }
 

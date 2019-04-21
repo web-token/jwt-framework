@@ -33,23 +33,22 @@ class ConcatKDF
      */
     public static function generate(string $Z, string $algorithm, int $encryption_key_size, string $apu = '', string $apv = ''): string
     {
-        $apu = !empty($apu) ? Base64Url::decode($apu) : '';
-        $apv = !empty($apv) ? Base64Url::decode($apv) : '';
+        $apu = !self::isEmpty($apu) ? Base64Url::decode($apu) : '';
+        $apv = !self::isEmpty($apv) ? Base64Url::decode($apv) : '';
         $encryption_segments = [
             self::toInt32Bits(1),                                  // Round number 1
             $Z,                                                          // Z (shared secret)
-            self::toInt32Bits(\mb_strlen($algorithm, '8bit')).$algorithm, // Size of algorithm's name and algorithm
-            self::toInt32Bits(\mb_strlen($apu, '8bit')).$apu,             // PartyUInfo
-            self::toInt32Bits(\mb_strlen($apv, '8bit')).$apv,             // PartyVInfo
+            self::toInt32Bits(mb_strlen($algorithm, '8bit')).$algorithm, // Size of algorithm's name and algorithm
+            self::toInt32Bits(mb_strlen($apu, '8bit')).$apu,             // PartyUInfo
+            self::toInt32Bits(mb_strlen($apv, '8bit')).$apv,             // PartyVInfo
             self::toInt32Bits($encryption_key_size),                     // SuppPubInfo (the encryption key size)
             '',                                                          // SuppPrivInfo
         ];
 
-        $input = \implode('', $encryption_segments);
-        $hash = \hash('sha256', $input, true);
-        $kdf = \mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
+        $input = implode('', $encryption_segments);
+        $hash = hash('sha256', $input, true);
 
-        return $kdf;
+        return mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
     }
 
     /**
@@ -59,6 +58,11 @@ class ConcatKDF
      */
     private static function toInt32Bits(int $value): string
     {
-        return \hex2bin(\str_pad(\dechex($value), 8, '0', STR_PAD_LEFT));
+        return hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+    }
+
+    private static function isEmpty(?string $value): bool
+    {
+        return null === $value || '' === $value;
     }
 }

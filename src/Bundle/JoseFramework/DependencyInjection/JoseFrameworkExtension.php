@@ -45,7 +45,10 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         return $this->alias;
     }
 
-    public function load(array $configs, ContainerBuilder $container)
+    /**
+     * {@inheritdoc}
+     */
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $processor = new Processor();
         $config = $processor->processConfiguration($this->getConfiguration($configs, $container), $configs);
@@ -55,19 +58,25 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration($this->getAlias(), $this->sources);
     }
 
-    public function prepend(ContainerBuilder $container)
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig($this->getAlias());
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
         foreach ($this->sources as $source) {
             $result = $source->prepend($container, $config);
-            if (!empty($result)) {
+            if (0 !== \count($result)) {
                 $container->prependExtensionConfig($this->getAlias(), $result);
             }
         }

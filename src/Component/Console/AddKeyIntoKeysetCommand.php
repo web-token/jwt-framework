@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -22,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
@@ -30,7 +31,8 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
             ->setDescription('Add a key into a key set.')
             ->setHelp('This command adds a key at the end of a key set.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -44,22 +46,28 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
+        if (!\is_string($jwkset)) {
+            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+        }
         $json = JsonConverter::decode($jwkset);
-        if (\is_array($json)) {
-            return JWKSet::createFromKeyData($json);
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWKSet.');
+        return JWKSet::createFromKeyData($json);
     }
 
     private function getKey(InputInterface $input): JWK
     {
-        $jwkset = $input->getArgument('jwk');
-        $json = JsonConverter::decode($jwkset);
-        if (\is_array($json)) {
-            return JWK::create($json);
+        $jwk = $input->getArgument('jwk');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('The argument must be a valid JWK.');
+        }
+        $json = JsonConverter::decode($jwk);
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('The argument must be a valid JWK.');
         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWK.');
+        return new JWK($json);
     }
 }

@@ -47,16 +47,6 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
         $this->checkValue($value, InvalidHeaderException::class);
     }
 
-    private function checkValue($value, string $class): void
-    {
-        if (!\is_string($value)) {
-            throw new $class('Invalid value.', self::CLAIM_NAME, $value);
-        }
-        if (!\in_array($value, $this->issuers, true)) {
-            throw new $class('Unknown issuer.', self::CLAIM_NAME, $value);
-        }
-    }
-
     public function supportedClaim(): string
     {
         return self::CLAIM_NAME;
@@ -70,5 +60,18 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private function checkValue($value, string $class): void
+    {
+        if (!\is_string($value)) {
+            throw new $class('Invalid value.', self::CLAIM_NAME, $value);
+        }
+        if (!\in_array($value, $this->issuers, true)) {
+            throw new $class('Unknown issuer.', self::CLAIM_NAME, $value);
+        }
     }
 }

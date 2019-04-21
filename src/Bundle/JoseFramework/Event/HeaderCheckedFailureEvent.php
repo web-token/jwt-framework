@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\Event;
 
 use Jose\Component\Core\JWT;
 use Symfony\Component\EventDispatcher\Event;
+use Throwable;
 
 final class HeaderCheckedFailureEvent extends Event
 {
@@ -34,11 +35,11 @@ final class HeaderCheckedFailureEvent extends Event
     private $mandatoryHeaderParameters;
 
     /**
-     * @var \Throwable
+     * @var Throwable
      */
     private $throwable;
 
-    public function __construct(JWT $jwt, int $index, array $mandatoryHeaderParameters, \Throwable $throwable)
+    public function __construct(JWT $jwt, int $index, array $mandatoryHeaderParameters, Throwable $throwable)
     {
         $this->jwt = $jwt;
         $this->index = $index;
@@ -61,7 +62,7 @@ final class HeaderCheckedFailureEvent extends Event
         return $this->mandatoryHeaderParameters;
     }
 
-    public function getThrowable(): \Throwable
+    public function getThrowable(): Throwable
     {
         return $this->throwable;
     }

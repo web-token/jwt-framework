@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\Event;
 
 use Jose\Component\Core\JWKSet;
 use Symfony\Component\EventDispatcher\Event;
+use Throwable;
 
 final class JWELoadingFailureEvent extends Event
 {
@@ -24,7 +25,7 @@ final class JWELoadingFailureEvent extends Event
     private $JWKSet;
 
     /**
-     * @var \Throwable
+     * @var Throwable
      */
     private $throwable;
 
@@ -33,7 +34,7 @@ final class JWELoadingFailureEvent extends Event
      */
     private $token;
 
-    public function __construct(string $token, JWKSet $JWKSet, \Throwable $throwable)
+    public function __construct(string $token, JWKSet $JWKSet, Throwable $throwable)
     {
         $this->JWKSet = $JWKSet;
         $this->throwable = $throwable;
@@ -50,7 +51,7 @@ final class JWELoadingFailureEvent extends Event
         return $this->token;
     }
 
-    public function getThrowable(): \Throwable
+    public function getThrowable(): Throwable
     {
         return $this->throwable;
     }

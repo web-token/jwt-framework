@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -35,14 +36,15 @@ final class KeyAnalyzerCommand extends Command
         $this->analyzerManager = $analyzerManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->setName('key:analyze')
             ->setDescription('JWK quality analyzer.')
             ->setHelp('This command will analyze a JWK object and find security issues.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -57,7 +59,7 @@ final class KeyAnalyzerCommand extends Command
         if (0 === $result->count()) {
             $output->writeln('<success>All good! No issue found.</success>');
         } else {
-            foreach ($result as $message) {
+            foreach ($result->all() as $message) {
                 $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
             }
         }
@@ -66,11 +68,14 @@ final class KeyAnalyzerCommand extends Command
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
         $json = JsonConverter::decode($jwk);
-        if (\is_array($json)) {
-            return JWK::create($json);
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('Invalid input.');
         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWK.');
+        return new JWK($json);
     }
 }

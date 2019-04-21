@@ -13,15 +13,32 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use RuntimeException;
+use Throwable;
+
 final class JsonConverter
 {
+    /**
+     * @param mixed $payload
+     */
     public static function encode($payload): string
     {
-        return \json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE, 512);
+        try {
+            return json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        } catch (Throwable $throwable) {
+            throw new RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
+        }
     }
 
+    /**
+     * @return mixed
+     */
     public static function decode(string $payload)
     {
-        return \json_decode($payload, true, 512, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        try {
+            return json_decode($payload, true, 512, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        } catch (Throwable $throwable) {
+            throw new RuntimeException('Invalid content.', $throwable->getCode(), $throwable);
+        }
     }
 }

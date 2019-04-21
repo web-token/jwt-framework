@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
+use Jose\Component\Core\JWKSet as JWKSetAlias;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,7 +25,7 @@ class JWKSet extends AbstractSource implements JWKSetSource
 {
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
-        $definition = new Definition(\Jose\Component\Core\JWKSet::class);
+        $definition = new Definition(JWKSetAlias::class);
         $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromJsonObject',
@@ -42,7 +43,7 @@ class JWKSet extends AbstractSource implements JWKSetSource
         return 'jwkset';
     }
 
-    public function addConfiguration(NodeDefinition $node)
+    public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);
         $node
@@ -51,6 +52,7 @@ class JWKSet extends AbstractSource implements JWKSetSource
             ->info('The JWKSet object.')
             ->isRequired()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 }

@@ -24,15 +24,18 @@ use Symfony\Component\Serializer\Serializer;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 final class JWENormalizerTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(BaseJWEBuilderFactory::class)) {
+        if (!class_exists(BaseJWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
-        if (!\class_exists(Serializer::class)) {
+        if (!class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -49,7 +52,7 @@ final class JWENormalizerTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -61,7 +64,8 @@ final class JWENormalizerTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWE::class, $jwe);
         static::assertTrue($serializer->supportsNormalization($jwe));
     }
@@ -77,7 +81,7 @@ final class JWENormalizerTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -89,7 +93,8 @@ final class JWENormalizerTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWE::class, $jwe);
         static::assertTrue($serializer->supportsNormalization($jwe));
         static::assertEquals($jwe, $serializer->normalize($jwe));
@@ -108,7 +113,7 @@ final class JWENormalizerTest extends WebTestCase
         /** @var JWEBuilderFactory $jweFactory */
         $jweFactory = $client->getContainer()->get(JWEBuilderFactory::class);
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'oct',
             'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
@@ -120,7 +125,8 @@ final class JWENormalizerTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         static::assertInstanceOf(JWE::class, $jwe);
         static::assertTrue($serializer->supportsNormalization($jwe));
         static::assertEquals($jwe, $serializer->normalize($jwe));

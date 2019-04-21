@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use RuntimeException;
 
 abstract class AESGCMKW implements KeyWrapping
 {
@@ -25,16 +27,15 @@ abstract class AESGCMKW implements KeyWrapping
 
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
-        $this->checkKey($key);
-        $kek = Base64Url::decode($key->get('k'));
-        $iv = \random_bytes(96 / 8);
+        $kek = $this->getKey($key);
+        $iv = random_bytes(96 / 8);
         $additionalHeader['iv'] = Base64Url::encode($iv);
 
-        $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
-        $tag = null;
-        $encrypted_cek = \openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
+        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
+        $tag = '';
+        $encrypted_cek = openssl_encrypt($cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
         if (false === $encrypted_cek) {
-            throw new \RuntimeException('Unable to encrypt the data.');
+            throw new RuntimeException('Unable to encrypt the CEK');
         }
         $additionalHeader['tag'] = Base64Url::encode($tag);
 
@@ -43,17 +44,16 @@ abstract class AESGCMKW implements KeyWrapping
 
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
-        $this->checkKey($key);
+        $kek = $this->getKey($key);
         $this->checkAdditionalParameters($completeHeader);
 
-        $kek = Base64Url::decode($key->get('k'));
         $tag = Base64Url::decode($completeHeader['tag']);
         $iv = Base64Url::decode($completeHeader['iv']);
 
-        $mode = \sprintf('aes-%d-gcm', $this->getKeySize());
-        $cek = \openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
+        $mode = sprintf('aes-%d-gcm', $this->getKeySize());
+        $cek = openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
         if (false === $cek) {
-            throw new \RuntimeException('Unable to decrypt or to verify the tag.');
+            throw new RuntimeException('Unable to decrypt the CEK');
         }
 
         return $cek;
@@ -64,21 +64,27 @@ abstract class AESGCMKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key): void
+    protected function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
+            throw new InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
         }
+        $k = $key->get('k');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
+
+        return Base64Url::decode($k);
     }
 
     protected function checkAdditionalParameters(array $header): void
     {
         foreach (['iv', 'tag'] as $k) {
-            if (!\array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(\sprintf('Parameter "%s" is missing.', $k));
+            if (!isset($header[$k])) {
+                throw new InvalidArgumentException(sprintf('Parameter "%s" is missing.', $k));
             }
         }
     }

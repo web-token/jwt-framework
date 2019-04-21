@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 abstract class AESKW implements KeyWrapping
@@ -44,24 +45,24 @@ abstract class AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    private function getKey(JWK $key): string
-    {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
-        }
-        if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
-        }
-        $k = $key->get('k');
-        if (!\is_string($k)) {
-            throw new \InvalidArgumentException('The key parameter "k" is invalid.');
-        }
-
-        return Base64Url::decode($k);
-    }
-
     /**
      * @return \AESKW\A128KW|\AESKW\A192KW|\AESKW\A256KW
      */
     abstract protected function getWrapper();
+
+    private function getKey(JWK $key): string
+    {
+        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
+        if (!$key->has('k')) {
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
+        }
+        $k = $key->get('k');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
+
+        return Base64Url::decode($k);
+    }
 }

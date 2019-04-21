@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
+use LogicException;
 
 final class JSONGeneralSerializer implements JWESerializer
 {
@@ -35,7 +37,7 @@ final class JSONGeneralSerializer implements JWESerializer
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
         if (0 === $jwe->countRecipients()) {
-            throw new \LogicException('No recipient.');
+            throw new LogicException('No recipient.');
         }
 
         $data = [
@@ -46,16 +48,16 @@ final class JSONGeneralSerializer implements JWESerializer
         if (null !== $jwe->getAAD()) {
             $data['aad'] = Base64Url::encode($jwe->getAAD());
         }
-        if (!empty($jwe->getSharedProtectedHeader())) {
+        if (0 !== \count($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
         }
-        if (!empty($jwe->getSharedHeader())) {
+        if (0 !== \count($jwe->getSharedHeader())) {
             $data['unprotected'] = $jwe->getSharedHeader();
         }
         $data['recipients'] = [];
         foreach ($jwe->getRecipients() as $recipient) {
             $temp = [];
-            if (!empty($recipient->getHeader())) {
+            if (0 !== \count($recipient->getHeader())) {
                 $temp['header'] = $recipient->getHeader();
             }
             if (null !== $recipient->getEncryptedKey()) {
@@ -91,13 +93,14 @@ final class JSONGeneralSerializer implements JWESerializer
             $sharedHeader,
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
-            $recipients);
+            $recipients
+        );
     }
 
-    private function checkData($data)
+    private function checkData(array $data): void
     {
-        if (!\is_array($data) || !\array_key_exists('ciphertext', $data) || !\array_key_exists('recipients', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
+        if (!isset($data['ciphertext']) || !isset($data['recipients'])) {
+            throw new InvalidArgumentException('Unsupported input.');
         }
     }
 

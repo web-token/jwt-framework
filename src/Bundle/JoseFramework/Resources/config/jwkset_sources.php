@@ -18,7 +18,8 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->public()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(JWKSetSource\JWKSet::class);
     $container->set(JWKSetSource\JKU::class);

@@ -30,28 +30,31 @@ final class JWKSetLoader implements LoaderInterface
         $this->routes = new RouteCollection();
     }
 
-    public function add(string $pattern, string $name)
+    public function add(string $pattern, string $name): void
     {
         $defaults = ['_controller' => $name];
         $route = new Route($pattern, $defaults);
-        $this->routes->add(\sprintf('jwkset_%s', $name), $route);
+        $this->routes->add(sprintf('jwkset_%s', $name), $route);
     }
 
-    public function load($resource, $type = null)
+    public function load($resource, $type = null): RouteCollection
     {
         return $this->routes;
     }
 
-    public function supports($resource, $type = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function supports($resource, $type = null): bool
     {
         return 'jwkset' === $type;
     }
 
-    public function getResolver()
+    public function getResolver(): void
     {
     }
 
-    public function setResolver(LoaderResolverInterface $resolver)
+    public function setResolver(LoaderResolverInterface $resolver): void
     {
     }
 }

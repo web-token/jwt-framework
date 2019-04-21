@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\JsonConverter;
@@ -23,23 +24,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PemConverterCommand extends ObjectOutputCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->setName('key:convert:pkcs1')
             ->setDescription('Converts a RSA or EC key into PKCS#1 key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The key');
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The key')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
         $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
-            throw new \InvalidArgumentException('Invalid key.');
+            throw new InvalidArgumentException('Invalid key.');
         }
-        $key = JWK::create($json);
+        $key = new JWK($json);
         switch ($key->get('kty')) {
             case 'RSA':
                 $pem = RSAKey::createFromJWK($key)->toPEM();
@@ -50,7 +55,7 @@ final class PemConverterCommand extends ObjectOutputCommand
 
                 break;
             default:
-                throw new \InvalidArgumentException('Not a RSA or EC key.');
+                throw new InvalidArgumentException('Not a RSA or EC key.');
         }
         $output->write($pem);
     }

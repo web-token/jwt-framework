@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource as JWKSetSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use LogicException;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -41,7 +42,7 @@ class JWKSetSource implements Source
                     $source = $sources[$sourceName];
                     $source->create($container, 'key_set', $name, $sourceConfig);
                 } else {
-                    throw new \LogicException(\sprintf('The JWKSet definition "%s" is not configured.', $name));
+                    throw new LogicException(sprintf('The JWKSet definition "%s" is not configured.', $name));
                 }
             }
         }
@@ -62,7 +63,8 @@ class JWKSetSource implements Source
             })
             ->thenInvalid('One key set type must be set.')
             ->end()
-            ->children();
+            ->children()
+        ;
         foreach ($this->getJWKSetSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)->canBeUnset();
             $source->addConfiguration($sourceNode);
@@ -92,12 +94,12 @@ class JWKSetSource implements Source
 
         $services = $tempContainer->findTaggedServiceIds('jose.jwkset_source');
         $jwkset_sources = [];
-        foreach (\array_keys($services) as $id) {
+        foreach (array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
             if (!$factory instanceof JWKSetSourceInterface) {
-                throw new \InvalidArgumentException();
+                throw new \InvalidArgumentException('Invalid object');
             }
-            $jwkset_sources[\str_replace('-', '_', $factory->getKeySet())] = $factory;
+            $jwkset_sources[str_replace('-', '_', $factory->getKeySet())] = $factory;
         }
 
         return $this->jwkset_sources = $jwkset_sources;

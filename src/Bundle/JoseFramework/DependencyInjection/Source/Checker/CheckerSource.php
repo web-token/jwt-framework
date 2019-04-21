@@ -74,7 +74,8 @@ class CheckerSource implements SourceWithCompilerPasses
             ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
             ->treatFalseLike([])
-            ->treatNullLike([]);
+            ->treatNullLike([])
+        ;
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -89,17 +90,12 @@ class CheckerSource implements SourceWithCompilerPasses
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (!empty($prepend)) {
+            if (0 !== \count($prepend)) {
                 $result[$source->name()] = $prepend;
             }
         }
 
         return $result;
-    }
-
-    private function isEnabled(): bool
-    {
-        return \class_exists(HeaderCheckerManagerFactory::class) && \class_exists(ClaimCheckerManagerFactory::class);
     }
 
     /**
@@ -111,5 +107,10 @@ class CheckerSource implements SourceWithCompilerPasses
             new Compiler\ClaimCheckerCompilerPass(),
             new Compiler\HeaderCheckerCompilerPass(),
         ];
+    }
+
+    private function isEnabled(): bool
+    {
+        return class_exists(HeaderCheckerManagerFactory::class) && class_exists(ClaimCheckerManagerFactory::class);
     }
 }

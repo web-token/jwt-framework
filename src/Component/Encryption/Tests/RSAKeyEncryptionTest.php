@@ -25,6 +25,9 @@ use Jose\Component\Encryption\JWE;
  * Class RSAKeyEncryptionTest.
  *
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAKeyEncryptionTest extends EncryptionTest
 {
@@ -36,7 +39,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
      */
     public function invalidKey()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'EC',
         ]);
 
@@ -54,10 +57,10 @@ class RSAKeyEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function rSA1_5EncryptionAndDecryption()
+    public function rSA15EncryptionAndDecryption()
     {
         $header = [];
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'sXchDaQebHnPiGvyDOAT4saGEUetSyo9MKLOoWFsueri23bOdgWp4Dy1WlUzewbgBHod5pcM9H95GQRV3JDXboIRROSBigeC5yjU1hGzHHyXss8UDprecbAYxknTcQkhslANGRUZmdTOQ5qTRsLAt6BTYuyvVRdhS8exSZEy_c4gs_7svlJJQ4H9_NxsiIoLwAEk7-Q3UXERGYw_75IDrGA84-lA_-Ct4eTlXHBIY2EaV7t7LjJaynVJCpkv4LKjTTAumiGUIuQhrNhZLuF_RJLqHpM2kgWFLU7-VTdL1VbC2tejvcI2BlMkEpk1BzBZI0KQB0GaDWFLN-aEAw3vRw',
             'e' => 'AQAB',
@@ -71,9 +74,9 @@ class RSAKeyEncryptionTest extends EncryptionTest
 
         $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
         foreach ($cek as $key => $value) {
-            $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(implode('', $cek));
 
         $from_specification = Base64Url::decode('UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A');
 
@@ -93,7 +96,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
     public function rSAOAEPEncryptionAndDecryption()
     {
         $header = [];
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'oahUIoWw0K0usKNuOR6H4wkf4oBUXHTxRvgb48E-BVvxkeDNjbC4he8rUWcJoZmds2h7M70imEVhRU5djINXtqllXI4DFqcI1DgjT9LewND8MW2Krf3Spsk_ZkoFnilakGygTwpZ3uesH-PFABNIUYpOiN15dsQRkgr0vEhxN92i2asbOenSZeyaxziK72UwxrrKoExv6kc5twXTq4h-QChLOln0_mtUZwfsRaMStPs6mS6XrgxnxbWhojf663tuEQueGC-FCMfra36C9knDFGzKsNa7LZK2djYgyD3JR_MB_4NUJW_TqOQtwHYbxevoJArm-L5StowjzGy-_bq6Gw',
             'e' => 'AQAB',
@@ -107,9 +110,9 @@ class RSAKeyEncryptionTest extends EncryptionTest
 
         $cek = [177, 161, 244, 128, 84, 143, 225, 115, 63, 180, 3, 255, 107, 154, 212, 246, 138, 7, 110, 91, 112, 46, 34, 105, 47, 130, 203, 46, 122, 234, 64, 252];
         foreach ($cek as $key => $value) {
-            $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(implode('', $cek));
 
         $from_specification = Base64Url::decode('OKOawDo13gRp2ojaHV7LFpZcgV7T6DVZKTyKOMTYUmKoTCVJRgckCL9kiMT03JGeipsEdY3mx_etLbbWSrFr05kLzcSr4qKAq7YN7e9jwQRb23nfa6c9d-StnImGyFDbSv04uVuxIp5Zms1gNxKKK2Da14B8S4rzVRltdYwam_lDp5XnZAYpQdb76FdIKLaVmqgfwX7XWRxv2322i-vDxRfqNzo_tETKzpVLzfiwQyeyPGLBIO56YJ7eObdv0je81860ppamavo35UgoRdbYaBcoh9QcfylQr66oc6vFWXRcZ_ZT2LawVCWTIy3brGPi6UklfCpIMfIjf7iGdXKHzg');
 
@@ -129,7 +132,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
     public function rSAOAEP256EncryptionAndDecryption()
     {
         $header = [];
-        $jwk = JWK::create([
+        $jwk = new JWK([
             'kty' => 'RSA',
             'n' => 'oahUIoWw0K0usKNuOR6H4wkf4oBUXHTxRvgb48E-BVvxkeDNjbC4he8rUWcJoZmds2h7M70imEVhRU5djINXtqllXI4DFqcI1DgjT9LewND8MW2Krf3Spsk_ZkoFnilakGygTwpZ3uesH-PFABNIUYpOiN15dsQRkgr0vEhxN92i2asbOenSZeyaxziK72UwxrrKoExv6kc5twXTq4h-QChLOln0_mtUZwfsRaMStPs6mS6XrgxnxbWhojf663tuEQueGC-FCMfra36C9knDFGzKsNa7LZK2djYgyD3JR_MB_4NUJW_TqOQtwHYbxevoJArm-L5StowjzGy-_bq6Gw',
             'e' => 'AQAB',
@@ -143,9 +146,9 @@ class RSAKeyEncryptionTest extends EncryptionTest
 
         $cek = [177, 161, 244, 128, 84, 143, 225, 115, 63, 180, 3, 255, 107, 154, 212, 246, 138, 7, 110, 91, 112, 46, 34, 105, 47, 130, 203, 46, 122, 234, 64, 252];
         foreach ($cek as $key => $value) {
-            $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(implode('', $cek));
 
         $rsa_oaep_256 = new RSAOAEP256();
         $additionalHeader = [];
@@ -310,7 +313,7 @@ class RSAKeyEncryptionTest extends EncryptionTest
             [
                 'kid' => 'DIR_1',
                 'kty' => 'oct',
-                'k' => Base64Url::encode(\hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
+                'k' => Base64Url::encode(hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
             ],
             [
                 'kty' => 'oct',

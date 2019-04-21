@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
@@ -46,13 +47,13 @@ final class JSONFlattenedSerializer implements JWESerializer
         if (null !== $jwe->getAAD()) {
             $data['aad'] = Base64Url::encode($jwe->getAAD());
         }
-        if (!empty($jwe->getSharedProtectedHeader())) {
+        if (0 !== \count($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
         }
-        if (!empty($jwe->getSharedHeader())) {
+        if (0 !== \count($jwe->getSharedHeader())) {
             $data['unprotected'] = $jwe->getSharedHeader();
         }
-        if (!empty($recipient->getHeader())) {
+        if (0 !== \count($recipient->getHeader())) {
             $data['header'] = $recipient->getHeader();
         }
         if (null !== $recipient->getEncryptedKey()) {
@@ -83,13 +84,14 @@ final class JSONFlattenedSerializer implements JWESerializer
             $sharedHeader,
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
-            [new Recipient($header, $encryptedKey)]);
+            [new Recipient($header, $encryptedKey)]
+        );
     }
 
-    private function checkData($data)
+    private function checkData(array $data): void
     {
-        if (!\is_array($data) || !\array_key_exists('ciphertext', $data) || \array_key_exists('recipients', $data)) {
-            throw new \InvalidArgumentException('Unsupported input.');
+        if (!isset($data['ciphertext']) || isset($data['recipients'])) {
+            throw new InvalidArgumentException('Unsupported input.');
         }
     }
 
@@ -97,7 +99,7 @@ final class JSONFlattenedSerializer implements JWESerializer
     {
         $encodedSharedProtectedHeader = \array_key_exists('protected', $data) ? $data['protected'] : null;
         $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
-        $sharedHeader = \array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+        $sharedHeader = $data['unprotected'] ?? [];
 
         return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];
     }

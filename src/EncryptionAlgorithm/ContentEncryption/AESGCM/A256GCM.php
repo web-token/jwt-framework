@@ -20,13 +20,13 @@ final class A256GCM extends AESGCM
         return 256;
     }
 
-    protected function getMode(): string
-    {
-        return 'aes-256-gcm';
-    }
-
     public function name(): string
     {
         return 'A256GCM';
+    }
+
+    protected function getMode(): string
+    {
+        return 'aes-256-gcm';
     }
 }

@@ -41,7 +41,7 @@ final class JWSVerificationSuccessEvent extends Event
     private $signature;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     private $detachedPayload;
 

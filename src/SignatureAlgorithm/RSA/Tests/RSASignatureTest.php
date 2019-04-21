@@ -28,6 +28,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group RSA
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class RSASignatureTest extends TestCase
 {
@@ -36,7 +39,7 @@ class RSASignatureTest extends TestCase
      */
     public function completeRS256Sign()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -65,8 +68,10 @@ class RSASignatureTest extends TestCase
                         'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
                         'e' => 'AQAB',
                     ],
-                ])
-            ->build();
+                ]
+            )
+            ->build()
+        ;
 
         static::assertEquals('eyJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.QyRlOCcNBMvCEkJRCQA71y2bVX690g0A6wsC2YXf9_VxOYK-g9-xy-1KjghVXkDPe1gDvYSYnL9oWs1PaFKV0_-ijvvJQE6_5pheKTfIVN3Qbkzjxsm4qXTeChBI5MKeBR8z8iWLFT4xPO8NkelwbS2tSUCHrejio6lDDlWhsqSUP8NjHJhqCSZuCDGu3fMMA24cZrYev3tQRc7HHjyi3q_17NZri7feBd7w3NEDkJp7wT_ZclJrYoucHIo1ypaDPJtM-W1-W-lAVREka6Xq4Bg60zdSZ83ODRQTP_IwQrv7hrIcbrRwn1Za_ORZPRPQDP0CMgkb7TkWDZnbPsAzlQ', $serializer->serialize($jws, 0));
         $jws = $serializer->serialize($jws, 0);
@@ -83,7 +88,7 @@ class RSASignatureTest extends TestCase
      */
     public function completeRS256SignWithDetachedPayload()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -111,8 +116,10 @@ class RSASignatureTest extends TestCase
                         'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
                         'e' => 'AQAB',
                     ],
-                ])
-            ->build();
+                ]
+            )
+            ->build()
+        ;
 
         static::assertEquals('eyJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0..QyRlOCcNBMvCEkJRCQA71y2bVX690g0A6wsC2YXf9_VxOYK-g9-xy-1KjghVXkDPe1gDvYSYnL9oWs1PaFKV0_-ijvvJQE6_5pheKTfIVN3Qbkzjxsm4qXTeChBI5MKeBR8z8iWLFT4xPO8NkelwbS2tSUCHrejio6lDDlWhsqSUP8NjHJhqCSZuCDGu3fMMA24cZrYev3tQRc7HHjyi3q_17NZri7feBd7w3NEDkJp7wT_ZclJrYoucHIo1ypaDPJtM-W1-W-lAVREka6Xq4Bg60zdSZ83ODRQTP_IwQrv7hrIcbrRwn1Za_ORZPRPQDP0CMgkb7TkWDZnbPsAzlQ', $serializer->serialize($jws, 0));
         $jws = $serializer->serialize($jws, 0);
@@ -129,7 +136,7 @@ class RSASignatureTest extends TestCase
      */
     public function completeRS384Sign()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -157,8 +164,10 @@ class RSASignatureTest extends TestCase
                         'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
                         'e' => 'AQAB',
                     ],
-                ])
-            ->build();
+                ]
+            )
+            ->build()
+        ;
 
         static::assertEquals('eyJhbGciOiJSUzM4NCIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.gsBhyBOEDPpHBR8OM2Xb5tybKGeijREZN-smEkvI2188pytujFevbDQJ10afbcdjh5LNKO7U_VD3hGPrC7MIkdtJw4c2d0JnVyhiZT5sFnncnCFjll-Y9GkK7a7jWJJTgF_5LmVEeJSFEEgwT1Stxb-TtZCGqc5ExYizLiuQ2IGB6Sq-hTkpWAXJfmHchE_TxV9A4iLWCMTVM6LsLV6NzDtf2a0iu9XvN1MEdzqM7FNdqNCGN43FveTA0hX8OoFfB2ZjYAjbixUCT4VVI2PuuRyu_Lr8cA73eisolBQLQemPyrCo1s560v2tKD7ICS8Teo1PCJ4HnCuO8bvufI2dKA', $serializer->serialize($jws, 0));
         $jws = $serializer->serialize($jws, 0);
@@ -175,7 +184,7 @@ class RSASignatureTest extends TestCase
      */
     public function completeRS512Sign()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -203,8 +212,10 @@ class RSASignatureTest extends TestCase
                         'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
                         'e' => 'AQAB',
                     ],
-                ])
-            ->build();
+                ]
+            )
+            ->build()
+        ;
 
         static::assertEquals('eyJhbGciOiJSUzUxMiIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.OMttEbx9fWoJl4gJwp8m249P87nNENhy5RzH84S1iR8b-upQNy8dqHoIVsQ6qINDjDL5YTl4UWvChIr5AO433LjNUimIeEp2cfiqrszTTwhv-EF3Lp3Ft9NmTb-3ZWvDo1WwwUrD0qro7bynaz5O06DxQfTROcrC6hNX05y6nW_-21exs2_w2OoOWA0Ebx9ev1ayZJh1AQ6q18Ajb0Gk1RST1PFjz0Sk_YiUIYRSVJzgv2Lf7R_Lyi5A5OkIfLOyJmKBi6m0FOLoynq_fT96wCbf5Nkhx-RiuFEcefGhgDav7Wfim3zA3ZAHeNWe58BZOf-8v1kXsV-yd6zQlVa8iw', $serializer->serialize($jws, 0));
 
@@ -222,7 +233,7 @@ class RSASignatureTest extends TestCase
      */
     public function completePS256Sign()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'key_ops' => ['sign'],
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
@@ -252,8 +263,10 @@ class RSASignatureTest extends TestCase
                         'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
                         'e' => 'AQAB',
                     ],
-                ])
-            ->build();
+                ]
+            )
+            ->build()
+        ;
 
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
@@ -269,7 +282,7 @@ class RSASignatureTest extends TestCase
      */
     public function completePS384Sign()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -297,8 +310,10 @@ class RSASignatureTest extends TestCase
                         'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
                         'e' => 'AQAB',
                     ],
-                ])
-            ->build();
+                ]
+            )
+            ->build()
+        ;
 
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
@@ -314,7 +329,7 @@ class RSASignatureTest extends TestCase
      */
     public function completePS512Sign()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
@@ -342,8 +357,10 @@ class RSASignatureTest extends TestCase
                         'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
                         'e' => 'AQAB',
                     ],
-                ])
-            ->build();
+                ]
+            )
+            ->build()
+        ;
 
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
@@ -366,7 +383,7 @@ class RSASignatureTest extends TestCase
         $result = $serializer->unserialize('{"payload":"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ","signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"2010-12-29"},"signature":"cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw"},{"protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}]}');
 
         static::assertInstanceOf(JWS::class, $result);
-        $claims = \json_decode($result->getPayload(), true);
+        $claims = json_decode($result->getPayload(), true);
         static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], $claims);
         static::assertEquals(2, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -454,7 +471,7 @@ class RSASignatureTest extends TestCase
         $result = $serializer->unserialize('eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk');
 
         static::assertInstanceOf(JWS::class, $result);
-        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], \json_decode($result->getPayload(), true));
+        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('HS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
@@ -471,7 +488,7 @@ class RSASignatureTest extends TestCase
         $result = $serializer->unserialize('eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw');
 
         static::assertInstanceOf(JWS::class, $result);
-        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], \json_decode($result->getPayload(), true));
+        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
@@ -488,7 +505,7 @@ class RSASignatureTest extends TestCase
         $result = $serializer->unserialize('eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q');
 
         static::assertInstanceOf(JWS::class, $result);
-        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], \json_decode($result->getPayload(), true));
+        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('ES256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }

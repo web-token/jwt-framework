@@ -20,6 +20,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group JWKAnalyzer
+ *
+ * @internal
+ * @coversNothing
  */
 class MessageBagTest extends TestCase
 {
@@ -63,7 +66,7 @@ class MessageBagTest extends TestCase
     {
         $message = Message::high('Very important');
 
-        static::assertEquals('{"message":"Very important","severity":"high"}', \json_encode($message));
+        static::assertEquals('{"message":"Very important","severity":"high"}', json_encode($message));
     }
 
     /**
@@ -90,6 +93,6 @@ class MessageBagTest extends TestCase
         $bag = new MessageBag();
         $bag->add(Message::high('Very important'));
 
-        static::assertEquals('[{"message":"Very important","severity":"high"}]', \json_encode($bag));
+        static::assertEquals('[{"message":"Very important","severity":"high"}]', json_encode($bag));
     }
 }

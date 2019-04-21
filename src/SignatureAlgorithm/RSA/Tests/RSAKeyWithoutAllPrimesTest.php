@@ -25,6 +25,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group RSA2
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class RSAKeyWithoutAllPrimesTest extends TestCase
 {
@@ -38,7 +41,7 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         $algorithm = new $signature_algorithm();
         $key = $this->getPrivateKey();
 
-        $claims = \json_encode(['foo' => 'bar']);
+        $claims = json_encode(['foo' => 'bar']);
 
         $jwsBuilder = new JWSBuilder(
             new AlgorithmManager([$algorithm])
@@ -51,7 +54,8 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($claims)
             ->addSignature($key, ['alg' => $algorithm->name()])
-            ->build();
+            ->build()
+        ;
         $jws = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($jws);
@@ -89,7 +93,7 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
 
     private function getPrivateKey(): JWK
     {
-        return JWK::create([
+        return new JWK([
             'kty' => 'RSA',
             'kid' => 'private',
             'n' => '2NRPORHXd7wPU6atHqmSfWgEPvsP8HVUkY2AwQQAc8x1J509X5HFxeSXnQym9eAnZHl0JCPbvHoPH4QHlvITYoh0MSgFm2aOPyqOD-XcNdKWtnNX2JIurUCyVlwSwtlmy2ZbCz8YuUmFO0iacahfK1wbWT5QoY-pU3UxnMzDhlBslZN5uL7nRE8Sh_8BthsrMdYeGIMY55kh-P7xTs3MHzpOKhFSrOhdN6aO3HWYUuMAdoMNB-hJvckb2PbCy0_K1Wm3SBHtXn-cuMIUF00W9AR3amp3u3hLa2rcz29jEFXTr2FxKyLH4SdlnFFMJl2vaXuxM4PXgLN33Kj34PfKgc8ljDJ7oaSI9bKt7gunXOLv_o4XWYDq91cvUkOIDAsvqxzzHPZBt0Hru7roW3btkUOiqR6RWy-Cw272yiSEC5QA93m_vklD1KajoFeWN0BW2lWGlfGieZldvKX0sumk1TZuLhlHPHSKYcpeCfahT-jLr1yAeHql6qRN_a0BiHu-SSSjts6InmF1pAELznZ3Jn9-QXX78LsY3xaqOlYqHbCohxXorlYRi4so6eMGILtXjqHOoISb13Ez4YNOQmV4ygmyABRkE0AQG5KLy5cZB7LZn7zqw869UjXxWrmiOaBeDqOkxww6qiWIEDwPIouRLwOfPFtC4LGlb9LmG9Hlhp8',

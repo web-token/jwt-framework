@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @see https://tools.ietf.org/html/rfc7520#section-5.8
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class A128KWAndA128GCMEncryptionTest extends EncryptionTest
 {
@@ -34,7 +37,7 @@ class A128KWAndA128GCMEncryptionTest extends EncryptionTest
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $private_key = JWK::create([
+        $private_key = new JWK([
             'kty' => 'oct',
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'use' => 'enc',
@@ -99,7 +102,7 @@ class A128KWAndA128GCMEncryptionTest extends EncryptionTest
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
-        $private_key = JWK::create([
+        $private_key = new JWK([
             'kty' => 'oct',
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'use' => 'enc',
@@ -120,7 +123,8 @@ class A128KWAndA128GCMEncryptionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build();
+            ->build()
+        ;
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));

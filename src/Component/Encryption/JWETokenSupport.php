@@ -28,15 +28,11 @@ final class JWETokenSupport implements TokenTypeSupport
         if (!$jwt instanceof JWE) {
             return;
         }
-
-        if ($index > $jwt->countRecipients()) {
-            throw new \InvalidArgumentException('Unknown recipient index.');
-        }
         $protectedHeader = $jwt->getSharedProtectedHeader();
         $unprotectedHeader = $jwt->getSharedHeader();
         $recipient = $jwt->getRecipient($index)->getHeader();
 
-        $unprotectedHeader = \array_merge(
+        $unprotectedHeader = array_merge(
             $unprotectedHeader,
             $recipient
         );

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,14 +22,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PublicKeyCommand extends ObjectOutputCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this
             ->setName('key:convert:public')
             ->setDescription('Convert a private key into public key. Symmetric keys (shared keys) are not changed.')
             ->setHelp('This command converts a private key into a public key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -42,11 +44,14 @@ final class PublicKeyCommand extends ObjectOutputCommand
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
+        if (!\is_string($jwk)) {
+            throw new InvalidArgumentException('Invalid JWK');
+        }
         $json = JsonConverter::decode($jwk);
-        if (\is_array($json)) {
-            return JWK::create($json);
+        if (!\is_array($json)) {
+            throw new InvalidArgumentException('Invalid JWK');
         }
 
-        throw new \InvalidArgumentException('The argument must be a valid JWK.');
+        return new JWK($json);
     }
 }

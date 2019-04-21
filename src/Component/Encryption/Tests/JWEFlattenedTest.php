@@ -19,6 +19,9 @@ use Jose\Component\Encryption\JWE;
 
 /**
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWEFlattenedTest extends EncryptionTest
 {
@@ -49,7 +52,7 @@ class JWEFlattenedTest extends EncryptionTest
             [
                 'kid' => 'DIR_1',
                 'kty' => 'oct',
-                'k' => Base64Url::encode(\hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
+                'k' => Base64Url::encode(hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
             ],
             [
                 'kty' => 'oct',

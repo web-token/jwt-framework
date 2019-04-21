@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 
@@ -54,7 +55,7 @@ class RSAKey
         foreach ($details as $key => $value) {
             if (\in_array($key, $keys, true)) {
                 $value = Base64Url::encode($value);
-                $values[\array_search($key, $keys, true)] = $value;
+                $values[array_search($key, $keys, true)] = $value;
             }
         }
 
@@ -66,18 +67,18 @@ class RSAKey
      */
     public static function createFromPEM(string $pem): self
     {
-        $res = \openssl_pkey_get_private($pem);
+        $res = openssl_pkey_get_private($pem);
         if (false === $res) {
-            $res = \openssl_pkey_get_public($pem);
+            $res = openssl_pkey_get_public($pem);
         }
         if (false === $res) {
-            throw new \InvalidArgumentException('Unable to load the key.');
+            throw new InvalidArgumentException('Unable to load the key.');
         }
 
-        $details = \openssl_pkey_get_details($res);
-        \openssl_free_key($res);
-        if (!\array_key_exists('rsa', $details)) {
-            throw new \InvalidArgumentException('Unable to load the key.');
+        $details = openssl_pkey_get_details($res);
+        openssl_free_key($res);
+        if (!\is_array($details) || !isset($details['rsa'])) {
+            throw new InvalidArgumentException('Unable to load the key.');
         }
 
         return self::createFromKeyDetails($details['rsa']);
@@ -119,38 +120,39 @@ class RSAKey
         return $this->values;
     }
 
-    private function loadJWK(array $jwk)
-    {
-        if (!\array_key_exists('kty', $jwk)) {
-            throw new \InvalidArgumentException('The key parameter "kty" is missing.');
-        }
-        if ('RSA' !== $jwk['kty']) {
-            throw new \InvalidArgumentException('The JWK is not a RSA key.');
-        }
-
-        $this->values = $jwk;
-    }
-
     public function toJwk(): JWK
     {
-        return JWK::create($this->values);
+        return new JWK($this->values);
     }
 
     /**
      * This method will try to add Chinese Remainder Theorem (CRT) parameters.
      * With those primes, the decryption process is really fast.
      */
-    public function optimize()
+    public function optimize(): void
     {
         if (\array_key_exists('d', $this->values)) {
             $this->populateCRT();
         }
     }
 
+    private function loadJWK(array $jwk): void
+    {
+        if (!\array_key_exists('kty', $jwk)) {
+            throw new InvalidArgumentException('The key parameter "kty" is missing.');
+        }
+        if ('RSA' !== $jwk['kty']) {
+            throw new InvalidArgumentException('The JWK is not a RSA key.');
+        }
+
+        $this->values = $jwk;
+    }
+
     /**
      * This method adds Chinese Remainder Theorem (CRT) parameters if primes 'p' and 'q' are available.
+     * If 'p' and 'q' are missing, they are computed and added to the key data.
      */
-    private function populateCRT()
+    private function populateCRT(): void
     {
         if (!\array_key_exists('p', $this->values) && !\array_key_exists('q', $this->values)) {
             $d = BigInteger::createFromBinaryString(Base64Url::decode($this->values['d']));
@@ -230,7 +232,9 @@ class RSAKey
                     break;
                 }
             }
-
+            if (null === $y) {
+                throw new InvalidArgumentException('Unable to find prime factors.');
+            }
             if (true === $found) {
                 $p = $y->subtract($one)->gcd($n);
                 $q = $n->divide($p);
@@ -239,6 +243,6 @@ class RSAKey
             }
         }
 
-        throw new \InvalidArgumentException('Unable to find prime factors.');
+        throw new InvalidArgumentException('Unable to find prime factors.');
     }
 }

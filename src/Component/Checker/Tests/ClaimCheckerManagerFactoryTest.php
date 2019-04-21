@@ -24,9 +24,17 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group ClaimChecker
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class ClaimCheckerManagerFactoryTest extends TestCase
 {
+    /**
+     * @var null|ClaimCheckerManagerFactory
+     */
+    private $claimCheckerManagerFactory;
+
     /**
      * @test
      */
@@ -60,9 +68,9 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     public function iCanCheckValidPayloadClaims()
     {
         $payload = [
-            'exp' => \time() + 3600,
-            'iat' => \time() - 1000,
-            'nbf' => \time() - 100,
+            'exp' => time() + 3600,
+            'iat' => time() - 1000,
+            'nbf' => time() - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;
@@ -80,9 +88,9 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     public function theMandatoryClaimsAreNotSet()
     {
         $payload = [
-            'exp' => \time() + 3600,
-            'iat' => \time() - 1000,
-            'nbf' => \time() - 100,
+            'exp' => time() + 3600,
+            'iat' => time() - 1000,
+            'nbf' => time() - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;
@@ -90,11 +98,6 @@ class ClaimCheckerManagerFactoryTest extends TestCase
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
         $manager->check($payload, ['exp', 'foo', 'bar']);
     }
-
-    /**
-     * @var ClaimCheckerManagerFactory|null
-     */
-    private $claimCheckerManagerFactory = null;
 
     private function getClaimCheckerManagerFactory(): ClaimCheckerManagerFactory
     {

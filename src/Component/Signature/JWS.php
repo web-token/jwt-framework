@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
 class JWS implements JWT
@@ -23,9 +24,9 @@ class JWS implements JWT
     private $isPayloadDetached = false;
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $encodedPayload = null;
+    private $encodedPayload;
 
     /**
      * @var Signature[]
@@ -33,9 +34,9 @@ class JWS implements JWT
     private $signatures = [];
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $payload = null;
+    private $payload;
 
     public function __construct(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false)
     {
@@ -89,7 +90,7 @@ class JWS implements JWT
             return $this->signatures[$id];
         }
 
-        throw new \InvalidArgumentException('The signature does not exist.');
+        throw new InvalidArgumentException('The signature does not exist.');
     }
 
     /**
@@ -132,10 +133,10 @@ class JWS implements JWT
                 $this->isPayloadDetached
             );
             $jws = $jws->addSignature(
-                 $signature->getSignature(),
-                 $signature->getProtectedHeader(),
-                 $signature->getEncodedProtectedHeader(),
-                 $signature->getHeader()
+                $signature->getSignature(),
+                $signature->getProtectedHeader(),
+                $signature->getEncodedProtectedHeader(),
+                $signature->getHeader()
              );
 
             $result[] = $jws;

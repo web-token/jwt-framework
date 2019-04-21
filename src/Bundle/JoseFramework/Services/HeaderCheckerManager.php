@@ -19,6 +19,7 @@ use Jose\Bundle\JoseFramework\Event\HeaderCheckedSuccessEvent;
 use Jose\Component\Checker\HeaderCheckerManager as BaseHeaderCheckerManager;
 use Jose\Component\Core\JWT;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Throwable;
 
 final class HeaderCheckerManager extends BaseHeaderCheckerManager
 {
@@ -41,11 +42,12 @@ final class HeaderCheckerManager extends BaseHeaderCheckerManager
                 Events::HEADER_CHECK_SUCCESS,
                 new HeaderCheckedSuccessEvent($jwt, $index, $mandatoryHeaderParameters)
             );
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(
                 Events::HEADER_CHECK_FAILURE,
                 new HeaderCheckedFailureEvent($jwt, $index, $mandatoryHeaderParameters, $throwable)
             );
+
             throw $throwable;
         }
     }

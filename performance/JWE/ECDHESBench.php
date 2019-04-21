@@ -55,11 +55,6 @@ final class ECDHESBench extends EncryptionBench
         ];
     }
 
-    protected function getAAD(): ?string
-    {
-        return 'A,B,C,D';
-    }
-
     public function dataInputs(): array
     {
         return [
@@ -181,5 +176,10 @@ final class ECDHESBench extends EncryptionBench
                 ],
             ],
         ];
+    }
+
+    protected function getAAD(): ?string
+    {
+        return 'A,B,C,D';
     }
 }

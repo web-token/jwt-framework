@@ -13,7 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use JsonSerializable;
+use Traversable;
+
+class MessageBag implements JsonSerializable, IteratorAggregate, Countable
 {
     /**
      * @var Message[]
@@ -38,18 +44,27 @@ class MessageBag implements \JsonSerializable, \IteratorAggregate, \Countable
         return $this->messages;
     }
 
-    public function jsonSerialize()
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize(): array
     {
-        return \array_values($this->messages);
+        return array_values($this->messages);
     }
 
-    public function count()
+    /**
+     * {@inheritdoc}
+     */
+    public function count(): int
     {
         return \count($this->messages);
     }
 
-    public function getIterator()
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->messages);
+        return new ArrayIterator($this->messages);
     }
 }

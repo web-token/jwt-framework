@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group ClaimChecker
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class AudienceClaimCheckerTest extends TestCase
 {

@@ -13,14 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use function bin2hex;
-use function dechex;
-use function hex2bin;
-use function hexdec;
 use InvalidArgumentException;
-use function mb_strlen;
-use function mb_substr;
-use function str_pad;
 use const STR_PAD_LEFT;
 
 /**
@@ -53,15 +46,31 @@ final class ECSignature
         $totalLength = $lengthR + $lengthS + self::BYTE_SIZE + self::BYTE_SIZE;
         $lengthPrefix = $totalLength > self::ASN1_MAX_SINGLE_BYTE ? self::ASN1_LENGTH_2BYTES : '';
 
-        $asn1 = hex2bin(
+        return hex2bin(
             self::ASN1_SEQUENCE
             .$lengthPrefix.dechex($totalLength)
             .self::ASN1_INTEGER.dechex($lengthR).$pointR
             .self::ASN1_INTEGER.dechex($lengthS).$pointS
         );
-        \assert(\is_string($asn1));
+    }
 
-        return $asn1;
+    public static function fromAsn1(string $signature, int $length): string
+    {
+        $message = bin2hex($signature);
+        $position = 0;
+
+        if (self::ASN1_SEQUENCE !== self::readAsn1Content($message, $position, self::BYTE_SIZE)) {
+            throw new InvalidArgumentException('Invalid data. Should start with a sequence.');
+        }
+
+        if (self::ASN1_LENGTH_2BYTES === self::readAsn1Content($message, $position, self::BYTE_SIZE)) {
+            $position += self::BYTE_SIZE;
+        }
+
+        $pointR = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
+        $pointS = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
+
+        return hex2bin(str_pad($pointR, $length, '0', STR_PAD_LEFT).str_pad($pointS, $length, '0', STR_PAD_LEFT));
     }
 
     private static function octetLength(string $data): int
@@ -81,28 +90,6 @@ final class ECSignature
         }
 
         return $data;
-    }
-
-    public static function fromAsn1(string $signature, int $length): string
-    {
-        $message = bin2hex($signature);
-        $position = 0;
-
-        if (self::ASN1_SEQUENCE !== self::readAsn1Content($message, $position, self::BYTE_SIZE)) {
-            throw new InvalidArgumentException('Invalid data. Should start with a sequence.');
-        }
-
-        if (self::ASN1_LENGTH_2BYTES === self::readAsn1Content($message, $position, self::BYTE_SIZE)) {
-            $position += self::BYTE_SIZE;
-        }
-
-        $pointR = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
-        $pointS = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
-
-        $points = hex2bin(str_pad($pointR, $length, '0', STR_PAD_LEFT).str_pad($pointS, $length, '0', STR_PAD_LEFT));
-        \assert(\is_string($points));
-
-        return $points;
     }
 
     private static function readAsn1Content(string $message, int &$position, int $length): string

@@ -19,6 +19,9 @@ use Jose\Component\Core\JWK;
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
  * @group RFC7520
+ *
+ * @internal
+ * @coversNothing
  */
 class NestingTest extends NestedTokenTest
 {
@@ -29,7 +32,7 @@ class NestingTest extends NestedTokenTest
     {
         $payload = 'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJob2JiaXRvbi5leGFtcGxlIiwiZXhwIjoxMzAwODE5MzgwLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZX0.dPpMqwRZxFYi1UfcDAaf8M99o7kwUWtiXZ-ByvVuJih4MhJ_aZqciprz0OWaIAkIvn1qskChirjKvY9ESZNUCP4JjvfyPS-nqjJxYoA5ztWOyFk2cZNIPXjcJXSQwXPO9tEe-v4VSqgD0aKHqPxYog4N6Cz1lKph1U1sYDSI67_bLL7elg_vkjfMp5_W5l5LuUYGMeh6hxQIaIUXf9EwV2JmvTMuZ-vBOWy0Sniy1EFo72CRTvmtrIf5AROo5MNliY3KtUxeP-SOmD-LEYwW9SlkohYzMVAZDDOrVbv7KVRHpeYNaK75KEQqdCEEkS_rskZS-Qtt_nlegTWh1mEYaA';
 
-        $encryption_key = JWK::create([
+        $encryption_key = new JWK([
             'kty' => 'RSA',
             'kid' => 'samwise.gamgee@hobbiton.example',
             'use' => 'enc',

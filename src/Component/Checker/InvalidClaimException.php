@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Exception;
+
 /**
  * This exception is thrown by claim checkers when a claim check failed.
  */
-class InvalidClaimException extends \Exception
+class InvalidClaimException extends Exception
 {
     /**
      * @var string
@@ -29,7 +31,7 @@ class InvalidClaimException extends \Exception
     private $value;
 
     /**
-     * InvalidClaimException constructor.
+     * @param mixed $value
      */
     public function __construct(string $message, string $claim, $value)
     {
@@ -49,6 +51,8 @@ class InvalidClaimException extends \Exception
 
     /**
      * Returns the claim value that caused the exception.
+     *
+     * @return mixed
      */
     public function getValue()
     {

@@ -21,6 +21,9 @@ use Jose\Component\Encryption\Compression\Deflate;
  * Class CompressionTest.
  *
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class CompressionTest extends EncryptionTest
 {

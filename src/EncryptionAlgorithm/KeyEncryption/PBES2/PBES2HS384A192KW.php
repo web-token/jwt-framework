@@ -17,6 +17,11 @@ use AESKW\A192KW as Wrapper;
 
 final class PBES2HS384A192KW extends PBES2AESKW
 {
+    public function name(): string
+    {
+        return 'PBES2-HS384+A192KW';
+    }
+
     protected function getWrapper()
     {
         return new Wrapper();
@@ -30,10 +35,5 @@ final class PBES2HS384A192KW extends PBES2AESKW
     protected function getKeySize(): int
     {
         return 24;
-    }
-
-    public function name(): string
-    {
-        return 'PBES2-HS384+A192KW';
     }
 }

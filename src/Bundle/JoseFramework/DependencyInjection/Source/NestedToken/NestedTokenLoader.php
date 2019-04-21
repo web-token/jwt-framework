@@ -30,7 +30,7 @@ class NestedTokenLoader implements Source
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
-            $service_id = \sprintf('jose.nested_token_loader.%s', $name);
+            $service_id = sprintf('jose.nested_token_loader.%s', $name);
             $definition = new Definition(self::class);
             $definition
                 ->setFactory([new Reference(NestedTokenLoaderFactory::class), 'create'])
@@ -45,7 +45,8 @@ class NestedTokenLoader implements Source
                     $itemConfig['jws_header_checkers'],
                 ])
                 ->addTag('jose.nested_token_loader')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -131,7 +132,8 @@ class NestedTokenLoader implements Source
             ->end()
             ->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

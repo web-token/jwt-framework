@@ -20,6 +20,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group NoneKeys
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class NoneKeysTest extends TestCase
 {
@@ -30,14 +33,14 @@ class NoneKeysTest extends TestCase
      */
     public function keyThumbprint()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'none',
             'alg' => 'none',
             'use' => 'sig',
             'kid' => '2011-04-29',
         ]);
 
-        static::assertEquals('{"kty":"none","alg":"none","use":"sig","kid":"2011-04-29"}', \json_encode($key));
+        static::assertEquals('{"kty":"none","alg":"none","use":"sig","kid":"2011-04-29"}', json_encode($key));
         static::assertEquals('BC69Ls25CLRh1KQrXvQAAB22oyuW3eQabDSMdv9xMNk', $key->thumbprint('sha256'));
         static::assertEquals('hCnBo6v87V-Gz5Bp7eoFTrdvkGA', $key->thumbprint('sha1'));
         static::assertEquals('JI3gujreJtPt2gzxlbGnLQ', $key->thumbprint('md5'));

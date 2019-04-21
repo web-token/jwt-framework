@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use InvalidArgumentException;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -26,6 +27,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
+use Throwable;
 
 class JWEDecrypter
 {
@@ -84,7 +86,7 @@ class JWEDecrypter
      */
     public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient): bool
     {
-        $jwkset = JWKSet::createFromKeys([$jwk]);
+        $jwkset = new JWKSet([$jwk]);
 
         return $this->decryptUsingKeySet($jwe, $jwkset, $recipient);
     }
@@ -99,9 +101,15 @@ class JWEDecrypter
      */
     public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient, JWK &$jwk = null): bool
     {
-        $this->checkJWKSet($jwkset);
-        $this->checkPayload($jwe);
-        $this->checkRecipients($jwe);
+        if (0 === $jwkset->count()) {
+            throw new InvalidArgumentException('No key in the key set.');
+        }
+        if (null !== $jwe->getPayload()) {
+            throw new InvalidArgumentException('The JWE is already decrypted.');
+        }
+        if (0 === $jwe->countRecipients()) {
+            throw new InvalidArgumentException('The JWE does not contain any recipient.');
+        }
 
         $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk);
         if (null !== $plaintext) {
@@ -116,7 +124,7 @@ class JWEDecrypter
     private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i, JWK &$successJwk = null): ?string
     {
         $recipient = $jwe->getRecipient($i);
-        $completeHeader = \array_merge($jwe->getSharedProtectedHeader(), $jwe->getSharedHeader(), $recipient->getHeader());
+        $completeHeader = array_merge($jwe->getSharedProtectedHeader(), $jwe->getSharedHeader(), $recipient->getHeader());
         $this->checkCompleteHeader($completeHeader);
 
         $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($completeHeader);
@@ -140,7 +148,7 @@ class JWEDecrypter
 
                     return $payload;
                 }
-            } catch (\Exception $e) {
+            } catch (Throwable $e) {
                 //We do nothing, we continue with other keys
                 continue;
             }
@@ -154,39 +162,18 @@ class JWEDecrypter
         if ($keyEncryptionAlgorithm instanceof DirectEncryption || $keyEncryptionAlgorithm instanceof KeyAgreement) {
             return;
         }
-        if (mb_strlen($cek, '8bit') !== $algorithm->getCEKSize() / 8) {
-            throw new \InvalidArgumentException('Invalid CEK size');
+        if (mb_strlen($cek, '8bit') * 8 !== $algorithm->getCEKSize()) {
+            throw new InvalidArgumentException('Invalid CEK size');
         }
     }
 
     private function checkIvSize(?string $iv, int $requiredIvSize): void
     {
         if (null === $iv && 0 !== $requiredIvSize) {
-            throw new \InvalidArgumentException('Invalid IV size');
+            throw new InvalidArgumentException('Invalid IV size');
         }
         if (\is_string($iv) && mb_strlen($iv, '8bit') !== $requiredIvSize / 8) {
-            throw new \InvalidArgumentException('Invalid IV size');
-        }
-    }
-
-    private function checkRecipients(JWE $jwe)
-    {
-        if (0 === $jwe->countRecipients()) {
-            throw new \InvalidArgumentException('The JWE does not contain any recipient.');
-        }
-    }
-
-    private function checkPayload(JWE $jwe)
-    {
-        if (null !== $jwe->getPayload()) {
-            throw new \InvalidArgumentException('The JWE is already decrypted.');
-        }
-    }
-
-    private function checkJWKSet(JWKSet $jwkset)
-    {
-        if (0 === $jwkset->count()) {
-            throw new \InvalidArgumentException('No key in the key set.');
+            throw new InvalidArgumentException('Invalid IV size');
         }
     }
 
@@ -206,9 +193,9 @@ class JWEDecrypter
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
             return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $completeHeader);
-        } else {
-            throw new \InvalidArgumentException('Unsupported CEK generation');
         }
+
+        throw new InvalidArgumentException('Unsupported CEK generation');
     }
 
     private function decryptPayload(JWE $jwe, string $cek, ContentEncryptionAlgorithm $content_encryption_algorithm, array $completeHeader): string
@@ -223,19 +210,16 @@ class JWEDecrypter
         if (\array_key_exists('zip', $completeHeaders)) {
             $compression_method = $this->compressionMethodManager->get($completeHeaders['zip']);
             $payload = $compression_method->uncompress($payload);
-            if (!\is_string($payload)) {
-                throw new \InvalidArgumentException('Decompression failed');
-            }
         }
 
         return $payload;
     }
 
-    private function checkCompleteHeader(array $completeHeaders)
+    private function checkCompleteHeader(array $completeHeaders): void
     {
         foreach (['enc', 'alg'] as $key) {
-            if (!\array_key_exists($key, $completeHeaders)) {
-                throw new \InvalidArgumentException(\sprintf("Parameters '%s' is missing.", $key));
+            if (!isset($completeHeaders[$key])) {
+                throw new InvalidArgumentException(sprintf("Parameters '%s' is missing.", $key));
             }
         }
     }
@@ -244,7 +228,7 @@ class JWEDecrypter
     {
         $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($completeHeaders['alg']);
         if (!$key_encryption_algorithm instanceof KeyEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
+            throw new InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
         }
 
         return $key_encryption_algorithm;
@@ -254,7 +238,7 @@ class JWEDecrypter
     {
         $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
         if (!$content_encryption_algorithm instanceof ContentEncryptionAlgorithm) {
-            throw new \InvalidArgumentException(\sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
+            throw new InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
         }
 
         return $content_encryption_algorithm;

@@ -69,7 +69,8 @@ abstract class SignatureBench
         $jwsBuilder
             ->withPayload($this->payload)
             ->addSignature($this->getPrivateKey(), ['alg' => $params['algorithm']])
-            ->build();
+            ->build()
+        ;
     }
 
     /**

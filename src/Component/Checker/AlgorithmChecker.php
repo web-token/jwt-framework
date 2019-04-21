@@ -40,6 +40,9 @@ final class AlgorithmChecker implements HeaderChecker
         $this->protectedHeader = $protectedHeader;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function checkHeader($value): void
     {
         if (!\is_string($value)) {

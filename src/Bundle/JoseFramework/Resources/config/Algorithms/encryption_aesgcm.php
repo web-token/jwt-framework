@@ -18,14 +18,18 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(ContentEncryption\A128GCM::class)
-        ->tag('jose.algorithm', ['alias' => 'A128GCM']);
+        ->tag('jose.algorithm', ['alias' => 'A128GCM'])
+    ;
 
     $container->set(ContentEncryption\A192GCM::class)
-        ->tag('jose.algorithm', ['alias' => 'A192GCM']);
+        ->tag('jose.algorithm', ['alias' => 'A192GCM'])
+    ;
 
     $container->set(ContentEncryption\A256GCM::class)
-        ->tag('jose.algorithm', ['alias' => 'A256GCM']);
+        ->tag('jose.algorithm', ['alias' => 'A256GCM'])
+    ;
 };

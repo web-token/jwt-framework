@@ -19,6 +19,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group OctKeys
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class OctKeysTest extends TestCase
 {

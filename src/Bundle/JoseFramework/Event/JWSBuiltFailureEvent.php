@@ -14,16 +14,12 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use Throwable;
 
 final class JWSBuiltFailureEvent extends Event
 {
     /**
-     * @var \Throwable
-     */
-    private $throwable;
-
-    /**
-     * @var string|null
+     * @var null|string
      */
     protected $payload;
 
@@ -38,11 +34,15 @@ final class JWSBuiltFailureEvent extends Event
     protected $signatures = [];
 
     /**
-     * @var bool|null
+     * @var null|bool
      */
-    protected $isPayloadEncoded = null;
+    protected $isPayloadEncoded;
+    /**
+     * @var Throwable
+     */
+    private $throwable;
 
-    public function __construct(?string $payload, array $signatures, ?bool $isPayloadDetached, ?bool $isPayloadEncoded, \Throwable $throwable)
+    public function __construct(?string $payload, array $signatures, bool $isPayloadDetached, ?bool $isPayloadEncoded, Throwable $throwable)
     {
         $this->throwable = $throwable;
         $this->payload = $payload;
@@ -71,7 +71,7 @@ final class JWSBuiltFailureEvent extends Event
         return $this->isPayloadEncoded;
     }
 
-    public function getThrowable(): \Throwable
+    public function getThrowable(): Throwable
     {
         return $this->throwable;
     }

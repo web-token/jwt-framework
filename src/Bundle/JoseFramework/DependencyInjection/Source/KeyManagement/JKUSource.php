@@ -32,7 +32,7 @@ class JKUSource implements Source
         if (true === $configs[$this->name()]['enabled']) {
             $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
             $loader->load('jku_source.php');
-            if (\class_exists(JKULoaderCommand::class)) {
+            if (class_exists(JKULoaderCommand::class)) {
                 $loader->load('jku_commands.php');
             }
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
@@ -58,7 +58,8 @@ class JKUSource implements Source
             ->end()
             ->end()
             ->end()
-            ->end();
+            ->end()
+        ;
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

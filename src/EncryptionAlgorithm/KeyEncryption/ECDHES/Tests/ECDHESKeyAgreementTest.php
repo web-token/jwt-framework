@@ -26,6 +26,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @group ECDHES
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class ECDHESKeyAgreementTest extends TestCase
 {
@@ -36,7 +39,7 @@ class ECDHESKeyAgreementTest extends TestCase
      */
     public function getAgreementKey()
     {
-        $receiver = JWK::create([
+        $receiver = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
@@ -66,14 +69,14 @@ class ECDHESKeyAgreementTest extends TestCase
     {
         $header = ['enc' => 'A128GCM'];
 
-        $public = JWK::create([
+        $public = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
             'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
         ]);
 
-        $private = JWK::create([
+        $private = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
@@ -83,9 +86,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
         foreach ($cek as $key => $value) {
-            $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(implode('', $cek));
 
         $ecdh_es = new ECDHESA128KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 128, $header, $header);
@@ -106,14 +109,14 @@ class ECDHESKeyAgreementTest extends TestCase
     {
         $header = ['enc' => 'A192GCM'];
 
-        $public = JWK::create([
+        $public = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
             'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
         ]);
 
-        $private = JWK::create([
+        $private = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
@@ -123,9 +126,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
         foreach ($cek as $key => $value) {
-            $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(implode('', $cek));
 
         $ecdh_es = new ECDHESA192KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 192, $header, $header);
@@ -146,14 +149,14 @@ class ECDHESKeyAgreementTest extends TestCase
     {
         $header = ['enc' => 'A256GCM'];
 
-        $public = JWK::create([
+        $public = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
             'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
         ]);
 
-        $private = JWK::create([
+        $private = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
@@ -163,9 +166,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
         foreach ($cek as $key => $value) {
-            $cek[$key] = \str_pad(\dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
-        $cek = \hex2bin(\implode('', $cek));
+        $cek = hex2bin(implode('', $cek));
 
         $ecdh_es = new ECDHESA256KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 256, $header, $header);
@@ -187,7 +190,7 @@ class ECDHESKeyAgreementTest extends TestCase
      */
     public function ePKParameterAreMissing()
     {
-        $sender = JWK::create([
+        $sender = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'gI0GAILBdu7T53akrFmMyGcsF3n5dO7MmwNBHKW5SV0',
@@ -201,14 +204,14 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header parameter "epk" is not an array of parameter
+     * @expectedExceptionMessage The header parameter "epk" is not an array of parameters
      *
      * @test
      */
     public function badEPKParameter()
     {
         $header = ['epk' => 'foo'];
-        $sender = JWK::create([
+        $sender = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'gI0GAILBdu7T53akrFmMyGcsF3n5dO7MmwNBHKW5SV0',
@@ -228,7 +231,7 @@ class ECDHESKeyAgreementTest extends TestCase
      */
     public function eCKeyHasMissingParameters()
     {
-        $receiver = JWK::create([
+        $receiver = new JWK([
             'kty' => 'EC',
             'dir' => Base64Url::encode('ABCD'),
         ]);
@@ -251,7 +254,7 @@ class ECDHESKeyAgreementTest extends TestCase
             'apv' => 'Qm9i',
         ];
 
-        $receiver = JWK::create([
+        $receiver = new JWK([
             'kty' => 'EC',
             'crv' => 'P-192',
             'x' => 'm2Jmp98NRH83ramvp0VVIQJXK56ZEwuM',

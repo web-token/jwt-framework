@@ -13,8 +13,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-class Message implements \JsonSerializable
+use JsonSerializable;
+
+class Message implements JsonSerializable
 {
+    public const SEVERITY_LOW = 'low';
+
+    public const SEVERITY_MEDIUM = 'medium';
+
+    public const SEVERITY_HIGH = 'high';
     /**
      * @var string
      */
@@ -24,12 +31,6 @@ class Message implements \JsonSerializable
      * @var string
      */
     private $severity;
-
-    public const SEVERITY_LOW = 'low';
-
-    public const SEVERITY_MEDIUM = 'medium';
-
-    public const SEVERITY_HIGH = 'high';
 
     /**
      * Message constructor.
@@ -86,7 +87,7 @@ class Message implements \JsonSerializable
         return $this->severity;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'message' => $this->message,

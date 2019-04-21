@@ -17,6 +17,9 @@ use Jose\Component\Signature\JWS;
 
 /**
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWSFlattenedTest extends SignatureTest
 {
@@ -31,6 +34,6 @@ class JWSFlattenedTest extends SignatureTest
 
         static::assertInstanceOf(JWS::class, $loaded);
         static::assertEquals('ES256', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
-        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], \json_decode($loaded->getPayload(), true));
+        static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($loaded->getPayload(), true));
     }
 }

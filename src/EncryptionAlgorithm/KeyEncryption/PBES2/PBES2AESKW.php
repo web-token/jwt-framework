@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 abstract class PBES2AESKW implements KeyWrapping
@@ -41,26 +42,25 @@ abstract class PBES2AESKW implements KeyWrapping
 
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
-        $this->checkKey($key);
+        $password = $this->getKey($key);
         $this->checkHeaderAlgorithm($completeHeader);
         $wrapper = $this->getWrapper();
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
-        $salt = \random_bytes($this->salt_size);
-        $password = Base64Url::decode($key->get('k'));
+        $salt = random_bytes($this->salt_size);
 
         // We set header parameters
         $additionalHeader['p2s'] = Base64Url::encode($salt);
         $additionalHeader['p2c'] = $this->nb_count;
 
-        $derived_key = \hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
+        $derived_key = hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
 
         return $wrapper::wrap($derived_key, $cek);
     }
 
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
-        $this->checkKey($key);
+        $password = $this->getKey($key);
         $this->checkHeaderAlgorithm($completeHeader);
         $this->checkHeaderAdditionalParameters($completeHeader);
         $wrapper = $this->getWrapper();
@@ -68,9 +68,8 @@ abstract class PBES2AESKW implements KeyWrapping
         $key_size = $this->getKeySize();
         $salt = $completeHeader['alg']."\x00".Base64Url::decode($completeHeader['p2s']);
         $count = $completeHeader['p2c'];
-        $password = Base64Url::decode($key->get('k'));
 
-        $derived_key = \hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
+        $derived_key = hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
 
         return $wrapper::unwrap($derived_key, $encrypted_cek);
     }
@@ -80,32 +79,45 @@ abstract class PBES2AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    protected function checkKey(JWK $key): void
+    protected function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new \InvalidArgumentException('Wrong key type.');
+            throw new InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
-            throw new \InvalidArgumentException('The key parameter "k" is missing.');
+            throw new InvalidArgumentException('The key parameter "k" is missing.');
         }
+        $k = $key->get('k');
+        if (!\is_string($k)) {
+            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+        }
+
+        return Base64Url::decode($k);
     }
 
     protected function checkHeaderAlgorithm(array $header): void
     {
-        if (!\array_key_exists('alg', $header)) {
-            throw new \InvalidArgumentException('The header parameter "alg" is missing.');
+        if (!isset($header['alg'])) {
+            throw new InvalidArgumentException('The header parameter "alg" is missing.');
         }
         if (!\is_string($header['alg'])) {
-            throw new \InvalidArgumentException('The header parameter "alg" is not valid.');
+            throw new InvalidArgumentException('The header parameter "alg" is not valid.');
         }
     }
 
     protected function checkHeaderAdditionalParameters(array $header): void
     {
-        foreach (['p2s', 'p2c'] as $k) {
-            if (!\array_key_exists($k, $header)) {
-                throw new \InvalidArgumentException(\sprintf('The header parameter "%s" is missing.', $k));
-            }
+        if (!isset($header['p2s'])) {
+            throw new InvalidArgumentException('The header parameter "p2s" is missing.');
+        }
+        if (!\is_string($header['p2s'])) {
+            throw new InvalidArgumentException('The header parameter "p2s" is not valid.');
+        }
+        if (!isset($header['p2c'])) {
+            throw new InvalidArgumentException('The header parameter "p2c" is missing.');
+        }
+        if (!\is_int($header['p2c']) || $header['p2c'] <= 0) {
+            throw new InvalidArgumentException('The header parameter "p2c" is not valid.');
         }
     }
 

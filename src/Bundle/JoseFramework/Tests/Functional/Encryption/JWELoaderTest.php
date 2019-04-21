@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 
+use Jose\Bundle\JoseFramework\Services\JWELoaderFactory as JWELoaderFactoryAlias;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWELoader;
 use Jose\Component\Encryption\JWELoaderFactory;
@@ -21,12 +22,15 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @group Bundle
  * @group functional
+ *
+ * @internal
+ * @coversNothing
  */
 class JWELoaderTest extends WebTestCase
 {
     protected function setUp()
     {
-        if (!\class_exists(JWEBuilderFactory::class)) {
+        if (!class_exists(JWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
@@ -39,7 +43,7 @@ class JWELoaderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWELoaderFactory::class));
+        static::assertTrue($container->has(JWELoaderFactoryAlias::class));
     }
 
     /**
@@ -50,7 +54,7 @@ class JWELoaderTest extends WebTestCase
         $client = static::createClient();
 
         /** @var JWELoaderFactory $jweLoaderFactory */
-        $jweLoaderFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWELoaderFactory::class);
+        $jweLoaderFactory = $client->getContainer()->get(JWELoaderFactoryAlias::class);
 
         $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5'], ['A256GCM'], ['DEF']);
 

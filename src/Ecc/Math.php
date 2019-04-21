@@ -13,83 +13,85 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
+use GMP;
+
 /**
  * @internal
  */
 class Math
 {
-    public static function cmp(\GMP $first, \GMP $other): int
+    public static function cmp(GMP $first, GMP $other): int
     {
-        return \gmp_cmp($first, $other);
+        return gmp_cmp($first, $other);
     }
 
-    public static function equals(\GMP $first, \GMP $other): bool
+    public static function equals(GMP $first, GMP $other): bool
     {
-        return 0 === \gmp_cmp($first, $other);
+        return 0 === gmp_cmp($first, $other);
     }
 
-    public static function mod(\GMP $number, \GMP $modulus): \GMP
+    public static function mod(GMP $number, GMP $modulus): GMP
     {
-        return \gmp_mod($number, $modulus);
+        return gmp_mod($number, $modulus);
     }
 
-    public static function add(\GMP $augend, \GMP $addend): \GMP
+    public static function add(GMP $augend, GMP $addend): GMP
     {
-        return \gmp_add($augend, $addend);
+        return gmp_add($augend, $addend);
     }
 
-    public static function sub(\GMP $minuend, \GMP $subtrahend): \GMP
+    public static function sub(GMP $minuend, GMP $subtrahend): GMP
     {
-        return \gmp_sub($minuend, $subtrahend);
+        return gmp_sub($minuend, $subtrahend);
     }
 
-    public static function mul(\GMP $multiplier, \GMP $multiplicand): \GMP
+    public static function mul(GMP $multiplier, GMP $multiplicand): GMP
     {
-        return \gmp_mul($multiplier, $multiplicand);
+        return gmp_mul($multiplier, $multiplicand);
     }
 
-    public static function pow(\GMP $base, int $exponent): \GMP
+    public static function pow(GMP $base, int $exponent): GMP
     {
-        return \gmp_pow($base, $exponent);
+        return gmp_pow($base, $exponent);
     }
 
-    public static function bitwiseAnd(\GMP $first, \GMP $other): \GMP
+    public static function bitwiseAnd(GMP $first, GMP $other): GMP
     {
-        return \gmp_and($first, $other);
+        return gmp_and($first, $other);
     }
 
-    public static function bitwiseXor(\GMP $first, \GMP $other): \GMP
+    public static function bitwiseXor(GMP $first, GMP $other): GMP
     {
-        return \gmp_xor($first, $other);
+        return gmp_xor($first, $other);
     }
 
-    public static function toString(\GMP $value): string
+    public static function toString(GMP $value): string
     {
-        return \gmp_strval($value);
+        return gmp_strval($value);
     }
 
-    public static function inverseMod(\GMP $a, \GMP $m): \GMP
+    public static function inverseMod(GMP $a, GMP $m): GMP
     {
-        return \gmp_invert($a, $m);
+        return gmp_invert($a, $m);
     }
 
     public static function baseConvert(string $number, int $from, int $to): string
     {
-        return \gmp_strval(\gmp_init($number, $from), $to);
+        return gmp_strval(gmp_init($number, $from), $to);
     }
 
-    public static function rightShift(\GMP $number, int $positions): \GMP
+    public static function rightShift(GMP $number, int $positions): GMP
     {
-        return \gmp_div($number, \gmp_pow(\gmp_init(2, 10), $positions));
+        return gmp_div($number, gmp_pow(gmp_init(2, 10), $positions));
     }
 
-    public static function stringToInt(string $s): \GMP
+    public static function stringToInt(string $s): GMP
     {
-        $result = \gmp_init(0, 10);
-        $sLen = \mb_strlen($s, '8bit');
+        $result = gmp_init(0, 10);
+        $sLen = mb_strlen($s, '8bit');
 
         for ($c = 0; $c < $sLen; ++$c) {
-            $result = \gmp_add(\gmp_mul(256, $result), \gmp_init(\ord($s[$c]), 10));
+            $result = gmp_add(gmp_mul(256, $result), gmp_init(\ord($s[$c]), 10));
         }
 
         return $result;

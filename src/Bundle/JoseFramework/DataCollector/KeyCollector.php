@@ -17,6 +17,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
@@ -24,14 +25,24 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 class KeyCollector implements Collector
 {
     /**
-     * @var KeyAnalyzerManager|null
+     * @var null|KeyAnalyzerManager
      */
     private $jwkAnalyzerManager;
 
     /**
-     * @var KeysetAnalyzerManager|null
+     * @var null|KeysetAnalyzerManager
      */
     private $jwksetAnalyzerManager;
+
+    /**
+     * @var JWK[]
+     */
+    private $jwks = [];
+
+    /**
+     * @var JWKSet[]
+     */
+    private $jwksets = [];
 
     public function __construct(?KeyAnalyzerManager $jwkAnalyzerManager = null, ?KeysetAnalyzerManager $jwksetAnalyzerManager = null)
     {
@@ -43,6 +54,16 @@ class KeyCollector implements Collector
     {
         $this->collectJWK($data);
         $this->collectJWKSet($data);
+    }
+
+    public function addJWK(string $id, JWK $jwk): void
+    {
+        $this->jwks[$id] = $jwk;
+    }
+
+    public function addJWKSet(string $id, JWKSet $jwkset): void
+    {
+        $this->jwksets[$id] = $jwkset;
     }
 
     private function collectJWK(array &$data): void
@@ -63,14 +84,14 @@ class KeyCollector implements Collector
         $data['key']['jwkset'] = [];
         foreach ($this->jwksets as $id => $jwkset) {
             $analyze = [];
-            $analyzeJWKSet = [];
+            $analyzeJWKSet = new MessageBag();
             if (null !== $this->jwkAnalyzerManager) {
                 foreach ($jwkset as $kid => $jwk) {
                     $analyze[$kid] = $this->jwkAnalyzerManager->analyze($jwk);
                 }
             }
             if (null !== $this->jwksetAnalyzerManager) {
-                $analyzeJWKSet[$kid] = $this->jwksetAnalyzerManager->analyze($jwkset);
+                $analyzeJWKSet = $this->jwksetAnalyzerManager->analyze($jwkset);
             }
             $data['key']['jwkset'][$id] = [
                 'jwkset' => $cloner->cloneVar($jwkset),
@@ -78,25 +99,5 @@ class KeyCollector implements Collector
                 'analyze_jwkset' => $analyzeJWKSet,
             ];
         }
-    }
-
-    /**
-     * @var JWK[]
-     */
-    private $jwks = [];
-
-    public function addJWK(string $id, JWK $jwk): void
-    {
-        $this->jwks[$id] = $jwk;
-    }
-
-    /**
-     * @var JWKSet[]
-     */
-    private $jwksets = [];
-
-    public function addJWKSet(string $id, JWKSet $jwkset): void
-    {
-        $this->jwksets[$id] = $jwkset;
     }
 }

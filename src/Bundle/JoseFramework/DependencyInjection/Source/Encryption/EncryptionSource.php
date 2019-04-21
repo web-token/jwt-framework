@@ -28,6 +28,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
+use Jose\Component\Encryption\Serializer\JWESerializer as JWESerializerAlias;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -64,7 +65,7 @@ class EncryptionSource implements SourceWithCompilerPasses
         if (!$this->isEnabled()) {
             return;
         }
-        $container->registerForAutoconfiguration(\Jose\Component\Encryption\Serializer\JWESerializer::class)->addTag('jose.jwe.serializer');
+        $container->registerForAutoconfiguration(JWESerializerAlias::class)->addTag('jose.jwe.serializer');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('jwe_services.php');
         $loader->load('jwe_serializers.php');
@@ -72,7 +73,7 @@ class EncryptionSource implements SourceWithCompilerPasses
 
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
-            if (\class_exists($class)) {
+            if (class_exists($class)) {
                 $loader->load($file);
             }
         }
@@ -82,6 +83,50 @@ class EncryptionSource implements SourceWithCompilerPasses
                 $source->load($configs['jwe'], $container);
             }
         }
+    }
+
+    public function getNodeDefinition(NodeDefinition $node): void
+    {
+        if (!$this->isEnabled()) {
+            return;
+        }
+        $childNode = $node->children()
+            ->arrayNode($this->name())
+            ->addDefaultsIfNotSet()
+            ->treatFalseLike([])
+            ->treatNullLike([])
+        ;
+
+        foreach ($this->sources as $source) {
+            $source->getNodeDefinition($childNode);
+        }
+    }
+
+    public function prepend(ContainerBuilder $container, array $config): array
+    {
+        if (!$this->isEnabled()) {
+            return [];
+        }
+        $result = [];
+        foreach ($this->sources as $source) {
+            $prepend = $source->prepend($container, $config);
+            if (0 !== \count($prepend)) {
+                $result[$source->name()] = $prepend;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return CompilerPassInterface[]
+     */
+    public function getCompilerPasses(): array
+    {
+        return [
+            new Compiler\EncryptionSerializerCompilerPass(),
+            new Compiler\CompressionMethodCompilerPass(),
+        ];
     }
 
     private function getAlgorithmsFiles(): array
@@ -97,58 +142,15 @@ class EncryptionSource implements SourceWithCompilerPasses
             RSA::class => 'encryption_rsa.php',
             A128CTR::class => 'encryption_experimental.php',
         ];
-        if (\in_array('chacha20-poly1305', \openssl_get_cipher_methods(), true)) {
+        if (\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
             $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.php';
         }
 
         return $list;
     }
 
-    public function getNodeDefinition(NodeDefinition $node): void
-    {
-        if (!$this->isEnabled()) {
-            return;
-        }
-        $childNode = $node->children()
-            ->arrayNode($this->name())
-            ->addDefaultsIfNotSet()
-            ->treatFalseLike([])
-            ->treatNullLike([]);
-
-        foreach ($this->sources as $source) {
-            $source->getNodeDefinition($childNode);
-        }
-    }
-
-    public function prepend(ContainerBuilder $container, array $config): array
-    {
-        if (!$this->isEnabled()) {
-            return [];
-        }
-        $result = [];
-        foreach ($this->sources as $source) {
-            $prepend = $source->prepend($container, $config);
-            if (!empty($prepend)) {
-                $result[$source->name()] = $prepend;
-            }
-        }
-
-        return $result;
-    }
-
     private function isEnabled(): bool
     {
-        return \class_exists(JWEBuilderFactory::class) && \class_exists(JWEDecrypterFactory::class);
-    }
-
-    /**
-     * @return CompilerPassInterface[]
-     */
-    public function getCompilerPasses(): array
-    {
-        return [
-            new Compiler\EncryptionSerializerCompilerPass(),
-            new Compiler\CompressionMethodCompilerPass(),
-        ];
+        return class_exists(JWEBuilderFactory::class) && class_exists(JWEDecrypterFactory::class);
     }
 }

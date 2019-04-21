@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use InvalidArgumentException;
+
 /**
  * @internal
  */
@@ -24,9 +26,9 @@ class Recipient
     private $header = [];
 
     /**
-     * @var string|null
+     * @var null|string
      */
-    private $encryptedKey = null;
+    private $encryptedKey;
 
     public function __construct(array $header, ?string $encryptedKey)
     {
@@ -47,15 +49,15 @@ class Recipient
      *
      * @param string $key The key
      *
-     * @return mixed|null
+     * @return null|mixed
      */
     public function getHeaderParameter(string $key)
     {
-        if ($this->hasHeaderParameter($key)) {
-            return $this->header[$key];
+        if (!$this->hasHeaderParameter($key)) {
+            throw new InvalidArgumentException(sprintf('The header "%s" does not exist.', $key));
         }
 
-        throw new \InvalidArgumentException(\sprintf('The header "%s" does not exist.', $key));
+        return $this->header[$key];
     }
 
     /**

@@ -22,6 +22,9 @@ use Symfony\Component\Console\Output\BufferedOutput;
 /**
  * @group Console
  * @group KeySetCreationCommand
+ *
+ * @internal
+ * @coversNothing
  */
 class KeySetCreationCommandTest extends TestCase
 {
@@ -178,7 +181,7 @@ class KeySetCreationCommandTest extends TestCase
     {
         $input = new ArrayInput([
             'quantity' => 2,
-            'size' => 1024,
+            'size' => 2048,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();

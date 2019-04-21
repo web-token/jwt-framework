@@ -36,6 +36,7 @@ final class MixedPublicAndPrivateKeys implements KeysetAnalyzer
                     } else {
                         $hasPublicKeys = true;
                     }
+
                     break;
             }
         }

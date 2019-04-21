@@ -23,6 +23,9 @@ use PHPUnit\Framework\TestCase;
  *
  * @group Certificate
  * @group unit
+ *
+ * @internal
+ * @coversNothing
  */
 class CertificateTest extends TestCase
 {
@@ -274,7 +277,7 @@ class CertificateTest extends TestCase
      */
     public function loadX5CParameter()
     {
-        $key = JWK::create([
+        $key = new JWK([
             'kty' => 'RSA',
             'use' => 'sig',
             'kid' => '1b94c',
@@ -285,16 +288,17 @@ class CertificateTest extends TestCase
 
         $certificate = JWKFactory::createFromX5C($key->get('x5c'), ['use' => 'sig', 'kid' => '1b94c']);
 
-        static::assertEquals([
-            'kty' => 'RSA',
-            'use' => 'sig',
-            'kid' => '1b94c',
-            'n' => 'vrjOfz9Ccdgx5nQudyhdoR17V-IubWMeOZCwX_jj0hgAsz2J_pqYW08PLbK_PdiVGKPrqzmDIsLI7sA25VEnHU1uCLNwBuUiCO11_-7dYbsr4iJmG0Qu2j8DsVyT1azpJC_NG84Ty5KKthuCaPod7iI7w0LK9orSMhBEwwZDCxTWq4aYWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy1wgzjYQDwHMTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMvVfJb6jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ',
-            'e' => 'AQAB',
-            'x5t' => '4pNenEBLv0JpLIdugWxQkOsZcK0',
-            'x5t#256' => 'pJm2BBpkB8y7tCqrWM0X37WOmQTO8zQw-VpxVgBb21I',
-            'x5c' => ['MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJBgNVBAYT'.PHP_EOL.'AlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5n'.PHP_EOL.'IElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDAeFw0xMzAy'.PHP_EOL.'MjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIxCzAJBgNVBAYTAlVTMQswCQYDVQQI'.PHP_EOL.'EwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5nIElkZW50aXR5IENv'.PHP_EOL.'cnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDCCASIwDQYJKoZIhvcNAQEBBQAD'.PHP_EOL.'ggEPADCCAQoCggEBAL64zn8/QnHYMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9'.PHP_EOL.'if6amFtPDy2yvz3YlRij66s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+Ii'.PHP_EOL.'ZhtELto/A7Fck9Ws6SQvzRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quG'.PHP_EOL.'mFgHIXPLfnpnfajr1rVTAwtgV5LEZ4Iel+W1GC8ugMhyr4/p1MtcIM42EA8BzE6Z'.PHP_EOL.'QqC7VPqPvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWamT3cEvqqPpnjL1XyW+oyV'.PHP_EOL.'VkaZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG9w0BAQUF'.PHP_EOL.'AAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL+9gGlqCz'.PHP_EOL.'5iWLOgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1zFo+Owb1zxtp3'.PHP_EOL.'PehFdfQJ610CDLEaS9V9Rqp17hCyybEpOGVwe8fnk+fbEL2Bo3UPGrpsHzUoaGpD'.PHP_EOL.'ftmWssZkhpBJKVMJyf/RuP2SmmaIzmnw9JiSlYhzo4tpzd5rFXhjRbg4zW9C+2qo'.PHP_EOL.'k+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTqgawR+N5MDtdPTEQ0XfIBc2cJEUyM'.PHP_EOL.'TY5MPvACWpkA6SdS4xSvdXK3IVfOWA=='],
-        ],
+        static::assertEquals(
+            [
+                'kty' => 'RSA',
+                'use' => 'sig',
+                'kid' => '1b94c',
+                'n' => 'vrjOfz9Ccdgx5nQudyhdoR17V-IubWMeOZCwX_jj0hgAsz2J_pqYW08PLbK_PdiVGKPrqzmDIsLI7sA25VEnHU1uCLNwBuUiCO11_-7dYbsr4iJmG0Qu2j8DsVyT1azpJC_NG84Ty5KKthuCaPod7iI7w0LK9orSMhBEwwZDCxTWq4aYWAchc8t-emd9qOvWtVMDC2BXksRngh6X5bUYLy6AyHKvj-nUy1wgzjYQDwHMTplCoLtU-o-8SNnZ1tmRoGE9uJkBLdh5gFENabWnU5m1ZqZPdwS-qo-meMvVfJb6jJVWRpl2SUtCnYG2C32qvbWbjZ_jBPD5eunqsIo1vQ',
+                'e' => 'AQAB',
+                'x5t' => '4pNenEBLv0JpLIdugWxQkOsZcK0',
+                'x5t#256' => 'pJm2BBpkB8y7tCqrWM0X37WOmQTO8zQw-VpxVgBb21I',
+                'x5c' => ['MIIDQjCCAiqgAwIBAgIGATz/FuLiMA0GCSqGSIb3DQEBBQUAMGIxCzAJBgNVBAYT'.PHP_EOL.'AlVTMQswCQYDVQQIEwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5n'.PHP_EOL.'IElkZW50aXR5IENvcnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDAeFw0xMzAy'.PHP_EOL.'MjEyMzI5MTVaFw0xODA4MTQyMjI5MTVaMGIxCzAJBgNVBAYTAlVTMQswCQYDVQQI'.PHP_EOL.'EwJDTzEPMA0GA1UEBxMGRGVudmVyMRwwGgYDVQQKExNQaW5nIElkZW50aXR5IENv'.PHP_EOL.'cnAuMRcwFQYDVQQDEw5CcmlhbiBDYW1wYmVsbDCCASIwDQYJKoZIhvcNAQEBBQAD'.PHP_EOL.'ggEPADCCAQoCggEBAL64zn8/QnHYMeZ0LncoXaEde1fiLm1jHjmQsF/449IYALM9'.PHP_EOL.'if6amFtPDy2yvz3YlRij66s5gyLCyO7ANuVRJx1NbgizcAblIgjtdf/u3WG7K+Ii'.PHP_EOL.'ZhtELto/A7Fck9Ws6SQvzRvOE8uSirYbgmj6He4iO8NCyvaK0jIQRMMGQwsU1quG'.PHP_EOL.'mFgHIXPLfnpnfajr1rVTAwtgV5LEZ4Iel+W1GC8ugMhyr4/p1MtcIM42EA8BzE6Z'.PHP_EOL.'QqC7VPqPvEjZ2dbZkaBhPbiZAS3YeYBRDWm1p1OZtWamT3cEvqqPpnjL1XyW+oyV'.PHP_EOL.'VkaZdklLQp2Btgt9qr21m42f4wTw+Xrp6rCKNb0CAwEAATANBgkqhkiG9w0BAQUF'.PHP_EOL.'AAOCAQEAh8zGlfSlcI0o3rYDPBB07aXNswb4ECNIKG0CETTUxmXl9KUL+9gGlqCz'.PHP_EOL.'5iWLOgWsnrcKcY0vXPG9J1r9AqBNTqNgHq2G03X09266X5CpOe1zFo+Owb1zxtp3'.PHP_EOL.'PehFdfQJ610CDLEaS9V9Rqp17hCyybEpOGVwe8fnk+fbEL2Bo3UPGrpsHzUoaGpD'.PHP_EOL.'ftmWssZkhpBJKVMJyf/RuP2SmmaIzmnw9JiSlYhzo4tpzd5rFXhjRbg4zW9C+2qo'.PHP_EOL.'k+2+qDM1iJ684gPHMIY8aLWrdgQTxkumGmTqgawR+N5MDtdPTEQ0XfIBc2cJEUyM'.PHP_EOL.'TY5MPvACWpkA6SdS4xSvdXK3IVfOWA=='],
+            ],
             $certificate->all()
         );
     }

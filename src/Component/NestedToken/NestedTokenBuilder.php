@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\NestedToken;
 
+use InvalidArgumentException;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Signature\JWSBuilder;
@@ -51,15 +52,15 @@ class NestedTokenBuilder
     /**
      * Creates a nested token.
      *
-     * @param array[] $signatures
-     * @param array[] $recipients
+     * @param array $signatures
+     * @param array $recipients
      */
     public function create(string $payload, array $signatures, string $jws_serialization_mode, array $jweSharedProtectedHeader, array $jweSharedHeader, array $recipients, string $jwe_serialization_mode, ?string $aad = null): string
     {
         $jws = $this->jwsBuilder->create()->withPayload($payload);
         foreach ($signatures as $signature) {
             if (!\is_array($signature) || !\array_key_exists('key', $signature)) {
-                throw new \InvalidArgumentException('The signatures must be an array of arrays containing a key, a protected header and a header');
+                throw new InvalidArgumentException('The signatures must be an array of arrays containing a key, a protected header and a header');
             }
             $signature['protected_header'] = \array_key_exists('protected_header', $signature) ? $signature['protected_header'] : [];
             $signature['header'] = \array_key_exists('header', $signature) ? $signature['header'] : [];
@@ -75,17 +76,17 @@ class NestedTokenBuilder
             ->withPayload($token)
             ->withSharedProtectedHeader($jweSharedProtectedHeader)
             ->withSharedHeader($jweSharedHeader)
-            ->withAAD($aad);
+            ->withAAD($aad)
+        ;
         foreach ($recipients as $recipient) {
             if (!\is_array($recipient) || !\array_key_exists('key', $recipient)) {
-                throw new \InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');
+                throw new InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');
             }
             $recipient['header'] = \array_key_exists('header', $recipient) ? $recipient['header'] : [];
             $jwe = $jwe->addRecipient($recipient['key'], $recipient['header']);
         }
         $jwe = $jwe->build();
-        $token = $this->jweSerializerManager->serialize($jwe_serialization_mode, $jwe);
 
-        return $token;
+        return $this->jweSerializerManager->serialize($jwe_serialization_mode, $jwe);
     }
 }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use InvalidArgumentException;
+
 class AlgorithmManager
 {
     /**
@@ -47,7 +49,7 @@ class AlgorithmManager
      */
     public function list(): array
     {
-        return \array_keys($this->algorithms);
+        return array_keys($this->algorithms);
     }
 
     /**
@@ -58,7 +60,7 @@ class AlgorithmManager
     public function get(string $algorithm): Algorithm
     {
         if (!$this->has($algorithm)) {
-            throw new \InvalidArgumentException(\sprintf('The algorithm "%s" is not supported.', $algorithm));
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $algorithm));
         }
 
         return $this->algorithms[$algorithm];
@@ -66,8 +68,6 @@ class AlgorithmManager
 
     /**
      * Adds an algorithm to the manager.
-     *
-     * @return AlgorithmManager
      */
     private function add(Algorithm $algorithm): void
     {

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+use InvalidArgumentException;
+
 class CompressionMethodManager
 {
     /**
@@ -25,19 +27,6 @@ class CompressionMethodManager
         foreach ($methods as $method) {
             $this->add($method);
         }
-    }
-
-    /**
-     * Add the given compression method to the manager.
-     */
-    protected function add(CompressionMethod $compressionMethod): void
-    {
-        $name = $compressionMethod->name();
-        if ($this->has($name)) {
-            throw new \InvalidArgumentException(\sprintf('The compression method "%s" is already supported.', $name));
-        }
-
-        $this->compressionMethods[$name] = $compressionMethod;
     }
 
     /**
@@ -57,7 +46,7 @@ class CompressionMethodManager
     public function get(string $name): CompressionMethod
     {
         if (!$this->has($name)) {
-            throw new \InvalidArgumentException(\sprintf('The compression method "%s" is not supported.', $name));
+            throw new InvalidArgumentException(sprintf('The compression method "%s" is not supported.', $name));
         }
 
         return $this->compressionMethods[$name];
@@ -70,6 +59,15 @@ class CompressionMethodManager
      */
     public function list(): array
     {
-        return \array_keys($this->compressionMethods);
+        return array_keys($this->compressionMethods);
+    }
+
+    /**
+     * Add the given compression method to the manager.
+     */
+    protected function add(CompressionMethod $compressionMethod): void
+    {
+        $name = $compressionMethod->name();
+        $this->compressionMethods[$name] = $compressionMethod;
     }
 }

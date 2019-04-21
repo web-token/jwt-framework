@@ -22,6 +22,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  * @group UrlKeySetFactory
+ *
+ * @internal
+ * @coversNothing
  */
 class UrlKeySetFactoryTest extends TestCase
 {
@@ -29,6 +32,21 @@ class UrlKeySetFactoryTest extends TestCase
      * @var MessageFactory
      */
     private $messageFactory;
+
+    /**
+     * @var null|JKUFactory
+     */
+    private $jkuFactory;
+
+    /**
+     * @var null|X5UFactory
+     */
+    private $x5uFactory;
+
+    /**
+     * @var null|Client
+     */
+    private $httpClient;
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
@@ -104,11 +122,6 @@ class UrlKeySetFactoryTest extends TestCase
         $this->getX5UFactory()->loadFromUrl('https://foo.bar/bad/url');
     }
 
-    /**
-     * @var JKUFactory|null
-     */
-    private $jkuFactory;
-
     private function getJKUFactory(): JKUFactory
     {
         if (null === $this->jkuFactory) {
@@ -121,11 +134,6 @@ class UrlKeySetFactoryTest extends TestCase
         return $this->jkuFactory;
     }
 
-    /**
-     * @var X5UFactory|null
-     */
-    private $x5uFactory;
-
     private function getX5UFactory(): X5UFactory
     {
         if (null === $this->x5uFactory) {
@@ -137,11 +145,6 @@ class UrlKeySetFactoryTest extends TestCase
 
         return $this->x5uFactory;
     }
-
-    /**
-     * @var Client|null
-     */
-    private $httpClient;
 
     private function getHttpClient(): Client
     {

@@ -18,8 +18,10 @@ return function (ContainerConfigurator $container) {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire();
+        ->autowire()
+    ;
 
     $container->set(KeyEncryption\Dir::class)
-        ->tag('jose.algorithm', ['alias' => 'dir']);
+        ->tag('jose.algorithm', ['alias' => 'dir'])
+    ;
 };
