@@ -63,20 +63,17 @@ class ECKey
 
     public static function convertPrivateKeyToPEM(JWK $jwk): string
     {
-        $pubKey = unpack('H*', self::getKey($jwk))[1];
-        $pl = (int) (mb_strlen($pubKey, '8bit') / 2);
-
         switch ($jwk->get('crv')) {
             case 'P-256':
-                $der = self::p256PrivateKey($jwk, $pl);
+                $der = self::p256PrivateKey($jwk);
 
                 break;
             case 'P-384':
-                $der = self::p384PrivateKey($jwk, $pl);
+                $der = self::p384PrivateKey($jwk);
 
                 break;
             case 'P-521':
-                $der = self::p521PrivateKey($jwk, $pl);
+                $der = self::p521PrivateKey($jwk);
 
                 break;
             default:
@@ -225,16 +222,15 @@ class ECKey
         );
     }
 
-    private static function p256PrivateKey(JWK $jwk, int $pl): string
+    private static function p256PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = (int) (mb_strlen($d, '8bit') / 2);
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT))[1];
 
         return pack(
             'H*',
-            '30'.dechex(22 + $dl + $pl) // SEQUENCE, length 87+length($d)
+            '3077' // SEQUENCE, length 87+length($d)=32
                 .'020101' // INTEGER, 1
-                .'04'.dechex($dl)   // OCTET STRING, length($d)
+                .'0420'   // OCTET STRING, length($d) = 32
                     .$d
                 .'a00a' // TAGGED OBJECT #0, length 10
                     .'0608' // OID, length 8
@@ -245,16 +241,15 @@ class ECKey
         );
     }
 
-    private static function p384PrivateKey(JWK $jwk, int $pl): string
+    private static function p384PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = (int) (mb_strlen($d, '8bit') / 2);
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 48, "\0", STR_PAD_LEFT))[1];
 
         return pack(
             'H*',
-            '3081'.dechex(19 + $dl + $pl) // SEQUENCE, length 116 + length($d)
+            '3081a4' // SEQUENCE, length 116 + length($d)=48
                 .'020101' // INTEGER, 1
-                .'04'.dechex($dl)   // OCTET STRING, length($d)
+                .'0430'   // OCTET STRING, length($d) = 30
                     .$d
                 .'a007' // TAGGED OBJECT #0, length 7
                     .'0605' // OID, length 5
@@ -265,16 +260,15 @@ class ECKey
         );
     }
 
-    private static function p521PrivateKey(JWK $jwk, int $pl): string
+    private static function p521PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
-        $dl = (int) (mb_strlen($d, '8bit') / 2);
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 66, "\0", STR_PAD_LEFT))[1];
 
         return pack(
             'H*',
-            '3081'.dechex(21 + $dl + $pl) // SEQUENCE
+            '3081dc' // SEQUENCE, length 154 + length($d)=66
                 .'020101' // INTEGER, 1
-                .'04'.dechex($dl)   // OCTET STRING, length(d)
+                .'0442'   // OCTET STRING, length(d) = 66
                     .$d
                 .'a007' // TAGGED OBJECT #0, length 7
                     .'0605' // OID, length 5
