@@ -105,7 +105,7 @@ class ECKey
         return new JWK($values);
     }
 
-    public static function getNistCurve(string $curve): Curve
+    private static function getNistCurve(string $curve): Curve
     {
         switch ($curve) {
             case 'P-256':
