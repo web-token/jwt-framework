@@ -16,6 +16,7 @@ namespace Jose\Component\Core\Util;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use RuntimeException;
 use Throwable;
@@ -62,17 +63,20 @@ class ECKey
 
     public static function convertPrivateKeyToPEM(JWK $jwk): string
     {
+        $pubKey = unpack('H*', self::getKey($jwk))[1];
+        $pl = (int) (mb_strlen($pubKey, '8bit') / 2);
+
         switch ($jwk->get('crv')) {
             case 'P-256':
-                $der = self::p256PrivateKey($jwk);
+                $der = self::p256PrivateKey($jwk, $pl);
 
                 break;
             case 'P-384':
-                $der = self::p384PrivateKey($jwk);
+                $der = self::p384PrivateKey($jwk, $pl);
 
                 break;
             case 'P-521':
-                $der = self::p521PrivateKey($jwk);
+                $der = self::p521PrivateKey($jwk, $pl);
 
                 break;
             default:
@@ -104,34 +108,32 @@ class ECKey
         return new JWK($values);
     }
 
-    private static function createECKeyUsingPurePhp(string $curve): array
+    public static function getNistCurve(string $curve): Curve
     {
         switch ($curve) {
             case 'P-256':
-                $nistCurve = NistCurve::curve256();
-
-                break;
+                return NistCurve::curve256();
             case 'P-384':
-                $nistCurve = NistCurve::curve384();
-
-                break;
+                return NistCurve::curve384();
             case 'P-521':
-                $nistCurve = NistCurve::curve521();
-
-                break;
+                return NistCurve::curve521();
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
         }
+    }
 
+    private static function createECKeyUsingPurePhp(string $curve): array
+    {
+        $nistCurve = self::getNistCurve($curve);
         $privateKey = $nistCurve->createPrivateKey();
         $publicKey = $nistCurve->createPublicKey($privateKey);
 
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd' => Base64Url::encode(gmp_export($privateKey->getSecret())),
-            'x' => Base64Url::encode(gmp_export($publicKey->getPoint()->getX())),
-            'y' => Base64Url::encode(gmp_export($publicKey->getPoint()->getY())),
+            'x' => Base64Url::encode(str_pad(gmp_export($publicKey->getPoint()->getX()), (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
+            'y' => Base64Url::encode(str_pad(gmp_export($publicKey->getPoint()->getY()), (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
+            'd' => Base64Url::encode(str_pad(gmp_export($privateKey->getSecret()), (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
         ];
     }
 
@@ -153,13 +155,14 @@ class ECKey
             throw new RuntimeException('Unable to create the key');
         }
         $details = openssl_pkey_get_details($res);
+        $nistCurve = self::getNistCurve($curve);
 
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'x' => Base64Url::encode($details['ec']['x']),
-            'y' => Base64Url::encode($details['ec']['y']),
-            'd' => Base64Url::encode($details['ec']['d']),
+            'd' => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
+            'x' => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
+            'y' => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
         ];
     }
 
@@ -222,14 +225,14 @@ class ECKey
         );
     }
 
-    private static function p256PrivateKey(JWK $jwk): string
+    private static function p256PrivateKey(JWK $jwk, int $pl): string
     {
         $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
         $dl = (int) (mb_strlen($d, '8bit') / 2);
 
         return pack(
             'H*',
-            '30'.dechex(87 + $dl) // SEQUENCE, length 87+length($d)
+            '30'.dechex(22 + $dl + $pl) // SEQUENCE, length 87+length($d)
                 .'020101' // INTEGER, 1
                 .'04'.dechex($dl)   // OCTET STRING, length($d)
                     .$d
@@ -242,14 +245,14 @@ class ECKey
         );
     }
 
-    private static function p384PrivateKey(JWK $jwk): string
+    private static function p384PrivateKey(JWK $jwk, int $pl): string
     {
         $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
         $dl = (int) (mb_strlen($d, '8bit') / 2);
 
         return pack(
             'H*',
-            '3081'.dechex(116 + $dl) // SEQUENCE, length 116 + length($d)
+            '3081'.dechex(19 + $dl + $pl) // SEQUENCE, length 116 + length($d)
                 .'020101' // INTEGER, 1
                 .'04'.dechex($dl)   // OCTET STRING, length($d)
                     .$d
@@ -262,14 +265,14 @@ class ECKey
         );
     }
 
-    private static function p521PrivateKey(JWK $jwk): string
+    private static function p521PrivateKey(JWK $jwk, int $pl): string
     {
         $d = unpack('H*', Base64Url::decode($jwk->get('d')))[1];
         $dl = (int) (mb_strlen($d, '8bit') / 2);
 
         return pack(
             'H*',
-            '3081'.dechex(154 + $dl) // SEQUENCE, length 154+length(d)
+            '3081'.dechex(21 + $dl + $pl) // SEQUENCE
                 .'020101' // INTEGER, 1
                 .'04'.dechex($dl)   // OCTET STRING, length(d)
                     .$d
@@ -284,9 +287,12 @@ class ECKey
 
     private static function getKey(JWK $jwk): string
     {
+        $nistCurve = self::getNistCurve($jwk->get('crv'));
+        $length = (int) ceil($nistCurve->getSize() / 8);
+
         return
-            pack('H*', '04')
-            .Base64Url::decode($jwk->get('x'))
-            .Base64Url::decode($jwk->get('y'));
+            "\04"
+            .str_pad(Base64Url::decode($jwk->get('x')), $length, "\0", STR_PAD_LEFT)
+            .str_pad(Base64Url::decode($jwk->get('y')), $length, "\0", STR_PAD_LEFT);
     }
 }

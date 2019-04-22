@@ -53,6 +53,17 @@ final class ECDHES implements KeyAgreement
             case 'P-256':
             case 'P-384':
             case 'P-521':
+                if (\function_exists('openssl_pkey_derive')) {
+                    try {
+                        $publicPem = ECKey::convertPublicKeyToPEM($public_key);
+                        $privatePem = ECKey::convertPrivateKeyToPEM($private_key);
+                        $keyLength = mb_strlen(Base64Url::decode($public_key->get('x')), '8bit') * 8;
+
+                        return openssl_pkey_derive($publicPem, $privatePem, $keyLength);
+                    } catch (\Throwable $throwable) {
+                        //Does nothing. Will fallback to the pure PHP function
+                    }
+                }
                 $curve = $this->getCurve($public_key->get('crv'));
 
                 $rec_x = $this->convertBase64ToGmp($public_key->get('x'));
