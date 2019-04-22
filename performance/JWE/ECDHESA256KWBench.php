@@ -154,7 +154,6 @@ final class ECDHESA256KWBench extends EncryptionBench
                     'crv' => 'X25519',
                     'kty' => 'OKP',
                     'x' => 'LD7PfRPxq03bd0WJyf_1z-LQevmrbcYx7jJafep3gmk',
-                    'd' => 'pSdgXFRYMvOa7giAm3Rrf5Mf8GnvLz7HtZKu_KN06KY',
                 ],
             ],
         ];
