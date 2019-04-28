@@ -216,11 +216,11 @@ class JWECollector implements Collector, EventSubscriberInterface
         return [
             'GZ' => [
                 'severity' => 'severity-low',
-                'message' => 'This algorithm is not described in any specification. Use for specific applications only.',
+                'message' => 'This algorithm is not described in any specification. Will be removed in v2.0. Use for specific applications only.',
             ],
             'ZLIB' => [
                 'severity' => 'severity-low',
-                'message' => 'This algorithm is not described in any specification. Use for specific applications only.',
+                'message' => 'This algorithm is not described in any specification. Will be removed in v2.0. Use for specific applications only.',
             ],
         ];
     }

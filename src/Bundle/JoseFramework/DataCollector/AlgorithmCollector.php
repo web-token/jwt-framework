@@ -82,7 +82,7 @@ final class AlgorithmCollector implements Collector
 
     private function getAlgorithmMessages(): array
     {
-        return [
+        $messages = [
             'none' => [
                 'severity' => 'severity-low',
                 'message' => 'This algorithm is not secured. Please use with caution.',
@@ -171,22 +171,28 @@ final class AlgorithmCollector implements Collector
                 'severity' => 'severity-high',
                 'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
             ],
-            'ECDH-ES' => [
-                'severity' => 'severity-medium',
-                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
-            ],
-            'ECDH-ES+A128KW' => [
-                'severity' => 'severity-medium',
-                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
-            ],
-            'ECDH-ES+A192KW' => [
-                'severity' => 'severity-medium',
-                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
-            ],
-            'ECDH-ES+A256KW' => [
-                'severity' => 'severity-medium',
-                'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521.',
-            ],
         ];
+        if (!\function_exists('openssl_pkey_derive')) {
+            $messages += [
+                'ECDH-ES' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
+                'ECDH-ES+A128KW' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
+                'ECDH-ES+A192KW' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
+                'ECDH-ES+A256KW' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
+            ];
+        }
+
+        return $messages;
     }
 }
