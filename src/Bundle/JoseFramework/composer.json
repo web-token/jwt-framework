@@ -27,7 +27,7 @@
         "web-token/jwt-core": "^2.0"
     },
     "require-dev": {
-        "guzzlehttp/psr7": "^1.4",
+        "nyholm/psr7": "^1.0",
         "php-http/httplug-bundle": "^1.7",
         "php-http/mock-client": "^1.0",
         "phpunit/phpunit": "^7.0",

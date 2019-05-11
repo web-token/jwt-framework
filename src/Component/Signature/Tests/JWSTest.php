@@ -51,13 +51,13 @@ class JWSTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The signature does not exist.
-     *
      * @test
      */
     public function toCompactJSONFailed()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The signature does not exist.');
+
         $claims = [
             'nbf' => time(),
             'iat' => time(),
@@ -71,13 +71,13 @@ class JWSTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The signature does not exist.
-     *
      * @test
      */
     public function toFlattenedJSONFailed()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The signature does not exist.');
+
         $claims = [
             'nbf' => time(),
             'iat' => time(),
@@ -91,13 +91,13 @@ class JWSTest extends SignatureTest
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage No signature.
-     *
      * @test
      */
     public function toJSONFailed()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('No signature.');
+
         $claims = [
             'nbf' => time(),
             'iat' => time(),
@@ -111,13 +111,13 @@ class JWSTest extends SignatureTest
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The signature contains unprotected header parameters and cannot be converted into compact JSON
-     *
      * @test
      */
     public function signatureContainsUnprotectedHeader()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The signature contains unprotected header parameters and cannot be converted into compact JSON');
+
         $claims = [
             'nbf' => time(),
             'iat' => time(),
@@ -134,13 +134,13 @@ class JWSTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header "foo" does not exist
-     *
      * @test
      */
     public function signatureDoesNotContainHeader()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header "foo" does not exist');
+
         $claims = [
             'nbf' => time(),
             'iat' => time(),
@@ -156,13 +156,13 @@ class JWSTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The protected header "foo" does not exist
-     *
      * @test
      */
     public function signatureDoesNotContainProtectedHeader()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The protected header "foo" does not exist');
+
         $claims = [
             'nbf' => time(),
             'iat' => time(),

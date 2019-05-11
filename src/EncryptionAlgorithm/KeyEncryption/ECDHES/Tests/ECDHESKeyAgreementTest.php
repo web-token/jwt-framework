@@ -183,13 +183,13 @@ class ECDHESKeyAgreementTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header parameter "epk" is missing
-     *
      * @test
      */
     public function ePKParameterAreMissing()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header parameter "epk" is missing');
+
         $sender = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
@@ -203,13 +203,13 @@ class ECDHESKeyAgreementTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header parameter "epk" is not an array of parameters
-     *
      * @test
      */
     public function badEPKParameter()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header parameter "epk" is not an array of parameters');
+
         $header = ['epk' => 'foo'];
         $sender = new JWK([
             'kty' => 'EC',
@@ -224,13 +224,13 @@ class ECDHESKeyAgreementTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The key parameter "x" is missing.
-     *
      * @test
      */
     public function eCKeyHasMissingParameters()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The key parameter "x" is missing.');
+
         $receiver = new JWK([
             'kty' => 'EC',
             'dir' => Base64Url::encode('ABCD'),
@@ -241,13 +241,13 @@ class ECDHESKeyAgreementTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The curve "P-192" is not supported
-     *
      * @test
      */
     public function unsupportedCurve()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The curve "P-192" is not supported');
+
         $header = [
             'enc' => 'A128GCM',
             'apu' => 'QWxpY2U',

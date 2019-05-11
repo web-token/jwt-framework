@@ -30,7 +30,7 @@ class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(ClaimCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');

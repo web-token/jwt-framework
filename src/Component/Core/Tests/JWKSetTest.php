@@ -39,22 +39,24 @@ class JWKSetTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Allowed key types are "sig" or "enc".
      */
     public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Allowed key types are "sig" or "enc".');
+
         $jwkset = $this->getPublicKeySet();
         $jwkset->selectKey('foo');
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid data.
      */
     public function iCannotCreateAKeySetWithBadArguments()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid data.');
+
         JWKSet::createFromKeyData(['keys' => true]);
     }
 
@@ -224,11 +226,12 @@ class JWKSetTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Undefined index.
      */
     public function keySet2()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Undefined index.');
+
         $jwk1 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',

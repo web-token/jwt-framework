@@ -26,13 +26,13 @@ use PHPUnit\Framework\TestCase;
 class OKPKeysTest extends TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported "Ed455" curve
-     *
      * @test
      */
     public function createOKPKeyWithInvalidKeySize()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported "Ed455" curve');
+
         JWKFactory::createOKPKey('Ed455');
     }
 

@@ -45,11 +45,12 @@ class ClaimCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The claim checker with the alias "foo" is not supported.
      */
     public function theAliasDoesNotExist()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The claim checker with the alias "foo" is not supported.');
+
         $this->getClaimCheckerManagerFactory()->create(['foo']);
     }
 
@@ -82,11 +83,12 @@ class ClaimCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\MissingMandatoryClaimException
-     * @expectedExceptionMessage The following claims are mandatory: bar.
      */
     public function theMandatoryClaimsAreNotSet()
     {
+        $this->expectException(\Jose\Component\Checker\MissingMandatoryClaimException::class);
+        $this->expectExceptionMessage('The following claims are mandatory: bar.');
+
         $payload = [
             'exp' => time() + 3600,
             'iat' => time() - 1000,

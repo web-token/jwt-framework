@@ -30,7 +30,7 @@ class JweBuilderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(JWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');

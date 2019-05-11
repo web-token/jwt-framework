@@ -18,7 +18,6 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Algorithm;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
@@ -77,7 +76,6 @@ class RSASignatureTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals('Live long and Prosper.', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -125,7 +123,6 @@ class RSASignatureTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertNull($result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -173,7 +170,6 @@ class RSASignatureTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals('Live long and Prosper.', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('RS384', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -222,7 +218,6 @@ class RSASignatureTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals('Live long and Prosper.', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('RS512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -271,7 +266,6 @@ class RSASignatureTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals('Live long and Prosper.', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('PS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -318,7 +312,6 @@ class RSASignatureTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals('Live long and Prosper.', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('PS384', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -365,7 +358,6 @@ class RSASignatureTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals('Live long and Prosper.', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('PS512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -382,7 +374,6 @@ class RSASignatureTest extends TestCase
         );
         $result = $serializer->unserialize('{"payload":"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ","signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"2010-12-29"},"signature":"cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw"},{"protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}]}');
 
-        static::assertInstanceOf(JWS::class, $result);
         $claims = json_decode($result->getPayload(), true);
         static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], $claims);
         static::assertEquals(2, $result->countSignatures());
@@ -404,7 +395,6 @@ class RSASignatureTest extends TestCase
         );
         $result = $serializer->unserialize('{"signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"2010-12-29"},"signature":"cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw"},{"protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}]}');
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals(2, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
         static::assertEquals('ES256', $result->getSignature(1)->getProtectedHeaderParameter('alg'));
@@ -412,13 +402,12 @@ class RSASignatureTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage A detached payload is set, but the JWS already has a payload
-     *
      * @test
      */
     public function loadJWSJSONSerializationWithDetachedPayloadAndPayloadInJWS()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload');
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new Algorithm\RS256()])
         );
@@ -426,7 +415,6 @@ class RSASignatureTest extends TestCase
         );
         $result = $serializer->unserialize('{"payload":"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ","signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"2010-12-29"},"signature":"cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw"},{"protected":"eyJhbGciOiJFUzI1NiJ9","header":{"kid":"e9bc097a-ce51-4036-9562-d2ade882db0d"},"signature":"DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q"}]}');
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals(2, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
 
@@ -434,26 +422,24 @@ class RSASignatureTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported input
-     *
      * @test
      */
     public function loadInvalidInput()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported input');
         $serializer = new CompactSerializer(
         );
         $serializer->unserialize('DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q');
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported input
-     *
      * @test
      */
     public function loadInvalidInput2()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported input');
         $serializer = new CompactSerializer(
         );
         $serializer->unserialize('DtEhU3ljb.Eg8L.38VWAf.UAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q');
@@ -470,7 +456,6 @@ class RSASignatureTest extends TestCase
         );
         $result = $serializer->unserialize('eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk');
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('HS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -487,7 +472,6 @@ class RSASignatureTest extends TestCase
         );
         $result = $serializer->unserialize('eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.cC4hiUPoj9Eetdgtv3hF80EGrhuB__dzERat0XF9g2VtQgr9PJbu3XOiZj5RZmh7AAuHIm4Bh-0Qc_lF5YKt_O8W2Fp5jujGbds9uJdbF9CUAr7t1dnZcAcQjbKBYNX4BAynRFdiuB--f_nZLgrnbyTyWzO75vRK5h6xBArLIARNPvkSjtQBMHlb1L07Qe7K0GarZRmB_eSN9383LcOLn6_dO--xi12jzDwusC-eOkHWEsqtFZESc6BfI7noOPqvhJ1phCnvWh6IeYI2w9QOYEUipUTI8np6LbgGY9Fs98rqVt5AXLIhWkWywlVmtVrBp0igcN_IoypGlUPQGe77Rw');
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -504,7 +488,6 @@ class RSASignatureTest extends TestCase
         );
         $result = $serializer->unserialize('eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q');
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals(['iss' => 'joe', 'exp' => 1300819380, 'http://example.com/is_root' => true], json_decode($result->getPayload(), true));
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('ES256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -521,7 +504,6 @@ class RSASignatureTest extends TestCase
         );
         $result = $serializer->unserialize('eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA.AdwMgeerwtHoh-l192l60hp9wAHZFVJbLfD_UxMi70cwnZOYaRI1bKPWROc-mZZqwqT2SI-KGDKB34XO0aw_7XdtAG8GaSwFKdCAPZgoXD2YBJZCPEX3xKpRwcdOO8KpEHwJjyqOgzDO7iKvU8vcnwNrmxYbSW9ERBXukOXolLzeO_Jn');
 
-        static::assertInstanceOf(JWS::class, $result);
         static::assertEquals('Payload', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());
         static::assertEquals('ES512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));

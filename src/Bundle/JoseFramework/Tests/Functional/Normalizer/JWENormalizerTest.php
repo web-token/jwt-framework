@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Serializer;
  */
 final class JWENormalizerTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(BaseJWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');

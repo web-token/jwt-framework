@@ -27,22 +27,24 @@ class IssuedAtClaimCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage "iat" must be an integer.
      */
     public function anIssuedAtClaimMustBeAnInteger()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('"iat" must be an integer.');
+
         $checker = new IssuedAtChecker();
         $checker->checkClaim('foo');
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage The JWT is issued in the future.
      */
     public function theIssuedAtClaimIsInTheFutur()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('The JWT is issued in the future.');
+
         $checker = new IssuedAtChecker();
         $checker->checkClaim(time() + 3600);
     }

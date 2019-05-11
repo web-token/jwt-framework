@@ -61,11 +61,12 @@ class JWKTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The hash algorithm "foo" is not supported.
      */
     public function iCannotGetTheThumbprintOfTheKeyWhenIUseAnUnsupportedHashingAlgorithm()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The hash algorithm "foo" is not supported.');
+
         $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
@@ -82,21 +83,23 @@ class JWKTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The parameter "kty" is mandatory.
      */
     public function iMustSetAtLeastTheKtyParameter()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The parameter "kty" is mandatory.');
+
         new JWK([]);
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The value identified by "ABCD" does not exist.
      */
     public function iCannotGetAParameterThatDoesNotExist()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value identified by "ABCD" does not exist.');
+
         $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',

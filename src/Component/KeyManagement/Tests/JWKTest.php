@@ -60,24 +60,24 @@ class JWKTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The parameter "kty" is mandatory.
-     *
      * @test
      */
     public function badConstruction()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The parameter "kty" is mandatory.');
+
         new JWK([]);
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The value identified by "ABCD" does not exist.
-     *
      * @test
      */
     public function badCall()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value identified by "ABCD" does not exist.');
+
         $jwk = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
@@ -148,13 +148,13 @@ class JWKTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Undefined index.
-     *
      * @test
      */
     public function keySet2()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Undefined index.');
+
         $jwk1 = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',

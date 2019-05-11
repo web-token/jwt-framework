@@ -27,22 +27,24 @@ class AlgorithmHeaderCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage "alg" must be a string.
      */
     public function anAlgorithmMustBeAString()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('"alg" must be a string.');
+
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader(1);
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage Unsupported algorithm.
      */
     public function theAlgorithmHeaderIsNotAllowed()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('Unsupported algorithm.');
+
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader('bar');
     }

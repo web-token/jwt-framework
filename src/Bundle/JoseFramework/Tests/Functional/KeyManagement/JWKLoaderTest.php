@@ -28,7 +28,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class JWKLoaderTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');

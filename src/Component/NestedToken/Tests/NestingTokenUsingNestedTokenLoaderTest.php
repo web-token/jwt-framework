@@ -80,7 +80,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
      */
     private $jwsSerializerManagerFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(HeaderCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');

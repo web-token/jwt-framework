@@ -29,13 +29,12 @@ use PHPUnit\Framework\TestCase;
 class HMACSignatureTest extends TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Wrong key type.
-     *
      * @test
      */
     public function invalidKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Wrong key type.');
         $key = new JWK([
             'kty' => 'EC',
         ]);

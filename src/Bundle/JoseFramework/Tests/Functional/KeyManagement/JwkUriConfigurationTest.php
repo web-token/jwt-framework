@@ -30,7 +30,7 @@ class JwkUriConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');

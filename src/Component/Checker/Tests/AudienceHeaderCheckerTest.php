@@ -27,33 +27,36 @@ class AudienceHeaderCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage Bad audience.
      */
     public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('Bad audience.');
+
         $checker = new AudienceChecker('foo');
         $checker->checkHeader(1);
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage Bad audience.
      */
     public function theAudienceHeaderIsNotKnown()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('Bad audience.');
+
         $checker = new AudienceChecker('foo');
         $checker->checkHeader('bar');
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage Bad audience.
      */
     public function theAudienceHeaderListDoesNotContainTheCurrentAudience()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('Bad audience.');
+
         $checker = new AudienceChecker('foo');
         $checker->checkHeader(['bar']);
     }

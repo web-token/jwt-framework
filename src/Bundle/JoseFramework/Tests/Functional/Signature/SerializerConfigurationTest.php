@@ -30,7 +30,7 @@ class SerializerConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(JWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');

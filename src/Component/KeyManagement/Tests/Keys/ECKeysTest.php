@@ -28,13 +28,13 @@ use PHPUnit\Framework\TestCase;
 class ECKeysTest extends TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported key type
-     *
      * @test
      */
     public function keyTypeNotSupported()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported key type');
+
         $file = 'file://'.__DIR__.DIRECTORY_SEPARATOR.'DSA'.DIRECTORY_SEPARATOR.'DSA.key';
         KeyConverter::loadFromKeyFile($file);
     }
@@ -106,13 +106,13 @@ class ECKeysTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Password required for encrypted keys.
-     *
      * @test
      */
     public function loadEncryptedPrivateEC256KeyWithoutPassword()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Password required for encrypted keys.');
+
         KeyConverter::loadFromKeyFile('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.encrypted.key');
     }
 

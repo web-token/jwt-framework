@@ -31,7 +31,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(JWELoaderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');

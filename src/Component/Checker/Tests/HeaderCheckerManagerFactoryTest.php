@@ -45,11 +45,12 @@ class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header contains duplicated entries: alg.
      */
     public function aHeaderMustNotContainDuplicatedHeaderParameters()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header contains duplicated entries: alg.');
+
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['alg' => 'foo'];
@@ -61,11 +62,12 @@ class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage One or more header parameters are marked as critical, but they are missing or have not been checked: alg.
      */
     public function theTokenHasCriticalHeaderNotSatisfied()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('One or more header parameters are marked as critical, but they are missing or have not been checked: alg.');
+
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['crit' => ['alg']];
@@ -91,11 +93,12 @@ class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage The header parameter "crit" must be protected.
      */
     public function theCriticalHeaderParameterMustBeProtected()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('The header parameter "crit" must be protected.');
+
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['aud' => 'My Service'];
@@ -106,11 +109,12 @@ class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidHeaderException
-     * @expectedExceptionMessage The header "crit" mus be a list of header parameters.
      */
     public function theCriticalHeaderParameterMustBeAListOfHeaderParameters()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectExceptionMessage('The header "crit" mus be a list of header parameters.');
+
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['aud' => 'My Service', 'crit' => true];
@@ -135,11 +139,12 @@ class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\MissingMandatoryHeaderParameterException
-     * @expectedExceptionMessage The following header parameters are mandatory: mandatory.
      */
     public function theHeaderDoesNotContainSomeMandatoryParameters()
     {
+        $this->expectException(\Jose\Component\Checker\MissingMandatoryHeaderParameterException::class);
+        $this->expectExceptionMessage('The following header parameters are mandatory: mandatory.');
+
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['aud' => 'Audience', 'iss' => 'Another Service'];
@@ -150,11 +155,12 @@ class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unsupported token type.
      */
     public function iTryToCheckATokenThatIsNotSupported()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported token type.');
+
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
         $protected = ['foo' => 'bar'];

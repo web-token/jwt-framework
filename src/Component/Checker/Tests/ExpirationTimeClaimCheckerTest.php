@@ -27,22 +27,24 @@ class ExpirationTimeClaimCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage "exp" must be an integer.
      */
     public function theExpirationTimeClaimMustBeAnInteger()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('"exp" must be an integer.');
+
         $checker = new ExpirationTimeChecker();
         $checker->checkClaim('foo');
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage The token expired.
      */
     public function theExpirationTimeIsInThePast()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('The token expired.');
+
         $checker = new ExpirationTimeChecker();
         $checker->checkClaim(time() - 1);
     }

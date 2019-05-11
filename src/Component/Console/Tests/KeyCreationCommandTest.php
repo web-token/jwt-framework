@@ -41,11 +41,12 @@ class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Not enough arguments (missing: "curve").
      */
     public function theEllipticCurveKeyCreationCommandNeedTheCurveArgument()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
+
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $command = new Console\EcKeyGeneratorCommand();
@@ -55,11 +56,12 @@ class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The curve "P-128" is not supported.
      */
     public function iCannotCreateAnEllipticCurveKeyWithAnUnsupportedCurve()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The curve "P-128" is not supported.');
+
         $input = new ArrayInput([
             'curve' => 'P-128',
         ]);
@@ -89,11 +91,12 @@ class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Not enough arguments (missing: "size").
      */
     public function iCannotCreateAnOctetKeyWithoutKeySize()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments (missing: "size").');
+
         $input = new ArrayInput([
         ]);
         $output = new BufferedOutput();
@@ -163,11 +166,12 @@ class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Not enough arguments (missing: "curve").
      */
     public function iCannotCreateAnOctetKeyPairWithoutKeyCurve()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
+
         $input = new ArrayInput([
         ]);
         $output = new BufferedOutput();
@@ -213,11 +217,12 @@ class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage Not enough arguments (missing: "size").
      */
     public function iCannotCreateAnRsaKeyWithoutKeySize()
     {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Not enough arguments (missing: "size").');
+
         $input = new ArrayInput([
         ]);
         $output = new BufferedOutput();

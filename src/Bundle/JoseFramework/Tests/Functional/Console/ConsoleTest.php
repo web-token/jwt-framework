@@ -26,7 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 class ConsoleTest extends KernelTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(EcKeyGeneratorCommand::class)) {
             static::markTestSkipped('The component "web-token/jwt-console" is not installed.');

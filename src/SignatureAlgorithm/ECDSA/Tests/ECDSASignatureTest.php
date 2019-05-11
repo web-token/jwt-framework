@@ -30,13 +30,12 @@ use PHPUnit\Framework\TestCase;
 class ECDSASignatureTest extends TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Wrong key type.
-     *
      * @test
      */
     public function invalidKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Wrong key type.');
         $key = new JWK([
             'kty' => 'RSA',
         ]);
@@ -92,13 +91,12 @@ class ECDSASignatureTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The EC key is not private
-     *
      * @test
      */
     public function keyNotPrivate()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The EC key is not private');
         $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',

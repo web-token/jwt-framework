@@ -66,6 +66,7 @@ return PhpCsFixer\Config::create()
             'style' => 'annotation',
         ],
         'php_unit_test_case_static_method_calls' => true,
+        'php_unit_expectation' => true,
     ])
     ->setRiskyAllowed(true)
     ->setUsingCache(true)

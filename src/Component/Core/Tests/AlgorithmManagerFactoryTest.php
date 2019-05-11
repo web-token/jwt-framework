@@ -51,20 +51,22 @@ class AlgorithmManagerFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \TypeError
      */
     public function iCannotCreateAnAlgorithmManagerWithABadArgument()
     {
+        $this->expectException(\TypeError::class);
+
         new AlgorithmManager(['foo']);
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The algorithm "HS384" is not supported.
      */
     public function iCannotGetAnAlgorithmThatDoesNotExist()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The algorithm "HS384" is not supported.');
+
         $manager = new AlgorithmManager([new FooAlgorithm()]);
 
         static::assertEquals(['foo'], $manager->list());

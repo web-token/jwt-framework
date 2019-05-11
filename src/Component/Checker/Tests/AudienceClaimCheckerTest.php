@@ -27,33 +27,36 @@ class AudienceClaimCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage Bad audience.
      */
     public function anAudienceClaimMustBeAStringOrAnArrayOfStrings()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('Bad audience.');
+
         $checker = new AudienceChecker('foo');
         $checker->checkClaim(1);
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage Bad audience.
      */
     public function theAudienceClaimIsNotKnown()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('Bad audience.');
+
         $checker = new AudienceChecker('foo');
         $checker->checkClaim('bar');
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage Bad audience.
      */
     public function theAudienceClaimListDoesNotContainTheCurrentAudience()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('Bad audience.');
+
         $checker = new AudienceChecker('foo');
         $checker->checkClaim(['bar']);
     }

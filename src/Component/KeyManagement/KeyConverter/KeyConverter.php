@@ -114,7 +114,7 @@ class KeyConverter
         $last_issuer = null;
         $last_subject = null;
         foreach ($x5c as $cert) {
-            $current_cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.\chunk_split($cert,64,PHP_EOL).'-----END CERTIFICATE-----';
+            $current_cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.chunk_split($cert, 64, PHP_EOL).'-----END CERTIFICATE-----';
             $x509 = openssl_x509_read($current_cert);
             if (false === $x509) {
                 throw new InvalidArgumentException('Unable to load the certificate chain');

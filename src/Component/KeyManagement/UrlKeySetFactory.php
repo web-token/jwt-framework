@@ -13,26 +13,26 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
-use Http\Client\HttpClient;
-use Http\Message\RequestFactory;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use RuntimeException;
 
 abstract class UrlKeySetFactory
 {
     /**
-     * @var HttpClient
+     * @var ClientInterface
      */
     private $client;
 
     /**
-     * @var RequestFactory
+     * @var RequestFactoryInterface
      */
     private $requestFactory;
 
     /**
      * UrlKeySetFactory constructor.
      */
-    public function __construct(HttpClient $client, RequestFactory $requestFactory)
+    public function __construct(ClientInterface $client, RequestFactoryInterface $requestFactory)
     {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
@@ -40,7 +40,10 @@ abstract class UrlKeySetFactory
 
     protected function getContent(string $url, array $header = []): string
     {
-        $request = $this->requestFactory->createRequest('GET', $url, $header);
+        $request = $this->requestFactory->createRequest('GET', $url);
+        foreach ($header as $k => $v) {
+            $request = $request->withHeader($k, $v);
+        }
         $response = $this->client->sendRequest($request);
 
         if ($response->getStatusCode() >= 400) {

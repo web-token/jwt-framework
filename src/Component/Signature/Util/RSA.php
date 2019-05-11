@@ -210,6 +210,6 @@ class RSA
         }
         $ps = str_repeat(\chr(0xFF), $emBits - $tLen - 3);
 
-        return "\0\1${ps}\0${t}";
+        return "\0\1{$ps}\0{$t}";
     }
 }

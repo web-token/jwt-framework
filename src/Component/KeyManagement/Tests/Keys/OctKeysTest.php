@@ -26,13 +26,13 @@ use PHPUnit\Framework\TestCase;
 class OctKeysTest extends TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid key size.
-     *
      * @test
      */
     public function createOctKeyWithInvalidKeySize()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid key size.');
+
         JWKFactory::createOctKey(12);
     }
 

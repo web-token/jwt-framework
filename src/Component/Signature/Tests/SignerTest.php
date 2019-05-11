@@ -29,13 +29,13 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 class SignerTest extends SignatureTest
 {
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage No "alg" parameter set in the header.
-     *
      * @test
      */
     public function algParameterIsMissing()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('No "alg" parameter set in the header.');
+
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
         $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
@@ -45,13 +45,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The algorithm "foo" is not supported.
-     *
      * @test
      */
     public function algParameterIsNotSupported()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The algorithm "foo" is not supported.');
+
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
         $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
@@ -61,13 +61,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The header contains duplicated entries: foo.
-     *
      * @test
      */
     public function duplicatedHeader()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header contains duplicated entries: foo.');
+
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
         $jwsBuilder
             ->create()->withPayload(json_encode($this->getKey3()))
@@ -261,13 +261,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The algorithm "RS512" is not allowed with this key.
-     *
      * @test
      */
     public function algorithmNotAllowedForTheKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The algorithm "RS512" is not allowed with this key.');
+
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
         $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
@@ -277,13 +277,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Key cannot be used to sign
-     *
      * @test
      */
     public function operationNotAllowedForTheKey()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Key cannot be used to sign');
+
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['PS512']);
         $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
@@ -382,13 +382,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The JWS does not contain any signature.
-     *
      * @test
      */
     public function signAndLoadWithJWSWithoutSignatures()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The JWS does not contain any signature.');
+
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
         $jws = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[]}';
 
@@ -405,13 +405,14 @@ class SignerTest extends SignatureTest
     /**
      * @see https://tools.ietf.org/html/rfc7797#section-4
      * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Unable to convert the JWS with non-encoded payload.
      *
      * @test
      */
     public function compactJSONWithUnencodedPayloadFailsBecauseOfForbiddenCharacters()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Unable to convert the JWS with non-encoded payload.');
+
         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
@@ -551,13 +552,13 @@ class SignerTest extends SignatureTest
     /**
      * The library is able to support multiple payload encoding and conversion in JSON is not available if payload is not detached.
      *
-     * @expectedException \LogicException
-     * @expectedExceptionMessage  Foreign payload encoding detected.
-     *
      * @test
      */
     public function compactJSONWithUnencodedPayloadAndMultipleSignatures()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Foreign payload encoding detected.');
+
         $payload = '$.02';
         $protectedHeader1 = [
             'alg' => 'HS256',
@@ -585,13 +586,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.
-     *
      * @test
      */
     public function jWSWithUnencodedPayloadButNoCritHeader()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.');
+
         $payload = '$.02';
         $protectedHeader = [
             'alg' => 'HS256',
@@ -613,13 +614,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The protected header parameter "crit" must be an array.
-     *
      * @test
      */
     public function jWSWithUnencodedPayloadButCritHeaderIsNotAnArray()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The protected header parameter "crit" must be an array.');
+
         $payload = '$.02';
         $protectedHeader = [
             'alg' => 'HS256',
@@ -642,13 +643,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.
-     *
      * @test
      */
     public function jWSWithUnencodedPayloadButCritHeaderDoesNotContainB64()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.');
+
         $payload = '$.02';
         $protectedHeader = [
             'alg' => 'HS256',
@@ -752,13 +753,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage No "alg" parameter set in the header.
-     *
      * @test
      */
     public function signAndLoadWithoutAlgParameterInTheHeader()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('No "alg" parameter set in the header.');
+
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
         $jws = 'eyJraWQiOiJiaWxiby5iYWdnaW5zQGhvYmJpdG9uLmV4YW1wbGUifQ.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg';
 
@@ -798,13 +799,13 @@ class SignerTest extends SignatureTest
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage There is no key in the key set.
-     *
      * @test
      */
     public function keySetIsEmpty()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is no key in the key set.');
+
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()->create(['HS512', 'RS512']);
         $jws = $jwsBuilder

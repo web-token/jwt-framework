@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class Chacha20Poly1305ContentEncryptionTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
             static::markTestSkipped('The algorithm "chacha20-poly1305" is not supported in this platform.');

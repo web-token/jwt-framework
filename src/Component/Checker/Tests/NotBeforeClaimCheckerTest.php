@@ -27,22 +27,24 @@ class NotBeforeClaimCheckerTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage "nbf" must be an integer.
      */
     public function theNotBeforeClaimMustBeAnInteger()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('"nbf" must be an integer.');
+
         $checker = new NotBeforeChecker();
         $checker->checkClaim('foo');
     }
 
     /**
      * @test
-     * @expectedException \Jose\Component\Checker\InvalidClaimException
-     * @expectedExceptionMessage The JWT can not be used yet.
      */
     public function theNotBeforeClaimIsInTheFutur()
     {
+        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectExceptionMessage('The JWT can not be used yet.');
+
         $checker = new NotBeforeChecker();
         $checker->checkClaim(time() + 3600);
     }

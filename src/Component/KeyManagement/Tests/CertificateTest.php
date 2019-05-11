@@ -30,23 +30,23 @@ use PHPUnit\Framework\TestCase;
 class CertificateTest extends TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage File "file:///foo/bar" does not exist.
-     *
      * @test
      */
     public function fileNotFound()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('File "file:///foo/bar" does not exist.');
+
         KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     *
      * @test
      */
     public function fileNotValid()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         KeyConverter::loadKeyFromCertificateFile(__DIR__.__FILE__);
     }
 

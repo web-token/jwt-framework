@@ -148,7 +148,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PemConverterCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertContains('-----BEGIN RSA PRIVATE KEY-----', $content);
+        static::assertStringContainsString('-----BEGIN RSA PRIVATE KEY-----', $content);
     }
 
     /**
@@ -171,7 +171,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PemConverterCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertContains('-----BEGIN EC PRIVATE KEY-----', $content);
+        static::assertStringContainsString('-----BEGIN EC PRIVATE KEY-----', $content);
     }
 
     /**
@@ -194,7 +194,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PublicKeyCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertContains('{"kty":"EC","crv":"P-256","x":"YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0","y":"bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8"}', $content);
+        static::assertStringContainsString('{"kty":"EC","crv":"P-256","x":"YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0","y":"bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8"}', $content);
     }
 
     /**
@@ -224,7 +224,7 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\PublicKeysetCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertContains('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"},{"kty":"EC","crv":"P-521","x":"AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk","y":"ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2"}]}', $content);
+        static::assertStringContainsString('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"},{"kty":"EC","crv":"P-521","x":"AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk","y":"ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2"}]}', $content);
     }
 
     /**

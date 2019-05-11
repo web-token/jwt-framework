@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Serializer;
  */
 final class JWSNormalizerTest extends WebTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(BaseJWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');

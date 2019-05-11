@@ -14,16 +14,14 @@ services:
         public: true
     httplug.client.mock:
         class: 'Http\Mock\Client'
-        arguments:
-            - '@Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory'
     httplug.client.default: '@httplug.client.mock'
-    Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory: ~
+    Nyholm\Psr7\Factory\Psr17Factory: ~
 
 jose:
     jku_factory:
         enabled: true
         client: 'httplug.client.mock'
-        request_factory: 'Jose\Bundle\JoseFramework\Tests\TestBundle\MessageFactory'
+        request_factory: 'Nyholm\Psr7\Factory\Psr17Factory'
     checkers:
         claims:
             checker1:
