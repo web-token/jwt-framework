@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\NestedTokenLoadingFailureEvent;
 use Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent;
 use Jose\Component\Core\JWKSet;
@@ -21,7 +20,7 @@ use Jose\Component\Encryption\JWELoader;
 use Jose\Component\NestedToken\NestedTokenLoader as BaseNestedTokenLoader;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 final class NestedTokenLoader extends BaseNestedTokenLoader
@@ -41,7 +40,7 @@ final class NestedTokenLoader extends BaseNestedTokenLoader
     {
         try {
             $jws = parent::load($token, $encryptionKeySet, $signatureKeySet, $signature);
-            $this->eventDispatcher->dispatch(Events::NESTED_TOKEN_LOADING_SUCCESS, new NestedTokenLoadingSuccessEvent(
+            $this->eventDispatcher->dispatch(new NestedTokenLoadingSuccessEvent(
                 $token,
                 $jws,
                 $signatureKeySet,
@@ -51,7 +50,7 @@ final class NestedTokenLoader extends BaseNestedTokenLoader
 
             return $jws;
         } catch (Throwable $throwable) {
-            $this->eventDispatcher->dispatch(Events::NESTED_TOKEN_LOADING_FAILURE, new NestedTokenLoadingFailureEvent(
+            $this->eventDispatcher->dispatch(new NestedTokenLoadingFailureEvent(
                 $token,
                 $signatureKeySet,
                 $encryptionKeySet,

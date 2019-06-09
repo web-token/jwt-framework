@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\Event;
 
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 final class JWSVerificationFailureEvent extends Event
 {

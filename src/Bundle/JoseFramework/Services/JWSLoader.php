@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWSLoadingFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent;
 use Jose\Component\Checker\HeaderCheckerManager;
@@ -22,7 +21,7 @@ use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader as BaseJWSLoader;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 final class JWSLoader extends BaseJWSLoader
@@ -42,7 +41,7 @@ final class JWSLoader extends BaseJWSLoader
     {
         try {
             $jws = parent::loadAndVerifyWithKeySet($token, $keyset, $signature, $payload);
-            $this->eventDispatcher->dispatch(Events::JWS_LOADING_SUCCESS, new JWSLoadingSuccessEvent(
+            $this->eventDispatcher->dispatch(new JWSLoadingSuccessEvent(
                 $token,
                 $jws,
                 $keyset,
@@ -51,7 +50,7 @@ final class JWSLoader extends BaseJWSLoader
 
             return $jws;
         } catch (Throwable $throwable) {
-            $this->eventDispatcher->dispatch(Events::JWS_LOADING_FAILURE, new JWSLoadingFailureEvent(
+            $this->eventDispatcher->dispatch(new JWSLoadingFailureEvent(
                 $token,
                 $keyset,
                 $throwable

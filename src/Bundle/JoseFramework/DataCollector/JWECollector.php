@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
@@ -109,10 +108,10 @@ class JWECollector implements Collector, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            Events::JWE_DECRYPTION_SUCCESS => ['catchJweDecryptionSuccess'],
-            Events::JWE_DECRYPTION_FAILURE => ['catchJweDecryptionFailure'],
-            Events::JWE_BUILT_SUCCESS => ['catchJweBuiltSuccess'],
-            Events::JWE_BUILT_FAILURE => ['catchJweBuiltFailure'],
+            JWEDecryptionSuccessEvent::class => ['catchJweDecryptionSuccess'],
+            JWEDecryptionFailureEvent::class => ['catchJweDecryptionFailure'],
+            JWEBuiltSuccessEvent::class => ['catchJweBuiltSuccess'],
+            JWEBuiltFailureEvent::class => ['catchJweBuiltFailure'],
         ];
     }
 

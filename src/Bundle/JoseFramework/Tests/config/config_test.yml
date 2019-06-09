@@ -16,6 +16,8 @@ services:
         class: 'Http\Mock\Client'
     httplug.client.default: '@httplug.client.mock'
     Nyholm\Psr7\Factory\Psr17Factory: ~
+    Psr\EventDispatcher\EventDispatcherInterface:
+        alias: 'event_dispatcher'
 
 jose:
     jku_factory:

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWSVerificationFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
@@ -21,7 +20,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSVerifier as BaseJWSVerifier;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class JWSVerifier extends BaseJWSVerifier
 {
@@ -40,7 +39,7 @@ final class JWSVerifier extends BaseJWSVerifier
     {
         $success = parent::verifyWithKeySet($jws, $jwkset, $signatureIndex, $detachedPayload, $jwk);
         if ($success) {
-            $this->eventDispatcher->dispatch(Events::JWS_VERIFICATION_SUCCESS, new JWSVerificationSuccessEvent(
+            $this->eventDispatcher->dispatch(new JWSVerificationSuccessEvent(
                 $jws,
                 $jwkset,
                 $signatureIndex,
@@ -48,7 +47,7 @@ final class JWSVerifier extends BaseJWSVerifier
                 $jwk
             ));
         } else {
-            $this->eventDispatcher->dispatch(Events::JWS_VERIFICATION_FAILURE, new JWSVerificationFailureEvent(
+            $this->eventDispatcher->dispatch(new JWSVerificationFailureEvent(
                 $jws,
                 $jwkset,
                 $detachedPayload

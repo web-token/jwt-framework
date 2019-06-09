@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\Event;
 
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 final class JWEDecryptionFailureEvent extends Event
 {

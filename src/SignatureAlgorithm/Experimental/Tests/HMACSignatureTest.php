@@ -38,7 +38,7 @@ class HMACSignatureTest extends TestCase
 
         static::assertEquals('HS1', $hmac->name());
 
-        $signature = $hmac->sign($key, $data);
+        $signature = $hmac->hash($key, $data);
 
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
@@ -54,7 +54,7 @@ class HMACSignatureTest extends TestCase
 
         static::assertEquals('HS256/64', $hmac->name());
 
-        $signature = $hmac->sign($key, $data);
+        $signature = $hmac->hash($key, $data);
 
         static::assertEquals(hex2bin('89f750759cb8ad93'), $signature);
         static::assertTrue($hmac->verify($key, $data, $signature));

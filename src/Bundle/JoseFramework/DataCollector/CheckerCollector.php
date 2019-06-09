@@ -15,7 +15,6 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedFailureEvent;
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedSuccessEvent;
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\HeaderCheckedFailureEvent;
 use Jose\Bundle\JoseFramework\Event\HeaderCheckedSuccessEvent;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManager;
@@ -97,10 +96,10 @@ class CheckerCollector implements Collector, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            Events::HEADER_CHECK_SUCCESS => ['catchHeaderCheckSuccess'],
-            Events::HEADER_CHECK_FAILURE => ['catchHeaderChcekFailure'],
-            Events::CLAIM_CHECK_SUCCESS => ['catchClaimCheckSuccess'],
-            Events::CLAIM_CHECK_FAILURE => ['catchClaimCheckFailure'],
+            HeaderCheckedSuccessEvent::class => ['catchHeaderCheckSuccess'],
+            HeaderCheckedFailureEvent::class => ['catchHeaderCheckFailure'],
+            ClaimCheckedSuccessEvent::class => ['catchClaimCheckSuccess'],
+            ClaimCheckedFailureEvent::class => ['catchClaimCheckFailure'],
         ];
     }
 
@@ -110,7 +109,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         $this->headerCheckedSuccesses[] = $cloner->cloneVar($event);
     }
 
-    public function catchHeaderChcekFailure(HeaderCheckedFailureEvent $event): void
+    public function catchHeaderCheckFailure(HeaderCheckedFailureEvent $event): void
     {
         $cloner = new VarCloner();
         $this->headerCheckedFailures[] = $cloner->cloneVar($event);

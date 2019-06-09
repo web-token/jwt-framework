@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class NestedTokenBuilderFactory
 {

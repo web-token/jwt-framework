@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilder as BaseJWEBuilder;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 final class JWEBuilder extends BaseJWEBuilder
@@ -40,11 +39,11 @@ final class JWEBuilder extends BaseJWEBuilder
     {
         try {
             $jwe = parent::build();
-            $this->eventDispatcher->dispatch(Events::JWE_BUILT_SUCCESS, new JWEBuiltSuccessEvent($jwe));
+            $this->eventDispatcher->dispatch(new JWEBuiltSuccessEvent($jwe));
 
             return $jwe;
         } catch (Throwable $throwable) {
-            $this->eventDispatcher->dispatch(Events::JWE_BUILT_FAILURE, new JWEBuiltFailureEvent(
+            $this->eventDispatcher->dispatch(new JWEBuiltFailureEvent(
                 $this->payload,
                 $this->recipients,
                 $this->sharedProtectedHeader,

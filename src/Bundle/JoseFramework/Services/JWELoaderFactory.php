@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class JWELoaderFactory
 {

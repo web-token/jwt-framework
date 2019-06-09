@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 final class HS256 extends HMAC
@@ -31,7 +32,7 @@ final class HS256 extends HMAC
     {
         $k = parent::getKey($key);
         if (mb_strlen($k, '8bit') < 32) {
-            throw new \InvalidArgumentException('Invalid key length.');
+            throw new InvalidArgumentException('Invalid key length.');
         }
 
         return $k;

@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use InvalidArgumentException;
 use Jose\Component\Checker\ClaimChecker;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class ClaimCheckerManagerFactory
 {

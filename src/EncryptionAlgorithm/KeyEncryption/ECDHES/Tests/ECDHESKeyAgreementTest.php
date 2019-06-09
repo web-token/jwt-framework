@@ -54,7 +54,7 @@ class ECDHESKeyAgreementTest extends TestCase
         $ecdh_es = new ECDHES();
         $additional_header_values = [];
 
-        $ecdh_es->getAgreementKey(128, 'A128GCM', $receiver, $header, $additional_header_values);
+        $ecdh_es->getAgreementKey(128, 'A128GCM', $receiver, null, $header, $additional_header_values);
         static::assertTrue(\array_key_exists('epk', $additional_header_values));
         static::assertTrue(\array_key_exists('kty', $additional_header_values['epk']));
         static::assertTrue(\array_key_exists('crv', $additional_header_values['epk']));
@@ -91,7 +91,7 @@ class ECDHESKeyAgreementTest extends TestCase
         $cek = hex2bin(implode('', $cek));
 
         $ecdh_es = new ECDHESA128KW();
-        $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 128, $header, $header);
+        $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 128, $header, $header);
         static::assertTrue(\array_key_exists('epk', $header));
         static::assertTrue(\array_key_exists('crv', $header['epk']));
         static::assertTrue(\array_key_exists('kty', $header['epk']));
@@ -99,7 +99,7 @@ class ECDHESKeyAgreementTest extends TestCase
         static::assertTrue(\array_key_exists('y', $header['epk']));
         static::assertEquals('P-256', $header['epk']['crv']);
         static::assertEquals('EC', $header['epk']['kty']);
-        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 128, $header));
+        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
     }
 
     /**
@@ -131,7 +131,7 @@ class ECDHESKeyAgreementTest extends TestCase
         $cek = hex2bin(implode('', $cek));
 
         $ecdh_es = new ECDHESA192KW();
-        $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 192, $header, $header);
+        $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 192, $header, $header);
         static::assertTrue(\array_key_exists('epk', $header));
         static::assertTrue(\array_key_exists('crv', $header['epk']));
         static::assertTrue(\array_key_exists('kty', $header['epk']));
@@ -139,7 +139,7 @@ class ECDHESKeyAgreementTest extends TestCase
         static::assertTrue(\array_key_exists('y', $header['epk']));
         static::assertEquals('P-256', $header['epk']['crv']);
         static::assertEquals('EC', $header['epk']['kty']);
-        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 192, $header));
+        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 192, $header));
     }
 
     /**
@@ -171,7 +171,7 @@ class ECDHESKeyAgreementTest extends TestCase
         $cek = hex2bin(implode('', $cek));
 
         $ecdh_es = new ECDHESA256KW();
-        $encrypted_cek = $ecdh_es->wrapAgreementKey($public, $cek, 256, $header, $header);
+        $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 256, $header, $header);
         static::assertTrue(\array_key_exists('epk', $header));
         static::assertTrue(\array_key_exists('crv', $header['epk']));
         static::assertTrue(\array_key_exists('kty', $header['epk']));
@@ -179,7 +179,7 @@ class ECDHESKeyAgreementTest extends TestCase
         static::assertTrue(\array_key_exists('y', $header['epk']));
         static::assertEquals('P-256', $header['epk']['crv']);
         static::assertEquals('EC', $header['epk']['kty']);
-        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, $encrypted_cek, 256, $header));
+        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 256, $header));
     }
 
     /**
@@ -199,7 +199,7 @@ class ECDHESKeyAgreementTest extends TestCase
         ]);
 
         $ecdh_es = new ECDHES();
-        $ecdh_es->getAgreementKey(256, 'A128GCM', $sender);
+        $ecdh_es->getAgreementKey(256, 'A128GCM', $sender, null);
     }
 
     /**
@@ -220,7 +220,7 @@ class ECDHESKeyAgreementTest extends TestCase
         ]);
 
         $ecdh_es = new ECDHES();
-        $ecdh_es->getAgreementKey(256, 'A128GCM', $sender, $header);
+        $ecdh_es->getAgreementKey(256, 'A128GCM', $sender, null, $header);
     }
 
     /**
@@ -237,7 +237,7 @@ class ECDHESKeyAgreementTest extends TestCase
         ]);
 
         $ecdh_es = new ECDHES();
-        $ecdh_es->getAgreementKey(256, 'A128GCM', $receiver);
+        $ecdh_es->getAgreementKey(256, 'A128GCM', $receiver, null);
     }
 
     /**
@@ -262,6 +262,6 @@ class ECDHESKeyAgreementTest extends TestCase
         ]);
 
         $ecdh_es = new ECDHES();
-        $ecdh_es->getAgreementKey(256, 'A128GCM', $receiver, $header);
+        $ecdh_es->getAgreementKey(256, 'A128GCM', $receiver, null, $header);
     }
 }

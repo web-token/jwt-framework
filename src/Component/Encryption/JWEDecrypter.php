@@ -84,11 +84,11 @@ class JWEDecrypter
      * @param JWK $jwk       The key used to decrypt the input
      * @param int $recipient The recipient used to decrypt the token
      */
-    public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient): bool
+    public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient, ?JWK $senderKey = null): bool
     {
         $jwkset = new JWKSet([$jwk]);
 
-        return $this->decryptUsingKeySet($jwe, $jwkset, $recipient);
+        return $this->decryptUsingKeySet($jwe, $jwkset, $recipient, $senderKey);
     }
 
     /**
@@ -99,7 +99,7 @@ class JWEDecrypter
      * @param JWK    $jwk       The key used to decrypt the token in case of success
      * @param int    $recipient The recipient used to decrypt the token in case of success
      */
-    public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient, JWK &$jwk = null): bool
+    public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient, JWK &$jwk = null, ?JWK $senderKey = null): bool
     {
         if (0 === $jwkset->count()) {
             throw new InvalidArgumentException('No key in the key set.');
@@ -111,7 +111,7 @@ class JWEDecrypter
             throw new InvalidArgumentException('The JWE does not contain any recipient.');
         }
 
-        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk);
+        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk, $senderKey);
         if (null !== $plaintext) {
             $jwe = $jwe->withPayload($plaintext);
 
@@ -121,7 +121,7 @@ class JWEDecrypter
         return false;
     }
 
-    private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i, JWK &$successJwk = null): ?string
+    private function decryptRecipientKey(JWE $jwe, JWKSet $jwkset, int $i, JWK &$successJwk = null, ?JWK $senderKey = null): ?string
     {
         $recipient = $jwe->getRecipient($i);
         $completeHeader = array_merge($jwe->getSharedProtectedHeader(), $jwe->getSharedHeader(), $recipient->getHeader());
@@ -132,19 +132,19 @@ class JWEDecrypter
 
         $this->checkIvSize($jwe->getIV(), $content_encryption_algorithm->getIVSize());
 
-        foreach ($jwkset as $jwk) {
+        foreach ($jwkset as $recipientKey) {
             try {
-                KeyChecker::checkKeyUsage($jwk, 'decryption');
+                KeyChecker::checkKeyUsage($recipientKey, 'decryption');
                 if ('dir' !== $key_encryption_algorithm->name()) {
-                    KeyChecker::checkKeyAlgorithm($jwk, $key_encryption_algorithm->name());
+                    KeyChecker::checkKeyAlgorithm($recipientKey, $key_encryption_algorithm->name());
                 } else {
-                    KeyChecker::checkKeyAlgorithm($jwk, $content_encryption_algorithm->name());
+                    KeyChecker::checkKeyAlgorithm($recipientKey, $content_encryption_algorithm->name());
                 }
-                $cek = $this->decryptCEK($key_encryption_algorithm, $content_encryption_algorithm, $jwk, $recipient, $completeHeader);
+                $cek = $this->decryptCEK($key_encryption_algorithm, $content_encryption_algorithm, $recipientKey, $senderKey, $recipient, $completeHeader);
                 if (null !== $cek) {
                     $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
                     $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
-                    $successJwk = $jwk;
+                    $successJwk = $recipientKey;
 
                     return $payload;
                 }
@@ -177,22 +177,22 @@ class JWEDecrypter
         }
     }
 
-    private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $key, Recipient $recipient, array $completeHeader): ?string
+    private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $recipientKey, ?JWK $senderKey, Recipient $recipient, array $completeHeader): ?string
     {
         if ($key_encryption_algorithm instanceof DirectEncryption) {
-            return $key_encryption_algorithm->getCEK($key);
+            return $key_encryption_algorithm->getCEK($recipientKey);
         }
         if ($key_encryption_algorithm instanceof KeyAgreement) {
-            return $key_encryption_algorithm->getAgreementKey($content_encryption_algorithm->getCEKSize(), $content_encryption_algorithm->name(), $key, $completeHeader);
+            return $key_encryption_algorithm->getAgreementKey($content_encryption_algorithm->getCEKSize(), $content_encryption_algorithm->name(), $recipientKey, $senderKey, $completeHeader);
         }
         if ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
-            return $key_encryption_algorithm->unwrapAgreementKey($key, $recipient->getEncryptedKey(), $content_encryption_algorithm->getCEKSize(), $completeHeader);
+            return $key_encryption_algorithm->unwrapAgreementKey($recipientKey, $senderKey, $recipient->getEncryptedKey(), $content_encryption_algorithm->getCEKSize(), $completeHeader);
         }
         if ($key_encryption_algorithm instanceof KeyEncryption) {
-            return $key_encryption_algorithm->decryptKey($key, $recipient->getEncryptedKey(), $completeHeader);
+            return $key_encryption_algorithm->decryptKey($recipientKey, $recipient->getEncryptedKey(), $completeHeader);
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
-            return $key_encryption_algorithm->unwrapKey($key, $recipient->getEncryptedKey(), $completeHeader);
+            return $key_encryption_algorithm->unwrapKey($recipientKey, $recipient->getEncryptedKey(), $completeHeader);
         }
 
         throw new InvalidArgumentException('Unsupported CEK generation');

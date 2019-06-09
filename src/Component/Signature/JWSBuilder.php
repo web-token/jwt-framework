@@ -15,10 +15,12 @@ namespace Jose\Component\Signature;
 
 use Base64Url\Base64Url;
 use InvalidArgumentException;
+use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
+use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use LogicException;
 use RuntimeException;
@@ -113,11 +115,11 @@ class JWSBuilder
         }
         $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
         KeyChecker::checkKeyUsage($signatureKey, 'signature');
-        $signatureAlgorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
-        KeyChecker::checkKeyAlgorithm($signatureKey, $signatureAlgorithm->name());
+        $algorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
+        KeyChecker::checkKeyAlgorithm($signatureKey, $algorithm->name());
         $clone = clone $this;
         $clone->signatures[] = [
-            'signature_algorithm' => $signatureAlgorithm,
+            'signature_algorithm' => $algorithm,
             'signature_key' => $signatureKey,
             'protected_header' => $protectedHeader,
             'header' => $header,
@@ -141,8 +143,8 @@ class JWSBuilder
         $encodedPayload = false === $this->isPayloadEncoded ? $this->payload : Base64Url::encode($this->payload);
         $jws = new JWS($this->payload, $encodedPayload, $this->isPayloadDetached);
         foreach ($this->signatures as $signature) {
-            /** @var SignatureAlgorithm $signatureAlgorithm */
-            $signatureAlgorithm = $signature['signature_algorithm'];
+            /** @var SignatureAlgorithm $algorithm */
+            $algorithm = $signature['signature_algorithm'];
             /** @var JWK $signatureKey */
             $signatureKey = $signature['signature_key'];
             /** @var array $protectedHeader */
@@ -151,7 +153,11 @@ class JWSBuilder
             $header = $signature['header'];
             $encodedProtectedHeader = 0 === \count($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
             $input = sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
-            $s = $signatureAlgorithm->sign($signatureKey, $input);
+            if ($algorithm instanceof SignatureAlgorithm) {
+                $s = $algorithm->sign($signatureKey, $input);
+            } else {
+                $s = $algorithm->hash($signatureKey, $input);
+            }
             $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
         }
 
@@ -179,7 +185,10 @@ class JWSBuilder
         }
     }
 
-    private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): SignatureAlgorithm
+    /**
+     * @return MacAlgorithm|SignatureAlgorithm
+     */
+    private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): Algorithm
     {
         $completeHeader = array_merge($header, $protectedHeader);
         if (!\array_key_exists('alg', $completeHeader)) {
@@ -189,12 +198,12 @@ class JWSBuilder
             throw new InvalidArgumentException(sprintf('The algorithm "%s" is not allowed with this key.', $completeHeader['alg']));
         }
 
-        $signatureAlgorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
-        if (!$signatureAlgorithm instanceof SignatureAlgorithm) {
+        $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
+        if (!$algorithm instanceof SignatureAlgorithm && !$algorithm instanceof MacAlgorithm) {
             throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $completeHeader['alg']));
         }
 
-        return $signatureAlgorithm;
+        return $algorithm;
     }
 
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void

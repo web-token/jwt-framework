@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class JWEBuilderFactory
 {

@@ -15,7 +15,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\TokenTypeSupport;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class HeaderCheckerManagerFactory
 {

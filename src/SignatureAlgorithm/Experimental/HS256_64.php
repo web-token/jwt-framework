@@ -17,9 +17,9 @@ use Jose\Component\Core\JWK;
 
 final class HS256_64 extends HMAC
 {
-    public function sign(JWK $key, string $input): string
+    public function hash(JWK $key, string $input): string
     {
-        $signature = parent::sign($key, $input);
+        $signature = parent::hash($key, $input);
 
         return mb_substr($signature, 0, 8, '8bit');
     }

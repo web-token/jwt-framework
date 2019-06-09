@@ -15,10 +15,12 @@ namespace Jose\Component\Signature;
 
 use Base64Url\Base64Url;
 use InvalidArgumentException;
+use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
+use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Throwable;
 
@@ -136,7 +138,10 @@ class JWSVerifier
         }
     }
 
-    private function getAlgorithm(Signature $signature): SignatureAlgorithm
+    /**
+     * @return MacAlgorithm|SignatureAlgorithm
+     */
+    private function getAlgorithm(Signature $signature): Algorithm
     {
         $completeHeader = array_merge($signature->getProtectedHeader(), $signature->getHeader());
         if (!isset($completeHeader['alg'])) {
@@ -144,8 +149,8 @@ class JWSVerifier
         }
 
         $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
-        if (!$algorithm instanceof SignatureAlgorithm) {
-            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported or is not a signature algorithm.', $completeHeader['alg']));
+        if (!$algorithm instanceof SignatureAlgorithm && !$algorithm instanceof MacAlgorithm) {
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported or is not a signature or MAC algorithm.', $completeHeader['alg']));
         }
 
         return $algorithm;

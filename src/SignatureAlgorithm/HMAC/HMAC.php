@@ -17,7 +17,7 @@ use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
-abstract class HMAC implements SignatureAlgorithm
+abstract class HMAC implements MacAlgorithm
 {
     public function allowedKeyTypes(): array
     {
@@ -26,10 +26,10 @@ abstract class HMAC implements SignatureAlgorithm
 
     public function verify(JWK $key, string $input, string $signature): bool
     {
-        return hash_equals($this->sign($key, $input), $signature);
+        return hash_equals($this->hash($key, $input), $signature);
     }
 
-    public function sign(JWK $key, string $input): string
+    public function hash(JWK $key, string $input): string
     {
         $k = $this->getKey($key);
 

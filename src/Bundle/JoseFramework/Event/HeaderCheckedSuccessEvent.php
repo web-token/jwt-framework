@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Event;
 
 use Jose\Component\Core\JWT;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 final class HeaderCheckedSuccessEvent extends Event
 {

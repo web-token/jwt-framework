@@ -15,9 +15,8 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedFailureEvent;
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedSuccessEvent;
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Component\Checker\ClaimCheckerManager as BaseClaimCheckerManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 final class ClaimCheckerManager extends BaseClaimCheckerManager
@@ -38,14 +37,12 @@ final class ClaimCheckerManager extends BaseClaimCheckerManager
         try {
             $checkedClaims = BaseClaimCheckerManager::check($claims, $mandatoryClaims);
             $this->eventDispatcher->dispatch(
-                Events::CLAIM_CHECK_SUCCESS,
                 new ClaimCheckedSuccessEvent($claims, $mandatoryClaims, $checkedClaims)
             );
 
             return $checkedClaims;
         } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(
-                Events::CLAIM_CHECK_FAILURE,
                 new ClaimCheckedFailureEvent($claims, $mandatoryClaims, $throwable)
             );
 

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWSBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWSVerificationFailureEvent;
@@ -101,10 +100,10 @@ class JWSCollector implements Collector, EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            Events::JWS_VERIFICATION_SUCCESS => ['catchJwsVerificationSuccess'],
-            Events::JWS_VERIFICATION_FAILURE => ['catchJwsVerificationFailure'],
-            Events::JWS_BUILT_SUCCESS => ['catchJwsBuiltSuccess'],
-            Events::JWS_BUILT_FAILURE => ['catchJwsBuiltFailure'],
+            JWSVerificationSuccessEvent::class => ['catchJwsVerificationSuccess'],
+            JWSVerificationFailureEvent::class => ['catchJwsVerificationFailure'],
+            JWSBuiltSuccessEvent::class => ['catchJwsBuiltSuccess'],
+            JWSBuiltFailureEvent::class => ['catchJwsBuiltFailure'],
         ];
     }
 

@@ -293,7 +293,7 @@ class JWEBuilder
         if (!$keyEncryptionAlgorithm instanceof KeyEncryptionAlgorithm) {
             throw new InvalidArgumentException('The key encryption algorithm is not valid');
         }
-        $encryptedContentEncryptionKey = $this->getEncryptedKey($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipient['key']);
+        $encryptedContentEncryptionKey = $this->getEncryptedKey($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipient['key'], $recipient['sender_key'] ?? null);
         $recipientHeader = $recipient['header'];
         if (0 !== \count($additionalHeader) && 1 !== \count($this->recipients)) {
             $recipientHeader = array_merge($recipientHeader, $additionalHeader);
@@ -330,7 +330,7 @@ class JWEBuilder
         return $this->compressionMethod->compress($prepared);
     }
 
-    private function getEncryptedKey(array $completeHeader, string $cek, KeyEncryptionAlgorithm $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey): ?string
+    private function getEncryptedKey(array $completeHeader, string $cek, KeyEncryptionAlgorithm $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey, ?JWK $senderKey): ?string
     {
         if ($keyEncryptionAlgorithm instanceof KeyEncryption) {
             return $this->getEncryptedKeyFromKeyEncryptionAlgorithm($completeHeader, $cek, $keyEncryptionAlgorithm, $recipientKey, $additionalHeader);
@@ -339,7 +339,7 @@ class JWEBuilder
             return $this->getEncryptedKeyFromKeyWrappingAlgorithm($completeHeader, $cek, $keyEncryptionAlgorithm, $recipientKey, $additionalHeader);
         }
         if ($keyEncryptionAlgorithm instanceof KeyAgreementWithKeyWrapping) {
-            return $this->getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipientKey);
+            return $this->getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipientKey, $senderKey);
         }
         if ($keyEncryptionAlgorithm instanceof KeyAgreement) {
             return null;
@@ -351,13 +351,13 @@ class JWEBuilder
         throw new InvalidArgumentException('Unsupported key encryption algorithm.');
     }
 
-    private function getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey): string
+    private function getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey, ?JWK $senderKey): string
     {
         if (null === $this->contentEncryptionAlgorithm) {
             throw new InvalidArgumentException('Invalid content encryption algorithm');
         }
 
-        return $keyEncryptionAlgorithm->wrapAgreementKey($recipientKey, $cek, $this->contentEncryptionAlgorithm->getCEKSize(), $completeHeader, $additionalHeader);
+        return $keyEncryptionAlgorithm->wrapAgreementKey($recipientKey, $senderKey, $cek, $this->contentEncryptionAlgorithm->getCEKSize(), $completeHeader, $additionalHeader);
     }
 
     private function getEncryptedKeyFromKeyEncryptionAlgorithm(array $completeHeader, string $cek, KeyEncryption $keyEncryptionAlgorithm, JWK $recipientKey, array &$additionalHeader): string
@@ -399,14 +399,15 @@ class JWEBuilder
                     throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
                 /** @var JWK $key */
-                $key = $this->recipients[0]['key'];
+                $recipientKey = $this->recipients[0]['key'];
+                $senderKey = $this->recipients[0]['sender_key'] ?? null;
                 $algorithm = $this->recipients[0]['key_encryption_algorithm'];
                 if (!$algorithm instanceof KeyAgreement) {
                     throw new InvalidArgumentException('Invalid content encryption algorithm');
                 }
                 $completeHeader = array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
 
-                return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $key, $completeHeader, $additionalHeader);
+                return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $recipientKey, $senderKey, $completeHeader, $additionalHeader);
             case KeyEncryption::MODE_DIRECT:
                 if (1 !== \count($this->recipients)) {
                     throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
-use Jose\Bundle\JoseFramework\Event\Events;
 use Jose\Bundle\JoseFramework\Event\JWELoadingFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWELoadingSuccessEvent;
 use Jose\Component\Checker\HeaderCheckerManager;
@@ -22,7 +21,7 @@ use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWELoader as BaseJWELoader;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 final class JWELoader extends BaseJWELoader
@@ -42,7 +41,7 @@ final class JWELoader extends BaseJWELoader
     {
         try {
             $jwe = parent::loadAndDecryptWithKeySet($token, $keyset, $recipient);
-            $this->eventDispatcher->dispatch(Events::JWE_LOADING_SUCCESS, new JWELoadingSuccessEvent(
+            $this->eventDispatcher->dispatch(new JWELoadingSuccessEvent(
                 $token,
                 $jwe,
                 $keyset,
@@ -51,7 +50,7 @@ final class JWELoader extends BaseJWELoader
 
             return $jwe;
         } catch (Throwable $throwable) {
-            $this->eventDispatcher->dispatch(Events::JWE_LOADING_FAILURE, new JWELoadingFailureEvent(
+            $this->eventDispatcher->dispatch(new JWELoadingFailureEvent(
                 $token,
                 $keyset,
                 $throwable
