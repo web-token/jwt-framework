@@ -1,0 +1,33 @@
+<h3>Available MAC Algorithms</h3>
+<p class="help">
+    The following table lists all MAC algorithms available in this environment.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Alias</th>
+        <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set macAlgorithms = collector.getData().algorithm.algorithms %}
+    {% if macAlgorithms['MAC'] is defined %}
+        {% for alias, alg in macAlgorithms['MAC'] %}
+            <tr class="{% if alg.name in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[alg.name]['severity']|raw }}{% else %}no-severity{% endif %}">
+                <td>{{ alg.name }}</td>
+                <td>{{ alias }}</td>
+                <td>
+                    {% if alg.name in collector.getData().algorithm.messages|keys %}
+                        {{ collector.getData().algorithm.messages[alg.name]['message']|raw }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="3">There is no MAC algorithm. Did you installed a package providing MAC algorithms?</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
