@@ -17,6 +17,7 @@ use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
+use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,10 +42,11 @@ final class AlgorithmCollector implements Collector
             'algorithms' => [],
         ];
         $signatureAlgorithms = 0;
+        $macAlgorithms = 0;
         $keyEncryptionAlgorithms = 0;
         $contentEncryptionAlgorithms = 0;
         foreach ($algorithms as $alias => $algorithm) {
-            $type = $this->getAlgorithmType($algorithm, $signatureAlgorithms, $keyEncryptionAlgorithms, $contentEncryptionAlgorithms);
+            $type = $this->getAlgorithmType($algorithm, $signatureAlgorithms, $macAlgorithms, $keyEncryptionAlgorithms, $contentEncryptionAlgorithms);
             if (!\array_key_exists($type, $data['algorithm']['algorithms'])) {
                 $data['algorithm']['algorithms'][$type] = [];
             }
@@ -55,18 +57,23 @@ final class AlgorithmCollector implements Collector
 
         $data['algorithm']['types'] = [
             'signature' => $signatureAlgorithms,
+            'mac' => $macAlgorithms,
             'key_encryption' => $keyEncryptionAlgorithms,
             'content_encryption' => $contentEncryptionAlgorithms,
         ];
     }
 
-    private function getAlgorithmType(Algorithm $algorithm, int &$signatureAlgorithms, int &$keyEncryptionAlgorithms, int &$contentEncryptionAlgorithms): string
+    private function getAlgorithmType(Algorithm $algorithm, int &$signatureAlgorithms, int &$macAlgorithms, int &$keyEncryptionAlgorithms, int &$contentEncryptionAlgorithms): string
     {
         switch (true) {
             case $algorithm instanceof SignatureAlgorithm:
                 $signatureAlgorithms++;
 
                 return 'Signature';
+            case $algorithm instanceof MacAlgorithm:
+                $macAlgorithms++;
+
+                return 'MAC';
             case $algorithm instanceof KeyEncryptionAlgorithm:
                 $keyEncryptionAlgorithms++;
 

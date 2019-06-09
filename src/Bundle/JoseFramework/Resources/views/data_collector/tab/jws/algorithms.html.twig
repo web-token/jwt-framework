@@ -26,7 +26,25 @@
         {% endfor %}
     {% else %}
         <tr>
-            <td colspan="3">There is no signature/hashing algorithm. Did you installed "web-token/jwt-signature"?</td>
+            <td colspan="3">There is no signature algorithm. Did you installed a package providing signature algorithms?</td>
+        </tr>
+    {% endif %}
+    {% set macAlgorithms = collector.getData().algorithm.algorithms %}
+    {% if macAlgorithms['MAC'] is defined %}
+        {% for alias, alg in macAlgorithms['MAC'] %}
+            <tr class="{% if alg.name in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[alg.name]['severity']|raw }}{% else %}no-severity{% endif %}">
+                <td>{{ alg.name }}</td>
+                <td>{{ alias }}</td>
+                <td>
+                    {% if alg.name in collector.getData().algorithm.messages|keys %}
+                        {{ collector.getData().algorithm.messages[alg.name]['message']|raw }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="3">There is no MAC algorithm. Did you installed a package providing MAC algorithms?</td>
         </tr>
     {% endif %}
     </tbody>
