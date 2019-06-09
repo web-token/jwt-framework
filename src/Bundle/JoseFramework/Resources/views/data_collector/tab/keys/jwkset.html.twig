@@ -22,7 +22,7 @@
                     {% for kid, messages in data.analyze_jwkset %}
                         <h5>Key set:</h5>
                         <ul>
-                            {% if messages.count() == 0 %}
+                            {% if messages|length == 0 %}
                                 <li>No message. All good!</li>
                             {% else %}
                                 {% for message in messages %}
@@ -35,7 +35,7 @@
                     {% for kid, messages in data.analyze %}
                         <h5>Key index / Key ID "{{ kid }}":</h5>
                         <ul>
-                            {% if messages.count() == 0 %}
+                            {% if messages|length == 0 %}
                                 <li>No message. All good!</li>
                             {% else %}
                                 {% for message in messages %}
