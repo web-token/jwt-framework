@@ -143,7 +143,7 @@ class JWSBuilder
         $encodedPayload = false === $this->isPayloadEncoded ? $this->payload : Base64Url::encode($this->payload);
         $jws = new JWS($this->payload, $encodedPayload, $this->isPayloadDetached);
         foreach ($this->signatures as $signature) {
-            /** @var SignatureAlgorithm $algorithm */
+            /** @var MacAlgorithm|SignatureAlgorithm $algorithm */
             $algorithm = $signature['signature_algorithm'];
             /** @var JWK $signatureKey */
             $signatureKey = $signature['signature_key'];
