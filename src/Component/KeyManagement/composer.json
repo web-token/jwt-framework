@@ -27,7 +27,7 @@
         "php-http/message-factory": "^1.0",
         "php-http/httplug": "^1.1",
         "php-http/mock-client": "^1.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^8.0"
     },
     "suggest": {
         "php-http/message-factory": "To enable JKU/X5U support.",

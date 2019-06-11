@@ -30,7 +30,7 @@
         "web-token/jwt-util-ecc": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^8.0"
     },
     "conflict": {
         "spomky-labs/jose": "*"
