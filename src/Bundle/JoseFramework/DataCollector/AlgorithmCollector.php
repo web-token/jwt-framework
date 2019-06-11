@@ -102,6 +102,18 @@ final class AlgorithmCollector implements Collector
                 'severity' => 'severity-high',
                 'message' => 'Experimental. Please use for testing purpose only. SHA-1 hashing function is not recommended.',
             ],
+            'RS256' => [
+                'severity' => 'severity-medium',
+                'message' => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
+            ],
+            'RS384' => [
+                'severity' => 'severity-medium',
+                'message' => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
+            ],
+            'RS512' => [
+                'severity' => 'severity-medium',
+                'message' => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
+            ],
             'HS1' => [
                 'severity' => 'severity-high',
                 'message' => 'This algorithm has known vulnerabilities. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17</a>. SHA-1 hashing function is not recommended.',
