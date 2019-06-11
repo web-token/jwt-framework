@@ -21,8 +21,7 @@
     },
     "require": {
         "ext-openssl": "*",
-        "web-token/jwt-core": "^2.0",
-        "web-token/jwt-util-ecc": "^2.0"
+        "web-token/jwt-core": "^2.0"
     },
     "require-dev": {
         "php-http/message-factory": "^1.0",
