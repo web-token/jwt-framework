@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
-use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
+use Jose\Component\NestedToken\NestedTokenBuilder as JoseNestedTokenBuilder;
+use Jose\Component\NestedToken\NestedTokenLoader as JoseNestedTokenLoader;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -93,7 +93,7 @@ class NestedToken implements Source
 
     private function isEnabled(): bool
     {
-        return class_exists(NestedTokenBuilderFactory::class)
-            && class_exists(NestedTokenLoaderFactory::class);
+        return class_exists(JoseNestedTokenBuilder::class)
+            && class_exists(JoseNestedTokenLoader::class);
     }
 }
