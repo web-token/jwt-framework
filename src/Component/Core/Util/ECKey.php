@@ -119,6 +119,20 @@ class ECKey
         }
     }
 
+    private static function getNistCurveSize(string $curve): int
+    {
+        switch ($curve) {
+            case 'P-256':
+                return 256;
+            case 'P-384':
+                return 384;
+            case 'P-521':
+                return 521;
+            default:
+                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
+        }
+    }
+
     private static function createECKeyUsingPurePhp(string $curve): array
     {
         $nistCurve = self::getNistCurve($curve);
@@ -152,14 +166,14 @@ class ECKey
             throw new RuntimeException('Unable to create the key');
         }
         $details = openssl_pkey_get_details($res);
-        $nistCurve = self::getNistCurve($curve);
+        $nistCurveSize = self::getNistCurveSize($curve);
 
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd' => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
-            'x' => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
-            'y' => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
+            'd' => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'x' => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'y' => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
         ];
     }
 
@@ -281,8 +295,8 @@ class ECKey
 
     private static function getKey(JWK $jwk): string
     {
-        $nistCurve = self::getNistCurve($jwk->get('crv'));
-        $length = (int) ceil($nistCurve->getSize() / 8);
+        $nistCurveSize = self::getNistCurveSize($jwk->get('crv'));
+        $length = (int) ceil($nistCurveSize / 8);
 
         return
             "\04"
