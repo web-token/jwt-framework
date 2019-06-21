@@ -30,10 +30,10 @@ final class KeyAnalyzerCommand extends Command
      */
     private $analyzerManager;
 
-    public function __construct(KeyAnalyzerManager $analyzerManager, string $name = null)
+    public function __construct(KeyAnalyzerManager $keysetAnalyzerManager, string $name = null)
     {
         parent::__construct($name);
-        $this->analyzerManager = $analyzerManager;
+        $this->analyzerManager = $keysetAnalyzerManager;
     }
 
     protected function configure(): void

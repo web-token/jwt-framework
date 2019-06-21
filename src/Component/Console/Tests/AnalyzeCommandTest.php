@@ -37,6 +37,11 @@ class AnalyzeCommandTest extends TestCase
     private $keyAnalyzerManager;
 
     /**
+     * @var null|Analyzer\KeysetAnalyzerManager
+     */
+    private $keysetAnalyzerManager;
+
+    /**
      * @test
      */
     public function iCanAnalyzeAKeyAndGetInformation()
@@ -83,7 +88,7 @@ class AnalyzeCommandTest extends TestCase
             'jwkset' => JsonConverter::encode($keyset),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\KeysetAnalyzerCommand($this->getKeyAnalyzer());
+        $command = new Console\KeysetAnalyzerCommand($this->getKeysetAnalyzer(), $this->getKeyAnalyzer());
         $command->run($input, $output);
         $content = $output->fetch();
         static::assertStringContainsString('Analysing key with index/kid "1"', $content);
@@ -105,5 +110,16 @@ class AnalyzeCommandTest extends TestCase
         }
 
         return $this->keyAnalyzerManager;
+    }
+
+    private function getKeysetAnalyzer(): Analyzer\KeysetAnalyzerManager
+    {
+        if (null === $this->keysetAnalyzerManager) {
+            $this->keysetAnalyzerManager = new Analyzer\KeysetAnalyzerManager();
+            $this->keysetAnalyzerManager->add(new Analyzer\MixedKeyTypes());
+            $this->keysetAnalyzerManager->add(new Analyzer\MixedPublicAndPrivateKeys());
+        }
+
+        return $this->keysetAnalyzerManager;
     }
 }

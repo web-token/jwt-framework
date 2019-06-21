@@ -17,6 +17,8 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,14 +28,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class KeysetAnalyzerCommand extends Command
 {
     /**
+     * @var KeysetAnalyzerManager
+     */
+    private $keysetAnalyzerManager;
+
+    /**
      * @var KeyAnalyzerManager
      */
-    private $analyzerManager;
+    private $keyAnalyzerManager;
 
-    public function __construct(KeyAnalyzerManager $analyzerManager, string $name = null)
+    public function __construct(KeysetAnalyzerManager $keysetAnalyzerManager, KeyAnalyzerManager $keyAnalyzerManager, string $name = null)
     {
         parent::__construct($name);
-        $this->analyzerManager = $analyzerManager;
+        $this->keysetAnalyzerManager = $keysetAnalyzerManager;
+        $this->keyAnalyzerManager = $keyAnalyzerManager;
     }
 
     protected function configure(): void
@@ -56,51 +64,23 @@ final class KeysetAnalyzerCommand extends Command
 
         $jwkset = $this->getKeyset($input);
 
-        $privateKeys = 0;
-        $publicKeys = 0;
-        $sharedKeys = 0;
-        $mixedKeys = false;
-
+        $messages = $this->keysetAnalyzerManager->analyze($jwkset);
+        $this->showMessages($messages, $output);
         foreach ($jwkset as $kid => $jwk) {
             $output->writeln(sprintf('Analysing key with index/kid "%s"', $kid));
-            $messages = $this->analyzerManager->analyze($jwk);
-            if (0 === $messages->count()) {
-                $output->writeln('    <success>All good! No issue found.</success>');
-            } else {
-                foreach ($messages->all() as $message) {
-                    $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
-                }
-            }
-
-            switch (true) {
-                case 'oct' === $jwk->get('kty'):
-                    $sharedKeys++;
-                    if (0 !== $privateKeys + $publicKeys) {
-                        $mixedKeys = true;
-                    }
-
-                    break;
-                case \in_array($jwk->get('kty'), ['RSA', 'EC', 'OKP'], true):
-                    if ($jwk->has('d')) {
-                        ++$privateKeys;
-                        if (0 !== $sharedKeys + $publicKeys) {
-                            $mixedKeys = true;
-                        }
-                    } else {
-                        ++$publicKeys;
-                        if (0 !== $privateKeys + $sharedKeys) {
-                            $mixedKeys = true;
-                        }
-                    }
-
-                    break;
-                default:
-                    break;
-            }
+            $messages = $this->keyAnalyzerManager->analyze($jwk);
+            $this->showMessages($messages, $output);
         }
+    }
 
-        if ($mixedKeys) {
-            $output->writeln('/!\\ This key set mixes share, public and private keys. You should create one key set per key type. /!\\');
+    private function showMessages(MessageBag $messages, OutputInterface $output): void
+    {
+        if (0 === $messages->count()) {
+            $output->writeln('    <success>All good! No issue found.</success>');
+        } else {
+            foreach ($messages->all() as $message) {
+                $output->writeln('    <'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
+            }
         }
     }
 
