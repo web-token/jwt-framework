@@ -59,6 +59,7 @@
         "ext-sodium": "*",
         "fgrosse/phpasn1": "^2.0",
         "psr/event-dispatcher": "^1.0",
+        "psr/http-factory": "^1.0",
         "spomky-labs/aes-key-wrap": "^5.0",
         "spomky-labs/base64url": "^2.0",
         "symfony/config": "^4.2",
