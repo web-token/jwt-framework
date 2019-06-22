@@ -115,7 +115,10 @@
         "web-token/jwt-signature-algorithm-rsa": "self.version",
         "web-token/jwt-util-ecc": "self.version",
         "web-token/jwt-signature-algorithm-experimental": "self.version",
-        "web-token/jwt-encryption-algorithm-experimental": "self.version"
+        "web-token/jwt-encryption-algorithm-experimental": "self.version",
+        "web-token/signature-pack": "self.version",
+        "web-token/encryption-pack": "self.version"
+
     },
    "suggest":{
        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",

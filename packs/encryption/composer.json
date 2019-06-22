@@ -1,0 +1,17 @@
+{
+    "name": "web-token/encryption-pack",
+    "type": "symfony-pack",
+    "license": "MIT",
+    "description": "A pack with all encryption algorithms for the web-token/jwt-encryption package",
+    "require": {
+        "web-token/jwt-encryption-algorithm-aescbc": "^2.0",
+        "web-token/jwt-encryption-algorithm-aesgcm": "^2.0",
+        "web-token/jwt-encryption-algorithm-aesgcmkw": "^2.0",
+        "web-token/jwt-encryption-algorithm-aeskw": "^2.0",
+        "web-token/jwt-encryption-algorithm-dir": "^2.0",
+        "web-token/jwt-encryption-algorithm-ecdh-es": "^2.0",
+        "web-token/jwt-encryption-algorithm-pbes2": "^2.0",
+        "web-token/jwt-encryption-algorithm-rsa": "^2.0",
+        "web-token/jwt-encryption-algorithm-experimental": "^2.0"
+    }
+}

@@ -47,6 +47,10 @@ splits:
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-experimental.git"
     - prefix: "src/Ecc"
       target: "https://${GH_TOKEN}@github.com/web-token/jwt-util-ecc.git"
+    - prefix: "packs/encryption"
+      target: "https://${GH_TOKEN}@github.com/web-token/encryption-pack.git"
+    - prefix: "packs/signature"
+      target: "https://${GH_TOKEN}@github.com/web-token/signature-pack.git"
 
 origins:
     - ^master$
