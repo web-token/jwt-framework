@@ -21,7 +21,6 @@
     },
     "require": {
         "lib-openssl": "*",
-        "ext-gmp": "*",
         "web-token/jwt-core": "^2.0"
     },
     "require-dev": {

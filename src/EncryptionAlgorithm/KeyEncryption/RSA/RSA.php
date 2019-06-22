@@ -16,7 +16,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
-use Jose\Component\Encryption\Util\RSACrypt;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
 
 abstract class RSA implements KeyEncryption
 {

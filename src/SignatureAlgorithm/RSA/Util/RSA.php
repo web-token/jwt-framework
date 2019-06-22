@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Util;
+namespace Jose\Component\Signature\Algorithm\Util;
 
 use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;

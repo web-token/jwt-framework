@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Encryption\Util;
+namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use Base64Url\Base64Url;
 

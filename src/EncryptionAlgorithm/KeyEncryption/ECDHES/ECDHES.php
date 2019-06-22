@@ -22,7 +22,7 @@ use Jose\Component\Core\Util\Ecc\EcDH;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
-use Jose\Component\Encryption\Util\ConcatKDF;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
 
 final class ECDHES implements KeyAgreement
 {

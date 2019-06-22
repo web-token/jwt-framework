@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Jose\Component\Encryption\Util\RSACrypt;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
 
 final class RSAOAEP256 extends RSA
 {
