@@ -21,7 +21,6 @@
     },
     "require": {
         "php": "^7.2",
-        "ext-gmp": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "beberlei/assert": "^3.2",
