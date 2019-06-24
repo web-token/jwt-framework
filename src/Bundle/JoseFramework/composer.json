@@ -20,6 +20,7 @@
         }
     },
     "require": {
+        "psr/event-dispatcher": "^1.0",
         "symfony/config": "^4.2",
         "symfony/dependency-injection": "^4.2",
         "symfony/event-dispatcher": "^4.2",
