@@ -36,7 +36,7 @@ final class ES512KeyAnalyzer implements KeyAnalyzer
         $xLength = 8 * mb_strlen($x, '8bit');
         $y = Base64Url::decode($jwk->get('y'));
         $yLength = 8 * mb_strlen($y, '8bit');
-        if ($yLength !== $xLength || 66 !== $yLength) {
+        if ($yLength !== $xLength || 528 !== $yLength) {
             $bag->add(Message::high('Invalid key. The components "x" and "y" size shall be 528 bits.'));
         }
         $xGmp = gmp_init(bin2hex($x), 16);
