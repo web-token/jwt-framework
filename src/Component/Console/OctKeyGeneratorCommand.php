@@ -33,8 +33,8 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $size = $input->getArgument('size');
-        if (!\is_int($size)) {
+        $size = (int) $input->getArgument('size');
+        if ($size < 1) {
             throw new InvalidArgumentException('Invalid size');
         }
         $args = $this->getOptions($input);
