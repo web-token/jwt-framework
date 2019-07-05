@@ -19,6 +19,7 @@
             <directory>./src/EncryptionAlgorithm/ContentEncryption/*/Tests/</directory>
             <directory>./src/EncryptionAlgorithm/KeyEncryption/*/Tests/</directory>
             <directory>./src/EncryptionAlgorithm/Experimental/Tests/</directory>
+            <directory>./src/Easy/Tests/</directory>
         </testsuite>
     </testsuites>
     <php>
