@@ -16,13 +16,17 @@ namespace Jose\Easy\Tests;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Easy\Build;
+use Jose\Easy\Validate;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group easy
  *
  * @internal
- * @coversNothing
+ * @covers \Jose\Easy\Build
+ * @covers \Jose\Easy\JWSBuilder
+ * @covers \Jose\Easy\JWT
+ * @covers \Jose\Easy\Validate
  */
 class SignatureTest extends TestCase
 {
@@ -31,14 +35,44 @@ class SignatureTest extends TestCase
      */
     public function jwsCanBeCreated(): void
     {
+        $time = time();
         $jws = Build::jws()
-            ->exp(time() + 3600)
-            ->iat(time())
-            ->nbf(time())
+            ->exp($time + 3600)
+            ->iat($time)
+            ->nbf($time)
             ->jti('0123456789', true)
             ->alg('RS512')
+            ->iss('issuer')
+            ->aud('audience1')
+            ->aud('audience2')
+            ->sub('subject')
             ->sign($this->rsaKey())
         ;
+
+        $jwt = Validate::token($jws)
+            ->algs(['RS256', 'RS512'])
+            ->exp()
+            ->iat()
+            ->nbf()
+            ->aud('audience1')
+            ->iss('issuer')
+            ->sub('subject')
+            ->jti('0123456789')
+            ->key($this->rsaKey())
+            ->run()
+        ;
+
+        static::assertEquals($time, $jwt->claims->iat());
+        static::assertEquals($time, $jwt->claims->nbf());
+        static::assertEquals($time + 3600, $jwt->claims->exp());
+        static::assertEquals('0123456789', $jwt->claims->jti());
+        static::assertEquals('issuer', $jwt->claims->iss());
+        static::assertEquals('subject', $jwt->claims->sub());
+        static::assertEquals(['audience1', 'audience2'], $jwt->claims->aud());
+
+        static::assertEquals(['jti' => '0123456789', 'alg' => 'RS512'], $jwt->header->all());
+        static::assertEquals('RS512', $jwt->header->alg());
+        static::assertEquals('0123456789', $jwt->header->jti());
     }
 
     /**
@@ -46,14 +80,35 @@ class SignatureTest extends TestCase
      */
     public function jwsCanBeCreatedWithCustomAlgorithm(): void
     {
+        $time = time();
         $jws = Build::jws()
-            ->exp(time() + 3600)
-            ->iat(time())
-            ->nbf(time())
+            ->exp($time + 3600)
+            ->iat($time)
+            ->nbf($time)
             ->jti('0123456789')
             ->alg(new HS1())
             ->sign($this->octKey())
         ;
+
+        $jwt = Validate::token($jws)
+            ->algs(['RS256', new HS1()])
+            ->exp()
+            ->iat()
+            ->nbf()
+            ->aud('audience1')
+            ->iss('issuer')
+            ->sub('subject')
+            ->jti('0123456789')
+            ->key($this->octKey())
+            ->run()
+        ;
+
+        static::assertEquals($time, $jwt->claims->iat());
+        static::assertEquals($time, $jwt->claims->nbf());
+        static::assertEquals($time + 3600, $jwt->claims->exp());
+        static::assertEquals('0123456789', $jwt->claims->jti());
+
+        static::assertEquals('HS1', $jwt->header->alg());
     }
 
     private function rsaKey(): JWK
@@ -78,6 +133,13 @@ class SignatureTest extends TestCase
         return new JWK([
             'kty' => 'oct',
             'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
+        ]);
+    }
+
+    private function noneKey(): JWK
+    {
+        return new JWK([
+            'kty' => 'none',
         ]);
     }
 }

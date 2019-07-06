@@ -15,11 +15,26 @@ namespace Jose\Easy;
 
 use ArrayIterator;
 use Countable;
+use InvalidArgumentException;
 use IteratorAggregate;
 
 class ParameterBag implements IteratorAggregate, Countable
 {
     private $parameters = [];
+
+    public function __call($name, $arguments)
+    {
+        if (method_exists($this, $name)) {
+            return \call_user_func_array([$this, $name], $arguments);
+        }
+
+        if (0 === \count($arguments)) {
+            return $this->get($name);
+        }
+        array_unshift($arguments, $name);
+
+        return \call_user_func_array([$this, 'set'], $arguments);
+    }
 
     public function all(): array
     {
@@ -47,9 +62,13 @@ class ParameterBag implements IteratorAggregate, Countable
      *
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get($key)
     {
-        return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+        if (!\array_key_exists($key, $this->parameters)) {
+            throw new InvalidArgumentException(sprintf('Parameter "%s" is missing', $key));
+        }
+
+        return $this->parameters[$key];
     }
 
     /**

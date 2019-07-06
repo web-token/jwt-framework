@@ -17,13 +17,16 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_16_128;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP512;
 use Jose\Easy\Build;
+use Jose\Easy\Decrypt;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group easy
  *
  * @internal
- * @coversNothing
+ * @covers \Jose\Easy\Build
+ * @covers \Jose\Easy\JWEBuilder
+ * @covers \Jose\Easy\JWT
  */
 class EncryptionTest extends TestCase
 {
@@ -32,15 +35,47 @@ class EncryptionTest extends TestCase
      */
     public function jweCanBeCreated(): void
     {
+        $time = time();
         $jwe = Build::jwe()
-            ->exp(time() + 3600)
-            ->iat(time())
-            ->nbf(time())
+            ->exp($time + 3600)
+            ->iat($time)
+            ->nbf($time)
             ->jti('0123456789', true)
+            ->iss('issuer')
+            ->aud('audience1')
+            ->aud('audience2')
+            ->sub('subject')
             ->alg('RSA-OAEP-256')
             ->enc('A256GCM')
             ->encrypt($this->rsaKey())
         ;
+
+        $jwt = Decrypt::token($jwe)
+            ->algs(['RSA-OAEP', 'RSA-OAEP-256'])
+            ->encs(['A128GCM', 'A256GCM'])
+            ->exp()
+            ->iat()
+            ->nbf()
+            ->aud('audience1')
+            ->iss('issuer')
+            ->sub('subject')
+            ->jti('0123456789')
+            ->key($this->rsaKey())
+            ->run()
+        ;
+
+        static::assertEquals($time, $jwt->claims->iat());
+        static::assertEquals($time, $jwt->claims->nbf());
+        static::assertEquals($time + 3600, $jwt->claims->exp());
+        static::assertEquals('0123456789', $jwt->claims->jti());
+        static::assertEquals('issuer', $jwt->claims->iss());
+        static::assertEquals('subject', $jwt->claims->sub());
+        static::assertEquals(['audience1', 'audience2'], $jwt->claims->aud());
+
+        static::assertEquals(['jti' => '0123456789', 'alg' => 'RSA-OAEP-256', 'enc' => 'A256GCM'], $jwt->header->all());
+        static::assertEquals('RSA-OAEP-256', $jwt->header->alg());
+        static::assertEquals('A256GCM', $jwt->header->enc());
+        static::assertEquals('0123456789', $jwt->header->jti());
     }
 
     /**
@@ -48,15 +83,37 @@ class EncryptionTest extends TestCase
      */
     public function jweCanBeCreatedWithCustomAlgorithm(): void
     {
+        $time = time();
         $jwe = Build::jwe()
-            ->exp(time() + 3600)
-            ->iat(time())
-            ->nbf(time())
+            ->exp($time + 3600)
+            ->iat($time)
+            ->nbf($time)
             ->jti('0123456789')
             ->alg(new RSAOAEP512())
             ->enc(new A256CCM_16_128())
             ->encrypt($this->rsaKey())
         ;
+
+        $jwt = Decrypt::token($jwe)
+            ->algs(['RSA-OAEP', new RSAOAEP512()])
+            ->encs(['A128GCM', new A256CCM_16_128()])
+            ->exp()
+            ->iat()
+            ->nbf()
+            ->aud('audience1')
+            ->iss('issuer')
+            ->sub('subject')
+            ->jti('0123456789')
+            ->key($this->rsaKey())
+            ->run()
+        ;
+        static::assertEquals($time, $jwt->claims->iat());
+        static::assertEquals($time, $jwt->claims->nbf());
+        static::assertEquals($time + 3600, $jwt->claims->exp());
+        static::assertEquals('0123456789', $jwt->claims->jti());
+
+        static::assertEquals('RSA-OAEP-512', $jwt->header->alg());
+        static::assertEquals('A256CCM-16-128', $jwt->header->enc());
     }
 
     private function rsaKey(): JWK

@@ -17,18 +17,23 @@ namespace Jose\Component\Checker;
  * This class is a claim checker.
  * When the "exp" is present, it will compare the value with the current timestamp.
  */
-final class ExpirationTimeChecker implements ClaimChecker
+final class ExpirationTimeChecker implements ClaimChecker, HeaderChecker
 {
-    private const CLAIM_NAME = 'exp';
+    private const NAME = 'exp';
 
     /**
      * @var int
      */
     private $allowedTimeDrift;
+    /**
+     * @var bool
+     */
+    private $protectedHeaderOnly;
 
-    public function __construct(int $allowedTimeDrift = 0)
+    public function __construct(int $allowedTimeDrift = 0, bool $protectedHeaderOnly = false)
     {
         $this->allowedTimeDrift = $allowedTimeDrift;
+        $this->protectedHeaderOnly = $protectedHeaderOnly;
     }
 
     /**
@@ -37,15 +42,35 @@ final class ExpirationTimeChecker implements ClaimChecker
     public function checkClaim($value): void
     {
         if (!\is_int($value)) {
-            throw new InvalidClaimException('"exp" must be an integer.', self::CLAIM_NAME, $value);
+            throw new InvalidClaimException('"exp" must be an integer.', self::NAME, $value);
         }
         if (time() > $value + $this->allowedTimeDrift) {
-            throw new InvalidClaimException('The token expired.', self::CLAIM_NAME, $value);
+            throw new InvalidClaimException('The token expired.', self::NAME, $value);
         }
     }
 
     public function supportedClaim(): string
     {
-        return self::CLAIM_NAME;
+        return self::NAME;
+    }
+
+    public function checkHeader($value): void
+    {
+        if (!\is_int($value)) {
+            throw new InvalidHeaderException('"exp" must be an integer.', self::NAME, $value);
+        }
+        if (time() > $value + $this->allowedTimeDrift) {
+            throw new InvalidHeaderException('The token expired.', self::NAME, $value);
+        }
+    }
+
+    public function supportedHeader(): string
+    {
+        return self::NAME;
+    }
+
+    public function protectedHeaderOnly(): bool
+    {
+        return $this->protectedHeaderOnly;
     }
 }

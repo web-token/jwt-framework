@@ -15,12 +15,12 @@ namespace Jose\Easy;
 
 final class JWT
 {
-    public $payload;
+    public $claims;
     public $header;
 
     public function __construct()
     {
-        $this->payload = new ParameterBag();
+        $this->claims = new ParameterBag();
         $this->header = new ParameterBag();
     }
 }

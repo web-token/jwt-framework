@@ -14,28 +14,33 @@ declare(strict_types=1);
 namespace Jose\Easy;
 
 use InvalidArgumentException;
+use Jose\Component\Checker;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\Compression\Deflate;
-use Jose\Component\Encryption\JWEBuilder as JoseBuilder;
+use Jose\Component\Encryption\JWEDecrypter;
+use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 
-class JWEBuilder extends AbstractBuilder
+class Decrypt extends AbstractLoader
 {
+    /**
+     * @var string[]
+     */
+    protected $allowedContentEncryptionAlgorithms = [];
     /**
      * @var CompressionMethod[]
      */
     private $compressionMethods;
 
-    public function __construct()
+    private function __construct(string $token)
     {
-        parent::__construct();
+        parent::__construct($token);
         $this->algorithms = [
             new KeyEncryption\A128GCMKW(),
             new KeyEncryption\A192GCMKW(),
@@ -66,6 +71,11 @@ class JWEBuilder extends AbstractBuilder
         ];
     }
 
+    public static function token(string $token): self
+    {
+        return new self($token);
+    }
+
     /**
      * @param Algorithm|string $alg
      * @param mixed            $enc
@@ -74,61 +84,60 @@ class JWEBuilder extends AbstractBuilder
     {
         $clone = clone $this;
         switch (true) {
-            case $enc instanceof Algorithm:
-                $clone->algorithms[] = $enc;
-                $clone->jwt->header->set('enc', $enc->name());
-
-                break;
             case \is_string($enc):
-                $clone->jwt->header->set('enc', $enc);
+                $clone->allowedContentEncryptionAlgorithms[] = $enc;
 
-                break;
+                return $clone;
+            case $enc instanceof Algorithm:
+                $clone->algorithms[$enc->name()] = $enc;
+                $clone->allowedContentEncryptionAlgorithms[] = $enc->name();
+
+                return $clone;
             default:
-                throw new InvalidArgumentException('Invalid algorithm');
+                throw new InvalidArgumentException('Invalid parameter "enc". Shall be a string or an algorithm instance.');
         }
-
-        return $clone;
     }
 
     /**
-     * @param CompressionMethod|string $alg
-     * @param mixed                    $zip
+     * @param Algorithm[]|string[] $enc
+     * @param mixed                $encs
      */
-    public function zip($zip): self
+    public function encs($encs): self
     {
         $clone = clone $this;
-        switch (true) {
-            case $zip instanceof CompressionMethod:
-                $clone->compressionMethods[] = $zip;
-                $clone->jwt->header->set('zip', $zip->name());
-
-                break;
-            case \is_string($zip):
-                $clone->jwt->header->set('zip', $zip);
-
-                break;
-            default:
-                throw new InvalidArgumentException('Invalid compression method');
+        foreach ($encs as $enc) {
+            $clone = $clone->enc($enc);
         }
 
         return $clone;
     }
 
-    public function encrypt(JWK $jwk): string
+    public function run(): JWT
     {
-        $builder = new JoseBuilder(
+        if (0 !== \count($this->allowedAlgorithms)) {
+            $this->headerCheckers[] = new Checker\AlgorithmChecker($this->allowedAlgorithms, true);
+        }
+        if (0 !== \count($this->allowedContentEncryptionAlgorithms)) {
+            $this->headerCheckers[] = new ContentEncryptionAlgorithmChecker($this->allowedContentEncryptionAlgorithms, true);
+        }
+        $jwe = (new CompactSerializer())->unserialize($this->token);
+        $headerChecker = new Checker\HeaderCheckerManager($this->headerCheckers, [new JWETokenSupport()]);
+        $headerChecker->check($jwe, 0);
+
+        $verifier = new JWEDecrypter(
             new AlgorithmManager($this->algorithms),
             new AlgorithmManager($this->algorithms),
             new CompressionMethodManager($this->compressionMethods)
         );
-        $jwe = $builder
-            ->create()
-            ->withPayload(JsonConverter::encode($this->jwt->claims->all()))
-            ->withSharedProtectedHeader($this->jwt->header->all())
-            ->addRecipient($jwk)
-            ->build()
-        ;
+        $verifier->decryptUsingKeySet($jwe, $this->jwkset, 0);
 
-        return (new CompactSerializer())->serialize($jwe);
+        $jwt = new JWT();
+        $jwt->header->replace($jwe->getSharedProtectedHeader());
+        $jwt->claims->replace(JsonConverter::decode($jwe->getPayload()));
+
+        $claimChecker = new Checker\ClaimCheckerManager($this->claimCheckers);
+        $claimChecker->check($jwt->claims->all());
+
+        return $jwt;
     }
 }

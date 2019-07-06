@@ -11,7 +11,7 @@
             "homepage": "https://github.com/Spomky"
         },{
             "name": "All contributors",
-            "homepage": "https://github.com/web-token/jwt-core/contributors"
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
     "autoload": {
@@ -27,6 +27,7 @@
     },
     "extra": {
         "branch-alias": {
+            "dev-master": "2.1.x-dev",
             "v1.0": "1.0.x-dev",
             "v1.1": "1.1.x-dev",
             "v1.2": "1.2.x-dev",
