@@ -88,9 +88,9 @@ final class JSONFlattenedSerializer implements JWESerializer
         );
     }
 
-    private function checkData(array $data): void
+    private function checkData(?array $data): void
     {
-        if (!isset($data['ciphertext']) || isset($data['recipients'])) {
+        if ($data === null || !isset($data['ciphertext']) || isset($data['recipients'])) {
             throw new InvalidArgumentException('Unsupported input.');
         }
     }
