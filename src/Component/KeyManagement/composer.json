@@ -21,11 +21,9 @@
     },
     "require": {
         "ext-openssl": "*",
-        "ext-gmp": "*",
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0",
-        "web-token/jwt-core": "^2.0",
-        "web-token/jwt-util-ecc": "^2.0"
+        "web-token/jwt-core": "^2.0"
     },
     "require-dev": {
         "php-http/message-factory": "^1.0",
@@ -34,6 +32,7 @@
         "phpunit/phpunit": "^8.0"
     },
     "suggest": {
+        "web-token/jwt-util-ecc": "To use EC key analyzers.",
         "php-http/message-factory": "To enable JKU/X5U support.",
         "php-http/httplug": "To enable JKU/X5U support."
     },
