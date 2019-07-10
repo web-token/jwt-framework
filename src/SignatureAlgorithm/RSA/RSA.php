@@ -32,9 +32,6 @@ abstract class RSA implements SignatureAlgorithm
     {
         $this->checkKey($key);
         $pub = RSAKey::createFromJWK($key->toPublic());
-        if (JoseRSA::SIGNATURE_PKCS1 === $this->getSignatureMethod()) {
-            return 1 === openssl_verify($input, $signature, $pub->toPEM(), $this->getAlgorithm());
-        }
 
         return JoseRSA::verify($pub, $input, $signature, $this->getAlgorithm(), $this->getSignatureMethod());
     }
