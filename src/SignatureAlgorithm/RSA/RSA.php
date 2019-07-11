@@ -16,7 +16,7 @@ namespace Jose\Component\Signature\Algorithm;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
-use Jose\Component\Signature\Util\RSA as JoseRSA;
+use Jose\Component\Signature\Algorithm\Util\RSA as JoseRSA;
 
 abstract class RSA implements SignatureAlgorithm
 {

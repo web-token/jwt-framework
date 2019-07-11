@@ -16,10 +16,7 @@ namespace Jose\Component\Core\Util;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use Jose\Component\Core\Util\Ecc\Curve;
-use Jose\Component\Core\Util\Ecc\NistCurve;
 use RuntimeException;
-use Throwable;
 
 /**
  * @internal
@@ -95,43 +92,24 @@ class ECKey
      */
     public static function createECKey(string $curve, array $values = []): JWK
     {
-        try {
-            $jwk = self::createECKeyUsingOpenSSL($curve);
-        } catch (Throwable $e) {
-            $jwk = self::createECKeyUsingPurePhp($curve);
-        }
+        $jwk = self::createECKeyUsingOpenSSL($curve);
         $values = array_merge($values, $jwk);
 
         return new JWK($values);
     }
 
-    private static function getNistCurve(string $curve): Curve
+    private static function getNistCurveSize(string $curve): int
     {
         switch ($curve) {
             case 'P-256':
-                return NistCurve::curve256();
+                return 256;
             case 'P-384':
-                return NistCurve::curve384();
+                return 384;
             case 'P-521':
-                return NistCurve::curve521();
+                return 521;
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
         }
-    }
-
-    private static function createECKeyUsingPurePhp(string $curve): array
-    {
-        $nistCurve = self::getNistCurve($curve);
-        $privateKey = $nistCurve->createPrivateKey();
-        $publicKey = $nistCurve->createPublicKey($privateKey);
-
-        return [
-            'kty' => 'EC',
-            'crv' => $curve,
-            'x' => Base64Url::encode(str_pad(gmp_export($publicKey->getPoint()->getX()), (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
-            'y' => Base64Url::encode(str_pad(gmp_export($publicKey->getPoint()->getY()), (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
-            'd' => Base64Url::encode(str_pad(gmp_export($privateKey->getSecret()), (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
-        ];
     }
 
     private static function createECKeyUsingOpenSSL(string $curve): array
@@ -152,14 +130,14 @@ class ECKey
             throw new RuntimeException('Unable to create the key');
         }
         $details = openssl_pkey_get_details($res);
-        $nistCurve = self::getNistCurve($curve);
+        $nistCurveSize = self::getNistCurveSize($curve);
 
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd' => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
-            'x' => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
-            'y' => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurve->getSize() / 8), "\0", STR_PAD_LEFT)),
+            'd' => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'x' => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'y' => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
         ];
     }
 
@@ -281,8 +259,8 @@ class ECKey
 
     private static function getKey(JWK $jwk): string
     {
-        $nistCurve = self::getNistCurve($jwk->get('crv'));
-        $length = (int) ceil($nistCurve->getSize() / 8);
+        $nistCurveSize = self::getNistCurveSize($jwk->get('crv'));
+        $length = (int) ceil($nistCurveSize / 8);
 
         return
             "\04"

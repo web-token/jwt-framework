@@ -20,6 +20,7 @@
         }
     },
     "require": {
+        "ext-gmp": "*",
         "web-token/jwt-encryption": "^2.0"
     },
     "require-dev": {

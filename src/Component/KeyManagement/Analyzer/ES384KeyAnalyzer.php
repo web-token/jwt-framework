@@ -36,7 +36,7 @@ final class ES384KeyAnalyzer implements KeyAnalyzer
         $xLength = 8 * mb_strlen($x, '8bit');
         $y = Base64Url::decode($jwk->get('y'));
         $yLength = 8 * mb_strlen($y, '8bit');
-        if ($yLength !== $xLength || 48 !== $yLength) {
+        if ($yLength !== $xLength || 384 !== $yLength) {
             $bag->add(Message::high('Invalid key. The components "x" and "y" size shall be 384 bits.'));
         }
         $xGmp = gmp_init(bin2hex($x), 16);

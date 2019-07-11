@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use Jose\Component\Signature\Util\RSA as JoseRSA;
+use Jose\Component\Signature\Algorithm\Util\RSA as JoseRSA;
 
 final class RS1 extends RSA
 {
