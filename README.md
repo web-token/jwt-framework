@@ -1,16 +1,10 @@
 PHP JWT Framework
 =================
 
-If you really love that project, then you can help me out for a couple of :beers:!
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/web-token/jwt-framework/badges/quality-score.png?b=v2.0)](https://scrutinizer-ci.com/g/web-token/jwt-framework/?branch=v2.0)
+[![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg?branch=v2.0)](https://coveralls.io/github/web-token/jwt-framework?branch=v2.0)
 
-[![Beerpay](https://beerpay.io/Spomky-Labs/jose/badge.svg?style=beer-square)](https://beerpay.io/Spomky-Labs/jose)  [![Beerpay](https://beerpay.io/Spomky-Labs/jose/make-wish.svg?style=flat-square)](https://beerpay.io/Spomky-Labs/jose?focus=wish)
-
---- 
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/web-token/jwt-framework/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/web-token/jwt-framework/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg?branch=master)](https://coveralls.io/github/web-token/jwt-framework?branch=master)
-
-[![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=master)](https://travis-ci.org/web-token/jwt-framework)
+[![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=v2.0)](https://travis-ci.org/web-token/jwt-framework)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a/big.png)](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a)
 
@@ -19,13 +13,17 @@ If you really love that project, then you can help me out for a couple of :beers
 [![Latest Unstable Version](https://poser.pugx.org/web-token/jwt-framework/v/unstable.png)](https://packagist.org/packages/web-token/jwt-framework)
 [![License](https://poser.pugx.org/web-token/jwt-framework/license.png)](https://packagist.org/packages/web-token/jwt-framework)
 
-# The Release Process
-
-The release process [is described here](https://github.com/web-token/jwt-doc/Release.md).
-
 # Documentation
 
 The official documentation is available as https://web-token.spomky-labs.com/
+
+# Support
+
+I bring solutions to your problems and answer your questions.
+
+If you really love that project and the work I have done or if you want I prioritize your issues, then you can help me out for a couple of :beers: or more!
+
+[![Become a Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/FlorentMorselli)
 
 # Contributing
 
