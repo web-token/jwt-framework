@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group easy
  *
- * @internal
  * @covers \Jose\Easy\Build
  * @covers \Jose\Easy\JWSBuilder
  * @covers \Jose\Easy\JWT
@@ -46,6 +45,9 @@ class SignatureTest extends TestCase
             ->aud('audience1')
             ->aud('audience2')
             ->sub('subject')
+            ->claim('is_root', true)
+            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->crit(['alg'])
             ->sign($this->rsaKey())
         ;
 
@@ -69,10 +71,13 @@ class SignatureTest extends TestCase
         static::assertEquals('issuer', $jwt->claims->iss());
         static::assertEquals('subject', $jwt->claims->sub());
         static::assertEquals(['audience1', 'audience2'], $jwt->claims->aud());
+        static::assertEquals(true, $jwt->claims->is_root());
+        static::assertEquals(['ROLE1' => true, 'ROLE2' => 0.007], $jwt->claims->roles());
 
-        static::assertEquals(['jti' => '0123456789', 'alg' => 'RS512'], $jwt->header->all());
+        static::assertEquals(['jti' => '0123456789', 'alg' => 'RS512', 'crit' => ['alg']], $jwt->header->all());
         static::assertEquals('RS512', $jwt->header->alg());
         static::assertEquals('0123456789', $jwt->header->jti());
+
     }
 
     /**

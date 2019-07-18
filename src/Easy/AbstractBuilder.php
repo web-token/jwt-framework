@@ -122,6 +122,11 @@ abstract class AbstractBuilder
         return $this->header('typ', $typ);
     }
 
+    public function crit(array $crit): self
+    {
+        return $this->header('crit', $crit);
+    }
+
     /**
      * @param mixed $value
      */
