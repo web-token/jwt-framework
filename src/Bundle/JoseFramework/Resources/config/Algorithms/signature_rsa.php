@@ -33,15 +33,17 @@ return function (ContainerConfigurator $container) {
         ->tag('jose.algorithm', ['alias' => 'RS512'])
     ;
 
-    $container->set(Algorithm\PS256::class)
-        ->tag('jose.algorithm', ['alias' => 'PS256'])
-    ;
+    if (extension_loaded('gmp')) {
+        $container->set(Algorithm\PS256::class)
+            ->tag('jose.algorithm', ['alias' => 'PS256'])
+        ;
 
-    $container->set(Algorithm\PS384::class)
-        ->tag('jose.algorithm', ['alias' => 'PS384'])
-    ;
+        $container->set(Algorithm\PS384::class)
+            ->tag('jose.algorithm', ['alias' => 'PS384'])
+        ;
 
-    $container->set(Algorithm\PS512::class)
-        ->tag('jose.algorithm', ['alias' => 'PS512'])
-    ;
+        $container->set(Algorithm\PS512::class)
+            ->tag('jose.algorithm', ['alias' => 'PS512'])
+        ;
+    }
 };
