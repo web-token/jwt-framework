@@ -16,9 +16,17 @@ namespace Jose\Component\KeyManagement\Analyzer;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\NistCurve;
+use RuntimeException;
 
 final class ES512KeyAnalyzer implements KeyAnalyzer
 {
+    public function __construct()
+    {
+        if (!class_exists(NistCurve::class)) {
+            throw new RuntimeException('Please install web-token/jwt-util-ecc to use this key analyzer');
+        }
+    }
+
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
         if ('EC' !== $jwk->get('kty')) {

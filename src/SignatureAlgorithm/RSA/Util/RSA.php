@@ -40,7 +40,12 @@ class RSA
             case self::SIGNATURE_PSS:
                 return self::signWithPSS($key, $message, $hash);
             case self::SIGNATURE_PKCS1:
-                return self::signWithPKCS15($key, $message, $hash);
+                $result = openssl_sign($message, $signature, $key->toPEM(), $hash);
+                if (true !== $result) {
+                    throw new RuntimeException('Unable to sign the data');
+                }
+
+                return $signature;
             default:
                 throw new InvalidArgumentException('Unsupported mode.');
         }
@@ -60,6 +65,8 @@ class RSA
 
     /**
      * Create a signature.
+     *
+     * @deprecated Please use openssl_sign
      */
     public static function signWithPKCS15(RSAKey $key, string $message, string $hash): string
     {
@@ -76,7 +83,7 @@ class RSA
             case self::SIGNATURE_PSS:
                 return self::verifyWithPSS($key, $message, $signature, $hash);
             case self::SIGNATURE_PKCS1:
-                return self::verifyWithPKCS15($key, $message, $signature, $hash);
+                return 1 === openssl_verify($message, $signature, $key->toPEM(), $hash);
             default:
                 throw new InvalidArgumentException('Unsupported mode.');
         }
@@ -100,6 +107,8 @@ class RSA
 
     /**
      * Verifies a signature.
+     *
+     * @deprecated Please use openssl_sign
      */
     public static function verifyWithPKCS15(RSAKey $key, string $message, string $signature, string $hash): bool
     {
