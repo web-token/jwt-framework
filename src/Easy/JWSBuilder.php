@@ -22,26 +22,6 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 
 class JWSBuilder extends AbstractBuilder
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->algorithms = [
-            new Algorithm\HS256(),
-            new Algorithm\HS384(),
-            new Algorithm\HS512(),
-            new Algorithm\RS256(),
-            new Algorithm\RS384(),
-            new Algorithm\RS512(),
-            new Algorithm\PS256(),
-            new Algorithm\PS384(),
-            new Algorithm\PS512(),
-            new Algorithm\ES256(),
-            new Algorithm\ES384(),
-            new Algorithm\ES512(),
-            new Algorithm\EdDSA(),
-        ];
-    }
-
     public function sign(JWK $jwk): string
     {
         $builder = new JoseBuilder(new AlgorithmManager($this->algorithms));
@@ -53,5 +33,24 @@ class JWSBuilder extends AbstractBuilder
         ;
 
         return (new CompactSerializer())->serialize($jws);
+    }
+
+    protected function getAlgorithmMap(): array
+    {
+        return [
+            Algorithm\HS256::class,
+            Algorithm\HS384::class,
+            Algorithm\HS512::class,
+            Algorithm\RS256::class,
+            Algorithm\RS384::class,
+            Algorithm\RS512::class,
+            Algorithm\PS256::class,
+            Algorithm\PS384::class,
+            Algorithm\PS512::class,
+            Algorithm\ES256::class,
+            Algorithm\ES384::class,
+            Algorithm\ES512::class,
+            Algorithm\EdDSA::class,
+        ];
     }
 }
