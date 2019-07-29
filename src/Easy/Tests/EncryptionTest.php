@@ -47,6 +47,7 @@ class EncryptionTest extends TestCase
             ->sub('subject')
             ->alg('RSA-OAEP-256')
             ->enc('A256GCM')
+            ->zip('DEF')
             ->claim('is_root', true)
             ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
             ->crit(['alg', 'enc'])
@@ -77,7 +78,7 @@ class EncryptionTest extends TestCase
         static::assertEquals(true, $jwt->claims->is_root());
         static::assertEquals(['ROLE1' => true, 'ROLE2' => 0.007], $jwt->claims->roles());
 
-        static::assertEquals(['jti' => '0123456789', 'alg' => 'RSA-OAEP-256', 'enc' => 'A256GCM', 'crit' => ['alg', 'enc']], $jwt->header->all());
+        static::assertEquals(['jti' => '0123456789', 'alg' => 'RSA-OAEP-256', 'enc' => 'A256GCM', 'crit' => ['alg', 'enc'], 'zip' => 'DEF'], $jwt->header->all());
         static::assertEquals('RSA-OAEP-256', $jwt->header->alg());
         static::assertEquals('A256GCM', $jwt->header->enc());
         static::assertEquals('0123456789', $jwt->header->jti());
