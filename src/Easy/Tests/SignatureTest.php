@@ -26,6 +26,8 @@ use PHPUnit\Framework\TestCase;
  * @covers \Jose\Easy\JWSBuilder
  * @covers \Jose\Easy\JWT
  * @covers \Jose\Easy\Validate
+ *
+ * @internal
  */
 class SignatureTest extends TestCase
 {
@@ -77,7 +79,6 @@ class SignatureTest extends TestCase
         static::assertEquals(['jti' => '0123456789', 'alg' => 'RS512', 'crit' => ['alg']], $jwt->header->all());
         static::assertEquals('RS512', $jwt->header->alg());
         static::assertEquals('0123456789', $jwt->header->jti());
-
     }
 
     /**
