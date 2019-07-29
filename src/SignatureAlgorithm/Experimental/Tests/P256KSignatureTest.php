@@ -60,7 +60,7 @@ class P256KSignatureTest extends TestCase
     {
         return new JWK([
             'kty' => 'EC',
-            'crv' => 'P-256K',
+            'crv' => 'secp256k1',
             'd' => Base64Url::encode(hex2bin('D1592A94BBB9B5D94CDC425FC7DA80B6A47863AE973A9D581FD9D8F29690B659')),
             'x' => Base64Url::encode(hex2bin('4B4DF318DE05BB8F3A115BF337F9BCBC55CA14B917B46BCB557D3C9A158D4BE0')),
             'y' => Base64Url::encode(hex2bin('627EB75731A8BBEBC7D9A3C57EC4D7DA2CBA6D2A28E7F45134921861FE1CF5D9')),

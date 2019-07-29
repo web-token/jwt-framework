@@ -39,7 +39,7 @@ class ECKey
                 $der = self::p256PublicKey();
 
                 break;
-            case 'P-256K':
+            case 'secp256k1':
                 $der = self::p256KPublicKey();
 
                 break;
@@ -69,7 +69,7 @@ class ECKey
                 $der = self::p256PrivateKey($jwk);
 
                 break;
-            case 'P-256K':
+            case 'secp256k1':
                 $der = self::p256KPrivateKey($jwk);
 
                 break;
@@ -110,7 +110,7 @@ class ECKey
     {
         switch ($curve) {
             case 'P-256':
-            case 'P-256K':
+            case 'secp256k1':
                 return 256;
             case 'P-384':
                 return 384;
@@ -155,8 +155,8 @@ class ECKey
         switch ($curve) {
             case 'P-256':
                 return 'prime256v1';
-            case 'P-256K':
-                return 'prime256k1';
+            case 'secp256k1':
+                return 'secp256k1';
             case 'P-384':
                 return 'secp384r1';
             case 'P-521':
@@ -245,7 +245,7 @@ class ECKey
         );
     }
 
-    private static function p256kPrivateKey(JWK $jwk): string
+    private static function p256KPrivateKey(JWK $jwk): string
     {
         $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT))[1];
 
