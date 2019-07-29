@@ -40,4 +40,8 @@ return function (ContainerConfigurator $container) {
     $container->set(Algorithm\HS256_64::class)
         ->tag('jose.algorithm', ['alias' => 'HS256/64'])
     ;
+
+    $container->set(Algorithm\ES256K::class)
+        ->tag('jose.algorithm', ['alias' => 'ES256K'])
+    ;
 };

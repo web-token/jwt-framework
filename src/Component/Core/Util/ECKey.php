@@ -39,6 +39,10 @@ class ECKey
                 $der = self::p256PublicKey();
 
                 break;
+            case 'P-256K':
+                $der = self::p256KPublicKey();
+
+                break;
             case 'P-384':
                 $der = self::p384PublicKey();
 
@@ -63,6 +67,10 @@ class ECKey
         switch ($jwk->get('crv')) {
             case 'P-256':
                 $der = self::p256PrivateKey($jwk);
+
+                break;
+            case 'P-256K':
+                $der = self::p256KPrivateKey($jwk);
 
                 break;
             case 'P-384':
@@ -102,6 +110,7 @@ class ECKey
     {
         switch ($curve) {
             case 'P-256':
+            case 'P-256K':
                 return 256;
             case 'P-384':
                 return 384;
@@ -146,6 +155,8 @@ class ECKey
         switch ($curve) {
             case 'P-256':
                 return 'prime256v1';
+            case 'P-256K':
+                return 'prime256k1';
             case 'P-384':
                 return 'secp384r1';
             case 'P-521':
@@ -165,6 +176,21 @@ class ECKey
                         .'2a8648ce3d0201' // 1.2.840.10045.2.1 = EC Public Key
                     .'0608' // OID, length 8
                         .'2a8648ce3d030107' // 1.2.840.10045.3.1.7 = P-256 Curve
+                .'0342' // BIT STRING, length 66
+                    .'00' // prepend with NUL - pubkey will follow
+        );
+    }
+
+    private static function p256KPublicKey(): string
+    {
+        return pack(
+            'H*',
+            '3056' // SEQUENCE, length 86
+                .'3010' // SEQUENCE, length 16
+                    .'0607' // OID, length 7
+                        .'2a8648ce3d0201' // 1.2.840.10045.2.1 = EC Public Key
+                    .'0605' // OID, length 8
+                        .'2B8104000A' // 1.3.132.0.10 secp256k1
                 .'0342' // BIT STRING, length 66
                     .'00' // prepend with NUL - pubkey will follow
         );
@@ -212,7 +238,26 @@ class ECKey
                     .$d
                 .'a00a' // TAGGED OBJECT #0, length 10
                     .'0608' // OID, length 8
-                        .'2a8648ce3d030107' // 1.3.132.0.34 = P-384 Curve
+                        .'2a8648ce3d030107' // 1.3.132.0.34 = P-256 Curve
+                .'a144' //  TAGGED OBJECT #1, length 68
+                    .'0342' // BIT STRING, length 66
+                    .'00' // prepend with NUL - pubkey will follow
+        );
+    }
+
+    private static function p256kPrivateKey(JWK $jwk): string
+    {
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT))[1];
+
+        return pack(
+            'H*',
+            '3074' // SEQUENCE, length 84+length($d)=32
+                .'020101' // INTEGER, 1
+                .'0420'   // OCTET STRING, length($d) = 32
+                    .$d
+                .'a007' // TAGGED OBJECT #0, length 7
+                    .'0605' // OID, length 5
+                        .'2b8104000a' //  1.3.132.0.10 secp256k1
                 .'a144' //  TAGGED OBJECT #1, length 68
                     .'0342' // BIT STRING, length 66
                     .'00' // prepend with NUL - pubkey will follow
