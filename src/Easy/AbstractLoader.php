@@ -51,6 +51,9 @@ abstract class AbstractLoader
      */
     protected $algorithms = [];
 
+    /**
+     * @var string[]
+     */
     protected $mandatoryClaims = [];
 
     protected function __construct(string $token)
@@ -62,8 +65,6 @@ abstract class AbstractLoader
 
     /**
      * @param string[] $mandatoryClaims
-     *
-     * @return Validate
      */
     public function mandatory(array $mandatoryClaims): self
     {
@@ -128,6 +129,9 @@ abstract class AbstractLoader
         return $clone;
     }
 
+    /**
+     * @param false|int $leeway
+     */
     public function exp($leeway = 0, bool $inHeader = false): self
     {
         if (false === $leeway) {
@@ -143,6 +147,9 @@ abstract class AbstractLoader
         return $this->claim('exp', new Checker\ExpirationTimeChecker($leeway), $inHeader);
     }
 
+    /**
+     * @param false|int $leeway
+     */
     public function nbf($leeway = 0, bool $inHeader = false): self
     {
         if (false === $leeway) {
@@ -158,6 +165,9 @@ abstract class AbstractLoader
         return $this->claim('nbf', new Checker\NotBeforeChecker($leeway, true), $inHeader);
     }
 
+    /**
+     * @param false|int $leeway
+     */
     public function iat($leeway = 0, bool $inHeader = false): self
     {
         if (false === $leeway) {
@@ -195,8 +205,7 @@ abstract class AbstractLoader
     }
 
     /**
-     * @param Algorithm[]|string[] $alg
-     * @param mixed                $algs
+     * @param Algorithm[]|string[] $algs
      */
     public function algs($algs): self
     {

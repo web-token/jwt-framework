@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Easy;
 
 use Jose\Component\Checker\HeaderChecker;
+use Jose\Component\Checker\InvalidHeaderException;
 
 /**
  * This class is a header parameter checker.

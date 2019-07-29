@@ -15,7 +15,14 @@ namespace Jose\Easy;
 
 final class JWT
 {
+    /**
+     * @var ParameterBag
+     */
     public $claims;
+
+    /**
+     * @var ParameterBag
+     */
     public $header;
 
     public function __construct()

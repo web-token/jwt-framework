@@ -20,6 +20,11 @@ use Throwable;
 abstract class AbstractBuilder
 {
     /**
+     * @var JWT
+     */
+    protected $jwt;
+
+    /**
      * @var JoseAlgorithm[]
      */
     protected $algorithms = [];

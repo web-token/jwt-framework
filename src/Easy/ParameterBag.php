@@ -20,9 +20,15 @@ use IteratorAggregate;
 
 class ParameterBag implements IteratorAggregate, Countable
 {
+    /**
+     * @var array
+     */
     private $parameters = [];
 
-    public function __call($name, $arguments)
+    /**
+     * @return mixed
+     */
+    public function __call(string $name, array $arguments)
     {
         if (method_exists($this, $name)) {
             return \call_user_func_array([$this, $name], $arguments);
@@ -57,12 +63,9 @@ class ParameterBag implements IteratorAggregate, Countable
     }
 
     /**
-     * @param mixed $default
-     * @param mixed $key
-     *
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (!\array_key_exists($key, $this->parameters)) {
             throw new InvalidArgumentException(sprintf('Parameter "%s" is missing', $key));
@@ -73,19 +76,18 @@ class ParameterBag implements IteratorAggregate, Countable
 
     /**
      * @param mixed $value The value
-     * @param mixed $key
      */
-    public function set($key, $value): void
+    public function set(string $key, $value): void
     {
         $this->parameters[$key] = $value;
     }
 
-    public function has($key): bool
+    public function has(string $key): bool
     {
         return \array_key_exists($key, $this->parameters);
     }
 
-    public function remove($key): void
+    public function remove(string $key): void
     {
         unset($this->parameters[$key]);
     }

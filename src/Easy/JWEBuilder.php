@@ -42,8 +42,7 @@ class JWEBuilder extends AbstractBuilder
     }
 
     /**
-     * @param Algorithm|string $alg
-     * @param mixed            $enc
+     * @param Algorithm|string $enc
      */
     public function enc($enc): self
     {
@@ -66,8 +65,7 @@ class JWEBuilder extends AbstractBuilder
     }
 
     /**
-     * @param CompressionMethod|string $alg
-     * @param mixed                    $zip
+     * @param CompressionMethod|string $zip
      */
     public function zip($zip): self
     {

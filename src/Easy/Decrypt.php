@@ -77,8 +77,7 @@ class Decrypt extends AbstractLoader
     }
 
     /**
-     * @param Algorithm|string $alg
-     * @param mixed            $enc
+     * @param Algorithm|string $enc
      */
     public function enc($enc): self
     {
@@ -99,8 +98,7 @@ class Decrypt extends AbstractLoader
     }
 
     /**
-     * @param Algorithm[]|string[] $enc
-     * @param mixed                $encs
+     * @param Algorithm[]|string[] $encs
      */
     public function encs($encs): self
     {
