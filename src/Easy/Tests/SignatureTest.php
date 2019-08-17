@@ -16,7 +16,7 @@ namespace Jose\Easy\Tests;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Easy\Build;
-use Jose\Easy\Validate;
+use Jose\Easy\Load;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -53,7 +53,7 @@ class SignatureTest extends TestCase
             ->sign($this->rsaKey())
         ;
 
-        $jwt = Validate::token($jws)
+        $jwt = Load::jws($jws)
             ->algs(['RS256', 'RS512'])
             ->exp()
             ->iat()
@@ -96,7 +96,7 @@ class SignatureTest extends TestCase
             ->sign($this->octKey())
         ;
 
-        $jwt = Validate::token($jws)
+        $jwt = Load::jws($jws)
             ->algs(['RS256', new HS1()])
             ->exp()
             ->iat()

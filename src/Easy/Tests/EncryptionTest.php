@@ -17,7 +17,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_16_128;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP512;
 use Jose\Easy\Build;
-use Jose\Easy\Decrypt;
+use Jose\Easy\Load;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -54,7 +54,7 @@ class EncryptionTest extends TestCase
             ->encrypt($this->rsaKey())
         ;
 
-        $jwt = Decrypt::token($jwe)
+        $jwt = Load::jwe($jwe)
             ->algs(['RSA-OAEP', 'RSA-OAEP-256'])
             ->encs(['A128GCM', 'A256GCM'])
             ->exp()
@@ -100,7 +100,7 @@ class EncryptionTest extends TestCase
             ->encrypt($this->rsaKey())
         ;
 
-        $jwt = Decrypt::token($jwe)
+        $jwt = Load::jwe($jwe)
             ->algs(['RSA-OAEP', new RSAOAEP512()])
             ->encs(['A128GCM', new A256CCM_16_128()])
             ->exp()
