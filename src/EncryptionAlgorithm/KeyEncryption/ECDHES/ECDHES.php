@@ -23,6 +23,7 @@ use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
+use RuntimeException;
 
 final class ECDHES implements KeyAgreement
 {
@@ -74,6 +75,7 @@ final class ECDHES implements KeyAgreement
 
                 return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
             case 'X25519':
+                $this->checkSodiumIsAvailable();
                 $sKey = Base64Url::decode($private_key->get('d'));
                 $recipientPublickey = Base64Url::decode($public_key->get('x'));
 
@@ -219,6 +221,7 @@ final class ECDHES implements KeyAgreement
      */
     private function createOKPKey(string $curve): JWK
     {
+        $this->checkSodiumIsAvailable();
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
@@ -242,5 +245,23 @@ final class ECDHES implements KeyAgreement
             'x' => Base64Url::encode($x),
             'd' => Base64Url::encode($d),
         ]);
+    }
+
+    private function checkSodiumIsAvailable(): void
+    {
+        $requiredFunctions = [
+            'sodium_crypto_scalarmult',
+            'sodium_crypto_box_keypair',
+            'sodium_crypto_box_secretkey',
+            'sodium_crypto_box_publickey',
+            'sodium_crypto_sign_keypair',
+            'sodium_crypto_sign_secretkey',
+            'sodium_crypto_sign_publickey',
+        ];
+        foreach ($requiredFunctions as $function) {
+            if (!\function_exists($function)) {
+                throw new RuntimeException(sprintf('The function "%s" is not available. Have you installed the Sodium extension', $function));
+            }
+        }
     }
 }
