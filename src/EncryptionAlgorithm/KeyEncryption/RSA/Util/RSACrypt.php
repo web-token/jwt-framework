@@ -112,7 +112,7 @@ class RSACrypt
         if (0 >= $length) {
             throw new \RuntimeException();
         }
-        $plaintext = str_split($plaintext, $length);
+        $plaintext = mb_str_split($plaintext, $length);
         $ciphertext = '';
         foreach ($plaintext as $m) {
             $ciphertext .= self::encryptRSAESOAEP($key, $m, $hash);
@@ -130,7 +130,7 @@ class RSACrypt
             throw new RuntimeException();
         }
         $hash = Hash::$hash_algorithm();
-        $ciphertext = str_split($ciphertext, $key->getModulusLength());
+        $ciphertext = mb_str_split($ciphertext, $key->getModulusLength());
         $ciphertext[\count($ciphertext) - 1] = str_pad($ciphertext[\count($ciphertext) - 1], $key->getModulusLength(), \chr(0), STR_PAD_LEFT);
         $plaintext = '';
         foreach ($ciphertext as $c) {

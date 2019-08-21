@@ -99,6 +99,7 @@ class JWKFactory
      */
     public static function createOKPKey(string $curve, array $values = []): JWK
     {
+        self::checkSodiumIsAvailable();
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
@@ -296,5 +297,22 @@ class JWKFactory
         $values = array_merge($values, $additional_values);
 
         return new JWK($values);
+    }
+
+    private static function checkSodiumIsAvailable(): void
+    {
+        $requiredFunctions = [
+            'sodium_crypto_box_keypair',
+            'sodium_crypto_box_secretkey',
+            'sodium_crypto_box_publickey',
+            'sodium_crypto_sign_keypair',
+            'sodium_crypto_sign_secretkey',
+            'sodium_crypto_sign_publickey',
+        ];
+        foreach ($requiredFunctions as $function) {
+            if (!\function_exists($function)) {
+                throw new RuntimeException(sprintf('The function "%s" is not available. Have you installed the Sodium extension', $function));
+            }
+        }
     }
 }
