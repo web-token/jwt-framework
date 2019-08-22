@@ -27,7 +27,7 @@ class JWESerializerManager
      *
      * @param JWESerializer[] $serializers
      */
-    private function __construct(array $serializers)
+    public function __construct(array $serializers)
     {
         foreach ($serializers as $serializer) {
             $this->add($serializer);
@@ -36,6 +36,8 @@ class JWESerializerManager
 
     /**
      * Creates a serializer manager using the given serializers.
+     *
+     * @deprecated Will be removed in v2.0. Please use constructor instead
      *
      * @param JWESerializer[] $serializers
      *

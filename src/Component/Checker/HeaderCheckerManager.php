@@ -33,7 +33,7 @@ class HeaderCheckerManager
      * @param HeaderChecker[]    $checkers
      * @param TokenTypeSupport[] $tokenTypes
      */
-    private function __construct(array $checkers, array $tokenTypes)
+    public function __construct(array $checkers, array $tokenTypes)
     {
         foreach ($checkers as $checker) {
             $this->add($checker);
@@ -48,6 +48,8 @@ class HeaderCheckerManager
      * The first argument is a list of header parameter checkers objects.
      * The second argument is a list of token type support objects.
      * It is recommended to support only one token type per manager.
+     *
+     * @deprecated Will be removed in v2.0. Please use constructor instead
      *
      * @param HeaderChecker[]    $checkers
      * @param TokenTypeSupport[] $tokenTypes

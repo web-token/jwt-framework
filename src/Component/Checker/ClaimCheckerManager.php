@@ -28,7 +28,7 @@ class ClaimCheckerManager
      *
      * @param ClaimChecker[] $checkers
      */
-    private function __construct(array $checkers)
+    public function __construct(array $checkers)
     {
         foreach ($checkers as $checker) {
             $this->add($checker);
@@ -38,6 +38,8 @@ class ClaimCheckerManager
     /**
      * This method creates the ClaimCheckerManager.
      * The argument is a list of claim checkers objects.
+     *
+     * @deprecated Will be removed in v2.0. Please use constructor instead
      *
      * @param ClaimChecker[] $checkers
      *
