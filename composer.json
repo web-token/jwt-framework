@@ -56,7 +56,6 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "ext-sodium": "*",
         "fgrosse/phpasn1": "^2.0",
         "psr/event-dispatcher": "^1.0",
         "psr/http-factory": "^1.0",
@@ -122,6 +121,7 @@
 
     },
    "suggest":{
+       "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
        "php-http/httplug": "To enable JKU/X5U support.",
        "php-http/httplug-bundle": "To enable JKU/X5U support.",

@@ -24,8 +24,8 @@
         "ext-gmp": "*",
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0",
-        "web-token/jwt-core": "^2.0",
-        "web-token/jwt-util-ecc": "^2.0"
+        "web-token/jwt-core": "^2.1",
+        "web-token/jwt-util-ecc": "^2.1"
     },
     "require-dev": {
         "php-http/message-factory": "^1.0",
@@ -34,6 +34,7 @@
         "phpunit/phpunit": "^8.0"
     },
     "suggest": {
+        "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
         "php-http/message-factory": "To enable JKU/X5U support.",
         "php-http/httplug": "To enable JKU/X5U support."
     },
