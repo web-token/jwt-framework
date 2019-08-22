@@ -25,7 +25,7 @@ class AlgorithmManager
      *
      * @param Algorithm[] $algorithms
      */
-    private function __construct(array $algorithms)
+    public function __construct(array $algorithms)
     {
         foreach ($algorithms as $algorithm) {
             $this->add($algorithm);
@@ -34,6 +34,8 @@ class AlgorithmManager
 
     /**
      * This method creates an alogithm manager using the given algorithms.
+     *
+     * @deprecated Will be removed in v2.0. Please use constructor instead
      *
      * @param Algorithm[] $algorithms
      *

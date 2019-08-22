@@ -27,7 +27,7 @@ class JWSSerializerManager
      *
      * @param JWSSerializer[] $serializers
      */
-    private function __construct(array $serializers)
+    public function __construct(array $serializers)
     {
         foreach ($serializers as $serializer) {
             $this->add($serializer);
@@ -35,6 +35,8 @@ class JWSSerializerManager
     }
 
     /**
+     * @deprecated Will be removed in v2.0. Please use constructor instead
+     *
      * @param JWSSerializer[] $serializers
      *
      * @return JWSSerializerManager
