@@ -31,7 +31,6 @@ use PHPUnit\Framework\TestCase;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class HMACFromRFC7520Test extends TestCase
 {

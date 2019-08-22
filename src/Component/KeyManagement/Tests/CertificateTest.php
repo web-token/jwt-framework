@@ -25,7 +25,6 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class CertificateTest extends TestCase
 {

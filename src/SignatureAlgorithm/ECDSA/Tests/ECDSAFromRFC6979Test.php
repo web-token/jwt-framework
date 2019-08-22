@@ -36,7 +36,6 @@ use PHPUnit\Framework\TestCase;
  * @group RFC6979
  *
  * @internal
- * @coversNothing
  */
 class ECDSAFromRFC6979Test extends TestCase
 {

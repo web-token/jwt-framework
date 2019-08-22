@@ -24,7 +24,6 @@ use PHPUnit\Framework\TestCase;
  * @group Configuration
  *
  * @internal
- * @coversNothing
  */
 class KeySetConfigurationTest extends TestCase
 {

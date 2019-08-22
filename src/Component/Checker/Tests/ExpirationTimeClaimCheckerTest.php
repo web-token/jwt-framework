@@ -21,7 +21,6 @@ use PHPUnit\Framework\TestCase;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class ExpirationTimeClaimCheckerTest extends TestCase
 {

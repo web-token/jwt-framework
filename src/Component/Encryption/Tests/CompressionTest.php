@@ -23,7 +23,6 @@ use Jose\Component\Encryption\Compression\Deflate;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class CompressionTest extends EncryptionTest
 {

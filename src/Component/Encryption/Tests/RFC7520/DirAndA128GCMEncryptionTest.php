@@ -23,7 +23,6 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class DirAndA128GCMEncryptionTest extends EncryptionTest
 {

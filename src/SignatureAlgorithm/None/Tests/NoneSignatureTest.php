@@ -26,7 +26,6 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class NoneSignatureTest extends TestCase
 {

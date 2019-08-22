@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
  * @group JWKAnalyzer
  *
  * @internal
- * @coversNothing
  */
 class MessageBagTest extends TestCase
 {

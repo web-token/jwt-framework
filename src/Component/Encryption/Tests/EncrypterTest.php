@@ -23,7 +23,6 @@ use Jose\Component\Encryption\JWE;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class EncrypterTest extends EncryptionTest
 {

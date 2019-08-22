@@ -26,7 +26,6 @@ use ReflectionMethod;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class AESCBC_HSContentEncryptionTest extends TestCase
 {

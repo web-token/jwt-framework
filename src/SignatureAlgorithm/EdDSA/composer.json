@@ -20,7 +20,8 @@
         }
     },
     "require": {
-        "web-token/jwt-signature": "^2.0"
+        "ext-sodium": "*",
+        "web-token/jwt-signature": "^2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0"

@@ -30,7 +30,6 @@ use Symfony\Component\Serializer\Serializer;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 final class JWEEncoderTest extends WebTestCase
 {

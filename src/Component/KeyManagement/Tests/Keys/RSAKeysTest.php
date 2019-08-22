@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class RSAKeysTest extends TestCase
 {

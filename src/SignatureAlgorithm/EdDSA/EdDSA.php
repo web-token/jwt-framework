@@ -16,9 +16,17 @@ namespace Jose\Component\Signature\Algorithm;
 use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use RuntimeException;
 
 final class EdDSA implements SignatureAlgorithm
 {
+    public function __construct()
+    {
+        if (!\extension_loaded('sodium')) {
+            throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['OKP'];
