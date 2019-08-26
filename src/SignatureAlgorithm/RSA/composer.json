@@ -20,10 +20,8 @@
         }
     },
     "require": {
+        "ext-gmp": "*",
         "web-token/jwt-signature": "^2.0"
-    },
-    "suggest": {
-        "ext-gmp": "To use PSxxx algorihtms"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0"
