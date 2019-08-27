@@ -41,7 +41,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
                 unset($keys[$k]);
                 $this->keys[$key->get('kid')] = $key;
             } else {
-                $this->keys[] = $key;
+                $this->keys[$k] = $key;
             }
         }
     }
