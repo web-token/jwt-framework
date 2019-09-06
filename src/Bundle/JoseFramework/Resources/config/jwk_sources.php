@@ -22,6 +22,7 @@ return function (ContainerConfigurator $container) {
     ;
 
     $container->set(JWKSource\KeyFile::class);
+    $container->set(JWKSource\P12::class);
     $container->set(JWKSource\CertificateFile::class);
     $container->set(JWKSource\Values::class);
     $container->set(JWKSource\Secret::class);
