@@ -17,6 +17,7 @@ use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
+use RuntimeException;
 
 /**
  * @internal
@@ -67,6 +68,10 @@ class RSAKey
      */
     public static function createFromPEM(string $pem): self
     {
+
+        if (!extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
         $res = openssl_pkey_get_private($pem);
         if (false === $res) {
             $res = openssl_pkey_get_public($pem);
