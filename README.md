@@ -1,10 +1,10 @@
 PHP JWT Framework
 =================
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/web-token/jwt-framework/badges/quality-score.png?b=v2.0)](https://scrutinizer-ci.com/g/web-token/jwt-framework/?branch=v2.0)
-[![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg?branch=v2.0)](https://coveralls.io/github/web-token/jwt-framework?branch=v2.0)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/web-token/jwt-framework/badges/quality-score.png?b=v2.1)](https://scrutinizer-ci.com/g/web-token/jwt-framework/?branch=v2.1)
+[![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg?branch=v2.1)](https://coveralls.io/github/web-token/jwt-framework?branch=v2.1)
 
-[![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=v2.0)](https://travis-ci.org/web-token/jwt-framework)
+[![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=v2.1)](https://travis-ci.org/web-token/jwt-framework)
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a/big.png)](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a)
 
