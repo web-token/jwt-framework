@@ -21,7 +21,6 @@ use Jose\Component\Encryption\JWE;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class JWEFlattenedTest extends EncryptionTest
 {

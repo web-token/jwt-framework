@@ -21,7 +21,6 @@ use Jose\Component\Core\JWK;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class NestingTest extends NestedTokenTest
 {

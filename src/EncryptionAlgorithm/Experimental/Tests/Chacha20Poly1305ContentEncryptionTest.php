@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
  * @group NewAlgorithm
  *
  * @internal
- * @coversNothing
  */
 class Chacha20Poly1305ContentEncryptionTest extends TestCase
 {

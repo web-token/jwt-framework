@@ -23,6 +23,7 @@ use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
+use RuntimeException;
 
 final class ECDHES implements KeyAgreement
 {
@@ -108,6 +109,7 @@ final class ECDHES implements KeyAgreement
 
                 break;
             case 'X25519':
+                $this->checkSodiumExtensionIsAvailable();
                 $private_key = $this->createOKPKey('X25519');
 
                 break;
@@ -219,6 +221,7 @@ final class ECDHES implements KeyAgreement
      */
     private function createOKPKey(string $curve): JWK
     {
+        $this->checkSodiumExtensionIsAvailable();
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
@@ -242,5 +245,12 @@ final class ECDHES implements KeyAgreement
             'x' => Base64Url::encode($x),
             'd' => Base64Url::encode($d),
         ]);
+    }
+
+    private function checkSodiumExtensionIsAvailable(): void
+    {
+        if (!\extension_loaded('sodium')) {
+            throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
+        }
     }
 }

@@ -21,7 +21,6 @@ use PHPUnit\Framework\TestCase;
  * @group JWK
  *
  * @internal
- * @coversNothing
  */
 class JWKTest extends TestCase
 {

@@ -41,7 +41,6 @@ use PHPUnit\Framework\TestCase;
  * @group NestedToken
  *
  * @internal
- * @coversNothing
  */
 class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 {

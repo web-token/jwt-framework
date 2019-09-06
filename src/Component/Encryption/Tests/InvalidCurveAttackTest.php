@@ -20,7 +20,6 @@ use Jose\Component\Core\JWK;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class InvalidCurveAttackTest extends EncryptionTest
 {

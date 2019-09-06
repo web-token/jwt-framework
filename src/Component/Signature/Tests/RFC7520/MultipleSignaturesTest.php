@@ -22,7 +22,6 @@ use Jose\Component\Signature\Tests\SignatureTest;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class MultipleSignaturesTest extends SignatureTest
 {

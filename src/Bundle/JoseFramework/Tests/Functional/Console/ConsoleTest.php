@@ -22,7 +22,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class ConsoleTest extends KernelTestCase
 {

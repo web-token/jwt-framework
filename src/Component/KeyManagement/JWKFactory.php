@@ -99,6 +99,9 @@ class JWKFactory
      */
     public static function createOKPKey(string $curve, array $values = []): JWK
     {
+        if (!\extension_loaded('sodium')) {
+            throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
+        }
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();

@@ -22,7 +22,6 @@ use Jose\Component\Signature\JWSLoader;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class JWSLoaderTest extends SignatureTest
 {

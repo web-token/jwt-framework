@@ -21,7 +21,6 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class OKPKeysTest extends TestCase
 {

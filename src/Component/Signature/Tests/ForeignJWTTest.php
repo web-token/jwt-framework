@@ -21,7 +21,6 @@ use Jose\Component\Signature\JWS;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class ForeignJWTTest extends SignatureTest
 {

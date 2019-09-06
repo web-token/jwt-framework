@@ -27,7 +27,6 @@ use PHPUnit\Framework\TestCase;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class ECDSAFromRFC7520Test extends TestCase
 {

@@ -11,7 +11,7 @@
             "homepage": "https://github.com/Spomky"
         },{
             "name": "All contributors",
-            "homepage": "https://github.com/web-token/jwt-core/contributors"
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
     "autoload": {
@@ -20,7 +20,8 @@
         }
     },
     "require": {
-        "web-token/jwt-signature": "^2.0"
+        "ext-gmp": "*",
+        "web-token/jwt-signature": "^2.1"
     },
     "suggest": {
         "ext-gmp": "To use PSxxx algorihtms"
@@ -34,7 +35,8 @@
             "v1.1": "1.1.x-dev",
             "v1.2": "1.2.x-dev",
             "v1.3": "1.3.x-dev",
-            "v2.0": "2.0.x-dev"
+            "v2.0": "2.0.x-dev",
+            "v2.1": "2.1.x-dev"
         }
     },
     "config": {

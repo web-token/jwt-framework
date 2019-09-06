@@ -27,7 +27,6 @@ use Jose\Component\Encryption\JWE;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class RSAKeyEncryptionTest extends EncryptionTest
 {
