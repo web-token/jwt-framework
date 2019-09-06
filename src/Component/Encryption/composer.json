@@ -20,7 +20,6 @@
         }
     },
     "require": {
-        "lib-openssl": "*",
         "web-token/jwt-core": "^2.1"
     },
     "require-dev": {
