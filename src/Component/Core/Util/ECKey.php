@@ -123,7 +123,7 @@ class ECKey
 
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
-        if (!extension_loaded('openssl')) {
+        if (!\extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         $key = openssl_pkey_new([

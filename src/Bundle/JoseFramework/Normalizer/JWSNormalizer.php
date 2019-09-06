@@ -35,7 +35,15 @@ final class JWSNormalizer implements NormalizerInterface, DenormalizerInterface
         return $object;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = [])
+    /**
+     * @param mixed  $data    Data to restore
+     * @param string $type    The expected class to instantiate
+     * @param string $format  Format the given data was extracted from
+     * @param array  $context Options available to the denormalizer
+     *
+     * @return array|object
+     */
+    public function denormalize($data, $type, $format = null, array $context = [])
     {
         return $data;
     }

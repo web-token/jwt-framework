@@ -68,8 +68,7 @@ class RSAKey
      */
     public static function createFromPEM(string $pem): self
     {
-
-        if (!extension_loaded('openssl')) {
+        if (!\extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         $res = openssl_pkey_get_private($pem);
