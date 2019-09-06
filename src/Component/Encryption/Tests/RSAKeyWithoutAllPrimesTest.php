@@ -24,7 +24,6 @@ use Jose\Component\Encryption\JWE;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {

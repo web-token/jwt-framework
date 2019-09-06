@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
  * @group JWKAnalyzer
  *
  * @internal
- * @coversNothing
  */
 class JWKAnalyzerTest extends TestCase
 {

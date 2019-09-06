@@ -24,7 +24,6 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class SignerTest extends SignatureTest
 {

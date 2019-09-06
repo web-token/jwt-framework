@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
  * @group JWAManager
  *
  * @internal
- * @coversNothing
  */
 class AlgorithmManagerFactoryTest extends TestCase
 {

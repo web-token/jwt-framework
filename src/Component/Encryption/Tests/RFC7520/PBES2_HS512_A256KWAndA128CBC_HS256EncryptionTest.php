@@ -23,7 +23,6 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
 {

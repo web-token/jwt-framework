@@ -36,7 +36,6 @@ use PHPUnit\Framework\TestCase;
  * @group NestedToken
  *
  * @internal
- * @coversNothing
  */
 class NestingTokenBuilderTest extends TestCase
 {

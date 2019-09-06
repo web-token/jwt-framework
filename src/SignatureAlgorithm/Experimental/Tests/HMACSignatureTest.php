@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
  * @group NewAlgorithm
  *
  * @internal
- * @coversNothing
  */
 class HMACSignatureTest extends TestCase
 {

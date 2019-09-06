@@ -27,7 +27,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
  * @group AnalyzeCommand
  *
  * @internal
- * @coversNothing
  */
 class AnalyzeCommandTest extends TestCase
 {

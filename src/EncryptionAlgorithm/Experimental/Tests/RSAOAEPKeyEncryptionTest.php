@@ -25,7 +25,6 @@ use PHPUnit\Framework\TestCase;
  * @group NewAlgorithm
  *
  * @internal
- * @coversNothing
  */
 class RSAOAEPKeyEncryptionTest extends TestCase
 {

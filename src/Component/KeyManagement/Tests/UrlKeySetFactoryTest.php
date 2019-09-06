@@ -25,7 +25,6 @@ use PHPUnit\Framework\TestCase;
  * @group UrlKeySetFactory
  *
  * @internal
- * @coversNothing
  */
 class UrlKeySetFactoryTest extends TestCase
 {

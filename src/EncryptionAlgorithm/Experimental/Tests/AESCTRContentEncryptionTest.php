@@ -24,7 +24,6 @@ use PHPUnit\Framework\TestCase;
  * @group NewAlgorithm
  *
  * @internal
- * @coversNothing
  */
 class AESCTRContentEncryptionTest extends TestCase
 {

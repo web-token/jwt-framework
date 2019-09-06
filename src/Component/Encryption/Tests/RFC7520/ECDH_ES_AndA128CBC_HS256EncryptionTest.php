@@ -23,7 +23,6 @@ use Jose\Component\Encryption\Tests\EncryptionTest;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
 {
