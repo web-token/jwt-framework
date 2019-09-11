@@ -88,9 +88,8 @@ class JWSVerifier
     private function verifySignature(JWS $jws, JWKSet $jwkset, Signature $signature, ?string $detachedPayload = null, JWK &$successJwk = null): bool
     {
         $input = $this->getInputToVerify($jws, $signature, $detachedPayload);
+        $algorithm = $this->getAlgorithm($signature);
         foreach ($jwkset->all() as $jwk) {
-            $algorithm = $this->getAlgorithm($signature);
-
             try {
                 KeyChecker::checkKeyUsage($jwk, 'verification');
                 KeyChecker::checkKeyAlgorithm($jwk, $algorithm->name());

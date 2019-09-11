@@ -22,7 +22,6 @@ use Jose\Component\Core\JWK;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class ECDHESWithX25519EncryptionTest extends EncryptionTest
 {

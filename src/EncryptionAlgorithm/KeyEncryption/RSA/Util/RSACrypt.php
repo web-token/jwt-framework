@@ -112,7 +112,10 @@ class RSACrypt
         if (0 >= $length) {
             throw new \RuntimeException();
         }
-        $plaintext = str_split($plaintext, $length);
+        $plaintext = mb_str_split($plaintext, $length, '8bit');
+        if (!\is_array($plaintext)) {
+            throw new RuntimeException('Invalid payload');
+        }
         $ciphertext = '';
         foreach ($plaintext as $m) {
             $ciphertext .= self::encryptRSAESOAEP($key, $m, $hash);
@@ -127,10 +130,13 @@ class RSACrypt
     public static function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
     {
         if (0 >= $key->getModulusLength()) {
-            throw new RuntimeException();
+            throw new RuntimeException('Invalid modulus length');
         }
         $hash = Hash::$hash_algorithm();
-        $ciphertext = str_split($ciphertext, $key->getModulusLength());
+        $ciphertext = mb_str_split($ciphertext, $key->getModulusLength(), '8bit');
+        if (!\is_array($ciphertext)) {
+            throw new RuntimeException('Invalid ciphertext');
+        }
         $ciphertext[\count($ciphertext) - 1] = str_pad($ciphertext[\count($ciphertext) - 1], $key->getModulusLength(), \chr(0), STR_PAD_LEFT);
         $plaintext = '';
         foreach ($ciphertext as $c) {

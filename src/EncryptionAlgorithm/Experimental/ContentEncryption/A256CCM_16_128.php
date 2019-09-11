@@ -27,7 +27,7 @@ final class A256CCM_16_128 extends AESCCM
 
     public function getIVSize(): int
     {
-        return 13;
+        return 13 * 8;
     }
 
     protected function getMode(): string

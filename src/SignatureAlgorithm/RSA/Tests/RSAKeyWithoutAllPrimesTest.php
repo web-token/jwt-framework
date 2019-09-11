@@ -27,7 +27,6 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class RSAKeyWithoutAllPrimesTest extends TestCase
 {

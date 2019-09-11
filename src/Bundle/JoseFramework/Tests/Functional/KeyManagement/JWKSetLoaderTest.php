@@ -25,7 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class JWKSetLoaderTest extends WebTestCase
 {

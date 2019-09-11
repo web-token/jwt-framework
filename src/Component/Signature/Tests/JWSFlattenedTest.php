@@ -19,7 +19,6 @@ use Jose\Component\Signature\JWS;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class JWSFlattenedTest extends SignatureTest
 {

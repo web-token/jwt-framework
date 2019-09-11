@@ -25,7 +25,6 @@ use PHPUnit\Framework\TestCase;
  * @group NestedToken
  *
  * @internal
- * @coversNothing
  */
 class NestedTokenLoaderConfigurationTest extends TestCase
 {

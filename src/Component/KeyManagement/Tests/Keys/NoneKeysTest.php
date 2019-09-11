@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  *
  * @internal
- * @coversNothing
  */
 class NoneKeysTest extends TestCase
 {

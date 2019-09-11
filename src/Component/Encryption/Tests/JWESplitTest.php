@@ -19,7 +19,6 @@ use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
  * @group JWE
  *
  * @internal
- * @coversNothing
  */
 class JWESplitTest extends EncryptionTest
 {

@@ -27,7 +27,6 @@ use PHPUnit\Framework\TestCase;
  * @group RFC7520
  *
  * @internal
- * @coversNothing
  */
 class RSAPSSSignatureTest extends TestCase
 {

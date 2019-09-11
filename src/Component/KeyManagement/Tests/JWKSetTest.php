@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
  * @group JWKSet
  *
  * @internal
- * @coversNothing
  */
 class JWKSetTest extends TestCase
 {

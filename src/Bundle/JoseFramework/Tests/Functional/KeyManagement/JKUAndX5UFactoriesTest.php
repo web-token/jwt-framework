@@ -23,7 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group KeyManagement
  *
  * @internal
- * @coversNothing
  */
 class JKUAndX5UFactoriesTest extends WebTestCase
 {

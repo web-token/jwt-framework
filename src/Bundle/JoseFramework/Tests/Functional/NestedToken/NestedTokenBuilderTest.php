@@ -23,7 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 class NestedTokenBuilderTest extends WebTestCase
 {

@@ -26,7 +26,6 @@ use Symfony\Component\Serializer\Serializer;
  * @group functional
  *
  * @internal
- * @coversNothing
  */
 final class JWSNormalizerTest extends WebTestCase
 {
