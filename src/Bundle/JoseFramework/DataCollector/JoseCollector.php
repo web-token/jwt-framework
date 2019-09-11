@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class JoseCollector extends DataCollector
 {
@@ -41,7 +42,10 @@ class JoseCollector extends DataCollector
         return 'jose_collector';
     }
 
-    public function getData(): array
+    /**
+     * @return array|Data
+     */
+    public function getData()
     {
         return $this->data;
     }

@@ -30,12 +30,25 @@ final class JWENormalizer implements NormalizerInterface, DenormalizerInterface
         return JWE::class === $type && $this->componentInstalled();
     }
 
+    /**
+     * @param mixed  $object Object to normalize
+     * @param string $format Format the normalization result will be encoded as
+     *
+     * @return mixed
+     */
     public function normalize($object, $format = null, array $context = [])
     {
         return $object;
     }
 
-    public function denormalize($data, $class, $format = null, array $context = [])
+    /**
+     * @param mixed  $data   Data to restore
+     * @param string $type   The expected class to instantiate
+     * @param string $format Format the given data was extracted from
+     *
+     * @return array|object
+     */
+    public function denormalize($data, $type, $format = null, array $context = [])
     {
         return $data;
     }
