@@ -35,6 +35,10 @@ class KeyConverter
 
     public static function loadKeyFromCertificate(string $certificate): array
     {
+        if (!\extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
+
         try {
             $res = openssl_x509_read($certificate);
             if (false === $res) {
@@ -59,6 +63,9 @@ class KeyConverter
      */
     public static function loadKeyFromX509Resource($res): array
     {
+        if (!\extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
         $key = openssl_get_publickey($res);
         if (false === $key) {
             throw new InvalidArgumentException('Unable to load the certificate.');
@@ -110,6 +117,10 @@ class KeyConverter
         if (0 === \count($x5c)) {
             throw new InvalidArgumentException('The certificate chain is empty');
         }
+
+        if (!\extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
         $certificate = null;
         $last_issuer = null;
         $last_subject = null;
@@ -157,6 +168,9 @@ class KeyConverter
             $pem = self::decodePem($pem, $matches, $password);
         }
 
+        if (!\extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
         self::sanitizePEM($pem);
         $res = openssl_pkey_get_private($pem);
         if (false === $res) {
