@@ -137,7 +137,7 @@ class JWS implements JWT
                 $signature->getProtectedHeader(),
                 $signature->getEncodedProtectedHeader(),
                 $signature->getHeader()
-             );
+            );
 
             $result[] = $jws;
         }

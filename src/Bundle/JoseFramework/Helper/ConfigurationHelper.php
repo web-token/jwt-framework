@@ -233,7 +233,7 @@ class ConfigurationHelper
     /**
      * @param string[] $claimCheckers
      */
-    public static function addClaimChecker(ContainerBuilder $container, string $name, array  $claimCheckers, bool $is_public = true, array $tags = []): void
+    public static function addClaimChecker(ContainerBuilder $container, string $name, array $claimCheckers, bool $is_public = true, array $tags = []): void
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -255,7 +255,7 @@ class ConfigurationHelper
     /**
      * @param string[] $headerCheckers
      */
-    public static function addHeaderChecker(ContainerBuilder $container, string $name, array  $headerCheckers, bool $is_public = true, array $tags = []): void
+    public static function addHeaderChecker(ContainerBuilder $container, string $name, array $headerCheckers, bool $is_public = true, array $tags = []): void
     {
         $config = [
             self::BUNDLE_ALIAS => [
@@ -274,7 +274,7 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'checkers');
     }
 
-    public static function addKey(ContainerBuilder $container, string $name, string $type, array  $parameters, bool $is_public = true, array $tags = []): void
+    public static function addKey(ContainerBuilder $container, string $name, string $type, array $parameters, bool $is_public = true, array $tags = []): void
     {
         $parameters['is_public'] = $is_public;
         $parameters['tags'] = $tags;
@@ -291,7 +291,7 @@ class ConfigurationHelper
         self::updateJoseConfiguration($container, $config, 'keys');
     }
 
-    public static function addKeyset(ContainerBuilder $container, string $name, string $type, array  $parameters, bool $is_public = true, array $tags = []): void
+    public static function addKeyset(ContainerBuilder $container, string $name, string $type, array $parameters, bool $is_public = true, array $tags = []): void
     {
         $parameters['is_public'] = $is_public;
         $parameters['tags'] = $tags;
