@@ -11,6 +11,11 @@ parameters:
         - %currentWorkingDirectory%/src/EncryptionAlgorithm/KeyEncryption/*/Tests/*
         - %currentWorkingDirectory%/src/SignatureAlgorithm/*/Tests/*
     ignoreErrors:
+        - '#Strict comparison using === between false and .* will always evaluate to false\.*#'
+        - '#Instanceof between Jose\\Component\\Core\\Algorithm and Jose\\Component\\Core\\Algorithm will always evaluate to true\.*#'
+        - '#Parameter .* of function call_user_func_array expects .* array given\.*#'
+        - '#Call to function is_int\(\) with int will always evaluate to true\.*#'
+        - '#Call to an undefined method Jose\\Easy\\.*#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
         - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'
         - '#Method Jose\\Component\\Core\\Util\\Ecc\\Math::rightShift\(\) should return GMP but returns resource\.#'
