@@ -21,7 +21,7 @@ use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Signature\Algorithm\HMAC;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\None;
-use Jose\Component\Signature\Algorithm\RSA;
+use Jose\Component\Signature\Algorithm\RSAPSS;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
