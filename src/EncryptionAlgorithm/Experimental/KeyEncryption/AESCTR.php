@@ -25,6 +25,9 @@ abstract class AESCTR implements KeyEncryption
         return ['oct'];
     }
 
+    /**
+     * @throws RuntimeException if the CEK cannot be encrypted
+     */
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
@@ -41,6 +44,9 @@ abstract class AESCTR implements KeyEncryption
         return $result;
     }
 
+    /**
+     * @throws RuntimeException if the CEK cannot be decrypted
+     */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $k = $this->getKey($key);
@@ -62,6 +68,9 @@ abstract class AESCTR implements KeyEncryption
 
     abstract protected function getMode(): string;
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -78,6 +87,9 @@ abstract class AESCTR implements KeyEncryption
         return Base64Url::decode($k);
     }
 
+    /**
+     * @throws InvalidArgumentException if the IV is missing or invalid
+     */
     private function checkHeaderAdditionalParameters(array $header): void
     {
         if (!isset($header['iv'])) {

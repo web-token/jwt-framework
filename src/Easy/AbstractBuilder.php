@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Easy;
 
+use InvalidArgumentException;
 use Jose\Component\Core\Algorithm as JoseAlgorithm;
 use Jose\Component\Signature\Algorithm;
 use Throwable;
@@ -96,6 +97,7 @@ abstract class AbstractBuilder
 
     /**
      * @param Algorithm\SignatureAlgorithm|string $alg
+     * @throws InvalidArgumentException if the algorithm is not a string or an instance of Jose\Component\Core\Algorithm
      */
     public function alg($alg): self
     {
@@ -111,7 +113,7 @@ abstract class AbstractBuilder
 
                 break;
             default:
-                throw new \InvalidArgumentException('Invalid algorithm');
+                throw new InvalidArgumentException('Invalid parameter "alg". Shall be a string or an algorithm instance.');
         }
 
         return $clone;
