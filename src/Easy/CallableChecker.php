@@ -36,6 +36,10 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
         $this->callable = $callable;
     }
 
+    /**
+     * @param mixed $value
+     * @throws InvalidClaimException
+     */
     public function checkClaim($value): void
     {
         $callable = $this->callable;
@@ -50,6 +54,10 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
         return $this->key;
     }
 
+    /**
+     * @param mixed $value
+     * @throws InvalidHeaderException
+     */
     public function checkHeader($value): void
     {
         $callable = $this->callable;

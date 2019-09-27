@@ -107,18 +107,18 @@ abstract class AbstractLoader
         }
 
         switch (true) {
+            case $checker instanceof Checker\ClaimChecker:
+                break;
             case \is_callable($checker):
                 $checker = new CallableChecker($key, $checker);
 
                 break;
-            case $checker instanceof Checker\ClaimChecker:
-                break;
             case \is_array($checker):
-                $checker = new CallableChecker($key, function ($value) use ($checker) {return \in_array($value, $checker, true); });
+                $checker = new CallableChecker($key, static function ($value) use ($checker) {return \in_array($value, $checker, true); });
 
                 break;
             default:
-                $checker = new CallableChecker($key, function ($value) use ($checker) {return $value === $checker; });
+                $checker = new CallableChecker($key, static function ($value) use ($checker) {return $value === $checker; });
         }
 
         $clone->claimCheckers[$key] = $checker;
@@ -230,18 +230,18 @@ abstract class AbstractLoader
         }
 
         switch (true) {
+            case $checker instanceof Checker\HeaderChecker:
+                break;
             case \is_callable($checker):
                 $checker = new CallableChecker($key, $checker);
 
                 break;
-            case $checker instanceof Checker\HeaderChecker:
-                break;
             case \is_array($checker):
-                $checker = new CallableChecker($key, function ($value) use ($checker) {return \in_array($value, $checker, true); });
+                $checker = new CallableChecker($key, static function ($value) use ($checker) {return \in_array($value, $checker, true); });
 
                 break;
             default:
-                $checker = new CallableChecker($key, function ($value) use ($checker) {return $value === $checker; });
+                $checker = new CallableChecker($key, static function ($value) use ($checker) {return $value === $checker; });
         }
 
         $clone->headerCheckers[$key] = $checker;
