@@ -34,6 +34,10 @@ final class CompactSerializer extends Serializer
         return self::NAME;
     }
 
+    /**
+     * @throws LogicException if the JWS has unprotected header (invalid for compact JSON)
+     * @throws LogicException if the payload is not encoded but contains unauthorized characters
+     */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (null === $signatureIndex) {
@@ -58,6 +62,9 @@ final class CompactSerializer extends Serializer
         );
     }
 
+    /**
+     * @throws InvalidArgumentException if the input is invalid
+     */
     public function unserialize(string $input): JWS
     {
         $parts = explode('.', $input);

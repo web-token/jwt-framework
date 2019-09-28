@@ -45,6 +45,7 @@ final class ContentEncryptionAlgorithmChecker implements HeaderChecker
 
     /**
      * {@inheritdoc}
+     * @throws InvalidHeaderException if the header is invalid
      */
     public function checkHeader($value): void
     {
@@ -52,7 +53,7 @@ final class ContentEncryptionAlgorithmChecker implements HeaderChecker
             throw new InvalidHeaderException('"enc" must be a string.', self::HEADER_NAME, $value);
         }
         if (!\in_array($value, $this->supportedAlgorithms, true)) {
-            throw new InvalidHeaderException('Unsupported encorithm.', self::HEADER_NAME, $value);
+            throw new InvalidHeaderException('Unsupported algorithm.', self::HEADER_NAME, $value);
         }
     }
 

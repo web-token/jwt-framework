@@ -56,6 +56,9 @@ final class CompactSerializer implements JWESerializer
         );
     }
 
+    /**
+     * @throws InvalidArgumentException if the input is not supported
+     */
     public function unserialize(string $input): JWE
     {
         $parts = explode('.', $input);
@@ -86,6 +89,9 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
+    /**
+     * @throws LogicException if the AAD is invalid
+     */
     private function checkHasNoAAD(JWE $jwe): void
     {
         if (null !== $jwe->getAAD()) {
@@ -93,6 +99,9 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
+    /**
+     * @throws LogicException if the JWE has a shared header or recipient header (invalid for compact JSON)
+     */
     private function checkRecipientHasNoHeader(JWE $jwe, int $id): void
     {
         if (0 !== \count($jwe->getSharedHeader()) || 0 !== \count($jwe->getRecipient($id)->getHeader())) {
@@ -100,6 +109,9 @@ final class CompactSerializer implements JWESerializer
         }
     }
 
+    /**
+     * @throws LogicException if the JWE has no shared protected header (invalid for compact JSON)
+     */
     private function checkHasSharedProtectedHeader(JWE $jwe): void
     {
         if (0 === \count($jwe->getSharedProtectedHeader())) {

@@ -38,7 +38,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
 
     /**
      * @param mixed $value
-     * @throws InvalidClaimException
+     * @throws InvalidClaimException if the claim is invalid
      */
     public function checkClaim($value): void
     {
@@ -55,8 +55,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
     }
 
     /**
-     * @param mixed $value
-     * @throws InvalidHeaderException
+     * {@inheritDoc}
      */
     public function checkHeader($value): void
     {

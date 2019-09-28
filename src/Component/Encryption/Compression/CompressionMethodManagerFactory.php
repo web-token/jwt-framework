@@ -57,6 +57,7 @@ class CompressionMethodManagerFactory
      * If one of the aliases does not exist, an exception is thrown.
      *
      * @param string[] $aliases
+     * @throws InvalidArgumentException if the compression method alias is not supported
      */
     public function create(array $aliases): CompressionMethodManager
     {

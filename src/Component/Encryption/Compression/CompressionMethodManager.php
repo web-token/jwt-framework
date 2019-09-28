@@ -42,6 +42,7 @@ class CompressionMethodManager
      * Throws an exception if the method is not supported.
      *
      * @param string $name The name of the compression method
+     * @throws InvalidArgumentException if the compression method is not supported
      */
     public function get(string $name): CompressionMethod
     {
