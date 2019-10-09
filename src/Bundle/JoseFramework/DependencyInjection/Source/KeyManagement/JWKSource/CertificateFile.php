@@ -24,7 +24,7 @@ class CertificateFile extends AbstractSource implements JWKSource
 {
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
-        $definition = new Definition(JWK::class);
+        $definition = new Definition(\Jose\Component\Core\JWK::class);
         $definition->setFactory([
             new Reference(JWKFactory::class),
             'createFromCertificateFile',

@@ -17,7 +17,7 @@
         {% for id, data in collector.getData().key.jwk %}
             <tr>
                 <td>{{ id }}</td>
-                <td>{{ profiler_dump(data.seek('jwk')) }}</td>
+                <td>{{ profiler_dump(data.jwk) }}</td>
                 <td>
                     {% if data.analyze.count() == 0 %}
                         No message. All good!
