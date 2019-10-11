@@ -20,6 +20,7 @@ interface HeaderChecker
      * If for some reason the value is not valid, an InvalidHeaderException must be thrown.
      *
      * @param mixed $value
+     *
      * @throws InvalidHeaderException if the header parameter is invalid
      */
     public function checkHeader($value): void;

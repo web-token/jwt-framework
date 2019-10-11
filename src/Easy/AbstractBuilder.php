@@ -97,6 +97,7 @@ abstract class AbstractBuilder
 
     /**
      * @param Algorithm\SignatureAlgorithm|string $alg
+     *
      * @throws InvalidArgumentException if the algorithm is not a string or an instance of Jose\Component\Core\Algorithm
      */
     public function alg($alg): self

@@ -28,7 +28,7 @@ abstract class AESGCMKW implements KeyWrapping
 
     /**
      * @throws RuntimeException if the CEK cannot be encrypted
-     * @throws Exception if the random bytes cannot be generated
+     * @throws Exception        if the random bytes cannot be generated
      */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {

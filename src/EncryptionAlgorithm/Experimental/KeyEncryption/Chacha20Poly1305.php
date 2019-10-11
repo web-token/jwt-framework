@@ -61,7 +61,7 @@ final class Chacha20Poly1305 implements KeyEncryption
     }
 
     /**
-     * @throws RuntimeException if the CEK cannot be decrypted
+     * @throws RuntimeException         if the CEK cannot be decrypted
      * @throws InvalidArgumentException if the header parameter "nonce" is missing or invalid
      */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string

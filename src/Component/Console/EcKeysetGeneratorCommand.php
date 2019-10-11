@@ -33,6 +33,10 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the quantity of keys is invalid
+     * @throws InvalidArgumentException if the curve is invalid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $quantity = (int) $input->getArgument('quantity');

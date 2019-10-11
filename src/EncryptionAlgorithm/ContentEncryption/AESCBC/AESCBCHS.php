@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 use Base64Url\Base64Url;
-use InvalidArgumentException;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use RuntimeException;
 

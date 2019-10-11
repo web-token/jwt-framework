@@ -78,6 +78,7 @@ class Decrypt extends AbstractLoader
 
     /**
      * @param Algorithm|string $enc
+     *
      * @throws InvalidArgumentException if the encryption algorithm is invalid
      */
     public function enc($enc): self

@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use Base64Url\Base64Url;
-use Exception;
 use FG\ASN1\ASNObject;
+use FG\ASN1\Exception\ParserException;
 use FG\ASN1\ExplicitlyTaggedObject;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
@@ -69,6 +69,10 @@ class ECKey
         return $this->values;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key cannot be loaded
+     * @throws ParserException          if the key cannot be loaded
+     */
     private static function loadPEM(string $data): array
     {
         $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data), true);
@@ -88,11 +92,14 @@ class ECKey
             return self::loadPublicPEM($children);
         }
 
-        throw new Exception('Unable to load the key.');
+        throw new InvalidArgumentException('Unable to load the key.');
     }
 
     /**
      * @param ASNObject[] $children
+     *
+     * @throws InvalidArgumentException if the key cannot be loaded
+     * @throws ParserException          if the key cannot be loaded
      */
     private static function loadPKCS8(array $children): array
     {
@@ -105,6 +112,9 @@ class ECKey
         return $asnObject->getChildren();
     }
 
+    /**
+     * @throws InvalidArgumentException if the key cannot be loaded
+     */
     private static function loadPublicPEM(array $children): array
     {
         if (!$children[0] instanceof Sequence) {
@@ -127,7 +137,7 @@ class ECKey
 
         $bits = $children[1]->getContent();
         $bits_length = mb_strlen($bits, '8bit');
-        if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
+        if (0 !== mb_strpos($bits, '04', 0, '8bit')) {
             throw new InvalidArgumentException('Unsupported key type');
         }
 
@@ -139,6 +149,9 @@ class ECKey
         return $values;
     }
 
+    /**
+     * @throws InvalidArgumentException if the OID is not supported
+     */
     private static function getCurve(string $oid): string
     {
         $curves = self::getSupportedCurves();
@@ -159,6 +172,9 @@ class ECKey
         ];
     }
 
+    /**
+     * @throws InvalidArgumentException if the key cannot be loaded
+     */
     private static function verifyVersion(ASNObject $children): void
     {
         if (!$children instanceof Integer || '1' !== $children->getContent()) {
@@ -166,6 +182,9 @@ class ECKey
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key cannot be loaded
+     */
     private static function getXAndY(ASNObject $children, string &$x, string &$y): void
     {
         if (!$children instanceof ExplicitlyTaggedObject || !\is_array($children->getContent())) {
@@ -178,7 +197,7 @@ class ECKey
         $bits = $children->getContent()[0]->getContent();
         $bits_length = mb_strlen($bits, '8bit');
 
-        if ('04' !== mb_substr($bits, 0, 2, '8bit')) {
+        if (0 !== mb_strpos($bits, '04', 0, '8bit')) {
             throw new InvalidArgumentException('Unsupported key type');
         }
 
@@ -186,6 +205,9 @@ class ECKey
         $y = mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), (int) (($bits_length - 2) / 2), '8bit');
     }
 
+    /**
+     * @throws InvalidArgumentException if the key cannot be loaded
+     */
     private static function getD(ASNObject $children): string
     {
         if (!$children instanceof OctetString) {
@@ -195,6 +217,9 @@ class ECKey
         return $children->getContent();
     }
 
+    /**
+     * @throws InvalidArgumentException if the key cannot be loaded
+     */
     private static function loadPrivatePEM(array $children): array
     {
         self::verifyVersion($children[0]);
@@ -240,6 +265,9 @@ class ECKey
         return true;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function loadJWK(array $jwk): void
     {
         $keys = [

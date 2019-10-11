@@ -23,6 +23,7 @@ final class CompressionMethodCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
+     *
      * @throws InvalidArgumentException if the compression method has no alias
      */
     public function process(ContainerBuilder $container): void

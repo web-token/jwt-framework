@@ -131,6 +131,7 @@ abstract class AbstractLoader
 
     /**
      * @param false|int $leeway
+     *
      * @throws InvalidArgumentException if the leeway is negative, not an integer or not false
      */
     public function exp($leeway = 0, bool $inHeader = false): self
@@ -150,6 +151,7 @@ abstract class AbstractLoader
 
     /**
      * @param false|int $leeway
+     *
      * @throws InvalidArgumentException if the leeway is negative, not an integer or not false
      */
     public function nbf($leeway = 0, bool $inHeader = false): self
@@ -169,6 +171,7 @@ abstract class AbstractLoader
 
     /**
      * @param false|int $leeway
+     *
      * @throws InvalidArgumentException if the leeway is negative, not an integer or not false
      */
     public function iat($leeway = 0, bool $inHeader = false): self
@@ -188,6 +191,7 @@ abstract class AbstractLoader
 
     /**
      * @param Algorithm|string $alg
+     *
      * @throws InvalidArgumentException if the algorithm is not a string or an instance of Jose\Component\Core\Algorithm
      */
     public function alg($alg): self

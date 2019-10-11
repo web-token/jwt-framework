@@ -45,6 +45,7 @@ final class ContentEncryptionAlgorithmChecker implements HeaderChecker
 
     /**
      * {@inheritdoc}
+     *
      * @throws InvalidHeaderException if the header is invalid
      */
     public function checkHeader($value): void
