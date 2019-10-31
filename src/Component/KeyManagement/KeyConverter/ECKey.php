@@ -105,7 +105,6 @@ class ECKey
     {
         $binary = hex2bin($children[2]->getContent());
         $asnObject = ASNObject::fromBinary($binary);
-        dump($asnObject);
         if (!$asnObject instanceof Sequence) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
