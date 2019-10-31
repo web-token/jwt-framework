@@ -51,5 +51,7 @@ final class KeyFileLoaderCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createFromKeyFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

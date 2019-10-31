@@ -44,5 +44,7 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createECKey($curve, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

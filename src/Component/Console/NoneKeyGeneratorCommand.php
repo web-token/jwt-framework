@@ -34,5 +34,7 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createNoneKey($args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

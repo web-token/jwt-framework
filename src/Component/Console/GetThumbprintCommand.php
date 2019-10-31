@@ -53,5 +53,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         }
         $key = new JWK($json);
         $output->write($key->thumbprint($hash));
+
+        return 0;
     }
 }

@@ -39,6 +39,8 @@ final class PublicKeyCommand extends ObjectOutputCommand
         $jwk = $jwk->toPublic();
 
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 
     /**

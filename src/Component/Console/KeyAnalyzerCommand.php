@@ -63,6 +63,8 @@ final class KeyAnalyzerCommand extends Command
                 $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
             }
         }
+
+        return 0;
     }
 
     /**

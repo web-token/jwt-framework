@@ -44,5 +44,7 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createOctKey($size, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

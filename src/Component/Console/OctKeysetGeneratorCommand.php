@@ -54,5 +54,7 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
             $keyset = $keyset->with(JWKFactory::createOctKey($size, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
+
+        return 0;
     }
 }

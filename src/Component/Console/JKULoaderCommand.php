@@ -54,5 +54,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
         }
         $result = $this->jkuFactory->loadFromUrl($url);
         $this->prepareJsonOutput($input, $output, $result);
+
+        return 0;
     }
 }

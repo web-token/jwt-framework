@@ -49,5 +49,7 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
         $key = RSAKey::createFromJWK(new JWK($json));
         $key->optimize();
         $this->prepareJsonOutput($input, $output, $key->toJwk());
+
+        return 0;
     }
 }

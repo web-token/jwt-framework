@@ -71,6 +71,8 @@ final class KeysetAnalyzerCommand extends Command
             $messages = $this->keyAnalyzerManager->analyze($jwk);
             $this->showMessages($messages, $output);
         }
+
+        return 0;
     }
 
     private function showMessages(MessageBag $messages, OutputInterface $output): void

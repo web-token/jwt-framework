@@ -54,5 +54,7 @@ final class X5ULoaderCommand extends ObjectOutputCommand
         }
         $result = $this->x5uFactory->loadFromUrl($url);
         $this->prepareJsonOutput($input, $output, $result);
+
+        return 0;
     }
 }

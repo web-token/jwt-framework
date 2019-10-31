@@ -54,5 +54,7 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
             $keyset = $keyset->with(JWKFactory::createOKPKey($curve, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
+
+        return 0;
     }
 }

@@ -42,6 +42,8 @@ final class PublicKeysetCommand extends ObjectOutputCommand
             $newJwkset = $newJwkset->with($jwk->toPublic());
         }
         $this->prepareJsonOutput($input, $output, $newJwkset);
+
+        return 0;
     }
 
     /**

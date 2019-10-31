@@ -52,5 +52,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
             }
         }
         $this->prepareJsonOutput($input, $output, $newJwkset);
+
+        return 0;
     }
 }

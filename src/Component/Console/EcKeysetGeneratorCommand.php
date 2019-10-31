@@ -54,5 +54,7 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
             $keyset = $keyset->with(JWKFactory::createECKey($curve, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
+
+        return 0;
     }
 }

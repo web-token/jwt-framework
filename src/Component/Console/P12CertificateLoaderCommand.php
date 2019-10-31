@@ -50,5 +50,7 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
         $args = $this->getOptions($input);
         $jwk = JWKFactory::createFromPKCS12CertificateFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }
