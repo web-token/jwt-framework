@@ -24,6 +24,9 @@
         "lib-openssl": "*",
         "web-token/jwt-signature": "^2.1"
     },
+    "suggest": {
+        "ext-gmp": "To use PSxxx algorihtms"
+    },
     "require-dev": {
         "phpunit/phpunit": "^8.0"
     },
