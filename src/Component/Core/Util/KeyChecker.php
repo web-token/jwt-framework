@@ -31,6 +31,9 @@ class KeyChecker
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not suitable for the selected algorithm
+     */
     public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
     {
         if (!$key->has('alg')) {
@@ -41,6 +44,9 @@ class KeyChecker
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not suitable for the selected operation
+     */
     private static function checkOperation(JWK $key, string $usage): void
     {
         $ops = $key->get('key_ops');
@@ -77,6 +83,9 @@ class KeyChecker
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not suitable for the selected operation
+     */
     private static function checkUsage(JWK $key, string $usage): void
     {
         $use = $key->get('use');

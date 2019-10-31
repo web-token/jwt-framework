@@ -54,6 +54,9 @@ class NestedTokenBuilder
      *
      * @param array $signatures
      * @param array $recipients
+     *
+     * @throws InvalidArgumentException if the argument "$signatures" does not include the expected structure
+     * @throws InvalidArgumentException if the argument "$recipients" does not include the expected structure
      */
     public function create(string $payload, array $signatures, string $jws_serialization_mode, array $jweSharedProtectedHeader, array $jweSharedHeader, array $recipients, string $jwe_serialization_mode, ?string $aad = null): string
     {

@@ -38,6 +38,8 @@ final class ExpirationTimeChecker implements ClaimChecker, HeaderChecker
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidClaimException if the claim "exp" is not valid
      */
     public function checkClaim($value): void
     {
@@ -54,6 +56,11 @@ final class ExpirationTimeChecker implements ClaimChecker, HeaderChecker
         return self::NAME;
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @throws InvalidHeaderException if the claim "exp" is not valid
+     */
     public function checkHeader($value): void
     {
         if (!\is_int($value)) {

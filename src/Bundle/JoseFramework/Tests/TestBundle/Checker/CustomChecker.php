@@ -19,6 +19,9 @@ use Jose\Component\Checker\HeaderChecker;
 
 class CustomChecker implements ClaimChecker, HeaderChecker
 {
+    /**
+     * {@inheritdoc}
+     */
     public function checkClaim($value): void
     {
         if (true === $value) {

@@ -56,6 +56,8 @@ class AlgorithmManager
      * Returns the algorithm if supported, otherwise throw an exception.
      *
      * @param string $algorithm The algorithm
+     *
+     * @throws InvalidArgumentException if the algorithm is not supported
      */
     public function get(string $algorithm): Algorithm
     {

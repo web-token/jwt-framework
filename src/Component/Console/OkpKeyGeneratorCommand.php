@@ -31,7 +31,10 @@ final class OkpKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the curve is not valid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $curve = $input->getArgument('curve');
         if (!\is_string($curve)) {
@@ -41,5 +44,7 @@ final class OkpKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createOKPKey($curve, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

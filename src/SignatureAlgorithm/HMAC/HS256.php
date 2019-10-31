@@ -28,6 +28,9 @@ final class HS256 extends HMAC
         return 'sha256';
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     protected function getKey(JWK $key): string
     {
         $k = parent::getKey($key);

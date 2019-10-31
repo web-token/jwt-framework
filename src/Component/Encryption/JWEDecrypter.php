@@ -98,6 +98,9 @@ class JWEDecrypter
      * @param JWKSet $jwkset    The key set used to decrypt the input
      * @param JWK    $jwk       The key used to decrypt the token in case of success
      * @param int    $recipient The recipient used to decrypt the token in case of success
+     *
+     * @throws InvalidArgumentException if no key is set is the keyset
+     * @throws InvalidArgumentException if the token has no recipients
      */
     public function decryptUsingKeySet(JWE &$jwe, JWKSet $jwkset, int $recipient, JWK &$jwk = null, ?JWK $senderKey = null): bool
     {
@@ -105,7 +108,7 @@ class JWEDecrypter
             throw new InvalidArgumentException('No key in the key set.');
         }
         if (null !== $jwe->getPayload()) {
-            throw new InvalidArgumentException('The JWE is already decrypted.');
+            return true;
         }
         if (0 === $jwe->countRecipients()) {
             throw new InvalidArgumentException('The JWE does not contain any recipient.');
@@ -157,6 +160,9 @@ class JWEDecrypter
         return null;
     }
 
+    /**
+     * @throws InvalidArgumentException if the Content Encryption Key size is invalid
+     */
     private function checkCekSize(string $cek, KeyEncryptionAlgorithm $keyEncryptionAlgorithm, ContentEncryptionAlgorithm $algorithm): void
     {
         if ($keyEncryptionAlgorithm instanceof DirectEncryption || $keyEncryptionAlgorithm instanceof KeyAgreement) {
@@ -167,6 +173,9 @@ class JWEDecrypter
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the IV size is invalid
+     */
     private function checkIvSize(?string $iv, int $requiredIvSize): void
     {
         if (null === $iv && 0 !== $requiredIvSize) {
@@ -177,6 +186,9 @@ class JWEDecrypter
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the CEK creation method is not supported
+     */
     private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $recipientKey, ?JWK $senderKey, Recipient $recipient, array $completeHeader): ?string
     {
         if ($key_encryption_algorithm instanceof DirectEncryption) {
@@ -215,30 +227,39 @@ class JWEDecrypter
         return $payload;
     }
 
+    /**
+     * @throws InvalidArgumentException if a header parameter is missing
+     */
     private function checkCompleteHeader(array $completeHeaders): void
     {
         foreach (['enc', 'alg'] as $key) {
             if (!isset($completeHeaders[$key])) {
-                throw new InvalidArgumentException(sprintf("Parameters '%s' is missing.", $key));
+                throw new InvalidArgumentException(sprintf("Parameter '%s' is missing.", $key));
             }
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key encryption algorithm is not supported or does not implement the KeyEncryptionAlgorithm interface
+     */
     private function getKeyEncryptionAlgorithm(array $completeHeaders): KeyEncryptionAlgorithm
     {
         $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($completeHeaders['alg']);
         if (!$key_encryption_algorithm instanceof KeyEncryptionAlgorithm) {
-            throw new InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithmInterface.', $completeHeaders['alg']));
+            throw new InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithm interface.', $completeHeaders['alg']));
         }
 
         return $key_encryption_algorithm;
     }
 
+    /**
+     * @throws InvalidArgumentException if the content encryption algorithm is not supported or does not implement the ContentEncryption interface
+     */
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
         $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
         if (!$content_encryption_algorithm instanceof ContentEncryptionAlgorithm) {
-            throw new InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement ContentEncryptionInterface.', $completeHeader['enc']));
+            throw new InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or does not implement the ContentEncryption interface.', $completeHeader['enc']));
         }
 
         return $content_encryption_algorithm;

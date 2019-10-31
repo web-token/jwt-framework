@@ -20,6 +20,8 @@ interface ClaimChecker
      * If for some reason the value is not valid, an InvalidClaimException must be thrown.
      *
      * @param mixed $value
+     *
+     * @throws InvalidClaimException if the claim is invalid
      */
     public function checkClaim($value): void;
 

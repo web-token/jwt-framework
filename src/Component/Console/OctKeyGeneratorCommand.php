@@ -31,7 +31,10 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the key size is not valid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $size = (int) $input->getArgument('size');
         if ($size < 1) {
@@ -41,5 +44,7 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createOctKey($size, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

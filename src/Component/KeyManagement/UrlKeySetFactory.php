@@ -38,6 +38,9 @@ abstract class UrlKeySetFactory
         $this->requestFactory = $requestFactory;
     }
 
+    /**
+     * @throws RuntimeException if the response content is invalid
+     */
     protected function getContent(string $url, array $header = []): string
     {
         $request = $this->requestFactory->createRequest('GET', $url);

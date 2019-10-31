@@ -70,6 +70,9 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
 
     /**
      * @param mixed $value
+     *
+     * @throws InvalidClaimException  if the claim is invalid
+     * @throws InvalidHeaderException if the header is invalid
      */
     private function checkValue($value, string $class): void
     {

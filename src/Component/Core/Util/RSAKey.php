@@ -194,6 +194,8 @@ class RSAKey
      * Operation with primes 'p' and 'q' is appox. 2x faster.
      *
      * @param RSAKey $key
+     *
+     * @throws RuntimeException if the exponentiation cannot be achieved
      */
     public static function exponentiate(self $key, BigInteger $c): BigInteger
     {

@@ -25,6 +25,8 @@ final class Deflate implements CompressionMethod
 
     /**
      * Deflate constructor.
+     *
+     * @throws InvalidArgumentException if the compression level is invalid
      */
     public function __construct(int $compressionLevel = -1)
     {
@@ -39,6 +41,9 @@ final class Deflate implements CompressionMethod
         return 'DEF';
     }
 
+    /**
+     * @throws InvalidArgumentException if the compression failed
+     */
     public function compress(string $data): string
     {
         try {
@@ -48,6 +53,9 @@ final class Deflate implements CompressionMethod
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the decompression failed
+     */
     public function uncompress(string $data): string
     {
         try {

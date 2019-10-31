@@ -83,6 +83,8 @@ class JWS implements JWT
 
     /**
      * Returns the signature at the given index.
+     *
+     * @throws InvalidArgumentException if the signature index does not exist
      */
     public function getSignature(int $id): Signature
     {
@@ -137,7 +139,7 @@ class JWS implements JWT
                 $signature->getProtectedHeader(),
                 $signature->getEncodedProtectedHeader(),
                 $signature->getHeader()
-             );
+            );
 
             $result[] = $jws;
         }

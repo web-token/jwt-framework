@@ -33,6 +33,10 @@ abstract class RSAPKCS1 implements SignatureAlgorithm
         return 1 === openssl_verify($input, $signature, $pub->toPEM(), $this->getAlgorithm());
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not private
+     * @throws InvalidArgumentException if the data cannot be signed
+     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -52,6 +56,10 @@ abstract class RSAPKCS1 implements SignatureAlgorithm
 
     abstract protected function getAlgorithm(): string;
 
+    /**
+     * @throws InvalidArgumentException if the key type is not allowed
+     * @throws InvalidArgumentException if the key is not valid
+     */
     private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

@@ -25,6 +25,8 @@ final class UnencodedPayloadChecker implements HeaderChecker
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidHeaderException if the header parameter "b64" is not a boolean
      */
     public function checkHeader($value): void
     {

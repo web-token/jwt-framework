@@ -33,7 +33,10 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the JWKSet is invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         /** @var string[] $keySets */
         $keySets = $input->getArgument('jwksets');
@@ -49,5 +52,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
             }
         }
         $this->prepareJsonOutput($input, $output, $newJwkset);
+
+        return 0;
     }
 }

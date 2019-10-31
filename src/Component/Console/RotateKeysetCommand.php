@@ -35,7 +35,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $jwkset = $this->getKeyset($input)->all();
         $jwk = $this->getKey($input);
@@ -48,6 +48,9 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         $this->prepareJsonOutput($input, $output, new JWKSet($jwkset));
     }
 
+    /**
+     * @throws InvalidArgumentException if the keyset is invalid
+     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
@@ -62,6 +65,9 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         return JWKSet::createFromKeyData($json);
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');

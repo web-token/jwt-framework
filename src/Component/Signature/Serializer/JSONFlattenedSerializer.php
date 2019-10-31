@@ -62,6 +62,10 @@ final class JSONFlattenedSerializer extends Serializer
         return JsonConverter::encode($data);
     }
 
+    /**
+     * @throws InvalidArgumentException if the input is not supported
+     * @throws InvalidArgumentException if the JWS header is invalid
+     */
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);

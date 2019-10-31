@@ -33,7 +33,11 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the quantity of keys is invalid
+     * @throws InvalidArgumentException if the curve is invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $quantity = (int) $input->getArgument('quantity');
         if ($quantity < 1) {
@@ -50,5 +54,7 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
             $keyset = $keyset->with(JWKFactory::createECKey($curve, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
+
+        return 0;
     }
 }

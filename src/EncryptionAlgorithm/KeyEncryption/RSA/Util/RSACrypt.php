@@ -110,7 +110,7 @@ class RSACrypt
         $hash = Hash::$hash_algorithm();
         $length = $key->getModulusLength() - 2 * $hash->getLength() - 2;
         if (0 >= $length) {
-            throw new \RuntimeException();
+            throw new RuntimeException();
         }
         $plaintext = mb_str_split($plaintext, $length, '8bit');
         if (!\is_array($plaintext)) {

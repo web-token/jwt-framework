@@ -125,13 +125,15 @@ class SignatureSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         $algorithms = [
-            RSA::class => 'signature_rsa.php',
             ECDSA::class => 'signature_ecdsa.php',
             HMAC::class => 'signature_hmac.php',
             None::class => 'signature_none.php',
             HS1::class => 'signature_experimental.php',
         ];
 
+        if (\extension_loaded('gmp')) {
+            $algorithms[RSAPSS::class] = 'signature_rsa.php';
+        }
         if (\extension_loaded('sodium')) {
             $algorithms[EdDSA::class] = 'signature_eddsa.php';
         }

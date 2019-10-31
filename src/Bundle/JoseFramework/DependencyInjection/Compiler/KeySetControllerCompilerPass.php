@@ -22,6 +22,8 @@ final class KeySetControllerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidArgumentException if a controller has no "path" attribute
      */
     public function process(ContainerBuilder $container): void
     {
@@ -35,7 +37,7 @@ final class KeySetControllerCompilerPass implements CompilerPassInterface
         foreach ($taggedAlgorithmServices as $id => $tags) {
             foreach ($tags as $attributes) {
                 if (!isset($attributes['path'])) {
-                    throw new InvalidArgumentException(sprintf('The algorithm "%s" does not have any "path" attribute.', $id));
+                    throw new InvalidArgumentException(sprintf('The controller "%s" does not have any "path" attribute.', $id));
                 }
                 $definition->addMethodCall('add', [$attributes['path'], $id]);
             }

@@ -47,7 +47,7 @@ final class KeyAnalyzerCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
         $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
@@ -63,8 +63,13 @@ final class KeyAnalyzerCommand extends Command
                 $output->writeln('<'.$message->getSeverity().'>* '.$message->getMessage().'</'.$message->getSeverity().'>');
             }
         }
+
+        return 0;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
@@ -73,7 +78,7 @@ final class KeyAnalyzerCommand extends Command
         }
         $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
-            throw new InvalidArgumentException('Invalid input.');
+            throw new InvalidArgumentException('Invalid JWK.');
         }
 
         return new JWK($json);

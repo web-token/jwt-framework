@@ -21,6 +21,9 @@ use RuntimeException;
 
 final class Chacha20Poly1305 implements KeyEncryption
 {
+    /**
+     * @throws LogicException if the algorithm "chacha20-poly1305" is not supported
+     */
     public function __construct()
     {
         if (!\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
@@ -38,6 +41,9 @@ final class Chacha20Poly1305 implements KeyEncryption
         return 'chacha20-poly1305';
     }
 
+    /**
+     * @throws RuntimeException if the CEK cannot be encrypted
+     */
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
@@ -54,11 +60,18 @@ final class Chacha20Poly1305 implements KeyEncryption
         return $result;
     }
 
+    /**
+     * @throws RuntimeException         if the CEK cannot be decrypted
+     * @throws InvalidArgumentException if the header parameter "nonce" is missing or invalid
+     */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $k = $this->getKey($key);
         $this->checkHeaderAdditionalParameters($header);
         $nonce = Base64Url::decode($header['nonce']);
+        if (12 !== mb_strlen($nonce, '8bit')) {
+            throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
+        }
 
         $result = openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
         if (false === $result) {
@@ -73,6 +86,9 @@ final class Chacha20Poly1305 implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -89,6 +105,9 @@ final class Chacha20Poly1305 implements KeyEncryption
         return Base64Url::decode($k);
     }
 
+    /**
+     * @throws InvalidArgumentException if the header parameter "nonce" is missing or invalid
+     */
     private function checkHeaderAdditionalParameters(array $header): void
     {
         if (!isset($header['nonce'])) {

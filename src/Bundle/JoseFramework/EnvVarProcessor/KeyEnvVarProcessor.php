@@ -21,6 +21,11 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 final class KeyEnvVarProcessor implements EnvVarProcessorInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @throws RuntimeException if the prefix is not supported
+     */
     public function getEnv($prefix, $name, Closure $getEnv)
     {
         $env = $getEnv($name);
@@ -34,7 +39,7 @@ final class KeyEnvVarProcessor implements EnvVarProcessorInterface
         }
     }
 
-    public static function getProvidedTypes()
+    public static function getProvidedTypes(): array
     {
         return [
             'jwk' => 'string',

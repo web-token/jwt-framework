@@ -35,14 +35,19 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $jwkset = $this->getKeyset($input);
         $jwk = $this->getKey($input);
         $jwkset = $jwkset->with($jwk);
         $this->prepareJsonOutput($input, $output, $jwkset);
+
+        return 0;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key set is invalid
+     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
@@ -57,6 +62,9 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         return JWKSet::createFromKeyData($json);
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');

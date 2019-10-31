@@ -21,6 +21,9 @@ use RuntimeException;
 
 abstract class RSAPSS implements SignatureAlgorithm
 {
+    /**
+     * @throws RuntimeException if the extension GMP is not available
+     */
     public function __construct()
     {
         if (!\extension_loaded('gmp')) {
@@ -41,6 +44,9 @@ abstract class RSAPSS implements SignatureAlgorithm
         return JoseRSA::verify($pub, $input, $signature, $this->getAlgorithm(), JoseRSA::SIGNATURE_PSS);
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not private
+     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -55,6 +61,10 @@ abstract class RSAPSS implements SignatureAlgorithm
 
     abstract protected function getAlgorithm(): string;
 
+    /**
+     * @throws InvalidArgumentException if the key type is not allowed
+     * @throws InvalidArgumentException if the key is not valid
+     */
     private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

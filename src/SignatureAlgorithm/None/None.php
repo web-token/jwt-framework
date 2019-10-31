@@ -40,6 +40,9 @@ final class None implements SignatureAlgorithm
         return 'none';
     }
 
+    /**
+     * @throws InvalidArgumentException if the key type is invalid
+     */
     private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
+use InvalidArgumentException;
 use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\TokenTypeSupport;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -44,13 +45,15 @@ final class HeaderCheckerManagerFactory
      * If the alias is not supported, an InvalidArgumentException is thrown.
      *
      * @param string[] $aliases
+     *
+     * @throws InvalidArgumentException if an alias is not supported
      */
     public function create(array $aliases): HeaderCheckerManager
     {
         $checkers = [];
         foreach ($aliases as $alias) {
             if (!isset($this->checkers[$alias])) {
-                throw new \InvalidArgumentException(sprintf('The header checker with the alias "%s" is not supported.', $alias));
+                throw new InvalidArgumentException(sprintf('The header checker with the alias "%s" is not supported.', $alias));
             }
             $checkers[] = $this->checkers[$alias];
         }

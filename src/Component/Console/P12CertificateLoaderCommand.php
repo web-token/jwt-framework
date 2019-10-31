@@ -33,7 +33,11 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the file is not valid
+     * @throws InvalidArgumentException if the secret is not valid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $file = $input->getArgument('file');
         $password = $input->getOption('secret');
@@ -46,5 +50,7 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
         $args = $this->getOptions($input);
         $jwk = JWKFactory::createFromPKCS12CertificateFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

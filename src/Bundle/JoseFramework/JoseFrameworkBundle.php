@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\EventDispatcherAliasCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\SymfonySerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source;
@@ -52,6 +53,7 @@ final class JoseFrameworkBundle extends Bundle
             }
         }
 
+        $container->addCompilerPass(new EventDispatcherAliasCompilerPass());
         $container->addCompilerPass(new SymfonySerializerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 10);
     }
 

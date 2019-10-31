@@ -32,6 +32,9 @@ class ECKey
         return self::convertPublicKeyToPEM($jwk);
     }
 
+    /**
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     public static function convertPublicKeyToPEM(JWK $jwk): string
     {
         switch ($jwk->get('crv')) {
@@ -62,6 +65,9 @@ class ECKey
         return $pem;
     }
 
+    /**
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     public static function convertPrivateKeyToPEM(JWK $jwk): string
     {
         switch ($jwk->get('crv')) {
@@ -106,6 +112,9 @@ class ECKey
         return new JWK($values);
     }
 
+    /**
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     private static function getNistCurveSize(string $curve): int
     {
         switch ($curve) {
@@ -121,6 +130,10 @@ class ECKey
         }
     }
 
+    /**
+     * @throws RuntimeException if the extension OpenSSL is not available
+     * @throws RuntimeException if the key cannot be created
+     */
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
         if (!\extension_loaded('openssl')) {
@@ -153,6 +166,9 @@ class ECKey
         ];
     }
 
+    /**
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     private static function getOpensslCurveName(string $curve): string
     {
         switch ($curve) {

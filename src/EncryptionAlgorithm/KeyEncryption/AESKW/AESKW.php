@@ -50,6 +50,9 @@ abstract class AESKW implements KeyWrapping
      */
     abstract protected function getWrapper();
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

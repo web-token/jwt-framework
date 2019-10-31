@@ -23,6 +23,8 @@ final class AlgorithmCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidArgumentException if the algorithm has no alias
      */
     public function process(ContainerBuilder $container): void
     {

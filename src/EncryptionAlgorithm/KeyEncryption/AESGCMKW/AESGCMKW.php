@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
+use Exception;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use RuntimeException;
@@ -25,6 +26,10 @@ abstract class AESGCMKW implements KeyWrapping
         return ['oct'];
     }
 
+    /**
+     * @throws RuntimeException if the CEK cannot be encrypted
+     * @throws Exception        if the random bytes cannot be generated
+     */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $kek = $this->getKey($key);
@@ -42,6 +47,9 @@ abstract class AESGCMKW implements KeyWrapping
         return $encrypted_cek;
     }
 
+    /**
+     * @throws RuntimeException if the CEK cannot be decrypted
+     */
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $kek = $this->getKey($key);
@@ -64,6 +72,9 @@ abstract class AESGCMKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     protected function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -80,6 +91,9 @@ abstract class AESGCMKW implements KeyWrapping
         return Base64Url::decode($k);
     }
 
+    /**
+     * @throws InvalidArgumentException if the header parameter iv or tag is missing
+     */
     protected function checkAdditionalParameters(array $header): void
     {
         foreach (['iv', 'tag'] as $k) {

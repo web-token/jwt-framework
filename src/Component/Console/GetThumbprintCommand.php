@@ -34,7 +34,10 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the JWK or the hashing function are invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $jwk = $input->getArgument('jwk');
         if (!\is_string($jwk)) {
@@ -50,5 +53,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         }
         $key = new JWK($json);
         $output->write($key->thumbprint($hash));
+
+        return 0;
     }
 }

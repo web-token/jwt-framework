@@ -33,7 +33,7 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $jwkset = $this->getKeyset($input);
         $newJwkset = new JWKSet([]);
@@ -42,8 +42,13 @@ final class PublicKeysetCommand extends ObjectOutputCommand
             $newJwkset = $newJwkset->with($jwk->toPublic());
         }
         $this->prepareJsonOutput($input, $output, $newJwkset);
+
+        return 0;
     }
 
+    /**
+     * @throws InvalidArgumentException if the keyset is invalid
+     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');

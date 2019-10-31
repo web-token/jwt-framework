@@ -30,6 +30,9 @@ class JWKFactory
      *
      * @param int   $size   The key size in bits
      * @param array $values values to configure the key
+     *
+     * @throws InvalidArgumentException if the key has an invalid size
+     * @throws InvalidArgumentException if it is not possible to create the key
      */
     public static function createRSAKey(int $size, array $values = []): JWK
     {
@@ -74,6 +77,8 @@ class JWKFactory
      *
      * @param int   $size   The key size in bits
      * @param array $values values to configure the key
+     *
+     * @throws InvalidArgumentException if the key has an invalid size
      */
     public static function createOctKey(int $size, array $values = []): JWK
     {
@@ -96,6 +101,9 @@ class JWKFactory
      *
      * @param string $curve  The curve
      * @param array  $values values to configure the key
+     *
+     * @throws InvalidArgumentException if the extension "sobium" is not available
+     * @throws InvalidArgumentException if the curve is not supported
      */
     public static function createOKPKey(string $curve, array $values = []): JWK
     {
@@ -157,6 +165,8 @@ class JWKFactory
 
     /**
      * Creates a key from a Json string.
+     *
+     * @throws InvalidArgumentException if the key or keyset is not valid
      *
      * @return JWK|JWKSet
      */
@@ -223,6 +233,8 @@ class JWKFactory
 
     /**
      * This method will try to load a PKCS#12 file and convert it into a public key.
+     *
+     * @throws InvalidArgumentException if the certificate cannot be loaded
      */
     public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
     {

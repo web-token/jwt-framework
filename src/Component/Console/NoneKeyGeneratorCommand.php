@@ -28,11 +28,13 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $args = $this->getOptions($input);
 
         $jwk = JWKFactory::createNoneKey($args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

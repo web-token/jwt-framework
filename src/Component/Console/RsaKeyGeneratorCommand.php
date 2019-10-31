@@ -31,7 +31,10 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the key size is invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $size = (int) $input->getArgument('size');
         $args = $this->getOptions($input);
@@ -41,5 +44,7 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createRSAKey($size, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

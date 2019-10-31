@@ -24,6 +24,9 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         return []; //Irrelevant
     }
 
+    /**
+     * @throws RuntimeException if the CEK cannot be encrypted
+     */
     public function encryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, ?string &$tag = null): string
     {
         $calculated_aad = $encoded_protected_header;
@@ -39,6 +42,9 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         return $result;
     }
 
+    /**
+     * @throws RuntimeException if the CEK cannot be decrypted
+     */
     public function decryptContent(string $data, string $cek, string $iv, ?string $aad, string $encoded_protected_header, string $tag): string
     {
         $calculated_aad = $encoded_protected_header;

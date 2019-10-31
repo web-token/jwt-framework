@@ -33,7 +33,11 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the quantity is not valid
+     * @throws InvalidArgumentException if the key size is not valid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $quantity = (int) $input->getArgument('quantity');
         $size = (int) $input->getArgument('size');
@@ -50,5 +54,7 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
             $keyset = $keyset->with(JWKFactory::createOctKey($size, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
+
+        return 0;
     }
 }

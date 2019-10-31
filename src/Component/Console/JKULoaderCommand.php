@@ -43,7 +43,10 @@ final class JKULoaderCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the URL is invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $url = $input->getArgument('url');
         if (!\is_string($url)) {
@@ -51,5 +54,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
         }
         $result = $this->jkuFactory->loadFromUrl($url);
         $this->prepareJsonOutput($input, $output, $result);
+
+        return 0;
     }
 }

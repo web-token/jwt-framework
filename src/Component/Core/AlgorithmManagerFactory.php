@@ -58,6 +58,8 @@ class AlgorithmManagerFactory
      * Create an algorithm manager using the given aliases.
      *
      * @param string[] $aliases
+     *
+     * @throws InvalidArgumentException if the alias is invalid or is not supported
      */
     public function create(array $aliases): AlgorithmManager
     {

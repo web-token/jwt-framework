@@ -33,7 +33,11 @@ final class KeyFileLoaderCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the file is invalid
+     * @throws InvalidArgumentException if the secret is invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $file = $input->getArgument('file');
         $password = $input->getOption('secret');
@@ -47,5 +51,7 @@ final class KeyFileLoaderCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createFromKeyFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

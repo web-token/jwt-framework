@@ -31,7 +31,10 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the file is invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $file = $input->getArgument('file');
         if (!\is_string($file)) {
@@ -47,5 +50,7 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createFromCertificateFile($file, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

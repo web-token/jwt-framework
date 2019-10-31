@@ -29,6 +29,8 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 
     /**
      * @param JWK[] $keys
+     *
+     * @throws InvalidArgumentException if the list is invalid
      */
     public function __construct(array $keys)
     {
@@ -48,6 +50,8 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 
     /**
      * Creates a JWKSet object using the given values.
+     *
+     * @throws InvalidArgumentException if the keyset is not valid
      *
      * @return JWKSet
      */
@@ -75,6 +79,8 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 
     /**
      * Creates a JWKSet object using the given Json string.
+     *
+     * @throws InvalidArgumentException if the data is not valid
      *
      * @return JWKSet
      */
@@ -151,6 +157,8 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      * Returns the key with the given index. Throws an exception if the index is not present in the key store.
      *
      * @param int|string $index
+     *
+     * @throws InvalidArgumentException if the index is not defined
      */
     public function get($index): JWK
     {
@@ -186,6 +194,8 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      * @param string         $type         Must be 'sig' (signature) or 'enc' (encryption)
      * @param null|Algorithm $algorithm    Specifies the algorithm to be used
      * @param array          $restrictions More restrictions such as 'kid' or 'kty'
+     *
+     * @throws InvalidArgumentException if the key type is not valid (must be "sig" or "enc")
      */
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
@@ -251,6 +261,8 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     }
 
     /**
+     * @throws InvalidArgumentException if the key does not fulfill with the "key_ops" constraint
+     *
      * @return bool|int
      */
     private function canKeyBeUsedFor(string $type, JWK $key)
@@ -299,6 +311,9 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         return true;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key operation is not supported
+     */
     private static function convertKeyOpsToKeyUse(array $key_ops): string
     {
         switch (true) {

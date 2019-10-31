@@ -55,7 +55,7 @@ final class KeysetAnalyzerCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
         $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
@@ -71,6 +71,8 @@ final class KeysetAnalyzerCommand extends Command
             $messages = $this->keyAnalyzerManager->analyze($jwk);
             $this->showMessages($messages, $output);
         }
+
+        return 0;
     }
 
     private function showMessages(MessageBag $messages, OutputInterface $output): void
@@ -84,6 +86,9 @@ final class KeysetAnalyzerCommand extends Command
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the JWKSet is invalid
+     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
@@ -92,7 +97,7 @@ final class KeysetAnalyzerCommand extends Command
         }
         $json = JsonConverter::decode($jwkset);
         if (!\is_array($json)) {
-            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+            throw new InvalidArgumentException('Invalid JWKSet');
         }
 
         return JWKSet::createFromKeyData($json);

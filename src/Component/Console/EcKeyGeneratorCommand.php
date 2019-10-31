@@ -31,7 +31,10 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the curve is invalid
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $curve = $input->getArgument('curve');
         if (!\is_string($curve)) {
@@ -41,5 +44,7 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createECKey($curve, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

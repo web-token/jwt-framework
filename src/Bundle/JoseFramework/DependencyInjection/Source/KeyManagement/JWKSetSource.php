@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
+use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource as JWKSetSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use LogicException;
@@ -33,6 +34,9 @@ class JWKSetSource implements Source
         return 'key_sets';
     }
 
+    /**
+     * @throws LogicException if the definition is not configured
+     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $sources = $this->getJWKSetSources();
@@ -77,6 +81,8 @@ class JWKSetSource implements Source
     }
 
     /**
+     * @throws InvalidArgumentException if the source object is not valid
+     *
      * @return JWKSetSourceInterface[]
      */
     private function getJWKSetSources(): array
@@ -97,7 +103,7 @@ class JWKSetSource implements Source
         foreach (array_keys($services) as $id) {
             $factory = $tempContainer->get($id);
             if (!$factory instanceof JWKSetSourceInterface) {
-                throw new \InvalidArgumentException('Invalid object');
+                throw new InvalidArgumentException('Invalid object');
             }
             $jwkset_sources[str_replace('-', '_', $factory->getKeySet())] = $factory;
         }

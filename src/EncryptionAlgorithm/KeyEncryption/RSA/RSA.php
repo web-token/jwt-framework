@@ -33,6 +33,9 @@ abstract class RSA implements KeyEncryption
         return RSACrypt::encrypt($pub, $cek, $this->getEncryptionMode(), $this->getHashAlgorithm());
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not private
+     */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $this->checkKey($key);
@@ -49,6 +52,9 @@ abstract class RSA implements KeyEncryption
         return self::MODE_ENCRYPT;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key type is not allowed
+     */
     protected function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

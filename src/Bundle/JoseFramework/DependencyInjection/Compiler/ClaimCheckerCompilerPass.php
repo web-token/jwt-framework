@@ -23,6 +23,8 @@ final class ClaimCheckerCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidArgumentException if the claim checker has no alias
      */
     public function process(ContainerBuilder $container): void
     {

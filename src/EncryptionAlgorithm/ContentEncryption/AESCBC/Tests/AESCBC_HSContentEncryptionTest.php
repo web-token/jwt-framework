@@ -58,7 +58,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      */
     public function badTag()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Unable to decrypt or to verify the tag.');
 
         $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));

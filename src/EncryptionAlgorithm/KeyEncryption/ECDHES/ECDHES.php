@@ -48,6 +48,9 @@ final class ECDHES implements KeyAgreement
         return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
 
+    /**
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
     {
         switch ($public_key->get('crv')) {
@@ -95,6 +98,8 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
+     * @throws InvalidArgumentException if the curve is not supported
+     *
      * @return JWK[]
      */
     private function getKeysFromPublicKey(JWK $recipient_key, array &$additional_header_values): array
@@ -123,6 +128,8 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
+     * @throws InvalidArgumentException if the curves are different
+     *
      * @return JWK[]
      */
     private function getKeysFromPrivateKeyAndHeader(JWK $recipient_key, array $complete_header): array
@@ -137,6 +144,9 @@ final class ECDHES implements KeyAgreement
         return [$public_key, $private_key];
     }
 
+    /**
+     * @throws InvalidArgumentException if the ephemeral public key is missing or invalid
+     */
     private function getPublicKey(array $complete_header): JWK
     {
         if (!isset($complete_header['epk'])) {
@@ -151,6 +161,9 @@ final class ECDHES implements KeyAgreement
         return $public_key;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function checkKey(JWK $key, bool $is_private): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -181,6 +194,9 @@ final class ECDHES implements KeyAgreement
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     private function getCurve(string $crv): Curve
     {
         switch ($crv) {
@@ -202,10 +218,13 @@ final class ECDHES implements KeyAgreement
         return gmp_init($value[1], 16);
     }
 
+    /**
+     * @throws InvalidArgumentException if the data cannot be converted
+     */
     private function convertDecToBin(GMP $dec): string
     {
         if (gmp_cmp($dec, 0) < 0) {
-            throw new \InvalidArgumentException('Unable to convert negative integer to string');
+            throw new InvalidArgumentException('Unable to convert negative integer to string');
         }
         $hex = gmp_strval($dec, 16);
 
@@ -218,6 +237,8 @@ final class ECDHES implements KeyAgreement
 
     /**
      * @param string $curve The curve
+     *
+     * @throws InvalidArgumentException if the curve is not supported
      */
     private function createOKPKey(string $curve): JWK
     {
@@ -247,6 +268,9 @@ final class ECDHES implements KeyAgreement
         ]);
     }
 
+    /**
+     * @throws RuntimeException if the extension "sodium" is not available
+     */
     private function checkSodiumExtensionIsAvailable(): void
     {
         if (!\extension_loaded('sodium')) {

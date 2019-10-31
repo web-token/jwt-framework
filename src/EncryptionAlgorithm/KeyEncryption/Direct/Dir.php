@@ -19,6 +19,9 @@ use Jose\Component\Core\JWK;
 
 final class Dir implements DirectEncryption
 {
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     public function getCEK(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

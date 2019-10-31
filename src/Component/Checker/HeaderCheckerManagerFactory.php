@@ -32,6 +32,8 @@ class HeaderCheckerManagerFactory
      * If the alias is not supported, an InvalidArgumentException is thrown.
      *
      * @param string[] $aliases
+     *
+     * @throws InvalidArgumentException if an alias is not supported
      */
     public function create(array $aliases): HeaderCheckerManager
     {

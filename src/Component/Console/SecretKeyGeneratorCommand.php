@@ -33,7 +33,11 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    /**
+     * @throws InvalidArgumentException if the secret is invalid
+     * @throws InvalidArgumentException if the option "is_b4" is not a boolean
+     */
+    protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $secret = $input->getArgument('secret');
         if (!\is_string($secret)) {
@@ -50,5 +54,7 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
 
         $jwk = JWKFactory::createFromSecret($secret, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
+
+        return 0;
     }
 }

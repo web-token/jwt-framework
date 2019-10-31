@@ -20,6 +20,9 @@ use RuntimeException;
 
 final class ES512KeyAnalyzer implements KeyAnalyzer
 {
+    /**
+     * @throws RuntimeException if the component "web-token/jwt-util-ecc" is missing
+     */
     public function __construct()
     {
         if (!class_exists(NistCurve::class)) {

@@ -36,6 +36,9 @@ abstract class HMAC implements MacAlgorithm
         return hash_hmac($this->getHashAlgorithm(), $input, $k, true);
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     protected function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

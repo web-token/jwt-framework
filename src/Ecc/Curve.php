@@ -84,6 +84,9 @@ class Curve
         return $this->size;
     }
 
+    /**
+     * @throws RuntimeException if the curve does not contain the point
+     */
     public function getPoint(GMP $x, GMP $y, ?GMP $order = null): Point
     {
         if (!$this->contains($x, $y)) {
@@ -100,6 +103,9 @@ class Curve
         return $point;
     }
 
+    /**
+     * @throws RuntimeException if the coordinates are out of range
+     */
     public function getPublicKeyFrom(GMP $x, GMP $y): PublicKey
     {
         $zero = gmp_init(0, 10);
@@ -273,6 +279,9 @@ class Curve
         return $this->generator;
     }
 
+    /**
+     * @throws RuntimeException if the point is invalid
+     */
     private function validate(Point $point): void
     {
         if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {

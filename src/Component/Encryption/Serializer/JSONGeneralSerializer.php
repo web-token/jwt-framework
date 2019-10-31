@@ -34,6 +34,9 @@ final class JSONGeneralSerializer implements JWESerializer
         return self::NAME;
     }
 
+    /**
+     * @throws LogicException if there is no recipient
+     */
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
         if (0 === $jwe->countRecipients()) {
@@ -97,6 +100,9 @@ final class JSONGeneralSerializer implements JWESerializer
         );
     }
 
+    /**
+     * @throws InvalidArgumentException if the input is not supported
+     */
     private function checkData(?array $data): void
     {
         if (null === $data || !isset($data['ciphertext']) || !isset($data['recipients'])) {
