@@ -36,6 +36,9 @@ final class HeaderCheckerCompilerPass implements CompilerPassInterface
         $this->addTokenType($definition, $container);
     }
 
+    /**
+     * @throws InvalidArgumentException if a header checker is wnongly configured
+     */
     private function addHeaderCheckers(Definition $definition, ContainerBuilder $container): void
     {
         $taggedHeaderCheckerServices = $container->findTaggedServiceIds('jose.checker.header');

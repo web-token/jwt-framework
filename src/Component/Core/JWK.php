@@ -27,6 +27,8 @@ class JWK implements JsonSerializable
     /**
      * Creates a JWK object using the given values.
      * The member "kty" is mandatory. Other members are NOT checked.
+     *
+     * @throws InvalidArgumentException if the key parameter "kty" is missing
      */
     public function __construct(array $values)
     {
@@ -38,6 +40,8 @@ class JWK implements JsonSerializable
 
     /**
      * Creates a JWK object using the given Json string.
+     *
+     * @throws InvalidArgumentException if the data is not valid
      *
      * @return JWK
      */
@@ -63,6 +67,8 @@ class JWK implements JsonSerializable
      * Get the value with a specific key.
      *
      * @param string $key The key
+     *
+     * @throws InvalidArgumentException if the key does not exist
      *
      * @return null|mixed
      */
@@ -99,6 +105,8 @@ class JWK implements JsonSerializable
      * Returns the thumbprint of the key.
      *
      * @see https://tools.ietf.org/html/rfc7638
+     *
+     * @throws InvalidArgumentException if the hashing function is not supported
      */
     public function thumbprint(string $hash_algorithm): string
     {

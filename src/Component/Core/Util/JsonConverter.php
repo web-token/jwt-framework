@@ -20,6 +20,8 @@ final class JsonConverter
 {
     /**
      * @param mixed $payload
+     *
+     * @throws RuntimeException if the payload cannot be encoded
      */
     public static function encode($payload): string
     {
@@ -31,6 +33,8 @@ final class JsonConverter
     }
 
     /**
+     * @throws RuntimeException if the payload cannot be decoded
+     *
      * @return mixed
      */
     public static function decode(string $payload)

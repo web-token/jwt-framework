@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 
 final class HS512 extends HMAC
@@ -27,11 +28,14 @@ final class HS512 extends HMAC
         return 'sha512';
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     protected function getKey(JWK $key): string
     {
         $k = parent::getKey($key);
         if (mb_strlen($k, '8bit') < 64) {
-            throw new \InvalidArgumentException('Invalid key length.');
+            throw new InvalidArgumentException('Invalid key length.');
         }
 
         return $k;

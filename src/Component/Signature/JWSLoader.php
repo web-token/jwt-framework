@@ -74,6 +74,8 @@ class JWSLoader
     /**
      * This method will try to load and verify the token using the given key.
      * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown.
+     *
+     * @throws Exception if the token cannot be loaded or verified
      */
     public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
     {
@@ -85,6 +87,8 @@ class JWSLoader
     /**
      * This method will try to load and verify the token using the given key set.
      * It returns a JWS and will populate the $signature variable in case of success, otherwise an exception is thrown.
+     *
+     * @throws Exception if the token cannot be loaded or verified
      */
     public function loadAndVerifyWithKeySet(string $token, JWKSet $keyset, ?int &$signature, ?string $payload = null): JWS
     {

@@ -44,6 +44,9 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         $this->prepareJsonOutput($input, $output, $newJwkset);
     }
 
+    /**
+     * @throws InvalidArgumentException if the keyset is invalid
+     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');

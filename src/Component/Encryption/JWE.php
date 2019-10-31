@@ -122,6 +122,8 @@ class JWE implements JWT
 
     /**
      * Returns the recipient object at the given index.
+     *
+     * @throws InvalidArgumentException if the recipient ID does not exist
      */
     public function getRecipient(int $id): Recipient
     {
@@ -188,6 +190,8 @@ class JWE implements JWT
      *
      * @param string $key The key
      *
+     * @throws InvalidArgumentException if the shared protected header parameter does not exist
+     *
      * @return null|mixed
      */
     public function getSharedProtectedHeaderParameter(string $key)
@@ -222,6 +226,8 @@ class JWE implements JWT
      * Throws an exception is the the parameter is not available.
      *
      * @param string $key The key
+     *
+     * @throws InvalidArgumentException if the shared header parameter does not exist
      *
      * @return null|mixed
      */

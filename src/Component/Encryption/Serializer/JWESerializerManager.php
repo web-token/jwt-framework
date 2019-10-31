@@ -46,6 +46,8 @@ class JWESerializerManager
     /**
      * Converts a JWE into a string.
      * Throws an exception if none of the serializer was able to convert the input.
+     *
+     * @throws InvalidArgumentException if the serializer is not supported
      */
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
@@ -62,6 +64,8 @@ class JWESerializerManager
      *
      * @param string      $input A string that represents a JWE
      * @param null|string $name  the name of the serializer if the input is unserialized
+     *
+     * @throws InvalidArgumentException if the input cannot be loaded
      */
     public function unserialize(string $input, ?string &$name = null): JWE
     {

@@ -43,6 +43,8 @@ class JWSSerializerManager
 
     /**
      * Converts a JWS into a string.
+     *
+     * @throws InvalidArgumentException if the serializer is not supported
      */
     public function serialize(string $name, JWS $jws, ?int $signatureIndex = null): string
     {
@@ -58,6 +60,8 @@ class JWSSerializerManager
      *
      * @param string      $input A string that represents a JWS
      * @param null|string $name  the name of the serializer if the input is unserialized
+     *
+     * @throws InvalidArgumentException if the input is not supported
      */
     public function unserialize(string $input, ?string &$name = null): JWS
     {

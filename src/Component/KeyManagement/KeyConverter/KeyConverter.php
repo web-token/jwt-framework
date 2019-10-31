@@ -23,16 +23,26 @@ use Throwable;
  */
 class KeyConverter
 {
+    /**
+     * @throws InvalidArgumentException if the certificate file cannot be read
+     */
     public static function loadKeyFromCertificateFile(string $file): array
     {
         if (!file_exists($file)) {
             throw new InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
         }
         $content = file_get_contents($file);
+        if (!\is_string($content)) {
+            throw new InvalidArgumentException(sprintf('File "%s" cannot be read.', $file));
+        }
 
         return self::loadKeyFromCertificate($content);
     }
 
+    /**
+     * @throws InvalidArgumentException if the OpenSSL extension is not available
+     * @throws InvalidArgumentException if the certificate is invalid or cannot be loaded
+     */
     public static function loadKeyFromCertificate(string $certificate): array
     {
         if (!\extension_loaded('openssl')) {
@@ -60,6 +70,9 @@ class KeyConverter
 
     /**
      * @param resource $res
+     *
+     * @throws InvalidArgumentException if the OpenSSL extension is not available
+     * @throws InvalidArgumentException if the certificate is invalid or cannot be loaded
      */
     public static function loadKeyFromX509Resource($res): array
     {
@@ -111,22 +124,18 @@ class KeyConverter
      * Be careful! The certificate chain is loaded, but it is NOT VERIFIED by any mean!
      * It is mandatory to verify the root CA or intermediate  CA are trusted.
      * If not done, it may lead to potential security issues.
+     *
+     * @throws InvalidArgumentException if the certificate chain is empty
+     * @throws InvalidArgumentException if the OpenSSL extension is not available
      */
     public static function loadFromX5C(array $x5c): array
     {
         if (0 === \count($x5c)) {
             throw new InvalidArgumentException('The certificate chain is empty');
         }
-
-        if (!\extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
-        }
-        $certificate = null;
-        $last_issuer = null;
-        $last_subject = null;
-        foreach ($x5c as $cert) {
-            $current_cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.chunk_split($cert, 64, PHP_EOL).'-----END CERTIFICATE-----';
-            $x509 = openssl_x509_read($current_cert);
+        foreach ($x5c as $id => $cert) {
+            $x5c[$id] = '-----BEGIN CERTIFICATE-----'.PHP_EOL.chunk_split($cert, 64, PHP_EOL).'-----END CERTIFICATE-----';
+            $x509 = openssl_x509_read($x5c[$id]);
             if (false === $x509) {
                 throw new InvalidArgumentException('Unable to load the certificate chain');
             }
@@ -136,23 +145,9 @@ class KeyConverter
             if (false === $parsed) {
                 throw new InvalidArgumentException('Unable to load the certificate chain');
             }
-            if (null === $last_subject) {
-                $last_subject = $parsed['subject'];
-                $last_issuer = $parsed['issuer'];
-                $certificate = $current_cert;
-            } else {
-                if (json_encode($last_issuer) === json_encode($parsed['subject'])) {
-                    $last_subject = $parsed['subject'];
-                    $last_issuer = $parsed['issuer'];
-
-                    continue;
-                }
-
-                throw new InvalidArgumentException('Unable to load the certificate chain');
-            }
         }
 
-        return self::loadKeyFromCertificate($certificate);
+        return self::loadKeyFromCertificate(reset($x5c));
     }
 
     private static function loadKeyFromDER(string $der, ?string $password = null): array
@@ -162,6 +157,10 @@ class KeyConverter
         return self::loadKeyFromPEM($pem, $password);
     }
 
+    /**
+     * @throws InvalidArgumentException if the OpenSSL extension is not available
+     * @throws InvalidArgumentException if the key cannot be loaded
+     */
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
         if (1 === preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
@@ -215,6 +214,9 @@ class KeyConverter
 
     /**
      * @param string[] $matches
+     *
+     * @throws InvalidArgumentException if the password to decrypt the key is not provided
+     * @throws InvalidArgumentException if the key cannot be loaded
      */
     private static function decodePem(string $pem, array $matches, ?string $password = null): string
     {

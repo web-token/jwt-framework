@@ -33,6 +33,9 @@ final class JSONGeneralSerializer extends Serializer
         return self::NAME;
     }
 
+    /**
+     * @throws LogicException if no signature is attached
+     */
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
         if (0 === $jws->countSignatures()) {
@@ -65,6 +68,9 @@ final class JSONGeneralSerializer extends Serializer
         return JsonConverter::encode($data);
     }
 
+    /**
+     * @throws InvalidArgumentException if the input is not supported
+     */
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);
@@ -103,6 +109,9 @@ final class JSONGeneralSerializer extends Serializer
         return $jws;
     }
 
+    /**
+     * @throws InvalidArgumentException if the payload encoding is invalid
+     */
     private function processIsPayloadEncoded(?bool $isPayloadEncoded, array $protectedHeader): bool
     {
         if (null === $isPayloadEncoded) {
@@ -133,6 +142,7 @@ final class JSONGeneralSerializer extends Serializer
         return false === $isPayloadEncoded ? $rawPayload : Base64Url::decode($rawPayload);
     }
 
+    // @throws LogicException if the payload encoding is invalid
     private function checkPayloadEncoding(JWS $jws): void
     {
         if ($jws->isPayloadDetached()) {

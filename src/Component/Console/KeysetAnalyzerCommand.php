@@ -84,6 +84,9 @@ final class KeysetAnalyzerCommand extends Command
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the JWKSet is invalid
+     */
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
@@ -92,7 +95,7 @@ final class KeysetAnalyzerCommand extends Command
         }
         $json = JsonConverter::decode($jwkset);
         if (!\is_array($json)) {
-            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+            throw new InvalidArgumentException('Invalid JWKSet');
         }
 
         return JWKSet::createFromKeyData($json);

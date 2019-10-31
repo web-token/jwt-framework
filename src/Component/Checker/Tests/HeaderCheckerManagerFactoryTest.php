@@ -112,7 +112,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     public function theCriticalHeaderParameterMustBeAListOfHeaderParameters()
     {
         $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
-        $this->expectExceptionMessage('The header "crit" mus be a list of header parameters.');
+        $this->expectExceptionMessage('The header "crit" must be a list of header parameters.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];

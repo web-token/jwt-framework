@@ -19,6 +19,9 @@ use Jose\Component\Core\JWT;
 
 class TokenSupport implements TokenTypeSupport
 {
+    /**
+     * @throws InvalidArgumentException if the token is not supported
+     */
     public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (!$jwt instanceof Token) {

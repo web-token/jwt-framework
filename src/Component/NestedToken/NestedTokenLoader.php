@@ -41,6 +41,8 @@ class NestedTokenLoader
     /**
      * This method will try to load, decrypt and verify the token.
      * In case of failure, an exception is thrown, otherwise returns the JWS and populates the $signature variable.
+     *
+     * @throws InvalidArgumentException if the token has no payload
      */
     public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$signature = null): JWS
     {
@@ -54,6 +56,9 @@ class NestedTokenLoader
         return $this->jwsLoader->loadAndVerifyWithKeySet($jwe->getPayload(), $signatureKeySet, $signature);
     }
 
+    /**
+     * @throws InvalidArgumentException if the token is not a valid nested token
+     */
     private function checkContentTypeHeader(JWE $jwe, int $recipient): void
     {
         switch (true) {

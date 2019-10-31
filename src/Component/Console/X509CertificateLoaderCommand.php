@@ -31,6 +31,9 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the file is invalid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getArgument('file');

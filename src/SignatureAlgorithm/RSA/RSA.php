@@ -24,6 +24,9 @@ use RuntimeException;
  */
 abstract class RSA implements SignatureAlgorithm
 {
+    /**
+     * @throws InvalidArgumentException if the extension GMP is not available
+     */
     public function __construct()
     {
         if (!\extension_loaded('gmp')) {
@@ -44,6 +47,9 @@ abstract class RSA implements SignatureAlgorithm
         return JoseRSA::verify($pub, $input, $signature, $this->getAlgorithm(), $this->getSignatureMethod());
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not private
+     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -60,6 +66,10 @@ abstract class RSA implements SignatureAlgorithm
 
     abstract protected function getSignatureMethod(): int;
 
+    /**
+     * @throws InvalidArgumentException if the key type is not allowed
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

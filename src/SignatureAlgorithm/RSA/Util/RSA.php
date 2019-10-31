@@ -34,6 +34,10 @@ class RSA
      */
     public const SIGNATURE_PKCS1 = 2;
 
+    /**
+     * @throws RuntimeException         if the data cannot be signed
+     * @throws InvalidArgumentException if the signature mode is not supported
+     */
     public static function sign(RSAKey $key, string $message, string $hash, int $mode): string
     {
         switch ($mode) {
@@ -77,6 +81,9 @@ class RSA
         return self::convertIntegerToOctetString($signature, $key->getModulusLength());
     }
 
+    /**
+     * @throws InvalidArgumentException if the signature mode is not supported
+     */
     public static function verify(RSAKey $key, string $message, string $signature, string $hash, int $mode): bool
     {
         switch ($mode) {
@@ -91,6 +98,8 @@ class RSA
 
     /**
      * Verifies a signature.
+     *
+     * @throws RuntimeException if the signature cannot be verified
      */
     public static function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
     {
@@ -109,6 +118,8 @@ class RSA
      * Verifies a signature.
      *
      * @deprecated Please use openssl_sign
+     *
+     * @throws RuntimeException if the signature cannot be verified
      */
     public static function verifyWithPKCS15(RSAKey $key, string $message, string $signature, string $hash): bool
     {
@@ -122,6 +133,9 @@ class RSA
         return hash_equals($em, self::encodeEMSA15($message, $key->getModulusLength(), Hash::$hash()));
     }
 
+    /**
+     * @throws RuntimeException if the value cannot be converted
+     */
     private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
     {
         $x = $x->toBytes();
@@ -149,6 +163,8 @@ class RSA
 
     /**
      * EMSA-PSS-ENCODE.
+     *
+     * @throws RuntimeException if the message length is invalid
      */
     private static function encodeEMSAPSS(string $message, int $modulusLength, Hash $hash): string
     {
@@ -173,6 +189,8 @@ class RSA
 
     /**
      * EMSA-PSS-VERIFY.
+     *
+     * @throws InvalidArgumentException if the signature cannot be verified
      */
     private static function verifyEMSAPSS(string $m, string $em, int $emBits, Hash $hash): bool
     {
@@ -180,26 +198,26 @@ class RSA
         $sLen = $hash->getLength();
         $mHash = $hash->hash($m);
         if ($emLen < $hash->getLength() + $sLen + 2) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
         if ($em[mb_strlen($em, '8bit') - 1] !== \chr(0xBC)) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
         $maskedDB = mb_substr($em, 0, -$hash->getLength() - 1, '8bit');
         $h = mb_substr($em, -$hash->getLength() - 1, $hash->getLength(), '8bit');
         $temp = \chr(0xFF << ($emBits & 7));
         if ((~$maskedDB[0] & $temp) !== $temp) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
         $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
         $db = $maskedDB ^ $dbMask;
         $db[0] = ~\chr(0xFF << ($emBits & 7)) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;
         if (mb_substr($db, 0, $temp, '8bit') !== str_repeat(\chr(0), $temp)) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
         if (1 !== \ord($db[$temp])) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
         $salt = mb_substr($db, $temp + 1, null, '8bit'); // should be $sLen long
         $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
@@ -208,6 +226,9 @@ class RSA
         return hash_equals($h, $h2);
     }
 
+    /**
+     * @throws RuntimeException if the value cannot be encoded
+     */
     private static function encodeEMSA15(string $m, int $emBits, Hash $hash): string
     {
         $h = $hash->hash($m);

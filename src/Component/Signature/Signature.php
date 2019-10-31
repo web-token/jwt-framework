@@ -74,6 +74,8 @@ class Signature
      *
      * @param string $key The key
      *
+     * @throws InvalidArgumentException if the header parameter does not exist
+     *
      * @return null|mixed Header value
      */
     public function getProtectedHeaderParameter(string $key)

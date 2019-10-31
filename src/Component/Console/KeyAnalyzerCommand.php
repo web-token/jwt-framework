@@ -65,6 +65,9 @@ final class KeyAnalyzerCommand extends Command
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
@@ -73,7 +76,7 @@ final class KeyAnalyzerCommand extends Command
         }
         $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
-            throw new InvalidArgumentException('Invalid input.');
+            throw new InvalidArgumentException('Invalid JWK.');
         }
 
         return new JWK($json);

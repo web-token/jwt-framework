@@ -141,6 +141,8 @@ class JWEBuilder
     /**
      * Set the payload of the JWE to build.
      *
+     * @throws InvalidArgumentException if the payload is not encoded in UTF-8
+     *
      * @return JWEBuilder
      */
     public function withPayload(string $payload): self
@@ -204,6 +206,9 @@ class JWEBuilder
     /**
      * Adds a recipient to the JWE to build.
      *
+     * @throws InvalidArgumentException if key management modes are incompatible
+     * @throws InvalidArgumentException if the compression method is invalid
+     *
      * @return JWEBuilder
      */
     public function addRecipient(JWK $recipientKey, array $recipientHeader = []): self
@@ -245,6 +250,9 @@ class JWEBuilder
 
     /**
      * Builds the JWE.
+     *
+     * @throws LogicException if no payload is set
+     * @throws LogicException if there are no recipient
      */
     public function build(): JWE
     {
@@ -276,6 +284,9 @@ class JWEBuilder
         return new JWE($ciphertext, $iv, $tag, $this->aad, $this->sharedHeader, $sharedProtectedHeader, $encodedSharedProtectedHeader, $recipients);
     }
 
+    /**
+     * @throws InvalidArgumentException if the content encryption algorithm is not valid
+     */
     private function checkAndSetContentEncryptionAlgorithm(array $completeHeader): void
     {
         $contentEncryptionAlgorithm = $this->getContentEncryptionAlgorithm($completeHeader);
@@ -286,6 +297,9 @@ class JWEBuilder
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key encryption algorithm is not valid
+     */
     private function processRecipient(array $recipient, string $cek, array &$additionalHeader): Recipient
     {
         $completeHeader = array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
@@ -303,6 +317,9 @@ class JWEBuilder
         return new Recipient($recipientHeader, $encryptedContentEncryptionKey);
     }
 
+    /**
+     * @throws InvalidArgumentException if the content encryption algorithm is not valid
+     */
     private function encryptJWE(string $cek, string $encodedSharedProtectedHeader): array
     {
         if (!$this->contentEncryptionAlgorithm instanceof ContentEncryptionAlgorithm) {
@@ -330,6 +347,9 @@ class JWEBuilder
         return $this->compressionMethod->compress($prepared);
     }
 
+    /**
+     * @throws InvalidArgumentException if the key encryption algorithm is not supported
+     */
     private function getEncryptedKey(array $completeHeader, string $cek, KeyEncryptionAlgorithm $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey, ?JWK $senderKey): ?string
     {
         if ($keyEncryptionAlgorithm instanceof KeyEncryption) {
@@ -351,6 +371,9 @@ class JWEBuilder
         throw new InvalidArgumentException('Unsupported key encryption algorithm.');
     }
 
+    /**
+     * @throws InvalidArgumentException if the content encryption algorithm is invalid
+     */
     private function getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey, ?JWK $senderKey): string
     {
         if (null === $this->contentEncryptionAlgorithm) {
@@ -370,6 +393,11 @@ class JWEBuilder
         return $keyEncryptionAlgorithm->wrapKey($recipientKey, $cek, $completeHeader, $additionalHeader);
     }
 
+    /**
+     * @throws InvalidArgumentException if the content encryption algorithm is invalid
+     * @throws InvalidArgumentException if the key type is not valid
+     * @throws InvalidArgumentException if the key management mode is not supported
+     */
     private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey): void
     {
         if (null === $this->contentEncryptionAlgorithm) {
@@ -458,6 +486,10 @@ class JWEBuilder
         return random_bytes($size / 8);
     }
 
+    /**
+     * @throws InvalidArgumentException if the header parameter "alg" is missing
+     * @throws InvalidArgumentException if the header parameter "alg" is not supported or not a key encryption algorithm
+     */
     private function getKeyEncryptionAlgorithm(array $completeHeader): KeyEncryptionAlgorithm
     {
         if (!isset($completeHeader['alg'])) {
@@ -471,6 +503,10 @@ class JWEBuilder
         return $keyEncryptionAlgorithm;
     }
 
+    /**
+     * @throws InvalidArgumentException if the header parameter "enc" is missing
+     * @throws InvalidArgumentException if the header parameter "enc" is not supported or not a content encryption algorithm
+     */
     private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
     {
         if (!isset($completeHeader['enc'])) {
@@ -484,6 +520,9 @@ class JWEBuilder
         return $contentEncryptionAlgorithm;
     }
 
+    /**
+     * @throws InvalidArgumentException if the header contains duplicated entries
+     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = array_intersect_key($header1, $header2);

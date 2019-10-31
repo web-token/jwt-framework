@@ -43,6 +43,8 @@ class JWEBuilder extends AbstractBuilder
 
     /**
      * @param Algorithm|string $enc
+     *
+     * @throws InvalidArgumentException if the header parameter "enc" is invalid
      */
     public function enc($enc): self
     {
@@ -66,6 +68,8 @@ class JWEBuilder extends AbstractBuilder
 
     /**
      * @param CompressionMethod|string $zip
+     *
+     * @throws InvalidArgumentException if the header parameter "zip" is invalid
      */
     public function zip($zip): self
     {

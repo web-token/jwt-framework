@@ -38,6 +38,9 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidClaimException if the claim "nbf" is not an integer
+     * @throws InvalidClaimException if the claim "nbf" restrict the use of the token
      */
     public function checkClaim($value): void
     {
@@ -54,6 +57,12 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
         return self::NAME;
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @throws InvalidHeaderException if the claim "nbf" is not an integer
+     * @throws InvalidHeaderException if the claim "nbf" restrict the use of the token
+     */
     public function checkHeader($value): void
     {
         if (!\is_int($value)) {

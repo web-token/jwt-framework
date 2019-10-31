@@ -38,6 +38,8 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidClaimException if the claim is invalid
      */
     public function checkClaim($value): void
     {
@@ -54,6 +56,11 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
         return self::NAME;
     }
 
+    /**
+     * @param mixed $value
+     *
+     * @throws InvalidHeaderException if the header parameter is invalid
+     */
     public function checkHeader($value): void
     {
         if (!\is_int($value)) {

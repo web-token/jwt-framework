@@ -41,6 +41,9 @@ final class PublicKeyCommand extends ObjectOutputCommand
         $this->prepareJsonOutput($input, $output, $jwk);
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     */
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');

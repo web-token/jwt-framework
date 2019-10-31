@@ -49,6 +49,8 @@ class Recipient
      *
      * @param string $key The key
      *
+     * @throws InvalidArgumentException if the header parameter does not exist
+     *
      * @return null|mixed
      */
     public function getHeaderParameter(string $key)

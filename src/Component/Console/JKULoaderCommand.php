@@ -43,6 +43,9 @@ final class JKULoaderCommand extends ObjectOutputCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the URL is invalid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $url = $input->getArgument('url');

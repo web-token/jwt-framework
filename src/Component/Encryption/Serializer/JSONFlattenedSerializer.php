@@ -88,6 +88,9 @@ final class JSONFlattenedSerializer implements JWESerializer
         );
     }
 
+    /**
+     * @throws InvalidArgumentException if the payload cannot be encoded
+     */
     private function checkData(?array $data): void
     {
         if (null === $data || !isset($data['ciphertext']) || isset($data['recipients'])) {

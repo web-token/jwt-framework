@@ -33,6 +33,10 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the file is not valid
+     * @throws InvalidArgumentException if the secret is not valid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getArgument('file');

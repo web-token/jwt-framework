@@ -60,6 +60,8 @@ class HeaderCheckerManager
      * If one fails, the InvalidHeaderException is thrown.
      *
      * @param string[] $mandatoryHeaderParameters
+     *
+     * @throws InvalidArgumentException if the token format is not valid
      */
     public function check(JWT $jwt, int $index, array $mandatoryHeaderParameters = []): void
     {
@@ -90,6 +92,9 @@ class HeaderCheckerManager
         $this->checkers[$header] = $checker;
     }
 
+    /**
+     * @throws InvalidArgumentException if the header contains duplicated entries
+     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = array_intersect_key($header1, $header2);
@@ -100,6 +105,8 @@ class HeaderCheckerManager
 
     /**
      * @param string[] $mandatoryHeaderParameters
+     *
+     * @throws MissingMandatoryHeaderParameterException if a mandatory header parameter is missing
      */
     private function checkMandatoryHeaderParameters(array $mandatoryHeaderParameters, array $protected, array $unprotected): void
     {
@@ -112,6 +119,9 @@ class HeaderCheckerManager
         }
     }
 
+    /**
+     * @throws InvalidHeaderException if a protected header parameter is not in the protected header
+     */
     private function checkHeaders(array $protected, array $header): void
     {
         $checkedHeaderParameters = [];
@@ -121,7 +131,7 @@ class HeaderCheckerManager
                     $checker->checkHeader($protected[$headerParameter]);
                     $checkedHeaderParameters[] = $headerParameter;
                 } elseif (\array_key_exists($headerParameter, $header)) {
-                    throw new InvalidHeaderException(sprintf('The headerParameter "%s" must be protected.', $headerParameter), $headerParameter, $header[$headerParameter]);
+                    throw new InvalidHeaderException(sprintf('The header parameter "%s" must be protected.', $headerParameter), $headerParameter, $header[$headerParameter]);
                 }
             } else {
                 if (\array_key_exists($headerParameter, $protected)) {
@@ -136,11 +146,14 @@ class HeaderCheckerManager
         $this->checkCriticalHeader($protected, $header, $checkedHeaderParameters);
     }
 
+    /**
+     * @throws InvalidHeaderException if the "crit" parameter is not valid or if a critical header parameter cannot be verified
+     */
     private function checkCriticalHeader(array $protected, array $header, array $checkedHeaderParameters): void
     {
         if (\array_key_exists('crit', $protected)) {
             if (!\is_array($protected['crit'])) {
-                throw new InvalidHeaderException('The header "crit" mus be a list of header parameters.', 'crit', $protected['crit']);
+                throw new InvalidHeaderException('The header "crit" must be a list of header parameters.', 'crit', $protected['crit']);
             }
             $diff = array_diff($protected['crit'], $checkedHeaderParameters);
             if (0 !== \count($diff)) {

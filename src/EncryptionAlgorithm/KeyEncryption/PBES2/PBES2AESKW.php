@@ -79,6 +79,10 @@ abstract class PBES2AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key type is invalid
+     * @throws InvalidArgumentException if the key parameter "k" is missing or invalid
+     */
     protected function getKey(JWK $key): string
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -95,6 +99,9 @@ abstract class PBES2AESKW implements KeyWrapping
         return Base64Url::decode($k);
     }
 
+    /**
+     * @throws InvalidArgumentException if the header parameter "alg" is missing or invalid
+     */
     protected function checkHeaderAlgorithm(array $header): void
     {
         if (!isset($header['alg'])) {
@@ -105,6 +112,10 @@ abstract class PBES2AESKW implements KeyWrapping
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the header parameter "p2s" is missing or invalid
+     * @throws InvalidArgumentException if the header parameter "p2c" is missing or invalid
+     */
     protected function checkHeaderAdditionalParameters(array $header): void
     {
         if (!isset($header['p2s'])) {

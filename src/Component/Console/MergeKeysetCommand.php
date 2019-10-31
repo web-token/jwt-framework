@@ -33,6 +33,9 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the JWKSet is invalid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var string[] $keySets */

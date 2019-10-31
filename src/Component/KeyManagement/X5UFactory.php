@@ -24,6 +24,8 @@ class X5UFactory extends UrlKeySetFactory
     /**
      * This method will try to fetch the url a retrieve the key set.
      * Throws an exception in case of failure.
+     *
+     * @throws RuntimeException if the response content is invalid
      */
     public function loadFromUrl(string $url, array $header = []): JWKSet
     {

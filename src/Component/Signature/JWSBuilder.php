@@ -84,6 +84,8 @@ class JWSBuilder
      * Set the payload.
      * This method will return a new JWSBuilder object.
      *
+     * @throws InvalidArgumentException if the payload is not UTF-8 encoded
+     *
      * @return JWSBuilder
      */
     public function withPayload(string $payload, bool $isPayloadDetached = false): self
@@ -101,6 +103,8 @@ class JWSBuilder
     /**
      * Adds the information needed to compute the signature.
      * This method will return a new JWSBuilder object.
+     *
+     * @throws InvalidArgumentException if the payload encoding is inconsistent
      *
      * @return JWSBuilder
      */
@@ -130,6 +134,9 @@ class JWSBuilder
 
     /**
      * Computes all signatures and return the expected JWS object.
+     *
+     * @throws RuntimeException if the payload is not set
+     * @throws RuntimeException if no signature is defined
      */
     public function build(): JWS
     {
@@ -169,6 +176,9 @@ class JWSBuilder
         return !\array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
     }
 
+    /**
+     * @throws LogicException if the header parameter "crit" is missing, invalid or does not contain "b64" when "b64" is set
+     */
     private function checkB64AndCriticalHeader(array $protectedHeader): void
     {
         if (!\array_key_exists('b64', $protectedHeader)) {
@@ -186,6 +196,8 @@ class JWSBuilder
     }
 
     /**
+     * @throws InvalidArgumentException if the header parameter "alg" is missing or the algorithm is not allowed/not supported
+     *
      * @return MacAlgorithm|SignatureAlgorithm
      */
     private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): Algorithm
@@ -206,6 +218,9 @@ class JWSBuilder
         return $algorithm;
     }
 
+    /**
+     * @throws InvalidArgumentException if the header contains duplicated entries
+     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = array_intersect_key($header1, $header2);

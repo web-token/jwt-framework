@@ -33,6 +33,9 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not valid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
@@ -41,7 +44,7 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
         }
         $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
-            throw new InvalidArgumentException('Invalid input.');
+            throw new InvalidArgumentException('Invalid JWK');
         }
         $key = RSAKey::createFromJWK(new JWK($json));
         $key->optimize();

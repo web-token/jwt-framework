@@ -69,6 +69,9 @@ class JWSVerifier
      * @param JWK         $jwk             The key used to verify the signature in case of success
      * @param null|string $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
+     * @throws InvalidArgumentException if there is no key in the keyset
+     * @throws InvalidArgumentException if the token does not contain any signature
+     *
      * @return bool true if the verification of the signature succeeded, else false
      */
     public function verifyWithKeySet(JWS $jws, JWKSet $jwkset, int $signatureIndex, ?string $detachedPayload = null, JWK &$jwk = null): bool
@@ -126,6 +129,9 @@ class JWSVerifier
         return sprintf('%s.%s', $encodedProtectedHeader, $payload);
     }
 
+    /**
+     * @throws InvalidArgumentException if the payload is set when a detached payload is provided or no payload is defined
+     */
     private function checkPayload(JWS $jws, ?string $detachedPayload = null): void
     {
         $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
@@ -138,6 +144,8 @@ class JWSVerifier
     }
 
     /**
+     * @throws InvalidArgumentException if the header parameter "alg" is missing or invalid
+     *
      * @return MacAlgorithm|SignatureAlgorithm
      */
     private function getAlgorithm(Signature $signature): Algorithm

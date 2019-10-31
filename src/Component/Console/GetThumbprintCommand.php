@@ -34,6 +34,9 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the JWK or the hashing function are invalid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');

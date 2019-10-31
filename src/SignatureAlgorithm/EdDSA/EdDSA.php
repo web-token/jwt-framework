@@ -20,6 +20,11 @@ use RuntimeException;
 
 final class EdDSA implements SignatureAlgorithm
 {
+    /**
+     * EdDSA constructor.
+     *
+     * @throws RuntimeException if the extension "sodium" is not available
+     */
     public function __construct()
     {
         if (!\extension_loaded('sodium')) {
@@ -32,6 +37,10 @@ final class EdDSA implements SignatureAlgorithm
         return ['OKP'];
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is not private
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -50,6 +59,9 @@ final class EdDSA implements SignatureAlgorithm
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the curve is not supported
+     */
     public function verify(JWK $key, string $input, string $signature): bool
     {
         $this->checkKey($key);
@@ -69,6 +81,11 @@ final class EdDSA implements SignatureAlgorithm
         return 'EdDSA';
     }
 
+    /**
+     * @throws InvalidArgumentException if the key type is not valid
+     * @throws InvalidArgumentException if a mandatory key parameter is missing
+     * @throws InvalidArgumentException if the curve is not suuported
+     */
     private function checkKey(JWK $key): void
     {
         if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {

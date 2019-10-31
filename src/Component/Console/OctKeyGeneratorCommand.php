@@ -31,6 +31,9 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key size is not valid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $size = (int) $input->getArgument('size');

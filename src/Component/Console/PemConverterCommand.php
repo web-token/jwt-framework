@@ -34,6 +34,10 @@ final class PemConverterCommand extends ObjectOutputCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid
+     * @throws InvalidArgumentException if the key type is not RSA or EC
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $jwk = $input->getArgument('jwk');
@@ -42,7 +46,7 @@ final class PemConverterCommand extends ObjectOutputCommand
         }
         $json = JsonConverter::decode($jwk);
         if (!\is_array($json)) {
-            throw new InvalidArgumentException('Invalid key.');
+            throw new InvalidArgumentException('Invalid JWK.');
         }
         $key = new JWK($json);
         switch ($key->get('kty')) {

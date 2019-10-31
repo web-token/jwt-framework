@@ -34,6 +34,9 @@ class JWKSource implements Source
         return 'keys';
     }
 
+    /**
+     * @throws LogicException if the definition is not configured
+     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $sources = $this->getJWKSources();
@@ -78,6 +81,8 @@ class JWKSource implements Source
     }
 
     /**
+     * @throws InvalidArgumentException if the source object is invalid
+     *
      * @return JWKSourceInterface[]
      */
     private function getJWKSources(): array

@@ -33,6 +33,10 @@ final class KeyFileLoaderCommand extends GeneratorCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the file is invalid
+     * @throws InvalidArgumentException if the secret is invalid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $file = $input->getArgument('file');

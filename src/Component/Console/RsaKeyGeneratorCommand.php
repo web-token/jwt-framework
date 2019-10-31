@@ -31,6 +31,9 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the key size is invalid
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $size = (int) $input->getArgument('size');

@@ -49,6 +49,13 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         return $this->supportsEncoding($format);
     }
 
+    /**
+     * @param mixed $data
+     * @param mixed $format
+     *
+     * @throws NotEncodableValueException if the data cannot be encoded
+     * @throws UnexpectedValueException   if the data cannot be encoded
+     */
     public function encode($data, $format, array $context = []): string
     {
         try {
@@ -64,6 +71,13 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         }
     }
 
+    /**
+     * @param mixed $data
+     * @param mixed $format
+     *
+     * @throws NotEncodableValueException if the data cannot be decoded
+     * @throws UnexpectedValueException   if the data cannot be decoded
+     */
     public function decode($data, $format, array $context = []): JWE
     {
         try {

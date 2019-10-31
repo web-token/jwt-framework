@@ -57,16 +57,21 @@ class ParameterBag implements IteratorAggregate, Countable
         $this->parameters = $parameters;
     }
 
+    /**
+     * @throws InvalidArgumentException if the parameters are invalid
+     */
     public function add(array $parameters): void
     {
         $replaced = array_replace($this->parameters, $parameters);
         if (null === $replaced) {
-            throw new \InvalidArgumentException('Invalid parameters');
+            throw new InvalidArgumentException('Invalid parameters');
         }
         $this->parameters = $replaced;
     }
 
     /**
+     * @throws InvalidArgumentException if the selected parameter is missing
+     *
      * @return mixed
      */
     public function get(string $key)

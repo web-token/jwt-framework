@@ -33,6 +33,9 @@ final class HeaderCheckerManager extends BaseHeaderCheckerManager
         $this->eventDispatcher = $eventDispatcher;
     }
 
+    /**
+     * @throws Throwable if a checker failed to verify a header parameter
+     */
     public function check(JWT $jwt, int $index, array $mandatoryHeaderParameters = []): void
     {
         try {

@@ -36,6 +36,9 @@ abstract class GeneratorCommand extends ObjectOutputCommand
         ;
     }
 
+    /**
+     * @throws InvalidArgumentException if the option "random_id" is not a valid
+     */
     protected function getOptions(InputInterface $input): array
     {
         $args = [];

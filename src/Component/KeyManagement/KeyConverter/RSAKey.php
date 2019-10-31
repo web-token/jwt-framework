@@ -64,6 +64,9 @@ class RSAKey
     }
 
     /**
+     * @throws RuntimeException         if the extension OpenSSL is not available
+     * @throws InvalidArgumentException if the key cannot be loaded
+     *
      * @return RSAKey
      */
     public static function createFromPEM(string $pem): self
@@ -140,6 +143,9 @@ class RSAKey
         }
     }
 
+    /**
+     * @throws InvalidArgumentException if the key is invalid or not an RSA key
+     */
     private function loadJWK(array $jwk): void
     {
         if (!\array_key_exists('kty', $jwk)) {
@@ -183,6 +189,8 @@ class RSAKey
     }
 
     /**
+     * @throws RuntimeException if the prime factors cannot be found
+     *
      * @return BigInteger[]
      */
     private function findPrimeFactors(BigInteger $d, BigInteger $e, BigInteger $n): array
