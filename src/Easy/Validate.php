@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Easy;
 
+use Exception;
 use Jose\Component\Checker;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\Util\JsonConverter;
@@ -58,7 +59,9 @@ class Validate extends AbstractLoader
         $headerChecker->check($jws, 0);
 
         $verifier = new JWSVerifier(new AlgorithmManager($this->algorithms));
-        $verifier->verifyWithKeySet($jws, $this->jwkset, 0);
+        if (!$verifier->verifyWithKeySet($jws, $this->jwkset, 0)) {
+            throw new Exception('Invalid signature');
+        }
 
         $jwt = new JWT();
         $jwt->header->replace($jws->getSignature(0)->getProtectedHeader());

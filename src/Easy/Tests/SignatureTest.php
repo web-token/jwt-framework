@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Easy\Tests;
 
+use Exception;
+use InvalidArgumentException;
+use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Easy\Build;
@@ -79,6 +82,120 @@ class SignatureTest extends TestCase
         static::assertEquals(['jti' => '0123456789', 'alg' => 'RS512', 'crit' => ['alg']], $jwt->header->all());
         static::assertEquals('RS512', $jwt->header->alg());
         static::assertEquals('0123456789', $jwt->header->jti());
+    }
+
+    /**
+     * @test
+     */
+    public function invalidSignatureRejectsTheToken(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid signature');
+        $time = time();
+        $jws = Build::jws()
+            ->exp($time + 3600)
+            ->iat($time)
+            ->nbf($time)
+            ->jti('0123456789', true)
+            ->alg('HS256')
+            ->iss('issuer')
+            ->aud('audience1')
+            ->aud('audience2')
+            ->sub('subject')
+            ->claim('is_root', true)
+            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->crit(['alg'])
+            ->sign(new JWK(['kty' => 'oct', 'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo']))
+        ;
+
+        Load::jws($jws)
+            ->algs(['HS256'])
+            ->exp()
+            ->iat()
+            ->nbf()
+            ->aud('audience1')
+            ->iss('issuer')
+            ->sub('subject')
+            ->jti('0123456789')
+            ->key(new JWK(['kty' => 'oct', 'k' => 'BARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBAR']))
+            ->run()
+        ;
+    }
+
+    /**
+     * @test
+     */
+    public function algorithmIsNotAllowed(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The algorithm "none" is not supported.');
+        $time = time();
+        $jws = Build::jws()
+            ->exp($time + 3600)
+            ->iat($time)
+            ->nbf($time)
+            ->jti('0123456789', true)
+            ->alg('none')
+            ->iss('issuer')
+            ->aud('audience1')
+            ->aud('audience2')
+            ->sub('subject')
+            ->claim('is_root', true)
+            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->crit(['alg'])
+            ->sign($this->noneKey())
+        ;
+
+        Load::jws($jws)
+            ->algs(['HS256'])
+            ->exp()
+            ->iat()
+            ->nbf()
+            ->aud('audience1')
+            ->iss('issuer')
+            ->sub('subject')
+            ->jti('0123456789')
+            ->key(new JWK(['kty' => 'oct', 'k' => 'BARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBAR']))
+            ->run()
+        ;
+    }
+
+    /**
+     * @test
+     */
+    public function tokenExpired(): void
+    {
+        $this->expectException(InvalidClaimException::class);
+        $this->expectExceptionMessage('The token expired.');
+        $time = time();
+        $jws = Build::jws()
+            ->exp($time - 1)
+            ->iat($time)
+            ->nbf($time)
+            ->jti('0123456789', true)
+            ->alg('RS256')
+            ->iss('issuer')
+            ->aud('audience1')
+            ->aud('audience2')
+            ->sub('subject')
+            ->claim('is_root', true)
+            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->crit(['alg'])
+            ->sign($this->rsaKey())
+        ;
+
+        Load::jws($jws)
+            ->algs(['RS256'])
+            ->exp()
+            ->iat()
+            ->nbf()
+            ->aud('audience1')
+            ->iss('issuer')
+            ->sub('subject')
+            ->jti('0123456789')
+            ->key($this->rsaKey())
+            ->run()
+        ;
     }
 
     /**
