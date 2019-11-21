@@ -87,7 +87,7 @@
         "symfony/browser-kit": "^4.2",
         "symfony/event-dispatcher": "^4.2",
         "symfony/finder": "^4.2",
-        "symfony/phpunit-bridge": "^4.2",
+        "symfony/phpunit-bridge": "^5.0",
         "symfony/serializer": "^4.2",
         "symfony/var-dumper": "^4.2"
     },
