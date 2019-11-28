@@ -29,9 +29,10 @@
     },
     "require-dev": {
         "nyholm/psr7": "^1.0",
+        "php-http/httplug-bundle": "^1.7",
+        "php-http/mock-client": "^1.0",
         "phpunit/phpunit": "^8.0",
         "symfony/browser-kit": "^4.2|^5.0",
-        "symfony/http-client": "^4.2|^5.0",
         "symfony/framework-bundle": "^4.2|^5.0",
         "symfony/phpunit-bridge": "^4.2|^5.0",
         "symfony/serializer": "^4.2|^5.0",

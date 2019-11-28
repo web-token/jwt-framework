@@ -26,13 +26,16 @@
         "web-token/jwt-core": "^2.0"
     },
     "require-dev": {
-        "symfony/http-client": "^4.2|^5.0",
+        "php-http/message-factory": "^1.0",
+        "php-http/httplug": "^1.1",
+        "php-http/mock-client": "^1.0",
         "phpunit/phpunit": "^8.0"
     },
     "suggest": {
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
         "web-token/jwt-util-ecc": "To use EC key analyzers.",
-        "symfony/http-client": "To enable JKU/X5U support."
+        "php-http/message-factory": "To enable JKU/X5U support.",
+        "php-http/httplug": "To enable JKU/X5U support."
     },
     "extra": {
         "branch-alias": {
