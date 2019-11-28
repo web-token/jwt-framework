@@ -39,6 +39,7 @@ class JWKLoaderTest extends WebTestCase
      */
     public function aJWKCanBeDefinedInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -51,6 +52,7 @@ class JWKLoaderTest extends WebTestCase
      */
     public function aJWKCanBeDefinedFromAnotherBundle()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -63,6 +65,7 @@ class JWKLoaderTest extends WebTestCase
      */
     public function aX509InFileCanBeDefinedInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -75,6 +78,7 @@ class JWKLoaderTest extends WebTestCase
      */
     public function aDirectX509InputCanBeDefinedInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -87,6 +91,7 @@ class JWKLoaderTest extends WebTestCase
      */
     public function anEncryptedKeyFileCanBeLoadedInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -99,6 +104,7 @@ class JWKLoaderTest extends WebTestCase
      */
     public function aJWKCanBeLoadedFromAJwkSetInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -111,6 +117,7 @@ class JWKLoaderTest extends WebTestCase
      */
     public function aJWKCanBeLoadedFromASecretInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();

@@ -39,6 +39,7 @@ class JWELoaderTest extends WebTestCase
      */
     public function theJWELoaderFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -50,6 +51,7 @@ class JWELoaderTest extends WebTestCase
      */
     public function theWELoaderFactoryCanCreateAJWELoader()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         /** @var JWELoaderFactory $jweLoaderFactory */
@@ -69,6 +71,7 @@ class JWELoaderTest extends WebTestCase
      */
     public function aJWELoaderCanBeDefinedUsingTheConfigurationFile()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jwe_loader.jwe_loader1'));
@@ -82,6 +85,7 @@ class JWELoaderTest extends WebTestCase
      */
     public function aJWELoaderCanBeDefinedFromAnotherBundleUsingTheHelper()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jwe_loader.jwe_loader2'));

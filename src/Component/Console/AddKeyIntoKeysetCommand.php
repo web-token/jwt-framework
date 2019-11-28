@@ -35,7 +35,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwkset = $this->getKeyset($input);
         $jwk = $this->getKey($input);

@@ -37,6 +37,7 @@ class JWSSerializerTest extends WebTestCase
      */
     public function jWSSerializerManagerFromConfigurationIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_serializer.jws_serializer1'));
@@ -50,6 +51,7 @@ class JWSSerializerTest extends WebTestCase
      */
     public function jWSSerializerManagerFromExternalBundleExtensionIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_serializer.jws_serializer2'));

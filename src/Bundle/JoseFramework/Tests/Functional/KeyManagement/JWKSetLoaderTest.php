@@ -33,17 +33,12 @@ class JWKSetLoaderTest extends WebTestCase
      */
     private $messageFactory;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        $this->messageFactory = new Psr17Factory();
-    }
-
     protected function setUp(): void
     {
         if (!class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
+        $this->messageFactory = new Psr17Factory();
     }
 
     /**
@@ -51,6 +46,7 @@ class JWKSetLoaderTest extends WebTestCase
      */
     public function aJWKSetCanBeDefinedInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -63,6 +59,7 @@ class JWKSetLoaderTest extends WebTestCase
      */
     public function aJWKSetCanBeSharedInTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $client->request('GET', '/keys/1.jwkset');
@@ -80,6 +77,7 @@ class JWKSetLoaderTest extends WebTestCase
      */
     public function aJWKSetCanBeDefinedFromAnotherBundle()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -92,6 +90,7 @@ class JWKSetLoaderTest extends WebTestCase
      */
     public function aJWKSetCanBeSharedFromAnotherBundle()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $client->request('GET', '/keys/2.jwkset');
@@ -109,6 +108,7 @@ class JWKSetLoaderTest extends WebTestCase
      */
     public function aJWKSetCanBeRetrieveFromADistantJkuThroughConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         /** @var Client $httpClient */
         $httpClient = $client->getContainer()->get('httplug.client.mock');
@@ -127,6 +127,7 @@ class JWKSetLoaderTest extends WebTestCase
      */
     public function aJWKSetCanBeRetrieveFromADistantX5uThroughConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         /** @var Client $httpClient */
         $httpClient = $client->getContainer()->get('httplug.client.mock');

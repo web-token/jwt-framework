@@ -48,9 +48,8 @@ class UrlKeySetFactoryTest extends TestCase
      */
     private $httpClient;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
+    protected function setUp(): void
     {
-        parent::__construct($name, $data, $dataName);
         $this->messageFactory = new Psr17Factory();
     }
 

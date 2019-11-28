@@ -47,7 +47,7 @@ final class KeyAnalyzerCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->getFormatter()->setStyle('success', new OutputFormatterStyle('white', 'green'));
         $output->getFormatter()->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));

@@ -37,6 +37,7 @@ class JWSLoaderTest extends WebTestCase
      */
     public function theJWSLoaderFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -48,6 +49,7 @@ class JWSLoaderTest extends WebTestCase
      */
     public function theWELoaderFactoryCanCreateAJWSLoader()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         /** @var JWSLoaderFactory $jwsLoaderFactory */
@@ -65,6 +67,7 @@ class JWSLoaderTest extends WebTestCase
      */
     public function aJWSLoaderCanBeDefinedUsingTheConfigurationFile()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_loader.jws_loader1'));
@@ -78,6 +81,7 @@ class JWSLoaderTest extends WebTestCase
      */
     public function aJWSLoaderCanBeDefinedFromAnotherBundleUsingTheHelper()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_loader.jws_loader2'));

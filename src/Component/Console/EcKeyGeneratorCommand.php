@@ -34,7 +34,7 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
     /**
      * @throws InvalidArgumentException if the curve is invalid
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $curve = $input->getArgument('curve');
         if (!\is_string($curve)) {

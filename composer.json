@@ -61,11 +61,11 @@
         "psr/http-client": "^1.0",
         "spomky-labs/aes-key-wrap": "^5.0",
         "spomky-labs/base64url": "^2.0",
-        "symfony/config": "^4.2",
-        "symfony/console": "^4.2",
-        "symfony/dependency-injection": "^4.2",
-        "symfony/framework-bundle": "^4.2",
-        "symfony/http-kernel": "^4.2"
+        "symfony/config": "^4.2|^5.0",
+        "symfony/console": "^4.2|^5.0",
+        "symfony/dependency-injection": "^4.2|^5.0",
+        "symfony/framework-bundle": "^4.2|^5.0",
+        "symfony/http-kernel": "^4.2|^5.0"
     },
     "require-dev": {
         "ext-curl": "*",
@@ -74,7 +74,6 @@
         "bjeavons/zxcvbn-php": "^0.4.0",
         "blackfire/php-sdk": "^1.14",
         "nyholm/psr7": "^1.0",
-        "infection/infection": "^0.13",
         "matthiasnoback/symfony-config-test": "^3.1|^4.0",
         "php-coveralls/php-coveralls": "^2.0",
         "php-http/httplug-bundle": "^1.7",
@@ -84,12 +83,12 @@
         "phpstan/phpstan-phpunit": "^0.11",
         "phpstan/phpstan-strict-rules": "^0.11",
         "phpunit/phpunit": "^8.0",
-        "symfony/browser-kit": "^4.2",
-        "symfony/event-dispatcher": "^4.2",
-        "symfony/finder": "^4.2",
-        "symfony/phpunit-bridge": "^4.2",
-        "symfony/serializer": "^4.2",
-        "symfony/var-dumper": "^4.2"
+        "symfony/browser-kit": "^4.2|^5.0",
+        "symfony/event-dispatcher": "^4.2|^5.0",
+        "symfony/finder": "^4.2|^5.0",
+        "symfony/phpunit-bridge": "^4.2|^5.0",
+        "symfony/serializer": "^4.2|^5.0",
+        "symfony/var-dumper": "^4.2|^5.0"
     },
     "replace": {
         "web-token/jwt-core": "self.version",
@@ -123,9 +122,7 @@
    "suggest":{
        "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
-       "php-http/httplug": "To enable JKU/X5U support.",
-       "php-http/httplug-bundle": "To enable JKU/X5U support.",
-       "php-http/message-factory": "To enable JKU/X5U support.",
+       "symfony/http-client": "To enable JKU/X5U support.",
        "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
        "symfony/var-dumper": "Used to show data on the debug toolbar."
    },

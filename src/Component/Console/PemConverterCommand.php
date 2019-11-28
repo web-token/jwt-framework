@@ -38,7 +38,7 @@ final class PemConverterCommand extends ObjectOutputCommand
      * @throws InvalidArgumentException if the key is invalid
      * @throws InvalidArgumentException if the key type is not RSA or EC
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwk = $input->getArgument('jwk');
         if (!\is_string($jwk)) {

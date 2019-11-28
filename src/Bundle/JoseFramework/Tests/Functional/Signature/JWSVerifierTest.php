@@ -38,6 +38,7 @@ class JWSVerifierTest extends WebTestCase
      */
     public function jWSVerifierFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -49,6 +50,7 @@ class JWSVerifierTest extends WebTestCase
      */
     public function jWSVerifierFactoryCanCreateAJWSVerifier()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         /** @var JWSVerifierFactory $jwsFactory */
@@ -64,6 +66,7 @@ class JWSVerifierTest extends WebTestCase
      */
     public function jWSVerifierFromConfigurationIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_verifier.loader1'));
@@ -77,6 +80,7 @@ class JWSVerifierTest extends WebTestCase
      */
     public function jWSVerifierFromExternalBundleExtensionIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_verifier.loader2'));

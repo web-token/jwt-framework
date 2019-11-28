@@ -46,7 +46,7 @@ final class X5ULoaderCommand extends ObjectOutputCommand
     /**
      * @throws InvalidArgumentException if the URL is invalid
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $url = $input->getArgument('url');
         if (!\is_string($url)) {

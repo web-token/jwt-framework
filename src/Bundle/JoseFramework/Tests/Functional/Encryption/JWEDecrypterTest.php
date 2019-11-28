@@ -38,6 +38,7 @@ class JWEDecrypterTest extends WebTestCase
      */
     public function theJWEDecrypterFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -49,6 +50,7 @@ class JWEDecrypterTest extends WebTestCase
      */
     public function theWEDecrypterFactoryCanCreateAJWEDecrypter()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         /** @var JWEDecrypterFactory $jweFactory */
@@ -64,6 +66,7 @@ class JWEDecrypterTest extends WebTestCase
      */
     public function aJWEDecrypterCanBeDefinedUsingTheConfigurationFile()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jwe_decrypter.loader1'));
@@ -77,6 +80,7 @@ class JWEDecrypterTest extends WebTestCase
      */
     public function aJWEDecrypterCanBeDefinedFromAnotherBundleUsingTheHelper()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jwe_decrypter.loader2'));

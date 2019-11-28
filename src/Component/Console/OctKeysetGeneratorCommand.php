@@ -37,7 +37,7 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
      * @throws InvalidArgumentException if the quantity is not valid
      * @throws InvalidArgumentException if the key size is not valid
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $quantity = (int) $input->getArgument('quantity');
         $size = (int) $input->getArgument('size');

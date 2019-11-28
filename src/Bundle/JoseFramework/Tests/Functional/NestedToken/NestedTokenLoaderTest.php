@@ -39,6 +39,7 @@ class NestedTokenLoaderTest extends WebTestCase
      */
     public function theNestedTokenLoaderFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -50,6 +51,7 @@ class NestedTokenLoaderTest extends WebTestCase
      */
     public function theNestedTokenLoaderFromTheConfigurationIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -61,6 +63,7 @@ class NestedTokenLoaderTest extends WebTestCase
      */
     public function theNestedTokenLoaderFromTheConfigurationHelperIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -72,6 +75,7 @@ class NestedTokenLoaderTest extends WebTestCase
      */
     public function aNestedTokenCanBeDecryptedAndVerifiedUsingTheServiceCreatedFromTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -125,6 +129,7 @@ class NestedTokenLoaderTest extends WebTestCase
      */
     public function aNestedTokenCanBeDecryptedAndVerifiedUsingTheServiceCreatedFromTheConfigurationHelper()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);

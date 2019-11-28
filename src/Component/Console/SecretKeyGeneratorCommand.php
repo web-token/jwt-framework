@@ -37,7 +37,7 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
      * @throws InvalidArgumentException if the secret is invalid
      * @throws InvalidArgumentException if the option "is_b4" is not a boolean
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $secret = $input->getArgument('secret');
         if (!\is_string($secret)) {

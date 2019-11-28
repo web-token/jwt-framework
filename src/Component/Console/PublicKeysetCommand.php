@@ -33,7 +33,7 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwkset = $this->getKeyset($input);
         $newJwkset = new JWKSet([]);

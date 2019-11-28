@@ -40,6 +40,7 @@ class JWEComputationTest extends WebTestCase
      */
     public function iCanCreateAndLoadAToken()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
 
