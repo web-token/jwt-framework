@@ -37,6 +37,7 @@ class ClaimCheckerTest extends WebTestCase
      */
     public function theClaimCheckerManagerFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -48,6 +49,7 @@ class ClaimCheckerTest extends WebTestCase
      */
     public function theClaimCheckerManagerFactoryCanCreateAClaimCheckerManager()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         /** @var ClaimCheckerManagerFactory $claimCheckerManagerFactory */
         $claimCheckerManagerFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory::class);
@@ -63,6 +65,7 @@ class ClaimCheckerTest extends WebTestCase
      */
     public function aClaimCheckerCanBeDefinedUsingTheConfigurationFile()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.claim_checker.checker1'));
@@ -76,6 +79,7 @@ class ClaimCheckerTest extends WebTestCase
      */
     public function aClaimCheckerCanBeDefinedFromAnotherBundleUsingTheHelper()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.claim_checker.checker2'));

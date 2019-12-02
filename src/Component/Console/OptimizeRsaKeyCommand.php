@@ -36,7 +36,7 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
     /**
      * @throws InvalidArgumentException if the key is not valid
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwk = $input->getArgument('jwk');
         if (!\is_string($jwk)) {

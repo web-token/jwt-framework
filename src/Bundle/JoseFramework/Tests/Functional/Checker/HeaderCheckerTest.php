@@ -37,6 +37,7 @@ class HeaderCheckerTest extends WebTestCase
      */
     public function theHeaderCheckerManagerFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -48,6 +49,7 @@ class HeaderCheckerTest extends WebTestCase
      */
     public function theHeaderCheckerManagerFactoryCanCreateAHeaderCheckerManager()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         /** @var HeaderCheckerManagerFactory $headerCheckerManagerFactory */
         $headerCheckerManagerFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory::class);
@@ -63,6 +65,7 @@ class HeaderCheckerTest extends WebTestCase
      */
     public function aHeaderCheckerCanBeDefinedUsingTheConfigurationFile()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.header_checker.checker1'));
@@ -76,6 +79,7 @@ class HeaderCheckerTest extends WebTestCase
      */
     public function aHeaderCheckerCanBeDefinedFromAnotherBundleUsingTheHelper()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.header_checker.checker2'));

@@ -37,7 +37,7 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
      * @throws InvalidArgumentException if the curve is not valid
      * @throws InvalidArgumentException if the quantity is not valid
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $quantity = (int) $input->getArgument('quantity');
         $curve = $input->getArgument('curve');

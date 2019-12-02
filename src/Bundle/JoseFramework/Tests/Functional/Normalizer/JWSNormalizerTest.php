@@ -44,6 +44,7 @@ final class JWSNormalizerTest extends WebTestCase
      */
     public function jWSNormalizerIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         /** @var Serializer $serializer */
@@ -72,6 +73,7 @@ final class JWSNormalizerTest extends WebTestCase
      */
     public function jWSNormalizerPassesThrough()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $serializer = new JWSNormalizer();
@@ -101,6 +103,7 @@ final class JWSNormalizerTest extends WebTestCase
      */
     public function jWSNormalizerFromContainerPassesThrough()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         /** @var Serializer $serializer */

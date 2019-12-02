@@ -34,7 +34,7 @@ final class OkpKeyGeneratorCommand extends GeneratorCommand
     /**
      * @throws InvalidArgumentException if the curve is not valid
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $curve = $input->getArgument('curve');
         if (!\is_string($curve)) {

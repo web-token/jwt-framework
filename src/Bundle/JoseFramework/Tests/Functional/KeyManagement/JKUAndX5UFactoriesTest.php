@@ -38,6 +38,7 @@ class JKUAndX5UFactoriesTest extends WebTestCase
      */
     public function theJKUFactoryServiceIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
@@ -49,6 +50,7 @@ class JKUAndX5UFactoriesTest extends WebTestCase
      */
     public function theX5UFactoryServiceIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();

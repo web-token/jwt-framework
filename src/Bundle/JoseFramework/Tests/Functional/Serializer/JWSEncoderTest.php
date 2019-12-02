@@ -47,6 +47,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         /** @var Serializer $serializer */
@@ -64,6 +65,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderSupportsAllFormatsByDefault()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
@@ -80,6 +82,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderCanEncodeAllFormats()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
@@ -109,6 +112,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderCanDecodeAllFormats()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
@@ -138,6 +142,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderSupportsEncodingWithSpecificSignature()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
@@ -189,6 +194,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderSupportsCustomSerializerManager()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $jwsSerializerManager = new JWSSerializerManager([
@@ -226,6 +232,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderShouldThrowOnUnsupportedFormatWhenEncoding()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $serializerManager = new JWSSerializerManager([
@@ -258,6 +265,7 @@ final class JWSEncoderTest extends WebTestCase
      */
     public function jWSEncoderShouldThrowOnUnsupportedFormatWhenDecoding()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         $serializerManager = new JWSSerializerManager([

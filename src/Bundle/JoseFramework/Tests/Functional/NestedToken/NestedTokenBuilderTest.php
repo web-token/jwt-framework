@@ -38,6 +38,7 @@ class NestedTokenBuilderTest extends WebTestCase
      */
     public function theNestedTokenBuilderFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -49,6 +50,7 @@ class NestedTokenBuilderTest extends WebTestCase
      */
     public function theNestedTokenBuilderFromTheConfigurationIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -60,6 +62,7 @@ class NestedTokenBuilderTest extends WebTestCase
      */
     public function theNestedTokenBuilderFromTheConfigurationHelperIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -71,6 +74,7 @@ class NestedTokenBuilderTest extends WebTestCase
      */
     public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfiguration()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -132,6 +136,7 @@ class NestedTokenBuilderTest extends WebTestCase
      */
     public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfigurationHelper()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);

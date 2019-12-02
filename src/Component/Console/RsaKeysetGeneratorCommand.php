@@ -37,7 +37,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
      * @throws InvalidArgumentException if the quantity is invalid
      * @throws InvalidArgumentException if the key size is invalid
      */
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $quantity = (int) $input->getArgument('quantity');
         $size = (int) $input->getArgument('size');

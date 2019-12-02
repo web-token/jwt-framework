@@ -37,6 +37,7 @@ class JWSBuilderTest extends WebTestCase
      */
     public function jWSBuilderFactoryIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
@@ -48,6 +49,7 @@ class JWSBuilderTest extends WebTestCase
      */
     public function jWSBuilderFactoryCanCreateAJWSBuilder()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
 
         /** @var JWSBuilderFactory $jwsFactory */
@@ -63,6 +65,7 @@ class JWSBuilderTest extends WebTestCase
      */
     public function jWSBuilderFromConfigurationIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_builder.builder1'));
@@ -76,6 +79,7 @@ class JWSBuilderTest extends WebTestCase
      */
     public function jWSBuilderFromExternalBundleExtensionIsAvailable()
     {
+        static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertTrue($container->has('jose.jws_builder.builder2'));

@@ -33,7 +33,7 @@ final class PublicKeyCommand extends ObjectOutputCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwk = $this->getKey($input);
         $jwk = $jwk->toPublic();
