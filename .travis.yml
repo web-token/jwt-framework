@@ -22,7 +22,7 @@ before_install:
 install: travis_retry composer install
 
 script:
-    - ./vendor/bin/simple-phpunit
+    - ./vendor/bin/phpunit
 
 jobs:
     allow_failures:
@@ -35,7 +35,7 @@ jobs:
               - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
               - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
           script:
-              - ./vendor/bin/simple-phpunit --coverage-clover build/logs/clover.xml
+              - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
           after_script:
               - ./vendor/bin/php-coveralls --no-interaction
 
