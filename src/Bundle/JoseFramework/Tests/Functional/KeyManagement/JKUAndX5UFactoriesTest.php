@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\KeyManagement;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -36,24 +37,26 @@ class JKUAndX5UFactoriesTest extends WebTestCase
     /**
      * @test
      */
-    public function theJKUFactoryServiceIsAvailable()
+    public function theJKUFactoryServiceIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has(JKUFactory::class));
     }
 
     /**
      * @test
      */
-    public function theX5UFactoryServiceIsAvailable()
+    public function theX5UFactoryServiceIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has(X5UFactory::class));
     }
 }

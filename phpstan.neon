@@ -4,12 +4,6 @@ parameters:
         - src
     excludes_analyse:
         - %currentWorkingDirectory%/src/Bundle/*/var/*
-        - %currentWorkingDirectory%/src/Bundle/*/Tests/*
-        - %currentWorkingDirectory%/src/Component/*/Tests/*
-        - %currentWorkingDirectory%/src/EncryptionAlgorithm/*/Tests/*
-        - %currentWorkingDirectory%/src/EncryptionAlgorithm/ContentEncryption/*/Tests/*
-        - %currentWorkingDirectory%/src/EncryptionAlgorithm/KeyEncryption/*/Tests/*
-        - %currentWorkingDirectory%/src/SignatureAlgorithm/*/Tests/*
     ignoreErrors:
         - '#Strict comparison using === between false and .* will always evaluate to false\.*#'
         - '#Instanceof between Jose\\Component\\Core\\Algorithm and Jose\\Component\\Core\\Algorithm will always evaluate to true\.*#'
@@ -24,6 +18,8 @@ parameters:
         - '#Parameter \#1 \$value of static method Jose\\Component\\Core\\Util\\BigInteger::createFromGMPResource\(\) expects GMP, resource given\.#'
         - '#Return type \(void\) of method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::getResolver\(\) should be compatible with return type \(Symfony\\Component\\Config\\Loader\\LoaderResolverInterface\) of method Symfony\\Component\\Config\\Loader\\LoaderInterface::getResolver\(\)#'
         - '#Instanceof between Jose\\Component\\Core\\JWK and Jose\\Component\\Core\\JWK will always evaluate to true\.#'
+    autoload_files:
+        - ./vendor/bin/.phpunit/phpunit-8-0/vendor/autoload.php
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon

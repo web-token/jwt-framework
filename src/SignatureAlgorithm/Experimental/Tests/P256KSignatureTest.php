@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Algorithm\Signature;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
@@ -31,7 +31,7 @@ class P256KSignatureTest extends TestCase
     /**
      * @test
      */
-    public function es256KVerify()
+    public function es256KVerify(): void
     {
         $key = $this->getKey();
         $algorithm = new ES256K();
@@ -43,7 +43,7 @@ class P256KSignatureTest extends TestCase
     /**
      * @test
      */
-    public function es256KSignAndVerify()
+    public function es256KSignAndVerify(): void
     {
         $key = $this->getKey();
         $algorithm = new ES256K();

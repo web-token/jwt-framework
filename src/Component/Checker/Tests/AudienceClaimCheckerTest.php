@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
+use Jose\Component\Checker\InvalidClaimException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,9 +28,9 @@ class AudienceClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function anAudienceClaimMustBeAStringOrAnArrayOfStrings()
+    public function anAudienceClaimMustBeAStringOrAnArrayOfStrings(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
@@ -39,9 +40,9 @@ class AudienceClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theAudienceClaimIsNotKnown()
+    public function theAudienceClaimIsNotKnown(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
@@ -51,9 +52,9 @@ class AudienceClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theAudienceClaimListDoesNotContainTheCurrentAudience()
+    public function theAudienceClaimListDoesNotContainTheCurrentAudience(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
@@ -63,7 +64,7 @@ class AudienceClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theAudienceClaimIsSupported()
+    public function theAudienceClaimIsSupported(): void
     {
         $checker = new AudienceChecker('foo');
         $checker->checkClaim('foo');

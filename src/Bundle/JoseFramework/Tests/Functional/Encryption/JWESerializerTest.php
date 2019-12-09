@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -35,11 +36,12 @@ class JWESerializerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWESerializerManagerFromConfigurationIsAvailable()
+    public function jWESerializerManagerFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_serializer.jwe_serializer1'));
 
         $jwe = $container->get('jose.jwe_serializer.jwe_serializer1');
@@ -49,11 +51,12 @@ class JWESerializerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWESerializerManagerFromExternalBundleExtensionIsAvailable()
+    public function jWESerializerManagerFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_serializer.jwe_serializer2'));
 
         $jwe = $container->get('jose.jwe_serializer.jwe_serializer2');

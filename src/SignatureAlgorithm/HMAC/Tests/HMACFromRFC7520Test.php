@@ -39,7 +39,7 @@ class HMACFromRFC7520Test extends TestCase
      *
      * @test
      */
-    public function hS256()
+    public function hS256(): void
     {
         /*
          * Payload
@@ -112,7 +112,7 @@ class HMACFromRFC7520Test extends TestCase
      *
      * @test
      */
-    public function hS256WithDetachedPayload()
+    public function hS256WithDetachedPayload(): void
     {
         /*
          * Payload
@@ -186,7 +186,7 @@ class HMACFromRFC7520Test extends TestCase
      *
      * @test
      */
-    public function hS256WithUnprotectedHeader()
+    public function hS256WithUnprotectedHeader(): void
     {
         /*
          * Payload
@@ -255,7 +255,7 @@ class HMACFromRFC7520Test extends TestCase
      *
      * @test
      */
-    public function hS256WithoutProtectedHeader()
+    public function hS256WithoutProtectedHeader(): void
     {
         /*
          * Payload

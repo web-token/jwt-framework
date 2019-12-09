@@ -31,10 +31,11 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256
      *
      * @test
      */
-    public function a128CBCHS256EncryptAndDecrypt()
+    public function a128CBCHS256EncryptAndDecrypt(): void
     {
         $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
@@ -55,8 +56,9 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256
      */
-    public function badTag()
+    public function badTag(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Unable to decrypt or to verify the tag.');
@@ -74,10 +76,11 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.1
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256
      *
      * @test
      */
-    public function a128CBCHS256EncryptAndDecryptBis()
+    public function a128CBCHS256EncryptAndDecryptBis(): void
     {
         $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
@@ -105,10 +108,11 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.2
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384
      *
      * @test
      */
-    public function a192CBCHS384EncryptAndDecrypt()
+    public function a192CBCHS384EncryptAndDecrypt(): void
     {
         $header = Base64Url::encode(json_encode([]));
         $algorithm = new A192CBCHS384();
@@ -135,10 +139,11 @@ class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.3
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512
      *
      * @test
      */
-    public function a256CBCHS512EncryptAndDecrypt()
+    public function a256CBCHS512EncryptAndDecrypt(): void
     {
         $header = Base64Url::encode(json_encode([]));
         $algorithm = new A256CBCHS512();
@@ -172,10 +177,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
         return $method;
     }
 
-    /**
-     * @return string
-     */
-    private function convertArrayToBinString(array $data)
+    private function convertArrayToBinString(array $data): string
     {
         foreach ($data as $key => $value) {
             $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);

@@ -27,7 +27,7 @@ class UnencodedPayloadHeaderCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theB64HeaderMustBeAnBoolean()
+    public function theB64HeaderMustBeAnBoolean(): void
     {
         $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
         $this->expectExceptionMessage('"b64" must be a boolean.');
@@ -39,7 +39,7 @@ class UnencodedPayloadHeaderCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theB64HeaderIsABoolean()
+    public function theB64HeaderIsABoolean(): void
     {
         $checker = new UnencodedPayloadChecker();
         $checker->checkHeader(true);

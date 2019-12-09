@@ -36,7 +36,7 @@ class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theNestedTokenBuilderFactoryIsAvailable()
+    public function theNestedTokenBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -48,7 +48,7 @@ class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theNestedTokenBuilderFromTheConfigurationIsAvailable()
+    public function theNestedTokenBuilderFromTheConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -60,7 +60,7 @@ class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theNestedTokenBuilderFromTheConfigurationHelperIsAvailable()
+    public function theNestedTokenBuilderFromTheConfigurationHelperIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -72,7 +72,7 @@ class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfiguration()
+    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -127,14 +127,12 @@ class NestedTokenBuilderTest extends WebTestCase
             ]],
             'jwe_compact'
         );
-
-        static::assertTrue(true);
     }
 
     /**
      * @test
      */
-    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfigurationHelper()
+    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfigurationHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -189,7 +187,5 @@ class NestedTokenBuilderTest extends WebTestCase
             ]],
             'jwe_compact'
         );
-
-        static::assertTrue(true);
     }
 }

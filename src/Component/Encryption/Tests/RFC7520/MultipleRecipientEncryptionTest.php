@@ -32,7 +32,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function multipleRecipientEncryption()
+    public function multipleRecipientEncryption(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -137,7 +137,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function multipleRecipientEncryptionBis()
+    public function multipleRecipientEncryptionBis(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -240,7 +240,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
     /**
      * @test
      */
-    public function multipleRecipientEncryptionWithDifferentContentEncryptionAlgorithm()
+    public function multipleRecipientEncryptionWithDifferentContentEncryptionAlgorithm(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Inconsistent content encryption algorithm');

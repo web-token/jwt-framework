@@ -39,7 +39,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoConfigurationIsSet()
+    public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid(
             []
@@ -49,7 +49,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsFalse()
+    public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -61,7 +61,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsEmpty()
+    public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -73,7 +73,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoHeaderOrClaimCheckerIsSet()
+    public function theConfigurationIsValidIfNoHeaderOrClaimCheckerIsSet(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -88,7 +88,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theHeadersForAHeaderCheckerShouldBeSet()
+    public function theHeadersForAHeaderCheckerShouldBeSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -107,7 +107,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function aHeaderCheckerMayContainNoChecker()
+    public function aHeaderCheckerMayContainNoChecker(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -126,7 +126,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theClaimsForAClaimCheckerShouldBeSet()
+    public function theClaimsForAClaimCheckerShouldBeSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -145,7 +145,7 @@ class ConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function aClaimCheckerMayContainNoChecker()
+    public function aClaimCheckerMayContainNoChecker(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -161,7 +161,7 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
             new Source\Core\CoreSource(),

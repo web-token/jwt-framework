@@ -29,7 +29,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function keyTypeNotSupported()
+    public function keyTypeNotSupported(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported key type');
@@ -44,7 +44,7 @@ class ECKeysTest extends TestCase
      *
      * @test
      */
-    public function loadPrivateEC256KeyGenerateByAPN()
+    public function loadPrivateEC256KeyGenerateByAPN(): void
     {
         $pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.from.APN.key');
         $details = KeyConverter::loadFromKey($pem);
@@ -60,7 +60,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPublicEC256Key()
+    public function loadPublicEC256Key(): void
     {
         $pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'public.es256.key');
         $details = KeyConverter::loadFromKey($pem);
@@ -75,7 +75,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPrivateEC256Key()
+    public function loadPrivateEC256Key(): void
     {
         $private_pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.key');
         $details = KeyConverter::loadFromKey($private_pem);
@@ -91,7 +91,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadEncryptedPrivateEC256Key()
+    public function loadEncryptedPrivateEC256Key(): void
     {
         $private_pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es256.encrypted.key');
         $details = KeyConverter::loadFromKey($private_pem, 'test');
@@ -107,7 +107,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadEncryptedPrivateEC256KeyWithoutPassword()
+    public function loadEncryptedPrivateEC256KeyWithoutPassword(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Password required for encrypted keys.');
@@ -118,7 +118,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPublicEC384Key()
+    public function loadPublicEC384Key(): void
     {
         $pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'public.es384.key');
         $details = KeyConverter::loadFromKey($pem);
@@ -133,7 +133,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPrivateEC384Key()
+    public function loadPrivateEC384Key(): void
     {
         $private_pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es384.key');
         $details = KeyConverter::loadFromKey($private_pem);
@@ -149,7 +149,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadEncryptedPrivateEC384Key()
+    public function loadEncryptedPrivateEC384Key(): void
     {
         $private_pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es384.encrypted.key');
         $details = KeyConverter::loadFromKey($private_pem, 'test');
@@ -165,7 +165,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPublicEC512Key()
+    public function loadPublicEC512Key(): void
     {
         $pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'public.es512.key');
         $details = KeyConverter::loadFromKey($pem);
@@ -180,7 +180,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPrivateEC512Key()
+    public function loadPrivateEC512Key(): void
     {
         $private_pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es512.key');
         $details = KeyConverter::loadFromKey($private_pem);
@@ -196,7 +196,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadEncryptedPrivateEC512Key()
+    public function loadEncryptedPrivateEC512Key(): void
     {
         $private_pem = file_get_contents('file://'.__DIR__.DIRECTORY_SEPARATOR.'EC'.DIRECTORY_SEPARATOR.'private.es512.encrypted.key');
         $details = KeyConverter::loadFromKey($private_pem, 'test');
@@ -212,7 +212,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function convertPrivateKeyToPublic()
+    public function convertPrivateKeyToPublic(): void
     {
         $jwk = new JWK([
             'kty' => 'EC',
@@ -239,7 +239,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function createECKeyOnP256()
+    public function createECKeyOnP256(): void
     {
         $jwk = JWKFactory::createECKey('P-256');
 
@@ -252,7 +252,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function createECKeyOnP384()
+    public function createECKeyOnP384(): void
     {
         $jwk = JWKFactory::createECKey('P-384');
 
@@ -265,7 +265,7 @@ class ECKeysTest extends TestCase
     /**
      * @test
      */
-    public function createECKeyOnP521()
+    public function createECKeyOnP521(): void
     {
         $jwk = JWKFactory::createECKey('P-521');
 

@@ -29,9 +29,10 @@ use PHPUnit\Framework\TestCase;
 class CertificateTest extends TestCase
 {
     /**
+     * @covers \Jose\Component\KeyManagement\KeyConverter\KeyConverter
      * @test
      */
-    public function fileNotFound()
+    public function fileNotFound(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('File "file:///foo/bar" does not exist.');
@@ -40,9 +41,10 @@ class CertificateTest extends TestCase
     }
 
     /**
+     * @covers \Jose\Component\KeyManagement\KeyConverter\KeyConverter
      * @test
      */
-    public function fileNotValid()
+    public function fileNotValid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -50,9 +52,10 @@ class CertificateTest extends TestCase
     }
 
     /**
+     * @covers \Jose\Component\KeyManagement\KeyConverter\KeyConverter
      * @test
      */
-    public function certificateConversion()
+    public function certificateConversion(): void
     {
         $details = KeyConverter::loadFromKeyFile(__DIR__.'/Keys/RSA/private.encrypted.key', 'tests');
         static::assertEquals($details, [
@@ -77,17 +80,18 @@ class CertificateTest extends TestCase
 
     /**
      * @dataProvider dataLoadCertificate
+     * @covers \Jose\Component\KeyManagement\KeyConverter\KeyConverter
      *
      * @test
      */
-    public function loadCertificate(string $file, array $expected_values)
+    public function loadCertificate(string $file, array $expected_values): void
     {
         $result = KeyConverter::loadKeyFromCertificateFile($file);
 
         static::assertEquals($expected_values, $result);
     }
 
-    public function dataLoadCertificate()
+    public function dataLoadCertificate(): array
     {
         return [
             [
@@ -272,9 +276,10 @@ class CertificateTest extends TestCase
     }
 
     /**
+     * @covers \Jose\Component\KeyManagement\JWKFactory
      * @test
      */
-    public function loadX5CParameter()
+    public function loadX5CParameter(): void
     {
         $key = new JWK([
             'kty' => 'RSA',

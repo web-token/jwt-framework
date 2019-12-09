@@ -30,7 +30,7 @@ class HMACSignatureTest extends TestCase
     /**
      * @test
      */
-    public function invalidKey()
+    public function invalidKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
@@ -47,7 +47,7 @@ class HMACSignatureTest extends TestCase
     /**
      * @test
      */
-    public function signatureHasBadBadLength()
+    public function signatureHasBadBadLength(): void
     {
         $key = new JWK([
             'kty' => 'oct',
@@ -62,7 +62,7 @@ class HMACSignatureTest extends TestCase
     /**
      * @test
      */
-    public function hS256SignAndVerify()
+    public function hS256SignAndVerify(): void
     {
         $key = new JWK([
             'kty' => 'oct',
@@ -80,7 +80,7 @@ class HMACSignatureTest extends TestCase
     /**
      * @test
      */
-    public function hS384SignAndVerify()
+    public function hS384SignAndVerify(): void
     {
         $key = new JWK([
             'kty' => 'oct',
@@ -98,7 +98,7 @@ class HMACSignatureTest extends TestCase
     /**
      * @test
      */
-    public function hS512SignAndVerify()
+    public function hS512SignAndVerify(): void
     {
         $key = new JWK([
             'kty' => 'oct',

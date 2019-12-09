@@ -47,17 +47,14 @@ class ECDSAFromRFC6979Test extends TestCase
      *
      * @test
      */
-    public function withVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature)
+    public function withVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature): void
     {
         $is_valid = $algorithm->verify($key, $message, $signature);
 
         static::assertTrue($is_valid);
     }
 
-    /**
-     * @return array
-     */
-    public function dataWithVectors()
+    public function dataWithVectors(): array
     {
         return [
             [

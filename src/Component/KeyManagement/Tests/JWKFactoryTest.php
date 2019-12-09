@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Tests;
 
 use Base64Url\Base64Url;
-use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -29,11 +28,10 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function iCanLoadAP12CertificateThatContainsARSAKey()
+    public function iCanLoadAP12CertificateThatContainsARSAKey(): void
     {
         $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__.'/P12/CertRSA.p12', 'certRSA');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals(
             [
                 'kty' => 'RSA',
@@ -53,11 +51,10 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFromECCertificateFileInDERFormat()
+    public function createFromECCertificateFileInDERFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__.'/EC/DER/prime256v1-cert.der');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals(
             [
                 'kty' => 'EC',
@@ -74,7 +71,7 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFromSecret()
+    public function createFromSecret(): void
     {
         $jwk = JWKFactory::createFromSecret('This is a very secured secret!!!!', ['kid' => 'FOO']);
         static::assertTrue($jwk->has('kty'));
@@ -88,7 +85,7 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFromKey()
+    public function createFromKey(): void
     {
         $jwk = JWKFactory::createFromKey(file_get_contents(__DIR__.'/Keys/EC/private.es256.encrypted.key'), 'test');
         static::assertEquals('{"kty":"EC","crv":"P-256","d":"q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ","x":"vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U","y":"oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE"}', json_encode($jwk));
@@ -97,13 +94,12 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFromResource()
+    public function createFromResource(): void
     {
         $res = openssl_x509_read(file_get_contents(__DIR__.'/RSA/PEM/1024b-rsa-example-cert.pem'));
-
+        static::assertIsResource($res);
         $jwk = JWKFactory::createFromX509Resource($res);
 
-        static::assertInstanceOf(JWK::class, $jwk);
         static::assertEquals(
             [
                 'kty' => 'RSA',
@@ -120,11 +116,10 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFromECCertificateFileInPEMFormat()
+    public function createFromECCertificateFileInPEMFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__.'/EC/PEM/prime256v1-cert.pem');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals(
             [
                 'kty' => 'EC',
@@ -141,11 +136,10 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFrom32kRSACertificateFileInDERFormat()
+    public function createFrom32kRSACertificateFileInDERFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__.'/RSA/DER/32k-rsa-example-cert.der');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals(
             [
                 'kty' => 'RSA',
@@ -161,11 +155,10 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFrom32kRSACertificateFileInPEMFormat()
+    public function createFrom32kRSACertificateFileInPEMFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__.'/RSA/PEM/32k-rsa-example-cert.pem');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals(
             [
                 'kty' => 'RSA',
@@ -181,73 +174,67 @@ class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function createFromPrivateEC256KeyFileEncrypted()
+    public function createFromPrivateEC256KeyFileEncrypted(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__.'/Keys/EC/private.es256.encrypted.key', 'test');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals('{"kty":"EC","crv":"P-256","d":"q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ","x":"vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U","y":"oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE"}', json_encode($result));
     }
 
     /**
      * @test
      */
-    public function createFromPrivateEC384KeyFileEncrypted()
+    public function createFromPrivateEC384KeyFileEncrypted(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__.'/Keys/EC/private.es384.encrypted.key', 'test');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals('{"kty":"EC","crv":"P-384","d":"pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr","x":"6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ","y":"b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU"}', json_encode($result));
     }
 
     /**
      * @test
      */
-    public function createFromPrivateEC512KeyFileEncrypted()
+    public function createFromPrivateEC512KeyFileEncrypted(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__.'/Keys/EC/private.es512.encrypted.key', 'test');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals('{"kty":"EC","crv":"P-521","d":"Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE","x":"AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS","y":"AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC"}', json_encode($result));
     }
 
     /**
      * @test
      */
-    public function createFromPublicEC256KeyFile()
+    public function createFromPublicEC256KeyFile(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__.'/Keys/EC/public.es256.key');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals('{"kty":"EC","crv":"P-256","x":"vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U","y":"oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE"}', json_encode($result));
     }
 
     /**
      * @test
      */
-    public function createFromPublicEC384KeyFile()
+    public function createFromPublicEC384KeyFile(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__.'/Keys/EC/public.es384.key');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals('{"kty":"EC","crv":"P-384","x":"6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ","y":"b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU"}', json_encode($result));
     }
 
     /**
      * @test
      */
-    public function createFromPublicEC512KeyFile()
+    public function createFromPublicEC512KeyFile(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__.'/Keys/EC/public.es512.key');
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals('{"kty":"EC","crv":"P-521","x":"AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS","y":"AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC"}', json_encode($result));
     }
 
     /**
      * @test
      */
-    public function createFromValues()
+    public function createFromValues(): void
     {
         $result = JWKFactory::createFromValues([
             'kty' => 'EC',
@@ -257,7 +244,6 @@ class JWKFactoryTest extends TestCase
             'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
         ]);
 
-        static::assertInstanceOf(JWK::class, $result);
         static::assertEquals('{"kty":"EC","crv":"P-521","d":"Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE","x":"AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS","y":"AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC"}', json_encode($result));
     }
 }

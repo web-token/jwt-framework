@@ -33,7 +33,7 @@ class RSA15SignatureTest extends TestCase
     /**
      * @test
      */
-    public function rS256()
+    public function rS256(): void
     {
         /*
          * Payload,

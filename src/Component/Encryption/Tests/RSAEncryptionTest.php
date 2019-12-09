@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Tests;
 
 use Jose\Component\Core\JWKSet;
-use Jose\Component\Encryption\JWE;
 
 /**
  * @group RSA
@@ -29,19 +28,16 @@ class RSAEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function loadJWEFromRFC7516()
+    public function loadJWEFromRFC7516(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded = $this->getJWESerializerManager()->unserialize('eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A.AxY8DCtDaGlsbGljb3RoZQ.KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY.9hH0vgRfYgPnAHOd8stkvw');
 
-        static::assertInstanceOf(JWE::class, $loaded);
         static::assertEquals('RSA1_5', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
         static::assertNull($loaded->getPayload());
-
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
-
         static::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 
@@ -50,22 +46,18 @@ class RSAEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function loadJWEJSONSerialization()
+    public function loadJWEJSONSerialization(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'A128KW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded = $this->getJWESerializerManager()->unserialize('{"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","unprotected":{"jku":"https://server.example.com/keys.jwks"},"recipients":[{"header":{"alg":"RSA1_5","kid":"2011-04-29"},"encrypted_key":"UGhIOguC7IuEvf_NPVaXsGMoLOmwvc1GyqlIKOK1nN94nHPoltGRhWhw7Zx0-kFm1NJn8LE9XShH59_i8J0PH5ZZyNfGy2xGdULU7sHNF6Gp2vPLgNZ__deLKxGHZ7PcHALUzoOegEI-8E66jX2E4zyJKx-YxzZIItRzC5hlRirb6Y5Cl_p-ko3YvkkysZIFNPccxRU7qve1WYPxqbb2Yw8kZqa2rMWI5ng8OtvzlV7elprCbuPhcCdZ6XDP0_F8rkXds2vE4X-ncOIM8hAYHHi29NX0mcKiRaD0-D-ljQTP-cFPgwCp6X-nZZd9OHBv-B3oWh2TbqmScqXMR4gp_A"},{"header":{"alg":"A128KW","kid":"7"},"encrypted_key":"6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ"}],"iv":"AxY8DCtDaGlsbGljb3RoZQ","ciphertext":"KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY","tag":"Mz-VPPyU4RlcuYv1IwIvzw"}');
 
         static::assertEquals(2, $loaded->countRecipients());
-
-        static::assertInstanceOf(JWE::class, $loaded);
         static::assertEquals('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
         static::assertEquals('RSA1_5', $loaded->getRecipient(0)->getHeaderParameter('alg'));
         static::assertEquals('A128KW', $loaded->getRecipient(1)->getHeaderParameter('alg'));
         static::assertNull($loaded->getPayload());
-
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
-
         static::assertEquals('Live long and prosper.', $loaded->getPayload());
     }
 

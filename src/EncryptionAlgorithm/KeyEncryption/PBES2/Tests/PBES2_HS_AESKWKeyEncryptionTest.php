@@ -35,7 +35,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
      *
      * @test
      */
-    public function pBES2HS256A128KW()
+    public function pBES2HS256A128KW(): void
     {
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -61,7 +61,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function pBES2HS256A128KWBis()
+    public function pBES2HS256A128KWBis(): void
     {
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -85,7 +85,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function pBES2HS384A192KW()
+    public function pBES2HS384A192KW(): void
     {
         $header = [
             'alg' => 'PBES2-HS384+A192KW',
@@ -109,7 +109,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function pBES2HS512A256KW()
+    public function pBES2HS512A256KW(): void
     {
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
@@ -133,7 +133,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function badKeyType()
+    public function badKeyType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
@@ -156,7 +156,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function invalidKeyType()
+    public function invalidKeyType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The key parameter "k" is missing.');
@@ -179,7 +179,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function algorithmParameterIsMissing()
+    public function algorithmParameterIsMissing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "alg" is missing.');
@@ -201,7 +201,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function p2CParameterIsMissing()
+    public function p2CParameterIsMissing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "p2s" is missing.');
@@ -226,7 +226,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function p2SParameterIsMissing()
+    public function p2SParameterIsMissing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "p2c" is missing.');

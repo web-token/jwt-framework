@@ -39,7 +39,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoConfigurationIsSet()
+    public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid(
             []
@@ -49,7 +49,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsFalse()
+    public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -63,7 +63,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsEmpty()
+    public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -77,7 +77,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoKeyTypeIsSet()
+    public function theConfigurationIsInvalidIfNoKeyTypeIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -94,7 +94,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfAnUnsupportedKeyTypeIsSet()
+    public function theConfigurationIsInvalidIfAnUnsupportedKeyTypeIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -113,7 +113,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theCertificateConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theCertificateConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -132,7 +132,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theJwkConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theJwkConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -151,7 +151,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -170,7 +170,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet2()
+    public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet2(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -191,7 +191,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theKeyFileConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theKeyFileConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -210,7 +210,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theValuesConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theValuesConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -229,7 +229,7 @@ class KeyConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theX5CConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theX5CConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -245,7 +245,7 @@ class KeyConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
             new Source\Core\CoreSource(),

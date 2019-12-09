@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
-use Jose\Component\Checker\ClaimCheckerManager;
 use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\IssuedAtChecker;
@@ -37,7 +36,7 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theAliasListOfTheClaimCheckerManagerFactoryIsAvailable()
+    public function theAliasListOfTheClaimCheckerManagerFactoryIsAvailable(): void
     {
         static::assertEquals(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
     }
@@ -45,7 +44,7 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theAliasDoesNotExist()
+    public function theAliasDoesNotExist(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The claim checker with the alias "foo" is not supported.');
@@ -56,16 +55,16 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAClaimCheckerManager()
+    public function iCanCreateAClaimCheckerManager(): void
     {
         $manager = $this->getClaimCheckerManagerFactory()->create(['exp', 'iat', 'nbf', 'aud']);
-        static::assertInstanceOf(ClaimCheckerManager::class, $manager);
+        static::assertCount(4, $manager->getCheckers());
     }
 
     /**
      * @test
      */
-    public function iCanCheckValidPayloadClaims()
+    public function iCanCheckValidPayloadClaims(): void
     {
         $payload = [
             'exp' => time() + 3600,
@@ -83,7 +82,7 @@ class ClaimCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theMandatoryClaimsAreNotSet()
+    public function theMandatoryClaimsAreNotSet(): void
     {
         $this->expectException(\Jose\Component\Checker\MissingMandatoryClaimException::class);
         $this->expectExceptionMessage('The following claims are mandatory: bar.');

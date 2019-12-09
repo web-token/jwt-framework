@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEBuilder;
+use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory as JWEBuilderFactoryService;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -35,39 +37,40 @@ class JWEBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWEBuilderFactoryIsAvailable()
+    public function theJWEBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWEBuilderFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        static::assertTrue($container->has(JWEBuilderFactoryService::class));
     }
 
     /**
      * @test
      */
-    public function theJWEBuilderFactoryCanCreateAJWEBuilder()
+    public function theJWEBuilderFactoryCanCreateAJWEBuilder(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
-        /** @var JWEBuilderFactory $jweFactory */
-        $jweFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWEBuilderFactory::class);
+        $jweFactory = $container->get(JWEBuilderFactoryService::class);
+        static::assertInstanceOf(JWEBuilderFactoryService::class, $jweFactory);
 
-        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
-
-        static::assertInstanceOf(JWEBuilder::class, $jwe);
+        $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
     }
 
     /**
      * @test
      */
-    public function aJWEBuilderCanBeDefinedUsingTheConfigurationFile()
+    public function aJWEBuilderCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_builder.builder1'));
 
         $jwe = $container->get('jose.jwe_builder.builder1');
@@ -77,11 +80,12 @@ class JWEBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWEBuilderCanBeDefinedFromAnotherBundleUsingTheHelper()
+    public function aJWEBuilderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_builder.builder2'));
 
         $jwe = $container->get('jose.jwe_builder.builder2');

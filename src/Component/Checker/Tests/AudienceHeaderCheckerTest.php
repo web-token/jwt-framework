@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
+use Jose\Component\Checker\InvalidHeaderException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,9 +28,9 @@ class AudienceHeaderCheckerTest extends TestCase
     /**
      * @test
      */
-    public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings()
+    public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectException(InvalidHeaderException::class);
         $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
@@ -39,9 +40,9 @@ class AudienceHeaderCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theAudienceHeaderIsNotKnown()
+    public function theAudienceHeaderIsNotKnown(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectException(InvalidHeaderException::class);
         $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
@@ -51,9 +52,9 @@ class AudienceHeaderCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theAudienceHeaderListDoesNotContainTheCurrentAudience()
+    public function theAudienceHeaderListDoesNotContainTheCurrentAudience(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectException(InvalidHeaderException::class);
         $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
@@ -63,7 +64,7 @@ class AudienceHeaderCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theAudienceHeaderIsSupported()
+    public function theAudienceHeaderIsSupported(): void
     {
         $checker = new AudienceChecker('foo');
         $checker->checkHeader('foo');

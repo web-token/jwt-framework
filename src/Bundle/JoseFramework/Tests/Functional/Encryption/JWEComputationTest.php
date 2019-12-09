@@ -19,6 +19,7 @@ use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -38,11 +39,12 @@ class JWEComputationTest extends WebTestCase
     /**
      * @test
      */
-    public function iCanCreateAndLoadAToken()
+    public function iCanCreateAndLoadAToken(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
         $jwk = new JWK([
             'kty' => 'oct',

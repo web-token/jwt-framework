@@ -15,7 +15,6 @@ namespace Jose\Component\Encryption\Tests;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
-use Jose\Component\Encryption\JWE;
 
 /**
  * Class RSAKeyWithoutAllPrimesTest.
@@ -32,7 +31,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
      *
      * @test
      */
-    public function encryptionAlgorithms(string $encryption_algorithm)
+    public function encryptionAlgorithms(string $encryption_algorithm): void
     {
         $key = $this->getPrivateKey();
 
@@ -50,7 +49,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
-        static::assertInstanceOf(JWE::class, $loaded);
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
@@ -60,7 +58,7 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
      *
      * @test
      */
-    public function encryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm)
+    public function encryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm): void
     {
         $key = $this->getMinimalPrivateKey();
 
@@ -78,7 +76,6 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()->unserialize($jwt);
-        static::assertInstanceOf(JWE::class, $loaded);
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }

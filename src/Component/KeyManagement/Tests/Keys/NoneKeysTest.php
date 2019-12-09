@@ -30,7 +30,7 @@ class NoneKeysTest extends TestCase
      *
      * @test
      */
-    public function keyThumbprint()
+    public function keyThumbprint(): void
     {
         $key = new JWK([
             'kty' => 'none',
@@ -48,7 +48,7 @@ class NoneKeysTest extends TestCase
     /**
      * @test
      */
-    public function createNoneKey()
+    public function createNoneKey(): void
     {
         $key = JWKFactory::createNoneKey(['kid' => 'NONE_KEY']);
 

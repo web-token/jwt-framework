@@ -30,8 +30,9 @@ class AESKWKeyEncryptionTest extends TestCase
 {
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW
      */
-    public function a128KW()
+    public function a128KW(): void
     {
         $header = [];
         $key = new JWK([
@@ -51,8 +52,9 @@ class AESKWKeyEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW
      */
-    public function badKey()
+    public function badKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type');
@@ -71,8 +73,9 @@ class AESKWKeyEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW
      */
-    public function a192KW()
+    public function a192KW(): void
     {
         $header = [];
         $key = new JWK([
@@ -92,8 +95,9 @@ class AESKWKeyEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW
      */
-    public function a256KW()
+    public function a256KW(): void
     {
         $header = [];
         $key = new JWK([

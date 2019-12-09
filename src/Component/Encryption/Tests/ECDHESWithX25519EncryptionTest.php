@@ -30,7 +30,7 @@ class ECDHESWithX25519EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function a128CBCHS256EncryptAndDecrypt()
+    public function a128CBCHS256EncryptAndDecrypt(): void
     {
         $receiverKey = new JWK([
             'kty' => 'OKP',

@@ -35,7 +35,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function completeRS256Sign()
+    public function completeRS256Sign(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -54,7 +54,6 @@ class RSASignatureTest extends TestCase
         );
         $serializer = new CompactSerializer(
         );
-        $jwsBuilder = $jwsBuilder->create(['RS256']);
         $jws = $jwsBuilder
             ->create()->withPayload('Live long and Prosper.')
             ->addSignature(
@@ -83,7 +82,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function completeRS256SignWithDetachedPayload()
+    public function completeRS256SignWithDetachedPayload(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -130,7 +129,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function completeRS384Sign()
+    public function completeRS384Sign(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -177,7 +176,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function completeRS512Sign()
+    public function completeRS512Sign(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -225,7 +224,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function completePS256Sign()
+    public function completePS256Sign(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -273,7 +272,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function completePS384Sign()
+    public function completePS384Sign(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -319,7 +318,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function completePS512Sign()
+    public function completePS512Sign(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -367,7 +366,7 @@ class RSASignatureTest extends TestCase
      *
      * @test
      */
-    public function loadJWSJSONSerialization()
+    public function loadJWSJSONSerialization(): void
     {
         $serializer = new JSONGeneralSerializer(
         );
@@ -385,7 +384,7 @@ class RSASignatureTest extends TestCase
      *
      * @test
      */
-    public function loadJWSJSONSerializationWithDetachedPayload()
+    public function loadJWSJSONSerializationWithDetachedPayload(): void
     {
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new Algorithm\RS256()])
@@ -403,7 +402,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function loadJWSJSONSerializationWithDetachedPayloadAndPayloadInJWS()
+    public function loadJWSJSONSerializationWithDetachedPayloadAndPayloadInJWS(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload');
@@ -423,7 +422,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function loadInvalidInput()
+    public function loadInvalidInput(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported input');
@@ -435,7 +434,7 @@ class RSASignatureTest extends TestCase
     /**
      * @test
      */
-    public function loadInvalidInput2()
+    public function loadInvalidInput2(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported input');
@@ -449,7 +448,7 @@ class RSASignatureTest extends TestCase
      *
      * @test
      */
-    public function loadIETFExample1()
+    public function loadIETFExample1(): void
     {
         $serializer = new CompactSerializer(
         );
@@ -465,7 +464,7 @@ class RSASignatureTest extends TestCase
      *
      * @test
      */
-    public function loadIETFExample2()
+    public function loadIETFExample2(): void
     {
         $serializer = new CompactSerializer(
         );
@@ -481,7 +480,7 @@ class RSASignatureTest extends TestCase
      *
      * @test
      */
-    public function loadIETFExample3()
+    public function loadIETFExample3(): void
     {
         $serializer = new CompactSerializer(
         );
@@ -497,7 +496,7 @@ class RSASignatureTest extends TestCase
      *
      * @test
      */
-    public function loadIETFExample4()
+    public function loadIETFExample4(): void
     {
         $serializer = new CompactSerializer(
         );

@@ -28,8 +28,9 @@ class AESGCMContentEncryptionTest extends TestCase
 {
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM
      */
-    public function a128GCMEncryptAndDecrypt()
+    public function a128GCMEncryptAndDecrypt(): void
     {
         $header = Base64Url::encode(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A128GCM']));
         $tag = null;
@@ -48,8 +49,9 @@ class AESGCMContentEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM
      */
-    public function a192GCMEncryptAndDecrypt()
+    public function a192GCMEncryptAndDecrypt(): void
     {
         $header = Base64Url::encode(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A192GCM']));
         $tag = null;
@@ -68,8 +70,9 @@ class AESGCMContentEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM
      */
-    public function a256GCMEncryptAndDecrypt()
+    public function a256GCMEncryptAndDecrypt(): void
     {
         $header = Base64Url::encode(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A256GCM']));
         $tag = null;
@@ -88,10 +91,11 @@ class AESGCMContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
+     * @covers \Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM
      *
      * @test
      */
-    public function a256GCMDecryptTestVector()
+    public function a256GCMDecryptTestVector(): void
     {
         $algorithm = new A256GCM();
 

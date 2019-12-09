@@ -26,6 +26,8 @@ use PHPUnit\Framework\TestCase;
 final class ClaimCheckerManagerTest extends TestCase
 {
     /**
+     * @covers \Jose\Component\Checker\AudienceChecker
+     * @covers \Jose\Component\Checker\ClaimCheckerManager
      * @test
      */
     public function getCheckers(): void

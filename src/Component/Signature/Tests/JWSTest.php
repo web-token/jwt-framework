@@ -27,7 +27,7 @@ class JWSTest extends SignatureTest
     /**
      * @test
      */
-    public function jWS()
+    public function jWS(): void
     {
         $claims = [
             'nbf' => time(),
@@ -52,7 +52,7 @@ class JWSTest extends SignatureTest
     /**
      * @test
      */
-    public function toCompactJSONFailed()
+    public function toCompactJSONFailed(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The signature does not exist.');
@@ -72,7 +72,7 @@ class JWSTest extends SignatureTest
     /**
      * @test
      */
-    public function toFlattenedJSONFailed()
+    public function toFlattenedJSONFailed(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The signature does not exist.');
@@ -92,7 +92,7 @@ class JWSTest extends SignatureTest
     /**
      * @test
      */
-    public function toJSONFailed()
+    public function toJSONFailed(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('No signature.');
@@ -112,7 +112,7 @@ class JWSTest extends SignatureTest
     /**
      * @test
      */
-    public function signatureContainsUnprotectedHeader()
+    public function signatureContainsUnprotectedHeader(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('The signature contains unprotected header parameters and cannot be converted into compact JSON');
@@ -135,7 +135,7 @@ class JWSTest extends SignatureTest
     /**
      * @test
      */
-    public function signatureDoesNotContainHeader()
+    public function signatureDoesNotContainHeader(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The header "foo" does not exist');
@@ -157,7 +157,7 @@ class JWSTest extends SignatureTest
     /**
      * @test
      */
-    public function signatureDoesNotContainProtectedHeader()
+    public function signatureDoesNotContainProtectedHeader(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The protected header "foo" does not exist');

@@ -39,7 +39,7 @@ class JwkUriConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoConfigurationIsSet()
+    public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid(
             []
@@ -49,7 +49,7 @@ class JwkUriConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsFalse()
+    public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -63,7 +63,7 @@ class JwkUriConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsEmpty()
+    public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -77,7 +77,7 @@ class JwkUriConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoKeySetIdIsSet()
+    public function theConfigurationIsInvalidIfNoKeySetIdIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -94,7 +94,7 @@ class JwkUriConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoPathIsSet()
+    public function theConfigurationIsInvalidIfNoPathIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -110,7 +110,7 @@ class JwkUriConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
             new Source\Core\CoreSource(),

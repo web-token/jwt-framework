@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker\Tests;
 
+use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\IssuedAtChecker;
 use PHPUnit\Framework\TestCase;
 
@@ -27,9 +28,9 @@ class IssuedAtClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function anIssuedAtClaimMustBeAnInteger()
+    public function anIssuedAtClaimMustBeAnInteger(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('"iat" must be an integer.');
 
         $checker = new IssuedAtChecker();
@@ -39,9 +40,9 @@ class IssuedAtClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theIssuedAtClaimIsInTheFutur()
+    public function theIssuedAtClaimIsInTheFutur(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('The JWT is issued in the future.');
 
         $checker = new IssuedAtChecker();
@@ -51,7 +52,7 @@ class IssuedAtClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theIssuedAtClaimIsInThePast()
+    public function theIssuedAtClaimIsInThePast(): void
     {
         $checker = new IssuedAtChecker();
         $checker->checkClaim(time() - 3600);

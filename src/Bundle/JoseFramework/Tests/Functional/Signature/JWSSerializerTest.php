@@ -16,6 +16,7 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -35,11 +36,12 @@ class JWSSerializerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSSerializerManagerFromConfigurationIsAvailable()
+    public function jWSSerializerManagerFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_serializer.jws_serializer1'));
 
         $jws = $container->get('jose.jws_serializer.jws_serializer1');
@@ -49,11 +51,12 @@ class JWSSerializerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSSerializerManagerFromExternalBundleExtensionIsAvailable()
+    public function jWSSerializerManagerFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_serializer.jws_serializer2'));
 
         $jws = $container->get('jose.jws_serializer.jws_serializer2');

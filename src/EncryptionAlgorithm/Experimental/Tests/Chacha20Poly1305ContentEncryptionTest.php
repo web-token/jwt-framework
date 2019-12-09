@@ -33,9 +33,10 @@ class Chacha20Poly1305ContentEncryptionTest extends TestCase
     }
 
     /**
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305
      * @test
      */
-    public function contentEncryptionAndDecryption()
+    public function contentEncryptionAndDecryption(): void
     {
         $header = [];
         $algorithm = new Chacha20Poly1305();

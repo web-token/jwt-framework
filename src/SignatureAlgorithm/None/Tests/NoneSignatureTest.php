@@ -16,7 +16,6 @@ namespace Jose\Component\Signature\Algorithm\Tests;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\None;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use PHPUnit\Framework\TestCase;
@@ -32,7 +31,7 @@ class NoneSignatureTest extends TestCase
     /**
      * @test
      */
-    public function noneSignAndVerifyAlgorithm()
+    public function noneSignAndVerifyAlgorithm(): void
     {
         $key = new JWK([
             'kty' => 'none',
@@ -50,7 +49,7 @@ class NoneSignatureTest extends TestCase
     /**
      * @test
      */
-    public function invalidKey()
+    public function invalidKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
@@ -67,7 +66,7 @@ class NoneSignatureTest extends TestCase
     /**
      * @test
      */
-    public function noneSignAndVerifyComplete()
+    public function noneSignAndVerifyComplete(): void
     {
         $jwk = new JWK([
             'kty' => 'none',
@@ -90,8 +89,6 @@ class NoneSignatureTest extends TestCase
         static::assertTrue(\is_string($compact));
 
         $result = $serializer->unserialize($compact);
-
-        static::assertInstanceOf(JWS::class, $result);
 
         static::assertEquals('Live long and Prosper.', $result->getPayload());
         static::assertEquals(1, $result->countSignatures());

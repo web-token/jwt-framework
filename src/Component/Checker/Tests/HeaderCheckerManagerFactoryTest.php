@@ -15,7 +15,9 @@ namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Component\Checker\InvalidHeaderException;
 use Jose\Component\Checker\IssuerChecker;
+use Jose\Component\Checker\MissingMandatoryHeaderParameterException;
 use Jose\Component\Checker\Tests\Stub\OtherToken;
 use Jose\Component\Checker\Tests\Stub\Token;
 use Jose\Component\Checker\Tests\Stub\TokenSupport;
@@ -37,7 +39,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theAliasListOfTheHeaderCheckerManagerFactoryIsAvailable()
+    public function theAliasListOfTheHeaderCheckerManagerFactoryIsAvailable(): void
     {
         static::assertEquals(['aud', 'iss'], $this->getHeaderCheckerManagerFactory()->aliases());
     }
@@ -45,7 +47,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function aHeaderMustNotContainDuplicatedHeaderParameters()
+    public function aHeaderMustNotContainDuplicatedHeaderParameters(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The header contains duplicated entries: alg.');
@@ -62,9 +64,9 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theTokenHasCriticalHeaderNotSatisfied()
+    public function theTokenHasCriticalHeaderNotSatisfied(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectException(InvalidHeaderException::class);
         $this->expectExceptionMessage('One or more header parameters are marked as critical, but they are missing or have not been checked: alg.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
@@ -79,7 +81,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theHeaderIsSuccessfullyChecked()
+    public function theHeaderIsSuccessfullyChecked(): void
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
@@ -87,15 +89,14 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $unprotected = ['iss' => 'Another Service'];
         $token = new Token(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
-        static::assertTrue(true);
     }
 
     /**
      * @test
      */
-    public function theCriticalHeaderParameterMustBeProtected()
+    public function theCriticalHeaderParameterMustBeProtected(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectException(InvalidHeaderException::class);
         $this->expectExceptionMessage('The header parameter "crit" must be protected.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
@@ -109,9 +110,9 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theCriticalHeaderParameterMustBeAListOfHeaderParameters()
+    public function theCriticalHeaderParameterMustBeAListOfHeaderParameters(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidHeaderException::class);
+        $this->expectException(InvalidHeaderException::class);
         $this->expectExceptionMessage('The header "crit" must be a list of header parameters.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
@@ -125,7 +126,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function theHeaderContainsUnknownParametersAndIsSuccessfullyChecked()
+    public function theHeaderContainsUnknownParametersAndIsSuccessfullyChecked(): void
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
         $payload = [];
@@ -133,15 +134,14 @@ class HeaderCheckerManagerFactoryTest extends TestCase
         $unprotected = [];
         $token = new Token(json_encode($payload), $protected, $unprotected);
         $headerCheckerManager->check($token, 0);
-        static::assertTrue(true);
     }
 
     /**
      * @test
      */
-    public function theHeaderDoesNotContainSomeMandatoryParameters()
+    public function theHeaderDoesNotContainSomeMandatoryParameters(): void
     {
-        $this->expectException(\Jose\Component\Checker\MissingMandatoryHeaderParameterException::class);
+        $this->expectException(MissingMandatoryHeaderParameterException::class);
         $this->expectExceptionMessage('The following header parameters are mandatory: mandatory.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
@@ -155,7 +155,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
     /**
      * @test
      */
-    public function iTryToCheckATokenThatIsNotSupported()
+    public function iTryToCheckATokenThatIsNotSupported(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported token type.');

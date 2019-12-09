@@ -31,7 +31,7 @@ class RSAKeysTest extends TestCase
      *
      * @test
      */
-    public function keyThumbprint()
+    public function keyThumbprint(): void
     {
         $key = new JWK([
             'kty' => 'RSA',
@@ -47,7 +47,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function hashAlgorithmNotSupported()
+    public function hashAlgorithmNotSupported(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The hash algorithm "foo" is not supported.');
@@ -66,7 +66,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function unsupportedKeyType()
+    public function unsupportedKeyType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('JWK is not a RSA key');
@@ -83,7 +83,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPublicRSAKeyFromPEM()
+    public function loadPublicRSAKeyFromPEM(): void
     {
         $file = 'file://'.__DIR__.DIRECTORY_SEPARATOR.'RSA'.DIRECTORY_SEPARATOR.'public.key';
         $rsa_key = RSAKey::createFromPEM($file);
@@ -99,7 +99,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPublicRSAKeyFromJWK()
+    public function loadPublicRSAKeyFromJWK(): void
     {
         $jwk = new JWK([
             'kty' => 'RSA',
@@ -123,7 +123,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPublicRSAKeyFromValues()
+    public function loadPublicRSAKeyFromValues(): void
     {
         $rsa_key = RSAKey::createFromJWK(new JWK([
             'kty' => 'RSA',
@@ -142,7 +142,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPrivateRSAKey()
+    public function loadPrivateRSAKey(): void
     {
         $file = 'file://'.__DIR__.DIRECTORY_SEPARATOR.'RSA'.DIRECTORY_SEPARATOR.'private.key';
         $rsa_key = RSAKey::createFromPEM($file);
@@ -172,7 +172,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPrivateRSAKeyFromJWK()
+    public function loadPrivateRSAKeyFromJWK(): void
     {
         $jwk = new JWK([
             'kty' => 'RSA',
@@ -212,7 +212,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPrivateRSAKeyFromValues()
+    public function loadPrivateRSAKeyFromValues(): void
     {
         $rsa_key = RSAKey::createFromJWK(new JWK([
             'kty' => 'RSA',
@@ -252,7 +252,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function convertPrivateKeyToPublic()
+    public function convertPrivateKeyToPublic(): void
     {
         $private_ec_key = RSAKey::createFromJWK(new JWK([
             'kty' => 'RSA',
@@ -282,7 +282,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function createRSAKey512Bits()
+    public function createRSAKey512Bits(): void
     {
         $jwk = JWKFactory::createRSAKey(512);
 
@@ -299,7 +299,7 @@ class RSAKeysTest extends TestCase
     /**
      * @test
      */
-    public function loadPrivateRSAKeyFromMinimalValues()
+    public function loadPrivateRSAKeyFromMinimalValues(): void
     {
         $rsa_key = RSAKey::createFromJWK(new JWK([
             'kty' => 'RSA',

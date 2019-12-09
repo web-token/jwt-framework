@@ -16,12 +16,12 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Serializer;
 use Jose\Bundle\JoseFramework\Serializer\JWSEncoder;
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilderFactory as BaseJWSBuilderFactory;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Serializer;
 
 /**
@@ -45,11 +45,12 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderIsAvailable()
+    public function jWSEncoderIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         /** @var Serializer $serializer */
         $serializer = $container->get('serializer');
         static::assertTrue($serializer->supportsEncoding('jws_compact'));
@@ -63,12 +64,15 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderSupportsAllFormatsByDefault()
+    public function jWSEncoderSupportsAllFormatsByDefault(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        $jwsSerializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);
+        static::assertInstanceOf(JWSSerializerManagerFactory::class, $jwsSerializerManagerFactory);
+        $serializer = new JWSEncoder($jwsSerializerManagerFactory);
         static::assertTrue($serializer->supportsEncoding('jws_compact'));
         static::assertTrue($serializer->supportsEncoding('jws_json_flattened'));
         static::assertTrue($serializer->supportsEncoding('jws_json_general'));
@@ -80,14 +84,17 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderCanEncodeAllFormats()
+    public function jWSEncoderCanEncodeAllFormats(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        $jwsSerializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);
+        static::assertInstanceOf(JWSSerializerManagerFactory::class, $jwsSerializerManagerFactory);
+        $serializer = new JWSEncoder($jwsSerializerManagerFactory);
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -101,7 +108,6 @@ final class JWSEncoderTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', $serializer->encode($jws, 'jws_compact'));
         static::assertEquals('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', $serializer->encode($jws, 'jws_json_flattened'));
         static::assertEquals('{"payload":"SGVsbG8gV29ybGQh","signatures":[{"signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY","protected":"eyJhbGciOiJIUzI1NiJ9"}]}', $serializer->encode($jws, 'jws_json_general'));
@@ -110,14 +116,17 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderCanDecodeAllFormats()
+    public function jWSEncoderCanDecodeAllFormats(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        $jwsSerializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);
+        static::assertInstanceOf(JWSSerializerManagerFactory::class, $jwsSerializerManagerFactory);
+        $serializer = new JWSEncoder($jwsSerializerManagerFactory);
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -131,7 +140,6 @@ final class JWSEncoderTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals($jws, $serializer->decode('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', 'jws_compact'));
         static::assertEquals($jws, $serializer->decode('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', 'jws_json_flattened'));
         static::assertEquals($jws, $serializer->decode('{"payload":"SGVsbG8gV29ybGQh","signatures":[{"signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY","protected":"eyJhbGciOiJIUzI1NiJ9"}]}', 'jws_json_general'));
@@ -140,14 +148,17 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderSupportsEncodingWithSpecificSignature()
+    public function jWSEncoderSupportsEncodingWithSpecificSignature(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        $jwsSerializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);
+        static::assertInstanceOf(JWSSerializerManagerFactory::class, $jwsSerializerManagerFactory);
+        $serializer = new JWSEncoder($jwsSerializerManagerFactory);
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -174,7 +185,6 @@ final class JWSEncoderTest extends WebTestCase
         $context2 = [
             'signature_index' => 1,
         ];
-        static::assertInstanceOf(JWS::class, $jws);
         // No context, signature index = 0
         static::assertEquals('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', $serializer->encode($jws, 'jws_compact'));
         static::assertEquals('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', $serializer->encode($jws, 'jws_json_flattened'));
@@ -192,17 +202,20 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderSupportsCustomSerializerManager()
+    public function jWSEncoderSupportsCustomSerializerManager(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         $jwsSerializerManager = new JWSSerializerManager([
             new CompactSerializer(),
         ]);
-        $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class), $jwsSerializerManager);
+        $jwsSerializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);
+        static::assertInstanceOf(JWSSerializerManagerFactory::class, $jwsSerializerManagerFactory);
+        $serializer = new JWSEncoder($jwsSerializerManagerFactory, $jwsSerializerManager);
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -216,7 +229,6 @@ final class JWSEncoderTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsEncoding('jws_compact'));
         static::assertFalse($serializer->supportsEncoding('jws_json_flattened'));
         static::assertFalse($serializer->supportsEncoding('jws_json_general'));
@@ -230,17 +242,20 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderShouldThrowOnUnsupportedFormatWhenEncoding()
+    public function jWSEncoderShouldThrowOnUnsupportedFormatWhenEncoding(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         $serializerManager = new JWSSerializerManager([
             new CompactSerializer(),
         ]);
-        $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class), $serializerManager);
+        $jwsSerializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);
+        static::assertInstanceOf(JWSSerializerManagerFactory::class, $jwsSerializerManagerFactory);
+        $serializer = new JWSEncoder($jwsSerializerManagerFactory, $serializerManager);
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -254,7 +269,6 @@ final class JWSEncoderTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', $serializer->encode($jws, 'jws_compact'));
         $this->expectExceptionMessage('Cannot encode JWS to jws_json_flattened format.');
         $serializer->encode($jws, 'jws_json_flattened');
@@ -263,17 +277,20 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderShouldThrowOnUnsupportedFormatWhenDecoding()
+    public function jWSEncoderShouldThrowOnUnsupportedFormatWhenDecoding(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         $serializerManager = new JWSSerializerManager([
             new CompactSerializer(),
         ]);
-        $serializer = new JWSEncoder($container->get(JWSSerializerManagerFactory::class), $serializerManager);
+        $jwsSerializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);
+        static::assertInstanceOf(JWSSerializerManagerFactory::class, $jwsSerializerManagerFactory);
+        $serializer = new JWSEncoder($jwsSerializerManagerFactory, $serializerManager);
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -287,7 +304,6 @@ final class JWSEncoderTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals($jws, $serializer->decode('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', 'jws_compact'));
         $this->expectExceptionMessage('Cannot decode JWS from jws_json_flattened format.');
         $serializer->decode('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', 'jws_json_flattened');

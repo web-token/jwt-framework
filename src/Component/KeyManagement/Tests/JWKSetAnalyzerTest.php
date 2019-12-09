@@ -34,7 +34,7 @@ class JWKSetAnalyzerTest extends TestCase
     /**
      * @test
      */
-    public function theKeysetHasNoKey()
+    public function theKeysetHasNoKey(): void
     {
         $jwkset = new JWKSet([]);
         $messages = $this->getKeysetAnalyzer()->analyze($jwkset);
@@ -45,7 +45,7 @@ class JWKSetAnalyzerTest extends TestCase
     /**
      * @test
      */
-    public function theKeysetDoesNotMixesKeys()
+    public function theKeysetDoesNotMixesKeys(): void
     {
         $jwkset = new JWKSet([
             new JWK(['kty' => 'OKP']),
@@ -61,7 +61,7 @@ class JWKSetAnalyzerTest extends TestCase
     /**
      * @test
      */
-    public function theKeysetMixesKeys()
+    public function theKeysetMixesKeys(): void
     {
         $jwkset = new JWKSet([
             new JWK(['kty' => 'oct']),
@@ -78,7 +78,7 @@ class JWKSetAnalyzerTest extends TestCase
     /**
      * @test
      */
-    public function theKeysetHasOnlyPrivateKeys()
+    public function theKeysetHasOnlyPrivateKeys(): void
     {
         $jwkset = new JWKSet([
             new JWK(['kty' => 'OKP', 'd' => 'foo']),
@@ -93,7 +93,7 @@ class JWKSetAnalyzerTest extends TestCase
     /**
      * @test
      */
-    public function theKeysetHasOnlyPublicKeys()
+    public function theKeysetHasOnlyPublicKeys(): void
     {
         $jwkset = new JWKSet([
             new JWK(['kty' => 'OKP']),
@@ -108,7 +108,7 @@ class JWKSetAnalyzerTest extends TestCase
     /**
      * @test
      */
-    public function theKeysetMixesPublicAndPrivateKeys()
+    public function theKeysetMixesPublicAndPrivateKeys(): void
     {
         $jwkset = new JWKSet([
             new JWK(['kty' => 'OKP']),

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
 
 /**
@@ -33,7 +32,7 @@ class JWSLoaderTest extends SignatureTest
     /**
      * @test
      */
-    public function theFlattenedTokenCannotBeLoaded()
+    public function theFlattenedTokenCannotBeLoaded(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unable to load and verify the token.');
@@ -53,7 +52,7 @@ class JWSLoaderTest extends SignatureTest
     /**
      * @test
      */
-    public function theTokenCannotBeVerifiedBecauseOfAnUnsupportedAlgorithm()
+    public function theTokenCannotBeVerifiedBecauseOfAnUnsupportedAlgorithm(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unable to load and verify the token.');
@@ -73,7 +72,7 @@ class JWSLoaderTest extends SignatureTest
     /**
      * @test
      */
-    public function theTokenCannotBeVerifiedBecauseOfABadKey()
+    public function theTokenCannotBeVerifiedBecauseOfABadKey(): void
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Unable to load and verify the token.');
@@ -93,7 +92,7 @@ class JWSLoaderTest extends SignatureTest
     /**
      * @test
      */
-    public function theTokenCanBeVerified()
+    public function theTokenCanBeVerified(): void
     {
         $token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0';
         $key = new JWK([
@@ -105,7 +104,6 @@ class JWSLoaderTest extends SignatureTest
         ]);
 
         $jws = $this->getJWSLoader()->loadAndVerifyWithKey($token, $key, $signature);
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertEquals("It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.", $jws->getPayload());
         static::assertEquals(0, $signature);
     }

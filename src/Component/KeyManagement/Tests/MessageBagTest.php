@@ -28,7 +28,7 @@ class MessageBagTest extends TestCase
     /**
      * @test
      */
-    public function iCanGetAMessageWithLowSeverity()
+    public function iCanGetAMessageWithLowSeverity(): void
     {
         $message = Message::low('Not important');
 
@@ -39,7 +39,7 @@ class MessageBagTest extends TestCase
     /**
      * @test
      */
-    public function iCanGetAMessageWithMediumSeverity()
+    public function iCanGetAMessageWithMediumSeverity(): void
     {
         $message = Message::medium('Quite important');
 
@@ -50,7 +50,7 @@ class MessageBagTest extends TestCase
     /**
      * @test
      */
-    public function iCanGetAMessageWithHighSeverity()
+    public function iCanGetAMessageWithHighSeverity(): void
     {
         $message = Message::high('Very important');
 
@@ -61,7 +61,7 @@ class MessageBagTest extends TestCase
     /**
      * @test
      */
-    public function iCanSerializeAMessageIntoJson()
+    public function iCanSerializeAMessageIntoJson(): void
     {
         $message = Message::high('Very important');
 
@@ -71,7 +71,7 @@ class MessageBagTest extends TestCase
     /**
      * @test
      */
-    public function aMessageBagCanHaveSeveralMessages()
+    public function aMessageBagCanHaveSeveralMessages(): void
     {
         $bag = new MessageBag();
         $bag->add(Message::high('Very important'));
@@ -87,7 +87,7 @@ class MessageBagTest extends TestCase
     /**
      * @test
      */
-    public function iCanSerializeAMessageBagIntoJson()
+    public function iCanSerializeAMessageBagIntoJson(): void
     {
         $bag = new MessageBag();
         $bag->add(Message::high('Very important'));

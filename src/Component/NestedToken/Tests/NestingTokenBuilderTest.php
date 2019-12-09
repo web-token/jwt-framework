@@ -82,7 +82,7 @@ class NestingTokenBuilderTest extends TestCase
     /**
      * @test
      */
-    public function decryption()
+    public function decryption(): void
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
 
@@ -137,8 +137,6 @@ class NestingTokenBuilderTest extends TestCase
             ],
             'jwe_compact'
         );
-
-        static::assertTrue(true);
     }
 
     protected function getJWSBuilderFactory(): JWSBuilderFactory

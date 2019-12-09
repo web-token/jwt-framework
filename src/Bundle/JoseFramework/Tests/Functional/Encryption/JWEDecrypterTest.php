@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 
+use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory as JWEDecrypterFactoryService;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypter;
-use Jose\Component\Encryption\JWEDecrypterFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -36,39 +37,40 @@ class JWEDecrypterTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWEDecrypterFactoryIsAvailable()
+    public function theJWEDecrypterFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        static::assertTrue($container->has(JWEDecrypterFactoryService::class));
     }
 
     /**
      * @test
      */
-    public function theWEDecrypterFactoryCanCreateAJWEDecrypter()
+    public function theWEDecrypterFactoryCanCreateAJWEDecrypter(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
-        /** @var JWEDecrypterFactory $jweFactory */
-        $jweFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory::class);
+        $jweFactory = $container->get(JWEDecrypterFactoryService::class);
+        static::assertInstanceOf(JWEDecrypterFactoryService::class, $jweFactory);
 
-        $jwe = $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
-
-        static::assertInstanceOf(JWEDecrypter::class, $jwe);
+        $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
     }
 
     /**
      * @test
      */
-    public function aJWEDecrypterCanBeDefinedUsingTheConfigurationFile()
+    public function aJWEDecrypterCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_decrypter.loader1'));
 
         $jwe = $container->get('jose.jwe_decrypter.loader1');
@@ -78,11 +80,12 @@ class JWEDecrypterTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWEDecrypterCanBeDefinedFromAnotherBundleUsingTheHelper()
+    public function aJWEDecrypterCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_decrypter.loader2'));
 
         $jwe = $container->get('jose.jwe_decrypter.loader2');

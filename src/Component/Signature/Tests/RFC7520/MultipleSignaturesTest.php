@@ -28,7 +28,7 @@ class MultipleSignaturesTest extends SignatureTest
     /**
      * @test
      */
-    public function multipleSignatures()
+    public function multipleSignatures(): void
     {
         /*
          * Payload,

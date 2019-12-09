@@ -5,6 +5,7 @@ language: php
 php:
     - 7.2
     - 7.3
+    - 7.4snapshot
     - nightly
 
 cache:
@@ -21,8 +22,7 @@ before_install:
 install: travis_retry composer install
 
 script:
-    - ./vendor/bin/phpunit --group=unit
-    - ./vendor/bin/phpunit --group=functional
+    - ./vendor/bin/simple-phpunit
 
 jobs:
     allow_failures:
@@ -35,7 +35,7 @@ jobs:
               - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
               - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
           script:
-              - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+              - ./vendor/bin/simple-phpunit --coverage-clover build/logs/clover.xml
           after_script:
               - ./vendor/bin/php-coveralls --no-interaction
 
@@ -51,6 +51,14 @@ jobs:
             - chmod a+x php-cs-fixer
           script:
             - ./php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no
+
+        - stage: Metrics and quality
+          env: MUTATION
+          before_script:
+            - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{.disabled,}
+            - if [[ ! $(php -m | grep -si xdebug) ]]; then echo "xdebug required for coverage"; exit 1; fi
+          script:
+            - ./vendor/bin/infection --test-framework-options="--group=unit" -s --threads=$(nproc) --min-msi=93 --min-covered-msi=93
 
         - stage: Security Check
           env: SECURITY_CHECK

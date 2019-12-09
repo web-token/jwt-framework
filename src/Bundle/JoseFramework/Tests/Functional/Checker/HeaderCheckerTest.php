@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Checker;
 
-use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory as HeaderCheckerManagerFactoryService;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -35,56 +36,52 @@ class HeaderCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function theHeaderCheckerManagerFactoryIsAvailable()
+    public function theHeaderCheckerManagerFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        static::assertTrue($container->has(HeaderCheckerManagerFactoryService::class));
     }
 
     /**
      * @test
      */
-    public function theHeaderCheckerManagerFactoryCanCreateAHeaderCheckerManager()
+    public function theHeaderCheckerManagerFactoryCanCreateAHeaderCheckerManager(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
-        /** @var HeaderCheckerManagerFactory $headerCheckerManagerFactory */
-        $headerCheckerManagerFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory::class);
+        $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        $headerCheckerManagerFactory = $container->get(HeaderCheckerManagerFactoryService::class);
+        static::assertInstanceOf(HeaderCheckerManagerFactoryService::class, $headerCheckerManagerFactory);
 
         $aliases = $headerCheckerManagerFactory->aliases();
-        $headerCheckerManager = $headerCheckerManagerFactory->create($aliases);
-
-        static::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
+        $headerCheckerManagerFactory->create($aliases);
     }
 
     /**
      * @test
      */
-    public function aHeaderCheckerCanBeDefinedUsingTheConfigurationFile()
+    public function aHeaderCheckerCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.header_checker.checker1'));
-
-        $headerCheckerManager = $container->get('jose.header_checker.checker1');
-        static::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
     }
 
     /**
      * @test
      */
-    public function aHeaderCheckerCanBeDefinedFromAnotherBundleUsingTheHelper()
+    public function aHeaderCheckerCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.header_checker.checker2'));
-
-        $headerCheckerManager = $container->get('jose.header_checker.checker2');
-        static::assertInstanceOf(HeaderCheckerManager::class, $headerCheckerManager);
     }
 }

@@ -39,7 +39,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoConfigurationIsSet()
+    public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid(
             []
@@ -49,7 +49,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsFalse()
+    public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -63,7 +63,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsEmpty()
+    public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -77,7 +77,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfBuilderIsSet()
+    public function theConfigurationIsInvalidIfBuilderIsSet(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -93,7 +93,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNotKeyEncryptionAlgorithmIsSet()
+    public function theConfigurationIsInvalidIfNotKeyEncryptionAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -112,7 +112,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfTheKeyEncryptionAlgorithmIsEmpty()
+    public function theConfigurationIsInvalidIfTheKeyEncryptionAlgorithmIsEmpty(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -133,7 +133,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNotContentEncryptionAlgorithmIsSet()
+    public function theConfigurationIsInvalidIfNotContentEncryptionAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -154,7 +154,7 @@ class JweDecrypterConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfTheContentEncryptionAlgorithmIsEmpty()
+    public function theConfigurationIsInvalidIfTheContentEncryptionAlgorithmIsEmpty(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -173,7 +173,7 @@ class JweDecrypterConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
             new Source\Core\CoreSource(),

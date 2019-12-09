@@ -29,7 +29,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function keySelection()
+    public function keySelection(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -40,7 +40,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function keySelectionWithAlgorithm()
+    public function keySelectionWithAlgorithm(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -60,7 +60,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function keySelectionWithAlgorithmAndKeyId()
+    public function keySelectionWithAlgorithmAndKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -80,7 +80,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function keySelectionWithKeyId()
+    public function keySelectionWithKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -100,7 +100,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function keySelectionReturnsNothing()
+    public function keySelectionReturnsNothing(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -111,7 +111,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function createKeySetFromValues()
+    public function createKeySetFromValues(): void
     {
         $values = ['keys' => [[
             'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
