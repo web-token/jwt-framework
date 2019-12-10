@@ -17,6 +17,7 @@ use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -37,12 +38,13 @@ class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeDefinedInTheConfiguration()
+    public function aJWKCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.key.jwk1'));
         static::assertInstanceOf(JWK::class, $container->get('jose.key.jwk1'));
     }
@@ -50,12 +52,13 @@ class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeDefinedFromAnotherBundle()
+    public function aJWKCanBeDefinedFromAnotherBundle(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.key.jwk2'));
         static::assertInstanceOf(JWK::class, $container->get('jose.key.jwk2'));
     }
@@ -63,12 +66,13 @@ class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aX509InFileCanBeDefinedInTheConfiguration()
+    public function aX509InFileCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.key.certificate1'));
         static::assertInstanceOf(JWK::class, $container->get('jose.key.certificate1'));
     }
@@ -76,12 +80,13 @@ class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aDirectX509InputCanBeDefinedInTheConfiguration()
+    public function aDirectX509InputCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.key.x5c1'));
         static::assertInstanceOf(JWK::class, $container->get('jose.key.x5c1'));
     }
@@ -89,12 +94,13 @@ class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function anEncryptedKeyFileCanBeLoadedInTheConfiguration()
+    public function anEncryptedKeyFileCanBeLoadedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.key.file1'));
         static::assertInstanceOf(JWK::class, $container->get('jose.key.file1'));
     }
@@ -102,12 +108,13 @@ class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeLoadedFromAJwkSetInTheConfiguration()
+    public function aJWKCanBeLoadedFromAJwkSetInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.key.jwkset1'));
         static::assertInstanceOf(JWK::class, $container->get('jose.key.jwkset1'));
     }
@@ -115,12 +122,13 @@ class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeLoadedFromASecretInTheConfiguration()
+    public function aJWKCanBeLoadedFromASecretInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
 
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.key.secret1'));
         $jwk = $container->get('jose.key.secret1');
 

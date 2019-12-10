@@ -28,7 +28,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCanSelectAKeyInAKeySet()
+    public function iCanSelectAKeyInAKeySet(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -39,7 +39,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter()
+    public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Allowed key types are "sig" or "enc".');
@@ -51,7 +51,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCannotCreateAKeySetWithBadArguments()
+    public function iCannotCreateAKeySetWithBadArguments(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid data.');
@@ -62,7 +62,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCanGetAllKeysInAKeySet()
+    public function iCanGetAllKeysInAKeySet(): void
     {
         $jwkset = $this->getPublicKeySet();
         static::assertEquals(3, \count($jwkset->all()));
@@ -71,7 +71,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCanAddKeysInAKeySet()
+    public function iCanAddKeysInAKeySet(): void
     {
         $jwkset = $this->getPublicKeySet();
         $new_jwkset = $jwkset->with(new JWK(['kty' => 'none']));
@@ -82,7 +82,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCanSelectAKeyWithAlgorithm()
+    public function iCanSelectAKeyWithAlgorithm(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -102,7 +102,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCanSelectAKeyWithAlgorithmAndKeyId()
+    public function iCanSelectAKeyWithAlgorithmAndKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -122,7 +122,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCanSelectAKeyWithWithKeyId()
+    public function iCanSelectAKeyWithWithKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -142,7 +142,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function theKeySetDoesNotContainsSuitableAKeyThatFitsOnTheRequirements()
+    public function theKeySetDoesNotContainsSuitableAKeyThatFitsOnTheRequirements(): void
     {
         $jwkset = $this->getPublicKeySet();
 
@@ -153,7 +153,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAKeySetUsingValues()
+    public function iCanCreateAKeySetUsingValues(): void
     {
         $values = ['keys' => [[
             'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
@@ -162,7 +162,6 @@ class JWKSetTest extends TestCase
             'use' => 'sig',
         ]]];
         $jwkset = JWKSet::createFromKeyData($values);
-        static::assertInstanceOf(JWKSet::class, $jwkset);
         static::assertEquals(1, \count($jwkset));
         static::assertTrue($jwkset->has('71ee230371d19630bc17fb90ccf20ae632ad8cf8'));
         static::assertFalse($jwkset->has(0));
@@ -171,7 +170,7 @@ class JWKSetTest extends TestCase
     /**
      * @test
      */
-    public function keySet()
+    public function keySet(): void
     {
         $jwk1 = new JWK([
             'kty' => 'EC',
@@ -216,17 +215,15 @@ class JWKSetTest extends TestCase
 
         static::assertEquals(1, \count($jwkset));
         static::assertEquals(1, $jwkset->count());
-        static::assertInstanceOf(JWK::class, $jwkset->get('0123456789'));
 
         $jwkset = $jwkset->without('0123456789');
-        static::assertEquals(0, \count($jwkset));
         static::assertEquals(0, $jwkset->count());
     }
 
     /**
      * @test
      */
-    public function keySet2()
+    public function keySet2(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Undefined index.');

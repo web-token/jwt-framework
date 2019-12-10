@@ -31,7 +31,7 @@ class RSAOAEPKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function rSAOAEP384EncryptionAndDecryption()
+    public function rSAOAEP384EncryptionAndDecryption(): void
     {
         $header = [];
         $algorithm = new RSAOAEP384();
@@ -48,7 +48,7 @@ class RSAOAEPKeyEncryptionTest extends TestCase
     /**
      * @test
      */
-    public function rSAOAEP512EncryptionAndDecryption()
+    public function rSAOAEP512EncryptionAndDecryption(): void
     {
         $header = [];
         $algorithm = new RSAOAEP512();

@@ -33,10 +33,11 @@ class ECDHESKeyAgreementTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      *
      * @test
      */
-    public function getAgreementKey()
+    public function getAgreementKey(): void
     {
         $receiver = new JWK([
             'kty' => 'EC',
@@ -63,17 +64,11 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW
      */
-    public function getAgreementKeyWithA128KeyWrap()
+    public function getAgreementKeyWithA128KeyWrap(): void
     {
         $header = ['enc' => 'A128GCM'];
-
-        $public = new JWK([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
-            'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
-        ]);
 
         $private = new JWK([
             'kty' => 'EC',
@@ -82,6 +77,7 @@ class ECDHESKeyAgreementTest extends TestCase
             'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
             'd' => 'VEmDZpDXXK8p8N0Cndsxs924q6nS1RXFASRl6BfUqdw',
         ]);
+        $public = $private->toPublic();
 
         $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
         foreach ($cek as $key => $value) {
@@ -103,17 +99,11 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW
      */
-    public function getAgreementKeyWithA192KeyWrap()
+    public function getAgreementKeyWithA192KeyWrap(): void
     {
         $header = ['enc' => 'A192GCM'];
-
-        $public = new JWK([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'weNJy2HscCSM6AEDTDg04biOvhFhyyWvOHQfeF_PxMQ',
-            'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
-        ]);
 
         $private = new JWK([
             'kty' => 'EC',
@@ -122,6 +112,7 @@ class ECDHESKeyAgreementTest extends TestCase
             'y' => 'e8lnCO-AlStT-NJVX-crhB7QRYhiix03illJOVAOyck',
             'd' => 'VEmDZpDXXK8p8N0Cndsxs924q6nS1RXFASRl6BfUqdw',
         ]);
+        $public = $private->toPublic();
 
         $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
         foreach ($cek as $key => $value) {
@@ -143,8 +134,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW
      */
-    public function getAgreementKeyWithA256KeyWrap()
+    public function getAgreementKeyWithA256KeyWrap(): void
     {
         $header = ['enc' => 'A256GCM'];
 
@@ -183,8 +175,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
-    public function ePKParameterAreMissing()
+    public function ePKParameterAreMissing(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "epk" is missing');
@@ -203,8 +196,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
-    public function badEPKParameter()
+    public function badEPKParameter(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "epk" is not an array of parameters');
@@ -224,8 +218,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
-    public function eCKeyHasMissingParameters()
+    public function eCKeyHasMissingParameters(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The key parameter "x" is missing.');
@@ -241,8 +236,9 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
-    public function unsupportedCurve()
+    public function unsupportedCurve(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The curve "P-192" is not supported');

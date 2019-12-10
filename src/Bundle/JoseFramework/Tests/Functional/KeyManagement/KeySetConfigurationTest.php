@@ -39,7 +39,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoConfigurationIsSet()
+    public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid(
             []
@@ -49,7 +49,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsFalse()
+    public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -63,7 +63,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsEmpty()
+    public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -77,7 +77,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoKeySetTypeIsSet()
+    public function theConfigurationIsInvalidIfNoKeySetTypeIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -94,7 +94,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfAnUnsupportedKeySetTypeIsSet()
+    public function theConfigurationIsInvalidIfAnUnsupportedKeySetTypeIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -113,7 +113,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theJkuConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theJkuConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -132,7 +132,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -151,7 +151,7 @@ class KeySetConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theX5UConfigurationIsInvalidIfRequiredParametersAreNotSet()
+    public function theX5UConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -167,7 +167,7 @@ class KeySetConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
             new Source\Core\CoreSource(),

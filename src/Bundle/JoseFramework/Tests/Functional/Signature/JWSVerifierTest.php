@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
+use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory as JWSVerifierFactoryService;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
-use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -36,39 +37,40 @@ class JWSVerifierTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSVerifierFactoryIsAvailable()
+    public function jWSVerifierFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWSVerifierFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        static::assertTrue($container->has(JWSVerifierFactoryService::class));
     }
 
     /**
      * @test
      */
-    public function jWSVerifierFactoryCanCreateAJWSVerifier()
+    public function jWSVerifierFactoryCanCreateAJWSVerifier(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
-        /** @var JWSVerifierFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWSVerifierFactory::class);
+        $jwsFactory = $container->get(JWSVerifierFactoryService::class);
+        static::assertInstanceOf(JWSVerifierFactoryService::class, $jwsFactory);
 
-        $jws = $jwsFactory->create(['none']);
-
-        static::assertInstanceOf(JWSVerifier::class, $jws);
+        $jwsFactory->create(['none']);
     }
 
     /**
      * @test
      */
-    public function jWSVerifierFromConfigurationIsAvailable()
+    public function jWSVerifierFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_verifier.loader1'));
 
         $jws = $container->get('jose.jws_verifier.loader1');
@@ -78,11 +80,12 @@ class JWSVerifierTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSVerifierFromExternalBundleExtensionIsAvailable()
+    public function jWSVerifierFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_verifier.loader2'));
 
         $jws = $container->get('jose.jws_verifier.loader2');

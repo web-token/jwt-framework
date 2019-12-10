@@ -92,7 +92,7 @@ class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     /**
      * @test
      */
-    public function decryption()
+    public function decryption(): void
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
 

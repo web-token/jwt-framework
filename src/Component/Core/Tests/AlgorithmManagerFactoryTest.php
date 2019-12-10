@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Tests;
 
-use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use PHPUnit\Framework\TestCase;
@@ -33,8 +32,9 @@ class AlgorithmManagerFactoryTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Core\AlgorithmManagerFactory
      */
-    public function iCanListSupportedAliases()
+    public function iCanListSupportedAliases(): void
     {
         static::assertEquals(['foo'], $this->getAlgorithmManagerFactory()->aliases());
         static::assertEquals(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
@@ -42,16 +42,9 @@ class AlgorithmManagerFactoryTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Core\AlgorithmManager
      */
-    public function iCanCreateAnAlgorithmManagerUsingAliases()
-    {
-        static::assertInstanceOf(AlgorithmManager::class, $this->getAlgorithmManagerFactory()->create(['foo']));
-    }
-
-    /**
-     * @test
-     */
-    public function iCannotCreateAnAlgorithmManagerWithABadArgument()
+    public function iCannotCreateAnAlgorithmManagerWithABadArgument(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -60,8 +53,9 @@ class AlgorithmManagerFactoryTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Core\AlgorithmManager
      */
-    public function iCannotGetAnAlgorithmThatDoesNotExist()
+    public function iCannotGetAnAlgorithmThatDoesNotExist(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The algorithm "HS384" is not supported.');
@@ -71,7 +65,6 @@ class AlgorithmManagerFactoryTest extends TestCase
         static::assertEquals(['foo'], $manager->list());
         static::assertTrue($manager->has('foo'));
         static::assertFalse($manager->has('HS384'));
-        static::assertInstanceOf(Algorithm::class, $manager->get('foo'));
         $manager->get('HS384');
     }
 

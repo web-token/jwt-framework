@@ -30,8 +30,9 @@ class ECDSASignatureTest extends TestCase
 {
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
-    public function invalidKey()
+    public function invalidKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
@@ -47,8 +48,9 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
-    public function eS256Verify()
+    public function eS256Verify(): void
     {
         $key = new JWK([
             'kty' => 'EC',
@@ -70,8 +72,9 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
-    public function eS256SignVerify()
+    public function eS256SignVerify(): void
     {
         $key = new JWK([
             'kty' => 'EC',
@@ -91,8 +94,9 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
-    public function keyNotPrivate()
+    public function keyNotPrivate(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The EC key is not private');
@@ -111,8 +115,9 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES384
      */
-    public function hS384SignVerify()
+    public function eS384SignVerify(): void
     {
         $key = new JWK([
             'kty' => 'EC',
@@ -132,8 +137,9 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES512
      */
-    public function hS512Verify()
+    public function eS512Verify(): void
     {
         $key = new JWK([
             'kty' => 'EC',
@@ -155,8 +161,9 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES512
      */
-    public function hS512SignVerify()
+    public function eS512SignVerify(): void
     {
         $key = new JWK([
             'kty' => 'EC',
@@ -176,8 +183,9 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
-    public function badSignature()
+    public function badSignature(): void
     {
         $key = new JWK([
             'kty' => 'EC',

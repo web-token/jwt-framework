@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSBuilder;
+use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory as JWSBuilderFactoryService;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -35,25 +37,27 @@ class JWSBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSBuilderFactoryIsAvailable()
+    public function jWSBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWSBuilderFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        static::assertTrue($container->has(JWSBuilderFactoryService::class));
     }
 
     /**
      * @test
      */
-    public function jWSBuilderFactoryCanCreateAJWSBuilder()
+    public function jWSBuilderFactoryCanCreateAJWSBuilder(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
         /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactoryService::class);
 
         $jws = $jwsFactory->create(['none']);
 
@@ -63,11 +67,12 @@ class JWSBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSBuilderFromConfigurationIsAvailable()
+    public function jWSBuilderFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_builder.builder1'));
 
         $jws = $container->get('jose.jws_builder.builder1');
@@ -77,11 +82,12 @@ class JWSBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSBuilderFromExternalBundleExtensionIsAvailable()
+    public function jWSBuilderFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_builder.builder2'));
 
         $jws = $container->get('jose.jws_builder.builder2');

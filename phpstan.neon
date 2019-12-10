@@ -4,12 +4,6 @@ parameters:
         - src
     excludes_analyse:
         - %currentWorkingDirectory%/src/Bundle/*/var/*
-        - %currentWorkingDirectory%/src/Bundle/*/Tests/*
-        - %currentWorkingDirectory%/src/Component/*/Tests/*
-        - %currentWorkingDirectory%/src/EncryptionAlgorithm/*/Tests/*
-        - %currentWorkingDirectory%/src/EncryptionAlgorithm/ContentEncryption/*/Tests/*
-        - %currentWorkingDirectory%/src/EncryptionAlgorithm/KeyEncryption/*/Tests/*
-        - %currentWorkingDirectory%/src/SignatureAlgorithm/*/Tests/*
     ignoreErrors:
         - '#Strict comparison using === between false and .* will always evaluate to false\.*#'
         - '#Instanceof between Jose\\Component\\Core\\Algorithm and Jose\\Component\\Core\\Algorithm will always evaluate to true\.*#'

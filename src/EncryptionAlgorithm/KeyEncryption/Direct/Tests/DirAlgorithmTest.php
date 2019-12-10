@@ -28,9 +28,10 @@ use PHPUnit\Framework\TestCase;
 class DirAlgorithmTest extends TestCase
 {
     /**
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\Dir
      * @test
      */
-    public function invalidKey()
+    public function invalidKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
@@ -45,9 +46,10 @@ class DirAlgorithmTest extends TestCase
     }
 
     /**
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\Dir
      * @test
      */
-    public function validCEK()
+    public function validCEK(): void
     {
         $key = new JWK([
             'kty' => 'oct',

@@ -19,6 +19,7 @@ use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -38,11 +39,12 @@ class JWSComputationTest extends WebTestCase
     /**
      * @test
      */
-    public function createAndLoadAToken()
+    public function createAndLoadAToken(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
         $jwk = new JWK([
             'kty' => 'oct',

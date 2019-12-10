@@ -8,6 +8,7 @@
         processIsolation="false"
         stopOnFailure="false"
         bootstrap="vendor/autoload.php"
+        beStrictAboutTestsThatDoNotTestAnything="false"
         colors="true">
     <testsuites>
         <testsuite name="Test Suite">
@@ -28,6 +29,8 @@
         <ini name="intl.error_level" value="0" />
         <ini name="memory_limit" value="-1" />
         <server name="KERNEL_CLASS" value="Jose\Bundle\JoseFramework\Tests\AppKernel" />
+        <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
+        <server name="SYMFONY_PHPUNIT_VERSION" value="8" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
     </php>
     <filter>

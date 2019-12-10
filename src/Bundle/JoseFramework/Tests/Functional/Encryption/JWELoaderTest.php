@@ -16,8 +16,8 @@ namespace Jose\Bundle\JoseFramework\Tests\Functional\Encryption;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory as JWELoaderFactoryAlias;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWELoader;
-use Jose\Component\Encryption\JWELoaderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -37,29 +37,30 @@ class JWELoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWELoaderFactoryIsAvailable()
+    public function theJWELoaderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertNotNull($container);
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has(JWELoaderFactoryAlias::class));
     }
 
     /**
      * @test
      */
-    public function theWELoaderFactoryCanCreateAJWELoader()
+    public function theWELoaderFactoryCanCreateAJWELoader(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
-        /** @var JWELoaderFactory $jweLoaderFactory */
-        $jweLoaderFactory = $client->getContainer()->get(JWELoaderFactoryAlias::class);
+        $jweLoaderFactory = $container->get(JWELoaderFactoryAlias::class);
+        static::assertInstanceOf(JWELoaderFactoryAlias::class, $jweLoaderFactory);
 
         $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5'], ['A256GCM'], ['DEF']);
 
-        static::assertInstanceOf(JWELoader::class, $jwe);
         static::assertEquals(['jwe_compact'], $jwe->getSerializerManager()->names());
         static::assertEquals(['RSA1_5'], $jwe->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list());
         static::assertEquals(['A256GCM'], $jwe->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list());
@@ -69,11 +70,12 @@ class JWELoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWELoaderCanBeDefinedUsingTheConfigurationFile()
+    public function aJWELoaderCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_loader.jwe_loader1'));
 
         $jwe = $container->get('jose.jwe_loader.jwe_loader1');
@@ -83,11 +85,12 @@ class JWELoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWELoaderCanBeDefinedFromAnotherBundleUsingTheHelper()
+    public function aJWELoaderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_loader.jwe_loader2'));
 
         $jwe = $container->get('jose.jwe_loader.jwe_loader2');

@@ -18,8 +18,9 @@ use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilderFactory as BaseJWSBuilderFactory;
+use Jose\Component\Signature\Serializer\Serializer;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * @group Bundle
@@ -42,15 +43,16 @@ final class JWSNormalizerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSNormalizerIsAvailable()
+    public function jWSNormalizerIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        /** @var Serializer $serializer */
+        static::assertInstanceOf(ContainerInterface::class, $container);
         $serializer = $container->get('serializer');
-        /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        static::assertInstanceOf(\Symfony\Component\Serializer\Serializer::class, $serializer);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
+        static::assertInstanceOf(JWSBuilderFactory::class, $jwsFactory);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -64,21 +66,21 @@ final class JWSNormalizerTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsNormalization($jws));
     }
 
     /**
      * @test
      */
-    public function jWSNormalizerPassesThrough()
+    public function jWSNormalizerPassesThrough(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         $serializer = new JWSNormalizer();
-        /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
+        static::assertInstanceOf(JWSBuilderFactory::class, $jwsFactory);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -92,7 +94,6 @@ final class JWSNormalizerTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsNormalization($jws));
         static::assertEquals($jws, $serializer->normalize($jws));
         static::assertEquals($jws, $serializer->denormalize($jws, JWS::class));
@@ -101,15 +102,16 @@ final class JWSNormalizerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSNormalizerFromContainerPassesThrough()
+    public function jWSNormalizerFromContainerPassesThrough(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        /** @var Serializer $serializer */
+        static::assertInstanceOf(ContainerInterface::class, $container);
         $serializer = $container->get('serializer');
-        /** @var JWSBuilderFactory $jwsFactory */
-        $jwsFactory = $client->getContainer()->get(JWSBuilderFactory::class);
+        static::assertInstanceOf(\Symfony\Component\Serializer\Serializer::class, $serializer);
+        $jwsFactory = $container->get(JWSBuilderFactory::class);
+        static::assertInstanceOf(JWSBuilderFactory::class, $jwsFactory);
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
@@ -123,7 +125,6 @@ final class JWSNormalizerTest extends WebTestCase
             ])
             ->build()
         ;
-        static::assertInstanceOf(JWS::class, $jws);
         static::assertTrue($serializer->supportsNormalization($jws));
         static::assertEquals($jws, $serializer->normalize($jws));
         static::assertEquals($jws, $serializer->denormalize($jws, JWS::class));

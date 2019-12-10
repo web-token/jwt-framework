@@ -32,7 +32,7 @@ class KeyConversionCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanLoadAKeyFile()
+    public function iCanLoadAKeyFile(): void
     {
         $input = new ArrayInput([
             'file' => __DIR__.'/Sample/2048b-rsa-example-cert.pem',
@@ -41,14 +41,13 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\KeyFileLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCanLoadAnEncryptedKeyFile()
+    public function iCanLoadAnEncryptedKeyFile(): void
     {
         $input = new ArrayInput([
             'file' => __DIR__.'/Sample/private.es512.encrypted.key',
@@ -58,14 +57,13 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\KeyFileLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCanLoadAPKCS12CertificateFile()
+    public function iCanLoadAPKCS12CertificateFile(): void
     {
         $input = new ArrayInput([
             'file' => __DIR__.'/Sample/CertRSA.p12',
@@ -75,14 +73,13 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\P12CertificateLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCanLoadAX509CertificateFile()
+    public function iCanLoadAX509CertificateFile(): void
     {
         $input = new ArrayInput([
             'file' => __DIR__.'/Sample/google.crt',
@@ -91,14 +88,13 @@ class KeyConversionCommandTest extends TestCase
         $command = new Console\X509CertificateLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCanOptimizeARsaKey()
+    public function iCanOptimizeARsaKey(): void
     {
         $jwk = new JWK([
             'kty' => 'RSA',
@@ -115,7 +111,6 @@ class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
         static::assertTrue($jwk->has('p'));
         static::assertTrue($jwk->has('q'));
         static::assertTrue($jwk->has('dp'));
@@ -126,7 +121,7 @@ class KeyConversionCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanConvertARsaKeyIntoPKCS1()
+    public function iCanConvertARsaKeyIntoPKCS1(): void
     {
         $jwk = new JWK([
             'kty' => 'RSA',
@@ -153,7 +148,7 @@ class KeyConversionCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanConvertAnEcKeyIntoPKCS1()
+    public function iCanConvertAnEcKeyIntoPKCS1(): void
     {
         $jwk = new JWK([
             'kty' => 'EC',
@@ -176,7 +171,7 @@ class KeyConversionCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanConvertAPrivateKeyIntoPublicKey()
+    public function iCanConvertAPrivateKeyIntoPublicKey(): void
     {
         $jwk = new JWK([
             'kty' => 'EC',
@@ -199,7 +194,7 @@ class KeyConversionCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanConvertPrivateKeysIntoPublicKeys()
+    public function iCanConvertPrivateKeysIntoPublicKeys(): void
     {
         $keyset = JWKSet::createFromKeyData(['keys' => [
             [
@@ -229,7 +224,7 @@ class KeyConversionCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanGetTheThumbprintOfAKey()
+    public function iCanGetTheThumbprintOfAKey(): void
     {
         $jwk = new JWK([
             'kty' => 'RSA',

@@ -32,7 +32,7 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function pBES2HS512A256KWAndA128CBCHS256Encryption()
+    public function pBES2HS512A256KWAndA128CBCHS256Encryption(): void
     {
         $expected_payload = ['keys' => [
             [
@@ -117,7 +117,7 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function pBES2HS512A256KWAndA128CBCHS256EncryptionBis()
+    public function pBES2HS512A256KWAndA128CBCHS256EncryptionBis(): void
     {
         $expected_payload = json_encode(['keys' => [
             [

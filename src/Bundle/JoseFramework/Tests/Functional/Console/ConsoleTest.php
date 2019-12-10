@@ -35,7 +35,7 @@ class ConsoleTest extends KernelTestCase
     /**
      * @test
      */
-    public function allCommandsAreAvailable()
+    public function allCommandsAreAvailable(): void
     {
         $expectedCommands = [
             'keyset:add:key',

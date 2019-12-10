@@ -16,7 +16,6 @@ namespace Jose\Component\Signature\Algorithm\Tests;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
@@ -35,7 +34,7 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
      *
      * @test
      */
-    public function signatureAlgorithms(string $signature_algorithm)
+    public function signatureAlgorithms(string $signature_algorithm): void
     {
         $algorithm = new $signature_algorithm();
         $key = $this->getPrivateKey();
@@ -58,15 +57,11 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         $jws = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($jws);
-        static::assertInstanceOf(JWS::class, $loaded);
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
     }
 
-    /**
-     * @return array
-     */
-    public function dataSignatureAlgorithms()
+    public function dataSignatureAlgorithms(): array
     {
         return [
             [Algorithm\RS256::class],
@@ -78,10 +73,7 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function dataSignatureAlgorithmsWithSimpleKey()
+    public function dataSignatureAlgorithmsWithSimpleKey(): array
     {
         return [
             [Algorithm\PS256::class],

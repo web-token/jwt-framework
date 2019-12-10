@@ -27,7 +27,7 @@ class JsonConverterTest extends TestCase
     /**
      * @test
      */
-    public function iCanConvertAnObjectIntoAJsonString()
+    public function iCanConvertAnObjectIntoAJsonString(): void
     {
         static::assertEquals('{"foo":"BAR"}', JsonConverter::encode(['foo' => 'BAR']));
         static::assertEquals(['foo' => 'BAR'], JsonConverter::decode('{"foo":"BAR"}'));

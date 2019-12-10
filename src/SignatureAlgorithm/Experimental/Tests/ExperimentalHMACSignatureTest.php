@@ -11,7 +11,7 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-namespace Jose\Component\Signature\Algorithm\Signature;
+namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS1;
@@ -24,12 +24,12 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class HMACSignatureTest extends TestCase
+class ExperimentalHMACSignatureTest extends TestCase
 {
     /**
      * @test
      */
-    public function hS1SignAndVerify()
+    public function hS1SignAndVerify(): void
     {
         $key = $this->getKey();
         $hmac = new HS1();
@@ -45,7 +45,7 @@ class HMACSignatureTest extends TestCase
     /**
      * @test
      */
-    public function hS256SignAndVerify()
+    public function hS256SignAndVerify(): void
     {
         $key = $this->getKey();
         $hmac = new HS256_64();

@@ -32,7 +32,7 @@ class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function rSAOAEPAndA256GCMEncryption()
+    public function rSAOAEPAndA256GCMEncryption(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -104,7 +104,7 @@ class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function rSAOAEPAndA256GCMEncryptionBis()
+    public function rSAOAEPAndA256GCMEncryptionBis(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 

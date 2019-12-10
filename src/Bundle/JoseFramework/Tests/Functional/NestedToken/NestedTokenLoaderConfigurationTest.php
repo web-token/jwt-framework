@@ -40,7 +40,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoConfigurationIsSet()
+    public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid(
             []
@@ -50,7 +50,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsFalse()
+    public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -64,7 +64,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsEmpty()
+    public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -78,7 +78,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoLoaderIsSet()
+    public function theConfigurationIsValidIfNoLoaderIsSet(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -94,7 +94,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoSignatureAlgorithmIsSet()
+    public function theConfigurationIsInvalidIfNoSignatureAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -113,7 +113,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoKeyEncryptionAlgorithmIsSet()
+    public function theConfigurationIsInvalidIfNoKeyEncryptionAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -134,7 +134,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoContentEncryptionAlgorithmIsSet()
+    public function theConfigurationIsInvalidIfNoContentEncryptionAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -156,7 +156,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoJwsSerializerIsSet()
+    public function theConfigurationIsInvalidIfNoJwsSerializerIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -179,7 +179,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNoJweSerializerIsSet()
+    public function theConfigurationIsInvalidIfNoJweSerializerIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -203,7 +203,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValid()
+    public function theConfigurationIsValid(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -224,7 +224,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
             new Source\Core\CoreSource(),

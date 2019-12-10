@@ -34,7 +34,7 @@ class EdDSASignatureTest extends TestCase
      *
      * @test
      */
-    public function edDSAVerifyAlgorithm()
+    public function edDSAVerifyAlgorithm(): void
     {
         $key = new JWK([
             'kty' => 'OKP',
@@ -55,7 +55,7 @@ class EdDSASignatureTest extends TestCase
      *
      * @test
      */
-    public function edDSASignAndVerifyAlgorithm()
+    public function edDSASignAndVerifyAlgorithm(): void
     {
         $key = new JWK([
             'kty' => 'OKP',

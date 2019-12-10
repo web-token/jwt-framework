@@ -28,7 +28,7 @@ class NestingTest extends SignatureTest
     /**
      * @test
      */
-    public function signatureVerification()
+    public function signatureVerification(): void
     {
         $payload = [
             'iss' => 'hobbiton.example',

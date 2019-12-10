@@ -30,8 +30,9 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 {
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW
      */
-    public function a128GCMKW()
+    public function a128GCMKW(): void
     {
         $header = [];
         $key = new JWK([
@@ -54,8 +55,9 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW
      */
-    public function badKey()
+    public function badKey(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
@@ -74,8 +76,9 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW
      */
-    public function missingParameters()
+    public function missingParameters(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Parameter "iv" is missing.');
@@ -95,8 +98,9 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW
      */
-    public function a192GCMKW()
+    public function a192GCMKW(): void
     {
         $header = [];
         $key = new JWK([
@@ -119,8 +123,9 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW
      */
-    public function a256GCMKW()
+    public function a256GCMKW(): void
     {
         $header = [];
         $key = new JWK([

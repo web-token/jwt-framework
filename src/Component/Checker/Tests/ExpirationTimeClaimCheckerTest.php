@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Checker\Tests;
 
 use Jose\Component\Checker\ExpirationTimeChecker;
+use Jose\Component\Checker\InvalidClaimException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,9 +28,9 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theExpirationTimeClaimMustBeAnInteger()
+    public function theExpirationTimeClaimMustBeAnInteger(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('"exp" must be an integer.');
 
         $checker = new ExpirationTimeChecker();
@@ -39,9 +40,9 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theExpirationTimeIsInThePast()
+    public function theExpirationTimeIsInThePast(): void
     {
-        $this->expectException(\Jose\Component\Checker\InvalidClaimException::class);
+        $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('The token expired.');
 
         $checker = new ExpirationTimeChecker();
@@ -51,7 +52,7 @@ class ExpirationTimeClaimCheckerTest extends TestCase
     /**
      * @test
      */
-    public function theExpirationTimeIsInTheFutur()
+    public function theExpirationTimeIsInTheFutur(): void
     {
         $checker = new ExpirationTimeChecker();
         $checker->checkClaim(time() + 3600);

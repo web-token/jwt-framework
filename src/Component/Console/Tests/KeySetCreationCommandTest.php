@@ -30,7 +30,7 @@ class KeySetCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function theEllipticCurveKeySetCreationCommandIsAvailable()
+    public function theEllipticCurveKeySetCreationCommandIsAvailable(): void
     {
         $command = new Console\EcKeysetGeneratorCommand();
 
@@ -40,7 +40,7 @@ class KeySetCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function theEllipticCurveKeySetCreationCommandNeedTheCurveAndQuantityArguments()
+    public function theEllipticCurveKeySetCreationCommandNeedTheCurveAndQuantityArguments(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "quantity, curve").');
@@ -55,7 +55,7 @@ class KeySetCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCannotCreateAnEllipticCurveKeySetWithAnUnsupportedCurve()
+    public function iCannotCreateAnEllipticCurveKeySetWithAnUnsupportedCurve(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The curve "P-128" is not supported.');
@@ -73,7 +73,7 @@ class KeySetCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnEllipticCurveKeySetWithCurveP256()
+    public function iCanCreateAnEllipticCurveKeySetWithCurveP256(): void
     {
         $input = new ArrayInput([
             'quantity' => 2,
@@ -85,14 +85,13 @@ class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWKSet::createFromJson($content);
-        static::assertInstanceOf(JWKSet::class, $jwk);
+        JWKSet::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCannotCreateAnOctetKeySetWithoutKeySetSize()
+    public function iCannotCreateAnOctetKeySetWithoutKeySetSize(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
@@ -109,7 +108,7 @@ class KeySetCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnOctetKeySet()
+    public function iCanCreateAnOctetKeySet(): void
     {
         $input = new ArrayInput([
             'quantity' => 2,
@@ -121,14 +120,13 @@ class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWKSet::createFromJson($content);
-        static::assertInstanceOf(JWKSet::class, $jwk);
+        JWKSet::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCannotCreateAnOctetKeySetPairWithoutKeySetCurve()
+    public function iCannotCreateAnOctetKeySetPairWithoutKeySetCurve(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
@@ -145,7 +143,7 @@ class KeySetCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnOctetKeySetPair()
+    public function iCanCreateAnOctetKeySetPair(): void
     {
         $input = new ArrayInput([
             'quantity' => 2,
@@ -157,14 +155,13 @@ class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWKSet::createFromJson($content);
-        static::assertInstanceOf(JWKSet::class, $jwk);
+        JWKSet::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCannotCreateAnRsaKeySetWithoutKeySetSize()
+    public function iCannotCreateAnRsaKeySetWithoutKeySetSize(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
@@ -181,7 +178,7 @@ class KeySetCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnRsaKeySet()
+    public function iCanCreateAnRsaKeySet(): void
     {
         $input = new ArrayInput([
             'quantity' => 2,
@@ -193,7 +190,6 @@ class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWKSet::createFromJson($content);
-        static::assertInstanceOf(JWKSet::class, $jwk);
+        JWKSet::createFromJson($content);
     }
 }

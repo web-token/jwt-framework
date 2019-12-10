@@ -39,7 +39,7 @@ class JwsBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfNoConfigurationIsSet()
+    public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid(
             []
@@ -49,7 +49,7 @@ class JwsBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsFalse()
+    public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -63,7 +63,7 @@ class JwsBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsValidIfConfigurationIsEmpty()
+    public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -77,7 +77,7 @@ class JwsBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfBuilderIsSet()
+    public function theConfigurationIsInvalidIfBuilderIsSet(): void
     {
         $this->assertConfigurationIsValid(
             [
@@ -93,7 +93,7 @@ class JwsBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfNotSignatureAlgorithmIsSet()
+    public function theConfigurationIsInvalidIfNotSignatureAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -112,7 +112,7 @@ class JwsBuilderConfigurationTest extends TestCase
     /**
      * @test
      */
-    public function theConfigurationIsInvalidIfTheSignatureAlgorithmIsEmpty()
+    public function theConfigurationIsInvalidIfTheSignatureAlgorithmIsEmpty(): void
     {
         $this->assertConfigurationIsInvalid(
             [
@@ -130,7 +130,7 @@ class JwsBuilderConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
             new Source\Core\CoreSource(),

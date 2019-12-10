@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
  * @see https://tools.ietf.org/html/rfc7520#section-4.3
  *
  * @group RFC7520
+ * @group unit
  *
  * @internal
  */
@@ -38,7 +39,7 @@ class ECDSAFromRFC7520Test extends TestCase
      *
      * @test
      */
-    public function eS512()
+    public function eS512(): void
     {
         /*
          * Payload

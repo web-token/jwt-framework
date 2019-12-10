@@ -32,7 +32,7 @@ class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function rSA15AndA128CBCHS256Encryption()
+    public function rSA15AndA128CBCHS256Encryption(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -103,7 +103,7 @@ class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function rSA15AndA128CBCHS256EncryptionBis()
+    public function rSA15AndA128CBCHS256EncryptionBis(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 

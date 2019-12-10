@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\JWS;
 
 /**
  * @group ForeignJWT
@@ -32,7 +31,7 @@ class ForeignJWTTest extends SignatureTest
     /**
      * @test
      */
-    public function validJWTFromOtherLibrary()
+    public function validJWTFromOtherLibrary(): void
     {
         $jwk = new JWK([
             'kty' => 'RSA',
@@ -52,7 +51,6 @@ class ForeignJWTTest extends SignatureTest
             'typ' => 'JWT',
         ];
 
-        static::assertInstanceOf(JWS::class, $jwt);
         static::assertEquals($expectedHeader, $jwt->getSignature(0)->getProtectedHeader());
     }
 }

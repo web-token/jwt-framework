@@ -31,7 +31,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function theEllipticCurveKeyCreationCommandIsAvailable()
+    public function theEllipticCurveKeyCreationCommandIsAvailable(): void
     {
         $command = new Console\EcKeyGeneratorCommand();
 
@@ -41,7 +41,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function theEllipticCurveKeyCreationCommandNeedTheCurveArgument()
+    public function theEllipticCurveKeyCreationCommandNeedTheCurveArgument(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
@@ -56,7 +56,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCannotCreateAnEllipticCurveKeyWithAnUnsupportedCurve()
+    public function iCannotCreateAnEllipticCurveKeyWithAnUnsupportedCurve(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The curve "P-128" is not supported.');
@@ -73,7 +73,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnEllipticCurveKeyWithCurveP256()
+    public function iCanCreateAnEllipticCurveKeyWithCurveP256(): void
     {
         $input = new ArrayInput([
             'curve' => 'P-256',
@@ -84,14 +84,13 @@ class KeyCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCannotCreateAnOctetKeyWithoutKeySize()
+    public function iCannotCreateAnOctetKeyWithoutKeySize(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
@@ -107,7 +106,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnOctetKey()
+    public function iCanCreateAnOctetKey(): void
     {
         $input = new ArrayInput([
             'size' => 256,
@@ -118,14 +117,13 @@ class KeyCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCanCreateAnOctetKeyUsingASecret()
+    public function iCanCreateAnOctetKeyUsingASecret(): void
     {
         $input = new ArrayInput([
             'secret' => 'This is my secret',
@@ -136,7 +134,6 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
         static::assertTrue($jwk->has('k'));
         static::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
     }
@@ -144,7 +141,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnOctetKeyUsingABinarySecret()
+    public function iCanCreateAnOctetKeyUsingABinarySecret(): void
     {
         $secret = random_bytes(20);
 
@@ -158,7 +155,6 @@ class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
         static::assertTrue($jwk->has('k'));
         static::assertEquals($secret, Base64Url::decode($jwk->get('k')));
     }
@@ -166,7 +162,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCannotCreateAnOctetKeyPairWithoutKeyCurve()
+    public function iCannotCreateAnOctetKeyPairWithoutKeyCurve(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
@@ -182,7 +178,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnOctetKeyPair()
+    public function iCanCreateAnOctetKeyPair(): void
     {
         $input = new ArrayInput([
             'curve' => 'X25519',
@@ -193,14 +189,13 @@ class KeyCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCanCreateANoneKey()
+    public function iCanCreateANoneKey(): void
     {
         $input = new ArrayInput([
             '--random_id' => true,
@@ -210,14 +205,13 @@ class KeyCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 
     /**
      * @test
      */
-    public function iCannotCreateAnRsaKeyWithoutKeySize()
+    public function iCannotCreateAnRsaKeyWithoutKeySize(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
@@ -233,7 +227,7 @@ class KeyCreationCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanCreateAnRsaKey()
+    public function iCanCreateAnRsaKey(): void
     {
         $input = new ArrayInput([
             'size' => 2048,
@@ -244,7 +238,6 @@ class KeyCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        $jwk = JWK::createFromJson($content);
-        static::assertInstanceOf(JWK::class, $jwk);
+        JWK::createFromJson($content);
     }
 }

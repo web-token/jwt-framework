@@ -38,7 +38,7 @@ class RSAPSSSignatureTest extends TestCase
      *
      * @test
      */
-    public function pS384()
+    public function pS384(): void
     {
         /*
          * Payload,

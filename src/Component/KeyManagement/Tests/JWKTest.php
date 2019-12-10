@@ -30,7 +30,7 @@ class JWKTest extends TestCase
     /**
      * @test
      */
-    public function key()
+    public function key(): void
     {
         $jwk = new JWK([
             'kty' => 'EC',
@@ -61,7 +61,7 @@ class JWKTest extends TestCase
     /**
      * @test
      */
-    public function badConstruction()
+    public function badConstruction(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The parameter "kty" is mandatory.');
@@ -72,7 +72,7 @@ class JWKTest extends TestCase
     /**
      * @test
      */
-    public function badCall()
+    public function badCall(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The value identified by "ABCD" does not exist.');
@@ -94,7 +94,7 @@ class JWKTest extends TestCase
     /**
      * @test
      */
-    public function keySet()
+    public function keySet(): void
     {
         $jwk1 = new JWK([
             'kty' => 'EC',
@@ -139,7 +139,6 @@ class JWKTest extends TestCase
 
         static::assertEquals(1, \count($jwkset));
         static::assertEquals(1, $jwkset->count());
-        static::assertInstanceOf(JWK::class, $jwkset->get('0123456789'));
 
         $jwkset = $jwkset->without('0123456789');
         static::assertEquals(0, \count($jwkset));
@@ -149,7 +148,7 @@ class JWKTest extends TestCase
     /**
      * @test
      */
-    public function keySet2()
+    public function keySet2(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Undefined index.');
@@ -185,7 +184,7 @@ class JWKTest extends TestCase
     /**
      * @test
      */
-    public function privateToPublic()
+    public function privateToPublic(): void
     {
         $private = new JWK([
             'kty' => 'EC',
@@ -216,7 +215,7 @@ class JWKTest extends TestCase
     /**
      * @test
      */
-    public function loadCertificateChain()
+    public function loadCertificateChain(): void
     {
         $key = JWKFactory::createFromCertificateFile(
             __DIR__.'/Chain/google.crt',

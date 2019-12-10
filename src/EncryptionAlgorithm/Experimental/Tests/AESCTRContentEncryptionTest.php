@@ -29,8 +29,9 @@ class AESCTRContentEncryptionTest extends TestCase
 {
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR
      */
-    public function a128CTRKeyEncryptionAndDecryption()
+    public function a128CTRKeyEncryptionAndDecryption(): void
     {
         $header = [];
         $algorithm = new A128CTR();
@@ -46,8 +47,9 @@ class AESCTRContentEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR
      */
-    public function a192CTRKeyEncryptionAndDecryption()
+    public function a192CTRKeyEncryptionAndDecryption(): void
     {
         $header = [];
         $algorithm = new A192CTR();
@@ -63,8 +65,9 @@ class AESCTRContentEncryptionTest extends TestCase
 
     /**
      * @test
+     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR
      */
-    public function a256CTRKeyEncryptionAndDecryption()
+    public function a256CTRKeyEncryptionAndDecryption(): void
     {
         $header = [];
         $algorithm = new A256CTR();

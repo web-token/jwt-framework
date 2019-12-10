@@ -12,7 +12,6 @@ declare(strict_types=1);
  */
 
 use Jose\Bundle\JoseFramework\Tests\TestBundle\Checker\CustomChecker;
-use Jose\Bundle\JoseFramework\Tests\TestBundle\Converter\CustomJsonConverter;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -21,8 +20,6 @@ return function (ContainerConfigurator $container) {
         ->autoconfigure()
         ->autowire()
     ;
-
-    $container->set(CustomJsonConverter::class);
 
     $container->set(CustomChecker::class)
         ->tag('jose.checker.header', ['alias' => 'custom_checker'])

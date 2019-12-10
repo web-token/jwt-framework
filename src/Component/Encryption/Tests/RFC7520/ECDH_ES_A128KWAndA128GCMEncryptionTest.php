@@ -32,7 +32,7 @@ class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function eCDHESA128KWAndA128GCMEncryption()
+    public function eCDHESA128KWAndA128GCMEncryption(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 
@@ -105,7 +105,7 @@ class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
      *
      * @test
      */
-    public function eCDHESA128KWAndA128GCMEncryptionBis()
+    public function eCDHESA128KWAndA128GCMEncryptionBis(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
 

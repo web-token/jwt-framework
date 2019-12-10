@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\Signature;
 
+use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory as JWSLoaderFactoryService;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @group Bundle
@@ -35,29 +37,30 @@ class JWSLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWSLoaderFactoryIsAvailable()
+    public function theJWSLoaderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\JWSLoaderFactory::class));
+        static::assertInstanceOf(ContainerInterface::class, $container);
+        static::assertTrue($container->has(JWSLoaderFactoryService::class));
     }
 
     /**
      * @test
      */
-    public function theWELoaderFactoryCanCreateAJWSLoader()
+    public function theWELoaderFactoryCanCreateAJWSLoader(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
 
         /** @var JWSLoaderFactory $jwsLoaderFactory */
-        $jwsLoaderFactory = $client->getContainer()->get(\Jose\Bundle\JoseFramework\Services\JWSLoaderFactory::class);
+        $jwsLoaderFactory = $container->get(JWSLoaderFactoryService::class);
 
         $jws = $jwsLoaderFactory->create(['jws_compact'], ['RS512']);
 
-        static::assertInstanceOf(JWSLoader::class, $jws);
         static::assertEquals(['jws_compact'], $jws->getSerializerManager()->list());
         static::assertEquals(['RS512'], $jws->getJwsVerifier()->getSignatureAlgorithmManager()->list());
     }
@@ -65,11 +68,12 @@ class JWSLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWSLoaderCanBeDefinedUsingTheConfigurationFile()
+    public function aJWSLoaderCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_loader.jws_loader1'));
 
         $jws = $container->get('jose.jws_loader.jws_loader1');
@@ -79,11 +83,12 @@ class JWSLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWSLoaderCanBeDefinedFromAnotherBundleUsingTheHelper()
+    public function aJWSLoaderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
+        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_loader.jws_loader2'));
 
         $jws = $container->get('jose.jws_loader.jws_loader2');

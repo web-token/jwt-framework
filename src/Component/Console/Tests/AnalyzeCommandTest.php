@@ -43,7 +43,7 @@ class AnalyzeCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanAnalyzeAKeyAndGetInformation()
+    public function iCanAnalyzeAKeyAndGetInformation(): void
     {
         $jwk = new JWK([
             'kty' => 'RSA',
@@ -66,7 +66,7 @@ class AnalyzeCommandTest extends TestCase
     /**
      * @test
      */
-    public function iCanAnalyzeAKeySetAndGetInformation()
+    public function iCanAnalyzeAKeySetAndGetInformation(): void
     {
         $keyset = JWKSet::createFromKeyData(['keys' => [
             [
