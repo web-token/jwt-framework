@@ -61,6 +61,9 @@ abstract class AbstractLoader
         $this->token = $token;
         $this->jwkset = new JWKSet([]);
         $this->claimCheckers = [];
+
+        $this->algorithms = (new AlgorithmProvider($this->getAlgorithmMap()))
+            ->getAvailableAlgorithms();
     }
 
     /**
@@ -273,4 +276,7 @@ abstract class AbstractLoader
 
         return $clone;
     }
+
+
+    abstract protected function getAlgorithmMap(): array;
 }
