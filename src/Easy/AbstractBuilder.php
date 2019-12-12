@@ -16,7 +16,6 @@ namespace Jose\Easy;
 use InvalidArgumentException;
 use Jose\Component\Core\Algorithm as JoseAlgorithm;
 use Jose\Component\Signature\Algorithm;
-use Throwable;
 
 abstract class AbstractBuilder
 {
@@ -33,16 +32,8 @@ abstract class AbstractBuilder
     public function __construct()
     {
         $this->jwt = new JWT();
-        $map = $this->getAlgorithmMap();
-        foreach ($map as $class) {
-            if (class_exists($class)) {
-                try {
-                    $this->algorithms[] = new $class();
-                } catch (Throwable $throwable) {
-                    //does nothing
-                }
-            }
-        }
+        $this->algorithms = (new AlgorithmProvider($this->getAlgorithmMap()))
+            ->getAvailableAlgorithms();
     }
 
     public function payload(array $payload): self

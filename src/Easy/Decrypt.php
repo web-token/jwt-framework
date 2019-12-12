@@ -41,31 +41,6 @@ class Decrypt extends AbstractLoader
     private function __construct(string $token)
     {
         parent::__construct($token);
-        $this->algorithms = [
-            new KeyEncryption\A128GCMKW(),
-            new KeyEncryption\A192GCMKW(),
-            new KeyEncryption\A256GCMKW(),
-            new KeyEncryption\A128KW(),
-            new KeyEncryption\A192KW(),
-            new KeyEncryption\A256KW(),
-            new KeyEncryption\Dir(),
-            new KeyEncryption\ECDHES(),
-            new KeyEncryption\ECDHESA128KW(),
-            new KeyEncryption\ECDHESA192KW(),
-            new KeyEncryption\ECDHESA256KW(),
-            new KeyEncryption\PBES2HS256A128KW(),
-            new KeyEncryption\PBES2HS384A192KW(),
-            new KeyEncryption\PBES2HS512A256KW(),
-            new KeyEncryption\RSA15(),
-            new KeyEncryption\RSAOAEP(),
-            new KeyEncryption\RSAOAEP256(),
-            new ContentEncryption\A128GCM(),
-            new ContentEncryption\A192GCM(),
-            new ContentEncryption\A256GCM(),
-            new ContentEncryption\A128CBCHS256(),
-            new ContentEncryption\A192CBCHS384(),
-            new ContentEncryption\A256CBCHS512(),
-        ];
         $this->compressionMethods = [
             new Deflate(),
         ];
@@ -139,5 +114,34 @@ class Decrypt extends AbstractLoader
         $claimChecker->check($jwt->claims->all());
 
         return $jwt;
+    }
+
+    protected function getAlgorithmMap(): array
+    {
+        return [
+            KeyEncryption\A128GCMKW::class,
+            KeyEncryption\A192GCMKW::class,
+            KeyEncryption\A256GCMKW::class,
+            KeyEncryption\A128KW::class,
+            KeyEncryption\A192KW::class,
+            KeyEncryption\A256KW::class,
+            KeyEncryption\Dir::class,
+            KeyEncryption\ECDHES::class,
+            KeyEncryption\ECDHESA128KW::class,
+            KeyEncryption\ECDHESA192KW::class,
+            KeyEncryption\ECDHESA256KW::class,
+            KeyEncryption\PBES2HS256A128KW::class,
+            KeyEncryption\PBES2HS384A192KW::class,
+            KeyEncryption\PBES2HS512A256KW::class,
+            KeyEncryption\RSA15::class,
+            KeyEncryption\RSAOAEP::class,
+            KeyEncryption\RSAOAEP256::class,
+            ContentEncryption\A128GCM::class,
+            ContentEncryption\A192GCM::class,
+            ContentEncryption\A256GCM::class,
+            ContentEncryption\A128CBCHS256::class,
+            ContentEncryption\A192CBCHS384::class,
+            ContentEncryption\A256CBCHS512::class,
+        ];
     }
 }
