@@ -13,15 +13,16 @@ declare(strict_types=1);
 
 namespace Jose\Easy\Tests;
 
+use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Jose\Component\Signature\Algorithm;
 use Jose\Easy\AlgorithmProvider;
-use Jose\Easy\Tests\Algorithm\ExceptionTestAlgorithm;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use function get_class;
+
 
 /**
  * @group  easy
@@ -117,10 +118,53 @@ final class AlgorithmProviderTest extends TestCase
      */
     public function itCanHandleClassesWithExceptions(): void
     {
-        $test = [ExceptionTestAlgorithm::class];
+        $test = [$this->createAlgorithmClassWithExceptionMock()];
         $algorithmProvider = new AlgorithmProvider($test);
 
         self::assertSame($test, $algorithmProvider->getAlgorithmClasses());
         self::assertSame([], $algorithmProvider->getAvailableAlgorithms());
+    }
+
+    /**
+     * @return string
+     */
+    private function createAlgorithmClassWithExceptionMock(): string
+    {
+        $mockClass = new class implements Algorithm\SignatureAlgorithm {
+            private static $throw;
+
+            public function __construct()
+            {
+                if (null === self::$throw) {
+                    self::$throw = true;
+
+                    return;
+                }
+
+                throw new \BadFunctionCallException('should not be called');
+            }
+
+            public function name(): string
+            {
+                throw new \BadFunctionCallException('should not be called');
+            }
+
+            public function allowedKeyTypes(): array
+            {
+                throw new \BadFunctionCallException('should not be called');
+            }
+
+            public function sign(JWK $key, string $input): string
+            {
+                throw new \BadFunctionCallException('should not be called');
+            }
+
+            public function verify(JWK $key, string $input, string $signature): bool
+            {
+                throw new \BadFunctionCallException('should not be called');
+            }
+        };
+
+        return get_class($mockClass);
     }
 }
