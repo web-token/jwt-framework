@@ -71,7 +71,7 @@ class AlgorithmManager
     /**
      * Adds an algorithm to the manager.
      */
-    private function add(Algorithm $algorithm): void
+    public function add(Algorithm $algorithm): void
     {
         $name = $algorithm->name();
         $this->algorithms[$name] = $algorithm;
