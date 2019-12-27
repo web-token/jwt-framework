@@ -1,7 +1,7 @@
 * text=auto
 
 /.github export-ignore
-/Tests
+/Tests export-ignore
 /.gitattributes export-ignore
-/phpunit.xml.dist
-/README.md
+/phpunit.xml.dist export-ignore
+/README.md export-ignore
