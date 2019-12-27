@@ -11,3 +11,4 @@ composer.lock
 .php_cs.cache
 vendor/
 src/Bundle/JoseFramework/var/
+infection.txt
