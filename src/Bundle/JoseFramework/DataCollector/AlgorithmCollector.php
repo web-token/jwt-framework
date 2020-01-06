@@ -34,7 +34,7 @@ final class AlgorithmCollector implements Collector
         $this->algorithmManagerFactory = $algorithmManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $algorithms = $this->algorithmManagerFactory->all();
         $data['algorithm'] = [

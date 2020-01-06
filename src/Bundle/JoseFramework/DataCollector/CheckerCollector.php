@@ -74,7 +74,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->collectHeaderCheckerManagers($data);
         $this->collectSupportedHeaderCheckers($data);

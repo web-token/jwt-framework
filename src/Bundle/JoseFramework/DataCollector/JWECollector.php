@@ -80,7 +80,7 @@ class JWECollector implements Collector, EventSubscriberInterface
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->collectSupportedCompressionMethods($data);
         $this->collectSupportedJWESerializations($data);

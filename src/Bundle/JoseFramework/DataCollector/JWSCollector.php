@@ -73,7 +73,7 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->collectSupportedJWSSerializations($data);
         $this->collectSupportedJWSBuilders($data);
