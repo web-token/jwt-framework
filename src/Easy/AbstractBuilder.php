@@ -33,7 +33,8 @@ abstract class AbstractBuilder
     {
         $this->jwt = new JWT();
         $this->algorithms = (new AlgorithmProvider($this->getAlgorithmMap()))
-            ->getAvailableAlgorithms();
+            ->getAvailableAlgorithms()
+        ;
     }
 
     public function payload(array $payload): self

@@ -48,7 +48,7 @@ class Validate extends AbstractLoader
         $jwt->claims->replace(JsonConverter::decode($jws->getPayload()));
 
         $claimChecker = new Checker\ClaimCheckerManager($this->claimCheckers);
-        $claimChecker->check($jwt->claims->all());
+        $claimChecker->check($jwt->claims->all(), $this->mandatoryClaims);
 
         return $jwt;
     }

@@ -63,7 +63,8 @@ abstract class AbstractLoader
         $this->claimCheckers = [];
 
         $this->algorithms = (new AlgorithmProvider($this->getAlgorithmMap()))
-            ->getAvailableAlgorithms();
+            ->getAvailableAlgorithms()
+        ;
     }
 
     /**
@@ -276,7 +277,6 @@ abstract class AbstractLoader
 
         return $clone;
     }
-
 
     abstract protected function getAlgorithmMap(): array;
 }

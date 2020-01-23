@@ -35,6 +35,16 @@ final class AlgorithmProvider
         }
     }
 
+    public function getAlgorithmClasses(): array
+    {
+        return $this->algorithmClasses;
+    }
+
+    public function getAvailableAlgorithms(): array
+    {
+        return $this->algorithms;
+    }
+
     private function addClass(string $algorithmClass): void
     {
         if (class_exists($algorithmClass)) {
@@ -44,15 +54,5 @@ final class AlgorithmProvider
                 //does nothing
             }
         }
-    }
-
-    public function getAlgorithmClasses(): array
-    {
-        return $this->algorithmClasses;
-    }
-
-    public function getAvailableAlgorithms(): array
-    {
-        return $this->algorithms;
     }
 }

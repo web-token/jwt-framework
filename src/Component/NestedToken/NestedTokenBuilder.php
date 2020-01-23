@@ -52,9 +52,6 @@ class NestedTokenBuilder
     /**
      * Creates a nested token.
      *
-     * @param array $signatures
-     * @param array $recipients
-     *
      * @throws InvalidArgumentException if the argument "$signatures" does not include the expected structure
      * @throws InvalidArgumentException if the argument "$recipients" does not include the expected structure
      */
