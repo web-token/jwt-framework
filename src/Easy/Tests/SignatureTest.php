@@ -89,6 +89,9 @@ class SignatureTest extends TestCase
      */
     public function missingPayload(): void
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('The following claims are mandatory: test.');
+        
         $jwk = new JWK([
             'kty' => 'RSA',
             'kid' => 'bilbo.baggins@hobbiton.example',
