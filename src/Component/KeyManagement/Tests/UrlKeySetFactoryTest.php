@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -18,6 +18,7 @@ use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * @group unit
@@ -71,7 +72,7 @@ class UrlKeySetFactoryTest extends TestCase
      */
     public function theJWKUrlIsValidButDoesNotContainAKeySet(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Invalid content.');
 
         $response = $this->messageFactory->createResponse(200);
@@ -86,7 +87,7 @@ class UrlKeySetFactoryTest extends TestCase
      */
     public function theUrlIsNotValidAndJWKSetCannotBeLoaded(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unable to get the key set.');
 
         $response = $this->messageFactory->createResponse(404);
@@ -115,7 +116,7 @@ class UrlKeySetFactoryTest extends TestCase
      */
     public function theX509UrlIsValidButDoesNotContainAKeySet(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Invalid content.');
 
         $response = $this->messageFactory->createResponse(200);
@@ -130,7 +131,7 @@ class UrlKeySetFactoryTest extends TestCase
      */
     public function theUrlIsNotValidAndX509CertificatesCannotBeLoaded(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unable to get the key set.');
 
         $response = $this->messageFactory->createResponse(404);

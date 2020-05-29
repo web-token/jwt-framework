@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+use function array_key_exists;
 use InvalidArgumentException;
 
 class CompressionMethodManager
@@ -34,7 +35,7 @@ class CompressionMethodManager
      */
     public function has(string $name): bool
     {
-        return \array_key_exists($name, $this->compressionMethods);
+        return array_key_exists($name, $this->compressionMethods);
     }
 
     /**

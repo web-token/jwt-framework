@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Base64Url\Base64Url;
+use function extension_loaded;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use RuntimeException;
@@ -136,7 +137,7 @@ class ECKey
      */
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         $key = openssl_pkey_new([

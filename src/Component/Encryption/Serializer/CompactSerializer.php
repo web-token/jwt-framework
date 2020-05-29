@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Base64Url\Base64Url;
+use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
@@ -62,7 +63,7 @@ final class CompactSerializer implements JWESerializer
     public function unserialize(string $input): JWE
     {
         $parts = explode('.', $input);
-        if (5 !== \count($parts)) {
+        if (5 !== count($parts)) {
             throw new InvalidArgumentException('Unsupported input');
         }
 
@@ -104,7 +105,7 @@ final class CompactSerializer implements JWESerializer
      */
     private function checkRecipientHasNoHeader(JWE $jwe, int $id): void
     {
-        if (0 !== \count($jwe->getSharedHeader()) || 0 !== \count($jwe->getRecipient($id)->getHeader())) {
+        if (0 !== count($jwe->getSharedHeader()) || 0 !== count($jwe->getRecipient($id)->getHeader())) {
             throw new LogicException('This JWE has shared header parameters or recipient header parameters and cannot be converted into Compact JSON.');
         }
     }
@@ -114,7 +115,7 @@ final class CompactSerializer implements JWESerializer
      */
     private function checkHasSharedProtectedHeader(JWE $jwe): void
     {
-        if (0 === \count($jwe->getSharedProtectedHeader())) {
+        if (0 === count($jwe->getSharedProtectedHeader())) {
             throw new LogicException('This JWE does not have shared protected header parameters and cannot be converted into Compact JSON.');
         }
     }

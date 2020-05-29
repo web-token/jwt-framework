@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Easy\Tests;
 
+use BadFunctionCallException;
+use function get_class;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption;
@@ -90,7 +92,7 @@ final class AlgorithmProviderTest extends TestCase
     {
         $algorithmProvider = new AlgorithmProvider(self::ALL_ALGORITHMS);
         foreach ($algorithmProvider->getAvailableAlgorithms() as $algorithm) {
-            static::assertContains(\get_class($algorithm), self::ALL_ALGORITHMS);
+            static::assertContains(get_class($algorithm), self::ALL_ALGORITHMS);
         }
     }
 
@@ -139,30 +141,30 @@ final class AlgorithmProviderTest extends TestCase
                     return;
                 }
 
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function name(): string
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function allowedKeyTypes(): array
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function sign(JWK $key, string $input): string
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function verify(JWK $key, string $input, string $signature): bool
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
         };
 
-        return \get_class($mockClass);
+        return get_class($mockClass);
     }
 }

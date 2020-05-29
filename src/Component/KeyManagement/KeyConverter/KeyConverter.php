@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
+use function extension_loaded;
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use RuntimeException;
 use Throwable;
 
@@ -32,7 +37,7 @@ class KeyConverter
             throw new InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
         }
         $content = file_get_contents($file);
-        if (!\is_string($content)) {
+        if (!is_string($content)) {
             throw new InvalidArgumentException(sprintf('File "%s" cannot be read.', $file));
         }
 
@@ -45,7 +50,7 @@ class KeyConverter
      */
     public static function loadKeyFromCertificate(string $certificate): array
     {
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
 
@@ -76,7 +81,7 @@ class KeyConverter
      */
     public static function loadKeyFromX509Resource($res): array
     {
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         $key = openssl_get_publickey($res);
@@ -84,7 +89,7 @@ class KeyConverter
             throw new InvalidArgumentException('Unable to load the certificate.');
         }
         $details = openssl_pkey_get_details($key);
-        if (!\is_array($details)) {
+        if (!is_array($details)) {
             throw new InvalidArgumentException('Unable to load the certificate');
         }
         if (isset($details['key'])) {
@@ -130,7 +135,7 @@ class KeyConverter
      */
     public static function loadFromX5C(array $x5c): array
     {
-        if (0 === \count($x5c)) {
+        if (0 === count($x5c)) {
             throw new InvalidArgumentException('The certificate chain is empty');
         }
         foreach ($x5c as $id => $cert) {
@@ -163,11 +168,9 @@ class KeyConverter
      */
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
-        if (1 === preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
-            $pem = self::decodePem($pem, $matches, $password);
-        }
+        $pem = self::loadEncryptedKey($pem, $password);
 
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         self::sanitizePEM($pem);
@@ -180,7 +183,7 @@ class KeyConverter
         }
 
         $details = openssl_pkey_get_details($res);
-        if (!\is_array($details) || !\array_key_exists('type', $details)) {
+        if (!is_array($details) || !array_key_exists('type', $details)) {
             throw new InvalidArgumentException('Unable to get details of the key');
         }
 
@@ -252,5 +255,24 @@ class KeyConverter
         $pem = chunk_split(base64_encode($der_data), 64, PHP_EOL);
 
         return '-----BEGIN CERTIFICATE-----'.PHP_EOL.$pem.'-----END CERTIFICATE-----'.PHP_EOL;
+    }
+
+    private static function loadEncryptedKey(?string $pem, ?string $password): string
+    {
+        if (1 === preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
+            $pem = self::decodePem($pem, $matches, $password);
+        }
+        if (1 === preg_match('#BEGIN ENCRYPTED PRIVATE KEY#', $pem, $matches)) {
+            $res = openssl_pkey_get_private($pem, $password);
+            if (false === $res) {
+                throw new InvalidArgumentException('Unable to load the key.');
+            }
+            $res = openssl_pkey_export($res, $pem);
+            if (false === $res) {
+                throw new InvalidArgumentException('Unable to load the key.');
+            }
+        }
+
+        return $pem;
     }
 }

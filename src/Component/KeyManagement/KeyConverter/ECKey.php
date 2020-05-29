@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
 use FG\ASN1\ASNObject;
 use FG\ASN1\Exception\ParserException;
 use FG\ASN1\ExplicitlyTaggedObject;
@@ -23,6 +25,8 @@ use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 
 /**
  * @internal
@@ -54,7 +58,7 @@ class ECKey
     public static function toPublic(self $private): self
     {
         $data = $private->toArray();
-        if (\array_key_exists('d', $data)) {
+        if (array_key_exists('d', $data)) {
             unset($data['d']);
         }
 
@@ -85,10 +89,10 @@ class ECKey
             $children = self::loadPKCS8($children);
         }
 
-        if (4 === \count($children)) {
+        if (4 === count($children)) {
             return self::loadPrivatePEM($children);
         }
-        if (2 === \count($children)) {
+        if (2 === count($children)) {
             return self::loadPublicPEM($children);
         }
 
@@ -156,7 +160,7 @@ class ECKey
     {
         $curves = self::getSupportedCurves();
         $curve = array_search($oid, $curves, true);
-        if (!\is_string($curve)) {
+        if (!is_string($curve)) {
             throw new InvalidArgumentException('Unsupported OID.');
         }
 
@@ -187,7 +191,7 @@ class ECKey
      */
     private static function getXAndY(ASNObject $children, string &$x, string &$y): void
     {
-        if (!$children instanceof ExplicitlyTaggedObject || !\is_array($children->getContent())) {
+        if (!$children instanceof ExplicitlyTaggedObject || !is_array($children->getContent())) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
         if (!$children->getContent()[0] instanceof BitString) {
@@ -228,7 +232,7 @@ class ECKey
         $d = self::getD($children[1]);
         self::getXAndY($children[3], $x, $y);
 
-        if (!$children[2] instanceof ExplicitlyTaggedObject || !\is_array($children[2]->getContent())) {
+        if (!$children[2] instanceof ExplicitlyTaggedObject || !is_array($children[2]->getContent())) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
         if (!$children[2]->getContent()[0] instanceof ObjectIdentifier) {
@@ -251,7 +255,7 @@ class ECKey
      */
     private static function isPKCS8(array $children): bool
     {
-        if (3 !== \count($children)) {
+        if (3 !== count($children)) {
             return false;
         }
 
@@ -277,7 +281,7 @@ class ECKey
             'y' => 'Point parameters are missing.',
         ];
         foreach ($keys as $k => $v) {
-            if (!\array_key_exists($k, $jwk)) {
+            if (!array_key_exists($k, $jwk)) {
                 throw new InvalidArgumentException($v);
             }
         }

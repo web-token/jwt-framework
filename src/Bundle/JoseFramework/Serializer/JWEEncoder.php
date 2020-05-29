@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
+use Exception;
+use function in_array;
+use function is_int;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
@@ -41,7 +44,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
 
     public function supportsEncoding($format): bool
     {
-        return \in_array(mb_strtolower($format), $this->serializerManager->names(), true);
+        return in_array(mb_strtolower($format), $this->serializerManager->names(), true);
     }
 
     public function supportsDecoding($format): bool
@@ -82,7 +85,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
     {
         try {
             return $this->serializerManager->unserialize($data);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $message = sprintf('Cannot decode JWE from %s format.', $format);
 
             if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
@@ -99,7 +102,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
     private function getRecipientIndex(array $context): int
     {
         $recipientIndex = 0;
-        if (isset($context['recipient_index']) && \is_int($context['recipient_index'])) {
+        if (isset($context['recipient_index']) && is_int($context['recipient_index'])) {
             $recipientIndex = $context['recipient_index'];
         }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Easy;
 
+use function in_array;
+use function is_string;
 use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\InvalidHeaderException;
 
@@ -50,10 +52,10 @@ final class ContentEncryptionAlgorithmChecker implements HeaderChecker
      */
     public function checkHeader($value): void
     {
-        if (!\is_string($value)) {
+        if (!is_string($value)) {
             throw new InvalidHeaderException('"enc" must be a string.', self::HEADER_NAME, $value);
         }
-        if (!\in_array($value, $this->supportedAlgorithms, true)) {
+        if (!in_array($value, $this->supportedAlgorithms, true)) {
             throw new InvalidHeaderException('Unsupported algorithm.', self::HEADER_NAME, $value);
         }
     }

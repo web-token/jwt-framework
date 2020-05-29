@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function in_array;
 use InvalidArgumentException;
+use function is_array;
 use JsonSerializable;
 
 class JWK implements JsonSerializable
@@ -48,7 +51,7 @@ class JWK implements JsonSerializable
     public static function createFromJson(string $json): self
     {
         $data = json_decode($json, true);
-        if (!\is_array($data)) {
+        if (!is_array($data)) {
             throw new InvalidArgumentException('Invalid argument.');
         }
 
@@ -88,7 +91,7 @@ class JWK implements JsonSerializable
      */
     public function has(string $key): bool
     {
-        return \array_key_exists($key, $this->values);
+        return array_key_exists($key, $this->values);
     }
 
     /**
@@ -110,7 +113,7 @@ class JWK implements JsonSerializable
      */
     public function thumbprint(string $hash_algorithm): string
     {
-        if (!\in_array($hash_algorithm, hash_algos(), true)) {
+        if (!in_array($hash_algorithm, hash_algos(), true)) {
             throw new InvalidArgumentException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         }
         $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
+use function array_key_exists;
+use function count;
+use function in_array;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
@@ -78,7 +81,7 @@ class EncryptionSource implements SourceWithCompilerPasses
             }
         }
 
-        if (\array_key_exists('jwe', $configs)) {
+        if (array_key_exists('jwe', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['jwe'], $container);
             }
@@ -110,7 +113,7 @@ class EncryptionSource implements SourceWithCompilerPasses
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== \count($prepend)) {
+            if (0 !== count($prepend)) {
                 $result[$source->name()] = $prepend;
             }
         }
@@ -142,7 +145,7 @@ class EncryptionSource implements SourceWithCompilerPasses
             RSA::class => 'encryption_rsa.php',
             A128CTR::class => 'encryption_experimental.php',
         ];
-        if (\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
+        if (in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
             $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.php';
         }
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\Tests;
 
+use function in_array;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
 use PHPUnit\Framework\TestCase;
@@ -27,7 +28,7 @@ class Chacha20Poly1305ContentEncryptionTest extends TestCase
 {
     protected function setUp(): void
     {
-        if (!\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
+        if (!in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
             static::markTestSkipped('The algorithm "chacha20-poly1305" is not supported in this platform.');
         }
     }

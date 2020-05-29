@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -16,6 +16,7 @@ namespace Jose\Performance\KeyFactory;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\NistCurve;
+use RuntimeException;
 
 /**
  * @Revs(1000)
@@ -52,7 +53,7 @@ final class KeyFactory
         ]);
         $res = openssl_pkey_export($key, $out);
         if (false === $res) {
-            throw new \RuntimeException('Unable to create the key');
+            throw new RuntimeException('Unable to create the key');
         }
         $res = openssl_pkey_get_private($out);
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Easy;
 
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\Algorithm as JoseAlgorithm;
 use Jose\Component\Signature\Algorithm;
 
@@ -101,7 +102,7 @@ abstract class AbstractBuilder
                 $clone->jwt->header->set('alg', $alg->name());
 
                 break;
-            case \is_string($alg):
+            case is_string($alg):
                 $clone->jwt->header->set('alg', $alg);
 
                 break;

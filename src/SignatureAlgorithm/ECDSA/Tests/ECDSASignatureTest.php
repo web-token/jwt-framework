@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
@@ -34,7 +35,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function invalidKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
         $key = new JWK([
             'kty' => 'RSA',
@@ -98,7 +99,7 @@ class ECDSASignatureTest extends TestCase
      */
     public function keyNotPrivate(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The EC key is not private');
         $key = new JWK([
             'kty' => 'EC',

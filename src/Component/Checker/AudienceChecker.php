@@ -5,13 +5,17 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
 
 namespace Jose\Component\Checker;
+
+use function in_array;
+use function is_array;
+use function is_string;
 
 /**
  * This class is a header parameter and claim checker.
@@ -76,13 +80,13 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
      */
     private function checkValue($value, string $class): void
     {
-        if (\is_string($value) && $value !== $this->audience) {
+        if (is_string($value) && $value !== $this->audience) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
-        if (\is_array($value) && !\in_array($this->audience, $value, true)) {
+        if (is_array($value) && !in_array($this->audience, $value, true)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
-        if (!\is_array($value) && !\is_string($value)) {
+        if (!is_array($value) && !is_string($value)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
     }

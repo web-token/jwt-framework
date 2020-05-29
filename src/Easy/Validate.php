@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Easy;
 
+use function count;
 use Exception;
 use Jose\Component\Checker;
 use Jose\Component\Core\AlgorithmManager;
@@ -31,7 +32,7 @@ class Validate extends AbstractLoader
 
     public function run(): JWT
     {
-        if (0 !== \count($this->allowedAlgorithms)) {
+        if (0 !== count($this->allowedAlgorithms)) {
             $this->headerCheckers[] = new Checker\AlgorithmChecker($this->allowedAlgorithms, true);
         }
         $jws = (new CompactSerializer())->unserialize($this->token);

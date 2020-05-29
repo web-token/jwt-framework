@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
+use function array_key_exists;
+use function count;
 use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource as JWKSetSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
@@ -42,7 +44,7 @@ class JWKSetSource implements Source
         $sources = $this->getJWKSetSources();
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             foreach ($itemConfig as $sourceName => $sourceConfig) {
-                if (\array_key_exists($sourceName, $sources)) {
+                if (array_key_exists($sourceName, $sources)) {
                     $source = $sources[$sourceName];
                     $source->create($container, 'key_set', $name, $sourceConfig);
                 } else {
@@ -63,7 +65,7 @@ class JWKSetSource implements Source
             ->arrayPrototype()
             ->validate()
             ->ifTrue(function ($config) {
-                return 1 !== \count($config);
+                return 1 !== count($config);
             })
             ->thenInvalid('One key set type must be set.')
             ->end()

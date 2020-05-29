@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Tests;
 
+use function count;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 
@@ -34,7 +35,7 @@ class JWSSplitTest extends SignatureTest
         $split = $jws->split();
 
         static::assertEquals(3, $jws->countSignatures());
-        static::assertEquals(3, \count($jws->split()));
+        static::assertEquals(3, count($jws->split()));
 
         for ($i = 0; $i < $jws->countSignatures(); ++$i) {
             $signature1 = $jws->getSignature($i);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use LogicException;
 
 /**
  * @group Signer
@@ -31,7 +33,7 @@ class SignerTest extends SignatureTest
      */
     public function algParameterIsMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('No "alg" parameter set in the header.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
@@ -47,7 +49,7 @@ class SignerTest extends SignatureTest
      */
     public function algParameterIsNotSupported(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The algorithm "foo" is not supported.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
@@ -63,7 +65,7 @@ class SignerTest extends SignatureTest
      */
     public function duplicatedHeader(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header contains duplicated entries: foo.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
@@ -262,7 +264,7 @@ class SignerTest extends SignatureTest
      */
     public function algorithmNotAllowedForTheKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The algorithm "RS512" is not allowed with this key.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create([]);
@@ -278,7 +280,7 @@ class SignerTest extends SignatureTest
      */
     public function operationNotAllowedForTheKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Key cannot be used to sign');
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['PS512']);
@@ -379,7 +381,7 @@ class SignerTest extends SignatureTest
      */
     public function signAndLoadWithJWSWithoutSignatures(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The JWS does not contain any signature.');
 
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
@@ -402,7 +404,7 @@ class SignerTest extends SignatureTest
      */
     public function compactJSONWithUnencodedPayloadFailsBecauseOfForbiddenCharacters(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Unable to convert the JWS with non-encoded payload.');
 
         $protectedHeader = [
@@ -547,7 +549,7 @@ class SignerTest extends SignatureTest
      */
     public function compactJSONWithUnencodedPayloadAndMultipleSignatures(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Foreign payload encoding detected.');
 
         $payload = '$.02';
@@ -581,7 +583,7 @@ class SignerTest extends SignatureTest
      */
     public function jWSWithUnencodedPayloadButNoCritHeader(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('The protected header parameter "crit" is mandatory when protected header parameter "b64" is set.');
 
         $payload = '$.02';
@@ -609,7 +611,7 @@ class SignerTest extends SignatureTest
      */
     public function jWSWithUnencodedPayloadButCritHeaderIsNotAnArray(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('The protected header parameter "crit" must be an array.');
 
         $payload = '$.02';
@@ -638,7 +640,7 @@ class SignerTest extends SignatureTest
      */
     public function jWSWithUnencodedPayloadButCritHeaderDoesNotContainB64(): void
     {
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('The protected header parameter "crit" must contain "b64" when protected header parameter "b64" is set.');
 
         $payload = '$.02';
@@ -747,7 +749,7 @@ class SignerTest extends SignatureTest
      */
     public function signAndLoadWithoutAlgParameterInTheHeader(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('No "alg" parameter set in the header.');
 
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
@@ -791,7 +793,7 @@ class SignerTest extends SignatureTest
      */
     public function keySetIsEmpty(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('There is no key in the key set.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512', 'RS512']);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -21,6 +21,7 @@ use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Throwable;
 
 class KeyCollector implements Collector
 {
@@ -50,7 +51,7 @@ class KeyCollector implements Collector
         $this->jwksetAnalyzerManager = $jwksetAnalyzerManager;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Throwable $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectJWK($data);
         $this->collectJWKSet($data);

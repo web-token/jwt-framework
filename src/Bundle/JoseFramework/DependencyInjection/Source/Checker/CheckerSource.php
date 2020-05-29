@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 
+use function array_key_exists;
+use function count;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
@@ -57,7 +59,7 @@ class CheckerSource implements SourceWithCompilerPasses
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('checkers.php');
 
-        if (\array_key_exists('checkers', $configs)) {
+        if (array_key_exists('checkers', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['checkers'], $container);
             }
@@ -90,7 +92,7 @@ class CheckerSource implements SourceWithCompilerPasses
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== \count($prepend)) {
+            if (0 !== count($prepend)) {
                 $result[$source->name()] = $prepend;
             }
         }

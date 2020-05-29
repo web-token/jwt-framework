@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Algorithm\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -404,7 +405,7 @@ class RSASignatureTest extends TestCase
      */
     public function loadJWSJSONSerializationWithDetachedPayloadAndPayloadInJWS(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload');
         $jwsVerifier = new JWSVerifier(
             new AlgorithmManager([new Algorithm\RS256()])
@@ -424,7 +425,7 @@ class RSASignatureTest extends TestCase
      */
     public function loadInvalidInput(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported input');
         $serializer = new CompactSerializer(
         );
@@ -436,7 +437,7 @@ class RSASignatureTest extends TestCase
      */
     public function loadInvalidInput2(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported input');
         $serializer = new CompactSerializer(
         );

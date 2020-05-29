@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
@@ -46,8 +48,8 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        static::assertTrue(\array_key_exists('iv', $header));
-        static::assertTrue(\array_key_exists('tag', $header));
+        static::assertTrue(array_key_exists('iv', $header));
+        static::assertTrue(array_key_exists('tag', $header));
         static::assertNotNull($header['iv']);
         static::assertNotNull($header['tag']);
         static::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
@@ -59,7 +61,7 @@ class AESGCMKWKeyEncryptionTest extends TestCase
      */
     public function badKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
 
         $header = [];
@@ -80,7 +82,7 @@ class AESGCMKWKeyEncryptionTest extends TestCase
      */
     public function missingParameters(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Parameter "iv" is missing.');
 
         $header = [];
@@ -114,8 +116,8 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        static::assertTrue(\array_key_exists('iv', $header));
-        static::assertTrue(\array_key_exists('tag', $header));
+        static::assertTrue(array_key_exists('iv', $header));
+        static::assertTrue(array_key_exists('tag', $header));
         static::assertNotNull($header['iv']);
         static::assertNotNull($header['tag']);
         static::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
@@ -139,8 +141,8 @@ class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        static::assertTrue(\array_key_exists('iv', $header));
-        static::assertTrue(\array_key_exists('tag', $header));
+        static::assertTrue(array_key_exists('iv', $header));
+        static::assertTrue(array_key_exists('tag', $header));
         static::assertNotNull($header['iv']);
         static::assertNotNull($header['tag']);
         static::assertEquals($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));

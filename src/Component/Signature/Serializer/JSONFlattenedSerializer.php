@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Base64Url\Base64Url;
+use function count;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 
@@ -54,7 +56,7 @@ final class JSONFlattenedSerializer extends Serializer
             $data['protected'] = $encodedProtectedHeader;
         }
         $header = $signature->getHeader();
-        if (0 !== \count($header)) {
+        if (0 !== count($header)) {
             $data['header'] = $header;
         }
         $data['signature'] = Base64Url::encode($signature->getSignature());
@@ -69,7 +71,7 @@ final class JSONFlattenedSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);
-        if (!\is_array($data)) {
+        if (!is_array($data)) {
             throw new InvalidArgumentException('Unsupported input.');
         }
         if (!isset($data['signature'])) {
@@ -85,7 +87,7 @@ final class JSONFlattenedSerializer extends Serializer
             $protectedHeader = [];
         }
         if (isset($data['header'])) {
-            if (!\is_array($data['header'])) {
+            if (!is_array($data['header'])) {
                 throw new InvalidArgumentException('Bad header.');
             }
             $header = $data['header'];

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use function array_key_exists;
+use function function_exists;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -21,6 +23,7 @@ use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 final class AlgorithmCollector implements Collector
 {
@@ -34,7 +37,7 @@ final class AlgorithmCollector implements Collector
         $this->algorithmManagerFactory = $algorithmManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Throwable $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $algorithms = $this->algorithmManagerFactory->all();
         $data['algorithm'] = [
@@ -47,7 +50,7 @@ final class AlgorithmCollector implements Collector
         $contentEncryptionAlgorithms = 0;
         foreach ($algorithms as $alias => $algorithm) {
             $type = $this->getAlgorithmType($algorithm, $signatureAlgorithms, $macAlgorithms, $keyEncryptionAlgorithms, $contentEncryptionAlgorithms);
-            if (!\array_key_exists($type, $data['algorithm']['algorithms'])) {
+            if (!array_key_exists($type, $data['algorithm']['algorithms'])) {
                 $data['algorithm']['algorithms'][$type] = [];
             }
             $data['algorithm']['algorithms'][$type][$alias] = [
@@ -191,7 +194,7 @@ final class AlgorithmCollector implements Collector
                 'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
             ],
         ];
-        if (!\function_exists('openssl_pkey_derive')) {
+        if (!function_exists('openssl_pkey_derive')) {
             $messages += [
                 'ECDH-ES' => [
                     'severity' => 'severity-medium',

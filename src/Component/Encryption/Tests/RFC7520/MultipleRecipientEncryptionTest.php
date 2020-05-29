@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Tests\RFC7520;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Tests\EncryptionTest;
 
@@ -229,9 +231,9 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
 
         static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
         static::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
-        static::assertTrue(\array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
-        static::assertTrue(\array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
-        static::assertTrue(\array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
+        static::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
+        static::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
+        static::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
         static::assertEquals($header, $loaded_json->getSharedHeader());
 
         static::assertEquals($expected_payload, $loaded_json->getPayload());
@@ -242,7 +244,7 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
      */
     public function multipleRecipientEncryptionWithDifferentContentEncryptionAlgorithm(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Inconsistent content encryption algorithm');
 
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";

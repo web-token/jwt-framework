@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Tests;
 
+use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use PHPUnit\Framework\TestCase;
+use TypeError;
 
 /**
  * @group unit
@@ -46,7 +48,7 @@ class AlgorithmManagerFactoryTest extends TestCase
      */
     public function iCannotCreateAnAlgorithmManagerWithABadArgument(): void
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeError::class);
 
         new AlgorithmManager(['foo']);
     }
@@ -57,7 +59,7 @@ class AlgorithmManagerFactoryTest extends TestCase
      */
     public function iCannotGetAnAlgorithmThatDoesNotExist(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The algorithm "HS384" is not supported.');
 
         $manager = new AlgorithmManager([new FooAlgorithm()]);

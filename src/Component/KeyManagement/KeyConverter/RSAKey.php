@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,8 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function extension_loaded;
+use function in_array;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 use RuntimeException;
@@ -54,7 +58,7 @@ class RSAKey
             'qi' => 'iqmp',
         ];
         foreach ($details as $key => $value) {
-            if (\in_array($key, $keys, true)) {
+            if (in_array($key, $keys, true)) {
                 $value = Base64Url::encode($value);
                 $values[array_search($key, $keys, true)] = $value;
             }
@@ -71,7 +75,7 @@ class RSAKey
      */
     public static function createFromPEM(string $pem): self
     {
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         $res = openssl_pkey_get_private($pem);
@@ -84,7 +88,7 @@ class RSAKey
 
         $details = openssl_pkey_get_details($res);
         openssl_free_key($res);
-        if (!\is_array($details) || !isset($details['rsa'])) {
+        if (!is_array($details) || !isset($details['rsa'])) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
@@ -101,7 +105,7 @@ class RSAKey
 
     public function isPublic(): bool
     {
-        return !\array_key_exists('d', $this->values);
+        return !array_key_exists('d', $this->values);
     }
 
     /**
@@ -114,7 +118,7 @@ class RSAKey
         $data = $private->toArray();
         $keys = ['p', 'd', 'q', 'dp', 'dq', 'qi'];
         foreach ($keys as $key) {
-            if (\array_key_exists($key, $data)) {
+            if (array_key_exists($key, $data)) {
                 unset($data[$key]);
             }
         }
@@ -138,7 +142,7 @@ class RSAKey
      */
     public function optimize(): void
     {
-        if (\array_key_exists('d', $this->values)) {
+        if (array_key_exists('d', $this->values)) {
             $this->populateCRT();
         }
     }
@@ -148,7 +152,7 @@ class RSAKey
      */
     private function loadJWK(array $jwk): void
     {
-        if (!\array_key_exists('kty', $jwk)) {
+        if (!array_key_exists('kty', $jwk)) {
             throw new InvalidArgumentException('The key parameter "kty" is missing.');
         }
         if ('RSA' !== $jwk['kty']) {
@@ -164,7 +168,7 @@ class RSAKey
      */
     private function populateCRT(): void
     {
-        if (!\array_key_exists('p', $this->values) && !\array_key_exists('q', $this->values)) {
+        if (!array_key_exists('p', $this->values) && !array_key_exists('q', $this->values)) {
             $d = BigInteger::createFromBinaryString(Base64Url::decode($this->values['d']));
             $e = BigInteger::createFromBinaryString(Base64Url::decode($this->values['e']));
             $n = BigInteger::createFromBinaryString(Base64Url::decode($this->values['n']));
@@ -174,7 +178,7 @@ class RSAKey
             $this->values['q'] = Base64Url::encode($q->toBytes());
         }
 
-        if (\array_key_exists('dp', $this->values) && \array_key_exists('dq', $this->values) && \array_key_exists('qi', $this->values)) {
+        if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists('qi', $this->values)) {
             return;
         }
 

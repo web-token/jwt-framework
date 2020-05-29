@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use function array_key_exists;
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -181,7 +183,7 @@ class JWEDecrypter
         if (null === $iv && 0 !== $requiredIvSize) {
             throw new InvalidArgumentException('Invalid IV size');
         }
-        if (\is_string($iv) && mb_strlen($iv, '8bit') !== $requiredIvSize / 8) {
+        if (is_string($iv) && mb_strlen($iv, '8bit') !== $requiredIvSize / 8) {
             throw new InvalidArgumentException('Invalid IV size');
         }
     }
@@ -219,7 +221,7 @@ class JWEDecrypter
 
     private function decompressIfNeeded(string $payload, array $completeHeaders): string
     {
-        if (\array_key_exists('zip', $completeHeaders)) {
+        if (array_key_exists('zip', $completeHeaders)) {
             $compression_method = $this->compressionMethodManager->get($completeHeaders['zip']);
             $payload = $compression_method->uncompress($payload);
         }

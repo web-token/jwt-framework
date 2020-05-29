@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Tests;
 
+use function count;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
@@ -121,7 +122,7 @@ class JWKSetTest extends TestCase
         ]]];
         $jwkset = JWKFactory::createFromValues($values);
         static::assertInstanceOf(JWKSet::class, $jwkset);
-        static::assertEquals(1, \count($jwkset));
+        static::assertEquals(1, count($jwkset));
         static::assertTrue($jwkset->has('71ee230371d19630bc17fb90ccf20ae632ad8cf8'));
         static::assertFalse($jwkset->has(0));
     }

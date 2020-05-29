@@ -5,13 +5,15 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
 
 namespace Jose\Component\Checker;
+
+use function is_int;
 
 /**
  * This class is a claim checker.
@@ -44,7 +46,7 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
      */
     public function checkClaim($value): void
     {
-        if (!\is_int($value)) {
+        if (!is_int($value)) {
             throw new InvalidClaimException('"nbf" must be an integer.', self::NAME, $value);
         }
         if (time() < $value - $this->allowedTimeDrift) {
@@ -65,7 +67,7 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
      */
     public function checkHeader($value): void
     {
-        if (!\is_int($value)) {
+        if (!is_int($value)) {
             throw new InvalidHeaderException('"nbf" must be an integer.', self::NAME, $value);
         }
         if (time() < $value - $this->allowedTimeDrift) {

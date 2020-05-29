@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,9 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use function array_key_exists;
 use ArrayIterator;
+use function count;
 use Countable;
+use function in_array;
 use InvalidArgumentException;
+use function is_array;
 use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
@@ -60,7 +64,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         if (!isset($data['keys'])) {
             throw new InvalidArgumentException('Invalid data.');
         }
-        if (!\is_array($data['keys'])) {
+        if (!is_array($data['keys'])) {
             throw new InvalidArgumentException('Invalid data.');
         }
 
@@ -87,7 +91,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     public static function createFromJson(string $json): self
     {
         $data = json_decode($json, true);
-        if (!\is_array($data)) {
+        if (!is_array($data)) {
             throw new InvalidArgumentException('Invalid argument.');
         }
 
@@ -150,7 +154,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function has($index): bool
     {
-        return \array_key_exists($index, $this->keys);
+        return array_key_exists($index, $this->keys);
     }
 
     /**
@@ -184,7 +188,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function count($mode = COUNT_NORMAL): int
     {
-        return \count($this->keys, $mode);
+        return count($this->keys, $mode);
     }
 
     /**
@@ -199,7 +203,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
-        if (!\in_array($type, ['enc', 'sig'], true)) {
+        if (!in_array($type, ['enc', 'sig'], true)) {
             throw new InvalidArgumentException('Allowed key types are "sig" or "enc".');
         }
 
@@ -226,7 +230,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
             $result[] = ['key' => $key, 'ind' => $ind];
         }
 
-        if (0 === \count($result)) {
+        if (0 === count($result)) {
             return null;
         }
 
@@ -272,7 +276,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         }
         if ($key->has('key_ops')) {
             $key_ops = $key->get('key_ops');
-            if (!\is_array($key_ops)) {
+            if (!is_array($key_ops)) {
                 throw new InvalidArgumentException('Invalid key parameter "key_ops". Should be a list of key operations');
             }
 
@@ -290,7 +294,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         if (null === $algorithm) {
             return 0;
         }
-        if (!\in_array($key->get('kty'), $algorithm->allowedKeyTypes(), true)) {
+        if (!in_array($key->get('kty'), $algorithm->allowedKeyTypes(), true)) {
             return false;
         }
         if ($key->has('alg')) {
@@ -317,15 +321,15 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     private static function convertKeyOpsToKeyUse(array $key_ops): string
     {
         switch (true) {
-            case \in_array('verify', $key_ops, true):
-            case \in_array('sign', $key_ops, true):
+            case in_array('verify', $key_ops, true):
+            case in_array('sign', $key_ops, true):
                 return 'sig';
-            case \in_array('encrypt', $key_ops, true):
-            case \in_array('decrypt', $key_ops, true):
-            case \in_array('wrapKey', $key_ops, true):
-            case \in_array('unwrapKey', $key_ops, true):
-            case \in_array('deriveKey', $key_ops, true):
-            case \in_array('deriveBits', $key_ops, true):
+            case in_array('encrypt', $key_ops, true):
+            case in_array('decrypt', $key_ops, true):
+            case in_array('wrapKey', $key_ops, true):
+            case in_array('unwrapKey', $key_ops, true):
+            case in_array('deriveKey', $key_ops, true):
+            case in_array('deriveBits', $key_ops, true):
                 return 'enc';
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));

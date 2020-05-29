@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Tests;
 
+use function count;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +43,7 @@ class JWKSetTest extends TestCase
      */
     public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Allowed key types are "sig" or "enc".');
 
         $jwkset = $this->getPublicKeySet();
@@ -53,7 +55,7 @@ class JWKSetTest extends TestCase
      */
     public function iCannotCreateAKeySetWithBadArguments(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid data.');
 
         JWKSet::createFromKeyData(['keys' => true]);
@@ -65,7 +67,7 @@ class JWKSetTest extends TestCase
     public function iCanGetAllKeysInAKeySet(): void
     {
         $jwkset = $this->getPublicKeySet();
-        static::assertEquals(3, \count($jwkset->all()));
+        static::assertEquals(3, count($jwkset->all()));
     }
 
     /**
@@ -75,7 +77,7 @@ class JWKSetTest extends TestCase
     {
         $jwkset = $this->getPublicKeySet();
         $new_jwkset = $jwkset->with(new JWK(['kty' => 'none']));
-        static::assertEquals(4, \count($new_jwkset->all()));
+        static::assertEquals(4, count($new_jwkset->all()));
         static::assertNotSame($jwkset, $new_jwkset);
     }
 
@@ -162,7 +164,7 @@ class JWKSetTest extends TestCase
             'use' => 'sig',
         ]]];
         $jwkset = JWKSet::createFromKeyData($values);
-        static::assertEquals(1, \count($jwkset));
+        static::assertEquals(1, count($jwkset));
         static::assertTrue($jwkset->has('71ee230371d19630bc17fb90ccf20ae632ad8cf8'));
         static::assertFalse($jwkset->has(0));
     }
@@ -199,7 +201,7 @@ class JWKSetTest extends TestCase
         $jwkset = $jwkset->with($jwk2);
 
         static::assertEquals('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}', json_encode($jwkset));
-        static::assertEquals(2, \count($jwkset));
+        static::assertEquals(2, count($jwkset));
         static::assertEquals(2, $jwkset->count());
         static::assertTrue($jwkset->has('0123456789'));
         static::assertTrue($jwkset->has('9876543210'));
@@ -213,7 +215,7 @@ class JWKSetTest extends TestCase
         $jwkset = $jwkset->without('9876543210');
         $jwkset = $jwkset->without('9876543210');
 
-        static::assertEquals(1, \count($jwkset));
+        static::assertEquals(1, count($jwkset));
         static::assertEquals(1, $jwkset->count());
 
         $jwkset = $jwkset->without('0123456789');
@@ -225,7 +227,7 @@ class JWKSetTest extends TestCase
      */
     public function keySet2(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Undefined index.');
 
         $jwk1 = new JWK([

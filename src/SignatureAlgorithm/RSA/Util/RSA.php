@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm\Util;
 
+use function chr;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
+use function ord;
 use RuntimeException;
 
 /**
@@ -143,7 +145,7 @@ class RSA
             throw new RuntimeException();
         }
 
-        return str_pad($x, $xLen, \chr(0), STR_PAD_LEFT);
+        return str_pad($x, $xLen, chr(0), STR_PAD_LEFT);
     }
 
     /**
@@ -177,12 +179,12 @@ class RSA
         $salt = random_bytes($sLen);
         $m2 = "\0\0\0\0\0\0\0\0".$mHash.$salt;
         $h = $hash->hash($m2);
-        $ps = str_repeat(\chr(0), $emLen - $sLen - $hash->getLength() - 2);
-        $db = $ps.\chr(1).$salt;
+        $ps = str_repeat(chr(0), $emLen - $sLen - $hash->getLength() - 2);
+        $db = $ps.chr(1).$salt;
         $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash);
         $maskedDB = $db ^ $dbMask;
-        $maskedDB[0] = ~\chr(0xFF << ($modulusLength & 7)) & $maskedDB[0];
-        $em = $maskedDB.$h.\chr(0xBC);
+        $maskedDB[0] = ~chr(0xFF << ($modulusLength & 7)) & $maskedDB[0];
+        $em = $maskedDB.$h.chr(0xBC);
 
         return $em;
     }
@@ -200,23 +202,23 @@ class RSA
         if ($emLen < $hash->getLength() + $sLen + 2) {
             throw new InvalidArgumentException();
         }
-        if ($em[mb_strlen($em, '8bit') - 1] !== \chr(0xBC)) {
+        if ($em[mb_strlen($em, '8bit') - 1] !== chr(0xBC)) {
             throw new InvalidArgumentException();
         }
         $maskedDB = mb_substr($em, 0, -$hash->getLength() - 1, '8bit');
         $h = mb_substr($em, -$hash->getLength() - 1, $hash->getLength(), '8bit');
-        $temp = \chr(0xFF << ($emBits & 7));
+        $temp = chr(0xFF << ($emBits & 7));
         if ((~$maskedDB[0] & $temp) !== $temp) {
             throw new InvalidArgumentException();
         }
         $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
         $db = $maskedDB ^ $dbMask;
-        $db[0] = ~\chr(0xFF << ($emBits & 7)) & $db[0];
+        $db[0] = ~chr(0xFF << ($emBits & 7)) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;
-        if (mb_substr($db, 0, $temp, '8bit') !== str_repeat(\chr(0), $temp)) {
+        if (mb_substr($db, 0, $temp, '8bit') !== str_repeat(chr(0), $temp)) {
             throw new InvalidArgumentException();
         }
-        if (1 !== \ord($db[$temp])) {
+        if (1 !== ord($db[$temp])) {
             throw new InvalidArgumentException();
         }
         $salt = mb_substr($db, $temp + 1, null, '8bit'); // should be $sLen long
@@ -238,7 +240,7 @@ class RSA
         if ($emBits < $tLen + 11) {
             throw new RuntimeException();
         }
-        $ps = str_repeat(\chr(0xFF), $emBits - $tLen - 3);
+        $ps = str_repeat(chr(0xFF), $emBits - $tLen - 3);
 
         return "\0\1{$ps}\0{$t}";
     }

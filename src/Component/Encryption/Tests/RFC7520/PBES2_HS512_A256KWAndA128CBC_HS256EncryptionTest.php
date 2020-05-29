@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Tests\RFC7520;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Tests\EncryptionTest;
@@ -169,11 +170,11 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertTrue(\array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeader()));
-        static::assertTrue(\array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('p2s', $loaded_flattened_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('p2c', $loaded_flattened_json->getSharedProtectedHeader()));
 
-        static::assertTrue(\array_key_exists('p2s', $loaded_json->getSharedProtectedHeader()));
-        static::assertTrue(\array_key_exists('p2c', $loaded_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('p2s', $loaded_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('p2c', $loaded_json->getSharedProtectedHeader()));
 
         static::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
         static::assertEquals($expected_payload, $loaded_json->getPayload());

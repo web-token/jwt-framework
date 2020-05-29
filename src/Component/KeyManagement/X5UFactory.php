@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
+use function is_array;
+use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -31,7 +33,7 @@ class X5UFactory extends UrlKeySetFactory
     {
         $content = $this->getContent($url, $header);
         $data = JsonConverter::decode($content);
-        if (!\is_array($data)) {
+        if (!is_array($data)) {
             throw new RuntimeException('Invalid content.');
         }
 
@@ -41,7 +43,7 @@ class X5UFactory extends UrlKeySetFactory
                 $cert = '-----BEGIN CERTIFICATE-----'.PHP_EOL.$cert.PHP_EOL.'-----END CERTIFICATE-----';
             }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
-            if (\is_string($kid)) {
+            if (is_string($kid)) {
                 $jwk['kid'] = $kid;
                 $keys[$kid] = new JWK($jwk);
             } else {

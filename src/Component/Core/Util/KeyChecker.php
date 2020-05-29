@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use function in_array;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWK;
 
 /**
@@ -50,30 +52,30 @@ class KeyChecker
     private static function checkOperation(JWK $key, string $usage): void
     {
         $ops = $key->get('key_ops');
-        if (!\is_array($ops)) {
+        if (!is_array($ops)) {
             throw new InvalidArgumentException('Invalid key parameter "key_ops". Should be a list of key operations');
         }
         switch ($usage) {
             case 'verification':
-                if (!\in_array('verify', $ops, true)) {
+                if (!in_array('verify', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to verify a signature');
                 }
 
                 break;
             case 'signature':
-                if (!\in_array('sign', $ops, true)) {
+                if (!in_array('sign', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to sign');
                 }
 
                 break;
             case 'encryption':
-                if (!\in_array('encrypt', $ops, true) && !\in_array('wrapKey', $ops, true) && !\in_array('deriveKey', $ops, true)) {
+                if (!in_array('encrypt', $ops, true) && !in_array('wrapKey', $ops, true) && !in_array('deriveKey', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to encrypt');
                 }
 
                 break;
             case 'decryption':
-                if (!\in_array('decrypt', $ops, true) && !\in_array('unwrapKey', $ops, true) && !\in_array('deriveBits', $ops, true)) {
+                if (!in_array('decrypt', $ops, true) && !in_array('unwrapKey', $ops, true) && !in_array('deriveBits', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to decrypt');
                 }
 

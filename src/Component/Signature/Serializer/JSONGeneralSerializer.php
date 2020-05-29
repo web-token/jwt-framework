@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,8 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
@@ -58,7 +62,7 @@ final class JSONGeneralSerializer extends Serializer
             ];
 
             foreach ($values as $key => $value) {
-                if ((\is_string($value) && '' !== $value) || (\is_array($value) && 0 !== \count($value))) {
+                if ((is_string($value) && '' !== $value) || (is_array($value) && 0 !== count($value))) {
                     $tmp[$key] = $value;
                 }
             }
@@ -128,7 +132,7 @@ final class JSONGeneralSerializer extends Serializer
     {
         $encodedProtectedHeader = $signature['protected'] ?? null;
         $protectedHeader = null === $encodedProtectedHeader ? [] : JsonConverter::decode(Base64Url::decode($encodedProtectedHeader));
-        $header = \array_key_exists('header', $signature) ? $signature['header'] : [];
+        $header = array_key_exists('header', $signature) ? $signature['header'] : [];
 
         return [$encodedProtectedHeader, $protectedHeader, $header];
     }

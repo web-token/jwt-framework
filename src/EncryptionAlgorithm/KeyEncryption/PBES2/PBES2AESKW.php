@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,7 +14,10 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
+use function in_array;
 use InvalidArgumentException;
+use function is_int;
+use function is_string;
 use Jose\Component\Core\JWK;
 
 abstract class PBES2AESKW implements KeyWrapping
@@ -85,14 +88,14 @@ abstract class PBES2AESKW implements KeyWrapping
      */
     protected function getKey(JWK $key): string
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
             throw new InvalidArgumentException('The key parameter "k" is missing.');
         }
         $k = $key->get('k');
-        if (!\is_string($k)) {
+        if (!is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
@@ -107,7 +110,7 @@ abstract class PBES2AESKW implements KeyWrapping
         if (!isset($header['alg'])) {
             throw new InvalidArgumentException('The header parameter "alg" is missing.');
         }
-        if (!\is_string($header['alg'])) {
+        if (!is_string($header['alg'])) {
             throw new InvalidArgumentException('The header parameter "alg" is not valid.');
         }
     }
@@ -121,13 +124,13 @@ abstract class PBES2AESKW implements KeyWrapping
         if (!isset($header['p2s'])) {
             throw new InvalidArgumentException('The header parameter "p2s" is missing.');
         }
-        if (!\is_string($header['p2s'])) {
+        if (!is_string($header['p2s'])) {
             throw new InvalidArgumentException('The header parameter "p2s" is not valid.');
         }
         if (!isset($header['p2c'])) {
             throw new InvalidArgumentException('The header parameter "p2c" is missing.');
         }
-        if (!\is_int($header['p2c']) || $header['p2c'] <= 0) {
+        if (!is_int($header['p2c']) || $header['p2c'] <= 0) {
             throw new InvalidArgumentException('The header parameter "p2c" is not valid.');
         }
     }

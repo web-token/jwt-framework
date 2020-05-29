@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Base64Url\Base64Url;
+use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
@@ -44,7 +45,7 @@ final class CompactSerializer extends Serializer
             $signatureIndex = 0;
         }
         $signature = $jws->getSignature($signatureIndex);
-        if (0 !== \count($signature->getHeader())) {
+        if (0 !== count($signature->getHeader())) {
             throw new LogicException('The signature contains unprotected header parameters and cannot be converted into compact JSON.');
         }
         $isEmptyPayload = null === $jws->getEncodedPayload() || '' === $jws->getEncodedPayload();
@@ -68,7 +69,7 @@ final class CompactSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $parts = explode('.', $input);
-        if (3 !== \count($parts)) {
+        if (3 !== count($parts)) {
             throw new InvalidArgumentException('Unsupported input');
         }
 

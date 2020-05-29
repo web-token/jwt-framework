@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function extension_loaded;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\ECKey;
@@ -107,7 +110,7 @@ class JWKFactory
      */
     public static function createOKPKey(string $curve, array $values = []): JWK
     {
-        if (!\extension_loaded('sodium')) {
+        if (!extension_loaded('sodium')) {
             throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
         }
         switch ($curve) {
@@ -173,7 +176,7 @@ class JWKFactory
     public static function createFromJsonObject(string $value)
     {
         $json = json_decode($value, true);
-        if (!\is_array($json)) {
+        if (!is_array($json)) {
             throw new InvalidArgumentException('Invalid key or key set.');
         }
 
@@ -187,7 +190,7 @@ class JWKFactory
      */
     public static function createFromValues(array $values)
     {
-        if (\array_key_exists('keys', $values) && \is_array($values['keys'])) {
+        if (array_key_exists('keys', $values) && is_array($values['keys'])) {
             return JWKSet::createFromKeyData($values);
         }
 
@@ -243,7 +246,7 @@ class JWKFactory
         } catch (Throwable $throwable) {
             throw new RuntimeException('Unable to load the certificates.', $throwable->getCode(), $throwable);
         }
-        if (!\is_array($certs) || !\array_key_exists('pkey', $certs)) {
+        if (!is_array($certs) || !array_key_exists('pkey', $certs)) {
             throw new RuntimeException('Unable to load the certificates.');
         }
 

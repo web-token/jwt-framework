@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2019 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Tests;
 
 use Base64Url\Base64Url;
+use function count;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
@@ -63,7 +65,7 @@ class JWKTest extends TestCase
      */
     public function badConstruction(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The parameter "kty" is mandatory.');
 
         new JWK([]);
@@ -74,7 +76,7 @@ class JWKTest extends TestCase
      */
     public function badCall(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value identified by "ABCD" does not exist.');
 
         $jwk = new JWK([
@@ -123,7 +125,7 @@ class JWKTest extends TestCase
         $jwkset = $jwkset->with($jwk2);
 
         static::assertEquals('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}', json_encode($jwkset));
-        static::assertEquals(2, \count($jwkset));
+        static::assertEquals(2, count($jwkset));
         static::assertEquals(2, $jwkset->count());
         static::assertTrue($jwkset->has('0123456789'));
         static::assertTrue($jwkset->has('9876543210'));
@@ -137,11 +139,11 @@ class JWKTest extends TestCase
         $jwkset = $jwkset->without('9876543210');
         $jwkset = $jwkset->without('9876543210');
 
-        static::assertEquals(1, \count($jwkset));
+        static::assertEquals(1, count($jwkset));
         static::assertEquals(1, $jwkset->count());
 
         $jwkset = $jwkset->without('0123456789');
-        static::assertEquals(0, \count($jwkset));
+        static::assertEquals(0, count($jwkset));
         static::assertEquals(0, $jwkset->count());
     }
 
@@ -150,7 +152,7 @@ class JWKTest extends TestCase
      */
     public function keySet2(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Undefined index.');
 
         $jwk1 = new JWK([
