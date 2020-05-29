@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use function array_key_exists;
 use ArrayIterator;
 use function count;
 use Countable;
@@ -43,12 +42,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
                 throw new InvalidArgumentException('Invalid list. Should only contains JWK objects');
             }
 
-            if ($key->has('kid')) {
-                unset($keys[$k]);
-                $this->keys[$key->get('kid')] = $key;
-            } else {
-                $this->keys[] = $key;
-            }
+            $this->keys[] = $key;
         }
     }
 
@@ -70,12 +64,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 
         $jwkset = new self([]);
         foreach ($data['keys'] as $key) {
-            $jwk = new JWK($key);
-            if ($jwk->has('kid')) {
-                $jwkset->keys[$jwk->get('kid')] = $jwk;
-            } else {
-                $jwkset->keys[] = $jwk;
-            }
+            $jwkset->keys[] = new JWK($key);
         }
 
         return $jwkset;
@@ -117,12 +106,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     public function with(JWK $jwk): self
     {
         $clone = clone $this;
-
-        if ($jwk->has('kid')) {
-            $clone->keys[$jwk->get('kid')] = $jwk;
-        } else {
-            $clone->keys[] = $jwk;
-        }
+        $clone->keys[] = $jwk;
 
         return $clone;
     }
@@ -131,7 +115,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      * Remove key from the key set.
      * This method is immutable and will return a new object.
      *
-     * @param int|string $key Key to remove from the key set
+     * @param int $key Key to remove from the key set
      *
      * @return JWKSet
      */
@@ -150,17 +134,17 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     /**
      * Returns true if the key set contains a key with the given index.
      *
-     * @param int|string $index
+     * @param int $index
      */
     public function has($index): bool
     {
-        return array_key_exists($index, $this->keys);
+        return isset($this->keys[$index]);
     }
 
     /**
      * Returns the key with the given index. Throws an exception if the index is not present in the key store.
      *
-     * @param int|string $index
+     * @param int $index
      *
      * @throws InvalidArgumentException if the index is not defined
      */
@@ -178,7 +162,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        return ['keys' => array_values($this->keys)];
+        return ['keys' => $this->keys];
     }
 
     /**

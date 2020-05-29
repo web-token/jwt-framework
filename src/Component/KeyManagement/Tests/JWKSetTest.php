@@ -123,8 +123,8 @@ class JWKSetTest extends TestCase
         $jwkset = JWKFactory::createFromValues($values);
         static::assertInstanceOf(JWKSet::class, $jwkset);
         static::assertEquals(1, count($jwkset));
-        static::assertTrue($jwkset->has('71ee230371d19630bc17fb90ccf20ae632ad8cf8'));
-        static::assertFalse($jwkset->has(0));
+        static::assertTrue($jwkset->has(0));
+        static::assertEquals('71ee230371d19630bc17fb90ccf20ae632ad8cf8', $jwkset->get(0)->get('kid'));
     }
 
     private function getPublicKeySet(): JWKSet

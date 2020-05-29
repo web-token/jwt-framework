@@ -127,22 +127,21 @@ class JWKTest extends TestCase
         static::assertEquals('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}', json_encode($jwkset));
         static::assertEquals(2, count($jwkset));
         static::assertEquals(2, $jwkset->count());
-        static::assertTrue($jwkset->has('0123456789'));
-        static::assertTrue($jwkset->has('9876543210'));
-        static::assertFalse($jwkset->has(0));
+        static::assertTrue($jwkset->has(0));
+        static::assertTrue($jwkset->has(1));
+        static::assertFalse($jwkset->has(2));
 
         foreach ($jwkset as $key) {
             static::assertEquals('EC', $key->get('kty'));
         }
 
-        static::assertEquals('9876543210', $jwkset->get('9876543210')->get('kid'));
-        $jwkset = $jwkset->without('9876543210');
-        $jwkset = $jwkset->without('9876543210');
+        static::assertEquals('9876543210', $jwkset->get(1)->get('kid'));
 
+        $jwkset = $jwkset->without(1);
         static::assertEquals(1, count($jwkset));
         static::assertEquals(1, $jwkset->count());
 
-        $jwkset = $jwkset->without('0123456789');
+        $jwkset = $jwkset->without(0);
         static::assertEquals(0, count($jwkset));
         static::assertEquals(0, $jwkset->count());
     }
