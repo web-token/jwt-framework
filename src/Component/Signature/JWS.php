@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
@@ -116,7 +117,7 @@ class JWS implements JWT
      */
     public function countSignatures(): int
     {
-        return \count($this->signatures);
+        return count($this->signatures);
     }
 
     /**

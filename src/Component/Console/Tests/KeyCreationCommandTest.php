@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Console\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Console;
 use Jose\Component\Core\JWK;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -43,7 +45,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function theEllipticCurveKeyCreationCommandNeedTheCurveArgument(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
 
         $input = new ArrayInput([]);
@@ -58,7 +60,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnEllipticCurveKeyWithAnUnsupportedCurve(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The curve "P-128" is not supported.');
 
         $input = new ArrayInput([
@@ -92,7 +94,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnOctetKeyWithoutKeySize(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
 
         $input = new ArrayInput([
@@ -164,7 +166,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnOctetKeyPairWithoutKeyCurve(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
 
         $input = new ArrayInput([
@@ -213,7 +215,7 @@ class KeyCreationCommandTest extends TestCase
      */
     public function iCannotCreateAnRsaKeyWithoutKeySize(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
 
         $input = new ArrayInput([

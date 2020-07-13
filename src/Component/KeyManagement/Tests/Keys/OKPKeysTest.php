@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Tests\Keys;
 
+use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +30,7 @@ class OKPKeysTest extends TestCase
      */
     public function createOKPKeyWithInvalidKeySize(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported "Ed455" curve');
 
         JWKFactory::createOKPKey('Ed455');

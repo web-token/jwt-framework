@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "ext-gmp": "*",
+        "brick/math": "^0.8.15",
         "lib-openssl": "*",
         "symfony/polyfill-mbstring": "^1.12",
         "web-token/jwt-encryption": "^2.1"
@@ -37,6 +37,9 @@
             "v2.0": "2.0.x-dev",
             "v2.1": "2.1.x-dev"
         }
+    },
+    "suggest": {
+        "ext-gmp": "Highly recommended to improve the library performance"
     },
     "config": {
         "sort-packages": true

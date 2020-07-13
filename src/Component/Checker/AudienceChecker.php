@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use function in_array;
+use function is_array;
+use function is_string;
+
 /**
  * This class is a header parameter and claim checker.
  * When the "aud" header parameter or claim is present, it will check if the value is within the allowed ones.
@@ -76,13 +80,13 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
      */
     private function checkValue($value, string $class): void
     {
-        if (\is_string($value) && $value !== $this->audience) {
+        if (is_string($value) && $value !== $this->audience) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
-        if (\is_array($value) && !\in_array($this->audience, $value, true)) {
+        if (is_array($value) && !in_array($this->audience, $value, true)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
-        if (!\is_array($value) && !\is_string($value)) {
+        if (!is_array($value) && !is_string($value)) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);
         }
     }

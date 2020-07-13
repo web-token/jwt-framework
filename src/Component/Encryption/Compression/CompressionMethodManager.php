@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+use function array_key_exists;
 use InvalidArgumentException;
 
 class CompressionMethodManager
@@ -34,7 +35,7 @@ class CompressionMethodManager
      */
     public function has(string $name): bool
     {
-        return \array_key_exists($name, $this->compressionMethods);
+        return array_key_exists($name, $this->compressionMethods);
     }
 
     /**

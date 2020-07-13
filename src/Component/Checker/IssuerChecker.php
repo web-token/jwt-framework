@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use function in_array;
+use function is_string;
+
 /**
  * This class is a header parameter and claim checker.
  * When the "iss" header parameter or claim is present, it will check if the value is within the allowed ones.
@@ -80,10 +83,10 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
      */
     private function checkValue($value, string $class): void
     {
-        if (!\is_string($value)) {
+        if (!is_string($value)) {
             throw new $class('Invalid value.', self::CLAIM_NAME, $value);
         }
-        if (!\in_array($value, $this->issuers, true)) {
+        if (!in_array($value, $this->issuers, true)) {
             throw new $class('Unknown issuer.', self::CLAIM_NAME, $value);
         }
     }

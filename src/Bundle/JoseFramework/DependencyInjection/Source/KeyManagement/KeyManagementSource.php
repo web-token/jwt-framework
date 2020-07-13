@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
+use function count;
 use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
@@ -88,7 +89,7 @@ class KeyManagementSource implements SourceWithCompilerPasses
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== \count($prepend)) {
+            if (0 !== count($prepend)) {
                 $result[$source->name()] = $prepend;
             }
         }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use InvalidArgumentException;
+use function is_string;
 
 class AlgorithmManagerFactory
 {
@@ -65,7 +66,7 @@ class AlgorithmManagerFactory
     {
         $algorithms = [];
         foreach ($aliases as $alias) {
-            if (!\is_string($alias)) {
+            if (!is_string($alias)) {
                 throw new InvalidArgumentException('Invalid alias');
             }
             if (!isset($this->algorithms[$alias])) {

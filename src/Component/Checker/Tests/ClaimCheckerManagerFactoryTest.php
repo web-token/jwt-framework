@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker\Tests;
 
+use InvalidArgumentException;
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Jose\Component\Checker\ExpirationTimeChecker;
@@ -46,7 +47,7 @@ class ClaimCheckerManagerFactoryTest extends TestCase
      */
     public function theAliasDoesNotExist(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The claim checker with the alias "foo" is not supported.');
 
         $this->getClaimCheckerManagerFactory()->create(['foo']);

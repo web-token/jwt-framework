@@ -13,7 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Easy;
 
+use function in_array;
 use InvalidArgumentException;
+use function is_array;
+use function is_callable;
+use function is_int;
+use function is_string;
 use Jose\Component\Checker;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\JWK;
@@ -63,7 +68,8 @@ abstract class AbstractLoader
         $this->claimCheckers = [];
 
         $this->algorithms = (new AlgorithmProvider($this->getAlgorithmMap()))
-            ->getAvailableAlgorithms();
+            ->getAvailableAlgorithms()
+        ;
     }
 
     /**
@@ -112,12 +118,12 @@ abstract class AbstractLoader
         switch (true) {
             case $checker instanceof Checker\ClaimChecker:
                 break;
-            case \is_callable($checker):
+            case is_callable($checker):
                 $checker = new CallableChecker($key, $checker);
 
                 break;
-            case \is_array($checker):
-                $checker = new CallableChecker($key, static function ($value) use ($checker) {return \in_array($value, $checker, true); });
+            case is_array($checker):
+                $checker = new CallableChecker($key, static function ($value) use ($checker) {return in_array($value, $checker, true); });
 
                 break;
             default:
@@ -145,7 +151,7 @@ abstract class AbstractLoader
 
             return $clone;
         }
-        if (!\is_int($leeway) or $leeway < 0) {
+        if (!is_int($leeway) or $leeway < 0) {
             throw new InvalidArgumentException('First parameter for "exp" claim is invalid. Set false to disable or a positive integer.');
         }
 
@@ -165,7 +171,7 @@ abstract class AbstractLoader
 
             return $clone;
         }
-        if (!\is_int($leeway) or $leeway < 0) {
+        if (!is_int($leeway) or $leeway < 0) {
             throw new InvalidArgumentException('First parameter for "nbf" claim is invalid. Set false to disable or a positive integer.');
         }
 
@@ -185,7 +191,7 @@ abstract class AbstractLoader
 
             return $clone;
         }
-        if (!\is_int($leeway) or $leeway < 0) {
+        if (!is_int($leeway) or $leeway < 0) {
             throw new InvalidArgumentException('First parameter for "iat" claim is invalid. Set false to disable or a positive integer.');
         }
 
@@ -201,7 +207,7 @@ abstract class AbstractLoader
     {
         $clone = clone $this;
         switch (true) {
-            case \is_string($alg):
+            case is_string($alg):
                 $clone->allowedAlgorithms[] = $alg;
 
                 return $clone;
@@ -243,12 +249,12 @@ abstract class AbstractLoader
         switch (true) {
             case $checker instanceof Checker\HeaderChecker:
                 break;
-            case \is_callable($checker):
+            case is_callable($checker):
                 $checker = new CallableChecker($key, $checker);
 
                 break;
-            case \is_array($checker):
-                $checker = new CallableChecker($key, static function ($value) use ($checker) {return \in_array($value, $checker, true); });
+            case is_array($checker):
+                $checker = new CallableChecker($key, static function ($value) use ($checker) {return in_array($value, $checker, true); });
 
                 break;
             default:
@@ -276,7 +282,6 @@ abstract class AbstractLoader
 
         return $clone;
     }
-
 
     abstract protected function getAlgorithmMap(): array;
 }

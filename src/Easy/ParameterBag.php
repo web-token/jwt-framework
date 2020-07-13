@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Easy;
 
+use function array_key_exists;
 use ArrayIterator;
+use function call_user_func_array;
+use function count;
 use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
@@ -31,15 +34,15 @@ class ParameterBag implements IteratorAggregate, Countable
     public function __call(string $name, array $arguments)
     {
         if (method_exists($this, $name)) {
-            return \call_user_func_array([$this, $name], $arguments);
+            return call_user_func_array([$this, $name], $arguments);
         }
 
-        if (0 === \count($arguments)) {
+        if (0 === count($arguments)) {
             return $this->get($name);
         }
         array_unshift($arguments, $name);
 
-        return \call_user_func_array([$this, 'set'], $arguments);
+        return call_user_func_array([$this, 'set'], $arguments);
     }
 
     public function all(): array
@@ -76,7 +79,7 @@ class ParameterBag implements IteratorAggregate, Countable
      */
     public function get(string $key)
     {
-        if (!\array_key_exists($key, $this->parameters)) {
+        if (!array_key_exists($key, $this->parameters)) {
             throw new InvalidArgumentException(sprintf('Parameter "%s" is missing', $key));
         }
 
@@ -93,7 +96,7 @@ class ParameterBag implements IteratorAggregate, Countable
 
     public function has(string $key): bool
     {
-        return \array_key_exists($key, $this->parameters);
+        return array_key_exists($key, $this->parameters);
     }
 
     public function remove(string $key): void
@@ -108,6 +111,6 @@ class ParameterBag implements IteratorAggregate, Countable
 
     public function count(): int
     {
-        return \count($this->parameters);
+        return count($this->parameters);
     }
 }

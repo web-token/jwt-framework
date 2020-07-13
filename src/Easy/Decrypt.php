@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Easy;
 
+use function count;
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Checker;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
@@ -60,7 +62,7 @@ class Decrypt extends AbstractLoader
     {
         $clone = clone $this;
         switch (true) {
-            case \is_string($enc):
+            case is_string($enc):
                 $clone->allowedContentEncryptionAlgorithms[] = $enc;
 
                 return $clone;
@@ -89,10 +91,10 @@ class Decrypt extends AbstractLoader
 
     public function run(): JWT
     {
-        if (0 !== \count($this->allowedAlgorithms)) {
+        if (0 !== count($this->allowedAlgorithms)) {
             $this->headerCheckers[] = new Checker\AlgorithmChecker($this->allowedAlgorithms, true);
         }
-        if (0 !== \count($this->allowedContentEncryptionAlgorithms)) {
+        if (0 !== count($this->allowedContentEncryptionAlgorithms)) {
             $this->headerCheckers[] = new ContentEncryptionAlgorithmChecker($this->allowedContentEncryptionAlgorithms, true);
         }
         $jwe = (new CompactSerializer())->unserialize($this->token);

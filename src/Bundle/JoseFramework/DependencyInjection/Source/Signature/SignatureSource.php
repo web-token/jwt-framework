@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
+use function array_key_exists;
+use function count;
+use function extension_loaded;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
@@ -72,7 +75,7 @@ class SignatureSource implements SourceWithCompilerPasses
             }
         }
 
-        if (\array_key_exists('jws', $configs)) {
+        if (array_key_exists('jws', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['jws'], $container);
             }
@@ -104,7 +107,7 @@ class SignatureSource implements SourceWithCompilerPasses
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== \count($prepend)) {
+            if (0 !== count($prepend)) {
                 $result[$source->name()] = $prepend;
             }
         }
@@ -129,12 +132,10 @@ class SignatureSource implements SourceWithCompilerPasses
             HMAC::class => 'signature_hmac.php',
             None::class => 'signature_none.php',
             HS1::class => 'signature_experimental.php',
+            RSAPSS::class => 'signature_rsa.php',
         ];
 
-        if (\extension_loaded('gmp')) {
-            $algorithms[RSAPSS::class] = 'signature_rsa.php';
-        }
-        if (\extension_loaded('sodium')) {
+        if (extension_loaded('sodium')) {
             $algorithms[EdDSA::class] = 'signature_eddsa.php';
         }
 

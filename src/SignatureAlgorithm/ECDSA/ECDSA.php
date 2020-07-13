@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use function defined;
+use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
@@ -24,7 +26,7 @@ abstract class ECDSA implements SignatureAlgorithm
 {
     public function __construct()
     {
-        if (!\defined('OPENSSL_KEYTYPE_EC')) {
+        if (!defined('OPENSSL_KEYTYPE_EC')) {
             throw new LogicException('Elliptic Curve key type not supported by your environment.');
         }
     }
@@ -66,7 +68,7 @@ abstract class ECDSA implements SignatureAlgorithm
 
     private function checkKey(JWK $key): void
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'y', 'crv'] as $k) {

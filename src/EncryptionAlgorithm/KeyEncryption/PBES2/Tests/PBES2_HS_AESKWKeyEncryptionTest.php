@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
@@ -135,7 +136,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
      */
     public function badKeyType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
@@ -158,7 +159,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
      */
     public function invalidKeyType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The key parameter "k" is missing.');
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
@@ -181,7 +182,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
      */
     public function algorithmParameterIsMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "alg" is missing.');
         $header = [
             'enc' => 'A256CBC-HS512',
@@ -203,7 +204,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
      */
     public function p2CParameterIsMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "p2s" is missing.');
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
@@ -228,7 +229,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
      */
     public function p2SParameterIsMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "p2c" is missing.');
         $header = [
             'alg' => 'PBES2-HS256+A128KW',

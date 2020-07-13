@@ -13,7 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use GMP;
+use Brick\Math\BigInteger as BrickBigInteger;
+use Brick\Math\RoundingMode;
+use function chr;
+use function function_exists;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * @internal
@@ -23,11 +28,11 @@ class BigInteger
     /**
      * Holds the BigInteger's value.
      *
-     * @var GMP
+     * @var BrickBigInteger
      */
     private $value;
 
-    private function __construct(GMP $value)
+    private function __construct(BrickBigInteger $value)
     {
         $this->value = $value;
     }
@@ -35,20 +40,11 @@ class BigInteger
     /**
      * @return BigInteger
      */
-    public static function createFromGMPResource(GMP $value): self
-    {
-        return new self($value);
-    }
-
-    /**
-     * @return BigInteger
-     */
     public static function createFromBinaryString(string $value): self
     {
-        $value = '0x'.unpack('H*', $value)[1];
-        $value = gmp_init($value, 16);
+        $data = current(unpack('H*', $value));
 
-        return new self($value);
+        return new self(BrickBigInteger::fromBase($data, 16));
     }
 
     /**
@@ -56,9 +52,7 @@ class BigInteger
      */
     public static function createFromDecimal(int $value): self
     {
-        $value = gmp_init($value, 10);
-
-        return new self($value);
+        return new self(BrickBigInteger::of($value));
     }
 
     /**
@@ -66,15 +60,15 @@ class BigInteger
      */
     public function toBytes(): string
     {
-        if (0 === gmp_cmp($this->value, gmp_init(0))) {
+        if ($this->value->isEqualTo(BrickBigInteger::zero())) {
             return '';
         }
 
-        $temp = gmp_strval(gmp_abs($this->value), 16);
+        $temp = $this->value->toBase(16);
         $temp = 0 !== (mb_strlen($temp, '8bit') & 1) ? '0'.$temp : $temp;
         $temp = hex2bin($temp);
 
-        return ltrim($temp, \chr(0));
+        return ltrim($temp, chr(0));
     }
 
     /**
@@ -86,9 +80,9 @@ class BigInteger
      */
     public function add(self $y): self
     {
-        $value = gmp_add($this->value, $y->value);
+        $value = $this->value->plus($y->value);
 
-        return self::createFromGMPResource($value);
+        return new self($value);
     }
 
     /**
@@ -100,9 +94,9 @@ class BigInteger
      */
     public function subtract(self $y): self
     {
-        $value = gmp_sub($this->value, $y->value);
+        $value = $this->value->minus($y->value);
 
-        return self::createFromGMPResource($value);
+        return new self($value);
     }
 
     /**
@@ -114,9 +108,9 @@ class BigInteger
      */
     public function multiply(self $x): self
     {
-        $value = gmp_mul($this->value, $x->value);
+        $value = $this->value->multipliedBy($x->value);
 
-        return self::createFromGMPResource($value);
+        return new self($value);
     }
 
     /**
@@ -128,9 +122,9 @@ class BigInteger
      */
     public function divide(self $x): self
     {
-        $value = gmp_div($this->value, $x->value);
+        $value = $this->value->dividedBy($x->value);
 
-        return self::createFromGMPResource($value);
+        return new self($value);
     }
 
     /**
@@ -143,9 +137,9 @@ class BigInteger
      */
     public function modPow(self $e, self $n): self
     {
-        $value = gmp_powm($this->value, $e->value, $n->value);
+        $value = $this->value->powerMod($e->value, $n->value);
 
-        return self::createFromGMPResource($value);
+        return new self($value);
     }
 
     /**
@@ -157,23 +151,21 @@ class BigInteger
      */
     public function mod(self $d): self
     {
-        $value = gmp_mod($this->value, $d->value);
+        $value = $this->value->mod($d->value);
 
-        return self::createFromGMPResource($value);
+        return new self($value);
     }
 
-    /**
-     * Calculates modular inverses.
-     *
-     * @param BigInteger $n
-     *
-     * @return BigInteger
-     */
-    public function modInverse(self $n): self
+    public function modInverse(BigInteger $m): BigInteger
     {
-        $value = gmp_invert($this->value, $n->value);
+        $x = BrickBigInteger::zero();
+        $y = BrickBigInteger::zero();
+        $g = $this->gcdExtended($this->value, $m->value, $x, $y);
+        if (!$g->isEqualTo(BrickBigInteger::one())) {
+            throw new InvalidArgumentException('Unable to compute the modInverse for the given modulus');
+        }
 
-        return self::createFromGMPResource($value);
+        return new self($x->mod($m->value)->plus($m->value)->mod($m->value));
     }
 
     /**
@@ -183,7 +175,7 @@ class BigInteger
      */
     public function compare(self $y): int
     {
-        return gmp_cmp($this->value, $y->value);
+        return $this->value->compareTo($y->value);
     }
 
     /**
@@ -191,7 +183,7 @@ class BigInteger
      */
     public function equals(self $y): bool
     {
-        return 0 === $this->compare($y);
+        return $this->value->isEqualTo($y->value);
     }
 
     /**
@@ -201,9 +193,14 @@ class BigInteger
      */
     public static function random(self $y): self
     {
-        $zero = self::createFromDecimal(0);
+        if (!function_exists('gmp_random_range')) {
+            throw new RuntimeException('The extension "GMP" is required');
+        }
+        $zero = gmp_init(0, 10);
+        $limit = gmp_init($y->value->toBase(10), 10);
+        $rnd = gmp_strval(gmp_random_range($zero, $limit), 10);
 
-        return self::createFromGMPResource(gmp_random_range($zero->value, $y->value));
+        return new self(BrickBigInteger::fromBase($rnd, 10));
     }
 
     /**
@@ -213,7 +210,7 @@ class BigInteger
      */
     public function gcd(self $y): self
     {
-        return self::createFromGMPResource(gmp_gcd($this->value, $y->value));
+        return new self($this->value->gcd($y->value));
     }
 
     /**
@@ -221,14 +218,30 @@ class BigInteger
      */
     public function lowerThan(self $y): bool
     {
-        return 0 > $this->compare($y);
+        return $this->value->isLessThan($y->value);
     }
 
     public function isEven(): bool
     {
-        $zero = self::createFromDecimal(0);
-        $two = self::createFromDecimal(2);
+        return $this->value->isEven();
+    }
 
-        return $this->mod($two)->equals($zero);
+    private function gcdExtended(BrickBigInteger $a, BrickBigInteger $b, BrickBigInteger &$x, BrickBigInteger &$y): BrickBigInteger
+    {
+        if ($a->isEqualTo(BrickBigInteger::zero())) {
+            $x = BrickBigInteger::zero();
+            $y = BrickBigInteger::one();
+
+            return $b;
+        }
+
+        $x1 = BrickBigInteger::zero();
+        $y1 = BrickBigInteger::zero();
+        $gcd = $this->gcdExtended($b->mod($a), $a, $x1, $y1);
+
+        $x = $y1->minus($b->dividedBy($a, RoundingMode::FLOOR)->multipliedBy($x1));
+        $y = $x1;
+
+        return $gcd;
     }
 }

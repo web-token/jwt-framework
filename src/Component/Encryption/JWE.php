@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use function array_key_exists;
+use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
@@ -99,7 +101,7 @@ class JWE implements JWT
      */
     public function countRecipients(): int
     {
-        return \count($this->recipients);
+        return count($this->recipients);
     }
 
     /**
@@ -210,7 +212,7 @@ class JWE implements JWT
      */
     public function hasSharedProtectedHeaderParameter(string $key): bool
     {
-        return \array_key_exists($key, $this->sharedProtectedHeader);
+        return array_key_exists($key, $this->sharedProtectedHeader);
     }
 
     /**
@@ -247,7 +249,7 @@ class JWE implements JWT
      */
     public function hasSharedHeaderParameter(string $key): bool
     {
-        return \array_key_exists($key, $this->sharedHeader);
+        return array_key_exists($key, $this->sharedHeader);
     }
 
     /**

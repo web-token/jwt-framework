@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
+use function extension_loaded;
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use RuntimeException;
 use Throwable;
 
@@ -32,7 +37,7 @@ class KeyConverter
             throw new InvalidArgumentException(sprintf('File "%s" does not exist.', $file));
         }
         $content = file_get_contents($file);
-        if (!\is_string($content)) {
+        if (!is_string($content)) {
             throw new InvalidArgumentException(sprintf('File "%s" cannot be read.', $file));
         }
 
@@ -45,7 +50,7 @@ class KeyConverter
      */
     public static function loadKeyFromCertificate(string $certificate): array
     {
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
 
@@ -76,7 +81,7 @@ class KeyConverter
      */
     public static function loadKeyFromX509Resource($res): array
     {
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         $key = openssl_get_publickey($res);
@@ -84,7 +89,7 @@ class KeyConverter
             throw new InvalidArgumentException('Unable to load the certificate.');
         }
         $details = openssl_pkey_get_details($key);
-        if (!\is_array($details)) {
+        if (!is_array($details)) {
             throw new InvalidArgumentException('Unable to load the certificate');
         }
         if (isset($details['key'])) {
@@ -130,7 +135,7 @@ class KeyConverter
      */
     public static function loadFromX5C(array $x5c): array
     {
-        if (0 === \count($x5c)) {
+        if (0 === count($x5c)) {
             throw new InvalidArgumentException('The certificate chain is empty');
         }
         foreach ($x5c as $id => $cert) {
@@ -167,7 +172,7 @@ class KeyConverter
             $pem = self::decodePem($pem, $matches, $password);
         }
 
-        if (!\extension_loaded('openssl')) {
+        if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         self::sanitizePEM($pem);
@@ -180,7 +185,7 @@ class KeyConverter
         }
 
         $details = openssl_pkey_get_details($res);
-        if (!\is_array($details) || !\array_key_exists('type', $details)) {
+        if (!is_array($details) || !array_key_exists('type', $details)) {
             throw new InvalidArgumentException('Unable to get details of the key');
         }
 

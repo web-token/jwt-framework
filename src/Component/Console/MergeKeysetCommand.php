@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,7 +44,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         $newJwkset = new JWKSet([]);
         foreach ($keySets as $keySet) {
             $json = JsonConverter::decode($keySet);
-            if (!\is_array($json)) {
+            if (!is_array($json)) {
                 throw new InvalidArgumentException('The argument must be a valid JWKSet.');
             }
             $jwkset = JWKSet::createFromKeyData($json);

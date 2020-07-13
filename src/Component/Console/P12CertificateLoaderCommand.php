@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,10 +42,10 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
     {
         $file = $input->getArgument('file');
         $password = $input->getOption('secret');
-        if (!\is_string($file)) {
+        if (!is_string($file)) {
             throw new InvalidArgumentException('Invalid file');
         }
-        if (!\is_string($password)) {
+        if (!is_string($password)) {
             throw new InvalidArgumentException('Invalid secret');
         }
         $args = $this->getOptions($input);

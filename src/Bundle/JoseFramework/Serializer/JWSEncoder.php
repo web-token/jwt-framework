@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
+use Exception;
+use function in_array;
+use function is_int;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
@@ -40,7 +43,7 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
 
     public function supportsEncoding($format): bool
     {
-        return \in_array(mb_strtolower($format), $this->serializerManager->list(), true);
+        return in_array(mb_strtolower($format), $this->serializerManager->list(), true);
     }
 
     public function supportsDecoding($format): bool
@@ -59,7 +62,7 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
     {
         try {
             return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getSignatureIndex($context));
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $message = sprintf('Cannot encode JWS to %s format.', $format);
             if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
@@ -80,7 +83,7 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
     {
         try {
             return $this->serializerManager->unserialize($data);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $message = sprintf('Cannot decode JWS from %s format.', $format);
             if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
                 throw new NotEncodableValueException($message, 0, $ex);
@@ -96,7 +99,7 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
     private function getSignatureIndex(array $context): int
     {
         $signatureIndex = 0;
-        if (isset($context['signature_index']) && \is_int($context['signature_index'])) {
+        if (isset($context['signature_index']) && is_int($context['signature_index'])) {
             $signatureIndex = $context['signature_index'];
         }
 

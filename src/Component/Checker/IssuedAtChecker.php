@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use function is_int;
+
 /**
  * This class is a claim checker.
  * When the "iat" is present, it will compare the value with the current timestamp.
@@ -43,7 +45,7 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
      */
     public function checkClaim($value): void
     {
-        if (!\is_int($value)) {
+        if (!is_int($value)) {
             throw new InvalidClaimException('"iat" must be an integer.', self::NAME, $value);
         }
         if (time() < $value - $this->allowedTimeDrift) {
@@ -63,7 +65,7 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
      */
     public function checkHeader($value): void
     {
-        if (!\is_int($value)) {
+        if (!is_int($value)) {
             throw new InvalidHeaderException('The header "iat" must be an integer.', self::NAME, $value);
         }
         if (time() < $value - $this->allowedTimeDrift) {

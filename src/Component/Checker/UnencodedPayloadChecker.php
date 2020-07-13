@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use function is_bool;
+
 /**
  * This class is a header parameter checker.
  * When the "b64" is present, it will check if the value is a boolean or not.
@@ -30,7 +32,7 @@ final class UnencodedPayloadChecker implements HeaderChecker
      */
     public function checkHeader($value): void
     {
-        if (!\is_bool($value)) {
+        if (!is_bool($value)) {
             throw new InvalidHeaderException('"b64" must be a boolean.', self::HEADER_NAME, $value);
         }
     }

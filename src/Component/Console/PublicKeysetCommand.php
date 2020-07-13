@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -52,11 +54,11 @@ final class PublicKeysetCommand extends ObjectOutputCommand
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        if (!\is_string($jwkset)) {
+        if (!is_string($jwkset)) {
             throw new InvalidArgumentException('Invalid JWKSet');
         }
         $json = JsonConverter::decode($jwkset);
-        if (!\is_array($json)) {
+        if (!is_array($json)) {
             throw new InvalidArgumentException('Invalid JWKSet');
         }
 

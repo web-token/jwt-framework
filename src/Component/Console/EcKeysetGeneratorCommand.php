@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
@@ -44,7 +45,7 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
             throw new InvalidArgumentException('Invalid quantity');
         }
         $curve = $input->getArgument('curve');
-        if (!\is_string($curve)) {
+        if (!is_string($curve)) {
             throw new InvalidArgumentException('Invalid curve');
         }
 

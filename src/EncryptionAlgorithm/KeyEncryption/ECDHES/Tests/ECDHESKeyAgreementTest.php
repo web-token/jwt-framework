@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
@@ -55,11 +57,11 @@ class ECDHESKeyAgreementTest extends TestCase
         $additional_header_values = [];
 
         $ecdh_es->getAgreementKey(128, 'A128GCM', $receiver, null, $header, $additional_header_values);
-        static::assertTrue(\array_key_exists('epk', $additional_header_values));
-        static::assertTrue(\array_key_exists('kty', $additional_header_values['epk']));
-        static::assertTrue(\array_key_exists('crv', $additional_header_values['epk']));
-        static::assertTrue(\array_key_exists('x', $additional_header_values['epk']));
-        static::assertTrue(\array_key_exists('y', $additional_header_values['epk']));
+        static::assertTrue(array_key_exists('epk', $additional_header_values));
+        static::assertTrue(array_key_exists('kty', $additional_header_values['epk']));
+        static::assertTrue(array_key_exists('crv', $additional_header_values['epk']));
+        static::assertTrue(array_key_exists('x', $additional_header_values['epk']));
+        static::assertTrue(array_key_exists('y', $additional_header_values['epk']));
     }
 
     /**
@@ -87,11 +89,11 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA128KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 128, $header, $header);
-        static::assertTrue(\array_key_exists('epk', $header));
-        static::assertTrue(\array_key_exists('crv', $header['epk']));
-        static::assertTrue(\array_key_exists('kty', $header['epk']));
-        static::assertTrue(\array_key_exists('x', $header['epk']));
-        static::assertTrue(\array_key_exists('y', $header['epk']));
+        static::assertTrue(array_key_exists('epk', $header));
+        static::assertTrue(array_key_exists('crv', $header['epk']));
+        static::assertTrue(array_key_exists('kty', $header['epk']));
+        static::assertTrue(array_key_exists('x', $header['epk']));
+        static::assertTrue(array_key_exists('y', $header['epk']));
         static::assertEquals('P-256', $header['epk']['crv']);
         static::assertEquals('EC', $header['epk']['kty']);
         static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
@@ -122,11 +124,11 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA192KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 192, $header, $header);
-        static::assertTrue(\array_key_exists('epk', $header));
-        static::assertTrue(\array_key_exists('crv', $header['epk']));
-        static::assertTrue(\array_key_exists('kty', $header['epk']));
-        static::assertTrue(\array_key_exists('x', $header['epk']));
-        static::assertTrue(\array_key_exists('y', $header['epk']));
+        static::assertTrue(array_key_exists('epk', $header));
+        static::assertTrue(array_key_exists('crv', $header['epk']));
+        static::assertTrue(array_key_exists('kty', $header['epk']));
+        static::assertTrue(array_key_exists('x', $header['epk']));
+        static::assertTrue(array_key_exists('y', $header['epk']));
         static::assertEquals('P-256', $header['epk']['crv']);
         static::assertEquals('EC', $header['epk']['kty']);
         static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 192, $header));
@@ -163,11 +165,11 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA256KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 256, $header, $header);
-        static::assertTrue(\array_key_exists('epk', $header));
-        static::assertTrue(\array_key_exists('crv', $header['epk']));
-        static::assertTrue(\array_key_exists('kty', $header['epk']));
-        static::assertTrue(\array_key_exists('x', $header['epk']));
-        static::assertTrue(\array_key_exists('y', $header['epk']));
+        static::assertTrue(array_key_exists('epk', $header));
+        static::assertTrue(array_key_exists('crv', $header['epk']));
+        static::assertTrue(array_key_exists('kty', $header['epk']));
+        static::assertTrue(array_key_exists('x', $header['epk']));
+        static::assertTrue(array_key_exists('y', $header['epk']));
         static::assertEquals('P-256', $header['epk']['crv']);
         static::assertEquals('EC', $header['epk']['kty']);
         static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 256, $header));
@@ -179,7 +181,7 @@ class ECDHESKeyAgreementTest extends TestCase
      */
     public function ePKParameterAreMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "epk" is missing');
 
         $sender = new JWK([
@@ -200,7 +202,7 @@ class ECDHESKeyAgreementTest extends TestCase
      */
     public function badEPKParameter(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "epk" is not an array of parameters');
 
         $header = ['epk' => 'foo'];
@@ -222,7 +224,7 @@ class ECDHESKeyAgreementTest extends TestCase
      */
     public function eCKeyHasMissingParameters(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The key parameter "x" is missing.');
 
         $receiver = new JWK([
@@ -240,7 +242,7 @@ class ECDHESKeyAgreementTest extends TestCase
      */
     public function unsupportedCurve(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The curve "P-192" is not supported');
 
         $header = [

@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use function array_key_exists;
+use function count;
+
 /**
  * This manager handles as many claim checkers as needed.
  */
@@ -58,7 +61,7 @@ class ClaimCheckerManager
         $this->checkMandatoryClaims($mandatoryClaims, $claims);
         $checkedClaims = [];
         foreach ($this->checkers as $claim => $checker) {
-            if (\array_key_exists($claim, $claims)) {
+            if (array_key_exists($claim, $claims)) {
                 $checker->checkClaim($claims[$claim]);
                 $checkedClaims[$claim] = $claims[$claim];
             }
@@ -78,11 +81,11 @@ class ClaimCheckerManager
      */
     private function checkMandatoryClaims(array $mandatoryClaims, array $claims): void
     {
-        if (0 === \count($mandatoryClaims)) {
+        if (0 === count($mandatoryClaims)) {
             return;
         }
         $diff = array_keys(array_diff_key(array_flip($mandatoryClaims), $claims));
-        if (0 !== \count($diff)) {
+        if (0 !== count($diff)) {
             throw new MissingMandatoryClaimException(sprintf('The following claims are mandatory: %s.', implode(', ', $diff)), $diff);
         }
     }

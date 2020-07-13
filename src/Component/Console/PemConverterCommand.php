@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\JsonConverter;
@@ -41,11 +43,11 @@ final class PemConverterCommand extends ObjectOutputCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwk = $input->getArgument('jwk');
-        if (!\is_string($jwk)) {
+        if (!is_string($jwk)) {
             throw new InvalidArgumentException('Invalid JWK');
         }
         $json = JsonConverter::decode($jwk);
-        if (!\is_array($json)) {
+        if (!is_array($json)) {
             throw new InvalidArgumentException('Invalid JWK.');
         }
         $key = new JWK($json);

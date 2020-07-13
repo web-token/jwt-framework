@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
+use function in_array;
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\JWK;
 
 final class Dir implements DirectEncryption
@@ -24,14 +26,14 @@ final class Dir implements DirectEncryption
      */
     public function getCEK(JWK $key): string
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
             throw new InvalidArgumentException('The key parameter "k" is missing.');
         }
         $k = $key->get('k');
-        if (!\is_string($k)) {
+        if (!is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
