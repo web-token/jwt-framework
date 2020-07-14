@@ -22,6 +22,7 @@
     "require": {
         "ext-gmp": "*",
         "lib-openssl": "*",
+        "symfony/polyfill-mbstring": "^1.12",
         "web-token/jwt-encryption": "^2.1"
     },
     "require-dev": {
