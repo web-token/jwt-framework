@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 use Brick\Math\BigInteger;
+use Jose\Component\Core\Util\BigInteger as CoreBigInteger;
 
 /**
  * @internal
@@ -37,7 +38,7 @@ class Math
 
     public static function inverseMod(BigInteger $a, BigInteger $m): BigInteger
     {
-        return gmp_invert($a, $m);
+        return CoreBigInteger::createFromBigInteger($a)->modInverse($m)->get();
     }
 
     public static function baseConvert(string $number, int $from, int $to): string

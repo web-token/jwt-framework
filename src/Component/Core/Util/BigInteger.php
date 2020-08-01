@@ -56,6 +56,14 @@ class BigInteger
     }
 
     /**
+     * @return BigInteger
+     */
+    public static function createFromBigInteger(BrickBigInteger $value): self
+    {
+        return new self($value);
+    }
+
+    /**
      * Converts a BigInteger to a binary string.
      */
     public function toBytes(): string
@@ -224,6 +232,11 @@ class BigInteger
     public function isEven(): bool
     {
         return $this->value->isEven();
+    }
+
+    public function get(): BrickBigInteger
+    {
+        return $this->value;
     }
 
     private function gcdExtended(BrickBigInteger $a, BrickBigInteger $b, BrickBigInteger &$x, BrickBigInteger &$y): BrickBigInteger
