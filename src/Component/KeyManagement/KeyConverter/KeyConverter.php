@@ -195,10 +195,9 @@ class KeyConverter
 
                 return $ec_key->toArray();
             case OPENSSL_KEYTYPE_RSA:
-                 $rsa_key = RSAKey::createFromPEM($pem);
-                $rsa_key->optimize();
+                $rsa_key = RSAKey::createFromPEM($pem);
 
-                 return $rsa_key->toArray();
+                return $rsa_key->toArray();
             default:
                 throw new InvalidArgumentException('Unsupported key type');
         }
