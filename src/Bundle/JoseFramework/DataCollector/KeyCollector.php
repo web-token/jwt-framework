@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Exception;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -50,7 +51,7 @@ class KeyCollector implements Collector
         $this->jwksetAnalyzerManager = $jwksetAnalyzerManager;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Exception $exception = null): void
     {
         $this->collectJWK($data);
         $this->collectJWKSet($data);

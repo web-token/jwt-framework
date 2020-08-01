@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Tests\RFC7520;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Tests\EncryptionTest;
@@ -142,14 +143,14 @@ class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertTrue(\array_key_exists('iv', $loaded_compact_json->getSharedProtectedHeader()));
-        static::assertTrue(\array_key_exists('tag', $loaded_compact_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('iv', $loaded_compact_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('tag', $loaded_compact_json->getSharedProtectedHeader()));
 
-        static::assertTrue(\array_key_exists('iv', $loaded_flattened_json->getSharedProtectedHeader()));
-        static::assertTrue(\array_key_exists('tag', $loaded_flattened_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('iv', $loaded_flattened_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('tag', $loaded_flattened_json->getSharedProtectedHeader()));
 
-        static::assertTrue(\array_key_exists('iv', $loaded_json->getSharedProtectedHeader()));
-        static::assertTrue(\array_key_exists('tag', $loaded_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('iv', $loaded_json->getSharedProtectedHeader()));
+        static::assertTrue(array_key_exists('tag', $loaded_json->getSharedProtectedHeader()));
 
         static::assertEquals($expected_payload, $loaded_compact_json->getPayload());
         static::assertEquals($expected_payload, $loaded_flattened_json->getPayload());

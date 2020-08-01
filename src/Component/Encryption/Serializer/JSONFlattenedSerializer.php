@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
@@ -47,13 +49,13 @@ final class JSONFlattenedSerializer implements JWESerializer
         if (null !== $jwe->getAAD()) {
             $data['aad'] = Base64Url::encode($jwe->getAAD());
         }
-        if (0 !== \count($jwe->getSharedProtectedHeader())) {
+        if (0 !== count($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
         }
-        if (0 !== \count($jwe->getSharedHeader())) {
+        if (0 !== count($jwe->getSharedHeader())) {
             $data['unprotected'] = $jwe->getSharedHeader();
         }
-        if (0 !== \count($recipient->getHeader())) {
+        if (0 !== count($recipient->getHeader())) {
             $data['header'] = $recipient->getHeader();
         }
         if (null !== $recipient->getEncryptedKey()) {
@@ -71,10 +73,10 @@ final class JSONFlattenedSerializer implements JWESerializer
         $ciphertext = Base64Url::decode($data['ciphertext']);
         $iv = Base64Url::decode($data['iv']);
         $tag = Base64Url::decode($data['tag']);
-        $aad = \array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
+        $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
         list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
-        $encryptedKey = \array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
-        $header = \array_key_exists('header', $data) ? $data['header'] : [];
+        $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
+        $header = array_key_exists('header', $data) ? $data['header'] : [];
 
         return new JWE(
             $ciphertext,
@@ -100,7 +102,7 @@ final class JSONFlattenedSerializer implements JWESerializer
 
     private function processHeaders(array $data): array
     {
-        $encodedSharedProtectedHeader = \array_key_exists('protected', $data) ? $data['protected'] : null;
+        $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
         $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
         $sharedHeader = $data['unprotected'] ?? [];
 

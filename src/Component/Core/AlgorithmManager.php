@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use function array_key_exists;
 use InvalidArgumentException;
 
 class AlgorithmManager
@@ -39,7 +40,7 @@ class AlgorithmManager
      */
     public function has(string $algorithm): bool
     {
-        return \array_key_exists($algorithm, $this->algorithms);
+        return array_key_exists($algorithm, $this->algorithms);
     }
 
     /**

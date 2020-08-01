@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Easy;
 
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\Algorithm as JoseAlgorithm;
 use Jose\Component\Signature\Algorithm;
 
@@ -33,7 +34,8 @@ abstract class AbstractBuilder
     {
         $this->jwt = new JWT();
         $this->algorithms = (new AlgorithmProvider($this->getAlgorithmMap()))
-            ->getAvailableAlgorithms();
+            ->getAvailableAlgorithms()
+        ;
     }
 
     public function payload(array $payload): self
@@ -100,7 +102,7 @@ abstract class AbstractBuilder
                 $clone->jwt->header->set('alg', $alg->name());
 
                 break;
-            case \is_string($alg):
+            case is_string($alg):
                 $clone->jwt->header->set('alg', $alg);
 
                 break;

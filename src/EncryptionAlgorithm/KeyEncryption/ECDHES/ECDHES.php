@@ -13,9 +13,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function extension_loaded;
+use function function_exists;
 use GMP;
+use function in_array;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\EcDH;
@@ -24,6 +29,7 @@ use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
 use RuntimeException;
+use Throwable;
 
 final class ECDHES implements KeyAgreement
 {
@@ -42,8 +48,8 @@ final class ECDHES implements KeyAgreement
 
         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
 
-        $apu = \array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
-        $apv = \array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
+        $apu = array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
+        $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
 
         return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
@@ -58,13 +64,13 @@ final class ECDHES implements KeyAgreement
             case 'P-384':
             case 'P-521':
                 $curve = $this->getCurve($public_key->get('crv'));
-                if (\function_exists('openssl_pkey_derive')) {
+                if (function_exists('openssl_pkey_derive')) {
                     try {
                         $publicPem = ECKey::convertPublicKeyToPEM($public_key);
                         $privatePem = ECKey::convertPrivateKeyToPEM($private_key);
 
                         return openssl_pkey_derive($publicPem, $privatePem, $curve->getSize());
-                    } catch (\Throwable $throwable) {
+                    } catch (Throwable $throwable) {
                         //Does nothing. Will fallback to the pure PHP function
                     }
                 }
@@ -152,7 +158,7 @@ final class ECDHES implements KeyAgreement
         if (!isset($complete_header['epk'])) {
             throw new InvalidArgumentException('The header parameter "epk" is missing.');
         }
-        if (!\is_array($complete_header['epk'])) {
+        if (!is_array($complete_header['epk'])) {
             throw new InvalidArgumentException('The header parameter "epk" is not an array of parameters');
         }
         $public_key = new JWK($complete_header['epk']);
@@ -166,7 +172,7 @@ final class ECDHES implements KeyAgreement
      */
     private function checkKey(JWK $key, bool $is_private): void
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {
@@ -273,7 +279,7 @@ final class ECDHES implements KeyAgreement
      */
     private function checkSodiumExtensionIsAvailable(): void
     {
-        if (!\extension_loaded('sodium')) {
+        if (!extension_loaded('sodium')) {
             throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
         }
     }

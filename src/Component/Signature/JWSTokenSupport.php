@@ -25,11 +25,6 @@ final class JWSTokenSupport implements TokenTypeSupport
     }
 
     /**
-     * @param JWT   $jwt
-     * @param int   $index
-     * @param array $protectedHeader
-     * @param array $unprotectedHeader
-     *
      * @throws InvalidArgumentException if the signature index does not exist
      */
     public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void

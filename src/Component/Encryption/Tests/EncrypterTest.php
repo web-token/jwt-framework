@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 
@@ -63,7 +65,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function duplicatedHeader(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header contains duplicated entries: zip.');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
@@ -196,7 +198,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function compressionAlgorithmNotSupported(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The compression method "FIP" is not supported.');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
@@ -220,7 +222,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function foreignKeyManagementModeForbidden(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Foreign key management mode forbidden.');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['dir', 'ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF']);
@@ -241,7 +243,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function operationNotAllowedForTheKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Key cannot be used to encrypt');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
@@ -263,7 +265,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function algorithmNotAllowedForTheKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Key is only allowed for algorithm "RSA-OAEP".');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
@@ -318,7 +320,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function algParameterIsMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Parameter "alg" is missing.');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create([], ['A256CBC-HS512'], ['DEF']);
@@ -340,7 +342,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function encParameterIsMissing(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Parameter "enc" is missing.');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], [], ['DEF']);
@@ -362,7 +364,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function notAKeyEncryptionAlgorithm(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The key encryption algorithm "A256CBC-HS512" is not supported or not a key encryption algorithm instance.');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['A256CBC-HS512'], ['A256CBC-HS512'], ['DEF']);
@@ -385,7 +387,7 @@ class EncrypterTest extends EncryptionTest
      */
     public function notAContentEncryptionAlgorithm(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The content encryption algorithm "RSA-OAEP-256" is not supported or not a content encryption algorithm instance.');
 
         $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA-OAEP-256'], ['RSA-OAEP-256'], ['DEF']);
@@ -498,7 +500,7 @@ class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        static::assertTrue(\is_string($loaded->getPayload()));
+        static::assertTrue(is_string($loaded->getPayload()));
         static::assertEquals('Live long and Prosper.', $loaded->getPayload());
     }
 
@@ -533,7 +535,7 @@ class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        static::assertTrue(\is_string($loaded->getPayload()));
+        static::assertTrue(is_string($loaded->getPayload()));
         static::assertEquals('Live long and Prosper.', $loaded->getPayload());
     }
 
@@ -570,7 +572,7 @@ class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        static::assertTrue(\is_string($loaded->getPayload()));
+        static::assertTrue(is_string($loaded->getPayload()));
         static::assertEquals('Live long and Prosper.', $loaded->getPayload());
     }
 

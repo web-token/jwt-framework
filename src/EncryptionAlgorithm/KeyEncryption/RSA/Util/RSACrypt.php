@@ -13,10 +13,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
+use function chr;
+use function count;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
+use function ord;
 use RuntimeException;
 
 /**
@@ -73,7 +77,7 @@ class RSACrypt
             $ps .= $temp;
         }
         $type = 2;
-        $data = \chr(0).\chr($type).$ps.\chr(0).$data;
+        $data = chr(0).chr($type).$ps.chr(0).$data;
 
         $data = BigInteger::createFromBinaryString($data);
         $c = self::getRSAEP($key, $data);
@@ -89,10 +93,10 @@ class RSACrypt
         $c = BigInteger::createFromBinaryString($c);
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
-        if (0 !== \ord($em[0]) || \ord($em[1]) > 2) {
+        if (0 !== ord($em[0]) || ord($em[1]) > 2) {
             throw new InvalidArgumentException('Unable to decrypt');
         }
-        $ps = mb_substr($em, 2, (int) mb_strpos($em, \chr(0), 2, '8bit') - 2, '8bit');
+        $ps = mb_substr($em, 2, (int) mb_strpos($em, chr(0), 2, '8bit') - 2, '8bit');
         $m = mb_substr($em, mb_strlen($ps, '8bit') + 3, null, '8bit');
         if (mb_strlen($ps, '8bit') < 8) {
             throw new InvalidArgumentException('Unable to decrypt');
@@ -113,7 +117,7 @@ class RSACrypt
             throw new RuntimeException();
         }
         $plaintext = mb_str_split($plaintext, $length, '8bit');
-        if (!\is_array($plaintext)) {
+        if (!is_array($plaintext)) {
             throw new RuntimeException('Invalid payload');
         }
         $ciphertext = '';
@@ -134,10 +138,10 @@ class RSACrypt
         }
         $hash = Hash::$hash_algorithm();
         $ciphertext = mb_str_split($ciphertext, $key->getModulusLength(), '8bit');
-        if (!\is_array($ciphertext)) {
+        if (!is_array($ciphertext)) {
             throw new RuntimeException('Invalid ciphertext');
         }
-        $ciphertext[\count($ciphertext) - 1] = str_pad($ciphertext[\count($ciphertext) - 1], $key->getModulusLength(), \chr(0), STR_PAD_LEFT);
+        $ciphertext[count($ciphertext) - 1] = str_pad($ciphertext[count($ciphertext) - 1], $key->getModulusLength(), chr(0), STR_PAD_LEFT);
         $plaintext = '';
         foreach ($ciphertext as $c) {
             $temp = self::getRSAESOAEP($key, $c, $hash);
@@ -154,7 +158,7 @@ class RSACrypt
             throw new RuntimeException('Invalid length.');
         }
 
-        return str_pad($x, $xLen, \chr(0), STR_PAD_LEFT);
+        return str_pad($x, $xLen, chr(0), STR_PAD_LEFT);
     }
 
     /**
@@ -211,14 +215,14 @@ class RSACrypt
     {
         $mLen = mb_strlen($m, '8bit');
         $lHash = $hash->hash('');
-        $ps = str_repeat(\chr(0), $key->getModulusLength() - $mLen - 2 * $hash->getLength() - 2);
-        $db = $lHash.$ps.\chr(1).$m;
+        $ps = str_repeat(chr(0), $key->getModulusLength() - $mLen - 2 * $hash->getLength() - 2);
+        $db = $lHash.$ps.chr(1).$m;
         $seed = random_bytes($hash->getLength());
         $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/*MGF*/);
         $maskedDB = (string) ($db ^ $dbMask);
         $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/*MGF*/);
         $maskedSeed = $seed ^ $seedMask;
-        $em = \chr(0).$maskedSeed.$maskedDB;
+        $em = chr(0).$maskedSeed.$maskedDB;
 
         $m = self::convertOctetStringToInteger($em);
         $c = self::getRSAEP($key, $m);
@@ -246,8 +250,8 @@ class RSACrypt
         if (!hash_equals($lHash, $lHash2)) {
             throw new RuntimeException();
         }
-        $m = ltrim($m, \chr(0));
-        if (1 !== \ord($m[0])) {
+        $m = ltrim($m, chr(0));
+        if (1 !== ord($m[0])) {
             throw new RuntimeException();
         }
 

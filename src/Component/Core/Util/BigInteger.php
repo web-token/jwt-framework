@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use function chr;
 use GMP;
 
 /**
@@ -74,7 +75,7 @@ class BigInteger
         $temp = 0 !== (mb_strlen($temp, '8bit') & 1) ? '0'.$temp : $temp;
         $temp = hex2bin($temp);
 
-        return ltrim($temp, \chr(0));
+        return ltrim($temp, chr(0));
     }
 
     /**

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
+use function count;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -76,7 +77,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
         foreach ($this->sources as $source) {
             $result = $source->prepend($container, $config);
-            if (0 !== \count($result)) {
+            if (0 !== count($result)) {
                 $container->prependExtensionConfig($this->getAlias(), $result);
             }
         }

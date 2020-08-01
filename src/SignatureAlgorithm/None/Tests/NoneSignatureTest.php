@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm\Tests;
 
+use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\None;
@@ -51,7 +53,7 @@ class NoneSignatureTest extends TestCase
      */
     public function invalidKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
         $key = new JWK([
             'kty' => 'EC',
@@ -86,7 +88,7 @@ class NoneSignatureTest extends TestCase
         static::assertEquals(1, $jws->countSignatures());
 
         $compact = $serializer->serialize($jws, 0);
-        static::assertTrue(\is_string($compact));
+        static::assertTrue(is_string($compact));
 
         $result = $serializer->unserialize($compact);
 

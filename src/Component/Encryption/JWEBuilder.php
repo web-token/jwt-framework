@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -259,7 +261,7 @@ class JWEBuilder
         if (null === $this->payload) {
             throw new LogicException('Payload not set.');
         }
-        if (0 === \count($this->recipients)) {
+        if (0 === count($this->recipients)) {
             throw new LogicException('No recipient.');
         }
 
@@ -272,12 +274,12 @@ class JWEBuilder
             $recipients[] = $recipient;
         }
 
-        if (0 !== \count($additionalHeader) && 1 === \count($this->recipients)) {
+        if (0 !== count($additionalHeader) && 1 === count($this->recipients)) {
             $sharedProtectedHeader = array_merge($additionalHeader, $this->sharedProtectedHeader);
         } else {
             $sharedProtectedHeader = $this->sharedProtectedHeader;
         }
-        $encodedSharedProtectedHeader = 0 === \count($sharedProtectedHeader) ? '' : Base64Url::encode(JsonConverter::encode($sharedProtectedHeader));
+        $encodedSharedProtectedHeader = 0 === count($sharedProtectedHeader) ? '' : Base64Url::encode(JsonConverter::encode($sharedProtectedHeader));
 
         list($ciphertext, $iv, $tag) = $this->encryptJWE($cek, $encodedSharedProtectedHeader);
 
@@ -309,7 +311,7 @@ class JWEBuilder
         }
         $encryptedContentEncryptionKey = $this->getEncryptedKey($completeHeader, $cek, $keyEncryptionAlgorithm, $additionalHeader, $recipient['key'], $recipient['sender_key'] ?? null);
         $recipientHeader = $recipient['header'];
-        if (0 !== \count($additionalHeader) && 1 !== \count($this->recipients)) {
+        if (0 !== count($additionalHeader) && 1 !== count($this->recipients)) {
             $recipientHeader = array_merge($recipientHeader, $additionalHeader);
             $additionalHeader = [];
         }
@@ -423,7 +425,7 @@ class JWEBuilder
             case KeyEncryption::MODE_WRAP:
                 return $this->createCEK($this->contentEncryptionAlgorithm->getCEKSize());
             case KeyEncryption::MODE_AGREEMENT:
-                if (1 !== \count($this->recipients)) {
+                if (1 !== count($this->recipients)) {
                     throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
                 /** @var JWK $key */
@@ -437,7 +439,7 @@ class JWEBuilder
 
                 return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $recipientKey, $senderKey, $completeHeader, $additionalHeader);
             case KeyEncryption::MODE_DIRECT:
-                if (1 !== \count($this->recipients)) {
+                if (1 !== count($this->recipients)) {
                     throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
                 /** @var JWK $key */
@@ -454,7 +456,7 @@ class JWEBuilder
 
     private function getCompressionMethod(array $completeHeader): ?CompressionMethod
     {
-        if (!\array_key_exists('zip', $completeHeader)) {
+        if (!array_key_exists('zip', $completeHeader)) {
             return null;
         }
 
@@ -469,7 +471,7 @@ class JWEBuilder
         $wrap = KeyEncryptionAlgorithm::MODE_WRAP;
         $supportedKeyManagementModeCombinations = [$enc.$enc => true, $enc.$wrap => true, $wrap.$enc => true, $wrap.$wrap => true, $agree.$agree => false, $agree.$dir => false, $agree.$enc => false, $agree.$wrap => false, $dir.$agree => false, $dir.$dir => false, $dir.$enc => false, $dir.$wrap => false, $enc.$agree => false, $enc.$dir => false, $wrap.$agree => false, $wrap.$dir => false];
 
-        if (\array_key_exists($current.$new, $supportedKeyManagementModeCombinations)) {
+        if (array_key_exists($current.$new, $supportedKeyManagementModeCombinations)) {
             return $supportedKeyManagementModeCombinations[$current.$new];
         }
 
@@ -526,7 +528,7 @@ class JWEBuilder
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = array_intersect_key($header1, $header2);
-        if (0 !== \count($inter)) {
+        if (0 !== count($inter)) {
             throw new InvalidArgumentException(sprintf('The header contains duplicated entries: %s.', implode(', ', array_keys($inter))));
         }
     }

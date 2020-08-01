@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use function array_key_exists;
+use Exception;
+use function function_exists;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -34,7 +37,7 @@ final class AlgorithmCollector implements Collector
         $this->algorithmManagerFactory = $algorithmManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Exception $exception = null): void
     {
         $algorithms = $this->algorithmManagerFactory->all();
         $data['algorithm'] = [
@@ -47,7 +50,7 @@ final class AlgorithmCollector implements Collector
         $contentEncryptionAlgorithms = 0;
         foreach ($algorithms as $alias => $algorithm) {
             $type = $this->getAlgorithmType($algorithm, $signatureAlgorithms, $macAlgorithms, $keyEncryptionAlgorithms, $contentEncryptionAlgorithms);
-            if (!\array_key_exists($type, $data['algorithm']['algorithms'])) {
+            if (!array_key_exists($type, $data['algorithm']['algorithms'])) {
                 $data['algorithm']['algorithms'][$type] = [];
             }
             $data['algorithm']['algorithms'][$type][$alias] = [
@@ -191,7 +194,7 @@ final class AlgorithmCollector implements Collector
                 'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
             ],
         ];
-        if (!\function_exists('openssl_pkey_derive')) {
+        if (!function_exists('openssl_pkey_derive')) {
             $messages += [
                 'ECDH-ES' => [
                     'severity' => 'severity-medium',

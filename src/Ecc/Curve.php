@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 use GMP;
+use function is_null;
 use RuntimeException;
 
 /**
@@ -93,7 +94,7 @@ class Curve
             throw new RuntimeException('Curve '.$this->__toString().' does not contain point ('.Math::toString($x).', '.Math::toString($y).')');
         }
         $point = Point::create($x, $y, $order);
-        if (!\is_null($order)) {
+        if (!is_null($order)) {
             $mul = $this->mul($point, $order);
             if (!$mul->isInfinity()) {
                 throw new RuntimeException('SELF * ORDER MUST EQUAL INFINITY.');

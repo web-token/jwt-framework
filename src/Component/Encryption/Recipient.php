@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use function array_key_exists;
 use InvalidArgumentException;
 
 /**
@@ -69,7 +70,7 @@ class Recipient
      */
     public function hasHeaderParameter(string $key): bool
     {
-        return \array_key_exists($key, $this->header);
+        return array_key_exists($key, $this->header);
     }
 
     /**

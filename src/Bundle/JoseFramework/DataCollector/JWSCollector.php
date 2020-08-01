@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Exception;
 use Jose\Bundle\JoseFramework\Event\JWSBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWSVerificationFailureEvent;
@@ -73,7 +74,7 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Exception $exception = null): void
     {
         $this->collectSupportedJWSSerializations($data);
         $this->collectSupportedJWSBuilders($data);

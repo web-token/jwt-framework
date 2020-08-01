@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
+use function array_key_exists;
+use function count;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\NestedToken\NestedTokenBuilder as JoseNestedTokenBuilder;
 use Jose\Component\NestedToken\NestedTokenLoader as JoseNestedTokenLoader;
@@ -52,7 +54,7 @@ class NestedToken implements Source
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
         $loader->load('nested_token.php');
 
-        if (\array_key_exists('nested_token', $configs)) {
+        if (array_key_exists('nested_token', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['nested_token'], $container);
             }
@@ -83,7 +85,7 @@ class NestedToken implements Source
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== \count($prepend)) {
+            if (0 !== count($prepend)) {
                 $result[$source->name()] = $prepend;
             }
         }

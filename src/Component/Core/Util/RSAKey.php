@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
 use FG\ASN1\Universal\NullObject;
@@ -82,7 +84,7 @@ class RSAKey
     {
         $this->values = $data->all();
         $this->populateBigIntegers();
-        $this->private = \array_key_exists('d', $this->values);
+        $this->private = array_key_exists('d', $this->values);
     }
 
     /**
@@ -146,7 +148,7 @@ class RSAKey
 
     public function isPublic(): bool
     {
-        return !\array_key_exists('d', $this->values);
+        return !array_key_exists('d', $this->values);
     }
 
     /**
@@ -159,7 +161,7 @@ class RSAKey
         $data = $private->toArray();
         $keys = ['p', 'd', 'q', 'dp', 'dq', 'qi'];
         foreach ($keys as $key) {
-            if (\array_key_exists($key, $data)) {
+            if (array_key_exists($key, $data)) {
                 unset($data[$key]);
             }
         }
@@ -176,7 +178,7 @@ class RSAKey
     {
         if (null === $this->sequence) {
             $this->sequence = new Sequence();
-            if (\array_key_exists('d', $this->values)) {
+            if (array_key_exists('d', $this->values)) {
                 $this->initPrivateKey();
             } else {
                 $this->initPublicKey();
@@ -202,7 +204,7 @@ class RSAKey
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
             throw new RuntimeException();
         }
-        if ($key->isPublic() || null === $key->getCoefficient() || 0 === \count($key->getPrimes()) || 0 === \count($key->getExponents())) {
+        if ($key->isPublic() || null === $key->getCoefficient() || 0 === count($key->getPrimes()) || 0 === count($key->getExponents())) {
             return $c->modPow($key->getExponent(), $key->getModulus());
         }
 
@@ -228,12 +230,12 @@ class RSAKey
         if (!$this->isPublic()) {
             $this->private_exponent = $this->convertBase64StringToBigInteger($this->values['d']);
 
-            if (\array_key_exists('p', $this->values) && \array_key_exists('q', $this->values)) {
+            if (array_key_exists('p', $this->values) && array_key_exists('q', $this->values)) {
                 $this->primes = [
                     $this->convertBase64StringToBigInteger($this->values['p']),
                     $this->convertBase64StringToBigInteger($this->values['q']),
                 ];
-                if (\array_key_exists('dp', $this->values) && \array_key_exists('dq', $this->values) && \array_key_exists('qi', $this->values)) {
+                if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists('qi', $this->values)) {
                     $this->exponents = [
                         $this->convertBase64StringToBigInteger($this->values['dp']),
                         $this->convertBase64StringToBigInteger($this->values['dq']),
@@ -277,9 +279,9 @@ class RSAKey
         $d = new Integer($this->fromBase64ToInteger($this->values['d']));
         $p = new Integer($this->fromBase64ToInteger($this->values['p']));
         $q = new Integer($this->fromBase64ToInteger($this->values['q']));
-        $dp = \array_key_exists('dp', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dp'])) : new Integer(0);
-        $dq = \array_key_exists('dq', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dq'])) : new Integer(0);
-        $qi = \array_key_exists('qi', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['qi'])) : new Integer(0);
+        $dp = array_key_exists('dp', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dp'])) : new Integer(0);
+        $dq = array_key_exists('dq', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['dq'])) : new Integer(0);
+        $qi = array_key_exists('qi', $this->values) ? new Integer($this->fromBase64ToInteger($this->values['qi'])) : new Integer(0);
         $key_sequence = new Sequence();
         $key_sequence->addChild($v);
         $key_sequence->addChild($n);

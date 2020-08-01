@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
+use function array_key_exists;
+use function count;
 use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSource as JWKSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
@@ -42,7 +44,7 @@ class JWKSource implements Source
         $sources = $this->getJWKSources();
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             foreach ($itemConfig as $sourceName => $sourceConfig) {
-                if (\array_key_exists($sourceName, $sources)) {
+                if (array_key_exists($sourceName, $sources)) {
                     $source = $sources[$sourceName];
                     $source->create($container, 'key', $name, $sourceConfig);
                 } else {
@@ -63,7 +65,7 @@ class JWKSource implements Source
             ->arrayPrototype()
             ->validate()
             ->ifTrue(function ($config) {
-                return 1 !== \count($config);
+                return 1 !== count($config);
             })
             ->thenInvalid('One key type must be set.')
             ->end()

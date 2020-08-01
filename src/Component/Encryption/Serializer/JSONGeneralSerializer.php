@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
+use function array_key_exists;
 use Base64Url\Base64Url;
+use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
@@ -51,16 +53,16 @@ final class JSONGeneralSerializer implements JWESerializer
         if (null !== $jwe->getAAD()) {
             $data['aad'] = Base64Url::encode($jwe->getAAD());
         }
-        if (0 !== \count($jwe->getSharedProtectedHeader())) {
+        if (0 !== count($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
         }
-        if (0 !== \count($jwe->getSharedHeader())) {
+        if (0 !== count($jwe->getSharedHeader())) {
             $data['unprotected'] = $jwe->getSharedHeader();
         }
         $data['recipients'] = [];
         foreach ($jwe->getRecipients() as $recipient) {
             $temp = [];
-            if (0 !== \count($recipient->getHeader())) {
+            if (0 !== count($recipient->getHeader())) {
                 $temp['header'] = $recipient->getHeader();
             }
             if (null !== $recipient->getEncryptedKey()) {
@@ -80,7 +82,7 @@ final class JSONGeneralSerializer implements JWESerializer
         $ciphertext = Base64Url::decode($data['ciphertext']);
         $iv = Base64Url::decode($data['iv']);
         $tag = Base64Url::decode($data['tag']);
-        $aad = \array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
+        $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
         list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
         $recipients = [];
         foreach ($data['recipients'] as $recipient) {
@@ -112,17 +114,17 @@ final class JSONGeneralSerializer implements JWESerializer
 
     private function processRecipient(array $recipient): array
     {
-        $encryptedKey = \array_key_exists('encrypted_key', $recipient) ? Base64Url::decode($recipient['encrypted_key']) : null;
-        $header = \array_key_exists('header', $recipient) ? $recipient['header'] : [];
+        $encryptedKey = array_key_exists('encrypted_key', $recipient) ? Base64Url::decode($recipient['encrypted_key']) : null;
+        $header = array_key_exists('header', $recipient) ? $recipient['header'] : [];
 
         return [$encryptedKey, $header];
     }
 
     private function processHeaders(array $data): array
     {
-        $encodedSharedProtectedHeader = \array_key_exists('protected', $data) ? $data['protected'] : null;
+        $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
         $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
-        $sharedHeader = \array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
+        $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
 
         return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];
     }

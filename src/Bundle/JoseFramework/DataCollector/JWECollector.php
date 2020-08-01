@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Exception;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
@@ -80,7 +81,7 @@ class JWECollector implements Collector, EventSubscriberInterface
         $this->jweSerializerManagerFactory = $jweSerializerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?\Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Exception $exception = null): void
     {
         $this->collectSupportedCompressionMethods($data);
         $this->collectSupportedJWESerializations($data);

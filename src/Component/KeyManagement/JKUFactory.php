@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
+use function is_array;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use RuntimeException;
@@ -29,7 +30,7 @@ class JKUFactory extends UrlKeySetFactory
     {
         $content = $this->getContent($url, $header);
         $data = JsonConverter::decode($content);
-        if (!\is_array($data)) {
+        if (!is_array($data)) {
             throw new RuntimeException('Invalid content.');
         }
 

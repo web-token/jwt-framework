@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Easy;
 
 use Jose\Component\Core\Algorithm;
+use Throwable;
 
 final class AlgorithmProvider
 {
@@ -35,17 +36,6 @@ final class AlgorithmProvider
         }
     }
 
-    private function addClass(string $algorithmClass): void
-    {
-        if (class_exists($algorithmClass)) {
-            try {
-                $this->algorithms[] = new $algorithmClass();
-            } catch (\Throwable $throwable) {
-                //does nothing
-            }
-        }
-    }
-
     public function getAlgorithmClasses(): array
     {
         return $this->algorithmClasses;
@@ -54,5 +44,16 @@ final class AlgorithmProvider
     public function getAvailableAlgorithms(): array
     {
         return $this->algorithms;
+    }
+
+    private function addClass(string $algorithmClass): void
+    {
+        if (class_exists($algorithmClass)) {
+            try {
+                $this->algorithms[] = new $algorithmClass();
+            } catch (Throwable $throwable) {
+                //does nothing
+            }
+        }
     }
 }

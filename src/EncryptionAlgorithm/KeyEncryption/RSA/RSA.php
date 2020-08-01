@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
@@ -57,7 +58,7 @@ abstract class RSA implements KeyEncryption
      */
     protected function checkKey(JWK $key): void
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
     }

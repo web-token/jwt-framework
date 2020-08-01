@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Base64Url\Base64Url;
+use function in_array;
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\JWK;
 use LogicException;
 use RuntimeException;
@@ -26,7 +28,7 @@ final class Chacha20Poly1305 implements KeyEncryption
      */
     public function __construct()
     {
-        if (!\in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
+        if (!in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
             throw new LogicException('The algorithm "chacha20-poly1305" is not supported in this platform.');
         }
     }
@@ -91,14 +93,14 @@ final class Chacha20Poly1305 implements KeyEncryption
      */
     private function getKey(JWK $key): string
     {
-        if (!\in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
         if (!$key->has('k')) {
             throw new InvalidArgumentException('The key parameter "k" is missing.');
         }
         $k = $key->get('k');
-        if (!\is_string($k)) {
+        if (!is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
@@ -113,7 +115,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         if (!isset($header['nonce'])) {
             throw new InvalidArgumentException('The header parameter "nonce" is missing.');
         }
-        if (!\is_string($header['nonce'])) {
+        if (!is_string($header['nonce'])) {
             throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
         }
     }

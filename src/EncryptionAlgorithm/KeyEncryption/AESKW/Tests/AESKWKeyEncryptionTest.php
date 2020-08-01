@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
@@ -56,7 +57,7 @@ class AESKWKeyEncryptionTest extends TestCase
      */
     public function badKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type');
 
         $header = [];

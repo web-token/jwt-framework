@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Easy;
 
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -55,7 +56,7 @@ class JWEBuilder extends AbstractBuilder
                 $clone->jwt->header->set('enc', $enc->name());
 
                 break;
-            case \is_string($enc):
+            case is_string($enc):
                 $clone->jwt->header->set('enc', $enc);
 
                 break;
@@ -80,7 +81,7 @@ class JWEBuilder extends AbstractBuilder
                 $clone->jwt->header->set('zip', $zip->name());
 
                 break;
-            case \is_string($zip):
+            case is_string($zip):
                 $clone->jwt->header->set('zip', $zip);
 
                 break;

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Tests;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +34,7 @@ class DirAlgorithmTest extends TestCase
      */
     public function invalidKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Wrong key type.');
 
         $key = new JWK([

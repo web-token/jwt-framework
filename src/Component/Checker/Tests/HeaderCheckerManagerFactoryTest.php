@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker\Tests;
 
+use InvalidArgumentException;
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Checker\InvalidHeaderException;
@@ -49,7 +50,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
      */
     public function aHeaderMustNotContainDuplicatedHeaderParameters(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header contains duplicated entries: alg.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);
@@ -157,7 +158,7 @@ class HeaderCheckerManagerFactoryTest extends TestCase
      */
     public function iTryToCheckATokenThatIsNotSupported(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported token type.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()->create(['aud', 'iss']);

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Tests\Keys;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
@@ -49,7 +50,7 @@ class RSAKeysTest extends TestCase
      */
     public function hashAlgorithmNotSupported(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The hash algorithm "foo" is not supported.');
 
         $key = new JWK([
@@ -68,7 +69,7 @@ class RSAKeysTest extends TestCase
      */
     public function unsupportedKeyType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('JWK is not a RSA key');
 
         RSAKey::createFromJWK(new JWK([

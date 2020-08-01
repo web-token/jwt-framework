@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Analyzer;
 
 use ArrayIterator;
+use function count;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
@@ -57,7 +58,7 @@ class MessageBag implements JsonSerializable, IteratorAggregate, Countable
      */
     public function count(): int
     {
-        return \count($this->messages);
+        return count($this->messages);
     }
 
     /**

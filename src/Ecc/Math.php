@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 use GMP;
+use function ord;
 
 /**
  * @internal
@@ -91,7 +92,7 @@ class Math
         $sLen = mb_strlen($s, '8bit');
 
         for ($c = 0; $c < $sLen; ++$c) {
-            $result = gmp_add(gmp_mul(256, $result), gmp_init(\ord($s[$c]), 10));
+            $result = gmp_add(gmp_mul(256, $result), gmp_init(ord($s[$c]), 10));
         }
 
         return $result;

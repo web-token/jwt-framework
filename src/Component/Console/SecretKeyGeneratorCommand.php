@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_bool;
+use function is_string;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,11 +42,11 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $secret = $input->getArgument('secret');
-        if (!\is_string($secret)) {
+        if (!is_string($secret)) {
             throw new InvalidArgumentException('Invalid secret');
         }
         $isBsae64Encoded = $input->getOption('is_b64');
-        if (!\is_bool($isBsae64Encoded)) {
+        if (!is_bool($isBsae64Encoded)) {
             throw new InvalidArgumentException('Invalid option value for "is_b64"');
         }
         if ($isBsae64Encoded) {

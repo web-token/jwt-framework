@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
+use function count;
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -40,7 +43,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         $jwkset = $this->getKeyset($input)->all();
         $jwk = $this->getKey($input);
 
-        if (0 !== \count($jwkset)) {
+        if (0 !== count($jwkset)) {
             array_pop($jwkset);
         }
         array_unshift($jwkset, $jwk);
@@ -54,11 +57,11 @@ final class RotateKeysetCommand extends ObjectOutputCommand
     private function getKeyset(InputInterface $input): JWKSet
     {
         $jwkset = $input->getArgument('jwkset');
-        if (!\is_string($jwkset)) {
+        if (!is_string($jwkset)) {
             throw new InvalidArgumentException('Invalid JWKSet');
         }
         $json = JsonConverter::decode($jwkset);
-        if (!\is_array($json)) {
+        if (!is_array($json)) {
             throw new InvalidArgumentException('Invalid JWKSet');
         }
 
@@ -71,11 +74,11 @@ final class RotateKeysetCommand extends ObjectOutputCommand
     private function getKey(InputInterface $input): JWK
     {
         $jwk = $input->getArgument('jwk');
-        if (!\is_string($jwk)) {
+        if (!is_string($jwk)) {
             throw new InvalidArgumentException('Invalid JWK');
         }
         $json = JsonConverter::decode($jwk);
-        if (!\is_string($jwk)) {
+        if (!is_string($jwk)) {
             throw new InvalidArgumentException('Invalid JWK');
         }
 

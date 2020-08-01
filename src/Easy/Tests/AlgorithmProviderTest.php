@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Easy\Tests;
 
+use BadFunctionCallException;
+use function get_class;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption;
@@ -21,8 +23,6 @@ use Jose\Easy\AlgorithmProvider;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
-use function get_class;
-
 
 /**
  * @group  easy
@@ -79,7 +79,7 @@ final class AlgorithmProviderTest extends TestCase
     public function itReturnsAllAlgorithmClasses(): void
     {
         $algorithmProvider = new AlgorithmProvider(self::ALL_ALGORITHMS);
-        self::assertSame(self::ALL_ALGORITHMS, $algorithmProvider->getAlgorithmClasses());
+        static::assertSame(self::ALL_ALGORITHMS, $algorithmProvider->getAlgorithmClasses());
     }
 
     /**
@@ -92,7 +92,7 @@ final class AlgorithmProviderTest extends TestCase
     {
         $algorithmProvider = new AlgorithmProvider(self::ALL_ALGORITHMS);
         foreach ($algorithmProvider->getAvailableAlgorithms() as $algorithm) {
-            self::assertContains(get_class($algorithm), self::ALL_ALGORITHMS);
+            static::assertContains(get_class($algorithm), self::ALL_ALGORITHMS);
         }
     }
 
@@ -104,11 +104,11 @@ final class AlgorithmProviderTest extends TestCase
      */
     public function itAllowsNonExistingClasses(): void
     {
-        $nonExistingClassName = 'NonExistingClass'.\bin2hex(\random_bytes(31));
+        $nonExistingClassName = 'NonExistingClass'.bin2hex(random_bytes(31));
         $algorithmProvider = new AlgorithmProvider([$nonExistingClassName]);
 
-        self::assertSame([$nonExistingClassName], $algorithmProvider->getAlgorithmClasses());
-        self::assertSame([], $algorithmProvider->getAvailableAlgorithms());
+        static::assertSame([$nonExistingClassName], $algorithmProvider->getAlgorithmClasses());
+        static::assertSame([], $algorithmProvider->getAvailableAlgorithms());
     }
 
     /**
@@ -121,16 +121,13 @@ final class AlgorithmProviderTest extends TestCase
         $test = [$this->createAlgorithmClassWithExceptionMock()];
         $algorithmProvider = new AlgorithmProvider($test);
 
-        self::assertSame($test, $algorithmProvider->getAlgorithmClasses());
-        self::assertSame([], $algorithmProvider->getAvailableAlgorithms());
+        static::assertSame($test, $algorithmProvider->getAlgorithmClasses());
+        static::assertSame([], $algorithmProvider->getAvailableAlgorithms());
     }
 
-    /**
-     * @return string
-     */
     private function createAlgorithmClassWithExceptionMock(): string
     {
-        $mockClass = new class implements Algorithm\SignatureAlgorithm {
+        $mockClass = new class() implements Algorithm\SignatureAlgorithm {
             private static $throw;
 
             public function __construct()
@@ -141,27 +138,27 @@ final class AlgorithmProviderTest extends TestCase
                     return;
                 }
 
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function name(): string
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function allowedKeyTypes(): array
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function sign(JWK $key, string $input): string
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
 
             public function verify(JWK $key, string $input, string $signature): bool
             {
-                throw new \BadFunctionCallException('should not be called');
+                throw new BadFunctionCallException('should not be called');
             }
         };
 
