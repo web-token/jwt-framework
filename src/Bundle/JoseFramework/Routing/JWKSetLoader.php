@@ -37,6 +37,9 @@ final class JWKSetLoader implements LoaderInterface
         $this->routes->add(sprintf('jwkset_%s', $name), $route);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function load($resource, $type = null): RouteCollection
     {
         return $this->routes;

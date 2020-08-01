@@ -38,7 +38,7 @@ class Math
 
     public static function inverseMod(BigInteger $a, BigInteger $m): BigInteger
     {
-        return CoreBigInteger::createFromBigInteger($a)->modInverse($m)->get();
+        return CoreBigInteger::createFromBigInteger($a)->modInverse(CoreBigInteger::createFromBigInteger($m))->get();
     }
 
     public static function baseConvert(string $number, int $from, int $to): string
