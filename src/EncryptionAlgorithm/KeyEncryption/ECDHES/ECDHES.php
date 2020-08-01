@@ -75,9 +75,9 @@ final class ECDHES implements KeyAgreement
                     }
                 }
 
-                $rec_x = $this->convertBase64ToGmp($public_key->get('x'));
-                $rec_y = $this->convertBase64ToGmp($public_key->get('y'));
-                $sen_d = $this->convertBase64ToGmp($private_key->get('d'));
+                $rec_x = $this->convertBase64ToBigInteger($public_key->get('x'));
+                $rec_y = $this->convertBase64ToBigInteger($public_key->get('y'));
+                $sen_d = $this->convertBase64ToBigInteger($private_key->get('d'));
 
                 $priv_key = PrivateKey::create($sen_d);
                 $pub_key = $curve->getPublicKeyFrom($rec_x, $rec_y);
@@ -217,7 +217,7 @@ final class ECDHES implements KeyAgreement
         }
     }
 
-    private function convertBase64ToGmp(string $value): BigInteger
+    private function convertBase64ToBigInteger(string $value): BigInteger
     {
         $value = unpack('H*', Base64Url::decode($value));
 

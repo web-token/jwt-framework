@@ -39,7 +39,8 @@
         }
     },
     "suggest": {
-        "ext-gmp": "Highly recommended to improve the library performance"
+        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance"
     },
     "config": {
         "sort-packages": true

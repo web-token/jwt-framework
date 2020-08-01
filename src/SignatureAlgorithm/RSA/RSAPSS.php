@@ -19,20 +19,9 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Algorithm\Util\RSA as JoseRSA;
-use RuntimeException;
 
 abstract class RSAPSS implements SignatureAlgorithm
 {
-    /**
-     * @throws RuntimeException if the extension GMP is not available
-     */
-    public function __construct()
-    {
-        if (!extension_loaded('gmp')) {
-            throw new RuntimeException(static::class.' requires gmp extension');
-        }
-    }
-
     public function allowedKeyTypes(): array
     {
         return ['RSA'];

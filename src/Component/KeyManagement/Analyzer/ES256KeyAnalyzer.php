@@ -51,10 +51,10 @@ final class ES256KeyAnalyzer implements KeyAnalyzer
         if ($yLength !== $xLength || 256 !== $yLength) {
             $bag->add(Message::high('Invalid key. The components "x" and "y" size shall be 256 bits.'));
         }
-        $xGmp = BigInteger::fromBase(bin2hex($x), 16);
-        $yGmp = BigInteger::fromBase(bin2hex($y), 16);
+        $xBI = BigInteger::fromBase(bin2hex($x), 16);
+        $yBI = BigInteger::fromBase(bin2hex($y), 16);
         $curve = NistCurve::curve256();
-        if (!$curve->contains($xGmp, $yGmp)) {
+        if (!$curve->contains($xBI, $yBI)) {
             $bag->add(Message::high('Invalid key. The point is not on the curve.'));
         }
     }

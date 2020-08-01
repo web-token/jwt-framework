@@ -26,16 +26,6 @@ use RuntimeException;
  */
 abstract class RSA implements SignatureAlgorithm
 {
-    /**
-     * @throws InvalidArgumentException if the extension GMP is not available
-     */
-    public function __construct()
-    {
-        if (!extension_loaded('gmp')) {
-            throw new RuntimeException(static::class.' requires gmp extension');
-        }
-    }
-
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
