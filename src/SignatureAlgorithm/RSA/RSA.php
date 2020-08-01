@@ -13,13 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use function extension_loaded;
 use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Algorithm\Util\RSA as JoseRSA;
-use RuntimeException;
 
 /**
  * @deprecated Please use either RSAPSS or RSAPKCS1 depending on the padding mode
