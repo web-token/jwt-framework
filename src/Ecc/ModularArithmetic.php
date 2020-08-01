@@ -13,24 +13,24 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
-use GMP;
+use Brick\Math\BigInteger;
 
 /**
  * @internal
  */
 class ModularArithmetic
 {
-    public static function sub(GMP $minuend, GMP $subtrahend, GMP $modulus): GMP
+    public static function sub(BigInteger $minuend, BigInteger $subtrahend, BigInteger $modulus): BigInteger
     {
-        return Math::mod(Math::sub($minuend, $subtrahend), $modulus);
+        return $minuend->minus($subtrahend)->mod($modulus);
     }
 
-    public static function mul(GMP $multiplier, GMP $muliplicand, GMP $modulus): GMP
+    public static function mul(BigInteger $multiplier, BigInteger $muliplicand, BigInteger $modulus): BigInteger
     {
-        return Math::mod(Math::mul($multiplier, $muliplicand), $modulus);
+        return $multiplier->multipliedBy($muliplicand)->mod($modulus);
     }
 
-    public static function div(GMP $dividend, GMP $divisor, GMP $modulus): GMP
+    public static function div(BigInteger $dividend, BigInteger $divisor, BigInteger $modulus): BigInteger
     {
         return self::mul($dividend, Math::inverseMod($divisor, $modulus), $modulus);
     }

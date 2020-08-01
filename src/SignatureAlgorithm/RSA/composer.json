@@ -20,12 +20,13 @@
         }
     },
     "require": {
-        "ext-gmp": "*",
+        "brick/math": "^0.8.15",
         "lib-openssl": "*",
         "web-token/jwt-signature": "^2.1"
     },
     "suggest": {
-        "ext-gmp": "To use PSxxx algorihtms"
+        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0"

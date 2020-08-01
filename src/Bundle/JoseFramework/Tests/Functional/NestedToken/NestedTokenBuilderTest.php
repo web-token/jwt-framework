@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Tests\Functional\NestedToken;
 
+use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\NestedToken\NestedTokenBuilder;
@@ -42,7 +43,7 @@ class NestedTokenBuilderTest extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
         static::assertNotNull($container);
-        static::assertTrue($container->has(\Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory::class));
+        static::assertTrue($container->has(NestedTokenBuilderFactory::class));
     }
 
     /**

@@ -132,11 +132,9 @@ class SignatureSource implements SourceWithCompilerPasses
             HMAC::class => 'signature_hmac.php',
             None::class => 'signature_none.php',
             HS1::class => 'signature_experimental.php',
+            RSAPSS::class => 'signature_rsa.php',
         ];
 
-        if (extension_loaded('gmp')) {
-            $algorithms[RSAPSS::class] = 'signature_rsa.php';
-        }
         if (extension_loaded('sodium')) {
             $algorithms[EdDSA::class] = 'signature_eddsa.php';
         }

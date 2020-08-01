@@ -15,9 +15,9 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use function array_key_exists;
 use Base64Url\Base64Url;
+use Brick\Math\BigInteger;
 use function extension_loaded;
 use function function_exists;
-use GMP;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
@@ -75,9 +75,9 @@ final class ECDHES implements KeyAgreement
                     }
                 }
 
-                $rec_x = $this->convertBase64ToGmp($public_key->get('x'));
-                $rec_y = $this->convertBase64ToGmp($public_key->get('y'));
-                $sen_d = $this->convertBase64ToGmp($private_key->get('d'));
+                $rec_x = $this->convertBase64ToBigInteger($public_key->get('x'));
+                $rec_y = $this->convertBase64ToBigInteger($public_key->get('y'));
+                $sen_d = $this->convertBase64ToBigInteger($private_key->get('d'));
 
                 $priv_key = PrivateKey::create($sen_d);
                 $pub_key = $curve->getPublicKeyFrom($rec_x, $rec_y);
@@ -217,22 +217,22 @@ final class ECDHES implements KeyAgreement
         }
     }
 
-    private function convertBase64ToGmp(string $value): GMP
+    private function convertBase64ToBigInteger(string $value): BigInteger
     {
         $value = unpack('H*', Base64Url::decode($value));
 
-        return gmp_init($value[1], 16);
+        return BigInteger::fromBase($value[1], 16);
     }
 
     /**
      * @throws InvalidArgumentException if the data cannot be converted
      */
-    private function convertDecToBin(GMP $dec): string
+    private function convertDecToBin(BigInteger $dec): string
     {
-        if (gmp_cmp($dec, 0) < 0) {
+        if ($dec->compareTo(BigInteger::zero()) < 0) {
             throw new InvalidArgumentException('Unable to convert negative integer to string');
         }
-        $hex = gmp_strval($dec, 16);
+        $hex = $dec->toBase(16);
 
         if (0 !== mb_strlen($hex, '8bit') % 2) {
             $hex = '0'.$hex;

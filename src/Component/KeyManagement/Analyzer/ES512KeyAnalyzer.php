@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Analyzer;
 
 use Base64Url\Base64Url;
+use Brick\Math\BigInteger;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use RuntimeException;
@@ -50,10 +51,10 @@ final class ES512KeyAnalyzer implements KeyAnalyzer
         if ($yLength !== $xLength || 528 !== $yLength) {
             $bag->add(Message::high('Invalid key. The components "x" and "y" size shall be 528 bits.'));
         }
-        $xGmp = gmp_init(bin2hex($x), 16);
-        $yGmp = gmp_init(bin2hex($y), 16);
+        $xBI = BigInteger::fromBase(bin2hex($x), 16);
+        $yBI = BigInteger::fromBase(bin2hex($y), 16);
         $curve = NistCurve::curve521();
-        if (!$curve->contains($xGmp, $yGmp)) {
+        if (!$curve->contains($xBI, $yBI)) {
             $bag->add(Message::high('Invalid key. The point is not on the curve.'));
         }
     }

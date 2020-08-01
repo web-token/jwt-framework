@@ -38,12 +38,12 @@ class RSAKey
     /**
      * @var bool
      */
-    private $private = false;
+    private $private;
 
     /**
      * @var array
      */
-    private $values = [];
+    private $values;
 
     /**
      * @var BigInteger
@@ -303,6 +303,8 @@ class RSAKey
      */
     private function fromBase64ToInteger($value)
     {
-        return gmp_strval(gmp_init(current(unpack('H*', Base64Url::decode($value))), 16), 10);
+        $hex = current(unpack('H*', Base64Url::decode($value)));
+
+        return \Brick\Math\BigInteger::fromBase($hex, 16)->toBase(10);
     }
 }

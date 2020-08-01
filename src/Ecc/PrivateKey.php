@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util\Ecc;
 
-use GMP;
+use Brick\Math\BigInteger;
 
 /**
  * *********************************************************************
@@ -45,21 +45,21 @@ use GMP;
 class PrivateKey
 {
     /**
-     * @var GMP
+     * @var BigInteger
      */
     private $secret;
 
-    private function __construct(GMP $secret)
+    private function __construct(BigInteger $secret)
     {
         $this->secret = $secret;
     }
 
-    public static function create(GMP $secret): self
+    public static function create(BigInteger $secret): self
     {
         return new self($secret);
     }
 
-    public function getSecret(): GMP
+    public function getSecret(): BigInteger
     {
         return $this->secret;
     }

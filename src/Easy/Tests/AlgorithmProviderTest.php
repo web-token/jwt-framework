@@ -128,6 +128,7 @@ final class AlgorithmProviderTest extends TestCase
     private function createAlgorithmClassWithExceptionMock(): string
     {
         $mockClass = new class() implements Algorithm\SignatureAlgorithm {
+            /** @var bool $throw */
             private static $throw;
 
             public function __construct()
