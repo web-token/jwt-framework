@@ -59,7 +59,7 @@
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "spomky-labs/aes-key-wrap": "^5.0",
+        "spomky-labs/aes-key-wrap": "^6.0",
         "spomky-labs/base64url": "^2.0",
         "symfony/config": "^4.2|^5.0",
         "symfony/console": "^4.2|^5.0",
