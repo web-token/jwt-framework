@@ -4,7 +4,7 @@ framework:
     session:
         storage_id: 'session.storage.mock_file'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: "%kernel.project_dir%/Tests/config/routing.yml"
         strict_requirements: ~
     fragments:       ~
     http_method_override: true
@@ -95,7 +95,7 @@ jose:
                 is_public: true
         certificate1:
             certificate:
-                path: '%kernel.root_dir%/config/keys/google.crt'
+                path: '%kernel.project_dir%/Tests/config/keys/google.crt'
                 additional_values:
                     use: 'sig'
                     alg: 'RS256'
@@ -123,7 +123,7 @@ jose:
                 is_public: true
         file1:
             file:
-                path: '%kernel.root_dir%/config/keys/private.encrypted.key'
+                path: '%kernel.project_dir%/Tests/config/keys/private.encrypted.key'
                 password: 'tests'
                 additional_values:
                     use: 'enc'

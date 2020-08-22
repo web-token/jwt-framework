@@ -1,56 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-        backupGlobals="false"
-        backupStaticAttributes="false"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        processIsolation="false"
-        stopOnFailure="false"
-        bootstrap="vendor/autoload.php"
-        beStrictAboutTestsThatDoNotTestAnything="false"
-        colors="true">
-    <testsuites>
-        <testsuite name="Test Suite">
-            <directory>./tests/</directory>
-            <directory>./src/Bundle/*/Tests/</directory>
-            <directory>./src/Component/*/Tests/</directory>
-            <directory>./src/Ecc/*/Tests/</directory>
-            <directory>./src/SignatureAlgorithm/*/Tests/</directory>
-            <directory>./src/EncryptionAlgorithm/ContentEncryption/*/Tests/</directory>
-            <directory>./src/EncryptionAlgorithm/KeyEncryption/*/Tests/</directory>
-            <directory>./src/EncryptionAlgorithm/Experimental/Tests/</directory>
-            <directory>./src/Easy/Tests/</directory>
-        </testsuite>
-    </testsuites>
-    <php>
-        <ini name="error_reporting" value="-1" />
-        <ini name="intl.default_locale" value="en" />
-        <ini name="intl.error_level" value="0" />
-        <ini name="memory_limit" value="-1" />
-        <server name="KERNEL_CLASS" value="Jose\Bundle\JoseFramework\Tests\AppKernel" />
-        <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
-        <server name="SYMFONY_PHPUNIT_VERSION" value="8" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />
-    </php>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./</directory>
-            <exclude>
-                <directory>./performance</directory>
-                <directory>./vendor</directory>
-                <directory>./tests</directory>
-                <directory>./src/Bundle/*/Tests/</directory>
-                <directory>./src/Component/*/Tests/</directory>
-                <directory>./src/Ecc/*/Tests/</directory>
-                <directory>./src/EncryptionAlgorithm/ContentEncryption/*/Tests/</directory>
-                <directory>./src/EncryptionAlgorithm/KeyEncryption/*/Tests/</directory>
-                <directory>./src/EncryptionAlgorithm/Experimental/Tests/</directory>
-                <directory suffix="Test.php">./src</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" bootstrap="vendor/autoload.php" beStrictAboutTestsThatDoNotTestAnything="false" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">./</directory>
+    </include>
+    <exclude>
+      <directory>./performance</directory>
+      <directory>./vendor</directory>
+      <directory>./tests</directory>
+      <directory>./src/Bundle/*/Tests/</directory>
+      <directory>./src/Component/*/Tests/</directory>
+      <directory>./src/Ecc/*/Tests/</directory>
+      <directory>./src/EncryptionAlgorithm/ContentEncryption/*/Tests/</directory>
+      <directory>./src/EncryptionAlgorithm/KeyEncryption/*/Tests/</directory>
+      <directory>./src/EncryptionAlgorithm/Experimental/Tests/</directory>
+      <directory suffix="Test.php">./src</directory>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Test Suite">
+      <directory>./tests/</directory>
+      <directory>./src/Bundle/*/Tests/</directory>
+      <directory>./src/Component/*/Tests/</directory>
+      <directory>./src/Ecc/*/Tests/</directory>
+      <directory>./src/SignatureAlgorithm/*/Tests/</directory>
+      <directory>./src/EncryptionAlgorithm/ContentEncryption/*/Tests/</directory>
+      <directory>./src/EncryptionAlgorithm/KeyEncryption/*/Tests/</directory>
+      <directory>./src/EncryptionAlgorithm/Experimental/Tests/</directory>
+      <directory>./src/Easy/Tests/</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="intl.default_locale" value="en"/>
+    <ini name="intl.error_level" value="0"/>
+    <ini name="memory_limit" value="-1"/>
+    <server name="KERNEL_CLASS" value="Jose\Bundle\JoseFramework\Tests\AppKernel"/>
+    <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
+    <server name="SYMFONY_PHPUNIT_VERSION" value="8"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
+  </php>
+  <listeners>
+    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+  </listeners>
 </phpunit>
