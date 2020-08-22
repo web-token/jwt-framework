@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "brick/math": "^0.8.15"
+        "brick/math": "^0.8.17"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0"

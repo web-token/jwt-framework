@@ -14,11 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Brick\Math\BigInteger as BrickBigInteger;
-use Brick\Math\RoundingMode;
 use function chr;
-use function function_exists;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
  * @internal
@@ -145,7 +141,7 @@ class BigInteger
      */
     public function modPow(self $e, self $n): self
     {
-        $value = $this->value->powerMod($e->value, $n->value);
+        $value = $this->value->modPow($e->value, $n->value);
 
         return new self($value);
     }
@@ -166,14 +162,7 @@ class BigInteger
 
     public function modInverse(BigInteger $m): BigInteger
     {
-        $x = BrickBigInteger::zero();
-        $y = BrickBigInteger::zero();
-        $g = $this->gcdExtended($this->value, $m->value, $x, $y);
-        if (!$g->isEqualTo(BrickBigInteger::one())) {
-            throw new InvalidArgumentException('Unable to compute the modInverse for the given modulus');
-        }
-
-        return new self($x->mod($m->value)->plus($m->value)->mod($m->value));
+        return new self($this->value->modInverse($m->value));
     }
 
     /**
@@ -201,14 +190,7 @@ class BigInteger
      */
     public static function random(self $y): self
     {
-        if (!function_exists('gmp_random_range')) {
-            throw new RuntimeException('The extension "GMP" is required');
-        }
-        $zero = gmp_init(0, 10);
-        $limit = gmp_init($y->value->toBase(10), 10);
-        $rnd = gmp_strval(gmp_random_range($zero, $limit), 10);
-
-        return new self(BrickBigInteger::fromBase($rnd, 10));
+        return new self(BrickBigInteger::randomRange(0, $y->value));
     }
 
     /**
@@ -237,24 +219,5 @@ class BigInteger
     public function get(): BrickBigInteger
     {
         return $this->value;
-    }
-
-    private function gcdExtended(BrickBigInteger $a, BrickBigInteger $b, BrickBigInteger &$x, BrickBigInteger &$y): BrickBigInteger
-    {
-        if ($a->isEqualTo(BrickBigInteger::zero())) {
-            $x = BrickBigInteger::zero();
-            $y = BrickBigInteger::one();
-
-            return $b;
-        }
-
-        $x1 = BrickBigInteger::zero();
-        $y1 = BrickBigInteger::zero();
-        $gcd = $this->gcdExtended($b->mod($a), $a, $x1, $y1);
-
-        $x = $y1->minus($b->dividedBy($a, RoundingMode::FLOOR)->multipliedBy($x1));
-        $y = $x1;
-
-        return $gcd;
     }
 }

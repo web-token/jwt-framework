@@ -20,8 +20,8 @@
         }
     },
     "require": {
-        "brick/math": "^0.8.15",
-        "lib-openssl": "*",
+        "brick/math": "^0.8.17",
+        "ext-openssl": "*",
         "symfony/polyfill-mbstring": "^1.12",
         "web-token/jwt-encryption": "^2.1"
     },

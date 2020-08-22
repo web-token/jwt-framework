@@ -47,7 +47,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jose\\Performance\\":  "performance/"
+            "Jose\\Performance\\":  "performance/",
+            "Jose\\Tests\\":  "tests/"
         }
     },
     "require": {
@@ -55,24 +56,24 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "brick/math": "^0.8.15",
+        "ext-sodium": "*",
+        "brick/math": "^0.8.17",
         "fgrosse/phpasn1": "^2.0",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "spomky-labs/aes-key-wrap": "^5.0|^6.0",
-        "spomky-labs/base64url": "^2.0",
+        "spomky-labs/base64url": "^1.0|^2.0",
         "symfony/config": "^4.2|^5.0",
         "symfony/console": "^4.2|^5.0",
         "symfony/dependency-injection": "^4.2|^5.0",
-        "symfony/framework-bundle": "^4.2|^5.0",
+        "symfony/event-dispatcher": "^4.2|^5.0",
         "symfony/http-kernel": "^4.2|^5.0",
         "symfony/polyfill-mbstring": "^1.12"
     },
     "require-dev": {
         "ext-curl": "*",
         "ext-gmp": "*",
-        "ext-sodium": "*",
         "bjeavons/zxcvbn-php": "^1.0",
         "blackfire/php-sdk": "^1.14",
         "infection/infection": "^0.15|^0.16",
@@ -87,13 +88,14 @@
         "phpstan/phpstan-strict-rules": "^0.11",
         "phpunit/phpunit": "^8.0",
         "symfony/browser-kit": "^4.2|^5.0",
-        "symfony/event-dispatcher": "^4.2|^5.0",
+        "symfony/framework-bundle": "^4.2|^5.0",
         "symfony/finder": "^4.2|^5.0",
         "symfony/phpunit-bridge": "^4.2|^5.0",
         "symfony/serializer": "^4.2|^5.0",
         "symfony/var-dumper": "^4.2|^5.0"
     },
     "replace": {
+        "web-token/jwt-easy": "self.version",
         "web-token/jwt-core": "self.version",
         "web-token/jwt-checker": "self.version",
         "web-token/jwt-signature": "self.version",

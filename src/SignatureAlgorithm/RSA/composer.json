@@ -20,8 +20,8 @@
         }
     },
     "require": {
-        "brick/math": "^0.8.15",
-        "lib-openssl": "*",
+        "brick/math": "^0.8.17",
+        "ext-openssl": "*",
         "web-token/jwt-signature": "^2.1"
     },
     "suggest": {

@@ -16,6 +16,8 @@ parameters:
         - '#Call to static method Assert\\Assertion::integer\(\) with array<string>|string|null and .* will always evaluate to false\.#'
         - '#Return type \(void\) of method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::getResolver\(\) should be compatible with return type \(Symfony\\Component\\Config\\Loader\\LoaderResolverInterface\) of method Symfony\\Component\\Config\\Loader\\LoaderInterface::getResolver\(\)#'
         - '#Instanceof between Jose\\Component\\Core\\JWK and Jose\\Component\\Core\\JWK will always evaluate to true\.#'
+        - '#Method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::(supports|load)\(\) has parameter \$type with no typehint specified\.#'
+        - '#Call to deprecated function .*#'
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon

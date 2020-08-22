@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "lib-openssl": "*",
+        "ext-openssl": "*",
         "spomky-labs/aes-key-wrap": "^5.0|^6.0",
         "web-token/jwt-encryption": "^2.1"
     },
