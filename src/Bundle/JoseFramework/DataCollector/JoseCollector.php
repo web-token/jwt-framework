@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Throwable;
 
 class JoseCollector extends DataCollector
 {
@@ -26,7 +26,7 @@ class JoseCollector extends DataCollector
      */
     private $collectors = [];
 
-    public function collect(Request $request, Response $response, ?Exception $exception = null): void
+    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         foreach ($this->collectors as $collector) {
             $collector->collect($this->data, $request, $response, $exception);
