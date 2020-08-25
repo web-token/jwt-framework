@@ -15,7 +15,7 @@ namespace Jose\Component\Checker;
 
 use Exception;
 
-class MissingMandatoryClaimException extends Exception
+class MissingMandatoryClaimException extends Exception implements ClaimExceptionInterface
 {
     /**
      * @var string[]
