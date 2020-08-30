@@ -55,6 +55,9 @@ class ClaimCheckerManager
      * It is up to the implementor to decide use the claims that have not been checked.
      *
      * @param string[] $mandatoryClaims
+     *
+     * @throws InvalidClaimException
+     * @throws MissingMandatoryClaimException
      */
     public function check(array $claims, array $mandatoryClaims = []): array
     {
@@ -78,6 +81,8 @@ class ClaimCheckerManager
 
     /**
      * @param string[] $mandatoryClaims
+     *
+     * @throws MissingMandatoryClaimException
      */
     private function checkMandatoryClaims(array $mandatoryClaims, array $claims): void
     {

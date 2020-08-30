@@ -18,7 +18,7 @@ use Exception;
 /**
  * This exception is thrown by claim checkers when a claim check failed.
  */
-class InvalidClaimException extends Exception
+class InvalidClaimException extends Exception implements ClaimExceptionInterface
 {
     /**
      * @var string
