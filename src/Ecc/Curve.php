@@ -263,6 +263,11 @@ class Curve
         return $this->getPoint($x3, $y3, $point->getOrder());
     }
 
+    public function createPrivateKey(): PrivateKey
+    {
+        return PrivateKey::create($this->generate());
+    }
+
     public function createPublicKey(PrivateKey $privateKey): PublicKey
     {
         $point = $this->mul($this->generator, $privateKey->getSecret());
@@ -283,5 +288,37 @@ class Curve
         if (!$point->isInfinity() && !$this->contains($point->getX(), $point->getY())) {
             throw new RuntimeException('Invalid point');
         }
+    }
+
+    private function generate(): BigInteger
+    {
+        $max = $this->generator->getOrder();
+        $numBits = $this->bnNumBits($max);
+        $numBytes = (int) ceil($numBits / 8);
+        // Generate an integer of size >= $numBits
+        $bytes = BigInteger::randomBits($numBytes);
+        $mask = BigInteger::of(2)->power($numBits)->minus(1);
+
+        return $bytes->and($mask);
+    }
+
+    /**
+     * Returns the number of bits used to store this number. Non-significant upper bits are not counted.
+     *
+     * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
+     */
+    private function bnNumBits(BigInteger $x): int
+    {
+        $zero = BigInteger::of(0);
+        if ($x->isEqualTo($zero)) {
+            return 0;
+        }
+        $log2 = 0;
+        while (!$x->isEqualTo($zero)) {
+            $x = $x->shiftedRight(1);
+            ++$log2;
+        }
+
+        return $log2;
     }
 }
