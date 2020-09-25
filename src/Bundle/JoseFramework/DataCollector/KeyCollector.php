@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
-use Exception;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -22,6 +21,7 @@ use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Throwable;
 
 class KeyCollector implements Collector
 {
@@ -51,7 +51,7 @@ class KeyCollector implements Collector
         $this->jwksetAnalyzerManager = $jwksetAnalyzerManager;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectJWK($data);
         $this->collectJWKSet($data);
