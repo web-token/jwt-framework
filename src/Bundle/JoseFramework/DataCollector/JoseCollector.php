@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -28,6 +29,10 @@ class JoseCollector extends DataCollector
 
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
+        if (!$exception instanceof Exception && $exception instanceof Throwable) {
+            $exception = new Exception(sprintf('An error occurred: %s', $exception->getMessage()), $exception->getCode(), $exception);
+        }
+
         foreach ($this->collectors as $collector) {
             $collector->collect($this->data, $request, $response, $exception);
         }
