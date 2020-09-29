@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Throwable;
+
 /**
- * Exceptions thrown by this component
+ * Exceptions thrown by this component.
  */
-interface ClaimExceptionInterface extends \Throwable
+interface ClaimExceptionInterface extends Throwable
 {
 }
