@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
-use Exception;
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedFailureEvent;
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\HeaderCheckedFailureEvent;
@@ -26,6 +25,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Throwable;
 
 class CheckerCollector implements Collector, EventSubscriberInterface
 {
@@ -75,7 +75,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectHeaderCheckerManagers($data);
         $this->collectSupportedHeaderCheckers($data);

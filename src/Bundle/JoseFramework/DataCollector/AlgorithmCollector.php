@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use function array_key_exists;
-use Exception;
 use function function_exists;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
@@ -24,6 +23,7 @@ use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 final class AlgorithmCollector implements Collector
 {
@@ -37,7 +37,7 @@ final class AlgorithmCollector implements Collector
         $this->algorithmManagerFactory = $algorithmManagerFactory;
     }
 
-    public function collect(array &$data, Request $request, Response $response, ?Exception $exception = null): void
+    public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $algorithms = $this->algorithmManagerFactory->all();
         $data['algorithm'] = [
