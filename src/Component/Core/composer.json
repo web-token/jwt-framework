@@ -23,6 +23,7 @@
         "php": ">=7.2",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "brick/math": "^0.8.17|^0.9",
         "fgrosse/phpasn1": "^2.0",
         "spomky-labs/base64url": "^1.0|^2.0"
     },
