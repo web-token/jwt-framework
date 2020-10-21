@@ -76,7 +76,7 @@
         "ext-gmp": "*",
         "bjeavons/zxcvbn-php": "^1.0",
         "blackfire/php-sdk": "^1.14",
-        "infection/infection": "^0.15|^0.16|^0.17",
+        "infection/infection": "^0.18.1",
         "matthiasnoback/symfony-config-test": "^3.1|^4.0",
         "nyholm/psr7": "^1.0",
         "php-coveralls/php-coveralls": "^2.0",
