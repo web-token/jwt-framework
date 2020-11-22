@@ -19,9 +19,6 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use RuntimeException;
 
-/**
- * @internal
- */
 class ECKey
 {
     public static function convertToPEM(JWK $jwk): string

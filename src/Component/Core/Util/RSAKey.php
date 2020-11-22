@@ -25,9 +25,6 @@ use FG\ASN1\Universal\Sequence;
 use Jose\Component\Core\JWK;
 use RuntimeException;
 
-/**
- * @internal
- */
 class RSAKey
 {
     /**
