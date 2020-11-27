@@ -74,7 +74,7 @@
     "require-dev": {
         "ext-curl": "*",
         "ext-gmp": "*",
-        "bjeavons/zxcvbn-php": "^1.0",
+        "bjeavons/zxcvbn-php": "^4.4",
         "blackfire/php-sdk": "^1.14",
         "infection/infection": "^0.15|^0.16|^0.17",
         "matthiasnoback/symfony-config-test": "^3.1|^4.0",
