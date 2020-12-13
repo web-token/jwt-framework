@@ -67,10 +67,7 @@ class KeyConverter
             throw new InvalidArgumentException('Unable to load the certificate.');
         }
 
-        $values = self::loadKeyFromX509Resource($res);
-        openssl_x509_free($res);
-
-        return $values;
+        return self::loadKeyFromX509Resource($res);
     }
 
     /**
@@ -145,8 +142,6 @@ class KeyConverter
                 throw new InvalidArgumentException('Unable to load the certificate chain');
             }
             $parsed = openssl_x509_parse($x509);
-
-            openssl_x509_free($x509);
             if (false === $parsed) {
                 throw new InvalidArgumentException('Unable to load the certificate chain');
             }

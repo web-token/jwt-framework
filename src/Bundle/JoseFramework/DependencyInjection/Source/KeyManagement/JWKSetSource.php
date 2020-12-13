@@ -64,7 +64,7 @@ class JWKSetSource implements Source
             ->useAttributeAsKey('name')
             ->arrayPrototype()
             ->validate()
-            ->ifTrue(function ($config) {
+            ->ifTrue(function ($config): bool {
                 return 1 !== count($config);
             })
             ->thenInvalid('One key set type must be set.')

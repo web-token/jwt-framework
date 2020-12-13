@@ -16,7 +16,7 @@ use Jose\Component\KeyManagement\Analyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use ZxcvbnPhp\Zxcvbn;
 
-return function (ContainerConfigurator $container) {
+return function (ContainerConfigurator $container): void {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()

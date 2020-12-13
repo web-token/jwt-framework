@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,8 +40,23 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $quantity = (int) $input->getArgument('quantity');
-        $size = (int) $input->getArgument('size');
+        $quantity = $input->getArgument('quantity');
+        if (null === $quantity) {
+            $quantity = 1;
+        } elseif (is_array($quantity)) {
+            $quantity = 1;
+        } else {
+            $quantity = (int) $quantity;
+        }
+
+        $size = $input->getArgument('size');
+        if (null === $size) {
+            $size = 1;
+        } elseif (is_array($size)) {
+            $size = 1;
+        } else {
+            $size = (int) $size;
+        }
         if ($quantity < 1) {
             throw new InvalidArgumentException('Invalid quantity');
         }

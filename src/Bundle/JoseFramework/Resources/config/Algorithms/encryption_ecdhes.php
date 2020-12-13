@@ -14,7 +14,7 @@ declare(strict_types=1);
 use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return function (ContainerConfigurator $container) {
+return function (ContainerConfigurator $container): void {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()

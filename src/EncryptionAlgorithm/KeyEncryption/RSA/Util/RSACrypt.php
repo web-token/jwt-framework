@@ -223,7 +223,7 @@ class RSACrypt
         $db = $lHash.$ps.chr(1).$m;
         $seed = random_bytes($hash->getLength());
         $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/*MGF*/);
-        $maskedDB = (string) ($db ^ $dbMask);
+        $maskedDB = $db ^ $dbMask;
         $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/*MGF*/);
         $maskedSeed = $seed ^ $seedMask;
         $em = chr(0).$maskedSeed.$maskedDB;
@@ -246,7 +246,7 @@ class RSACrypt
         $maskedSeed = mb_substr($em, 1, $hash->getLength(), '8bit');
         $maskedDB = mb_substr($em, $hash->getLength() + 1, null, '8bit');
         $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/*MGF*/);
-        $seed = (string) ($maskedSeed ^ $seedMask);
+        $seed = $maskedSeed ^ $seedMask;
         $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/*MGF*/);
         $db = $maskedDB ^ $dbMask;
         $lHash2 = mb_substr($db, 0, $hash->getLength(), '8bit');
