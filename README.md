@@ -1,12 +1,19 @@
 PHP JWT Framework
 =================
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/web-token/jwt-framework/badges/quality-score.png?b=v2.1)](https://scrutinizer-ci.com/g/web-token/jwt-framework/?branch=v2.1)
-[![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg?branch=v2.1)](https://coveralls.io/github/web-token/jwt-framework?branch=v2.1)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Coding%20Standards/badge.svg)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Static%20Analyze/badge.svg)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Security/badge.svg)
 
-[![Build Status](https://travis-ci.org/web-token/jwt-framework.svg?branch=v2.1)](https://travis-ci.org/web-token/jwt-framework)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Backwards%20compatibility%20verification/badge.svg)
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a/big.png)](https://insight.sensiolabs.com/projects/b7efa68f-8962-41cf-a2e3-4444426bc95a)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Unit%20Tests/badge.svg)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Functional%20Tests/badge.svg)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Lowest%20versions%20tests/badge.svg)
+
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Mutation%20Testing/badge.svg)
+
+[![Coverage Status](https://coveralls.io/repos/github/web-token/jwt-framework/badge.svg)](https://coveralls.io/github/web-token/jwt-framework)
 
 [![Latest Stable Version](https://poser.pugx.org/web-token/jwt-framework/v/stable.png)](https://packagist.org/packages/web-token/jwt-framework)
 [![Total Downloads](https://poser.pugx.org/web-token/jwt-framework/downloads.png)](https://packagist.org/packages/web-token/jwt-framework)
@@ -21,7 +28,11 @@ The official documentation is available as https://web-token.spomky-labs.com/
 
 I bring solutions to your problems and answer your questions.
 
-If you really love that project and the work I have done or if you want I prioritize your issues, then you can help me out for a couple of :beers: or more!
+If you really love that project, and the work I have done or if you want I prioritize your issues, then you can help me out for a couple of :beers: or more!
+
+[Become a sponsor](https://github.com/sponsors/Spomky)
+
+Or
 
 [![Become a Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/FlorentMorselli)
 
