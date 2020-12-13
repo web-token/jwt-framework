@@ -54,7 +54,6 @@ class JWKFactory
             throw new InvalidArgumentException('Unable to create the key');
         }
         $details = openssl_pkey_get_details($key);
-        openssl_free_key($key);
         if (!is_array($details)) {
             throw new InvalidArgumentException('Unable to create the key');
         }
