@@ -28,15 +28,18 @@ final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
         if (class_exists(Zxcvbn::class)) {
             $zxcvbn = new Zxcvbn();
             $strength = $zxcvbn->passwordStrength($k);
+
             switch (true) {
                 case $strength['score'] < 3:
                     $bag->add(Message::high('The octet string is weak and easily guessable. Please change your key as soon as possible.'));
 
                     break;
+
                 case 3 === $strength['score']:
                     $bag->add(Message::medium('The octet string is safe, but a longer key is preferable.'));
 
                     break;
+
                 default:
                     break;
             }

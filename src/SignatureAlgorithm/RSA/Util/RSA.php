@@ -45,6 +45,7 @@ class RSA
         switch ($mode) {
             case self::SIGNATURE_PSS:
                 return self::signWithPSS($key, $message, $hash);
+
             case self::SIGNATURE_PKCS1:
                 $result = openssl_sign($message, $signature, $key->toPEM(), $hash);
                 if (true !== $result) {
@@ -52,6 +53,7 @@ class RSA
                 }
 
                 return $signature;
+
             default:
                 throw new InvalidArgumentException('Unsupported mode.');
         }
@@ -91,8 +93,10 @@ class RSA
         switch ($mode) {
             case self::SIGNATURE_PSS:
                 return self::verifyWithPSS($key, $message, $signature, $hash);
+
             case self::SIGNATURE_PKCS1:
                 return 1 === openssl_verify($message, $signature, $key->toPEM(), $hash);
+
             default:
                 throw new InvalidArgumentException('Unsupported mode.');
         }

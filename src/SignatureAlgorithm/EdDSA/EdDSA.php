@@ -56,6 +56,7 @@ final class EdDSA implements SignatureAlgorithm
         switch ($key->get('crv')) {
             case 'Ed25519':
                 return sodium_crypto_sign_detached($input, $secret);
+
             default:
                 throw new InvalidArgumentException('Unsupported curve');
         }
@@ -73,6 +74,7 @@ final class EdDSA implements SignatureAlgorithm
         switch ($key->get('crv')) {
             case 'Ed25519':
                 return sodium_crypto_sign_verify_detached($signature, $input, $public);
+
             default:
                 throw new InvalidArgumentException('Unsupported curve');
         }

@@ -96,16 +96,19 @@ abstract class AbstractBuilder
     public function alg($alg): self
     {
         $clone = clone $this;
+
         switch (true) {
             case $alg instanceof JoseAlgorithm:
                 $clone->algorithms[] = $alg;
                 $clone->jwt->header->set('alg', $alg->name());
 
                 break;
+
             case is_string($alg):
                 $clone->jwt->header->set('alg', $alg);
 
                 break;
+
             default:
                 throw new InvalidArgumentException('Invalid parameter "alg". Shall be a string or an algorithm instance.');
         }

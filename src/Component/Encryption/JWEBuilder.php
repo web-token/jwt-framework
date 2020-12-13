@@ -424,11 +424,11 @@ class JWEBuilder
             case KeyEncryption::MODE_ENCRYPT:
             case KeyEncryption::MODE_WRAP:
                 return $this->createCEK($this->contentEncryptionAlgorithm->getCEKSize());
+
             case KeyEncryption::MODE_AGREEMENT:
                 if (1 !== count($this->recipients)) {
                     throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
                 }
-                /** @var JWK $key */
                 $recipientKey = $this->recipients[0]['key'];
                 $senderKey = $this->recipients[0]['sender_key'] ?? null;
                 $algorithm = $this->recipients[0]['key_encryption_algorithm'];
@@ -438,6 +438,7 @@ class JWEBuilder
                 $completeHeader = array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
 
                 return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $recipientKey, $senderKey, $completeHeader, $additionalHeader);
+
             case KeyEncryption::MODE_DIRECT:
                 if (1 !== count($this->recipients)) {
                     throw new LogicException('Unable to encrypt for multiple recipients using key agreement algorithms.');
@@ -449,6 +450,7 @@ class JWEBuilder
                 }
 
                 return Base64Url::decode($key->get('k'));
+
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));
         }

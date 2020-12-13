@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Jose\Tests\Bundle\JoseFramework\TestBundle\Converter\CustomJsonConverter: ~
+    Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\CustomChecker:
+        public: false
+        tags:
+            - { name: 'jose.checker.header', alias: 'custom_checker' }
+            - { name: 'jose.checker.claim', alias: 'custom_checker' }

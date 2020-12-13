@@ -194,10 +194,12 @@ class KeyConverter
                 $ec_key = ECKey::createFromPEM($pem);
 
                 return $ec_key->toArray();
+
             case OPENSSL_KEYTYPE_RSA:
                 $rsa_key = RSAKey::createFromPEM($pem);
 
                 return $rsa_key->toArray();
+
             default:
                 throw new InvalidArgumentException('Unsupported key type');
         }

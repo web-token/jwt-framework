@@ -218,9 +218,9 @@ class Curve
      */
     public function cmp(self $other): int
     {
-        $equal = $this->getA()->isEqualTo($other->getA()) &&
-                 $this->getB()->isEqualTo($other->getB()) &&
-                 $this->getPrime()->isEqualTo($other->getPrime());
+        $equal = $this->getA()->isEqualTo($other->getA())
+                 && $this->getB()->isEqualTo($other->getB())
+                 && $this->getPrime()->isEqualTo($other->getPrime());
 
         return $equal ? 0 : 1;
     }

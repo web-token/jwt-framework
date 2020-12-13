@@ -43,18 +43,22 @@ class ECKey
                 $der = self::p256PublicKey();
 
                 break;
+
             case 'secp256k1':
                 $der = self::p256KPublicKey();
 
                 break;
+
             case 'P-384':
                 $der = self::p384PublicKey();
 
                 break;
+
             case 'P-521':
                 $der = self::p521PublicKey();
 
                 break;
+
             default:
                 throw new InvalidArgumentException('Unsupported curve.');
         }
@@ -76,18 +80,22 @@ class ECKey
                 $der = self::p256PrivateKey($jwk);
 
                 break;
+
             case 'secp256k1':
                 $der = self::p256KPrivateKey($jwk);
 
                 break;
+
             case 'P-384':
                 $der = self::p384PrivateKey($jwk);
 
                 break;
+
             case 'P-521':
                 $der = self::p521PrivateKey($jwk);
 
                 break;
+
             default:
                 throw new InvalidArgumentException('Unsupported curve.');
         }
@@ -122,10 +130,13 @@ class ECKey
             case 'P-256':
             case 'secp256k1':
                 return 256;
+
             case 'P-384':
                 return 384;
+
             case 'P-521':
                 return 521;
+
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
         }
@@ -175,12 +186,16 @@ class ECKey
         switch ($curve) {
             case 'P-256':
                 return 'prime256v1';
+
             case 'secp256k1':
                 return 'secp256k1';
+
             case 'P-384':
                 return 'secp384r1';
+
             case 'P-521':
                 return 'secp521r1';
+
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve));
         }

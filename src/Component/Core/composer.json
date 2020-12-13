@@ -27,23 +27,7 @@
         "fgrosse/phpasn1": "^2.0",
         "spomky-labs/base64url": "^1.0|^2.0"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^8.0"
-    },
     "conflict": {
         "spomky-labs/jose": "*"
-    },
-    "extra": {
-        "branch-alias": {
-            "v1.0": "1.0.x-dev",
-            "v1.1": "1.1.x-dev",
-            "v1.2": "1.2.x-dev",
-            "v1.3": "1.3.x-dev",
-            "v2.0": "2.0.x-dev",
-            "v2.1": "2.1.x-dev"
-        }
-    },
-    "config": {
-        "sort-packages": true
     }
 }

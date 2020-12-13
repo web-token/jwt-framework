@@ -46,11 +46,4 @@ final class RsaAnalyzer implements KeyAnalyzer
             $bag->add(Message::medium('The key is a private RSA key, but Chinese Remainder Theorem primes are missing. These primes are not mandatory, but signatures and decryption processes are faster when available.'));
         }
     }
-
-    private function checkOtherPrimes(JWK $jwk, MessageBag $bag): void
-    {
-        if (!$jwk->has('p') || !$jwk->has('q') || !$jwk->has('dp') || !$jwk->has('dq') || !$jwk->has('qi')) {
-            $bag->add(Message::medium('Other primes are not set. The key can be optimized.'));
-        }
-    }
 }

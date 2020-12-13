@@ -66,14 +66,17 @@ class NestedTokenLoader
                 $cty = $jwe->getSharedProtectedHeaderParameter('cty');
 
                 break;
+
             case $jwe->hasSharedHeaderParameter('cty'):
                 $cty = $jwe->getSharedHeaderParameter('cty');
 
                 break;
+
             case $jwe->getRecipient($recipient)->hasHeaderParameter('cty'):
                 $cty = $jwe->getRecipient($recipient)->getHeaderParameter('cty');
 
                 break;
+
             default:
                 throw new InvalidArgumentException('The token is not a nested token.');
         }

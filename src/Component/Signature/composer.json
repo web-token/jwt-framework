@@ -22,9 +22,6 @@
     "require": {
         "web-token/jwt-core": "^2.1"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^8.0"
-    },
     "suggest": {
         "web-token/jwt-signature-algorithm-ecdsa": "ECDSA Based Signature Algorithms",
         "web-token/jwt-signature-algorithm-eddsa": "EdDSA Based Signature Algorithms",
@@ -32,18 +29,5 @@
         "web-token/jwt-signature-algorithm-none": "None Signature Algorithm",
         "web-token/jwt-signature-algorithm-rsa": "RSA Based Signature Algorithms",
         "web-token/jwt-signature-algorithm-experimental": "Experimental Signature Algorithms"
-    },
-    "extra": {
-        "branch-alias": {
-            "v1.0": "1.0.x-dev",
-            "v1.1": "1.1.x-dev",
-            "v1.2": "1.2.x-dev",
-            "v1.3": "1.3.x-dev",
-            "v2.0": "2.0.x-dev",
-            "v2.1": "2.1.x-dev"
-        }
-    },
-    "config": {
-        "sort-packages": true
     }
 }

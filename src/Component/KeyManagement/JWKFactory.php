@@ -55,6 +55,9 @@ class JWKFactory
         }
         $details = openssl_pkey_get_details($key);
         openssl_free_key($key);
+        if (!is_array($details)) {
+            throw new InvalidArgumentException('Unable to create the key');
+        }
         $rsa = RSAKey::createFromKeyDetails($details['rsa']);
         $values = array_merge(
             $values,
@@ -113,6 +116,7 @@ class JWKFactory
         if (!extension_loaded('sodium')) {
             throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
         }
+
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
@@ -120,12 +124,14 @@ class JWKFactory
                 $x = sodium_crypto_box_publickey($keyPair);
 
                 break;
+
             case 'Ed25519':
                 $keyPair = sodium_crypto_sign_keypair();
                 $secret = sodium_crypto_sign_secretkey($keyPair);
                 $x = sodium_crypto_sign_publickey($keyPair);
 
                 break;
+
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }

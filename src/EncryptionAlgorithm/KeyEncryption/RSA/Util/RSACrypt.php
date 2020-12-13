@@ -43,8 +43,10 @@ class RSACrypt
         switch ($mode) {
             case self::ENCRYPTION_OAEP:
                 return self::encryptWithRSAOAEP($key, $data, $hash);
+
             case self::ENCRYPTION_PKCS1:
                 return self::encryptWithRSA15($key, $data);
+
             default:
                 throw new InvalidArgumentException('Unsupported mode.');
         }
@@ -55,8 +57,10 @@ class RSACrypt
         switch ($mode) {
             case self::ENCRYPTION_OAEP:
                 return self::decryptWithRSAOAEP($key, $plaintext, $hash);
+
             case self::ENCRYPTION_PKCS1:
                 return self::decryptWithRSA15($key, $plaintext);
+
             default:
                 throw new InvalidArgumentException('Unsupported mode.');
         }

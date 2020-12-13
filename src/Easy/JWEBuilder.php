@@ -50,16 +50,19 @@ class JWEBuilder extends AbstractBuilder
     public function enc($enc): self
     {
         $clone = clone $this;
+
         switch (true) {
             case $enc instanceof Algorithm:
                 $clone->algorithms[] = $enc;
                 $clone->jwt->header->set('enc', $enc->name());
 
                 break;
+
             case is_string($enc):
                 $clone->jwt->header->set('enc', $enc);
 
                 break;
+
             default:
                 throw new InvalidArgumentException('Invalid algorithm');
         }
@@ -75,16 +78,19 @@ class JWEBuilder extends AbstractBuilder
     public function zip($zip): self
     {
         $clone = clone $this;
+
         switch (true) {
             case $zip instanceof CompressionMethod:
                 $clone->compressionMethods[] = $zip;
                 $clone->jwt->header->set('zip', $zip->name());
 
                 break;
+
             case is_string($zip):
                 $clone->jwt->header->set('zip', $zip);
 
                 break;
+
             default:
                 throw new InvalidArgumentException('Invalid compression method');
         }

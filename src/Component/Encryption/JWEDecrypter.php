@@ -191,7 +191,7 @@ class JWEDecrypter
     /**
      * @throws InvalidArgumentException if the CEK creation method is not supported
      */
-    private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $recipientKey, ?JWK $senderKey, Recipient $recipient, array $completeHeader): ?string
+    private function decryptCEK(Algorithm $key_encryption_algorithm, ContentEncryptionAlgorithm $content_encryption_algorithm, JWK $recipientKey, ?JWK $senderKey, Recipient $recipient, array $completeHeader): string
     {
         if ($key_encryption_algorithm instanceof DirectEncryption) {
             return $key_encryption_algorithm->getCEK($recipientKey);
