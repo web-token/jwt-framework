@@ -97,7 +97,6 @@ class JWKFactoryTest extends TestCase
     public function createFromResource(): void
     {
         $res = openssl_x509_read(file_get_contents(__DIR__.'/RSA/PEM/1024b-rsa-example-cert.pem'));
-        static::assertIsResource($res);
         $jwk = JWKFactory::createFromX509Resource($res);
 
         static::assertEquals(

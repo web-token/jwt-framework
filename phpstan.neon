@@ -12,6 +12,7 @@ parameters:
         - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
         - '#Return type \(void\) of method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::getResolver\(\) should be compatible with return type \(Symfony\\Component\\Config\\Loader\\LoaderResolverInterface\) of method Symfony\\Component\\Config\\Loader\\LoaderInterface::getResolver\(\)#'
         - '#Method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::(supports|load)\(\) has parameter \$type with no typehint specified\.#'
+        - '#.* should be contravariant with .*#'
         - '#Call to deprecated function .*#'
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
