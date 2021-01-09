@@ -55,6 +55,7 @@ class KeyChecker
         if (!is_array($ops)) {
             throw new InvalidArgumentException('Invalid key parameter "key_ops". Should be a list of key operations');
         }
+
         switch ($usage) {
             case 'verification':
                 if (!in_array('verify', $ops, true)) {
@@ -62,24 +63,28 @@ class KeyChecker
                 }
 
                 break;
+
             case 'signature':
                 if (!in_array('sign', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to sign');
                 }
 
                 break;
+
             case 'encryption':
                 if (!in_array('encrypt', $ops, true) && !in_array('wrapKey', $ops, true) && !in_array('deriveKey', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to encrypt');
                 }
 
                 break;
+
             case 'decryption':
                 if (!in_array('decrypt', $ops, true) && !in_array('unwrapKey', $ops, true) && !in_array('deriveBits', $ops, true)) {
                     throw new InvalidArgumentException('Key cannot be used to decrypt');
                 }
 
                 break;
+
             default:
                 throw new InvalidArgumentException('Unsupported key usage.');
         }
@@ -91,6 +96,7 @@ class KeyChecker
     private static function checkUsage(JWK $key, string $usage): void
     {
         $use = $key->get('use');
+
         switch ($usage) {
             case 'verification':
             case 'signature':
@@ -99,6 +105,7 @@ class KeyChecker
                 }
 
                 break;
+
             case 'encryption':
             case 'decryption':
                 if ('enc' !== $use) {
@@ -106,6 +113,7 @@ class KeyChecker
                 }
 
                 break;
+
             default:
                 throw new InvalidArgumentException('Unsupported key usage.');
         }

@@ -118,16 +118,19 @@ abstract class AbstractLoader
         switch (true) {
             case $checker instanceof Checker\ClaimChecker:
                 break;
+
             case is_callable($checker):
                 $checker = new CallableChecker($key, $checker);
 
                 break;
+
             case is_array($checker):
-                $checker = new CallableChecker($key, static function ($value) use ($checker) {return in_array($value, $checker, true); });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return in_array($value, $checker, true); });
 
                 break;
+
             default:
-                $checker = new CallableChecker($key, static function ($value) use ($checker) {return $value === $checker; });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return $value === $checker; });
         }
 
         $clone->claimCheckers[$key] = $checker;
@@ -206,16 +209,19 @@ abstract class AbstractLoader
     public function alg($alg): self
     {
         $clone = clone $this;
+
         switch (true) {
             case is_string($alg):
                 $clone->allowedAlgorithms[] = $alg;
 
                 return $clone;
+
             case $alg instanceof Algorithm:
                 $clone->algorithms[$alg->name()] = $alg;
                 $clone->allowedAlgorithms[] = $alg->name();
 
                 return $clone;
+
             default:
                 throw new InvalidArgumentException('Invalid parameter "alg". Shall be a string or an algorithm instance.');
         }
@@ -249,16 +255,19 @@ abstract class AbstractLoader
         switch (true) {
             case $checker instanceof Checker\HeaderChecker:
                 break;
+
             case is_callable($checker):
                 $checker = new CallableChecker($key, $checker);
 
                 break;
+
             case is_array($checker):
-                $checker = new CallableChecker($key, static function ($value) use ($checker) {return in_array($value, $checker, true); });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return in_array($value, $checker, true); });
 
                 break;
+
             default:
-                $checker = new CallableChecker($key, static function ($value) use ($checker) {return $value === $checker; });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return $value === $checker; });
         }
 
         $clone->headerCheckers[$key] = $checker;

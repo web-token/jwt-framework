@@ -324,6 +324,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
             case in_array('verify', $key_ops, true):
             case in_array('sign', $key_ops, true):
                 return 'sig';
+
             case in_array('encrypt', $key_ops, true):
             case in_array('decrypt', $key_ops, true):
             case in_array('wrapKey', $key_ops, true):
@@ -331,6 +332,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
             case in_array('deriveKey', $key_ops, true):
             case in_array('deriveBits', $key_ops, true):
                 return 'enc';
+
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
         }

@@ -83,11 +83,13 @@ final class ECDHES implements KeyAgreement
                 $pub_key = $curve->getPublicKeyFrom($rec_x, $rec_y);
 
                 return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
+
             case 'X25519':
                 $sKey = Base64Url::decode($private_key->get('d'));
                 $recipientPublickey = Base64Url::decode($public_key->get('x'));
 
                 return sodium_crypto_scalarmult($sKey, $recipientPublickey);
+
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
@@ -112,6 +114,7 @@ final class ECDHES implements KeyAgreement
     {
         $this->checkKey($recipient_key, false);
         $public_key = $recipient_key;
+
         switch ($public_key->get('crv')) {
             case 'P-256':
             case 'P-384':
@@ -119,11 +122,13 @@ final class ECDHES implements KeyAgreement
                 $private_key = ECKey::createECKey($public_key->get('crv'));
 
                 break;
+
             case 'X25519':
                 $this->checkSodiumExtensionIsAvailable();
                 $private_key = $this->createOKPKey('X25519');
 
                 break;
+
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
@@ -190,8 +195,10 @@ final class ECDHES implements KeyAgreement
                 }
 
                 break;
+
             case 'X25519':
                 break;
+
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $key->get('crv')));
         }
@@ -208,10 +215,13 @@ final class ECDHES implements KeyAgreement
         switch ($crv) {
             case 'P-256':
                 return NistCurve::curve256();
+
             case 'P-384':
                 return NistCurve::curve384();
+
             case 'P-521':
                 return NistCurve::curve521();
+
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
@@ -249,6 +259,7 @@ final class ECDHES implements KeyAgreement
     private function createOKPKey(string $curve): JWK
     {
         $this->checkSodiumExtensionIsAvailable();
+
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
@@ -256,12 +267,14 @@ final class ECDHES implements KeyAgreement
                 $x = sodium_crypto_box_publickey($keyPair);
 
                 break;
+
             case 'Ed25519':
                 $keyPair = sodium_crypto_sign_keypair();
                 $d = sodium_crypto_sign_secretkey($keyPair);
                 $x = sodium_crypto_sign_publickey($keyPair);
 
                 break;
+
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }

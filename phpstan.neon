@@ -2,24 +2,21 @@ parameters:
     level: 7
     paths:
         - src
-    excludes_analyse:
-        - %currentWorkingDirectory%/src/Bundle/*/var/*
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    treatPhpDocTypesAsCertain: false
     ignoreErrors:
         - '#Strict comparison using === between false and .* will always evaluate to false\.*#'
-        - '#Instanceof between Jose\\Component\\Core\\Algorithm and Jose\\Component\\Core\\Algorithm will always evaluate to true\.*#'
-        - '#Parameter .* of function call_user_func_array expects .* array given\.*#'
-        - '#Call to function is_int\(\) with int will always evaluate to true\.*#'
-        - '#Call to an undefined method Jose\\Easy\\.*#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
         - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'
         - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
-        - '#Call to static method Assert\\Assertion::integer\(\) with array<string>|string|null and .* will always evaluate to false\.#'
         - '#Return type \(void\) of method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::getResolver\(\) should be compatible with return type \(Symfony\\Component\\Config\\Loader\\LoaderResolverInterface\) of method Symfony\\Component\\Config\\Loader\\LoaderInterface::getResolver\(\)#'
-        - '#Instanceof between Jose\\Component\\Core\\JWK and Jose\\Component\\Core\\JWK will always evaluate to true\.#'
         - '#Method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::(supports|load)\(\) has parameter \$type with no typehint specified\.#'
+        - '#.* should be contravariant with .*#'
         - '#Call to deprecated function .*#'
 includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon

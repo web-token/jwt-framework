@@ -32,6 +32,7 @@ final class MixedKeyTypes implements KeysetAnalyzer
                     $hasSymmetricKeys = true;
 
                     break;
+
                 case 'OKP':
                 case 'RSA':
                 case 'EC':

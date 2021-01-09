@@ -1,0 +1,23 @@
+name: Backwards compatibility verification
+
+on:
+  pull_request:
+
+jobs:
+  bc-check:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '7.4' ]
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Fetch tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - name: BC Break verification
+        uses: docker://nyholm/roave-bc-check-ga

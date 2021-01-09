@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
  * They may be subject to changes.
  * ------------------------
  */
-return function (ContainerConfigurator $container) {
+return function (ContainerConfigurator $container): void {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()

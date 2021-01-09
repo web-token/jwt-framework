@@ -1,0 +1,35 @@
+name: Security
+
+on: [push]
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: json, mbstring, openssl
+          coverage: xdebug
+
+      - name: Install Composer dependencies
+        run: |
+          composer update --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      - name: Security Check
+        run: |
+          wget -c https://get.sensiolabs.org/security-checker.phar
+          chmod +x security-checker.phar
+          ./security-checker.phar security:check

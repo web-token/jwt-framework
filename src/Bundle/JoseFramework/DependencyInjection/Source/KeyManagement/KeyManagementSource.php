@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
 use function count;
-use Http\HttplugBundle\HttplugBundle;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
@@ -43,10 +42,8 @@ class KeyManagementSource implements SourceWithCompilerPasses
             new JWKSetSource(),
             new JWKSource(),
             new JWKUriSource(),
+            new JKUSource(),
         ];
-        if (class_exists(HttplugBundle::class)) {
-            $this->sources[] = new JKUSource();
-        }
     }
 
     public function name(): string

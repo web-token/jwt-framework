@@ -38,20 +38,5 @@
         "web-token/jwt-signature-algorithm-none": "Adds none signature algorithms",
         "web-token/jwt-signature-algorithm-hmac": "Adds HMAC based signature algorithms",
         "web-token/jwt-signature-algorithm-rsa": "Adds RSA based signature algorithms"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^8.0"
-    },
-    "extra": {
-        "branch-alias": {
-            "v1.0": "1.0.x-dev",
-            "v1.1": "1.1.x-dev",
-            "v1.2": "1.2.x-dev",
-            "v1.3": "1.3.x-dev",
-            "v2.0": "2.0.x-dev"
-        }
-    },
-    "config": {
-        "sort-packages": true
     }
 }

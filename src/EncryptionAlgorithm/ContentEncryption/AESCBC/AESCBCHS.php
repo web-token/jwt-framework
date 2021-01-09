@@ -80,7 +80,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
         ]);
         $hash = hash_hmac($this->getHashAlgorithm(), $secured_input, $mac_key, true);
 
-        return  mb_substr($hash, 0, mb_strlen($hash, '8bit') / 2, '8bit');
+        return mb_substr($hash, 0, mb_strlen($hash, '8bit') / 2, '8bit');
     }
 
     protected function isTagValid(string $encrypted_data, string $cek, string $iv, ?string $aad, string $encoded_header, string $authentication_tag): bool

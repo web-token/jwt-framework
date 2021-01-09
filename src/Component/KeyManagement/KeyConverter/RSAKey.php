@@ -87,7 +87,6 @@ class RSAKey
         }
 
         $details = openssl_pkey_get_details($res);
-        openssl_free_key($res);
         if (!is_array($details) || !isset($details['rsa'])) {
             throw new InvalidArgumentException('Unable to load the key.');
         }

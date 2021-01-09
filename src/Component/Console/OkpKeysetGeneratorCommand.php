@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
+use function is_array;
 use function is_string;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
@@ -40,7 +41,14 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $quantity = (int) $input->getArgument('quantity');
+        $quantity = $input->getArgument('quantity');
+        if (null === $quantity) {
+            $quantity = 1;
+        } elseif (is_array($quantity)) {
+            $quantity = 1;
+        } else {
+            $quantity = (int) $quantity;
+        }
         $curve = $input->getArgument('curve');
         if ($quantity < 1) {
             throw new InvalidArgumentException('Invalid quantity');

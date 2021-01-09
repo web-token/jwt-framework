@@ -73,18 +73,22 @@ final class AlgorithmCollector implements Collector
                 $signatureAlgorithms++;
 
                 return 'Signature';
+
             case $algorithm instanceof MacAlgorithm:
                 $macAlgorithms++;
 
                 return 'MAC';
+
             case $algorithm instanceof KeyEncryptionAlgorithm:
                 $keyEncryptionAlgorithms++;
 
                 return 'Key Encryption';
+
             case $algorithm instanceof ContentEncryptionAlgorithm:
                 $contentEncryptionAlgorithms++;
 
                 return 'Content Encryption';
+
             default:
                 return 'Unknown';
         }

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -58,7 +59,12 @@ class ConcatKDF
      */
     private static function toInt32Bits(int $value): string
     {
-        return hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+        $result = hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+        if (false === $result) {
+            throw new InvalidArgumentException('Invalid result');
+        }
+
+        return $result;
     }
 
     private static function isEmpty(?string $value): bool

@@ -61,16 +61,19 @@ class Decrypt extends AbstractLoader
     public function enc($enc): self
     {
         $clone = clone $this;
+
         switch (true) {
             case is_string($enc):
                 $clone->allowedContentEncryptionAlgorithms[] = $enc;
 
                 return $clone;
+
             case $enc instanceof Algorithm:
                 $clone->algorithms[$enc->name()] = $enc;
                 $clone->allowedContentEncryptionAlgorithms[] = $enc->name();
 
                 return $clone;
+
             default:
                 throw new InvalidArgumentException('Invalid parameter "enc". Shall be a string or an algorithm instance.');
         }
