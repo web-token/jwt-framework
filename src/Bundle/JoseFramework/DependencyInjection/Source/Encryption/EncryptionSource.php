@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -97,7 +97,8 @@ class EncryptionSource implements SourceWithCompilerPasses
             ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
             ->treatFalseLike([])
-            ->treatNullLike([]);
+            ->treatNullLike([])
+        ;
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -134,15 +135,15 @@ class EncryptionSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         $list = [
-            AESCBCHS::class   => 'encryption_aescbc.php',
-            AESGCM::class     => 'encryption_aesgcm.php',
-            AESGCMKW::class   => 'encryption_aesgcmkw.php',
-            AESKW::class      => 'encryption_aeskw.php',
-            Dir::class        => 'encryption_dir.php',
-            ECDHES::class     => 'encryption_ecdhes.php',
+            AESCBCHS::class => 'encryption_aescbc.php',
+            AESGCM::class => 'encryption_aesgcm.php',
+            AESGCMKW::class => 'encryption_aesgcmkw.php',
+            AESKW::class => 'encryption_aeskw.php',
+            Dir::class => 'encryption_dir.php',
+            ECDHES::class => 'encryption_ecdhes.php',
             PBES2AESKW::class => 'encryption_pbes2.php',
-            RSA::class        => 'encryption_rsa.php',
-            A128CTR::class    => 'encryption_experimental.php',
+            RSA::class => 'encryption_rsa.php',
+            A128CTR::class => 'encryption_experimental.php',
         ];
         if (in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {
             $list[Chacha20Poly1305::class] = 'encryption_experimental_chacha20_poly1305.php';

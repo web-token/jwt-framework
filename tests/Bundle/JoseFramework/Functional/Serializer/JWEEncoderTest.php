@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -102,7 +102,7 @@ final class JWEEncoderTest extends WebTestCase
         $jweLoaderFactory = $container->get(JWELoaderFactory::class);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -112,7 +112,8 @@ final class JWEEncoderTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         // Compact
         $loader = $jweLoaderFactory->create(['jwe_compact'], ['A256KW'], ['A256CBC-HS512'], []);
         $token = $serializer->encode($jwe, 'jwe_compact');
@@ -147,7 +148,7 @@ final class JWEEncoderTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -157,7 +158,8 @@ final class JWEEncoderTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         $serializer->decode($this->serializeJWE($jwe, 'jwe_compact', 0), 'jwe_compact');
         $serializer->decode($this->serializeJWE($jwe, 'jwe_json_flattened', 0), 'jwe_json_flattened');
         $serializer->decode($this->serializeJWE($jwe, 'jwe_json_general', 0), 'jwe_json_general');
@@ -180,11 +182,11 @@ final class JWEEncoderTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwk2 = new JWK([
             'kty' => 'oct',
-            'k'   => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
+            'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
         ]);
         $jwe = $builder
             ->create()
@@ -195,7 +197,8 @@ final class JWEEncoderTest extends WebTestCase
             ])
             ->addRecipient($jwk)
             ->addRecipient($jwk2)
-            ->build();
+            ->build()
+        ;
         // No context, recipient index = 0
         $this->loadJWE($serializer->encode($jwe, 'jwe_compact'), $jwk, $recipient);
         $this->loadJWE($serializer->encode($jwe, 'jwe_json_flattened'), $jwk, $recipient);
@@ -233,7 +236,7 @@ final class JWEEncoderTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -243,7 +246,8 @@ final class JWEEncoderTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         static::assertTrue($serializer->supportsEncoding('jwe_compact'));
         static::assertFalse($serializer->supportsEncoding('jwe_json_flattened'));
         static::assertFalse($serializer->supportsEncoding('jwe_json_general'));
@@ -274,7 +278,7 @@ final class JWEEncoderTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -284,7 +288,8 @@ final class JWEEncoderTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         $this->loadJWE($serializer->encode($jwe, 'jwe_compact'), $jwk, $recipient);
         $this->expectExceptionMessage('Cannot encode JWE to jwe_json_flattened format.');
         $serializer->encode($jwe, 'jwe_json_flattened');
@@ -310,7 +315,7 @@ final class JWEEncoderTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -320,7 +325,8 @@ final class JWEEncoderTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build();
+            ->build()
+        ;
         $serializer->decode($this->serializeJWE($jwe, 'jwe_compact', 0), 'jwe_compact');
         $this->expectExceptionMessage('Cannot decode JWE from jwe_json_flattened format.');
         $serializer->decode($this->serializeJWE($jwe, 'jwe_json_flattened', 0), 'jwe_json_flattened');

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -277,8 +277,8 @@ class ECKey
         $keys = [
             'kty' => 'The key parameter "kty" is missing.',
             'crv' => 'Curve parameter is missing',
-            'x'   => 'Point parameters are missing.',
-            'y'   => 'Point parameters are missing.',
+            'x' => 'Point parameters are missing.',
+            'y' => 'Point parameters are missing.',
         ];
         foreach ($keys as $k => $v) {
             if (!array_key_exists($k, $jwk)) {

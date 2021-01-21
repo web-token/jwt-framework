@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -31,7 +31,8 @@ final class PublicKeyCommand extends ObjectOutputCommand
             ->setName('key:convert:public')
             ->setDescription('Convert a private key into public key. Symmetric keys (shared keys) are not changed.')
             ->setHelp('This command converts a private key into a public key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

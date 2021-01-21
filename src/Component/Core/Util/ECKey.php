@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -152,7 +152,7 @@ class ECKey
             throw new RuntimeException('Please install the OpenSSL extension');
         }
         $key = openssl_pkey_new([
-            'curve_name'       => self::getOpensslCurveName($curve),
+            'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
         ]);
         if (false === $key) {
@@ -172,9 +172,9 @@ class ECKey
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd'   => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
-            'x'   => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
-            'y'   => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'd' => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'x' => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'y' => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
         ];
     }
 
