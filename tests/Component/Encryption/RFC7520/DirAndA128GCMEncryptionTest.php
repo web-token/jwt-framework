@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -41,7 +41,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
             'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
             'use' => 'enc',
             'alg' => 'A128GCM',
-            'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
+            'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
         ]);
 
         $protectedHeader = [
@@ -92,7 +92,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
             'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
             'use' => 'enc',
             'alg' => 'A128GCM',
-            'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
+            'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
         ]);
 
         $protectedHeader = [
@@ -108,8 +108,7 @@ class DirAndA128GCMEncryptionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));

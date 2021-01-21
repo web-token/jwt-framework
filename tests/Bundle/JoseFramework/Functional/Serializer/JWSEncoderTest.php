@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -98,7 +98,7 @@ final class JWSEncoderTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -106,8 +106,7 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build()
-        ;
+            ->build();
         static::assertEquals('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', $serializer->encode($jws, 'jws_compact'));
         static::assertEquals('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', $serializer->encode($jws, 'jws_json_flattened'));
         static::assertEquals('{"payload":"SGVsbG8gV29ybGQh","signatures":[{"signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY","protected":"eyJhbGciOiJIUzI1NiJ9"}]}', $serializer->encode($jws, 'jws_json_general'));
@@ -130,7 +129,7 @@ final class JWSEncoderTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -138,8 +137,7 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build()
-        ;
+            ->build();
         static::assertEquals($jws, $serializer->decode('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', 'jws_compact'));
         static::assertEquals($jws, $serializer->decode('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', 'jws_json_flattened'));
         static::assertEquals($jws, $serializer->decode('{"payload":"SGVsbG8gV29ybGQh","signatures":[{"signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY","protected":"eyJhbGciOiJIUzI1NiJ9"}]}', 'jws_json_general'));
@@ -162,11 +160,11 @@ final class JWSEncoderTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwk2 = new JWK([
             'kty' => 'oct',
-            'k' => '45d2aGyfduzrkcmL7duvUTDTlXS2s3u4uMER2feQruU',
+            'k'   => '45d2aGyfduzrkcmL7duvUTDTlXS2s3u4uMER2feQruU',
         ]);
         $jws = $builder
             ->create()
@@ -177,8 +175,7 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk2, [
                 'alg' => 'HS256',
             ])
-            ->build()
-        ;
+            ->build();
         $context = [
             'signature_index' => 0,
         ];
@@ -219,7 +216,7 @@ final class JWSEncoderTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -227,8 +224,7 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build()
-        ;
+            ->build();
         static::assertTrue($serializer->supportsEncoding('jws_compact'));
         static::assertFalse($serializer->supportsEncoding('jws_json_flattened'));
         static::assertFalse($serializer->supportsEncoding('jws_json_general'));
@@ -259,7 +255,7 @@ final class JWSEncoderTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -267,8 +263,7 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build()
-        ;
+            ->build();
         static::assertEquals('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', $serializer->encode($jws, 'jws_compact'));
         $this->expectExceptionMessage('Cannot encode JWS to jws_json_flattened format.');
         $serializer->encode($jws, 'jws_json_flattened');
@@ -294,7 +289,7 @@ final class JWSEncoderTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -302,8 +297,7 @@ final class JWSEncoderTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build()
-        ;
+            ->build();
         static::assertEquals($jws, $serializer->decode('eyJhbGciOiJIUzI1NiJ9.SGVsbG8gV29ybGQh.qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY', 'jws_compact'));
         $this->expectExceptionMessage('Cannot decode JWS from jws_json_flattened format.');
         $serializer->decode('{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"qTzr2HflJbt-MDo1Ye7i5W85avH4hrhvb1U6tbd_mzY"}', 'jws_json_flattened');

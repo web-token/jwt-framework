@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -39,7 +39,7 @@ class AESGCMKWKeyEncryptionTest extends TestCase
         $header = [];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
+            'k'   => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
         ]);
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
@@ -88,7 +88,7 @@ class AESGCMKWKeyEncryptionTest extends TestCase
         $header = [];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
+            'k'   => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F')),
         ]);
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
@@ -107,7 +107,7 @@ class AESGCMKWKeyEncryptionTest extends TestCase
         $header = [];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F1011121314151617')),
+            'k'   => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F1011121314151617')),
         ]);
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');
@@ -132,7 +132,7 @@ class AESGCMKWKeyEncryptionTest extends TestCase
         $header = [];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F')),
+            'k'   => Base64Url::encode(hex2bin('000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F')),
         ]);
 
         $cek = hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F');

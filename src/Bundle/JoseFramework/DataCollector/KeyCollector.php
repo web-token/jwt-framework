@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -73,7 +73,7 @@ class KeyCollector implements Collector
         $data['key']['jwk'] = [];
         foreach ($this->jwks as $id => $jwk) {
             $data['key']['jwk'][$id] = [
-                'jwk' => $cloner->cloneVar($jwk),
+                'jwk'     => $cloner->cloneVar($jwk),
                 'analyze' => null === $this->jwkAnalyzerManager ? [] : $this->jwkAnalyzerManager->analyze($jwk),
             ];
         }
@@ -95,8 +95,8 @@ class KeyCollector implements Collector
                 $analyzeJWKSet = $this->jwksetAnalyzerManager->analyze($jwkset);
             }
             $data['key']['jwkset'][$id] = [
-                'jwkset' => $cloner->cloneVar($jwkset),
-                'analyze' => $analyze,
+                'jwkset'         => $cloner->cloneVar($jwkset),
+                'analyze'        => $analyze,
                 'analyze_jwkset' => $analyzeJWKSet,
             ];
         }

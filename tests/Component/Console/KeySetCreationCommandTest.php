@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -64,7 +64,7 @@ class KeySetCreationCommandTest extends TestCase
 
         $input = new ArrayInput([
             'quantity' => 2,
-            'curve' => 'P-128',
+            'curve'    => 'P-128',
         ]);
         $output = new BufferedOutput();
         $command = new Console\EcKeysetGeneratorCommand();
@@ -78,8 +78,8 @@ class KeySetCreationCommandTest extends TestCase
     public function iCanCreateAnEllipticCurveKeySetWithCurveP256(): void
     {
         $input = new ArrayInput([
-            'quantity' => 2,
-            'curve' => 'P-256',
+            'quantity'    => 2,
+            'curve'       => 'P-256',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -113,8 +113,8 @@ class KeySetCreationCommandTest extends TestCase
     public function iCanCreateAnOctetKeySet(): void
     {
         $input = new ArrayInput([
-            'quantity' => 2,
-            'size' => 256,
+            'quantity'    => 2,
+            'size'        => 256,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -148,8 +148,8 @@ class KeySetCreationCommandTest extends TestCase
     public function iCanCreateAnOctetKeySetPair(): void
     {
         $input = new ArrayInput([
-            'quantity' => 2,
-            'curve' => 'X25519',
+            'quantity'    => 2,
+            'curve'       => 'X25519',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -183,8 +183,8 @@ class KeySetCreationCommandTest extends TestCase
     public function iCanCreateAnRsaKeySet(): void
     {
         $input = new ArrayInput([
-            'quantity' => 2,
-            'size' => 2048,
+            'quantity'    => 2,
+            'size'        => 2048,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();

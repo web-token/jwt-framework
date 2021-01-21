@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -36,7 +36,7 @@ class JWESplitTest extends EncryptionTest
         static::assertEquals(3, $jwe->countRecipients());
         static::assertEquals(3, count($split));
 
-        for ($i = 0; $i < $jwe->countRecipients(); ++$i) {
+        for ($i = 0; $i < $jwe->countRecipients(); $i++) {
             $recipient1 = $jwe->getRecipient($i);
             $tempJwe = $split[$i];
             static::assertEquals(1, $tempJwe->countRecipients());

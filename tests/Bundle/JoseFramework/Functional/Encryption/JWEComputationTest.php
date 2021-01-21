@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -48,7 +48,7 @@ class JWEComputationTest extends WebTestCase
 
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
 
         /** @var JWEBuilder $builder */
@@ -67,8 +67,7 @@ class JWEComputationTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build()
-        ;
+            ->build();
         $token = $serializer->serialize($jwe, 0);
 
         $loaded = $serializer->unserialize($token);

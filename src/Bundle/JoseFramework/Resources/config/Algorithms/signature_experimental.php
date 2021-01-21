@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -26,22 +26,17 @@ return function (ContainerConfigurator $container): void {
     $container = $container->services()->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(Algorithm\RS1::class)
-        ->tag('jose.algorithm', ['alias' => 'RS1'])
-    ;
+        ->tag('jose.algorithm', ['alias' => 'RS1']);
 
     $container->set(Algorithm\HS1::class)
-        ->tag('jose.algorithm', ['alias' => 'HS1'])
-    ;
+        ->tag('jose.algorithm', ['alias' => 'HS1']);
 
     $container->set(Algorithm\HS256_64::class)
-        ->tag('jose.algorithm', ['alias' => 'HS256/64'])
-    ;
+        ->tag('jose.algorithm', ['alias' => 'HS256/64']);
 
     $container->set(Algorithm\ES256K::class)
-        ->tag('jose.algorithm', ['alias' => 'ES256K'])
-    ;
+        ->tag('jose.algorithm', ['alias' => 'ES256K']);
 };

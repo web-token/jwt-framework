@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -42,14 +42,14 @@ class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
             'alg' => 'A256GCMKW',
-            'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+            'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
         $protectedHeader = [
             'alg' => 'A256GCMKW',
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'tag' => 'kfPduVQ3T3H6vnewt--ksw',
-            'iv' => 'KkYT0GX_2jHlfqN_',
+            'iv'  => 'KkYT0GX_2jHlfqN_',
             'enc' => 'A128CBC-HS256',
         ];
 
@@ -115,7 +115,7 @@ class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
             'use' => 'enc',
             'alg' => 'A256GCMKW',
-            'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+            'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
         ]);
 
         $protectedHeader = [
@@ -131,8 +131,7 @@ class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_compact_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
