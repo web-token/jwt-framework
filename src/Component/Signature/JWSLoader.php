@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -95,7 +95,7 @@ class JWSLoader
         try {
             $jws = $this->serializerManager->unserialize($token);
             $nbSignatures = $jws->countSignatures();
-            for ($i = 0; $i < $nbSignatures; ++$i) {
+            for ($i = 0; $i < $nbSignatures; $i++) {
                 if ($this->processSignature($jws, $keyset, $i, $payload)) {
                     $signature = $i;
 

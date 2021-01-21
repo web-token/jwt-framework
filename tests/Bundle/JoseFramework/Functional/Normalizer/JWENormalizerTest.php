@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -56,7 +56,7 @@ final class JWENormalizerTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -66,8 +66,7 @@ final class JWENormalizerTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build()
-        ;
+            ->build();
         static::assertTrue($serializer->supportsNormalization($jwe));
     }
 
@@ -86,7 +85,7 @@ final class JWENormalizerTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -96,8 +95,7 @@ final class JWENormalizerTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build()
-        ;
+            ->build();
         static::assertTrue($serializer->supportsNormalization($jwe));
         static::assertEquals($jwe, $serializer->normalize($jwe));
         static::assertEquals($jwe, $serializer->denormalize($jwe, JWE::class));
@@ -119,7 +117,7 @@ final class JWENormalizerTest extends WebTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jwe = $builder
             ->create()
@@ -129,8 +127,7 @@ final class JWENormalizerTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build()
-        ;
+            ->build();
         static::assertTrue($serializer->supportsNormalization($jwe));
         static::assertEquals($jwe, $serializer->normalize($jwe));
         static::assertEquals($jwe, $serializer->denormalize($jwe, JWE::class));

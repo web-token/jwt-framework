@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -175,26 +175,26 @@ class JWKSetTest extends TestCase
     public function keySet(): void
     {
         $jwk1 = new JWK([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use'     => 'sign',
             'key_ops' => ['sign'],
-            'alg' => 'ES256',
-            'kid' => '0123456789',
+            'alg'     => 'ES256',
+            'kid'     => '0123456789',
         ]);
 
         $jwk2 = new JWK([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd'       => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use'     => 'sign',
             'key_ops' => ['verify'],
-            'alg' => 'ES256',
-            'kid' => '9876543210',
+            'alg'     => 'ES256',
+            'kid'     => '9876543210',
         ]);
 
         $jwkset = new JWKSet([$jwk1]);
@@ -231,26 +231,26 @@ class JWKSetTest extends TestCase
         $this->expectExceptionMessage('Undefined index.');
 
         $jwk1 = new JWK([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'use'     => 'sign',
             'key_ops' => ['sign'],
-            'alg' => 'ES256',
-            'kid' => '0123456789',
+            'alg'     => 'ES256',
+            'kid'     => '0123456789',
         ]);
 
         $jwk2 = new JWK([
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
-            'use' => 'sign',
+            'kty'     => 'EC',
+            'crv'     => 'P-256',
+            'x'       => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+            'y'       => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+            'd'       => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
+            'use'     => 'sign',
             'key_ops' => ['verify'],
-            'alg' => 'ES256',
-            'kid' => '9876543210',
+            'alg'     => 'ES256',
+            'kid'     => '9876543210',
         ]);
 
         $jwkset = new JWKSet([$jwk1, $jwk2]);
@@ -276,8 +276,8 @@ class JWKSetTest extends TestCase
             [
                 'kty' => 'EC',
                 'crv' => 'P-256',
-                'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-                'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+                'x'   => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+                'y'   => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
             ],
         ]];
 

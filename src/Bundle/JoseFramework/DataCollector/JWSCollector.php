@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -103,8 +103,8 @@ class JWSCollector implements Collector, EventSubscriberInterface
         return [
             JWSVerificationSuccessEvent::class => ['catchJwsVerificationSuccess'],
             JWSVerificationFailureEvent::class => ['catchJwsVerificationFailure'],
-            JWSBuiltSuccessEvent::class => ['catchJwsBuiltSuccess'],
-            JWSBuiltFailureEvent::class => ['catchJwsBuiltFailure'],
+            JWSBuiltSuccessEvent::class        => ['catchJwsBuiltSuccess'],
+            JWSBuiltFailureEvent::class        => ['catchJwsBuiltFailure'],
         ];
     }
 
@@ -169,7 +169,7 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $data['jws']['jws_loaders'] = [];
         foreach ($this->jwsLoaders as $id => $jwsLoader) {
             $data['jws']['jws_loaders'][$id] = [
-                'serializers' => $jwsLoader->getSerializerManager()->list(),
+                'serializers'          => $jwsLoader->getSerializerManager()->list(),
                 'signature_algorithms' => $jwsLoader->getJwsVerifier()->getSignatureAlgorithmManager()->list(),
             ];
         }
@@ -180,8 +180,8 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $data['jws']['events'] = [
             'verification_success' => $this->jwsVerificationSuccesses,
             'verification_failure' => $this->jwsVerificationFailures,
-            'built_success' => $this->jwsBuiltSuccesses,
-            'built_failure' => $this->jwsBuiltFailures,
+            'built_success'        => $this->jwsBuiltSuccesses,
+            'built_failure'        => $this->jwsBuiltFailures,
         ];
     }
 }

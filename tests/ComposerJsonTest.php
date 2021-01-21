@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -20,7 +20,9 @@ use Traversable;
 /**
  * @internal
  * @note Courtesy of @scheb
+ *
  * @author Christian Scheb (https://github.com/scheb)
+ *
  * @see https://github.com/scheb/2fa/commit/94ff439212f465d8c9d146bf87d82ca32c4c4cbc#commitcomment-41153585
  */
 class ComposerJsonTest extends TestCase
@@ -79,15 +81,14 @@ class ComposerJsonTest extends TestCase
             'EncryptionAlgorithm',
             'ContentEncryption',
             'KeyEncryption',
-            'SignatureAlgorithm'
+            'SignatureAlgorithm',
         ];
         foreach (new DirectoryIterator($path) as $dirInfo) {
             if (in_array($dirInfo->getFilename(), $packageFolders, true)) {
                 yield from $this->listSubPackages($dirInfo->getRealPath());
-            } else  if ($dirInfo->isDir() && !$dirInfo->isDot() && $dirInfo->getFilename() !== '.github') {
+            } elseif ($dirInfo->isDir() && !$dirInfo->isDot() && $dirInfo->getFilename() !== '.github') {
                 yield $dirInfo->getRealPath();
             }
-
         }
     }
 

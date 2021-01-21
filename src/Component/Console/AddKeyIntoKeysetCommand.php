@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -33,8 +33,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
             ->setDescription('Add a key into a key set.')
             ->setHelp('This command adds a key at the end of a key set.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
