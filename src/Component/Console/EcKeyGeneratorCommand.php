@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -28,8 +28,7 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
         $this
             ->setName('key:generate:ec')
             ->setDescription('Generate an EC key (JWK format)')
-            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.')
-        ;
+            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');
     }
 
     /**

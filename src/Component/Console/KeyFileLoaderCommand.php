@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -30,8 +30,7 @@ final class KeyFileLoaderCommand extends GeneratorCommand
             ->setName('key:load:key')
             ->setDescription('Loads a key from a key file (JWK format)')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the key.')
-            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null)
-        ;
+            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
     }
 
     /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -41,7 +41,7 @@ final class AlgorithmCollector implements Collector
     {
         $algorithms = $this->algorithmManagerFactory->all();
         $data['algorithm'] = [
-            'messages' => $this->getAlgorithmMessages(),
+            'messages'   => $this->getAlgorithmMessages(),
             'algorithms' => [],
         ];
         $signatureAlgorithms = 0;
@@ -59,9 +59,9 @@ final class AlgorithmCollector implements Collector
         }
 
         $data['algorithm']['types'] = [
-            'signature' => $signatureAlgorithms,
-            'mac' => $macAlgorithms,
-            'key_encryption' => $keyEncryptionAlgorithms,
+            'signature'          => $signatureAlgorithms,
+            'mac'                => $macAlgorithms,
+            'key_encryption'     => $keyEncryptionAlgorithms,
             'content_encryption' => $contentEncryptionAlgorithms,
         ];
     }
@@ -99,122 +99,122 @@ final class AlgorithmCollector implements Collector
         $messages = [
             'none' => [
                 'severity' => 'severity-low',
-                'message' => 'This algorithm is not secured. Please use with caution.',
+                'message'  => 'This algorithm is not secured. Please use with caution.',
             ],
             'HS256/64' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental. Please use for testing purpose only.',
+                'message'  => 'Experimental. Please use for testing purpose only.',
             ],
             'RS1' => [
                 'severity' => 'severity-high',
-                'message' => 'Experimental. Please use for testing purpose only. SHA-1 hashing function is not recommended.',
+                'message'  => 'Experimental. Please use for testing purpose only. SHA-1 hashing function is not recommended.',
             ],
             'RS256' => [
                 'severity' => 'severity-medium',
-                'message' => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
+                'message'  => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
             ],
             'RS384' => [
                 'severity' => 'severity-medium',
-                'message' => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
+                'message'  => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
             ],
             'RS512' => [
                 'severity' => 'severity-medium',
-                'message' => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
+                'message'  => 'RSAES-PKCS1-v1_5 based algorithms are not recommended.',
             ],
             'HS1' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm has known vulnerabilities. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17</a>. SHA-1 hashing function is not recommended.',
+                'message'  => 'This algorithm has known vulnerabilities. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-17</a>. SHA-1 hashing function is not recommended.',
             ],
             'A128CTR' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
             ],
             'A192CTR' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
             ],
             'A256CTR' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
             ],
             'A128CBC' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
             ],
             'A192CBC' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
             ],
             'A256CBC' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
+                'message'  => 'This algorithm is prohibited. For compatibility with old application only. See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-11</a>.',
             ],
             'chacha20-poly1305' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental. Please use for testing purpose only.',
+                'message'  => 'Experimental. Please use for testing purpose only.',
             ],
             'RSA-OAEP-384' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental. Please use for testing purpose only.',
+                'message'  => 'Experimental. Please use for testing purpose only.',
             ],
             'RSA-OAEP-512' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental. Please use for testing purpose only.',
+                'message'  => 'Experimental. Please use for testing purpose only.',
             ],
             'A128CCM-16-64' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'A256CCM-16-64' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'A128CCM-64-64' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'A256CCM-64-64' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'A128CCM-16-128' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'A256CCM-16-128' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'A128CCM-64-128' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'A256CCM-64-128' => [
                 'severity' => 'severity-low',
-                'message' => 'Experimental and subject to changes. Please use for testing purpose only.',
+                'message'  => 'Experimental and subject to changes. Please use for testing purpose only.',
             ],
             'RSA1_5' => [
                 'severity' => 'severity-high',
-                'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
+                'message'  => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
             ],
         ];
         if (!function_exists('openssl_pkey_derive')) {
             $messages += [
                 'ECDH-ES' => [
                     'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                    'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
                 ],
                 'ECDH-ES+A128KW' => [
                     'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                    'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
                 ],
                 'ECDH-ES+A192KW' => [
                     'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                    'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
                 ],
                 'ECDH-ES+A256KW' => [
                     'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                    'message'  => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
                 ],
             ];
         }

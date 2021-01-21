@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -162,7 +162,7 @@ class JweDecrypterConfigurationTest extends TestCase
                     'jwe' => [
                         'decrypters' => [
                             'foo' => [
-                                'key_encryption_algorithms' => ['A256GCMKW'],
+                                'key_encryption_algorithms'     => ['A256GCMKW'],
                                 'content_encryption_algorithms' => [],
                             ],
                         ],

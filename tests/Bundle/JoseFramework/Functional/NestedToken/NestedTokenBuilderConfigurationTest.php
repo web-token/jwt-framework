@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -142,7 +142,7 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms' => ['RS256'],
+                                'signature_algorithms'      => ['RS256'],
                                 'key_encryption_algorithms' => ['RSA-OAEP'],
                             ],
                         ],
@@ -164,8 +164,8 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
+                                'signature_algorithms'          => ['RS256'],
+                                'key_encryption_algorithms'     => ['RSA-OAEP'],
                                 'content_encryption_algorithms' => ['A128GCM'],
                             ],
                         ],
@@ -187,10 +187,10 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
+                                'signature_algorithms'          => ['RS256'],
+                                'key_encryption_algorithms'     => ['RSA-OAEP'],
                                 'content_encryption_algorithms' => ['A128GCM'],
-                                'jws_serializers' => ['jws_compact'],
+                                'jws_serializers'               => ['jws_compact'],
                             ],
                         ],
                     ],
@@ -211,11 +211,11 @@ class NestedTokenBuilderConfigurationTest extends TestCase
                     'nested_token' => [
                         'builders' => [
                             'foo' => [
-                                'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
+                                'signature_algorithms'          => ['RS256'],
+                                'key_encryption_algorithms'     => ['RSA-OAEP'],
                                 'content_encryption_algorithms' => ['A128GCM'],
-                                'jws_serializers' => ['jws_compact'],
-                                'jwe_serializers' => ['jwe_compact'],
+                                'jws_serializers'               => ['jws_compact'],
+                                'jwe_serializers'               => ['jwe_compact'],
                             ],
                         ],
                     ],

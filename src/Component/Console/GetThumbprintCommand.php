@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -32,8 +32,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
             ->setName('key:thumbprint')
             ->setDescription('Get the thumbprint of a JWK key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')
-            ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256')
-        ;
+            ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256');
     }
 
     /**
