@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -48,11 +48,11 @@ class RSAKey
     {
         $values = ['kty' => 'RSA'];
         $keys = [
-            'n' => 'n',
-            'e' => 'e',
-            'd' => 'd',
-            'p' => 'p',
-            'q' => 'q',
+            'n'  => 'n',
+            'e'  => 'e',
+            'd'  => 'd',
+            'p'  => 'p',
+            'q'  => 'q',
             'dp' => 'dmp1',
             'dq' => 'dmq1',
             'qi' => 'iqmp',
@@ -216,7 +216,7 @@ class RSAKey
             $found = false;
             $y = null;
 
-            for ($i = 1; $i <= 100; ++$i) {
+            for ($i = 1; $i <= 100; $i++) {
                 $g = BigInteger::random($n->subtract($one));
                 $y = $g->modPow($r, $n);
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -41,7 +41,7 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'use' => 'enc',
             'alg' => 'A128KW',
-            'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+            'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
         $protectedHeader = [
@@ -100,7 +100,7 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
             'use' => 'enc',
             'alg' => 'A128KW',
-            'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+            'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
         $protectedHeader = [
@@ -120,8 +120,7 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)
             ->addRecipient($private_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));

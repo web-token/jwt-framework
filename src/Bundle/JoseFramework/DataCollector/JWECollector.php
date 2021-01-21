@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -111,8 +111,8 @@ class JWECollector implements Collector, EventSubscriberInterface
         return [
             JWEDecryptionSuccessEvent::class => ['catchJweDecryptionSuccess'],
             JWEDecryptionFailureEvent::class => ['catchJweDecryptionFailure'],
-            JWEBuiltSuccessEvent::class => ['catchJweBuiltSuccess'],
-            JWEBuiltFailureEvent::class => ['catchJweBuiltFailure'],
+            JWEBuiltSuccessEvent::class      => ['catchJweBuiltSuccess'],
+            JWEBuiltFailureEvent::class      => ['catchJweBuiltFailure'],
         ];
     }
 
@@ -169,9 +169,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         $data['jwe']['jwe_builders'] = [];
         foreach ($this->jweBuilders as $id => $jweBuilder) {
             $data['jwe']['jwe_builders'][$id] = [
-                'key_encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
+                'key_encryption_algorithms'     => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods' => $jweBuilder->getCompressionMethodManager()->list(),
+                'compression_methods'           => $jweBuilder->getCompressionMethodManager()->list(),
             ];
         }
     }
@@ -181,9 +181,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         $data['jwe']['jwe_decrypters'] = [];
         foreach ($this->jweDecrypters as $id => $jweDecrypter) {
             $data['jwe']['jwe_decrypters'][$id] = [
-                'key_encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
+                'key_encryption_algorithms'     => $jweDecrypter->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods' => $jweDecrypter->getCompressionMethodManager()->list(),
+                'compression_methods'           => $jweDecrypter->getCompressionMethodManager()->list(),
             ];
         }
     }
@@ -193,10 +193,10 @@ class JWECollector implements Collector, EventSubscriberInterface
         $data['jwe']['jwe_loaders'] = [];
         foreach ($this->jweLoaders as $id => $jweLoader) {
             $data['jwe']['jwe_loaders'][$id] = [
-                'serializers' => $jweLoader->getSerializerManager()->names(),
-                'key_encryption_algorithms' => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
+                'serializers'                   => $jweLoader->getSerializerManager()->names(),
+                'key_encryption_algorithms'     => $jweLoader->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweLoader->getJweDecrypter()->getContentEncryptionAlgorithmManager()->list(),
-                'compression_methods' => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
+                'compression_methods'           => $jweLoader->getJweDecrypter()->getCompressionMethodManager()->list(),
             ];
         }
     }
@@ -206,8 +206,8 @@ class JWECollector implements Collector, EventSubscriberInterface
         $data['jwe']['events'] = [
             'decryption_success' => $this->jweDecryptionSuccesses,
             'decryption_failure' => $this->jweDecryptionFailures,
-            'built_success' => $this->jweBuiltSuccesses,
-            'built_failure' => $this->jweBuiltFailures,
+            'built_success'      => $this->jweBuiltSuccesses,
+            'built_failure'      => $this->jweBuiltFailures,
         ];
     }
 }

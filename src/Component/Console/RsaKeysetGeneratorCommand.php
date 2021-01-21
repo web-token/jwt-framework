@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -30,8 +30,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
             ->setName('keyset:generate:rsa')
             ->setDescription('Generate a key set with RSA keys (JWK format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
-            ->addArgument('size', InputArgument::REQUIRED, 'Key size.')
-        ;
+            ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
     /**
@@ -64,7 +63,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
         }
 
         $keyset = new JWKSet([]);
-        for ($i = 0; $i < $quantity; ++$i) {
+        for ($i = 0; $i < $quantity; $i++) {
             $args = $this->getOptions($input);
             $keyset = $keyset->with(JWKFactory::createRSAKey($size, $args));
         }

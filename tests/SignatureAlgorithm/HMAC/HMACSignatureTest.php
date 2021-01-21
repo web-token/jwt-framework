@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2020 Spomky-Labs
+ * Copyright (c) 2014-2018 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -52,7 +52,7 @@ class HMACSignatureTest extends TestCase
     {
         $key = new JWK([
             'kty' => 'oct',
-            'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
+            'k'   => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
         ]);
         $hmac = new HS256();
         $data = 'Live long and Prosper.';
@@ -67,7 +67,7 @@ class HMACSignatureTest extends TestCase
     {
         $key = new JWK([
             'kty' => 'oct',
-            'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
+            'k'   => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
         ]);
         $hmac = new HS256();
         $data = 'Live long and Prosper.';
@@ -85,7 +85,7 @@ class HMACSignatureTest extends TestCase
     {
         $key = new JWK([
             'kty' => 'oct',
-            'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
+            'k'   => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
         ]);
         $hmac = new HS384();
         $data = 'Live long and Prosper.';
@@ -103,7 +103,7 @@ class HMACSignatureTest extends TestCase
     {
         $key = new JWK([
             'kty' => 'oct',
-            'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
+            'k'   => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
         ]);
         $hmac = new HS512();
         $data = 'Live long and Prosper.';
