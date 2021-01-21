@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -35,7 +35,8 @@ class JWSBuilder extends AbstractSignatureSource
                 ->setFactory([new Reference(JWSBuilderFactory::class), 'create'])
                 ->setArguments([$itemConfig['signature_algorithms']])
                 ->addTag('jose.jws_builder')
-                ->setPublic($itemConfig['is_public']);
+                ->setPublic($itemConfig['is_public'])
+            ;
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -53,7 +53,7 @@ class HMACFromRFC7520Test extends TestCase
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
             'alg' => 'HS256',
-            'k'   => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
         ]);
 
         /*
@@ -80,7 +80,8 @@ class HMACFromRFC7520Test extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, $header)
-            ->build();
+            ->build()
+        ;
 
         /*
          * Header
@@ -125,7 +126,7 @@ class HMACFromRFC7520Test extends TestCase
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
             'alg' => 'HS256',
-            'k'   => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
         ]);
 
         /*
@@ -152,7 +153,8 @@ class HMACFromRFC7520Test extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($payload, true)
             ->addSignature($key, $header)
-            ->build();
+            ->build()
+        ;
 
         /*
          * Header
@@ -198,7 +200,7 @@ class HMACFromRFC7520Test extends TestCase
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
             'alg' => 'HS256',
-            'k'   => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
         ]);
 
         /*
@@ -227,7 +229,8 @@ class HMACFromRFC7520Test extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, $protectedHeader, $unprotectedHeader)
-            ->build();
+            ->build()
+        ;
 
         /*
          * Header
@@ -266,7 +269,7 @@ class HMACFromRFC7520Test extends TestCase
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
             'alg' => 'HS256',
-            'k'   => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
         ]);
 
         /*
@@ -291,7 +294,8 @@ class HMACFromRFC7520Test extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($payload)
             ->addSignature($key, [], $unprotectedHeader)
-            ->build();
+            ->build()
+        ;
 
         /*
          * Header

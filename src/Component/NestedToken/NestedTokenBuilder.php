@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -78,7 +78,8 @@ class NestedTokenBuilder
             ->withPayload($token)
             ->withSharedProtectedHeader($jweSharedProtectedHeader)
             ->withSharedHeader($jweSharedHeader)
-            ->withAAD($aad);
+            ->withAAD($aad)
+        ;
         foreach ($recipients as $recipient) {
             if (!is_array($recipient) || !array_key_exists('key', $recipient)) {
                 throw new InvalidArgumentException('The recipients must be an array of arrays containing a key and a header');

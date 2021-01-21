@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -45,7 +45,8 @@ final class KeyAnalyzerCommand extends Command
             ->setName('key:analyze')
             ->setDescription('JWK quality analyzer.')
             ->setHelp('This command will analyze a JWK object and find security issues.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

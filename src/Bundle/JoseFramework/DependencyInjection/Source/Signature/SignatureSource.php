@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -91,7 +91,8 @@ class SignatureSource implements SourceWithCompilerPasses
             ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
             ->treatFalseLike([])
-            ->treatNullLike([]);
+            ->treatNullLike([])
+        ;
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);
@@ -127,10 +128,10 @@ class SignatureSource implements SourceWithCompilerPasses
     private function getAlgorithmsFiles(): array
     {
         $algorithms = [
-            ECDSA::class  => 'signature_ecdsa.php',
-            HMAC::class   => 'signature_hmac.php',
-            None::class   => 'signature_none.php',
-            HS1::class    => 'signature_experimental.php',
+            ECDSA::class => 'signature_ecdsa.php',
+            HMAC::class => 'signature_hmac.php',
+            None::class => 'signature_none.php',
+            HS1::class => 'signature_experimental.php',
             RSAPSS::class => 'signature_rsa.php',
         ];
 

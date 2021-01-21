@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -56,7 +56,7 @@ final class JWSNormalizerTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -64,7 +64,8 @@ final class JWSNormalizerTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertTrue($serializer->supportsNormalization($jws));
     }
 
@@ -83,7 +84,7 @@ final class JWSNormalizerTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -91,7 +92,8 @@ final class JWSNormalizerTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertTrue($serializer->supportsNormalization($jws));
         static::assertEquals($jws, $serializer->normalize($jws));
         static::assertEquals($jws, $serializer->denormalize($jws, JWS::class));
@@ -113,7 +115,7 @@ final class JWSNormalizerTest extends WebTestCase
         $builder = $jwsFactory->create(['HS256']);
         $jwk = new JWK([
             'kty' => 'oct',
-            'k'   => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
         ]);
         $jws = $builder
             ->create()
@@ -121,7 +123,8 @@ final class JWSNormalizerTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build();
+            ->build()
+        ;
         static::assertTrue($serializer->supportsNormalization($jws));
         static::assertEquals($jws, $serializer->normalize($jws));
         static::assertEquals($jws, $serializer->denormalize($jws, JWS::class));
