@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -41,26 +41,26 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
                 'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
                 'use' => 'enc',
                 'alg' => 'A128GCM',
-                'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
+                'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
             ], [
                 'kty' => 'oct',
                 'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
                 'use' => 'enc',
                 'alg' => 'A128KW',
-                'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
             ], [
                 'kty' => 'oct',
                 'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
                 'use' => 'enc',
                 'alg' => 'A256GCMKW',
-                'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+                'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
             ],
         ]];
 
         $private_key = new JWK([
             'kty' => 'oct',
             'use' => 'enc',
-            'k'   => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
+            'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
         $protectedHeader = [
@@ -126,26 +126,26 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
                 'kid' => '77c7e2b8-6e13-45cf-8672-617b5b45243a',
                 'use' => 'enc',
                 'alg' => 'A128GCM',
-                'k'   => 'XctOhJAkA-pD9Lh7ZgW_2A',
+                'k' => 'XctOhJAkA-pD9Lh7ZgW_2A',
             ], [
                 'kty' => 'oct',
                 'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
                 'use' => 'enc',
                 'alg' => 'A128KW',
-                'k'   => 'GZy6sIZ6wl9NJOKB-jnmVQ',
+                'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
             ], [
                 'kty' => 'oct',
                 'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
                 'use' => 'enc',
                 'alg' => 'A256GCMKW',
-                'k'   => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
+                'k' => 'qC57l_uxcm7Nm3K-ct4GFjx8tM1U8CZ0NLBvdQstiS8',
             ],
         ]]);
 
         $private_key = new JWK([
             'kty' => 'oct',
             'use' => 'enc',
-            'k'   => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
+            'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
         $protectedHeader = [
@@ -161,7 +161,8 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
             ->create()->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build();
+            ->build()
+        ;
 
         $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -39,8 +39,8 @@ class EdDSASignatureTest extends TestCase
         $key = new JWK([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
-            'd'   => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
-            'x'   => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
+            'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
+            'x' => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
         ]);
 
         $eddsa = new EdDSA();
@@ -60,8 +60,8 @@ class EdDSASignatureTest extends TestCase
         $key = new JWK([
             'kty' => 'OKP',
             'crv' => 'Ed25519',
-            'd'   => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
-            'x'   => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
+            'd' => 'nWGxne_9WmC6hEr0kuwsxERJxWl7MmkZcDusAxyuf2A',
+            'x' => '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo',
         ]);
 
         $header = ['alg' => 'EdDSA'];
@@ -76,7 +76,8 @@ class EdDSASignatureTest extends TestCase
         $jws = $jwsBuilder
             ->create()->withPayload($input)
             ->addSignature($key, $header)
-            ->build();
+            ->build()
+        ;
 
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $key, 0));
     }

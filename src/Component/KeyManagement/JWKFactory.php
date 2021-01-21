@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -94,7 +94,7 @@ class JWKFactory
             $values,
             [
                 'kty' => 'oct',
-                'k'   => Base64Url::encode(random_bytes($size / 8)),
+                'k' => Base64Url::encode(random_bytes($size / 8)),
             ]
         );
 
@@ -142,8 +142,8 @@ class JWKFactory
             [
                 'kty' => 'OKP',
                 'crv' => $curve,
-                'd'   => Base64Url::encode($d),
-                'x'   => Base64Url::encode($x),
+                'd' => Base64Url::encode($d),
+                'x' => Base64Url::encode($x),
             ]
         );
 
@@ -211,7 +211,7 @@ class JWKFactory
             $additional_values,
             [
                 'kty' => 'oct',
-                'k'   => Base64Url::encode($secret),
+                'k' => Base64Url::encode($secret),
             ]
         );
 

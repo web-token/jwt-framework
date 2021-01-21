@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -99,8 +99,8 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         return [
             HeaderCheckedSuccessEvent::class => ['catchHeaderCheckSuccess'],
             HeaderCheckedFailureEvent::class => ['catchHeaderCheckFailure'],
-            ClaimCheckedSuccessEvent::class  => ['catchClaimCheckSuccess'],
-            ClaimCheckedFailureEvent::class  => ['catchClaimCheckFailure'],
+            ClaimCheckedSuccessEvent::class => ['catchClaimCheckSuccess'],
+            ClaimCheckedFailureEvent::class => ['catchClaimCheckFailure'],
         ];
     }
 
@@ -135,7 +135,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
             $data['checker']['header_checker_managers'][$id] = [];
             foreach ($checkerManager->getCheckers() as $checker) {
                 $data['checker']['header_checker_managers'][$id][] = [
-                    'header'    => $checker->supportedHeader(),
+                    'header' => $checker->supportedHeader(),
                     'protected' => $checker->protectedHeaderOnly(),
                 ];
             }
@@ -149,7 +149,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
             $aliases = $this->headerCheckerManagerFactory->all();
             foreach ($aliases as $alias => $checker) {
                 $data['checker']['header_checkers'][$alias] = [
-                    'header'    => $checker->supportedHeader(),
+                    'header' => $checker->supportedHeader(),
                     'protected' => $checker->protectedHeaderOnly(),
                 ];
             }
@@ -187,8 +187,8 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         $data['checker']['events'] = [
             'header_check_success' => $this->headerCheckedSuccesses,
             'header_check_failure' => $this->headerCheckedFailures,
-            'claim_check_success'  => $this->claimCheckedSuccesses,
-            'claim_check_failure'  => $this->claimCheckedFailures,
+            'claim_check_success' => $this->claimCheckedSuccesses,
+            'claim_check_failure' => $this->claimCheckedFailures,
         ];
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -24,33 +24,33 @@ final class A256KWBench extends EncryptionBench
         return [
             [
                 'shared_protected_header' => ['alg' => 'A256KW', 'enc' => 'A128CBC-HS256'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A256KW', 'enc' => 'A192CBC-HS384'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A256KW', 'enc' => 'A256CBC-HS512'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A256KW', 'enc' => 'A128GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A256KW', 'enc' => 'A192GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
             [
                 'shared_protected_header' => ['alg' => 'A256KW', 'enc' => 'A256GCM'],
-                'shared_header'           => [],
-                'recipient_header'        => [],
+                'shared_header' => [],
+                'recipient_header' => [],
             ],
         ];
     }
@@ -68,7 +68,7 @@ final class A256KWBench extends EncryptionBench
             [
                 'recipient_keys' => ['keys' => [[
                     'kty' => 'oct',
-                    'k'   => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
+                    'k' => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
                 ]]],
             ],
         ];
@@ -80,7 +80,7 @@ final class A256KWBench extends EncryptionBench
             [
                 'recipient_key' => [
                     'kty' => 'oct',
-                    'k'   => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
+                    'k' => 'OgUyABAPIkI-zFg3doqsv_GH-4GTGOu3HGnuG9wdxCo',
                 ],
             ],
         ];
