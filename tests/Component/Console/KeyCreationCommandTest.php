@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * The MIT License (MIT)
  *
- * Copyright (c) 2014-2018 Spomky-Labs
+ * Copyright (c) 2014-2020 Spomky-Labs
  *
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
@@ -78,7 +78,7 @@ class KeyCreationCommandTest extends TestCase
     public function iCanCreateAnEllipticCurveKeyWithCurveP256(): void
     {
         $input = new ArrayInput([
-            'curve'       => 'P-256',
+            'curve' => 'P-256',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -111,7 +111,7 @@ class KeyCreationCommandTest extends TestCase
     public function iCanCreateAnOctetKey(): void
     {
         $input = new ArrayInput([
-            'size'        => 256,
+            'size' => 256,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -183,7 +183,7 @@ class KeyCreationCommandTest extends TestCase
     public function iCanCreateAnOctetKeyPair(): void
     {
         $input = new ArrayInput([
-            'curve'       => 'X25519',
+            'curve' => 'X25519',
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
@@ -232,7 +232,7 @@ class KeyCreationCommandTest extends TestCase
     public function iCanCreateAnRsaKey(): void
     {
         $input = new ArrayInput([
-            'size'        => 2048,
+            'size' => 2048,
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
