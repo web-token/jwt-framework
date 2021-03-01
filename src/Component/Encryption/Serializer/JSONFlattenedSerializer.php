@@ -74,7 +74,7 @@ final class JSONFlattenedSerializer implements JWESerializer
         $iv = Base64Url::decode($data['iv']);
         $tag = Base64Url::decode($data['tag']);
         $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
-        list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
+        [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
         $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
         $header = array_key_exists('header', $data) ? $data['header'] : [];
 

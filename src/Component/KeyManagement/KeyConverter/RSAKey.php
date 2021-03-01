@@ -172,7 +172,7 @@ class RSAKey
             $e = BigInteger::createFromBinaryString(Base64Url::decode($this->values['e']));
             $n = BigInteger::createFromBinaryString(Base64Url::decode($this->values['n']));
 
-            list($p, $q) = $this->findPrimeFactors($d, $e, $n);
+            [$p, $q] = $this->findPrimeFactors($d, $e, $n);
             $this->values['p'] = Base64Url::encode($p->toBytes());
             $this->values['q'] = Base64Url::encode($q->toBytes());
         }

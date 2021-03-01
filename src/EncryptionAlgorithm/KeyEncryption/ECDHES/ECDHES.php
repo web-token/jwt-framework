@@ -41,9 +41,9 @@ final class ECDHES implements KeyAgreement
     public function getAgreementKey(int $encryptionKeyLength, string $algorithm, JWK $recipientKey, ?JWK $senderKey, array $complete_header = [], array &$additional_header_values = []): string
     {
         if ($recipientKey->has('d')) {
-            list($public_key, $private_key) = $this->getKeysFromPrivateKeyAndHeader($recipientKey, $complete_header);
+            [$public_key, $private_key] = $this->getKeysFromPrivateKeyAndHeader($recipientKey, $complete_header);
         } else {
-            list($public_key, $private_key) = $this->getKeysFromPublicKey($recipientKey, $additional_header_values);
+            [$public_key, $private_key] = $this->getKeysFromPublicKey($recipientKey, $additional_header_values);
         }
 
         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
