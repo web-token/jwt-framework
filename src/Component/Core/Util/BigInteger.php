@@ -15,6 +15,7 @@ namespace Jose\Component\Core\Util;
 
 use Brick\Math\BigInteger as BrickBigInteger;
 use function chr;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -38,7 +39,11 @@ class BigInteger
      */
     public static function createFromBinaryString(string $value): self
     {
-        $data = current(unpack('H*', $value));
+        $res = unpack('H*', $value);
+        if (false === $res) {
+            throw new InvalidArgumentException('Unable to convert the value');
+        }
+        $data = current($res);
 
         return new self(BrickBigInteger::fromBase($data, 16));
     }
@@ -71,6 +76,9 @@ class BigInteger
         $temp = $this->value->toBase(16);
         $temp = 0 !== (mb_strlen($temp, '8bit') & 1) ? '0'.$temp : $temp;
         $temp = hex2bin($temp);
+        if (false === $temp) {
+            throw new InvalidArgumentException('Unable to convert the value into bytes');
+        }
 
         return ltrim($temp, chr(0));
     }

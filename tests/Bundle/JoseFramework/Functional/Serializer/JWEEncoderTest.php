@@ -117,7 +117,7 @@ final class JWEEncoderTest extends WebTestCase
         // Compact
         $loader = $jweLoaderFactory->create(['jwe_compact'], ['A256KW'], ['A256CBC-HS512'], []);
         $token = $serializer->encode($jwe, 'jwe_compact');
-        static::assertMatchesRegularExpression('/(eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0)\.(.+?)\.(.+?)\.(.+?)\.(.+)/', $token);
+        static::assertStringStartsWith('eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0', $token);
         $loader->loadAndDecryptWithKey($token, $jwk, $recipient);
         // Flat
         $loader = $jweLoaderFactory->create(['jwe_json_flattened'], ['A256KW'], ['A256CBC-HS512'], []);

@@ -18,7 +18,7 @@
     <server name="KERNEL_CLASS" value="Jose\Tests\Bundle\JoseFramework\AppKernel"/>
     <server name="SYMFONY_PHPUNIT_REMOVE" value=""/>
     <server name="SYMFONY_PHPUNIT_VERSION" value="8"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
   </php>
   <listeners>
     <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>

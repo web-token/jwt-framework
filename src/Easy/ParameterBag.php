@@ -65,6 +65,7 @@ class ParameterBag implements IteratorAggregate, Countable
      */
     public function add(array $parameters): void
     {
+        /** @var null|array $replaced */
         $replaced = array_replace($this->parameters, $parameters);
         if (null === $replaced) {
             throw new InvalidArgumentException('Invalid parameters');

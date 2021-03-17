@@ -89,7 +89,7 @@ final class JSONGeneralSerializer extends Serializer
             if (!isset($signature['signature'])) {
                 throw new InvalidArgumentException('Unsupported input.');
             }
-            list($encodedProtectedHeader, $protectedHeader, $header) = $this->processHeaders($signature);
+            [$encodedProtectedHeader, $protectedHeader, $header] = $this->processHeaders($signature);
             $signatures[] = [
                 'signature' => Base64Url::decode($signature['signature']),
                 'protected' => $protectedHeader,

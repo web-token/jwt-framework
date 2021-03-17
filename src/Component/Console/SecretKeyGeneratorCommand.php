@@ -52,6 +52,9 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
         if ($isBsae64Encoded) {
             $secret = base64_decode($secret, true);
         }
+        if (!is_string($secret)) {
+            throw new InvalidArgumentException('Invalid secret');
+        }
         $args = $this->getOptions($input);
 
         $jwk = JWKFactory::createFromSecret($secret, $args);

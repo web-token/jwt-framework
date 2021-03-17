@@ -18,6 +18,7 @@ use Base64Url\Base64Url;
 use function extension_loaded;
 use InvalidArgumentException;
 use function is_array;
+use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\ECKey;
@@ -247,7 +248,11 @@ class JWKFactory
     public static function createFromPKCS12CertificateFile(string $file, ?string $secret = '', array $additional_values = []): JWK
     {
         try {
-            openssl_pkcs12_read(file_get_contents($file), $certs, $secret);
+            $content = file_get_contents($file);
+            if (!is_string($content)) {
+                throw new RuntimeException('Unable to read the file.');
+            }
+            openssl_pkcs12_read($content, $certs, $secret);
         } catch (Throwable $throwable) {
             throw new RuntimeException('Unable to load the certificates.', $throwable->getCode(), $throwable);
         }

@@ -83,10 +83,10 @@ final class JSONGeneralSerializer implements JWESerializer
         $iv = Base64Url::decode($data['iv']);
         $tag = Base64Url::decode($data['tag']);
         $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
-        list($encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader) = $this->processHeaders($data);
+        [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
         $recipients = [];
         foreach ($data['recipients'] as $recipient) {
-            list($encryptedKey, $header) = $this->processRecipient($recipient);
+            [$encryptedKey, $header] = $this->processRecipient($recipient);
             $recipients[] = new Recipient($header, $encryptedKey);
         }
 

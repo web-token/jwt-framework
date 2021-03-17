@@ -20,21 +20,24 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class JWENormalizer implements NormalizerInterface, DenormalizerInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function supportsNormalization($data, $format = null)
     {
         return $data instanceof JWE && $this->componentInstalled();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function supportsDenormalization($data, $type, $format = null)
     {
         return JWE::class === $type && $this->componentInstalled();
     }
 
     /**
-     * @param mixed  $object Object to normalize
-     * @param string $format Format the normalization result will be encoded as
-     *
-     * @return mixed
+     * {@inheritDoc}
      */
     public function normalize($object, $format = null, array $context = [])
     {

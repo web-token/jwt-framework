@@ -104,7 +104,7 @@ abstract class AbstractLoader
     }
 
     /**
-     * @param null|array|callable|Checker\ClaimChecker $checker
+     * @param null|array|callable|Checker\ClaimChecker|mixed $checker
      */
     public function claim(string $key, $checker, bool $inHeader = false): self
     {

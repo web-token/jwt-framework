@@ -41,9 +41,9 @@ final class ECDHES implements KeyAgreement
     public function getAgreementKey(int $encryptionKeyLength, string $algorithm, JWK $recipientKey, ?JWK $senderKey, array $complete_header = [], array &$additional_header_values = []): string
     {
         if ($recipientKey->has('d')) {
-            list($public_key, $private_key) = $this->getKeysFromPrivateKeyAndHeader($recipientKey, $complete_header);
+            [$public_key, $private_key] = $this->getKeysFromPrivateKeyAndHeader($recipientKey, $complete_header);
         } else {
-            list($public_key, $private_key) = $this->getKeysFromPublicKey($recipientKey, $additional_header_values);
+            [$public_key, $private_key] = $this->getKeysFromPublicKey($recipientKey, $additional_header_values);
         }
 
         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
@@ -69,7 +69,12 @@ final class ECDHES implements KeyAgreement
                         $publicPem = ECKey::convertPublicKeyToPEM($public_key);
                         $privatePem = ECKey::convertPrivateKeyToPEM($private_key);
 
-                        return openssl_pkey_derive($publicPem, $privatePem, $curve->getSize());
+                        $res = openssl_pkey_derive($publicPem, $privatePem, $curve->getSize());
+                        if (false === $res) {
+                            throw new RuntimeException('Unable to derive the key');
+                        }
+
+                        return $res;
                     } catch (Throwable $throwable) {
                         //Does nothing. Will fallback to the pure PHP function
                     }
@@ -229,9 +234,12 @@ final class ECDHES implements KeyAgreement
 
     private function convertBase64ToBigInteger(string $value): BigInteger
     {
-        $value = unpack('H*', Base64Url::decode($value));
+        $data = unpack('H*', Base64Url::decode($value));
+        if (!is_array($data) || !isset($data[1])) {
+            throw new InvalidArgumentException('Unable to convert base64 to integer');
+        }
 
-        return BigInteger::fromBase($value[1], 16);
+        return BigInteger::fromBase($data[1], 16);
     }
 
     /**
@@ -248,7 +256,12 @@ final class ECDHES implements KeyAgreement
             $hex = '0'.$hex;
         }
 
-        return hex2bin($hex);
+        $bin = hex2bin($hex);
+        if (false === $bin) {
+            throw new InvalidArgumentException('Unable to convert integer to string');
+        }
+
+        return $bin;
     }
 
     /**
