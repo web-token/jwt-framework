@@ -119,6 +119,9 @@ class JWK implements JsonSerializable
         $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
         ksort($values);
         $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        if (false === $input) {
+            throw new InvalidArgumentException('Unable to compute the key thumbprint');
+        }
 
         return Base64Url::encode(hash($hash_algorithm, $input, true));
     }

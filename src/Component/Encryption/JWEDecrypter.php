@@ -146,13 +146,11 @@ class JWEDecrypter
                     KeyChecker::checkKeyAlgorithm($recipientKey, $content_encryption_algorithm->name());
                 }
                 $cek = $this->decryptCEK($key_encryption_algorithm, $content_encryption_algorithm, $recipientKey, $senderKey, $recipient, $completeHeader);
-                if (null !== $cek) {
-                    $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
-                    $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
-                    $successJwk = $recipientKey;
+                $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
+                $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
+                $successJwk = $recipientKey;
 
-                    return $payload;
-                }
+                return $payload;
             } catch (Throwable $e) {
                 //We do nothing, we continue with other keys
                 continue;

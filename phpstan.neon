@@ -6,7 +6,6 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
-        - '#Strict comparison using === between false and .* will always evaluate to false\.*#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
         - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'
         - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
@@ -14,6 +13,11 @@ parameters:
         - '#Method Jose\\Bundle\\JoseFramework\\Routing\\JWKSetLoader::(supports|load)\(\) has parameter \$type with no typehint specified\.#'
         - '#.* should be contravariant with .*#'
         - '#Call to deprecated function .*#'
+        - '#Parameter .* of function openssl_pkey_derive expects resource, string given\.#'
+        - '#Parameter .* of function call_user_func_array expects callable\(\)\: .* given\.#'
+        - '#Array .* does not accept object\.#'
+        - '#Invalid type object to throw\.#'
+        - '#Strict comparison using === between .* and .* will always evaluate to false\.#'
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon

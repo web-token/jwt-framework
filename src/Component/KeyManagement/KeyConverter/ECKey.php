@@ -147,8 +147,15 @@ class ECKey
 
         $values = ['kty' => 'EC'];
         $values['crv'] = self::getCurve($sub[1]->getContent());
-        $values['x'] = Base64Url::encode(hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit')));
-        $values['y'] = Base64Url::encode(hex2bin(mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit')));
+
+        $xBin = hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit'));
+        $yBin = hex2bin(mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit'));
+        if (!is_string($xBin) || !is_string($yBin)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+
+        $values['x'] = Base64Url::encode($xBin);
+        $values['y'] = Base64Url::encode($yBin);
 
         return $values;
     }
@@ -240,12 +247,18 @@ class ECKey
         }
 
         $curve = $children[2]->getContent()[0]->getContent();
+        $dBin = hex2bin($d);
+        $xBin = hex2bin($x);
+        $yBin = hex2bin($y);
+        if (!is_string($dBin) || !is_string($xBin) || !is_string($yBin)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
 
         $values = ['kty' => 'EC'];
         $values['crv'] = self::getCurve($curve);
-        $values['d'] = Base64Url::encode(hex2bin($d));
-        $values['x'] = Base64Url::encode(hex2bin($x));
-        $values['y'] = Base64Url::encode(hex2bin($y));
+        $values['d'] = Base64Url::encode($dBin);
+        $values['x'] = Base64Url::encode($xBin);
+        $values['y'] = Base64Url::encode($yBin);
 
         return $values;
     }

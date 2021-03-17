@@ -22,6 +22,8 @@ use FG\ASN1\Universal\NullObject;
 use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
+use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWK;
 use RuntimeException;
 
@@ -303,8 +305,11 @@ class RSAKey
      */
     private function fromBase64ToInteger($value)
     {
-        $hex = current(unpack('H*', Base64Url::decode($value)));
+        $unpacked = unpack('H*', Base64Url::decode($value));
+        if (!is_array($unpacked) || 0 === count($unpacked)) {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
 
-        return \Brick\Math\BigInteger::fromBase($hex, 16)->toBase(10);
+        return \Brick\Math\BigInteger::fromBase(current($unpacked), 16)->toBase(10);
     }
 }

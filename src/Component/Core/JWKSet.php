@@ -334,7 +334,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
                 return 'enc';
 
             default:
-                throw new InvalidArgumentException(sprintf('Unsupported key operation value "%s"', $key_ops));
+                throw new InvalidArgumentException(sprintf('Unsupported key operation value "%s"', implode(', ', $key_ops)));
         }
     }
 }

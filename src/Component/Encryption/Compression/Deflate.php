@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Compression;
 
 use InvalidArgumentException;
+use function is_string;
 use Throwable;
 
 final class Deflate implements CompressionMethod
@@ -47,7 +48,12 @@ final class Deflate implements CompressionMethod
     public function compress(string $data): string
     {
         try {
-            return gzdeflate($data, $this->getCompressionLevel());
+            $bin = gzdeflate($data, $this->getCompressionLevel());
+            if (!is_string($bin)) {
+                throw new InvalidArgumentException('Unable to encode the data');
+            }
+
+            return $bin;
         } catch (Throwable $throwable) {
             throw new InvalidArgumentException('Unable to compress data.', $throwable->getCode(), $throwable);
         }
@@ -59,7 +65,12 @@ final class Deflate implements CompressionMethod
     public function uncompress(string $data): string
     {
         try {
-            return gzinflate($data);
+            $bin = gzinflate($data);
+            if (!is_string($bin)) {
+                throw new InvalidArgumentException('Unable to encode the data');
+            }
+
+            return $bin;
         } catch (Throwable $throwable) {
             throw new InvalidArgumentException('Unable to uncompress data.', $throwable->getCode(), $throwable);
         }

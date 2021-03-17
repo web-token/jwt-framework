@@ -94,11 +94,20 @@ class KeyConverter
             openssl_x509_export($res, $out);
             $x5c = preg_replace('#-.*-#', '', $out);
             $x5c = preg_replace('~\R~', PHP_EOL, $x5c);
+            if (!is_string($x5c)) {
+                throw new InvalidArgumentException('Unable to load the certificate');
+            }
             $x5c = trim($x5c);
 
+            $x5tsha1 = openssl_x509_fingerprint($res, 'sha1', true);
+            $x5tsha256 = openssl_x509_fingerprint($res, 'sha256', true);
+            if (!is_string($x5tsha1) || !is_string($x5tsha256)) {
+                throw new InvalidArgumentException('Unable to compute the certificate fingerprint');
+            }
+
             $values['x5c'] = [$x5c];
-            $values['x5t'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha1', true));
-            $values['x5t#256'] = Base64Url::encode(openssl_x509_fingerprint($res, 'sha256', true));
+            $values['x5t'] = Base64Url::encode($x5tsha1);
+            $values['x5t#256'] = Base64Url::encode($x5tsha256);
 
             return $values;
         }
@@ -109,6 +118,9 @@ class KeyConverter
     public static function loadFromKeyFile(string $file, ?string $password = null): array
     {
         $content = file_get_contents($file);
+        if (!is_string($content)) {
+            throw new InvalidArgumentException('Unable to load the key from the file.');
+        }
 
         return self::loadFromKey($content, $password);
     }
@@ -231,6 +243,9 @@ class KeyConverter
         $symkey .= pack('H*', md5($symkey.$password.$iv_sub));
         $key = preg_replace('#^(?:Proc-Type|DEK-Info): .*#m', '', $pem);
         $ciphertext = base64_decode(preg_replace('#-.*-|\r|\n#', '', $key), true);
+        if (!is_string($ciphertext)) {
+            throw new InvalidArgumentException('Unable to encode the data.');
+        }
 
         $decoded = openssl_decrypt($ciphertext, mb_strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
         if (false === $decoded) {

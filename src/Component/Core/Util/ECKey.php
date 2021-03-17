@@ -16,6 +16,7 @@ namespace Jose\Component\Core\Util;
 use Base64Url\Base64Url;
 use function extension_loaded;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWK;
 use RuntimeException;
 
@@ -167,6 +168,9 @@ class ECKey
             throw new RuntimeException('Unable to create the key');
         }
         $details = openssl_pkey_get_details($res);
+        if (false === $details) {
+            throw new InvalidArgumentException('Unable to get the key details');
+        }
         $nistCurveSize = self::getNistCurveSize($curve);
 
         return [
@@ -263,14 +267,17 @@ class ECKey
 
     private static function p256PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT))[1];
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT));
+        if (!is_array($d) || !isset($d[1])) {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
 
         return pack(
             'H*',
             '3077' // SEQUENCE, length 87+length($d)=32
                 .'020101' // INTEGER, 1
                 .'0420'   // OCTET STRING, length($d) = 32
-                    .$d
+                    .$d[1]
                 .'a00a' // TAGGED OBJECT #0, length 10
                     .'0608' // OID, length 8
                         .'2a8648ce3d030107' // 1.3.132.0.34 = P-256 Curve
@@ -282,14 +289,17 @@ class ECKey
 
     private static function p256KPrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT))[1];
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT));
+        if (!is_array($d) || !isset($d[1])) {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
 
         return pack(
             'H*',
             '3074' // SEQUENCE, length 84+length($d)=32
                 .'020101' // INTEGER, 1
                 .'0420'   // OCTET STRING, length($d) = 32
-                    .$d
+                    .$d[1]
                 .'a007' // TAGGED OBJECT #0, length 7
                     .'0605' // OID, length 5
                         .'2b8104000a' //  1.3.132.0.10 secp256k1
@@ -301,14 +311,17 @@ class ECKey
 
     private static function p384PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 48, "\0", STR_PAD_LEFT))[1];
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 48, "\0", STR_PAD_LEFT));
+        if (!is_array($d) || !isset($d[1])) {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
 
         return pack(
             'H*',
             '3081a4' // SEQUENCE, length 116 + length($d)=48
                 .'020101' // INTEGER, 1
                 .'0430'   // OCTET STRING, length($d) = 30
-                    .$d
+                    .$d[1]
                 .'a007' // TAGGED OBJECT #0, length 7
                     .'0605' // OID, length 5
                         .'2b81040022' // 1.3.132.0.34 = P-384 Curve
@@ -320,14 +333,17 @@ class ECKey
 
     private static function p521PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 66, "\0", STR_PAD_LEFT))[1];
+        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 66, "\0", STR_PAD_LEFT));
+        if (!is_array($d) || !isset($d[1])) {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
 
         return pack(
             'H*',
             '3081dc' // SEQUENCE, length 154 + length($d)=66
                 .'020101' // INTEGER, 1
                 .'0442'   // OCTET STRING, length(d) = 66
-                    .$d
+                    .$d[1]
                 .'a007' // TAGGED OBJECT #0, length 7
                     .'0605' // OID, length 5
                         .'2b81040023' // 1.3.132.0.35 = P-521 Curve

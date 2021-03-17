@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Analyzer;
 
 use Base64Url\Base64Url;
+use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\JWK;
 
 final class RsaAnalyzer implements KeyAnalyzer
@@ -30,8 +32,11 @@ final class RsaAnalyzer implements KeyAnalyzer
 
     private function checkExponent(JWK $jwk, MessageBag $bag): void
     {
-        $exponent = unpack('l', str_pad(Base64Url::decode($jwk->get('e')), 4, "\0"))[1];
-        if ($exponent < 65537) {
+        $exponent = unpack('l', str_pad(Base64Url::decode($jwk->get('e')), 4, "\0"));
+        if (!is_array($exponent) || !isset($exponent[1])) {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
+        if ($exponent[1] < 65537) {
             $bag->add(Message::high('The exponent is too low. It should be at least 65537.'));
         }
     }
