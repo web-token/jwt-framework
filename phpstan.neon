@@ -18,6 +18,7 @@ parameters:
         - '#Array .* does not accept object\.#'
         - '#Invalid type object to throw\.#'
         - '#Strict comparison using === between .* and .* will always evaluate to false\.#'
+        - '#Binary operation "\^" between string and 1 results in an error\.#'
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/phpstan/phpstan-phpunit/extension.neon
