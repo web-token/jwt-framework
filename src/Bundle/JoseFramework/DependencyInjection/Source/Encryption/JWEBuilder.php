@@ -45,6 +45,7 @@ class JWEBuilder extends AbstractEncryptionSource
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
+            $container->registerAliasForArgument($service_id, JWEBuilderService::class, $name.'JweBuilder');
         }
     }
 }

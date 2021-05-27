@@ -28,6 +28,7 @@ abstract class AbstractSource
             $definition->addTag($id, $attributes);
         }
         $container->setDefinition($service_id, $definition);
+        $container->registerAliasForArgument($service_id, $definition->getClass(), $name.' '.$type);
     }
 
     public function addConfiguration(NodeDefinition $node): void
