@@ -15,6 +15,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
+use Jose\Component\NestedToken\NestedTokenLoader as NestedTokenLoaderService;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -31,7 +32,7 @@ class NestedTokenLoader implements Source
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
             $service_id = sprintf('jose.nested_token_loader.%s', $name);
-            $definition = new Definition(self::class);
+            $definition = new Definition(NestedTokenLoaderService::class);
             $definition
                 ->setFactory([new Reference(NestedTokenLoaderFactory::class), 'create'])
                 ->setArguments([
