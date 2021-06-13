@@ -48,6 +48,7 @@ class JWSLoader implements Source
             }
 
             $container->setDefinition($service_id, $definition);
+            $container->registerAliasForArgument($service_id, JWSLoaderService::class, $name.'JwsLoader');
         }
     }
 

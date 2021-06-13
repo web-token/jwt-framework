@@ -45,6 +45,7 @@ class JWEDecrypter extends AbstractEncryptionSource
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
+            $container->registerAliasForArgument($service_id, JWEDecrypterService::class, $name.'JweDecrypter');
         }
     }
 }

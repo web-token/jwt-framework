@@ -43,6 +43,7 @@ class JWESerializer implements Source
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
+            $container->registerAliasForArgument($service_id, JWESerializerManager::class, $name.'JweSerializer');
         }
     }
 

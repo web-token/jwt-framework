@@ -50,6 +50,7 @@ class JWELoader implements Source
             }
 
             $container->setDefinition($service_id, $definition);
+            $container->registerAliasForArgument($service_id, JWELoaderService::class, $name.'JweLoader');
         }
     }
 

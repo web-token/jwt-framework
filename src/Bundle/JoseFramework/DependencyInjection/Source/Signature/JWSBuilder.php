@@ -41,6 +41,7 @@ class JWSBuilder extends AbstractSignatureSource
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
+            $container->registerAliasForArgument($service_id, JWSBuilderService::class, $name.'JwsBuilder');
         }
     }
 }

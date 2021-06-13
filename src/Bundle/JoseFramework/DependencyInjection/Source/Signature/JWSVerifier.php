@@ -43,6 +43,7 @@ class JWSVerifier extends AbstractSignatureSource
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
+            $container->registerAliasForArgument($service_id, JWSVerifierService::class, $name.'JwsVerifier');
         }
     }
 }
