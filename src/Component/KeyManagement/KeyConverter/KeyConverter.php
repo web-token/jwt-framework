@@ -177,6 +177,12 @@ class KeyConverter
     {
         if (1 === preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches)) {
             $pem = self::decodePem($pem, $matches, $password);
+        } elseif (1 === preg_match('#BEGIN ENCRYPTED PRIVATE KEY(.+)(.+)#', $pem)) {
+            $decrypted = openssl_pkey_get_private($pem, $password);
+            if (false === $decrypted) {
+                throw new InvalidArgumentException('Unable to decrypt the key.');
+            }
+            openssl_pkey_export($decrypted, $pem);
         }
 
         if (!extension_loaded('openssl')) {
