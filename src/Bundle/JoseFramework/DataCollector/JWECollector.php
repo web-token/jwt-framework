@@ -169,7 +169,7 @@ class JWECollector implements Collector, EventSubscriberInterface
         $data['jwe']['jwe_builders'] = [];
         foreach ($this->jweBuilders as $id => $jweBuilder) {
             $data['jwe']['jwe_builders'][$id] = [
-                'key_encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()->list(),
+                'key_encryption_algorithms' => $jweBuilder->getAlgorithmManager()->list(),
                 'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()->list(),
                 'compression_methods' => $jweBuilder->getCompressionMethodManager()->list(),
             ];

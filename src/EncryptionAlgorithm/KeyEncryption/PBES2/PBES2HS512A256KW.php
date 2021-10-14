@@ -22,7 +22,7 @@ final class PBES2HS512A256KW extends PBES2AESKW
         return 'PBES2-HS512+A256KW';
     }
 
-    protected function getWrapper()
+    protected function getWrapper(): Wrapper
     {
         return new Wrapper();
     }

@@ -27,12 +27,12 @@ final class AlgorithmChecker implements HeaderChecker
     /**
      * @var bool
      */
-    private $protectedHeader = false;
+    private bool $protectedHeader = false;
 
     /**
      * @var string[]
      */
-    private $supportedAlgorithms;
+    private array $supportedAlgorithms;
 
     /**
      * @param string[] $supportedAlgorithms

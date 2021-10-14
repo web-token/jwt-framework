@@ -72,20 +72,6 @@ class RSA
     }
 
     /**
-     * Create a signature.
-     *
-     * @deprecated Please use openssl_sign
-     */
-    public static function signWithPKCS15(RSAKey $key, string $message, string $hash): string
-    {
-        $em = self::encodeEMSA15($message, $key->getModulusLength(), Hash::$hash());
-        $message = BigInteger::createFromBinaryString($em);
-        $signature = RSAKey::exponentiate($key, $message);
-
-        return self::convertIntegerToOctetString($signature, $key->getModulusLength());
-    }
-
-    /**
      * @throws InvalidArgumentException if the signature mode is not supported
      */
     public static function verify(RSAKey $key, string $message, string $signature, string $hash, int $mode): bool
@@ -118,25 +104,6 @@ class RSA
         $modBits = 8 * $key->getModulusLength();
 
         return self::verifyEMSAPSS($message, $em, $modBits - 1, Hash::$hash());
-    }
-
-    /**
-     * Verifies a signature.
-     *
-     * @deprecated Please use openssl_sign
-     *
-     * @throws RuntimeException if the signature cannot be verified
-     */
-    public static function verifyWithPKCS15(RSAKey $key, string $message, string $signature, string $hash): bool
-    {
-        if (mb_strlen($signature, '8bit') !== $key->getModulusLength()) {
-            throw new RuntimeException();
-        }
-        $signature = BigInteger::createFromBinaryString($signature);
-        $m2 = RSAKey::exponentiate($key, $signature);
-        $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
-
-        return hash_equals($em, self::encodeEMSA15($message, $key->getModulusLength(), Hash::$hash()));
     }
 
     /**
@@ -230,22 +197,5 @@ class RSA
         $h2 = $hash->hash($m2);
 
         return hash_equals($h, $h2);
-    }
-
-    /**
-     * @throws RuntimeException if the value cannot be encoded
-     */
-    private static function encodeEMSA15(string $m, int $emBits, Hash $hash): string
-    {
-        $h = $hash->hash($m);
-        $t = $hash->t();
-        $t .= $h;
-        $tLen = mb_strlen($t, '8bit');
-        if ($emBits < $tLen + 11) {
-            throw new RuntimeException();
-        }
-        $ps = str_repeat(chr(0xFF), $emBits - $tLen - 3);
-
-        return "\0\1{$ps}\0{$t}";
     }
 }

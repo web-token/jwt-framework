@@ -35,65 +35,19 @@ use RuntimeException;
 
 class JWEBuilder
 {
-    /**
-     * @var null|string
-     */
-    protected $payload;
+    protected ?string $payload;
+    protected ?string $aad;
+    protected array $recipients = [];
+    protected array $sharedProtectedHeader = [];
+    protected array $sharedHeader = [];
+    private AlgorithmManager $algorithmManager;
+    private CompressionMethodManager $compressionManager;
+    private ?CompressionMethod $compressionMethod;
+    private ?string $keyManagementMode;
 
-    /**
-     * @var null|string
-     */
-    protected $aad;
-
-    /**
-     * @var array
-     */
-    protected $recipients = [];
-
-    /**
-     * @var array
-     */
-    protected $sharedProtectedHeader = [];
-
-    /**
-     * @var array
-     */
-    protected $sharedHeader = [];
-
-    /**
-     * @var AlgorithmManager
-     */
-    private $keyEncryptionAlgorithmManager;
-
-    /**
-     * @var AlgorithmManager
-     */
-    private $contentEncryptionAlgorithmManager;
-
-    /**
-     * @var CompressionMethodManager
-     */
-    private $compressionManager;
-
-    /**
-     * @var null|CompressionMethod
-     */
-    private $compressionMethod;
-
-    /**
-     * @var null|ContentEncryptionAlgorithm
-     */
-    private $contentEncryptionAlgorithm;
-
-    /**
-     * @var null|string
-     */
-    private $keyManagementMode;
-
-    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, AlgorithmManager $contentEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
+    public function __construct(AlgorithmManager $keyEncryptionAlgorithmManager, CompressionMethodManager $compressionManager)
     {
-        $this->keyEncryptionAlgorithmManager = $keyEncryptionAlgorithmManager;
-        $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
+        $this->algorithmManager = $keyEncryptionAlgorithmManager;
         $this->compressionManager = $compressionManager;
     }
 
@@ -110,7 +64,6 @@ class JWEBuilder
         $this->sharedProtectedHeader = [];
         $this->sharedHeader = [];
         $this->compressionMethod = null;
-        $this->contentEncryptionAlgorithm = null;
         $this->keyManagementMode = null;
 
         return $this;
@@ -119,9 +72,9 @@ class JWEBuilder
     /**
      * Returns the key encryption algorithm manager.
      */
-    public function getKeyEncryptionAlgorithmManager(): AlgorithmManager
+    public function getAlgorithmManager(): AlgorithmManager
     {
-        return $this->keyEncryptionAlgorithmManager;
+        return $this->algorithmManager;
     }
 
     /**
@@ -129,7 +82,7 @@ class JWEBuilder
      */
     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
     {
-        return $this->contentEncryptionAlgorithmManager;
+        return $this->algorithmManager;
     }
 
     /**
@@ -292,9 +245,9 @@ class JWEBuilder
     private function checkAndSetContentEncryptionAlgorithm(array $completeHeader): void
     {
         $contentEncryptionAlgorithm = $this->getContentEncryptionAlgorithm($completeHeader);
-        if (null === $this->contentEncryptionAlgorithm) {
-            $this->contentEncryptionAlgorithm = $contentEncryptionAlgorithm;
-        } elseif ($contentEncryptionAlgorithm->name() !== $this->contentEncryptionAlgorithm->name()) {
+        if (null === $this->algorithm) {
+            $this->algorithm = $contentEncryptionAlgorithm;
+        } elseif ($contentEncryptionAlgorithm->name() !== $this->algorithm->name()) {
             throw new InvalidArgumentException('Inconsistent content encryption algorithm');
         }
     }
@@ -324,14 +277,14 @@ class JWEBuilder
      */
     private function encryptJWE(string $cek, string $encodedSharedProtectedHeader): array
     {
-        if (!$this->contentEncryptionAlgorithm instanceof ContentEncryptionAlgorithm) {
+        if (!$this->algorithm instanceof ContentEncryptionAlgorithm) {
             throw new InvalidArgumentException('The content encryption algorithm is not valid');
         }
-        $iv_size = $this->contentEncryptionAlgorithm->getIVSize();
+        $iv_size = $this->algorithm->getIVSize();
         $iv = $this->createIV($iv_size);
         $payload = $this->preparePayload();
         $tag = null;
-        $ciphertext = $this->contentEncryptionAlgorithm->encryptContent($payload, $cek, $iv, $this->aad, $encodedSharedProtectedHeader, $tag);
+        $ciphertext = $this->algorithm->encryptContent($payload, $cek, $iv, $this->aad, $encodedSharedProtectedHeader, $tag);
 
         return [$ciphertext, $iv, $tag];
     }
@@ -378,11 +331,11 @@ class JWEBuilder
      */
     private function getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm(array $completeHeader, string $cek, KeyAgreementWithKeyWrapping $keyEncryptionAlgorithm, array &$additionalHeader, JWK $recipientKey, ?JWK $senderKey): string
     {
-        if (null === $this->contentEncryptionAlgorithm) {
+        if (null === $this->algorithm) {
             throw new InvalidArgumentException('Invalid content encryption algorithm');
         }
 
-        return $keyEncryptionAlgorithm->wrapAgreementKey($recipientKey, $senderKey, $cek, $this->contentEncryptionAlgorithm->getCEKSize(), $completeHeader, $additionalHeader);
+        return $keyEncryptionAlgorithm->wrapAgreementKey($recipientKey, $senderKey, $cek, $this->algorithm->getCEKSize(), $completeHeader, $additionalHeader);
     }
 
     private function getEncryptedKeyFromKeyEncryptionAlgorithm(array $completeHeader, string $cek, KeyEncryption $keyEncryptionAlgorithm, JWK $recipientKey, array &$additionalHeader): string
@@ -402,7 +355,7 @@ class JWEBuilder
      */
     private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey): void
     {
-        if (null === $this->contentEncryptionAlgorithm) {
+        if (null === $this->algorithm) {
             throw new InvalidArgumentException('Invalid content encryption algorithm');
         }
 
@@ -410,20 +363,20 @@ class JWEBuilder
         if ('dir' !== $keyEncryptionAlgorithm->name()) {
             KeyChecker::checkKeyAlgorithm($recipientKey, $keyEncryptionAlgorithm->name());
         } else {
-            KeyChecker::checkKeyAlgorithm($recipientKey, $this->contentEncryptionAlgorithm->name());
+            KeyChecker::checkKeyAlgorithm($recipientKey, $this->algorithm->name());
         }
     }
 
     private function determineCEK(array &$additionalHeader): string
     {
-        if (null === $this->contentEncryptionAlgorithm) {
+        if (null === $this->algorithm) {
             throw new InvalidArgumentException('Invalid content encryption algorithm');
         }
 
         switch ($this->keyManagementMode) {
             case KeyEncryption::MODE_ENCRYPT:
             case KeyEncryption::MODE_WRAP:
-                return $this->createCEK($this->contentEncryptionAlgorithm->getCEKSize());
+                return $this->createCEK($this->algorithm->getCEKSize());
 
             case KeyEncryption::MODE_AGREEMENT:
                 if (1 !== count($this->recipients)) {
@@ -437,7 +390,7 @@ class JWEBuilder
                 }
                 $completeHeader = array_merge($this->sharedHeader, $this->recipients[0]['header'], $this->sharedProtectedHeader);
 
-                return $algorithm->getAgreementKey($this->contentEncryptionAlgorithm->getCEKSize(), $this->contentEncryptionAlgorithm->name(), $recipientKey, $senderKey, $completeHeader, $additionalHeader);
+                return $algorithm->getAgreementKey($this->algorithm->getCEKSize(), $this->algorithm->name(), $recipientKey, $senderKey, $completeHeader, $additionalHeader);
 
             case KeyEncryption::MODE_DIRECT:
                 if (1 !== count($this->recipients)) {
@@ -499,7 +452,7 @@ class JWEBuilder
         if (!isset($completeHeader['alg'])) {
             throw new InvalidArgumentException('Parameter "alg" is missing.');
         }
-        $keyEncryptionAlgorithm = $this->keyEncryptionAlgorithmManager->get($completeHeader['alg']);
+        $keyEncryptionAlgorithm = $this->algorithmManager->get($completeHeader['alg']);
         if (!$keyEncryptionAlgorithm instanceof KeyEncryptionAlgorithm) {
             throw new InvalidArgumentException(sprintf('The key encryption algorithm "%s" is not supported or not a key encryption algorithm instance.', $completeHeader['alg']));
         }
@@ -516,7 +469,7 @@ class JWEBuilder
         if (!isset($completeHeader['enc'])) {
             throw new InvalidArgumentException('Parameter "enc" is missing.');
         }
-        $contentEncryptionAlgorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
+        $contentEncryptionAlgorithm = $this->algorithmManager->get($completeHeader['enc']);
         if (!$contentEncryptionAlgorithm instanceof ContentEncryptionAlgorithm) {
             throw new InvalidArgumentException(sprintf('The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.', $completeHeader['enc']));
         }

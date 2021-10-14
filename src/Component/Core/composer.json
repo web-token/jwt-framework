@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=8.0",
         "ext-json": "*",
         "ext-mbstring": "*",
         "brick/math": "^0.8.17|^0.9",

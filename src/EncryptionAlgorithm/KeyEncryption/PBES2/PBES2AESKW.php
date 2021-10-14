@@ -138,7 +138,7 @@ abstract class PBES2AESKW implements KeyWrapping
     /**
      * @return \AESKW\A128KW|\AESKW\A192KW|\AESKW\A256KW
      */
-    abstract protected function getWrapper();
+    abstract protected function getWrapper(): \AESKW\A256KW|\AESKW\A128KW|\AESKW\A192KW;
 
     abstract protected function getHashAlgorithm(): string;
 
