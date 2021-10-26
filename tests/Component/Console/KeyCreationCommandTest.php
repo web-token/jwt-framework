@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Console;
 use Jose\Component\Core\JWK;
@@ -137,7 +137,7 @@ class KeyCreationCommandTest extends TestCase
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
         static::assertTrue($jwk->has('k'));
-        static::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
+        static::assertEquals('This is my secret', Base64UrlSafe::decode($jwk->get('k')));
     }
 
     /**
@@ -158,7 +158,7 @@ class KeyCreationCommandTest extends TestCase
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
         static::assertTrue($jwk->has('k'));
-        static::assertEquals($secret, Base64Url::decode($jwk->get('k')));
+        static::assertEquals($secret, Base64UrlSafe::decode($jwk->get('k')));
     }
 
     /**

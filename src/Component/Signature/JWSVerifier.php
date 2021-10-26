@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
@@ -121,7 +121,7 @@ class JWSVerifier
 
             $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
 
-            return sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
+            return sprintf('%s.%s', $encodedProtectedHeader, Base64UrlSafe::encodeUnpadded($payload));
         }
 
         $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
@@ -68,7 +68,7 @@ class ECDSASignatureTest extends TestCase
         $sign = $ecdsa->sign($key, $data);
 
         static::assertTrue($ecdsa->verify($key, $data, $sign));
-        static::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+        static::assertTrue($ecdsa->verify($key, $data, Base64UrlSafe::decode($signature)));
     }
 
     /**
@@ -157,7 +157,7 @@ class ECDSASignatureTest extends TestCase
         $sign = $ecdsa->sign($key, $data);
 
         static::assertTrue($ecdsa->verify($key, $data, $sign));
-        static::assertTrue($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+        static::assertTrue($ecdsa->verify($key, $data, Base64UrlSafe::decode($signature)));
     }
 
     /**
@@ -200,6 +200,6 @@ class ECDSASignatureTest extends TestCase
         $data = 'eyJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ';
         $signature = 'DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3';
 
-        static::assertFalse($ecdsa->verify($key, $data, Base64Url::decode($signature)));
+        static::assertFalse($ecdsa->verify($key, $data, Base64UrlSafe::decode($signature)));
     }
 }

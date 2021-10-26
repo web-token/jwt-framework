@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function extension_loaded;
 use InvalidArgumentException;
 use function is_array;
@@ -176,9 +176,9 @@ class ECKey
         return [
             'kty' => 'EC',
             'crv' => $curve,
-            'd' => Base64Url::encode(str_pad($details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
-            'x' => Base64Url::encode(str_pad($details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
-            'y' => Base64Url::encode(str_pad($details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'd' => Base64UrlSafe::encodeUnpadded(str_pad($details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'x' => Base64UrlSafe::encodeUnpadded(str_pad($details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
+            'y' => Base64UrlSafe::encodeUnpadded(str_pad($details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)),
         ];
     }
 
@@ -267,7 +267,7 @@ class ECKey
 
     private static function p256PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT));
         if (!is_array($d) || !isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -289,7 +289,7 @@ class ECKey
 
     private static function p256KPrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decode($jwk->get('d')), 32, "\0", STR_PAD_LEFT));
         if (!is_array($d) || !isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -311,7 +311,7 @@ class ECKey
 
     private static function p384PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 48, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decode($jwk->get('d')), 48, "\0", STR_PAD_LEFT));
         if (!is_array($d) || !isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -333,7 +333,7 @@ class ECKey
 
     private static function p521PrivateKey(JWK $jwk): string
     {
-        $d = unpack('H*', str_pad(Base64Url::decode($jwk->get('d')), 66, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decode($jwk->get('d')), 66, "\0", STR_PAD_LEFT));
         if (!is_array($d) || !isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -360,7 +360,7 @@ class ECKey
 
         return
             "\04"
-            .str_pad(Base64Url::decode($jwk->get('x')), $length, "\0", STR_PAD_LEFT)
-            .str_pad(Base64Url::decode($jwk->get('y')), $length, "\0", STR_PAD_LEFT);
+            .str_pad(Base64UrlSafe::decode($jwk->get('x')), $length, "\0", STR_PAD_LEFT)
+            .str_pad(Base64UrlSafe::decode($jwk->get('y')), $length, "\0", STR_PAD_LEFT);
     }
 }

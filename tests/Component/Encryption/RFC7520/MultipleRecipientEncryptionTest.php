@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
@@ -119,17 +119,17 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
-        static::assertEquals($expected_recipient_1_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
-        static::assertEquals($expected_recipient_2_encrypted_key, Base64Url::encode($loaded_json->getRecipient(1)->getEncryptedKey()));
-        static::assertEquals($expected_recipient_3_encrypted_key, Base64Url::encode($loaded_json->getRecipient(2)->getEncryptedKey()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
+        static::assertEquals($expected_recipient_1_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(0)->getEncryptedKey()));
+        static::assertEquals($expected_recipient_2_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(1)->getEncryptedKey()));
+        static::assertEquals($expected_recipient_3_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(2)->getEncryptedKey()));
         static::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
         static::assertEquals($recipient_2Header, $loaded_json->getRecipient(1)->getHeader());
         static::assertEquals($recipient_3Header, $loaded_json->getRecipient(2)->getHeader());
         static::assertEquals($header, $loaded_json->getSharedHeader());
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
         static::assertEquals($expected_payload, $loaded_json->getPayload());
     }

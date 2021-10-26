@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function in_array;
 use InvalidArgumentException;
 use function is_int;
@@ -53,7 +53,7 @@ abstract class PBES2AESKW implements KeyWrapping
         $salt = random_bytes($this->salt_size);
 
         // We set header parameters
-        $additionalHeader['p2s'] = Base64Url::encode($salt);
+        $additionalHeader['p2s'] = Base64UrlSafe::encodeUnpadded($salt);
         $additionalHeader['p2c'] = $this->nb_count;
 
         $derived_key = hash_pbkdf2($hash_algorithm, $password, $completeHeader['alg']."\x00".$salt, $this->nb_count, $key_size, true);
@@ -69,7 +69,7 @@ abstract class PBES2AESKW implements KeyWrapping
         $wrapper = $this->getWrapper();
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
-        $salt = $completeHeader['alg']."\x00".Base64Url::decode($completeHeader['p2s']);
+        $salt = $completeHeader['alg']."\x00".Base64UrlSafe::decode($completeHeader['p2s']);
         $count = $completeHeader['p2c'];
 
         $derived_key = hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
@@ -99,7 +99,7 @@ abstract class PBES2AESKW implements KeyWrapping
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64Url::decode($k);
+        return Base64UrlSafe::decode($k);
     }
 
     /**

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Base64Url\Base64Url;
 use InvalidArgumentException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function is_bool;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputInterface;
@@ -62,6 +62,6 @@ abstract class GeneratorCommand extends ObjectOutputCommand
 
     private function generateKeyID(): string
     {
-        return Base64Url::encode(random_bytes(32));
+        return Base64UrlSafe::encode(random_bytes(32));
     }
 }

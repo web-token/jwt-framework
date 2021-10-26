@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\ContentEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
@@ -38,7 +38,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      */
     public function a128CBCHS256EncryptAndDecrypt(): void
     {
-        $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
         $algorithm = new A128CBCHS256();
 
@@ -64,7 +64,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Unable to decrypt or to verify the tag.');
 
-        $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $algorithm = new A128CBCHS256();
 
         $K = $this->convertArrayToBinString([4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207]);
@@ -83,7 +83,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      */
     public function a128CBCHS256EncryptAndDecryptBis(): void
     {
-        $header = Base64Url::encode(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode(['alg' => 'A128KW', 'enc' => 'A128CBC-HS256']));
         $T = null;
         $algorithm = new A128CBCHS256();
 
@@ -115,7 +115,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      */
     public function a192CBCHS384EncryptAndDecrypt(): void
     {
-        $header = Base64Url::encode(json_encode([]));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode([]));
         $algorithm = new A192CBCHS384();
 
         $K = hex2bin('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f');
@@ -146,7 +146,7 @@ class AESCBC_HSContentEncryptionTest extends TestCase
      */
     public function a256CBCHS512EncryptAndDecrypt(): void
     {
-        $header = Base64Url::encode(json_encode([]));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode([]));
         $algorithm = new A256CBCHS512();
 
         $K = hex2bin('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f');

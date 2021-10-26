@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
@@ -42,12 +42,12 @@ final class JSONFlattenedSerializer implements JWESerializer
         }
         $recipient = $jwe->getRecipient($recipientIndex);
         $data = [
-            'ciphertext' => Base64Url::encode($jwe->getCiphertext()),
-            'iv' => Base64Url::encode($jwe->getIV()),
-            'tag' => Base64Url::encode($jwe->getTag()),
+            'ciphertext' => Base64UrlSafe::encodeUnpadded($jwe->getCiphertext()),
+            'iv' => Base64UrlSafe::encodeUnpadded($jwe->getIV()),
+            'tag' => Base64UrlSafe::encodeUnpadded($jwe->getTag()),
         ];
         if (null !== $jwe->getAAD()) {
-            $data['aad'] = Base64Url::encode($jwe->getAAD());
+            $data['aad'] = Base64UrlSafe::encodeUnpadded($jwe->getAAD());
         }
         if (0 !== count($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
@@ -59,7 +59,7 @@ final class JSONFlattenedSerializer implements JWESerializer
             $data['header'] = $recipient->getHeader();
         }
         if (null !== $recipient->getEncryptedKey()) {
-            $data['encrypted_key'] = Base64Url::encode($recipient->getEncryptedKey());
+            $data['encrypted_key'] = Base64UrlSafe::encodeUnpadded($recipient->getEncryptedKey());
         }
 
         return JsonConverter::encode($data);
@@ -70,12 +70,12 @@ final class JSONFlattenedSerializer implements JWESerializer
         $data = JsonConverter::decode($input);
         $this->checkData($data);
 
-        $ciphertext = Base64Url::decode($data['ciphertext']);
-        $iv = Base64Url::decode($data['iv']);
-        $tag = Base64Url::decode($data['tag']);
-        $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
+        $ciphertext = Base64UrlSafe::decode($data['ciphertext']);
+        $iv = Base64UrlSafe::decode($data['iv']);
+        $tag = Base64UrlSafe::decode($data['tag']);
+        $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decode($data['aad']) : null;
         [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
-        $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64Url::decode($data['encrypted_key']) : null;
+        $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64UrlSafe::decode($data['encrypted_key']) : null;
         $header = array_key_exists('header', $data) ? $data['header'] : [];
 
         return new JWE(
@@ -103,7 +103,7 @@ final class JSONFlattenedSerializer implements JWESerializer
     private function processHeaders(array $data): array
     {
         $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
-        $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
+        $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64UrlSafe::decode($encodedSharedProtectedHeader)) : [];
         $sharedHeader = $data['unprotected'] ?? [];
 
         return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];

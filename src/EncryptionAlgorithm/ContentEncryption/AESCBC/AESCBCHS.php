@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use RuntimeException;
 
@@ -67,7 +67,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
     {
         $calculated_aad = $encoded_header;
         if (null !== $aad) {
-            $calculated_aad .= '.'.Base64Url::encode($aad);
+            $calculated_aad .= '.'.Base64UrlSafe::encodeUnpadded($aad);
         }
         $mac_key = mb_substr($cek, 0, $this->getCEKSize() / 16, '8bit');
         $auth_data_length = mb_strlen($encoded_header, '8bit');

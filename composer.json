@@ -65,11 +65,11 @@
         "ext-sodium": "*",
         "brick/math": "^0.8.17|^0.9",
         "fgrosse/phpasn1": "^2.0",
+        "paragonie/constant_time_encoding": "^2.4",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "spomky-labs/aes-key-wrap": "^5.0|^6.0",
-        "spomky-labs/base64url": "^1.0|^2.0",
         "symfony/config": "^4.2|^5.0",
         "symfony/console": "^4.2|^5.0",
         "symfony/dependency-injection": "^4.2|^5.0",
@@ -78,6 +78,7 @@
         "symfony/polyfill-mbstring": "^1.12"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "ext-curl": "*",
         "ext-gmp": "*",
         "bjeavons/zxcvbn-php": "^1.0",

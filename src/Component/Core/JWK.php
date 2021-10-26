@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
@@ -123,7 +123,7 @@ class JWK implements JsonSerializable
             throw new InvalidArgumentException('Unable to compute the key thumbprint');
         }
 
-        return Base64Url::encode(hash($hash_algorithm, $input, true));
+        return Base64UrlSafe::encodeUnpadded(hash($hash_algorithm, $input, true));
     }
 
     /**

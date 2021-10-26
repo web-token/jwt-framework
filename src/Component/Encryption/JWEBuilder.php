@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
@@ -279,7 +279,7 @@ class JWEBuilder
         } else {
             $sharedProtectedHeader = $this->sharedProtectedHeader;
         }
-        $encodedSharedProtectedHeader = 0 === count($sharedProtectedHeader) ? '' : Base64Url::encode(JsonConverter::encode($sharedProtectedHeader));
+        $encodedSharedProtectedHeader = 0 === count($sharedProtectedHeader) ? '' : Base64UrlSafe::encodeUnpadded(JsonConverter::encode($sharedProtectedHeader));
 
         [$ciphertext, $iv, $tag] = $this->encryptJWE($cek, $encodedSharedProtectedHeader);
 
@@ -449,7 +449,7 @@ class JWEBuilder
                     throw new RuntimeException('Wrong key type.');
                 }
 
-                return Base64Url::decode($key->get('k'));
+                return Base64UrlSafe::decode($key->get('k'));
 
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported key management mode "%s".', $this->keyManagementMode));

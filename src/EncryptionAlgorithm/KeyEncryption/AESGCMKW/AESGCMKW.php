@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Exception;
 use function in_array;
 use InvalidArgumentException;
@@ -36,7 +36,7 @@ abstract class AESGCMKW implements KeyWrapping
     {
         $kek = $this->getKey($key);
         $iv = random_bytes(96 / 8);
-        $additionalHeader['iv'] = Base64Url::encode($iv);
+        $additionalHeader['iv'] = Base64UrlSafe::encodeUnpadded($iv);
 
         $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $tag = '';
@@ -44,7 +44,7 @@ abstract class AESGCMKW implements KeyWrapping
         if (false === $encrypted_cek) {
             throw new RuntimeException('Unable to encrypt the CEK');
         }
-        $additionalHeader['tag'] = Base64Url::encode($tag);
+        $additionalHeader['tag'] = Base64UrlSafe::encodeUnpadded($tag);
 
         return $encrypted_cek;
     }
@@ -57,8 +57,8 @@ abstract class AESGCMKW implements KeyWrapping
         $kek = $this->getKey($key);
         $this->checkAdditionalParameters($completeHeader);
 
-        $tag = Base64Url::decode($completeHeader['tag']);
-        $iv = Base64Url::decode($completeHeader['iv']);
+        $tag = Base64UrlSafe::decode($completeHeader['tag']);
+        $iv = Base64UrlSafe::decode($completeHeader['iv']);
 
         $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $cek = openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
@@ -90,7 +90,7 @@ abstract class AESGCMKW implements KeyWrapping
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64Url::decode($k);
+        return Base64UrlSafe::decode($k);
     }
 
     /**

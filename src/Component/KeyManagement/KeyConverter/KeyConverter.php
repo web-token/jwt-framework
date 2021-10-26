@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use function extension_loaded;
 use InvalidArgumentException;
@@ -106,8 +106,8 @@ class KeyConverter
             }
 
             $values['x5c'] = [$x5c];
-            $values['x5t'] = Base64Url::encode($x5tsha1);
-            $values['x5t#256'] = Base64Url::encode($x5tsha256);
+            $values['x5t'] = Base64UrlSafe::encodeUnpadded($x5tsha1);
+            $values['x5t#256'] = Base64UrlSafe::encodeUnpadded($x5tsha256);
 
             return $values;
         }

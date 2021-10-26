@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -136,6 +136,6 @@ class JWKLoaderTest extends WebTestCase
         static::assertEquals('oct', $jwk->get('kty'));
         static::assertEquals('enc', $jwk->get('use'));
         static::assertEquals('RS512', $jwk->get('alg'));
-        static::assertEquals('This is my secret', Base64Url::decode($jwk->get('k')));
+        static::assertEquals('This is my secret', Base64UrlSafe::decode($jwk->get('k')));
     }
 }

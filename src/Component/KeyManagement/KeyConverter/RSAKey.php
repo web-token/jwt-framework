@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function extension_loaded;
 use function in_array;
 use InvalidArgumentException;
@@ -59,7 +59,7 @@ class RSAKey
         ];
         foreach ($details as $key => $value) {
             if (in_array($key, $keys, true)) {
-                $value = Base64Url::encode($value);
+                $value = Base64UrlSafe::encodeUnpadded($value);
                 $values[array_search($key, $keys, true)] = $value;
             }
         }
@@ -168,13 +168,13 @@ class RSAKey
     private function populateCRT(): void
     {
         if (!array_key_exists('p', $this->values) && !array_key_exists('q', $this->values)) {
-            $d = BigInteger::createFromBinaryString(Base64Url::decode($this->values['d']));
-            $e = BigInteger::createFromBinaryString(Base64Url::decode($this->values['e']));
-            $n = BigInteger::createFromBinaryString(Base64Url::decode($this->values['n']));
+            $d = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['d']));
+            $e = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['e']));
+            $n = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['n']));
 
             [$p, $q] = $this->findPrimeFactors($d, $e, $n);
-            $this->values['p'] = Base64Url::encode($p->toBytes());
-            $this->values['q'] = Base64Url::encode($q->toBytes());
+            $this->values['p'] = Base64UrlSafe::encodeUnpadded($p->toBytes());
+            $this->values['q'] = Base64UrlSafe::encodeUnpadded($q->toBytes());
         }
 
         if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists('qi', $this->values)) {
@@ -182,13 +182,13 @@ class RSAKey
         }
 
         $one = BigInteger::createFromDecimal(1);
-        $d = BigInteger::createFromBinaryString(Base64Url::decode($this->values['d']));
-        $p = BigInteger::createFromBinaryString(Base64Url::decode($this->values['p']));
-        $q = BigInteger::createFromBinaryString(Base64Url::decode($this->values['q']));
+        $d = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['d']));
+        $p = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['p']));
+        $q = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['q']));
 
-        $this->values['dp'] = Base64Url::encode($d->mod($p->subtract($one))->toBytes());
-        $this->values['dq'] = Base64Url::encode($d->mod($q->subtract($one))->toBytes());
-        $this->values['qi'] = Base64Url::encode($q->modInverse($p)->toBytes());
+        $this->values['dp'] = Base64UrlSafe::encodeUnpadded($d->mod($p->subtract($one))->toBytes());
+        $this->values['dq'] = Base64UrlSafe::encodeUnpadded($d->mod($q->subtract($one))->toBytes());
+        $this->values['qi'] = Base64UrlSafe::encodeUnpadded($q->modInverse($p)->toBytes());
     }
 
     /**

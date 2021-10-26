@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function extension_loaded;
 use InvalidArgumentException;
 use function is_array;
@@ -95,7 +95,7 @@ class JWKFactory
             $values,
             [
                 'kty' => 'oct',
-                'k' => Base64Url::encode(random_bytes($size / 8)),
+                'k' => Base64UrlSafe::encodeUnpadded(random_bytes($size / 8)),
             ]
         );
 
@@ -143,8 +143,8 @@ class JWKFactory
             [
                 'kty' => 'OKP',
                 'crv' => $curve,
-                'd' => Base64Url::encode($d),
-                'x' => Base64Url::encode($x),
+                'd' => Base64UrlSafe::encodeUnpadded($d),
+                'x' => Base64UrlSafe::encodeUnpadded($x),
             ]
         );
 
@@ -212,7 +212,7 @@ class JWKFactory
             $additional_values,
             [
                 'kty' => 'oct',
-                'k' => Base64Url::encode($secret),
+                'k' => Base64UrlSafe::encodeUnpadded($secret),
             ]
         );
 

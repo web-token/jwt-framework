@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use function is_array;
@@ -55,7 +55,7 @@ final class JSONGeneralSerializer extends Serializer
 
         $data['signatures'] = [];
         foreach ($jws->getSignatures() as $signature) {
-            $tmp = ['signature' => Base64Url::encode($signature->getSignature())];
+            $tmp = ['signature' => Base64UrlSafe::encodeUnpadded($signature->getSignature())];
             $values = [
                 'protected' => $signature->getEncodedProtectedHeader(),
                 'header' => $signature->getHeader(),
@@ -91,7 +91,7 @@ final class JSONGeneralSerializer extends Serializer
             }
             [$encodedProtectedHeader, $protectedHeader, $header] = $this->processHeaders($signature);
             $signatures[] = [
-                'signature' => Base64Url::decode($signature['signature']),
+                'signature' => Base64UrlSafe::decode($signature['signature']),
                 'protected' => $protectedHeader,
                 'encoded_protected' => $encodedProtectedHeader,
                 'header' => $header,
@@ -131,7 +131,7 @@ final class JSONGeneralSerializer extends Serializer
     private function processHeaders(array $signature): array
     {
         $encodedProtectedHeader = $signature['protected'] ?? null;
-        $protectedHeader = null === $encodedProtectedHeader ? [] : JsonConverter::decode(Base64Url::decode($encodedProtectedHeader));
+        $protectedHeader = null === $encodedProtectedHeader ? [] : JsonConverter::decode(Base64UrlSafe::decode($encodedProtectedHeader));
         $header = array_key_exists('header', $signature) ? $signature['header'] : [];
 
         return [$encodedProtectedHeader, $protectedHeader, $header];
@@ -143,7 +143,7 @@ final class JSONGeneralSerializer extends Serializer
             return null;
         }
 
-        return false === $isPayloadEncoded ? $rawPayload : Base64Url::decode($rawPayload);
+        return false === $isPayloadEncoded ? $rawPayload : Base64UrlSafe::decode($rawPayload);
     }
 
     // @throws LogicException if the payload encoding is invalid

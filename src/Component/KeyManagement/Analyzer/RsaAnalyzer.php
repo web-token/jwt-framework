@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\JWK;
@@ -32,7 +32,7 @@ final class RsaAnalyzer implements KeyAnalyzer
 
     private function checkExponent(JWK $jwk, MessageBag $bag): void
     {
-        $exponent = unpack('l', str_pad(Base64Url::decode($jwk->get('e')), 4, "\0"));
+        $exponent = unpack('l', str_pad(Base64UrlSafe::decode($jwk->get('e')), 4, "\0"));
         if (!is_array($exponent) || !isset($exponent[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -43,7 +43,7 @@ final class RsaAnalyzer implements KeyAnalyzer
 
     private function checkModulus(JWK $jwk, MessageBag $bag): void
     {
-        $n = 8 * mb_strlen(Base64Url::decode($jwk->get('n')), '8bit');
+        $n = 8 * mb_strlen(Base64UrlSafe::decode($jwk->get('n')), '8bit');
         if ($n < 2048) {
             $bag->add(Message::high('The key length is less than 2048 bits.'));
         }

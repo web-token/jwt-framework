@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
 
@@ -71,15 +71,15 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
 
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getTag()));
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
         static::assertEquals($expected_payload, $loaded_compact_json->getPayload());

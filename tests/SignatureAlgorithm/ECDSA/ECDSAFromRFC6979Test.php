@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
@@ -63,9 +63,9 @@ class ECDSAFromRFC6979Test extends TestCase
                 new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-256',
-                    'd' => Base64Url::encode($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
-                    'x' => Base64Url::encode($this->convertHexToBin('60FED4BA255A9D31C961EB74C6356D68C049B8923B61FA6CE669622E60F29FB6')),
-                    'y' => Base64Url::encode($this->convertHexToBin('7903FE1008B8BC99A41AE9E95628BC64F2F1B20C2D7E9F5177A3C294D4462299')),
+                    'd' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
+                    'x' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('60FED4BA255A9D31C961EB74C6356D68C049B8923B61FA6CE669622E60F29FB6')),
+                    'y' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('7903FE1008B8BC99A41AE9E95628BC64F2F1B20C2D7E9F5177A3C294D4462299')),
                 ]),
                 sprintf(
                     '%s%s',
@@ -79,9 +79,9 @@ class ECDSAFromRFC6979Test extends TestCase
                 new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-256',
-                    'd' => Base64Url::encode($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
-                    'x' => Base64Url::encode($this->convertHexToBin('60FED4BA255A9D31C961EB74C6356D68C049B8923B61FA6CE669622E60F29FB6')),
-                    'y' => Base64Url::encode($this->convertHexToBin('7903FE1008B8BC99A41AE9E95628BC64F2F1B20C2D7E9F5177A3C294D4462299')),
+                    'd' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('C9AFA9D845BA75166B5C215767B1D6934E50C3DB36E89B127B8A622B120F6721')),
+                    'x' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('60FED4BA255A9D31C961EB74C6356D68C049B8923B61FA6CE669622E60F29FB6')),
+                    'y' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('7903FE1008B8BC99A41AE9E95628BC64F2F1B20C2D7E9F5177A3C294D4462299')),
                 ]),
                 sprintf(
                     '%s%s',
@@ -95,9 +95,9 @@ class ECDSAFromRFC6979Test extends TestCase
                 new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-384',
-                    'd' => Base64Url::encode($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
-                    'x' => Base64Url::encode($this->convertHexToBin('EC3A4E415B4E19A4568618029F427FA5DA9A8BC4AE92E02E06AAE5286B300C64DEF8F0EA9055866064A254515480BC13')),
-                    'y' => Base64Url::encode($this->convertHexToBin('8015D9B72D7D57244EA8EF9AC0C621896708A59367F9DFB9F54CA84B3F1C9DB1288B231C3AE0D4FE7344FD2533264720')),
+                    'd' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
+                    'x' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('EC3A4E415B4E19A4568618029F427FA5DA9A8BC4AE92E02E06AAE5286B300C64DEF8F0EA9055866064A254515480BC13')),
+                    'y' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('8015D9B72D7D57244EA8EF9AC0C621896708A59367F9DFB9F54CA84B3F1C9DB1288B231C3AE0D4FE7344FD2533264720')),
                 ]),
                 sprintf(
                     '%s%s',
@@ -111,9 +111,9 @@ class ECDSAFromRFC6979Test extends TestCase
                 new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-384',
-                    'd' => Base64Url::encode($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
-                    'x' => Base64Url::encode($this->convertHexToBin('EC3A4E415B4E19A4568618029F427FA5DA9A8BC4AE92E02E06AAE5286B300C64DEF8F0EA9055866064A254515480BC13')),
-                    'y' => Base64Url::encode($this->convertHexToBin('8015D9B72D7D57244EA8EF9AC0C621896708A59367F9DFB9F54CA84B3F1C9DB1288B231C3AE0D4FE7344FD2533264720')),
+                    'd' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('6B9D3DAD2E1B8C1C05B19875B6659F4DE23C3B667BF297BA9AA47740787137D896D5724E4C70A825F872C9EA60D2EDF5')),
+                    'x' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('EC3A4E415B4E19A4568618029F427FA5DA9A8BC4AE92E02E06AAE5286B300C64DEF8F0EA9055866064A254515480BC13')),
+                    'y' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('8015D9B72D7D57244EA8EF9AC0C621896708A59367F9DFB9F54CA84B3F1C9DB1288B231C3AE0D4FE7344FD2533264720')),
                 ]),
                 sprintf(
                     '%s%s',
@@ -128,9 +128,9 @@ class ECDSAFromRFC6979Test extends TestCase
                 new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-521',
-                    'd' => Base64Url::encode($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),
-                    'x' => Base64Url::encode($this->convertHexToBin('01894550D0785932E00EAA23B694F213F8C3121F86DC97A04E5A7167DB4E5BCD371123D46E45DB6B5D5370A7F20FB633155D38FFA16D2BD761DCAC474B9A2F5023A4')),
-                    'y' => Base64Url::encode($this->convertHexToBin('00493101C962CD4D2FDDF782285E64584139C2F91B47F87FF82354D6630F746A28A0DB25741B5B34A828008B22ACC23F924FAAFBD4D33F81EA66956DFEAA2BFDFCF5')),
+                    'd' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),
+                    'x' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('01894550D0785932E00EAA23B694F213F8C3121F86DC97A04E5A7167DB4E5BCD371123D46E45DB6B5D5370A7F20FB633155D38FFA16D2BD761DCAC474B9A2F5023A4')),
+                    'y' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('00493101C962CD4D2FDDF782285E64584139C2F91B47F87FF82354D6630F746A28A0DB25741B5B34A828008B22ACC23F924FAAFBD4D33F81EA66956DFEAA2BFDFCF5')),
                 ]),
                 sprintf(
                     '%s%s',
@@ -144,9 +144,9 @@ class ECDSAFromRFC6979Test extends TestCase
                 new JWK([
                     'kty' => 'EC',
                     'crv' => 'P-521',
-                    'd' => Base64Url::encode($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),
-                    'x' => Base64Url::encode($this->convertHexToBin('01894550D0785932E00EAA23B694F213F8C3121F86DC97A04E5A7167DB4E5BCD371123D46E45DB6B5D5370A7F20FB633155D38FFA16D2BD761DCAC474B9A2F5023A4')),
-                    'y' => Base64Url::encode($this->convertHexToBin('00493101C962CD4D2FDDF782285E64584139C2F91B47F87FF82354D6630F746A28A0DB25741B5B34A828008B22ACC23F924FAAFBD4D33F81EA66956DFEAA2BFDFCF5')),
+                    'd' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('00FAD06DAA62BA3B25D2FB40133DA757205DE67F5BB0018FEE8C86E1B68C7E75CAA896EB32F1F47C70855836A6D16FCC1466F6D8FBEC67DB89EC0C08B0E996B83538')),
+                    'x' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('01894550D0785932E00EAA23B694F213F8C3121F86DC97A04E5A7167DB4E5BCD371123D46E45DB6B5D5370A7F20FB633155D38FFA16D2BD761DCAC474B9A2F5023A4')),
+                    'y' => Base64UrlSafe::encodeUnpadded($this->convertHexToBin('00493101C962CD4D2FDDF782285E64584139C2F91B47F87FF82354D6630F746A28A0DB25741B5B34A828008B22ACC23F924FAAFBD4D33F81EA66956DFEAA2BFDFCF5')),
                 ]),
                 sprintf(
                     '%s%s',

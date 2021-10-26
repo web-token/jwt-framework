@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function in_array;
 use InvalidArgumentException;
 use function is_string;
@@ -36,7 +36,7 @@ abstract class AESCTR implements KeyEncryption
         $iv = random_bytes(16);
 
         // We set header parameters
-        $additionalHeader['iv'] = Base64Url::encode($iv);
+        $additionalHeader['iv'] = Base64UrlSafe::encodeUnpadded($iv);
 
         $result = openssl_encrypt($cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if (false === $result) {
@@ -53,7 +53,7 @@ abstract class AESCTR implements KeyEncryption
     {
         $k = $this->getKey($key);
         $this->checkHeaderAdditionalParameters($header);
-        $iv = Base64Url::decode($header['iv']);
+        $iv = Base64UrlSafe::decode($header['iv']);
 
         $result = openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if (false === $result) {
@@ -86,7 +86,7 @@ abstract class AESCTR implements KeyEncryption
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64Url::decode($k);
+        return Base64UrlSafe::decode($k);
     }
 
     /**

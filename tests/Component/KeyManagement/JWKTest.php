@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -228,7 +228,7 @@ class JWKTest extends TestCase
 
         static::assertEquals(
             '178f7e93a74ed73d88c29042220b9ae6e4b371cd',
-            mb_strtolower(bin2hex(Base64Url::decode($key->get('x5t'))))
+            mb_strtolower(bin2hex(Base64UrlSafe::decode($key->get('x5t'))))
         );
         static::assertEquals(
             [

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
 
@@ -60,7 +60,7 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         $private_key = new JWK([
             'kty' => 'oct',
             'use' => 'enc',
-            'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
+            'k' => Base64UrlSafe::encodeUnpadded("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
         $protectedHeader = [
@@ -90,23 +90,23 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_compact_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_compact_json->getIV()));
-        static::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_compact_json->getRecipient(0)->getEncryptedKey()));
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_compact_json->getTag()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
+        static::assertEquals($expected_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getRecipient(0)->getEncryptedKey()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getTag()));
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
-        static::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getIV()));
+        static::assertEquals($expected_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getTag()));
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
-        static::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
+        static::assertEquals($expected_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(0)->getEncryptedKey()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
         static::assertEquals($expected_payload, json_decode($loaded_compact_json->getPayload(), true));
         static::assertEquals($expected_payload, json_decode($loaded_flattened_json->getPayload(), true));
@@ -145,7 +145,7 @@ class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTest
         $private_key = new JWK([
             'kty' => 'oct',
             'use' => 'enc',
-            'k' => Base64Url::encode("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
+            'k' => Base64UrlSafe::encodeUnpadded("entrap_o\xe2\x80\x93peter_long\xe2\x80\x93credit_tun"),
         ]);
 
         $protectedHeader = [

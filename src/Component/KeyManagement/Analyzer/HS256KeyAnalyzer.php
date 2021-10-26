@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 
 final class HS256KeyAnalyzer implements KeyAnalyzer
@@ -26,7 +26,7 @@ final class HS256KeyAnalyzer implements KeyAnalyzer
         if (!$jwk->has('alg') || 'HS256' !== $jwk->get('alg')) {
             return;
         }
-        $k = Base64Url::decode($jwk->get('k'));
+        $k = Base64UrlSafe::decode($jwk->get('k'));
         $kLength = 8 * mb_strlen($k, '8bit');
         if ($kLength < 256) {
             $bag->add(Message::high('HS256 algorithm requires at least 256 bits key length.'));

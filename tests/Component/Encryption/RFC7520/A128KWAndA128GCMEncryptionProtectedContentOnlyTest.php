@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
 
@@ -68,19 +68,19 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
         $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_flattened_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_flattened_json->getIV()));
-        static::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getIV()));
+        static::assertEquals($expected_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
         static::assertEquals($header, $loaded_flattened_json->getSharedHeader());
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_flattened_json->getTag()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getTag()));
 
-        static::assertEquals($expected_ciphertext, Base64Url::encode($loaded_json->getCiphertext()));
+        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
         static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64Url::encode($loaded_json->getIV()));
-        static::assertEquals($expected_encrypted_key, Base64Url::encode($loaded_json->getRecipient(0)->getEncryptedKey()));
+        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
+        static::assertEquals($expected_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(0)->getEncryptedKey()));
         static::assertEquals($header, $loaded_json->getSharedHeader());
-        static::assertEquals($expected_tag, Base64Url::encode($loaded_json->getTag()));
+        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
         static::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
         static::assertEquals($expected_payload, $loaded_json->getPayload());
