@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function extension_loaded;
 use InvalidArgumentException;
 use function is_array;
@@ -24,6 +23,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
 

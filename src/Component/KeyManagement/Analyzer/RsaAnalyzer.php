@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 final class RsaAnalyzer implements KeyAnalyzer
 {

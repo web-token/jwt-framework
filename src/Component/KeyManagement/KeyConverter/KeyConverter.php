@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use function extension_loaded;
 use InvalidArgumentException;
 use function is_array;
 use function is_string;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
 

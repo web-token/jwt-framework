@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 final class JSONFlattenedSerializer implements JWESerializer
 {

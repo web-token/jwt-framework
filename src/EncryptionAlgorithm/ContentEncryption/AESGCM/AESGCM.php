@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 abstract class AESGCM implements ContentEncryptionAlgorithm

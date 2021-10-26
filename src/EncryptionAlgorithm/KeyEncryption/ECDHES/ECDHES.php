@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Brick\Math\BigInteger;
 use function extension_loaded;
 use function function_exists;
@@ -28,6 +27,7 @@ use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
 

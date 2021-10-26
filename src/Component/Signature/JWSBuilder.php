@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use function in_array;
 use InvalidArgumentException;
@@ -27,6 +26,7 @@ use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 class JWSBuilder

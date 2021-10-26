@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use ZxcvbnPhp\Zxcvbn;
 
 final class ZxcvbnKeyAnalyzer implements KeyAnalyzer

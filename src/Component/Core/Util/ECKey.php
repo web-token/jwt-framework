@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function extension_loaded;
 use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 /**

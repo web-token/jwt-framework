@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Brick\Math\BigInteger;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\NistCurve;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 final class ES512KeyAnalyzer implements KeyAnalyzer

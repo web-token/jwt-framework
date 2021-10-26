@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use function is_array;
@@ -22,6 +21,7 @@ use function is_string;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 final class JSONGeneralSerializer extends Serializer
 {

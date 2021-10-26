@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
@@ -25,6 +24,7 @@ use FG\ASN1\Universal\Sequence;
 use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 /**

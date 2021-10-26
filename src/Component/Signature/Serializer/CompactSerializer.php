@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
 
 final class CompactSerializer extends Serializer

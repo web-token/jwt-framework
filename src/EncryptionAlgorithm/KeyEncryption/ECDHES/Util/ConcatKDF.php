@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @internal

@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function extension_loaded;
 use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 final class EdDSA implements SignatureAlgorithm

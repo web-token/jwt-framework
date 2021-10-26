@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use FG\ASN1\ASNObject;
 use FG\ASN1\Exception\ParserException;
@@ -27,6 +26,7 @@ use FG\ASN1\Universal\Sequence;
 use InvalidArgumentException;
 use function is_array;
 use function is_string;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @internal

@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
 use JsonSerializable;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 class JWK implements JsonSerializable
 {

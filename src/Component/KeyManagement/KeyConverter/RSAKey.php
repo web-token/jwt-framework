@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function extension_loaded;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 /**

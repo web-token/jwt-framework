@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
@@ -31,6 +30,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 class JWEBuilder

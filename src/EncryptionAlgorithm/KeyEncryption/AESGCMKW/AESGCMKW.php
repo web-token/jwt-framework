@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Exception;
 use function in_array;
 use InvalidArgumentException;
 use function is_string;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 abstract class AESGCMKW implements KeyWrapping

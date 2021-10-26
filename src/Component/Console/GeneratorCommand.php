@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function is_bool;
 use Jose\Component\KeyManagement\JWKFactory;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
