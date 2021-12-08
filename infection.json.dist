@@ -1,0 +1,24 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "infection.log"
+    },
+    "mutators": {
+        "@default": true,
+        "global-ignoreSourceCodeByRegex": [
+           "\\$this->logger.*",
+           "\\$this->cache->save.*",
+           "parent::build(\\$container);"
+        ],
+        "MBString": {
+            "settings": {
+                "mb_substr": false,
+                "mb_strlen": false
+            }
+        }
+    }
+}
