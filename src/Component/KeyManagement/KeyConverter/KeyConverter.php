@@ -13,6 +13,7 @@ use function is_string;
 use const OPENSSL_KEYTYPE_EC;
 use const OPENSSL_KEYTYPE_RSA;
 use const OPENSSL_RAW_DATA;
+use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use const PHP_EOL;
 use const PREG_PATTERN_ORDER;
@@ -59,10 +60,7 @@ final class KeyConverter
         return self::loadKeyFromX509Resource($res);
     }
 
-    /**
-     * @param resource $res
-     */
-    public static function loadKeyFromX509Resource($res): array
+    public static function loadKeyFromX509Resource(OpenSSLCertificate $res): array
     {
         if (! extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');

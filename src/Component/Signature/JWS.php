@@ -13,7 +13,7 @@ class JWS implements JWT
     /**
      * @var Signature[]
      */
-    private $signatures = [];
+    private array $signatures = [];
 
     public function __construct(
         private ?string $payload,

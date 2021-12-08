@@ -75,7 +75,7 @@ class JWECollector implements Collector, EventSubscriberInterface
         $this->jweLoaders[$id] = $jweLoader;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             JWEDecryptionSuccessEvent::class => ['catchJweDecryptionSuccess'],

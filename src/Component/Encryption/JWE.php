@@ -14,17 +14,11 @@ class JWE implements JWT
     /**
      * @var Recipient[]
      */
-    private $recipients = [];
+    private array $recipients = [];
 
-    /**
-     * @var array
-     */
-    private $sharedHeader = [];
+    private array $sharedHeader = [];
 
-    /**
-     * @var array
-     */
-    private $sharedProtectedHeader = [];
+    private array $sharedProtectedHeader = [];
 
     private ?string $payload = null;
 

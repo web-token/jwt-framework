@@ -7,7 +7,6 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 use function chr;
 use function count;
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
@@ -102,12 +101,9 @@ final class RSACrypt
         if ($length <= 0) {
             throw new RuntimeException();
         }
-        $plaintext = mb_str_split($plaintext, $length, '8bit');
-        if (! is_array($plaintext)) {
-            throw new RuntimeException('Invalid payload');
-        }
+        $splitPlaintext = mb_str_split($plaintext, $length, '8bit');
         $ciphertext = '';
-        foreach ($plaintext as $m) {
+        foreach ($splitPlaintext as $m) {
             $ciphertext .= self::encryptRSAESOAEP($key, $m, $hash);
         }
 
@@ -123,18 +119,15 @@ final class RSACrypt
             throw new RuntimeException('Invalid modulus length');
         }
         $hash = Hash::$hash_algorithm();
-        $ciphertext = mb_str_split($ciphertext, $key->getModulusLength(), '8bit');
-        if (! is_array($ciphertext)) {
-            throw new RuntimeException('Invalid ciphertext');
-        }
-        $ciphertext[count($ciphertext) - 1] = str_pad(
-            $ciphertext[count($ciphertext) - 1],
+        $splitCiphertext = mb_str_split($ciphertext, $key->getModulusLength(), '8bit');
+        $splitCiphertext[count($splitCiphertext) - 1] = str_pad(
+            $splitCiphertext[count($splitCiphertext) - 1],
             $key->getModulusLength(),
             chr(0),
             STR_PAD_LEFT
         );
         $plaintext = '';
-        foreach ($ciphertext as $c) {
+        foreach ($splitCiphertext as $c) {
             $temp = self::getRSAESOAEP($key, $c, $hash);
             $plaintext .= $temp;
         }

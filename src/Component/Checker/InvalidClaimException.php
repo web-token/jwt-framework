@@ -14,7 +14,7 @@ class InvalidClaimException extends Exception implements ClaimExceptionInterface
     public function __construct(
         string $message,
         private string $claim,
-        private $value
+        private mixed $value
     ) {
         parent::__construct($message);
     }
@@ -30,7 +30,7 @@ class InvalidClaimException extends Exception implements ClaimExceptionInterface
     /**
      * Returns the claim value that caused the exception.
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

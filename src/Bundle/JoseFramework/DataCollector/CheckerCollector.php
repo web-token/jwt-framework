@@ -63,7 +63,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         $this->claimCheckerManagers[$id] = $claimCheckerManager;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             HeaderCheckedSuccessEvent::class => ['catchHeaderCheckSuccess'],

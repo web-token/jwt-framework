@@ -15,6 +15,7 @@ use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
 use const OPENSSL_KEYTYPE_RSA;
+use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
@@ -246,10 +247,8 @@ class JWKFactory
 
     /**
      * This method will try to convert a X.509 certificate resource into a public key.
-     *
-     * @param resource $res
      */
-    public static function createFromX509Resource($res, array $additional_values = []): JWK
+    public static function createFromX509Resource(OpenSSLCertificate $res, array $additional_values = []): JWK
     {
         $values = KeyConverter::loadKeyFromX509Resource($res);
         $values = array_merge($values, $additional_values);

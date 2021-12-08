@@ -10,7 +10,7 @@ interface HeaderChecker
      * This method is called when the header parameter is present. If for some reason the value is not valid, an
      * InvalidHeaderException must be thrown.
      */
-    public function checkHeader($value): void;
+    public function checkHeader(mixed $value): void;
 
     /**
      * The method returns the header parameter to be checked.

@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\KeyManagement;
 use Http\Mock\Client;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
+use JsonException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -58,8 +59,8 @@ final class UrlKeySetFactoryTest extends TestCase
      */
     public function theJWKUrlIsValidButDoesNotContainAKeySet(): void
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Invalid content.');
+        $this->expectException(JsonException::class);
+        $this->expectExceptionMessage('Syntax error');
 
         $response = $this->messageFactory->createResponse(200);
         $response->getBody()
@@ -128,8 +129,8 @@ final class UrlKeySetFactoryTest extends TestCase
      */
     public function theX509UrlIsValidButDoesNotContainAKeySet(): void
     {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Invalid content.');
+        $this->expectException(JsonException::class);
+        $this->expectExceptionMessage('Syntax error');
 
         $response = $this->messageFactory->createResponse(200);
         $response->getBody()

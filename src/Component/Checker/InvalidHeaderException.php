@@ -14,7 +14,7 @@ class InvalidHeaderException extends Exception
     public function __construct(
         string $message,
         private string $header,
-        private $value
+        private mixed $value
     ) {
         parent::__construct($message);
     }
@@ -30,7 +30,7 @@ class InvalidHeaderException extends Exception
     /**
      * Returns the header parameter value that caused the exception.
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

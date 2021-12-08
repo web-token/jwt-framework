@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Helper;
 
+use function is_array;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ConfigurationHelper
@@ -458,6 +459,9 @@ class ConfigurationHelper
     private static function updateJoseConfiguration(ContainerBuilder $container, array $config, string $element): void
     {
         $jose_config = current($container->getExtensionConfig(self::BUNDLE_ALIAS));
+        if (! is_array($jose_config)) {
+            $jose_config = [];
+        }
         if (! isset($jose_config[$element])) {
             $jose_config[$element] = [];
         }

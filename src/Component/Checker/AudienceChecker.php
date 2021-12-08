@@ -25,7 +25,7 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     /**
      * {@inheritdoc}
      */
-    public function checkClaim($value): void
+    public function checkClaim(mixed $value): void
     {
         $this->checkValue($value, InvalidClaimException::class);
     }
@@ -33,7 +33,7 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     /**
      * {@inheritdoc}
      */
-    public function checkHeader($value): void
+    public function checkHeader(mixed $value): void
     {
         $this->checkValue($value, InvalidHeaderException::class);
     }
@@ -53,7 +53,7 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
         return $this->protectedHeader;
     }
 
-    private function checkValue($value, string $class): void
+    private function checkValue(mixed $value, string $class): void
     {
         if (is_string($value) && $value !== $this->audience) {
             throw new $class('Bad audience.', self::CLAIM_NAME, $value);

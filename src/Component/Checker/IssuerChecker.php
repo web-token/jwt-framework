@@ -21,12 +21,12 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
     ) {
     }
 
-    public function checkClaim($value): void
+    public function checkClaim(mixed $value): void
     {
         $this->checkValue($value, InvalidClaimException::class);
     }
 
-    public function checkHeader($value): void
+    public function checkHeader(mixed $value): void
     {
         $this->checkValue($value, InvalidHeaderException::class);
     }
@@ -46,7 +46,7 @@ final class IssuerChecker implements ClaimChecker, HeaderChecker
         return $this->protectedHeader;
     }
 
-    private function checkValue($value, string $class): void
+    private function checkValue(mixed $value, string $class): void
     {
         if (! is_string($value)) {
             throw new $class('Invalid value.', self::CLAIM_NAME, $value);

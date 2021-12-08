@@ -72,7 +72,7 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $this->jwsLoaders[$id] = $jwsLoader;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             JWSVerificationSuccessEvent::class => ['catchJwsVerificationSuccess'],

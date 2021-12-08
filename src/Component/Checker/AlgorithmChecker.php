@@ -27,7 +27,7 @@ final class AlgorithmChecker implements HeaderChecker
     /**
      * {@inheritdoc}
      */
-    public function checkHeader($value): void
+    public function checkHeader(mixed $value): void
     {
         if (! is_string($value)) {
             throw new InvalidHeaderException('"alg" must be a string.', self::HEADER_NAME, $value);

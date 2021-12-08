@@ -23,7 +23,7 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
     /**
      * {@inheritdoc}
      */
-    public function checkClaim($value): void
+    public function checkClaim(mixed $value): void
     {
         if (! is_float($value) && ! is_int($value)) {
             throw new InvalidClaimException('"iat" must be an integer.', self::NAME, $value);
@@ -38,7 +38,7 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
         return self::NAME;
     }
 
-    public function checkHeader($value): void
+    public function checkHeader(mixed $value): void
     {
         if (! is_float($value) && ! is_int($value)) {
             throw new InvalidHeaderException('The header "iat" must be an integer.', self::NAME, $value);

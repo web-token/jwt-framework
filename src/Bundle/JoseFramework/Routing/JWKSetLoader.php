@@ -13,6 +13,8 @@ final class JWKSetLoader implements LoaderInterface
 {
     private RouteCollection $routes;
 
+    private LoaderResolverInterface $resolver;
+
     public function __construct()
     {
         $this->routes = new RouteCollection();
@@ -30,7 +32,7 @@ final class JWKSetLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $type = null): RouteCollection
+    public function load(mixed $resource, string $type = null): RouteCollection
     {
         return $this->routes;
     }
@@ -38,16 +40,18 @@ final class JWKSetLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($resource, $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return $type === 'jwkset';
     }
 
-    public function getResolver(): void
+    public function getResolver(): LoaderResolverInterface
     {
+        return $this->resolver;
     }
 
     public function setResolver(LoaderResolverInterface $resolver): void
     {
+        $this->resolver = $resolver;
     }
 }
