@@ -98,7 +98,7 @@
         "symfony/finder": "^4.2|^5.0",
         "symfony/framework-bundle": "^4.2|^5.0",
         "symfony/http-client": "^5.2",
-        "symfony/phpunit-bridge": "^4.2|^5.0",
+        "symfony/phpunit-bridge": "^6.0.0",
         "symfony/serializer": "^4.2|^5.0",
         "symfony/var-dumper": "^4.2|^5.0",
         "symfony/yaml": "^4.2|^5.0"
