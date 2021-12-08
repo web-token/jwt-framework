@@ -2,34 +2,23 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.5
  *
- * @group RFC7520
- *
  * @internal
  */
-class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
+final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
 {
     /**
-     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
-     * The output given in the RFC is used and only decrypted.
+     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
+     * always different). The output given in the RFC is used and only decrypted.
      *
      * @test
      */
@@ -65,27 +54,36 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
         $expected_ciphertext = 'BoDlwPnTypYq-ivjmQvAYJLb5Q6l-F3LIgQomlz87yW4OPKbWE1zSTEFjDfhU9IPIOSA9Bml4m7iDFwA-1ZXvHteLDtw4R1XRGMEsDIqAYtskTTmzmzNa-_q4F_evAPUmwlO-ZG45Mnq4uhM1fm_D9rBtWolqZSF3xGNNkpOMQKF1Cl8i8wjzRli7-IXgyirlKQsbhhqRzkv8IcY6aHl24j03C-AR2le1r7URUhArM79BY8soZU0lzwI-sD5PZ3l4NDCCei9XkoIAfsXJWmySPoeRb2Ni5UZL4mYpvKDiwmyzGd65KqVw7MsFfI_K767G9C9Azp73gKZD0DyUn1mn0WW5LmyX_yJ-3AROq8p1WZBfG-ZyJ6195_JGG2m9Csg';
         $expected_tag = 'WCCkNa-x4BeB9hIDIfFuhg';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'])
+        ;
 
-        $loaded_compact_json = $this->getJWESerializerManager()->unserialize($expected_compact_json);
+        $loaded_compact_json = $this->getJWESerializerManager()
+            ->unserialize($expected_compact_json)
+        ;
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($expected_json)
+        ;
 
-        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext()));
-        static::assertEquals($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
-        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getTag()));
+        static::assertSame(
+            $expected_ciphertext,
+            Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext())
+        );
+        static::assertSame($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
+        static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
+        static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getTag()));
 
-        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
-        static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
-        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
+        static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
+        static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
+        static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
-        static::assertEquals($expected_payload, $loaded_compact_json->getPayload());
+        static::assertSame($expected_payload, $loaded_compact_json->getPayload());
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
-        static::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertSame($expected_payload, $loaded_json->getPayload());
     }
 
     /**
@@ -122,21 +120,28 @@ class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
             'enc' => 'A128CBC-HS256',
         ];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'])
+        ;
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'])
+        ;
 
         $jwe = $jweBuilder
-            ->create()->withPayload($expected_payload)
+            ->create()
+            ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($public_key)
             ->build()
         ;
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeader()));
 
-        static::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertSame($expected_payload, $loaded_json->getPayload());
     }
 }

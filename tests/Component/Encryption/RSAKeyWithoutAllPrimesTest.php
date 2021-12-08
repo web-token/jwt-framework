@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption;
 
 use Jose\Component\Core\JWK;
@@ -19,12 +10,9 @@ use Jose\Component\Core\Util\JsonConverter;
 /**
  * Class RSAKeyWithoutAllPrimesTest.
  *
- * @group RSA2
- * @group unit
- *
  * @internal
  */
-class RSAKeyWithoutAllPrimesTest extends EncryptionTest
+final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
 {
     /**
      * @dataProvider dataEncryptionAlgorithms
@@ -35,20 +23,34 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
     {
         $key = $this->getPrivateKey();
 
-        $claims = JsonConverter::encode(['foo' => 'bar']);
+        $claims = JsonConverter::encode([
+            'foo' => 'bar',
+        ]);
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
+        ;
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
+        ;
 
         $jwt = $jweBuilder
-            ->create()->withPayload($claims)
-            ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
+            ->create()
+            ->withPayload($claims)
+            ->withSharedProtectedHeader([
+                'alg' => $encryption_algorithm,
+                'enc' => 'A256GCM',
+            ])
             ->addRecipient($key)
             ->build()
         ;
-        $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
+        $jwt = $this->getJWESerializerManager()
+            ->serialize('jwe_compact', $jwt, 0)
+        ;
 
-        $loaded = $this->getJWESerializerManager()->unserialize($jwt);
+        $loaded = $this->getJWESerializerManager()
+            ->unserialize($jwt)
+        ;
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
@@ -62,39 +64,46 @@ class RSAKeyWithoutAllPrimesTest extends EncryptionTest
     {
         $key = $this->getMinimalPrivateKey();
 
-        $claims = JsonConverter::encode(['foo' => 'bar']);
+        $claims = JsonConverter::encode([
+            'foo' => 'bar',
+        ]);
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
+        ;
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
+        ;
 
         $jwt = $jweBuilder
-            ->create()->withPayload($claims)
-            ->withSharedProtectedHeader(['alg' => $encryption_algorithm, 'enc' => 'A256GCM'])
+            ->create()
+            ->withPayload($claims)
+            ->withSharedProtectedHeader([
+                'alg' => $encryption_algorithm,
+                'enc' => 'A256GCM',
+            ])
             ->addRecipient($key)
             ->build()
         ;
-        $jwt = $this->getJWESerializerManager()->serialize('jwe_compact', $jwt, 0);
+        $jwt = $this->getJWESerializerManager()
+            ->serialize('jwe_compact', $jwt, 0)
+        ;
 
-        $loaded = $this->getJWESerializerManager()->unserialize($jwt);
+        $loaded = $this->getJWESerializerManager()
+            ->unserialize($jwt)
+        ;
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
     public function dataEncryptionAlgorithms(): array
     {
-        return [
-            ['RSA1_5'],
-            ['RSA-OAEP'],
-            ['RSA-OAEP-256'],
-        ];
+        return [['RSA1_5'], ['RSA-OAEP'], ['RSA-OAEP-256']];
     }
 
     public function dataEncryptionAlgorithmsWithSimpleKey(): array
     {
-        return [
-            ['RSA-OAEP'],
-            ['RSA-OAEP-256'],
-        ];
+        return [['RSA-OAEP'], ['RSA-OAEP-256']];
     }
 
     private function getPrivateKey(): JWK

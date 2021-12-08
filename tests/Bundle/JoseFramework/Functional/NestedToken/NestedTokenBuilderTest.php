@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\NestedToken;
 
 use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
@@ -20,16 +11,13 @@ use Jose\Component\NestedToken\NestedTokenBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * @group Bundle
- * @group functional
- *
  * @internal
  */
-class NestedTokenBuilderTest extends WebTestCase
+final class NestedTokenBuilderTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(NestedTokenLoaderFactory::class)) {
+        if (! class_exists(NestedTokenLoaderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
         }
     }
@@ -118,10 +106,15 @@ class NestedTokenBuilderTest extends WebTestCase
             $payload,
             [[
                 'key' => $signature_key,
-                'protected_header' => ['alg' => 'PS256'],
+                'protected_header' => [
+                    'alg' => 'PS256',
+                ],
             ]],
             'jws_compact',
-            ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
+            [
+                'alg' => 'RSA-OAEP',
+                'enc' => 'A128GCM',
+            ],
             [],
             [[
                 'key' => $encryption_key,
@@ -178,10 +171,15 @@ class NestedTokenBuilderTest extends WebTestCase
             $payload,
             [[
                 'key' => $signature_key,
-                'protected_header' => ['alg' => 'PS256'],
+                'protected_header' => [
+                    'alg' => 'PS256',
+                ],
             ]],
             'jws_compact',
-            ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
+            [
+                'alg' => 'RSA-OAEP',
+                'enc' => 'A128GCM',
+            ],
             [],
             [[
                 'key' => $encryption_key,

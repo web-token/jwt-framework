@@ -2,37 +2,28 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerSource;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedToken;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
 use Jose\Component\Encryption\JWELoaderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Bundle
- * @group functional
- * @group NestedToken
- *
  * @internal
  */
-class NestedTokenLoaderConfigurationTest extends TestCase
+final class NestedTokenLoaderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     protected function setUp(): void
     {
-        if (!class_exists(JWELoaderFactory::class)) {
+        if (! class_exists(JWELoaderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
         }
     }
@@ -42,9 +33,7 @@ class NestedTokenLoaderConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
-        $this->assertConfigurationIsValid(
-            []
-        );
+        $this->assertConfigurationIsValid([]);
     }
 
     /**
@@ -52,13 +41,11 @@ class NestedTokenLoaderConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'nested_token' => false,
-                ],
-            ]
-        );
+                'nested_token' => false,
+            ],
+        ]);
     }
 
     /**
@@ -66,13 +53,11 @@ class NestedTokenLoaderConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'nested_token' => [],
-                ],
-            ]
-        );
+                'nested_token' => [],
+            ],
+        ]);
     }
 
     /**
@@ -80,15 +65,13 @@ class NestedTokenLoaderConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoLoaderIsSet(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'nested_token' => [
-                        'loaders' => [],
-                    ],
+                'nested_token' => [
+                    'loaders' => [],
                 ],
-            ]
-        );
+            ],
+        ]);
     }
 
     /**
@@ -227,11 +210,11 @@ class NestedTokenLoaderConfigurationTest extends TestCase
     protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Checker\CheckerSource(),
-            new Source\Signature\SignatureSource(),
-            new Source\Encryption\EncryptionSource(),
-            new Source\NestedToken\NestedToken(),
+            new CoreSource(),
+            new CheckerSource(),
+            new SignatureSource(),
+            new EncryptionSource(),
+            new NestedToken(),
         ]);
     }
 }

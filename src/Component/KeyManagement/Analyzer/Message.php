@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\KeyManagement\Analyzer;
 
 use JsonSerializable;
@@ -22,29 +13,15 @@ class Message implements JsonSerializable
     public const SEVERITY_MEDIUM = 'medium';
 
     public const SEVERITY_HIGH = 'high';
-    /**
-     * @var string
-     */
-    private $message;
 
-    /**
-     * @var string
-     */
-    private $severity;
-
-    /**
-     * Message constructor.
-     */
-    private function __construct(string $message, string $severity)
-    {
-        $this->message = $message;
-        $this->severity = $severity;
+    private function __construct(
+        private string $message,
+        private string $severity
+    ) {
     }
 
     /**
      * Creates a message with severity=low.
-     *
-     * @return Message
      */
     public static function low(string $message): self
     {
@@ -53,8 +30,6 @@ class Message implements JsonSerializable
 
     /**
      * Creates a message with severity=medium.
-     *
-     * @return Message
      */
     public static function medium(string $message): self
     {
@@ -63,8 +38,6 @@ class Message implements JsonSerializable
 
     /**
      * Creates a message with severity=high.
-     *
-     * @return Message
      */
     public static function high(string $message): self
     {

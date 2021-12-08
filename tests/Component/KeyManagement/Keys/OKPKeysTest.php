@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
 use InvalidArgumentException;
@@ -18,12 +9,9 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group OKPKeys
- * @group unit
- *
  * @internal
  */
-class OKPKeysTest extends TestCase
+final class OKPKeysTest extends TestCase
 {
     /**
      * @test
@@ -41,21 +29,18 @@ class OKPKeysTest extends TestCase
      */
     public function createOKPKeyWithCurveX25519(): void
     {
-        $jwk = JWKFactory::createOKPKey(
-            'X25519',
-            [
-                'kid' => 'KEY',
-                'alg' => 'ECDH-ES',
-                'use' => 'enc',
-            ]
-        );
+        $jwk = JWKFactory::createOKPKey('X25519', [
+            'kid' => 'KEY',
+            'alg' => 'ECDH-ES',
+            'use' => 'enc',
+        ]);
 
-        static::assertEquals('OKP', $jwk->get('kty'));
+        static::assertSame('OKP', $jwk->get('kty'));
         static::assertTrue($jwk->has('x'));
         static::assertTrue($jwk->has('d'));
-        static::assertEquals('KEY', $jwk->get('kid'));
-        static::assertEquals('ECDH-ES', $jwk->get('alg'));
-        static::assertEquals('enc', $jwk->get('use'));
+        static::assertSame('KEY', $jwk->get('kid'));
+        static::assertSame('ECDH-ES', $jwk->get('alg'));
+        static::assertSame('enc', $jwk->get('use'));
     }
 
     /**
@@ -63,20 +48,17 @@ class OKPKeysTest extends TestCase
      */
     public function createOKPKeyWithCurveEd25519(): void
     {
-        $jwk = JWKFactory::createOKPKey(
-            'Ed25519',
-            [
-                'kid' => 'KEY',
-                'alg' => 'EdDSA',
-                'use' => 'sig',
-            ]
-        );
+        $jwk = JWKFactory::createOKPKey('Ed25519', [
+            'kid' => 'KEY',
+            'alg' => 'EdDSA',
+            'use' => 'sig',
+        ]);
 
-        static::assertEquals('OKP', $jwk->get('kty'));
+        static::assertSame('OKP', $jwk->get('kty'));
         static::assertTrue($jwk->has('x'));
         static::assertTrue($jwk->has('d'));
-        static::assertEquals('KEY', $jwk->get('kid'));
-        static::assertEquals('EdDSA', $jwk->get('alg'));
-        static::assertEquals('sig', $jwk->get('use'));
+        static::assertSame('KEY', $jwk->get('kid'));
+        static::assertSame('EdDSA', $jwk->get('alg'));
+        static::assertSame('sig', $jwk->get('use'));
     }
 }

@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
@@ -35,9 +26,7 @@ class HeaderChecker implements Source
             $definition = new Definition(HeaderCheckerManager::class);
             $definition
                 ->setFactory([new Reference(HeaderCheckerManagerFactory::class), 'create'])
-                ->setArguments([
-                    $itemConfig['headers'],
-                ])
+                ->setArguments([$itemConfig['headers']])
                 ->addTag('jose.header_checker_manager')
                 ->setPublic($itemConfig['is_public'])
             ;
@@ -45,7 +34,11 @@ class HeaderChecker implements Source
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
-            $container->registerAliasForArgument($service_id, HeaderCheckerManager::class, $name.'HeaderCheckerManager');
+            $container->registerAliasForArgument(
+                $service_id,
+                HeaderCheckerManager::class,
+                $name . 'HeaderCheckerManager'
+            );
         }
     }
 
@@ -67,7 +60,8 @@ class HeaderChecker implements Source
             ->info('A list of header aliases to be set in the claim checker.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the claim checker.')

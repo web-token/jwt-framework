@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Bundle\JoseFramework\Event\JWSBuiltFailureEvent;
@@ -30,48 +21,31 @@ use Throwable;
 class JWSCollector implements Collector, EventSubscriberInterface
 {
     /**
-     * @var null|JWSSerializerManagerFactory
-     */
-    private $jwsSerializerManagerFactory;
-
-    /**
      * @var JWSBuilder[]
      */
-    private $jwsBuilders = [];
+    private array $jwsBuilders = [];
 
     /**
      * @var JWSVerifier[]
      */
-    private $jwsVerifiers = [];
+    private array $jwsVerifiers = [];
 
     /**
      * @var JWSLoader[]
      */
-    private $jwsLoaders = [];
+    private array $jwsLoaders = [];
 
-    /**
-     * @var array
-     */
-    private $jwsVerificationSuccesses = [];
+    private array $jwsVerificationSuccesses = [];
 
-    /**
-     * @var array
-     */
-    private $jwsVerificationFailures = [];
+    private array $jwsVerificationFailures = [];
 
-    /**
-     * @var array
-     */
-    private $jwsBuiltSuccesses = [];
+    private array $jwsBuiltSuccesses = [];
 
-    /**
-     * @var array
-     */
-    private $jwsBuiltFailures = [];
+    private array $jwsBuiltFailures = [];
 
-    public function __construct(?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null)
-    {
-        $this->jwsSerializerManagerFactory = $jwsSerializerManagerFactory;
+    public function __construct(
+        private ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null
+    ) {
     }
 
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
@@ -135,7 +109,7 @@ class JWSCollector implements Collector, EventSubscriberInterface
     private function collectSupportedJWSSerializations(array &$data): void
     {
         $data['jws']['jws_serialization'] = [];
-        if (null === $this->jwsSerializerManagerFactory) {
+        if ($this->jwsSerializerManagerFactory === null) {
             return;
         }
         $serializers = $this->jwsSerializerManagerFactory->all();
@@ -149,7 +123,8 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $data['jws']['jws_builders'] = [];
         foreach ($this->jwsBuilders as $id => $jwsBuilder) {
             $data['jws']['jws_builders'][$id] = [
-                'signature_algorithms' => $jwsBuilder->getSignatureAlgorithmManager()->list(),
+                'signature_algorithms' => $jwsBuilder->getSignatureAlgorithmManager()
+                    ->list(),
             ];
         }
     }
@@ -159,7 +134,8 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $data['jws']['jws_verifiers'] = [];
         foreach ($this->jwsVerifiers as $id => $jwsVerifier) {
             $data['jws']['jws_verifiers'][$id] = [
-                'signature_algorithms' => $jwsVerifier->getSignatureAlgorithmManager()->list(),
+                'signature_algorithms' => $jwsVerifier->getSignatureAlgorithmManager()
+                    ->list(),
             ];
         }
     }
@@ -169,8 +145,11 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $data['jws']['jws_loaders'] = [];
         foreach ($this->jwsLoaders as $id => $jwsLoader) {
             $data['jws']['jws_loaders'][$id] = [
-                'serializers' => $jwsLoader->getSerializerManager()->list(),
-                'signature_algorithms' => $jwsLoader->getJwsVerifier()->getSignatureAlgorithmManager()->list(),
+                'serializers' => $jwsLoader->getSerializerManager()
+                    ->list(),
+                'signature_algorithms' => $jwsLoader->getJwsVerifier()
+                    ->getSignatureAlgorithmManager()
+                    ->list(),
             ];
         }
     }

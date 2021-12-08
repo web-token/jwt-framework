@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Normalizer;
 
 use Jose\Bundle\JoseFramework\Normalizer\JWENormalizer;
@@ -23,19 +14,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @group Bundle
- * @group functional
- *
  * @internal
  */
 final class JWENormalizerTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(BaseJWEBuilderFactory::class)) {
+        if (! class_exists(BaseJWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
-        if (!class_exists(Serializer::class)) {
+        if (! class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -99,8 +87,8 @@ final class JWENormalizerTest extends WebTestCase
             ->build()
         ;
         static::assertTrue($serializer->supportsNormalization($jwe));
-        static::assertEquals($jwe, $serializer->normalize($jwe));
-        static::assertEquals($jwe, $serializer->denormalize($jwe, JWE::class));
+        static::assertEqualsCanonicalizing($jwe, $serializer->normalize($jwe));
+        static::assertSame($jwe, $serializer->denormalize($jwe, JWE::class));
     }
 
     /**
@@ -111,7 +99,6 @@ final class JWENormalizerTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         $serializer = $container->get('serializer');
         static::assertInstanceOf(Serializer::class, $serializer);
         $jweFactory = $container->get(JWEBuilderFactory::class);
@@ -132,7 +119,7 @@ final class JWENormalizerTest extends WebTestCase
             ->build()
         ;
         static::assertTrue($serializer->supportsNormalization($jwe));
-        static::assertEquals($jwe, $serializer->normalize($jwe));
-        static::assertEquals($jwe, $serializer->denormalize($jwe, JWE::class));
+        static::assertEqualsCanonicalizing($jwe, $serializer->normalize($jwe));
+        static::assertSame($jwe, $serializer->denormalize($jwe, JWE::class));
     }
 }

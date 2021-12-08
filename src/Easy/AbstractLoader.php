@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Easy;
 
 use function in_array;
@@ -20,50 +11,49 @@ use function is_callable;
 use function is_int;
 use function is_string;
 use Jose\Component\Checker;
+use Jose\Component\Checker\AudienceChecker;
+use Jose\Component\Checker\ClaimChecker;
+use Jose\Component\Checker\ExpirationTimeChecker;
+use Jose\Component\Checker\HeaderChecker;
+use Jose\Component\Checker\IssuedAtChecker;
+use Jose\Component\Checker\IssuerChecker;
+use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 
 abstract class AbstractLoader
 {
-    /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var JWKSet
-     */
-    protected $jwkset;
+    protected JWKSet $jwkset;
 
     /**
      * @var Checker\HeaderChecker[]
      */
-    protected $headerCheckers = [];
+    protected array $headerCheckers = [];
 
     /**
      * @var Checker\ClaimChecker[]
      */
-    protected $claimCheckers = [];
+    protected array $claimCheckers = [];
 
     /**
      * @var string[]
      */
-    protected $allowedAlgorithms = [];
+    protected array $allowedAlgorithms = [];
 
     /**
      * @var Algorithm[]
      */
-    protected $algorithms = [];
+    protected array $algorithms = [];
 
     /**
      * @var string[]
      */
-    protected $mandatoryClaims = [];
+    protected array $mandatoryClaims = [];
 
-    protected function __construct(string $token)
-    {
-        $this->token = $token;
+    protected function __construct(
+        protected string $token
+    ) {
         $this->jwkset = new JWKSet([]);
         $this->claimCheckers = [];
 
@@ -85,12 +75,12 @@ abstract class AbstractLoader
 
     public function aud(string $aud, bool $inHeader = false): self
     {
-        return $this->claim('aud', new Checker\AudienceChecker($aud, true), $inHeader);
+        return $this->claim('aud', new AudienceChecker($aud, true), $inHeader);
     }
 
     public function iss(string $iss, bool $inHeader = false): self
     {
-        return $this->claim('iss', new Checker\IssuerChecker([$iss], true), $inHeader);
+        return $this->claim('iss', new IssuerChecker([$iss], true), $inHeader);
     }
 
     public function jti(string $jti, bool $inHeader = false): self
@@ -104,19 +94,19 @@ abstract class AbstractLoader
     }
 
     /**
-     * @param null|array|callable|Checker\ClaimChecker|mixed $checker
+     * @param array|callable|Checker\ClaimChecker|mixed|null $checker
      */
     public function claim(string $key, $checker, bool $inHeader = false): self
     {
         $clone = clone $this;
-        if (false === $checker) {
+        if ($checker === false) {
             unset($clone->claimCheckers[$key]);
 
             return $clone;
         }
 
         switch (true) {
-            case $checker instanceof Checker\ClaimChecker:
+            case $checker instanceof ClaimChecker:
                 break;
 
             case is_callable($checker):
@@ -125,12 +115,16 @@ abstract class AbstractLoader
                 break;
 
             case is_array($checker):
-                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return in_array($value, $checker, true); });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {
+                    return in_array($value, $checker, true);
+                });
 
                 break;
 
             default:
-                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return $value === $checker; });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {
+                    return $value === $checker;
+                });
         }
 
         $clone->claimCheckers[$key] = $checker;
@@ -141,72 +135,58 @@ abstract class AbstractLoader
         return $clone;
     }
 
-    /**
-     * @param false|int $leeway
-     *
-     * @throws InvalidArgumentException if the leeway is negative, not an integer or not false
-     */
-    public function exp($leeway = 0, bool $inHeader = false): self
+    public function exp(int|false $leeway = 0, bool $inHeader = false): self
     {
-        if (false === $leeway) {
+        if ($leeway === false) {
             $clone = clone $this;
             unset($clone->claimCheckers['exp']);
 
             return $clone;
         }
-        if (!is_int($leeway) or $leeway < 0) {
-            throw new InvalidArgumentException('First parameter for "exp" claim is invalid. Set false to disable or a positive integer.');
+        if (! is_int($leeway) || $leeway < 0) {
+            throw new InvalidArgumentException(
+                'First parameter for "exp" claim is invalid. Set false to disable or a positive integer.'
+            );
         }
 
-        return $this->claim('exp', new Checker\ExpirationTimeChecker($leeway), $inHeader);
+        return $this->claim('exp', new ExpirationTimeChecker($leeway), $inHeader);
     }
 
-    /**
-     * @param false|int $leeway
-     *
-     * @throws InvalidArgumentException if the leeway is negative, not an integer or not false
-     */
-    public function nbf($leeway = 0, bool $inHeader = false): self
+    public function nbf(int|false $leeway = 0, bool $inHeader = false): self
     {
-        if (false === $leeway) {
+        if ($leeway === false) {
             $clone = clone $this;
             unset($clone->claimCheckers['nbf']);
 
             return $clone;
         }
-        if (!is_int($leeway) or $leeway < 0) {
-            throw new InvalidArgumentException('First parameter for "nbf" claim is invalid. Set false to disable or a positive integer.');
+        if (! is_int($leeway) || $leeway < 0) {
+            throw new InvalidArgumentException(
+                'First parameter for "nbf" claim is invalid. Set false to disable or a positive integer.'
+            );
         }
 
-        return $this->claim('nbf', new Checker\NotBeforeChecker($leeway, true), $inHeader);
+        return $this->claim('nbf', new NotBeforeChecker($leeway, true), $inHeader);
     }
 
-    /**
-     * @param false|int $leeway
-     *
-     * @throws InvalidArgumentException if the leeway is negative, not an integer or not false
-     */
-    public function iat($leeway = 0, bool $inHeader = false): self
+    public function iat(int|false $leeway = 0, bool $inHeader = false): self
     {
-        if (false === $leeway) {
+        if ($leeway === false) {
             $clone = clone $this;
             unset($clone->claimCheckers['iat']);
 
             return $clone;
         }
-        if (!is_int($leeway) or $leeway < 0) {
-            throw new InvalidArgumentException('First parameter for "iat" claim is invalid. Set false to disable or a positive integer.');
+        if (! is_int($leeway) || $leeway < 0) {
+            throw new InvalidArgumentException(
+                'First parameter for "iat" claim is invalid. Set false to disable or a positive integer.'
+            );
         }
 
-        return $this->claim('iat', new Checker\IssuedAtChecker($leeway, true), $inHeader);
+        return $this->claim('iat', new IssuedAtChecker($leeway, true), $inHeader);
     }
 
-    /**
-     * @param Algorithm|string $alg
-     *
-     * @throws InvalidArgumentException if the algorithm is not a string or an instance of Jose\Component\Core\Algorithm
-     */
-    public function alg($alg): self
+    public function alg(Algorithm|string $alg): self
     {
         $clone = clone $this;
 
@@ -223,7 +203,9 @@ abstract class AbstractLoader
                 return $clone;
 
             default:
-                throw new InvalidArgumentException('Invalid parameter "alg". Shall be a string or an algorithm instance.');
+                throw new InvalidArgumentException(
+                    'Invalid parameter "alg". Shall be a string or an algorithm instance.'
+                );
         }
     }
 
@@ -246,14 +228,14 @@ abstract class AbstractLoader
     public function header(string $key, $checker): self
     {
         $clone = clone $this;
-        if (false === $checker) {
+        if ($checker === false) {
             unset($clone->headerCheckers[$key]);
 
             return $clone;
         }
 
         switch (true) {
-            case $checker instanceof Checker\HeaderChecker:
+            case $checker instanceof HeaderChecker:
                 break;
 
             case is_callable($checker):
@@ -262,12 +244,16 @@ abstract class AbstractLoader
                 break;
 
             case is_array($checker):
-                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return in_array($value, $checker, true); });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {
+                    return in_array($value, $checker, true);
+                });
 
                 break;
 
             default:
-                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {return $value === $checker; });
+                $checker = new CallableChecker($key, static function ($value) use ($checker): bool {
+                    return $value === $checker;
+                });
         }
 
         $clone->headerCheckers[$key] = $checker;

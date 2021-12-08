@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Easy;
 
 use Exception;
@@ -23,16 +14,9 @@ use Jose\Easy\Load;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group easy
- *
- * @covers \Jose\Easy\Build
- * @covers \Jose\Easy\JWSBuilder
- * @covers \Jose\Easy\JWT
- * @covers \Jose\Easy\Validate
- *
  * @internal
  */
-class SignatureTest extends TestCase
+final class SignatureTest extends TestCase
 {
     /**
      * @test
@@ -51,7 +35,10 @@ class SignatureTest extends TestCase
             ->aud('audience2')
             ->sub('subject')
             ->claim('is_root', true)
-            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->claim('roles', [
+                'ROLE1' => true,
+                'ROLE2' => 0.007,
+            ])
             ->crit(['alg'])
             ->sign($this->rsaKey())
         ;
@@ -69,19 +56,26 @@ class SignatureTest extends TestCase
             ->run()
         ;
 
-        static::assertEquals($time, $jwt->claims->iat());
-        static::assertEquals($time, $jwt->claims->nbf());
-        static::assertEquals($time + 3600, $jwt->claims->exp());
-        static::assertEquals('0123456789', $jwt->claims->jti());
-        static::assertEquals('issuer', $jwt->claims->iss());
-        static::assertEquals('subject', $jwt->claims->sub());
-        static::assertEquals(['audience1', 'audience2'], $jwt->claims->aud());
-        static::assertEquals(true, $jwt->claims->is_root());
-        static::assertEquals(['ROLE1' => true, 'ROLE2' => 0.007], $jwt->claims->roles());
+        static::assertSame($time, $jwt->claims->iat());
+        static::assertSame($time, $jwt->claims->nbf());
+        static::assertSame($time + 3600, $jwt->claims->exp());
+        static::assertSame('0123456789', $jwt->claims->jti());
+        static::assertSame('issuer', $jwt->claims->iss());
+        static::assertSame('subject', $jwt->claims->sub());
+        static::assertSame(['audience1', 'audience2'], $jwt->claims->aud());
+        static::assertTrue($jwt->claims->is_root());
+        static::assertSame([
+            'ROLE1' => true,
+            'ROLE2' => 0.007,
+        ], $jwt->claims->roles());
 
-        static::assertEquals(['jti' => '0123456789', 'alg' => 'RS512', 'crit' => ['alg']], $jwt->header->all());
-        static::assertEquals('RS512', $jwt->header->alg());
-        static::assertEquals('0123456789', $jwt->header->jti());
+        static::assertSame([
+            'jti' => '0123456789',
+            'alg' => 'RS512',
+            'crit' => ['alg'],
+        ], $jwt->header->all());
+        static::assertSame('RS512', $jwt->header->alg());
+        static::assertSame('0123456789', $jwt->header->jti());
     }
 
     /**
@@ -103,9 +97,15 @@ class SignatureTest extends TestCase
             ->aud('audience2')
             ->sub('subject')
             ->claim('is_root', true)
-            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->claim('roles', [
+                'ROLE1' => true,
+                'ROLE2' => 0.007,
+            ])
             ->crit(['alg'])
-            ->sign(new JWK(['kty' => 'oct', 'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo']))
+            ->sign(new JWK([
+                'kty' => 'oct',
+                'k' => 'foofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoofoo',
+            ]))
         ;
 
         Load::jws($jws)
@@ -117,7 +117,10 @@ class SignatureTest extends TestCase
             ->iss('issuer')
             ->sub('subject')
             ->jti('0123456789')
-            ->key(new JWK(['kty' => 'oct', 'k' => 'BARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBAR']))
+            ->key(new JWK([
+                'kty' => 'oct',
+                'k' => 'BARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBAR',
+            ]))
             ->run()
         ;
     }
@@ -141,7 +144,10 @@ class SignatureTest extends TestCase
             ->aud('audience2')
             ->sub('subject')
             ->claim('is_root', true)
-            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->claim('roles', [
+                'ROLE1' => true,
+                'ROLE2' => 0.007,
+            ])
             ->crit(['alg'])
             ->sign($this->noneKey())
         ;
@@ -155,7 +161,10 @@ class SignatureTest extends TestCase
             ->iss('issuer')
             ->sub('subject')
             ->jti('0123456789')
-            ->key(new JWK(['kty' => 'oct', 'k' => 'BARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBAR']))
+            ->key(new JWK([
+                'kty' => 'oct',
+                'k' => 'BARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBARBAR',
+            ]))
             ->run()
         ;
     }
@@ -179,7 +188,10 @@ class SignatureTest extends TestCase
             ->aud('audience2')
             ->sub('subject')
             ->claim('is_root', true)
-            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->claim('roles', [
+                'ROLE1' => true,
+                'ROLE2' => 0.007,
+            ])
             ->crit(['alg'])
             ->sign($this->rsaKey())
         ;
@@ -226,12 +238,12 @@ class SignatureTest extends TestCase
             ->run()
         ;
 
-        static::assertEquals($time, $jwt->claims->iat());
-        static::assertEquals($time, $jwt->claims->nbf());
-        static::assertEquals($time + 3600, $jwt->claims->exp());
-        static::assertEquals('0123456789', $jwt->claims->jti());
+        static::assertSame($time, $jwt->claims->iat());
+        static::assertSame($time, $jwt->claims->nbf());
+        static::assertSame($time + 3600, $jwt->claims->exp());
+        static::assertSame('0123456789', $jwt->claims->jti());
 
-        static::assertEquals('HS1', $jwt->header->alg());
+        static::assertSame('HS1', $jwt->header->alg());
     }
 
     private function rsaKey(): JWK

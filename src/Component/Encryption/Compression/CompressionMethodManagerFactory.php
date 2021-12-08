@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Encryption\Compression;
 
 use InvalidArgumentException;
@@ -23,9 +14,8 @@ class CompressionMethodManagerFactory
     private $compressionMethods = [];
 
     /**
-     * This method adds a compression method to this factory.
-     * The method is uniquely identified by an alias. This allows the same method to be added twice (or more)
-     * using several configuration options.
+     * This method adds a compression method to this factory. The method is uniquely identified by an alias. This allows
+     * the same method to be added twice (or more) using several configuration options.
      */
     public function add(string $alias, CompressionMethod $compressionMethod): void
     {
@@ -53,19 +43,20 @@ class CompressionMethodManagerFactory
     }
 
     /**
-     * Creates a compression method manager using the compression methods identified by the given aliases.
-     * If one of the aliases does not exist, an exception is thrown.
+     * Creates a compression method manager using the compression methods identified by the given aliases. If one of the
+     * aliases does not exist, an exception is thrown.
      *
      * @param string[] $aliases
-     *
-     * @throws InvalidArgumentException if the compression method alias is not supported
      */
     public function create(array $aliases): CompressionMethodManager
     {
         $compressionMethods = [];
         foreach ($aliases as $alias) {
-            if (!isset($this->compressionMethods[$alias])) {
-                throw new InvalidArgumentException(sprintf('The compression method with the alias "%s" is not supported.', $alias));
+            if (! isset($this->compressionMethods[$alias])) {
+                throw new InvalidArgumentException(sprintf(
+                    'The compression method with the alias "%s" is not supported.',
+                    $alias
+                ));
             }
             $compressionMethods[] = $this->compressionMethods[$alias];
         }

@@ -2,18 +2,10 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
+use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,16 +16,9 @@ class P12 extends AbstractSource implements JWKSource
 {
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
-        $definition = new Definition(\Jose\Component\Core\JWK::class);
-        $definition->setFactory([
-            new Reference(JWKFactory::class),
-            'createFromPKCS12CertificateFile',
-        ]);
-        $definition->setArguments([
-            $config['path'],
-            $config['password'],
-            $config['additional_values'],
-        ]);
+        $definition = new Definition(JWK::class);
+        $definition->setFactory([new Reference(JWKFactory::class), 'createFromPKCS12CertificateFile']);
+        $definition->setArguments([$config['path'], $config['password'], $config['additional_values']]);
         $definition->addTag('jose.jwk');
 
         return $definition;
@@ -61,7 +46,8 @@ class P12 extends AbstractSource implements JWKSource
             ->info('Additional values to be added to the key.')
             ->defaultValue([])
             ->useAttributeAsKey('key')
-            ->variablePrototype()->end()
+            ->variablePrototype()
+            ->end()
             ->end()
             ->end()
         ;

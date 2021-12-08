@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
@@ -23,25 +14,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class RsaKeysetGeneratorCommand extends GeneratorCommand
 {
+    protected static $defaultName = 'keyset:generate:rsa';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->setName('keyset:generate:rsa')
-            ->setDescription('Generate a key set with RSA keys (JWK format)')
+        $this->setDescription('Generate a key set with RSA keys (JWK format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.')
         ;
     }
 
-    /**
-     * @throws InvalidArgumentException if the quantity is invalid
-     * @throws InvalidArgumentException if the key size is invalid
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $quantity = $input->getArgument('quantity');
-        if (null === $quantity) {
+        if ($quantity === null) {
             $quantity = 1;
         } elseif (is_array($quantity)) {
             $quantity = 1;
@@ -49,7 +36,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
             $quantity = (int) $quantity;
         }
         $size = $input->getArgument('size');
-        if (null === $size) {
+        if ($size === null) {
             $size = 1;
         } elseif (is_array($size)) {
             $size = 1;

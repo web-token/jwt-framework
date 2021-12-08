@@ -2,6 +2,29 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Console\AddKeyIntoKeysetCommand;
+use Jose\Component\Console\EcKeyGeneratorCommand;
+use Jose\Component\Console\EcKeysetGeneratorCommand;
+use Jose\Component\Console\GetThumbprintCommand;
+use Jose\Component\Console\KeyAnalyzerCommand;
+use Jose\Component\Console\KeyFileLoaderCommand;
+use Jose\Component\Console\KeysetAnalyzerCommand;
+use Jose\Component\Console\MergeKeysetCommand;
+use Jose\Component\Console\NoneKeyGeneratorCommand;
+use Jose\Component\Console\OctKeyGeneratorCommand;
+use Jose\Component\Console\OctKeysetGeneratorCommand;
+use Jose\Component\Console\OkpKeyGeneratorCommand;
+use Jose\Component\Console\OkpKeysetGeneratorCommand;
+use Jose\Component\Console\OptimizeRsaKeyCommand;
+use Jose\Component\Console\P12CertificateLoaderCommand;
+use Jose\Component\Console\PemConverterCommand;
+use Jose\Component\Console\PublicKeyCommand;
+use Jose\Component\Console\PublicKeysetCommand;
+use Jose\Component\Console\RotateKeysetCommand;
+use Jose\Component\Console\RsaKeyGeneratorCommand;
+use Jose\Component\Console\RsaKeysetGeneratorCommand;
+use Jose\Component\Console\SecretKeyGeneratorCommand;
+use Jose\Component\Console\X509CertificateLoaderCommand;
 /*
  * The MIT License (MIT)
  *
@@ -11,37 +34,37 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Console;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->private()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(Console\AddKeyIntoKeysetCommand::class);
-    $container->set(Console\EcKeyGeneratorCommand::class);
-    $container->set(Console\EcKeysetGeneratorCommand::class);
-    $container->set(Console\GetThumbprintCommand::class);
-    $container->set(Console\OptimizeRsaKeyCommand::class);
-    $container->set(Console\KeyAnalyzerCommand::class);
-    $container->set(Console\KeyFileLoaderCommand::class);
-    $container->set(Console\KeysetAnalyzerCommand::class);
-    $container->set(Console\MergeKeysetCommand::class);
-    $container->set(Console\NoneKeyGeneratorCommand::class);
-    $container->set(Console\OctKeyGeneratorCommand::class);
-    $container->set(Console\OctKeysetGeneratorCommand::class);
-    $container->set(Console\OkpKeyGeneratorCommand::class);
-    $container->set(Console\OkpKeysetGeneratorCommand::class);
-    $container->set(Console\P12CertificateLoaderCommand::class);
-    $container->set(Console\PemConverterCommand::class);
-    $container->set(Console\PublicKeyCommand::class);
-    $container->set(Console\PublicKeysetCommand::class);
-    $container->set(Console\RotateKeysetCommand::class);
-    $container->set(Console\RsaKeyGeneratorCommand::class);
-    $container->set(Console\RsaKeysetGeneratorCommand::class);
-    $container->set(Console\SecretKeyGeneratorCommand::class);
-    $container->set(Console\X509CertificateLoaderCommand::class);
+    $container->set(AddKeyIntoKeysetCommand::class);
+    $container->set(EcKeyGeneratorCommand::class);
+    $container->set(EcKeysetGeneratorCommand::class);
+    $container->set(GetThumbprintCommand::class);
+    $container->set(OptimizeRsaKeyCommand::class);
+    $container->set(KeyAnalyzerCommand::class);
+    $container->set(KeyFileLoaderCommand::class);
+    $container->set(KeysetAnalyzerCommand::class);
+    $container->set(MergeKeysetCommand::class);
+    $container->set(NoneKeyGeneratorCommand::class);
+    $container->set(OctKeyGeneratorCommand::class);
+    $container->set(OctKeysetGeneratorCommand::class);
+    $container->set(OkpKeyGeneratorCommand::class);
+    $container->set(OkpKeysetGeneratorCommand::class);
+    $container->set(P12CertificateLoaderCommand::class);
+    $container->set(PemConverterCommand::class);
+    $container->set(PublicKeyCommand::class);
+    $container->set(PublicKeysetCommand::class);
+    $container->set(RotateKeysetCommand::class);
+    $container->set(RsaKeyGeneratorCommand::class);
+    $container->set(RsaKeysetGeneratorCommand::class);
+    $container->set(SecretKeyGeneratorCommand::class);
+    $container->set(X509CertificateLoaderCommand::class);
 };

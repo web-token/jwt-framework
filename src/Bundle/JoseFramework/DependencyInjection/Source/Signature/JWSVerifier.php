@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
@@ -33,9 +24,7 @@ class JWSVerifier extends AbstractSignatureSource
             $definition = new Definition(JWSVerifierService::class);
             $definition
                 ->setFactory([new Reference(JWSVerifierFactory::class), 'create'])
-                ->setArguments([
-                    $itemConfig['signature_algorithms'],
-                ])
+                ->setArguments([$itemConfig['signature_algorithms']])
                 ->addTag('jose.jws_verifier')
                 ->setPublic($itemConfig['is_public'])
             ;
@@ -43,7 +32,7 @@ class JWSVerifier extends AbstractSignatureSource
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
-            $container->registerAliasForArgument($service_id, JWSVerifierService::class, $name.'JwsVerifier');
+            $container->registerAliasForArgument($service_id, JWSVerifierService::class, $name . 'JwsVerifier');
         }
     }
 }

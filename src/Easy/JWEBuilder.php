@@ -2,25 +2,38 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Easy;
 
 use InvalidArgumentException;
 use function is_string;
 use Jose\Component\Core\Algorithm;
+use Jose\Component\Core\Algorithm as JoseAlgorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
-use Jose\Component\Encryption\Algorithm\ContentEncryption;
-use Jose\Component\Encryption\Algorithm\KeyEncryption;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\Compression\Deflate;
@@ -30,30 +43,28 @@ use Jose\Component\Encryption\Serializer\CompactSerializer;
 class JWEBuilder extends AbstractBuilder
 {
     /**
+     * @var JoseAlgorithm[]
+     */
+    protected array $contentEncryptionAlgorithms = [];
+
+    /**
      * @var CompressionMethod[]
      */
-    private $compressionMethods;
+    private array $compressionMethods;
 
     public function __construct()
     {
         parent::__construct();
-        $this->compressionMethods = [
-            new Deflate(),
-        ];
+        $this->compressionMethods = [new Deflate()];
     }
 
-    /**
-     * @param Algorithm|string $enc
-     *
-     * @throws InvalidArgumentException if the header parameter "enc" is invalid
-     */
-    public function enc($enc): self
+    public function enc(Algorithm|string $enc): self
     {
         $clone = clone $this;
 
         switch (true) {
             case $enc instanceof Algorithm:
-                $clone->algorithms[] = $enc;
+                $clone->contentEncryptionAlgorithms[] = $enc;
                 $clone->jwt->header->set('enc', $enc->name());
 
                 break;
@@ -70,12 +81,7 @@ class JWEBuilder extends AbstractBuilder
         return $clone;
     }
 
-    /**
-     * @param CompressionMethod|string $zip
-     *
-     * @throws InvalidArgumentException if the header parameter "zip" is invalid
-     */
-    public function zip($zip): self
+    public function zip(CompressionMethod|string $zip): self
     {
         $clone = clone $this;
 
@@ -102,7 +108,7 @@ class JWEBuilder extends AbstractBuilder
     {
         $builder = new JoseBuilder(
             new AlgorithmManager($this->algorithms),
-            new AlgorithmManager($this->algorithms),
+            new AlgorithmManager($this->contentEncryptionAlgorithms),
             new CompressionMethodManager($this->compressionMethods)
         );
         $jwe = $builder
@@ -119,29 +125,29 @@ class JWEBuilder extends AbstractBuilder
     protected function getAlgorithmMap(): array
     {
         return [
-            KeyEncryption\A128GCMKW::class,
-            KeyEncryption\A192GCMKW::class,
-            KeyEncryption\A256GCMKW::class,
-            KeyEncryption\A128KW::class,
-            KeyEncryption\A192KW::class,
-            KeyEncryption\A256KW::class,
-            KeyEncryption\Dir::class,
-            KeyEncryption\ECDHES::class,
-            KeyEncryption\ECDHESA128KW::class,
-            KeyEncryption\ECDHESA192KW::class,
-            KeyEncryption\ECDHESA256KW::class,
-            KeyEncryption\PBES2HS256A128KW::class,
-            KeyEncryption\PBES2HS384A192KW::class,
-            KeyEncryption\PBES2HS512A256KW::class,
-            KeyEncryption\RSA15::class,
-            KeyEncryption\RSAOAEP::class,
-            KeyEncryption\RSAOAEP256::class,
-            ContentEncryption\A128GCM::class,
-            ContentEncryption\A192GCM::class,
-            ContentEncryption\A256GCM::class,
-            ContentEncryption\A128CBCHS256::class,
-            ContentEncryption\A192CBCHS384::class,
-            ContentEncryption\A256CBCHS512::class,
+            A128GCMKW::class,
+            A192GCMKW::class,
+            A256GCMKW::class,
+            A128KW::class,
+            A192KW::class,
+            A256KW::class,
+            Dir::class,
+            ECDHES::class,
+            ECDHESA128KW::class,
+            ECDHESA192KW::class,
+            ECDHESA256KW::class,
+            PBES2HS256A128KW::class,
+            PBES2HS384A192KW::class,
+            PBES2HS512A256KW::class,
+            RSA15::class,
+            RSAOAEP::class,
+            RSAOAEP256::class,
+            A128GCM::class,
+            A192GCM::class,
+            A256GCM::class,
+            A128CBCHS256::class,
+            A192CBCHS384::class,
+            A256CBCHS512::class,
         ];
     }
 }

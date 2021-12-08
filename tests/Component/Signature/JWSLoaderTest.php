@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature;
 
 use Exception;
@@ -18,17 +9,11 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSLoader;
 
 /**
- * @group JWSLoader
- * @group unit
- *
  * @internal
  */
-class JWSLoaderTest extends SignatureTest
+final class JWSLoaderTest extends SignatureTest
 {
-    /**
-     * @var null|JWSLoader
-     */
-    private $jwsLoader;
+    private ?JWSLoader $jwsLoader = null;
 
     /**
      * @test
@@ -47,7 +32,9 @@ class JWSLoaderTest extends SignatureTest
             'e' => 'AQAB',
         ]);
 
-        $this->getJWSLoader()->loadAndVerifyWithKey($token, $key, $signature);
+        $this->getJWSLoader()
+            ->loadAndVerifyWithKey($token, $key, $signature)
+        ;
     }
 
     /**
@@ -67,7 +54,9 @@ class JWSLoaderTest extends SignatureTest
             'e' => 'AQAB',
         ]);
 
-        $this->getJWSLoader()->loadAndVerifyWithKey($token, $key, $signature);
+        $this->getJWSLoader()
+            ->loadAndVerifyWithKey($token, $key, $signature)
+        ;
     }
 
     /**
@@ -87,7 +76,9 @@ class JWSLoaderTest extends SignatureTest
             'e' => 'AQAB',
         ]);
 
-        $this->getJWSLoader()->loadAndVerifyWithKey($token, $key, $signature);
+        $this->getJWSLoader()
+            ->loadAndVerifyWithKey($token, $key, $signature)
+        ;
     }
 
     /**
@@ -104,15 +95,22 @@ class JWSLoaderTest extends SignatureTest
             'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
         ]);
 
-        $jws = $this->getJWSLoader()->loadAndVerifyWithKey($token, $key, $signature);
-        static::assertEquals("It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.", $jws->getPayload());
-        static::assertEquals(0, $signature);
+        $jws = $this->getJWSLoader()
+            ->loadAndVerifyWithKey($token, $key, $signature)
+        ;
+        static::assertSame(
+            "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.",
+            $jws->getPayload()
+        );
+        static::assertSame(0, $signature);
     }
 
     private function getJWSLoader(): JWSLoader
     {
-        if (null === $this->jwsLoader) {
-            $this->jwsLoader = $this->getJWSLoaderFactory()->create(['jws_compact'], ['HS256']);
+        if ($this->jwsLoader === null) {
+            $this->jwsLoader = $this->getJWSLoaderFactory()
+                ->create(['jws_compact'], ['HS256'])
+            ;
         }
 
         return $this->jwsLoader;

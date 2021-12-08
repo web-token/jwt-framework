@@ -2,21 +2,24 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Easy;
 
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
-use Jose\Component\Signature\Algorithm;
+use Jose\Component\Signature\Algorithm\EdDSA;
+use Jose\Component\Signature\Algorithm\ES256;
+use Jose\Component\Signature\Algorithm\ES384;
+use Jose\Component\Signature\Algorithm\ES512;
+use Jose\Component\Signature\Algorithm\HS256;
+use Jose\Component\Signature\Algorithm\HS384;
+use Jose\Component\Signature\Algorithm\HS512;
+use Jose\Component\Signature\Algorithm\PS256;
+use Jose\Component\Signature\Algorithm\PS384;
+use Jose\Component\Signature\Algorithm\PS512;
+use Jose\Component\Signature\Algorithm\RS256;
+use Jose\Component\Signature\Algorithm\RS384;
+use Jose\Component\Signature\Algorithm\RS512;
 use Jose\Component\Signature\JWSBuilder as JoseBuilder;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 
@@ -38,19 +41,19 @@ class JWSBuilder extends AbstractBuilder
     protected function getAlgorithmMap(): array
     {
         return [
-            Algorithm\HS256::class,
-            Algorithm\HS384::class,
-            Algorithm\HS512::class,
-            Algorithm\RS256::class,
-            Algorithm\RS384::class,
-            Algorithm\RS512::class,
-            Algorithm\PS256::class,
-            Algorithm\PS384::class,
-            Algorithm\PS512::class,
-            Algorithm\ES256::class,
-            Algorithm\ES384::class,
-            Algorithm\ES512::class,
-            Algorithm\EdDSA::class,
+            HS256::class,
+            HS384::class,
+            HS512::class,
+            RS256::class,
+            RS384::class,
+            RS512::class,
+            PS256::class,
+            PS384::class,
+            PS512::class,
+            ES256::class,
+            ES384::class,
+            ES512::class,
+            EdDSA::class,
         ];
     }
 }

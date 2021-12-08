@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption\Algorithm;
 
 use Jose\Component\Core\JWK;
@@ -20,16 +11,12 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group unit
- * @group NewAlgorithm
- *
  * @internal
  */
-class AESCTRContentEncryptionTest extends TestCase
+final class AESCTRContentEncryptionTest extends TestCase
 {
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR
      */
     public function a128CTRKeyEncryptionAndDecryption(): void
     {
@@ -42,12 +29,11 @@ class AESCTRContentEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
 
-        static::assertEquals($cek, $decrypted);
+        static::assertSame($cek, $decrypted);
     }
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR
      */
     public function a192CTRKeyEncryptionAndDecryption(): void
     {
@@ -60,12 +46,11 @@ class AESCTRContentEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
 
-        static::assertEquals($cek, $decrypted);
+        static::assertSame($cek, $decrypted);
     }
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR
      */
     public function a256CTRKeyEncryptionAndDecryption(): void
     {
@@ -78,7 +63,7 @@ class AESCTRContentEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
 
-        static::assertEquals($cek, $decrypted);
+        static::assertSame($cek, $decrypted);
     }
 
     private function getKey(): JWK

@@ -2,21 +2,13 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use function array_key_exists;
 use function count;
 use function in_array;
-use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\CompressionMethodCompilerPass;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\EncryptionSerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\AESCBCHS;
@@ -43,19 +35,11 @@ class EncryptionSource implements SourceWithCompilerPasses
     /**
      * @var Source[]
      */
-    private $sources;
+    private array $sources;
 
-    /**
-     * EncryptionSource constructor.
-     */
     public function __construct()
     {
-        $this->sources = [
-            new JWEBuilder(),
-            new JWEDecrypter(),
-            new JWESerializer(),
-            new JWELoader(),
-        ];
+        $this->sources = [new JWEBuilder(), new JWEDecrypter(), new JWESerializer(), new JWELoader()];
     }
 
     public function name(): string
@@ -65,16 +49,16 @@ class EncryptionSource implements SourceWithCompilerPasses
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return;
         }
         $container->registerForAutoconfiguration(JWESerializerAlias::class)->addTag('jose.jwe.serializer');
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('jwe_services.php');
         $loader->load('jwe_serializers.php');
         $loader->load('compression_methods.php');
 
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
             if (class_exists($class)) {
                 $loader->load($file);
@@ -90,7 +74,7 @@ class EncryptionSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return;
         }
         $childNode = $node->children()
@@ -107,13 +91,13 @@ class EncryptionSource implements SourceWithCompilerPasses
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return [];
         }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== count($prepend)) {
+            if (count($prepend) !== 0) {
                 $result[$source->name()] = $prepend;
             }
         }
@@ -126,10 +110,7 @@ class EncryptionSource implements SourceWithCompilerPasses
      */
     public function getCompilerPasses(): array
     {
-        return [
-            new Compiler\EncryptionSerializerCompilerPass(),
-            new Compiler\CompressionMethodCompilerPass(),
-        ];
+        return [new EncryptionSerializerCompilerPass(), new CompressionMethodCompilerPass()];
     }
 
     private function getAlgorithmsFiles(): array

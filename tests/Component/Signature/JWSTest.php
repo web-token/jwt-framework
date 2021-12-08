@@ -2,29 +2,17 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Signature\JWS;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
- * @group JWS
- * @group unit
- *
  * @internal
  */
-class JWSTest extends SignatureTest
+final class JWSTest extends SignatureTest
 {
     /**
      * @test
@@ -39,16 +27,18 @@ class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $header = ['alg' => 'none'];
+        $header = [
+            'alg' => 'none',
+        ];
         $jws = new JWS(json_encode($claims), json_encode($claims));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
 
-        static::assertEquals(json_encode($claims), $jws->getPayload());
-        static::assertEquals(1, $jws->countSignatures());
+        static::assertSame(json_encode($claims), $jws->getPayload());
+        static::assertSame(1, $jws->countSignatures());
         static::assertTrue($jws->getSignature(0)->hasProtectedHeaderParameter('alg'));
-        static::assertEquals($header, $jws->getSignature(0)->getProtectedHeader());
-        static::assertEquals('none', $jws->getSignature(0)->getProtectedHeaderParameter('alg'));
-        static::assertEquals([], $jws->getSignature(0)->getHeader());
+        static::assertSame($header, $jws->getSignature(0)->getProtectedHeader());
+        static::assertSame('none', $jws->getSignature(0)->getProtectedHeaderParameter('alg'));
+        static::assertSame([], $jws->getSignature(0)->getHeader());
     }
 
     /**
@@ -68,7 +58,9 @@ class JWSTest extends SignatureTest
             'sub' => 'My friend',
         ];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+        $this->getJWSSerializerManager()
+            ->serialize('jws_compact', $jws, 0)
+        ;
     }
 
     /**
@@ -88,7 +80,9 @@ class JWSTest extends SignatureTest
             'sub' => 'My friend',
         ];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
+        $this->getJWSSerializerManager()
+            ->serialize('jws_json_flattened', $jws, 0)
+        ;
     }
 
     /**
@@ -108,7 +102,9 @@ class JWSTest extends SignatureTest
             'sub' => 'My friend',
         ];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0);
+        $this->getJWSSerializerManager()
+            ->serialize('jws_json_general', $jws, 0)
+        ;
     }
 
     /**
@@ -117,7 +113,9 @@ class JWSTest extends SignatureTest
     public function signatureContainsUnprotectedHeader(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('The signature contains unprotected header parameters and cannot be converted into compact JSON');
+        $this->expectExceptionMessage(
+            'The signature contains unprotected header parameters and cannot be converted into compact JSON'
+        );
 
         $claims = [
             'nbf' => time(),
@@ -127,11 +125,17 @@ class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $header = ['alg' => 'none'];
+        $header = [
+            'alg' => 'none',
+        ];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)), ['foo' => 'bar']);
+        $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)), [
+            'foo' => 'bar',
+        ]);
 
-        $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
+        $this->getJWSSerializerManager()
+            ->serialize('jws_compact', $jws, 0)
+        ;
     }
 
     /**
@@ -150,10 +154,14 @@ class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $header = ['alg' => 'none'];
+        $header = [
+            'alg' => 'none',
+        ];
         $jws = new JWS(json_encode($claims), json_encode($claims));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
-        $jws->getSignature(0)->getHeaderParameter('foo');
+        $jws->getSignature(0)
+            ->getHeaderParameter('foo')
+        ;
     }
 
     /**
@@ -172,9 +180,13 @@ class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $header = ['alg' => 'none'];
+        $header = [
+            'alg' => 'none',
+        ];
         $jws = new JWS(json_encode($claims), json_encode($claims));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
-        $jws->getSignature(0)->getProtectedHeaderParameter('foo');
+        $jws->getSignature(0)
+            ->getProtectedHeaderParameter('foo')
+        ;
     }
 }

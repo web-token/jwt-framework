@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\TestBundle\DependencyInjection;
 
 use Jose\Bundle\JoseFramework\Helper\ConfigurationHelper;
@@ -20,14 +11,11 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-/**
- * Class TestExtension.
- */
 class TestExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.php');
     }
 
@@ -49,13 +37,56 @@ class TestExtension extends Extension implements PrependExtensionInterface
         ConfigurationHelper::addHeaderChecker($container, 'checker2', ['custom_checker'], true);
         ConfigurationHelper::addJWSBuilder($container, 'builder2', ['RS512', 'HS512', 'ES512'], true);
         ConfigurationHelper::addJWSVerifier($container, 'loader2', ['RS512', 'HS512', 'ES512'], true);
-        ConfigurationHelper::addJWSSerializer($container, 'jws_serializer2', ['jws_compact', 'jws_json_flattened', 'jws_json_general'], true);
+        ConfigurationHelper::addJWSSerializer(
+            $container,
+            'jws_serializer2',
+            ['jws_compact', 'jws_json_flattened', 'jws_json_general'],
+            true
+        );
         ConfigurationHelper::addJWSLoader($container, 'jws_loader2', ['jws_compact'], ['HS512'], [], true);
         ConfigurationHelper::addJWEBuilder($container, 'builder2', ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], true);
         ConfigurationHelper::addJWEDecrypter($container, 'loader2', ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], true);
-        ConfigurationHelper::addJWESerializer($container, 'jwe_serializer2', ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general'], true);
-        ConfigurationHelper::addJWELoader($container, 'jwe_loader2', ['jwe_compact'], ['RSA-OAEP-256'], ['A128GCM'], ['DEF'], [], true);
-        ConfigurationHelper::addNestedTokenLoader($container, 'nested_token_loader_2', ['jwe_compact'], ['RSA-OAEP'], ['A128GCM'], ['DEF'], [], ['jws_compact'], ['PS256'], [], true, []);
-        ConfigurationHelper::addNestedTokenBuilder($container, 'nested_token_builder_2', ['jwe_compact'], ['RSA-OAEP'], ['A128GCM'], ['DEF'], ['jws_compact'], ['PS256'], true, []);
+        ConfigurationHelper::addJWESerializer(
+            $container,
+            'jwe_serializer2',
+            ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general'],
+            true
+        );
+        ConfigurationHelper::addJWELoader(
+            $container,
+            'jwe_loader2',
+            ['jwe_compact'],
+            ['RSA-OAEP-256'],
+            ['A128GCM'],
+            ['DEF'],
+            [],
+            true
+        );
+        ConfigurationHelper::addNestedTokenLoader(
+            $container,
+            'nested_token_loader_2',
+            ['jwe_compact'],
+            ['RSA-OAEP'],
+            ['A128GCM'],
+            ['DEF'],
+            [],
+            ['jws_compact'],
+            ['PS256'],
+            [],
+            true,
+            []
+        );
+        ConfigurationHelper::addNestedTokenBuilder(
+            $container,
+            'nested_token_builder_2',
+            ['jwe_compact'],
+            ['RSA-OAEP'],
+            ['A128GCM'],
+            ['DEF'],
+            ['jws_compact'],
+            ['PS256'],
+            true,
+            []
+        );
     }
 }

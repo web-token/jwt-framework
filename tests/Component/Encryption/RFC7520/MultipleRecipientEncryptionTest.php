@@ -2,35 +2,24 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.13
  *
- * @group RFC7520
- *
  * @internal
  */
-class MultipleRecipientEncryptionTest extends EncryptionTest
+final class MultipleRecipientEncryptionTest extends EncryptionTest
 {
     /**
-     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
-     * The output given in the RFC is used and only decrypted.
+     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
+     * always different). The output given in the RFC is used and only decrypted.
      *
      * @test
      */
@@ -91,7 +80,8 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
                 'crv' => 'P-384',
                 'x' => 'Uzdvk3pi5wKCRc1izp5_r0OjeqT-I68i8g2b8mva8diRhsE2xAn2DtMRb25Ma2CX',
                 'y' => 'VDrRyFJh-Kwd1EjAgmj5Eo-CTHAZ53MC7PjjpLioy3ylEjI1pOMbw91fzZ84pbfm',
-            ], ];
+            ],
+        ];
 
         $recipient_3Header = [
             'alg' => 'A256GCMKW',
@@ -108,30 +98,47 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
         $expected_ciphertext = 'ajm2Q-OpPXCr7-MHXicknb1lsxLdXxK_yLds0KuhJzfWK04SjdxQeSw2L9mu3a_k1C55kCQ_3xlkcVKC5yr__Is48VOoK0k63_QRM9tBURMFqLByJ8vOYQX0oJW4VUHJLmGhF-tVQWB7Kz8mr8zeE7txF0MSaP6ga7-siYxStR7_G07Thd1jh-zGT0wxM5g-VRORtq0K6AXpLlwEqRp7pkt2zRM0ZAXqSpe1O6FJ7FHLDyEFnD-zDIZukLpCbzhzMDLLw2-8I14FQrgi-iEuzHgIJFIJn2wh9Tj0cg_kOZy9BqMRZbmYXMY9YQjorZ_P_JYG3ARAIF3OjDNqpdYe-K_5Q5crGJSDNyij_ygEiItR5jssQVH2ofDQdLChtazE';
         $expected_tag = 'BESYyFN7T09KY7i8zKs5_g';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'])
+        ;
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($expected_json)
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($expected_json)
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($expected_json)
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
-        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
-        static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
-        static::assertEquals($expected_recipient_1_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(0)->getEncryptedKey()));
-        static::assertEquals($expected_recipient_2_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(1)->getEncryptedKey()));
-        static::assertEquals($expected_recipient_3_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(2)->getEncryptedKey()));
-        static::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
-        static::assertEquals($recipient_2Header, $loaded_json->getRecipient(1)->getHeader());
-        static::assertEquals($recipient_3Header, $loaded_json->getRecipient(2)->getHeader());
-        static::assertEquals($header, $loaded_json->getSharedHeader());
-        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
+        static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
+        static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
+        static::assertSame(
+            $expected_recipient_1_encrypted_key,
+            Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(0)->getEncryptedKey())
+        );
+        static::assertSame(
+            $expected_recipient_2_encrypted_key,
+            Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(1)->getEncryptedKey())
+        );
+        static::assertSame(
+            $expected_recipient_3_encrypted_key,
+            Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(2)->getEncryptedKey())
+        );
+        static::assertSame($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
+        static::assertSame($recipient_2Header, $loaded_json->getRecipient(1)->getHeader());
+        static::assertSame($recipient_3Header, $loaded_json->getRecipient(2)->getHeader());
+        static::assertSame($header, $loaded_json->getSharedHeader());
+        static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
-        static::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertSame($expected_payload, $loaded_json->getPayload());
     }
 
     /**
@@ -207,11 +214,16 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'kid' => '18ec08e1-bfa9-4d95-b205-2b4dd1d4321d',
         ];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'])
+        ;
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'])
+        ;
 
         $jwe = $jweBuilder
-            ->create()->withPayload($expected_payload)
+            ->create()
+            ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
@@ -220,23 +232,29 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             ->build()
         ;
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
-        static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
+        static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        static::assertSame($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
         static::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
         static::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
         static::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
-        static::assertEquals($header, $loaded_json->getSharedHeader());
+        static::assertSame($header, $loaded_json->getSharedHeader());
 
-        static::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertSame($expected_payload, $loaded_json->getPayload());
     }
 
     /**
@@ -290,7 +308,9 @@ class MultipleRecipientEncryptionTest extends EncryptionTest
             'kid' => 'peregrin.took@tuckborough.example',
         ];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create(['RSA1_5', 'A256GCMKW'], ['A128CBC-HS256', 'A128GCM'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create(['RSA1_5', 'A256GCMKW'], ['A128CBC-HS256', 'A128GCM'], ['DEF'])
+        ;
         $jweBuilder
             ->create()
             ->withPayload($expected_payload)

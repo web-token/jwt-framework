@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\AlgorithmManager;
@@ -31,7 +22,9 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
 abstract class SignatureBench
 {
     private $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
+
     private $signatureAlgorithmsManager;
+
     private $serializerManager;
 
     public function init()
@@ -68,7 +61,9 @@ abstract class SignatureBench
         $jwsBuilder = new JWSBuilder($this->signatureAlgorithmsManager);
         $jwsBuilder
             ->withPayload($this->payload)
-            ->addSignature($this->getPrivateKey(), ['alg' => $params['algorithm']])
+            ->addSignature($this->getPrivateKey(), [
+                'alg' => $params['algorithm'],
+            ])
             ->build()
         ;
     }

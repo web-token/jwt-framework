@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
@@ -18,16 +9,6 @@ use Throwable;
 
 final class JWEBuiltFailureEvent extends Event
 {
-    /**
-     * @var Throwable
-     */
-    private $throwable;
-
-    /**
-     * @var null|string
-     */
-    private $payload;
-
     /**
      * @var array
      */
@@ -43,19 +24,17 @@ final class JWEBuiltFailureEvent extends Event
      */
     private $sharedHeader;
 
-    /**
-     * @var null|string
-     */
-    private $aad;
-
-    public function __construct(?string $payload, array $recipients, array $sharedProtectedHeader, array $sharedHeader, ?string $aad, Throwable $throwable)
-    {
-        $this->throwable = $throwable;
-        $this->payload = $payload;
+    public function __construct(
+        private ?string $payload,
+        array $recipients,
+        array $sharedProtectedHeader,
+        array $sharedHeader,
+        private ?string $aad,
+        private Throwable $throwable
+    ) {
         $this->recipients = $recipients;
         $this->sharedProtectedHeader = $sharedProtectedHeader;
         $this->sharedHeader = $sharedHeader;
-        $this->aad = $aad;
     }
 
     public function getPayload(): ?string

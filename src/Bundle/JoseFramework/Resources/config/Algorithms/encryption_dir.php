@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
 /*
  * The MIT License (MIT)
  *
@@ -11,17 +12,19 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->private()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(KeyEncryption\Dir::class)
-        ->tag('jose.algorithm', ['alias' => 'dir'])
+    $container->set(Dir::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'dir',
+        ])
     ;
 };

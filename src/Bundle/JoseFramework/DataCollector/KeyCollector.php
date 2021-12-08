@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Component\Core\JWK;
@@ -26,29 +17,19 @@ use Throwable;
 class KeyCollector implements Collector
 {
     /**
-     * @var null|KeyAnalyzerManager
-     */
-    private $jwkAnalyzerManager;
-
-    /**
-     * @var null|KeysetAnalyzerManager
-     */
-    private $jwksetAnalyzerManager;
-
-    /**
      * @var JWK[]
      */
-    private $jwks = [];
+    private array $jwks = [];
 
     /**
      * @var JWKSet[]
      */
-    private $jwksets = [];
+    private array $jwksets = [];
 
-    public function __construct(?KeyAnalyzerManager $jwkAnalyzerManager = null, ?KeysetAnalyzerManager $jwksetAnalyzerManager = null)
-    {
-        $this->jwkAnalyzerManager = $jwkAnalyzerManager;
-        $this->jwksetAnalyzerManager = $jwksetAnalyzerManager;
+    public function __construct(
+        private ?KeyAnalyzerManager $jwkAnalyzerManager = null,
+        private ?KeysetAnalyzerManager $jwksetAnalyzerManager = null
+    ) {
     }
 
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
@@ -74,7 +55,7 @@ class KeyCollector implements Collector
         foreach ($this->jwks as $id => $jwk) {
             $data['key']['jwk'][$id] = [
                 'jwk' => $cloner->cloneVar($jwk),
-                'analyze' => null === $this->jwkAnalyzerManager ? [] : $this->jwkAnalyzerManager->analyze($jwk),
+                'analyze' => $this->jwkAnalyzerManager === null ? [] : $this->jwkAnalyzerManager->analyze($jwk),
             ];
         }
     }
@@ -86,12 +67,12 @@ class KeyCollector implements Collector
         foreach ($this->jwksets as $id => $jwkset) {
             $analyze = [];
             $analyzeJWKSet = new MessageBag();
-            if (null !== $this->jwkAnalyzerManager) {
+            if ($this->jwkAnalyzerManager !== null) {
                 foreach ($jwkset as $kid => $jwk) {
                     $analyze[$kid] = $this->jwkAnalyzerManager->analyze($jwk);
                 }
             }
-            if (null !== $this->jwksetAnalyzerManager) {
+            if ($this->jwksetAnalyzerManager !== null) {
                 $analyzeJWKSet = $this->jwksetAnalyzerManager->analyze($jwkset);
             }
             $data['key']['jwkset'][$id] = [

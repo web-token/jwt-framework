@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use function array_key_exists;
@@ -38,8 +29,14 @@ final class ECDHES implements KeyAgreement
         return ['EC', 'OKP'];
     }
 
-    public function getAgreementKey(int $encryptionKeyLength, string $algorithm, JWK $recipientKey, ?JWK $senderKey, array $complete_header = [], array &$additional_header_values = []): string
-    {
+    public function getAgreementKey(
+        int $encryptionKeyLength,
+        string $algorithm,
+        JWK $recipientKey,
+        ?JWK $senderKey,
+        array $complete_header = [],
+        array &$additional_header_values = []
+    ): string {
         if ($recipientKey->has('d')) {
             [$public_key, $private_key] = $this->getKeysFromPrivateKeyAndHeader($recipientKey, $complete_header);
         } else {
@@ -54,9 +51,6 @@ final class ECDHES implements KeyAgreement
         return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
 
-    /**
-     * @throws InvalidArgumentException if the curve is not supported
-     */
     public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
     {
         switch ($public_key->get('crv')) {
@@ -70,12 +64,12 @@ final class ECDHES implements KeyAgreement
                         $privatePem = ECKey::convertPrivateKeyToPEM($private_key);
 
                         $res = openssl_pkey_derive($publicPem, $privatePem, $curve->getSize());
-                        if (false === $res) {
+                        if ($res === false) {
                             throw new RuntimeException('Unable to derive the key');
                         }
 
                         return $res;
-                    } catch (Throwable $throwable) {
+                    } catch (Throwable) {
                         //Does nothing. Will fallback to the pure PHP function
                     }
                 }
@@ -111,8 +105,6 @@ final class ECDHES implements KeyAgreement
     }
 
     /**
-     * @throws InvalidArgumentException if the curve is not supported
-     *
      * @return JWK[]
      */
     private function getKeysFromPublicKey(JWK $recipient_key, array &$additional_header_values): array
@@ -137,15 +129,15 @@ final class ECDHES implements KeyAgreement
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
         }
-        $epk = $private_key->toPublic()->all();
+        $epk = $private_key->toPublic()
+            ->all()
+        ;
         $additional_header_values['epk'] = $epk;
 
         return [$public_key, $private_key];
     }
 
     /**
-     * @throws InvalidArgumentException if the curves are different
-     *
      * @return JWK[]
      */
     private function getKeysFromPrivateKeyAndHeader(JWK $recipient_key, array $complete_header): array
@@ -160,15 +152,12 @@ final class ECDHES implements KeyAgreement
         return [$public_key, $private_key];
     }
 
-    /**
-     * @throws InvalidArgumentException if the ephemeral public key is missing or invalid
-     */
     private function getPublicKey(array $complete_header): JWK
     {
-        if (!isset($complete_header['epk'])) {
+        if (! isset($complete_header['epk'])) {
             throw new InvalidArgumentException('The header parameter "epk" is missing.');
         }
-        if (!is_array($complete_header['epk'])) {
+        if (! is_array($complete_header['epk'])) {
             throw new InvalidArgumentException('The header parameter "epk" is not an array of parameters');
         }
         $public_key = new JWK($complete_header['epk']);
@@ -177,16 +166,13 @@ final class ECDHES implements KeyAgreement
         return $public_key;
     }
 
-    /**
-     * @throws InvalidArgumentException if the key is invalid
-     */
     private function checkKey(JWK $key, bool $is_private): void
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {
-            if (!$key->has($k)) {
+            if (! $key->has($k)) {
                 throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
             }
         }
@@ -195,7 +181,7 @@ final class ECDHES implements KeyAgreement
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                if (!$key->has('y')) {
+                if (! $key->has('y')) {
                     throw new InvalidArgumentException('The key parameter "y" is missing.');
                 }
 
@@ -207,44 +193,31 @@ final class ECDHES implements KeyAgreement
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $key->get('crv')));
         }
-        if (true === $is_private && !$key->has('d')) {
+        if ($is_private === true && ! $key->has('d')) {
             throw new InvalidArgumentException('The key parameter "d" is missing.');
         }
     }
 
-    /**
-     * @throws InvalidArgumentException if the curve is not supported
-     */
     private function getCurve(string $crv): Curve
     {
-        switch ($crv) {
-            case 'P-256':
-                return NistCurve::curve256();
-
-            case 'P-384':
-                return NistCurve::curve384();
-
-            case 'P-521':
-                return NistCurve::curve521();
-
-            default:
-                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
-        }
+        return match ($crv) {
+            'P-256' => NistCurve::curve256(),
+            'P-384' => NistCurve::curve384(),
+            'P-521' => NistCurve::curve521(),
+            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv)),
+        };
     }
 
     private function convertBase64ToBigInteger(string $value): BigInteger
     {
         $data = unpack('H*', Base64UrlSafe::decode($value));
-        if (!is_array($data) || !isset($data[1])) {
+        if (! is_array($data) || ! isset($data[1])) {
             throw new InvalidArgumentException('Unable to convert base64 to integer');
         }
 
         return BigInteger::fromBase($data[1], 16);
     }
 
-    /**
-     * @throws InvalidArgumentException if the data cannot be converted
-     */
     private function convertDecToBin(BigInteger $dec): string
     {
         if ($dec->compareTo(BigInteger::zero()) < 0) {
@@ -252,12 +225,12 @@ final class ECDHES implements KeyAgreement
         }
         $hex = $dec->toBase(16);
 
-        if (0 !== mb_strlen($hex, '8bit') % 2) {
-            $hex = '0'.$hex;
+        if (mb_strlen($hex, '8bit') % 2 !== 0) {
+            $hex = '0' . $hex;
         }
 
         $bin = hex2bin($hex);
-        if (false === $bin) {
+        if ($bin === false) {
             throw new InvalidArgumentException('Unable to convert integer to string');
         }
 
@@ -266,8 +239,6 @@ final class ECDHES implements KeyAgreement
 
     /**
      * @param string $curve The curve
-     *
-     * @throws InvalidArgumentException if the curve is not supported
      */
     private function createOKPKey(string $curve): JWK
     {
@@ -300,12 +271,9 @@ final class ECDHES implements KeyAgreement
         ]);
     }
 
-    /**
-     * @throws RuntimeException if the extension "sodium" is not available
-     */
     private function checkSodiumExtensionIsAvailable(): void
     {
-        if (!extension_loaded('sodium')) {
+        if (! extension_loaded('sodium')) {
             throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
         }
     }

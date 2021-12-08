@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
 use Jose\Bundle\JoseFramework\Controller\JWKSetController;
@@ -35,18 +26,16 @@ class JWKUriSource implements Source
             $definition = new Definition(JWKSetController::class);
             $definition->setFactory([new Reference(JWKSetControllerFactory::class), 'create']);
             $definition->setArguments([new Reference($itemConfig['id'])]);
-            $definition->addTag('jose.jwk_uri.controller', ['path' => $itemConfig['path']]);
+            $definition->addTag('jose.jwk_uri.controller', [
+                'path' => $itemConfig['path'],
+            ]);
             $definition->addTag('controller.service_arguments');
             $definition->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
-            $container->registerAliasForArgument(
-                $service_id,
-                JWKSetController::class,
-                $name.'JwkSetController'
-            );
+            $container->registerAliasForArgument($service_id, JWKSetController::class, $name . 'JwkSetController');
         }
     }
 
@@ -72,7 +61,8 @@ class JWKUriSource implements Source
             ->useAttributeAsKey('name')
             ->treatNullLike([])
             ->treatFalseLike([])
-            ->variablePrototype()->end()
+            ->variablePrototype()
+            ->end()
             ->end()
             ->booleanNode('is_public')
             ->info('If true, the service will be public, else private.')

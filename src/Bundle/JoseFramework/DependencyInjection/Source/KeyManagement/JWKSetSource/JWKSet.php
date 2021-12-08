@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
@@ -26,13 +17,8 @@ class JWKSet extends AbstractSource implements JWKSetSource
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWKSetAlias::class);
-        $definition->setFactory([
-            new Reference(JWKFactory::class),
-            'createFromJsonObject',
-        ]);
-        $definition->setArguments([
-            $config['value'],
-        ]);
+        $definition->setFactory([new Reference(JWKFactory::class), 'createFromJsonObject']);
+        $definition->setArguments([$config['value']]);
         $definition->addTag('jose.jwkset');
 
         return $definition;

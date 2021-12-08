@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Core;
 
 use function array_key_exists;
@@ -18,10 +9,7 @@ use InvalidArgumentException;
 
 class AlgorithmManager
 {
-    /**
-     * @var array
-     */
-    private $algorithms = [];
+    private array $algorithms = [];
 
     /**
      * @param Algorithm[] $algorithms
@@ -57,12 +45,10 @@ class AlgorithmManager
      * Returns the algorithm if supported, otherwise throw an exception.
      *
      * @param string $algorithm The algorithm
-     *
-     * @throws InvalidArgumentException if the algorithm is not supported
      */
     public function get(string $algorithm): Algorithm
     {
-        if (!$this->has($algorithm)) {
+        if (! $this->has($algorithm)) {
             throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $algorithm));
         }
 

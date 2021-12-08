@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Signature\Algorithm\None;
 /*
  * The MIT License (MIT)
  *
@@ -11,17 +12,19 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Signature\Algorithm;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->private()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(Algorithm\None::class)
-        ->tag('jose.algorithm', ['alias' => 'none'])
+    $container->set(None::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'none',
+        ])
     ;
 };

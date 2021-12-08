@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Easy;
 
 use Jose\Component\Core\JWK;
@@ -21,14 +12,9 @@ use Jose\Easy\Load;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group easy
- *
  * @internal
- * @covers \Jose\Easy\Build
- * @covers \Jose\Easy\JWEBuilder
- * @covers \Jose\Easy\JWT
  */
-class EncryptionTest extends TestCase
+final class EncryptionTest extends TestCase
 {
     /**
      * @test
@@ -49,7 +35,10 @@ class EncryptionTest extends TestCase
             ->enc('A256GCM')
             ->zip('DEF')
             ->claim('is_root', true)
-            ->claim('roles', ['ROLE1' => true, 'ROLE2' => 0.007])
+            ->claim('roles', [
+                'ROLE1' => true,
+                'ROLE2' => 0.007,
+            ])
             ->crit(['alg', 'enc'])
             ->encrypt($this->rsaKey())
         ;
@@ -68,20 +57,29 @@ class EncryptionTest extends TestCase
             ->run()
         ;
 
-        static::assertEquals($time, $jwt->claims->iat());
-        static::assertEquals($time, $jwt->claims->nbf());
-        static::assertEquals($time + 3600, $jwt->claims->exp());
-        static::assertEquals('0123456789', $jwt->claims->jti());
-        static::assertEquals('issuer', $jwt->claims->iss());
-        static::assertEquals('subject', $jwt->claims->sub());
-        static::assertEquals(['audience1', 'audience2'], $jwt->claims->aud());
-        static::assertEquals(true, $jwt->claims->is_root());
-        static::assertEquals(['ROLE1' => true, 'ROLE2' => 0.007], $jwt->claims->roles());
+        static::assertSame($time, $jwt->claims->iat());
+        static::assertSame($time, $jwt->claims->nbf());
+        static::assertSame($time + 3600, $jwt->claims->exp());
+        static::assertSame('0123456789', $jwt->claims->jti());
+        static::assertSame('issuer', $jwt->claims->iss());
+        static::assertSame('subject', $jwt->claims->sub());
+        static::assertSame(['audience1', 'audience2'], $jwt->claims->aud());
+        static::assertTrue($jwt->claims->is_root());
+        static::assertSame([
+            'ROLE1' => true,
+            'ROLE2' => 0.007,
+        ], $jwt->claims->roles());
 
-        static::assertEquals(['jti' => '0123456789', 'alg' => 'RSA-OAEP-256', 'enc' => 'A256GCM', 'crit' => ['alg', 'enc'], 'zip' => 'DEF'], $jwt->header->all());
-        static::assertEquals('RSA-OAEP-256', $jwt->header->alg());
-        static::assertEquals('A256GCM', $jwt->header->enc());
-        static::assertEquals('0123456789', $jwt->header->jti());
+        static::assertSame([
+            'jti' => '0123456789',
+            'alg' => 'RSA-OAEP-256',
+            'enc' => 'A256GCM',
+            'crit' => ['alg', 'enc'],
+            'zip' => 'DEF',
+        ], $jwt->header->all());
+        static::assertSame('RSA-OAEP-256', $jwt->header->alg());
+        static::assertSame('A256GCM', $jwt->header->enc());
+        static::assertSame('0123456789', $jwt->header->jti());
     }
 
     /**
@@ -113,13 +111,13 @@ class EncryptionTest extends TestCase
             ->key($this->rsaKey())
             ->run()
         ;
-        static::assertEquals($time, $jwt->claims->iat());
-        static::assertEquals($time, $jwt->claims->nbf());
-        static::assertEquals($time + 3600, $jwt->claims->exp());
-        static::assertEquals('0123456789', $jwt->claims->jti());
+        static::assertSame($time, $jwt->claims->iat());
+        static::assertSame($time, $jwt->claims->nbf());
+        static::assertSame($time + 3600, $jwt->claims->exp());
+        static::assertSame('0123456789', $jwt->claims->jti());
 
-        static::assertEquals('RSA-OAEP-512', $jwt->header->alg());
-        static::assertEquals('A256CCM-16-128', $jwt->header->enc());
+        static::assertSame('RSA-OAEP-512', $jwt->header->alg());
+        static::assertSame('A256CCM-16-128', $jwt->header->enc());
     }
 
     private function rsaKey(): JWK

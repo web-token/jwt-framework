@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Checker;
 
 use InvalidArgumentException;
@@ -25,22 +16,23 @@ class HeaderCheckerManagerFactory
     /**
      * @var TokenTypeSupport[]
      */
-    private $tokenTypes = [];
+    private array $tokenTypes = [];
 
     /**
-     * This method creates a Header Checker Manager and populate it with the header parameter checkers found based on the alias.
-     * If the alias is not supported, an InvalidArgumentException is thrown.
+     * This method creates a Header Checker Manager and populate it with the header parameter checkers found based on
+     * the alias. If the alias is not supported, an InvalidArgumentException is thrown.
      *
      * @param string[] $aliases
-     *
-     * @throws InvalidArgumentException if an alias is not supported
      */
     public function create(array $aliases): HeaderCheckerManager
     {
         $checkers = [];
         foreach ($aliases as $alias) {
-            if (!isset($this->checkers[$alias])) {
-                throw new InvalidArgumentException(sprintf('The header checker with the alias "%s" is not supported.', $alias));
+            if (! isset($this->checkers[$alias])) {
+                throw new InvalidArgumentException(sprintf(
+                    'The header checker with the alias "%s" is not supported.',
+                    $alias
+                ));
             }
             $checkers[] = $this->checkers[$alias];
         }
@@ -49,9 +41,8 @@ class HeaderCheckerManagerFactory
     }
 
     /**
-     * This method adds a header parameter checker to this factory.
-     * The checker is uniquely identified by an alias. This allows the same header parameter checker to be added twice (or more)
-     * using several configuration options.
+     * This method adds a header parameter checker to this factory. The checker is uniquely identified by an alias. This
+     * allows the same header parameter checker to be added twice (or more) using several configuration options.
      */
     public function add(string $alias, HeaderChecker $checker): void
     {

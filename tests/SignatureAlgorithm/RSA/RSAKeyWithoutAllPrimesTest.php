@@ -2,32 +2,25 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature\Algorithm;
 
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Algorithm;
+use Jose\Component\Signature\Algorithm\PS256;
+use Jose\Component\Signature\Algorithm\PS384;
+use Jose\Component\Signature\Algorithm\PS512;
+use Jose\Component\Signature\Algorithm\RS256;
+use Jose\Component\Signature\Algorithm\RS384;
+use Jose\Component\Signature\Algorithm\RS512;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group RSA2
- * @group unit
- *
  * @internal
  */
-class RSAKeyWithoutAllPrimesTest extends TestCase
+final class RSAKeyWithoutAllPrimesTest extends TestCase
 {
     /**
      * @dataProvider dataSignatureAlgorithms
@@ -39,19 +32,19 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
         $algorithm = new $signature_algorithm();
         $key = $this->getPrivateKey();
 
-        $claims = json_encode(['foo' => 'bar']);
+        $claims = json_encode([
+            'foo' => 'bar',
+        ]);
 
-        $jwsBuilder = new JWSBuilder(
-            new AlgorithmManager([$algorithm])
-        );
-        $jwsVerifier = new JWSVerifier(
-            new AlgorithmManager([$algorithm])
-        );
-        $serializer = new CompactSerializer(
-        );
+        $jwsBuilder = new JWSBuilder(new AlgorithmManager([$algorithm]));
+        $jwsVerifier = new JWSVerifier(new AlgorithmManager([$algorithm]));
+        $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()->withPayload($claims)
-            ->addSignature($key, ['alg' => $algorithm->name()])
+            ->create()
+            ->withPayload($claims)
+            ->addSignature($key, [
+                'alg' => $algorithm->name(),
+            ])
             ->build()
         ;
         $jws = $serializer->serialize($jws, 0);
@@ -63,23 +56,12 @@ class RSAKeyWithoutAllPrimesTest extends TestCase
 
     public function dataSignatureAlgorithms(): array
     {
-        return [
-            [Algorithm\RS256::class],
-            [Algorithm\RS384::class],
-            [Algorithm\RS512::class],
-            [Algorithm\PS256::class],
-            [Algorithm\PS384::class],
-            [Algorithm\PS512::class],
-        ];
+        return [[RS256::class], [RS384::class], [RS512::class], [PS256::class], [PS384::class], [PS512::class]];
     }
 
     public function dataSignatureAlgorithmsWithSimpleKey(): array
     {
-        return [
-            [Algorithm\PS256::class],
-            [Algorithm\PS384::class],
-            [Algorithm\PS512::class],
-        ];
+        return [[PS256::class], [PS384::class], [PS512::class]];
     }
 
     private function getPrivateKey(): JWK

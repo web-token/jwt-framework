@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Easy;
 
 use function array_key_exists;
@@ -28,16 +19,13 @@ class ParameterBag implements IteratorAggregate, Countable
      */
     private $parameters = [];
 
-    /**
-     * @return mixed
-     */
     public function __call(string $name, array $arguments)
     {
         if (method_exists($this, $name)) {
             return call_user_func_array([$this, $name], $arguments);
         }
 
-        if (0 === count($arguments)) {
+        if (count($arguments) === 0) {
             return $this->get($name);
         }
         array_unshift($arguments, $name);
@@ -60,27 +48,19 @@ class ParameterBag implements IteratorAggregate, Countable
         $this->parameters = $parameters;
     }
 
-    /**
-     * @throws InvalidArgumentException if the parameters are invalid
-     */
     public function add(array $parameters): void
     {
-        /** @var null|array $replaced */
+        /** @var array|null $replaced */
         $replaced = array_replace($this->parameters, $parameters);
-        if (null === $replaced) {
+        if ($replaced === null) {
             throw new InvalidArgumentException('Invalid parameters');
         }
         $this->parameters = $replaced;
     }
 
-    /**
-     * @throws InvalidArgumentException if the selected parameter is missing
-     *
-     * @return mixed
-     */
     public function get(string $key)
     {
-        if (!array_key_exists($key, $this->parameters)) {
+        if (! array_key_exists($key, $this->parameters)) {
             throw new InvalidArgumentException(sprintf('Parameter "%s" is missing', $key));
         }
 

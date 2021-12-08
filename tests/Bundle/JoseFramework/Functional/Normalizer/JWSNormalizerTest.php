@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Normalizer;
 
 use Jose\Bundle\JoseFramework\Normalizer\JWSNormalizer;
@@ -23,19 +14,16 @@ use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * @group Bundle
- * @group functional
- *
  * @internal
  */
 final class JWSNormalizerTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(BaseJWSBuilderFactory::class)) {
+        if (! class_exists(BaseJWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
-        if (!class_exists(Serializer::class)) {
+        if (! class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -95,8 +83,8 @@ final class JWSNormalizerTest extends WebTestCase
             ->build()
         ;
         static::assertTrue($serializer->supportsNormalization($jws));
-        static::assertEquals($jws, $serializer->normalize($jws));
-        static::assertEquals($jws, $serializer->denormalize($jws, JWS::class));
+        static::assertSame($jws, $serializer->normalize($jws));
+        static::assertSame($jws, $serializer->denormalize($jws, JWS::class));
     }
 
     /**
@@ -126,7 +114,7 @@ final class JWSNormalizerTest extends WebTestCase
             ->build()
         ;
         static::assertTrue($serializer->supportsNormalization($jws));
-        static::assertEquals($jws, $serializer->normalize($jws));
-        static::assertEquals($jws, $serializer->denormalize($jws, JWS::class));
+        static::assertSame($jws, $serializer->normalize($jws));
+        static::assertSame($jws, $serializer->denormalize($jws, JWS::class));
     }
 }

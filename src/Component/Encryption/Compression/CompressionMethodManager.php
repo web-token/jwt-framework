@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Encryption\Compression;
 
 use function array_key_exists;
@@ -21,7 +12,7 @@ class CompressionMethodManager
     /**
      * @var CompressionMethod[]
      */
-    private $compressionMethods = [];
+    private array $compressionMethods = [];
 
     public function __construct(array $methods = [])
     {
@@ -39,16 +30,14 @@ class CompressionMethodManager
     }
 
     /**
-     * This method returns the compression method with the given name.
-     * Throws an exception if the method is not supported.
+     * This method returns the compression method with the given name. Throws an exception if the method is not
+     * supported.
      *
      * @param string $name The name of the compression method
-     *
-     * @throws InvalidArgumentException if the compression method is not supported
      */
     public function get(string $name): CompressionMethod
     {
-        if (!$this->has($name)) {
+        if (! $this->has($name)) {
             throw new InvalidArgumentException(sprintf('The compression method "%s" is not supported.', $name));
         }
 

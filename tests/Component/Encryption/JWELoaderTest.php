@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption;
 
 use Exception;
@@ -20,17 +11,11 @@ use Jose\Component\Encryption\JWELoader;
 /**
  * Class JWELoaderTest.
  *
- * @group JWELoader
- * @group functional
- *
  * @internal
  */
-class JWELoaderTest extends EncryptionTest
+final class JWELoaderTest extends EncryptionTest
 {
-    /**
-     * @var null|JWELoader
-     */
-    private $jweLoader;
+    private ?JWELoader $jweLoader = null;
 
     /**
      * @test
@@ -50,7 +35,9 @@ class JWELoaderTest extends EncryptionTest
             'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
-        $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
+        $this->getJWELoader()
+            ->loadAndDecryptWithKey($token, $key, $recipient)
+        ;
     }
 
     /**
@@ -71,7 +58,9 @@ class JWELoaderTest extends EncryptionTest
             'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
-        $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
+        $this->getJWELoader()
+            ->loadAndDecryptWithKey($token, $key, $recipient)
+        ;
     }
 
     /**
@@ -92,7 +81,9 @@ class JWELoaderTest extends EncryptionTest
             'y' => 'A8-yxCHxkfBz3hKZfI1jUYMjUhsEveZ9THuwFjH2sCNdtksRJU7D5-SkgaFL1ETP',
         ]);
 
-        $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
+        $this->getJWELoader()
+            ->loadAndDecryptWithKey($token, $key, $recipient)
+        ;
     }
 
     /**
@@ -109,16 +100,23 @@ class JWELoaderTest extends EncryptionTest
             'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
         $recipient = 0;
-        $jwe = $this->getJWELoader()->loadAndDecryptWithKey($token, $key, $recipient);
+        $jwe = $this->getJWELoader()
+            ->loadAndDecryptWithKey($token, $key, $recipient)
+        ;
 
-        static::assertEquals('You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.', $jwe->getPayload());
-        static::assertEquals(0, $recipient);
+        static::assertSame(
+            'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
+            $jwe->getPayload()
+        );
+        static::assertSame(0, $recipient);
     }
 
     private function getJWELoader(): JWELoader
     {
-        if (null === $this->jweLoader) {
-            $this->jweLoader = $this->getJWELoaderFactory()->create(['jwe_compact'], ['A128KW'], ['A128GCM'], ['DEF']);
+        if ($this->jweLoader === null) {
+            $this->jweLoader = $this->getJWELoaderFactory()
+                ->create(['jwe_compact'], ['A128KW'], ['A128GCM'], ['DEF'])
+            ;
         }
 
         return $this->jweLoader;

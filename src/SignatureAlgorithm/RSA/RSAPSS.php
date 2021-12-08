@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Signature\Algorithm;
 
 use function in_array;
@@ -34,13 +25,10 @@ abstract class RSAPSS implements SignatureAlgorithm
         return JoseRSA::verify($pub, $input, $signature, $this->getAlgorithm(), JoseRSA::SIGNATURE_PSS);
     }
 
-    /**
-     * @throws InvalidArgumentException if the key is not private
-     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
-        if (!$key->has('d')) {
+        if (! $key->has('d')) {
             throw new InvalidArgumentException('The key is not a private key.');
         }
 
@@ -51,17 +39,13 @@ abstract class RSAPSS implements SignatureAlgorithm
 
     abstract protected function getAlgorithm(): string;
 
-    /**
-     * @throws InvalidArgumentException if the key type is not allowed
-     * @throws InvalidArgumentException if the key is not valid
-     */
     private function checkKey(JWK $key): void
     {
-        if (!in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+        if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
             throw new InvalidArgumentException('Wrong key type.');
         }
         foreach (['n', 'e'] as $k) {
-            if (!$key->has($k)) {
+            if (! $key->has($k)) {
                 throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
             }
         }

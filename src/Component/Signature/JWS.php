@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Signature;
 
 use function count;
@@ -20,30 +11,15 @@ use Jose\Component\Core\JWT;
 class JWS implements JWT
 {
     /**
-     * @var bool
-     */
-    private $isPayloadDetached = false;
-
-    /**
-     * @var null|string
-     */
-    private $encodedPayload;
-
-    /**
      * @var Signature[]
      */
     private $signatures = [];
 
-    /**
-     * @var null|string
-     */
-    private $payload;
-
-    public function __construct(?string $payload, ?string $encodedPayload = null, bool $isPayloadDetached = false)
-    {
-        $this->payload = $payload;
-        $this->encodedPayload = $encodedPayload;
-        $this->isPayloadDetached = $isPayloadDetached;
+    public function __construct(
+        private ?string $payload,
+        private ?string $encodedPayload = null,
+        private bool $isPayloadDetached = false
+    ) {
     }
 
     public function getPayload(): ?string
@@ -60,12 +36,11 @@ class JWS implements JWT
     }
 
     /**
-     * Returns the Base64Url encoded payload.
-     * If the payload is detached, this method returns null.
+     * Returns the Base64Url encoded payload. If the payload is detached, this method returns null.
      */
     public function getEncodedPayload(): ?string
     {
-        if (true === $this->isPayloadDetached()) {
+        if ($this->isPayloadDetached() === true) {
             return null;
         }
 
@@ -84,8 +59,6 @@ class JWS implements JWT
 
     /**
      * Returns the signature at the given index.
-     *
-     * @throws InvalidArgumentException if the signature index does not exist
      */
     public function getSignature(int $id): Signature
     {
@@ -97,15 +70,16 @@ class JWS implements JWT
     }
 
     /**
-     * This method adds a signature to the JWS object.
-     * Its returns a new JWS object.
+     * This method adds a signature to the JWS object. Its returns a new JWS object.
      *
      * @internal
-     *
-     * @return JWS
      */
-    public function addSignature(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header = []): self
-    {
+    public function addSignature(
+        string $signature,
+        array $protectedHeader,
+        ?string $encodedProtectedHeader,
+        array $header = []
+    ): self {
         $jws = clone $this;
         $jws->signatures[] = new Signature($signature, $protectedHeader, $encodedProtectedHeader, $header);
 
@@ -121,8 +95,8 @@ class JWS implements JWT
     }
 
     /**
-     * This method splits the JWS into a list of JWSs.
-     * It is only useful when the JWS contains more than one signature (JSON General Serialization).
+     * This method splits the JWS into a list of JWSs. It is only useful when the JWS contains more than one signature
+     * (JSON General Serialization).
      *
      * @return JWS[]
      */
@@ -130,11 +104,7 @@ class JWS implements JWT
     {
         $result = [];
         foreach ($this->signatures as $signature) {
-            $jws = new self(
-                $this->payload,
-                $this->encodedPayload,
-                $this->isPayloadDetached
-            );
+            $jws = new self($this->payload, $this->encodedPayload, $this->isPayloadDetached);
             $jws = $jws->addSignature(
                 $signature->getSignature(),
                 $signature->getProtectedHeader(),

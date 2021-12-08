@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
+use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 /*
  * The MIT License (MIT)
  *
@@ -11,21 +15,21 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Signature\Serializer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->private()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(Serializer\JWSSerializerManagerFactory::class)
+    $container->set(JWSSerializerManagerFactory::class)
         ->public()
     ;
 
-    $container->set(Serializer\CompactSerializer::class);
-    $container->set(Serializer\JSONFlattenedSerializer::class);
-    $container->set(Serializer\JSONGeneralSerializer::class);
+    $container->set(CompactSerializer::class);
+    $container->set(JSONFlattenedSerializer::class);
+    $container->set(JSONGeneralSerializer::class);
 };

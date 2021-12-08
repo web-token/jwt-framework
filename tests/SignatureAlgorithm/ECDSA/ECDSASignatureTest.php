@@ -2,36 +2,23 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature\Algorithm;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group ECDSA
- * @group unit
- *
  * @internal
  */
-class ECDSASignatureTest extends TestCase
+final class ECDSASignatureTest extends TestCase
 {
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
     public function invalidKey(): void
     {
@@ -49,7 +36,6 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
     public function eS256Verify(): void
     {
@@ -73,7 +59,6 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
     public function eS256SignVerify(): void
     {
@@ -95,7 +80,6 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
     public function keyNotPrivate(): void
     {
@@ -116,7 +100,6 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES384
      */
     public function eS384SignVerify(): void
     {
@@ -138,7 +121,6 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES512
      */
     public function eS512Verify(): void
     {
@@ -162,7 +144,6 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES512
      */
     public function eS512SignVerify(): void
     {
@@ -184,7 +165,6 @@ class ECDSASignatureTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Signature\Algorithm\ES256
      */
     public function badSignature(): void
     {

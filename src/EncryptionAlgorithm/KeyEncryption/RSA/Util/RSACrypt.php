@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use function chr;
@@ -22,11 +13,12 @@ use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 use function ord;
 use RuntimeException;
+use const STR_PAD_LEFT;
 
 /**
  * @internal
  */
-class RSACrypt
+final class RSACrypt
 {
     /**
      * Optimal Asymmetric Encryption Padding (OAEP).
@@ -40,30 +32,20 @@ class RSACrypt
 
     public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
     {
-        switch ($mode) {
-            case self::ENCRYPTION_OAEP:
-                return self::encryptWithRSAOAEP($key, $data, $hash);
-
-            case self::ENCRYPTION_PKCS1:
-                return self::encryptWithRSA15($key, $data);
-
-            default:
-                throw new InvalidArgumentException('Unsupported mode.');
-        }
+        return match ($mode) {
+            self::ENCRYPTION_OAEP => self::encryptWithRSAOAEP($key, $data, $hash),
+            self::ENCRYPTION_PKCS1 => self::encryptWithRSA15($key, $data),
+            default => throw new InvalidArgumentException('Unsupported mode.'),
+        };
     }
 
     public static function decrypt(RSAKey $key, string $plaintext, int $mode, ?string $hash = null): string
     {
-        switch ($mode) {
-            case self::ENCRYPTION_OAEP:
-                return self::decryptWithRSAOAEP($key, $plaintext, $hash);
-
-            case self::ENCRYPTION_PKCS1:
-                return self::decryptWithRSA15($key, $plaintext);
-
-            default:
-                throw new InvalidArgumentException('Unsupported mode.');
-        }
+        return match ($mode) {
+            self::ENCRYPTION_OAEP => self::decryptWithRSAOAEP($key, $plaintext, $hash),
+            self::ENCRYPTION_PKCS1 => self::decryptWithRSA15($key, $plaintext),
+            default => throw new InvalidArgumentException('Unsupported mode.'),
+        };
     }
 
     public static function encryptWithRSA15(RSAKey $key, string $data): string
@@ -81,7 +63,7 @@ class RSACrypt
             $ps .= $temp;
         }
         $type = 2;
-        $data = chr(0).chr($type).$ps.chr(0).$data;
+        $data = chr(0) . chr($type) . $ps . chr(0) . $data;
 
         $data = BigInteger::createFromBinaryString($data);
         $c = self::getRSAEP($key, $data);
@@ -97,7 +79,7 @@ class RSACrypt
         $c = BigInteger::createFromBinaryString($c);
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
-        if (0 !== ord($em[0]) || ord($em[1]) > 2) {
+        if (ord($em[0]) !== 0 || ord($em[1]) > 2) {
             throw new InvalidArgumentException('Unable to decrypt');
         }
         $ps = mb_substr($em, 2, (int) mb_strpos($em, chr(0), 2, '8bit') - 2, '8bit');
@@ -117,11 +99,11 @@ class RSACrypt
         /** @var Hash $hash */
         $hash = Hash::$hash_algorithm();
         $length = $key->getModulusLength() - 2 * $hash->getLength() - 2;
-        if (0 >= $length) {
+        if ($length <= 0) {
             throw new RuntimeException();
         }
         $plaintext = mb_str_split($plaintext, $length, '8bit');
-        if (!is_array($plaintext)) {
+        if (! is_array($plaintext)) {
             throw new RuntimeException('Invalid payload');
         }
         $ciphertext = '';
@@ -137,15 +119,20 @@ class RSACrypt
      */
     public static function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
     {
-        if (0 >= $key->getModulusLength()) {
+        if ($key->getModulusLength() <= 0) {
             throw new RuntimeException('Invalid modulus length');
         }
         $hash = Hash::$hash_algorithm();
         $ciphertext = mb_str_split($ciphertext, $key->getModulusLength(), '8bit');
-        if (!is_array($ciphertext)) {
+        if (! is_array($ciphertext)) {
             throw new RuntimeException('Invalid ciphertext');
         }
-        $ciphertext[count($ciphertext) - 1] = str_pad($ciphertext[count($ciphertext) - 1], $key->getModulusLength(), chr(0), STR_PAD_LEFT);
+        $ciphertext[count($ciphertext) - 1] = str_pad(
+            $ciphertext[count($ciphertext) - 1],
+            $key->getModulusLength(),
+            chr(0),
+            STR_PAD_LEFT
+        );
         $plaintext = '';
         foreach ($ciphertext as $c) {
             $temp = self::getRSAESOAEP($key, $c, $hash);
@@ -206,7 +193,7 @@ class RSACrypt
         $count = ceil($maskLen / $mgfHash->getLength());
         for ($i = 0; $i < $count; ++$i) {
             $c = pack('N', $i);
-            $t .= $mgfHash->hash($mgfSeed.$c);
+            $t .= $mgfHash->hash($mgfSeed . $c);
         }
 
         return mb_substr($t, 0, $maskLen, '8bit');
@@ -220,13 +207,13 @@ class RSACrypt
         $mLen = mb_strlen($m, '8bit');
         $lHash = $hash->hash('');
         $ps = str_repeat(chr(0), $key->getModulusLength() - $mLen - 2 * $hash->getLength() - 2);
-        $db = $lHash.$ps.chr(1).$m;
+        $db = $lHash . $ps . chr(1) . $m;
         $seed = random_bytes($hash->getLength());
         $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/*MGF*/);
         $maskedDB = $db ^ $dbMask;
         $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/*MGF*/);
         $maskedSeed = $seed ^ $seedMask;
-        $em = chr(0).$maskedSeed.$maskedDB;
+        $em = chr(0) . $maskedSeed . $maskedDB;
 
         $m = self::convertOctetStringToInteger($em);
         $c = self::getRSAEP($key, $m);
@@ -251,11 +238,11 @@ class RSACrypt
         $db = $maskedDB ^ $dbMask;
         $lHash2 = mb_substr($db, 0, $hash->getLength(), '8bit');
         $m = mb_substr($db, $hash->getLength(), null, '8bit');
-        if (!hash_equals($lHash, $lHash2)) {
+        if (! hash_equals($lHash, $lHash2)) {
             throw new RuntimeException();
         }
         $m = ltrim($m, chr(0));
-        if (1 !== ord($m[0])) {
+        if (ord($m[0]) !== 1) {
             throw new RuntimeException();
         }
 

@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption\Algorithm;
 
 use Jose\Component\Core\JWK;
@@ -21,12 +12,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class RSAKeyEncryptionTest.
  *
- * @group unit
- * @group NewAlgorithm
- *
  * @internal
  */
-class RSAOAEPKeyEncryptionTest extends TestCase
+final class RSAOAEPKeyEncryptionTest extends TestCase
 {
     /**
      * @test
@@ -42,7 +30,7 @@ class RSAOAEPKeyEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $header);
 
-        static::assertEquals($cek, $decrypted);
+        static::assertSame($cek, $decrypted);
     }
 
     /**
@@ -59,7 +47,7 @@ class RSAOAEPKeyEncryptionTest extends TestCase
         $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
         $decrypted = $algorithm->decryptKey($jwk, $encrypted, $header);
 
-        static::assertEquals($cek, $decrypted);
+        static::assertSame($cek, $decrypted);
     }
 
     private function getKey(): JWK

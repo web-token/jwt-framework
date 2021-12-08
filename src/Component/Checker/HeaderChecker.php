@@ -2,26 +2,13 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Checker;
 
 interface HeaderChecker
 {
     /**
-     * This method is called when the header parameter is present.
-     * If for some reason the value is not valid, an InvalidHeaderException must be thrown.
-     *
-     * @param mixed $value
-     *
-     * @throws InvalidHeaderException if the header parameter is invalid
+     * This method is called when the header parameter is present. If for some reason the value is not valid, an
+     * InvalidHeaderException must be thrown.
      */
     public function checkHeader($value): void;
 

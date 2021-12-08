@@ -2,33 +2,20 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Easy;
 
 use InvalidArgumentException;
 use function is_string;
 use Jose\Component\Core\Algorithm as JoseAlgorithm;
-use Jose\Component\Signature\Algorithm;
 
 abstract class AbstractBuilder
 {
-    /**
-     * @var JWT
-     */
-    protected $jwt;
+    protected JWT $jwt;
 
     /**
      * @var JoseAlgorithm[]
      */
-    protected $algorithms = [];
+    protected array $algorithms = [];
 
     public function __construct()
     {
@@ -88,12 +75,7 @@ abstract class AbstractBuilder
         return $this->claim('nbf', $nbf, $inHeader);
     }
 
-    /**
-     * @param Algorithm\SignatureAlgorithm|string $alg
-     *
-     * @throws InvalidArgumentException if the algorithm is not a string or an instance of Jose\Component\Core\Algorithm
-     */
-    public function alg($alg): self
+    public function alg(JoseAlgorithm|string $alg): self
     {
         $clone = clone $this;
 
@@ -110,7 +92,9 @@ abstract class AbstractBuilder
                 break;
 
             default:
-                throw new InvalidArgumentException('Invalid parameter "alg". Shall be a string or an algorithm instance.');
+                throw new InvalidArgumentException(
+                    'Invalid parameter "alg". Shall be a string or an algorithm instance.'
+                );
         }
 
         return $clone;
@@ -131,9 +115,6 @@ abstract class AbstractBuilder
         return $this->header('crit', $crit);
     }
 
-    /**
-     * @param mixed $value
-     */
     public function claim(string $key, $value, bool $inHeader = false): self
     {
         $clone = clone $this;
@@ -145,9 +126,6 @@ abstract class AbstractBuilder
         return $clone;
     }
 
-    /**
-     * @param mixed $value
-     */
     public function header(string $key, $value): self
     {
         $clone = clone $this;

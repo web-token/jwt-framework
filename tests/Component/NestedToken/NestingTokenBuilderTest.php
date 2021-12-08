@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\NestedToken;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
@@ -18,10 +9,11 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
-use Jose\Component\Encryption\Compression;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
+use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\Serializer as JweSerializer;
+use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\NestedToken\NestedTokenBuilderFactory;
 use Jose\Component\Signature\Algorithm\PS256;
 use Jose\Component\Signature\JWSBuilder;
@@ -32,49 +24,28 @@ use PHPUnit\Framework\TestCase;
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
- * @group RFC7520
- * @group NestedToken
- *
  * @internal
  */
-class NestingTokenBuilderTest extends TestCase
+final class NestingTokenBuilderTest extends TestCase
 {
-    /**
-     * @var JWSBuilderFactory
-     */
-    private $jwsBuilderFactory;
+    private ?JWSBuilderFactory $jwsBuilderFactory = null;
 
-    /**
-     * @var JWEBuilderFactory
-     */
-    private $jweBuilderFactory;
+    private ?JWEBuilderFactory $jweBuilderFactory = null;
 
-    /**
-     * @var NestedTokenBuilderFactory
-     */
-    private $nestedTokenBuilderFactory;
+    private ?NestedTokenBuilderFactory $nestedTokenBuilderFactory = null;
 
-    /**
-     * @var AlgorithmManagerFactory
-     */
-    private $algorithmManagerFactory;
+    private ?AlgorithmManagerFactory $algorithmManagerFactory = null;
 
-    /**
-     * @var CompressionMethodManagerFactory
-     */
-    private $compressionMethodManagerFactory;
+    private ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null;
 
-    /**
-     * @var null|JweSerializer\JWESerializerManagerFactory
-     */
-    private $jwsSerializerManagerFactory;
+    private ?JWESerializerManagerFactory $jwsSerializerManagerFactory = null;
 
     protected function setUp(): void
     {
-        if (!class_exists(HeaderCheckerManagerFactory::class)) {
+        if (! class_exists(HeaderCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
-        if (!class_exists(JWSBuilder::class)) {
+        if (! class_exists(JWSBuilder::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
@@ -115,25 +86,30 @@ class NestingTokenBuilderTest extends TestCase
             'qi' => 'S8tC7ZknW6hPITkjcwttQOPLVmRfwirRlFAViuDb8NW9CrV_7F2OqUZCqmzHTYAumwGFHI1WVRep7anleWaJjxC_1b3fq_al4qH3Pe-EKiHg6IMazuRtZLUROcThrExDbF5dYbsciDnfRUWLErZ4N1Be0bnxYuPqxwKd9QZwMo0',
         ]);
 
-        $nestedTokenBuilder = $this->getNestedTokenBuilderFactory()->create(
-            ['jwe_compact'],
-            ['RSA-OAEP'],
-            ['A128GCM'],
-            ['DEF'],
-            ['jws_compact'],
-            ['PS256']
-        );
+        $nestedTokenBuilder = $this->getNestedTokenBuilderFactory()
+            ->create(['jwe_compact'], ['RSA-OAEP'], ['A128GCM'], ['DEF'], ['jws_compact'], ['PS256'])
+        ;
 
         $nestedTokenBuilder->create(
             $payload,
             [
-                ['key' => $signature_key, 'protected_header' => ['alg' => 'PS256']],
+                [
+                    'key' => $signature_key,
+                    'protected_header' => [
+                        'alg' => 'PS256',
+                    ],
+                ],
             ],
             'jws_compact',
-            ['alg' => 'RSA-OAEP', 'enc' => 'A128GCM'],
+            [
+                'alg' => 'RSA-OAEP',
+                'enc' => 'A128GCM',
+            ],
             [],
             [
-                ['key' => $encryption_key],
+                [
+                    'key' => $encryption_key,
+                ],
             ],
             'jwe_compact'
         );
@@ -141,10 +117,8 @@ class NestingTokenBuilderTest extends TestCase
 
     protected function getJWSBuilderFactory(): JWSBuilderFactory
     {
-        if (null === $this->jwsBuilderFactory) {
-            $this->jwsBuilderFactory = new JWSBuilderFactory(
-                $this->getAlgorithmManagerFactory()
-            );
+        if ($this->jwsBuilderFactory === null) {
+            $this->jwsBuilderFactory = new JWSBuilderFactory($this->getAlgorithmManagerFactory());
         }
 
         return $this->jwsBuilderFactory;
@@ -152,7 +126,7 @@ class NestingTokenBuilderTest extends TestCase
 
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
-        if (null === $this->jweBuilderFactory) {
+        if ($this->jweBuilderFactory === null) {
             $this->jweBuilderFactory = new JWEBuilderFactory(
                 $this->getAlgorithmManagerFactory(),
                 $this->getCompressionMethodManagerFactory()
@@ -164,7 +138,7 @@ class NestingTokenBuilderTest extends TestCase
 
     private function getNestedTokenBuilderFactory(): NestedTokenBuilderFactory
     {
-        if (null === $this->nestedTokenBuilderFactory) {
+        if ($this->nestedTokenBuilderFactory === null) {
             $this->nestedTokenBuilderFactory = new NestedTokenBuilderFactory(
                 $this->getJWEBuilderFactory(),
                 $this->getJWESerializerManagerFactory(),
@@ -188,7 +162,7 @@ class NestingTokenBuilderTest extends TestCase
 
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
-        if (null === $this->algorithmManagerFactory) {
+        if ($this->algorithmManagerFactory === null) {
             $this->algorithmManagerFactory = new AlgorithmManagerFactory();
             $this->algorithmManagerFactory->add('A128GCM', new A128GCM());
             $this->algorithmManagerFactory->add('RSA-OAEP', new RSAOAEP());
@@ -200,9 +174,9 @@ class NestingTokenBuilderTest extends TestCase
 
     private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
-        if (null === $this->compressionMethodManagerFactory) {
+        if ($this->compressionMethodManagerFactory === null) {
             $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
-            $this->compressionMethodManagerFactory->add('DEF', new Compression\Deflate());
+            $this->compressionMethodManagerFactory->add('DEF', new Deflate());
         }
 
         return $this->compressionMethodManagerFactory;
@@ -210,7 +184,7 @@ class NestingTokenBuilderTest extends TestCase
 
     private function getJWESerializerManagerFactory(): JweSerializer\JWESerializerManagerFactory
     {
-        if (null === $this->jwsSerializerManagerFactory) {
+        if ($this->jwsSerializerManagerFactory === null) {
             $this->jwsSerializerManagerFactory = new JweSerializer\JWESerializerManagerFactory();
             $this->jwsSerializerManagerFactory->add(new JweSerializer\CompactSerializer());
             $this->jwsSerializerManagerFactory->add(new JweSerializer\JSONFlattenedSerializer());

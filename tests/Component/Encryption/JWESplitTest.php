@@ -2,26 +2,15 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption;
 
 use function count;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
 
 /**
- * @group JWE
- *
  * @internal
  */
-class JWESplitTest extends EncryptionTest
+final class JWESplitTest extends EncryptionTest
 {
     /**
      * @test
@@ -33,25 +22,25 @@ class JWESplitTest extends EncryptionTest
         $jwe = $serializer->unserialize($input);
         $split = $jwe->split();
 
-        static::assertEquals(3, $jwe->countRecipients());
-        static::assertEquals(3, count($split));
+        static::assertSame(3, $jwe->countRecipients());
+        static::assertSame(3, count($split));
 
         for ($i = 0; $i < $jwe->countRecipients(); ++$i) {
             $recipient1 = $jwe->getRecipient($i);
             $tempJwe = $split[$i];
-            static::assertEquals(1, $tempJwe->countRecipients());
-            static::assertEquals($jwe->getAAD(), $tempJwe->getAAD());
-            static::assertEquals($jwe->getCiphertext(), $tempJwe->getCiphertext());
-            static::assertEquals($jwe->getEncodedSharedProtectedHeader(), $tempJwe->getEncodedSharedProtectedHeader());
-            static::assertEquals($jwe->getSharedProtectedHeader(), $tempJwe->getSharedProtectedHeader());
-            static::assertEquals($jwe->getSharedHeader(), $tempJwe->getSharedHeader());
-            static::assertEquals($jwe->getIV(), $tempJwe->getIV());
-            static::assertEquals($jwe->getTag(), $tempJwe->getTag());
-            static::assertEquals($jwe->isEncrypted(), $tempJwe->isEncrypted());
+            static::assertSame(1, $tempJwe->countRecipients());
+            static::assertSame($jwe->getAAD(), $tempJwe->getAAD());
+            static::assertSame($jwe->getCiphertext(), $tempJwe->getCiphertext());
+            static::assertSame($jwe->getEncodedSharedProtectedHeader(), $tempJwe->getEncodedSharedProtectedHeader());
+            static::assertSame($jwe->getSharedProtectedHeader(), $tempJwe->getSharedProtectedHeader());
+            static::assertSame($jwe->getSharedHeader(), $tempJwe->getSharedHeader());
+            static::assertSame($jwe->getIV(), $tempJwe->getIV());
+            static::assertSame($jwe->getTag(), $tempJwe->getTag());
+            static::assertSame($jwe->isEncrypted(), $tempJwe->isEncrypted());
 
             $recipient2 = $tempJwe->getRecipient(0);
-            static::assertEquals($recipient1->getHeader(), $recipient2->getHeader());
-            static::assertEquals($recipient1->getEncryptedKey(), $recipient2->getEncryptedKey());
+            static::assertSame($recipient1->getHeader(), $recipient2->getHeader());
+            static::assertSame($recipient1->getEncryptedKey(), $recipient2->getEncryptedKey());
         }
     }
 }

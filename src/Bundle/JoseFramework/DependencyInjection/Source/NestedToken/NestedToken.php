@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
 use function array_key_exists;
@@ -28,17 +19,11 @@ class NestedToken implements Source
     /**
      * @var Source[]
      */
-    private $sources;
+    private array $sources;
 
-    /**
-     * EncryptionSource constructor.
-     */
     public function __construct()
     {
-        $this->sources = [
-            new NestedTokenLoader(),
-            new NestedTokenBuilder(),
-        ];
+        $this->sources = [new NestedTokenLoader(), new NestedTokenBuilder()];
     }
 
     public function name(): string
@@ -48,10 +33,10 @@ class NestedToken implements Source
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return;
         }
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('nested_token.php');
 
         if (array_key_exists('nested_token', $configs)) {
@@ -63,7 +48,7 @@ class NestedToken implements Source
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return;
         }
         $childNode = $node->children()
@@ -79,13 +64,13 @@ class NestedToken implements Source
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return [];
         }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== count($prepend)) {
+            if (count($prepend) !== 0) {
                 $result[$source->name()] = $prepend;
             }
         }
