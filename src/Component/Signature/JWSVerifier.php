@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Base64Url\Base64Url;
 use InvalidArgumentException;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
@@ -22,6 +21,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
 
 class JWSVerifier
@@ -114,6 +114,7 @@ class JWSVerifier
     {
         $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
         $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
+
         if (!$signature->hasProtectedHeaderParameter('b64') || true === $signature->getProtectedHeaderParameter('b64')) {
             if (null !== $jws->getEncodedPayload()) {
                 return sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
@@ -121,7 +122,7 @@ class JWSVerifier
 
             $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
 
-            return sprintf('%s.%s', $encodedProtectedHeader, Base64Url::encode($payload));
+            return sprintf('%s.%s', $encodedProtectedHeader, Base64UrlSafe::encodeUnpadded($payload));
         }
 
         $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();

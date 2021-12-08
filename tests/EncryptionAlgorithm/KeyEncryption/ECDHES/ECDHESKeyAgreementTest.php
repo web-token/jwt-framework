@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
@@ -229,7 +229,7 @@ class ECDHESKeyAgreementTest extends TestCase
 
         $receiver = new JWK([
             'kty' => 'EC',
-            'dir' => Base64Url::encode('ABCD'),
+            'dir' => Base64UrlSafe::encodeUnpadded('ABCD'),
         ]);
 
         $ecdh_es = new ECDHES();

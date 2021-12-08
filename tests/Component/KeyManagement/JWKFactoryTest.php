@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -78,7 +78,7 @@ class JWKFactoryTest extends TestCase
         static::assertTrue($jwk->has('k'));
         static::assertTrue($jwk->has('kid'));
         static::assertEquals('oct', $jwk->get('kty'));
-        static::assertEquals('This is a very secured secret!!!!', Base64Url::decode($jwk->get('k')));
+        static::assertEquals('This is a very secured secret!!!!', Base64UrlSafe::decode($jwk->get('k')));
         static::assertEquals('FOO', $jwk->get('kid'));
     }
 

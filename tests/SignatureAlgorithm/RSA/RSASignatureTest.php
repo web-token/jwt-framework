@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -397,7 +397,7 @@ class RSASignatureTest extends TestCase
         static::assertEquals(2, $result->countSignatures());
         static::assertEquals('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
         static::assertEquals('ES256', $result->getSignature(1)->getProtectedHeaderParameter('alg'));
-        $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), 0, Base64Url::decode('eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ'));
+        $jwsVerifier->verifyWithKeySet($result, $this->getPrivateKeySet(), 0, Base64UrlSafe::decode('eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ'));
     }
 
     /**

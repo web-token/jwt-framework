@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
 use function count;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
@@ -25,6 +24,7 @@ use FG\ASN1\Universal\Sequence;
 use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 /**
@@ -250,7 +250,7 @@ class RSAKey
 
     private function convertBase64StringToBigInteger(string $value): BigInteger
     {
-        return BigInteger::createFromBinaryString(Base64Url::decode($value));
+        return BigInteger::createFromBinaryString(Base64UrlSafe::decode($value));
     }
 
     private function initPublicKey(): void
@@ -305,7 +305,7 @@ class RSAKey
      */
     private function fromBase64ToInteger($value)
     {
-        $unpacked = unpack('H*', Base64Url::decode($value));
+        $unpacked = unpack('H*', Base64UrlSafe::decode($value));
         if (!is_array($unpacked) || 0 === count($unpacked)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }

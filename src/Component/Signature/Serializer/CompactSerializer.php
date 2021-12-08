@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use Base64Url\Base64Url;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
 
 final class CompactSerializer extends Serializer
@@ -59,7 +59,7 @@ final class CompactSerializer extends Serializer
             '%s.%s.%s',
             $signature->getEncodedProtectedHeader(),
             $jws->getEncodedPayload(),
-            Base64Url::encode($signature->getSignature())
+            Base64UrlSafe::encodeUnpadded($signature->getSignature())
         );
     }
 
@@ -75,16 +75,16 @@ final class CompactSerializer extends Serializer
 
         try {
             $encodedProtectedHeader = $parts[0];
-            $protectedHeader = JsonConverter::decode(Base64Url::decode($parts[0]));
+            $protectedHeader = JsonConverter::decode(Base64UrlSafe::decode($parts[0]));
             $hasPayload = '' !== $parts[1];
             if (!$hasPayload) {
                 $payload = null;
                 $encodedPayload = null;
             } else {
                 $encodedPayload = $parts[1];
-                $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
+                $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decode($encodedPayload) : $encodedPayload;
             }
-            $signature = Base64Url::decode($parts[2]);
+            $signature = Base64UrlSafe::decode($parts[2]);
 
             $jws = new JWS($payload, $encodedPayload, !$hasPayload);
 

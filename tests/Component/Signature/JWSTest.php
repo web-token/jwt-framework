@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Signature\JWS;
 use LogicException;
@@ -41,7 +41,7 @@ class JWSTest extends SignatureTest
         ];
         $header = ['alg' => 'none'];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $jws = $jws->addSignature('', $header, Base64Url::encode(json_encode($header)));
+        $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
 
         static::assertEquals(json_encode($claims), $jws->getPayload());
         static::assertEquals(1, $jws->countSignatures());
@@ -129,7 +129,7 @@ class JWSTest extends SignatureTest
         ];
         $header = ['alg' => 'none'];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $jws = $jws->addSignature('', $header, Base64Url::encode(json_encode($header)), ['foo' => 'bar']);
+        $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)), ['foo' => 'bar']);
 
         $this->getJWSSerializerManager()->serialize('jws_compact', $jws, 0);
     }
@@ -152,7 +152,7 @@ class JWSTest extends SignatureTest
         ];
         $header = ['alg' => 'none'];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $jws = $jws->addSignature('', $header, Base64Url::encode(json_encode($header)));
+        $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
         $jws->getSignature(0)->getHeaderParameter('foo');
     }
 
@@ -174,7 +174,7 @@ class JWSTest extends SignatureTest
         ];
         $header = ['alg' => 'none'];
         $jws = new JWS(json_encode($claims), json_encode($claims));
-        $jws = $jws->addSignature('', $header, Base64Url::encode(json_encode($header)));
+        $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
         $jws->getSignature(0)->getProtectedHeaderParameter('foo');
     }
 }

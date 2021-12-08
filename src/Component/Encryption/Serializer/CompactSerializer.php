@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-use Base64Url\Base64Url;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
 
 final class CompactSerializer implements JWESerializer
@@ -50,10 +50,10 @@ final class CompactSerializer implements JWESerializer
         return sprintf(
             '%s.%s.%s.%s.%s',
             $jwe->getEncodedSharedProtectedHeader(),
-            Base64Url::encode(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),
-            Base64Url::encode(null === $jwe->getIV() ? '' : $jwe->getIV()),
-            Base64Url::encode($jwe->getCiphertext()),
-            Base64Url::encode(null === $jwe->getTag() ? '' : $jwe->getTag())
+            Base64UrlSafe::encodeUnpadded(null === $recipient->getEncryptedKey() ? '' : $recipient->getEncryptedKey()),
+            Base64UrlSafe::encodeUnpadded(null === $jwe->getIV() ? '' : $jwe->getIV()),
+            Base64UrlSafe::encodeUnpadded($jwe->getCiphertext()),
+            Base64UrlSafe::encodeUnpadded(null === $jwe->getTag() ? '' : $jwe->getTag())
         );
     }
 
@@ -69,11 +69,11 @@ final class CompactSerializer implements JWESerializer
 
         try {
             $encodedSharedProtectedHeader = $parts[0];
-            $sharedProtectedHeader = JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader));
-            $encryptedKey = '' === $parts[1] ? null : Base64Url::decode($parts[1]);
-            $iv = Base64Url::decode($parts[2]);
-            $ciphertext = Base64Url::decode($parts[3]);
-            $tag = Base64Url::decode($parts[4]);
+            $sharedProtectedHeader = JsonConverter::decode(Base64UrlSafe::decode($encodedSharedProtectedHeader));
+            $encryptedKey = '' === $parts[1] ? null : Base64UrlSafe::decode($parts[1]);
+            $iv = Base64UrlSafe::decode($parts[2]);
+            $ciphertext = Base64UrlSafe::decode($parts[3]);
+            $tag = Base64UrlSafe::decode($parts[4]);
 
             return new JWE(
                 $ciphertext,

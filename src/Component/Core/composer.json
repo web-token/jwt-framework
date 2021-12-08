@@ -25,7 +25,7 @@
         "ext-mbstring": "*",
         "brick/math": "^0.8.17|^0.9",
         "fgrosse/phpasn1": "^2.0",
-        "spomky-labs/base64url": "^1.0|^2.0"
+        "paragonie/constant_time_encoding": "^2.4"
     },
     "conflict": {
         "spomky-labs/jose": "*"

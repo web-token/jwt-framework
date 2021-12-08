@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Base64Url\Base64Url;
 use function in_array;
 use InvalidArgumentException;
 use function is_string;
 use Jose\Component\Core\JWK;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 final class Chacha20Poly1305 implements KeyEncryption
@@ -52,7 +52,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         $nonce = random_bytes(12);
 
         // We set header parameters
-        $additionalHeader['nonce'] = Base64Url::encode($nonce);
+        $additionalHeader['nonce'] = Base64UrlSafe::encodeUnpadded($nonce);
 
         $result = openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
         if (false === $result) {
@@ -70,7 +70,7 @@ final class Chacha20Poly1305 implements KeyEncryption
     {
         $k = $this->getKey($key);
         $this->checkHeaderAdditionalParameters($header);
-        $nonce = Base64Url::decode($header['nonce']);
+        $nonce = Base64UrlSafe::decode($header['nonce']);
         if (12 !== mb_strlen($nonce, '8bit')) {
             throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
         }
@@ -104,7 +104,7 @@ final class Chacha20Poly1305 implements KeyEncryption
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64Url::decode($k);
+        return Base64UrlSafe::decode($k);
     }
 
     /**

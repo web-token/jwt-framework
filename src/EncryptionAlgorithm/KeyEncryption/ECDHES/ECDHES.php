@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
 use Brick\Math\BigInteger;
 use function extension_loaded;
 use function function_exists;
@@ -28,6 +27,7 @@ use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
 
@@ -90,8 +90,8 @@ final class ECDHES implements KeyAgreement
                 return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
 
             case 'X25519':
-                $sKey = Base64Url::decode($private_key->get('d'));
-                $recipientPublickey = Base64Url::decode($public_key->get('x'));
+                $sKey = Base64UrlSafe::decode($private_key->get('d'));
+                $recipientPublickey = Base64UrlSafe::decode($public_key->get('x'));
 
                 return sodium_crypto_scalarmult($sKey, $recipientPublickey);
 
@@ -234,7 +234,7 @@ final class ECDHES implements KeyAgreement
 
     private function convertBase64ToBigInteger(string $value): BigInteger
     {
-        $data = unpack('H*', Base64Url::decode($value));
+        $data = unpack('H*', Base64UrlSafe::decode($value));
         if (!is_array($data) || !isset($data[1])) {
             throw new InvalidArgumentException('Unable to convert base64 to integer');
         }
@@ -295,8 +295,8 @@ final class ECDHES implements KeyAgreement
         return new JWK([
             'kty' => 'OKP',
             'crv' => $curve,
-            'x' => Base64Url::encode($x),
-            'd' => Base64Url::encode($d),
+            'x' => Base64UrlSafe::encodeUnpadded($x),
+            'd' => Base64UrlSafe::encodeUnpadded($d),
         ]);
     }
 

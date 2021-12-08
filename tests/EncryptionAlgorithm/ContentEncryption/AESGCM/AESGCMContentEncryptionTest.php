@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\ContentEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
@@ -32,7 +32,7 @@ class AESGCMContentEncryptionTest extends TestCase
      */
     public function a128GCMEncryptAndDecrypt(): void
     {
-        $header = Base64Url::encode(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A128GCM']));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A128GCM']));
         $tag = null;
 
         $algorithm = new A128GCM();
@@ -53,7 +53,7 @@ class AESGCMContentEncryptionTest extends TestCase
      */
     public function a192GCMEncryptAndDecrypt(): void
     {
-        $header = Base64Url::encode(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A192GCM']));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A192GCM']));
         $tag = null;
 
         $algorithm = new A192GCM();
@@ -74,7 +74,7 @@ class AESGCMContentEncryptionTest extends TestCase
      */
     public function a256GCMEncryptAndDecrypt(): void
     {
-        $header = Base64Url::encode(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A256GCM']));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode(['alg' => 'ECDH-ES', 'enc' => 'A256GCM']));
         $tag = null;
 
         $algorithm = new A256GCM();
@@ -99,7 +99,7 @@ class AESGCMContentEncryptionTest extends TestCase
     {
         $algorithm = new A256GCM();
 
-        $header = Base64Url::encode(json_encode(['alg' => 'RSA-OAEP', 'enc' => 'A256GCM']));
+        $header = Base64UrlSafe::encodeUnpadded(json_encode(['alg' => 'RSA-OAEP', 'enc' => 'A256GCM']));
         $cek = $this->convertArrayToBinString([177, 161, 244, 128, 84, 143, 225, 115, 63, 180, 3, 255, 107, 154, 212, 246, 138, 7, 110, 91, 112, 46, 34, 105, 47, 130, 203, 46, 122, 234, 64, 252]);
         $iv = $this->convertArrayToBinString([227, 197, 117, 252, 2, 219, 233, 68, 180, 225, 77, 219]);
         $tag = $this->convertArrayToBinString([92, 80, 104, 49, 133, 25, 161, 215, 173, 101, 219, 211, 136, 91, 210, 145]);

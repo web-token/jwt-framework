@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
-use Base64Url\Base64Url;
 use InvalidArgumentException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @internal
@@ -34,8 +34,8 @@ class ConcatKDF
      */
     public static function generate(string $Z, string $algorithm, int $encryption_key_size, string $apu = '', string $apv = ''): string
     {
-        $apu = !self::isEmpty($apu) ? Base64Url::decode($apu) : '';
-        $apv = !self::isEmpty($apv) ? Base64Url::decode($apv) : '';
+        $apu = !self::isEmpty($apu) ? Base64UrlSafe::decode($apu) : '';
+        $apv = !self::isEmpty($apv) ? Base64UrlSafe::decode($apv) : '';
         $encryption_segments = [
             self::toInt32Bits(1),                                  // Round number 1
             $Z,                                                          // Z (shared secret)

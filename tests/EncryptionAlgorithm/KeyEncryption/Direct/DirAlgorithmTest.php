@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
@@ -54,7 +54,7 @@ class DirAlgorithmTest extends TestCase
     {
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode('ABCD'),
+            'k' => Base64UrlSafe::encodeUnpadded('ABCD'),
         ]);
 
         $dir = new Dir();

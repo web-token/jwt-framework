@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
 use function count;
 use function in_array;
 use InvalidArgumentException;
@@ -27,6 +26,7 @@ use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 class JWSBuilder
@@ -151,7 +151,7 @@ class JWSBuilder
             throw new RuntimeException('At least one signature must be set.');
         }
 
-        $encodedPayload = false === $this->isPayloadEncoded ? $this->payload : Base64Url::encode($this->payload);
+        $encodedPayload = false === $this->isPayloadEncoded ? $this->payload : Base64UrlSafe::encodeUnpadded($this->payload);
         $jws = new JWS($this->payload, $encodedPayload, $this->isPayloadDetached);
         foreach ($this->signatures as $signature) {
             /** @var MacAlgorithm|SignatureAlgorithm $algorithm */
@@ -162,7 +162,7 @@ class JWSBuilder
             $protectedHeader = $signature['protected_header'];
             /** @var array $header */
             $header = $signature['header'];
-            $encodedProtectedHeader = 0 === count($protectedHeader) ? null : Base64Url::encode(JsonConverter::encode($protectedHeader));
+            $encodedProtectedHeader = 0 === count($protectedHeader) ? null : Base64UrlSafe::encodeUnpadded(JsonConverter::encode($protectedHeader));
             $input = sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
             if ($algorithm instanceof SignatureAlgorithm) {
                 $s = $algorithm->sign($signatureKey, $input);

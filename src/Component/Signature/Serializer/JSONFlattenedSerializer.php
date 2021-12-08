@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use Base64Url\Base64Url;
 use function count;
 use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 final class JSONFlattenedSerializer extends Serializer
 {
@@ -59,7 +59,7 @@ final class JSONFlattenedSerializer extends Serializer
         if (0 !== count($header)) {
             $data['header'] = $header;
         }
-        $data['signature'] = Base64Url::encode($signature->getSignature());
+        $data['signature'] = Base64UrlSafe::encodeUnpadded($signature->getSignature());
 
         return JsonConverter::encode($data);
     }
@@ -77,11 +77,11 @@ final class JSONFlattenedSerializer extends Serializer
         if (!isset($data['signature'])) {
             throw new InvalidArgumentException('Unsupported input.');
         }
-        $signature = Base64Url::decode($data['signature']);
+        $signature = Base64UrlSafe::decode($data['signature']);
 
         if (isset($data['protected'])) {
             $encodedProtectedHeader = $data['protected'];
-            $protectedHeader = JsonConverter::decode(Base64Url::decode($data['protected']));
+            $protectedHeader = JsonConverter::decode(Base64UrlSafe::decode($data['protected']));
         } else {
             $encodedProtectedHeader = null;
             $protectedHeader = [];
@@ -97,7 +97,7 @@ final class JSONFlattenedSerializer extends Serializer
 
         if (isset($data['payload'])) {
             $encodedPayload = $data['payload'];
-            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64Url::decode($encodedPayload) : $encodedPayload;
+            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decode($encodedPayload) : $encodedPayload;
         } else {
             $payload = null;
             $encodedPayload = null;

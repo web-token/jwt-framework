@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
 use function count;
 use function extension_loaded;
 use InvalidArgumentException;
 use function is_array;
 use function is_string;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
 
@@ -106,8 +106,8 @@ class KeyConverter
             }
 
             $values['x5c'] = [$x5c];
-            $values['x5t'] = Base64Url::encode($x5tsha1);
-            $values['x5t#256'] = Base64Url::encode($x5tsha256);
+            $values['x5t'] = Base64UrlSafe::encodeUnpadded($x5tsha1);
+            $values['x5t#256'] = Base64UrlSafe::encodeUnpadded($x5tsha256);
 
             return $values;
         }
@@ -182,6 +182,15 @@ class KeyConverter
         if (!extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
+
+        if (1 === preg_match('#BEGIN ENCRYPTED PRIVATE KEY(.+)(.+)#', $pem)) {
+            $decrypted = openssl_pkey_get_private($pem, $password);
+            if (false === $decrypted) {
+                throw new InvalidArgumentException('Unable to decrypt the key.');
+            }
+            openssl_pkey_export($decrypted, $pem);
+        }
+
         self::sanitizePEM($pem);
         $res = openssl_pkey_get_private($pem);
         if (false === $res) {

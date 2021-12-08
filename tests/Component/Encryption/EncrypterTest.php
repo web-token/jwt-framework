@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use function is_string;
 use Jose\Component\Core\JWK;
@@ -673,7 +673,7 @@ class EncrypterTest extends EncryptionTest
             'kid' => 'DIR_1',
             'key_ops' => ['encrypt', 'decrypt'],
             'kty' => 'oct',
-            'k' => Base64Url::encode(hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
+            'k' => Base64UrlSafe::encodeUnpadded(hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
         ]);
     }
 
@@ -772,7 +772,7 @@ class EncrypterTest extends EncryptionTest
             [
                 'kid' => 'DIR_1',
                 'kty' => 'oct',
-                'k' => Base64Url::encode(hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
+                'k' => Base64UrlSafe::encodeUnpadded(hex2bin('00112233445566778899AABBCCDDEEFF000102030405060708090A0B0C0D0E0F')),
             ],
             [
                 'kty' => 'oct',

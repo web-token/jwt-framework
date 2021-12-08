@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use Base64Url\Base64Url;
 use function extension_loaded;
 use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 final class EdDSA implements SignatureAlgorithm
@@ -49,8 +49,8 @@ final class EdDSA implements SignatureAlgorithm
         if (!$key->has('d')) {
             throw new InvalidArgumentException('The EC key is not private');
         }
-        $x = Base64Url::decode($key->get('x'));
-        $d = Base64Url::decode($key->get('d'));
+        $x = Base64UrlSafe::decode($key->get('x'));
+        $d = Base64UrlSafe::decode($key->get('d'));
         $secret = $d.$x;
 
         switch ($key->get('crv')) {
@@ -69,7 +69,7 @@ final class EdDSA implements SignatureAlgorithm
     {
         $this->checkKey($key);
 
-        $public = Base64Url::decode($key->get('x'));
+        $public = Base64UrlSafe::decode($key->get('x'));
 
         switch ($key->get('crv')) {
             case 'Ed25519':

@@ -14,13 +14,13 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
 use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 use LogicException;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 final class JSONGeneralSerializer implements JWESerializer
 {
@@ -46,12 +46,12 @@ final class JSONGeneralSerializer implements JWESerializer
         }
 
         $data = [
-            'ciphertext' => Base64Url::encode($jwe->getCiphertext()),
-            'iv' => Base64Url::encode($jwe->getIV()),
-            'tag' => Base64Url::encode($jwe->getTag()),
+            'ciphertext' => Base64UrlSafe::encodeUnpadded($jwe->getCiphertext()),
+            'iv' => Base64UrlSafe::encodeUnpadded($jwe->getIV()),
+            'tag' => Base64UrlSafe::encodeUnpadded($jwe->getTag()),
         ];
         if (null !== $jwe->getAAD()) {
-            $data['aad'] = Base64Url::encode($jwe->getAAD());
+            $data['aad'] = Base64UrlSafe::encodeUnpadded($jwe->getAAD());
         }
         if (0 !== count($jwe->getSharedProtectedHeader())) {
             $data['protected'] = $jwe->getEncodedSharedProtectedHeader();
@@ -66,7 +66,7 @@ final class JSONGeneralSerializer implements JWESerializer
                 $temp['header'] = $recipient->getHeader();
             }
             if (null !== $recipient->getEncryptedKey()) {
-                $temp['encrypted_key'] = Base64Url::encode($recipient->getEncryptedKey());
+                $temp['encrypted_key'] = Base64UrlSafe::encodeUnpadded($recipient->getEncryptedKey());
             }
             $data['recipients'][] = $temp;
         }
@@ -79,10 +79,10 @@ final class JSONGeneralSerializer implements JWESerializer
         $data = JsonConverter::decode($input);
         $this->checkData($data);
 
-        $ciphertext = Base64Url::decode($data['ciphertext']);
-        $iv = Base64Url::decode($data['iv']);
-        $tag = Base64Url::decode($data['tag']);
-        $aad = array_key_exists('aad', $data) ? Base64Url::decode($data['aad']) : null;
+        $ciphertext = Base64UrlSafe::decode($data['ciphertext']);
+        $iv = Base64UrlSafe::decode($data['iv']);
+        $tag = Base64UrlSafe::decode($data['tag']);
+        $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decode($data['aad']) : null;
         [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
         $recipients = [];
         foreach ($data['recipients'] as $recipient) {
@@ -114,7 +114,7 @@ final class JSONGeneralSerializer implements JWESerializer
 
     private function processRecipient(array $recipient): array
     {
-        $encryptedKey = array_key_exists('encrypted_key', $recipient) ? Base64Url::decode($recipient['encrypted_key']) : null;
+        $encryptedKey = array_key_exists('encrypted_key', $recipient) ? Base64UrlSafe::decode($recipient['encrypted_key']) : null;
         $header = array_key_exists('header', $recipient) ? $recipient['header'] : [];
 
         return [$encryptedKey, $header];
@@ -123,7 +123,7 @@ final class JSONGeneralSerializer implements JWESerializer
     private function processHeaders(array $data): array
     {
         $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
-        $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64Url::decode($encodedSharedProtectedHeader)) : [];
+        $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(Base64UrlSafe::decode($encodedSharedProtectedHeader)) : [];
         $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
 
         return [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader];

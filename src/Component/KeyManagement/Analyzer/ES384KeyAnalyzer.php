@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use Base64Url\Base64Url;
 use Brick\Math\BigInteger;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\NistCurve;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 
 final class ES384KeyAnalyzer implements KeyAnalyzer
@@ -44,9 +44,9 @@ final class ES384KeyAnalyzer implements KeyAnalyzer
         if ('P-384' !== $jwk->get('crv')) {
             return;
         }
-        $x = Base64Url::decode($jwk->get('x'));
+        $x = Base64UrlSafe::decode($jwk->get('x'));
         $xLength = 8 * mb_strlen($x, '8bit');
-        $y = Base64Url::decode($jwk->get('y'));
+        $y = Base64UrlSafe::decode($jwk->get('y'));
         $yLength = 8 * mb_strlen($y, '8bit');
         if ($yLength !== $xLength || 384 !== $yLength) {
             $bag->add(Message::high('Invalid key. The components "x" and "y" size shall be 384 bits.'));

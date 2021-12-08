@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use ZxcvbnPhp\Zxcvbn;
 
 final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
@@ -24,7 +24,7 @@ final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
         if ('oct' !== $jwk->get('kty')) {
             return;
         }
-        $k = Base64Url::decode($jwk->get('k'));
+        $k = Base64UrlSafe::decode($jwk->get('k'));
         if (class_exists(Zxcvbn::class)) {
             $zxcvbn = new Zxcvbn();
             $strength = $zxcvbn->passwordStrength($k);

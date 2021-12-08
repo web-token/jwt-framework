@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
-use Base64Url\Base64Url;
 use function count;
 use FG\ASN1\ASNObject;
 use FG\ASN1\Exception\ParserException;
@@ -27,6 +26,7 @@ use FG\ASN1\Universal\Sequence;
 use InvalidArgumentException;
 use function is_array;
 use function is_string;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @internal
@@ -154,8 +154,8 @@ class ECKey
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
-        $values['x'] = Base64Url::encode($xBin);
-        $values['y'] = Base64Url::encode($yBin);
+        $values['x'] = Base64UrlSafe::encodeUnpadded($xBin);
+        $values['y'] = Base64UrlSafe::encodeUnpadded($yBin);
 
         return $values;
     }
@@ -256,9 +256,9 @@ class ECKey
 
         $values = ['kty' => 'EC'];
         $values['crv'] = self::getCurve($curve);
-        $values['d'] = Base64Url::encode($dBin);
-        $values['x'] = Base64Url::encode($xBin);
-        $values['y'] = Base64Url::encode($yBin);
+        $values['d'] = Base64UrlSafe::encodeUnpadded($dBin);
+        $values['x'] = Base64UrlSafe::encodeUnpadded($xBin);
+        $values['y'] = Base64UrlSafe::encodeUnpadded($yBin);
 
         return $values;
     }

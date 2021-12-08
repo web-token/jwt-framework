@@ -20,8 +20,4 @@ parameters:
         - '#Strict comparison using === between .* and .* will always evaluate to false\.#'
         - '#Binary operation "\^" between string and 1 results in an error\.#'
 includes:
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
-    - vendor/phpstan/phpstan-phpunit/extension.neon
-    - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon

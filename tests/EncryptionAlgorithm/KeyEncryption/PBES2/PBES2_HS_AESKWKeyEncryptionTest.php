@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
-use Base64Url\Base64Url;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
@@ -47,14 +47,14 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $expected_cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
 
         $pbes2 = new PBES2HS256A128KW();
 
-        $wrapped_cek = Base64Url::decode('TrqXOwuNUfDV9VPTNbyGvEJ9JMjefAVn-TR1uIxR9p6hsRQh9Tk7BA');
+        $wrapped_cek = Base64UrlSafe::decode('TrqXOwuNUfDV9VPTNbyGvEJ9JMjefAVn-TR1uIxR9p6hsRQh9Tk7BA');
 
         static::assertEquals($expected_cek, $pbes2->unwrapKey($key, $wrapped_cek, $header));
     }
@@ -71,7 +71,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -95,7 +95,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -119,7 +119,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -145,7 +145,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'dir',
-            'dir' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'dir' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -168,7 +168,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'dir' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'dir' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -190,7 +190,7 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $cek = $this->convertArrayToBinString([111, 27, 25, 52, 66, 29, 20, 78, 92, 176, 56, 240, 65, 208, 82, 112, 161, 131, 36, 55, 202, 236, 185, 172, 129, 23, 153, 194, 195, 48, 253, 182]);
@@ -214,12 +214,12 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $pbes2 = new PBES2HS256A128KW();
 
-        $wrapped_cek = Base64Url::decode('TrqXOwuNUfDV9VPTNbyGvEJ9JMjefAVn-TR1uIxR9p6hsRQh9Tk7BA');
+        $wrapped_cek = Base64UrlSafe::decode('TrqXOwuNUfDV9VPTNbyGvEJ9JMjefAVn-TR1uIxR9p6hsRQh9Tk7BA');
 
         $pbes2->unwrapKey($key, $wrapped_cek, $header);
     }
@@ -239,12 +239,12 @@ class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         ];
         $key = new JWK([
             'kty' => 'oct',
-            'k' => Base64Url::encode($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
+            'k' => Base64UrlSafe::encodeUnpadded($this->convertArrayToBinString([84, 104, 117, 115, 32, 102, 114, 111, 109, 32, 109, 121, 32, 108, 105, 112, 115, 44, 32, 98, 121, 32, 121, 111, 117, 114, 115, 44, 32, 109, 121, 32, 115, 105, 110, 32, 105, 115, 32, 112, 117, 114, 103, 101, 100, 46])),
         ]);
 
         $pbes2 = new PBES2HS256A128KW();
 
-        $wrapped_cek = Base64Url::decode('TrqXOwuNUfDV9VPTNbyGvEJ9JMjefAVn-TR1uIxR9p6hsRQh9Tk7BA');
+        $wrapped_cek = Base64UrlSafe::decode('TrqXOwuNUfDV9VPTNbyGvEJ9JMjefAVn-TR1uIxR9p6hsRQh9Tk7BA');
 
         $pbes2->unwrapKey($key, $wrapped_cek, $header);
     }

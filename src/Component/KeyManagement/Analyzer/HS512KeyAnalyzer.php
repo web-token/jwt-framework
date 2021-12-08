@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use Base64Url\Base64Url;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 final class HS512KeyAnalyzer implements KeyAnalyzer
 {
@@ -26,7 +26,7 @@ final class HS512KeyAnalyzer implements KeyAnalyzer
         if (!$jwk->has('alg') || 'HS512' !== $jwk->get('alg')) {
             return;
         }
-        $k = Base64Url::decode($jwk->get('k'));
+        $k = Base64UrlSafe::decode($jwk->get('k'));
         $kLength = 8 * mb_strlen($k, '8bit');
         if ($kLength < 512) {
             $bag->add(Message::high('HS512 algorithm requires at least 512 bits key length.'));
