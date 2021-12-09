@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.4']
+        php-versions: ['8.0']
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
 
     steps:
@@ -21,12 +21,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: json, mbstring, openssl, gmp
+          extensions: json, mbstring, openssl, sqlite3
           coverage: xdebug
 
       - name: Install Composer dependencies
         run: |
           composer update --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
-      - name: PHP-CS-FIXER
-        run: composer test:syntax
+      - name: CONDING STANDARDS
+        run: make ci-cs
