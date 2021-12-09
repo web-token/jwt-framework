@@ -1,14 +1,7 @@
 {
     "source": {
         "directories": [
-            "src/Component",
-            "src/Easy",
-            "src/Ecc",
-            "src/EncryptionAlgorithm",
-            "src/SignatureAlgorithm"
-        ],
-        "excludes": [
-            "src/**/*/Tests"
+            "src"
         ]
     },
     "timeout": 3,
