@@ -2,21 +2,12 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use function array_key_exists;
 use function count;
 use function extension_loaded;
-use Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\SignatureSerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Signature\Algorithm\ECDSA;
@@ -38,19 +29,11 @@ class SignatureSource implements SourceWithCompilerPasses
     /**
      * @var Source[]
      */
-    private $sources;
+    private array $sources;
 
-    /**
-     * SignatureSource constructor.
-     */
     public function __construct()
     {
-        $this->sources = [
-            new JWSBuilder(),
-            new JWSVerifier(),
-            new JWSSerializer(),
-            new JWSLoader(),
-        ];
+        $this->sources = [new JWSBuilder(), new JWSVerifier(), new JWSSerializer(), new JWSLoader()];
     }
 
     public function name(): string
@@ -60,15 +43,17 @@ class SignatureSource implements SourceWithCompilerPasses
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return;
         }
-        $container->registerForAutoconfiguration(\Jose\Component\Signature\Serializer\JWSSerializer::class)->addTag('jose.jws.serializer');
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/'));
+        $container->registerForAutoconfiguration(\Jose\Component\Signature\Serializer\JWSSerializer::class)->addTag(
+            'jose.jws.serializer'
+        );
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config/'));
         $loader->load('jws_services.php');
         $loader->load('jws_serializers.php');
 
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config/Algorithms/'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
             if (class_exists($class)) {
                 $loader->load($file);
@@ -84,7 +69,7 @@ class SignatureSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return;
         }
         $childNode = $node->children()
@@ -101,13 +86,13 @@ class SignatureSource implements SourceWithCompilerPasses
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return [];
         }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
-            if (0 !== count($prepend)) {
+            if (count($prepend) !== 0) {
                 $result[$source->name()] = $prepend;
             }
         }
@@ -120,9 +105,7 @@ class SignatureSource implements SourceWithCompilerPasses
      */
     public function getCompilerPasses(): array
     {
-        return [
-            new Compiler\SignatureSerializerCompilerPass(),
-        ];
+        return [new SignatureSerializerCompilerPass()];
     }
 
     private function getAlgorithmsFiles(): array

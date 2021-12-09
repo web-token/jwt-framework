@@ -20,10 +20,10 @@
         }
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=8.0",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "brick/math": "^0.8.17|^0.9",
+        "brick/math": "^0.9",
         "fgrosse/phpasn1": "^2.0",
         "paragonie/constant_time_encoding": "^2.4"
     },

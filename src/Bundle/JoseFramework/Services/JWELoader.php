@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\JWELoadingFailureEvent;
@@ -26,35 +17,24 @@ use Throwable;
 
 final class JWELoader extends BaseJWELoader
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    public function __construct(JWESerializerManager $serializerManager, JWEDecrypter $jweDecrypter, ?HeaderCheckerManager $headerCheckerManager, EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        JWESerializerManager $serializerManager,
+        JWEDecrypter $jweDecrypter,
+        ?HeaderCheckerManager $headerCheckerManager,
+        private EventDispatcherInterface $eventDispatcher
+    ) {
         parent::__construct($serializerManager, $jweDecrypter, $headerCheckerManager);
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, ?int &$recipient): JWE
     {
         try {
             $jwe = parent::loadAndDecryptWithKeySet($token, $keyset, $recipient);
-            $this->eventDispatcher->dispatch(new JWELoadingSuccessEvent(
-                $token,
-                $jwe,
-                $keyset,
-                $recipient
-            ));
+            $this->eventDispatcher->dispatch(new JWELoadingSuccessEvent($token, $jwe, $keyset, $recipient));
 
             return $jwe;
         } catch (Throwable $throwable) {
-            $this->eventDispatcher->dispatch(new JWELoadingFailureEvent(
-                $token,
-                $keyset,
-                $throwable
-            ));
+            $this->eventDispatcher->dispatch(new JWELoadingFailureEvent($token, $keyset, $throwable));
 
             throw $throwable;
         }

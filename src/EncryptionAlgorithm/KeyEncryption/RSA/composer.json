@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "brick/math": "^0.8.17|^0.9",
+        "brick/math": "^0.9",
         "ext-openssl": "*",
         "symfony/polyfill-mbstring": "^1.12",
         "web-token/jwt-encryption": "^2.1"

@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedFailureEvent;
@@ -29,50 +20,28 @@ use Throwable;
 
 class CheckerCollector implements Collector, EventSubscriberInterface
 {
-    /**
-     * @var null|ClaimCheckerManagerFactory
-     */
-    private $claimCheckerManagerFactory;
+    private array $headerCheckedSuccesses = [];
 
-    /**
-     * @var null|HeaderCheckerManagerFactory
-     */
-    private $headerCheckerManagerFactory;
+    private array $headerCheckedFailures = [];
 
-    /**
-     * @var array
-     */
-    private $headerCheckedSuccesses = [];
+    private array $claimCheckedSuccesses = [];
 
-    /**
-     * @var array
-     */
-    private $headerCheckedFailures = [];
-
-    /**
-     * @var array
-     */
-    private $claimCheckedSuccesses = [];
-
-    /**
-     * @var array
-     */
-    private $claimCheckedFailures = [];
+    private array $claimCheckedFailures = [];
 
     /**
      * @var HeaderCheckerManager[]
      */
-    private $headerCheckerManagers = [];
+    private array $headerCheckerManagers = [];
 
     /**
      * @var ClaimCheckerManager[]
      */
-    private $claimCheckerManagers = [];
+    private array $claimCheckerManagers = [];
 
-    public function __construct(?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null, ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null)
-    {
-        $this->claimCheckerManagerFactory = $claimCheckerManagerFactory;
-        $this->headerCheckerManagerFactory = $headerCheckerManagerFactory;
+    public function __construct(
+        private ?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null,
+        private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null
+    ) {
     }
 
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
@@ -94,7 +63,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         $this->claimCheckerManagers[$id] = $claimCheckerManager;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             HeaderCheckedSuccessEvent::class => ['catchHeaderCheckSuccess'],
@@ -145,7 +114,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
     private function collectSupportedHeaderCheckers(array &$data): void
     {
         $data['checker']['header_checkers'] = [];
-        if (null !== $this->headerCheckerManagerFactory) {
+        if ($this->headerCheckerManagerFactory !== null) {
             $aliases = $this->headerCheckerManagerFactory->all();
             foreach ($aliases as $alias => $checker) {
                 $data['checker']['header_checkers'][$alias] = [
@@ -172,7 +141,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
     private function collectSupportedClaimCheckers(array &$data): void
     {
         $data['checker']['claim_checkers'] = [];
-        if (null !== $this->claimCheckerManagerFactory) {
+        if ($this->claimCheckerManagerFactory !== null) {
             $aliases = $this->claimCheckerManagerFactory->all();
             foreach ($aliases as $alias => $checker) {
                 $data['checker']['claim_checkers'][$alias] = [

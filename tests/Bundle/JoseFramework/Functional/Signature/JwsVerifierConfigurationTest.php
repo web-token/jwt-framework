@@ -2,36 +2,25 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Bundle
- * @group Configuration
- *
  * @internal
  */
-class JwsVerifierConfigurationTest extends TestCase
+final class JwsVerifierConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     protected function setUp(): void
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
+        if (! class_exists(JWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
@@ -41,9 +30,7 @@ class JwsVerifierConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
-        $this->assertConfigurationIsValid(
-            []
-        );
+        $this->assertConfigurationIsValid([]);
     }
 
     /**
@@ -51,13 +38,11 @@ class JwsVerifierConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'jws' => false,
-                ],
-            ]
-        );
+                'jws' => false,
+            ],
+        ]);
     }
 
     /**
@@ -65,13 +50,11 @@ class JwsVerifierConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'jws' => [],
-                ],
-            ]
-        );
+                'jws' => [],
+            ],
+        ]);
     }
 
     /**
@@ -79,15 +62,13 @@ class JwsVerifierConfigurationTest extends TestCase
      */
     public function theConfigurationIsInvalidIfBuilderIsSet(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'jws' => [
-                        'verifiers' => [],
-                    ],
+                'jws' => [
+                    'verifiers' => [],
                 ],
-            ]
-        );
+            ],
+        ]);
     }
 
     /**
@@ -132,9 +113,6 @@ class JwsVerifierConfigurationTest extends TestCase
 
     protected function getConfiguration(): Configuration
     {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Signature\SignatureSource(),
-        ]);
+        return new Configuration('jose', [new CoreSource(), new SignatureSource()]);
     }
 }

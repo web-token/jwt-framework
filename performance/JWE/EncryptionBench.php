@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Performance\JWE;
 
 use Jose\Component\Core\AlgorithmManager;
@@ -35,8 +26,11 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
 abstract class EncryptionBench
 {
     private $contentEncryptionAlgorithmsManager;
+
     private $keyEncryptionAlgorithmsManager;
+
     private $compressionMethodsManager;
+
     private $serializerManager;
 
     public function init()
@@ -68,9 +62,7 @@ abstract class EncryptionBench
             new ContentEncryption\A192GCM(),
             new ContentEncryption\A256GCM(),
         ]);
-        $this->compressionMethodsManager = new CompressionMethodManager([
-            new Compression\Deflate(),
-        ]);
+        $this->compressionMethodsManager = new CompressionMethodManager([new Compression\Deflate()]);
         $this->serializerManager = new JWESerializerManager([
             new CompactSerializer(),
             new JSONFlattenedSerializer(),

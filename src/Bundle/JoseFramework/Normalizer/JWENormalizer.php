@@ -2,17 +2,9 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\Normalizer;
 
+use ArrayObject;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -23,7 +15,7 @@ final class JWENormalizer implements NormalizerInterface, DenormalizerInterface
     /**
      * {@inheritDoc}
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization(mixed $data, string $format = null): bool
     {
         return $data instanceof JWE && $this->componentInstalled();
     }
@@ -31,16 +23,19 @@ final class JWENormalizer implements NormalizerInterface, DenormalizerInterface
     /**
      * {@inheritDoc}
      */
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
     {
-        return JWE::class === $type && $this->componentInstalled();
+        return $type === JWE::class && $this->componentInstalled();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function normalize($object, $format = null, array $context = [])
-    {
+    public function normalize(
+        mixed $object,
+        string $format = null,
+        array $context = []
+    ): array|string|int|float|bool|ArrayObject|null {
         return $object;
     }
 
@@ -51,7 +46,7 @@ final class JWENormalizer implements NormalizerInterface, DenormalizerInterface
      *
      * @return array|object
      */
-    public function denormalize($data, $type, $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         return $data;
     }

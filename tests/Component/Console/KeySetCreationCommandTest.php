@@ -2,19 +2,13 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Console;
 
 use InvalidArgumentException;
-use Jose\Component\Console;
+use Jose\Component\Console\EcKeysetGeneratorCommand;
+use Jose\Component\Console\OctKeysetGeneratorCommand;
+use Jose\Component\Console\OkpKeysetGeneratorCommand;
+use Jose\Component\Console\RsaKeysetGeneratorCommand;
 use Jose\Component\Core\JWKSet;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -22,19 +16,16 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
- * @group Console
- * @group KeySetCreationCommand
- *
  * @internal
  */
-class KeySetCreationCommandTest extends TestCase
+final class KeySetCreationCommandTest extends TestCase
 {
     /**
      * @test
      */
     public function theEllipticCurveKeySetCreationCommandIsAvailable(): void
     {
-        $command = new Console\EcKeysetGeneratorCommand();
+        $command = new EcKeysetGeneratorCommand();
 
         static::assertTrue($command->isEnabled());
     }
@@ -49,7 +40,7 @@ class KeySetCreationCommandTest extends TestCase
 
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeysetGeneratorCommand();
+        $command = new EcKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -67,7 +58,7 @@ class KeySetCreationCommandTest extends TestCase
             'curve' => 'P-128',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeysetGeneratorCommand();
+        $command = new EcKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -83,7 +74,7 @@ class KeySetCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeysetGeneratorCommand();
+        $command = new EcKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -102,7 +93,7 @@ class KeySetCreationCommandTest extends TestCase
             'quantity' => 2,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeysetGeneratorCommand();
+        $command = new OctKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -118,7 +109,7 @@ class KeySetCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeysetGeneratorCommand();
+        $command = new OctKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -137,7 +128,7 @@ class KeySetCreationCommandTest extends TestCase
             'quantity' => 2,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeysetGeneratorCommand();
+        $command = new OkpKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -153,7 +144,7 @@ class KeySetCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeysetGeneratorCommand();
+        $command = new OkpKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -172,7 +163,7 @@ class KeySetCreationCommandTest extends TestCase
             'quantity' => 2,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeysetGeneratorCommand();
+        $command = new RsaKeysetGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -188,7 +179,7 @@ class KeySetCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeysetGeneratorCommand();
+        $command = new RsaKeysetGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();

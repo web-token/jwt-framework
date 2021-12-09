@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedFailureEvent;
@@ -21,15 +12,11 @@ use Throwable;
 
 final class ClaimCheckerManager extends BaseClaimCheckerManager
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    public function __construct($checkers, EventDispatcherInterface $eventDispatcher)
-    {
+    public function __construct(
+        $checkers,
+        private EventDispatcherInterface $eventDispatcher
+    ) {
         parent::__construct($checkers);
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function check(array $claims, array $mandatoryClaims = []): array
@@ -42,9 +29,7 @@ final class ClaimCheckerManager extends BaseClaimCheckerManager
 
             return $checkedClaims;
         } catch (Throwable $throwable) {
-            $this->eventDispatcher->dispatch(
-                new ClaimCheckedFailureEvent($claims, $mandatoryClaims, $throwable)
-            );
+            $this->eventDispatcher->dispatch(new ClaimCheckedFailureEvent($claims, $mandatoryClaims, $throwable));
 
             throw $throwable;
         }

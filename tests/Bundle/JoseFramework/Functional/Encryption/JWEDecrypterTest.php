@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory as JWEDecrypterFactoryService;
@@ -20,16 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @group Bundle
- * @group functional
- *
  * @internal
  */
-class JWEDecrypterTest extends WebTestCase
+final class JWEDecrypterTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
+        if (! class_exists(JWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }

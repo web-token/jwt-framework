@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\CertificateFile;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWK;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSet;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\KeyFile;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\P12;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Secret;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Values;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\X5C;
 /*
  * The MIT License (MIT)
  *
@@ -11,22 +19,22 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->public()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(JWKSource\KeyFile::class);
-    $container->set(JWKSource\P12::class);
-    $container->set(JWKSource\CertificateFile::class);
-    $container->set(JWKSource\Values::class);
-    $container->set(JWKSource\Secret::class);
-    $container->set(JWKSource\JWK::class);
-    $container->set(JWKSource\X5C::class);
-    $container->set(JWKSource\JWKSet::class);
+    $container->set(KeyFile::class);
+    $container->set(P12::class);
+    $container->set(CertificateFile::class);
+    $container->set(Values::class);
+    $container->set(Secret::class);
+    $container->set(JWK::class);
+    $container->set(X5C::class);
+    $container->set(JWKSet::class);
 };

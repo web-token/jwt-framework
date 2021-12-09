@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature\Algorithm;
 
 use Jose\Component\Core\AlgorithmManager;
@@ -18,26 +9,26 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\RS256;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
-use Jose\Component\Signature\Serializer;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.1
  *
- * @group RFC7520
- *
  * @internal
  */
-class RSA15SignatureTest extends TestCase
+final class RSA15SignatureTest extends TestCase
 {
     /**
      * @test
      */
     public function rS256(): void
     {
-        /*
-         * Payload,
-         * RSA private key
+        /**
+         * Payload, RSA private key.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-3.4
          * @see https://tools.ietf.org/html/rfc7520#section-4.1.1
          */
@@ -56,8 +47,9 @@ class RSA15SignatureTest extends TestCase
             'qi' => '3PiqvXQN0zwMeE-sBvZgi289XP9XCQF3VWqPzMKnIgQp7_Tugo6-NZBKCQsMf3HaEGBjTVJs_jcK8-TRXvaKe-7ZMaQj8VfBdYkssbu0NKDDhjJ-GtiseaDVWt7dcH0cfwxgFUHpQh7FoCrjFJ6h6ZEpMF6xmujs4qMpPz8aaI4',
         ]);
 
-        /*
-         * Header
+        /**
+         * Header.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-4.1.2
          */
         $header = [
@@ -65,37 +57,38 @@ class RSA15SignatureTest extends TestCase
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
 
-        $jwsBuilder = new JWSBuilder(
-            new AlgorithmManager([new RS256()])
-        );
-        $jwsVerifier = new JWSVerifier(
-            new AlgorithmManager([new RS256()])
-        );
-        $compactSerializer = new Serializer\CompactSerializer(
-        );
-        $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-        );
-        $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-        );
+        $jwsBuilder = new JWSBuilder(new AlgorithmManager([new RS256()]));
+        $jwsVerifier = new JWSVerifier(new AlgorithmManager([new RS256()]));
+        $compactSerializer = new CompactSerializer();
+        $jsonFlattenedSerializer = new JSONFlattenedSerializer();
+        $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()->withPayload($payload)
+            ->create()
+            ->withPayload($payload)
             ->addSignature($privateKey, $header)
             ->build()
         ;
 
-        /*
-         * Header
+        /**
+         * Header.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-4.1.3
          */
         $expected_compact_json = 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg';
         $expected_flattened_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","protected":"eyJhbGciOiJSUzI1NiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg"}';
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJSUzI1NiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9","signature":"MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg"}]}';
 
-        static::assertEquals($expected_compact_json, $compactSerializer->serialize($jws, 0));
+        static::assertSame($expected_compact_json, $compactSerializer->serialize($jws, 0));
 
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
-        static::assertEquals(json_decode($expected_flattened_json, true), json_decode($jsonFlattenedSerializer->serialize($jws, 0), true));
-        static::assertEquals(json_decode($expected_json, true), json_decode($jsonGeneralSerializer->serialize($jws, 0), true));
+        static::assertEqualsCanonicalizing(
+            json_decode($expected_flattened_json, true),
+            json_decode($jsonFlattenedSerializer->serialize($jws, 0), true)
+        );
+        static::assertEqualsCanonicalizing(
+            json_decode($expected_json, true),
+            json_decode($jsonGeneralSerializer->serialize($jws, 0), true)
+        );
 
         $loaded_compact_json = $compactSerializer->unserialize($expected_compact_json);
         $jwsVerifier->verifyWithKey($loaded_compact_json, $privateKey, 0);

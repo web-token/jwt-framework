@@ -2,36 +2,25 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Bundle
- * @group Configuration
- *
  * @internal
  */
-class SerializerConfigurationTest extends TestCase
+final class SerializerConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     protected function setUp(): void
     {
-        if (!class_exists(JWEBuilderFactory::class)) {
+        if (! class_exists(JWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
     }
@@ -41,9 +30,7 @@ class SerializerConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
-        $this->assertConfigurationIsValid(
-            []
-        );
+        $this->assertConfigurationIsValid([]);
     }
 
     /**
@@ -51,13 +38,11 @@ class SerializerConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'jwe' => false,
-                ],
-            ]
-        );
+                'jwe' => false,
+            ],
+        ]);
     }
 
     /**
@@ -65,13 +50,11 @@ class SerializerConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'jwe' => [],
-                ],
-            ]
-        );
+                'jwe' => [],
+            ],
+        ]);
     }
 
     /**
@@ -79,15 +62,13 @@ class SerializerConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoSerializerIsSet(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'jwe' => [
-                        'serializers' => [],
-                    ],
+                'jwe' => [
+                    'serializers' => [],
                 ],
-            ]
-        );
+            ],
+        ]);
     }
 
     /**
@@ -132,9 +113,6 @@ class SerializerConfigurationTest extends TestCase
 
     protected function getConfiguration(): Configuration
     {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Encryption\EncryptionSource(),
-        ]);
+        return new Configuration('jose', [new CoreSource(), new EncryptionSource()]);
     }
 }

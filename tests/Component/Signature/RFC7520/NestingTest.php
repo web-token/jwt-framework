@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature\RFC7520;
 
 use Jose\Component\Core\JWK;
@@ -19,11 +10,9 @@ use Jose\Tests\Component\Signature\SignatureTest;
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-6
  *
- * @group RFC7520
- *
  * @internal
  */
-class NestingTest extends SignatureTest
+final class NestingTest extends SignatureTest
 {
     /**
      * @test
@@ -57,11 +46,15 @@ class NestingTest extends SignatureTest
 
         $json_compact = 'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJob2JiaXRvbi5leGFtcGxlIiwiZXhwIjoxMzAwODE5MzgwLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZX0.dPpMqwRZxFYi1UfcDAaf8M99o7kwUWtiXZ-ByvVuJih4MhJ_aZqciprz0OWaIAkIvn1qskChirjKvY9ESZNUCP4JjvfyPS-nqjJxYoA5ztWOyFk2cZNIPXjcJXSQwXPO9tEe-v4VSqgD0aKHqPxYog4N6Cz1lKph1U1sYDSI67_bLL7elg_vkjfMp5_W5l5LuUYGMeh6hxQIaIUXf9EwV2JmvTMuZ-vBOWy0Sniy1EFo72CRTvmtrIf5AROo5MNliY3KtUxeP-SOmD-LEYwW9SlkohYzMVAZDDOrVbv7KVRHpeYNaK75KEQqdCEEkS_rskZS-Qtt_nlegTWh1mEYaA';
 
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['PS256']);
-        $loaded_compact_json = $this->getJWSSerializerManager()->unserialize($json_compact);
+        $jwsVerifier = $this->getJWSVerifierFactory()
+            ->create(['PS256'])
+        ;
+        $loaded_compact_json = $this->getJWSSerializerManager()
+            ->unserialize($json_compact)
+        ;
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
-        static::assertEquals($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
-        static::assertEquals($payload, json_decode($loaded_compact_json->getPayload(), true));
+        static::assertSame($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
+        static::assertSame($payload, json_decode($loaded_compact_json->getPayload(), true));
     }
 }

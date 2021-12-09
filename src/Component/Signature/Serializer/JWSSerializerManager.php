@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Signature\Serializer;
 
 use InvalidArgumentException;
@@ -21,7 +12,7 @@ class JWSSerializerManager
     /**
      * @var JWSSerializer[]
      */
-    private $serializers = [];
+    private array $serializers = [];
 
     /**
      * @param JWSSerializer[] $serializers
@@ -43,12 +34,10 @@ class JWSSerializerManager
 
     /**
      * Converts a JWS into a string.
-     *
-     * @throws InvalidArgumentException if the serializer is not supported
      */
     public function serialize(string $name, JWS $jws, ?int $signatureIndex = null): string
     {
-        if (!isset($this->serializers[$name])) {
+        if (! isset($this->serializers[$name])) {
             throw new InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
         }
 
@@ -59,9 +48,7 @@ class JWSSerializerManager
      * Loads data and return a JWS object.
      *
      * @param string      $input A string that represents a JWS
-     * @param null|string $name  the name of the serializer if the input is unserialized
-     *
-     * @throws InvalidArgumentException if the input is not supported
+     * @param string|null $name  the name of the serializer if the input is unserialized
      */
     public function unserialize(string $input, ?string &$name = null): JWS
     {
@@ -71,7 +58,7 @@ class JWSSerializerManager
                 $name = $serializer->name();
 
                 return $jws;
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidArgumentException) {
                 continue;
             }
         }

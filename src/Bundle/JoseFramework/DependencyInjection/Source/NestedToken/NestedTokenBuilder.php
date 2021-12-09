@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
@@ -50,7 +41,7 @@ class NestedTokenBuilder implements Source
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
-            $container->registerAliasForArgument($service_id, self::class, $name.'NestedTokenBuilder');
+            $container->registerAliasForArgument($service_id, self::class, $name . 'NestedTokenBuilder');
         }
     }
 
@@ -71,25 +62,29 @@ class NestedTokenBuilder implements Source
             ->info('A list of signature algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('key_encryption_algorithms')
             ->info('A list of key encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('content_encryption_algorithms')
             ->info('A list of key encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('compression_methods')
             ->info('A list of compression method aliases.')
             ->useAttributeAsKey('name')
             ->defaultValue(['DEF'])
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('jws_serializers')
             ->info('A list of JWS serializer aliases.')
@@ -98,7 +93,8 @@ class NestedTokenBuilder implements Source
             ->treatFalseLike([])
             ->isRequired()
             ->requiresAtLeastOneElement()
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('jwe_serializers')
             ->info('A list of JWE serializer aliases.')
@@ -107,14 +103,16 @@ class NestedTokenBuilder implements Source
             ->treatFalseLike([])
             ->isRequired()
             ->requiresAtLeastOneElement()
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the service.')
             ->useAttributeAsKey('name')
             ->treatNullLike([])
             ->treatFalseLike([])
-            ->variablePrototype()->end()
+            ->variablePrototype()
+            ->end()
             ->end()
             ->end()
             ->end()

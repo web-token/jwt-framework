@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Core;
 
 use InvalidArgumentException;
@@ -18,12 +9,9 @@ use Jose\Component\Core\JWK;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group unit
- * @group JWK
- *
  * @internal
  */
-class JWKTest extends TestCase
+final class JWKTest extends TestCase
 {
     /**
      * @test
@@ -41,22 +29,25 @@ class JWKTest extends TestCase
             'bar' => 'plic',
         ]);
 
-        static::assertEquals('EC', $jwk->get('kty'));
-        static::assertEquals('ES256', $jwk->get('alg'));
-        static::assertEquals('sig', $jwk->get('use'));
+        static::assertSame('EC', $jwk->get('kty'));
+        static::assertSame('ES256', $jwk->get('alg'));
+        static::assertSame('sig', $jwk->get('use'));
         static::assertFalse($jwk->has('kid'));
-        static::assertEquals(['sign'], $jwk->get('key_ops'));
-        static::assertEquals('P-256', $jwk->get('crv'));
+        static::assertSame(['sign'], $jwk->get('key_ops'));
+        static::assertSame('P-256', $jwk->get('crv'));
         static::assertFalse($jwk->has('x5u'));
         static::assertFalse($jwk->has('x5c'));
         static::assertFalse($jwk->has('x5t'));
         static::assertFalse($jwk->has('x5t#256'));
-        static::assertEquals('f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU', $jwk->get('x'));
-        static::assertEquals('x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0', $jwk->get('y'));
-        static::assertEquals('{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sig","key_ops":["sign"],"alg":"ES256","bar":"plic"}', json_encode($jwk));
-        static::assertEquals('oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U', $jwk->thumbprint('sha256'));
-        static::assertEquals('EMMMl6Rj75mqhcABihxxl_VCN9s', $jwk->thumbprint('sha1'));
-        static::assertEquals('dqwHnan4iJ1_eEll-o4Egw', $jwk->thumbprint('md5'));
+        static::assertSame('f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU', $jwk->get('x'));
+        static::assertSame('x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0', $jwk->get('y'));
+        static::assertSame(
+            '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sig","key_ops":["sign"],"alg":"ES256","bar":"plic"}',
+            json_encode($jwk)
+        );
+        static::assertSame('oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U', $jwk->thumbprint('sha256'));
+        static::assertSame('EMMMl6Rj75mqhcABihxxl_VCN9s', $jwk->thumbprint('sha1'));
+        static::assertSame('dqwHnan4iJ1_eEll-o4Egw', $jwk->thumbprint('md5'));
     }
 
     /**
@@ -133,7 +124,7 @@ class JWKTest extends TestCase
 
         $public = $private->toPublic();
 
-        static::assertEquals(json_encode([
+        static::assertSame(json_encode([
             'kty' => 'EC',
             'crv' => 'P-256',
             'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',

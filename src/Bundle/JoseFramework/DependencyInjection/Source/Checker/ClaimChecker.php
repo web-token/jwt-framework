@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
@@ -35,9 +26,7 @@ class ClaimChecker implements Source
             $definition = new Definition(ClaimCheckerManager::class);
             $definition
                 ->setFactory([new Reference(ClaimCheckerManagerFactory::class), 'create'])
-                ->setArguments([
-                    $itemConfig['claims'],
-                ])
+                ->setArguments([$itemConfig['claims']])
                 ->addTag('jose.claim_checker_manager')
                 ->setPublic($itemConfig['is_public'])
             ;
@@ -45,7 +34,11 @@ class ClaimChecker implements Source
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
-            $container->registerAliasForArgument($service_id, ClaimCheckerManager::class, $name.'ClaimCheckerManager');
+            $container->registerAliasForArgument(
+                $service_id,
+                ClaimCheckerManager::class,
+                $name . 'ClaimCheckerManager'
+            );
         }
     }
 
@@ -67,7 +60,8 @@ class ClaimChecker implements Source
             ->info('A list of claim aliases to be set in the claim checker.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()->end()
+            ->scalarPrototype()
+            ->end()
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the claim checker.')

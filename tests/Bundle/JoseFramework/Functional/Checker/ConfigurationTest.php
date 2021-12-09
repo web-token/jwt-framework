@@ -2,36 +2,25 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Checker;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerSource;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Bundle
- * @group Configuration
- *
  * @internal
  */
-class ConfigurationTest extends TestCase
+final class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     protected function setUp(): void
     {
-        if (!class_exists(ClaimCheckerManagerFactory::class)) {
+        if (! class_exists(ClaimCheckerManagerFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
         }
     }
@@ -41,9 +30,7 @@ class ConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
-        $this->assertConfigurationIsValid(
-            []
-        );
+        $this->assertConfigurationIsValid([]);
     }
 
     /**
@@ -51,11 +38,11 @@ class ConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                ['checkers' => false],
-            ]
-        );
+                'checkers' => false,
+            ],
+        ]);
     }
 
     /**
@@ -63,11 +50,11 @@ class ConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                ['checkers' => []],
-            ]
-        );
+                'checkers' => [],
+            ],
+        ]);
     }
 
     /**
@@ -75,14 +62,14 @@ class ConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoHeaderOrClaimCheckerIsSet(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                ['checkers' => [
+                'checkers' => [
                     'headers' => [],
                     'claims' => [],
-                ]],
-            ]
-        );
+                ],
+            ],
+        ]);
     }
 
     /**
@@ -92,13 +79,15 @@ class ConfigurationTest extends TestCase
     {
         $this->assertConfigurationIsInvalid(
             [
-                ['checkers' => [
-                    'headers' => [
-                        'foo' => [
-                            'is_public' => false,
+                [
+                    'checkers' => [
+                        'headers' => [
+                            'foo' => [
+                                'is_public' => false,
+                            ],
                         ],
                     ],
-                ]],
+                ],
             ],
             'he child config "headers" under "jose.checkers.headers.foo" must be configured:'
         );
@@ -111,14 +100,16 @@ class ConfigurationTest extends TestCase
     {
         $this->assertConfigurationIsValid(
             [
-                ['checkers' => [
-                    'headers' => [
-                        'foo' => [
-                            'headers' => [],
-                            'is_public' => false,
+                [
+                    'checkers' => [
+                        'headers' => [
+                            'foo' => [
+                                'headers' => [],
+                                'is_public' => false,
+                            ],
                         ],
                     ],
-                ]],
+                ],
             ]
         );
     }
@@ -130,13 +121,15 @@ class ConfigurationTest extends TestCase
     {
         $this->assertConfigurationIsInvalid(
             [
-                ['checkers' => [
-                    'claims' => [
-                        'foo' => [
-                            'is_public' => false,
+                [
+                    'checkers' => [
+                        'claims' => [
+                            'foo' => [
+                                'is_public' => false,
+                            ],
                         ],
                     ],
-                ]],
+                ],
             ],
             'he child config "claims" under "jose.checkers.claims.foo" must be configured:'
         );
@@ -149,23 +142,22 @@ class ConfigurationTest extends TestCase
     {
         $this->assertConfigurationIsValid(
             [
-                ['checkers' => [
-                    'claims' => [
-                        'foo' => [
-                            'claims' => [],
-                            'is_public' => false,
+                [
+                    'checkers' => [
+                        'claims' => [
+                            'foo' => [
+                                'claims' => [],
+                                'is_public' => false,
+                            ],
                         ],
                     ],
-                ]],
+                ],
             ]
         );
     }
 
     protected function getConfiguration(): Configuration
     {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\Checker\CheckerSource(),
-        ]);
+        return new Configuration('jose', [new CoreSource(), new CheckerSource()]);
     }
 }

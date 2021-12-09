@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Core\Util;
 
 use InvalidArgumentException;
@@ -23,16 +14,19 @@ use const STR_PAD_LEFT;
 final class ECSignature
 {
     private const ASN1_SEQUENCE = '30';
+
     private const ASN1_INTEGER = '02';
+
     private const ASN1_MAX_SINGLE_BYTE = 128;
+
     private const ASN1_LENGTH_2BYTES = '81';
+
     private const ASN1_BIG_INTEGER_LIMIT = '7f';
+
     private const ASN1_NEGATIVE_INTEGER = '00';
+
     private const BYTE_SIZE = 2;
 
-    /**
-     * @throws InvalidArgumentException if the length of the signature is invalid
-     */
     public static function toAsn1(string $signature, int $length): string
     {
         $signature = bin2hex($signature);
@@ -52,38 +46,35 @@ final class ECSignature
 
         $bin = hex2bin(
             self::ASN1_SEQUENCE
-            .$lengthPrefix.dechex($totalLength)
-            .self::ASN1_INTEGER.dechex($lengthR).$pointR
-            .self::ASN1_INTEGER.dechex($lengthS).$pointS
+            . $lengthPrefix . dechex($totalLength)
+            . self::ASN1_INTEGER . dechex($lengthR) . $pointR
+            . self::ASN1_INTEGER . dechex($lengthS) . $pointS
         );
-        if (!is_string($bin)) {
+        if (! is_string($bin)) {
             throw new InvalidArgumentException('Unable to parse the data');
         }
 
         return $bin;
     }
 
-    /**
-     * @throws InvalidArgumentException if the signature is not an ASN.1 sequence
-     */
     public static function fromAsn1(string $signature, int $length): string
     {
         $message = bin2hex($signature);
         $position = 0;
 
-        if (self::ASN1_SEQUENCE !== self::readAsn1Content($message, $position, self::BYTE_SIZE)) {
+        if (self::readAsn1Content($message, $position, self::BYTE_SIZE) !== self::ASN1_SEQUENCE) {
             throw new InvalidArgumentException('Invalid data. Should start with a sequence.');
         }
 
-        if (self::ASN1_LENGTH_2BYTES === self::readAsn1Content($message, $position, self::BYTE_SIZE)) {
+        if (self::readAsn1Content($message, $position, self::BYTE_SIZE) === self::ASN1_LENGTH_2BYTES) {
             $position += self::BYTE_SIZE;
         }
 
         $pointR = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
         $pointS = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
 
-        $bin = hex2bin(str_pad($pointR, $length, '0', STR_PAD_LEFT).str_pad($pointS, $length, '0', STR_PAD_LEFT));
-        if (!is_string($bin)) {
+        $bin = hex2bin(str_pad($pointR, $length, '0', STR_PAD_LEFT) . str_pad($pointS, $length, '0', STR_PAD_LEFT));
+        if (! is_string($bin)) {
             throw new InvalidArgumentException('Unable to parse the data');
         }
 
@@ -98,10 +89,10 @@ final class ECSignature
     private static function preparePositiveInteger(string $data): string
     {
         if (mb_substr($data, 0, self::BYTE_SIZE, '8bit') > self::ASN1_BIG_INTEGER_LIMIT) {
-            return self::ASN1_NEGATIVE_INTEGER.$data;
+            return self::ASN1_NEGATIVE_INTEGER . $data;
         }
 
-        while (0 === mb_strpos($data, self::ASN1_NEGATIVE_INTEGER, 0, '8bit')
+        while (mb_strpos($data, self::ASN1_NEGATIVE_INTEGER, 0, '8bit') === 0
             && mb_substr($data, 2, self::BYTE_SIZE, '8bit') <= self::ASN1_BIG_INTEGER_LIMIT) {
             $data = mb_substr($data, 2, null, '8bit');
         }
@@ -117,12 +108,9 @@ final class ECSignature
         return $content;
     }
 
-    /**
-     * @throws InvalidArgumentException if the data is not an integer
-     */
     private static function readAsn1Integer(string $message, int &$position): string
     {
-        if (self::ASN1_INTEGER !== self::readAsn1Content($message, $position, self::BYTE_SIZE)) {
+        if (self::readAsn1Content($message, $position, self::BYTE_SIZE) !== self::ASN1_INTEGER) {
             throw new InvalidArgumentException('Invalid data. Should contain an integer.');
         }
 
@@ -133,7 +121,7 @@ final class ECSignature
 
     private static function retrievePositiveInteger(string $data): string
     {
-        while (0 === mb_strpos($data, self::ASN1_NEGATIVE_INTEGER, 0, '8bit')
+        while (mb_strpos($data, self::ASN1_NEGATIVE_INTEGER, 0, '8bit') === 0
             && mb_substr($data, 2, self::BYTE_SIZE, '8bit') > self::ASN1_BIG_INTEGER_LIMIT) {
             $data = mb_substr($data, 2, null, '8bit');
         }

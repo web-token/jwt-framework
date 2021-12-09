@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Signature\Serializer;
 
 use function count;
@@ -36,27 +27,22 @@ final class JSONFlattenedSerializer extends Serializer
 
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
-        if (null === $signatureIndex) {
+        if ($signatureIndex === null) {
             $signatureIndex = 0;
         }
         $signature = $jws->getSignature($signatureIndex);
 
         $data = [];
-        $values = [
-            'payload' => $jws->getEncodedPayload(),
-            'protected' => $signature->getEncodedProtectedHeader(),
-            'header' => $signature->getHeader(),
-        ];
         $encodedPayload = $jws->getEncodedPayload();
-        if (null !== $encodedPayload && '' !== $encodedPayload) {
+        if ($encodedPayload !== null && $encodedPayload !== '') {
             $data['payload'] = $encodedPayload;
         }
         $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
-        if (null !== $encodedProtectedHeader && '' !== $encodedProtectedHeader) {
+        if ($encodedProtectedHeader !== null && $encodedProtectedHeader !== '') {
             $data['protected'] = $encodedProtectedHeader;
         }
         $header = $signature->getHeader();
-        if (0 !== count($header)) {
+        if (count($header) !== 0) {
             $data['header'] = $header;
         }
         $data['signature'] = Base64UrlSafe::encodeUnpadded($signature->getSignature());
@@ -64,17 +50,13 @@ final class JSONFlattenedSerializer extends Serializer
         return JsonConverter::encode($data);
     }
 
-    /**
-     * @throws InvalidArgumentException if the input is not supported
-     * @throws InvalidArgumentException if the JWS header is invalid
-     */
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             throw new InvalidArgumentException('Unsupported input.');
         }
-        if (!isset($data['signature'])) {
+        if (! isset($data['signature'])) {
             throw new InvalidArgumentException('Unsupported input.');
         }
         $signature = Base64UrlSafe::decode($data['signature']);
@@ -87,7 +69,7 @@ final class JSONFlattenedSerializer extends Serializer
             $protectedHeader = [];
         }
         if (isset($data['header'])) {
-            if (!is_array($data['header'])) {
+            if (! is_array($data['header'])) {
                 throw new InvalidArgumentException('Bad header.');
             }
             $header = $data['header'];
@@ -97,13 +79,15 @@ final class JSONFlattenedSerializer extends Serializer
 
         if (isset($data['payload'])) {
             $encodedPayload = $data['payload'];
-            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decode($encodedPayload) : $encodedPayload;
+            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decode(
+                $encodedPayload
+            ) : $encodedPayload;
         } else {
             $payload = null;
             $encodedPayload = null;
         }
 
-        $jws = new JWS($payload, $encodedPayload, null === $encodedPayload);
+        $jws = new JWS($payload, $encodedPayload, $encodedPayload === null);
 
         return $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader, $header);
     }

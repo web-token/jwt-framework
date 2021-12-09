@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\KeyManagement\Analyzer;
 
 use Jose\Component\Core\JWK;
@@ -20,7 +11,7 @@ final class OctAnalyzer implements KeyAnalyzer
 {
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
-        if ('oct' !== $jwk->get('kty')) {
+        if ($jwk->get('kty') !== 'oct') {
             return;
         }
         $k = Base64UrlSafe::decode($jwk->get('k'));

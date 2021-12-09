@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Console;
 
-use Jose\Component\Console;
+use Jose\Component\Console\GetThumbprintCommand;
+use Jose\Component\Console\KeyFileLoaderCommand;
+use Jose\Component\Console\OptimizeRsaKeyCommand;
+use Jose\Component\Console\P12CertificateLoaderCommand;
+use Jose\Component\Console\PemConverterCommand;
+use Jose\Component\Console\PublicKeyCommand;
+use Jose\Component\Console\PublicKeysetCommand;
+use Jose\Component\Console\X509CertificateLoaderCommand;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -22,12 +20,9 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
- * @group Console
- * @group KeyConversionCommand
- *
  * @internal
  */
-class KeyConversionCommandTest extends TestCase
+final class KeyConversionCommandTest extends TestCase
 {
     /**
      * @test
@@ -35,10 +30,10 @@ class KeyConversionCommandTest extends TestCase
     public function iCanLoadAKeyFile(): void
     {
         $input = new ArrayInput([
-            'file' => __DIR__.'/Sample/2048b-rsa-example-cert.pem',
+            'file' => __DIR__ . '/Sample/2048b-rsa-example-cert.pem',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\KeyFileLoaderCommand();
+        $command = new KeyFileLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
         JWK::createFromJson($content);
@@ -50,11 +45,11 @@ class KeyConversionCommandTest extends TestCase
     public function iCanLoadAnEncryptedKeyFile(): void
     {
         $input = new ArrayInput([
-            'file' => __DIR__.'/Sample/private.es512.encrypted.key',
+            'file' => __DIR__ . '/Sample/private.es512.encrypted.key',
             '--secret' => 'test',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\KeyFileLoaderCommand();
+        $command = new KeyFileLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
         JWK::createFromJson($content);
@@ -66,11 +61,11 @@ class KeyConversionCommandTest extends TestCase
     public function iCanLoadAPKCS12CertificateFile(): void
     {
         $input = new ArrayInput([
-            'file' => __DIR__.'/Sample/CertRSA.p12',
+            'file' => __DIR__ . '/Sample/CertRSA.p12',
             '--secret' => 'certRSA',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\P12CertificateLoaderCommand();
+        $command = new P12CertificateLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
         JWK::createFromJson($content);
@@ -82,10 +77,10 @@ class KeyConversionCommandTest extends TestCase
     public function iCanLoadAX509CertificateFile(): void
     {
         $input = new ArrayInput([
-            'file' => __DIR__.'/Sample/google.crt',
+            'file' => __DIR__ . '/Sample/google.crt',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\X509CertificateLoaderCommand();
+        $command = new X509CertificateLoaderCommand();
         $command->run($input, $output);
         $content = $output->fetch();
         JWK::createFromJson($content);
@@ -107,7 +102,7 @@ class KeyConversionCommandTest extends TestCase
             'jwk' => JsonConverter::encode($jwk),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OptimizeRsaKeyCommand();
+        $command = new OptimizeRsaKeyCommand();
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
@@ -139,7 +134,7 @@ class KeyConversionCommandTest extends TestCase
             'jwk' => JsonConverter::encode($jwk),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\PemConverterCommand();
+        $command = new PemConverterCommand();
         $command->run($input, $output);
         $content = $output->fetch();
         static::assertStringContainsString('-----BEGIN RSA PRIVATE KEY-----', $content);
@@ -162,7 +157,7 @@ class KeyConversionCommandTest extends TestCase
             'jwk' => JsonConverter::encode($jwk),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\PemConverterCommand();
+        $command = new PemConverterCommand();
         $command->run($input, $output);
         $content = $output->fetch();
         static::assertStringContainsString('-----BEGIN EC PRIVATE KEY-----', $content);
@@ -185,10 +180,13 @@ class KeyConversionCommandTest extends TestCase
             'jwk' => JsonConverter::encode($jwk),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\PublicKeyCommand();
+        $command = new PublicKeyCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertStringContainsString('{"kty":"EC","crv":"P-256","x":"YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0","y":"bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8"}', $content);
+        static::assertStringContainsString(
+            '{"kty":"EC","crv":"P-256","x":"YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0","y":"bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8"}',
+            $content
+        );
     }
 
     /**
@@ -196,29 +194,34 @@ class KeyConversionCommandTest extends TestCase
      */
     public function iCanConvertPrivateKeysIntoPublicKeys(): void
     {
-        $keyset = JWKSet::createFromKeyData(['keys' => [
-            [
-                'kty' => 'EC',
-                'crv' => 'P-256',
-                'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-                'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+        $keyset = JWKSet::createFromKeyData([
+            'keys' => [
+                [
+                    'kty' => 'EC',
+                    'crv' => 'P-256',
+                    'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+                    'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+                ],
+                [
+                    'kty' => 'EC',
+                    'crv' => 'P-521',
+                    'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
+                    'y' => 'ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2',
+                ],
             ],
-            [
-                'kty' => 'EC',
-                'crv' => 'P-521',
-                'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
-                'y' => 'ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2',
-            ],
-        ]]);
+        ]);
 
         $input = new ArrayInput([
             'jwkset' => JsonConverter::encode($keyset),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\PublicKeysetCommand();
+        $command = new PublicKeysetCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertStringContainsString('{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"},{"kty":"EC","crv":"P-521","x":"AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk","y":"ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2"}]}', $content);
+        static::assertStringContainsString(
+            '{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"},{"kty":"EC","crv":"P-521","x":"AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk","y":"ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2"}]}',
+            $content
+        );
     }
 
     /**
@@ -238,9 +241,9 @@ class KeyConversionCommandTest extends TestCase
             'jwk' => JsonConverter::encode($jwk),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\GetThumbprintCommand();
+        $command = new GetThumbprintCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertEquals('NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs', $content);
+        static::assertSame('NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs', $content);
     }
 }

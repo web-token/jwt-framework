@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\Routing;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -20,10 +11,9 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class JWKSetLoader implements LoaderInterface
 {
-    /**
-     * @var RouteCollection
-     */
-    private $routes;
+    private RouteCollection $routes;
+
+    private LoaderResolverInterface $resolver;
 
     public function __construct()
     {
@@ -32,7 +22,9 @@ final class JWKSetLoader implements LoaderInterface
 
     public function add(string $pattern, string $name): void
     {
-        $defaults = ['_controller' => $name];
+        $defaults = [
+            '_controller' => $name,
+        ];
         $route = new Route($pattern, $defaults);
         $this->routes->add(sprintf('jwkset_%s', $name), $route);
     }
@@ -40,7 +32,7 @@ final class JWKSetLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $type = null): RouteCollection
+    public function load(mixed $resource, string $type = null): RouteCollection
     {
         return $this->routes;
     }
@@ -48,16 +40,18 @@ final class JWKSetLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function supports($resource, $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
-        return 'jwkset' === $type;
+        return $type === 'jwkset';
     }
 
-    public function getResolver(): void
+    public function getResolver(): LoaderResolverInterface
     {
+        return $this->resolver;
     }
 
     public function setResolver(LoaderResolverInterface $resolver): void
     {
+        $this->resolver = $resolver;
     }
 }

@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature\Algorithm;
 
 use Jose\Component\Core\AlgorithmManager;
@@ -18,31 +9,31 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\PS384;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
-use Jose\Component\Signature\Serializer;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.2
  *
- * @group RFC7520
- *
  * @internal
  */
-class RSAPSSSignatureTest extends TestCase
+final class RSAPSSSignatureTest extends TestCase
 {
     /**
-     * Please note that we cannot create the signature and get the same result as the example (RSA-PSS signatures are always different).
-     * This test case create a signature and verifies it.
-     * Then the output given in the RFC is used and verified.
-     * This way, we can say that the library is able to create/verify RSA-PSS signatures and verify signature from test vectors.
+     * Please note that we cannot create the signature and get the same result as the example (RSA-PSS signatures are
+     * always different). This test case create a signature and verifies it. Then the output given in the RFC is used
+     * and verified. This way, we can say that the library is able to create/verify RSA-PSS signatures and verify
+     * signature from test vectors.
      *
      * @test
      */
     public function pS384(): void
     {
-        /*
-         * Payload,
-         * RSA private key
+        /**
+         * Payload, RSA private key.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-3.4
          * @see https://tools.ietf.org/html/rfc7520#section-4.2.1
          */
@@ -61,8 +52,9 @@ class RSAPSSSignatureTest extends TestCase
             'qi' => '3PiqvXQN0zwMeE-sBvZgi289XP9XCQF3VWqPzMKnIgQp7_Tugo6-NZBKCQsMf3HaEGBjTVJs_jcK8-TRXvaKe-7ZMaQj8VfBdYkssbu0NKDDhjJ-GtiseaDVWt7dcH0cfwxgFUHpQh7FoCrjFJ6h6ZEpMF6xmujs4qMpPz8aaI4',
         ]);
 
-        /*
-         * Header
+        /**
+         * Header.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-4.2.2
          */
         $header = [
@@ -70,28 +62,23 @@ class RSAPSSSignatureTest extends TestCase
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
 
-        $jwsBuilder = new JWSBuilder(
-            new AlgorithmManager([new PS384()])
-        );
-        $jwsVerifier = new JWSVerifier(
-            new AlgorithmManager([new PS384()])
-        );
-        $compactSerializer = new Serializer\CompactSerializer(
-        );
-        $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-        );
-        $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-        );
+        $jwsBuilder = new JWSBuilder(new AlgorithmManager([new PS384()]));
+        $jwsVerifier = new JWSVerifier(new AlgorithmManager([new PS384()]));
+        $compactSerializer = new CompactSerializer();
+        $jsonFlattenedSerializer = new JSONFlattenedSerializer();
+        $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()->withPayload($payload)
+            ->create()
+            ->withPayload($payload)
             ->addSignature($privateKey, $header)
             ->build()
         ;
 
         $jwsVerifier->verifyWithKey($jws, $privateKey, 0);
 
-        /*
-         * Header
+        /**
+         * Header.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-4.2.3
          */
         $expected_compact_json = 'eyJhbGciOiJQUzM4NCIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.cu22eBqkYDKgIlTpzDXGvaFfz6WGoz7fUDcfT0kkOy42miAh2qyBzk1xEsnk2IpN6-tPid6VrklHkqsGqDqHCdP6O8TTB5dDDItllVo6_1OLPpcbUrhiUSMxbbXUvdvWXzg-UD8biiReQFlfz28zGWVsdiNAUf8ZnyPEgVFn442ZdNqiVJRmBqrYRXe8P_ijQ7p8Vdz0TTrxUeT3lm8d9shnr2lfJT8ImUjvAA2Xez2Mlp8cBE5awDzT0qI0n6uiP1aCN_2_jLAeQTlqRHtfa64QQSUmFAAjVKPbByi7xho0uTOcbH510a6GYmJUAfmWjwZ6oD4ifKo8DYM-X72Eaw';

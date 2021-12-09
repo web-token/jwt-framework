@@ -2,35 +2,22 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @group Bundle
- * @group functional
- * @group KeyManagement
- *
  * @internal
  */
-class JWKLoaderTest extends WebTestCase
+final class JWKLoaderTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(JWKFactory::class)) {
+        if (! class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }
@@ -133,9 +120,9 @@ class JWKLoaderTest extends WebTestCase
         $jwk = $container->get('jose.key.secret1');
 
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertEquals('oct', $jwk->get('kty'));
-        static::assertEquals('enc', $jwk->get('use'));
-        static::assertEquals('RS512', $jwk->get('alg'));
-        static::assertEquals('This is my secret', Base64UrlSafe::decode($jwk->get('k')));
+        static::assertSame('oct', $jwk->get('kty'));
+        static::assertSame('enc', $jwk->get('use'));
+        static::assertSame('RS512', $jwk->get('alg'));
+        static::assertSame('This is my secret', Base64UrlSafe::decode($jwk->get('k')));
     }
 }

@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
 /*
  * The MIT License (MIT)
  *
@@ -11,25 +14,31 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->private()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(ContentEncryption\A128GCM::class)
-        ->tag('jose.algorithm', ['alias' => 'A128GCM'])
+    $container->set(A128GCM::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'A128GCM',
+        ])
     ;
 
-    $container->set(ContentEncryption\A192GCM::class)
-        ->tag('jose.algorithm', ['alias' => 'A192GCM'])
+    $container->set(A192GCM::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'A192GCM',
+        ])
     ;
 
-    $container->set(ContentEncryption\A256GCM::class)
-        ->tag('jose.algorithm', ['alias' => 'A256GCM'])
+    $container->set(A256GCM::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'A256GCM',
+        ])
     ;
 };

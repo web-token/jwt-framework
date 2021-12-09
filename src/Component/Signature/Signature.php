@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Signature;
 
 use function array_key_exists;
@@ -18,10 +9,7 @@ use InvalidArgumentException;
 
 class Signature
 {
-    /**
-     * @var null|string
-     */
-    private $encodedProtectedHeader;
+    private ?string $encodedProtectedHeader;
 
     /**
      * @var array
@@ -33,16 +21,14 @@ class Signature
      */
     private $header;
 
-    /**
-     * @var string
-     */
-    private $signature;
-
-    public function __construct(string $signature, array $protectedHeader, ?string $encodedProtectedHeader, array $header)
-    {
-        $this->protectedHeader = null === $encodedProtectedHeader ? [] : $protectedHeader;
+    public function __construct(
+        private string $signature,
+        array $protectedHeader,
+        ?string $encodedProtectedHeader,
+        array $header
+    ) {
+        $this->protectedHeader = $encodedProtectedHeader === null ? [] : $protectedHeader;
         $this->encodedProtectedHeader = $encodedProtectedHeader;
-        $this->signature = $signature;
         $this->header = $header;
     }
 
@@ -75,9 +61,7 @@ class Signature
      *
      * @param string $key The key
      *
-     * @throws InvalidArgumentException if the header parameter does not exist
-     *
-     * @return null|mixed Header value
+     * @return mixed|null Header value
      */
     public function getProtectedHeaderParameter(string $key)
     {
@@ -103,7 +87,7 @@ class Signature
      *
      * @param string $key The key
      *
-     * @return null|mixed Header value
+     * @return mixed|null Header value
      */
     public function getHeaderParameter(string $key)
     {

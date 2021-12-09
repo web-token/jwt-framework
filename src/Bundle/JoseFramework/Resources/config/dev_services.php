@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+use Jose\Bundle\JoseFramework\DataCollector\AlgorithmCollector;
+use Jose\Bundle\JoseFramework\DataCollector\CheckerCollector;
+use Jose\Bundle\JoseFramework\DataCollector\JoseCollector;
+use Jose\Bundle\JoseFramework\DataCollector\JWECollector;
+use Jose\Bundle\JoseFramework\DataCollector\JWSCollector;
+use Jose\Bundle\JoseFramework\DataCollector\KeyCollector;
 /*
  * The MIT License (MIT)
  *
@@ -11,26 +17,26 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Bundle\JoseFramework\DataCollector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->private()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(DataCollector\JoseCollector::class)
+    $container->set(JoseCollector::class)
         ->tag('data_collector', [
             'id' => 'jose_collector',
             'template' => '@JoseFramework/data_collector/template.html.twig',
         ])
     ;
 
-    $container->set(DataCollector\AlgorithmCollector::class);
-    $container->set(DataCollector\CheckerCollector::class);
-    $container->set(DataCollector\JWECollector::class);
-    $container->set(DataCollector\JWSCollector::class);
-    $container->set(DataCollector\KeyCollector::class);
+    $container->set(AlgorithmCollector::class);
+    $container->set(CheckerCollector::class);
+    $container->set(JWECollector::class);
+    $container->set(JWSCollector::class);
+    $container->set(KeyCollector::class);
 };

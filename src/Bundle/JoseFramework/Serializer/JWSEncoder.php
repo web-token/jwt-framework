@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\Serializer;
 
 use Exception;
@@ -26,16 +17,13 @@ use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
 final class JWSEncoder implements EncoderInterface, DecoderInterface
 {
-    /**
-     * @var JWSSerializerManager
-     */
-    private $serializerManager;
+    private ?JWSSerializerManager $serializerManager;
 
     public function __construct(
         JWSSerializerManagerFactory $serializerManagerFactory,
         ?JWSSerializerManager $serializerManager = null
     ) {
-        if (null === $serializerManager) {
+        if ($serializerManager === null) {
             $serializerManager = $serializerManagerFactory->create($serializerManagerFactory->names());
         }
         $this->serializerManager = $serializerManager;
@@ -51,17 +39,14 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
         return $this->supportsEncoding($format);
     }
 
-    /**
-     * @param mixed $data
-     * @param mixed $format
-     *
-     * @throws NotEncodableValueException if the data cannot be encoded
-     * @throws UnexpectedValueException   if the data cannot be encoded
-     */
     public function encode($data, $format, array $context = []): string
     {
         try {
-            return $this->serializerManager->serialize(mb_strtolower($format), $data, $this->getSignatureIndex($context));
+            return $this->serializerManager->serialize(
+                mb_strtolower($format),
+                $data,
+                $this->getSignatureIndex($context)
+            );
         } catch (Exception $ex) {
             $message = sprintf('Cannot encode JWS to %s format.', $format);
             if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
@@ -72,13 +57,6 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface
         }
     }
 
-    /**
-     * @param mixed $data
-     * @param mixed $format
-     *
-     * @throws NotEncodableValueException if the data cannot be decoded
-     * @throws UnexpectedValueException   if the data cannot be decoded
-     */
     public function decode($data, $format, array $context = []): JWS
     {
         try {

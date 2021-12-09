@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
 use Jose\Component\Core\JWK;
@@ -22,16 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @group Bundle
- * @group functional
- *
  * @internal
  */
-class JWSComputationTest extends WebTestCase
+final class JWSComputationTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(JWSBuilderFactory::class)) {
+        if (! class_exists(JWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }

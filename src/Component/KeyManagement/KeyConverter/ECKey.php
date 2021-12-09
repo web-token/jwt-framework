@@ -2,21 +2,11 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
 use function count;
 use FG\ASN1\ASNObject;
-use FG\ASN1\Exception\ParserException;
 use FG\ASN1\ExplicitlyTaggedObject;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
@@ -31,12 +21,9 @@ use ParagonIE\ConstantTime\Base64UrlSafe;
 /**
  * @internal
  */
-class ECKey
+final class ECKey
 {
-    /**
-     * @var array
-     */
-    private $values = [];
+    private array $values = [];
 
     private function __construct(array $data)
     {
@@ -50,11 +37,6 @@ class ECKey
         return new self($data);
     }
 
-    /**
-     * @param ECKey $private
-     *
-     * @return ECKey
-     */
     public static function toPublic(self $private): self
     {
         $data = $private->toArray();
@@ -73,15 +55,11 @@ class ECKey
         return $this->values;
     }
 
-    /**
-     * @throws InvalidArgumentException if the key cannot be loaded
-     * @throws ParserException          if the key cannot be loaded
-     */
     private static function loadPEM(string $data): array
     {
         $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data), true);
         $asnObject = ASNObject::fromBinary($data);
-        if (!$asnObject instanceof Sequence) {
+        if (! $asnObject instanceof Sequence) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
         $children = $asnObject->getChildren();
@@ -89,10 +67,10 @@ class ECKey
             $children = self::loadPKCS8($children);
         }
 
-        if (4 === count($children)) {
+        if (count($children) === 4) {
             return self::loadPrivatePEM($children);
         }
-        if (2 === count($children)) {
+        if (count($children) === 2) {
             return self::loadPublicPEM($children);
         }
 
@@ -101,56 +79,52 @@ class ECKey
 
     /**
      * @param ASNObject[] $children
-     *
-     * @throws InvalidArgumentException if the key cannot be loaded
-     * @throws ParserException          if the key cannot be loaded
      */
     private static function loadPKCS8(array $children): array
     {
         $binary = hex2bin($children[2]->getContent());
         $asnObject = ASNObject::fromBinary($binary);
-        if (!$asnObject instanceof Sequence) {
+        if (! $asnObject instanceof Sequence) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
         return $asnObject->getChildren();
     }
 
-    /**
-     * @throws InvalidArgumentException if the key cannot be loaded
-     */
     private static function loadPublicPEM(array $children): array
     {
-        if (!$children[0] instanceof Sequence) {
+        if (! $children[0] instanceof Sequence) {
             throw new InvalidArgumentException('Unsupported key type.');
         }
 
         $sub = $children[0]->getChildren();
-        if (!$sub[0] instanceof ObjectIdentifier) {
+        if (! $sub[0] instanceof ObjectIdentifier) {
             throw new InvalidArgumentException('Unsupported key type.');
         }
-        if ('1.2.840.10045.2.1' !== $sub[0]->getContent()) {
+        if ($sub[0]->getContent() !== '1.2.840.10045.2.1') {
             throw new InvalidArgumentException('Unsupported key type.');
         }
-        if (!$sub[1] instanceof ObjectIdentifier) {
+        if (! $sub[1] instanceof ObjectIdentifier) {
             throw new InvalidArgumentException('Unsupported key type.');
         }
-        if (!$children[1] instanceof BitString) {
+        if (! $children[1] instanceof BitString) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
         $bits = $children[1]->getContent();
         $bits_length = mb_strlen($bits, '8bit');
-        if (0 !== mb_strpos($bits, '04', 0, '8bit')) {
+        if (mb_strpos($bits, '04', 0, '8bit') !== 0) {
             throw new InvalidArgumentException('Unsupported key type');
         }
 
-        $values = ['kty' => 'EC'];
+        $values = [
+            'kty' => 'EC',
+        ];
         $values['crv'] = self::getCurve($sub[1]->getContent());
 
         $xBin = hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit'));
         $yBin = hex2bin(mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit'));
-        if (!is_string($xBin) || !is_string($yBin)) {
+        if (! is_string($xBin) || ! is_string($yBin)) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
@@ -160,14 +134,11 @@ class ECKey
         return $values;
     }
 
-    /**
-     * @throws InvalidArgumentException if the OID is not supported
-     */
     private static function getCurve(string $oid): string
     {
         $curves = self::getSupportedCurves();
         $curve = array_search($oid, $curves, true);
-        if (!is_string($curve)) {
+        if (! is_string($curve)) {
             throw new InvalidArgumentException('Unsupported OID.');
         }
 
@@ -183,32 +154,28 @@ class ECKey
         ];
     }
 
-    /**
-     * @throws InvalidArgumentException if the key cannot be loaded
-     */
     private static function verifyVersion(ASNObject $children): void
     {
-        if (!$children instanceof Integer || '1' !== $children->getContent()) {
+        if (! $children instanceof Integer || $children->getContent() !== '1') {
             throw new InvalidArgumentException('Unable to load the key.');
         }
     }
 
-    /**
-     * @throws InvalidArgumentException if the key cannot be loaded
-     */
     private static function getXAndY(ASNObject $children, string &$x, string &$y): void
     {
-        if (!$children instanceof ExplicitlyTaggedObject || !is_array($children->getContent())) {
+        if (! $children instanceof ExplicitlyTaggedObject || ! is_array($children->getContent())) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
-        if (!$children->getContent()[0] instanceof BitString) {
+        if (! $children->getContent()[0] instanceof BitString) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
-        $bits = $children->getContent()[0]->getContent();
+        $bits = $children->getContent()[0]
+            ->getContent()
+        ;
         $bits_length = mb_strlen($bits, '8bit');
 
-        if (0 !== mb_strpos($bits, '04', 0, '8bit')) {
+        if (mb_strpos($bits, '04', 0, '8bit') !== 0) {
             throw new InvalidArgumentException('Unsupported key type');
         }
 
@@ -216,21 +183,15 @@ class ECKey
         $y = mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), (int) (($bits_length - 2) / 2), '8bit');
     }
 
-    /**
-     * @throws InvalidArgumentException if the key cannot be loaded
-     */
     private static function getD(ASNObject $children): string
     {
-        if (!$children instanceof OctetString) {
+        if (! $children instanceof OctetString) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
         return $children->getContent();
     }
 
-    /**
-     * @throws InvalidArgumentException if the key cannot be loaded
-     */
     private static function loadPrivatePEM(array $children): array
     {
         self::verifyVersion($children[0]);
@@ -239,10 +200,10 @@ class ECKey
         $d = self::getD($children[1]);
         self::getXAndY($children[3], $x, $y);
 
-        if (!$children[2] instanceof ExplicitlyTaggedObject || !is_array($children[2]->getContent())) {
+        if (! $children[2] instanceof ExplicitlyTaggedObject || ! is_array($children[2]->getContent())) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
-        if (!$children[2]->getContent()[0] instanceof ObjectIdentifier) {
+        if (! $children[2]->getContent()[0] instanceof ObjectIdentifier) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
@@ -250,11 +211,13 @@ class ECKey
         $dBin = hex2bin($d);
         $xBin = hex2bin($x);
         $yBin = hex2bin($y);
-        if (!is_string($dBin) || !is_string($xBin) || !is_string($yBin)) {
+        if (! is_string($dBin) || ! is_string($xBin) || ! is_string($yBin)) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 
-        $values = ['kty' => 'EC'];
+        $values = [
+            'kty' => 'EC',
+        ];
         $values['crv'] = self::getCurve($curve);
         $values['d'] = Base64UrlSafe::encodeUnpadded($dBin);
         $values['x'] = Base64UrlSafe::encodeUnpadded($xBin);
@@ -268,13 +231,17 @@ class ECKey
      */
     private static function isPKCS8(array $children): bool
     {
-        if (3 !== count($children)) {
+        if (count($children) !== 3) {
             return false;
         }
 
-        $classes = [0 => Integer::class, 1 => Sequence::class, 2 => OctetString::class];
+        $classes = [
+            0 => Integer::class,
+            1 => Sequence::class,
+            2 => OctetString::class,
+        ];
         foreach ($classes as $k => $class) {
-            if (!$children[$k] instanceof $class) {
+            if (! $children[$k] instanceof $class) {
                 return false;
             }
         }
@@ -282,9 +249,6 @@ class ECKey
         return true;
     }
 
-    /**
-     * @throws InvalidArgumentException if the key is invalid
-     */
     private function loadJWK(array $jwk): void
     {
         $keys = [
@@ -294,12 +258,12 @@ class ECKey
             'y' => 'Point parameters are missing.',
         ];
         foreach ($keys as $k => $v) {
-            if (!array_key_exists($k, $jwk)) {
+            if (! array_key_exists($k, $jwk)) {
                 throw new InvalidArgumentException($v);
             }
         }
 
-        if ('EC' !== $jwk['kty']) {
+        if ($jwk['kty'] !== 'EC') {
             throw new InvalidArgumentException('JWK is not an Elliptic Curve key.');
         }
         $this->values = $jwk;

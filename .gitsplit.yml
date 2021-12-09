@@ -51,8 +51,6 @@ splits:
       target: "https://${GH_TOKEN}@github.com/web-token/encryption-pack.git"
     - prefix: "packs/signature"
       target: "https://${GH_TOKEN}@github.com/web-token/signature-pack.git"
-    - prefix: "src/Easy"
-      target: "https://${GH_TOKEN}@github.com/web-token/jwt-easy.git"
 
 origins:
     - ^master$

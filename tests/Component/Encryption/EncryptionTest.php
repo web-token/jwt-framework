@@ -2,92 +2,87 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Encryption\Algorithm\ContentEncryption;
-use Jose\Component\Encryption\Algorithm\KeyEncryption;
-use Jose\Component\Encryption\Compression;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
+use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWELoaderFactory;
-use Jose\Component\Encryption\Serializer;
+use Jose\Component\Encryption\Serializer\CompactSerializer;
+use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
+use Jose\Component\Encryption\Serializer\JWESerializerManager;
+use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use PHPUnit\Framework\TestCase;
 
 abstract class EncryptionTest extends TestCase
 {
-    /**
-     * @var AlgorithmManagerFactory
-     */
-    private $algorithmManagerFactory;
+    private ?AlgorithmManagerFactory $algorithmManagerFactory = null;
 
-    /**
-     * @var CompressionMethodManagerFactory
-     */
-    private $compressionMethodManagerFactory;
+    private ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null;
 
-    /**
-     * @var JWEBuilderFactory
-     */
-    private $jweBuilderFactory;
+    private ?JWEBuilderFactory $jweBuilderFactory = null;
 
-    /**
-     * @var JWEDecrypterFactory
-     */
-    private $jweDecrypterFactory;
+    private ?JWEDecrypterFactory $jweDecrypterFactory = null;
 
-    /**
-     * @var JWELoaderFactory
-     */
-    private $jweLoaderFactory;
+    private ?JWELoaderFactory $jweLoaderFactory = null;
 
-    /**
-     * @var null|Serializer\JWESerializerManagerFactory
-     */
-    private $jwsSerializerManagerFactory;
+    private ?JWESerializerManagerFactory $jwsSerializerManagerFactory = null;
 
-    /**
-     * @var null|Serializer\JWESerializerManager
-     */
-    private $jwsSerializerManager;
+    private ?JWESerializerManager $jwsSerializerManager = null;
 
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
-        if (null === $this->algorithmManagerFactory) {
+        if ($this->algorithmManagerFactory === null) {
             $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory->add('A128GCM', new ContentEncryption\A128GCM());
-            $this->algorithmManagerFactory->add('A192GCM', new ContentEncryption\A192GCM());
-            $this->algorithmManagerFactory->add('A256GCM', new ContentEncryption\A256GCM());
-            $this->algorithmManagerFactory->add('A128CBC-HS256', new ContentEncryption\A128CBCHS256());
-            $this->algorithmManagerFactory->add('A192CBC-HS384', new ContentEncryption\A192CBCHS384());
-            $this->algorithmManagerFactory->add('A256CBC-HS512', new ContentEncryption\A256CBCHS512());
-            $this->algorithmManagerFactory->add('A128GCMKW', new KeyEncryption\A128GCMKW());
-            $this->algorithmManagerFactory->add('A192GCMKW', new KeyEncryption\A192GCMKW());
-            $this->algorithmManagerFactory->add('A256GCMKW', new KeyEncryption\A256GCMKW());
-            $this->algorithmManagerFactory->add('A128KW', new KeyEncryption\A128KW());
-            $this->algorithmManagerFactory->add('A192KW', new KeyEncryption\A192KW());
-            $this->algorithmManagerFactory->add('A256KW', new KeyEncryption\A256KW());
-            $this->algorithmManagerFactory->add('dir', new KeyEncryption\Dir());
-            $this->algorithmManagerFactory->add('ECDH-ES', new KeyEncryption\ECDHES());
-            $this->algorithmManagerFactory->add('ECDH-ES+A128KW', new KeyEncryption\ECDHESA128KW());
-            $this->algorithmManagerFactory->add('ECDH-ES+A192KW', new KeyEncryption\ECDHESA192KW());
-            $this->algorithmManagerFactory->add('ECDH-ES+A256KW', new KeyEncryption\ECDHESA256KW());
-            $this->algorithmManagerFactory->add('PBES2-HS256+A128KW', new KeyEncryption\PBES2HS256A128KW());
-            $this->algorithmManagerFactory->add('PBES2-HS384+A192KW', new KeyEncryption\PBES2HS384A192KW());
-            $this->algorithmManagerFactory->add('PBES2-HS512+A256KW', new KeyEncryption\PBES2HS512A256KW());
-            $this->algorithmManagerFactory->add('RSA1_5', new KeyEncryption\RSA15());
-            $this->algorithmManagerFactory->add('RSA-OAEP', new KeyEncryption\RSAOAEP());
-            $this->algorithmManagerFactory->add('RSA-OAEP-256', new KeyEncryption\RSAOAEP256());
+            $this->algorithmManagerFactory->add('A128GCM', new A128GCM());
+            $this->algorithmManagerFactory->add('A192GCM', new A192GCM());
+            $this->algorithmManagerFactory->add('A256GCM', new A256GCM());
+            $this->algorithmManagerFactory->add('A128CBC-HS256', new A128CBCHS256());
+            $this->algorithmManagerFactory->add('A192CBC-HS384', new A192CBCHS384());
+            $this->algorithmManagerFactory->add('A256CBC-HS512', new A256CBCHS512());
+            $this->algorithmManagerFactory->add('A128GCMKW', new A128GCMKW());
+            $this->algorithmManagerFactory->add('A192GCMKW', new A192GCMKW());
+            $this->algorithmManagerFactory->add('A256GCMKW', new A256GCMKW());
+            $this->algorithmManagerFactory->add('A128KW', new A128KW());
+            $this->algorithmManagerFactory->add('A192KW', new A192KW());
+            $this->algorithmManagerFactory->add('A256KW', new A256KW());
+            $this->algorithmManagerFactory->add('dir', new Dir());
+            $this->algorithmManagerFactory->add('ECDH-ES', new ECDHES());
+            $this->algorithmManagerFactory->add('ECDH-ES+A128KW', new ECDHESA128KW());
+            $this->algorithmManagerFactory->add('ECDH-ES+A192KW', new ECDHESA192KW());
+            $this->algorithmManagerFactory->add('ECDH-ES+A256KW', new ECDHESA256KW());
+            $this->algorithmManagerFactory->add('PBES2-HS256+A128KW', new PBES2HS256A128KW());
+            $this->algorithmManagerFactory->add('PBES2-HS384+A192KW', new PBES2HS384A192KW());
+            $this->algorithmManagerFactory->add('PBES2-HS512+A256KW', new PBES2HS512A256KW());
+            $this->algorithmManagerFactory->add('RSA1_5', new RSA15());
+            $this->algorithmManagerFactory->add('RSA-OAEP', new RSAOAEP());
+            $this->algorithmManagerFactory->add('RSA-OAEP-256', new RSAOAEP256());
         }
 
         return $this->algorithmManagerFactory;
@@ -95,9 +90,9 @@ abstract class EncryptionTest extends TestCase
 
     protected function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
     {
-        if (null === $this->compressionMethodManagerFactory) {
+        if ($this->compressionMethodManagerFactory === null) {
             $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
-            $this->compressionMethodManagerFactory->add('DEF', new Compression\Deflate());
+            $this->compressionMethodManagerFactory->add('DEF', new Deflate());
         }
 
         return $this->compressionMethodManagerFactory;
@@ -105,7 +100,7 @@ abstract class EncryptionTest extends TestCase
 
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
-        if (null === $this->jweBuilderFactory) {
+        if ($this->jweBuilderFactory === null) {
             $this->jweBuilderFactory = new JWEBuilderFactory(
                 $this->getAlgorithmManagerFactory(),
                 $this->getCompressionMethodManagerFactory()
@@ -117,7 +112,7 @@ abstract class EncryptionTest extends TestCase
 
     protected function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
-        if (null === $this->jweDecrypterFactory) {
+        if ($this->jweDecrypterFactory === null) {
             $this->jweDecrypterFactory = new JWEDecrypterFactory(
                 $this->getAlgorithmManagerFactory(),
                 $this->getCompressionMethodManagerFactory()
@@ -129,7 +124,7 @@ abstract class EncryptionTest extends TestCase
 
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
-        if (null === $this->jweLoaderFactory) {
+        if ($this->jweLoaderFactory === null) {
             $this->jweLoaderFactory = new JWELoaderFactory(
                 $this->getJWESerializerManagerFactory(),
                 $this->getJWEDecrypterFactory(),
@@ -140,25 +135,25 @@ abstract class EncryptionTest extends TestCase
         return $this->jweLoaderFactory;
     }
 
-    protected function getJWESerializerManagerFactory(): Serializer\JWESerializerManagerFactory
+    protected function getJWESerializerManagerFactory(): JWESerializerManagerFactory
     {
-        if (null === $this->jwsSerializerManagerFactory) {
-            $this->jwsSerializerManagerFactory = new Serializer\JWESerializerManagerFactory();
-            $this->jwsSerializerManagerFactory->add(new Serializer\CompactSerializer());
-            $this->jwsSerializerManagerFactory->add(new Serializer\JSONFlattenedSerializer());
-            $this->jwsSerializerManagerFactory->add(new Serializer\JSONGeneralSerializer());
+        if ($this->jwsSerializerManagerFactory === null) {
+            $this->jwsSerializerManagerFactory = new JWESerializerManagerFactory();
+            $this->jwsSerializerManagerFactory->add(new CompactSerializer());
+            $this->jwsSerializerManagerFactory->add(new JSONFlattenedSerializer());
+            $this->jwsSerializerManagerFactory->add(new JSONGeneralSerializer());
         }
 
         return $this->jwsSerializerManagerFactory;
     }
 
-    protected function getJWESerializerManager(): Serializer\JWESerializerManager
+    protected function getJWESerializerManager(): JWESerializerManager
     {
-        if (null === $this->jwsSerializerManager) {
-            $this->jwsSerializerManager = new Serializer\JWESerializerManager([
-                new Serializer\CompactSerializer(),
-                new Serializer\JSONFlattenedSerializer(),
-                new Serializer\JSONGeneralSerializer(),
+        if ($this->jwsSerializerManager === null) {
+            $this->jwsSerializerManager = new JWESerializerManager([
+                new CompactSerializer(),
+                new JSONFlattenedSerializer(),
+                new JSONGeneralSerializer(),
             ]);
         }
 

@@ -2,34 +2,22 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class DirAlgorithmTest.
  *
- * @group unit
- *
  * @internal
  */
-class DirAlgorithmTest extends TestCase
+final class DirAlgorithmTest extends TestCase
 {
     /**
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\Dir
      * @test
      */
     public function invalidKey(): void
@@ -47,7 +35,6 @@ class DirAlgorithmTest extends TestCase
     }
 
     /**
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\Dir
      * @test
      */
     public function validCEK(): void
@@ -59,6 +46,6 @@ class DirAlgorithmTest extends TestCase
 
         $dir = new Dir();
 
-        static::assertEquals('ABCD', $dir->getCEK($key));
+        static::assertSame('ABCD', $dir->getCEK($key));
     }
 }

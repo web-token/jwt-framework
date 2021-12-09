@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature\Algorithm;
 
 use Jose\Component\Core\AlgorithmManager;
@@ -18,32 +9,31 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES512;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
-use Jose\Component\Signature\Serializer;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.3
  *
- * @group RFC7520
- * @group unit
- *
  * @internal
  */
-class ECDSAFromRFC7520Test extends TestCase
+final class ECDSAFromRFC7520Test extends TestCase
 {
     /**
-     * Please note that we cannot create the signature and get the same result as the example (ECDSA signatures are always different).
-     * This test case create a signature and verifies it.
-     * Then the output given in the RFC is used and verified.
-     * This way, we can say that the library is able to create/verify ECDSA signatures and verify signature from test vectors.
+     * Please note that we cannot create the signature and get the same result as the example (ECDSA signatures are
+     * always different). This test case create a signature and verifies it. Then the output given in the RFC is used
+     * and verified. This way, we can say that the library is able to create/verify ECDSA signatures and verify
+     * signature from test vectors.
      *
      * @test
      */
     public function eS512(): void
     {
-        /*
-         * Payload
-         * EC public key
+        /**
+         * Payload EC public key.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-3.2
          * @see https://tools.ietf.org/html/rfc7520#section-4.3.1
          */
@@ -58,8 +48,9 @@ class ECDSAFromRFC7520Test extends TestCase
             'd' => 'AAhRON2r9cqXX1hg-RoI6R1tX5p2rUAYdmpHZoC1XNM56KtscrX6zbKipQrCW9CGZH3T4ubpnoTKLDYJ_fF3_rJt',
         ]);
 
-        /*
-         * Header
+        /**
+         * Header.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-4.3.2
          */
         $header = [
@@ -67,28 +58,23 @@ class ECDSAFromRFC7520Test extends TestCase
             'kid' => 'bilbo.baggins@hobbiton.example',
         ];
 
-        $jwsBuilder = new JWSBuilder(
-            new AlgorithmManager([new ES512()])
-        );
-        $jwsVerifier = new JWSVerifier(
-            new AlgorithmManager([new ES512()])
-        );
-        $compactSerializer = new Serializer\CompactSerializer(
-        );
-        $jsonFlattenedSerializer = new Serializer\JSONFlattenedSerializer(
-        );
-        $jsonGeneralSerializer = new Serializer\JSONGeneralSerializer(
-        );
+        $jwsBuilder = new JWSBuilder(new AlgorithmManager([new ES512()]));
+        $jwsVerifier = new JWSVerifier(new AlgorithmManager([new ES512()]));
+        $compactSerializer = new CompactSerializer();
+        $jsonFlattenedSerializer = new JSONFlattenedSerializer();
+        $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()->withPayload($payload)
+            ->create()
+            ->withPayload($payload)
             ->addSignature($private_key, $header)
             ->build()
         ;
 
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $private_key, 0));
 
-        /*
-         * Header
+        /**
+         * Header.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-4.3.3
          */
         $expected_compact_json = 'eyJhbGciOiJFUzUxMiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.AE_R_YZCChjn4791jSQCrdPZCNYqHXCTZH0-JZGYNlaAjP2kqaluUIIUnC9qvbu9Plon7KRTzoNEuT4Va2cmL1eJAQy3mtPBu_u_sDDyYjnAMDxXPn7XrT0lw-kvAD890jl8e2puQens_IEKBpHABlsbEPX6sFY8OcGDqoRuBomu9xQ2';

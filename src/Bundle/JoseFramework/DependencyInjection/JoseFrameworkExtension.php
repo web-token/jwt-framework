@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
 use function count;
@@ -23,22 +14,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 final class JoseFrameworkExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * @var string
-     */
-    private $alias;
-
-    /**
-     * @var Source[]
-     */
-    private $sources = [];
-
-    /**
      * @param Source[] $sources
      */
-    public function __construct(string $alias, array $sources)
-    {
-        $this->alias = $alias;
-        $this->sources = $sources;
+    public function __construct(
+        private string $alias,
+        private array $sources
+    ) {
     }
 
     public function getAlias(): string
@@ -77,7 +58,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
         foreach ($this->sources as $source) {
             $result = $source->prepend($container, $config);
-            if (0 !== count($result)) {
+            if (count($result) !== 0) {
                 $container->prependExtensionConfig($this->getAlias(), $result);
             }
         }

@@ -2,40 +2,28 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
 use function array_key_exists;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\TestCase;
+use const STR_PAD_LEFT;
 
 /**
  * Class ECDHESKeyAgreementTest.
  *
- * @group ECDHES
- * @group unit
- *
  * @internal
  */
-class ECDHESKeyAgreementTest extends TestCase
+final class ECDHESKeyAgreementTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      *
      * @test
      */
@@ -66,11 +54,12 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW
      */
     public function getAgreementKeyWithA128KeyWrap(): void
     {
-        $header = ['enc' => 'A128GCM'];
+        $header = [
+            'enc' => 'A128GCM',
+        ];
 
         $private = new JWK([
             'kty' => 'EC',
@@ -81,7 +70,40 @@ class ECDHESKeyAgreementTest extends TestCase
         ]);
         $public = $private->toPublic();
 
-        $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
+        $cek = [
+            4,
+            211,
+            31,
+            197,
+            84,
+            157,
+            252,
+            254,
+            11,
+            100,
+            157,
+            250,
+            63,
+            170,
+            106,
+            206,
+            107,
+            124,
+            212,
+            45,
+            111,
+            107,
+            9,
+            219,
+            200,
+            177,
+            0,
+            240,
+            143,
+            156,
+            44,
+            207,
+        ];
         foreach ($cek as $key => $value) {
             $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
@@ -94,18 +116,19 @@ class ECDHESKeyAgreementTest extends TestCase
         static::assertTrue(array_key_exists('kty', $header['epk']));
         static::assertTrue(array_key_exists('x', $header['epk']));
         static::assertTrue(array_key_exists('y', $header['epk']));
-        static::assertEquals('P-256', $header['epk']['crv']);
-        static::assertEquals('EC', $header['epk']['kty']);
-        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
+        static::assertSame('P-256', $header['epk']['crv']);
+        static::assertSame('EC', $header['epk']['kty']);
+        static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
     }
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW
      */
     public function getAgreementKeyWithA192KeyWrap(): void
     {
-        $header = ['enc' => 'A192GCM'];
+        $header = [
+            'enc' => 'A192GCM',
+        ];
 
         $private = new JWK([
             'kty' => 'EC',
@@ -116,7 +139,40 @@ class ECDHESKeyAgreementTest extends TestCase
         ]);
         $public = $private->toPublic();
 
-        $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
+        $cek = [
+            4,
+            211,
+            31,
+            197,
+            84,
+            157,
+            252,
+            254,
+            11,
+            100,
+            157,
+            250,
+            63,
+            170,
+            106,
+            206,
+            107,
+            124,
+            212,
+            45,
+            111,
+            107,
+            9,
+            219,
+            200,
+            177,
+            0,
+            240,
+            143,
+            156,
+            44,
+            207,
+        ];
         foreach ($cek as $key => $value) {
             $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
@@ -129,18 +185,19 @@ class ECDHESKeyAgreementTest extends TestCase
         static::assertTrue(array_key_exists('kty', $header['epk']));
         static::assertTrue(array_key_exists('x', $header['epk']));
         static::assertTrue(array_key_exists('y', $header['epk']));
-        static::assertEquals('P-256', $header['epk']['crv']);
-        static::assertEquals('EC', $header['epk']['kty']);
-        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 192, $header));
+        static::assertSame('P-256', $header['epk']['crv']);
+        static::assertSame('EC', $header['epk']['kty']);
+        static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 192, $header));
     }
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW
      */
     public function getAgreementKeyWithA256KeyWrap(): void
     {
-        $header = ['enc' => 'A256GCM'];
+        $header = [
+            'enc' => 'A256GCM',
+        ];
 
         $public = new JWK([
             'kty' => 'EC',
@@ -157,7 +214,40 @@ class ECDHESKeyAgreementTest extends TestCase
             'd' => 'VEmDZpDXXK8p8N0Cndsxs924q6nS1RXFASRl6BfUqdw',
         ]);
 
-        $cek = [4, 211, 31, 197, 84, 157, 252, 254, 11, 100, 157, 250, 63, 170, 106, 206, 107, 124, 212, 45, 111, 107, 9, 219, 200, 177, 0, 240, 143, 156, 44, 207];
+        $cek = [
+            4,
+            211,
+            31,
+            197,
+            84,
+            157,
+            252,
+            254,
+            11,
+            100,
+            157,
+            250,
+            63,
+            170,
+            106,
+            206,
+            107,
+            124,
+            212,
+            45,
+            111,
+            107,
+            9,
+            219,
+            200,
+            177,
+            0,
+            240,
+            143,
+            156,
+            44,
+            207,
+        ];
         foreach ($cek as $key => $value) {
             $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
@@ -170,14 +260,13 @@ class ECDHESKeyAgreementTest extends TestCase
         static::assertTrue(array_key_exists('kty', $header['epk']));
         static::assertTrue(array_key_exists('x', $header['epk']));
         static::assertTrue(array_key_exists('y', $header['epk']));
-        static::assertEquals('P-256', $header['epk']['crv']);
-        static::assertEquals('EC', $header['epk']['kty']);
-        static::assertEquals($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 256, $header));
+        static::assertSame('P-256', $header['epk']['crv']);
+        static::assertSame('EC', $header['epk']['kty']);
+        static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 256, $header));
     }
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
     public function ePKParameterAreMissing(): void
     {
@@ -198,14 +287,15 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
     public function badEPKParameter(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The header parameter "epk" is not an array of parameters');
 
-        $header = ['epk' => 'foo'];
+        $header = [
+            'epk' => 'foo',
+        ];
         $sender = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',
@@ -220,7 +310,6 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
     public function eCKeyHasMissingParameters(): void
     {
@@ -238,7 +327,6 @@ class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @test
-     * @covers \Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES
      */
     public function unsupportedCurve(): void
     {

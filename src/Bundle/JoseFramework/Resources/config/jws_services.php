@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
+use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
+use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
+use Jose\Component\Signature\JWSTokenSupport;
 /*
  * The MIT License (MIT)
  *
@@ -11,28 +15,27 @@ declare(strict_types=1);
  * of the MIT license.  See the LICENSE file for details.
  */
 
-use Jose\Bundle\JoseFramework\Services;
-use Jose\Component\Signature;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()->defaults()
+    $container = $container->services()
+        ->defaults()
         ->private()
         ->autoconfigure()
         ->autowire()
     ;
 
-    $container->set(Services\JWSBuilderFactory::class)
+    $container->set(JWSBuilderFactory::class)
         ->public()
     ;
 
-    $container->set(Services\JWSVerifierFactory::class)
+    $container->set(JWSVerifierFactory::class)
         ->public()
     ;
 
-    $container->set(Services\JWSLoaderFactory::class)
+    $container->set(JWSLoaderFactory::class)
         ->public()
     ;
 
-    $container->set(Signature\JWSTokenSupport::class);
+    $container->set(JWSTokenSupport::class);
 };

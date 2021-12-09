@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Console;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
@@ -29,10 +20,10 @@ class ConsoleSource implements Source
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return;
         }
-        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../../../Resources/config'));
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('commands.php');
     }
 

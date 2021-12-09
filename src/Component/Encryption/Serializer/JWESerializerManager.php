@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Encryption\Serializer;
 
 use InvalidArgumentException;
@@ -21,7 +12,7 @@ class JWESerializerManager
     /**
      * @var JWESerializer[]
      */
-    private $serializers = [];
+    private array $serializers = [];
 
     /**
      * @param JWESerializer[] $serializers
@@ -44,14 +35,11 @@ class JWESerializerManager
     }
 
     /**
-     * Converts a JWE into a string.
-     * Throws an exception if none of the serializer was able to convert the input.
-     *
-     * @throws InvalidArgumentException if the serializer is not supported
+     * Converts a JWE into a string. Throws an exception if none of the serializer was able to convert the input.
      */
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
-        if (!isset($this->serializers[$name])) {
+        if (! isset($this->serializers[$name])) {
             throw new InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
         }
 
@@ -59,13 +47,10 @@ class JWESerializerManager
     }
 
     /**
-     * Loads data and return a JWE object.
-     * Throws an exception if none of the serializer was able to convert the input.
+     * Loads data and return a JWE object. Throws an exception if none of the serializer was able to convert the input.
      *
      * @param string      $input A string that represents a JWE
-     * @param null|string $name  the name of the serializer if the input is unserialized
-     *
-     * @throws InvalidArgumentException if the input cannot be loaded
+     * @param string|null $name  the name of the serializer if the input is unserialized
      */
     public function unserialize(string $input, ?string &$name = null): JWE
     {
@@ -75,7 +60,7 @@ class JWESerializerManager
                 $name = $serializer->name();
 
                 return $jws;
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidArgumentException) {
                 continue;
             }
         }

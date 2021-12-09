@@ -2,33 +2,22 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.12
  *
- * @group RFC7520
- *
  * @internal
  */
-class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
+final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
 {
     /**
-     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are always different).
-     * The output given in the RFC is used and only decrypted.
+     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
+     * always different). The output given in the RFC is used and only decrypted.
      *
      * @test
      */
@@ -44,8 +33,7 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
             'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
-        $protectedHeader = [
-        ];
+        $protectedHeader = [];
 
         $header = [
             'enc' => 'A128GCM',
@@ -60,30 +48,45 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
         $expected_ciphertext = 'qtPIMMaOBRgASL10dNQhOa7Gqrk7Eal1vwht7R4TT1uq-arsVCPaIeFwQfzrSS6oEUWbBtxEasE0vC6r7sphyVziMCVJEuRJyoAHFSP3eqQPb4Ic1SDSqyXjw_L3svybhHYUGyQuTmUQEDjgjJfBOifwHIsDsRPeBz1NomqeifVPq5GTCWFo5k_MNIQURR2Wj0AHC2k7JZfu2iWjUHLF8ExFZLZ4nlmsvJu_mvifMYiikfNfsZAudISOa6O73yPZtL04k_1FI7WDfrb2w7OqKLWDXzlpcxohPVOLQwpA3mFNRKdY-bQz4Z4KX9lfz1cne31N4-8BKmojpw-OdQjKdLOGkC445Fb_K1tlDQXw2sBF';
         $expected_tag = 'e2m0Vm7JvjK2VpCKXS-kyg';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['A128KW'], ['A128GCM'], ['DEF'])
+        ;
 
-        $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($expected_flattened_json);
+        $loaded_flattened_json = $this->getJWESerializerManager()
+            ->unserialize($expected_flattened_json)
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($expected_json);
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($expected_json)
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getCiphertext()));
-        static::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getIV()));
-        static::assertEquals($expected_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getRecipient(0)->getEncryptedKey()));
-        static::assertEquals($header, $loaded_flattened_json->getSharedHeader());
-        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getTag()));
+        static::assertSame(
+            $expected_ciphertext,
+            Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getCiphertext())
+        );
+        static::assertSame($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
+        static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getIV()));
+        static::assertSame(
+            $expected_encrypted_key,
+            Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getRecipient(0)->getEncryptedKey())
+        );
+        static::assertEqualsCanonicalizing($header, $loaded_flattened_json->getSharedHeader());
+        static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_flattened_json->getTag()));
 
-        static::assertEquals($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
-        static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
-        static::assertEquals($expected_encrypted_key, Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(0)->getEncryptedKey()));
-        static::assertEquals($header, $loaded_json->getSharedHeader());
-        static::assertEquals($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
+        static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
+        static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_json->getIV()));
+        static::assertSame(
+            $expected_encrypted_key,
+            Base64UrlSafe::encodeUnpadded($loaded_json->getRecipient(0)->getEncryptedKey())
+        );
+        static::assertEqualsCanonicalizing($header, $loaded_json->getSharedHeader());
+        static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
-        static::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
-        static::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertSame($expected_payload, $loaded_flattened_json->getPayload());
+        static::assertSame($expected_payload, $loaded_json->getPayload());
     }
 
     /**
@@ -103,8 +106,7 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
             'k' => 'GZy6sIZ6wl9NJOKB-jnmVQ',
         ]);
 
-        $protectedHeader = [
-        ];
+        $protectedHeader = [];
 
         $header = [
             'enc' => 'A128GCM',
@@ -112,30 +114,39 @@ class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends EncryptionTest
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
         ];
 
-        $jweBuilder = $this->getJWEBuilderFactory()->create(['A128KW'], ['A128GCM'], ['DEF']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()->create(['A128KW'], ['A128GCM'], ['DEF']);
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create(['A128KW'], ['A128GCM'], ['DEF'])
+        ;
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['A128KW'], ['A128GCM'], ['DEF'])
+        ;
 
         $jwe = $jweBuilder
-            ->create()->withPayload($expected_payload)
+            ->create()
+            ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)
             ->addRecipient($private_key)
             ->build()
         ;
 
-        $loaded_flattened_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
+        $loaded_flattened_json = $this->getJWESerializerManager()
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0))
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
-        $loaded_json = $this->getJWESerializerManager()->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
+        $loaded_json = $this->getJWESerializerManager()
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
+        ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertEquals($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
-        static::assertEquals($header, $loaded_flattened_json->getSharedHeader());
+        static::assertSame($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
+        static::assertSame($header, $loaded_flattened_json->getSharedHeader());
 
-        static::assertEquals($protectedHeader, $loaded_json->getSharedProtectedHeader());
-        static::assertEquals($header, $loaded_json->getSharedHeader());
+        static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
+        static::assertSame($header, $loaded_json->getSharedHeader());
 
-        static::assertEquals($expected_payload, $loaded_flattened_json->getPayload());
-        static::assertEquals($expected_payload, $loaded_json->getPayload());
+        static::assertSame($expected_payload, $loaded_flattened_json->getPayload());
+        static::assertSame($expected_payload, $loaded_json->getPayload());
     }
 }

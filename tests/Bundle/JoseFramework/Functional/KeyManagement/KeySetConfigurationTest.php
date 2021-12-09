@@ -2,36 +2,25 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
-use Jose\Bundle\JoseFramework\DependencyInjection\Source;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManagementSource;
 use Jose\Component\KeyManagement\JWKFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Bundle
- * @group Configuration
- *
  * @internal
  */
-class KeySetConfigurationTest extends TestCase
+final class KeySetConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
     protected function setUp(): void
     {
-        if (!class_exists(JWKFactory::class)) {
+        if (! class_exists(JWKFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
         }
     }
@@ -41,9 +30,7 @@ class KeySetConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
-        $this->assertConfigurationIsValid(
-            []
-        );
+        $this->assertConfigurationIsValid([]);
     }
 
     /**
@@ -51,13 +38,11 @@ class KeySetConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'key_sets' => false,
-                ],
-            ]
-        );
+                'key_sets' => false,
+            ],
+        ]);
     }
 
     /**
@@ -65,13 +50,11 @@ class KeySetConfigurationTest extends TestCase
      */
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
-        $this->assertConfigurationIsValid(
+        $this->assertConfigurationIsValid([
             [
-                [
-                    'key_sets' => [],
-                ],
-            ]
-        );
+                'key_sets' => [],
+            ],
+        ]);
     }
 
     /**
@@ -169,9 +152,6 @@ class KeySetConfigurationTest extends TestCase
 
     protected function getConfiguration(): Configuration
     {
-        return new Configuration('jose', [
-            new Source\Core\CoreSource(),
-            new Source\KeyManagement\KeyManagementSource(),
-        ]);
+        return new Configuration('jose', [new CoreSource(), new KeyManagementSource()]);
     }
 }

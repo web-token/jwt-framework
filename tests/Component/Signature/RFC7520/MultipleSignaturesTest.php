@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature\RFC7520;
 
 use Jose\Component\Core\JWK;
@@ -19,19 +10,18 @@ use Jose\Tests\Component\Signature\SignatureTest;
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.8
  *
- * @group RFC7520
- *
  * @internal
  */
-class MultipleSignaturesTest extends SignatureTest
+final class MultipleSignaturesTest extends SignatureTest
 {
     /**
      * @test
      */
     public function multipleSignatures(): void
     {
-        /*
-         * Payload,
+        /**
+         * Payload,.
+         *
          * @see https://tools.ietf.org/html/rfc7520#section-4.8.1
          */
         $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
@@ -68,27 +58,44 @@ class MultipleSignaturesTest extends SignatureTest
             'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
         ]);
 
-        $jwsBuilder = $this->getJWSBuilderFactory()->create(['RS256', 'ES512', 'HS256']);
-        $jwsVerifier = $this->getJWSVerifierFactory()->create(['RS256', 'ES512', 'HS256']);
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['RS256', 'ES512', 'HS256'])
+        ;
+        $jwsVerifier = $this->getJWSVerifierFactory()
+            ->create(['RS256', 'ES512', 'HS256'])
+        ;
         $jws = $jwsBuilder
-            ->create()->withPayload($payload)
-            ->addSignature($ecdsa_private_key, [], ['alg' => 'ES512', 'kid' => 'bilbo.baggins@hobbiton.example']) //@see https://tools.ietf.org/html/rfc7520#section-4.8.2
-            ->addSignature($rsa_private_key, ['alg' => 'RS256'], ['kid' => 'bilbo.baggins@hobbiton.example'])    //@see https://tools.ietf.org/html/rfc7520#section-4.8.3
-            ->addSignature($symmetric_key, ['alg' => 'HS256', 'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037'])   //@see https://tools.ietf.org/html/rfc7520#section-4.8.4
+            ->create()
+            ->withPayload($payload)
+            ->addSignature($ecdsa_private_key, [], [
+                'alg' => 'ES512',
+                'kid' => 'bilbo.baggins@hobbiton.example',
+            ]) //@see https://tools.ietf.org/html/rfc7520#section-4.8.2
+            ->addSignature($rsa_private_key, [
+                'alg' => 'RS256',
+            ], [
+                'kid' => 'bilbo.baggins@hobbiton.example',
+            ])    //@see https://tools.ietf.org/html/rfc7520#section-4.8.3
+            ->addSignature($symmetric_key, [
+                'alg' => 'HS256',
+                'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
+            ])   //@see https://tools.ietf.org/html/rfc7520#section-4.8.4
             ->build()
         ;
 
-        static::assertEquals(3, $jws->countSignatures());
+        static::assertSame(3, $jws->countSignatures());
 
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $ecdsa_private_key, 0));
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $rsa_private_key, 1));
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $symmetric_key, 2));
 
-        // @see https://tools.ietf.org/html/rfc7520#section-4.8.5
+        /** @see https://tools.ietf.org/html/rfc7520#section-4.8.5 */
         $expected_json = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[{"protected":"eyJhbGciOiJSUzI1NiJ9","header":{"kid":"bilbo.baggins@hobbiton.example"},"signature":"MIsjqtVlOpa71KE-Mss8_Nq2YH4FGhiocsqrgi5NvyG53uoimic1tcMdSg-qptrzZc7CG6Svw2Y13TDIqHzTUrL_lR2ZFcryNFiHkSw129EghGpwkpxaTn_THJTCglNbADko1MZBCdwzJxwqZc-1RlpO2HibUYyXSwO97BSe0_evZKdjvvKSgsIqjytKSeAMbhMBdMma622_BG5t4sdbuCHtFjp9iJmkio47AIwqkZV1aIZsv33uPUqBBCXbYoQJwt7mxPftHmNlGoOSMxR_3thmXTCm4US-xiNOyhbm8afKK64jU6_TPtQHiJeQJxz9G3Tx-083B745_AfYOnlC9w"},{"header":{"alg":"ES512","kid":"bilbo.baggins@hobbiton.example"},"signature":"ARcVLnaJJaUWG8fG-8t5BREVAuTY8n8YHjwDO1muhcdCoFZFFjfISu0Cdkn9Ybdlmi54ho0x924DUz8sK7ZXkhc7AFM8ObLfTvNCrqcI3Jkl2U5IX3utNhODH6v7xgy1Qahsn0fyb4zSAkje8bAWz4vIfj5pCMYxxm4fgV3q7ZYhm5eD"},{"protected":"eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9","signature":"s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0"}]}';
 
-        $loaded_json = $this->getJWSSerializerManager()->unserialize($expected_json);
-        static::assertEquals(3, $loaded_json->countSignatures());
+        $loaded_json = $this->getJWSSerializerManager()
+            ->unserialize($expected_json)
+        ;
+        static::assertSame(3, $loaded_json->countSignatures());
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $rsa_private_key, 0));
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $ecdsa_private_key, 1));

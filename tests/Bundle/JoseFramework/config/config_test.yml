@@ -1,8 +1,7 @@
 framework:
     test: ~
     secret: 'test'
-    session:
-        storage_id: 'session.storage.mock_file'
+    session: ~
     router:
         resource: "%kernel.project_dir%/tests/Bundle/JoseFramework/config/routing.yml"
         strict_requirements: ~

@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Checker;
 
 use Exception;
@@ -20,25 +11,12 @@ use Exception;
  */
 class InvalidClaimException extends Exception implements ClaimExceptionInterface
 {
-    /**
-     * @var string
-     */
-    private $claim;
-
-    /**
-     * @var mixed
-     */
-    private $value;
-
-    /**
-     * @param mixed $value
-     */
-    public function __construct(string $message, string $claim, $value)
-    {
+    public function __construct(
+        string $message,
+        private string $claim,
+        private mixed $value
+    ) {
         parent::__construct($message);
-
-        $this->claim = $claim;
-        $this->value = $value;
     }
 
     /**
@@ -51,10 +29,8 @@ class InvalidClaimException extends Exception implements ClaimExceptionInterface
 
     /**
      * Returns the claim value that caused the exception.
-     *
-     * @return mixed
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

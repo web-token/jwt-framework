@@ -2,15 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory as JWSLoaderFactoryService;
@@ -20,16 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @group Bundle
- * @group functional
- *
  * @internal
  */
-class JWSLoaderTest extends WebTestCase
+final class JWSLoaderTest extends WebTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(JWSLoaderFactory::class)) {
+        if (! class_exists(JWSLoaderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
     }
@@ -61,8 +49,8 @@ class JWSLoaderTest extends WebTestCase
 
         $jws = $jwsLoaderFactory->create(['jws_compact'], ['RS512']);
 
-        static::assertEquals(['jws_compact'], $jws->getSerializerManager()->list());
-        static::assertEquals(['RS512'], $jws->getJwsVerifier()->getSignatureAlgorithmManager()->list());
+        static::assertSame(['jws_compact'], $jws->getSerializerManager()->list());
+        static::assertSame(['RS512'], $jws->getJwsVerifier()->getSignatureAlgorithmManager()->list());
     }
 
     /**

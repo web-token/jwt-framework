@@ -2,40 +2,33 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Console;
 
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use InvalidArgumentException;
-use Jose\Component\Console;
+use Jose\Component\Console\EcKeyGeneratorCommand;
+use Jose\Component\Console\NoneKeyGeneratorCommand;
+use Jose\Component\Console\OctKeyGeneratorCommand;
+use Jose\Component\Console\OkpKeyGeneratorCommand;
+use Jose\Component\Console\RsaKeyGeneratorCommand;
+use Jose\Component\Console\SecretKeyGeneratorCommand;
 use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
- * @group Console
- * @group KeyCreationCommand
- *
  * @internal
  */
-class KeyCreationCommandTest extends TestCase
+final class KeyCreationCommandTest extends TestCase
 {
     /**
      * @test
      */
     public function theEllipticCurveKeyCreationCommandIsAvailable(): void
     {
-        $command = new Console\EcKeyGeneratorCommand();
+        $command = new EcKeyGeneratorCommand();
 
         static::assertTrue($command->isEnabled());
     }
@@ -50,7 +43,7 @@ class KeyCreationCommandTest extends TestCase
 
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeyGeneratorCommand();
+        $command = new EcKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -67,7 +60,7 @@ class KeyCreationCommandTest extends TestCase
             'curve' => 'P-128',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeyGeneratorCommand();
+        $command = new EcKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -82,7 +75,7 @@ class KeyCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\EcKeyGeneratorCommand();
+        $command = new EcKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -97,10 +90,9 @@ class KeyCreationCommandTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
 
-        $input = new ArrayInput([
-        ]);
+        $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeyGeneratorCommand();
+        $command = new OctKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -115,7 +107,7 @@ class KeyCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OctKeyGeneratorCommand();
+        $command = new OctKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -131,13 +123,13 @@ class KeyCreationCommandTest extends TestCase
             'secret' => 'This is my secret',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\SecretKeyGeneratorCommand();
+        $command = new SecretKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
         static::assertTrue($jwk->has('k'));
-        static::assertEquals('This is my secret', Base64UrlSafe::decode($jwk->get('k')));
+        static::assertSame('This is my secret', Base64UrlSafe::decode($jwk->get('k')));
     }
 
     /**
@@ -152,13 +144,13 @@ class KeyCreationCommandTest extends TestCase
             '--is_b64',
         ]);
         $output = new BufferedOutput();
-        $command = new Console\SecretKeyGeneratorCommand();
+        $command = new SecretKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
         $jwk = JWK::createFromJson($content);
         static::assertTrue($jwk->has('k'));
-        static::assertEquals($secret, Base64UrlSafe::decode($jwk->get('k')));
+        static::assertSame($secret, Base64UrlSafe::decode($jwk->get('k')));
     }
 
     /**
@@ -169,10 +161,9 @@ class KeyCreationCommandTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
 
-        $input = new ArrayInput([
-        ]);
+        $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeyGeneratorCommand();
+        $command = new OkpKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -187,7 +178,7 @@ class KeyCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\OkpKeyGeneratorCommand();
+        $command = new OkpKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -203,7 +194,7 @@ class KeyCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\NoneKeyGeneratorCommand();
+        $command = new NoneKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();
@@ -218,10 +209,9 @@ class KeyCreationCommandTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Not enough arguments (missing: "size").');
 
-        $input = new ArrayInput([
-        ]);
+        $input = new ArrayInput([]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeyGeneratorCommand();
+        $command = new RsaKeyGeneratorCommand();
 
         $command->run($input, $output);
     }
@@ -236,7 +226,7 @@ class KeyCreationCommandTest extends TestCase
             '--random_id' => true,
         ]);
         $output = new BufferedOutput();
-        $command = new Console\RsaKeyGeneratorCommand();
+        $command = new RsaKeyGeneratorCommand();
 
         $command->run($input, $output);
         $content = $output->fetch();

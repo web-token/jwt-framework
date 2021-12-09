@@ -2,43 +2,35 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Console;
 
-use Jose\Component\Console;
+use Jose\Component\Console\KeyAnalyzerCommand;
+use Jose\Component\Console\KeysetAnalyzerCommand;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
-use Jose\Component\KeyManagement\Analyzer;
+use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
+use Jose\Component\KeyManagement\Analyzer\MixedKeyTypes;
+use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
+use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
- * @group Console
- * @group AnalyzeCommand
- *
  * @internal
  */
-class AnalyzeCommandTest extends TestCase
+final class AnalyzeCommandTest extends TestCase
 {
-    /**
-     * @var null|Analyzer\KeyAnalyzerManager
-     */
-    private $keyAnalyzerManager;
+    private ?KeyAnalyzerManager $keyAnalyzerManager = null;
 
-    /**
-     * @var null|Analyzer\KeysetAnalyzerManager
-     */
-    private $keysetAnalyzerManager;
+    private ?KeysetAnalyzerManager $keysetAnalyzerManager = null;
 
     /**
      * @test
@@ -55,7 +47,7 @@ class AnalyzeCommandTest extends TestCase
             'jwk' => JsonConverter::encode($jwk),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\KeyAnalyzerCommand($this->getKeyAnalyzer());
+        $command = new KeyAnalyzerCommand($this->getKeyAnalyzer());
         $command->run($input, $output);
         $content = $output->fetch();
         static::assertStringContainsString('* The parameter "alg" should be added.', $content);
@@ -68,26 +60,28 @@ class AnalyzeCommandTest extends TestCase
      */
     public function iCanAnalyzeAKeySetAndGetInformation(): void
     {
-        $keyset = JWKSet::createFromKeyData(['keys' => [
-            [
-                'kty' => 'EC',
-                'crv' => 'P-256',
-                'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-                'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+        $keyset = JWKSet::createFromKeyData([
+            'keys' => [
+                [
+                    'kty' => 'EC',
+                    'crv' => 'P-256',
+                    'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
+                    'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
+                ],
+                [
+                    'kty' => 'EC',
+                    'crv' => 'P-521',
+                    'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
+                    'y' => 'ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2',
+                ],
             ],
-            [
-                'kty' => 'EC',
-                'crv' => 'P-521',
-                'x' => 'AekpBQ8ST8a8VcfVOTNl353vSrDCLLJXmPk06wTjxrrjcBpXp5EOnYG_NjFZ6OvLFV1jSfS9tsz4qUxcWceqwQGk',
-                'y' => 'ADSmRA43Z1DSNx_RvcLI87cdL07l6jQyyBXMoxVg_l2Th-x3S1WDhjDly79ajL4Kkd0AZMaZmh9ubmf63e3kyMj2',
-            ],
-        ]]);
+        ]);
 
         $input = new ArrayInput([
             'jwkset' => JsonConverter::encode($keyset),
         ]);
         $output = new BufferedOutput();
-        $command = new Console\KeysetAnalyzerCommand($this->getKeysetAnalyzer(), $this->getKeyAnalyzer());
+        $command = new KeysetAnalyzerCommand($this->getKeysetAnalyzer(), $this->getKeyAnalyzer());
         $command->run($input, $output);
         $content = $output->fetch();
         static::assertStringContainsString('Analysing key with index/kid "1"', $content);
@@ -96,27 +90,27 @@ class AnalyzeCommandTest extends TestCase
         static::assertStringContainsString('* The parameter "use" should be added.', $content);
     }
 
-    private function getKeyAnalyzer(): Analyzer\KeyAnalyzerManager
+    private function getKeyAnalyzer(): KeyAnalyzerManager
     {
-        if (null === $this->keyAnalyzerManager) {
-            $this->keyAnalyzerManager = new Analyzer\KeyAnalyzerManager();
-            $this->keyAnalyzerManager->add(new Analyzer\AlgorithmAnalyzer());
-            $this->keyAnalyzerManager->add(new Analyzer\KeyIdentifierAnalyzer());
-            $this->keyAnalyzerManager->add(new Analyzer\NoneAnalyzer());
-            $this->keyAnalyzerManager->add(new Analyzer\OctAnalyzer());
-            $this->keyAnalyzerManager->add(new Analyzer\RsaAnalyzer());
-            $this->keyAnalyzerManager->add(new Analyzer\UsageAnalyzer());
+        if ($this->keyAnalyzerManager === null) {
+            $this->keyAnalyzerManager = new KeyAnalyzerManager();
+            $this->keyAnalyzerManager->add(new AlgorithmAnalyzer());
+            $this->keyAnalyzerManager->add(new KeyIdentifierAnalyzer());
+            $this->keyAnalyzerManager->add(new NoneAnalyzer());
+            $this->keyAnalyzerManager->add(new OctAnalyzer());
+            $this->keyAnalyzerManager->add(new RsaAnalyzer());
+            $this->keyAnalyzerManager->add(new UsageAnalyzer());
         }
 
         return $this->keyAnalyzerManager;
     }
 
-    private function getKeysetAnalyzer(): Analyzer\KeysetAnalyzerManager
+    private function getKeysetAnalyzer(): KeysetAnalyzerManager
     {
-        if (null === $this->keysetAnalyzerManager) {
-            $this->keysetAnalyzerManager = new Analyzer\KeysetAnalyzerManager();
-            $this->keysetAnalyzerManager->add(new Analyzer\MixedKeyTypes());
-            $this->keysetAnalyzerManager->add(new Analyzer\MixedPublicAndPrivateKeys());
+        if ($this->keysetAnalyzerManager === null) {
+            $this->keysetAnalyzerManager = new KeysetAnalyzerManager();
+            $this->keysetAnalyzerManager->add(new MixedKeyTypes());
+            $this->keysetAnalyzerManager->add(new MixedPublicAndPrivateKeys());
         }
 
         return $this->keysetAnalyzerManager;

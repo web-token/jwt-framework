@@ -2,21 +2,14 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Component\Core;
 
 use function array_key_exists;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 use JsonSerializable;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 
@@ -28,14 +21,11 @@ class JWK implements JsonSerializable
     private $values = [];
 
     /**
-     * Creates a JWK object using the given values.
-     * The member "kty" is mandatory. Other members are NOT checked.
-     *
-     * @throws InvalidArgumentException if the key parameter "kty" is missing
+     * Creates a JWK object using the given values. The member "kty" is mandatory. Other members are NOT checked.
      */
     public function __construct(array $values)
     {
-        if (!isset($values['kty'])) {
+        if (! isset($values['kty'])) {
             throw new InvalidArgumentException('The parameter "kty" is mandatory.');
         }
         $this->values = $values;
@@ -43,15 +33,11 @@ class JWK implements JsonSerializable
 
     /**
      * Creates a JWK object using the given Json string.
-     *
-     * @throws InvalidArgumentException if the data is not valid
-     *
-     * @return JWK
      */
     public static function createFromJson(string $json): self
     {
         $data = json_decode($json, true);
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             throw new InvalidArgumentException('Invalid argument.');
         }
 
@@ -71,13 +57,11 @@ class JWK implements JsonSerializable
      *
      * @param string $key The key
      *
-     * @throws InvalidArgumentException if the key does not exist
-     *
-     * @return null|mixed
+     * @return mixed|null
      */
     public function get(string $key)
     {
-        if (!$this->has($key)) {
+        if (! $this->has($key)) {
             throw new InvalidArgumentException(sprintf('The value identified by "%s" does not exist.', $key));
         }
 
@@ -108,18 +92,16 @@ class JWK implements JsonSerializable
      * Returns the thumbprint of the key.
      *
      * @see https://tools.ietf.org/html/rfc7638
-     *
-     * @throws InvalidArgumentException if the hashing function is not supported
      */
     public function thumbprint(string $hash_algorithm): string
     {
-        if (!in_array($hash_algorithm, hash_algos(), true)) {
+        if (! in_array($hash_algorithm, hash_algos(), true)) {
             throw new InvalidArgumentException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         }
         $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
         ksort($values);
         $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        if (false === $input) {
+        if ($input === false) {
             throw new InvalidArgumentException('Unable to compute the key thumbprint');
         }
 
@@ -134,8 +116,6 @@ class JWK implements JsonSerializable
      * - unknown keys.
      *
      * Known keys are "oct", "RSA", "EC" and "OKP".
-     *
-     * @return JWK
      */
     public function toPublic(): self
     {

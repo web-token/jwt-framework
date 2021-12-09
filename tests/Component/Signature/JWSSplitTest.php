@@ -2,27 +2,15 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Jose\Tests\Component\Signature;
 
 use function count;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 
 /**
- * @group JWS
- *
  * @internal
  */
-class JWSSplitTest extends SignatureTest
+final class JWSSplitTest extends SignatureTest
 {
     /**
      * @test
@@ -34,22 +22,22 @@ class JWSSplitTest extends SignatureTest
         $jws = $serializer->unserialize($input);
         $split = $jws->split();
 
-        static::assertEquals(3, $jws->countSignatures());
-        static::assertEquals(3, count($jws->split()));
+        static::assertSame(3, $jws->countSignatures());
+        static::assertSame(3, count($jws->split()));
 
         for ($i = 0; $i < $jws->countSignatures(); ++$i) {
             $signature1 = $jws->getSignature($i);
             $tempJws = $split[$i];
-            static::assertEquals(1, $tempJws->countSignatures());
-            static::assertEquals($jws->isPayloadDetached(), $tempJws->isPayloadDetached());
-            static::assertEquals($jws->getEncodedPayload(), $tempJws->getEncodedPayload());
-            static::assertEquals($jws->getPayload(), $tempJws->getPayload());
+            static::assertSame(1, $tempJws->countSignatures());
+            static::assertSame($jws->isPayloadDetached(), $tempJws->isPayloadDetached());
+            static::assertSame($jws->getEncodedPayload(), $tempJws->getEncodedPayload());
+            static::assertSame($jws->getPayload(), $tempJws->getPayload());
 
             $signature2 = $tempJws->getSignature(0);
-            static::assertEquals($signature1->getSignature(), $signature2->getSignature());
-            static::assertEquals($signature1->getHeader(), $signature2->getHeader());
-            static::assertEquals($signature1->getEncodedProtectedHeader(), $signature2->getEncodedProtectedHeader());
-            static::assertEquals($signature1->getProtectedHeader(), $signature2->getProtectedHeader());
+            static::assertSame($signature1->getSignature(), $signature2->getSignature());
+            static::assertSame($signature1->getHeader(), $signature2->getHeader());
+            static::assertSame($signature1->getEncodedProtectedHeader(), $signature2->getEncodedProtectedHeader());
+            static::assertSame($signature1->getProtectedHeader(), $signature2->getProtectedHeader());
         }
     }
 }
