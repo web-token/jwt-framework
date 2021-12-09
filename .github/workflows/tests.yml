@@ -1,4 +1,4 @@
-name: Functional Tests
+name: Unit and Functional Tests
 
 on: [push]
 
@@ -7,28 +7,26 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4', '8.0']
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '8.0', '8.1' ]
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Setup PHP
+      - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: json, mbstring, openssl, gmp
+          extensions: json, mbstring, openssl, sqlite3
           coverage: xdebug
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate
-
-      - name: Install dependencies
+      - name: Install Composer dependencies
         run: |
           composer update --no-progress --no-suggest --prefer-dist --optimize-autoloader
 
       - name: Run tests
-        run: vendor/bin/phpunit -c phpunit.xml.dist --group=functional
+        run: make ci-cc
