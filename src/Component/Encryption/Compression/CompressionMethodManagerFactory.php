@@ -11,7 +11,7 @@ class CompressionMethodManagerFactory
     /**
      * @var CompressionMethod[]
      */
-    private $compressionMethods = [];
+    private array $compressionMethods = [];
 
     /**
      * This method adds a compression method to this factory. The method is uniquely identified by an alias. This allows

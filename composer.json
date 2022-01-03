@@ -14,12 +14,6 @@
             "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "scripts": {
-        "test:unit": "./vendor/bin/phpunit --color",
-        "test:typing": "./vendor/bin/phpstan analyse",
-        "test:syntax": "./vendor/bin/php-cs-fixer fix --dry-run --stop-on-violation --using-cache=no",
-        "test:mutations": "./vendor/bin/infection --logger-github --git-diff-filter=AM -s --threads=$(nproc) --min-msi=0 --min-covered-msi=0"
-    },
     "autoload": {
         "psr-4": {
             "Jose\\":  "src/",
@@ -82,6 +76,7 @@
         "ext-gmp": "*",
         "bjeavons/zxcvbn-php": "^1.0",
         "blackfire/php-sdk": "^1.14",
+        "ekino/phpstan-banned-code": "^1.0",
         "infection/infection": "^0.25",
         "matthiasnoback/symfony-config-test": "^3.1|^4.0",
         "nyholm/psr7": "^1.3",

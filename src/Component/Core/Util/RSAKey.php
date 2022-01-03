@@ -28,10 +28,7 @@ final class RSAKey
 
     private bool $private;
 
-    /**
-     * @var array
-     */
-    private $values;
+    private array $values;
 
     private ?BigInteger $modulus = null;
 
@@ -44,12 +41,12 @@ final class RSAKey
     /**
      * @var BigInteger[]
      */
-    private $primes = [];
+    private array $primes = [];
 
     /**
      * @var BigInteger[]
      */
-    private $exponents = [];
+    private array $exponents = [];
 
     private ?BigInteger $coefficient = null;
 

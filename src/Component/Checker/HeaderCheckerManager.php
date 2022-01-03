@@ -15,7 +15,7 @@ class HeaderCheckerManager
     /**
      * @var HeaderChecker[]
      */
-    private $checkers = [];
+    private array $checkers = [];
 
     /**
      * @var TokenTypeSupport[]

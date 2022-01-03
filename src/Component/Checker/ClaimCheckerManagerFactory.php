@@ -11,7 +11,7 @@ class ClaimCheckerManagerFactory
     /**
      * @var ClaimChecker[]
      */
-    private $checkers = [];
+    private array $checkers = [];
 
     /**
      * This method creates a Claim Checker Manager and populate it with the claim checkers found based on the alias. If

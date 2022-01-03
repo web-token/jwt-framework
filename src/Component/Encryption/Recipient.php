@@ -12,16 +12,10 @@ use InvalidArgumentException;
  */
 final class Recipient
 {
-    /**
-     * @var array
-     */
-    private $header = [];
-
     public function __construct(
-        array $header,
+        private array $header,
         private ?string $encryptedKey
     ) {
-        $this->header = $header;
     }
 
     /**

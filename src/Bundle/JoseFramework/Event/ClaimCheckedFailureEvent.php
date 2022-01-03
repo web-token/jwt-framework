@@ -9,17 +9,11 @@ use Throwable;
 
 final class ClaimCheckedFailureEvent extends Event
 {
-    private array $claims;
-
-    private array $mandatoryClaims;
-
     public function __construct(
-        array $claims,
-        array $mandatoryClaims,
+        private array $claims,
+        private array $mandatoryClaims,
         private Throwable $throwable
     ) {
-        $this->claims = $claims;
-        $this->mandatoryClaims = $mandatoryClaims;
     }
 
     public function getClaims(): array

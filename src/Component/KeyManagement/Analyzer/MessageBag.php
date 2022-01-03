@@ -16,7 +16,7 @@ class MessageBag implements JsonSerializable, IteratorAggregate, Countable
     /**
      * @var Message[]
      */
-    private $messages = [];
+    private array $messages = [];
 
     /**
      * Adds a message to the message bag.

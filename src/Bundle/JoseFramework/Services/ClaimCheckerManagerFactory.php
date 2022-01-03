@@ -13,7 +13,7 @@ final class ClaimCheckerManagerFactory
     /**
      * @var ClaimChecker[]
      */
-    private $checkers = [];
+    private array $checkers = [];
 
     public function __construct(
         private EventDispatcherInterface $eventDispatcher

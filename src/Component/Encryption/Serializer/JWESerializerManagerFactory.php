@@ -11,7 +11,7 @@ class JWESerializerManagerFactory
     /**
      * @var JWESerializer[]
      */
-    private $serializers = [];
+    private array $serializers = [];
 
     /**
      * Creates a serializer manager factory using the given serializers.

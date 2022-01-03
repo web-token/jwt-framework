@@ -14,7 +14,7 @@ final class HeaderCheckerManagerFactory
     /**
      * @var HeaderChecker[]
      */
-    private $checkers = [];
+    private array $checkers = [];
 
     /**
      * @var TokenTypeSupport[]

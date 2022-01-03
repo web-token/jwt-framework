@@ -9,10 +9,7 @@ use function is_string;
 
 class AlgorithmManagerFactory
 {
-    /**
-     * @var array
-     */
-    private $algorithms = [];
+    private array $algorithms = [];
 
     /**
      * Adds an algorithm.

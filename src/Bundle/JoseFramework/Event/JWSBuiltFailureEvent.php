@@ -9,19 +9,13 @@ use Throwable;
 
 final class JWSBuiltFailureEvent extends Event
 {
-    /**
-     * @var array
-     */
-    protected $signatures = [];
-
     public function __construct(
         protected ?string $payload,
-        array $signatures,
+        protected array $signatures,
         protected bool $isPayloadDetached,
         protected ?bool $isPayloadEncoded,
         private Throwable $throwable
     ) {
-        $this->signatures = $signatures;
     }
 
     public function getPayload(): ?string

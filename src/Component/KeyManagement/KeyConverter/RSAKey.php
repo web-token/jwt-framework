@@ -19,10 +19,7 @@ use RuntimeException;
  */
 final class RSAKey
 {
-    /**
-     * @var array
-     */
-    private $values = [];
+    private array $values = [];
 
     private function __construct(array $data)
     {

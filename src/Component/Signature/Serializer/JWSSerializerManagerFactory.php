@@ -11,7 +11,7 @@ class JWSSerializerManagerFactory
     /**
      * @var JWSSerializer[]
      */
-    private $serializers = [];
+    private array $serializers = [];
 
     /**
      * @param string[] $names

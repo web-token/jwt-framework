@@ -9,32 +9,14 @@ use Throwable;
 
 final class JWEBuiltFailureEvent extends Event
 {
-    /**
-     * @var array
-     */
-    private $recipients;
-
-    /**
-     * @var array
-     */
-    private $sharedProtectedHeader;
-
-    /**
-     * @var array
-     */
-    private $sharedHeader;
-
     public function __construct(
         private ?string $payload,
-        array $recipients,
-        array $sharedProtectedHeader,
-        array $sharedHeader,
+        private array $recipients,
+        private array $sharedProtectedHeader,
+        private array $sharedHeader,
         private ?string $aad,
         private Throwable $throwable
     ) {
-        $this->recipients = $recipients;
-        $this->sharedProtectedHeader = $sharedProtectedHeader;
-        $this->sharedHeader = $sharedHeader;
     }
 
     public function getPayload(): ?string

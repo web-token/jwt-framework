@@ -15,7 +15,7 @@ class ClaimCheckerManager
     /**
      * @var ClaimChecker[]
      */
-    private $checkers = [];
+    private array $checkers = [];
 
     /**
      * @param ClaimChecker[] $checkers

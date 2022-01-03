@@ -18,10 +18,7 @@ use Traversable;
 
 class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 {
-    /**
-     * @var array
-     */
-    private $keys = [];
+    private array $keys = [];
 
     /**
      * @param JWK[] $keys

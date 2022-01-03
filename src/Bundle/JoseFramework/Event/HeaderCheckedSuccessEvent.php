@@ -9,17 +9,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class HeaderCheckedSuccessEvent extends Event
 {
-    /**
-     * @var array
-     */
-    private $mandatoryHeaderParameters;
-
     public function __construct(
         private JWT $jwt,
         private int $index,
-        array $mandatoryHeaderParameters
+        private array $mandatoryHeaderParameters
     ) {
-        $this->mandatoryHeaderParameters = $mandatoryHeaderParameters;
     }
 
     public function getJwt(): JWT

@@ -15,10 +15,7 @@ use ParagonIE\ConstantTime\Base64UrlSafe;
 
 class JWK implements JsonSerializable
 {
-    /**
-     * @var array
-     */
-    private $values = [];
+    private array $values = [];
 
     /**
      * Creates a JWK object using the given values. The member "kty" is mandatory. Other members are NOT checked.

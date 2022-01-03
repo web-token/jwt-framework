@@ -11,15 +11,6 @@ use Jose\Component\Core\JWT;
 
 class JWE implements JWT
 {
-    /**
-     * @var Recipient[]
-     */
-    private array $recipients = [];
-
-    private array $sharedHeader = [];
-
-    private array $sharedProtectedHeader = [];
-
     private ?string $payload = null;
 
     public function __construct(
@@ -27,14 +18,11 @@ class JWE implements JWT
         private string $iv,
         private string $tag,
         private ?string $aad = null,
-        array $sharedHeader = [],
-        array $sharedProtectedHeader = [],
+        private array $sharedHeader = [],
+        private array $sharedProtectedHeader = [],
         private ?string $encodedSharedProtectedHeader = null,
-        array $recipients = []
+        private array $recipients = []
     ) {
-        $this->sharedHeader = $sharedHeader;
-        $this->sharedProtectedHeader = $sharedProtectedHeader;
-        $this->recipients = $recipients;
     }
 
     public function getPayload(): ?string

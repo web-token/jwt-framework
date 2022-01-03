@@ -9,20 +9,15 @@ use Exception;
 class MissingMandatoryHeaderParameterException extends Exception
 {
     /**
-     * @var string[]
-     */
-    private $parameters;
-
-    /**
      * MissingMandatoryHeaderParameterException constructor.
      *
      * @param string[] $parameters
      */
-    public function __construct(string $message, array $parameters)
-    {
+    public function __construct(
+        string $message,
+        private array $parameters
+    ) {
         parent::__construct($message);
-
-        $this->parameters = $parameters;
     }
 
     /**

@@ -9,20 +9,15 @@ use Exception;
 class MissingMandatoryClaimException extends Exception implements ClaimExceptionInterface
 {
     /**
-     * @var string[]
-     */
-    private $claims;
-
-    /**
      * MissingMandatoryClaimException constructor.
      *
      * @param string[] $claims
      */
-    public function __construct(string $message, array $claims)
-    {
+    public function __construct(
+        string $message,
+        private array $claims
+    ) {
         parent::__construct($message);
-
-        $this->claims = $claims;
     }
 
     /**

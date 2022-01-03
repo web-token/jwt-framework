@@ -33,25 +33,6 @@ final class JWSEncoderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSEncoderIsAvailable(): void
-    {
-        static::ensureKernelShutdown();
-        $client = static::createClient();
-        $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
-        /** @var Serializer $serializer */
-        $serializer = $container->get('serializer');
-        static::assertTrue($serializer->supportsEncoding('jws_compact'));
-        static::assertTrue($serializer->supportsEncoding('jws_json_flattened'));
-        static::assertTrue($serializer->supportsEncoding('jws_json_general'));
-        static::assertTrue($serializer->supportsDecoding('jws_compact'));
-        static::assertTrue($serializer->supportsDecoding('jws_json_flattened'));
-        static::assertTrue($serializer->supportsDecoding('jws_json_general'));
-    }
-
-    /**
-     * @test
-     */
     public function jWSEncoderSupportsAllFormatsByDefault(): void
     {
         static::ensureKernelShutdown();

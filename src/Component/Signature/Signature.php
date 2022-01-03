@@ -11,25 +11,16 @@ class Signature
 {
     private ?string $encodedProtectedHeader;
 
-    /**
-     * @var array
-     */
-    private $protectedHeader;
-
-    /**
-     * @var array
-     */
-    private $header;
+    private array $protectedHeader;
 
     public function __construct(
         private string $signature,
         array $protectedHeader,
         ?string $encodedProtectedHeader,
-        array $header
+        private array $header
     ) {
         $this->protectedHeader = $encodedProtectedHeader === null ? [] : $protectedHeader;
         $this->encodedProtectedHeader = $encodedProtectedHeader;
-        $this->header = $header;
     }
 
     /**
