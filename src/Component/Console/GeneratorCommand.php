@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 abstract class GeneratorCommand extends ObjectOutputCommand
 {
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return class_exists(JWKFactory::class);
     }

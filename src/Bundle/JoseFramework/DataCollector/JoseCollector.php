@@ -29,7 +29,7 @@ class JoseCollector extends DataCollector
         $this->collectors[] = $collector;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'jose_collector';
     }
