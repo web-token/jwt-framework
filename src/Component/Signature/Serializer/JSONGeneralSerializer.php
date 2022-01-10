@@ -65,6 +65,9 @@ final class JSONGeneralSerializer extends Serializer
     public function unserialize(string $input): JWS
     {
         $data = JsonConverter::decode($input);
+        if (! is_array($data)) {
+            throw new InvalidArgumentException('Unsupported input.');
+        }
         if (! isset($data['signatures'])) {
             throw new InvalidArgumentException('Unsupported input.');
         }

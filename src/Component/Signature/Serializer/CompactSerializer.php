@@ -38,7 +38,7 @@ final class CompactSerializer extends Serializer
             );
         }
         $isEmptyPayload = $jws->getEncodedPayload() === null || $jws->getEncodedPayload() === '';
-        if (! $this->isPayloadEncoded($signature->getProtectedHeader()) && ! $isEmptyPayload) {
+        if (! $isEmptyPayload && ! $this->isPayloadEncoded($signature->getProtectedHeader())) {
             if (preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload()) !== 1) {
                 throw new LogicException('Unable to convert the JWS with non-encoded payload.');
             }
@@ -62,6 +62,9 @@ final class CompactSerializer extends Serializer
         try {
             $encodedProtectedHeader = $parts[0];
             $protectedHeader = JsonConverter::decode(Base64UrlSafe::decode($parts[0]));
+            if (! is_array($protectedHeader)) {
+                throw new InvalidArgumentException('Bad protected header.');
+            }
             $hasPayload = $parts[1] !== '';
             if (! $hasPayload) {
                 $payload = null;

@@ -11,6 +11,7 @@ use function function_exists;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
+use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\EcDH;
@@ -53,11 +54,15 @@ final class ECDHES implements KeyAgreement
 
     public function calculateAgreementKey(JWK $private_key, JWK $public_key): string
     {
-        switch ($public_key->get('crv')) {
+        $crv = $public_key->get('crv');
+        if (! is_string($crv)) {
+            throw new InvalidArgumentException('Invalid key parameter "crv"');
+        }
+        switch ($crv) {
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                $curve = $this->getCurve($public_key->get('crv'));
+                $curve = $this->getCurve($crv);
                 if (function_exists('openssl_pkey_derive')) {
                     try {
                         $publicPem = ECKey::convertPublicKeyToPEM($public_key);
@@ -73,10 +78,22 @@ final class ECDHES implements KeyAgreement
                         //Does nothing. Will fallback to the pure PHP function
                     }
                 }
+                $x = $public_key->get('x');
+                if (! is_string($x)) {
+                    throw new InvalidArgumentException('Invalid key parameter "x"');
+                }
+                $y = $public_key->get('y');
+                if (! is_string($y)) {
+                    throw new InvalidArgumentException('Invalid key parameter "y"');
+                }
+                $d = $private_key->get('d');
+                if (! is_string($d)) {
+                    throw new InvalidArgumentException('Invalid key parameter "d"');
+                }
 
-                $rec_x = $this->convertBase64ToBigInteger($public_key->get('x'));
-                $rec_y = $this->convertBase64ToBigInteger($public_key->get('y'));
-                $sen_d = $this->convertBase64ToBigInteger($private_key->get('d'));
+                $rec_x = $this->convertBase64ToBigInteger($x);
+                $rec_y = $this->convertBase64ToBigInteger($y);
+                $sen_d = $this->convertBase64ToBigInteger($d);
 
                 $priv_key = PrivateKey::create($sen_d);
                 $pub_key = $curve->getPublicKeyFrom($rec_x, $rec_y);
@@ -84,13 +101,21 @@ final class ECDHES implements KeyAgreement
                 return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
 
             case 'X25519':
-                $sKey = Base64UrlSafe::decode($private_key->get('d'));
-                $recipientPublickey = Base64UrlSafe::decode($public_key->get('x'));
+                $x = $public_key->get('x');
+                if (! is_string($x)) {
+                    throw new InvalidArgumentException('Invalid key parameter "x"');
+                }
+                $d = $private_key->get('d');
+                if (! is_string($d)) {
+                    throw new InvalidArgumentException('Invalid key parameter "d"');
+                }
+                $sKey = Base64UrlSafe::decode($d);
+                $recipientPublickey = Base64UrlSafe::decode($x);
 
                 return sodium_crypto_scalarmult($sKey, $recipientPublickey);
 
             default:
-                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
+                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
     }
 
@@ -112,11 +137,15 @@ final class ECDHES implements KeyAgreement
         $this->checkKey($recipient_key, false);
         $public_key = $recipient_key;
 
-        switch ($public_key->get('crv')) {
+        $crv = $public_key->get('crv');
+        if (! is_string($crv)) {
+            throw new InvalidArgumentException('Invalid key parameter "crv"');
+        }
+        switch ($crv) {
             case 'P-256':
             case 'P-384':
             case 'P-521':
-                $private_key = ECKey::createECKey($public_key->get('crv'));
+                $private_key = ECKey::createECKey($crv);
 
                 break;
 
@@ -127,7 +156,7 @@ final class ECDHES implements KeyAgreement
                 break;
 
             default:
-                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $public_key->get('crv')));
+                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
         $epk = $private_key->toPublic()
             ->all()
@@ -177,7 +206,11 @@ final class ECDHES implements KeyAgreement
             }
         }
 
-        switch ($key->get('crv')) {
+        $crv = $key->get('crv');
+        if (! is_string($crv)) {
+            throw new InvalidArgumentException('Invalid key parameter "crv"');
+        }
+        switch ($crv) {
             case 'P-256':
             case 'P-384':
             case 'P-521':
@@ -191,7 +224,7 @@ final class ECDHES implements KeyAgreement
                 break;
 
             default:
-                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $key->get('crv')));
+                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
         if ($is_private === true && ! $key->has('d')) {
             throw new InvalidArgumentException('The key parameter "d" is missing.');

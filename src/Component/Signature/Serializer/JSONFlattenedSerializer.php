@@ -64,6 +64,9 @@ final class JSONFlattenedSerializer extends Serializer
         if (isset($data['protected'])) {
             $encodedProtectedHeader = $data['protected'];
             $protectedHeader = JsonConverter::decode(Base64UrlSafe::decode($data['protected']));
+            if (! is_array($protectedHeader)) {
+                throw new InvalidArgumentException('Bad protected header.');
+            }
         } else {
             $encodedProtectedHeader = null;
             $protectedHeader = [];

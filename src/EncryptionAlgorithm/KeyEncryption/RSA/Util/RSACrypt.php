@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
+use LogicException;
 use function ord;
 use RuntimeException;
 use const STR_PAD_LEFT;
@@ -31,20 +32,34 @@ final class RSACrypt
 
     public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
     {
-        return match ($mode) {
-            self::ENCRYPTION_OAEP => self::encryptWithRSAOAEP($key, $data, $hash),
-            self::ENCRYPTION_PKCS1 => self::encryptWithRSA15($key, $data),
-            default => throw new InvalidArgumentException('Unsupported mode.'),
-        };
+        switch ($mode) {
+            case self::ENCRYPTION_OAEP:
+                if ($hash === null) {
+                    throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
+                }
+
+                return self::encryptWithRSAOAEP($key, $data, $hash);
+            case self::ENCRYPTION_PKCS1:
+                return self::encryptWithRSA15($key, $data);
+            default:
+                throw new InvalidArgumentException('Unsupported mode.');
+        }
     }
 
     public static function decrypt(RSAKey $key, string $plaintext, int $mode, ?string $hash = null): string
     {
-        return match ($mode) {
-            self::ENCRYPTION_OAEP => self::decryptWithRSAOAEP($key, $plaintext, $hash),
-            self::ENCRYPTION_PKCS1 => self::decryptWithRSA15($key, $plaintext),
-            default => throw new InvalidArgumentException('Unsupported mode.'),
-        };
+        switch ($mode) {
+            case self::ENCRYPTION_OAEP:
+                if ($hash === null) {
+                    throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
+                }
+
+                return self::decryptWithRSAOAEP($key, $plaintext, $hash);
+            case self::ENCRYPTION_PKCS1:
+                return self::decryptWithRSA15($key, $plaintext);
+            default:
+                throw new InvalidArgumentException('Unsupported mode.');
+        }
     }
 
     public static function encryptWithRSA15(RSAKey $key, string $data): string
@@ -64,8 +79,8 @@ final class RSACrypt
         $type = 2;
         $data = chr(0) . chr($type) . $ps . chr(0) . $data;
 
-        $data = BigInteger::createFromBinaryString($data);
-        $c = self::getRSAEP($key, $data);
+        $binaryData = BigInteger::createFromBinaryString($data);
+        $c = self::getRSAEP($key, $binaryData);
 
         return self::convertIntegerToOctetString($c, $key->getModulusLength());
     }

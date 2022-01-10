@@ -104,6 +104,9 @@ class JWSVerifier
     {
         $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
         $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
+        if (! is_string($encodedProtectedHeader)) {
+            throw new InvalidArgumentException('Bad encoded protected header.');
+        }
 
         if (! $signature->hasProtectedHeaderParameter('b64') || $signature->getProtectedHeaderParameter(
             'b64'
