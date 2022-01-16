@@ -17,8 +17,6 @@ class JWESerializerManagerFactory
      * Creates a serializer manager factory using the given serializers.
      *
      * @param string[] $names
-     *
-     * @throws InvalidArgumentException On unsupported serializer
      */
     public function create(array $names): JWESerializerManager
     {

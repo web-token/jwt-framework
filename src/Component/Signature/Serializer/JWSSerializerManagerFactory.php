@@ -15,8 +15,6 @@ class JWSSerializerManagerFactory
 
     /**
      * @param string[] $names
-     *
-     * @throws InvalidArgumentException On unsupported serializer.
      */
     public function create(array $names): JWSSerializerManager
     {

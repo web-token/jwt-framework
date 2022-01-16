@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Serializer;
 
 use Exception;
+use function in_array;
+use function is_int;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use LogicException;
+use function mb_strtolower;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
@@ -17,10 +20,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Throwable;
 use UnexpectedValueException;
 
-use function mb_strtolower;
-
-final class JWESerializer implements DenormalizerInterface, EncoderInterface, DecoderInterface,
-                                     NormalizationAwareInterface
+final class JWESerializer implements DenormalizerInterface, EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
     private JWESerializerManager $serializerManager;
 
