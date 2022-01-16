@@ -5,20 +5,24 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Serializer;
 
 use Exception;
-use function in_array;
-use function is_int;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use LogicException;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
+use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Symfony\Component\Serializer\Exception\UnexpectedValueException;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Throwable;
+use UnexpectedValueException;
 
-final class JWEEncoder implements EncoderInterface, DecoderInterface
+use function mb_strtolower;
+
+final class JWESerializer implements DenormalizerInterface, EncoderInterface, DecoderInterface,
+                                     NormalizationAwareInterface
 {
-    private ?JWESerializerManager $serializerManager;
+    private JWESerializerManager $serializerManager;
 
     public function __construct(
         JWESerializerManagerFactory $serializerManagerFactory,
@@ -30,18 +34,29 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         $this->serializerManager = $serializerManager;
     }
 
-    public function supportsEncoding($format): bool
+    public function supportsEncoding(string $format): bool
     {
-        return in_array(mb_strtolower($format), $this->serializerManager->names(), true);
+        return $this->formatSupported($format);
     }
 
-    public function supportsDecoding($format): bool
+    public function supportsDecoding(string $format): bool
     {
         return $this->supportsEncoding($format);
     }
 
-    public function encode($data, $format, array $context = []): string
+    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
     {
+        return $type === JWE::class
+            && $this->componentInstalled()
+            && $this->formatSupported($format);
+    }
+
+    public function encode(mixed $data, string $format, array $context = []): string
+    {
+        if ($data instanceof JWE === false) {
+            throw new LogicException('Expected data to be a JWE.');
+        }
+
         try {
             return $this->serializerManager->serialize(
                 mb_strtolower($format),
@@ -59,7 +74,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         }
     }
 
-    public function decode($data, $format, array $context = []): JWE
+    public function decode(string $data, string $format, array $context = []): JWE
     {
         try {
             return $this->serializerManager->unserialize($data);
@@ -74,6 +89,15 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         }
     }
 
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): JWE
+    {
+        if ($data instanceof JWE === false) {
+            throw new LogicException('Expected data to be a JWE.');
+        }
+
+        return $data;
+    }
+
     /**
      * Get JWE recipient index from context.
      */
@@ -85,5 +109,22 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface
         }
 
         return $recipientIndex;
+    }
+
+    /**
+     * Check if encryption component is installed.
+     */
+    private function componentInstalled(): bool
+    {
+        return class_exists(JWESerializerManager::class);
+    }
+
+    /**
+     * Check if format is supported.
+     */
+    private function formatSupported(?string $format): bool
+    {
+        return $format !== null
+            && in_array(mb_strtolower($format), $this->serializerManager->names(), true);
     }
 }
