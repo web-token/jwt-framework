@@ -32,14 +32,14 @@ final class JWSSerializer implements DenormalizerInterface, EncoderInterface, De
         $this->serializerManager = $serializerManager;
     }
 
-    public function supportsDecoding(string $format): bool
+    public function supportsEncoding(string $format): bool
     {
         return $this->formatSupported($format);
     }
 
-    public function supportsEncoding(string $format): bool
+    public function supportsDecoding(string $format): bool
     {
-        return $this->supportsEncoding($format);
+        return $this->formatSupported($format);
     }
 
     public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
@@ -89,20 +89,19 @@ final class JWSSerializer implements DenormalizerInterface, EncoderInterface, De
      */
     private function getSignatureIndex(array $context): int
     {
-        $signatureIndex = 0;
         if (isset($context['signature_index']) && is_int($context['signature_index'])) {
-            $signatureIndex = $context['signature_index'];
+            return $context['signature_index'];
         }
 
-        return $signatureIndex;
+        return 0;
     }
 
     /**
-     * Check if encryption component is installed.
+     * Check if signature component is installed.
      */
     private function componentInstalled(): bool
     {
-        return class_exists(JWESerializerManager::class);
+        return class_exists(JWSSerializerManager::class);
     }
 
     /**

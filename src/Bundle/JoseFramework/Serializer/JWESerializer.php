@@ -18,7 +18,6 @@ use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Throwable;
-use UnexpectedValueException;
 
 final class JWESerializer implements DenormalizerInterface, EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
@@ -41,7 +40,7 @@ final class JWESerializer implements DenormalizerInterface, EncoderInterface, De
 
     public function supportsDecoding(string $format): bool
     {
-        return $this->supportsEncoding($format);
+        return $this->formatSupported($format);
     }
 
     public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
@@ -64,13 +63,7 @@ final class JWESerializer implements DenormalizerInterface, EncoderInterface, De
                 $this->getRecipientIndex($context)
             );
         } catch (Throwable $ex) {
-            $message = sprintf('Cannot encode JWE to %s format.', $format);
-
-            if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
-                throw new NotEncodableValueException($message, 0, $ex);
-            }
-
-            throw new UnexpectedValueException($message, 0, $ex);
+            throw new NotEncodableValueException(sprintf('Cannot encode JWE to %s format.', $format), 0, $ex);
         }
     }
 
@@ -79,13 +72,7 @@ final class JWESerializer implements DenormalizerInterface, EncoderInterface, De
         try {
             return $this->serializerManager->unserialize($data);
         } catch (Exception $ex) {
-            $message = sprintf('Cannot decode JWE from %s format.', $format);
-
-            if (class_exists('Symfony\Component\Serializer\Exception\NotEncodableValueException')) {
-                throw new NotEncodableValueException($message, 0, $ex);
-            }
-
-            throw new UnexpectedValueException($message, 0, $ex);
+            throw new NotEncodableValueException(sprintf('Cannot decode JWE from %s format.', $format), 0, $ex);
         }
     }
 
@@ -103,12 +90,11 @@ final class JWESerializer implements DenormalizerInterface, EncoderInterface, De
      */
     private function getRecipientIndex(array $context): int
     {
-        $recipientIndex = 0;
         if (isset($context['recipient_index']) && is_int($context['recipient_index'])) {
-            $recipientIndex = $context['recipient_index'];
+            return $context['recipient_index'];
         }
 
-        return $recipientIndex;
+        return 0;
     }
 
     /**
