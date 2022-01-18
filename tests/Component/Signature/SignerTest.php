@@ -747,6 +747,30 @@ class SignerTest extends SignatureTest
     /**
      * @test
      */
+    public function jWSWithExternallyEncodedPayload(): void
+    {
+        $payload = 'aaaaaaa';
+        $jwsBuilder = $this->getJWSBuilderFactory()->create(['HS512']);
+
+        $expected_result = [
+          'payload' => $payload,
+          'protected' => 'eyJhbGciOiJIUzUxMiJ9',
+          'signature' => '_CzoyjQh6gCXWY01DbJwXBJ5yZzeSgYTF5VbHpLRePP3Xt300n4yTEflj8xrrPNrvjApk6YpjTLX-CYX6YzsbA'
+        ];
+
+        $jws = $jwsBuilder
+            ->create()->withEncodedPayload($payload)
+            ->addSignature($this->getKey1(), ['alg' => 'HS512'])
+            ->build()
+        ;
+        $jws = $this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0);
+
+        static::assertEquals($expected_result, json_decode($jws, true));
+    }
+
+    /**
+     * @test
+     */
     public function signAndLoadWithoutAlgParameterInTheHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);

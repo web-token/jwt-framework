@@ -105,6 +105,27 @@ class JWSBuilder
     }
 
     /**
+     * Set the payload to an already-encoded value.
+     * This method will return a new JWSBuilder object.
+     *
+     * @throws InvalidArgumentException if the payload is not UTF-8 encoded
+     *
+     * @return JWSBuilder
+     */
+    public function withEncodedPayload(string $payload, bool $isPayloadDetached = false): self
+    {
+        if (false === mb_detect_encoding($payload, 'UTF-8', true)) {
+            throw new InvalidArgumentException('The payload must be encoded in UTF-8');
+        }
+        $clone = clone $this;
+        $clone->payload = $payload;
+        $clone->isPayloadDetached = $isPayloadDetached;
+        $clone->isPayloadEncoded = false;
+
+        return $clone;
+    }
+
+    /**
      * Adds the information needed to compute the signature.
      * This method will return a new JWSBuilder object.
      *
@@ -177,7 +198,10 @@ class JWSBuilder
 
     private function checkIfPayloadIsEncoded(array $protectedHeader): bool
     {
-        return !array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
+        if(null === $this->isPayloadEncoded)
+          return !array_key_exists('b64', $protectedHeader) || true === $protectedHeader['b64'];
+        else
+          return $this->isPayloadEncoded;
     }
 
     /**
