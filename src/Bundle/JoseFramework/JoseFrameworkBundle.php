@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\EventDispatcherAliasCompilerPass;
+use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\SymfonySerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerSource;
@@ -15,6 +16,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManage
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedToken;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -51,6 +53,7 @@ final class JoseFrameworkBundle extends Bundle
         }
 
         $container->addCompilerPass(new EventDispatcherAliasCompilerPass());
+        $container->addCompilerPass(new SymfonySerializerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 10);
     }
 
     /**
