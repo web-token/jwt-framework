@@ -125,7 +125,7 @@ class JWEDecrypter
         $this->checkIvSize($jwe->getIV(), $content_encryption_algorithm->getIVSize());
 
         foreach ($jwkset as $recipientKey) {
-            //try {
+            try {
                 KeyChecker::checkKeyUsage($recipientKey, 'decryption');
                 if ($key_encryption_algorithm->name() !== 'dir') {
                     KeyChecker::checkKeyAlgorithm($recipientKey, $key_encryption_algorithm->name());
@@ -145,10 +145,10 @@ class JWEDecrypter
                 $successJwk = $recipientKey;
 
                 return $payload;
-            /*} catch (Throwable) {
+            } catch (Throwable) {
                 //We do nothing, we continue with other keys
                 continue;
-            }*/
+            }
         }
 
         return null;
