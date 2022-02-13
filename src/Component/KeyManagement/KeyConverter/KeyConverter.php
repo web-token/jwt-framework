@@ -210,7 +210,7 @@ final class KeyConverter
         $ciphertext = preg_replace('#-.*-|\r|\n| #', '', $pem);
 
         $pem = $matches[0][0] . PHP_EOL;
-        $pem .= chunk_split($ciphertext, 64, PHP_EOL);
+        $pem .= chunk_split($ciphertext ?? '', 64, PHP_EOL);
         $pem .= $matches[0][1] . PHP_EOL;
     }
 
@@ -228,7 +228,7 @@ final class KeyConverter
         $symkey = pack('H*', md5($password . $iv_sub));
         $symkey .= pack('H*', md5($symkey . $password . $iv_sub));
         $key = preg_replace('#^(?:Proc-Type|DEK-Info): .*#m', '', $pem);
-        $ciphertext = base64_decode(preg_replace('#-.*-|\r|\n#', '', $key), true);
+        $ciphertext = base64_decode(preg_replace('#-.*-|\r|\n#', '', $key ?? '') ?? '', true);
         if (! is_string($ciphertext)) {
             throw new InvalidArgumentException('Unable to encode the data.');
         }

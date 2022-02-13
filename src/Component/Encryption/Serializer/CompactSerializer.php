@@ -41,10 +41,10 @@ final class CompactSerializer implements JWESerializer
         return sprintf(
             '%s.%s.%s.%s.%s',
             $jwe->getEncodedSharedProtectedHeader(),
-            Base64UrlSafe::encodeUnpadded($recipient->getEncryptedKey() === null ? '' : $recipient->getEncryptedKey()),
-            Base64UrlSafe::encodeUnpadded($jwe->getIV() === null ? '' : $jwe->getIV()),
-            Base64UrlSafe::encodeUnpadded($jwe->getCiphertext()),
-            Base64UrlSafe::encodeUnpadded($jwe->getTag() === null ? '' : $jwe->getTag())
+            Base64UrlSafe::encodeUnpadded($recipient->getEncryptedKey() ?? ''),
+            Base64UrlSafe::encodeUnpadded($jwe->getIV() ?? ''),
+            Base64UrlSafe::encodeUnpadded($jwe->getCiphertext() ?? ''),
+            Base64UrlSafe::encodeUnpadded($jwe->getTag() ?? '')
         );
     }
 

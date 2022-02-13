@@ -6,6 +6,7 @@ namespace Jose\Component\Signature\Serializer;
 
 use function count;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
@@ -39,7 +40,7 @@ final class CompactSerializer extends Serializer
         }
         $isEmptyPayload = $jws->getEncodedPayload() === null || $jws->getEncodedPayload() === '';
         if (! $isEmptyPayload && ! $this->isPayloadEncoded($signature->getProtectedHeader())) {
-            if (preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload()) !== 1) {
+            if (preg_match('/^[\x{20}-\x{2d}|\x{2f}-\x{7e}]*$/u', $jws->getPayload() ?? '') !== 1) {
                 throw new LogicException('Unable to convert the JWS with non-encoded payload.');
             }
         }

@@ -275,7 +275,7 @@ class JWEBuilder
         $payload = $this->preparePayload();
         $tag = null;
         $ciphertext = $this->contentEncryptionAlgorithm->encryptContent(
-            $payload,
+            $payload ?? '',
             $cek,
             $iv,
             $this->aad,
@@ -296,7 +296,7 @@ class JWEBuilder
             return $prepared;
         }
 
-        return $this->compressionMethod->compress($prepared);
+        return $this->compressionMethod->compress($prepared ?? '');
     }
 
     private function getEncryptedKey(

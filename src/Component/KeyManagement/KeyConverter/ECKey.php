@@ -57,7 +57,7 @@ final class ECKey
 
     private static function loadPEM(string $data): array
     {
-        $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data), true);
+        $data = base64_decode(preg_replace('#-.*-|\r|\n#', '', $data) ?? '', true);
         $asnObject = ASNObject::fromBinary($data);
         if (! $asnObject instanceof Sequence) {
             throw new InvalidArgumentException('Unable to load the key.');

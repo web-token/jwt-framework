@@ -1,5 +1,5 @@
 parameters:
-    level: max
+    level: 8
     paths:
         - src
     checkMissingIterableValueType: false
@@ -12,5 +12,7 @@ parameters:
         - '#Invalid type object to throw\.#'
         - '#Strict comparison using === between .* and .* will always evaluate to false\.#'
         - '#Binary operation "\^" between string and 1 results in an error\.#'
+        - '#Parameter \#1 \$length of function random_bytes expects int\<1\, max\>.*\.#'
+        - '#Parameter \#3 \$length of function mb_substr expects int\|null.*\.#'
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon

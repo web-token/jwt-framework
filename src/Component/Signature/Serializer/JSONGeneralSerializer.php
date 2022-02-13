@@ -145,10 +145,8 @@ final class JSONGeneralSerializer extends Serializer
             if ($is_encoded === null) {
                 $is_encoded = $this->isPayloadEncoded($signature->getProtectedHeader());
             }
-            if ($jws->isPayloadDetached() === false) {
-                if ($is_encoded !== $this->isPayloadEncoded($signature->getProtectedHeader())) {
-                    throw new LogicException('Foreign payload encoding detected.');
-                }
+            if ($is_encoded !== $this->isPayloadEncoded($signature->getProtectedHeader())) {
+                throw new LogicException('Foreign payload encoding detected.');
             }
         }
     }

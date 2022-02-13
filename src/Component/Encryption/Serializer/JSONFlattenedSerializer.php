@@ -33,9 +33,9 @@ final class JSONFlattenedSerializer implements JWESerializer
         }
         $recipient = $jwe->getRecipient($recipientIndex);
         $data = [
-            'ciphertext' => Base64UrlSafe::encodeUnpadded($jwe->getCiphertext()),
-            'iv' => Base64UrlSafe::encodeUnpadded($jwe->getIV()),
-            'tag' => Base64UrlSafe::encodeUnpadded($jwe->getTag()),
+            'ciphertext' => Base64UrlSafe::encodeUnpadded($jwe->getCiphertext() ?? ''),
+            'iv' => Base64UrlSafe::encodeUnpadded($jwe->getIV() ?? ''),
+            'tag' => Base64UrlSafe::encodeUnpadded($jwe->getTag() ?? ''),
         ];
         if ($jwe->getAAD() !== null) {
             $data['aad'] = Base64UrlSafe::encodeUnpadded($jwe->getAAD());

@@ -24,7 +24,7 @@ class JWSBuilder
 {
     protected ?string $payload = null;
 
-    protected ?bool $isPayloadDetached = null;
+    protected bool $isPayloadDetached = false;
 
     protected array $signatures = [];
 

@@ -201,16 +201,24 @@ class JWEDecrypter
             return $key_encryption_algorithm->unwrapAgreementKey(
                 $recipientKey,
                 $senderKey,
-                $recipient->getEncryptedKey(),
+                $recipient->getEncryptedKey() ?? '',
                 $content_encryption_algorithm->getCEKSize(),
                 $completeHeader
             );
         }
         if ($key_encryption_algorithm instanceof KeyEncryption) {
-            return $key_encryption_algorithm->decryptKey($recipientKey, $recipient->getEncryptedKey(), $completeHeader);
+            return $key_encryption_algorithm->decryptKey(
+                $recipientKey,
+                $recipient->getEncryptedKey() ?? '',
+                $completeHeader
+            );
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
-            return $key_encryption_algorithm->unwrapKey($recipientKey, $recipient->getEncryptedKey(), $completeHeader);
+            return $key_encryption_algorithm->unwrapKey(
+                $recipientKey,
+                $recipient->getEncryptedKey() ?? '',
+                $completeHeader
+            );
         }
 
         throw new InvalidArgumentException('Unsupported CEK generation');
@@ -223,12 +231,12 @@ class JWEDecrypter
         array $completeHeader
     ): string {
         $payload = $content_encryption_algorithm->decryptContent(
-            $jwe->getCiphertext(),
+            $jwe->getCiphertext() ?? '',
             $cek,
-            $jwe->getIV(),
+            $jwe->getIV() ?? '',
             $jwe->getAAD(),
             $jwe->getEncodedSharedProtectedHeader(),
-            $jwe->getTag()
+            $jwe->getTag() ?? ''
         );
 
         return $this->decompressIfNeeded($payload, $completeHeader);

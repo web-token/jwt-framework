@@ -24,7 +24,7 @@ use RuntimeException;
  */
 final class RSAKey
 {
-    private ?Sequence $sequence = null;
+    private Sequence $sequence;
 
     private bool $private;
 
@@ -52,6 +52,7 @@ final class RSAKey
 
     private function __construct(JWK $data)
     {
+        $this->sequence = new Sequence();
         $this->values = $data->all();
         $this->populateBigIntegers();
         $this->private = array_key_exists('d', $this->values);
@@ -138,13 +139,11 @@ final class RSAKey
 
     public function toPEM(): string
     {
-        if ($this->sequence === null) {
-            $this->sequence = new Sequence();
-            if (array_key_exists('d', $this->values)) {
-                $this->initPrivateKey();
-            } else {
-                $this->initPublicKey();
-            }
+        $this->sequence = new Sequence();
+        if (array_key_exists('d', $this->values)) {
+            $this->initPrivateKey();
+        } else {
+            $this->initPublicKey();
         }
         $result = '-----BEGIN ' . ($this->private ? 'RSA PRIVATE' : 'PUBLIC') . ' KEY-----' . PHP_EOL;
         $result .= chunk_split(base64_encode($this->sequence->getBinary()), 64, PHP_EOL);

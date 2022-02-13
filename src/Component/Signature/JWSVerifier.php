@@ -102,27 +102,26 @@ class JWSVerifier
 
     private function getInputToVerify(JWS $jws, Signature $signature, ?string $detachedPayload): string
     {
-        $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
-        $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
-        if (! is_string($encodedProtectedHeader)) {
-            throw new InvalidArgumentException('Bad encoded protected header.');
-        }
-
-        if (! $signature->hasProtectedHeaderParameter('b64') || $signature->getProtectedHeaderParameter(
+        $payload = $jws->getPayload();
+        $isPayloadEmpty = $payload === null || $payload === '';
+        $encodedProtectedHeader = $signature->getEncodedProtectedHeader() ?? '';
+        $isPayloadBase64Encoded = ! $signature->hasProtectedHeaderParameter(
             'b64'
-        ) === true) {
-            if ($jws->getEncodedPayload() !== null) {
-                return sprintf('%s.%s', $encodedProtectedHeader, $jws->getEncodedPayload());
-            }
+        ) || $signature->getProtectedHeaderParameter('b64') === true;
+        $encodedPayload = $jws->getEncodedPayload();
 
-            $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
-
-            return sprintf('%s.%s', $encodedProtectedHeader, Base64UrlSafe::encodeUnpadded($payload));
+        if ($isPayloadBase64Encoded && $encodedPayload !== null) {
+            return sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
         }
 
-        $payload = $isPayloadEmpty ? $detachedPayload : $jws->getPayload();
+        $callable = $isPayloadBase64Encoded === true ? static function (?string $p): string {
+            return Base64UrlSafe::encodeUnpadded($p ?? '');
+        }
+        : static function (?string $p): string {return $p ?? ''; };
 
-        return sprintf('%s.%s', $encodedProtectedHeader, $payload);
+        $payloadToUse = $callable($isPayloadEmpty ? $detachedPayload : $payload);
+
+        return sprintf('%s.%s', $encodedProtectedHeader, $payloadToUse);
     }
 
     private function checkPayload(JWS $jws, ?string $detachedPayload = null): void

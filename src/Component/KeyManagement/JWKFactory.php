@@ -215,7 +215,7 @@ class JWKFactory
      */
     public static function createFromPKCS12CertificateFile(
         string $file,
-        ?string $secret = '',
+        string $secret = '',
         array $additional_values = []
     ): JWK {
         try {

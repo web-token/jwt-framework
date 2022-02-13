@@ -20,7 +20,7 @@ final class MultipleSignaturesTest extends SignatureTest
     public function multipleSignatures(): void
     {
         /**
-         * Payload,.
+         * Payload.
          *
          * @see https://tools.ietf.org/html/rfc7520#section-4.8.1
          */
@@ -96,6 +96,7 @@ final class MultipleSignaturesTest extends SignatureTest
             ->unserialize($expected_json)
         ;
         static::assertSame(3, $loaded_json->countSignatures());
+        static::assertSame($payload, $loaded_json->getPayload());
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $rsa_private_key, 0));
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $ecdsa_private_key, 1));
