@@ -28,21 +28,13 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $quantity = $input->getArgument('quantity');
-        if ($quantity === null) {
+        if (!is_int($quantity)) {
             $quantity = 1;
-        } elseif (is_array($quantity)) {
-            $quantity = 1;
-        } else {
-            $quantity = (int) $quantity;
         }
 
         $size = $input->getArgument('size');
-        if ($size === null) {
+        if (!is_int($size)) {
             $size = 1;
-        } elseif (is_array($size)) {
-            $size = 1;
-        } else {
-            $size = (int) $size;
         }
         if ($quantity < 1) {
             throw new InvalidArgumentException('Invalid quantity');
