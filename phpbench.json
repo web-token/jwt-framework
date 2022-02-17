@@ -1,32 +1,23 @@
 {
-  "bootstrap": "vendor/autoload.php",
-  "path": "performance",
-  "progress": "dots",
-  "time_unit": "microseconds",
-  "retry_threshold": 10,
-  "reports": {
-    "with-params": {
-      "extends": "aggregate",
-      "cols": ["subject", "groups", "mean", "params"]
-    },
+  "runner.bootstrap": "vendor/autoload.php",
+  "runner.path": "performance",
+  "runner.progress": "dots",
+  "runner.time_unit": "microseconds",
+  "runner.retry_threshold": 10,
+  "report.generators": {
     "full": {
       "extends": "aggregate",
-      "cols": ["subject", "groups", "revs", "best", "mean", "mode", "worst", "params"]
+      "cols": ["benchmark", "subject", "set", "revs", "its", "mem_peak", "best", "mode", "mean", "worst", "stdev", "rstdev"]
     },
     "simple": {
       "extends": "aggregate",
-      "cols": ["subject", "groups", "mean"]
+      "cols": ["benchmark", "subject", "set", "best", "mean", "worst"]
     }
   },
-  "outputs": {
+  "report.outputs": {
     "all": {
-      "extends": "html",
+      "renderer": "html",
       "file": "report.html",
-      "title": "Jose Performance Test Suite"
-    },
-    "md": {
-      "extends": "markdown",
-      "file": "report.md",
       "title": "Jose Performance Test Suite"
     }
   }

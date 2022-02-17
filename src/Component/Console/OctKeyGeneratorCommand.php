@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_array;
+use function is_int;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,7 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $size = $input->getArgument('size');
-        if (!is_int($size)) {
+        if (! is_int($size)) {
             $size = 1;
         }
         if ($size < 1) {

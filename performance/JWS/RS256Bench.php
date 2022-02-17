@@ -6,6 +6,8 @@ namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use PhpBench\Benchmark\Metadata\Annotations\Groups;
+use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
 /**
  * @Revs(4096)

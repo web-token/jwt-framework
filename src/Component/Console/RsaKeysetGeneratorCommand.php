@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_array;
+use function is_int;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Console\Input\InputArgument;
@@ -28,11 +28,11 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $quantity = $input->getArgument('quantity');
-        if (!is_int($quantity)) {
+        if (! is_int($quantity)) {
             $quantity = 1;
         }
         $size = $input->getArgument('size');
-        if (!is_int($size)) {
+        if (! is_int($size)) {
             $size = 1;
         }
         if ($quantity < 1) {

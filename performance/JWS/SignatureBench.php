@@ -4,6 +4,20 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWS;
 
+use Jose\Component\Signature\Algorithm\HS256;
+use Jose\Component\Signature\Algorithm\HS384;
+use Jose\Component\Signature\Algorithm\HS512;
+use Jose\Component\Signature\Algorithm\RS256;
+use Jose\Component\Signature\Algorithm\RS384;
+use Jose\Component\Signature\Algorithm\RS512;
+use Jose\Component\Signature\Algorithm\PS256;
+use Jose\Component\Signature\Algorithm\PS384;
+use Jose\Component\Signature\Algorithm\PS512;
+use Jose\Component\Signature\Algorithm\ES256;
+use Jose\Component\Signature\Algorithm\ES384;
+use Jose\Component\Signature\Algorithm\ES512;
+use Jose\Component\Signature\Algorithm\None;
+use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm;
@@ -14,6 +28,7 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
 /**
  * @BeforeMethods({"init"})
@@ -21,29 +36,29 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
  */
 abstract class SignatureBench
 {
-    private $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
+    private string $payload = "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.";
 
-    private $signatureAlgorithmsManager;
+    private AlgorithmManager $signatureAlgorithmsManager;
 
-    private $serializerManager;
+    private JWSSerializerManager $serializerManager;
 
-    public function init()
+    public function init(): void
     {
         $this->signatureAlgorithmsManager = new AlgorithmManager([
-            new Algorithm\HS256(),
-            new Algorithm\HS384(),
-            new Algorithm\HS512(),
-            new Algorithm\RS256(),
-            new Algorithm\RS384(),
-            new Algorithm\RS512(),
-            new Algorithm\PS256(),
-            new Algorithm\PS384(),
-            new Algorithm\PS512(),
-            new Algorithm\ES256(),
-            new Algorithm\ES384(),
-            new Algorithm\ES512(),
-            new Algorithm\None(),
-            new Algorithm\EdDSA(),
+            new HS256(),
+            new HS384(),
+            new HS512(),
+            new RS256(),
+            new RS384(),
+            new RS512(),
+            new PS256(),
+            new PS384(),
+            new PS512(),
+            new ES256(),
+            new ES384(),
+            new ES512(),
+            new None(),
+            new EdDSA(),
         ]);
         $this->serializerManager = new JWSSerializerManager([
             new CompactSerializer(),
@@ -56,7 +71,7 @@ abstract class SignatureBench
      * @Subject
      * @ParamProviders({"dataSignature"})
      */
-    public function sign(array $params)
+    public function sign(array $params): void
     {
         $jwsBuilder = new JWSBuilder($this->signatureAlgorithmsManager);
         $jwsBuilder
@@ -72,7 +87,7 @@ abstract class SignatureBench
      * @Subject
      * @ParamProviders({"dataVerification"})
      */
-    public function verify(array $params)
+    public function verify(array $params): void
     {
         $jwsLoader = new JWSVerifier($this->signatureAlgorithmsManager);
         $jws = $this->serializerManager->unserialize($params['input']);

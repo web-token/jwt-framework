@@ -30,11 +30,11 @@ final class RSAKey
 
     private array $values;
 
-    private ?BigInteger $modulus = null;
+    private BigInteger $modulus;
 
-    private ?int $modulus_length = null;
+    private int $modulus_length;
 
-    private ?BigInteger $public_exponent = null;
+    private BigInteger $public_exponent;
 
     private ?BigInteger $private_exponent = null;
 
@@ -265,12 +265,7 @@ final class RSAKey
         $this->sequence->addChild($key_octet_string);
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
-    private function fromBase64ToInteger($value)
+    private function fromBase64ToInteger(string $value): string
     {
         $unpacked = unpack('H*', Base64UrlSafe::decode($value));
         if (! is_array($unpacked) || count($unpacked) === 0) {

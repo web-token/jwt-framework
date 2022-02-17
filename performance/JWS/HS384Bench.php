@@ -6,6 +6,8 @@ namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use PhpBench\Benchmark\Metadata\Annotations\Groups;
+use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
 /**
  * @Revs(4096)
@@ -58,7 +60,7 @@ final class HS384Bench extends SignatureBench
             'kty' => 'oct',
             'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
             'use' => 'sig',
-            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+            'k' => 'uRlFc5ToCUJtMLBi5eMrMT-k1rEytzm7quHuadKnU5Vvj6_97BtJprASN3s7eMWNQrAd9MRxpk_Du54SYAVutw',
         ]);
     }
 

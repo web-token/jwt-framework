@@ -36,9 +36,9 @@ class JWEBuilder
 
     protected array $sharedHeader = [];
 
-    private ?CompressionMethod $compressionMethod;
+    private ?CompressionMethod $compressionMethod = null;
 
-    private ?string $keyManagementMode;
+    private ?string $keyManagementMode = null;
 
     private ?ContentEncryptionAlgorithm $contentEncryptionAlgorithm = null;
 

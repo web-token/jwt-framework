@@ -111,14 +111,6 @@ return static function (ContainerConfigurator $containerConfigurator) use ($head
     $parameters
         ->set(Option::PARALLEL, true)
         ->set(Option::PATHS, [__DIR__])
-        ->set(Option::SKIP, [
-            __DIR__ . '/src/Kernel.php',
-            __DIR__ . '/assets',
-            __DIR__ . '/bin',
-            __DIR__ . '/config',
-            __DIR__ . '/heroku',
-            __DIR__ . '/public',
-            __DIR__ . '/var',
-        ])
+        ->set(Option::SKIP, [__DIR__ . '/.github', __DIR__ . '/var', __DIR__ . '/vendor'])
     ;
 };

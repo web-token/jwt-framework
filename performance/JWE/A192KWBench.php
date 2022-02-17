@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWE;
 
+use PhpBench\Benchmark\Metadata\Annotations\Groups;
+use PhpBench\Benchmark\Metadata\Annotations\Revs;
+
 /**
  * @Revs(4096)
  * @Groups({"JWE", "KW", "A192KW"})

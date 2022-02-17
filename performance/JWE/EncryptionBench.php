@@ -4,6 +4,30 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWE;
 
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
+use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -25,44 +49,44 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
  */
 abstract class EncryptionBench
 {
-    private $contentEncryptionAlgorithmsManager;
+    private AlgorithmManager $contentEncryptionAlgorithmsManager;
 
-    private $keyEncryptionAlgorithmsManager;
+    private AlgorithmManager $keyEncryptionAlgorithmsManager;
 
-    private $compressionMethodsManager;
+    private CompressionMethodManager $compressionMethodsManager;
 
-    private $serializerManager;
+    private JWESerializerManager $serializerManager;
 
-    public function init()
+    public function init(): void
     {
         $this->keyEncryptionAlgorithmsManager = new AlgorithmManager([
-            new KeyEncryption\A128KW(),
-            new KeyEncryption\A192KW(),
-            new KeyEncryption\A256KW(),
-            new KeyEncryption\A128GCMKW(),
-            new KeyEncryption\A192GCMKW(),
-            new KeyEncryption\A256GCMKW(),
-            new KeyEncryption\Dir(),
-            new KeyEncryption\ECDHES(),
-            new KeyEncryption\ECDHESA128KW(),
-            new KeyEncryption\ECDHESA192KW(),
-            new KeyEncryption\ECDHESA256KW(),
-            new KeyEncryption\PBES2HS256A128KW(),
-            new KeyEncryption\PBES2HS384A192KW(),
-            new KeyEncryption\PBES2HS512A256KW(),
-            new KeyEncryption\RSA15(),
-            new KeyEncryption\RSAOAEP(),
-            new KeyEncryption\RSAOAEP256(),
+            new A128KW(),
+            new A192KW(),
+            new A256KW(),
+            new A128GCMKW(),
+            new A192GCMKW(),
+            new A256GCMKW(),
+            new Dir(),
+            new ECDHES(),
+            new ECDHESA128KW(),
+            new ECDHESA192KW(),
+            new ECDHESA256KW(),
+            new PBES2HS256A128KW(),
+            new PBES2HS384A192KW(),
+            new PBES2HS512A256KW(),
+            new RSA15(),
+            new RSAOAEP(),
+            new RSAOAEP256(),
         ]);
         $this->contentEncryptionAlgorithmsManager = new AlgorithmManager([
-            new ContentEncryption\A128CBCHS256(),
-            new ContentEncryption\A192CBCHS384(),
-            new ContentEncryption\A256CBCHS512(),
-            new ContentEncryption\A128GCM(),
-            new ContentEncryption\A192GCM(),
-            new ContentEncryption\A256GCM(),
+            new A128CBCHS256(),
+            new A192CBCHS384(),
+            new A256CBCHS512(),
+            new A128GCM(),
+            new A192GCM(),
+            new A256GCM(),
         ]);
-        $this->compressionMethodsManager = new CompressionMethodManager([new Compression\Deflate()]);
+        $this->compressionMethodsManager = new CompressionMethodManager([new Deflate()]);
         $this->serializerManager = new JWESerializerManager([
             new CompactSerializer(),
             new JSONFlattenedSerializer(),
@@ -74,7 +98,7 @@ abstract class EncryptionBench
      * @Subject
      * @ParamProviders({"dataPayloads", "dataHeadersAndAlgorithms", "dataRecipientPublicKeys"})
      */
-    public function encryption(array $params)
+    public function encryption(array $params): void
     {
         $jweBuilder = new JWEBuilder(
             $this->getKeyEncryptionAlgorithmsManager(),
@@ -95,7 +119,7 @@ abstract class EncryptionBench
      * @Subject
      * @ParamProviders({"dataInputs", "dataPrivateKeys"})
      */
-    public function decryption(array $params)
+    public function decryption(array $params): void
     {
         $jweLoader = new JWEDecrypter(
             $this->getKeyEncryptionAlgorithmsManager(),
