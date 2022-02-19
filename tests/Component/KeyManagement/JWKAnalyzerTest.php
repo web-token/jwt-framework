@@ -103,7 +103,7 @@ final class JWKAnalyzerTest extends TestCase
     {
         $key = JWKFactory::createECKey('P-521', [
             'kid' => '0123456789',
-            'alg' => 'HS256',
+            'alg' => 'ES521',
             'use' => 'sig',
         ]);
         $messages = $this->getKeyAnalyzer()
