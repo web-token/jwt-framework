@@ -13,5 +13,7 @@ parameters:
         - '#Binary operation "\^" between string and 1 results in an error\.#'
         - '#Parameter \#1 \$length of function random_bytes expects int\<1\, max\>.*\.#'
         - '#Parameter \#3 \$length of function mb_substr expects int\|null.*\.#'
+        - '#Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null\, mixed given\.#'
+        - '#Parameter \#1 \.\.\.\$arrays of function array_merge expects array\, mixed given\.#'
 includes:
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon

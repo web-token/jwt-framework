@@ -7,6 +7,7 @@ namespace Jose\Component\KeyManagement\Analyzer;
 use Brick\Math\BigInteger;
 use function is_string;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
@@ -22,9 +23,6 @@ abstract class ESKeyAnalyzer implements KeyAnalyzer
 
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
-        if (! $jwk->has('alg') || $jwk->get('alg') !== $this->getAlgorithmName()) {
-            return;
-        }
         if ($jwk->get('kty') !== 'EC') {
             return;
         }
@@ -62,8 +60,7 @@ abstract class ESKeyAnalyzer implements KeyAnalyzer
         }
         $xBI = BigInteger::fromBase(bin2hex($x), 16);
         $yBI = BigInteger::fromBase(bin2hex($y), 16);
-        $curve = NistCurve::curve256();
-        if (! $curve->contains($xBI, $yBI)) {
+        if (! $this->getCurve()->contains($xBI, $yBI)) {
             $bag->add(Message::high('Invalid key. The point is not on the curve.'));
         }
     }
@@ -71,6 +68,8 @@ abstract class ESKeyAnalyzer implements KeyAnalyzer
     abstract protected function getAlgorithmName(): string;
 
     abstract protected function getCurveName(): string;
+
+    abstract protected function getCurve(): Curve;
 
     abstract protected function getKeySize(): int;
 }
