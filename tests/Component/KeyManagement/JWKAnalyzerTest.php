@@ -6,12 +6,19 @@ namespace Jose\Tests\Component\KeyManagement;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
 use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
 
@@ -89,16 +96,39 @@ final class JWKAnalyzerTest extends TestCase
         static::assertNotEmpty($messages);
     }
 
+    /**
+     * @test
+     */
+    public function iCanAnalyzeAnES521OctKeyAndGetMessages(): void
+    {
+        $key = JWKFactory::createECKey('P-521', [
+            'kid' => '0123456789',
+            'alg' => 'HS256',
+            'use' => 'sig',
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key)
+        ;
+        static::assertEmpty($messages);
+    }
+
     private function getKeyAnalyzer(): KeyAnalyzerManager
     {
         if ($this->keyAnalyzerManager === null) {
             $this->keyAnalyzerManager = new KeyAnalyzerManager();
             $this->keyAnalyzerManager->add(new AlgorithmAnalyzer());
+            $this->keyAnalyzerManager->add(new ES256KeyAnalyzer());
+            $this->keyAnalyzerManager->add(new ES384KeyAnalyzer());
+            $this->keyAnalyzerManager->add(new ES512KeyAnalyzer());
+            $this->keyAnalyzerManager->add(new HS256KeyAnalyzer());
+            $this->keyAnalyzerManager->add(new HS384KeyAnalyzer());
+            $this->keyAnalyzerManager->add(new HS512KeyAnalyzer());
             $this->keyAnalyzerManager->add(new KeyIdentifierAnalyzer());
             $this->keyAnalyzerManager->add(new NoneAnalyzer());
             $this->keyAnalyzerManager->add(new OctAnalyzer());
             $this->keyAnalyzerManager->add(new RsaAnalyzer());
             $this->keyAnalyzerManager->add(new UsageAnalyzer());
+            $this->keyAnalyzerManager->add(new ZxcvbnKeyAnalyzer());
         }
 
         return $this->keyAnalyzerManager;

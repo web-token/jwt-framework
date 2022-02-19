@@ -7,6 +7,7 @@ namespace Jose\Component\Encryption;
 use function array_key_exists;
 use function count;
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
@@ -450,8 +451,12 @@ class JWEBuilder
                 if ($key->get('kty') !== 'oct') {
                     throw new RuntimeException('Wrong key type.');
                 }
+                $k = $key->get('k');
+                if (! is_string($k)) {
+                    throw new RuntimeException('Invalid key.');
+                }
 
-                return Base64UrlSafe::decode($key->get('k'));
+                return Base64UrlSafe::decode($k);
 
             default:
                 throw new InvalidArgumentException(sprintf(

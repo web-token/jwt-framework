@@ -6,6 +6,7 @@ namespace Jose\Component\Encryption\Serializer;
 
 use function count;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
@@ -58,6 +59,9 @@ final class CompactSerializer implements JWESerializer
         try {
             $encodedSharedProtectedHeader = $parts[0];
             $sharedProtectedHeader = JsonConverter::decode(Base64UrlSafe::decode($encodedSharedProtectedHeader));
+            if (! is_array($sharedProtectedHeader)) {
+                throw new InvalidArgumentException('Unsupported input.');
+            }
             $encryptedKey = $parts[1] === '' ? null : Base64UrlSafe::decode($parts[1]);
             $iv = Base64UrlSafe::decode($parts[2]);
             $ciphertext = Base64UrlSafe::decode($parts[3]);

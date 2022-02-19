@@ -82,7 +82,11 @@ final class ECKey
      */
     private static function loadPKCS8(array $children): array
     {
-        $binary = hex2bin($children[2]->getContent());
+        $data = $children[2]->getContent();
+        if (! is_string($data)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $binary = hex2bin($data);
         $asnObject = ASNObject::fromBinary($binary);
         if (! $asnObject instanceof Sequence) {
             throw new InvalidArgumentException('Unable to load the key.');
@@ -112,6 +116,9 @@ final class ECKey
         }
 
         $bits = $children[1]->getContent();
+        if (! is_string($bits)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
         $bits_length = mb_strlen($bits, '8bit');
         if (mb_strpos($bits, '04', 0, '8bit') !== 0) {
             throw new InvalidArgumentException('Unsupported key type');
@@ -120,7 +127,11 @@ final class ECKey
         $values = [
             'kty' => 'EC',
         ];
-        $values['crv'] = self::getCurve($sub[1]->getContent());
+        $oid = $sub[1]->getContent();
+        if (! is_string($oid)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
+        $values['crv'] = self::getCurve($oid);
 
         $xBin = hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit'));
         $yBin = hex2bin(mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit'));
@@ -173,6 +184,9 @@ final class ECKey
         $bits = $children->getContent()[0]
             ->getContent()
         ;
+        if (! is_string($bits)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
         $bits_length = mb_strlen($bits, '8bit');
 
         if (mb_strpos($bits, '04', 0, '8bit') !== 0) {
@@ -188,8 +202,12 @@ final class ECKey
         if (! $children instanceof OctetString) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
+        $data = $children->getContent();
+        if (! is_string($data)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
 
-        return $children->getContent();
+        return $data;
     }
 
     private static function loadPrivatePEM(array $children): array
@@ -211,7 +229,7 @@ final class ECKey
         $dBin = hex2bin($d);
         $xBin = hex2bin($x);
         $yBin = hex2bin($y);
-        if (! is_string($dBin) || ! is_string($xBin) || ! is_string($yBin)) {
+        if (! is_string($curve) || ! is_string($dBin) || ! is_string($xBin) || ! is_string($yBin)) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
 

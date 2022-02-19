@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\NestedToken;
 
 use InvalidArgumentException;
+use function is_string;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWELoader;
@@ -45,6 +46,9 @@ class NestedTokenLoader
                 ->getHeaderParameter('cty'),
             default => throw new InvalidArgumentException('The token is not a nested token.'),
         };
+        if (! is_string($cty)) {
+            throw new InvalidArgumentException('Invalid "cty" header parameter.');
+        }
 
         if (strcasecmp($cty, 'jwt') !== 0) {
             throw new InvalidArgumentException('The token is not a nested token.');

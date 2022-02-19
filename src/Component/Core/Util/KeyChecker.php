@@ -7,6 +7,7 @@ namespace Jose\Component\Core\Util;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
+use function is_string;
 use Jose\Component\Core\JWK;
 
 /**
@@ -29,8 +30,12 @@ final class KeyChecker
         if (! $key->has('alg')) {
             return;
         }
-        if ($key->get('alg') !== $algorithm) {
-            throw new InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $key->get('alg')));
+        $alg = $key->get('alg');
+        if (! is_string($alg)) {
+            throw new InvalidArgumentException('Invalid algorithm.');
+        }
+        if ($alg !== $algorithm) {
+            throw new InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $alg));
         }
     }
 

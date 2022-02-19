@@ -8,11 +8,14 @@ use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 
-final class OctAnalyzer implements KeyAnalyzer
+abstract class HSKeyAnalyzer implements KeyAnalyzer
 {
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
         if ($jwk->get('kty') !== 'oct') {
+            return;
+        }
+        if (! $jwk->has('alg') || $jwk->get('alg') !== $this->getAlgorithmName()) {
             return;
         }
         $k = $jwk->get('k');
@@ -23,8 +26,17 @@ final class OctAnalyzer implements KeyAnalyzer
         }
         $k = Base64UrlSafe::decode($k);
         $kLength = 8 * mb_strlen($k, '8bit');
-        if ($kLength < 128) {
-            $bag->add(Message::high('The key length is less than 128 bits.'));
+        if ($kLength < $this->getMinimumKeySize()) {
+            $bag->add(
+                Message::high(sprintf(
+                    'HS512 algorithm requires at least %d bits key length.',
+                    $this->getMinimumKeySize()
+                ))
+            );
         }
     }
+
+    abstract protected function getAlgorithmName(): string;
+
+    abstract protected function getMinimumKeySize(): int;
 }
