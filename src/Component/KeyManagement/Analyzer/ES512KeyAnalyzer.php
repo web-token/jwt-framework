@@ -4,46 +4,20 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use Brick\Math\BigInteger;
-use Jose\Component\Core\JWK;
-use Jose\Component\Core\Util\Ecc\NistCurve;
-use ParagonIE\ConstantTime\Base64UrlSafe;
-use RuntimeException;
-
-final class ES512KeyAnalyzer implements KeyAnalyzer
+final class ES512KeyAnalyzer extends ESKeyAnalyzer
 {
-    public function __construct()
+    protected function getAlgorithmName(): string
     {
-        if (! class_exists(NistCurve::class)) {
-            throw new RuntimeException('Please install web-token/jwt-util-ecc to use this key analyzer');
-        }
+        return 'ES512';
     }
 
-    public function analyze(JWK $jwk, MessageBag $bag): void
+    protected function getCurveName(): string
     {
-        if ($jwk->get('kty') !== 'EC') {
-            return;
-        }
-        if (! $jwk->has('crv')) {
-            $bag->add(Message::high('Invalid key. The components "crv" is missing.'));
+        return 'P-521';
+    }
 
-            return;
-        }
-        if ($jwk->get('crv') !== 'P-521') {
-            return;
-        }
-        $x = Base64UrlSafe::decode($jwk->get('x'));
-        $xLength = 8 * mb_strlen($x, '8bit');
-        $y = Base64UrlSafe::decode($jwk->get('y'));
-        $yLength = 8 * mb_strlen($y, '8bit');
-        if ($yLength !== $xLength || $yLength !== 528) {
-            $bag->add(Message::high('Invalid key. The components "x" and "y" size shall be 528 bits.'));
-        }
-        $xBI = BigInteger::fromBase(bin2hex($x), 16);
-        $yBI = BigInteger::fromBase(bin2hex($y), 16);
-        $curve = NistCurve::curve521();
-        if (! $curve->contains($xBI, $yBI)) {
-            $bag->add(Message::high('Invalid key. The point is not on the curve.'));
-        }
+    protected function getKeySize(): int
+    {
+        return 512; //528
     }
 }

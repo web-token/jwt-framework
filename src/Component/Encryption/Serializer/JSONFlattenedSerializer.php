@@ -7,6 +7,7 @@ namespace Jose\Component\Encryption\Serializer;
 use function array_key_exists;
 use function count;
 use InvalidArgumentException;
+use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
@@ -59,6 +60,9 @@ final class JSONFlattenedSerializer implements JWESerializer
     public function unserialize(string $input): JWE
     {
         $data = JsonConverter::decode($input);
+        if (! is_array($data)) {
+            throw new InvalidArgumentException('Unsupported input.');
+        }
         $this->checkData($data);
 
         $ciphertext = Base64UrlSafe::decode($data['ciphertext']);

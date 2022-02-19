@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
+use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use ZxcvbnPhp\Zxcvbn;
@@ -15,7 +16,13 @@ final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
         if ($jwk->get('kty') !== 'oct') {
             return;
         }
-        $k = Base64UrlSafe::decode($jwk->get('k'));
+        $k = $jwk->get('k');
+        if (! is_string($k)) {
+            $bag->add(Message::high('The key is not valid'));
+
+            return;
+        }
+        $k = Base64UrlSafe::decode($k);
         if (class_exists(Zxcvbn::class)) {
             $zxcvbn = new Zxcvbn();
             $strength = $zxcvbn->passwordStrength($k);
