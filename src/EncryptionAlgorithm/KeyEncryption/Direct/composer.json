@@ -20,6 +20,6 @@
         }
     },
     "require": {
-        "web-token/jwt-encryption": "^2.1"
+        "web-token/jwt-encryption": "^3.0"
     }
 }

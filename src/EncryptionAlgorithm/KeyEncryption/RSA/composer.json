@@ -23,7 +23,7 @@
         "brick/math": "^0.9",
         "ext-openssl": "*",
         "symfony/polyfill-mbstring": "^1.12",
-        "web-token/jwt-encryption": "^2.1"
+        "web-token/jwt-encryption": "^3.0"
     },
     "suggest": {
         "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",

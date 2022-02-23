@@ -21,6 +21,6 @@
     },
     "require": {
         "ext-openssl": "*",
-        "web-token/jwt-encryption-algorithm-rsa": "^2.1"
+        "web-token/jwt-encryption-algorithm-rsa": "^3.0"
     }
 }

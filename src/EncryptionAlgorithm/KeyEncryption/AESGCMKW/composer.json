@@ -22,6 +22,6 @@
     "require": {
         "ext-openssl": "*",
         "spomky-labs/aes-key-wrap": "^7.0",
-        "web-token/jwt-encryption": "^2.1"
+        "web-token/jwt-encryption": "^3.0"
     }
 }

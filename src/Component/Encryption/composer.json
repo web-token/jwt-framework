@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "web-token/jwt-core": "^2.1"
+        "web-token/jwt-core": "^3.0"
     },
     "suggest": {
         "web-token/jwt-encryption-algorithm-aescbc": "AES CBC Based Content Encryption Algorithms",

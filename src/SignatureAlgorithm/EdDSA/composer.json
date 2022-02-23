@@ -21,6 +21,6 @@
     },
     "require": {
         "ext-sodium": "*",
-        "web-token/jwt-signature": "^2.1"
+        "web-token/jwt-signature": "^3.0"
     }
 }
