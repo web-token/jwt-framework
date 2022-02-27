@@ -20,6 +20,7 @@
         }
     },
     "require": {
+        "php": ">=8.1",
         "web-token/jwt-core": "^3.0"
     }
 }

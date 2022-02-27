@@ -20,6 +20,7 @@
         }
     },
     "require": {
+        "php": ">=8.1",
         "ext-openssl": "*",
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0",
