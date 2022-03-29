@@ -101,7 +101,6 @@
         "symplify/easy-coding-standard": "^10.0"
     },
     "replace": {
-        "web-token/jwt-easy": "self.version",
         "web-token/jwt-core": "self.version",
         "web-token/jwt-checker": "self.version",
         "web-token/jwt-signature": "self.version",
@@ -147,6 +146,11 @@
             "phpstan/extension-installer": true,
             "infection/extension-installer": true,
             "composer/package-versions-deprecated": true
+        }
+    },
+    "extra": {
+        "symfony": {
+            "endpoint": "https://github.com/web-token/recipes"
         }
     }
 }
