@@ -38,7 +38,10 @@
     },
     "extra": {
         "symfony": {
-            "endpoint": "https://github.com/web-token/recipes"
+            "endpoint": [
+                "https://api.github.com/repos/web-token/recipes/contents/index.json",
+                "flex://defaults"
+            ]
         }
     }
 }
