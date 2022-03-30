@@ -147,13 +147,5 @@
             "infection/extension-installer": true,
             "composer/package-versions-deprecated": true
         }
-    },
-    "extra": {
-        "symfony": {
-            "endpoint": [
-                "https://api.github.com/repos/web-token/recipes/contents/index.json",
-                "flex://defaults"
-            ]
-        }
     }
 }

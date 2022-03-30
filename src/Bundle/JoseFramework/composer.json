@@ -35,13 +35,5 @@
         "web-token/jwt-key-mgmt": "Add Keys (JWK) and Key sets (JWKSet) management tools.",
         "web-token/jwt-signature": "Add signed tokens (JWS) support and useful Symfony services.",
         "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens."
-    },
-    "extra": {
-        "symfony": {
-            "endpoint": [
-                "https://api.github.com/repos/web-token/recipes/contents/index.json",
-                "flex://defaults"
-            ]
-        }
     }
 }
