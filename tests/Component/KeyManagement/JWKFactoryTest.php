@@ -274,4 +274,90 @@ final class JWKFactoryTest extends TestCase
             json_encode($result)
         );
     }
+
+    /**
+     * @test
+     * @dataProvider dataEd25519Keys
+     */
+    public function loadEd25519KeyPEMEncoded(string $filename, array $expectedValues): void
+    {
+        $jwk = JWKFactory::createFromKeyFile($filename);
+
+        static::assertSame($expectedValues, $jwk->all());
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function dataEd25519Keys(): array
+    {
+        return [
+            [
+                'filename' => __DIR__ . '/Keys/ED/public-ed448.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'Ed448',
+                    'x' => 'AMMByg1e7OHwYZhUk82KK5Wk6BlzXLGu0mpGXXpE_7HsQ-RDY-ZVj-vyl_f7vvsP0EpvNKzTqHY9AA',
+                ],
+            ],
+            [
+                'filename' => __DIR__ . '/Keys/ED/public-ed25519.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'Ed25519',
+                    'x' => 'AMKyN9wBI9eShx2KZbnlBOXJySrWzPKFRxX-sBp8NqDh',
+                ],
+            ],
+            [
+                'filename' => __DIR__ . '/Keys/ED/public-X448.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'X448',
+                    'x' => 'AFKDw-9zUAAgvAPqLQ1Fbp-CKzLJO--UoTEX-E4Q66uMWNngCPqTiFbo67wV13fYPIFDcAU9H5p3',
+                ],
+            ],
+            [
+                'filename' => __DIR__ . '/Keys/ED/public-X25519.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'X25519',
+                    'x' => 'ANziS4n35jgkBrYpdt0Bsp9J5PRASqGcej_uqPhJ7AQe',
+                ],
+            ],
+            [
+                'filename' => __DIR__ . '/Keys/ED/private-ed448.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'Ed448',
+                    'd' => '0GXSbNLOh7NQBlwoF8y2WJmjeP5Puif4_JL4ihFUzRLrb_3r4cH8l_HWJA-2ffY62LEB_ozsehG5',
+                ],
+            ],
+            [
+                'filename' => __DIR__ . '/Keys/ED/private-X448.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'X448',
+                    'd' => 'OHZK0Fp9MAAmk0yZekiAkB8qxpCVAF4dT2x_xmFNDdCTnyDvixaiZ0NSRpAdR59tA6OJmOFfbck',
+                ],
+            ],
+            [
+                'filename' => __DIR__ . '/Keys/ED/private-ed25519.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'Ed25519',
+                    'd' => 'Pr9AxZivB-zSq95wLrZfYa7DQ3TUPqZTkP_0w33r3rc',
+                    'x' => 'QUVDMzQzNzRENDNFQTY1MzkwRkZGNEMzN0RFQkRFQjc',
+                ],
+            ],
+            [
+                'filename' => __DIR__ . '/Keys/ED/private-X25519.pem',
+                'values' => [
+                    'kty' => 'OKP',
+                    'crv' => 'X25519',
+                    'd' => 'mG-fgDwkr58hwIeqCQKZbR8HKeY4yg_AzvU6zyNaVUE',
+                    'x' => 'MUYwNzI5RTYzOENBMEZDMENFRjUzQUNGMjM1QTU1NDE',
+                ],
+            ],
+        ];
+    }
 }
