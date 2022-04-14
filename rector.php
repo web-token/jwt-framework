@@ -25,7 +25,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
     $parameters->set(Option::PARALLEL, true);
     $parameters->set(Option::IMPORT_SHORT_CLASSES, false);
-    $parameters->set(Option::IMPORT_DOC_BLOCKS, false);
 
     $services = $containerConfigurator->services();
     $services->set(TypedPropertyRector::class);

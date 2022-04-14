@@ -23,28 +23,29 @@ final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
             return;
         }
         $k = Base64UrlSafe::decode($k);
-        if (class_exists(Zxcvbn::class)) {
-            $zxcvbn = new Zxcvbn();
-            $strength = $zxcvbn->passwordStrength($k);
+        if (! class_exists(Zxcvbn::class)) {
+            return;
+        }
+        $zxcvbn = new Zxcvbn();
+        $strength = $zxcvbn->passwordStrength($k);
 
-            switch (true) {
-                case $strength['score'] < 3:
-                    $bag->add(
-                        Message::high(
-                            'The octet string is weak and easily guessable. Please change your key as soon as possible.'
-                        )
-                    );
+        switch (true) {
+            case $strength['score'] < 3:
+                $bag->add(
+                    Message::high(
+                        'The octet string is weak and easily guessable. Please change your key as soon as possible.'
+                    )
+                );
 
-                    break;
+                break;
 
-                case $strength['score'] === 3:
-                    $bag->add(Message::medium('The octet string is safe, but a longer key is preferable.'));
+            case $strength['score'] === 3:
+                $bag->add(Message::medium('The octet string is safe, but a longer key is preferable.'));
 
-                    break;
+                break;
 
-                default:
-                    break;
-            }
+            default:
+                break;
         }
     }
 }

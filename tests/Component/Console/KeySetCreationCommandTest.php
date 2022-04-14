@@ -78,7 +78,8 @@ final class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        JWKSet::createFromJson($content);
+        $jwkset = JWKSet::createFromJson($content);
+        static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
     /**
@@ -96,6 +97,9 @@ final class KeySetCreationCommandTest extends TestCase
         $command = new OctKeysetGeneratorCommand();
 
         $command->run($input, $output);
+        $content = $output->fetch();
+        $jwkset = JWKSet::createFromJson($content);
+        static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
     /**
@@ -113,7 +117,8 @@ final class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        JWKSet::createFromJson($content);
+        $jwkset = JWKSet::createFromJson($content);
+        static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
     /**
@@ -148,7 +153,8 @@ final class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        JWKSet::createFromJson($content);
+        $jwkset = JWKSet::createFromJson($content);
+        static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
     /**
@@ -183,6 +189,7 @@ final class KeySetCreationCommandTest extends TestCase
 
         $command->run($input, $output);
         $content = $output->fetch();
-        JWKSet::createFromJson($content);
+        $jwkset = JWKSet::createFromJson($content);
+        static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 }

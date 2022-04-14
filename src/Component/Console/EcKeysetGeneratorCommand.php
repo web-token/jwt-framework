@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_int;
 use function is_string;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
@@ -28,7 +27,7 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $quantity = (int)$input->getArgument('quantity');
+        $quantity = (int) $input->getArgument('quantity');
         if ($quantity < 1) {
             throw new InvalidArgumentException('Invalid quantity');
         }
