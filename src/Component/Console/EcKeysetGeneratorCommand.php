@@ -28,10 +28,7 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $quantity = $input->getArgument('quantity');
-        if (! is_int($quantity)) {
-            $quantity = 1;
-        }
+        $quantity = (int)$input->getArgument('quantity');
         if ($quantity < 1) {
             throw new InvalidArgumentException('Invalid quantity');
         }
