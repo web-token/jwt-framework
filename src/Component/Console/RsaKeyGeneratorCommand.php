@@ -25,10 +25,7 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $size = $input->getArgument('size');
-        if (! is_int($size)) {
-            $size = 1;
-        }
+        $size = (int)$input->getArgument('size');
         $args = $this->getOptions($input);
         if ($size < 1) {
             throw new InvalidArgumentException('Invalid size');
