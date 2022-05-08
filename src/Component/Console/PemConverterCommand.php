@@ -11,18 +11,21 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\RSAKey;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'key:convert:pkcs1',
+    description: 'Converts a RSA or EC key into PKCS#1 key.',
+)]
 final class PemConverterCommand extends ObjectOutputCommand
 {
-    protected static $defaultName = 'key:convert:pkcs1';
-
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Converts a RSA or EC key into PKCS#1 key.')
+        $this
             ->addArgument('jwk', InputArgument::REQUIRED, 'The key')
         ;
     }

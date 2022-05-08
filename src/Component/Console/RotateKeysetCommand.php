@@ -11,18 +11,21 @@ use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'keyset:rotate',
+    description: 'Rotate a key set.',
+)]
 final class RotateKeysetCommand extends ObjectOutputCommand
 {
-    protected static $defaultName = 'keyset:rotate';
-
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Rotate a key set.')
+        $this
             ->setHelp('This command removes the last key in a key set a place a new one at the beginning.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')

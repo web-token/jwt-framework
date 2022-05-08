@@ -7,18 +7,21 @@ namespace Jose\Component\Console;
 use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'keyset:generate:oct',
+    description: 'Generate a key set with octet keys (JWK format)',
+)]
 final class OctKeysetGeneratorCommand extends GeneratorCommand
 {
-    protected static $defaultName = 'keyset:generate:oct';
-
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Generate a key set with octet keys (JWK format)')
+        $this
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
             ->addArgument('size', InputArgument::REQUIRED, 'Key size.')
         ;

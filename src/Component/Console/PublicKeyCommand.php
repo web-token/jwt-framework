@@ -9,18 +9,21 @@ use function is_array;
 use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'key:convert:public',
+    description: 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.',
+)]
 final class PublicKeyCommand extends ObjectOutputCommand
 {
-    protected static $defaultName = 'key:convert:public';
-
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Convert a private key into public key. Symmetric keys (shared keys) are not changed.')
+        $this
             ->setHelp('This command converts a private key into a public key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
         ;

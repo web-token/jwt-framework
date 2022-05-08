@@ -12,28 +12,30 @@ use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\MessageBag;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'keyset:analyze',
+    description: 'JWKSet quality analyzer.',
+)]
 final class KeysetAnalyzerCommand extends Command
 {
-    protected static $defaultName = 'keyset:analyze';
-
     public function __construct(
         private KeysetAnalyzerManager $keysetAnalyzerManager,
         private KeyAnalyzerManager $keyAnalyzerManager,
-        string $name = null
     ) {
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('JWKSet quality analyzer.')
+        $this
             ->setHelp('This command will analyze a JWKSet object and find security issues.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
         ;
