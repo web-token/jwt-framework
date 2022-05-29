@@ -10,12 +10,9 @@ use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilderFactory as BaseJWEBuilderFactory;
-use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Serializer\Encoder\DecoderInterface;
-use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
@@ -27,10 +24,10 @@ final class JWESerializerTest extends KernelTestCase
 {
     protected function setUp(): void
     {
-        if (! class_exists(BaseJWEBuilderFactory::class)) {
+        if (!class_exists(BaseJWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
-        if (! class_exists(Serializer::class)) {
+        if (!class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -43,10 +40,8 @@ final class JWESerializerTest extends KernelTestCase
     {
         $container = static::getContainer();
         $serializer = $container->get($serializerId);
-        static::assertInstanceOf(EncoderInterface::class, $serializer);
-        static::assertTrue($serializer->supportsEncoding($format));
-        static::assertInstanceOf(DecoderInterface::class, $serializer);
-        static::assertTrue($serializer->supportsDecoding($format));
+        static::assertInstanceOf(DenormalizerInterface::class, $serializer);
+        static::assertTrue($serializer->supportsDenormalization(null, JWE::class, $format));
     }
 
     /**
@@ -61,147 +56,6 @@ final class JWESerializerTest extends KernelTestCase
 
         static::assertNotInstanceOf(NormalizerInterface::class, $serializer);
         static::assertFalse(method_exists($serializer, 'supportsNormalization'));
-    }
-
-    /**
-     * @test
-     * @dataProvider jweFormatDataProvider
-     */
-    public function aJWECanBeEncodedInAllFormats(string $format, string $serializerId): void
-    {
-        $container = static::getContainer();
-        $serializer = $container->get($serializerId);
-        static::assertInstanceOf(EncoderInterface::class, $serializer);
-
-        ['jwk' => $jwk, 'jwe' => $jwe] = $this->createJWE();
-
-        $jweString = $serializer->encode($jwe, $format);
-        $this->assertEncodedJWEValid($jweString, $format);
-        static::assertSame(0, $this->loadJWE($jweString, $jwk));
-    }
-
-    /**
-     * @test
-     * @dataProvider jweFormatDataProvider
-     */
-    public function aJWECanBeEncodedWithSpecificRecipient(string $format, string $serializerId): void
-    {
-        $container = static::getContainer();
-        $serializer = $container->get($serializerId);
-        static::assertInstanceOf(EncoderInterface::class, $serializer);
-
-        ['jwk' => $jwk, 'jwk2' => $jwk2, 'jwe' => $jwe] = $this->createJWE();
-
-        // Recipient index = 0
-        $jweString = $serializer->encode($jwe, $format, [
-            'recipient_index' => 0,
-        ]);
-        $this->assertEncodedJWEValid($jweString, $format);
-        static::assertSame(0, $this->loadJWE($jweString, $jwk));
-        unset($recipient);
-
-        // Recipient index = 1
-        $jweString = $serializer->encode($jwe, $format, [
-            'recipient_index' => 1,
-        ]);
-        $this->assertEncodedJWEValid($jweString, $format);
-        static::assertSame($format === 'jwe_json_general' ? 1 : 0, $this->loadJWE($jweString, $jwk2));
-    }
-
-    /**
-     * @test
-     * @dataProvider serializerServiceDataProvider
-     */
-    public function theJWESerializerThrowsOnNonExistingRecipient(string $serializerId): void
-    {
-        $container = static::getContainer();
-        $serializer = $container->get($serializerId);
-        static::assertInstanceOf(EncoderInterface::class, $serializer);
-
-        ['jwe' => $jwe] = $this->createJWE();
-
-        $this->expectExceptionMessage(sprintf('Cannot encode JWE to %s format.', 'jwe_compact'));
-        $serializer->encode($jwe, 'jwe_compact', [
-            'recipient_index' => 2,
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function aJWECanBeEncodedWithCustomSerializerManager(): void
-    {
-        $container = static::getContainer();
-        $jweSerializerManager = new JWESerializerManager([new CompactSerializer()]);
-        $jweSerializerManagerFactory = $container->get(JWESerializerManagerFactory::class);
-        static::assertInstanceOf(JWESerializerManagerFactory::class, $jweSerializerManagerFactory);
-        $serializer = new JWESerializer($jweSerializerManagerFactory, $jweSerializerManager);
-        static::assertInstanceOf(EncoderInterface::class, $serializer);
-
-        ['jwk' => $jwk, 'jwe' => $jwe] = $this->createJWE();
-
-        static::assertTrue($serializer->supportsEncoding('jwe_compact'));
-        static::assertFalse($serializer->supportsEncoding('jwe_json_flattened'));
-        static::assertFalse($serializer->supportsEncoding('jwe_json_general'));
-        static::assertTrue($serializer->supportsDecoding('jwe_compact'));
-        static::assertFalse($serializer->supportsDecoding('jwe_json_flattened'));
-        static::assertFalse($serializer->supportsDecoding('jwe_json_general'));
-
-        $jweString = $serializer->encode($jwe, 'jwe_compact');
-        $this->assertEncodedJWEValid($jweString, 'jwe_compact');
-        static::assertSame(0, $this->loadJWE($jweString, $jwk));
-    }
-
-    /**
-     * @test
-     */
-    public function theJWESerializerShouldThrowOnUnsupportedFormatWhenEncoding(): void
-    {
-        $container = static::getContainer();
-        $jweSerializerManager = new JWESerializerManager([new CompactSerializer()]);
-        $jweSerializerManagerFactory = $container->get(JWESerializerManagerFactory::class);
-        static::assertInstanceOf(JWESerializerManagerFactory::class, $jweSerializerManagerFactory);
-        $serializer = new JWESerializer($jweSerializerManagerFactory, $jweSerializerManager);
-        static::assertInstanceOf(EncoderInterface::class, $serializer);
-
-        ['jwe' => $jwe] = $this->createJWE();
-
-        $this->expectExceptionMessage('Cannot encode JWE to jwe_json_flattened format.');
-        $serializer->encode($jwe, 'jwe_json_flattened');
-    }
-
-    /**
-     * @test
-     * @dataProvider jweFormatDataProvider
-     */
-    public function aJWECanBeDecodedInAllFormats(string $format, string $serializerId): void
-    {
-        $container = static::getContainer();
-        $serializer = $container->get($serializerId);
-        static::assertInstanceOf(DecoderInterface::class, $serializer);
-
-        $jweData = $this->createJWE();
-
-        $jwe = $serializer->decode($jweData[$format], $format);
-        static::assertInstanceOf(JWE::class, $jwe);
-    }
-
-    /**
-     * @test
-     */
-    public function theJWESerializerShouldThrowOnUnsupportedFormatWhenDecoding(): void
-    {
-        $container = static::getContainer();
-        $jweSerializerManager = new JWESerializerManager([new CompactSerializer()]);
-        $jweSerializerManagerFactory = $container->get(JWESerializerManagerFactory::class);
-        static::assertInstanceOf(JWESerializerManagerFactory::class, $jweSerializerManagerFactory);
-        $serializer = new JWESerializer($jweSerializerManagerFactory, $jweSerializerManager);
-        static::assertInstanceOf(EncoderInterface::class, $serializer);
-
-        ['jwe_json_flattened' => $jweString] = $this->createJWE();
-
-        $this->expectExceptionMessage('Cannot decode JWE from jwe_json_flattened format.');
-        $serializer->decode($jweString, 'jwe_json_flattened');
     }
 
     /**
@@ -279,25 +133,24 @@ final class JWESerializerTest extends KernelTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
         $jwk = new JWK([
-            'kty' => 'oct',
-            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
-        ]);
+                           'kty' => 'oct',
+                           'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+                       ]);
         $jwk2 = new JWK([
-            'kty' => 'oct',
-            'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
-        ]);
+                            'kty' => 'oct',
+                            'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
+                        ]);
 
         $jwe = $builder
             ->create()
             ->withPayload('Hello World!')
             ->withSharedProtectedHeader([
-                'alg' => 'A256KW',
-                'enc' => 'A256CBC-HS512',
-            ])
+                                            'alg' => 'A256KW',
+                                            'enc' => 'A256CBC-HS512',
+                                        ])
             ->addRecipient($jwk)
             ->addRecipient($jwk2)
-            ->build()
-        ;
+            ->build();
 
         return [
             'jwk' => $jwk,
