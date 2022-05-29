@@ -25,10 +25,10 @@ final class JWEEncoderTest extends KernelTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(BaseJWEBuilderFactory::class)) {
+        if (! class_exists(BaseJWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
-        if (!class_exists(Serializer::class)) {
+        if (! class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -247,24 +247,25 @@ final class JWEEncoderTest extends KernelTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
         $jwk = new JWK([
-                           'kty' => 'oct',
-                           'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
-                       ]);
+            'kty' => 'oct',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+        ]);
         $jwk2 = new JWK([
-                            'kty' => 'oct',
-                            'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
-                        ]);
+            'kty' => 'oct',
+            'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
+        ]);
 
         $jwe = $builder
             ->create()
             ->withPayload('Hello World!')
             ->withSharedProtectedHeader([
-                                            'alg' => 'A256KW',
-                                            'enc' => 'A256CBC-HS512',
-                                        ])
+                'alg' => 'A256KW',
+                'enc' => 'A256CBC-HS512',
+            ])
             ->addRecipient($jwk)
             ->addRecipient($jwk2)
-            ->build();
+            ->build()
+        ;
 
         return [
             'jwk' => $jwk,

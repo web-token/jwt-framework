@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
+use function in_array;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use LogicException;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-
-use function in_array;
-use function is_int;
 use function mb_strtolower;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final class JWSSerializer implements DenormalizerInterface
 {
@@ -42,18 +40,6 @@ final class JWSSerializer implements DenormalizerInterface
         }
 
         return $data;
-    }
-
-    /**
-     * Get JWS signature index from context.
-     */
-    private function getSignatureIndex(array $context): int
-    {
-        if (isset($context['signature_index']) && is_int($context['signature_index'])) {
-            return $context['signature_index'];
-        }
-
-        return 0;
     }
 
     /**

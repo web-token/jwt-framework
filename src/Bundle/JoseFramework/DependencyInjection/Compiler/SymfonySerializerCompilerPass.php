@@ -17,7 +17,7 @@ class SymfonySerializerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!class_exists('Symfony\\Component\\Serializer\\Serializer')) {
+        if (! class_exists('Symfony\\Component\\Serializer\\Serializer')) {
             return;
         }
         if ($container->hasDefinition(JWSSerializerManagerFactory::class)) {

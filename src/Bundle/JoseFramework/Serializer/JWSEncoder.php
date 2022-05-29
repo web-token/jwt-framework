@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Serializer;
 
 use Exception;
+use function in_array;
+use function is_int;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use LogicException;
+use function mb_strtolower;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-
-use function in_array;
-use function is_int;
-use function mb_strtolower;
 
 final class JWSEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {

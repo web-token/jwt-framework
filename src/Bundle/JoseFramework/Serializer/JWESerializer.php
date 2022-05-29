@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
+use function in_array;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use LogicException;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-
-use function in_array;
 use function mb_strtolower;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final class JWESerializer implements DenormalizerInterface
 {

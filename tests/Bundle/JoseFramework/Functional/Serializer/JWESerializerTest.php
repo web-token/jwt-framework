@@ -6,7 +6,6 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Serializer;
 
 use Jose\Bundle\JoseFramework\Serializer\JWESerializer;
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
-use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilderFactory as BaseJWEBuilderFactory;
@@ -24,10 +23,10 @@ final class JWESerializerTest extends KernelTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(BaseJWEBuilderFactory::class)) {
+        if (! class_exists(BaseJWEBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
         }
-        if (!class_exists(Serializer::class)) {
+        if (! class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -94,32 +93,6 @@ final class JWESerializerTest extends KernelTestCase
         ];
     }
 
-    private function assertEncodedJWEValid(string $jwe, string $format): void
-    {
-        if ($format === 'jwe_compact') {
-            static::assertMatchesRegularExpression('/^.+\..+\..+$/', $jwe);
-            static::assertStringStartsWith('eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0', $jwe);
-
-            return;
-        }
-
-        static::assertJson($jwe);
-    }
-
-    private function loadJWE(string $jwe, JWK $jwk): int
-    {
-        $container = static::getContainer();
-        $jweSerializerManagerFactory = $container->get(JWESerializerManagerFactory::class);
-        static::assertInstanceOf(JWESerializerManagerFactory::class, $jweSerializerManagerFactory);
-        $jweLoaderFactory = $container->get(JWELoaderFactory::class);
-        static::assertInstanceOf(JWELoaderFactory::class, $jweLoaderFactory);
-        $loader = $jweLoaderFactory->create($jweSerializerManagerFactory->names(), ['A256KW'], ['A256CBC-HS512'], []);
-
-        $loader->loadAndDecryptWithKey($jwe, $jwk, $recipient);
-
-        return $recipient;
-    }
-
     private function createJWE(): array
     {
         $container = static::getContainer();
@@ -133,24 +106,25 @@ final class JWESerializerTest extends KernelTestCase
         $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
 
         $jwk = new JWK([
-                           'kty' => 'oct',
-                           'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
-                       ]);
+            'kty' => 'oct',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+        ]);
         $jwk2 = new JWK([
-                            'kty' => 'oct',
-                            'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
-                        ]);
+            'kty' => 'oct',
+            'k' => '1MVYnFKurkDCueAM6FaMlojPPUMrKitzgzCEt3qrQdc',
+        ]);
 
         $jwe = $builder
             ->create()
             ->withPayload('Hello World!')
             ->withSharedProtectedHeader([
-                                            'alg' => 'A256KW',
-                                            'enc' => 'A256CBC-HS512',
-                                        ])
+                'alg' => 'A256KW',
+                'enc' => 'A256CBC-HS512',
+            ])
             ->addRecipient($jwk)
             ->addRecipient($jwk2)
-            ->build();
+            ->build()
+        ;
 
         return [
             'jwk' => $jwk,

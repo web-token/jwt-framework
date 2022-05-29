@@ -23,10 +23,10 @@ final class JWSSerializerTest extends KernelTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(BaseJWSBuilderFactory::class)) {
+        if (! class_exists(BaseJWSBuilderFactory::class)) {
             static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
         }
-        if (!class_exists(Serializer::class)) {
+        if (! class_exists(Serializer::class)) {
             static::markTestSkipped('The component "symfony/serializer" is not installed.');
         }
     }
@@ -106,14 +106,14 @@ final class JWSSerializerTest extends KernelTestCase
         $builder = $jwsFactory->create(['HS256']);
 
         $jwk = new JWK([
-                           'kty' => 'oct',
-                           'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
-                       ]);
+            'kty' => 'oct',
+            'k' => '3pWc2vAZpHoV7XmCT-z2hWhdQquwQwW5a3XTojbf87c',
+        ]);
         $jwk2 = $multiSignature
             ? new JWK([
-                          'kty' => 'oct',
-                          'k' => '45d2aGyfduzrkcmL7duvUTDTlXS2s3u4uMER2feQruU',
-                      ])
+                'kty' => 'oct',
+                'k' => '45d2aGyfduzrkcmL7duvUTDTlXS2s3u4uMER2feQruU',
+            ])
             : null;
 
         $jwsBuilder = $builder
@@ -121,7 +121,8 @@ final class JWSSerializerTest extends KernelTestCase
             ->withPayload('Hello World!')
             ->addSignature($jwk, [
                 'alg' => 'HS256',
-            ]);
+            ])
+        ;
 
         if ($multiSignature) {
             $jwsBuilder = $jwsBuilder->addSignature($jwk2, [
