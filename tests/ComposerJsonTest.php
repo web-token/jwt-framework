@@ -32,7 +32,7 @@ final class ComposerJsonTest extends TestCase
             $packageDependencies = $this->getComposerDependencies($package . '/composer.json');
             foreach ($packageDependencies as $dependency => $version) {
                 // Skip web-auth/* dependencies
-                if (str_starts_with($dependency, 'web-token/')) {
+                if (str_starts_with((string) $dependency, 'web-token/')) {
                     continue;
                 }
 

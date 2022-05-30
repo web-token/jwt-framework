@@ -13,8 +13,8 @@ class InvalidClaimException extends Exception implements ClaimExceptionInterface
 {
     public function __construct(
         string $message,
-        private string $claim,
-        private mixed $value
+        private readonly string $claim,
+        private readonly mixed $value
     ) {
         parent::__construct($message);
     }

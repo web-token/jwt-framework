@@ -10,9 +10,9 @@ use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 class JWELoaderFactory
 {
     public function __construct(
-        private JWESerializerManagerFactory $jweSerializerManagerFactory,
-        private JWEDecrypterFactory $jweDecrypterFactory,
-        private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory
+        private readonly JWESerializerManagerFactory $jweSerializerManagerFactory,
+        private readonly JWEDecrypterFactory $jweDecrypterFactory,
+        private readonly ?HeaderCheckerManagerFactory $headerCheckerManagerFactory
     ) {
     }
 

@@ -10,9 +10,9 @@ use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 class JWSLoaderFactory
 {
     public function __construct(
-        private JWSSerializerManagerFactory $jwsSerializerManagerFactory,
-        private JWSVerifierFactory $jwsVerifierFactory,
-        private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory
+        private readonly JWSSerializerManagerFactory $jwsSerializerManagerFactory,
+        private readonly JWSVerifierFactory $jwsVerifierFactory,
+        private readonly ?HeaderCheckerManagerFactory $headerCheckerManagerFactory
     ) {
     }
 

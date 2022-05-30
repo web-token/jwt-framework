@@ -30,7 +30,7 @@ final class SignerTest extends SignatureTest
         ;
         $jwsBuilder
             ->create()
-            ->withPayload(json_encode($this->getKey3()))
+            ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [])
             ->build()
         ;
@@ -49,7 +49,7 @@ final class SignerTest extends SignatureTest
         ;
         $jwsBuilder
             ->create()
-            ->withPayload(json_encode($this->getKey3()))
+            ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'foo',
             ])
@@ -70,7 +70,7 @@ final class SignerTest extends SignatureTest
         ;
         $jwsBuilder
             ->create()
-            ->withPayload(json_encode($this->getKey3()))
+            ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'ES256',
                 'foo' => 'bar',
@@ -90,7 +90,7 @@ final class SignerTest extends SignatureTest
         ;
         $jws = $jwsBuilder
             ->create()
-            ->withPayload(json_encode($this->getKey3()))
+            ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
             ])
@@ -1034,7 +1034,7 @@ final class SignerTest extends SignatureTest
             ->serialize('jws_json_flattened', $jws, 0)
         ;
 
-        static::assertSame($expected_result, json_decode($jws, true));
+        static::assertSame($expected_result, json_decode($jws, true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -1074,7 +1074,7 @@ final class SignerTest extends SignatureTest
         ;
         $jws = $jwsBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyset()))
+            ->withPayload(json_encode($this->getKeyset(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
             ], [
@@ -1117,7 +1117,7 @@ final class SignerTest extends SignatureTest
         ;
         $jws = $jwsBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyset()))
+            ->withPayload(json_encode($this->getKeyset(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
                 [

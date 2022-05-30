@@ -12,12 +12,13 @@ use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Serializer\Serializer;
 
 class SymfonySerializerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (! class_exists('Symfony\\Component\\Serializer\\Serializer')) {
+        if (! class_exists(Serializer::class)) {
             return;
         }
         if ($container->hasDefinition(JWSSerializerManagerFactory::class)) {

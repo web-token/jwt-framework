@@ -22,7 +22,7 @@ final class HeaderCheckerManagerFactory
     private array $tokenTypes = [];
 
     public function __construct(
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 

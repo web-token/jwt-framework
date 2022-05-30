@@ -11,10 +11,10 @@ use Throwable;
 final class HeaderCheckedFailureEvent extends Event
 {
     public function __construct(
-        private JWT $jwt,
-        private int $index,
-        private array $mandatoryHeaderParameters,
-        private Throwable $throwable
+        private readonly JWT $jwt,
+        private readonly int $index,
+        private readonly array $mandatoryHeaderParameters,
+        private readonly Throwable $throwable
     ) {
     }
 

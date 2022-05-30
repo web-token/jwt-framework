@@ -11,11 +11,11 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 final class NestedTokenBuilderFactory
 {
     public function __construct(
-        private JWEBuilderFactory $jweBuilderFactory,
-        private JWESerializerManagerFactory $jweSerializerManagerFactory,
-        private JWSBuilderFactory $jwsBuilderFactory,
-        private JWSSerializerManagerFactory $jwsSerializerManagerFactory,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly JWEBuilderFactory $jweBuilderFactory,
+        private readonly JWESerializerManagerFactory $jweSerializerManagerFactory,
+        private readonly JWSBuilderFactory $jwsBuilderFactory,
+        private readonly JWSSerializerManagerFactory $jwsSerializerManagerFactory,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 

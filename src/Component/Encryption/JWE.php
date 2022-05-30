@@ -14,14 +14,14 @@ class JWE implements JWT
     private ?string $payload = null;
 
     public function __construct(
-        private ?string $ciphertext,
-        private string $iv,
-        private string $tag,
-        private ?string $aad = null,
-        private array $sharedHeader = [],
-        private array $sharedProtectedHeader = [],
-        private ?string $encodedSharedProtectedHeader = null,
-        private array $recipients = []
+        private readonly ?string $ciphertext,
+        private readonly string $iv,
+        private readonly string $tag,
+        private readonly ?string $aad = null,
+        private readonly array $sharedHeader = [],
+        private readonly array $sharedProtectedHeader = [],
+        private readonly ?string $encodedSharedProtectedHeader = null,
+        private readonly array $recipients = []
     ) {
     }
 

@@ -2,30 +2,29 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
+use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Php74\Rector\Property\TypedPropertyRector;
+use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\Symfony\Set\SymfonyLevelSetList;
 use Rector\Symfony\Set\SymfonySetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(SetList::DEAD_CODE);
-    $containerConfigurator->import(SetList::PHP_80);
-    $containerConfigurator->import(SymfonySetList::SYMFONY_50);
-    $containerConfigurator->import(SymfonySetList::SYMFONY_50_TYPES);
-    $containerConfigurator->import(SymfonySetList::SYMFONY_51);
-    $containerConfigurator->import(SymfonySetList::SYMFONY_52);
-    $containerConfigurator->import(SymfonySetList::SYMFONY_53);
-    $containerConfigurator->import(SymfonySetList::SYMFONY_54);
-    $containerConfigurator->import(SymfonySetList::SYMFONY_CODE_QUALITY);
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::PATHS, [__DIR__ . '/src', __DIR__ . '/performance', __DIR__ . '/tests']);
-    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_80);
-    $parameters->set(Option::AUTO_IMPORT_NAMES, true);
-    $parameters->set(Option::PARALLEL, true);
-    $parameters->set(Option::IMPORT_SHORT_CLASSES, false);
+return static function (RectorConfig $config): void {
+    $config->import(SetList::DEAD_CODE);
+    $config->import(LevelSetList::UP_TO_PHP_81);
+    $config->import(SymfonyLevelSetList::UP_TO_SYMFONY_54);
+    $config->import(SymfonySetList::SYMFONY_CODE_QUALITY);
+    $config->parallel();
+    $config->paths([__DIR__ . '/src', __DIR__ . '/performance', __DIR__ . '/tests']);
+    $config->skip([
+        __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
+        __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',
+    ]);
+    $config->phpVersion(PhpVersion::PHP_81);
+    $config->importNames();
+    $config->importShortClasses();
 
-    $services = $containerConfigurator->services();
+    $services = $config->services();
     $services->set(TypedPropertyRector::class);
 };

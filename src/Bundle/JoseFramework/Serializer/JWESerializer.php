@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final class JWESerializer implements DenormalizerInterface
 {
-    private JWESerializerManager $serializerManager;
+    private readonly JWESerializerManager $serializerManager;
 
     public function __construct(
         JWESerializerManagerFactory $serializerManagerFactory,

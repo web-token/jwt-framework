@@ -9,7 +9,7 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 class JWSBuilderFactory
 {
     public function __construct(
-        private AlgorithmManagerFactory $signatureAlgorithmManagerFactory
+        private readonly AlgorithmManagerFactory $signatureAlgorithmManagerFactory
     ) {
     }
 

@@ -11,8 +11,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class JWEDecryptionFailureEvent extends Event
 {
     public function __construct(
-        private JWE $jwe,
-        private JWKSet $JWKSet
+        private readonly JWE $jwe,
+        private readonly JWKSet $JWKSet
     ) {
     }
 

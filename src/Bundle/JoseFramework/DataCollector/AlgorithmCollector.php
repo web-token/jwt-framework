@@ -19,7 +19,7 @@ use Throwable;
 final class AlgorithmCollector implements Collector
 {
     public function __construct(
-        private AlgorithmManagerFactory $algorithmManagerFactory
+        private readonly AlgorithmManagerFactory $algorithmManagerFactory
     ) {
     }
 

@@ -11,10 +11,10 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class JWSLoadingSuccessEvent extends Event
 {
     public function __construct(
-        private string $token,
-        private JWS $jws,
-        private JWKSet $JWKSet,
-        private int $signature
+        private readonly string $token,
+        private readonly JWS $jws,
+        private readonly JWKSet $JWKSet,
+        private readonly int $signature
     ) {
     }
 

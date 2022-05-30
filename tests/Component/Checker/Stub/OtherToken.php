@@ -9,9 +9,9 @@ use Jose\Component\Core\JWT;
 class OtherToken implements JWT
 {
     public function __construct(
-        private ?string $payload,
-        private array $protectedHeader,
-        private array $unprotectedHeader
+        private readonly ?string $payload,
+        private readonly array $protectedHeader,
+        private readonly array $unprotectedHeader
     ) {
     }
 

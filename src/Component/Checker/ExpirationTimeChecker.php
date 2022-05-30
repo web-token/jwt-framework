@@ -15,8 +15,8 @@ final class ExpirationTimeChecker implements ClaimChecker, HeaderChecker
     private const NAME = 'exp';
 
     public function __construct(
-        private int $allowedTimeDrift = 0,
-        private bool $protectedHeaderOnly = false
+        private readonly int $allowedTimeDrift = 0,
+        private readonly bool $protectedHeaderOnly = false
     ) {
     }
 

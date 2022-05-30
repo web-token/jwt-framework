@@ -11,10 +11,10 @@ use Throwable;
 final class NestedTokenLoadingFailureEvent extends Event
 {
     public function __construct(
-        private string $token,
-        private JWKSet $signatureKeySet,
-        private JWKSet $encryptionKeySet,
-        private Throwable $throwable
+        private readonly string $token,
+        private readonly JWKSet $signatureKeySet,
+        private readonly JWKSet $encryptionKeySet,
+        private readonly Throwable $throwable
     ) {
     }
 

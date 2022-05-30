@@ -222,6 +222,7 @@ final class JWEEncoderTest extends KernelTestCase
 
     private function loadJWE(string $jwe, JWK $jwk): int
     {
+        $recipient = null;
         $container = static::getContainer();
         $jweSerializerManagerFactory = $container->get(JWESerializerManagerFactory::class);
         static::assertInstanceOf(JWESerializerManagerFactory::class, $jweSerializerManagerFactory);

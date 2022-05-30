@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 
 final class JWSEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
-    private JWSSerializerManager $serializerManager;
+    private readonly JWSSerializerManager $serializerManager;
 
     public function __construct(
         JWSSerializerManagerFactory $serializerManagerFactory,

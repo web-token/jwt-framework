@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * @internal
  */
@@ -25,8 +27,8 @@ final class JWSFlattenedTest extends SignatureTest
         static::assertSame('ES256', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
         static::assertSame([
             'iss' => 'joe',
-            'exp' => 1300819380,
+            'exp' => 1_300_819_380,
             'http://example.com/is_root' => true,
-        ], json_decode($loaded->getPayload(), true));
+        ], json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR));
     }
 }

@@ -16,7 +16,7 @@ final class JWSBuilder extends BaseJWSBuilder
 {
     public function __construct(
         AlgorithmManager $signatureAlgorithmManager,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($signatureAlgorithmManager);
     }

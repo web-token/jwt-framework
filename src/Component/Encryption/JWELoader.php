@@ -14,9 +14,9 @@ use Throwable;
 class JWELoader
 {
     public function __construct(
-        private JWESerializerManager $serializerManager,
-        private JWEDecrypter $jweDecrypter,
-        private ?HeaderCheckerManager $headerCheckerManager
+        private readonly JWESerializerManager $serializerManager,
+        private readonly JWEDecrypter $jweDecrypter,
+        private readonly ?HeaderCheckerManager $headerCheckerManager
     ) {
     }
 

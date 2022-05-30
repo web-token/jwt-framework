@@ -16,7 +16,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
     protected static $defaultName = 'keyset:load:jku';
 
     public function __construct(
-        private JKUFactory $jkuFactory,
+        private readonly JKUFactory $jkuFactory,
         ?string $name = null
     ) {
         parent::__construct($name);

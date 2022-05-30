@@ -27,31 +27,27 @@ use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\CompactNullableTypehintFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 $header = '';
 
-return static function (ContainerConfigurator $containerConfigurator) use ($header): void {
-    $containerConfigurator->import(SetList::PSR_12);
-    $containerConfigurator->import(SetList::PHP_CS_FIXER);
-    $containerConfigurator->import(SetList::PHP_CS_FIXER_RISKY);
-    $containerConfigurator->import(SetList::CLEAN_CODE);
-    $containerConfigurator->import(SetList::SYMFONY);
-    $containerConfigurator->import(SetList::DOCTRINE_ANNOTATIONS);
-    $containerConfigurator->import(SetList::SPACES);
-    $containerConfigurator->import(SetList::PHPUNIT);
-    $containerConfigurator->import(SetList::SYMPLIFY);
-    $containerConfigurator->import(SetList::ARRAY);
-    $containerConfigurator->import(SetList::COMMON);
-    $containerConfigurator->import(SetList::COMMENTS);
-    $containerConfigurator->import(SetList::CONTROL_STRUCTURES);
-    $containerConfigurator->import(SetList::DOCBLOCK);
-    $containerConfigurator->import(SetList::NAMESPACES);
-    $containerConfigurator->import(SetList::STRICT);
+return static function (ECSConfig $config) use ($header): void {
+    $config->import(SetList::PSR_12);
+    $config->import(SetList::CLEAN_CODE);
+    $config->import(SetList::DOCTRINE_ANNOTATIONS);
+    $config->import(SetList::SPACES);
+    $config->import(SetList::PHPUNIT);
+    $config->import(SetList::SYMPLIFY);
+    $config->import(SetList::ARRAY);
+    $config->import(SetList::COMMON);
+    $config->import(SetList::COMMENTS);
+    $config->import(SetList::CONTROL_STRUCTURES);
+    $config->import(SetList::DOCBLOCK);
+    $config->import(SetList::NAMESPACES);
+    $config->import(SetList::STRICT);
 
-    $services = $containerConfigurator->services();
+    $services = $config->services();
     $services->set(StrictParamFixer::class);
     $services->set(StrictComparisonFixer::class);
     $services->set(ArraySyntaxFixer::class)
@@ -106,11 +102,7 @@ return static function (ContainerConfigurator $containerConfigurator) use ($head
     ;
 
     $services->remove(PhpUnitTestClassRequiresCoversFixer::class);
-
-    $parameters = $containerConfigurator->parameters();
-    $parameters
-        ->set(Option::PARALLEL, true)
-        ->set(Option::PATHS, [__DIR__])
-        ->set(Option::SKIP, [__DIR__ . '/.github', __DIR__ . '/var', __DIR__ . '/vendor'])
-    ;
+    $config->parallel();
+    $config->paths([__DIR__]);
+    $config->skip([__DIR__ . '/.github', __DIR__ . '/var', __DIR__ . '/vendor']);
 };

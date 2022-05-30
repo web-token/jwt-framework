@@ -19,7 +19,7 @@ class NestedToken implements Source
     /**
      * @var Source[]
      */
-    private array $sources;
+    private readonly array $sources;
 
     public function __construct()
     {

@@ -14,7 +14,7 @@ final class JWSBuiltFailureEvent extends Event
         protected array $signatures,
         protected bool $isPayloadDetached,
         protected ?bool $isPayloadEncoded,
-        private Throwable $throwable
+        private readonly Throwable $throwable
     ) {
     }
 

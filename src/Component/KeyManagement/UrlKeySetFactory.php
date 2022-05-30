@@ -11,8 +11,8 @@ use RuntimeException;
 abstract class UrlKeySetFactory
 {
     public function __construct(
-        private ClientInterface $client,
-        private RequestFactoryInterface $requestFactory
+        private readonly ClientInterface $client,
+        private readonly RequestFactoryInterface $requestFactory
     ) {
     }
 

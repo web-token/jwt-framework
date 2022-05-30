@@ -10,12 +10,12 @@ use Throwable;
 final class JWEBuiltFailureEvent extends Event
 {
     public function __construct(
-        private ?string $payload,
-        private array $recipients,
-        private array $sharedProtectedHeader,
-        private array $sharedHeader,
-        private ?string $aad,
-        private Throwable $throwable
+        private readonly ?string $payload,
+        private readonly array $recipients,
+        private readonly array $sharedProtectedHeader,
+        private readonly array $sharedHeader,
+        private readonly ?string $aad,
+        private readonly Throwable $throwable
     ) {
     }
 

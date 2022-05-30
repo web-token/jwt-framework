@@ -9,9 +9,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class ClaimCheckedSuccessEvent extends Event
 {
     public function __construct(
-        private array $claims,
-        private array $mandatoryClaims,
-        private array $checkedClaims
+        private readonly array $claims,
+        private readonly array $mandatoryClaims,
+        private readonly array $checkedClaims
     ) {
     }
 

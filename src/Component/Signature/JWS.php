@@ -16,9 +16,9 @@ class JWS implements JWT
     private array $signatures = [];
 
     public function __construct(
-        private ?string $payload,
-        private ?string $encodedPayload = null,
-        private bool $isPayloadDetached = false
+        private readonly ?string $payload,
+        private readonly ?string $encodedPayload = null,
+        private readonly bool $isPayloadDetached = false
     ) {
     }
 

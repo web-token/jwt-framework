@@ -189,7 +189,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyToEncrypt()))
+            ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
                 'alg' => 'RSA-OAEP-256',
@@ -234,7 +234,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyToEncrypt()))
+            ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
                 'alg' => 'RSA-OAEP-256',
@@ -343,7 +343,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeySetToEncrypt()))
+            ->withPayload(json_encode($this->getKeySetToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
                 'enc' => 'A128CBC-HS256',
@@ -388,7 +388,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyToEncrypt()))
+            ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
                 'enc' => 'A256CBC-HS512',
@@ -413,7 +413,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyToEncrypt()))
+            ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
                 'alg' => 'RSA-OAEP-256',
@@ -440,7 +440,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyToEncrypt()))
+            ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
                 'enc' => 'A256CBC-HS512',
@@ -468,7 +468,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyToEncrypt()))
+            ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
                 'enc' => 'RSA-OAEP-256',
@@ -494,7 +494,7 @@ final class EncrypterTest extends EncryptionTest
 
         $jwe = $jweBuilder
             ->create()
-            ->withPayload(json_encode($this->getKeyToEncrypt()))
+            ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => 'DIR_1',
                 'enc' => 'A192CBC-HS384',
@@ -539,7 +539,7 @@ final class EncrypterTest extends EncryptionTest
         $payload = json_encode([
             'user_id' => '1234',
             'exp' => time() + 3600,
-        ]);
+        ], JSON_THROW_ON_ERROR);
         $jwe = $jweBuilder
             ->create()
             ->withPayload($payload)

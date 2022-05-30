@@ -9,15 +9,15 @@ use InvalidArgumentException;
 
 class Signature
 {
-    private ?string $encodedProtectedHeader;
+    private readonly ?string $encodedProtectedHeader;
 
-    private array $protectedHeader;
+    private readonly array $protectedHeader;
 
     public function __construct(
-        private string $signature,
+        private readonly string $signature,
         array $protectedHeader,
         ?string $encodedProtectedHeader,
-        private array $header
+        private readonly array $header
     ) {
         $this->protectedHeader = $encodedProtectedHeader === null ? [] : $protectedHeader;
         $this->encodedProtectedHeader = $encodedProtectedHeader;

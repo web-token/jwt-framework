@@ -29,7 +29,7 @@ use Brick\Math\BigInteger;
 final class PrivateKey
 {
     private function __construct(
-        private BigInteger $secret
+        private readonly BigInteger $secret
     ) {
     }
 

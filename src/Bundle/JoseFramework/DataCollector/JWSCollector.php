@@ -44,7 +44,7 @@ class JWSCollector implements Collector, EventSubscriberInterface
     private array $jwsBuiltFailures = [];
 
     public function __construct(
-        private ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null
+        private readonly ?JWSSerializerManagerFactory $jwsSerializerManagerFactory = null
     ) {
     }
 

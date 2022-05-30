@@ -47,12 +47,12 @@ final class JoseFrameworkBundle extends Bundle
             if ($source instanceof SourceWithCompilerPasses) {
                 $compilerPasses = $source->getCompilerPasses();
                 foreach ($compilerPasses as $compilerPass) {
-                    $container->addCompilerPass($compilerPass);
+                    $container->addCompilerPass($compilerPass, PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
                 }
             }
         }
 
-        $container->addCompilerPass(new EventDispatcherAliasCompilerPass());
+        $container->addCompilerPass(new EventDispatcherAliasCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 0);
         $container->addCompilerPass(new SymfonySerializerCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 10);
     }
 

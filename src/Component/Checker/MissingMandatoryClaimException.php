@@ -15,7 +15,7 @@ class MissingMandatoryClaimException extends Exception implements ClaimException
      */
     public function __construct(
         string $message,
-        private array $claims
+        private readonly array $claims
     ) {
         parent::__construct($message);
     }

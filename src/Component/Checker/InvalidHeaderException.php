@@ -13,8 +13,8 @@ class InvalidHeaderException extends Exception
 {
     public function __construct(
         string $message,
-        private string $header,
-        private mixed $value
+        private readonly string $header,
+        private readonly mixed $value
     ) {
         parent::__construct($message);
     }

@@ -79,7 +79,7 @@ abstract class AESCBCHS implements ContentEncryptionAlgorithm
             $calculated_aad,
             $iv,
             $encrypted_data,
-            pack('N2', ($auth_data_length / 2147483647) * 8, ($auth_data_length % 2147483647) * 8),
+            pack('N2', ($auth_data_length / 2_147_483_647) * 8, ($auth_data_length % 2_147_483_647) * 8),
         ]);
         $hash = hash_hmac($this->getHashAlgorithm(), $secured_input, $mac_key, true);
 

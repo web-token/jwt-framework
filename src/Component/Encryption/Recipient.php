@@ -13,8 +13,8 @@ use InvalidArgumentException;
 final class Recipient
 {
     public function __construct(
-        private array $header,
-        private ?string $encryptedKey
+        private readonly array $header,
+        private readonly ?string $encryptedKey
     ) {
     }
 

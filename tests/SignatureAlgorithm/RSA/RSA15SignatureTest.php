@@ -12,6 +12,7 @@ use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
+use const JSON_THROW_ON_ERROR;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -83,11 +84,11 @@ final class RSA15SignatureTest extends TestCase
         // We decode the json to compare the 2 arrays otherwise the test may fail as the order may be different
         static::assertEqualsCanonicalizing(
             json_decode($expected_flattened_json, true),
-            json_decode($jsonFlattenedSerializer->serialize($jws, 0), true)
+            json_decode($jsonFlattenedSerializer->serialize($jws, 0), true, 512, JSON_THROW_ON_ERROR)
         );
         static::assertEqualsCanonicalizing(
             json_decode($expected_json, true),
-            json_decode($jsonGeneralSerializer->serialize($jws, 0), true)
+            json_decode($jsonGeneralSerializer->serialize($jws, 0), true, 512, JSON_THROW_ON_ERROR)
         );
 
         $loaded_compact_json = $compactSerializer->unserialize($expected_compact_json);

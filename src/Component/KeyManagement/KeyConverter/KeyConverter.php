@@ -244,9 +244,8 @@ final class KeyConverter
 
         $pem = $result[0][0] . PHP_EOL;
         $pem .= chunk_split(base64_encode($decoded), 64);
-        $pem .= $result[0][1] . PHP_EOL;
 
-        return $pem;
+        return $pem . ($result[0][1] . PHP_EOL);
     }
 
     private static function convertDerToPem(string $der_data): string

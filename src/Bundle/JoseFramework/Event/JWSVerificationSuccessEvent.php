@@ -12,11 +12,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class JWSVerificationSuccessEvent extends Event
 {
     public function __construct(
-        private JWS $jws,
-        private JWKSet $JWKSet,
-        private int $signature,
-        private ?string $detachedPayload,
-        private JWK $JWK
+        private readonly JWS $jws,
+        private readonly JWKSet $JWKSet,
+        private readonly int $signature,
+        private readonly ?string $detachedPayload,
+        private readonly JWK $JWK
     ) {
     }
 

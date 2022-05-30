@@ -11,7 +11,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class JWKSetLoader implements LoaderInterface
 {
-    private RouteCollection $routes;
+    private readonly RouteCollection $routes;
 
     private LoaderResolverInterface $resolver;
 

@@ -13,6 +13,7 @@ use function in_array;
 use InvalidArgumentException;
 use function is_array;
 use IteratorAggregate;
+use const JSON_THROW_ON_ERROR;
 use JsonSerializable;
 use Traversable;
 
@@ -69,7 +70,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public static function createFromJson(string $json): self
     {
-        $data = json_decode($json, true);
+        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         if (! is_array($data)) {
             throw new InvalidArgumentException('Invalid argument.');
         }
@@ -216,11 +217,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public static function sortKeys(array $a, array $b): int
     {
-        if ($a['ind'] === $b['ind']) {
-            return 0;
-        }
-
-        return ($a['ind'] > $b['ind']) ? -1 : 1;
+        return $b['ind'] <=> $a['ind'];
     }
 
     /**

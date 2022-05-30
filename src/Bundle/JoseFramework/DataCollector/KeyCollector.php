@@ -27,8 +27,8 @@ class KeyCollector implements Collector
     private array $jwksets = [];
 
     public function __construct(
-        private ?KeyAnalyzerManager $jwkAnalyzerManager = null,
-        private ?KeysetAnalyzerManager $jwksetAnalyzerManager = null
+        private readonly ?KeyAnalyzerManager $jwkAnalyzerManager = null,
+        private readonly ?KeysetAnalyzerManager $jwksetAnalyzerManager = null
     ) {
     }
 

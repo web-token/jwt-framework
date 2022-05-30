@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Signature;
 
 use InvalidArgumentException;
 use Jose\Component\Signature\JWS;
+use const JSON_THROW_ON_ERROR;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 
@@ -30,10 +31,10 @@ final class JWSTest extends SignatureTest
         $header = [
             'alg' => 'none',
         ];
-        $jws = new JWS(json_encode($claims), json_encode($claims));
+        $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
 
-        static::assertSame(json_encode($claims), $jws->getPayload());
+        static::assertSame(json_encode($claims, JSON_THROW_ON_ERROR), $jws->getPayload());
         static::assertSame(1, $jws->countSignatures());
         static::assertTrue($jws->getSignature(0)->hasProtectedHeaderParameter('alg'));
         static::assertSame($header, $jws->getSignature(0)->getProtectedHeader());
@@ -57,7 +58,7 @@ final class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = new JWS(json_encode($claims), json_encode($claims));
+        $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $this->getJWSSerializerManager()
             ->serialize('jws_compact', $jws, 0)
         ;
@@ -79,7 +80,7 @@ final class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = new JWS(json_encode($claims), json_encode($claims));
+        $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $this->getJWSSerializerManager()
             ->serialize('jws_json_flattened', $jws, 0)
         ;
@@ -101,7 +102,7 @@ final class JWSTest extends SignatureTest
             'aud' => 'You',
             'sub' => 'My friend',
         ];
-        $jws = new JWS(json_encode($claims), json_encode($claims));
+        $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $this->getJWSSerializerManager()
             ->serialize('jws_json_general', $jws, 0)
         ;
@@ -128,7 +129,7 @@ final class JWSTest extends SignatureTest
         $header = [
             'alg' => 'none',
         ];
-        $jws = new JWS(json_encode($claims), json_encode($claims));
+        $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)), [
             'foo' => 'bar',
         ]);
@@ -157,7 +158,7 @@ final class JWSTest extends SignatureTest
         $header = [
             'alg' => 'none',
         ];
-        $jws = new JWS(json_encode($claims), json_encode($claims));
+        $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
         $jws->getSignature(0)
             ->getHeaderParameter('foo')
@@ -183,7 +184,7 @@ final class JWSTest extends SignatureTest
         $header = [
             'alg' => 'none',
         ];
-        $jws = new JWS(json_encode($claims), json_encode($claims));
+        $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
         $jws->getSignature(0)
             ->getProtectedHeaderParameter('foo')

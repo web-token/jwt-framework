@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ConfigurationHelper
 {
-    public const BUNDLE_ALIAS = 'jose';
+    final public const BUNDLE_ALIAS = 'jose';
 
     /**
      * @param string[] $signatureAlgorithms

@@ -10,8 +10,8 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 final class JWSBuilderFactory
 {
     public function __construct(
-        private AlgorithmManagerFactory $signatureAlgorithmManagerFactory,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly AlgorithmManagerFactory $signatureAlgorithmManagerFactory,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 

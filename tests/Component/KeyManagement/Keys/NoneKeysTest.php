@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\KeyManagement\Keys;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
+use const JSON_THROW_ON_ERROR;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,7 +28,10 @@ final class NoneKeysTest extends TestCase
             'kid' => '2011-04-29',
         ]);
 
-        static::assertSame('{"kty":"none","alg":"none","use":"sig","kid":"2011-04-29"}', json_encode($key));
+        static::assertSame(
+            '{"kty":"none","alg":"none","use":"sig","kid":"2011-04-29"}',
+            json_encode($key, JSON_THROW_ON_ERROR)
+        );
         static::assertSame('BC69Ls25CLRh1KQrXvQAAB22oyuW3eQabDSMdv9xMNk', $key->thumbprint('sha256'));
         static::assertSame('hCnBo6v87V-Gz5Bp7eoFTrdvkGA', $key->thumbprint('sha1'));
         static::assertSame('JI3gujreJtPt2gzxlbGnLQ', $key->thumbprint('md5'));

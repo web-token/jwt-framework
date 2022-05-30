@@ -8,6 +8,7 @@ use function array_key_exists;
 use function in_array;
 use InvalidArgumentException;
 use function is_array;
+use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
 use JsonSerializable;
@@ -33,7 +34,7 @@ class JWK implements JsonSerializable
      */
     public static function createFromJson(string $json): self
     {
-        $data = json_decode($json, true);
+        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         if (! is_array($data)) {
             throw new InvalidArgumentException('Invalid argument.');
         }

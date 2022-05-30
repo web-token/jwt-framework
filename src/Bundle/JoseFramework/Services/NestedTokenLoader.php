@@ -19,7 +19,7 @@ final class NestedTokenLoader extends BaseNestedTokenLoader
     public function __construct(
         JWELoader $jweLoader,
         JWSLoader $jwsLoader,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($jweLoader, $jwsLoader);
     }

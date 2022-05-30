@@ -17,8 +17,8 @@ use ParagonIE\ConstantTime\Base64UrlSafe;
 abstract class PBES2AESKW implements KeyWrapping
 {
     public function __construct(
-        private int $salt_size = 64,
-        private int $nb_count = 4096
+        private readonly int $salt_size = 64,
+        private readonly int $nb_count = 4096
     ) {
     }
 

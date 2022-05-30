@@ -11,9 +11,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 final class JWEDecrypterFactory
 {
     public function __construct(
-        private AlgorithmManagerFactory $algorithmManagerFactory,
-        private CompressionMethodManagerFactory $compressionMethodManagerFactory,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly AlgorithmManagerFactory $algorithmManagerFactory,
+        private readonly CompressionMethodManagerFactory $compressionMethodManagerFactory,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
     }
 

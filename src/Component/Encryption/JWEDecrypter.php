@@ -25,9 +25,9 @@ use Throwable;
 class JWEDecrypter
 {
     public function __construct(
-        private AlgorithmManager $keyEncryptionAlgorithmManager,
-        private AlgorithmManager $contentEncryptionAlgorithmManager,
-        private CompressionMethodManager $compressionMethodManager
+        private readonly AlgorithmManager $keyEncryptionAlgorithmManager,
+        private readonly AlgorithmManager $contentEncryptionAlgorithmManager,
+        private readonly CompressionMethodManager $compressionMethodManager
     ) {
     }
 
