@@ -7,6 +7,7 @@ namespace Jose\Component\KeyManagement\Analyzer;
 use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use Throwable;
 use ZxcvbnPhp\Zxcvbn;
 
 final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
@@ -27,25 +28,28 @@ final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
             return;
         }
         $zxcvbn = new Zxcvbn();
-        $strength = $zxcvbn->passwordStrength($k);
+        try {
+            $strength = $zxcvbn->passwordStrength($k);
+            switch (true) {
+                case $strength['score'] < 3:
+                    $bag->add(
+                        Message::high(
+                            'The octet string is weak and easily guessable. Please change your key as soon as possible.'
+                        )
+                    );
 
-        switch (true) {
-            case $strength['score'] < 3:
-                $bag->add(
-                    Message::high(
-                        'The octet string is weak and easily guessable. Please change your key as soon as possible.'
-                    )
-                );
+                    break;
 
-                break;
+                case $strength['score'] === 3:
+                    $bag->add(Message::medium('The octet string is safe, but a longer key is preferable.'));
 
-            case $strength['score'] === 3:
-                $bag->add(Message::medium('The octet string is safe, but a longer key is preferable.'));
+                    break;
 
-                break;
-
-            default:
-                break;
+                default:
+                    break;
+            }
+        } catch (Throwable) {
+            $bag->add(Message::medium('The test of the weakness cannot be performed.'));
         }
     }
 }
