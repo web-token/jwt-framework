@@ -98,7 +98,7 @@
         "symfony/serializer": "^5.4|^6.0",
         "symfony/var-dumper": "^5.4|^6.0",
         "symfony/yaml": "^5.4|^6.0",
-        "symplify/easy-coding-standard": "^10.0"
+        "symplify/easy-coding-standard": "^11.0"
     },
     "replace": {
         "web-token/jwt-core": "self.version",
