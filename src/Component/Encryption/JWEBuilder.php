@@ -27,9 +27,9 @@ use RuntimeException;
 
 class JWEBuilder
 {
-    protected ?string $payload;
+    protected ?string $payload = null;
 
-    protected ?string $aad;
+    protected ?string $aad = null;
 
     protected array $recipients = [];
 
@@ -44,9 +44,9 @@ class JWEBuilder
     private ?ContentEncryptionAlgorithm $contentEncryptionAlgorithm = null;
 
     public function __construct(
-        private AlgorithmManager $keyEncryptionAlgorithmManager,
-        private AlgorithmManager $contentEncryptionAlgorithmManager,
-        private CompressionMethodManager $compressionManager
+        private readonly AlgorithmManager $keyEncryptionAlgorithmManager,
+        private readonly AlgorithmManager $contentEncryptionAlgorithmManager,
+        private readonly CompressionMethodManager $compressionManager
     ) {
     }
 
@@ -209,7 +209,7 @@ class JWEBuilder
             $recipients[] = $recipient;
         }
 
-        if (count($additionalHeader) !== 0 && count($this->recipients) === 1) {
+        if ((is_countable($additionalHeader) ? count($additionalHeader) : 0) !== 0 && count($this->recipients) === 1) {
             $sharedProtectedHeader = array_merge($additionalHeader, $this->sharedProtectedHeader);
         } else {
             $sharedProtectedHeader = $this->sharedProtectedHeader;
@@ -258,7 +258,7 @@ class JWEBuilder
             $recipient['sender_key'] ?? null
         );
         $recipientHeader = $recipient['header'];
-        if (count($additionalHeader) !== 0 && count($this->recipients) !== 1) {
+        if ((is_countable($additionalHeader) ? count($additionalHeader) : 0) !== 0 && count($this->recipients) !== 1) {
             $recipientHeader = array_merge($recipientHeader, $additionalHeader);
             $additionalHeader = [];
         }

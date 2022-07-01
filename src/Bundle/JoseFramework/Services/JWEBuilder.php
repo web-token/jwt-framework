@@ -19,7 +19,7 @@ final class JWEBuilder extends BaseJWEBuilder
         AlgorithmManager $keyEncryptionKeyEncryptionAlgorithmManager,
         AlgorithmManager $contentEncryptionAlgorithmManager,
         CompressionMethodManager $compressionManager,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($keyEncryptionKeyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionManager);
     }

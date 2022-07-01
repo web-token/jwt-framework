@@ -10,9 +10,9 @@ namespace Jose\Component\Core\Util;
 final class Hash
 {
     private function __construct(
-        private string $hash,
-        private int $length,
-        private string $t
+        private readonly string $hash,
+        private readonly int $length,
+        private readonly string $t
     ) {
     }
 

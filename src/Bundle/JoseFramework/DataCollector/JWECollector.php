@@ -45,8 +45,8 @@ class JWECollector implements Collector, EventSubscriberInterface
     private array $jweLoaders = [];
 
     public function __construct(
-        private ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null,
-        private ?JWESerializerManagerFactory $jweSerializerManagerFactory = null
+        private readonly ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null,
+        private readonly ?JWESerializerManagerFactory $jweSerializerManagerFactory = null
     ) {
     }
 

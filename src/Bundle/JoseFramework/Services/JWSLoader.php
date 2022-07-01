@@ -21,7 +21,7 @@ final class JWSLoader extends BaseJWSLoader
         JWSSerializerManager $serializerManager,
         JWSVerifier $jwsVerifier,
         ?HeaderCheckerManager $headerCheckerManager,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($serializerManager, $jwsVerifier, $headerCheckerManager);
     }

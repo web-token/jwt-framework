@@ -9,7 +9,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class NestedTokenIssuedEvent extends Event
 {
     public function __construct(
-        private string $nestedToken
+        private readonly string $nestedToken
     ) {
     }
 

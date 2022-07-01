@@ -10,7 +10,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class JWEBuiltSuccessEvent extends Event
 {
     public function __construct(
-        private JWE $jwe
+        private readonly JWE $jwe
     ) {
     }
 

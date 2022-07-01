@@ -11,9 +11,9 @@ use Throwable;
 final class JWELoadingFailureEvent extends Event
 {
     public function __construct(
-        private string $token,
-        private JWKSet $JWKSet,
-        private Throwable $throwable
+        private readonly string $token,
+        private readonly JWKSet $JWKSet,
+        private readonly Throwable $throwable
     ) {
     }
 

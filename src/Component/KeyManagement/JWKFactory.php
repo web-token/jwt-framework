@@ -14,6 +14,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
+use const JSON_THROW_ON_ERROR;
 use const OPENSSL_KEYTYPE_RSA;
 use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -155,7 +156,7 @@ class JWKFactory
      */
     public static function createFromJsonObject(string $value): JWK|JWKSet
     {
-        $json = json_decode($value, true);
+        $json = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
         if (! is_array($json)) {
             throw new InvalidArgumentException('Invalid key or key set.');
         }

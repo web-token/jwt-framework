@@ -15,7 +15,7 @@ class MissingMandatoryHeaderParameterException extends Exception
      */
     public function __construct(
         string $message,
-        private array $parameters
+        private readonly array $parameters
     ) {
         parent::__construct($message);
     }

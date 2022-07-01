@@ -19,7 +19,7 @@ final class NestedTokenBuilder extends BaseNestedTokenBuilder
         JWESerializerManager $jweSerializerManager,
         JWSBuilder $jwsBuilder,
         JWSSerializerManager $jwsSerializerManager,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($jweBuilder, $jweSerializerManager, $jwsBuilder, $jwsSerializerManager);
     }

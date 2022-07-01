@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Core;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use const JSON_THROW_ON_ERROR;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -43,7 +44,7 @@ final class JWKTest extends TestCase
         static::assertSame('x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0', $jwk->get('y'));
         static::assertSame(
             '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sig","key_ops":["sign"],"alg":"ES256","bar":"plic"}',
-            json_encode($jwk)
+            json_encode($jwk, JSON_THROW_ON_ERROR)
         );
         static::assertSame('oKIywvGUpTVTyxMQ3bwIIeQUudfr_CkLMjCE19ECD-U', $jwk->thumbprint('sha256'));
         static::assertSame('EMMMl6Rj75mqhcABihxxl_VCN9s', $jwk->thumbprint('sha1'));
@@ -133,6 +134,6 @@ final class JWKTest extends TestCase
             'key_ops' => ['verify'],
             'alg' => 'ES256',
             'kid' => '9876543210',
-        ]), json_encode($public));
+        ]), json_encode($public, JSON_THROW_ON_ERROR));
     }
 }

@@ -35,7 +35,7 @@ class EncryptionSource implements SourceWithCompilerPasses
     /**
      * @var Source[]
      */
-    private array $sources;
+    private readonly array $sources;
 
     public function __construct()
     {

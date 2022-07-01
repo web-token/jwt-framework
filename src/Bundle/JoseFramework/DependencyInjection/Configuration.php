@@ -14,8 +14,8 @@ final class Configuration implements ConfigurationInterface
      * @param Source[] $sources
      */
     public function __construct(
-        private string $alias,
-        private array $sources
+        private readonly string $alias,
+        private readonly array $sources
     ) {
     }
 

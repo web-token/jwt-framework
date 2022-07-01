@@ -12,10 +12,10 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class JWEDecryptionSuccessEvent extends Event
 {
     public function __construct(
-        private JWE $jwe,
-        private JWKSet $JWKSet,
-        private JWK $JWK,
-        private int $recipient
+        private readonly JWE $jwe,
+        private readonly JWKSet $JWKSet,
+        private readonly JWK $JWK,
+        private readonly int $recipient
     ) {
     }
 

@@ -11,11 +11,11 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class NestedTokenLoadingSuccessEvent extends Event
 {
     public function __construct(
-        private string $token,
-        private JWS $jws,
-        private JWKSet $signatureKeySet,
-        private JWKSet $encryptionKeySet,
-        private int $signature
+        private readonly string $token,
+        private readonly JWS $jws,
+        private readonly JWKSet $signatureKeySet,
+        private readonly JWKSet $encryptionKeySet,
+        private readonly int $signature
     ) {
     }
 

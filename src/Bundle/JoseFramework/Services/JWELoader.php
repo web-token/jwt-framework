@@ -21,7 +21,7 @@ final class JWELoader extends BaseJWELoader
         JWESerializerManager $serializerManager,
         JWEDecrypter $jweDecrypter,
         ?HeaderCheckerManager $headerCheckerManager,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($serializerManager, $jweDecrypter, $headerCheckerManager);
     }

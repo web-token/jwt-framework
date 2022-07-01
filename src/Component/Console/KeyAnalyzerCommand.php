@@ -21,7 +21,7 @@ final class KeyAnalyzerCommand extends Command
     protected static $defaultName = 'key:analyze';
 
     public function __construct(
-        private KeyAnalyzerManager $analyzerManager,
+        private readonly KeyAnalyzerManager $analyzerManager,
         string $name = null
     ) {
         parent::__construct($name);

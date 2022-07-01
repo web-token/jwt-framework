@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\Encryption\RFC7520;
 use function array_key_exists;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
+use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
@@ -122,9 +123,15 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
         );
         static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
-        static::assertSame($expected_payload, json_decode($loaded_compact_json->getPayload(), true));
-        static::assertSame($expected_payload, json_decode($loaded_flattened_json->getPayload(), true));
-        static::assertSame($expected_payload, json_decode($loaded_json->getPayload(), true));
+        static::assertSame(
+            $expected_payload,
+            json_decode($loaded_compact_json->getPayload(), true, 512, JSON_THROW_ON_ERROR)
+        );
+        static::assertSame(
+            $expected_payload,
+            json_decode($loaded_flattened_json->getPayload(), true, 512, JSON_THROW_ON_ERROR)
+        );
+        static::assertSame($expected_payload, json_decode($loaded_json->getPayload(), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**

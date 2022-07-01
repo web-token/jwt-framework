@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\KeyManagement;
 use function count;
 use Jose\Component\KeyManagement\Analyzer\Message;
 use Jose\Component\KeyManagement\Analyzer\MessageBag;
+use const JSON_THROW_ON_ERROR;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -54,7 +55,10 @@ final class MessageBagTest extends TestCase
     {
         $message = Message::high('Very important');
 
-        static::assertSame('{"message":"Very important","severity":"high"}', json_encode($message));
+        static::assertSame(
+            '{"message":"Very important","severity":"high"}',
+            json_encode($message, JSON_THROW_ON_ERROR)
+        );
     }
 
     /**
@@ -81,6 +85,6 @@ final class MessageBagTest extends TestCase
         $bag = new MessageBag();
         $bag->add(Message::high('Very important'));
 
-        static::assertSame('[{"message":"Very important","severity":"high"}]', json_encode($bag));
+        static::assertSame('[{"message":"Very important","severity":"high"}]', json_encode($bag, JSON_THROW_ON_ERROR));
     }
 }

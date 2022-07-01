@@ -27,7 +27,7 @@ namespace Jose\Component\Core\Util\Ecc;
 final class PublicKey
 {
     public function __construct(
-        private Point $point
+        private readonly Point $point
     ) {
     }
 

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class JWKSetController
 {
     public function __construct(
-        private string $jwkset
+        private readonly string $jwkset
     ) {
     }
 

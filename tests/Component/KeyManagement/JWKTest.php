@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
+use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use const PHP_EOL;
 use PHPUnit\Framework\TestCase;
@@ -48,7 +49,7 @@ final class JWKTest extends TestCase
         static::assertSame('x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0', $jwk->get('y'));
         static::assertSame(
             '{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","bar":"plic"}',
-            json_encode($jwk)
+            json_encode($jwk, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -118,7 +119,7 @@ final class JWKTest extends TestCase
 
         static::assertSame(
             '{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}',
-            json_encode($jwkset)
+            json_encode($jwkset, JSON_THROW_ON_ERROR)
         );
         static::assertSame(2, count($jwkset));
         static::assertSame(2, $jwkset->count());
@@ -206,7 +207,7 @@ final class JWKTest extends TestCase
             'key_ops' => ['verify'],
             'alg' => 'ES256',
             'kid' => '9876543210',
-        ]), json_encode($public));
+        ]), json_encode($public, JSON_THROW_ON_ERROR));
     }
 
     /**

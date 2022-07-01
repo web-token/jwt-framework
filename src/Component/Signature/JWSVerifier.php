@@ -18,7 +18,7 @@ use Throwable;
 class JWSVerifier
 {
     public function __construct(
-        private AlgorithmManager $signatureAlgorithmManager
+        private readonly AlgorithmManager $signatureAlgorithmManager
     ) {
     }
 
@@ -114,10 +114,10 @@ class JWSVerifier
             return sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
         }
 
-        $callable = $isPayloadBase64Encoded === true ? static function (?string $p): string {
-            return Base64UrlSafe::encodeUnpadded($p ?? '');
-        }
-        : static function (?string $p): string {return $p ?? ''; };
+        $callable = $isPayloadBase64Encoded === true ? static fn (?string $p): string => Base64UrlSafe::encodeUnpadded(
+            $p ?? ''
+        )
+        : static fn (?string $p): string => $p ?? '';
 
         $payloadToUse = $callable($isPayloadEmpty ? $detachedPayload : $payload);
 

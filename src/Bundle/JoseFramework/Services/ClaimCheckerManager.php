@@ -14,7 +14,7 @@ final class ClaimCheckerManager extends BaseClaimCheckerManager
 {
     public function __construct(
         $checkers,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($checkers);
     }

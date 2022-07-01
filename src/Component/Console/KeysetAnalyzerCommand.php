@@ -23,8 +23,8 @@ final class KeysetAnalyzerCommand extends Command
     protected static $defaultName = 'keyset:analyze';
 
     public function __construct(
-        private KeysetAnalyzerManager $keysetAnalyzerManager,
-        private KeyAnalyzerManager $keyAnalyzerManager,
+        private readonly KeysetAnalyzerManager $keysetAnalyzerManager,
+        private readonly KeyAnalyzerManager $keyAnalyzerManager,
         string $name = null
     ) {
         parent::__construct($name);

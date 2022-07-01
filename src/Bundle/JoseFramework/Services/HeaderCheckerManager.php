@@ -16,7 +16,7 @@ final class HeaderCheckerManager extends BaseHeaderCheckerManager
     public function __construct(
         array $checkers,
         array $tokenTypes,
-        private EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($checkers, $tokenTypes);
     }

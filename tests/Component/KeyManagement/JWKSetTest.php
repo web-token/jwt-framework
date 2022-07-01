@@ -118,7 +118,7 @@ final class JWKSetTest extends TestCase
         ];
         $jwkset = JWKFactory::createFromValues($values);
         static::assertInstanceOf(JWKSet::class, $jwkset);
-        static::assertSame(1, count($jwkset));
+        static::assertSame(1, is_countable($jwkset) ? count($jwkset) : 0);
         static::assertTrue($jwkset->has('71ee230371d19630bc17fb90ccf20ae632ad8cf8'));
         static::assertFalse($jwkset->has(0));
     }

@@ -11,9 +11,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class JWSVerificationFailureEvent extends Event
 {
     public function __construct(
-        private JWS $jws,
-        private JWKSet $JWKSet,
-        private ?string $detachedPayload
+        private readonly JWS $jws,
+        private readonly JWKSet $JWKSet,
+        private readonly ?string $detachedPayload
     ) {
     }
 

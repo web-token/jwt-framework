@@ -14,7 +14,7 @@ use InvalidArgumentException;
 final class BigInteger
 {
     private function __construct(
-        private BrickBigInteger $value
+        private readonly BrickBigInteger $value
     ) {
     }
 

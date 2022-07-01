@@ -10,8 +10,8 @@ use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 class JWEBuilderFactory
 {
     public function __construct(
-        private AlgorithmManagerFactory $algorithmManagerFactory,
-        private CompressionMethodManagerFactory $compressionMethodManagerFactory
+        private readonly AlgorithmManagerFactory $algorithmManagerFactory,
+        private readonly CompressionMethodManagerFactory $compressionMethodManagerFactory
     ) {
     }
 

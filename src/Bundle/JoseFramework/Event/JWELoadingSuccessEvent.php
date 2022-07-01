@@ -11,10 +11,10 @@ use Symfony\Contracts\EventDispatcher\Event;
 final class JWELoadingSuccessEvent extends Event
 {
     public function __construct(
-        private string $token,
-        private JWE $jwe,
-        private JWKSet $JWKSet,
-        private int $recipient
+        private readonly string $token,
+        private readonly JWE $jwe,
+        private readonly JWKSet $JWKSet,
+        private readonly int $recipient
     ) {
     }
 

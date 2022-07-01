@@ -41,9 +41,8 @@ final class ECKey
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN PUBLIC KEY-----' . PHP_EOL;
         $pem .= chunk_split(base64_encode($der), 64, PHP_EOL);
-        $pem .= '-----END PUBLIC KEY-----' . PHP_EOL;
 
-        return $pem;
+        return $pem . ('-----END PUBLIC KEY-----' . PHP_EOL);
     }
 
     public static function convertPrivateKeyToPEM(JWK $jwk): string
@@ -58,9 +57,8 @@ final class ECKey
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN EC PRIVATE KEY-----' . PHP_EOL;
         $pem .= chunk_split(base64_encode($der), 64, PHP_EOL);
-        $pem .= '-----END EC PRIVATE KEY-----' . PHP_EOL;
 
-        return $pem;
+        return $pem . ('-----END EC PRIVATE KEY-----' . PHP_EOL);
     }
 
     /**
@@ -320,8 +318,7 @@ final class ECKey
             throw new InvalidArgumentException('Unable to get the public key');
         }
 
-        return
-            "\04"
+        return "\04"
             . str_pad(Base64UrlSafe::decode($x), $length, "\0", STR_PAD_LEFT)
             . str_pad(Base64UrlSafe::decode($y), $length, "\0", STR_PAD_LEFT);
     }

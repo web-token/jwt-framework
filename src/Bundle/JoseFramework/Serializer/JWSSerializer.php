@@ -4,23 +4,17 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
-use Exception;
 use function in_array;
-use function is_int;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use LogicException;
 use function mb_strtolower;
-use Symfony\Component\Serializer\Encoder\DecoderInterface;
-use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-final class JWSSerializer implements DenormalizerInterface, EncoderInterface, DecoderInterface, NormalizationAwareInterface
+final class JWSSerializer implements DenormalizerInterface
 {
-    private JWSSerializerManager $serializerManager;
+    private readonly JWSSerializerManager $serializerManager;
 
     public function __construct(
         JWSSerializerManagerFactory $serializerManagerFactory,
@@ -32,47 +26,11 @@ final class JWSSerializer implements DenormalizerInterface, EncoderInterface, De
         $this->serializerManager = $serializerManager;
     }
 
-    public function supportsEncoding(string $format): bool
-    {
-        return $this->formatSupported($format);
-    }
-
-    public function supportsDecoding(string $format): bool
-    {
-        return $this->formatSupported($format);
-    }
-
     public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
     {
         return $type === JWS::class
-            && $this->componentInstalled()
+            && class_exists(JWSSerializerManager::class)
             && $this->formatSupported($format);
-    }
-
-    public function encode($data, $format, array $context = []): string
-    {
-        if ($data instanceof JWS === false) {
-            throw new LogicException('Expected data to be a JWS.');
-        }
-
-        try {
-            return $this->serializerManager->serialize(
-                mb_strtolower($format),
-                $data,
-                $this->getSignatureIndex($context)
-            );
-        } catch (Exception $ex) {
-            throw new NotEncodableValueException(sprintf('Cannot encode JWS to %s format.', $format), 0, $ex);
-        }
-    }
-
-    public function decode($data, $format, array $context = []): JWS
-    {
-        try {
-            return $this->serializerManager->unserialize($data);
-        } catch (Exception $ex) {
-            throw new NotEncodableValueException(sprintf('Cannot decode JWS from %s format.', $format), 0, $ex);
-        }
     }
 
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): JWS
@@ -82,26 +40,6 @@ final class JWSSerializer implements DenormalizerInterface, EncoderInterface, De
         }
 
         return $data;
-    }
-
-    /**
-     * Get JWS signature index from context.
-     */
-    private function getSignatureIndex(array $context): int
-    {
-        if (isset($context['signature_index']) && is_int($context['signature_index'])) {
-            return $context['signature_index'];
-        }
-
-        return 0;
-    }
-
-    /**
-     * Check if signature component is installed.
-     */
-    private function componentInstalled(): bool
-    {
-        return class_exists(JWSSerializerManager::class);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Signature\RFC7520;
 
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Signature\SignatureTest;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-6
@@ -21,7 +22,7 @@ final class NestingTest extends SignatureTest
     {
         $payload = [
             'iss' => 'hobbiton.example',
-            'exp' => 1300819380,
+            'exp' => 1_300_819_380,
             'http://example.com/is_root' => true,
         ];
 
@@ -55,6 +56,6 @@ final class NestingTest extends SignatureTest
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
         static::assertSame($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
-        static::assertSame($payload, json_decode($loaded_compact_json->getPayload(), true));
+        static::assertSame($payload, json_decode($loaded_compact_json->getPayload(), true, 512, JSON_THROW_ON_ERROR));
     }
 }

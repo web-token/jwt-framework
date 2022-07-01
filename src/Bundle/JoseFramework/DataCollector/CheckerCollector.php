@@ -39,8 +39,8 @@ class CheckerCollector implements Collector, EventSubscriberInterface
     private array $claimCheckerManagers = [];
 
     public function __construct(
-        private ?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null,
-        private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null
+        private readonly ?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null,
+        private readonly ?HeaderCheckerManagerFactory $headerCheckerManagerFactory = null
     ) {
     }
 

@@ -17,8 +17,8 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     private const CLAIM_NAME = 'aud';
 
     public function __construct(
-        private string $audience,
-        private bool $protectedHeader = false
+        private readonly string $audience,
+        private readonly bool $protectedHeader = false
     ) {
     }
 

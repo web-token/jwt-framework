@@ -10,8 +10,8 @@ use Jose\Component\Signature\JWSLoaderFactory;
 class NestedTokenLoaderFactory
 {
     public function __construct(
-        private JWELoaderFactory $jweLoaderFactory,
-        private JWSLoaderFactory $jwsLoaderFactory
+        private readonly JWELoaderFactory $jweLoaderFactory,
+        private readonly JWSLoaderFactory $jwsLoaderFactory
     ) {
     }
 

@@ -26,9 +26,9 @@ final class RSAKey
 {
     private Sequence $sequence;
 
-    private bool $private;
+    private readonly bool $private;
 
-    private array $values;
+    private readonly array $values;
 
     private BigInteger $modulus;
 
@@ -147,9 +147,8 @@ final class RSAKey
         }
         $result = '-----BEGIN ' . ($this->private ? 'RSA PRIVATE' : 'PUBLIC') . ' KEY-----' . PHP_EOL;
         $result .= chunk_split(base64_encode($this->sequence->getBinary()), 64, PHP_EOL);
-        $result .= '-----END ' . ($this->private ? 'RSA PRIVATE' : 'PUBLIC') . ' KEY-----' . PHP_EOL;
 
-        return $result;
+        return $result . ('-----END ' . ($this->private ? 'RSA PRIVATE' : 'PUBLIC') . ' KEY-----' . PHP_EOL);
     }
 
     /**

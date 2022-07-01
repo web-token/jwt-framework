@@ -16,7 +16,7 @@ final class X5ULoaderCommand extends ObjectOutputCommand
     protected static $defaultName = 'keyset:load:x5u';
 
     public function __construct(
-        private X5UFactory $x5uFactory,
+        private readonly X5UFactory $x5uFactory,
         ?string $name = null
     ) {
         parent::__construct($name);

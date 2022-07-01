@@ -17,8 +17,8 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
      * @param Source[] $sources
      */
     public function __construct(
-        private string $alias,
-        private array $sources
+        private readonly string $alias,
+        private readonly array $sources
     ) {
     }
 
