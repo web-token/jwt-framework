@@ -7,6 +7,9 @@ namespace Jose\Component\Core;
 use InvalidArgumentException;
 use function is_string;
 
+/**
+ * @see \Jose\Tests\Component\Core\AlgorithmManagerFactoryTest
+ */
 class AlgorithmManagerFactory
 {
     private array $algorithms = [];

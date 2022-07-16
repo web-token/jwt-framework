@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
-use function array_key_exists;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
@@ -35,8 +34,8 @@ final class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        static::assertTrue(array_key_exists('iv', $header));
-        static::assertTrue(array_key_exists('tag', $header));
+        static::assertArrayHasKey('iv', $header);
+        static::assertArrayHasKey('tag', $header);
         static::assertNotNull($header['iv']);
         static::assertNotNull($header['tag']);
         static::assertSame($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
@@ -100,8 +99,8 @@ final class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        static::assertTrue(array_key_exists('iv', $header));
-        static::assertTrue(array_key_exists('tag', $header));
+        static::assertArrayHasKey('iv', $header);
+        static::assertArrayHasKey('tag', $header);
         static::assertNotNull($header['iv']);
         static::assertNotNull($header['tag']);
         static::assertSame($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
@@ -126,8 +125,8 @@ final class AESGCMKWKeyEncryptionTest extends TestCase
 
         $wrapped_cek = $aeskw->wrapKey($key, $cek, $header, $header);
 
-        static::assertTrue(array_key_exists('iv', $header));
-        static::assertTrue(array_key_exists('tag', $header));
+        static::assertArrayHasKey('iv', $header);
+        static::assertArrayHasKey('tag', $header);
         static::assertNotNull($header['iv']);
         static::assertNotNull($header['tag']);
         static::assertSame($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));

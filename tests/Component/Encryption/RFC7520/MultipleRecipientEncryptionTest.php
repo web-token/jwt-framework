@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
-use function array_key_exists;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
@@ -249,9 +248,9 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
 
         static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
         static::assertSame($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
-        static::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
-        static::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
-        static::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
+        static::assertArrayHasKey('epk', $loaded_json->getRecipient(1)->getHeader());
+        static::assertArrayHasKey('iv', $loaded_json->getRecipient(2)->getHeader());
+        static::assertArrayHasKey('tag', $loaded_json->getRecipient(2)->getHeader());
         static::assertSame($header, $loaded_json->getSharedHeader());
 
         static::assertSame($expected_payload, $loaded_json->getPayload());

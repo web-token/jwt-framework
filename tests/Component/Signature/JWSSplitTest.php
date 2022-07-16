@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
-use function count;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 
 /**
@@ -23,7 +22,7 @@ final class JWSSplitTest extends SignatureTest
         $split = $jws->split();
 
         static::assertSame(3, $jws->countSignatures());
-        static::assertSame(3, count($jws->split()));
+        static::assertCount(3, $jws->split());
 
         for ($i = 0; $i < $jws->countSignatures(); ++$i) {
             $signature1 = $jws->getSignature($i);

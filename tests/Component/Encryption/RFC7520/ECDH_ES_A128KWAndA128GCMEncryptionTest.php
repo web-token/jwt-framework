@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
-use function array_key_exists;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -172,9 +171,9 @@ final class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
         ;
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertTrue(array_key_exists('epk', $loaded_flattened_json->getSharedProtectedHeader()));
+        static::assertArrayHasKey('epk', $loaded_flattened_json->getSharedProtectedHeader());
 
-        static::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeader()));
+        static::assertArrayHasKey('epk', $loaded_json->getSharedProtectedHeader());
 
         static::assertSame($expected_payload, $loaded_flattened_json->getPayload());
         static::assertSame($expected_payload, $loaded_json->getPayload());

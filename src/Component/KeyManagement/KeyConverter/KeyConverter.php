@@ -129,7 +129,7 @@ final class KeyConverter
         }
         foreach ($x5c as $id => $cert) {
             $x5c[$id] = '-----BEGIN CERTIFICATE-----' . PHP_EOL . chunk_split(
-                $cert,
+                (string) $cert,
                 64,
                 PHP_EOL
             ) . '-----END CERTIFICATE-----';

@@ -52,6 +52,7 @@ final class NestingTokenBuilderTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function decryption(): void
     {

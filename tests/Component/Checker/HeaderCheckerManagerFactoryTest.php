@@ -78,6 +78,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function theHeaderIsSuccessfullyChecked(): void
     {
@@ -141,6 +142,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function theHeaderContainsUnknownParametersAndIsSuccessfullyChecked(): void
     {

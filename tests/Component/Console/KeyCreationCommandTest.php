@@ -67,6 +67,7 @@ final class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanCreateAnEllipticCurveKeyWithCurveP256(): void
     {
@@ -99,6 +100,7 @@ final class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanCreateAnOctetKey(): void
     {
@@ -170,6 +172,7 @@ final class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanCreateAnOctetKeyPair(): void
     {
@@ -187,6 +190,7 @@ final class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanCreateANoneKey(): void
     {
@@ -218,6 +222,7 @@ final class KeyCreationCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanCreateAnRsaKey(): void
     {

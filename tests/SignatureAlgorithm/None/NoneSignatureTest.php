@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Signature\Algorithm;
 
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\None;
@@ -76,7 +75,7 @@ final class NoneSignatureTest extends TestCase
         static::assertSame(1, $jws->countSignatures());
 
         $compact = $serializer->serialize($jws, 0);
-        static::assertTrue(is_string($compact));
+        static::assertIsString($compact);
 
         $result = $serializer->unserialize($compact);
 

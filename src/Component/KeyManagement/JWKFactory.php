@@ -21,6 +21,9 @@ use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
 
+/**
+ * @see \Jose\Tests\Component\KeyManagement\JWKFactoryTest
+ */
 class JWKFactory
 {
     /**

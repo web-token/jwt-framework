@@ -115,13 +115,13 @@ final class ECKey
             'kty' => 'EC',
             'crv' => $curve,
             'd' => Base64UrlSafe::encodeUnpadded(
-                str_pad($details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
+                str_pad((string) $details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
             ),
             'x' => Base64UrlSafe::encodeUnpadded(
-                str_pad($details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
+                str_pad((string) $details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
             ),
             'y' => Base64UrlSafe::encodeUnpadded(
-                str_pad($details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
+                str_pad((string) $details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
             ),
         ];
     }

@@ -213,7 +213,6 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      * Internal method only. Should not be used.
      *
      * @internal
-     * @internal
      */
     public static function sortKeys(array $a, array $b): int
     {

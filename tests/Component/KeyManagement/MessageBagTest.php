@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use function count;
 use Jose\Component\KeyManagement\Analyzer\Message;
 use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use const JSON_THROW_ON_ERROR;
@@ -70,11 +69,9 @@ final class MessageBagTest extends TestCase
         $bag->add(Message::high('Very important'));
 
         static::assertSame(1, $bag->count());
-        static::assertSame(1, count($bag));
-        static::assertSame(1, count($bag->all()));
-        foreach ($bag as $message) {
-            static::assertInstanceOf(Message::class, $message);
-        }
+        static::assertCount(1, $bag);
+        static::assertCount(1, $bag->all());
+        static::assertContainsOnlyInstancesOf(Message::class, $bag);
     }
 
     /**

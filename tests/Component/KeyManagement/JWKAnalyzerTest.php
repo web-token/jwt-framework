@@ -62,6 +62,7 @@ final class JWKAnalyzerTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function theRsaKeyHasALowExponent(): void
     {

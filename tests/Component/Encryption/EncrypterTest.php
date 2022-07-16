@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption;
 
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use const JSON_THROW_ON_ERROR;
@@ -216,7 +215,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertEqualsCanonicalizing(
             $this->getKeyToEncrypt(),
-            new JWK(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            new JWK(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
     }
 
@@ -370,7 +369,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertEqualsCanonicalizing(
             $this->getKeySetToEncrypt(),
-            JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            JWKSet::createFromKeyData(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
     }
 
@@ -520,7 +519,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertEqualsCanonicalizing(
             $this->getKeyToEncrypt(),
-            new JWK(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            new JWK(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
     }
 
@@ -608,7 +607,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        static::assertTrue(is_string($loaded->getPayload()));
+        static::assertIsString($loaded->getPayload());
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
     }
 
@@ -652,7 +651,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        static::assertTrue(is_string($loaded->getPayload()));
+        static::assertIsString($loaded->getPayload());
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
     }
 
@@ -704,7 +703,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
 
-        static::assertTrue(is_string($loaded->getPayload()));
+        static::assertIsString($loaded->getPayload());
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
     }
 
