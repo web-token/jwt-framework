@@ -103,7 +103,7 @@ class JWKFactory
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
-                $secret = sodium_crypto_box_secretkey($keyPair);
+                $secret = $keyPair;
                 $x = sodium_crypto_box_publickey($keyPair);
 
                 break;
