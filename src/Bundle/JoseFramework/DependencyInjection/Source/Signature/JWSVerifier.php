@@ -26,8 +26,7 @@ class JWSVerifier extends AbstractSignatureSource
                 ->setFactory([new Reference(JWSVerifierFactory::class), 'create'])
                 ->setArguments([$itemConfig['signature_algorithms']])
                 ->addTag('jose.jws_verifier')
-                ->setPublic($itemConfig['is_public'])
-            ;
+                ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }

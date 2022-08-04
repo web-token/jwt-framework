@@ -22,8 +22,7 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
     {
         parent::configure();
         $this->setDescription('Optimize a RSA key by calculating additional primes (CRT).')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -20,8 +20,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
         parent::configure();
         $this->setDescription('Generate a key set with RSA keys (JWK format)')
             ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
-            ->addArgument('size', InputArgument::REQUIRED, 'Key size.')
-        ;
+            ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

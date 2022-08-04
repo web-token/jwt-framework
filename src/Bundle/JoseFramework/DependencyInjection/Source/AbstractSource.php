@@ -38,8 +38,7 @@ abstract class AbstractSource
             ->variablePrototype()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 
     abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;

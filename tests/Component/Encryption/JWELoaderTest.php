@@ -36,8 +36,7 @@ final class JWELoaderTest extends EncryptionTest
         ]);
 
         $this->getJWELoader()
-            ->loadAndDecryptWithKey($token, $key, $recipient)
-        ;
+            ->loadAndDecryptWithKey($token, $key, $recipient);
     }
 
     /**
@@ -59,8 +58,7 @@ final class JWELoaderTest extends EncryptionTest
         ]);
 
         $this->getJWELoader()
-            ->loadAndDecryptWithKey($token, $key, $recipient)
-        ;
+            ->loadAndDecryptWithKey($token, $key, $recipient);
     }
 
     /**
@@ -82,8 +80,7 @@ final class JWELoaderTest extends EncryptionTest
         ]);
 
         $this->getJWELoader()
-            ->loadAndDecryptWithKey($token, $key, $recipient)
-        ;
+            ->loadAndDecryptWithKey($token, $key, $recipient);
     }
 
     /**
@@ -101,13 +98,9 @@ final class JWELoaderTest extends EncryptionTest
         ]);
         $recipient = 0;
         $jwe = $this->getJWELoader()
-            ->loadAndDecryptWithKey($token, $key, $recipient)
-        ;
+            ->loadAndDecryptWithKey($token, $key, $recipient);
 
-        static::assertSame(
-            'You can trust us to stick with you through thick and thin–to the bitter end. And you can trust us to keep any secret of yours–closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.',
-            $jwe->getPayload()
-        );
+        static::assertSame(file_get_contents(__DIR__ . '/message.txt'), $jwe->getPayload());
         static::assertSame(0, $recipient);
     }
 
@@ -115,8 +108,7 @@ final class JWELoaderTest extends EncryptionTest
     {
         if ($this->jweLoader === null) {
             $this->jweLoader = $this->getJWELoaderFactory()
-                ->create(['jwe_compact'], ['A128KW'], ['A128GCM'], ['DEF'])
-            ;
+                ->create(['jwe_compact'], ['A128KW'], ['A128GCM'], ['DEF']);
         }
 
         return $this->jweLoader;

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Jose\Component\Signature\Algorithm\EdDSA;
+
 /*
  * The MIT License (MIT)
  *
@@ -19,12 +20,10 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(EdDSA::class)
         ->tag('jose.algorithm', [
             'alias' => 'EdDSA',
-        ])
-    ;
+        ]);
 };

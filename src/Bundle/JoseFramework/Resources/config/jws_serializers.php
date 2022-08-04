@@ -6,6 +6,7 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
+
 /*
  * The MIT License (MIT)
  *
@@ -22,12 +23,10 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(JWSSerializerManagerFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(CompactSerializer::class);
     $container->set(JSONFlattenedSerializer::class);

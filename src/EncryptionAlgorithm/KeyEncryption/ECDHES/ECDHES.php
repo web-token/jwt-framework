@@ -159,8 +159,7 @@ final class ECDHES implements KeyAgreement
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
         $epk = $private_key->toPublic()
-            ->all()
-        ;
+            ->all();
         $additional_header_values['epk'] = $epk;
 
         return [$public_key, $private_key];

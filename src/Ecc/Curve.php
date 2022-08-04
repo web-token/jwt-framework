@@ -170,11 +170,10 @@ final class Curve implements Stringable
     {
         $equal = $this->getA()
             ->isEqualTo($other->getA())
-                 && $this->getB()
-                     ->isEqualTo($other->getB())
-                 && $this->getPrime()
-                     ->isEqualTo($other->getPrime())
-                 ;
+            && $this->getB()
+                ->isEqualTo($other->getB())
+            && $this->getPrime()
+                ->isEqualTo($other->getPrime());
 
         return $equal ? 0 : 1;
     }

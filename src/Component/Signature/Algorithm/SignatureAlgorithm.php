@@ -12,7 +12,7 @@ interface SignatureAlgorithm extends Algorithm
     /**
      * Sign the input.
      *
-     * @param JWK    $key   The private key used to sign the data
+     * @param JWK $key The private key used to sign the data
      * @param string $input The input
      */
     public function sign(JWK $key, string $input): string;
@@ -20,8 +20,8 @@ interface SignatureAlgorithm extends Algorithm
     /**
      * Verify the signature of data.
      *
-     * @param JWK    $key       The private key used to sign the data
-     * @param string $input     The input
+     * @param JWK $key The private key used to sign the data
+     * @param string $input The input
      * @param string $signature The signature to verify
      */
     public function verify(JWK $key, string $input, string $signature): bool;

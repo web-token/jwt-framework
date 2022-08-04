@@ -25,27 +25,23 @@ class SymfonySerializerCompilerPass implements CompilerPassInterface
             $container
                 ->autowire(JWSSerializer::class, JWSSerializer::class)
                 ->setPublic(false)
-                ->addTag('serializer.normalizer')
-            ;
+                ->addTag('serializer.normalizer');
 
             $container
                 ->autowire(JWSEncoder::class, JWSEncoder::class)
                 ->setPublic(false)
-                ->addTag('serializer.encoder')
-            ;
+                ->addTag('serializer.encoder');
         }
         if ($container->hasDefinition(JWESerializerManagerFactory::class)) {
             $container
                 ->autowire(JWESerializer::class, JWESerializer::class)
                 ->setPublic(false)
-                ->addTag('serializer.normalizer')
-            ;
+                ->addTag('serializer.normalizer');
 
             $container
                 ->autowire(JWEEncoder::class, JWEEncoder::class)
                 ->setPublic(false)
-                ->addTag('serializer.encoder')
-            ;
+                ->addTag('serializer.encoder');
         }
     }
 }

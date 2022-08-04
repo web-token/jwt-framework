@@ -55,8 +55,7 @@ final class JWEComputationTest extends WebTestCase
                 'enc' => 'A256CBC-HS512',
             ])
             ->addRecipient($jwk)
-            ->build()
-        ;
+            ->build();
         $token = $serializer->serialize($jwe, 0);
 
         $loaded = $serializer->unserialize($token);

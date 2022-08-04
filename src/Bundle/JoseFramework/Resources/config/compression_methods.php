@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\Compression\Deflate;
+
 /*
  * The MIT License (MIT)
  *
@@ -20,16 +21,13 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(CompressionMethodManagerFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(Deflate::class)
         ->tag('jose.compression_method', [
             'alias' => 'DEF',
-        ])
-    ;
+        ]);
 };

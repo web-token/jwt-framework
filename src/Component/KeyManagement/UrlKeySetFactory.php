@@ -32,7 +32,6 @@ abstract class UrlKeySetFactory
         }
 
         return $response->getBody()
-            ->getContents()
-        ;
+            ->getContents();
     }
 }

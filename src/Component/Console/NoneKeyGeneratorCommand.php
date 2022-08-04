@@ -17,8 +17,7 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
         parent::configure();
         $this->setDescription(
             'Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.'
-        )
-        ;
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

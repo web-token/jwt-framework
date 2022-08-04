@@ -29,7 +29,7 @@ class JWKFactory
     /**
      * Creates a RSA key with the given key size and additional values.
      *
-     * @param int   $size   The key size in bits
+     * @param int $size The key size in bits
      * @param array $values values to configure the key
      */
     public static function createRSAKey(int $size, array $values = []): JWK
@@ -61,8 +61,8 @@ class JWKFactory
     /**
      * Creates a EC key with the given curve and additional values.
      *
-     * @param string $curve  The curve
-     * @param array  $values values to configure the key
+     * @param string $curve The curve
+     * @param array $values values to configure the key
      */
     public static function createECKey(string $curve, array $values = []): JWK
     {
@@ -72,7 +72,7 @@ class JWKFactory
     /**
      * Creates a octet key with the given key size and additional values.
      *
-     * @param int   $size   The key size in bits
+     * @param int $size The key size in bits
      * @param array $values values to configure the key
      */
     public static function createOctKey(int $size, array $values = []): JWK
@@ -94,8 +94,8 @@ class JWKFactory
     /**
      * Creates a OKP key with the given curve and additional values.
      *
-     * @param string $curve  The curve
-     * @param array  $values values to configure the key
+     * @param string $curve The curve
+     * @param array $values values to configure the key
      */
     public static function createOKPKey(string $curve, array $values = []): JWK
     {

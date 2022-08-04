@@ -25,10 +25,8 @@ final class JWSTokenSupport implements TokenTypeSupport
             throw new InvalidArgumentException('Unknown signature index.');
         }
         $protectedHeader = $jwt->getSignature($index)
-            ->getProtectedHeader()
-        ;
+            ->getProtectedHeader();
         $unprotectedHeader = $jwt->getSignature($index)
-            ->getHeader()
-        ;
+            ->getHeader();
     }
 }

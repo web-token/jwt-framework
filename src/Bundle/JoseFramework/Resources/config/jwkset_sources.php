@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JKU;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSet;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\X5U;
+
 /*
  * The MIT License (MIT)
  *
@@ -21,8 +22,7 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->public()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(JWKSet::class);
     $container->set(JKU::class);

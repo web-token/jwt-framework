@@ -18,8 +18,7 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
     {
         parent::configure();
         $this->setDescription('Generate a RSA key (JWK format)')
-            ->addArgument('size', InputArgument::REQUIRED, 'Key size.')
-        ;
+            ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

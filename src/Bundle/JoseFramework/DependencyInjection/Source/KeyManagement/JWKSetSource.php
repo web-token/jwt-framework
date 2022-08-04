@@ -57,12 +57,10 @@ class JWKSetSource implements Source
             })
             ->thenInvalid('One key set type must be set.')
             ->end()
-            ->children()
-        ;
+            ->children();
         foreach ($this->getJWKSetSources() as $name => $source) {
             $sourceNode = $sourceNodeBuilder->arrayNode($name)
-                ->canBeUnset()
-            ;
+                ->canBeUnset();
             $source->addConfiguration($sourceNode);
         }
     }

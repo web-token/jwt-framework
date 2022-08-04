@@ -23,8 +23,7 @@ final class PemConverterCommand extends ObjectOutputCommand
     {
         parent::configure();
         $this->setDescription('Converts a RSA or EC key into PKCS#1 key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The key')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The key');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

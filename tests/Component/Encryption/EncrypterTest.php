@@ -21,11 +21,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptWithJWTInput(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -37,16 +35,13 @@ final class EncrypterTest extends EncryptionTest
             ])
             ->withAAD('foo,bar,baz')
             ->addRecipient($this->getRSARecipientKey())
-            ->build()
-        ;
+            ->build();
 
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('RSA-OAEP-256', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A256CBC-HS512', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -66,8 +61,7 @@ final class EncrypterTest extends EncryptionTest
         $this->expectExceptionMessage('The header contains duplicated entries: zip.');
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -79,8 +73,7 @@ final class EncrypterTest extends EncryptionTest
             ])
             ->addRecipient($this->getRSARecipientKey(), [
                 'zip' => 'DEF',
-            ])
-        ;
+            ]);
     }
 
     /**
@@ -89,11 +82,9 @@ final class EncrypterTest extends EncryptionTest
     public function createCompactJWEUsingFactory(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -104,15 +95,12 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getRSARecipientKey())
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_compact', $jwe, 0)
-        ;
+            ->serialize('jwe_compact', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('RSA-OAEP-256', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A256CBC-HS512', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -130,11 +118,9 @@ final class EncrypterTest extends EncryptionTest
     public function createFlattenedJWEUsingFactory(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -151,15 +137,12 @@ final class EncrypterTest extends EncryptionTest
                 'plic' => 'ploc',
             ])
             ->withAAD('A,B,C,D')
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('RSA-OAEP-256', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A256CBC-HS512', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -180,11 +163,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptAndLoadFlattenedWithAAD(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -196,15 +177,12 @@ final class EncrypterTest extends EncryptionTest
             ])
             ->addRecipient($this->getRSARecipientKey())
             ->withAAD('foo,bar,baz')
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('RSA-OAEP-256', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A256CBC-HS512', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -228,8 +206,7 @@ final class EncrypterTest extends EncryptionTest
         $this->expectExceptionMessage('The compression method "FIP" is not supported.');
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -241,11 +218,9 @@ final class EncrypterTest extends EncryptionTest
             ])
             ->addRecipient($this->getRSARecipientKey())
             ->withAAD('foo,bar,baz')
-            ->build()
-        ;
+            ->build();
         $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
     }
 
     /**
@@ -257,8 +232,7 @@ final class EncrypterTest extends EncryptionTest
         $this->expectExceptionMessage('Foreign key management mode forbidden.');
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['dir', 'ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['dir', 'ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -274,8 +248,7 @@ final class EncrypterTest extends EncryptionTest
                 'kid' => 'DIR_1',
                 'alg' => 'dir',
             ])
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -287,8 +260,7 @@ final class EncrypterTest extends EncryptionTest
         $this->expectExceptionMessage('Key cannot be used to encrypt');
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -299,8 +271,7 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getSigningKey())
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -312,8 +283,7 @@ final class EncrypterTest extends EncryptionTest
         $this->expectExceptionMessage('Key is only allowed for algorithm "RSA-OAEP".');
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A256CBC-HS512'], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -324,8 +294,7 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getRSARecipientKeyWithAlgorithm())
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -334,11 +303,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptAndLoadFlattenedWithDeflateCompression(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A128CBC-HS256'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP-256'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['A128CBC-HS256'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -350,15 +317,12 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getRSARecipientKey())
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_compact', $jwe, 0)
-        ;
+            ->serialize('jwe_compact', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('RSA-OAEP-256', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -382,8 +346,7 @@ final class EncrypterTest extends EncryptionTest
         $this->expectExceptionMessage('Parameter "alg" is missing.');
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create([], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create([], ['A256CBC-HS512'], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -394,8 +357,7 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getRSARecipientKey())
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -407,8 +369,7 @@ final class EncrypterTest extends EncryptionTest
         $this->expectExceptionMessage('Parameter "enc" is missing.');
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], [], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], [], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -419,8 +380,7 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getRSARecipientKey())
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -434,8 +394,7 @@ final class EncrypterTest extends EncryptionTest
         );
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['A256CBC-HS512'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['A256CBC-HS512'], ['A256CBC-HS512'], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -447,8 +406,7 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getRSARecipientKey())
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -462,8 +420,7 @@ final class EncrypterTest extends EncryptionTest
         );
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256'], ['RSA-OAEP-256'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256'], ['RSA-OAEP-256'], ['DEF']);
 
         $jweBuilder
             ->create()
@@ -475,8 +432,7 @@ final class EncrypterTest extends EncryptionTest
                 'zip' => 'DEF',
             ])
             ->addRecipient($this->getRSARecipientKey())
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -485,11 +441,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptAndLoadCompactWithDirectKeyEncryption(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['dir'], ['A192CBC-HS384'], ['DEF'])
-        ;
+            ->create(['dir'], ['A192CBC-HS384'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['dir'], ['A192CBC-HS384'], ['DEF'])
-        ;
+            ->create(['dir'], ['A192CBC-HS384'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -500,15 +454,12 @@ final class EncrypterTest extends EncryptionTest
                 'alg' => 'dir',
             ])
             ->addRecipient($this->getDirectKey())
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('dir', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A192CBC-HS384', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -529,11 +480,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptAndLoadCompactKeyAgreement(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['ECDH-ES'], ['A192CBC-HS384'], ['DEF'])
-        ;
+            ->create(['ECDH-ES'], ['A192CBC-HS384'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES'], ['A192CBC-HS384'], ['DEF'])
-        ;
+            ->create(['ECDH-ES'], ['A192CBC-HS384'], ['DEF']);
 
         $payload = json_encode([
             'user_id' => '1234',
@@ -548,15 +497,12 @@ final class EncrypterTest extends EncryptionTest
                 'alg' => 'ECDH-ES',
             ])
             ->addRecipient($this->getECDHRecipientPublicKey())
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('ECDH-ES', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A192CBC-HS384', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -574,11 +520,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptAndLoadCompactKeyAgreementWithWrappingCompact(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -589,15 +533,12 @@ final class EncrypterTest extends EncryptionTest
                 'alg' => 'ECDH-ES+A256KW',
             ])
             ->addRecipient($this->getECDHRecipientPublicKey())
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('ECDH-ES+A256KW', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A256CBC-HS512', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -617,11 +558,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptAndLoadWithGCMAndAAD(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['ECDH-ES+A256KW'], ['A256GCM'], ['DEF'])
-        ;
+            ->create(['ECDH-ES+A256KW'], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES+A256KW'], ['A256GCM'], ['DEF'])
-        ;
+            ->create(['ECDH-ES+A256KW'], ['A256GCM'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -633,15 +572,12 @@ final class EncrypterTest extends EncryptionTest
             ])
             ->withAAD('foo,bar,baz')
             ->addRecipient($this->getECDHRecipientPublicKey())
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_flattened', $jwe, 0)
-        ;
+            ->serialize('jwe_json_flattened', $jwe, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame('ECDH-ES+A256KW', $loaded->getSharedProtectedHeaderParameter('alg'));
         static::assertSame('A256GCM', $loaded->getSharedProtectedHeaderParameter('enc'));
@@ -661,11 +597,9 @@ final class EncrypterTest extends EncryptionTest
     public function encryptAndLoadCompactKeyAgreementWithWrapping(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256', 'ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256', 'ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP-256', 'ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP-256', 'ECDH-ES+A256KW'], ['A256CBC-HS512'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -682,15 +616,12 @@ final class EncrypterTest extends EncryptionTest
                 'kid' => '123456789',
                 'alg' => 'RSA-OAEP-256',
             ])
-            ->build()
-        ;
+            ->build();
         $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_json_general', $jwe)
-        ;
+            ->serialize('jwe_json_general', $jwe);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe)
-        ;
+            ->unserialize($jwe);
 
         static::assertSame(2, $loaded->countRecipients());
 

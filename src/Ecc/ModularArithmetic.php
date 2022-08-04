@@ -14,15 +14,13 @@ final class ModularArithmetic
     public static function sub(BigInteger $minuend, BigInteger $subtrahend, BigInteger $modulus): BigInteger
     {
         return $minuend->minus($subtrahend)
-            ->mod($modulus)
-        ;
+            ->mod($modulus);
     }
 
     public static function mul(BigInteger $multiplier, BigInteger $muliplicand, BigInteger $modulus): BigInteger
     {
         return $multiplier->multipliedBy($muliplicand)
-            ->mod($modulus)
-        ;
+            ->mod($modulus);
     }
 
     public static function div(BigInteger $dividend, BigInteger $divisor, BigInteger $modulus): BigInteger

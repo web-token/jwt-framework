@@ -45,8 +45,7 @@ final class RSAKeyWithoutAllPrimesTest extends TestCase
             ->addSignature($key, [
                 'alg' => $algorithm->name(),
             ])
-            ->build()
-        ;
+            ->build();
         $jws = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($jws);

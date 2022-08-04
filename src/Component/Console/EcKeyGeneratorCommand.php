@@ -19,8 +19,7 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
     {
         parent::configure();
         $this->setDescription('Generate an EC key (JWK format)')
-            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.')
-        ;
+            ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

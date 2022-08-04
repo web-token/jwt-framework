@@ -41,7 +41,6 @@ class Values extends AbstractSource implements JWKSource
             ->variablePrototype()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 }

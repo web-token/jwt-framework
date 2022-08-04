@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-    {%  if not collector.getData().jwe.jwe_serialization is empty %}
+    {% if not collector.getData().jwe.jwe_serialization is empty %}
         {% for alias, name in collector.getData().jwe.jwe_serialization %}
             <tr>
                 <td>{{ name }}</td>

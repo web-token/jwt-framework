@@ -39,8 +39,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $this->expectExceptionMessage('The header contains duplicated entries: alg.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'alg' => 'foo',
@@ -64,8 +63,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         );
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'crit' => ['alg'],
@@ -83,8 +81,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function theHeaderIsSuccessfullyChecked(): void
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'crit' => ['aud'],
@@ -106,8 +103,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $this->expectExceptionMessage('The header parameter "crit" must be protected.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'aud' => 'My Service',
@@ -128,8 +124,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $this->expectExceptionMessage('The header "crit" must be a list of header parameters.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'aud' => 'My Service',
@@ -147,8 +142,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function theHeaderContainsUnknownParametersAndIsSuccessfullyChecked(): void
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'foo' => 'bar',
@@ -168,8 +162,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $this->expectExceptionMessage('The following header parameters are mandatory: mandatory.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'aud' => 'Audience',
@@ -191,8 +184,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $this->expectExceptionMessage('Unsupported token type.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
-            ->create(['aud', 'iss'])
-        ;
+            ->create(['aud', 'iss']);
         $payload = [];
         $protected = [
             'foo' => 'bar',

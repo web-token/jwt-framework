@@ -47,8 +47,8 @@ class JWSSerializerManager
     /**
      * Loads data and return a JWS object.
      *
-     * @param string      $input A string that represents a JWS
-     * @param string|null $name  the name of the serializer if the input is unserialized
+     * @param string $input A string that represents a JWS
+     * @param string|null $name the name of the serializer if the input is unserialized
      */
     public function unserialize(string $input, ?string &$name = null): JWS
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
+
 /*
  * The MIT License (MIT)
  *
@@ -21,16 +22,13 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(JKUFactory::class)
         ->public()
-        ->args([service('jose.http_client'), service('jose.request_factory')])
-    ;
+        ->args([service('jose.http_client'), service('jose.request_factory')]);
 
     $container->set(X5UFactory::class)
         ->public()
-        ->args([service('jose.http_client'), service('jose.request_factory')])
-    ;
+        ->args([service('jose.http_client'), service('jose.request_factory')]);
 };

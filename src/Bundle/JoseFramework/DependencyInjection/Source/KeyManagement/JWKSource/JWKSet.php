@@ -42,7 +42,6 @@ class JWKSet extends AbstractSource implements JWKSource
             ->info('The index of the key in the key set.')
             ->isRequired()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 }

@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-    {%  if not collector.getData().jwe.compression_methods is empty %}
+    {% if not collector.getData().jwe.compression_methods is empty %}
         {% for alias, name in collector.getData().jwe.compression_methods %}
             <tr>
                 <td>{{ name }}</td>

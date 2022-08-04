@@ -46,17 +46,14 @@ final class DirAndA128GCMEncryptionTest extends EncryptionTest
         $expected_tag = 'vbb32Xvllea2OtmHAdccRQ';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['dir'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['dir'], ['A128GCM'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
-            ->unserialize($expected_compact_json)
-        ;
+            ->unserialize($expected_compact_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame(
@@ -100,28 +97,23 @@ final class DirAndA128GCMEncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['dir'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['dir'], ['A128GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['dir'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['dir'], ['A128GCM'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_compact_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());

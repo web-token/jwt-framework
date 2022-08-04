@@ -164,9 +164,9 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     /**
      * Try to find a key that fits on the selected requirements. Returns null if not found.
      *
-     * @param string         $type         Must be 'sig' (signature) or 'enc' (encryption)
-     * @param Algorithm|null $algorithm    Specifies the algorithm to be used
-     * @param array          $restrictions More restrictions such as 'kid' or 'kty'
+     * @param string $type Must be 'sig' (signature) or 'enc' (encryption)
+     * @param Algorithm|null $algorithm Specifies the algorithm to be used
+     * @param array $restrictions More restrictions such as 'kid' or 'kty'
      */
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {

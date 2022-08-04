@@ -54,16 +54,13 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
         $expected_tag = 'WCCkNa-x4BeB9hIDIfFuhg';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
-            ->unserialize($expected_compact_json)
-        ;
+            ->unserialize($expected_compact_json);
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
 
         static::assertSame(
             $expected_ciphertext,
@@ -120,23 +117,19 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($public_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertArrayHasKey('epk', $loaded_json->getSharedProtectedHeader());

@@ -21,8 +21,7 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
         parent::configure();
         $this->setDescription('Load a key from a P12 certificate file.')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the P12 certificate.')
-            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null)
-        ;
+            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -60,8 +60,7 @@ final class JWSTest extends SignatureTest
         ];
         $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
     }
 
     /**
@@ -82,8 +81,7 @@ final class JWSTest extends SignatureTest
         ];
         $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $this->getJWSSerializerManager()
-            ->serialize('jws_json_flattened', $jws, 0)
-        ;
+            ->serialize('jws_json_flattened', $jws, 0);
     }
 
     /**
@@ -104,8 +102,7 @@ final class JWSTest extends SignatureTest
         ];
         $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $this->getJWSSerializerManager()
-            ->serialize('jws_json_general', $jws, 0)
-        ;
+            ->serialize('jws_json_general', $jws, 0);
     }
 
     /**
@@ -135,8 +132,7 @@ final class JWSTest extends SignatureTest
         ]);
 
         $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
     }
 
     /**
@@ -161,8 +157,7 @@ final class JWSTest extends SignatureTest
         $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
         $jws->getSignature(0)
-            ->getHeaderParameter('foo')
-        ;
+            ->getHeaderParameter('foo');
     }
 
     /**
@@ -187,7 +182,6 @@ final class JWSTest extends SignatureTest
         $jws = new JWS(json_encode($claims, JSON_THROW_ON_ERROR), json_encode($claims, JSON_THROW_ON_ERROR));
         $jws = $jws->addSignature('', $header, Base64UrlSafe::encodeUnpadded(json_encode($header)));
         $jws->getSignature(0)
-            ->getProtectedHeaderParameter('foo')
-        ;
+            ->getProtectedHeaderParameter('foo');
     }
 }

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor;
+
 /*
  * The MIT License (MIT)
  *
@@ -19,8 +20,7 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(KeyEnvVarProcessor::class);
 };

@@ -171,8 +171,7 @@ final class RSAKey
         $two = BigInteger::createFromDecimal(2);
 
         $k = $d->multiply($e)
-            ->subtract($one)
-        ;
+            ->subtract($one);
 
         if ($k->isEven()) {
             $r = $k;
@@ -222,8 +221,7 @@ final class RSAKey
             }
             if ($found === true) {
                 $p = $y->subtract($one)
-                    ->gcd($n)
-                ;
+                    ->gcd($n);
                 $q = $n->divide($p);
 
                 return [$p, $q];

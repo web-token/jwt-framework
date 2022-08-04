@@ -38,7 +38,6 @@ final class EcDH
     public static function computeSharedKey(Curve $curve, PublicKey $publicKey, PrivateKey $privateKey): BigInteger
     {
         return $curve->mul($publicKey->getPoint(), $privateKey->getSecret())
-            ->getX()
-        ;
+            ->getX();
     }
 }

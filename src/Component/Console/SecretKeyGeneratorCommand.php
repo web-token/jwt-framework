@@ -27,8 +27,7 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
                 'b',
                 InputOption::VALUE_NONE,
                 'Indicates if the secret is Base64 encoded (useful for binary secrets)'
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

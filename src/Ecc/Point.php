@@ -97,13 +97,10 @@ final class Point
         $taA = $sa->and($mask);
         $taB = $sb->and($mask);
         $sa = $sa->xor($sb)
-            ->xor($taB)
-        ;
+            ->xor($taB);
         $sb = $sa->xor($sb)
-            ->xor($taA)
-        ;
+            ->xor($taA);
         $sa = $sa->xor($sb)
-            ->xor($taB)
-        ;
+            ->xor($taB);
     }
 }

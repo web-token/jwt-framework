@@ -20,14 +20,12 @@ final class JWEFlattenedTest extends EncryptionTest
     public function loadFlattenedJWE(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded = $this->getJWESerializerManager()
             ->unserialize(
                 '{"protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","unprotected":{"jku":"https://server.example.com/keys.jwks"},"header":{"alg":"A128KW","kid":"7"},"encrypted_key":"6KB707dM9YTIgHtLvtgWQ8mKwboJW3of9locizkDTHzBC2IlrT1oOQ","iv":"AxY8DCtDaGlsbGljb3RoZQ","ciphertext":"KDlTtXchhZTGufMYmOYGS4HffxPSUrfmqCHXaI9wOGY","tag":"Mz-VPPyU4RlcuYv1IwIvzw"}'
-            )
-        ;
+            );
 
         static::assertSame('A128KW', $loaded->getRecipient(0)->getHeaderParameter('alg'));
         static::assertSame('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));

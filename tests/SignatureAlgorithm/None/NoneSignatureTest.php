@@ -69,8 +69,7 @@ final class NoneSignatureTest extends TestCase
             ->addSignature($jwk, [
                 'alg' => 'none',
             ])
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(1, $jws->countSignatures());
 

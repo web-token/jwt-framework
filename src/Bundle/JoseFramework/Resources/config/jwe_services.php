@@ -6,6 +6,7 @@ use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Encryption\JWETokenSupport;
+
 /*
  * The MIT License (MIT)
  *
@@ -22,20 +23,16 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(JWEBuilderFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(JWEDecrypterFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(JWELoaderFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(JWETokenSupport::class);
 };

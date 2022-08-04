@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
+
 /*
  * The MIT License (MIT)
  *
@@ -27,12 +28,10 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(Chacha20Poly1305::class)
         ->tag('jose.algorithm', [
             'alias' => 'chacha20-poly1305',
-        ])
-    ;
+        ]);
 };

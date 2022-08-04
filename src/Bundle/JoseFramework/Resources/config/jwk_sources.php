@@ -10,6 +10,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Secret;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Values;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\X5C;
+
 /*
  * The MIT License (MIT)
  *
@@ -26,8 +27,7 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->public()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(KeyFile::class);
     $container->set(P12::class);

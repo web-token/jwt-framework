@@ -55,22 +55,18 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
         $expected_tag = 'UCGiqJxhBI3IFVdPalHHvA';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
-            ->unserialize($expected_compact_json)
-        ;
+            ->unserialize($expected_compact_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
 
         $loaded_flattened_json = $this->getJWESerializerManager()
-            ->unserialize($expected_flattened_json)
-        ;
+            ->unserialize($expected_flattened_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame(
@@ -142,33 +138,27 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF'])
-        ;
+            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_compact_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_compact', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
 
         $loaded_flattened_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());

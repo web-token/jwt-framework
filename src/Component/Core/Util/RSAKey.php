@@ -174,8 +174,7 @@ final class RSAKey
         $m1 = $c->modPow($dP, $p);
         $m2 = $c->modPow($dQ, $q);
         $h = $qInv->multiply($m1->subtract($m2)->add($p))
-            ->mod($p)
-        ;
+            ->mod($p);
 
         return $m2->add($h->multiply($q));
     }

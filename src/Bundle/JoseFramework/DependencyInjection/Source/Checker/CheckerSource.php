@@ -62,8 +62,7 @@ class CheckerSource implements SourceWithCompilerPasses
             ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
             ->treatFalseLike([])
-            ->treatNullLike([])
-        ;
+            ->treatNullLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);

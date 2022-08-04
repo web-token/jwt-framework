@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
+
 /*
  * The MIT License (MIT)
  *
@@ -20,14 +21,11 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(NestedTokenBuilderFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(NestedTokenLoaderFactory::class)
-        ->public()
-    ;
+        ->public();
 };

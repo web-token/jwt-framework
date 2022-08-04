@@ -71,8 +71,7 @@ class JWKUriSource implements Source
             ->end()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

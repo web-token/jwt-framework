@@ -35,8 +35,7 @@ class NestedTokenBuilder implements Source
                     $itemConfig['signature_algorithms'],
                 ])
                 ->addTag('jose.nested_token_builder')
-                ->setPublic($itemConfig['is_public'])
-            ;
+                ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -116,8 +115,7 @@ class NestedTokenBuilder implements Source
             ->end()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

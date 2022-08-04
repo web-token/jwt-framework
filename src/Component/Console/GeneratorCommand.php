@@ -29,8 +29,7 @@ abstract class GeneratorCommand extends ObjectOutputCommand
                 null,
                 InputOption::VALUE_NONE,
                 'If this option is set, a random key ID (kid) will be generated.'
-            )
-        ;
+            );
     }
 
     protected function getOptions(InputInterface $input): array
