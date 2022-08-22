@@ -265,8 +265,7 @@ final class JWEEncoderTest extends KernelTestCase
             ])
             ->addRecipient($jwk)
             ->addRecipient($jwk2)
-            ->build()
-        ;
+            ->build();
 
         return [
             'jwk' => $jwk,

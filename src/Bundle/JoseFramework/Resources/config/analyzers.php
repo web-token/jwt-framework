@@ -18,6 +18,7 @@ use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
+
 /*
  * The MIT License (MIT)
  *
@@ -36,16 +37,13 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(KeyAnalyzerManager::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(KeysetAnalyzerManager::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(AlgorithmAnalyzer::class);
     $container->set(UsageAnalyzer::class);

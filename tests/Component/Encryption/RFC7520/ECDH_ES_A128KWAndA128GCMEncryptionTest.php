@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
-use function array_key_exists;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -57,22 +56,18 @@ final class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
         $expected_tag = 'WuGzxmcreYjpHGJoa17EBg';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
-            ->unserialize($expected_compact_json)
-        ;
+            ->unserialize($expected_compact_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_compact_json, $private_key, 0));
 
         $loaded_flattened_json = $this->getJWESerializerManager()
-            ->unserialize($expected_flattened_json)
-        ;
+            ->unserialize($expected_flattened_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame(
@@ -148,33 +143,28 @@ final class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($public_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_flattened_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertTrue(array_key_exists('epk', $loaded_flattened_json->getSharedProtectedHeader()));
+        static::assertArrayHasKey('epk', $loaded_flattened_json->getSharedProtectedHeader());
 
-        static::assertTrue(array_key_exists('epk', $loaded_json->getSharedProtectedHeader()));
+        static::assertArrayHasKey('epk', $loaded_json->getSharedProtectedHeader());
 
         static::assertSame($expected_payload, $loaded_flattened_json->getPayload());
         static::assertSame($expected_payload, $loaded_json->getPayload());

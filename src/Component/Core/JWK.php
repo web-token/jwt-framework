@@ -14,6 +14,9 @@ use const JSON_UNESCAPED_UNICODE;
 use JsonSerializable;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 
+/**
+ * @see \Jose\Tests\Component\Core\JWKTest
+ */
 class JWK implements JsonSerializable
 {
     private array $values = [];

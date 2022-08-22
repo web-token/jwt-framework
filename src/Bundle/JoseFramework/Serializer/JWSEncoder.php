@@ -31,12 +31,12 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface, Normalizat
         $this->serializerManager = $serializerManager;
     }
 
-    public function supportsEncoding(string $format): bool
+    public function supportsEncoding(string $format, array $context = []): bool
     {
         return class_exists(JWSSerializerManager::class) && $this->formatSupported($format);
     }
 
-    public function supportsDecoding(string $format): bool
+    public function supportsDecoding(string $format, array $context = []): bool
     {
         return class_exists(JWSSerializerManager::class) && $this->formatSupported($format);
     }

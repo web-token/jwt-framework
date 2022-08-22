@@ -23,8 +23,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
             ->setHelp(
                 'This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.'
             )
-            ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects')
-        ;
+            ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

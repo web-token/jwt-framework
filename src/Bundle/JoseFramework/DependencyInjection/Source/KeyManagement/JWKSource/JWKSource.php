@@ -13,9 +13,9 @@ interface JWKSource
      * Creates the JWK, registers it and returns its id.
      *
      * @param ContainerBuilder $container A ContainerBuilder instance
-     * @param string           $type      The type of the service
-     * @param string           $id        The id of the service
-     * @param array            $config    An array of configuration
+     * @param string $type The type of the service
+     * @param string $id The id of the service
+     * @param array $config An array of configuration
      */
     public function create(ContainerBuilder $container, string $type, string $id, array $config): void;
 

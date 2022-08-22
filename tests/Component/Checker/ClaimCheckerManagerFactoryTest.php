@@ -37,8 +37,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
         $this->expectExceptionMessage('The claim checker with the alias "foo" is not supported.');
 
         $this->getClaimCheckerManagerFactory()
-            ->create(['foo'])
-        ;
+            ->create(['foo']);
     }
 
     /**
@@ -47,8 +46,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
     public function iCanCreateAClaimCheckerManager(): void
     {
         $manager = $this->getClaimCheckerManagerFactory()
-            ->create(['exp', 'iat', 'nbf', 'aud'])
-        ;
+            ->create(['exp', 'iat', 'nbf', 'aud']);
         static::assertCount(4, $manager->getCheckers());
     }
 
@@ -66,8 +64,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
         $expected = $payload;
         unset($expected['foo']);
         $manager = $this->getClaimCheckerManagerFactory()
-            ->create(['exp', 'iat', 'nbf', 'aud'])
-        ;
+            ->create(['exp', 'iat', 'nbf', 'aud']);
         $result = $manager->check($payload);
         static::assertSame($expected, $result);
     }
@@ -89,8 +86,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
         $expected = $payload;
         unset($expected['foo']);
         $manager = $this->getClaimCheckerManagerFactory()
-            ->create(['exp', 'iat', 'nbf', 'aud'])
-        ;
+            ->create(['exp', 'iat', 'nbf', 'aud']);
         $manager->check($payload, ['exp', 'foo', 'bar']);
     }
 

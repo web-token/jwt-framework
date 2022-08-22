@@ -18,8 +18,7 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
     {
         parent::configure();
         $this->setDescription('Generate an octet key (JWK format)')
-            ->addArgument('size', InputArgument::REQUIRED, 'Key size.')
-        ;
+            ->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

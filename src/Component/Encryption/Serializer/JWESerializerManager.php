@@ -49,8 +49,8 @@ class JWESerializerManager
     /**
      * Loads data and return a JWE object. Throws an exception if none of the serializer was able to convert the input.
      *
-     * @param string      $input A string that represents a JWE
-     * @param string|null $name  the name of the serializer if the input is unserialized
+     * @param string $input A string that represents a JWE
+     * @param string|null $name the name of the serializer if the input is unserialized
      */
     public function unserialize(string $input, ?string &$name = null): JWE
     {

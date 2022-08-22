@@ -10,10 +10,8 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(AlgorithmManagerFactory::class)
-        ->public()
-    ;
+        ->public();
 };

@@ -7,6 +7,7 @@ use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory;
 use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\IssuedAtChecker;
 use Jose\Component\Checker\NotBeforeChecker;
+
 /*
  * The MIT License (MIT)
  *
@@ -23,16 +24,13 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(HeaderCheckerManagerFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(ClaimCheckerManagerFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(ExpirationTimeChecker::class)
         ->tag('jose.checker.claim', [
@@ -40,8 +38,7 @@ return function (ContainerConfigurator $container): void {
         ])
         ->tag('jose.checker.header', [
             'alias' => 'exp',
-        ])
-    ;
+        ]);
 
     $container->set(IssuedAtChecker::class)
         ->tag('jose.checker.claim', [
@@ -49,8 +46,7 @@ return function (ContainerConfigurator $container): void {
         ])
         ->tag('jose.checker.header', [
             'alias' => 'iat',
-        ])
-    ;
+        ]);
 
     $container->set(NotBeforeChecker::class)
         ->tag('jose.checker.claim', [
@@ -58,6 +54,5 @@ return function (ContainerConfigurator $container): void {
         ])
         ->tag('jose.checker.header', [
             'alias' => 'nbf',
-        ])
-    ;
+        ]);
 };

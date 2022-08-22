@@ -47,9 +47,9 @@ class JWSVerifier
      * This method will try to verify the JWS object using the given key set and for the given signature. It returns
      * true if the signature is verified, otherwise false.
      *
-     * @param JWS         $jws             A JWS object
-     * @param JWKSet      $jwkset          The signature will be verified using keys in the key set
-     * @param JWK         $jwk             The key used to verify the signature in case of success
+     * @param JWS $jws A JWS object
+     * @param JWKSet $jwkset The signature will be verified using keys in the key set
+     * @param JWK $jwk The key used to verify the signature in case of success
      * @param string|null $detachedPayload If not null, the value must be the detached payload encoded in Base64 URL safe. If the input contains a payload, throws an exception.
      *
      * @return bool true if the verification of the signature succeeded, else false
@@ -117,7 +117,7 @@ class JWSVerifier
         $callable = $isPayloadBase64Encoded === true ? static fn (?string $p): string => Base64UrlSafe::encodeUnpadded(
             $p ?? ''
         )
-        : static fn (?string $p): string => $p ?? '';
+            : static fn (?string $p): string => $p ?? '';
 
         $payloadToUse = $callable($isPayloadEmpty ? $detachedPayload : $payload);
 

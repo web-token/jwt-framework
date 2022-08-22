@@ -6,6 +6,7 @@ use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
 use Jose\Component\Signature\JWSTokenSupport;
+
 /*
  * The MIT License (MIT)
  *
@@ -22,20 +23,16 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(JWSBuilderFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(JWSVerifierFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(JWSLoaderFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(JWSTokenSupport::class);
 };

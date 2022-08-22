@@ -49,7 +49,6 @@ class P12 extends AbstractSource implements JWKSource
             ->variablePrototype()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 }

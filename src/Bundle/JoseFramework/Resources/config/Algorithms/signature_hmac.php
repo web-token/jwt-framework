@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Jose\Component\Signature\Algorithm\HS256;
 use Jose\Component\Signature\Algorithm\HS384;
 use Jose\Component\Signature\Algorithm\HS512;
+
 /*
  * The MIT License (MIT)
  *
@@ -21,24 +22,20 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(HS256::class)
         ->tag('jose.algorithm', [
             'alias' => 'HS256',
-        ])
-    ;
+        ]);
 
     $container->set(HS384::class)
         ->tag('jose.algorithm', [
             'alias' => 'HS384',
-        ])
-    ;
+        ]);
 
     $container->set(HS512::class)
         ->tag('jose.algorithm', [
             'alias' => 'HS512',
-        ])
-    ;
+        ]);
 };

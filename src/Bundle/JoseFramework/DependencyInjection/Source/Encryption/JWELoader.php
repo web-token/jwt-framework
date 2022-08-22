@@ -34,8 +34,7 @@ class JWELoader implements Source
                     $itemConfig['header_checkers'],
                 ])
                 ->addTag('jose.jwe_loader')
-                ->setPublic($itemConfig['is_public'])
-            ;
+                ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -105,8 +104,7 @@ class JWELoader implements Source
             ->end()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 
     public function prepend(ContainerBuilder $container, array $config): array

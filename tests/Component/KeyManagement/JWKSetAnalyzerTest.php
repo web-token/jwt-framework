@@ -25,8 +25,7 @@ final class JWKSetAnalyzerTest extends TestCase
     {
         $jwkset = new JWKSet([]);
         $messages = $this->getKeysetAnalyzer()
-            ->analyze($jwkset)
-        ;
+            ->analyze($jwkset);
 
         static::assertEmpty($messages);
     }
@@ -51,8 +50,7 @@ final class JWKSetAnalyzerTest extends TestCase
             ]),
         ]);
         $messages = $this->getKeysetAnalyzer()
-            ->analyze($jwkset)
-        ;
+            ->analyze($jwkset);
 
         static::assertEmpty($messages);
     }
@@ -80,8 +78,7 @@ final class JWKSetAnalyzerTest extends TestCase
             ]),
         ]);
         $messages = $this->getKeysetAnalyzer()
-            ->analyze($jwkset)
-        ;
+            ->analyze($jwkset);
 
         static::assertNotEmpty($messages);
     }
@@ -106,8 +103,7 @@ final class JWKSetAnalyzerTest extends TestCase
             ]),
         ]);
         $messages = $this->getKeysetAnalyzer()
-            ->analyze($jwkset)
-        ;
+            ->analyze($jwkset);
 
         static::assertEmpty($messages);
     }
@@ -129,8 +125,7 @@ final class JWKSetAnalyzerTest extends TestCase
             ]),
         ]);
         $messages = $this->getKeysetAnalyzer()
-            ->analyze($jwkset)
-        ;
+            ->analyze($jwkset);
 
         static::assertEmpty($messages);
     }
@@ -153,8 +148,7 @@ final class JWKSetAnalyzerTest extends TestCase
             ]),
         ]);
         $messages = $this->getKeysetAnalyzer()
-            ->analyze($jwkset)
-        ;
+            ->analyze($jwkset);
 
         static::assertNotEmpty($messages);
     }

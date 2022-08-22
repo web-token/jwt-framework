@@ -6,6 +6,7 @@ use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+
 /*
  * The MIT License (MIT)
  *
@@ -22,12 +23,10 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(JWESerializerManagerFactory::class)
-        ->public()
-    ;
+        ->public();
 
     $container->set(CompactSerializer::class);
     $container->set(JSONFlattenedSerializer::class);

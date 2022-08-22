@@ -48,11 +48,9 @@ final class NestingTest extends SignatureTest
         $json_compact = 'eyJhbGciOiJQUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJob2JiaXRvbi5leGFtcGxlIiwiZXhwIjoxMzAwODE5MzgwLCJodHRwOi8vZXhhbXBsZS5jb20vaXNfcm9vdCI6dHJ1ZX0.dPpMqwRZxFYi1UfcDAaf8M99o7kwUWtiXZ-ByvVuJih4MhJ_aZqciprz0OWaIAkIvn1qskChirjKvY9ESZNUCP4JjvfyPS-nqjJxYoA5ztWOyFk2cZNIPXjcJXSQwXPO9tEe-v4VSqgD0aKHqPxYog4N6Cz1lKph1U1sYDSI67_bLL7elg_vkjfMp5_W5l5LuUYGMeh6hxQIaIUXf9EwV2JmvTMuZ-vBOWy0Sniy1EFo72CRTvmtrIf5AROo5MNliY3KtUxeP-SOmD-LEYwW9SlkohYzMVAZDDOrVbv7KVRHpeYNaK75KEQqdCEEkS_rskZS-Qtt_nlegTWh1mEYaA';
 
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['PS256'])
-        ;
+            ->create(['PS256']);
         $loaded_compact_json = $this->getJWSSerializerManager()
-            ->unserialize($json_compact)
-        ;
+            ->unserialize($json_compact);
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
         static::assertSame($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());

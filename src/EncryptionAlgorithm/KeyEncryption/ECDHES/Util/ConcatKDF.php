@@ -18,11 +18,11 @@ final class ConcatKDF
     /**
      * Key Derivation Function.
      *
-     * @param string $Z                   Shared secret
-     * @param string $algorithm           Encryption algorithm
-     * @param int    $encryption_key_size Size of the encryption key
-     * @param string $apu                 Agreement PartyUInfo (information about the producer)
-     * @param string $apv                 Agreement PartyVInfo (information about the recipient)
+     * @param string $Z Shared secret
+     * @param string $algorithm Encryption algorithm
+     * @param int $encryption_key_size Size of the encryption key
+     * @param string $apu Agreement PartyUInfo (information about the producer)
+     * @param string $apv Agreement PartyVInfo (information about the recipient)
      */
     public static function generate(
         string $Z,

@@ -30,8 +30,7 @@ class JWEBuilder extends AbstractEncryptionSource
                     $itemConfig['compression_methods'],
                 ])
                 ->addTag('jose.jwe_builder')
-                ->setPublic($itemConfig['is_public'])
-            ;
+                ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }

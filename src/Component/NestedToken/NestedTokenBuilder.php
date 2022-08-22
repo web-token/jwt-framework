@@ -36,8 +36,7 @@ class NestedTokenBuilder
         ?string $aad = null
     ): string {
         $jws = $this->jwsBuilder->create()
-            ->withPayload($payload)
-        ;
+            ->withPayload($payload);
         foreach ($signatures as $signature) {
             if (! is_array($signature) || ! array_key_exists('key', $signature)) {
                 throw new InvalidArgumentException(
@@ -61,8 +60,7 @@ class NestedTokenBuilder
             ->withPayload($token)
             ->withSharedProtectedHeader($jweSharedProtectedHeader)
             ->withSharedHeader($jweSharedHeader)
-            ->withAAD($aad)
-        ;
+            ->withAAD($aad);
         foreach ($recipients as $recipient) {
             if (! is_array($recipient) || ! array_key_exists('key', $recipient)) {
                 throw new InvalidArgumentException(

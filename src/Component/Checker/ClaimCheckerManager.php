@@ -9,6 +9,8 @@ use function count;
 
 /**
  * This manager handles as many claim checkers as needed.
+ *
+ * @see \Jose\Tests\Component\Checker\ClaimCheckerManagerTest
  */
 class ClaimCheckerManager
 {

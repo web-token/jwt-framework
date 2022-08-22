@@ -50,17 +50,14 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
         $expected_tag = 'fNYLqpUe84KD45lvDiaBAQ';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['A128KW'], ['A128GCM'], ['DEF']);
 
         $loaded_flattened_json = $this->getJWESerializerManager()
-            ->unserialize($expected_flattened_json)
-        ;
+            ->unserialize($expected_flattened_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame(
@@ -117,11 +114,9 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['A128KW'], ['A128GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF'])
-        ;
+            ->create(['A128KW'], ['A128GCM'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -129,17 +124,14 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)
             ->addRecipient($private_key)
-            ->build()
-        ;
+            ->build();
 
         $loaded_flattened_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());

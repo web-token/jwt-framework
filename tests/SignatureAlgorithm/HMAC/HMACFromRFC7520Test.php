@@ -66,8 +66,7 @@ final class HMACFromRFC7520Test extends TestCase
             ->create()
             ->withPayload($payload)
             ->addSignature($key, $header)
-            ->build()
-        ;
+            ->build();
 
         /**
          * Header.
@@ -141,8 +140,7 @@ final class HMACFromRFC7520Test extends TestCase
             ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $header)
-            ->build()
-        ;
+            ->build();
 
         /**
          * Header.
@@ -219,8 +217,7 @@ final class HMACFromRFC7520Test extends TestCase
             ->create()
             ->withPayload($payload)
             ->addSignature($key, $protectedHeader, $unprotectedHeader)
-            ->build()
-        ;
+            ->build();
 
         /**
          * Header.
@@ -287,8 +284,7 @@ final class HMACFromRFC7520Test extends TestCase
             ->create()
             ->withPayload($payload)
             ->addSignature($key, [], $unprotectedHeader)
-            ->build()
-        ;
+            ->build();
 
         /**
          * Header.

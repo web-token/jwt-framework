@@ -60,8 +60,7 @@ final class RSASignatureTest extends TestCase
                     ],
                 ]
             )
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(
             'eyJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.QyRlOCcNBMvCEkJRCQA71y2bVX690g0A6wsC2YXf9_VxOYK-g9-xy-1KjghVXkDPe1gDvYSYnL9oWs1PaFKV0_-ijvvJQE6_5pheKTfIVN3Qbkzjxsm4qXTeChBI5MKeBR8z8iWLFT4xPO8NkelwbS2tSUCHrejio6lDDlWhsqSUP8NjHJhqCSZuCDGu3fMMA24cZrYev3tQRc7HHjyi3q_17NZri7feBd7w3NEDkJp7wT_ZclJrYoucHIo1ypaDPJtM-W1-W-lAVREka6Xq4Bg60zdSZ83ODRQTP_IwQrv7hrIcbrRwn1Za_ORZPRPQDP0CMgkb7TkWDZnbPsAzlQ',
@@ -108,8 +107,7 @@ final class RSASignatureTest extends TestCase
                     ],
                 ]
             )
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(
             'eyJhbGciOiJSUzI1NiIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0..QyRlOCcNBMvCEkJRCQA71y2bVX690g0A6wsC2YXf9_VxOYK-g9-xy-1KjghVXkDPe1gDvYSYnL9oWs1PaFKV0_-ijvvJQE6_5pheKTfIVN3Qbkzjxsm4qXTeChBI5MKeBR8z8iWLFT4xPO8NkelwbS2tSUCHrejio6lDDlWhsqSUP8NjHJhqCSZuCDGu3fMMA24cZrYev3tQRc7HHjyi3q_17NZri7feBd7w3NEDkJp7wT_ZclJrYoucHIo1ypaDPJtM-W1-W-lAVREka6Xq4Bg60zdSZ83ODRQTP_IwQrv7hrIcbrRwn1Za_ORZPRPQDP0CMgkb7TkWDZnbPsAzlQ',
@@ -156,8 +154,7 @@ final class RSASignatureTest extends TestCase
                     ],
                 ]
             )
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(
             'eyJhbGciOiJSUzM4NCIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.gsBhyBOEDPpHBR8OM2Xb5tybKGeijREZN-smEkvI2188pytujFevbDQJ10afbcdjh5LNKO7U_VD3hGPrC7MIkdtJw4c2d0JnVyhiZT5sFnncnCFjll-Y9GkK7a7jWJJTgF_5LmVEeJSFEEgwT1Stxb-TtZCGqc5ExYizLiuQ2IGB6Sq-hTkpWAXJfmHchE_TxV9A4iLWCMTVM6LsLV6NzDtf2a0iu9XvN1MEdzqM7FNdqNCGN43FveTA0hX8OoFfB2ZjYAjbixUCT4VVI2PuuRyu_Lr8cA73eisolBQLQemPyrCo1s560v2tKD7ICS8Teo1PCJ4HnCuO8bvufI2dKA',
@@ -204,8 +201,7 @@ final class RSASignatureTest extends TestCase
                     ],
                 ]
             )
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(
             'eyJhbGciOiJSUzUxMiIsImp3ayI6eyJrdHkiOiJSU0EiLCJuIjoidHBTMVptZlZLVlA1S29mSWhNQlAwdFNXYzRxbGg2Zm0ybHJaU2t1S3hVakVhV2p6WlN6czcyZ0VJR3hyYVd1c01kb1J1VjU0eHNXUnlmNUtlWlQwUy1JNVBybGUzSWRpM2dJQ2lPNE53dk1rNkp3U0JjSld3bVNMRkVLeVVTbkIyQ3RmaUdjMF81clFDcGNFdF9EbjVpTS1CTm43ZnFwb0xJYmtzOHJYS1VJajgtcU1WcWtUWHNFS2VLaW5FMjN0MXlrTWxkc05hYU9ILWh2R3RpNUp0MkRNbkgxSmpvWGREWGZ4dlNQXzBnalVZYjBla3R1ZFlGWG9BNndla21ReUplSW12Z3g0TXl6MUk0aUh0a1lfQ3A3SjRNbjFlalo2SE5teXZvVEVfNE91WTF1Q2VZdjRVeVhGYzFzMXVVeVl0ajR6NTdxc0hHc1M0ZFEzQTJNSnN3IiwiZSI6IkFRQUIifX0.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.OMttEbx9fWoJl4gJwp8m249P87nNENhy5RzH84S1iR8b-upQNy8dqHoIVsQ6qINDjDL5YTl4UWvChIr5AO433LjNUimIeEp2cfiqrszTTwhv-EF3Lp3Ft9NmTb-3ZWvDo1WwwUrD0qro7bynaz5O06DxQfTROcrC6hNX05y6nW_-21exs2_w2OoOWA0Ebx9ev1ayZJh1AQ6q18Ajb0Gk1RST1PFjz0Sk_YiUIYRSVJzgv2Lf7R_Lyi5A5OkIfLOyJmKBi6m0FOLoynq_fT96wCbf5Nkhx-RiuFEcefGhgDav7Wfim3zA3ZAHeNWe58BZOf-8v1kXsV-yd6zQlVa8iw',
@@ -255,8 +251,7 @@ final class RSASignatureTest extends TestCase
                     ],
                 ]
             )
-            ->build()
-        ;
+            ->build();
 
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
@@ -299,8 +294,7 @@ final class RSASignatureTest extends TestCase
                     ],
                 ]
             )
-            ->build()
-        ;
+            ->build();
 
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);
@@ -343,8 +337,7 @@ final class RSASignatureTest extends TestCase
                     ],
                 ]
             )
-            ->build()
-        ;
+            ->build();
 
         $jws = $serializer->serialize($jws, 0);
         $result = $serializer->unserialize($jws);

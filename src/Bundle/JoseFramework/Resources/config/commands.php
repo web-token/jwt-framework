@@ -25,6 +25,7 @@ use Jose\Component\Console\RsaKeyGeneratorCommand;
 use Jose\Component\Console\RsaKeysetGeneratorCommand;
 use Jose\Component\Console\SecretKeyGeneratorCommand;
 use Jose\Component\Console\X509CertificateLoaderCommand;
+
 /*
  * The MIT License (MIT)
  *
@@ -41,8 +42,7 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(AddKeyIntoKeysetCommand::class);
     $container->set(EcKeyGeneratorCommand::class);

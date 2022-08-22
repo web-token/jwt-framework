@@ -5,11 +5,21 @@
         ]
     },
     "timeout": 3,
-        "logs": {
+    "logs": {
         "text": "infection.txt"
     },
     "mutators": {
         "@default": true,
-        "@function_signature": true
+        "global-ignoreSourceCodeByRegex": [
+            "\\$this->logger.*",
+            "\\$this->cache->save.*",
+            "parent::build(\\$container);"
+        ],
+        "MBString": {
+            "settings": {
+                "mb_substr": false,
+                "mb_strlen": false
+            }
+        }
     }
 }

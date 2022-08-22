@@ -10,8 +10,7 @@ return function (ContainerConfigurator $container) {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(CustomChecker::class)
         ->tag('jose.checker.header', [
@@ -19,6 +18,5 @@ return function (ContainerConfigurator $container) {
         ])
         ->tag('jose.checker.claim', [
             'alias' => 'custom_checker',
-        ])
-    ;
+        ]);
 };

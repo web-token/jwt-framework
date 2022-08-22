@@ -25,7 +25,7 @@ class HeaderCheckerManager
     /**
      * HeaderCheckerManager constructor.
      *
-     * @param HeaderChecker[]    $checkers
+     * @param HeaderChecker[] $checkers
      * @param TokenTypeSupport[] $tokenTypes
      */
     public function __construct(array $checkers, array $tokenTypes)

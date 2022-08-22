@@ -67,8 +67,7 @@ final class RSA15SignatureTest extends TestCase
             ->create()
             ->withPayload($payload)
             ->addSignature($privateKey, $header)
-            ->build()
-        ;
+            ->build();
 
         /**
          * Header.

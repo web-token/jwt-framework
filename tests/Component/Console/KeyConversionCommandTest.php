@@ -26,6 +26,7 @@ final class KeyConversionCommandTest extends TestCase
 {
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanLoadAKeyFile(): void
     {
@@ -41,6 +42,7 @@ final class KeyConversionCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanLoadAnEncryptedKeyFile(): void
     {
@@ -57,6 +59,7 @@ final class KeyConversionCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanLoadAPKCS12CertificateFile(): void
     {
@@ -73,6 +76,7 @@ final class KeyConversionCommandTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function iCanLoadAX509CertificateFile(): void
     {

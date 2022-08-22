@@ -22,8 +22,7 @@ final class JWETokenSupport implements TokenTypeSupport
         $protectedHeader = $jwt->getSharedProtectedHeader();
         $unprotectedHeader = $jwt->getSharedHeader();
         $recipient = $jwt->getRecipient($index)
-            ->getHeader()
-        ;
+            ->getHeader();
 
         $unprotectedHeader = array_merge($unprotectedHeader, $recipient);
     }

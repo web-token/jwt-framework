@@ -45,7 +45,6 @@ class X5C extends AbstractSource implements JWKSource
             ->variablePrototype()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 }

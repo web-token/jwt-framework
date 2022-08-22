@@ -28,11 +28,9 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         ]);
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
-        ;
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
-        ;
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
 
         $jwt = $jweBuilder
             ->create()
@@ -42,15 +40,12 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
                 'enc' => 'A256GCM',
             ])
             ->addRecipient($key)
-            ->build()
-        ;
+            ->build();
         $jwt = $this->getJWESerializerManager()
-            ->serialize('jwe_compact', $jwt, 0)
-        ;
+            ->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwt)
-        ;
+            ->unserialize($jwt);
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
@@ -69,11 +64,9 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         ]);
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
-        ;
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create([$encryption_algorithm], ['A256GCM'], ['DEF'])
-        ;
+            ->create([$encryption_algorithm], ['A256GCM'], ['DEF']);
 
         $jwt = $jweBuilder
             ->create()
@@ -83,15 +76,12 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
                 'enc' => 'A256GCM',
             ])
             ->addRecipient($key)
-            ->build()
-        ;
+            ->build();
         $jwt = $this->getJWESerializerManager()
-            ->serialize('jwe_compact', $jwt, 0)
-        ;
+            ->serialize('jwe_compact', $jwt, 0);
 
         $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwt)
-        ;
+            ->unserialize($jwt);
 
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }

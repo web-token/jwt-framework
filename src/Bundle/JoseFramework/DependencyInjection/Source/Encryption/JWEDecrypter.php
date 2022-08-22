@@ -30,8 +30,7 @@ class JWEDecrypter extends AbstractEncryptionSource
                     $itemConfig['compression_methods'],
                 ])
                 ->addTag('jose.jwe_decrypter')
-                ->setPublic($itemConfig['is_public'])
-            ;
+                ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }

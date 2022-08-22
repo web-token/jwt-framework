@@ -121,8 +121,7 @@ final class JWSSerializerTest extends KernelTestCase
             ->withPayload('Hello World!')
             ->addSignature($jwk, [
                 'alg' => 'HS256',
-            ])
-        ;
+            ]);
 
         if ($multiSignature) {
             $jwsBuilder = $jwsBuilder->addSignature($jwk2, [

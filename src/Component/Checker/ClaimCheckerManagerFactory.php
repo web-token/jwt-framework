@@ -6,6 +6,9 @@ namespace Jose\Component\Checker;
 
 use InvalidArgumentException;
 
+/**
+ * @see \Jose\Tests\Component\Checker\ClaimCheckerManagerFactoryTest
+ */
 class ClaimCheckerManagerFactory
 {
     /**

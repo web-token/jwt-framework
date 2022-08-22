@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
+
 /*
  * The MIT License (MIT)
  *
@@ -19,12 +20,10 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(Dir::class)
         ->tag('jose.algorithm', [
             'alias' => 'dir',
-        ])
-    ;
+        ]);
 };

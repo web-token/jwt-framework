@@ -182,8 +182,7 @@ final class ECKey
         }
 
         $bits = $children->getContent()[0]
-            ->getContent()
-        ;
+            ->getContent();
         if (! is_string($bits)) {
             throw new InvalidArgumentException('Unsupported key type');
         }

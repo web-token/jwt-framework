@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
-use function array_key_exists;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTest;
@@ -99,22 +98,18 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         $expected_tag = 'BESYyFN7T09KY7i8zKs5_g';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($expected_json)
-        ;
+            ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
         static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_json->getCiphertext()));
@@ -215,11 +210,9 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF'])
-        ;
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
 
         $jwe = $jweBuilder
             ->create()
@@ -229,29 +222,25 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
             ->addRecipient($recipient_2_public_key, $recipient_2Header)
             ->addRecipient($recipient_3_private_key, $recipient_3Header)
-            ->build()
-        ;
+            ->build();
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_1_private_key, 0));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_2_private_key, 1));
 
         $loaded_json = $this->getJWESerializerManager()
-            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe))
-        ;
+            ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $recipient_3_private_key, 2));
 
         static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
         static::assertSame($recipient_1Header, $loaded_json->getRecipient(0)->getHeader());
-        static::assertTrue(array_key_exists('epk', $loaded_json->getRecipient(1)->getHeader()));
-        static::assertTrue(array_key_exists('iv', $loaded_json->getRecipient(2)->getHeader()));
-        static::assertTrue(array_key_exists('tag', $loaded_json->getRecipient(2)->getHeader()));
+        static::assertArrayHasKey('epk', $loaded_json->getRecipient(1)->getHeader());
+        static::assertArrayHasKey('iv', $loaded_json->getRecipient(2)->getHeader());
+        static::assertArrayHasKey('tag', $loaded_json->getRecipient(2)->getHeader());
         static::assertSame($header, $loaded_json->getSharedHeader());
 
         static::assertSame($expected_payload, $loaded_json->getPayload());
@@ -309,8 +298,7 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA1_5', 'A256GCMKW'], ['A128CBC-HS256', 'A128GCM'], ['DEF'])
-        ;
+            ->create(['RSA1_5', 'A256GCMKW'], ['A128CBC-HS256', 'A128GCM'], ['DEF']);
         $jweBuilder
             ->create()
             ->withPayload($expected_payload)
@@ -318,7 +306,6 @@ final class MultipleRecipientEncryptionTest extends EncryptionTest
             ->withSharedHeader($header)
             ->addRecipient($recipient_1_private_key, $recipient_1Header)
             ->addRecipient($recipient_2_public_key, $recipient_2Header)
-            ->build()
-        ;
+            ->build();
     }
 }

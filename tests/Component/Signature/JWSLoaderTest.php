@@ -33,8 +33,7 @@ final class JWSLoaderTest extends SignatureTest
         ]);
 
         $this->getJWSLoader()
-            ->loadAndVerifyWithKey($token, $key, $signature)
-        ;
+            ->loadAndVerifyWithKey($token, $key, $signature);
     }
 
     /**
@@ -55,8 +54,7 @@ final class JWSLoaderTest extends SignatureTest
         ]);
 
         $this->getJWSLoader()
-            ->loadAndVerifyWithKey($token, $key, $signature)
-        ;
+            ->loadAndVerifyWithKey($token, $key, $signature);
     }
 
     /**
@@ -77,8 +75,7 @@ final class JWSLoaderTest extends SignatureTest
         ]);
 
         $this->getJWSLoader()
-            ->loadAndVerifyWithKey($token, $key, $signature)
-        ;
+            ->loadAndVerifyWithKey($token, $key, $signature);
     }
 
     /**
@@ -96,8 +93,7 @@ final class JWSLoaderTest extends SignatureTest
         ]);
 
         $jws = $this->getJWSLoader()
-            ->loadAndVerifyWithKey($token, $key, $signature)
-        ;
+            ->loadAndVerifyWithKey($token, $key, $signature);
         static::assertSame(
             "It\xe2\x80\x99s a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there\xe2\x80\x99s no knowing where you might be swept off to.",
             $jws->getPayload()
@@ -109,8 +105,7 @@ final class JWSLoaderTest extends SignatureTest
     {
         if ($this->jwsLoader === null) {
             $this->jwsLoader = $this->getJWSLoaderFactory()
-                ->create(['jws_compact'], ['HS256'])
-            ;
+                ->create(['jws_compact'], ['HS256']);
         }
 
         return $this->jwsLoader;

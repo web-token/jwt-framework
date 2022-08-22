@@ -67,8 +67,7 @@ final class ECDSAFromRFC7520Test extends TestCase
             ->create()
             ->withPayload($payload)
             ->addSignature($private_key, $header)
-            ->build()
-        ;
+            ->build();
 
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $private_key, 0));
 

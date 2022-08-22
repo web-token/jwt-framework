@@ -36,8 +36,7 @@ final class JWKAnalyzerTest extends TestCase
     {
         $key = JWKFactory::createNoneKey();
         $messages = $this->getKeyAnalyzer()
-            ->analyze($key)
-        ;
+            ->analyze($key);
 
         static::assertNotEmpty($messages);
     }
@@ -54,14 +53,14 @@ final class JWKAnalyzerTest extends TestCase
             'd' => 'asuBS2jRbT50FCkP8PxdRVQ7RIWJ3s5UWAi-c233cQam1kRjGN2QzAv79hrpjLQB',
         ]);
         $messages = $this->getKeyAnalyzer()
-            ->analyze($key)
-        ;
+            ->analyze($key);
 
         static::assertNotEmpty($messages);
     }
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function theRsaKeyHasALowExponent(): void
     {
@@ -69,8 +68,7 @@ final class JWKAnalyzerTest extends TestCase
             '{"kty":"RSA","n":"sv2gihrIZaT4tkxb0B70Aw","e":"Aw","d":"d1PAXBHa7mzdZNOkuSwnSw","p":"4Kz0hhYYddk","q":"y_IaXqREQzs","dp":"lcijBA66-Ts","dq":"h_a8Pxgtgic","qi":"YehXzJzN5bw"}'
         );
         $messages = $this->getKeyAnalyzer()
-            ->analyze($key)
-        ;
+            ->analyze($key);
 
         foreach ($messages->all() as $message) {
             if ($message->getMessage() === 'The exponent is too low. It should be at least 65537.') {
@@ -90,8 +88,7 @@ final class JWKAnalyzerTest extends TestCase
             'key_ops' => 'foo',
         ]);
         $messages = $this->getKeyAnalyzer()
-            ->analyze($key)
-        ;
+            ->analyze($key);
 
         static::assertNotEmpty($messages);
     }
@@ -107,8 +104,7 @@ final class JWKAnalyzerTest extends TestCase
             'use' => 'sig',
         ]);
         $messages = $this->getKeyAnalyzer()
-            ->analyze($key)
-        ;
+            ->analyze($key);
         static::assertEmpty($messages);
     }
 

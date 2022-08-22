@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Jose\Component\Console\JKULoaderCommand;
 use Jose\Component\Console\X5ULoaderCommand;
+
 /*
  * The MIT License (MIT)
  *
@@ -20,8 +21,7 @@ return function (ContainerConfigurator $container): void {
         ->defaults()
         ->private()
         ->autoconfigure()
-        ->autowire()
-    ;
+        ->autowire();
 
     $container->set(JKULoaderCommand::class);
     $container->set(X5ULoaderCommand::class);

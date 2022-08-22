@@ -52,6 +52,7 @@ final class NestingTokenBuilderTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function decryption(): void
     {
@@ -87,8 +88,7 @@ final class NestingTokenBuilderTest extends TestCase
         ]);
 
         $nestedTokenBuilder = $this->getNestedTokenBuilderFactory()
-            ->create(['jwe_compact'], ['RSA-OAEP'], ['A128GCM'], ['DEF'], ['jws_compact'], ['PS256'])
-        ;
+            ->create(['jwe_compact'], ['RSA-OAEP'], ['A128GCM'], ['DEF'], ['jws_compact'], ['PS256']);
 
         $nestedTokenBuilder->create(
             $payload,

@@ -35,24 +35,19 @@ final class KeysetAnalyzerCommand extends Command
         parent::configure();
         $this->setDescription('JWKSet quality analyzer.')
             ->setHelp('This command will analyze a JWKSet object and find security issues.')
-            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-        ;
+            ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->getFormatter()
-            ->setStyle('success', new OutputFormatterStyle('white', 'green'))
-        ;
+            ->setStyle('success', new OutputFormatterStyle('white', 'green'));
         $output->getFormatter()
-            ->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']))
-        ;
+            ->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
         $output->getFormatter()
-            ->setStyle('medium', new OutputFormatterStyle('yellow'))
-        ;
+            ->setStyle('medium', new OutputFormatterStyle('yellow'));
         $output->getFormatter()
-            ->setStyle('low', new OutputFormatterStyle('blue'))
-        ;
+            ->setStyle('low', new OutputFormatterStyle('blue'));
 
         $jwkset = $this->getKeyset($input);
 

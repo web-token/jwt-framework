@@ -29,8 +29,7 @@ final class X5ULoaderCommand extends ObjectOutputCommand
             ->setHelp(
                 'This command will try to get a key set from an URL. The distant key set is list of X.509 certificates.'
             )
-            ->addArgument('url', InputArgument::REQUIRED, 'The URL')
-        ;
+            ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

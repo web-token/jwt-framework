@@ -54,8 +54,7 @@ class NestedToken implements Source
         $childNode = $node->children()
             ->arrayNode($this->name())
             ->treatNullLike([])
-            ->treatFalseLike([])
-        ;
+            ->treatFalseLike([]);
 
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($childNode);

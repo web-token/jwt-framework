@@ -21,8 +21,7 @@ final class KeyFileLoaderCommand extends GeneratorCommand
         parent::configure();
         $this->setDescription('Loads a key from a key file (JWK format)')
             ->addArgument('file', InputArgument::REQUIRED, 'Filename of the key.')
-            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null)
-        ;
+            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -58,8 +58,8 @@ class JWEDecrypter
     /**
      * This method will try to decrypt the given JWE and recipient using a JWK.
      *
-     * @param JWE $jwe       A JWE object to decrypt
-     * @param JWK $jwk       The key used to decrypt the input
+     * @param JWE $jwe A JWE object to decrypt
+     * @param JWK $jwk The key used to decrypt the input
      * @param int $recipient The recipient used to decrypt the token
      */
     public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient, ?JWK $senderKey = null): bool
@@ -72,10 +72,10 @@ class JWEDecrypter
     /**
      * This method will try to decrypt the given JWE and recipient using a JWKSet.
      *
-     * @param JWE    $jwe       A JWE object to decrypt
-     * @param JWKSet $jwkset    The key set used to decrypt the input
-     * @param JWK    $jwk       The key used to decrypt the token in case of success
-     * @param int    $recipient The recipient used to decrypt the token in case of success
+     * @param JWE $jwe A JWE object to decrypt
+     * @param JWKSet $jwkset The key set used to decrypt the input
+     * @param JWK $jwk The key used to decrypt the token in case of success
+     * @param int $recipient The recipient used to decrypt the token in case of success
      */
     public function decryptUsingKeySet(
         JWE &$jwe,

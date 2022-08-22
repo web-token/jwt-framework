@@ -26,14 +26,12 @@ final class SignerTest extends SignatureTest
         $this->expectExceptionMessage('No "alg" parameter set in the header.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create([])
-        ;
+            ->create([]);
         $jwsBuilder
             ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [])
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -45,16 +43,14 @@ final class SignerTest extends SignatureTest
         $this->expectExceptionMessage('The algorithm "foo" is not supported.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create([])
-        ;
+            ->create([]);
         $jwsBuilder
             ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'foo',
             ])
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -66,8 +62,7 @@ final class SignerTest extends SignatureTest
         $this->expectExceptionMessage('The header contains duplicated entries: foo.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create([])
-        ;
+            ->create([]);
         $jwsBuilder
             ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
@@ -76,8 +71,7 @@ final class SignerTest extends SignatureTest
                 'foo' => 'bar',
             ], [
                 'foo' => 'bar',
-            ])
-        ;
+            ]);
     }
 
     /**
@@ -86,8 +80,7 @@ final class SignerTest extends SignatureTest
     public function signAndLoadCompact(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
@@ -97,14 +90,12 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(2, $jws->countSignatures());
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0))
-        ;
+            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
         static::assertSame('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
         static::assertSame('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
@@ -116,8 +107,7 @@ final class SignerTest extends SignatureTest
     public function signMultipleInstructionWithCompactRepresentation(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
@@ -127,8 +117,7 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(2, $jws->countSignatures());
         static::assertSame(
@@ -149,8 +138,7 @@ final class SignerTest extends SignatureTest
     public function signMultipleInstructionWithCompactRepresentationUsingBuilder(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
@@ -160,8 +148,7 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(2, $jws->countSignatures());
         static::assertSame(
@@ -182,8 +169,7 @@ final class SignerTest extends SignatureTest
     public function signMultipleInstructionWithCompactRepresentationUsingBuilderAndDetachedPayload(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.', true)
@@ -193,8 +179,7 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(2, $jws->countSignatures());
         static::assertSame(
@@ -215,11 +200,9 @@ final class SignerTest extends SignatureTest
     public function createCompactJWSUsingFactory(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
 
         $jws = $jwsBuilder
             ->create()
@@ -230,14 +213,11 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
         $jws0 = $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
         $jws1 = $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 1)
-        ;
+            ->serialize('jws_compact', $jws, 1);
 
         $jws = $jwsBuilder
             ->create()
@@ -248,14 +228,11 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
         $jws2 = $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
         $jws3 = $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 1)
-        ;
+            ->serialize('jws_compact', $jws, 1);
 
         static::assertSame(
             'eyJhbGciOiJIUzUxMiJ9.TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg.TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ',
@@ -275,23 +252,19 @@ final class SignerTest extends SignatureTest
         );
 
         $loaded_0 = $this->getJWSSerializerManager()
-            ->unserialize($jws0)
-        ;
+            ->unserialize($jws0);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
 
         $loaded_1 = $this->getJWSSerializerManager()
-            ->unserialize($jws1)
-        ;
+            ->unserialize($jws1);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
 
         $loaded_2 = $this->getJWSSerializerManager()
-            ->unserialize($jws2)
-        ;
+            ->unserialize($jws2);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
 
         $loaded_3 = $this->getJWSSerializerManager()
-            ->unserialize($jws3)
-        ;
+            ->unserialize($jws3);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
     }
 
@@ -301,8 +274,7 @@ final class SignerTest extends SignatureTest
     public function signMultipleInstructionWithFlattenedRepresentation(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
@@ -312,8 +284,7 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         static::assertSame(2, $jws->countSignatures());
         static::assertSame(
@@ -334,11 +305,9 @@ final class SignerTest extends SignatureTest
     public function createFlattenedJWSUsingFactory(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
@@ -352,14 +321,11 @@ final class SignerTest extends SignatureTest
             ], [
                 'plic' => 'ploc',
             ])
-            ->build()
-        ;
+            ->build();
         $jws0 = $this->getJWSSerializerManager()
-            ->serialize('jws_json_flattened', $jws, 0)
-        ;
+            ->serialize('jws_json_flattened', $jws, 0);
         $jws1 = $this->getJWSSerializerManager()
-            ->serialize('jws_json_flattened', $jws, 1)
-        ;
+            ->serialize('jws_json_flattened', $jws, 1);
 
         $jws = $jwsBuilder
             ->create()
@@ -374,14 +340,11 @@ final class SignerTest extends SignatureTest
             ], [
                 'plic' => 'ploc',
             ])
-            ->build()
-        ;
+            ->build();
         $jws2 = $this->getJWSSerializerManager()
-            ->serialize('jws_json_flattened', $jws, 0)
-        ;
+            ->serialize('jws_json_flattened', $jws, 0);
         $jws3 = $this->getJWSSerializerManager()
-            ->serialize('jws_json_flattened', $jws, 1)
-        ;
+            ->serialize('jws_json_flattened', $jws, 1);
 
         static::assertSame(
             '{"payload":"TGl2ZSBsb25nIGFuZCBQcm9zcGVyLg","protected":"eyJhbGciOiJIUzUxMiJ9","header":{"foo":"bar"},"signature":"TjxvVLKLc1kU5XW1NjZlI6_kQHjeU2orTWBZ7p0KuRzq_9lyPWR04PAUpbYkaLJLsmIJ8Fxi8Gsrc0khPtFxfQ"}',
@@ -401,23 +364,19 @@ final class SignerTest extends SignatureTest
         );
 
         $loaded_0 = $this->getJWSSerializerManager()
-            ->unserialize($jws0)
-        ;
+            ->unserialize($jws0);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_0, $this->getKey1(), 0));
 
         $loaded_1 = $this->getJWSSerializerManager()
-            ->unserialize($jws1)
-        ;
+            ->unserialize($jws1);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_1, $this->getKey2(), 0));
 
         $loaded_2 = $this->getJWSSerializerManager()
-            ->unserialize($jws2)
-        ;
+            ->unserialize($jws2);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_2, $this->getKey1(), 0, 'Live long and Prosper.'));
 
         $loaded_3 = $this->getJWSSerializerManager()
-            ->unserialize($jws3)
-        ;
+            ->unserialize($jws3);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
     }
 
@@ -430,16 +389,14 @@ final class SignerTest extends SignatureTest
         $this->expectExceptionMessage('The algorithm "RS512" is not allowed with this key.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create([])
-        ;
+            ->create([]);
         $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey5(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -451,16 +408,14 @@ final class SignerTest extends SignatureTest
         $this->expectExceptionMessage('Key cannot be used to sign');
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['PS512'])
-        ;
+            ->create(['PS512']);
         $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey4(), [
                 'alg' => 'PS512',
             ])
-            ->build()
-        ;
+            ->build();
     }
 
     /**
@@ -469,8 +424,7 @@ final class SignerTest extends SignatureTest
     public function signAndLoadFlattened(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512'])
-        ;
+            ->create(['HS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload(json_encode(['baz', 'ban']))
@@ -479,12 +433,10 @@ final class SignerTest extends SignatureTest
             ], [
                 'foo' => 'bar',
             ])
-            ->build()
-        ;
+            ->build();
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0))
-        ;
+            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_flattened', $jws, 0));
 
         static::assertSame(1, $loaded->countSignatures());
         static::assertSame('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
@@ -496,11 +448,9 @@ final class SignerTest extends SignatureTest
     public function signAndLoad(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
@@ -512,12 +462,10 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0))
-        ;
+            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
         static::assertSame(2, $loaded->countSignatures());
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
@@ -534,23 +482,19 @@ final class SignerTest extends SignatureTest
     public function signAndLoadWithWrongKeys(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['RS512'])
-        ;
+            ->create(['RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['RS512'])
-        ;
+            ->create(['RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0))
-        ;
+            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
         static::assertSame(1, $loaded->countSignatures());
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
@@ -564,23 +508,19 @@ final class SignerTest extends SignatureTest
     public function signAndLoadWithUnsupportedAlgorithm(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['RS512'])
-        ;
+            ->create(['RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['RS512'])
-        ;
+            ->create(['RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0))
-        ;
+            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
 
         static::assertSame(1, $loaded->countSignatures());
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
@@ -600,11 +540,9 @@ final class SignerTest extends SignatureTest
         $jws = '{"payload":"SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4","signatures":[]}';
 
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create([])
-        ;
+            ->create([]);
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($jws)
-        ;
+            ->unserialize($jws);
 
         static::assertSame(0, $loaded->countSignatures());
         static::assertSame($payload, $loaded->getPayload());
@@ -635,18 +573,15 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
 
         $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
     }
 
     /**
@@ -669,26 +604,22 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload('Live long and Prosper~')
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
 
         $compact = $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
         static::assertSame(
             'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.Live long and Prosper~.nUNenbjNAEH2nNIXyQYmutiHRPnT17HcaMr5Lsho4BE',
             $compact
         );
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($compact, $serializer)
-        ;
+            ->unserialize($compact, $serializer);
         static::assertSame(CompactSerializer::NAME, $serializer);
         static::assertSame('Live long and Prosper~', $loaded->getPayload());
         static::assertSame('Live long and Prosper~', $loaded->getEncodedPayload());
@@ -716,28 +647,23 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
         $jws = $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
         static::assertSame(
             'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY',
             $jws
         );
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($jws)
-        ;
+            ->unserialize($jws);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
 
         static::assertSame($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
@@ -768,18 +694,15 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256', 'HS512'])
-        ;
+            ->create(['HS256', 'HS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS256', 'HS512'])
-        ;
+            ->create(['HS256', 'HS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader1)
             ->addSignature($key, $protectedHeader2)
-            ->build()
-        ;
+            ->build();
 
         $expected_result = '{"signatures":[{"signature":"A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY","protected":"eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"},{"signature":"Mp-m-Vyst0zYCNkpg2RiIN8W9GO4nLU3FKsFtHzEcP4tgR4QcMys1_2m9HrDwszi0Cp2gv_Lioe6UPCcTNn6tQ","protected":"eyJhbGciOiJIUzUxMiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"}]}';
 
@@ -790,8 +713,7 @@ final class SignerTest extends SignatureTest
         );
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($expected_result)
-        ;
+            ->unserialize($expected_result);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
         static::assertSame($protectedHeader1, $loaded->getSignature(0)->getProtectedHeader());
     }
@@ -823,19 +745,16 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload)
             ->addSignature($key, $protectedHeader1)
             ->addSignature($key, $protectedHeader2)
-            ->build()
-        ;
+            ->build();
 
         $this->getJWSSerializerManager()
-            ->serialize('jws_json_general', $jws, 0)
-        ;
+            ->serialize('jws_json_general', $jws, 0);
     }
 
     /**
@@ -860,17 +779,14 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
         $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
     }
 
     /**
@@ -894,17 +810,14 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
         $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
     }
 
     /**
@@ -930,17 +843,14 @@ final class SignerTest extends SignatureTest
         ]);
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
         $this->getJWSSerializerManager()
-            ->serialize('jws_compact', $jws, 0)
-        ;
+            ->serialize('jws_compact', $jws, 0);
     }
 
     /**
@@ -970,26 +880,21 @@ final class SignerTest extends SignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload)
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
         $jws = $this->getJWSSerializerManager()
-            ->serialize('jws_json_flattened', $jws, 0)
-        ;
+            ->serialize('jws_json_flattened', $jws, 0);
 
         static::assertEqualsCanonicalizing($expected_result, json_decode($jws, true, 512, JSON_THROW_ON_ERROR));
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($jws)
-        ;
+            ->unserialize($jws);
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
 
         static::assertSame($payload, $loaded->getPayload());
@@ -1022,17 +927,14 @@ final class SignerTest extends SignatureTest
         ];
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS256'])
-        ;
+            ->create(['HS256']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
-            ->build()
-        ;
+            ->build();
         $jws = $this->getJWSSerializerManager()
-            ->serialize('jws_json_flattened', $jws, 0)
-        ;
+            ->serialize('jws_json_flattened', $jws, 0);
 
         static::assertSame($expected_result, json_decode($jws, true, 512, JSON_THROW_ON_ERROR));
     }
@@ -1049,11 +951,9 @@ final class SignerTest extends SignatureTest
         $jws = 'eyJraWQiOiJiaWxiby5iYWdnaW5zQGhvYmJpdG9uLmV4YW1wbGUifQ.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg';
 
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create([])
-        ;
+            ->create([]);
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($jws)
-        ;
+            ->unserialize($jws);
 
         static::assertSame(1, $loaded->countSignatures());
         static::assertSame($payload, $loaded->getPayload());
@@ -1067,11 +967,9 @@ final class SignerTest extends SignatureTest
     public function signAndLoadJWKSet(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload(json_encode($this->getKeyset(), JSON_THROW_ON_ERROR))
@@ -1083,12 +981,10 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0))
-        ;
+            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
         static::assertSame(2, $loaded->countSignatures());
         static::assertEqualsCanonicalizing(
             $this->getKeyset(),
@@ -1110,11 +1006,9 @@ final class SignerTest extends SignatureTest
         $this->expectExceptionMessage('There is no key in the key set.');
 
         $jwsBuilder = $this->getJWSBuilderFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jwsVerifier = $this->getJWSVerifierFactory()
-            ->create(['HS512', 'RS512'])
-        ;
+            ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
             ->create()
             ->withPayload(json_encode($this->getKeyset(), JSON_THROW_ON_ERROR))
@@ -1127,12 +1021,10 @@ final class SignerTest extends SignatureTest
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
             ])
-            ->build()
-        ;
+            ->build();
 
         $loaded = $this->getJWSSerializerManager()
-            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0))
-        ;
+            ->unserialize($this->getJWSSerializerManager()->serialize('jws_json_general', $jws, 0));
         static::assertSame(2, $loaded->countSignatures());
         static::assertEqualsCanonicalizing(
             $this->getKeyset(),

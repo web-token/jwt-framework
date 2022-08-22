@@ -57,7 +57,7 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
-        "brick/math": "^0.9",
+        "brick/math": "^0.9|^0.10",
         "fgrosse/phpasn1": "^2.0",
         "paragonie/constant_time_encoding": "^2.4",
         "psr/event-dispatcher": "^1.0",
@@ -81,6 +81,7 @@
         "matthiasnoback/symfony-config-test": "^3.1|^4.0",
         "nyholm/psr7": "^1.3",
         "php-http/mock-client": "^1.0",
+        "php-parallel-lint/php-parallel-lint": "^1.3",
         "phpbench/phpbench": "^1.2",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.0",
@@ -88,7 +89,7 @@
         "phpstan/phpstan-phpunit": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.0",
         "phpunit/phpunit": "^9.5.5.",
-        "rector/rector": "^0.13",
+        "rector/rector": "^0.14",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^5.4|^6.0",
         "symfony/finder": "^5.4|^6.0",
@@ -98,7 +99,7 @@
         "symfony/serializer": "^5.4|^6.0",
         "symfony/var-dumper": "^5.4|^6.0",
         "symfony/yaml": "^5.4|^6.0",
-        "symplify/easy-coding-standard": "^10.0"
+        "symplify/easy-coding-standard": "^11.0"
     },
     "replace": {
         "web-token/jwt-core": "self.version",
@@ -128,15 +129,15 @@
         "web-token/signature-pack": "self.version",
         "web-token/encryption-pack": "self.version"
     },
-   "suggest":{
-       "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
-       "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
-       "php-http/httplug": "To enable JKU/X5U support.",
-       "php-http/httplug-bundle": "To enable JKU/X5U support.",
-       "php-http/message-factory": "To enable JKU/X5U support.",
-       "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
-       "symfony/var-dumper": "Used to show data on the debug toolbar."
-   },
+    "suggest":{
+        "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
+        "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
+        "php-http/httplug": "To enable JKU/X5U support.",
+        "php-http/httplug-bundle": "To enable JKU/X5U support.",
+        "php-http/message-factory": "To enable JKU/X5U support.",
+        "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
+        "symfony/var-dumper": "Used to show data on the debug toolbar."
+    },
     "conflict": {
         "spomky-labs/jose": "*"
     },

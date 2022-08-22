@@ -25,15 +25,13 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         $this->setDescription('Rotate a key set.')
             ->setHelp('This command removes the last key in a key set a place a new one at the beginning.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwkset = $this->getKeyset($input)
-            ->all()
-        ;
+            ->all();
         $jwk = $this->getKey($input);
 
         if (count($jwkset) !== 0) {

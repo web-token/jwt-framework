@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -120,7 +119,7 @@ final class JWKTest extends TestCase
             '{"keys":[{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","use":"sign","key_ops":["sign"],"alg":"ES256","kid":"0123456789"},{"kty":"EC","crv":"P-256","x":"f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU","y":"x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0","d":"jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI","use":"sign","key_ops":["verify"],"alg":"ES256","kid":"9876543210"}]}',
             json_encode($jwkset, JSON_THROW_ON_ERROR)
         );
-        static::assertSame(2, count($jwkset));
+        static::assertCount(2, $jwkset);
         static::assertSame(2, $jwkset->count());
         static::assertTrue($jwkset->has('0123456789'));
         static::assertTrue($jwkset->has('9876543210'));
@@ -134,11 +133,11 @@ final class JWKTest extends TestCase
         $jwkset = $jwkset->without('9876543210');
         $jwkset = $jwkset->without('9876543210');
 
-        static::assertSame(1, count($jwkset));
+        static::assertCount(1, $jwkset);
         static::assertSame(1, $jwkset->count());
 
         $jwkset = $jwkset->without('0123456789');
-        static::assertSame(0, count($jwkset));
+        static::assertCount(0, $jwkset);
         static::assertSame(0, $jwkset->count());
     }
 

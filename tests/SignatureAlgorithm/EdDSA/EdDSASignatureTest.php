@@ -65,8 +65,7 @@ final class EdDSASignatureTest extends TestCase
             ->create()
             ->withPayload($input)
             ->addSignature($key, $header)
-            ->build()
-        ;
+            ->build();
 
         static::assertTrue($jwsVerifier->verifyWithKey($jws, $key, 0));
     }

@@ -53,8 +53,7 @@ final class JWSComputationTest extends WebTestCase
             ->addSignature($jwk, [
                 'alg' => 'HS256',
             ])
-            ->build()
-        ;
+            ->build();
         $token = $serializer->serialize($jws, 0);
 
         $loaded = $serializer->unserialize($token);

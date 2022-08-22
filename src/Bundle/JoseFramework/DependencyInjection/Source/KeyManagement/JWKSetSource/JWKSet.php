@@ -38,7 +38,6 @@ class JWKSet extends AbstractSource implements JWKSetSource
             ->info('The JWKSet object.')
             ->isRequired()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 }

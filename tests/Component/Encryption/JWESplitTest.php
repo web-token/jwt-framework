@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
-use function count;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
 
 /**
@@ -23,7 +22,7 @@ final class JWESplitTest extends EncryptionTest
         $split = $jwe->split();
 
         static::assertSame(3, $jwe->countRecipients());
-        static::assertSame(3, count($split));
+        static::assertCount(3, $split);
 
         for ($i = 0; $i < $jwe->countRecipients(); ++$i) {
             $recipient1 = $jwe->getRecipient($i);

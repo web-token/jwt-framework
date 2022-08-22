@@ -90,8 +90,7 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
                 ['jws_compact', 'jws_json_flattened', 'jws_json_general'],
                 ['PS256'],
                 []
-            )
-        ;
+            );
 
         $signature_key = new JWK([
             'kty' => 'RSA',

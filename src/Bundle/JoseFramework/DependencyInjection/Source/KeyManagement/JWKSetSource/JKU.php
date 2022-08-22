@@ -46,7 +46,6 @@ class JKU extends AbstractSource implements JWKSetSource
             ->variablePrototype()
             ->end()
             ->end()
-            ->end()
-        ;
+            ->end();
     }
 }

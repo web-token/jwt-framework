@@ -23,8 +23,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         parent::configure();
         $this->setDescription('Get the thumbprint of a JWK key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')
-            ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256')
-        ;
+            ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -32,24 +32,19 @@ final class KeyAnalyzerCommand extends Command
         parent::configure();
         $this->setDescription('JWK quality analyzer.')
             ->setHelp('This command will analyze a JWK object and find security issues.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object')
-        ;
+            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->getFormatter()
-            ->setStyle('success', new OutputFormatterStyle('white', 'green'))
-        ;
+            ->setStyle('success', new OutputFormatterStyle('white', 'green'));
         $output->getFormatter()
-            ->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']))
-        ;
+            ->setStyle('high', new OutputFormatterStyle('white', 'red', ['bold']));
         $output->getFormatter()
-            ->setStyle('medium', new OutputFormatterStyle('yellow'))
-        ;
+            ->setStyle('medium', new OutputFormatterStyle('yellow'));
         $output->getFormatter()
-            ->setStyle('low', new OutputFormatterStyle('blue'))
-        ;
+            ->setStyle('low', new OutputFormatterStyle('blue'));
         $jwk = $this->getKey($input);
 
         $result = $this->analyzerManager->analyze($jwk);

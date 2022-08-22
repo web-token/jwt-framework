@@ -235,7 +235,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 
         $pbes2 = new PBES2HS256A128KW();
         $encrypted_cek = $pbes2->wrapKey($key, $cek, $header, $header);
-        static::assertTrue(isset($header['p2s']));
+        static::assertArrayHasKey('p2s', $header);
         static::assertSame(4096, $header['p2c']);
         static::assertSame($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
@@ -343,7 +343,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 
         $pbes2 = new PBES2HS384A192KW();
         $encrypted_cek = $pbes2->wrapKey($key, $cek, $header, $header);
-        static::assertTrue(isset($header['p2s']));
+        static::assertArrayHasKey('p2s', $header);
         static::assertSame(4096, $header['p2c']);
         static::assertSame($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
@@ -451,7 +451,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 
         $pbes2 = new PBES2HS512A256KW();
         $encrypted_cek = $pbes2->wrapKey($key, $cek, $header, $header);
-        static::assertTrue(isset($header['p2s']));
+        static::assertArrayHasKey('p2s', $header);
         static::assertSame(4096, $header['p2c']);
         static::assertSame($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
-use function array_key_exists;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
@@ -45,11 +44,11 @@ final class ECDHESKeyAgreementTest extends TestCase
         $additional_header_values = [];
 
         $ecdh_es->getAgreementKey(128, 'A128GCM', $receiver, null, $header, $additional_header_values);
-        static::assertTrue(array_key_exists('epk', $additional_header_values));
-        static::assertTrue(array_key_exists('kty', $additional_header_values['epk']));
-        static::assertTrue(array_key_exists('crv', $additional_header_values['epk']));
-        static::assertTrue(array_key_exists('x', $additional_header_values['epk']));
-        static::assertTrue(array_key_exists('y', $additional_header_values['epk']));
+        static::assertArrayHasKey('epk', $additional_header_values);
+        static::assertArrayHasKey('kty', $additional_header_values['epk']);
+        static::assertArrayHasKey('crv', $additional_header_values['epk']);
+        static::assertArrayHasKey('x', $additional_header_values['epk']);
+        static::assertArrayHasKey('y', $additional_header_values['epk']);
     }
 
     /**
@@ -111,11 +110,11 @@ final class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA128KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 128, $header, $header);
-        static::assertTrue(array_key_exists('epk', $header));
-        static::assertTrue(array_key_exists('crv', $header['epk']));
-        static::assertTrue(array_key_exists('kty', $header['epk']));
-        static::assertTrue(array_key_exists('x', $header['epk']));
-        static::assertTrue(array_key_exists('y', $header['epk']));
+        static::assertArrayHasKey('epk', $header);
+        static::assertArrayHasKey('crv', $header['epk']);
+        static::assertArrayHasKey('kty', $header['epk']);
+        static::assertArrayHasKey('x', $header['epk']);
+        static::assertArrayHasKey('y', $header['epk']);
         static::assertSame('P-256', $header['epk']['crv']);
         static::assertSame('EC', $header['epk']['kty']);
         static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
@@ -180,11 +179,11 @@ final class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA192KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 192, $header, $header);
-        static::assertTrue(array_key_exists('epk', $header));
-        static::assertTrue(array_key_exists('crv', $header['epk']));
-        static::assertTrue(array_key_exists('kty', $header['epk']));
-        static::assertTrue(array_key_exists('x', $header['epk']));
-        static::assertTrue(array_key_exists('y', $header['epk']));
+        static::assertArrayHasKey('epk', $header);
+        static::assertArrayHasKey('crv', $header['epk']);
+        static::assertArrayHasKey('kty', $header['epk']);
+        static::assertArrayHasKey('x', $header['epk']);
+        static::assertArrayHasKey('y', $header['epk']);
         static::assertSame('P-256', $header['epk']['crv']);
         static::assertSame('EC', $header['epk']['kty']);
         static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 192, $header));
@@ -255,11 +254,11 @@ final class ECDHESKeyAgreementTest extends TestCase
 
         $ecdh_es = new ECDHESA256KW();
         $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 256, $header, $header);
-        static::assertTrue(array_key_exists('epk', $header));
-        static::assertTrue(array_key_exists('crv', $header['epk']));
-        static::assertTrue(array_key_exists('kty', $header['epk']));
-        static::assertTrue(array_key_exists('x', $header['epk']));
-        static::assertTrue(array_key_exists('y', $header['epk']));
+        static::assertArrayHasKey('epk', $header);
+        static::assertArrayHasKey('crv', $header['epk']);
+        static::assertArrayHasKey('kty', $header['epk']);
+        static::assertArrayHasKey('x', $header['epk']);
+        static::assertArrayHasKey('y', $header['epk']);
         static::assertSame('P-256', $header['epk']['crv']);
         static::assertSame('EC', $header['epk']['kty']);
         static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 256, $header));
