@@ -17,5 +17,5 @@ parameters:
         - '#Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null\, mixed given\.#'
         - '#Parameter \#1 \.\.\.\$arrays of function array_merge expects array\, mixed given\.#'
         - '#Cannot cast mixed to int\.#'
-includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+        - '#Parameter .* of (static )?method .* expects Jose\\Component\\Core\\JWK, mixed given\.#'
+        - '#Cannot call method (get|has)\(\) on mixed\.#'
