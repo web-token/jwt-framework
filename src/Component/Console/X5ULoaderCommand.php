@@ -12,10 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'keyset:load:x5u',
-    description: 'Loads a key set from an url.',
-)]
+#[AsCommand(name: 'keyset:load:x5u', description: 'Loads a key set from an url.',)]
 final class X5ULoaderCommand extends ObjectOutputCommand
 {
     public function __construct(

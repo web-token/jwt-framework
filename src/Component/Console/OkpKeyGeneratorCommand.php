@@ -12,10 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'key:generate:okp',
-    description: 'Generate an Octet Key Pair key (JWK format)',
-)]
+#[AsCommand(name: 'key:generate:okp', description: 'Generate an Octet Key Pair key (JWK format)',)]
 final class OkpKeyGeneratorCommand extends GeneratorCommand
 {
     protected function configure(): void

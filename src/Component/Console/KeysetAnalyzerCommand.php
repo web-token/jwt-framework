@@ -19,10 +19,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'keyset:analyze',
-    description: 'JWKSet quality analyzer.',
-)]
+#[AsCommand(name: 'keyset:analyze', description: 'JWKSet quality analyzer.',)]
 final class KeysetAnalyzerCommand extends Command
 {
     public function __construct(
