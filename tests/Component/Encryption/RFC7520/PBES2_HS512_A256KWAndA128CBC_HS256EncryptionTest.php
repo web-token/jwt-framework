@@ -125,13 +125,16 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
 
         static::assertSame(
             $expected_payload,
-            json_decode($loaded_compact_json->getPayload(), true, 512, JSON_THROW_ON_ERROR)
+            json_decode((string) $loaded_compact_json->getPayload(), true, 512, JSON_THROW_ON_ERROR)
         );
         static::assertSame(
             $expected_payload,
-            json_decode($loaded_flattened_json->getPayload(), true, 512, JSON_THROW_ON_ERROR)
+            json_decode((string) $loaded_flattened_json->getPayload(), true, 512, JSON_THROW_ON_ERROR)
         );
-        static::assertSame($expected_payload, json_decode($loaded_json->getPayload(), true, 512, JSON_THROW_ON_ERROR));
+        static::assertSame(
+            $expected_payload,
+            json_decode((string) $loaded_json->getPayload(), true, 512, JSON_THROW_ON_ERROR)
+        );
     }
 
     /**

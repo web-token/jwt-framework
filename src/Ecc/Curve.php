@@ -174,7 +174,7 @@ final class Curve implements Stringable
                      ->isEqualTo($other->getB())
                  && $this->getPrime()
                      ->isEqualTo($other->getPrime())
-                 ;
+        ;
 
         return $equal ? 0 : 1;
     }

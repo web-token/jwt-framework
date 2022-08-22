@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
-use const PHP_EOL;
 use PHPUnit\Framework\TestCase;
 
 /**

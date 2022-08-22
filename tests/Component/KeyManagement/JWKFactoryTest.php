@@ -7,7 +7,6 @@ namespace Jose\Tests\Component\KeyManagement;
 use Jose\Component\KeyManagement\JWKFactory;
 use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
-use const PHP_EOL;
 use PHPUnit\Framework\TestCase;
 
 /**

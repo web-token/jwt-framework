@@ -216,7 +216,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertEqualsCanonicalizing(
             $this->getKeyToEncrypt(),
-            new JWK(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            new JWK(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
     }
 
@@ -370,7 +370,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertEqualsCanonicalizing(
             $this->getKeySetToEncrypt(),
-            JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            JWKSet::createFromKeyData(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
     }
 
@@ -520,7 +520,7 @@ final class EncrypterTest extends EncryptionTest
 
         static::assertEqualsCanonicalizing(
             $this->getKeyToEncrypt(),
-            new JWK(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            new JWK(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
     }
 

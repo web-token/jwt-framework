@@ -227,8 +227,8 @@ final class ECKey
 
         $curve = $children[2]->getContent()[0]->getContent();
         $dBin = hex2bin($d);
-        $xBin = hex2bin($x);
-        $yBin = hex2bin($y);
+        $xBin = hex2bin((string) $x);
+        $yBin = hex2bin((string) $y);
         if (! is_string($curve) || ! is_string($dBin) || ! is_string($xBin) || ! is_string($yBin)) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
