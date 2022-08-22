@@ -8,18 +8,21 @@ use InvalidArgumentException;
 use function is_array;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'keyset:merge',
+    description: 'Merge several key sets into one.',
+)]
 final class MergeKeysetCommand extends ObjectOutputCommand
 {
-    protected static $defaultName = 'keyset:merge';
-
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Merge several key sets into one.')
+        $this
             ->setHelp(
                 'This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.'
             )
