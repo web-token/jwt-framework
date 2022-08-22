@@ -26,7 +26,7 @@ final class JWSSerializer implements DenormalizerInterface
         $this->serializerManager = $serializerManager;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $type === JWS::class
             && class_exists(JWSSerializerManager::class)

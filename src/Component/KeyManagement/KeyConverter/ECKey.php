@@ -64,7 +64,7 @@ final class ECKey
         }
         $children = $asnObject->getChildren();
         if (self::isPKCS8($children)) {
-            $children = self::loadPKCS8($children);
+            return self::loadPKCS8($children);
         }
 
         if (count($children) === 4) {
@@ -82,6 +82,19 @@ final class ECKey
      */
     private static function loadPKCS8(array $children): array
     {
+        $oidList = $children[1]->getContent();
+        if (! is_array($oidList) || count($oidList) !== 2) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $oid = $oidList[1];
+        if (! $oid instanceof ObjectIdentifier) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $oid = $oid->getContent();
+        if (! is_string($oid)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+
         $data = $children[2]->getContent();
         if (! is_string($data)) {
             throw new InvalidArgumentException('Unable to load the key.');
@@ -91,8 +104,72 @@ final class ECKey
         if (! $asnObject instanceof Sequence) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
+        if ($asnObject->count() < 2) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $version = $asnObject->getChildren()[0];
+        if (! $version instanceof Integer && $version->getContent() !== '1') {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $privateKey = $asnObject->getChildren()[1];
+        if (! $privateKey instanceof OctetString) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $privateKey = $privateKey->getContent();
+        if (! is_string($privateKey)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $dBin = hex2bin($privateKey);
+        if (! is_string($dBin)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
 
-        return $asnObject->getChildren();
+        $attributes = $asnObject->getChildren();
+        $publicKeys = array_reduce($attributes, static function (array $carry, mixed $attribute): array {
+            if (! $attribute instanceof ExplicitlyTaggedObject) {
+                return $carry;
+            }
+            $attribute = $attribute->getContent();
+            if (! is_array($attribute) || count($attribute) === 0) {
+                return $carry;
+            }
+            $value = $attribute[0];
+            if ($value instanceof BitString) {
+                $carry[] = $value;
+            }
+            return $carry;
+        }, []);
+
+        if (count($publicKeys) !== 1) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $publicKey = $publicKeys[0];
+
+        if (! $publicKey instanceof BitString) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+        $bits = $publicKey->getContent();
+        if (! is_string($bits)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
+        $bits_length = mb_strlen($bits, '8bit');
+        if (mb_strpos($bits, '04', 0, '8bit') !== 0) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
+
+        $xBin = hex2bin(mb_substr($bits, 2, ($bits_length - 2) / 2, '8bit'));
+        $yBin = hex2bin(mb_substr($bits, (int) (($bits_length - 2) / 2 + 2), ($bits_length - 2) / 2, '8bit'));
+        if (! is_string($xBin) || ! is_string($yBin)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
+
+        return [
+            'kty' => 'EC',
+            'crv' => self::getCurve($oid),
+            'x' => Base64UrlSafe::encodeUnpadded($xBin),
+            'y' => Base64UrlSafe::encodeUnpadded($yBin),
+            'd' => Base64UrlSafe::encodeUnpadded($dBin),
+        ];
     }
 
     private static function loadPublicPEM(array $children): array

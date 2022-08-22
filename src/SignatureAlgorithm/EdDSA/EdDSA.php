@@ -32,13 +32,17 @@ final class EdDSA implements SignatureAlgorithm
         if (! $key->has('d')) {
             throw new InvalidArgumentException('The EC key is not private');
         }
-        $x = $key->get('x');
-        if (! is_string($x)) {
-            throw new InvalidArgumentException('Invalid "x" parameter.');
-        }
         $d = $key->get('d');
         if (! is_string($d)) {
             throw new InvalidArgumentException('Invalid "d" parameter.');
+        }
+        if (! $key->has('x')) {
+            $x = sodium_crypto_sign_publickey_from_secretkey($d);
+        } else {
+            $x = $key->get('x');
+        }
+        if (! is_string($x)) {
+            throw new InvalidArgumentException('Invalid "x" parameter.');
         }
         $x = Base64UrlSafe::decode($x);
         $d = Base64UrlSafe::decode($d);
