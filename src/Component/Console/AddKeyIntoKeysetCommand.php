@@ -15,10 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'keyset:add:key',
-    description: 'Add a key into a key set.',
-)]
+#[AsCommand(name: 'keyset:add:key', description: 'Add a key into a key set.',)]
 final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
     protected function configure(): void

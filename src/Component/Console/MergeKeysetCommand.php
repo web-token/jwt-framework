@@ -13,10 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'keyset:merge',
-    description: 'Merge several key sets into one.',
-)]
+#[AsCommand(name: 'keyset:merge', description: 'Merge several key sets into one.',)]
 final class MergeKeysetCommand extends ObjectOutputCommand
 {
     protected function configure(): void

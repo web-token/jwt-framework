@@ -12,10 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'key:load:x509',
-    description: 'Load a key from a X.509 certificate file.',
-)]
+#[AsCommand(name: 'key:load:x509', description: 'Load a key from a X.509 certificate file.',)]
 final class X509CertificateLoaderCommand extends GeneratorCommand
 {
     protected function configure(): void

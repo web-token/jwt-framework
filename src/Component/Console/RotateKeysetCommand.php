@@ -16,10 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'keyset:rotate',
-    description: 'Rotate a key set.',
-)]
+#[AsCommand(name: 'keyset:rotate', description: 'Rotate a key set.',)]
 final class RotateKeysetCommand extends ObjectOutputCommand
 {
     protected function configure(): void

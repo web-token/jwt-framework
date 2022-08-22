@@ -11,10 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'key:generate:oct',
-    description: 'Generate an octet key (JWK format)',
-)]
+#[AsCommand(name: 'key:generate:oct', description: 'Generate an octet key (JWK format)',)]
 final class OctKeyGeneratorCommand extends GeneratorCommand
 {
     protected function configure(): void
