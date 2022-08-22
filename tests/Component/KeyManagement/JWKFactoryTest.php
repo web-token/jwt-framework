@@ -354,9 +354,9 @@ final class JWKFactoryTest extends TestCase
                 'values' => [
                     'kty' => 'EC',
                     'crv' => 'P-384',
-                    'd' => '31taDOPQnlNl2aBC_EaGTqVGjGN_qg6iuLwP6cVTmhKMQ5PTL67wS6mmyKi8GdVP',
                     'x' => 'j0w1Y3bRXLNKVhIp0i5VtZwh7gWIKEcKIFXZa8N_7idIdW7_o6djgDHedTI_BeLy',
                     'y' => 'x-IGyHQ2pZRM-OAWfRGe2E9y0rcbukq9GdIgFcPmXU_P8B0tvtgxz3KH0WKwkX5K',
+                    'd' => '31taDOPQnlNl2aBC_EaGTqVGjGN_qg6iuLwP6cVTmhKMQ5PTL67wS6mmyKi8GdVP',
                 ],
             ],
             [

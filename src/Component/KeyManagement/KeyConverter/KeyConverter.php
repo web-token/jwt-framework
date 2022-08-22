@@ -9,6 +9,7 @@ use function count;
 use function extension_loaded;
 use FG\ASN1\Universal\BitString;
 use FG\ASN1\Universal\Integer;
+use FG\ASN1\Universal\ObjectIdentifier;
 use FG\ASN1\Universal\OctetString;
 use FG\ASN1\Universal\Sequence;
 use InvalidArgumentException;
@@ -206,8 +207,14 @@ final class KeyConverter
         try {
             preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
             $data = preg_replace('#-.*-|\r|\n| #', '', $pem);
+            if (! is_string($data)) {
+                throw new InvalidArgumentException('Unsupported key type');
+            }
             $der = Base64::decode($data);
             $sequence = Sequence::fromBinary($der);
+            if (! $sequence instanceof Sequence) {
+                throw new InvalidArgumentException('Unsupported key type');
+            }
 
             return match ($sequence->count()) {
                 2 => self::tryToLoadPublicKeyTypes($sequence),
@@ -231,7 +238,14 @@ final class KeyConverter
         if (! $x instanceof BitString) {
             throw new InvalidArgumentException('Unsupported key type');
         }
-        $curve = $curveId[0]->getContent();
+        $oid = $curveId[0];
+        if (! $oid instanceof ObjectIdentifier) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
+        $curve = $oid->getContent();
+        if (! is_string($curve)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
 
         return [
             'kty' => 'OKP',
@@ -255,19 +269,34 @@ final class KeyConverter
         if (! $octetD instanceof OctetString) {
             throw new InvalidArgumentException('Unsupported key type');
         }
-        $curve = $curveId[0]->getContent();
+        $oid = $curveId[0];
+        if (! $oid instanceof ObjectIdentifier) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
+        $curve = $oid->getContent();
+        if (! is_string($curve)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
         $crv = self::getCurve($curve);
         $binOctetdD = $octetD->getBinaryContent();
         $d = OctetString::fromBinary($binOctetdD);
+        $d = $d->getContent();
+        if (! is_string($d)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
+        $dBin = hex2bin($d);
+        if (! is_string($dBin)) {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
 
         $data = [
             'kty' => 'OKP',
             'crv' => $crv,
-            'd' => Base64UrlSafe::encodeUnpadded($d->getBinaryContent()),
+            'd' => Base64UrlSafe::encodeUnpadded($dBin),
         ];
 
         if (($crv === 'Ed25519' || $crv === 'X25519') && extension_loaded('sodium')) {
-            $data['x'] = Base64UrlSafe::encodeUnpadded(sodium_crypto_sign_publickey_from_secretkey($d->getContent()));
+            $data['x'] = Base64UrlSafe::encodeUnpadded(sodium_crypto_sign_publickey_from_secretkey($d));
         }
 
         return $data;
