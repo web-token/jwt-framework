@@ -168,12 +168,13 @@ final class Curve implements Stringable
 
     public function cmp(self $other): int
     {
-        $equal = $this->getA()
-            ->isEqualTo($other->getA())
-            && $this->getB()
-                ->isEqualTo($other->getB())
-            && $this->getPrime()
-                ->isEqualTo($other->getPrime());
+        $equalsA = $this->getA()
+            ->isEqualTo($other->getA());
+        $equalsB = $this->getB()
+            ->isEqualTo($other->getB());
+        $equalsPrime = $this->getPrime()
+            ->isEqualTo($other->getPrime());
+        $equal = $equalsA && $equalsB && $equalsPrime;
 
         return $equal ? 0 : 1;
     }
