@@ -69,7 +69,7 @@
         "symfony/dependency-injection": "^6.1.3",
         "symfony/event-dispatcher": "^6.1.0",
         "symfony/http-kernel": "^6.1.3",
-        "symfony/polyfill-mbstring": "^1.12"
+        "symfony/polyfill-mbstring": "^1.26"
     },
     "require-dev": {
         "ext-curl": "*",
