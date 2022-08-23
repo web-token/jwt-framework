@@ -92,7 +92,7 @@ final class AlgorithmCollector implements Collector
 
     private function getAlgorithmMessages(): array
     {
-        $messages = [
+        return [
             'none' => [
                 'severity' => 'severity-low',
                 'message' => 'This algorithm is not secured. Please use with caution.',
@@ -194,7 +194,5 @@ final class AlgorithmCollector implements Collector
                 'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
             ],
         ];
-
-        return $messages;
     }
 }
