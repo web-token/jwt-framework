@@ -213,6 +213,22 @@ final class AlgorithmCollector implements Collector
                     'severity' => 'severity-medium',
                     'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
                 ],
+                'ECDH-SS' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
+                'ECDH-SS+A128KW' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
+                'ECDH-SS+A192KW' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
+                'ECDH-SS+A256KW' => [
+                    'severity' => 'severity-medium',
+                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
+                ],
             ];
         }
 
