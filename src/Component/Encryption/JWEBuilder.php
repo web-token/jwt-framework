@@ -27,6 +27,8 @@ use RuntimeException;
 
 class JWEBuilder
 {
+    protected ?JWK $senderKey = null;
+
     protected ?string $payload = null;
 
     protected ?string $aad = null;
@@ -55,6 +57,7 @@ class JWEBuilder
      */
     public function create(): self
     {
+        $this->senderKey = null;
         $this->payload = null;
         $this->aad = null;
         $this->recipients = [];
@@ -188,6 +191,31 @@ class JWEBuilder
         return $clone;
     }
 
+    //TODO: Verify if the key is compatible with the key encrytion algorithm like is done to the ECDH-ES
+    /**
+     * Set the sender JWK to be used instead of the internal generated JWK
+     */
+    public function withSenderKey(JWK $senderKey): self
+    {
+        $clone = clone $this;
+        $completeHeader = array_merge($clone->sharedHeader, $clone->sharedProtectedHeader);
+        $keyEncryptionAlgorithm = $clone->getKeyEncryptionAlgorithm($completeHeader);
+        if ($clone->keyManagementMode === null) {
+            $clone->keyManagementMode = $keyEncryptionAlgorithm->getKeyManagementMode();
+        } else {
+            if (! $clone->areKeyManagementModesCompatible(
+                $clone->keyManagementMode,
+                $keyEncryptionAlgorithm->getKeyManagementMode()
+            )) {
+                throw new InvalidArgumentException('Foreign key management mode forbidden.');
+            }
+        }
+        $clone->checkKey($keyEncryptionAlgorithm, $senderKey);
+        $clone->senderKey = $senderKey;
+
+        return $clone;
+    }
+
     /**
      * Builds the JWE.
      */
@@ -255,7 +283,7 @@ class JWEBuilder
             $keyEncryptionAlgorithm,
             $additionalHeader,
             $recipient['key'],
-            $recipient['sender_key'] ?? null
+            $recipient['sender_key'] ?? $this->senderKey ?? null
         );
         $recipientHeader = $recipient['header'];
         if ((is_countable($additionalHeader) ? count($additionalHeader) : 0) !== 0 && count($this->recipients) !== 1) {
