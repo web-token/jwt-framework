@@ -96,7 +96,7 @@
         "symfony/framework-bundle": "^5.4|^6.0",
         "symfony/http-client": "^5.4|^6.0",
         "symfony/phpunit-bridge": "^6.1.3",
-        "symfony/serializer": "^5.4|^6.0",
+        "symfony/serializer": "^6.1.3",
         "symfony/var-dumper": "^5.4|^6.0",
         "symfony/yaml": "^6.1.3",
         "symplify/easy-coding-standard": "^11.0"
