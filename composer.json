@@ -57,7 +57,7 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
-        "brick/math": "^0.9|^0.10",
+        "brick/math": "^0.10.2",
         "fgrosse/phpasn1": "^2.0",
         "paragonie/constant_time_encoding": "^2.4",
         "psr/event-dispatcher": "^1.0",
