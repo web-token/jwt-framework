@@ -75,7 +75,7 @@
         "ext-curl": "*",
         "ext-gmp": "*",
         "bjeavons/zxcvbn-php": "^1.0",
-        "blackfire/php-sdk": "^1.14",
+        "blackfire/php-sdk": "^1.31",
         "ekino/phpstan-banned-code": "^1.0",
         "infection/infection": "^0.26",
         "matthiasnoback/symfony-config-test": "^3.1|^4.0",
