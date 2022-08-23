@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        run: git clone https://github.com/org/project /home/runner/work/org/project && cd /home/runner/work/org/project
+        run: git clone https://github.com/web-token/jwt-framework /home/runner/work/web-token/jwt-framework && cd /home/runner/work/web-token/jwt-framework
       - name: Split repositories
         uses: docker://jderusse/gitsplit:latest
         with:
