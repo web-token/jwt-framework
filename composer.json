@@ -88,7 +88,7 @@
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.0",
-        "phpunit/phpunit": "^9.5.5",
+        "phpunit/phpunit": "^9.5.23",
         "rector/rector": "^0.14",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^5.4|^6.0",
