@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: "weekly"
       day: "friday"
-    versioning-strategy: "auto"
+    versioning-strategy: "widen"
     open-pull-requests-limit: 20
     allow:
       - dependency-type: all
