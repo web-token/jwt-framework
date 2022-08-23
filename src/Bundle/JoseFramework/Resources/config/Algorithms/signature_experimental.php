@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Signature\Algorithm\Blake2b;
 use Jose\Component\Signature\Algorithm\ES256K;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\HS256_64;
@@ -51,5 +52,10 @@ return function (ContainerConfigurator $container): void {
     $container->set(ES256K::class)
         ->tag('jose.algorithm', [
             'alias' => 'ES256K',
+        ]);
+
+    $container->set(Blake2b::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'BLAKE2B',
         ]);
 };
