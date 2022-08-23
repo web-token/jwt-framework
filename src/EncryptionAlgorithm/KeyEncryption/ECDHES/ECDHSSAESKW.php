@@ -6,7 +6,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
 
-abstract class ECDHESAESKW extends AbstractECDHAESKW
+abstract class ECDHSSAESKW extends AbstractECDHAESKW
 {
     public function wrapAgreementKey(
         JWK $recipientKey,
@@ -16,8 +16,8 @@ abstract class ECDHESAESKW extends AbstractECDHAESKW
         array $complete_header,
         array &$additional_header_values
     ): string {
-        $ecdh_es = new ECDHES();
-        $agreement_key = $ecdh_es->getAgreementKey(
+        $ecdh_ss = new ECDHSS();
+        $agreement_key = $ecdh_ss->getAgreementKey(
             $this->getKeyLength(),
             $this->name(),
             $recipientKey->toPublic(),
@@ -37,8 +37,8 @@ abstract class ECDHESAESKW extends AbstractECDHAESKW
         int $encryption_key_length,
         array $complete_header
     ): string {
-        $ecdh_es = new ECDHES();
-        $agreement_key = $ecdh_es->getAgreementKey(
+        $ecdh_ss = new ECDHSS();
+        $agreement_key = $ecdh_ss->getAgreementKey(
             $this->getKeyLength(),
             $this->name(),
             $recipientKey,

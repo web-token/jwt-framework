@@ -6,6 +6,10 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW;
 
 /*
  * The MIT License (MIT)
@@ -43,5 +47,25 @@ return function (ContainerConfigurator $container): void {
     $container->set(ECDHESA256KW::class)
         ->tag('jose.algorithm', [
             'alias' => 'ECDH-ES+A256KW',
+        ]);
+
+    $container->set(ECDHSS::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'ECDH-SS',
+        ]);
+
+    $container->set(ECDHSSA128KW::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'ECDH-SS+A128KW',
+        ]);
+
+    $container->set(ECDHSSA192KW::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'ECDH-SS+A192KW',
+        ]);
+
+    $container->set(ECDHSSA256KW::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'ECDH-SS+A256KW',
         ]);
 };

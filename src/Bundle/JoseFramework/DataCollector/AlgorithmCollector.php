@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
 use function array_key_exists;
-use function function_exists;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -93,7 +92,7 @@ final class AlgorithmCollector implements Collector
 
     private function getAlgorithmMessages(): array
     {
-        $messages = [
+        return [
             'none' => [
                 'severity' => 'severity-low',
                 'message' => 'This algorithm is not secured. Please use with caution.',
@@ -195,27 +194,5 @@ final class AlgorithmCollector implements Collector
                 'message' => 'This algorithm is not secured (known attacks). See <a target="_blank" href="https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5">https://tools.ietf.org/html/draft-irtf-cfrg-webcrypto-algorithms-00#section-5</a>.',
             ],
         ];
-        if (! function_exists('openssl_pkey_derive')) {
-            $messages += [
-                'ECDH-ES' => [
-                    'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
-                ],
-                'ECDH-ES+A128KW' => [
-                    'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
-                ],
-                'ECDH-ES+A192KW' => [
-                    'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
-                ],
-                'ECDH-ES+A256KW' => [
-                    'severity' => 'severity-medium',
-                    'message' => 'This algorithm is very slow when used with curves P-256, P-384, P-521 with php 7.2 and below.',
-                ],
-            ];
-        }
-
-        return $messages;
     }
 }
