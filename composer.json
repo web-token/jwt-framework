@@ -59,7 +59,7 @@
         "ext-sodium": "*",
         "brick/math": "^0.9|^0.10",
         "fgrosse/phpasn1": "^2.0",
-        "paragonie/constant_time_encoding": "^2.4",
+        "paragonie/constant_time_encoding": "^2.6",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
