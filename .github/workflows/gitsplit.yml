@@ -13,8 +13,6 @@ jobs:
       - name: checkout
         run: git clone https://github.com/web-token/jwt-framework /home/runner/work/web-token/jwt-framework && cd /home/runner/work/web-token/jwt-framework
       - name: Split repositories
-        uses: docker://jderusse/gitsplit:latest
-        with:
-          args: gitsplit
+        run: docker run --rm -t -e GH_TOKEN -v /cache/gitsplit:/cache/gitsplit -v /home/runner/work/web-token/jwt-framework:/srv jderusse/gitsplit gitsplit
         env:
           GH_TOKEN: ${{ secrets.GITSPLIT_TOKEN }}
