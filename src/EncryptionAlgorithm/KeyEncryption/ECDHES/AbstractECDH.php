@@ -293,7 +293,9 @@ abstract class AbstractECDH implements KeyAgreement
 
             case 'Ed25519':
                 $keyPair = sodium_crypto_sign_keypair();
-                $d = sodium_crypto_sign_secretkey($keyPair);
+                $secret = sodium_crypto_sign_secretkey($keyPair);
+                $secretLength = mb_strlen($secret, '8bit');
+                $d = mb_substr($secret, 0, -$secretLength / 2, '8bit');
                 $x = sodium_crypto_sign_publickey($keyPair);
 
                 break;

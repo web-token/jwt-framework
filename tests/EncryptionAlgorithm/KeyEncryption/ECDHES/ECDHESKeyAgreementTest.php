@@ -26,7 +26,7 @@ final class ECDHESKeyAgreementTest extends TestCase
      *
      * @test
      */
-    public function getAgreementKey(): void
+    public function getAgreementKeyWithEllipticCurveKey(): void
     {
         $receiver = new JWK([
             'kty' => 'EC',
@@ -49,6 +49,76 @@ final class ECDHESKeyAgreementTest extends TestCase
         static::assertArrayHasKey('crv', $additional_header_values['epk']);
         static::assertArrayHasKey('x', $additional_header_values['epk']);
         static::assertArrayHasKey('y', $additional_header_values['epk']);
+    }
+
+    /**
+     * @see https://tools.ietf.org/html/rfc7518#appendix-C
+     *
+     * @test
+     */
+    public function getAgreementKeyWithA128KeyWrapAndWithOctetKeyPairKey(): void
+    {
+        $header = [
+            'enc' => 'A128GCM',
+        ];
+
+        $private = new JWK([
+            'kty' => 'OKP',
+            'crv' => 'X25519',
+            'd' => 'uns2Byv3po_cjjG8XRCtU-lEOrOgLbsDr5cXHmgjVvA',
+            'x' => 'k8IkMMO9I0foCYqEcbfM49DjEoWpHdho_GKNMXk1rFw',
+        ]);
+        $public = $private->toPublic();
+
+        $cek = [
+            4,
+            211,
+            31,
+            197,
+            84,
+            157,
+            252,
+            254,
+            11,
+            100,
+            157,
+            250,
+            63,
+            170,
+            106,
+            206,
+            107,
+            124,
+            212,
+            45,
+            111,
+            107,
+            9,
+            219,
+            200,
+            177,
+            0,
+            240,
+            143,
+            156,
+            44,
+            207,
+        ];
+        foreach ($cek as $key => $value) {
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+        }
+        $cek = hex2bin(implode('', $cek));
+
+        $ecdh_es = new ECDHESA128KW();
+        $encrypted_cek = $ecdh_es->wrapAgreementKey($public, null, $cek, 128, $header, $header);
+        static::assertArrayHasKey('epk', $header);
+        static::assertArrayHasKey('crv', $header['epk']);
+        static::assertArrayHasKey('kty', $header['epk']);
+        static::assertArrayHasKey('x', $header['epk']);
+        static::assertArrayNotHasKey('y', $header['epk']);
+        static::assertSame('X25519', $header['epk']['crv']);
+        static::assertSame('OKP', $header['epk']['kty']);
+        static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
     }
 
     /**
