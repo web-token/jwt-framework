@@ -106,7 +106,7 @@ class JWKFactory
         switch ($curve) {
             case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
-                $secret = $keyPair;
+                $d = sodium_crypto_box_secretkey($keyPair);
                 $x = sodium_crypto_box_publickey($keyPair);
 
                 break;
@@ -114,6 +114,8 @@ class JWKFactory
             case 'Ed25519':
                 $keyPair = sodium_crypto_sign_keypair();
                 $secret = sodium_crypto_sign_secretkey($keyPair);
+                $secretLength = mb_strlen($secret, '8bit');
+                $d = mb_substr($secret, 0, -$secretLength / 2, '8bit');
                 $x = sodium_crypto_sign_publickey($keyPair);
 
                 break;
@@ -121,8 +123,6 @@ class JWKFactory
             default:
                 throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }
-        $secretLength = mb_strlen($secret, '8bit');
-        $d = mb_substr($secret, 0, -$secretLength / 2, '8bit');
 
         $values = array_merge(
             $values,
