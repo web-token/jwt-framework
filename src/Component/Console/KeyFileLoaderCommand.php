@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:load:key', description: 'Loads a key from a key file (JWK format)',)]
+#[AsCommand(name: 'key:load:key', description: 'Loads a key from a key file (JWK format)')]
 final class KeyFileLoaderCommand extends GeneratorCommand
 {
     protected function configure(): void

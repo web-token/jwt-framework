@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:convert:pkcs1', description: 'Converts a RSA or EC key into PKCS#1 key.',)]
+#[AsCommand(name: 'key:convert:pkcs1', description: 'Converts a RSA or EC key into PKCS#1 key.')]
 final class PemConverterCommand extends ObjectOutputCommand
 {
     protected function configure(): void

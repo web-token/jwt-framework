@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:optimize', description: 'Optimize a RSA key by calculating additional primes (CRT).',)]
+#[AsCommand(name: 'key:optimize', description: 'Optimize a RSA key by calculating additional primes (CRT).')]
 final class OptimizeRsaKeyCommand extends ObjectOutputCommand
 {
     protected function configure(): void

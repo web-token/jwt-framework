@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'keyset:generate:rsa', description: 'Generate a key set with RSA keys (JWK format)',)]
+#[AsCommand(name: 'keyset:generate:rsa', description: 'Generate a key set with RSA keys (JWK format)')]
 final class RsaKeysetGeneratorCommand extends GeneratorCommand
 {
     protected function configure(): void

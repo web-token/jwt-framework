@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:thumbprint', description: 'Get the thumbprint of a JWK key.',)]
+#[AsCommand(name: 'key:thumbprint', description: 'Get the thumbprint of a JWK key.')]
 final class GetThumbprintCommand extends ObjectOutputCommand
 {
     protected function configure(): void
