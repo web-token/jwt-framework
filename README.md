@@ -1,13 +1,7 @@
 PHP JWT Framework
 =================
 
-![Build Status](https://github.com/web-token/jwt-framework/workflows/Coding%20Standards/badge.svg)
-![Build Status](https://github.com/web-token/jwt-framework/workflows/Static%20Analyze/badge.svg)
-![Build Status](https://github.com/web-token/jwt-framework/workflows/Rector%20Checkstyle/badge.svg)
-
-![Build Status](https://github.com/web-token/jwt-framework/workflows/Unit%20and%20Functional%20Tests/badge.svg)
-
-![Build Status](https://github.com/web-token/jwt-framework/workflows/Mutation%20Testing/badge.svg)
+![Build Status](https://github.com/web-token/jwt-framework/workflows/Integrate/badge.svg)
 
 [![Latest Stable Version](https://poser.pugx.org/web-token/jwt-framework/v/stable.png)](https://packagist.org/packages/web-token/jwt-framework)
 [![Total Downloads](https://poser.pugx.org/web-token/jwt-framework/downloads.png)](https://packagist.org/packages/web-token/jwt-framework)
