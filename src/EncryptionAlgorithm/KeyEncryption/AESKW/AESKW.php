@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use AESKW\Wrapper as WrapperInterface;
+use AESKW\A128KW;
+use AESKW\A192KW;
+use AESKW\A256KW;
 use function in_array;
 use InvalidArgumentException;
 use function is_string;
@@ -39,7 +41,7 @@ abstract class AESKW implements KeyWrapping
         return self::MODE_WRAP;
     }
 
-    abstract protected function getWrapper(): WrapperInterface;
+    abstract protected function getWrapper(): A128KW|A192KW|A256KW;
 
     private function getKey(JWK $key): string
     {

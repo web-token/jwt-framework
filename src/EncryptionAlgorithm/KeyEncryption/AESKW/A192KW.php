@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use AESKW\A192KW as Wrapper;
-use AESKW\Wrapper as WrapperInterface;
 
 final class A192KW extends AESKW
 {
@@ -14,7 +13,7 @@ final class A192KW extends AESKW
         return 'A192KW';
     }
 
-    protected function getWrapper(): WrapperInterface
+    protected function getWrapper(): Wrapper
     {
         return new Wrapper();
     }
