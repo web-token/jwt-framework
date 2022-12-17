@@ -18,11 +18,12 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:add:key';
 
+    protected static $defaultDescription = 'Add a key into a key set.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Add a key into a key set.')
-            ->setHelp('This command adds a key at the end of a key set.')
+        $this->setHelp('This command adds a key at the end of a key set.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
@@ -34,7 +35,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         $jwkset = $jwkset->with($jwk);
         $this->prepareJsonOutput($input, $output, $jwkset);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getKeyset(InputInterface $input): JWKSet

@@ -19,11 +19,12 @@ final class PemConverterCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'key:convert:pkcs1';
 
+    protected static $defaultDescription = 'Converts a RSA or EC key into PKCS#1 key.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Converts a RSA or EC key into PKCS#1 key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The key');
+        $this->addArgument('jwk', InputArgument::REQUIRED, 'The key');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -45,6 +46,6 @@ final class PemConverterCommand extends ObjectOutputCommand
         };
         $output->write($pem);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

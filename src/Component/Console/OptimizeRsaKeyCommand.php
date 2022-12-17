@@ -18,11 +18,12 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'key:optimize';
 
+    protected static $defaultDescription = 'Optimize a RSA key by calculating additional primes (CRT).';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Optimize a RSA key by calculating additional primes (CRT).')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.');
+        $this->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -39,6 +40,6 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
         $key->optimize();
         $this->prepareJsonOutput($input, $output, $key->toJwk());
 
-        return 0;
+        return self::SUCCESS;
     }
 }

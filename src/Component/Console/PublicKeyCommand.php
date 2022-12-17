@@ -17,11 +17,12 @@ final class PublicKeyCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'key:convert:public';
 
+    protected static $defaultDescription = 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Convert a private key into public key. Symmetric keys (shared keys) are not changed.')
-            ->setHelp('This command converts a private key into a public key.')
+        $this->setHelp('This command converts a private key into a public key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
@@ -32,7 +33,7 @@ final class PublicKeyCommand extends ObjectOutputCommand
 
         $this->prepareJsonOutput($input, $output, $jwk);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getKey(InputInterface $input): JWK

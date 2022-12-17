@@ -223,8 +223,6 @@ class JWKFactory
         array $additional_values = []
     ): JWK {
         try {
-            while($m = openssl_error_string()) {
-            }
             $content = file_get_contents($file);
             if (! is_string($content)) {
                 throw new RuntimeException('Unable to read the file.');

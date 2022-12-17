@@ -16,11 +16,12 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
 {
     protected static $defaultName = 'keyset:generate:ec';
 
+    protected static $defaultDescription = 'Generate an EC key set (JWKSet format)';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Generate an EC key set (JWKSet format)')
-            ->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
+        $this->addArgument('quantity', InputArgument::REQUIRED, 'Quantity of keys in the key set.')
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.');
     }
 
@@ -42,6 +43,6 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
         }
         $this->prepareJsonOutput($input, $output, $keyset);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

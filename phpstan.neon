@@ -6,9 +6,7 @@ parameters:
     checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
     ignoreErrors:
-        - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
-        - '#Parameter \#1 \$value of class FG\\ASN1\\Universal\\Integer constructor expects int\, string given\.#'
         - '#Invalid type object to throw\.#'
         - '#Strict comparison using === between .* and .* will always evaluate to false\.#'
         - '#Binary operation "\^" between string and 1 results in an error\.#'

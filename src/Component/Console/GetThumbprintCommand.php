@@ -18,11 +18,12 @@ final class GetThumbprintCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'key:thumbprint';
 
+    protected static $defaultDescription = 'Get the thumbprint of a JWK key.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Get the thumbprint of a JWK key.')
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')
+        $this->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')
             ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256');
     }
 
@@ -43,6 +44,6 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         $key = new JWK($json);
         $output->write($key->thumbprint($hash));
 
-        return 0;
+        return self::SUCCESS;
     }
 }

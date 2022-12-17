@@ -16,13 +16,14 @@ final class MergeKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:merge';
 
+    protected static $defaultDescription = 'Merge several key sets into one.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Merge several key sets into one.')
-            ->setHelp(
-                'This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.'
-            )
+        $this->setHelp(
+            'This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.'
+        )
             ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects');
     }
 
@@ -43,6 +44,6 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         }
         $this->prepareJsonOutput($input, $output, $newJwkset);
 
-        return 0;
+        return self::SUCCESS;
     }
 }
