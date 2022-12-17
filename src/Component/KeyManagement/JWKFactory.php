@@ -223,19 +223,25 @@ class JWKFactory
         array $additional_values = []
     ): JWK {
         try {
+            while($m = openssl_error_string()) {
+            }
             $content = file_get_contents($file);
             if (! is_string($content)) {
                 throw new RuntimeException('Unable to read the file.');
             }
-            openssl_pkcs12_read($content, $certs, $secret);
+            $result = openssl_pkcs12_read($content, $certs, $secret);
+            dump($result);
+            while($m = openssl_error_string()) {
+                dump($m);
+            }
+            if (! is_array($certs) || ! array_key_exists('pkey', $certs)) {
+                throw new RuntimeException('Unable to load the certificates.');
+            }
+
+            return self::createFromKey($certs['pkey'], null, $additional_values);
         } catch (Throwable $throwable) {
             throw new RuntimeException('Unable to load the certificates.', $throwable->getCode(), $throwable);
         }
-        if (! is_array($certs) || ! array_key_exists('pkey', $certs)) {
-            throw new RuntimeException('Unable to load the certificates.');
-        }
-
-        return self::createFromKey($certs['pkey'], null, $additional_values);
     }
 
     /**

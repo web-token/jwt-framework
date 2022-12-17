@@ -19,7 +19,7 @@ final class JWKFactoryTest extends TestCase
      */
     public function iCanLoadAP12CertificateThatContainsARSAKey(): void
     {
-        $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__ . '/P12/CertRSA.p12', 'certRSA');
+        $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__ . '/P12/CertRSA.p12', 'cert');
 
         static::assertSame(
             [
@@ -277,9 +277,9 @@ final class JWKFactoryTest extends TestCase
 
     /**
      * @test
-     * @dataProvider dataEd25519Keys
+     * @dataProvider dataKeys
      */
-    public function loadEd25519KeyPEMEncoded(string $filename, array $expectedValues): void
+    public function loadKeyPEMEncoded(string $filename, array $expectedValues): void
     {
         $jwk = JWKFactory::createFromKeyFile($filename);
 
@@ -289,7 +289,7 @@ final class JWKFactoryTest extends TestCase
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function dataEd25519Keys(): array
+    public function dataKeys(): array
     {
         return [
             [
@@ -297,7 +297,7 @@ final class JWKFactoryTest extends TestCase
                 'values' => [
                     'kty' => 'OKP',
                     'crv' => 'Ed448',
-                    'x' => 'AMMByg1e7OHwYZhUk82KK5Wk6BlzXLGu0mpGXXpE_7HsQ-RDY-ZVj-vyl_f7vvsP0EpvNKzTqHY9AA',
+                    'x' => 'wwHKDV7s4fBhmFSTzYorlaToGXNcsa7SakZdekT_sexD5ENj5lWP6_KX9_u--w_QSm80rNOodj0A',
                 ],
             ],
             [
@@ -305,7 +305,7 @@ final class JWKFactoryTest extends TestCase
                 'values' => [
                     'kty' => 'OKP',
                     'crv' => 'Ed25519',
-                    'x' => 'AMKyN9wBI9eShx2KZbnlBOXJySrWzPKFRxX-sBp8NqDh',
+                    'x' => 'wrI33AEj15KHHYplueUE5cnJKtbM8oVHFf6wGnw2oOE',
                 ],
             ],
             [
@@ -313,7 +313,7 @@ final class JWKFactoryTest extends TestCase
                 'values' => [
                     'kty' => 'OKP',
                     'crv' => 'X448',
-                    'x' => 'AFKDw-9zUAAgvAPqLQ1Fbp-CKzLJO--UoTEX-E4Q66uMWNngCPqTiFbo67wV13fYPIFDcAU9H5p3',
+                    'x' => 'UoPD73NQACC8A-otDUVun4IrMsk775ShMRf4ThDrq4xY2eAI-pOIVujrvBXXd9g8gUNwBT0fmnc',
                 ],
             ],
             [
@@ -321,7 +321,7 @@ final class JWKFactoryTest extends TestCase
                 'values' => [
                     'kty' => 'OKP',
                     'crv' => 'X25519',
-                    'x' => 'ANziS4n35jgkBrYpdt0Bsp9J5PRASqGcej_uqPhJ7AQe',
+                    'x' => '3OJLiffmOCQGtil23QGyn0nk9EBKoZx6P-6o-EnsBB4',
                 ],
             ],
             [
@@ -346,7 +346,7 @@ final class JWKFactoryTest extends TestCase
                     'kty' => 'OKP',
                     'crv' => 'Ed25519',
                     'd' => 'Pr9AxZivB-zSq95wLrZfYa7DQ3TUPqZTkP_0w33r3rc',
-                    'x' => 'QUVDMzQzNzRENDNFQTY1MzkwRkZGNEMzN0RFQkRFQjc',
+                    'x' => 'uRhai1TsvrSB43HD-36TQ2hMQfV8ruJz7F8o0wIe1VI',
                 ],
             ],
             [
@@ -354,9 +354,9 @@ final class JWKFactoryTest extends TestCase
                 'values' => [
                     'kty' => 'EC',
                     'crv' => 'P-384',
+                    'd' => '31taDOPQnlNl2aBC_EaGTqVGjGN_qg6iuLwP6cVTmhKMQ5PTL67wS6mmyKi8GdVP',
                     'x' => 'j0w1Y3bRXLNKVhIp0i5VtZwh7gWIKEcKIFXZa8N_7idIdW7_o6djgDHedTI_BeLy',
                     'y' => 'x-IGyHQ2pZRM-OAWfRGe2E9y0rcbukq9GdIgFcPmXU_P8B0tvtgxz3KH0WKwkX5K',
-                    'd' => '31taDOPQnlNl2aBC_EaGTqVGjGN_qg6iuLwP6cVTmhKMQ5PTL67wS6mmyKi8GdVP',
                 ],
             ],
             [
@@ -365,7 +365,7 @@ final class JWKFactoryTest extends TestCase
                     'kty' => 'OKP',
                     'crv' => 'X25519',
                     'd' => 'mG-fgDwkr58hwIeqCQKZbR8HKeY4yg_AzvU6zyNaVUE',
-                    'x' => 'MUYwNzI5RTYzOENBMEZDMENFRjUzQUNGMjM1QTU1NDE',
+                    'x' => '3OJLiffmOCQGtil23QGyn0nk9EBKoZx6P-6o-EnsBB4',
                 ],
             ],
         ];

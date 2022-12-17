@@ -40,8 +40,9 @@ final class Chacha20Poly1305 implements KeyEncryption
         // We set header parameters
         $additionalHeader['nonce'] = Base64UrlSafe::encodeUnpadded($nonce);
 
-        $result = openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
-        if ($result === false) {
+        $tag = null;
+        $result = openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce, $tag);
+        if ($result === false || ! is_string($tag)) {
             throw new RuntimeException('Unable to encrypt the CEK');
         }
 

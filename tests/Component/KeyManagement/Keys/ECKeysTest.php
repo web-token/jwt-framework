@@ -43,9 +43,9 @@ final class ECKeysTest extends TestCase
         static::assertSame($details, [
             'kty' => 'EC',
             'crv' => 'P-256',
+            'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
             'x' => 'YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0',
             'y' => 'bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8',
-            'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
         ]);
     }
 
