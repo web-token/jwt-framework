@@ -17,13 +17,12 @@ final class PublicKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:convert:public';
 
+    protected static $defaultDescription = 'Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription(
-            'Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.'
-        )
-            ->setHelp('This command converts private keys in a key set into public keys.')
+        $this->setHelp('This command converts private keys in a key set into public keys.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
@@ -37,7 +36,7 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         }
         $this->prepareJsonOutput($input, $output, $newJwkset);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getKeyset(InputInterface $input): JWKSet

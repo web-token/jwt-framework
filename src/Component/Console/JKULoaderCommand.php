@@ -15,6 +15,8 @@ final class JKULoaderCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:load:jku';
 
+    protected static $defaultDescription = 'Loads a key set from an url.';
+
     public function __construct(
         private readonly JKUFactory $jkuFactory,
         ?string $name = null
@@ -25,8 +27,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Loads a key set from an url.')
-            ->setHelp('This command will try to get a key set from an URL. The distant key set is a JWKSet.')
+        $this->setHelp('This command will try to get a key set from an URL. The distant key set is a JWKSet.')
             ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 
@@ -39,6 +40,6 @@ final class JKULoaderCommand extends ObjectOutputCommand
         $result = $this->jkuFactory->loadFromUrl($url);
         $this->prepareJsonOutput($input, $output, $result);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

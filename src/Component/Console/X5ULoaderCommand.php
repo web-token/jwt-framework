@@ -15,6 +15,8 @@ final class X5ULoaderCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:load:x5u';
 
+    protected static $defaultDescription = 'Loads a key set from an url.';
+
     public function __construct(
         private readonly X5UFactory $x5uFactory,
         ?string $name = null
@@ -25,10 +27,9 @@ final class X5ULoaderCommand extends ObjectOutputCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Loads a key set from an url.')
-            ->setHelp(
-                'This command will try to get a key set from an URL. The distant key set is list of X.509 certificates.'
-            )
+        $this->setHelp(
+            'This command will try to get a key set from an URL. The distant key set is list of X.509 certificates.'
+        )
             ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 
@@ -41,6 +42,6 @@ final class X5ULoaderCommand extends ObjectOutputCommand
         $result = $this->x5uFactory->loadFromUrl($url);
         $this->prepareJsonOutput($input, $output, $result);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

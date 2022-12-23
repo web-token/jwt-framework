@@ -20,6 +20,8 @@ final class KeyAnalyzerCommand extends Command
 {
     protected static $defaultName = 'key:analyze';
 
+    protected static $defaultDescription = 'JWK quality analyzer.';
+
     public function __construct(
         private readonly KeyAnalyzerManager $analyzerManager,
         string $name = null
@@ -30,8 +32,7 @@ final class KeyAnalyzerCommand extends Command
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('JWK quality analyzer.')
-            ->setHelp('This command will analyze a JWK object and find security issues.')
+        $this->setHelp('This command will analyze a JWK object and find security issues.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
@@ -58,7 +59,7 @@ final class KeyAnalyzerCommand extends Command
             }
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getKey(InputInterface $input): JWK

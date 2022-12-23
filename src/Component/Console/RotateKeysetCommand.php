@@ -19,11 +19,12 @@ final class RotateKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:rotate';
 
+    protected static $defaultDescription = 'Rotate a key set.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Rotate a key set.')
-            ->setHelp('This command removes the last key in a key set a place a new one at the beginning.')
+        $this->setHelp('This command removes the last key in a key set a place a new one at the beginning.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }

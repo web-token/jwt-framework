@@ -9,6 +9,10 @@ use LogicException;
 
 final class ECDHSS extends AbstractECDH
 {
+    /**
+     * @param array<string, mixed> $complete_header
+     * @param array<string, mixed> $additional_header_values
+     */
     public function getAgreementKey(
         int $encryptionKeyLength,
         string $algorithm,

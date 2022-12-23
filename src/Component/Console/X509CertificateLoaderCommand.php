@@ -15,11 +15,12 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
 {
     protected static $defaultName = 'key:load:x509';
 
+    protected static $defaultDescription = 'Load a key from a X.509 certificate file.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Load a key from a X.509 certificate file.')
-            ->addArgument('file', InputArgument::REQUIRED, 'Filename of the X.509 certificate.');
+        $this->addArgument('file', InputArgument::REQUIRED, 'Filename of the X.509 certificate.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -39,6 +40,6 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
         $jwk = JWKFactory::createFromCertificateFile($file, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

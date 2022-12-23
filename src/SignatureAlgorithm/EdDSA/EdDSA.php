@@ -26,6 +26,9 @@ final class EdDSA implements SignatureAlgorithm
         return ['OKP'];
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -33,7 +36,7 @@ final class EdDSA implements SignatureAlgorithm
             throw new InvalidArgumentException('The EC key is not private');
         }
         $d = $key->get('d');
-        if (! is_string($d)) {
+        if (! is_string($d) || $d === '') {
             throw new InvalidArgumentException('Invalid "d" parameter.');
         }
         if (! $key->has('x')) {
@@ -41,10 +44,12 @@ final class EdDSA implements SignatureAlgorithm
         } else {
             $x = $key->get('x');
         }
-        if (! is_string($x)) {
+        if (! is_string($x) || $x === '') {
             throw new InvalidArgumentException('Invalid "x" parameter.');
         }
+        /** @var non-empty-string $x */
         $x = Base64UrlSafe::decode($x);
+        /** @var non-empty-string $d */
         $d = Base64UrlSafe::decode($d);
         $secret = $d . $x;
 
@@ -54,6 +59,9 @@ final class EdDSA implements SignatureAlgorithm
         };
     }
 
+    /**
+     * @param non-empty-string $signature
+     */
     public function verify(JWK $key, string $input, string $signature): bool
     {
         $this->checkKey($key);
@@ -62,6 +70,7 @@ final class EdDSA implements SignatureAlgorithm
             throw new InvalidArgumentException('Invalid "x" parameter.');
         }
 
+        /** @var non-empty-string $public */
         $public = Base64UrlSafe::decode($x);
 
         return match ($key->get('crv')) {

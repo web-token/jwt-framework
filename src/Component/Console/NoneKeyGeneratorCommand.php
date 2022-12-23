@@ -12,12 +12,11 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
 {
     protected static $defaultName = 'key:generate:none';
 
+    protected static $defaultDescription = 'Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription(
-            'Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.'
-        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -27,6 +26,6 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
         $jwk = JWKFactory::createNoneKey($args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
-        return 0;
+        return self::SUCCESS;
     }
 }
