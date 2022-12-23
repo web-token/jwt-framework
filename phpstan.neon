@@ -5,7 +5,9 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     treatPhpDocTypesAsCertain: false
+    checkUninitializedProperties: true
     ignoreErrors:
+        - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
         - '#Invalid type object to throw\.#'
         - '#Strict comparison using === between .* and .* will always evaluate to false\.#'
@@ -17,3 +19,10 @@ parameters:
         - '#Cannot cast mixed to int\.#'
         - '#Parameter .* of (static )?method .* expects Jose\\Component\\Core\\JWK, mixed given\.#'
         - '#Cannot call method (get|has)\(\) on mixed\.#'
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/ekino/phpstan-banned-code/extension.neon

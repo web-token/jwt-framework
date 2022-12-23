@@ -11,6 +11,9 @@ interface KeyAgreement extends KeyEncryptionAlgorithm
 {
     /**
      * Computes the agreement key.
+     *
+     * @param array<string, mixed> $completeHeader
+     * @param array<string, mixed> $additionalHeaderValues
      */
     public function getAgreementKey(
         int $encryptionKeyLength,

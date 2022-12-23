@@ -19,6 +19,10 @@ abstract class AESGCMKW implements KeyWrapping
         return ['oct'];
     }
 
+    /**
+     * @param array<string, mixed> $completeHeader
+     * @param array<string, mixed> $additionalHeader
+     */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $kek = $this->getKey($key);
@@ -36,10 +40,14 @@ abstract class AESGCMKW implements KeyWrapping
         return $encrypted_cek;
     }
 
+    /**
+     * @param array<string, mixed> $completeHeader
+     */
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $kek = $this->getKey($key);
-        $this->checkAdditionalParameters($completeHeader);
+        (isset($completeHeader['iv']) && is_string($completeHeader['iv'])) || throw new InvalidArgumentException('Parameter "iv" is missing.');
+        (isset($completeHeader['tag']) && is_string($completeHeader['tag'])) || throw new InvalidArgumentException('Parameter "tag" is missing.');
 
         $tag = Base64UrlSafe::decode($completeHeader['tag']);
         $iv = Base64UrlSafe::decode($completeHeader['iv']);
@@ -72,15 +80,6 @@ abstract class AESGCMKW implements KeyWrapping
         }
 
         return Base64UrlSafe::decode($k);
-    }
-
-    protected function checkAdditionalParameters(array $header): void
-    {
-        foreach (['iv', 'tag'] as $k) {
-            if (! isset($header[$k])) {
-                throw new InvalidArgumentException(sprintf('Parameter "%s" is missing.', $k));
-            }
-        }
     }
 
     abstract protected function getKeySize(): int;

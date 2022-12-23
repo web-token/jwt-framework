@@ -140,7 +140,7 @@ class JWSVerifier
      */
     private function getAlgorithm(Signature $signature): Algorithm
     {
-        $completeHeader = array_merge($signature->getProtectedHeader(), $signature->getHeader());
+        $completeHeader = [...$signature->getProtectedHeader(), ...$signature->getHeader()];
         if (! isset($completeHeader['alg'])) {
             throw new InvalidArgumentException('No "alg" parameter set in the header.');
         }

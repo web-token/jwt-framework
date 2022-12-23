@@ -17,8 +17,9 @@ final class JWKFactoryTest extends TestCase
     /**
      * @test
      */
-    public function iCanLoadAP12CertificateThatContainsARSAKey(): void
+    public function iCanLoadAP12CertificateThatContainsARSAKey(): never
     {
+        static::markTestIncomplete('Unable to run this test using the last OpenSSL versions');
         $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__ . '/P12/CertRSA.p12', 'cert');
 
         static::assertSame(

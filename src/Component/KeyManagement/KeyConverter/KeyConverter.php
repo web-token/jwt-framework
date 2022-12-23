@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use function array_key_exists;
 use function count;
 use function extension_loaded;
@@ -250,12 +251,6 @@ final class KeyConverter
      */
     private static function populatePoints(PrivateKey $key, array $values): array
     {
-        if ($key->hasPublicKey()) {
-            $values['x'] = Base64UrlSafe::encodeUnpadded($key->publicKey()->publicKeyInfo()->string());
-
-            return $values;
-        }
-
         if (($values['crv'] === 'Ed25519' || $values['crv'] === 'X25519') && extension_loaded('sodium')) {
             $x = sodium_crypto_scalarmult_base($key->privateKeyData());
             $values['x'] = Base64UrlSafe::encodeUnpadded($x);

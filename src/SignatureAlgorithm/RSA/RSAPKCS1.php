@@ -36,7 +36,6 @@ abstract class RSAPKCS1 implements SignatureAlgorithm
 
         $result = openssl_sign($input, $signature, $priv->toPEM(), $this->getAlgorithm());
         if ($result !== true) {
-            dump($priv->toPEM());
             throw new RuntimeException('Unable to sign');
         }
 

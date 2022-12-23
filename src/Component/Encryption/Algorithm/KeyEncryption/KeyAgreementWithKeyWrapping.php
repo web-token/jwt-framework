@@ -15,8 +15,8 @@ interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
      * @param JWK $recipientKey The receiver's key
      * @param string $cek The CEK to wrap
      * @param int $encryption_key_length Size of the key expected for the algorithm used for data encryption
-     * @param array $complete_header The complete header of the JWT
-     * @param array $additional_header_values Set additional header values if needed
+     * @param array<string, mixed> $complete_header The complete header of the JWT
+     * @param array<string, mixed> $additional_header_values Set additional header values if needed
      */
     public function wrapAgreementKey(
         JWK $recipientKey,
@@ -33,7 +33,7 @@ interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
      * @param JWK $recipientKey The receiver's key
      * @param string $encrypted_cek The encrypted CEK
      * @param int $encryption_key_length Size of the key expected for the algorithm used for data encryption
-     * @param array $complete_header The complete header of the JWT
+     * @param array<string, mixed> $complete_header The complete header of the JWT
      *
      * @return string The decrypted CEK
      */
