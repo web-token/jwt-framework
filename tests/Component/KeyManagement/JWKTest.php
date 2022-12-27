@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\KeyManagement;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\KeyManagement\JWKFactory;
 use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -237,6 +238,41 @@ final class JWKTest extends TestCase
                 ],
             ],
             $key->all()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function theRSAKeyIsCorrectlyConvertedIntoPEM(): void
+    {
+        // Given
+        $key = new JWK([
+            'kty' => 'RSA',
+            'n' => 'z62tHQzm4fDHipqlcrNhC1gUdn0N38pmlcQbVlLvtZf1aRm1OO43cB9YQyWr1MsTrYH4nyWZDMPIGY_BsIfYw1lp9fo2D1tpG2vtCaKRETVimu-N9DySQ9vYs6n8lG0vXy_spK7sGrOLFooijDSt0LYrYrZY9UI3OkyEAKUbZLJhxi7nT3CPtMCYDUMIIt1LgWdR6-ha5fQQrWF7YbyiMNmITg64DZ9yof4-OfouNE2dFXGl3Nr92HaugXbMZF_pILpcB61NT215aql1ifVXvEyGAsyPBnxIcjadfcgQ0UUtepN2BJRj_pq55jfQR2Nl0e11JeKEIPR3ypqvKeDI10Cl-qr9GpU0rFfw2vcp8IHTNrAeam4nTRDVCmXGwiMaLifAKbvfGwxaA2mHbO5i4669KiPf_lXAQz9FzAZZRwpdM1FTB9BlB5R-JgvtBabP5ZGhqlUOgkJM_4UfrpcIkS8Ub4Y60QvPkInCGBMHNdUqpJUkLoA5Mddl8hVW-cMjC2qCckgT1KgZxIsZTgOJXCARX1IObFJNoinxYJ5SNX9bCSRtgefuBKE7BSNukAkHyBPf---kEi9GbYXzlJr-yCMAIsA0UoiEx264hkAF9zF-N1yRhS_QmrhzU5hpj1IE8WRCqyIZV8f_IbSGXBue7MmgknLVRWHuGqehkTSfiNE',
+            'e' => 'AQAB',
+        ]);
+
+        // When
+        $pem = RSAKey::createFromJWK($key)->toPEM();
+
+        // Then
+        static::assertSame(
+            '-----BEGIN RSA PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAz62tHQzm4fDHipqlcrNh
+C1gUdn0N38pmlcQbVlLvtZf1aRm1OO43cB9YQyWr1MsTrYH4nyWZDMPIGY/BsIfY
+w1lp9fo2D1tpG2vtCaKRETVimu+N9DySQ9vYs6n8lG0vXy/spK7sGrOLFooijDSt
+0LYrYrZY9UI3OkyEAKUbZLJhxi7nT3CPtMCYDUMIIt1LgWdR6+ha5fQQrWF7Ybyi
+MNmITg64DZ9yof4+OfouNE2dFXGl3Nr92HaugXbMZF/pILpcB61NT215aql1ifVX
+vEyGAsyPBnxIcjadfcgQ0UUtepN2BJRj/pq55jfQR2Nl0e11JeKEIPR3ypqvKeDI
+10Cl+qr9GpU0rFfw2vcp8IHTNrAeam4nTRDVCmXGwiMaLifAKbvfGwxaA2mHbO5i
+4669KiPf/lXAQz9FzAZZRwpdM1FTB9BlB5R+JgvtBabP5ZGhqlUOgkJM/4UfrpcI
+kS8Ub4Y60QvPkInCGBMHNdUqpJUkLoA5Mddl8hVW+cMjC2qCckgT1KgZxIsZTgOJ
+XCARX1IObFJNoinxYJ5SNX9bCSRtgefuBKE7BSNukAkHyBPf+++kEi9GbYXzlJr+
+yCMAIsA0UoiEx264hkAF9zF+N1yRhS/QmrhzU5hpj1IE8WRCqyIZV8f/IbSGXBue
+7MmgknLVRWHuGqehkTSfiNECAwEAAQ==
+-----END RSA PUBLIC KEY-----',
+            $pem
         );
     }
 }
