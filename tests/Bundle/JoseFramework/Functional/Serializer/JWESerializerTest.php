@@ -81,7 +81,7 @@ final class JWESerializerTest extends KernelTestCase
         ];
     }
 
-    public function jweFormatDataProvider(): array
+    public static function jweFormatDataProvider(): array
     {
         return [
             'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'],

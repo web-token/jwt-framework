@@ -188,7 +188,7 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer->decode($jweString, 'jwe_json_flattened');
     }
 
-    public function encoderServiceDataProvider(): array
+    public static function encoderServiceDataProvider(): array
     {
         return [
             'indirect serializer' => ['serializer'],
@@ -196,7 +196,7 @@ final class JWEEncoderTest extends KernelTestCase
         ];
     }
 
-    public function jweFormatDataProvider(): array
+    public static function jweFormatDataProvider(): array
     {
         return [
             'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'],

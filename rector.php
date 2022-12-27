@@ -31,6 +31,8 @@ return static function (RectorConfig $config): void {
     $config->parallel();
     $config->paths([__DIR__ . '/src', __DIR__ . '/performance', __DIR__ . '/tests']);
     $config->skip([
+        \Rector\Php80\Rector\Class_\AnnotationToAttributeRector::class => __DIR__ . '/tests',
+        \Rector\PHPUnit\Rector\Class_\AnnotationWithValueToAttributeRector::class => __DIR__ . '/tests',
         __DIR__ . '/src/Component/Core/JWKSet.php',
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',

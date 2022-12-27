@@ -81,7 +81,7 @@ final class JWSSerializerTest extends KernelTestCase
         ];
     }
 
-    public function jwsFormatDataProvider(): array
+    public static function jwsFormatDataProvider(): array
     {
         return [
             'jws_compact with indirect serializer' => ['jws_compact', 'serializer'],
