@@ -232,14 +232,11 @@ final class JWKFactoryTest extends TestCase
         $jwk = JWKFactory::createFromKeyFile($filename);
 
         // Then
-        static::assertSame(
-            $expectedJWK,
-            json_encode($jwk, JSON_THROW_ON_ERROR)
-        );
+        static::assertSame($expectedJWK, json_encode($jwk, JSON_THROW_ON_ERROR));
         static::assertSame($content, ECKey::convertPublicKeyToPEM($jwk));
     }
 
-    public function publicKeysAndPem(): iterable
+    public static function publicKeysAndPem(): iterable
     {
         yield [
             __DIR__ . '/Keys/EC/public.es256.key',
@@ -288,7 +285,7 @@ final class JWKFactoryTest extends TestCase
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function dataKeys(): array
+    public static function dataKeys(): array
     {
         return [
             [

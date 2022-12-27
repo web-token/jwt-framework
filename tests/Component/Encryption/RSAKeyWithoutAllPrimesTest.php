@@ -86,7 +86,7 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTest
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
-    public function dataEncryptionAlgorithms(): array
+    public static function dataEncryptionAlgorithms(): array
     {
         return [['RSA1_5'], ['RSA-OAEP'], ['RSA-OAEP-256']];
     }

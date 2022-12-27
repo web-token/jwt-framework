@@ -46,8 +46,12 @@ abstract class AESGCMKW implements KeyWrapping
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string
     {
         $kek = $this->getKey($key);
-        (isset($completeHeader['iv']) && is_string($completeHeader['iv'])) || throw new InvalidArgumentException('Parameter "iv" is missing.');
-        (isset($completeHeader['tag']) && is_string($completeHeader['tag'])) || throw new InvalidArgumentException('Parameter "tag" is missing.');
+        (isset($completeHeader['iv']) && is_string($completeHeader['iv'])) || throw new InvalidArgumentException(
+            'Parameter "iv" is missing.'
+        );
+        (isset($completeHeader['tag']) && is_string($completeHeader['tag'])) || throw new InvalidArgumentException(
+            'Parameter "tag" is missing.'
+        );
 
         $tag = Base64UrlSafe::decode($completeHeader['tag']);
         $iv = Base64UrlSafe::decode($completeHeader['iv']);

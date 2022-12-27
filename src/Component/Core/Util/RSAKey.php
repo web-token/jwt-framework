@@ -4,14 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
-use SpomkyLabs\Pki\CryptoEncoding\PEM;
-use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use function array_key_exists;
 use function count;
 use InvalidArgumentException;
@@ -19,6 +11,12 @@ use function is_array;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 
@@ -182,8 +180,8 @@ final class RSAKey
             throw new RuntimeException();
         }
         if ($key->isPublic() || $key->getCoefficient() === null || count($key->getPrimes()) === 0 || count(
-                $key->getExponents()
-            ) === 0) {
+            $key->getExponents()
+        ) === 0) {
             return $c->modPow($key->getExponent(), $key->getModulus());
         }
 
@@ -216,9 +214,9 @@ final class RSAKey
                     $this->convertBase64StringToBigInteger($this->values['q']),
                 ];
                 if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists(
-                        'qi',
-                        $this->values
-                    )) {
+                    'qi',
+                    $this->values
+                )) {
                     $this->exponents = [
                         $this->convertBase64StringToBigInteger($this->values['dp']),
                         $this->convertBase64StringToBigInteger($this->values['dq']),

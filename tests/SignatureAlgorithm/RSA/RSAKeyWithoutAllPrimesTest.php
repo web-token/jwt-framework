@@ -53,7 +53,7 @@ final class RSAKeyWithoutAllPrimesTest extends TestCase
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0));
     }
 
-    public function dataSignatureAlgorithms(): array
+    public static function dataSignatureAlgorithms(): array
     {
         return [[RS256::class], [RS384::class], [RS512::class], [PS256::class], [PS384::class], [PS512::class]];
     }

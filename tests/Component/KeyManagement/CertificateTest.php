@@ -113,7 +113,7 @@ final class CertificateTest extends TestCase
         static::assertEqualsCanonicalizing($expected_values, $result);
     }
 
-    public function dataLoadCertificate(): array
+    public static function dataLoadCertificate(): array
     {
         return [
             [
