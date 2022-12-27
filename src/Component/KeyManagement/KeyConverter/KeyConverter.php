@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use function array_key_exists;
 use function count;
 use function extension_loaded;
-use FG\ASN1\Universal\BitString;
-use FG\ASN1\Universal\Integer;
-use FG\ASN1\Universal\ObjectIdentifier;
-use FG\ASN1\Universal\OctetString;
-use FG\ASN1\Universal\Sequence;
+use function in_array;
 use InvalidArgumentException;
 use function is_array;
 use function is_string;
@@ -19,11 +16,13 @@ use const OPENSSL_KEYTYPE_EC;
 use const OPENSSL_KEYTYPE_RSA;
 use const OPENSSL_RAW_DATA;
 use OpenSSLCertificate;
-use ParagonIE\ConstantTime\Base64;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use const PHP_EOL;
 use const PREG_PATTERN_ORDER;
 use RuntimeException;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 use Throwable;
 
 /**
@@ -82,7 +81,7 @@ final class KeyConverter
         if (isset($details['key'])) {
             $values = self::loadKeyFromPEM($details['key']);
             openssl_x509_export($res, $out);
-            $x5c = preg_replace('#-.*-#', '', $out);
+            $x5c = preg_replace('#-.*-#', '', (string) $out);
             $x5c = preg_replace('~\R~', '', $x5c);
             if (! is_string($x5c)) {
                 throw new InvalidArgumentException('Unable to load the certificate');
@@ -135,10 +134,10 @@ final class KeyConverter
         }
         foreach ($x5c as $id => $cert) {
             $x5c[$id] = '-----BEGIN CERTIFICATE-----' . PHP_EOL . chunk_split(
-                (string) $cert,
-                64,
-                PHP_EOL
-            ) . '-----END CERTIFICATE-----';
+                    (string) $cert,
+                    64,
+                    PHP_EOL
+                ) . '-----END CERTIFICATE-----';
             $x509 = openssl_x509_read($x5c[$id]);
             if ($x509 === false) {
                 throw new InvalidArgumentException('Unable to load the certificate chain');
@@ -192,7 +191,7 @@ final class KeyConverter
         }
 
         return match ($details['type']) {
-            OPENSSL_KEYTYPE_EC => ECKey::createFromPEM($pem)->toArray(),
+            OPENSSL_KEYTYPE_EC => self::tryToLoadECKey($pem),
             OPENSSL_KEYTYPE_RSA => RSAKey::createFromPEM($pem)->toArray(),
             -1 => self::tryToLoadOtherKeyTypes($pem),
             default => throw new InvalidArgumentException('Unsupported key type'),
@@ -202,104 +201,68 @@ final class KeyConverter
     /**
      * This method tries to load Ed448, X488, Ed25519 and X25519 keys.
      */
-    private static function tryToLoadOtherKeyTypes(string $pem): array
+    private static function tryToLoadECKey(string $input): array
     {
         try {
-            preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
-            $data = preg_replace('#-.*-|\r|\n| #', '', $pem);
-            if (! is_string($data)) {
-                throw new InvalidArgumentException('Unsupported key type');
-            }
-            $der = Base64::decode($data);
-            $sequence = Sequence::fromBinary($der);
-            if (! $sequence instanceof Sequence) {
-                throw new InvalidArgumentException('Unsupported key type');
-            }
-
-            return match ($sequence->count()) {
-                2 => self::tryToLoadPublicKeyTypes($sequence),
-                3 => self::tryToLoadPrivateKeyTypes($sequence),
-                default => throw new InvalidArgumentException('Unsupported key type'),
-            };
-        } catch (Throwable $e) {
-            throw new InvalidArgumentException('Unsupported key type', 0, $e);
+            return ECKey::createFromPEM($input)->toArray();
+        } catch (Throwable) {
         }
+        try {
+            return self::tryToLoadOtherKeyTypes($input);
+        } catch (Throwable) {
+        }
+        throw new InvalidArgumentException('Unable to load the key.');
     }
 
     /**
-     * This method tries to load Ed448 or Ed25519 keys.
+     * This method tries to load Ed448, X488, Ed25519 and X25519 keys.
      */
-    private static function tryToLoadPublicKeyTypes(Sequence $sequence): array
+    private static function tryToLoadOtherKeyTypes(string $input): array
     {
-        [$curveId, $x] = $sequence;
-        if (! $curveId instanceof Sequence || $curveId->count() === 0) {
-            throw new InvalidArgumentException('Unsupported key type');
+        $pem = PEM::fromString($input);
+        try {
+            $key = PrivateKey::fromPEM($pem);
+            $curve = self::getCurve($key->algorithmIdentifier()->oid());
+            $values = [
+                'kty' => 'OKP',
+                'crv' => $curve,
+                'd' => Base64UrlSafe::encodeUnpadded($key->privateKeyData()),
+            ];
+            return self::populatePoints($key, $values);
+        } catch (Throwable) {
         }
-        if (! $x instanceof BitString) {
-            throw new InvalidArgumentException('Unsupported key type');
+        try {
+            $key = PublicKey::fromPEM($pem);
+            $curve = self::getCurve($key->algorithmIdentifier()->oid());
+            self::checkType($curve);
+            return [
+                'kty' => 'OKP',
+                'crv' => $curve,
+                'x' => Base64UrlSafe::encodeUnpadded((string) $key->subjectPublicKey()),
+            ];
+        } catch (Throwable) {
         }
-        $oid = $curveId[0];
-        if (! $oid instanceof ObjectIdentifier) {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-        $curve = $oid->getContent();
-        if (! is_string($curve)) {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-
-        return [
-            'kty' => 'OKP',
-            'crv' => self::getCurve($curve),
-            'x' => Base64UrlSafe::encodeUnpadded($x->getBinaryContent()),
-        ];
+        throw new InvalidArgumentException('Unsupported key type');
     }
 
     /**
-     * This method tries to load X448 or X25519 keys.
+     * @param array<string, mixed> $values
+     * @return array<string, mixed>
      */
-    private static function tryToLoadPrivateKeyTypes(Sequence $sequence): array
+    private static function populatePoints(PrivateKey $key, array $values): array
     {
-        [$version, $curveId, $octetD] = $sequence;
-        if ($version instanceof Integer && $version->getContent() !== '0') {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-        if (! $curveId instanceof Sequence || $curveId->count() === 0) {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-        if (! $octetD instanceof OctetString) {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-        $oid = $curveId[0];
-        if (! $oid instanceof ObjectIdentifier) {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-        $curve = $oid->getContent();
-        if (! is_string($curve)) {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-        $crv = self::getCurve($curve);
-        $binOctetdD = $octetD->getBinaryContent();
-        $d = OctetString::fromBinary($binOctetdD);
-        $d = $d->getContent();
-        if (! is_string($d)) {
-            throw new InvalidArgumentException('Unsupported key type');
-        }
-        $dBin = hex2bin($d);
-        if (! is_string($dBin)) {
-            throw new InvalidArgumentException('Unsupported key type');
+        if (($values['crv'] === 'Ed25519' || $values['crv'] === 'X25519') && extension_loaded('sodium')) {
+            $x = sodium_crypto_scalarmult_base($key->privateKeyData());
+            $values['x'] = Base64UrlSafe::encodeUnpadded($x);
         }
 
-        $data = [
-            'kty' => 'OKP',
-            'crv' => $crv,
-            'd' => Base64UrlSafe::encodeUnpadded($dBin),
-        ];
+        return $values;
+    }
 
-        if (($crv === 'Ed25519' || $crv === 'X25519') && extension_loaded('sodium')) {
-            $data['x'] = Base64UrlSafe::encodeUnpadded(sodium_crypto_sign_publickey_from_secretkey($d));
-        }
-
-        return $data;
+    private static function checkType(string $curve): void
+    {
+        $curves = ['Ed448ph', 'Ed25519ph', 'Ed448', 'Ed25519', 'X448', 'X25519'];
+        in_array($curve, $curves, true) || throw new InvalidArgumentException('Unsupported key type.');
     }
 
     /**

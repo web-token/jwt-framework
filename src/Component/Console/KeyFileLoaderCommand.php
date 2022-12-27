@@ -7,20 +7,21 @@ namespace Jose\Component\Console;
 use InvalidArgumentException;
 use function is_string;
 use Jose\Component\KeyManagement\JWKFactory;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:load:key', description: 'Loads a key from a key file (JWK format)')]
 final class KeyFileLoaderCommand extends GeneratorCommand
 {
+    protected static $defaultName = 'key:load:key';
+
+    protected static $defaultDescription = 'Loads a key from a key file (JWK format)';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->addArgument('file', InputArgument::REQUIRED, 'Filename of the key.')
+        $this->addArgument('file', InputArgument::REQUIRED, 'Filename of the key.')
             ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
     }
 
@@ -39,6 +40,6 @@ final class KeyFileLoaderCommand extends GeneratorCommand
         $jwk = JWKFactory::createFromKeyFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

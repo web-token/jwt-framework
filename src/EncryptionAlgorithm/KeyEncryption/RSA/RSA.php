@@ -17,6 +17,10 @@ abstract class RSA implements KeyEncryption
         return ['RSA'];
     }
 
+    /**
+     * @param array<string, mixed> $completeHeader
+     * @param array<string, mixed> $additionalHeader
+     */
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
@@ -25,6 +29,9 @@ abstract class RSA implements KeyEncryption
         return RSACrypt::encrypt($pub, $cek, $this->getEncryptionMode(), $this->getHashAlgorithm());
     }
 
+    /**
+     * @param array<string, mixed> $header
+     */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $this->checkKey($key);

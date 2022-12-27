@@ -28,6 +28,9 @@ final class RSA
      */
     public const SIGNATURE_PKCS1 = 2;
 
+    /**
+     * @return non-empty-string
+     */
     public static function sign(RSAKey $key, string $message, string $hash, int $mode): string
     {
         switch ($mode) {
@@ -49,14 +52,20 @@ final class RSA
 
     /**
      * Create a signature.
+     *
+     * @return non-empty-string
      */
     public static function signWithPSS(RSAKey $key, string $message, string $hash): string
     {
         $em = self::encodeEMSAPSS($message, 8 * $key->getModulusLength() - 1, Hash::$hash());
         $message = BigInteger::createFromBinaryString($em);
         $signature = RSAKey::exponentiate($key, $message);
+        $result = self::convertIntegerToOctetString($signature, $key->getModulusLength());
+        if ($result === '') {
+            throw new InvalidArgumentException('Invalid signature.');
+        }
 
-        return self::convertIntegerToOctetString($signature, $key->getModulusLength());
+        return $result;
     }
 
     public static function verify(RSAKey $key, string $message, string $signature, string $hash, int $mode): bool

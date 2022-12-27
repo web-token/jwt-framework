@@ -15,7 +15,7 @@ interface JWKSetSource
      * @param ContainerBuilder $container A ContainerBuilder instance
      * @param string $type The type of the service
      * @param string $id The id of the service
-     * @param array $config An array of configuration
+     * @param array<string, mixed> $config An array of configuration
      */
     public function create(ContainerBuilder $container, string $type, string $id, array $config): void;
 

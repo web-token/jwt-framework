@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
+use Jose\Component\Core\Util\ECKey;
 use const DIRECTORY_SEPARATOR;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -43,9 +44,9 @@ final class ECKeysTest extends TestCase
         static::assertSame($details, [
             'kty' => 'EC',
             'crv' => 'P-256',
+            'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
             'x' => 'YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0',
             'y' => 'bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8',
-            'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
         ]);
     }
 
@@ -71,17 +72,25 @@ final class ECKeysTest extends TestCase
      */
     public function loadPrivateEC256Key(): void
     {
+        // Given
         $private_pem = file_get_contents(
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es256.key'
         );
-        $details = KeyConverter::loadFromKey($private_pem);
-        static::assertSame($details, [
+        $expectedValues = [
             'kty' => 'EC',
             'crv' => 'P-256',
             'd' => 'q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ',
             'x' => 'vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U',
             'y' => 'oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE',
-        ]);
+        ];
+
+        // Whent
+        $details = KeyConverter::loadFromKey($private_pem, 'test');
+
+        //Then
+        static::assertSame($details, $expectedValues);
+        $ecKey = ECKey::convertPrivateKeyToPEM(new JWK($expectedValues));
+        static::assertSame($private_pem, $ecKey);
     }
 
     /**

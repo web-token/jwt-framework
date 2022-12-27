@@ -10,20 +10,20 @@ use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:optimize', description: 'Optimize a RSA key by calculating additional primes (CRT).')]
 final class OptimizeRsaKeyCommand extends ObjectOutputCommand
 {
+    protected static $defaultName = 'key:optimize';
+
+    protected static $defaultDescription = 'Optimize a RSA key by calculating additional primes (CRT).';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.')
-        ;
+        $this->addArgument('jwk', InputArgument::REQUIRED, 'The RSA key.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -40,6 +40,6 @@ final class OptimizeRsaKeyCommand extends ObjectOutputCommand
         $key->optimize();
         $this->prepareJsonOutput($input, $output, $key->toJwk());
 
-        return 0;
+        return self::SUCCESS;
     }
 }

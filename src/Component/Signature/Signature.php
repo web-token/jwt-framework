@@ -14,8 +14,15 @@ class Signature
 {
     private readonly ?string $encodedProtectedHeader;
 
+    /**
+     * @var array<string, mixed>
+     */
     private readonly array $protectedHeader;
 
+    /**
+     * @param array<string, mixed> $protectedHeader
+     * @param array<string, mixed> $header
+     */
     public function __construct(
         private readonly string $signature,
         array $protectedHeader,
@@ -28,6 +35,8 @@ class Signature
 
     /**
      * The protected header associated with the signature.
+     *
+     * @return array<string, mixed>
      */
     public function getProtectedHeader(): array
     {
@@ -36,6 +45,8 @@ class Signature
 
     /**
      * The unprotected header associated with the signature.
+     *
+     * @return array<string, mixed>
      */
     public function getHeader(): array
     {

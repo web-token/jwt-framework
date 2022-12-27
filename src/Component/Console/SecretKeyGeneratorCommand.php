@@ -8,23 +8,21 @@ use InvalidArgumentException;
 use function is_bool;
 use function is_string;
 use Jose\Component\KeyManagement\JWKFactory;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'key:generate:from_secret',
-    description: 'Generate an octet key (JWK format) using an existing secret',
-)]
 final class SecretKeyGeneratorCommand extends GeneratorCommand
 {
+    protected static $defaultName = 'key:generate:from_secret';
+
+    protected static $defaultDescription = 'Generate an octet key (JWK format) using an existing secret';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->addArgument('secret', InputArgument::REQUIRED, 'The secret')
+        $this->addArgument('secret', InputArgument::REQUIRED, 'The secret')
             ->addOption(
                 'is_b64',
                 'b',
@@ -54,6 +52,6 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
         $jwk = JWKFactory::createFromSecret($secret, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

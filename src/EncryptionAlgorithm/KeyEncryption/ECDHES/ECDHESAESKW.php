@@ -8,6 +8,10 @@ use Jose\Component\Core\JWK;
 
 abstract class ECDHESAESKW extends AbstractECDHAESKW
 {
+    /**
+     * @param array<string, mixed> $complete_header
+     * @param array<string, mixed> $additional_header_values
+     */
     public function wrapAgreementKey(
         JWK $recipientKey,
         ?JWK $senderKey,
@@ -30,6 +34,9 @@ abstract class ECDHESAESKW extends AbstractECDHAESKW
         return $wrapper::wrap($agreement_key, $cek);
     }
 
+    /**
+     * @param array<string, mixed> $complete_header
+     */
     public function unwrapAgreementKey(
         JWK $recipientKey,
         ?JWK $senderKey,

@@ -9,20 +9,21 @@ use function is_array;
 use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:thumbprint', description: 'Get the thumbprint of a JWK key.')]
 final class GetThumbprintCommand extends ObjectOutputCommand
 {
+    protected static $defaultName = 'key:thumbprint';
+
+    protected static $defaultDescription = 'Get the thumbprint of a JWK key.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')
+        $this->addArgument('jwk', InputArgument::REQUIRED, 'The JWK key.')
             ->addOption('hash', null, InputOption::VALUE_OPTIONAL, 'The hashing algorithm.', 'sha256');
     }
 
@@ -43,6 +44,6 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         $key = new JWK($json);
         $output->write($key->thumbprint($hash));
 
-        return 0;
+        return self::SUCCESS;
     }
 }
