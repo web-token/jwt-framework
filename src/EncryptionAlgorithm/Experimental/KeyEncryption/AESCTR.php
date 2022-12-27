@@ -45,8 +45,8 @@ abstract class AESCTR implements KeyEncryption
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $k = $this->getKey($key);
-        isset($header['iv']) ||throw new InvalidArgumentException('The header parameter "iv" is missing.');
-        is_string($header['iv']) ||throw new InvalidArgumentException('The header parameter "iv" is not valid.');
+        isset($header['iv']) || throw new InvalidArgumentException('The header parameter "iv" is missing.');
+        is_string($header['iv']) || throw new InvalidArgumentException('The header parameter "iv" is not valid.');
         $iv = Base64UrlSafe::decode($header['iv']);
 
         $result = openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);

@@ -59,8 +59,8 @@ final class Chacha20Poly1305 implements KeyEncryption
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $k = $this->getKey($key);
-        isset($header['nonce']) ||throw new InvalidArgumentException('The header parameter "nonce" is missing.');
-        is_string($header['nonce']) ||throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
+        isset($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is missing.');
+        is_string($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
         $nonce = Base64UrlSafe::decode($header['nonce']);
         if (mb_strlen($nonce, '8bit') !== 12) {
             throw new InvalidArgumentException('The header parameter "nonce" is not valid.');

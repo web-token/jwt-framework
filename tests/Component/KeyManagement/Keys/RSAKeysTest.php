@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
-use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\RelativeOID;
-use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use const DIRECTORY_SEPARATOR;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -142,7 +139,7 @@ final class RSAKeysTest extends TestCase
         $content = trim(file_get_contents($file));
 
         // When
-        $rsaKey = RSAKey::createFromPEM('file://'.$file);
+        $rsaKey = RSAKey::createFromPEM('file://' . $file);
 
         // Then
         static::assertEqualsCanonicalizing([

@@ -8,7 +8,7 @@ cc: vendor ## Show test coverage rates (HTML)
 	vendor/bin/phpunit --coverage-html ./build
 
 cs: vendor ## Fix all files using defined ECS rules
-	vendor/bin/ecs check --fix
+	XDEBUG_MODE=off vendor/bin/ecs check --fix
 
 tu: vendor ## Run only unit tests
 	vendor/bin/phpunit --color --group Unit
@@ -20,7 +20,7 @@ tf: vendor ## Run only functional tests
 	vendor/bin/phpunit --color --group Functional
 
 st: vendor ## Run static analyse
-	vendor/bin/phpstan analyse
+	XDEBUG_MODE=off vendor/bin/phpstan analyse
 
 
 ################################################
@@ -32,7 +32,7 @@ ci-cc: vendor ## Show test coverage rates (console)
 	vendor/bin/phpunit --coverage-text
 
 ci-cs: vendor ## Check all files using defined ECS rules
-	vendor/bin/ecs check
+	XDEBUG_MODE=off vendor/bin/ecs check
 
 ################################################
 
@@ -42,7 +42,7 @@ vendor: composer.json composer.lock
 	composer install
 
 rector: vendor ## Check all files using Rector
-	vendor/bin/rector process --ansi --dry-run --xdebug
+	XDEBUG_MODE=off vendor/bin/rector process --ansi --dry-run --xdebug
 
 .DEFAULT_GOAL := help
 help:
