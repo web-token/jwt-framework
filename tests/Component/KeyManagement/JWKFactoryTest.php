@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\JWKFactory;
 use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -219,42 +220,39 @@ final class JWKFactoryTest extends TestCase
     }
 
     /**
+     * @dataProvider publicKeysAndPem
      * @test
      */
-    public function createFromPublicEC256KeyFile(): void
+    public function createFromPublicEC512KeyFile(string $filename, string $expectedJWK): void
     {
-        $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/public.es256.key');
+        // Given
+        $content = file_get_contents($filename);
 
+        // When
+        $jwk = JWKFactory::createFromKeyFile($filename);
+
+        // Then
         static::assertSame(
+            $expectedJWK,
+            json_encode($jwk, JSON_THROW_ON_ERROR)
+        );
+        static::assertSame($content, ECKey::convertPublicKeyToPEM($jwk));
+    }
+
+    public function publicKeysAndPem(): iterable
+    {
+        yield [
+            __DIR__ . '/Keys/EC/public.es256.key',
             '{"kty":"EC","crv":"P-256","x":"vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U","y":"oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE"}',
-            json_encode($result, JSON_THROW_ON_ERROR)
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function createFromPublicEC384KeyFile(): void
-    {
-        $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/public.es384.key');
-
-        static::assertSame(
+        ];
+        yield [
+            __DIR__ . '/Keys/EC/public.es384.key',
             '{"kty":"EC","crv":"P-384","x":"6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ","y":"b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU"}',
-            json_encode($result, JSON_THROW_ON_ERROR)
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function createFromPublicEC512KeyFile(): void
-    {
-        $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/public.es512.key');
-
-        static::assertSame(
+        ];
+        yield [
+            __DIR__ . '/Keys/EC/public.es512.key',
             '{"kty":"EC","crv":"P-521","x":"AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS","y":"AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC"}',
-            json_encode($result, JSON_THROW_ON_ERROR)
-        );
+        ];
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\KeyManagement;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use PHPUnit\Framework\TestCase;
@@ -41,9 +42,12 @@ final class CertificateTest extends TestCase
     /**
      * @test
      */
-    public function certificateConversion(): void
+    public function rsaEncryptedPrivateKeyConversion(): void
     {
+        // When
         $details = KeyConverter::loadFromKeyFile(__DIR__ . '/Keys/RSA/private.encrypted.key', 'tests');
+
+        // Then
         static::assertEqualsCanonicalizing($details, [
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
@@ -55,13 +59,27 @@ final class CertificateTest extends TestCase
             'dq' => 'Swz1-m_vmTFN_pu1bK7vF7S5nNVrL4A0OFiEsGliCmuJWzOKdL14DiYxctvnw3H6qT2dKZZfV2tbse5N9-JecdldUjfuqAoLIe7dD7dKi42YOlTC9QXmqvTh1ohnJu8pmRFXEZQGUm_BVhoIb2_WPkjav6YSkguCUHt4HRd2YwE',
             'qi' => 'BocuCOEOq-oyLDALwzMXU8gOf3IL1Q1_BWwsdoANoh6i179psxgE4JXToWcpXZQQqub8ngwE6uR9fpd3m6N_PL4T55vbDDyjPKmrL2ttC2gOtx9KrpPh-Z7LQRo4BE48nHJJrystKHfFlaH2G7JxHNgMBYVADyttN09qEoav8Os',
         ]);
+    }
 
-        $details = KeyConverter::loadFromKeyFile(__DIR__ . '/Keys/RSA/public.key');
-        static::assertSame($details, [
+    /**
+     * @test
+     */
+    public function rsaPublicKeyConversion(): void
+    {
+        // When
+        $filename = __DIR__ . '/Keys/RSA/public.key';
+        $content = trim(file_get_contents($filename));
+        $details = KeyConverter::loadFromKeyFile($filename);
+        $values = [
             'kty' => 'RSA',
             'n' => 'tpS1ZmfVKVP5KofIhMBP0tSWc4qlh6fm2lrZSkuKxUjEaWjzZSzs72gEIGxraWusMdoRuV54xsWRyf5KeZT0S-I5Prle3Idi3gICiO4NwvMk6JwSBcJWwmSLFEKyUSnB2CtfiGc0_5rQCpcEt_Dn5iM-BNn7fqpoLIbks8rXKUIj8-qMVqkTXsEKeKinE23t1ykMldsNaaOH-hvGti5Jt2DMnH1JjoXdDXfxvSP_0gjUYb0ektudYFXoA6wekmQyJeImvgx4Myz1I4iHtkY_Cp7J4Mn1ejZ6HNmyvoTE_4OuY1uCeYv4UyXFc1s1uUyYtj4z57qsHGsS4dQ3A2MJsw',
             'e' => 'AQAB',
-        ]);
+        ];
+
+        // Then
+        static::assertSame($details, $values);
+        $rsaKey = RSAKey::createFromJWK(new JWK($values));
+        static::assertSame($content, $rsaKey->toPEM());
     }
 
     /**

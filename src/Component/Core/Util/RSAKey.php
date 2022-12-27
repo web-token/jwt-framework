@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\NullType;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use function array_key_exists;
 use function count;
 use InvalidArgumentException;
@@ -19,7 +27,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
  */
 final class RSAKey
 {
-    private null|RSAPrivateKey|RSAPublicKey $sequence = null;
+    private null|Sequence $sequence = null;
 
     private readonly array $values;
 
@@ -131,27 +139,37 @@ final class RSAKey
     public function toPEM(): string
     {
         if (array_key_exists('d', $this->values)) {
-            $this->sequence = RSAPrivateKey::create(
-                $this->fromBase64ToInteger($this->values['n']),
-                $this->fromBase64ToInteger($this->values['e']),
-                $this->fromBase64ToInteger($this->values['d']),
-                isset($this->values['p']) ? $this->fromBase64ToInteger($this->values['p']) : '0',
-                isset($this->values['q']) ? $this->fromBase64ToInteger($this->values['q']) : '0',
-                isset($this->values['dp']) ? $this->fromBase64ToInteger($this->values['dp']) : '0',
-                isset($this->values['dq']) ? $this->fromBase64ToInteger($this->values['dq']) : '0',
-                isset($this->values['qi']) ? $this->fromBase64ToInteger($this->values['qi']) : '0',
+            $this->sequence = Sequence::create(
+                Integer::create(0),
+                RSAEncryptionAlgorithmIdentifier::create()->toASN1(),
+                OctetString::create(
+                    RSAPrivateKey::create(
+                        $this->fromBase64ToInteger($this->values['n']),
+                        $this->fromBase64ToInteger($this->values['e']),
+                        $this->fromBase64ToInteger($this->values['d']),
+                        isset($this->values['p']) ? $this->fromBase64ToInteger($this->values['p']) : '0',
+                        isset($this->values['q']) ? $this->fromBase64ToInteger($this->values['q']) : '0',
+                        isset($this->values['dp']) ? $this->fromBase64ToInteger($this->values['dp']) : '0',
+                        isset($this->values['dq']) ? $this->fromBase64ToInteger($this->values['dq']) : '0',
+                        isset($this->values['qi']) ? $this->fromBase64ToInteger($this->values['qi']) : '0',
+                    )->toDER()
+                )
             );
-        } else {
-            $this->sequence = RSAPublicKey::create(
-                $this->fromBase64ToInteger($this->values['n']),
-                $this->fromBase64ToInteger($this->values['e'])
-            );
-        }
-        if ($this->sequence === null) {
-            throw new RuntimeException();
-        }
 
-        return $this->sequence->toPEM()
+            return PEM::create(PEM::TYPE_RSA_PRIVATE_KEY, $this->sequence->toDER())
+                ->string();
+        }
+        $this->sequence = Sequence::create(
+            RSAEncryptionAlgorithmIdentifier::create()->toASN1(),
+            BitString::create(
+                RSAPublicKey::create(
+                    $this->fromBase64ToInteger($this->values['n']),
+                    $this->fromBase64ToInteger($this->values['e'])
+                )->toDER()
+            )
+        );
+
+        return PEM::create(PEM::TYPE_RSA_PUBLIC_KEY, $this->sequence->toDER())
             ->string();
     }
 
