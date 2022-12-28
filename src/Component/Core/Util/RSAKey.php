@@ -156,7 +156,7 @@ final class RSAKey
                 )
             );
 
-            return PEM::create(PEM::TYPE_RSA_PRIVATE_KEY, $this->sequence->toDER())
+            return PEM::create(PEM::TYPE_PRIVATE_KEY, $this->sequence->toDER())
                 ->string();
         }
         $this->sequence = Sequence::create(
@@ -169,7 +169,7 @@ final class RSAKey
             )
         );
 
-        return PEM::create(PEM::TYPE_RSA_PUBLIC_KEY, $this->sequence->toDER())
+        return PEM::create(PEM::TYPE_PUBLIC_KEY, $this->sequence->toDER())
             ->string();
     }
 
