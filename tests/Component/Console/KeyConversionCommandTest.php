@@ -165,7 +165,7 @@ final class KeyConversionCommandTest extends TestCase
         $command = new PemConverterCommand();
         $command->run($input, $output);
         $content = $output->fetch();
-        static::assertStringContainsString('-----BEGIN EC PRIVATE KEY-----', $content);
+        static::assertStringContainsString('-----BEGIN PRIVATE KEY-----', $content);
     }
 
     /**
