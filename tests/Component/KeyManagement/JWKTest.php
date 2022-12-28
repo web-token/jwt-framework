@@ -258,7 +258,7 @@ final class JWKTest extends TestCase
 
         // Then
         static::assertSame(
-            '-----BEGIN RSA PUBLIC KEY-----
+            '-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAz62tHQzm4fDHipqlcrNh
 C1gUdn0N38pmlcQbVlLvtZf1aRm1OO43cB9YQyWr1MsTrYH4nyWZDMPIGY/BsIfY
 w1lp9fo2D1tpG2vtCaKRETVimu+N9DySQ9vYs6n8lG0vXy/spK7sGrOLFooijDSt
@@ -271,7 +271,7 @@ kS8Ub4Y60QvPkInCGBMHNdUqpJUkLoA5Mddl8hVW+cMjC2qCckgT1KgZxIsZTgOJ
 XCARX1IObFJNoinxYJ5SNX9bCSRtgefuBKE7BSNukAkHyBPf+++kEi9GbYXzlJr+
 yCMAIsA0UoiEx264hkAF9zF+N1yRhS/QmrhzU5hpj1IE8WRCqyIZV8f/IbSGXBue
 7MmgknLVRWHuGqehkTSfiNECAwEAAQ==
------END RSA PUBLIC KEY-----',
+-----END PUBLIC KEY-----',
             $pem
         );
     }
