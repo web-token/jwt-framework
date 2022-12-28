@@ -55,10 +55,10 @@ final class ECKey
             default => throw new InvalidArgumentException('Unsupported curve.'),
         };
         $der .= self::getKey($jwk);
-        $pem = '-----BEGIN PRIVATE KEY-----' . PHP_EOL;
+        $pem = '-----BEGIN EC PRIVATE KEY-----' . PHP_EOL;
         $pem .= chunk_split(base64_encode($der), 64, PHP_EOL);
 
-        return $pem . ('-----END PRIVATE KEY-----' . PHP_EOL);
+        return $pem . ('-----END EC PRIVATE KEY-----' . PHP_EOL);
     }
 
     /**
