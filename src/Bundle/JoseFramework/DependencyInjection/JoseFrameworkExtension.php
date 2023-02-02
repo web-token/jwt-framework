@@ -29,6 +29,7 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
 
     /**
      * {@inheritdoc}
+     * @param array<array> $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

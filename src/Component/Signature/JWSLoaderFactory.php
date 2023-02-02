@@ -20,6 +20,11 @@ class JWSLoaderFactory
      * Creates a JWSLoader using the given serializer aliases, signature algorithm aliases and (optionally) the header
      * checker aliases.
      */
+    /**
+     * @param array<string> $serializers
+     * @param array<string> $algorithms
+     * @param array<string> $headerCheckers
+     */
     public function create(array $serializers, array $algorithms, array $headerCheckers = []): JWSLoader
     {
         $serializerManager = $this->jwsSerializerManagerFactory->create($serializers);

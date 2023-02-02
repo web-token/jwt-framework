@@ -13,6 +13,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JWK extends AbstractSource implements JWKSource
 {
+    /**
+     * @param array<string, mixed> $config
+     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(\Jose\Component\Core\JWK::class);

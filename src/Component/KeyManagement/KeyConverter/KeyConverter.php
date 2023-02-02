@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use function array_key_exists;
 use function count;
 use function extension_loaded;
@@ -134,10 +133,10 @@ final class KeyConverter
         }
         foreach ($x5c as $id => $cert) {
             $x5c[$id] = '-----BEGIN CERTIFICATE-----' . PHP_EOL . chunk_split(
-                    (string) $cert,
-                    64,
-                    PHP_EOL
-                ) . '-----END CERTIFICATE-----';
+                (string) $cert,
+                64,
+                PHP_EOL
+            ) . '-----END CERTIFICATE-----';
             $x509 = openssl_x509_read($x5c[$id]);
             if ($x509 === false) {
                 throw new InvalidArgumentException('Unable to load the certificate chain');

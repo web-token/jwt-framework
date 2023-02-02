@@ -232,10 +232,7 @@ final class JWKFactoryTest extends TestCase
         $jwk = JWKFactory::createFromKeyFile($filename);
 
         // Then
-        static::assertSame(
-            $expectedJWK,
-            json_encode($jwk, JSON_THROW_ON_ERROR)
-        );
+        static::assertSame($expectedJWK, json_encode($jwk, JSON_THROW_ON_ERROR));
         static::assertSame($content, ECKey::convertPublicKeyToPEM($jwk));
     }
 
