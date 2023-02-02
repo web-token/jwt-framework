@@ -7,6 +7,7 @@ namespace Jose\Component\NestedToken;
 use function array_key_exists;
 use InvalidArgumentException;
 use function is_array;
+use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Signature\JWSBuilder;
@@ -24,6 +25,11 @@ class NestedTokenBuilder
 
     /**
      * Creates a nested token.
+     *
+     * @param array{key: JWK, protected_header?: array<string, mixed>, header?: array<string, mixed>} $signatures
+     * @param array{alg?: string, string?: mixed} $jweSharedProtectedHeader
+     * @param array{alg?: string, string?: mixed} $jweSharedHeader
+     * @param array{key: JWK, header?: array<string, mixed>} $recipients
      */
     public function create(
         string $payload,

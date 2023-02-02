@@ -76,6 +76,9 @@ class JWS implements JWT
      * This method adds a signature to the JWS object. Its returns a new JWS object.
      *
      * @internal
+     *
+     * @param array{alg?: string, string?: mixed} $protectedHeader
+     * @param array{alg?: string, string?: mixed} $header
      */
     public function addSignature(
         string $signature,

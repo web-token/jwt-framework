@@ -140,8 +140,8 @@ abstract class AbstractECDH implements KeyAgreement
     }
 
     /**
-     * @return JWK[]
      * @param array<string, mixed> $additional_header_values
+     * @return JWK[]
      */
     protected function getKeysFromPublicKey(
         JWK $recipient_key,

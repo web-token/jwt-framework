@@ -10,5 +10,8 @@ use Throwable;
 
 interface Collector
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void;
 }

@@ -15,13 +15,14 @@ use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Throwable;
 
 class JWSCollector implements Collector, EventSubscriberInterface
 {
     /**
-     * @var JWSBuilder[]
+     * @var array<JWSBuilder>
      */
     private array $jwsBuilders = [];
 
@@ -35,12 +36,24 @@ class JWSCollector implements Collector, EventSubscriberInterface
      */
     private array $jwsLoaders = [];
 
+    /**
+     * @var array<Data>
+     */
     private array $jwsVerificationSuccesses = [];
 
+    /**
+     * @var array<Data>
+     */
     private array $jwsVerificationFailures = [];
 
+    /**
+     * @var array<Data>
+     */
     private array $jwsBuiltSuccesses = [];
 
+    /**
+     * @var array<Data>
+     */
     private array $jwsBuiltFailures = [];
 
     public function __construct(
@@ -48,6 +61,9 @@ class JWSCollector implements Collector, EventSubscriberInterface
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectSupportedJWSSerializations($data);
@@ -106,6 +122,9 @@ class JWSCollector implements Collector, EventSubscriberInterface
         $this->jwsBuiltFailures[] = $cloner->cloneVar($event);
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWSSerializations(array &$data): void
     {
         $data['jws']['jws_serialization'] = [];
@@ -118,6 +137,9 @@ class JWSCollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWSBuilders(array &$data): void
     {
         $data['jws']['jws_builders'] = [];
@@ -129,6 +151,9 @@ class JWSCollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWSVerifiers(array &$data): void
     {
         $data['jws']['jws_verifiers'] = [];
@@ -140,6 +165,9 @@ class JWSCollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWSLoaders(array &$data): void
     {
         $data['jws']['jws_loaders'] = [];
@@ -154,6 +182,9 @@ class JWSCollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectEvents(array &$data): void
     {
         $data['jws']['events'] = [

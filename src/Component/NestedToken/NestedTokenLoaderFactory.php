@@ -18,6 +18,15 @@ class NestedTokenLoaderFactory
     /**
      * This method creates a Nested Token Loader with the given encryption/signature algorithms, serializers,
      * compression methods and header checkers.
+     *
+     * @param array<string> $jweSerializers
+     * @param array<string> $keyEncryptionAlgorithms
+     * @param array<string> $contentEncryptionAlgorithms
+     * @param array<string> $compressionMethods
+     * @param array<string> $jweHeaderCheckers
+     * @param array<string> $jwsSerializers
+     * @param array<string> $signatureAlgorithms
+     * @param array<string> $jwsHeaderCheckers
      */
     public function create(
         array $jweSerializers,
