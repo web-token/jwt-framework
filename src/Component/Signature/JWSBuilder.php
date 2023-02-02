@@ -26,6 +26,14 @@ class JWSBuilder
 
     protected bool $isPayloadDetached = false;
 
+    /**
+     * @var array<array{
+     *     header: array<string, mixed>,
+     *     protected_header: array<string, mixed>,
+     *     signature_key: JWK,
+     *     signature_algorithm: Algorithm
+     * }>
+     */
     protected array $signatures = [];
 
     protected ?bool $isPayloadEncoded = null;
@@ -73,6 +81,9 @@ class JWSBuilder
 
     /**
      * Adds the information needed to compute the signature. This method will return a new JWSBuilder object.
+     *
+     * @param array{alg?: string, string?: mixed} $protectedHeader
+     * @param array{alg?: string, string?: mixed} $header
      */
     public function addSignature(JWK $signatureKey, array $protectedHeader, array $header = []): self
     {
@@ -119,9 +130,9 @@ class JWSBuilder
             $algorithm = $signature['signature_algorithm'];
             /** @var JWK $signatureKey */
             $signatureKey = $signature['signature_key'];
-            /** @var array $protectedHeader */
+            /** @var array<string, mixed> $protectedHeader */
             $protectedHeader = $signature['protected_header'];
-            /** @var array $header */
+            /** @var array<string, mixed> $header */
             $header = $signature['header'];
             $encodedProtectedHeader = count($protectedHeader) === 0 ? null : Base64UrlSafe::encodeUnpadded(
                 JsonConverter::encode($protectedHeader)
@@ -138,11 +149,17 @@ class JWSBuilder
         return $jws;
     }
 
+    /**
+     * @param array<string, mixed> $protectedHeader
+     */
     private function checkIfPayloadIsEncoded(array $protectedHeader): bool
     {
         return ! array_key_exists('b64', $protectedHeader) || $protectedHeader['b64'] === true;
     }
 
+    /**
+     * @param array<string, mixed> $protectedHeader
+     */
     private function checkB64AndCriticalHeader(array $protectedHeader): void
     {
         if (! array_key_exists('b64', $protectedHeader)) {
@@ -164,6 +181,8 @@ class JWSBuilder
     }
 
     /**
+     * @param array{alg?: string, string?: mixed} $protectedHeader
+     * @param array{alg?: string, string?: mixed} $header
      * @return MacAlgorithm|SignatureAlgorithm
      */
     private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): Algorithm
@@ -187,6 +206,10 @@ class JWSBuilder
         return $algorithm;
     }
 
+    /**
+     * @param array<string, mixed> $header1
+     * @param array<string, mixed> $header2
+     */
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
     {
         $inter = array_intersect_key($header1, $header2);

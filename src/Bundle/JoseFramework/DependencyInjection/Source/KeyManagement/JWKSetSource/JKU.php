@@ -14,6 +14,9 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class JKU extends AbstractSource implements JWKSetSource
 {
+    /**
+     * @param array<string, mixed> $config
+     */
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWKSet::class);

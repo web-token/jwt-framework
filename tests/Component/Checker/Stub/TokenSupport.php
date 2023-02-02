@@ -10,6 +10,10 @@ use Jose\Component\Core\JWT;
 
 class TokenSupport implements TokenTypeSupport
 {
+    /**
+     * @param array<string, mixed> $protectedHeader
+     * @param array<string, mixed> $unprotectedHeader
+     */
     public function retrieveTokenHeaders(JWT $jwt, int $index, array &$protectedHeader, array &$unprotectedHeader): void
     {
         if (! $jwt instanceof Token) {

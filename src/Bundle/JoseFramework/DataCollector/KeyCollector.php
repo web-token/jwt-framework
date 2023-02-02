@@ -17,12 +17,12 @@ use Throwable;
 class KeyCollector implements Collector
 {
     /**
-     * @var JWK[]
+     * @var array<JWK>
      */
     private array $jwks = [];
 
     /**
-     * @var JWKSet[]
+     * @var array<JWKSet>
      */
     private array $jwksets = [];
 
@@ -32,6 +32,9 @@ class KeyCollector implements Collector
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectJWK($data);
@@ -48,6 +51,9 @@ class KeyCollector implements Collector
         $this->jwksets[$id] = $jwkset;
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectJWK(array &$data): void
     {
         $cloner = new VarCloner();
@@ -60,6 +66,9 @@ class KeyCollector implements Collector
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectJWKSet(array &$data): void
     {
         $cloner = new VarCloner();

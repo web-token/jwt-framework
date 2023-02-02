@@ -10,6 +10,9 @@ use Symfony\Component\DependencyInjection\Definition;
 
 abstract class AbstractSource
 {
+    /**
+     * @param array{is_public: bool, tags: array<string, array>, string?: mixed} $config
+     */
     public function create(ContainerBuilder $container, string $type, string $name, array $config): void
     {
         $service_id = sprintf('jose.%s.%s', $type, $name);
@@ -41,5 +44,8 @@ abstract class AbstractSource
             ->end();
     }
 
+    /**
+     * @param array<string, mixed> $config
+     */
     abstract protected function createDefinition(ContainerBuilder $container, array $config): Definition;
 }

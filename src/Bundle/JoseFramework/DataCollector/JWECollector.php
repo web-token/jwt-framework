@@ -16,31 +16,44 @@ use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Throwable;
 
 class JWECollector implements Collector, EventSubscriberInterface
 {
+    /**
+     * @var array<Data>
+     */
     private array $jweDecryptionSuccesses = [];
 
+    /**
+     * @var array<Data>
+     */
     private array $jweDecryptionFailures = [];
 
+    /**
+     * @var array<Data>
+     */
     private array $jweBuiltSuccesses = [];
 
+    /**
+     * @var array<Data>
+     */
     private array $jweBuiltFailures = [];
 
     /**
-     * @var JWEBuilder[]
+     * @var array<JWEBuilder>
      */
     private array $jweBuilders = [];
 
     /**
-     * @var JWEDecrypter[]
+     * @var array<JWEDecrypter>
      */
     private array $jweDecrypters = [];
 
     /**
-     * @var JWELoader[]
+     * @var array<JWELoader>
      */
     private array $jweLoaders = [];
 
@@ -50,6 +63,9 @@ class JWECollector implements Collector, EventSubscriberInterface
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectSupportedCompressionMethods($data);
@@ -109,6 +125,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         $this->jweBuiltFailures[] = $cloner->cloneVar($event);
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedCompressionMethods(array &$data): void
     {
         $data['jwe']['compression_methods'] = [];
@@ -121,6 +140,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWESerializations(array &$data): void
     {
         $data['jwe']['jwe_serialization'] = [];
@@ -133,6 +155,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWEBuilders(array &$data): void
     {
         $data['jwe']['jwe_builders'] = [];
@@ -148,6 +173,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWEDecrypters(array &$data): void
     {
         $data['jwe']['jwe_decrypters'] = [];
@@ -163,6 +191,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectSupportedJWELoaders(array &$data): void
     {
         $data['jwe']['jwe_loaders'] = [];
@@ -183,6 +214,9 @@ class JWECollector implements Collector, EventSubscriberInterface
         }
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function collectEvents(array &$data): void
     {
         $data['jwe']['events'] = [

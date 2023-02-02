@@ -119,7 +119,7 @@ final class JSONGeneralSerializer extends Serializer
     }
 
     /**
-     * @param array<string, mixed> $signature
+     * @param array{protected?: string, header?: array<string, mixed>} $signature
      * @return array<mixed>
      */
     private function processHeaders(array $signature): array

@@ -22,6 +22,9 @@ final class AlgorithmCollector implements Collector
     ) {
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $algorithms = $this->algorithmManagerFactory->all();
@@ -90,6 +93,9 @@ final class AlgorithmCollector implements Collector
         }
     }
 
+    /**
+     * @return array<string, array<string, string>>
+     */
     private function getAlgorithmMessages(): array
     {
         return [

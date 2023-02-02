@@ -20,8 +20,8 @@ class Signature
     private readonly array $protectedHeader;
 
     /**
-     * @param array<string, mixed> $protectedHeader
-     * @param array<string, mixed> $header
+     * @param array{alg?: string, string?: mixed} $protectedHeader
+     * @param array{alg?: string, string?: mixed} $header
      */
     public function __construct(
         private readonly string $signature,
@@ -96,7 +96,7 @@ class Signature
      */
     public function getHeaderParameter(string $key)
     {
-        if ($this->hasHeaderParameter($key)) {
+        if (array_key_exists($key, $this->header)) {
             return $this->header[$key];
         }
 
