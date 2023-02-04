@@ -6,6 +6,7 @@ namespace Jose\Component\Checker;
 
 use function is_float;
 use function is_int;
+use Psr\Clock\ClockInterface;
 
 /**
  * This class is a claim checker. When the "nbf" is present, it will compare the value with the current timestamp.
@@ -16,7 +17,8 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
 
     public function __construct(
         private readonly int $allowedTimeDrift = 0,
-        private readonly bool $protectedHeaderOnly = false
+        private readonly bool $protectedHeaderOnly = false,
+        private readonly ClockInterface $clock = new InternalClock(),
     ) {
     }
 
@@ -28,7 +30,10 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
         if (! is_float($value) && ! is_int($value)) {
             throw new InvalidClaimException('"nbf" must be an integer.', self::NAME, $value);
         }
-        if (time() < $value - $this->allowedTimeDrift) {
+
+        $now = $this->clock->now()
+            ->getTimestamp();
+        if ($now < $value - $this->allowedTimeDrift) {
             throw new InvalidClaimException('The JWT can not be used yet.', self::NAME, $value);
         }
     }
@@ -43,7 +48,10 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
         if (! is_float($value) && ! is_int($value)) {
             throw new InvalidHeaderException('"nbf" must be an integer.', self::NAME, $value);
         }
-        if (time() < $value - $this->allowedTimeDrift) {
+
+        $now = $this->clock->now()
+            ->getTimestamp();
+        if ($now < $value - $this->allowedTimeDrift) {
             throw new InvalidHeaderException('The JWT can not be used yet.', self::NAME, $value);
         }
     }
