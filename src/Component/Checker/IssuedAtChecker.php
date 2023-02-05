@@ -15,11 +15,22 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
 {
     private const NAME = 'iat';
 
+    private readonly ClockInterface $clock;
+
     public function __construct(
         private readonly int $allowedTimeDrift = 0,
         private readonly bool $protectedHeaderOnly = false,
-        private readonly ClockInterface $clock = new InternalClock(),
+        ?ClockInterface $clock = null,
     ) {
+        if ($clock === null) {
+            trigger_deprecation(
+                'web-token/jwt-checker',
+                '3.2.0',
+                'The parameter "$clock" will become mandatory in 4.0.0. Please set a valid PSR Clock implementation instead of "null".'
+            );
+            $clock = new InternalClock();
+        }
+        $this->clock = $clock;
     }
 
     /**
