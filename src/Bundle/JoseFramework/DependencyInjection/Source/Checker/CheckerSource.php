@@ -45,6 +45,7 @@ class CheckerSource implements SourceWithCompilerPasses
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('checkers.php');
 
+        $container->setAlias('jose.clock', $configs['clock']);
         if (array_key_exists('checkers', $configs)) {
             foreach ($this->sources as $source) {
                 $source->load($configs['checkers'], $container);
@@ -57,6 +58,13 @@ class CheckerSource implements SourceWithCompilerPasses
         if (! $this->isEnabled()) {
             return;
         }
+        $node->children()
+            ->scalarNode('clock')
+            ->defaultValue('jose.internal_clock')
+            ->cannotBeEmpty()
+            ->info('PSR-20 clock')
+            ->end()
+            ->end();
         $childNode = $node
             ->children()
             ->arrayNode($this->name())
