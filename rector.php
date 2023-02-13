@@ -22,7 +22,7 @@ return static function (RectorConfig $config): void {
         DoctrineSetList::DOCTRINE_CODE_QUALITY,
         DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
         PHPUnitSetList::PHPUNIT_SPECIFIC_METHOD,
-        PHPUnitLevelSetList::UP_TO_PHPUNIT_100,
+        PHPUnitLevelSetList::UP_TO_PHPUNIT_90,
         PHPUnitSetList::PHPUNIT_CODE_QUALITY,
         PHPUnitSetList::PHPUNIT_EXCEPTION,
         PHPUnitSetList::REMOVE_MOCKS,

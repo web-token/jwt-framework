@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Checker;
 
 use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\InvalidClaimException;
+use Jose\Tests\Component\Checker\Stub\MockClock;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,7 +22,8 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
         $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('"exp" must be an integer.');
 
-        $checker = new ExpirationTimeChecker();
+        $clock = new MockClock();
+        $checker = new ExpirationTimeChecker(clock: $clock);
         $checker->checkClaim('foo');
     }
 
@@ -33,8 +35,9 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
         $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('The token expired.');
 
-        $checker = new ExpirationTimeChecker();
-        $checker->checkClaim(time() - 1);
+        $clock = new MockClock();
+        $checker = new ExpirationTimeChecker(clock: $clock);
+        $checker->checkClaim($clock->now()->getTimestamp() - 1);
     }
 
     /**
@@ -42,8 +45,9 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
      */
     public function theExpirationTimeIsInTheFutur(): void
     {
-        $checker = new ExpirationTimeChecker();
-        $checker->checkClaim(time() + 3600);
+        $clock = new MockClock();
+        $checker = new ExpirationTimeChecker(clock: $clock);
+        $checker->checkClaim($clock->now()->getTimestamp() + 3600);
         static::assertSame('exp', $checker->supportedClaim());
     }
 }
