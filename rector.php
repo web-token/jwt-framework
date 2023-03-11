@@ -18,7 +18,6 @@ return static function (RectorConfig $config): void {
     $config->import(SymfonyLevelSetList::UP_TO_SYMFONY_54);
     $config->import(SymfonySetList::SYMFONY_CODE_QUALITY);
     $config->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
-    $config->import(SymfonySetList::SYMFONY_STRICT);
     $config->import(SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
     $config->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
     $config->import(DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES);
