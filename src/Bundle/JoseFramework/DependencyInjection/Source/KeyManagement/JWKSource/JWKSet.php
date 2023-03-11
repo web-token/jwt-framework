@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource;
 
+use function is_int;
+use function is_string;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
@@ -41,7 +43,11 @@ class JWKSet extends AbstractSource implements JWKSource
             ->info('The key set service.')
             ->isRequired()
             ->end()
-            ->integerNode('index')
+            ->variableNode('index')
+            ->validate()
+            ->ifTrue(fn (mixed $v): bool => ! is_int($v) && ! is_string($v))
+            ->thenInvalid('Invalid keyset index.')
+            ->end()
             ->info('The index of the key in the key set.')
             ->isRequired()
             ->end()
