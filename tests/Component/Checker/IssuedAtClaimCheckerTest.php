@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Checker;
 
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\IssuedAtChecker;
+use Jose\Tests\Component\Checker\Stub\MockClock;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,7 +22,8 @@ final class IssuedAtClaimCheckerTest extends TestCase
         $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('"iat" must be an integer.');
 
-        $checker = new IssuedAtChecker();
+        $clock = new MockClock();
+        $checker = new IssuedAtChecker(clock: $clock);
         $checker->checkClaim('foo');
     }
 
@@ -33,8 +35,9 @@ final class IssuedAtClaimCheckerTest extends TestCase
         $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('The JWT is issued in the future.');
 
-        $checker = new IssuedAtChecker();
-        $checker->checkClaim(time() + 3600);
+        $clock = new MockClock();
+        $checker = new IssuedAtChecker(clock: $clock);
+        $checker->checkClaim($clock->now()->getTimestamp() + 3600);
     }
 
     /**
@@ -42,8 +45,9 @@ final class IssuedAtClaimCheckerTest extends TestCase
      */
     public function theIssuedAtClaimIsInThePast(): void
     {
-        $checker = new IssuedAtChecker();
-        $checker->checkClaim(time() - 3600);
+        $clock = new MockClock();
+        $checker = new IssuedAtChecker(clock: $clock);
+        $checker->checkClaim($clock->now()->getTimestamp() - 3600);
         static::assertSame('iat', $checker->supportedClaim());
     }
 }

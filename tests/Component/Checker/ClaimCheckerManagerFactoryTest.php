@@ -11,7 +11,9 @@ use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\IssuedAtChecker;
 use Jose\Component\Checker\MissingMandatoryClaimException;
 use Jose\Component\Checker\NotBeforeChecker;
+use Jose\Tests\Component\Checker\Stub\MockClock;
 use PHPUnit\Framework\TestCase;
+use Psr\Clock\ClockInterface;
 
 /**
  * @internal
@@ -55,15 +57,18 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
      */
     public function iCanCheckValidPayloadClaims(): void
     {
+        $clock = new MockClock();
+        $now = $clock->now()
+            ->getTimestamp();
         $payload = [
-            'exp' => time() + 3600,
-            'iat' => time() - 1000,
-            'nbf' => time() - 100,
+            'exp' => $now + 3600,
+            'iat' => $now - 1000,
+            'nbf' => $now - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;
         unset($expected['foo']);
-        $manager = $this->getClaimCheckerManagerFactory()
+        $manager = $this->getClaimCheckerManagerFactory($clock)
             ->create(['exp', 'iat', 'nbf', 'aud']);
         $result = $manager->check($payload);
         static::assertSame($expected, $result);
@@ -77,26 +82,29 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
         $this->expectException(MissingMandatoryClaimException::class);
         $this->expectExceptionMessage('The following claims are mandatory: bar.');
 
+        $clock = new MockClock();
+        $now = $clock->now()
+            ->getTimestamp();
         $payload = [
-            'exp' => time() + 3600,
-            'iat' => time() - 1000,
-            'nbf' => time() - 100,
+            'exp' => $now + 3600,
+            'iat' => $now - 1000,
+            'nbf' => $now - 100,
             'foo' => 'bar',
         ];
         $expected = $payload;
         unset($expected['foo']);
-        $manager = $this->getClaimCheckerManagerFactory()
+        $manager = $this->getClaimCheckerManagerFactory($clock)
             ->create(['exp', 'iat', 'nbf', 'aud']);
         $manager->check($payload, ['exp', 'foo', 'bar']);
     }
 
-    private function getClaimCheckerManagerFactory(): ClaimCheckerManagerFactory
+    private function getClaimCheckerManagerFactory(ClockInterface $clock = new MockClock()): ClaimCheckerManagerFactory
     {
         if ($this->claimCheckerManagerFactory === null) {
             $this->claimCheckerManagerFactory = new ClaimCheckerManagerFactory();
-            $this->claimCheckerManagerFactory->add('exp', new ExpirationTimeChecker());
-            $this->claimCheckerManagerFactory->add('iat', new IssuedAtChecker());
-            $this->claimCheckerManagerFactory->add('nbf', new NotBeforeChecker());
+            $this->claimCheckerManagerFactory->add('exp', new ExpirationTimeChecker(clock: $clock));
+            $this->claimCheckerManagerFactory->add('iat', new IssuedAtChecker(clock: $clock));
+            $this->claimCheckerManagerFactory->add('nbf', new NotBeforeChecker(clock: $clock));
             $this->claimCheckerManagerFactory->add('aud', new AudienceChecker('My Service'));
         }
 

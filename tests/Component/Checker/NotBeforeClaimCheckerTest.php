@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Checker;
 
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\NotBeforeChecker;
+use Jose\Tests\Component\Checker\Stub\MockClock;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -21,7 +22,8 @@ final class NotBeforeClaimCheckerTest extends TestCase
         $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('"nbf" must be an integer.');
 
-        $checker = new NotBeforeChecker();
+        $clock = new MockClock();
+        $checker = new NotBeforeChecker(clock: $clock);
         $checker->checkClaim('foo');
     }
 
@@ -33,8 +35,9 @@ final class NotBeforeClaimCheckerTest extends TestCase
         $this->expectException(InvalidClaimException::class);
         $this->expectExceptionMessage('The JWT can not be used yet.');
 
-        $checker = new NotBeforeChecker();
-        $checker->checkClaim(time() + 3600);
+        $clock = new MockClock();
+        $checker = new NotBeforeChecker(clock: $clock);
+        $checker->checkClaim($clock->now()->getTimestamp() + 3600);
     }
 
     /**
@@ -42,8 +45,9 @@ final class NotBeforeClaimCheckerTest extends TestCase
      */
     public function theNotBeforeClaimIsInThePast(): void
     {
-        $checker = new NotBeforeChecker();
-        $checker->checkClaim(time() - 3600);
+        $clock = new MockClock();
+        $checker = new NotBeforeChecker(clock: $clock);
+        $checker->checkClaim($clock->now()->getTimestamp() - 3600);
         static::assertSame('nbf', $checker->supportedClaim());
     }
 }
