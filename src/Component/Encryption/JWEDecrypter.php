@@ -74,14 +74,14 @@ class JWEDecrypter
      *
      * @param JWE $jwe A JWE object to decrypt
      * @param JWKSet $jwkset The key set used to decrypt the input
-     * @param JWK $jwk The key used to decrypt the token in case of success
+     * @param JWK|null $jwk The key used to decrypt the token in case of success
      * @param int $recipient The recipient used to decrypt the token in case of success
      */
     public function decryptUsingKeySet(
         JWE &$jwe,
         JWKSet $jwkset,
         int $recipient,
-        JWK &$jwk = null,
+        ?JWK &$jwk = null,
         ?JWK $senderKey = null
     ): bool {
         if ($jwkset->count() === 0) {
@@ -108,7 +108,7 @@ class JWEDecrypter
         JWE $jwe,
         JWKSet $jwkset,
         int $i,
-        JWK &$successJwk = null,
+        ?JWK &$successJwk = null,
         ?JWK $senderKey = null
     ): ?string {
         $recipient = $jwe->getRecipient($i);

@@ -27,7 +27,7 @@ final class JWSVerifier extends BaseJWSVerifier
         JWKSet $jwkset,
         int $signatureIndex,
         ?string $detachedPayload = null,
-        JWK &$jwk = null
+        ?JWK &$jwk = null
     ): bool {
         $success = parent::verifyWithKeySet($jws, $jwkset, $signatureIndex, $detachedPayload, $jwk);
         if ($success) {
