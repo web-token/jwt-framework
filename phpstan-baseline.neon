@@ -1,0 +1,391 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$jwk of method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\KeyAnalyzerManager\\:\\:analyze\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DataCollector/KeyCollector.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/AbstractSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Checker/CheckerSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Checker/ClaimChecker.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Encryption/JWESerializer.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JKUSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource/JKU.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource/JWKSet.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource/X5U.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/CertificateFile.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/JWK.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of class Symfony\\\\Component\\\\DependencyInjection\\\\Reference constructor expects string, mixed given\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/KeyFile.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/P12.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/Secret.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/Values.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/X5C.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKUriSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/NestedToken/NestedToken.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Signature/AbstractSignatureSource.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Signature/JWSSerializer.php
+
+		-
+			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/DependencyInjection/Source/Signature/SignatureSource.php
+
+		-
+			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, mixed given\\.$#"
+			count: 1
+			path: src/Bundle/JoseFramework/Helper/ConfigurationHelper.php
+
+		-
+			message: "#^Invalid type object to throw\\.$#"
+			count: 3
+			path: src/Component/Checker/AudienceChecker.php
+
+		-
+			message: "#^Invalid type object to throw\\.$#"
+			count: 2
+			path: src/Component/Checker/IssuerChecker.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Component/Console/EcKeysetGeneratorCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$jwk of method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\KeyAnalyzerManager\\:\\:analyze\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Component/Console/KeysetAnalyzerCommand.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: src/Component/Console/KeysetAnalyzerCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Component/Console/OctKeyGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: src/Component/Console/OctKeysetGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Component/Console/OkpKeysetGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Component/Console/RsaKeyGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: src/Component/Console/RsaKeysetGeneratorCommand.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '30' and '81' will always evaluate to false\\.$#"
+			count: 1
+			path: src/Component/Core/Util/ECSignature.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, \\(float\\|int\\) given\\.$#"
+			count: 2
+			path: src/Component/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\Core\\\\Util\\\\KeyChecker\\:\\:checkKeyAlgorithm\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 2
+			path: src/Component/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\Core\\\\Util\\\\KeyChecker\\:\\:checkKeyUsage\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Component/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Parameter \\#3 \\$recipientKey of method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptCEK\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Component/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Component/KeyManagement/Analyzer/MixedKeyTypes.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Component/KeyManagement/Analyzer/MixedPublicAndPrivateKeys.php
+
+		-
+			message: "#^Cannot call method has\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Component/KeyManagement/Analyzer/MixedPublicAndPrivateKeys.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: src/Component/KeyManagement/Analyzer/UsageAnalyzer.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, \\(float\\|int\\) given\\.$#"
+			count: 1
+			path: src/Component/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+			count: 1
+			path: src/Component/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
+			count: 1
+			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Parameter \\#1 \\$recipientKey of method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:addRecipient\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Component/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$signatureKey of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Component/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+			count: 1
+			path: src/Component/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Parameter \\#2 \\$recipientHeader of method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:addRecipient\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: src/Component/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Parameter \\#3 \\$header of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+			count: 1
+			path: src/Component/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Component/Signature/JWS.php
+
+		-
+			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Component/Signature/JWS.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Component/Signature/JWSBuilder.php
+
+		-
+			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Component/Signature/JWSBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$algorithm of method Jose\\\\Component\\\\Core\\\\AlgorithmManager\\:\\:get\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Component/Signature/JWSVerifier.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: src/Component/Signature/JWSVerifier.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+			count: 1
+			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processIsPayloadEncoded\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#3 \\$encodedProtectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+			count: 1
+			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Binary operation \"\\^\" between string and 1 results in an error\\.$#"
+			count: 2
+			path: src/Ecc/Curve.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
+			count: 1
+			path: src/EncryptionAlgorithm/ContentEncryption/AESCBC/AESCBCHS.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+			count: 1
+			path: src/EncryptionAlgorithm/KeyEncryption/ECDHES/AbstractECDH.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: src/EncryptionAlgorithm/KeyEncryption/PBES2/PBES2AESKW.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+			count: 2
+			path: src/EncryptionAlgorithm/KeyEncryption/RSA/Util/RSACrypt.php
+
+		-
+			message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
+			count: 2
+			path: src/EncryptionAlgorithm/KeyEncryption/RSA/Util/RSACrypt.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: src/SignatureAlgorithm/RSA/Util/RSA.php
+
+		-
+			message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
+			count: 2
+			path: src/SignatureAlgorithm/RSA/Util/RSA.php

@@ -7,26 +7,5 @@ parameters:
     treatPhpDocTypesAsCertain: false
     checkUninitializedProperties: true
     checkDynamicProperties: true
-    ignoreErrors:
-        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ has parameter \\$[a-zA-Z0-9_]+ with no value type specified in iterable type array#"
-        - "#Method [a-zA-Z0-9\\_\\\\:\\(\\)]+ return type has no value type specified in iterable type array#"
-        - "#Property [a-zA-Z0-9\\$\\_\\\\:\\(\\)]+ type has no value type specified in iterable type array#"
-        - '#Variable static method call on Jose\\Component\\Core\\Util\\Hash\.#'
-        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)#'
-        - '#Invalid type object to throw\.#'
-        - '#Strict comparison using === between .* and .* will always evaluate to false\.#'
-        - '#Binary operation "\^" between string and 1 results in an error\.#'
-        - '#Parameter \#1 \$length of function random_bytes expects int\<1\, max\>.*\.#'
-        - '#Parameter \#3 \$length of function mb_substr expects int\|null.*\.#'
-        - '#Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null\, mixed given\.#'
-        - '#Parameter \#1 \.\.\.\$arrays of function array_merge expects array\, mixed given\.#'
-        - '#Cannot cast mixed to int\.#'
-        - '#Parameter .* of (static )?method .* expects Jose\\Component\\Core\\JWK, mixed given\.#'
-        - '#Cannot call method (get|has)\(\) on mixed\.#'
 includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-    - vendor/phpstan/phpstan-phpunit/rules.neon
-    - vendor/phpstan/phpstan-phpunit/extension.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
-    - vendor/ekino/phpstan-banned-code/extension.neon
+    - phpstan-baseline.neon
