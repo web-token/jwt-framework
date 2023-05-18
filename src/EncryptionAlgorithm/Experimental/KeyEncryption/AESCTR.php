@@ -19,6 +19,10 @@ abstract class AESCTR implements KeyEncryption
         return ['oct'];
     }
 
+    /**
+     * @param array<string, mixed> $completeHeader
+     * @param array<string, mixed> $additionalHeader
+     */
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
@@ -35,10 +39,14 @@ abstract class AESCTR implements KeyEncryption
         return $result;
     }
 
+    /**
+     * @param array<string, mixed> $header
+     */
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $k = $this->getKey($key);
-        $this->checkHeaderAdditionalParameters($header);
+        isset($header['iv']) || throw new InvalidArgumentException('The header parameter "iv" is missing.');
+        is_string($header['iv']) || throw new InvalidArgumentException('The header parameter "iv" is not valid.');
         $iv = Base64UrlSafe::decode($header['iv']);
 
         $result = openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
@@ -70,15 +78,5 @@ abstract class AESCTR implements KeyEncryption
         }
 
         return Base64UrlSafe::decode($k);
-    }
-
-    private function checkHeaderAdditionalParameters(array $header): void
-    {
-        if (! isset($header['iv'])) {
-            throw new InvalidArgumentException('The header parameter "iv" is missing.');
-        }
-        if (! is_string($header['iv'])) {
-            throw new InvalidArgumentException('The header parameter "iv" is not valid.');
-        }
     }
 }

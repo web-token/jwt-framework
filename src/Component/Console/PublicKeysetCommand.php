@@ -9,22 +9,20 @@ use function is_array;
 use function is_string;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'keyset:convert:public',
-    description: 'Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.',
-)]
 final class PublicKeysetCommand extends ObjectOutputCommand
 {
+    protected static $defaultName = 'keyset:convert:public';
+
+    protected static $defaultDescription = 'Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->setHelp('This command converts private keys in a key set into public keys.')
+        $this->setHelp('This command converts private keys in a key set into public keys.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
@@ -38,7 +36,7 @@ final class PublicKeysetCommand extends ObjectOutputCommand
         }
         $this->prepareJsonOutput($input, $output, $newJwkset);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getKeyset(InputInterface $input): JWKSet

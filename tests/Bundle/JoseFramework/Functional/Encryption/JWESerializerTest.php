@@ -24,7 +24,7 @@ final class JWESerializerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWESerializerManagerFromConfigurationIsAvailable(): void
+    public static function jWESerializerManagerFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -39,7 +39,7 @@ final class JWESerializerTest extends WebTestCase
     /**
      * @test
      */
-    public function jWESerializerManagerFromExternalBundleExtensionIsAvailable(): void
+    public static function jWESerializerManagerFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

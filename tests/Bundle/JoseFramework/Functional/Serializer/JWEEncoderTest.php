@@ -57,7 +57,7 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer = $container->get($serializerId);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jwk' => $jwk, 'jwe' => $jwe] = $this->createJWE();
+        ['jwk' => $jwk, 'jwe' => $jwe] = self::createJWE();
 
         $jweString = $serializer->encode($jwe, $format);
         $this->assertEncodedJWEValid($jweString, $format);
@@ -74,7 +74,7 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer = $container->get($serializerId);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jwk' => $jwk, 'jwk2' => $jwk2, 'jwe' => $jwe] = $this->createJWE();
+        ['jwk' => $jwk, 'jwk2' => $jwk2, 'jwe' => $jwe] = self::createJWE();
 
         // Recipient index = 0
         $jweString = $serializer->encode($jwe, $format, [
@@ -102,7 +102,7 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer = $container->get($serializerId);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jwe' => $jwe] = $this->createJWE();
+        ['jwe' => $jwe] = self::createJWE();
 
         $this->expectExceptionMessage(sprintf('Cannot encode JWE to %s format.', 'jwe_compact'));
         $serializer->encode($jwe, 'jwe_compact', [
@@ -122,7 +122,7 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer = new JWEEncoder($jweSerializerManagerFactory, $jweSerializerManager);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jwk' => $jwk, 'jwe' => $jwe] = $this->createJWE();
+        ['jwk' => $jwk, 'jwe' => $jwe] = self::createJWE();
 
         static::assertTrue($serializer->supportsEncoding('jwe_compact'));
         static::assertFalse($serializer->supportsEncoding('jwe_json_flattened'));
@@ -148,7 +148,7 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer = new JWEEncoder($jweSerializerManagerFactory, $jweSerializerManager);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jwe' => $jwe] = $this->createJWE();
+        ['jwe' => $jwe] = self::createJWE();
 
         $this->expectExceptionMessage('Cannot encode JWE to jwe_json_flattened format.');
         $serializer->encode($jwe, 'jwe_json_flattened');
@@ -164,7 +164,7 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer = $container->get($serializerId);
         static::assertInstanceOf(DecoderInterface::class, $serializer);
 
-        $jweData = $this->createJWE();
+        $jweData = self::createJWE();
 
         $jwe = $serializer->decode($jweData[$format], $format);
         static::assertInstanceOf(JWE::class, $jwe);
@@ -182,30 +182,26 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer = new JWEEncoder($jweSerializerManagerFactory, $jweSerializerManager);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jwe_json_flattened' => $jweString] = $this->createJWE();
+        ['jwe_json_flattened' => $jweString] = self::createJWE();
 
         $this->expectExceptionMessage('Cannot decode JWE from jwe_json_flattened format.');
         $serializer->decode($jweString, 'jwe_json_flattened');
     }
 
-    public function encoderServiceDataProvider(): array
+    public static function encoderServiceDataProvider(): iterable
     {
-        return [
-            'indirect serializer' => ['serializer'],
-            'direct serializer' => [JWEEncoder::class],
-        ];
+        yield 'indirect serializer' => ['serializer'];
+        yield 'direct serializer' => [JWEEncoder::class];
     }
 
-    public function jweFormatDataProvider(): array
+    public static function jweFormatDataProvider(): iterable
     {
-        return [
-            'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'],
-            'jwe_compact with direct serializer' => ['jwe_compact', JWEEncoder::class],
-            'jwe_json_flattened with indirect serializer' => ['jwe_json_flattened', 'serializer'],
-            'jwe_json_flattened with direct serializer' => ['jwe_json_flattened', JWEEncoder::class],
-            'jwe_json_general with indirect serializer' => ['jwe_json_general', 'serializer'],
-            'jwe_json_general with direct serializer' => ['jwe_json_general', JWEEncoder::class],
-        ];
+        yield 'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'];
+        yield 'jwe_compact with direct serializer' => ['jwe_compact', JWEEncoder::class];
+        yield 'jwe_json_flattened with indirect serializer' => ['jwe_json_flattened', 'serializer'];
+        yield 'jwe_json_flattened with direct serializer' => ['jwe_json_flattened', JWEEncoder::class];
+        yield 'jwe_json_general with indirect serializer' => ['jwe_json_general', 'serializer'];
+        yield 'jwe_json_general with direct serializer' => ['jwe_json_general', JWEEncoder::class];
     }
 
     private function assertEncodedJWEValid(string $jwe, string $format): void
@@ -235,7 +231,7 @@ final class JWEEncoderTest extends KernelTestCase
         return $recipient;
     }
 
-    private function createJWE(): array
+    private static function createJWE(): array
     {
         $container = static::getContainer();
         $jweFactory = $container->get(JWEBuilderFactory::class);

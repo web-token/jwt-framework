@@ -25,6 +25,9 @@ abstract class RSAPSS implements SignatureAlgorithm
         return JoseRSA::verify($pub, $input, $signature, $this->getAlgorithm(), JoseRSA::SIGNATURE_PSS);
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);

@@ -34,6 +34,9 @@ class JoseCollector extends DataCollector
         return 'jose_collector';
     }
 
+    /**
+     * @return array<string, mixed>|Data
+     */
     public function getData(): array|Data
     {
         return $this->data;

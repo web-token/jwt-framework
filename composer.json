@@ -3,52 +3,94 @@
     "description": "JSON Object Signing and Encryption library for PHP and Symfony Bundle.",
     "type": "symfony-bundle",
     "license": "MIT",
-    "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
+    "keywords": [
+        "JWS",
+        "JWT",
+        "JWE",
+        "JWA",
+        "JWK",
+        "JWKSet",
+        "Jot",
+        "Jose",
+        "RFC7515",
+        "RFC7516",
+        "RFC7517",
+        "RFC7518",
+        "RFC7519",
+        "RFC7520",
+        "Bundle",
+        "Symfony"
+    ],
     "homepage": "https://github.com/web-token/jwt-framework",
     "authors": [
         {
             "name": "Florent Morselli",
             "homepage": "https://github.com/Spomky"
-        },{
+        },
+        {
             "name": "All contributors",
-            "homepage": "https://github.com/web-token/jwt-framework/contributors"
+            "homepage": "https://github.com/web-token/jwt-bundle/contributors"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Jose\\":  "src/",
-            "Jose\\Component\\Signature\\Algorithm\\": [
-                "src/SignatureAlgorithm/ECDSA",
-                "src/SignatureAlgorithm/EdDSA",
-                "src/SignatureAlgorithm/HMAC",
-                "src/SignatureAlgorithm/None",
-                "src/SignatureAlgorithm/RSA",
-                "src/SignatureAlgorithm/Experimental"
-            ],
+            "Jose\\": "src/",
+            "Jose\\Bundle\\JoseFramework\\": "src/Bundle/JoseFramework/",
+            "Jose\\Component\\Checker\\": "src/Component/Checker/",
+            "Jose\\Component\\Console\\": "src/Component/Console/",
+            "Jose\\Component\\Core\\": "src/Component/Core/",
             "Jose\\Component\\Core\\Util\\Ecc\\": [
-                "src/Ecc"
+                "src/Ecc",
+                "src/Ecc/"
             ],
+            "Jose\\Component\\Encryption\\": "src/Component/Encryption/",
             "Jose\\Component\\Encryption\\Algorithm\\": [
-                "src/EncryptionAlgorithm/Experimental"
+                "src/EncryptionAlgorithm/Experimental",
+                "src/EncryptionAlgorithm/Experimental/"
+            ],
+            "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": [
+                "src/EncryptionAlgorithm/ContentEncryption/AESCBC",
+                "src/EncryptionAlgorithm/ContentEncryption/AESCBC/",
+                "src/EncryptionAlgorithm/ContentEncryption/AESGCM",
+                "src/EncryptionAlgorithm/ContentEncryption/AESGCM/"
             ],
             "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": [
                 "src/EncryptionAlgorithm/KeyEncryption/AESGCMKW",
+                "src/EncryptionAlgorithm/KeyEncryption/AESGCMKW/",
                 "src/EncryptionAlgorithm/KeyEncryption/AESKW",
+                "src/EncryptionAlgorithm/KeyEncryption/AESKW/",
                 "src/EncryptionAlgorithm/KeyEncryption/Direct",
+                "src/EncryptionAlgorithm/KeyEncryption/Direct/",
                 "src/EncryptionAlgorithm/KeyEncryption/ECDHES",
+                "src/EncryptionAlgorithm/KeyEncryption/ECDHES/",
                 "src/EncryptionAlgorithm/KeyEncryption/PBES2",
-                "src/EncryptionAlgorithm/KeyEncryption/RSA"
+                "src/EncryptionAlgorithm/KeyEncryption/PBES2/",
+                "src/EncryptionAlgorithm/KeyEncryption/RSA",
+                "src/EncryptionAlgorithm/KeyEncryption/RSA/"
             ],
-            "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": [
-                "src/EncryptionAlgorithm/ContentEncryption/AESGCM",
-                "src/EncryptionAlgorithm/ContentEncryption/AESCBC"
+            "Jose\\Component\\KeyManagement\\": "src/Component/KeyManagement/",
+            "Jose\\Component\\NestedToken\\": "src/Component/NestedToken/",
+            "Jose\\Component\\Signature\\": "src/Component/Signature/",
+            "Jose\\Component\\Signature\\Algorithm\\": [
+                "src/SignatureAlgorithm/ECDSA",
+                "src/SignatureAlgorithm/ECDSA/",
+                "src/SignatureAlgorithm/EdDSA",
+                "src/SignatureAlgorithm/EdDSA/",
+                "src/SignatureAlgorithm/Experimental",
+                "src/SignatureAlgorithm/Experimental/",
+                "src/SignatureAlgorithm/HMAC",
+                "src/SignatureAlgorithm/HMAC/",
+                "src/SignatureAlgorithm/None",
+                "src/SignatureAlgorithm/None/",
+                "src/SignatureAlgorithm/RSA",
+                "src/SignatureAlgorithm/RSA/"
             ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Jose\\Performance\\":  "performance/",
-            "Jose\\Tests\\":  "tests/"
+            "Jose\\Performance\\": "performance/",
+            "Jose\\Tests\\": "tests/"
         }
     },
     "require": {
@@ -57,13 +99,14 @@
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "ext-sodium": "*",
-        "brick/math": "^0.9|^0.10",
-        "fgrosse/phpasn1": "^2.0",
+        "brick/math": "^0.9|^0.10|^0.11",
         "paragonie/constant_time_encoding": "^2.4",
+        "psr/clock": "^1.0",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "spomky-labs/aes-key-wrap": "^7.0",
+        "spomky-labs/pki-framework": "^1.0",
         "symfony/config": "^5.4|^6.0",
         "symfony/console": "^5.4|^6.0",
         "symfony/dependency-injection": "^5.4|^6.0",
@@ -75,21 +118,22 @@
         "ext-curl": "*",
         "ext-gmp": "*",
         "bjeavons/zxcvbn-php": "^1.3",
-        "blackfire/php-sdk": "^1.31",
+        "blackfire/php-sdk": "^2.0",
         "ekino/phpstan-banned-code": "^1.0",
-        "infection/infection": "^0.26",
+        "infection/infection": "^0.27",
         "matthiasnoback/symfony-config-test": "^4.3.0",
         "nyholm/psr7": "^1.5",
         "php-http/mock-client": "^1.5",
         "php-parallel-lint/php-parallel-lint": "^1.3",
         "phpbench/phpbench": "^1.2",
-        "phpstan/extension-installer": "^1.1",
+        "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.1",
         "phpstan/phpstan-strict-rules": "^1.4",
         "phpunit/phpunit": "^9.5.23",
-        "rector/rector": "^0.14",
+        "qossmic/deptrac-shim": "^1.0",
+        "rector/rector": "^0.16",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^6.1.3",
         "symfony/finder": "^5.4|^6.0",
@@ -99,37 +143,38 @@
         "symfony/serializer": "^6.1.3",
         "symfony/var-dumper": "^6.1.3",
         "symfony/yaml": "^6.1.3",
-        "symplify/easy-coding-standard": "^11.0"
+        "symplify/easy-coding-standard": "^11.0",
+        "symplify/monorepo-builder": "11.2.3.72"
     },
     "replace": {
-        "web-token/jwt-core": "self.version",
-        "web-token/jwt-checker": "self.version",
-        "web-token/jwt-signature": "self.version",
-        "web-token/jwt-encryption": "self.version",
-        "web-token/jwt-key-mgmt": "self.version",
-        "web-token/jwt-console": "self.version",
-        "web-token/jwt-nested-token": "self.version",
+        "web-token/encryption-pack": "self.version",
         "web-token/jwt-bundle": "self.version",
+        "web-token/jwt-checker": "self.version",
+        "web-token/jwt-console": "self.version",
+        "web-token/jwt-core": "self.version",
+        "web-token/jwt-encryption": "self.version",
         "web-token/jwt-encryption-algorithm-aescbc": "self.version",
         "web-token/jwt-encryption-algorithm-aesgcm": "self.version",
         "web-token/jwt-encryption-algorithm-aesgcmkw": "self.version",
         "web-token/jwt-encryption-algorithm-aeskw": "self.version",
         "web-token/jwt-encryption-algorithm-dir": "self.version",
         "web-token/jwt-encryption-algorithm-ecdh-es": "self.version",
+        "web-token/jwt-encryption-algorithm-experimental": "self.version",
         "web-token/jwt-encryption-algorithm-pbes2": "self.version",
         "web-token/jwt-encryption-algorithm-rsa": "self.version",
+        "web-token/jwt-key-mgmt": "self.version",
+        "web-token/jwt-nested-token": "self.version",
+        "web-token/jwt-signature": "self.version",
         "web-token/jwt-signature-algorithm-ecdsa": "self.version",
         "web-token/jwt-signature-algorithm-eddsa": "self.version",
-        "web-token/jwt-signature-algorithm-none": "self.version",
+        "web-token/jwt-signature-algorithm-experimental": "self.version",
         "web-token/jwt-signature-algorithm-hmac": "self.version",
+        "web-token/jwt-signature-algorithm-none": "self.version",
         "web-token/jwt-signature-algorithm-rsa": "self.version",
         "web-token/jwt-util-ecc": "self.version",
-        "web-token/jwt-signature-algorithm-experimental": "self.version",
-        "web-token/jwt-encryption-algorithm-experimental": "self.version",
-        "web-token/signature-pack": "self.version",
-        "web-token/encryption-pack": "self.version"
+        "web-token/signature-pack": "self.version"
     },
-    "suggest":{
+    "suggest": {
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
         "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
         "php-http/httplug": "To enable JKU/X5U support.",
@@ -144,9 +189,10 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "phpstan/extension-installer": true,
             "infection/extension-installer": true,
-            "composer/package-versions-deprecated": true
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true,
+            "php-http/discovery": true
         }
     }
 }

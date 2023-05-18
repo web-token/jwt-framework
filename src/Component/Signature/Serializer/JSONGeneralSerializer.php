@@ -103,6 +103,9 @@ final class JSONGeneralSerializer extends Serializer
         return $jws;
     }
 
+    /**
+     * @param array<string, mixed> $protectedHeader
+     */
     private function processIsPayloadEncoded(?bool $isPayloadEncoded, array $protectedHeader): bool
     {
         if ($isPayloadEncoded === null) {
@@ -115,6 +118,10 @@ final class JSONGeneralSerializer extends Serializer
         return $isPayloadEncoded;
     }
 
+    /**
+     * @param array{protected?: string, header?: array<string, mixed>} $signature
+     * @return array<mixed>
+     */
     private function processHeaders(array $signature): array
     {
         $encodedProtectedHeader = $signature['protected'] ?? null;

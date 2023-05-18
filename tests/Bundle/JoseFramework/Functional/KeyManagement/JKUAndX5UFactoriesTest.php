@@ -24,7 +24,7 @@ final class JKUAndX5UFactoriesTest extends WebTestCase
     /**
      * @test
      */
-    public function theJKUFactoryServiceIsAvailable(): void
+    public static function theJKUFactoryServiceIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -37,7 +37,7 @@ final class JKUAndX5UFactoriesTest extends WebTestCase
     /**
      * @test
      */
-    public function theX5UFactoryServiceIsAvailable(): void
+    public static function theX5UFactoryServiceIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

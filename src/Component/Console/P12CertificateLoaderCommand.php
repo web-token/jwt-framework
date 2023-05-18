@@ -7,20 +7,21 @@ namespace Jose\Component\Console;
 use InvalidArgumentException;
 use function is_string;
 use Jose\Component\KeyManagement\JWKFactory;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:load:p12', description: 'Load a key from a P12 certificate file.')]
 final class P12CertificateLoaderCommand extends GeneratorCommand
 {
+    protected static $defaultName = 'key:load:p12';
+
+    protected static $defaultDescription = 'Load a key from a P12 certificate file.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->addArgument('file', InputArgument::REQUIRED, 'Filename of the P12 certificate.')
+        $this->addArgument('file', InputArgument::REQUIRED, 'Filename of the P12 certificate.')
             ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
     }
 
@@ -38,6 +39,6 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
         $jwk = JWKFactory::createFromPKCS12CertificateFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

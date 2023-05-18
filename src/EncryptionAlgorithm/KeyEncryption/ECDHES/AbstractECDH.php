@@ -30,6 +30,10 @@ abstract class AbstractECDH implements KeyAgreement
         return ['EC', 'OKP'];
     }
 
+    /**
+     * @param array<string, mixed> $complete_header
+     * @param array<string, mixed> $additional_header_values
+     */
     public function getAgreementKey(
         int $encryptionKeyLength,
         string $algorithm,
@@ -51,7 +55,9 @@ abstract class AbstractECDH implements KeyAgreement
         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
 
         $apu = array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
+        is_string($apu) || throw new InvalidArgumentException('Invalid APU.');
         $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
+        is_string($apv) || throw new InvalidArgumentException('Invalid APU.');
 
         return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
@@ -134,6 +140,7 @@ abstract class AbstractECDH implements KeyAgreement
     }
 
     /**
+     * @param array<string, mixed> $additional_header_values
      * @return JWK[]
      */
     protected function getKeysFromPublicKey(
@@ -173,6 +180,7 @@ abstract class AbstractECDH implements KeyAgreement
     }
 
     /**
+     * @param array<string, mixed> $complete_header
      * @return JWK[]
      */
     protected function getKeysFromPrivateKeyAndHeader(JWK $recipient_key, array $complete_header): array
@@ -187,6 +195,9 @@ abstract class AbstractECDH implements KeyAgreement
         return [$public_key, $private_key];
     }
 
+    /**
+     * @param array<string, mixed> $complete_header
+     */
     private function getPublicKey(array $complete_header): JWK
     {
         if (! isset($complete_header['epk'])) {
@@ -250,7 +261,7 @@ abstract class AbstractECDH implements KeyAgreement
     private function convertBase64ToBigInteger(string $value): BigInteger
     {
         $data = unpack('H*', Base64UrlSafe::decode($value));
-        if (! is_array($data) || ! isset($data[1])) {
+        if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1])) {
             throw new InvalidArgumentException('Unable to convert base64 to integer');
         }
 

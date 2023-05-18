@@ -7,15 +7,19 @@ namespace Jose\Component\Signature;
 use function array_key_exists;
 use InvalidArgumentException;
 
-/**
- * @see \Jose\Tests\Component\Signature\SignatureTest
- */
 class Signature
 {
     private readonly ?string $encodedProtectedHeader;
 
+    /**
+     * @var array<string, mixed>
+     */
     private readonly array $protectedHeader;
 
+    /**
+     * @param array{alg?: string, string?: mixed} $protectedHeader
+     * @param array{alg?: string, string?: mixed} $header
+     */
     public function __construct(
         private readonly string $signature,
         array $protectedHeader,
@@ -28,6 +32,8 @@ class Signature
 
     /**
      * The protected header associated with the signature.
+     *
+     * @return array<string, mixed>
      */
     public function getProtectedHeader(): array
     {
@@ -36,6 +42,8 @@ class Signature
 
     /**
      * The unprotected header associated with the signature.
+     *
+     * @return array<string, mixed>
      */
     public function getHeader(): array
     {
@@ -85,7 +93,7 @@ class Signature
      */
     public function getHeaderParameter(string $key)
     {
-        if ($this->hasHeaderParameter($key)) {
+        if (array_key_exists($key, $this->header)) {
             return $this->header[$key];
         }
 

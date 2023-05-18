@@ -30,7 +30,7 @@ class JWKFactory
      * Creates a RSA key with the given key size and additional values.
      *
      * @param int $size The key size in bits
-     * @param array $values values to configure the key
+     * @param array<string, mixed> $values values to configure the key
      */
     public static function createRSAKey(int $size, array $values = []): JWK
     {
@@ -62,7 +62,7 @@ class JWKFactory
      * Creates a EC key with the given curve and additional values.
      *
      * @param string $curve The curve
-     * @param array $values values to configure the key
+     * @param array<string, mixed> $values values to configure the key
      */
     public static function createECKey(string $curve, array $values = []): JWK
     {
@@ -73,20 +73,18 @@ class JWKFactory
      * Creates a octet key with the given key size and additional values.
      *
      * @param int $size The key size in bits
-     * @param array $values values to configure the key
+     * @param array<string, mixed> $values values to configure the key
      */
     public static function createOctKey(int $size, array $values = []): JWK
     {
         if ($size % 8 !== 0) {
             throw new InvalidArgumentException('Invalid key size.');
         }
-        $values = array_merge(
-            $values,
-            [
-                'kty' => 'oct',
-                'k' => Base64UrlSafe::encodeUnpadded(random_bytes($size / 8)),
-            ]
-        );
+        $values = [
+            ...$values,
+            'kty' => 'oct',
+            'k' => Base64UrlSafe::encodeUnpadded(random_bytes($size / 8)),
+        ];
 
         return new JWK($values);
     }
@@ -95,7 +93,7 @@ class JWKFactory
      * Creates a OKP key with the given curve and additional values.
      *
      * @param string $curve The curve
-     * @param array $values values to configure the key
+     * @param array<string, mixed> $values values to configure the key
      */
     public static function createOKPKey(string $curve, array $values = []): JWK
     {
@@ -124,15 +122,13 @@ class JWKFactory
                 throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }
 
-        $values = array_merge(
-            $values,
-            [
-                'kty' => 'OKP',
-                'crv' => $curve,
-                'd' => Base64UrlSafe::encodeUnpadded($d),
-                'x' => Base64UrlSafe::encodeUnpadded($x),
-            ]
-        );
+        $values = [
+            ...$values,
+            'kty' => 'OKP',
+            'crv' => $curve,
+            'd' => Base64UrlSafe::encodeUnpadded($d),
+            'x' => Base64UrlSafe::encodeUnpadded($x),
+        ];
 
         return new JWK($values);
     }
@@ -141,15 +137,16 @@ class JWKFactory
      * Creates a none key with the given additional values. Please note that this key type is not pat of any
      * specification. It is used to prevent the use of the "none" algorithm with other key types.
      *
-     * @param array $values values to configure the key
+     * @param array<string, mixed> $values values to configure the key
      */
     public static function createNoneKey(array $values = []): JWK
     {
-        $values = array_merge($values, [
+        $values = [
+            ...$values,
             'kty' => 'none',
             'alg' => 'none',
             'use' => 'sig',
-        ]);
+        ];
 
         return new JWK($values);
     }
@@ -228,14 +225,14 @@ class JWKFactory
                 throw new RuntimeException('Unable to read the file.');
             }
             openssl_pkcs12_read($content, $certs, $secret);
+            if (! is_array($certs) || ! array_key_exists('pkey', $certs)) {
+                throw new RuntimeException('Unable to load the certificates.');
+            }
+
+            return self::createFromKey($certs['pkey'], null, $additional_values);
         } catch (Throwable $throwable) {
             throw new RuntimeException('Unable to load the certificates.', $throwable->getCode(), $throwable);
         }
-        if (! is_array($certs) || ! array_key_exists('pkey', $certs)) {
-            throw new RuntimeException('Unable to load the certificates.');
-        }
-
-        return self::createFromKey($certs['pkey'], null, $additional_values);
     }
 
     /**

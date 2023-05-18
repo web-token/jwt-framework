@@ -12,28 +12,30 @@ use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\MessageBag;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'keyset:analyze', description: 'JWKSet quality analyzer.')]
 final class KeysetAnalyzerCommand extends Command
 {
+    protected static $defaultName = 'keyset:analyze';
+
+    protected static $defaultDescription = 'JWKSet quality analyzer.';
+
     public function __construct(
         private readonly KeysetAnalyzerManager $keysetAnalyzerManager,
-        private readonly KeyAnalyzerManager $keyAnalyzerManager
+        private readonly KeyAnalyzerManager $keyAnalyzerManager,
+        string $name = null
     ) {
-        parent::__construct();
+        parent::__construct($name);
     }
 
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->setHelp('This command will analyze a JWKSet object and find security issues.')
+        $this->setHelp('This command will analyze a JWKSet object and find security issues.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
@@ -58,7 +60,7 @@ final class KeysetAnalyzerCommand extends Command
             $this->showMessages($messages, $output);
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function showMessages(MessageBag $messages, OutputInterface $output): void

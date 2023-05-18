@@ -24,7 +24,7 @@ final class HeaderCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function theHeaderCheckerManagerFactoryIsAvailable(): void
+    public static function theHeaderCheckerManagerFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -36,7 +36,7 @@ final class HeaderCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function theHeaderCheckerManagerFactoryCanCreateAHeaderCheckerManager(): void
+    public static function theHeaderCheckerManagerFactoryCanCreateAHeaderCheckerManager(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -52,7 +52,7 @@ final class HeaderCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function aHeaderCheckerCanBeDefinedUsingTheConfigurationFile(): void
+    public static function aHeaderCheckerCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -64,7 +64,7 @@ final class HeaderCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function aHeaderCheckerCanBeDefinedFromAnotherBundleUsingTheHelper(): void
+    public static function aHeaderCheckerCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

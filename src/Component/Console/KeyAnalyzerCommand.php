@@ -10,27 +10,29 @@ use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'key:analyze', description: 'JWK quality analyzer.')]
 final class KeyAnalyzerCommand extends Command
 {
+    protected static $defaultName = 'key:analyze';
+
+    protected static $defaultDescription = 'JWK quality analyzer.';
+
     public function __construct(
         private readonly KeyAnalyzerManager $analyzerManager,
+        string $name = null
     ) {
-        parent::__construct();
+        parent::__construct($name);
     }
 
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->setHelp('This command will analyze a JWK object and find security issues.')
+        $this->setHelp('This command will analyze a JWK object and find security issues.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
@@ -57,7 +59,7 @@ final class KeyAnalyzerCommand extends Command
             }
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getKey(InputInterface $input): JWK

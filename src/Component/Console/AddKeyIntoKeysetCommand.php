@@ -10,19 +10,20 @@ use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'keyset:add:key', description: 'Add a key into a key set.')]
 final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
+    protected static $defaultName = 'keyset:add:key';
+
+    protected static $defaultDescription = 'Add a key into a key set.';
+
     protected function configure(): void
     {
         parent::configure();
-        $this
-            ->setHelp('This command adds a key at the end of a key set.')
+        $this->setHelp('This command adds a key at the end of a key set.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
@@ -34,7 +35,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         $jwkset = $jwkset->with($jwk);
         $this->prepareJsonOutput($input, $output, $jwkset);
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getKeyset(InputInterface $input): JWKSet

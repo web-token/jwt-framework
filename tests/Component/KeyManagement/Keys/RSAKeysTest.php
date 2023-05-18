@@ -134,9 +134,14 @@ final class RSAKeysTest extends TestCase
      */
     public function loadPrivateRSAKey(): void
     {
-        $file = 'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'RSA' . DIRECTORY_SEPARATOR . 'private.key';
-        $rsa_key = RSAKey::createFromPEM($file);
+        // Given
+        $file = __DIR__ . '/RSA/private.key';
+        $content = trim(file_get_contents($file));
 
+        // When
+        $rsaKey = RSAKey::createFromPEM('file://' . $file);
+
+        // Then
         static::assertEqualsCanonicalizing([
             'kty' => 'RSA',
             'n' => '33WRDEG5rN7daMgI2N5H8cPwTeQPOnz34uG2fe0yKyHjJDGE2XoESRpu5LelSPdYM_r4AWMFWoDWPd-7xaq7uFEkM8c6zaQIgj4uEiq-pBMvH-e805SFbYOKYqfQe4eeXAk4OrQwcUkSrlGskf6YUaw_3IwbPgzEDTgTZFVtQlE',
@@ -147,16 +152,17 @@ final class RSAKeysTest extends TestCase
             'dp' => '5m79fpE1Jz0YE1ijT7ivOMAws-fnTCnR08eiB8-W36GBWplbHaXejrJFV1WMD-AWomnVD5VZ1LW29hEiqZp2QQ',
             'dq' => 'JV2pC7CB50QeZx7C02h3jZyuObC9YHEEoxOXr9ZPjPBVvjV5S6NVajQsdEu4Kgr_8YOqaWgiHovcxTwyqcgZvQ',
             'qi' => 'VZykPj-ugKQxuWTSE-hA-nJqkl7FzjfzHte4QYUSHLHFq6oLlHhgUoJ_4oFLaBmCvgZLAFRDDD6pnd5Fgzt9ow',
-        ], $rsa_key->toArray());
-        static::assertFalse($rsa_key->isPublic());
+        ], $rsaKey->toArray());
+        static::assertFalse($rsaKey->isPublic());
 
-        $public_key = RSAKey::toPublic($rsa_key);
+        $public_key = RSAKey::toPublic($rsaKey);
         static::assertSame([
             'kty' => 'RSA',
             'n' => '33WRDEG5rN7daMgI2N5H8cPwTeQPOnz34uG2fe0yKyHjJDGE2XoESRpu5LelSPdYM_r4AWMFWoDWPd-7xaq7uFEkM8c6zaQIgj4uEiq-pBMvH-e805SFbYOKYqfQe4eeXAk4OrQwcUkSrlGskf6YUaw_3IwbPgzEDTgTZFVtQlE',
             'e' => 'AQAB',
         ], $public_key->toArray());
         static::assertTrue($public_key->isPublic());
+        static::assertSame($content, \Jose\Component\Core\Util\RSAKey::createFromJWK($rsaKey->toJwk())->toPEM());
     }
 
     /**

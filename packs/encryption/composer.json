@@ -4,14 +4,14 @@
     "license": "MIT",
     "description": "A pack with all encryption algorithms for the web-token/jwt-encryption package",
     "require": {
-        "web-token/jwt-encryption-algorithm-aescbc": "^3.0",
-        "web-token/jwt-encryption-algorithm-aesgcm": "^3.0",
-        "web-token/jwt-encryption-algorithm-aesgcmkw": "^3.0",
-        "web-token/jwt-encryption-algorithm-aeskw": "^3.0",
-        "web-token/jwt-encryption-algorithm-dir": "^3.0",
-        "web-token/jwt-encryption-algorithm-ecdh-es": "^3.0",
-        "web-token/jwt-encryption-algorithm-pbes2": "^3.0",
-        "web-token/jwt-encryption-algorithm-rsa": "^3.0",
-        "web-token/jwt-encryption-algorithm-experimental": "^3.0"
+        "web-token/jwt-encryption-algorithm-aescbc": "^3.2",
+        "web-token/jwt-encryption-algorithm-aesgcm": "^3.2",
+        "web-token/jwt-encryption-algorithm-aesgcmkw": "^3.2",
+        "web-token/jwt-encryption-algorithm-aeskw": "^3.2",
+        "web-token/jwt-encryption-algorithm-dir": "^3.2",
+        "web-token/jwt-encryption-algorithm-ecdh-es": "^3.2",
+        "web-token/jwt-encryption-algorithm-pbes2": "^3.2",
+        "web-token/jwt-encryption-algorithm-rsa": "^3.2",
+        "web-token/jwt-encryption-algorithm-experimental": "^3.2"
     }
 }

@@ -1,12 +1,10 @@
 .phpbench
-.phpunit.result.cache
 jose.phar
 jose.phar.pubkey
 jose.phar.version
 report.md
 composer.lock
-.php_cs
-.php_cs.cache
+.*.cache
 vendor/
 src/Bundle/JoseFramework/var/
 infection.txt

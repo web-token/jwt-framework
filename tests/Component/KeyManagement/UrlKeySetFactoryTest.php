@@ -167,7 +167,7 @@ final class UrlKeySetFactoryTest extends TestCase
     private function getHttpClient(): Client
     {
         if ($this->httpClient === null) {
-            $this->httpClient = new Client();
+            $this->httpClient = new Client(new Psr17Factory());
         }
 
         return $this->httpClient;

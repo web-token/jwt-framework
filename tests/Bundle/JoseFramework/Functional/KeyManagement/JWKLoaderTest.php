@@ -25,7 +25,7 @@ final class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeDefinedInTheConfiguration(): void
+    public static function aJWKCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -39,7 +39,7 @@ final class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeDefinedFromAnotherBundle(): void
+    public static function aJWKCanBeDefinedFromAnotherBundle(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -53,7 +53,7 @@ final class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aX509InFileCanBeDefinedInTheConfiguration(): void
+    public static function aX509InFileCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -67,7 +67,7 @@ final class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aDirectX509InputCanBeDefinedInTheConfiguration(): void
+    public static function aDirectX509InputCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -81,7 +81,7 @@ final class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function anEncryptedKeyFileCanBeLoadedInTheConfiguration(): void
+    public static function anEncryptedKeyFileCanBeLoadedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -95,7 +95,7 @@ final class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeLoadedFromAJwkSetInTheConfiguration(): void
+    public static function aJWKCanBeLoadedFromAJwkSetInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -109,7 +109,7 @@ final class JWKLoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWKCanBeLoadedFromASecretInTheConfiguration(): void
+    public static function aJWKCanBeLoadedFromASecretInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

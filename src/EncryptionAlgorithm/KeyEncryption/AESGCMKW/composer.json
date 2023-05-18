@@ -41,6 +41,6 @@
         "php": ">=8.1",
         "ext-openssl": "*",
         "spomky-labs/aes-key-wrap": "^7.0",
-        "web-token/jwt-encryption": "^3.0"
+        "web-token/jwt-encryption": "^3.2"
     }
 }

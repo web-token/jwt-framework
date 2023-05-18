@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use Jose\Component\KeyManagement\JWKFactory;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(
-    name: 'key:generate:none',
-    description: 'Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.',
-)]
 final class NoneKeyGeneratorCommand extends GeneratorCommand
 {
+    protected static $defaultName = 'key:generate:none';
+
+    protected static $defaultDescription = 'Generate a none key (JWK format). This key type is only supposed to be used with the "none" algorithm.';
+
+    protected function configure(): void
+    {
+        parent::configure();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $args = $this->getOptions($input);
@@ -22,6 +26,6 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
         $jwk = JWKFactory::createNoneKey($args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
-        return 0;
+        return self::SUCCESS;
     }
 }

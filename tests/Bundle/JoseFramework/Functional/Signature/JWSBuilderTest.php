@@ -25,7 +25,7 @@ final class JWSBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSBuilderFactoryIsAvailable(): void
+    public static function jWSBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -37,7 +37,7 @@ final class JWSBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSBuilderFactoryCanCreateAJWSBuilder(): void
+    public static function jWSBuilderFactoryCanCreateAJWSBuilder(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -55,7 +55,7 @@ final class JWSBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSBuilderFromConfigurationIsAvailable(): void
+    public static function jWSBuilderFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -70,7 +70,7 @@ final class JWSBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSBuilderFromExternalBundleExtensionIsAvailable(): void
+    public static function jWSBuilderFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

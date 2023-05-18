@@ -25,7 +25,7 @@ final class JWEDecrypterTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWEDecrypterFactoryIsAvailable(): void
+    public static function theJWEDecrypterFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -37,7 +37,7 @@ final class JWEDecrypterTest extends WebTestCase
     /**
      * @test
      */
-    public function theWEDecrypterFactoryCanCreateAJWEDecrypter(): void
+    public static function theWEDecrypterFactoryCanCreateAJWEDecrypter(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -53,7 +53,7 @@ final class JWEDecrypterTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWEDecrypterCanBeDefinedUsingTheConfigurationFile(): void
+    public static function aJWEDecrypterCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -68,7 +68,7 @@ final class JWEDecrypterTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWEDecrypterCanBeDefinedFromAnotherBundleUsingTheHelper(): void
+    public static function aJWEDecrypterCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

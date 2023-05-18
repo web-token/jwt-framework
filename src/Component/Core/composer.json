@@ -41,9 +41,9 @@
         "php": ">=8.1",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "brick/math": "^0.9|^0.10",
-        "fgrosse/phpasn1": "^2.0",
-        "paragonie/constant_time_encoding": "^2.4"
+        "brick/math": "^0.9|^0.10|^0.11",
+        "paragonie/constant_time_encoding": "^2.4",
+        "spomky-labs/pki-framework": "^1.0"
     },
     "conflict": {
         "spomky-labs/jose": "*"

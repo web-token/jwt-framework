@@ -22,6 +22,13 @@ class NestedTokenBuilderFactory
     /**
      * This method creates a Nested Token Builder with the given encryption/signature algorithms, serializers and
      * compression methods.
+     *
+     * @param array<string> $jwe_serializers
+     * @param array<string> $keyEncryptionAlgorithms
+     * @param array<string> $contentEncryptionAlgorithms
+     * @param array<string> $compressionMethods
+     * @param array<string> $jws_serializers
+     * @param array<string> $signatureAlgorithms
      */
     public function create(
         array $jwe_serializers,
