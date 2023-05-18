@@ -1,5 +1,5 @@
 mu: vendor ## Mutation tests
-	vendor/bin/infection -s --threads=$$(nproc) --min-msi=40 --min-covered-msi=40
+	vendor/bin/infection -s --threads=$$(nproc) --min-msi=45 --min-covered-msi=60
 
 tests: vendor ## Run all tests
 	vendor/bin/phpunit  --color
@@ -26,7 +26,7 @@ st: vendor ## Run static analyse
 ################################################
 
 ci-mu: vendor ## Mutation tests (for Github only)
-	vendor/bin/infection --logger-github -s --threads=$$(nproc) --min-msi=40 --min-covered-msi=40
+	vendor/bin/infection --logger-github -s --threads=$$(nproc) --min-msi=45 --min-covered-msi=60
 
 ci-cc: vendor ## Show test coverage rates (console)
 	vendor/bin/phpunit --coverage-text

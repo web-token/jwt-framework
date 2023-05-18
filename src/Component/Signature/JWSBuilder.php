@@ -187,7 +187,7 @@ class JWSBuilder
      */
     private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): Algorithm
     {
-        $completeHeader = array_merge($header, $protectedHeader);
+        $completeHeader = [...$header, ...$protectedHeader];
         if (! array_key_exists('alg', $completeHeader)) {
             throw new InvalidArgumentException('No "alg" parameter set in the header.');
         }

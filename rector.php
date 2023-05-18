@@ -17,8 +17,8 @@ return static function (RectorConfig $config): void {
     $config->import(LevelSetList::UP_TO_PHP_81);
     $config->import(SymfonyLevelSetList::UP_TO_SYMFONY_54);
     $config->import(SymfonySetList::SYMFONY_CODE_QUALITY);
+    $config->import(SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES);
     $config->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
-    $config->import(SymfonySetList::SYMFONY_STRICT);
     $config->import(SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
     $config->import(DoctrineSetList::DOCTRINE_CODE_QUALITY);
     $config->import(DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES);
@@ -26,9 +26,8 @@ return static function (RectorConfig $config): void {
     $config->import(PHPUnitLevelSetList::UP_TO_PHPUNIT_90);
     $config->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
     $config->import(PHPUnitSetList::PHPUNIT_EXCEPTION);
-    $config->import(PHPUnitSetList::REMOVE_MOCKS);
     $config->import(PHPUnitSetList::PHPUNIT_YIELD_DATA_PROVIDER);
-    $config->parallel();
+    $config->import(PHPUnitSetList::REMOVE_MOCKS);
     $config->paths([__DIR__ . '/src', __DIR__ . '/performance', __DIR__ . '/tests']);
     $config->skip([
         \Rector\Php80\Rector\Class_\AnnotationToAttributeRector::class => __DIR__ . '/tests',
@@ -38,6 +37,7 @@ return static function (RectorConfig $config): void {
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',
     ]);
     $config->phpVersion(PhpVersion::PHP_81);
+    $config->parallel();
     $config->importNames();
     $config->importShortClasses();
 };

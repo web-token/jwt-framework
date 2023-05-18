@@ -11,9 +11,6 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Throwable;
 
-/**
- * @see \Jose\Tests\Component\Signature\JWSLoaderTest
- */
 class JWSLoader
 {
     public function __construct(

@@ -25,7 +25,7 @@ final class JWELoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWELoaderFactoryIsAvailable(): void
+    public static function theJWELoaderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -37,7 +37,7 @@ final class JWELoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function theWELoaderFactoryCanCreateAJWELoader(): void
+    public static function theWELoaderFactoryCanCreateAJWELoader(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -58,7 +58,7 @@ final class JWELoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWELoaderCanBeDefinedUsingTheConfigurationFile(): void
+    public static function aJWELoaderCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -73,7 +73,7 @@ final class JWELoaderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWELoaderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
+    public static function aJWELoaderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

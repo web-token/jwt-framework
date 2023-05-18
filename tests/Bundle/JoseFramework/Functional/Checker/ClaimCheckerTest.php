@@ -24,7 +24,7 @@ final class ClaimCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function theClaimCheckerManagerFactoryIsAvailable(): void
+    public static function theClaimCheckerManagerFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -36,7 +36,7 @@ final class ClaimCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function theClaimCheckerManagerFactoryCanCreateAClaimCheckerManager(): void
+    public static function theClaimCheckerManagerFactoryCanCreateAClaimCheckerManager(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -52,7 +52,7 @@ final class ClaimCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function aClaimCheckerCanBeDefinedUsingTheConfigurationFile(): void
+    public static function aClaimCheckerCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -64,7 +64,7 @@ final class ClaimCheckerTest extends WebTestCase
     /**
      * @test
      */
-    public function aClaimCheckerCanBeDefinedFromAnotherBundleUsingTheHelper(): void
+    public static function aClaimCheckerCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
