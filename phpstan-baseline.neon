@@ -1756,28 +1756,38 @@ parameters:
             path: src/Component/KeyManagement/X5UFactory.php
 
         -
-            message: "#^Parameter \\#1 \\$recipientKey of method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:addRecipient\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+            message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
             count: 1
             path: src/Component/NestedToken/NestedTokenBuilder.php
 
         -
-            message: "#^Parameter \\#1 \\$signatureKey of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+            message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
             count: 1
             path: src/Component/NestedToken/NestedTokenBuilder.php
 
         -
-            message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+            message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
             count: 1
             path: src/Component/NestedToken/NestedTokenBuilder.php
 
         -
-            message: "#^Parameter \\#2 \\$recipientHeader of method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:addRecipient\\(\\) expects array, mixed given\\.$#"
+            message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
             count: 1
             path: src/Component/NestedToken/NestedTokenBuilder.php
 
         -
-            message: "#^Parameter \\#3 \\$header of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+            message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
             count: 1
+            path: src/Component/NestedToken/NestedTokenBuilder.php
+
+        -
+            message: "#^Parameter \\#3 \\$header of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+            count: 1
+            path: src/Component/NestedToken/NestedTokenBuilder.php
+
+        -
+            message: "#^Result of \\|\\| is always false\\.$#"
+            count: 2
             path: src/Component/NestedToken/NestedTokenBuilder.php
 
         -
