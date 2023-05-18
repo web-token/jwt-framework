@@ -46,7 +46,7 @@ final class JWSSerializerTest extends KernelTestCase
     /**
      * @test
      */
-    public function aJWSCannotBeNormalized(): void
+    public static function aJWSCannotBeNormalized(): void
     {
         $container = static::getContainer();
         $serializerManagerFactory = $container->get(JWSSerializerManagerFactory::class);

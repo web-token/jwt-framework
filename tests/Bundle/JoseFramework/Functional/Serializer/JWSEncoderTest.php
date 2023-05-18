@@ -56,7 +56,7 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer = $container->get($serializerId);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jws' => $jws] = $this->createJWS(true);
+        ['jws' => $jws] = static::createJWS(true);
 
         $jwsString = $serializer->encode($jws, $format);
         $expected = [
@@ -77,7 +77,7 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer = $container->get($serializerId);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jws' => $jws] = $this->createJWS(true);
+        ['jws' => $jws] = static::createJWS(true);
 
         // Recipient index = 0
         $jwsString = $serializer->encode($jws, $format, [
@@ -105,7 +105,7 @@ final class JWSEncoderTest extends KernelTestCase
     /**
      * @test
      */
-    public function aJWSCanBeEncodedWithCustomSerializerManager(): void
+    public static function aJWSCanBeEncodedWithCustomSerializerManager(): void
     {
         $container = static::getContainer();
         $jwsSerializerManager = new JWSSerializerManager([new CompactSerializer()]);
@@ -114,7 +114,7 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer = new JWSEncoder($jwsSerializerManagerFactory, $jwsSerializerManager);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jws' => $jws] = $this->createJWS();
+        ['jws' => $jws] = static::createJWS();
 
         static::assertTrue($serializer->supportsEncoding('jws_compact'));
         static::assertFalse($serializer->supportsEncoding('jws_json_flattened'));
@@ -141,7 +141,7 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer = new JWSEncoder($jwsSerializerManagerFactory, $jwsSerializerManager);
         static::assertInstanceOf(EncoderInterface::class, $serializer);
 
-        ['jws' => $jws] = $this->createJWS();
+        ['jws' => $jws] = static::createJWS();
 
         $this->expectExceptionMessage('Cannot encode JWS to jws_json_flattened format.');
         $serializer->encode($jws, 'jws_json_flattened');
@@ -157,7 +157,7 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer = $container->get($serializerId);
         static::assertInstanceOf(DecoderInterface::class, $serializer);
 
-        $jwsData = $this->createJWS();
+        $jwsData = static::createJWS();
 
         $jws = $serializer->decode($jwsData[$format], $format);
         static::assertInstanceOf(JWS::class, $jws);
@@ -200,7 +200,7 @@ final class JWSEncoderTest extends KernelTestCase
         yield 'jws_json_general with direct serializer' => ['jws_json_general', JWSEncoder::class];
     }
 
-    private function createJWS(bool $multiSignature = false): array
+    private static function createJWS(bool $multiSignature = false): array
     {
         $container = static::getContainer();
         $jwsFactory = $container->get(JWSBuilderFactory::class);

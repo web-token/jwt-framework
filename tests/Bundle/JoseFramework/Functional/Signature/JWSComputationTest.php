@@ -27,7 +27,7 @@ final class JWSComputationTest extends WebTestCase
     /**
      * @test
      */
-    public function createAndLoadAToken(): void
+    public static function createAndLoadAToken(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

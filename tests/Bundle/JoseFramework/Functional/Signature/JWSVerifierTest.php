@@ -25,7 +25,7 @@ final class JWSVerifierTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSVerifierFactoryIsAvailable(): void
+    public static function jWSVerifierFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -37,7 +37,7 @@ final class JWSVerifierTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSVerifierFactoryCanCreateAJWSVerifier(): void
+    public static function jWSVerifierFactoryCanCreateAJWSVerifier(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -53,7 +53,7 @@ final class JWSVerifierTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSVerifierFromConfigurationIsAvailable(): void
+    public static function jWSVerifierFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -68,7 +68,7 @@ final class JWSVerifierTest extends WebTestCase
     /**
      * @test
      */
-    public function jWSVerifierFromExternalBundleExtensionIsAvailable(): void
+    public static function jWSVerifierFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

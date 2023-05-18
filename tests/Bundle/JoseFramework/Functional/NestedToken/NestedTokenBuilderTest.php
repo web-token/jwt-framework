@@ -25,7 +25,7 @@ final class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theNestedTokenBuilderFactoryIsAvailable(): void
+    public static function theNestedTokenBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -37,7 +37,7 @@ final class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theNestedTokenBuilderFromTheConfigurationIsAvailable(): void
+    public static function theNestedTokenBuilderFromTheConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -49,7 +49,7 @@ final class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theNestedTokenBuilderFromTheConfigurationHelperIsAvailable(): void
+    public static function theNestedTokenBuilderFromTheConfigurationHelperIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -61,7 +61,7 @@ final class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfiguration(): void
+    public static function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfiguration(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -126,7 +126,7 @@ final class NestedTokenBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfigurationHelper(): void
+    public static function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfigurationHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();

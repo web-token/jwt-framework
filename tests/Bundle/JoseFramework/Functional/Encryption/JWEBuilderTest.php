@@ -25,7 +25,7 @@ final class JWEBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWEBuilderFactoryIsAvailable(): void
+    public static function theJWEBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -37,7 +37,7 @@ final class JWEBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function theJWEBuilderFactoryCanCreateAJWEBuilder(): void
+    public static function theJWEBuilderFactoryCanCreateAJWEBuilder(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -53,7 +53,7 @@ final class JWEBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWEBuilderCanBeDefinedUsingTheConfigurationFile(): void
+    public static function aJWEBuilderCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -68,7 +68,7 @@ final class JWEBuilderTest extends WebTestCase
     /**
      * @test
      */
-    public function aJWEBuilderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
+    public static function aJWEBuilderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
