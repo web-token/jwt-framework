@@ -1,6 +1,8 @@
 name: gitsplit
 on:
   push:
+    branches:
+      - "*.x"
     tags:
       - '*'
 
