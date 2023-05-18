@@ -62,6 +62,7 @@ abstract class SignatureTestCase extends TestCase
             $this->algorithmManagerFactory->add('none', new None());
             $this->algorithmManagerFactory->add('EdDSA', new EdDSA());
         }
+
         return $this->algorithmManagerFactory;
     }
 
@@ -70,6 +71,7 @@ abstract class SignatureTestCase extends TestCase
         if ($this->jwsBuilderFactory === null) {
             $this->jwsBuilderFactory = new JWSBuilderFactory($this->getAlgorithmManagerFactory());
         }
+
         return $this->jwsBuilderFactory;
     }
 
@@ -78,6 +80,7 @@ abstract class SignatureTestCase extends TestCase
         if ($this->jwsVerifierFactory === null) {
             $this->jwsVerifierFactory = new JWSVerifierFactory($this->getAlgorithmManagerFactory());
         }
+
         return $this->jwsVerifierFactory;
     }
 
@@ -89,6 +92,7 @@ abstract class SignatureTestCase extends TestCase
             $this->jwsSerializerManagerFactory->add(new JSONFlattenedSerializer());
             $this->jwsSerializerManagerFactory->add(new JSONGeneralSerializer());
         }
+
         return $this->jwsSerializerManagerFactory;
     }
 
@@ -101,6 +105,7 @@ abstract class SignatureTestCase extends TestCase
                 new JSONGeneralSerializer(),
             ]);
         }
+
         return $this->jwsSerializerManager;
     }
 
@@ -113,6 +118,7 @@ abstract class SignatureTestCase extends TestCase
                 null
             );
         }
+
         return $this->jwsLoaderFactory;
     }
 }

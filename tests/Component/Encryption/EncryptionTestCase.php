@@ -92,6 +92,7 @@ abstract class EncryptionTestCase extends TestCase
             $this->algorithmManagerFactory->add('RSA-OAEP', new RSAOAEP());
             $this->algorithmManagerFactory->add('RSA-OAEP-256', new RSAOAEP256());
         }
+
         return $this->algorithmManagerFactory;
     }
 
@@ -101,6 +102,7 @@ abstract class EncryptionTestCase extends TestCase
             $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
             $this->compressionMethodManagerFactory->add('DEF', new Deflate());
         }
+
         return $this->compressionMethodManagerFactory;
     }
 
@@ -112,6 +114,7 @@ abstract class EncryptionTestCase extends TestCase
                 $this->getCompressionMethodManagerFactory()
             );
         }
+
         return $this->jweBuilderFactory;
     }
 
@@ -123,6 +126,7 @@ abstract class EncryptionTestCase extends TestCase
                 $this->getCompressionMethodManagerFactory()
             );
         }
+
         return $this->jweDecrypterFactory;
     }
 
@@ -135,6 +139,7 @@ abstract class EncryptionTestCase extends TestCase
                 null
             );
         }
+
         return $this->jweLoaderFactory;
     }
 
@@ -146,6 +151,7 @@ abstract class EncryptionTestCase extends TestCase
             $this->jwsSerializerManagerFactory->add(new JSONFlattenedSerializer());
             $this->jwsSerializerManagerFactory->add(new JSONGeneralSerializer());
         }
+
         return $this->jwsSerializerManagerFactory;
     }
 
@@ -158,6 +164,7 @@ abstract class EncryptionTestCase extends TestCase
                 new JSONGeneralSerializer(),
             ]);
         }
+
         return $this->jwsSerializerManager;
     }
 }
