@@ -39,7 +39,7 @@
     },
     "require": {
         "php": ">=8.1",
-        "web-token/jwt-core": "^3.0"
+        "web-token/jwt-core": "^3.2"
     },
     "suggest": {
         "web-token/jwt-signature-algorithm-ecdsa": "ECDSA Based Signature Algorithms",
