@@ -80,13 +80,11 @@ class JWKFactory
         if ($size % 8 !== 0) {
             throw new InvalidArgumentException('Invalid key size.');
         }
-        $values = array_merge(
-            $values,
-            [
-                'kty' => 'oct',
-                'k' => Base64UrlSafe::encodeUnpadded(random_bytes($size / 8)),
-            ]
-        );
+        $values = [
+            ...$values,
+            'kty' => 'oct',
+            'k' => Base64UrlSafe::encodeUnpadded(random_bytes($size / 8)),
+        ];
 
         return new JWK($values);
     }
@@ -124,15 +122,13 @@ class JWKFactory
                 throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }
 
-        $values = array_merge(
-            $values,
-            [
-                'kty' => 'OKP',
-                'crv' => $curve,
-                'd' => Base64UrlSafe::encodeUnpadded($d),
-                'x' => Base64UrlSafe::encodeUnpadded($x),
-            ]
-        );
+        $values = [
+            ...$values,
+            'kty' => 'OKP',
+            'crv' => $curve,
+            'd' => Base64UrlSafe::encodeUnpadded($d),
+            'x' => Base64UrlSafe::encodeUnpadded($x),
+        ];
 
         return new JWK($values);
     }
@@ -145,11 +141,12 @@ class JWKFactory
      */
     public static function createNoneKey(array $values = []): JWK
     {
-        $values = array_merge($values, [
+        $values = [
+            ...$values,
             'kty' => 'none',
             'alg' => 'none',
             'use' => 'sig',
-        ]);
+        ];
 
         return new JWK($values);
     }
