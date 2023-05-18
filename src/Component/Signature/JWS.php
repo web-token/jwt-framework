@@ -8,9 +8,6 @@ use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
 
-/**
- * @see \Jose\Tests\Component\Signature\JWSTest
- */
 class JWS implements JWT
 {
     /**

@@ -7,9 +7,6 @@ namespace Jose\Component\Signature;
 use function array_key_exists;
 use InvalidArgumentException;
 
-/**
- * @see \Jose\Tests\Component\Signature\SignatureTest
- */
 class Signature
 {
     private readonly ?string $encodedProtectedHeader;
