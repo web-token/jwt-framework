@@ -26,10 +26,10 @@ class NestedTokenBuilder
     /**
      * Creates a nested token.
      *
-     * @param array{key: JWK, protected_header?: array<string, mixed>, header?: array<string, mixed>} $signatures
+     * @param array{array{key: JWK, protected_header?: array<string, mixed>, header?: array<string, mixed>}} $signatures
      * @param array{alg?: string, string?: mixed} $jweSharedProtectedHeader
      * @param array{alg?: string, string?: mixed} $jweSharedHeader
-     * @param array{key: JWK, header?: array<string, mixed>} $recipients
+     * @param array{array{key: JWK, header?: array<string, mixed>}} $recipients
      */
     public function create(
         string $payload,
