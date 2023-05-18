@@ -7,7 +7,7 @@ on:
       - '*'
 
 env:
-  GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITSPLIT_TOKEN }}
 
 jobs:
   packages_split:
@@ -116,8 +116,8 @@ jobs:
           #repository_host: git.private.com:1234
 
           # ↓ the user signed under the split commit
-          user_name: "Florent Morselli"
-          user_email: "florent.morselli@spomky-labs.com"
+          user_name: ${{ secrets.GIT_AUTHOR_NAME }}
+          user_email: ${{ secrets.GIT_AUTHOR_EMAIL }}
 
       # with tag
       -
@@ -137,5 +137,5 @@ jobs:
           #repository_host: git.private.com:1234
 
           # ↓ the user signed under the split commit
-          user_name: "Florent Morselli"
-          user_email: "florent.morselli@spomky-labs.com"
+          user_name: ${{ secrets.GIT_AUTHOR_NAME }}
+          user_email: ${{ secrets.GIT_AUTHOR_EMAIL }}
