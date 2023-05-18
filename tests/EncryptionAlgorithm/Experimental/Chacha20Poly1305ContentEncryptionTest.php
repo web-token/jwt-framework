@@ -36,14 +36,14 @@ final class Chacha20Poly1305ContentEncryptionTest extends TestCase
         try {
             $encrypted = $algorithm->encryptKey($jwk, $cek, $header, $additionalHeader);
             $decrypted = $algorithm->decryptKey($jwk, $encrypted, $additionalHeader);
+
+            static::assertSame($cek, $decrypted);
         } catch (Throwable $e) {
             static::markTestSkipped(sprintf(
                 'The algorithm "chacha20-poly1305" is not supported in this platform. Error message: %s',
                 $e->getMessage()
             ));
         }
-
-        static::assertSame($cek, $decrypted);
     }
 
     private function getKey(): JWK
