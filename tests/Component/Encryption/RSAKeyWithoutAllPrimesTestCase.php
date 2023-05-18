@@ -86,9 +86,11 @@ final class RSAKeyWithoutAllPrimesTestCase extends EncryptionTestCase
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
-    public static function dataEncryptionAlgorithms(): array
+    public static function dataEncryptionAlgorithms(): iterable
     {
-        return [['RSA1_5'], ['RSA-OAEP'], ['RSA-OAEP-256']];
+        yield ['RSA1_5'];
+        yield ['RSA-OAEP'];
+        yield ['RSA-OAEP-256'];
     }
 
     public function dataEncryptionAlgorithmsWithSimpleKey(): array

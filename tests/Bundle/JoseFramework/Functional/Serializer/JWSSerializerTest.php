@@ -81,16 +81,14 @@ final class JWSSerializerTest extends KernelTestCase
         ];
     }
 
-    public static function jwsFormatDataProvider(): array
+    public static function jwsFormatDataProvider(): iterable
     {
-        return [
-            'jws_compact with indirect serializer' => ['jws_compact', 'serializer'],
-            'jws_compact with direct serializer' => ['jws_compact', JWSSerializer::class],
-            'jws_json_flattened with indirect serializer' => ['jws_json_flattened', 'serializer'],
-            'jws_json_flattened with direct serializer' => ['jws_json_flattened', JWSSerializer::class],
-            'jws_json_general with indirect serializer' => ['jws_json_general', 'serializer'],
-            'jws_json_general with direct serializer' => ['jws_json_general', JWSSerializer::class],
-        ];
+        yield 'jws_compact with indirect serializer' => ['jws_compact', 'serializer'];
+        yield 'jws_compact with direct serializer' => ['jws_compact', JWSSerializer::class];
+        yield 'jws_json_flattened with indirect serializer' => ['jws_json_flattened', 'serializer'];
+        yield 'jws_json_flattened with direct serializer' => ['jws_json_flattened', JWSSerializer::class];
+        yield 'jws_json_general with indirect serializer' => ['jws_json_general', 'serializer'];
+        yield 'jws_json_general with direct serializer' => ['jws_json_general', JWSSerializer::class];
     }
 
     private function createJWS(bool $multiSignature = false): array

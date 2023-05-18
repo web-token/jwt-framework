@@ -27,6 +27,7 @@ return static function (RectorConfig $config): void {
     $config->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
     $config->import(PHPUnitSetList::PHPUNIT_EXCEPTION);
     $config->import(PHPUnitSetList::PHPUNIT_YIELD_DATA_PROVIDER);
+    $config->import(PHPUnitSetList::REMOVE_MOCKS);
     $config->paths([__DIR__ . '/src', __DIR__ . '/performance', __DIR__ . '/tests']);
     $config->skip([
         \Rector\Php80\Rector\Class_\AnnotationToAttributeRector::class => __DIR__ . '/tests',

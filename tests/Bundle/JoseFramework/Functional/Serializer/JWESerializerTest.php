@@ -81,16 +81,14 @@ final class JWESerializerTest extends KernelTestCase
         ];
     }
 
-    public static function jweFormatDataProvider(): array
+    public static function jweFormatDataProvider(): iterable
     {
-        return [
-            'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'],
-            'jwe_compact with direct serializer' => ['jwe_compact', JWESerializer::class],
-            'jwe_json_flattened with indirect serializer' => ['jwe_json_flattened', 'serializer'],
-            'jwe_json_flattened with direct serializer' => ['jwe_json_flattened', JWESerializer::class],
-            'jwe_json_general with indirect serializer' => ['jwe_json_general', 'serializer'],
-            'jwe_json_general with direct serializer' => ['jwe_json_general', JWESerializer::class],
-        ];
+        yield 'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'];
+        yield 'jwe_compact with direct serializer' => ['jwe_compact', JWESerializer::class];
+        yield 'jwe_json_flattened with indirect serializer' => ['jwe_json_flattened', 'serializer'];
+        yield 'jwe_json_flattened with direct serializer' => ['jwe_json_flattened', JWESerializer::class];
+        yield 'jwe_json_general with indirect serializer' => ['jwe_json_general', 'serializer'];
+        yield 'jwe_json_general with direct serializer' => ['jwe_json_general', JWESerializer::class];
     }
 
     private function createJWE(): array

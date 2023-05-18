@@ -188,24 +188,20 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer->decode($jweString, 'jwe_json_flattened');
     }
 
-    public static function encoderServiceDataProvider(): array
+    public static function encoderServiceDataProvider(): iterable
     {
-        return [
-            'indirect serializer' => ['serializer'],
-            'direct serializer' => [JWEEncoder::class],
-        ];
+        yield 'indirect serializer' => ['serializer'];
+        yield 'direct serializer' => [JWEEncoder::class];
     }
 
-    public static function jweFormatDataProvider(): array
+    public static function jweFormatDataProvider(): iterable
     {
-        return [
-            'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'],
-            'jwe_compact with direct serializer' => ['jwe_compact', JWEEncoder::class],
-            'jwe_json_flattened with indirect serializer' => ['jwe_json_flattened', 'serializer'],
-            'jwe_json_flattened with direct serializer' => ['jwe_json_flattened', JWEEncoder::class],
-            'jwe_json_general with indirect serializer' => ['jwe_json_general', 'serializer'],
-            'jwe_json_general with direct serializer' => ['jwe_json_general', JWEEncoder::class],
-        ];
+        yield 'jwe_compact with indirect serializer' => ['jwe_compact', 'serializer'];
+        yield 'jwe_compact with direct serializer' => ['jwe_compact', JWEEncoder::class];
+        yield 'jwe_json_flattened with indirect serializer' => ['jwe_json_flattened', 'serializer'];
+        yield 'jwe_json_flattened with direct serializer' => ['jwe_json_flattened', JWEEncoder::class];
+        yield 'jwe_json_general with indirect serializer' => ['jwe_json_general', 'serializer'];
+        yield 'jwe_json_general with direct serializer' => ['jwe_json_general', JWEEncoder::class];
     }
 
     private function assertEncodedJWEValid(string $jwe, string $format): void
