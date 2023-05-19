@@ -78,6 +78,8 @@ jobs:
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0
 
       - name: "Bump Changelog Version On Originating Release Branch"
         uses: "laminas/automatic-releases@1.24.0"

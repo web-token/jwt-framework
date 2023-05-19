@@ -1,10 +1,10 @@
 name: gitsplit
 on:
   push:
+    branches:
+      - "*.x"
     tags:
       - '*'
-  release:
-    types: [published]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITSPLIT_TOKEN }}
@@ -98,7 +98,9 @@ jobs:
             split_repository: 'signature-pack'
 
     steps:
-      -   uses: actions/checkout@v2
+      -   uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
 
       # no tag
       -
