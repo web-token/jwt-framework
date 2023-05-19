@@ -1,143 +1,18 @@
 name: gitsplit
 on:
   push:
-    branches:
-      - "*.x"
     tags:
       - '*'
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITSPLIT_TOKEN }}
+  release:
+    types: [published]
 
 jobs:
-  packages_split:
+  gitsplit:
     runs-on: ubuntu-latest
-
-    strategy:
-      fail-fast: false
-      matrix:
-        # define package to repository map
-        package:
-          -
-            local_path: 'src/Component/Core'
-            split_repository: 'jwt-core'
-          -
-            local_path: 'src/Component/Checker'
-            split_repository: 'jwt-checker'
-          -
-            local_path: 'src/Component/Signature'
-            split_repository: 'jwt-signature'
-          -
-            local_path: 'src/Component/Encryption'
-            split_repository: 'jwt-encryption'
-          -
-            local_path: 'src/Component/KeyManagement'
-            split_repository: 'jwt-key-mgmt'
-          -
-            local_path: 'src/Component/Console'
-            split_repository: 'jwt-console'
-          -
-            local_path: 'src/Component/NestedToken'
-            split_repository: 'jwt-nested-token'
-          -
-            local_path: 'src/Bundle/JoseFramework'
-            split_repository: 'jwt-bundle'
-          -
-            local_path: 'src/EncryptionAlgorithm/ContentEncryption/AESCBC'
-            split_repository: 'jwt-encryption-algorithm-aescbc'
-          -
-            local_path: 'src/EncryptionAlgorithm/ContentEncryption/AESGCM'
-            split_repository: 'jwt-encryption-algorithm-aesgcm'
-          -
-            local_path: 'src/EncryptionAlgorithm/KeyEncryption/AESGCMKW'
-            split_repository: 'jwt-encryption-algorithm-aesgcmkw'
-          -
-            local_path: 'src/EncryptionAlgorithm/KeyEncryption/AESKW'
-            split_repository: 'jwt-encryption-algorithm-aeskw'
-          -
-            local_path: 'src/EncryptionAlgorithm/KeyEncryption/Direct'
-            split_repository: 'jwt-encryption-algorithm-dir'
-          -
-            local_path: 'src/EncryptionAlgorithm/KeyEncryption/ECDHES'
-            split_repository: 'jwt-encryption-algorithm-ecdh-es'
-          -
-            local_path: 'src/EncryptionAlgorithm/KeyEncryption/PBES2'
-            split_repository: 'jwt-encryption-algorithm-pbes2'
-          -
-            local_path: 'src/EncryptionAlgorithm/KeyEncryption/RSA'
-            split_repository: 'jwt-encryption-algorithm-rsa'
-          -
-            local_path: 'src/SignatureAlgorithm/ECDSA'
-            split_repository: 'jwt-signature-algorithm-ecdsa'
-          -
-            local_path: 'src/SignatureAlgorithm/EdDSA'
-            split_repository: 'jwt-signature-algorithm-eddsa'
-          -
-            local_path: 'src/SignatureAlgorithm/None'
-            split_repository: 'jwt-signature-algorithm-none'
-          -
-            local_path: 'src/SignatureAlgorithm/HMAC'
-            split_repository: 'jwt-signature-algorithm-hmac'
-          -
-            local_path: 'src/SignatureAlgorithm/RSA'
-            split_repository: 'jwt-signature-algorithm-rsa'
-          -
-            local_path: 'src/SignatureAlgorithm/Experimental'
-            split_repository: 'jwt-signature-algorithm-experimental'
-          -
-            local_path: 'src/EncryptionAlgorithm/Experimental'
-            split_repository: 'jwt-encryption-algorithm-experimental'
-          -
-            local_path: 'src/Ecc'
-            split_repository: 'jwt-util-ecc'
-          -
-            local_path: 'packs/encryption'
-            split_repository: 'encryption-pack'
-          -
-            local_path: 'packs/signature'
-            split_repository: 'signature-pack'
-
     steps:
-      -   uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
-
-      # no tag
-      -
-        if: "!startsWith(github.ref, 'refs/tags/')"
-        uses: "symplify/monorepo-split-github-action@2.1"
-        with:
-          # ↓ split "src/*" directory
-          package_directory: '${{ matrix.package.local_path }}'
-
-          # ↓ into https://github.com/web-token/* repository
-          repository_organization: 'web-token'
-          repository_name: '${{ matrix.package.split_repository }}'
-
-          # [optional, with "github.com" as default]
-          #repository_host: git.private.com:1234
-
-          # ↓ the user signed under the split commit
-          user_name: ${{ secrets.GIT_AUTHOR_NAME }}
-          user_email: ${{ secrets.GIT_AUTHOR_EMAIL }}
-
-      # with tag
-      -
-        if: "startsWith(github.ref, 'refs/tags/')"
-        uses: "symplify/monorepo-split-github-action@2.1"
-        with:
-          tag: ${GITHUB_REF#refs/tags/}
-
-          # ↓ split "src/*" directory
-          package_directory: '${{ matrix.package.local_path }}'
-
-          # ↓ into https://github.com/web-token/* repository
-          repository_organization: 'web-token'
-          repository_name: '${{ matrix.package.split_repository }}'
-
-          # [optional, with "github.com" as default]
-          #repository_host: git.private.com:1234
-
-          # ↓ the user signed under the split commit
-          user_name: ${{ secrets.GIT_AUTHOR_NAME }}
-          user_email: ${{ secrets.GIT_AUTHOR_EMAIL }}
+      - name: checkout
+        run: git clone https://github.com/web-token/jwt-framework /home/runner/work/web-token/jwt-framework && cd /home/runner/work/web-token/jwt-framework
+      - name: Split repositories
+        run: docker run --rm -t -e GH_TOKEN -v /cache/gitsplit:/cache/gitsplit -v /home/runner/work/web-token/jwt-framework:/srv jderusse/gitsplit gitsplit
+        env:
+          GH_TOKEN: ${{ secrets.GITSPLIT_TOKEN }}
