@@ -34,6 +34,9 @@ jobs:
     needs: "release"
 
     steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
       - name: "Create Merge-Up Pull Request"
         uses: "laminas/automatic-releases@1.24.0"
         with:
@@ -52,6 +55,9 @@ jobs:
     needs: "merge-up"
 
     steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
       - name: "Create and/or Switch to new Release Branch"
         uses: "laminas/automatic-releases@1.24.0"
         with:
@@ -70,6 +76,9 @@ jobs:
     needs: "switch"
 
     steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
       - name: "Bump Changelog Version On Originating Release Branch"
         uses: "laminas/automatic-releases@1.24.0"
         with:
@@ -88,6 +97,9 @@ jobs:
     needs: "bump"
 
     steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+
       - name: "Create new milestones"
         uses: "laminas/automatic-releases@1.24.0"
         with:
