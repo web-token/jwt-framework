@@ -1,10 +1,10 @@
 name: gitsplit
 on:
   push:
+    branches:
+      - "*.x"
     tags:
       - '*'
-  release:
-    types: [published]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITSPLIT_TOKEN }}
