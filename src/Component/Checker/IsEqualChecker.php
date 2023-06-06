@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Jose\Component\Checker\ClaimChecker;
-use Jose\Component\Checker\HeaderChecker;
-use Jose\Component\Checker\InvalidClaimException;
-use Jose\Component\Checker\InvalidHeaderException;
-
 /**
  * @see \Jose\Tests\Component\Checker\IsEqualCheckerTest
  */
@@ -30,7 +25,7 @@ final class IsEqualChecker implements ClaimChecker, HeaderChecker
     public function checkClaim(mixed $value): void
     {
         if ($value !== $this->value) {
-            throw new InvalidClaimException(\sprintf('The "%s" claim is invalid.', $this->key), $this->key, $value);
+            throw new InvalidClaimException(sprintf('The "%s" claim is invalid.', $this->key), $this->key, $value);
         }
     }
 
@@ -42,7 +37,7 @@ final class IsEqualChecker implements ClaimChecker, HeaderChecker
     public function checkHeader(mixed $value): void
     {
         if ($value !== $this->value) {
-            throw new InvalidHeaderException(\sprintf('The "%s" header is invalid.', $this->key), $this->key, $value);
+            throw new InvalidHeaderException(sprintf('The "%s" header is invalid.', $this->key), $this->key, $value);
         }
     }
 

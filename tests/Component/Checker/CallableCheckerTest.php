@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use Jose\Component\Checker\CallableChecker;
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\InvalidHeaderException;
-use Jose\Component\Checker\IsEqualChecker;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use function call_user_func;
 use InvalidArgumentException;
-use Jose\Component\Checker\ClaimChecker;
-use Jose\Component\Checker\HeaderChecker;
-use Jose\Component\Checker\InvalidClaimException;
-use Jose\Component\Checker\InvalidHeaderException;
+use function is_callable;
 
 /**
  * @see \Jose\Tests\Component\Checker\CallableCheckerTest
@@ -24,15 +22,15 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
         private $callable,
         private readonly bool $protectedHeaderOnly = true
     ) {
-        if (!\is_callable($this->callable)) { // @phpstan-ignore-line
+        if (! is_callable($this->callable)) { // @phpstan-ignore-line
             throw new InvalidArgumentException('The $callable argument must be a callable.');
         }
     }
 
     public function checkClaim(mixed $value): void
     {
-        if (\call_user_func($this->callable, $value) !== true) {
-            throw new InvalidClaimException(\sprintf('The "%s" claim is invalid.', $this->key), $this->key, $value);
+        if (call_user_func($this->callable, $value) !== true) {
+            throw new InvalidClaimException(sprintf('The "%s" claim is invalid.', $this->key), $this->key, $value);
         }
     }
 
@@ -43,8 +41,8 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
 
     public function checkHeader(mixed $value): void
     {
-        if (\call_user_func($this->callable, $value) !== true) {
-            throw new InvalidHeaderException(\sprintf('The "%s" header is invalid.', $this->key), $this->key, $value);
+        if (call_user_func($this->callable, $value) !== true) {
+            throw new InvalidHeaderException(sprintf('The "%s" header is invalid.', $this->key), $this->key, $value);
         }
     }
 
