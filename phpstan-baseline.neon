@@ -1176,12 +1176,12 @@ parameters:
             path: src/Component/Core/JWKSet.php
 
         -
-            message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$b with no value type specified in iterable type array\\.$#"
+            message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$a with no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Component/Core/JWKSet.php
 
         -
-            message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$a with no value type specified in iterable type array\\.$#"
+            message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$b with no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Component/Core/JWKSet.php
 
