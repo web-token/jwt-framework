@@ -526,6 +526,16 @@ parameters:
             path: src/Bundle/JoseFramework/DependencyInjection/Source/Source.php
 
         -
+            message: "#^Parameter \\#1 \\$json of static method Jose\\\\Component\\\\Core\\\\JWK\\:\\:createFromJson\\(\\) expects string, mixed given\\.$#"
+            count: 1
+            path: src/Bundle/JoseFramework/EnvVarProcessor/KeyEnvVarProcessor.php
+
+        -
+            message: "#^Parameter \\#1 \\$json of static method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:createFromJson\\(\\) expects string, mixed given\\.$#"
+            count: 1
+            path: src/Bundle/JoseFramework/EnvVarProcessor/KeyEnvVarProcessor.php
+
+        -
             message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedFailureEvent\\:\\:__construct\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Bundle/JoseFramework/Event/ClaimCheckedFailureEvent.php
