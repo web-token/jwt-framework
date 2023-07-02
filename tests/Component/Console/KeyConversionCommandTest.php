@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
-use const E_ALL;
-use const E_WARNING;
 use Jose\Component\Console\GetThumbprintCommand;
 use Jose\Component\Console\KeyFileLoaderCommand;
 use Jose\Component\Console\OptimizeRsaKeyCommand;
@@ -28,16 +26,6 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class KeyConversionCommandTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        $previousErrorReportingSetting = error_reporting(E_ALL & ~E_WARNING);
-    }
-
-    protected function tearDown(): void
-    {
-        error_reporting($previousErrorReportingSetting);
-    }
-
     #[Test]
     #[DoesNotPerformAssertions]
     public function iCanLoadAKeyFile(): void
