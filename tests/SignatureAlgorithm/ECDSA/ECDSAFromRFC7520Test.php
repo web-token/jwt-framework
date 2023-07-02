@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES512;
@@ -26,9 +27,8 @@ final class ECDSAFromRFC7520Test extends TestCase
      * always different). This test case create a signature and verifies it. Then the output given in the RFC is used
      * and verified. This way, we can say that the library is able to create/verify ECDSA signatures and verify
      * signature from test vectors.
-     *
-     * @test
      */
+    #[Test]
     public function eS512(): void
     {
         /**

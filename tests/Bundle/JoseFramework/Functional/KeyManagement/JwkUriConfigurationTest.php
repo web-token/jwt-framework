@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManagementSource;
@@ -25,17 +26,13 @@ final class JwkUriConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid([
@@ -45,9 +42,7 @@ final class JwkUriConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid([
@@ -57,9 +52,7 @@ final class JwkUriConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoKeySetIdIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -74,9 +67,7 @@ final class JwkUriConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoPathIsSet(): void
     {
         $this->assertConfigurationIsInvalid(

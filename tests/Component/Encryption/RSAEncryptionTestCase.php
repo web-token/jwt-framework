@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWKSet;
 
 /**
@@ -13,9 +14,8 @@ final class RSAEncryptionTestCase extends EncryptionTestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516
-     *
-     * @test
      */
+    #[Test]
     public function loadJWEFromRFC7516(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
@@ -35,9 +35,8 @@ final class RSAEncryptionTestCase extends EncryptionTestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.4
-     *
-     * @test
      */
+    #[Test]
     public function loadJWEJSONSerialization(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()

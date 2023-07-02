@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\InvalidHeaderException;
 use Jose\Component\Checker\UnencodedPayloadChecker;
 use PHPUnit\Framework\TestCase;
@@ -13,9 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class UnencodedPayloadHeaderCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function theB64HeaderMustBeAnBoolean(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -25,9 +24,7 @@ final class UnencodedPayloadHeaderCheckerTest extends TestCase
         $checker->checkHeader('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theB64HeaderIsABoolean(): void
     {
         $checker = new UnencodedPayloadChecker();

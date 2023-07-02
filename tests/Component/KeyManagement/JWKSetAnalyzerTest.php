@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
@@ -18,9 +19,7 @@ final class JWKSetAnalyzerTest extends TestCase
 {
     private ?KeysetAnalyzerManager $keysetAnalyzerManager = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeysetHasNoKey(): void
     {
         $jwkset = new JWKSet([]);
@@ -30,9 +29,7 @@ final class JWKSetAnalyzerTest extends TestCase
         static::assertEmpty($messages);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeysetDoesNotMixesKeys(): void
     {
         $jwkset = new JWKSet([
@@ -55,9 +52,7 @@ final class JWKSetAnalyzerTest extends TestCase
         static::assertEmpty($messages);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeysetMixesKeys(): void
     {
         $jwkset = new JWKSet([
@@ -83,9 +78,7 @@ final class JWKSetAnalyzerTest extends TestCase
         static::assertNotEmpty($messages);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeysetHasOnlyPrivateKeys(): void
     {
         $jwkset = new JWKSet([
@@ -108,9 +101,7 @@ final class JWKSetAnalyzerTest extends TestCase
         static::assertEmpty($messages);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeysetHasOnlyPublicKeys(): void
     {
         $jwkset = new JWKSet([
@@ -130,9 +121,7 @@ final class JWKSetAnalyzerTest extends TestCase
         static::assertEmpty($messages);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeysetMixesPublicAndPrivateKeys(): void
     {
         $jwkset = new JWKSet([

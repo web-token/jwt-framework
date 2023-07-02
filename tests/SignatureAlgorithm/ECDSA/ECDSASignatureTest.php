@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
@@ -17,9 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ECDSASignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -34,9 +33,7 @@ final class ECDSASignatureTest extends TestCase
         $ecdsa->sign($key, $data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eS256Verify(): void
     {
         $key = new JWK([
@@ -57,9 +54,7 @@ final class ECDSASignatureTest extends TestCase
         static::assertTrue($ecdsa->verify($key, $data, Base64UrlSafe::decode($signature)));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eS256SignVerify(): void
     {
         $key = new JWK([
@@ -78,9 +73,7 @@ final class ECDSASignatureTest extends TestCase
         static::assertTrue($ecdsa->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keyNotPrivate(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -98,9 +91,7 @@ final class ECDSASignatureTest extends TestCase
         $ecdsa->sign($key, $data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eS384SignVerify(): void
     {
         $key = new JWK([
@@ -119,9 +110,7 @@ final class ECDSASignatureTest extends TestCase
         static::assertTrue($ecdsa->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eS512Verify(): void
     {
         $key = new JWK([
@@ -142,9 +131,7 @@ final class ECDSASignatureTest extends TestCase
         static::assertTrue($ecdsa->verify($key, $data, Base64UrlSafe::decode($signature)));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eS512SignVerify(): void
     {
         $key = new JWK([
@@ -163,9 +150,7 @@ final class ECDSASignatureTest extends TestCase
         static::assertTrue($ecdsa->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function badSignature(): void
     {
         $key = new JWK([

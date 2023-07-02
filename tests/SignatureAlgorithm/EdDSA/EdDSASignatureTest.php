@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\EdDSA;
@@ -19,9 +20,8 @@ final class EdDSASignatureTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc8037#appendix-A.5
-     *
-     * @test
      */
+    #[Test]
     public function edDSAVerifyAlgorithm(): void
     {
         $key = new JWK([
@@ -42,9 +42,8 @@ final class EdDSASignatureTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc8037#appendix-A.5
-     *
-     * @test
      */
+    #[Test]
     public function edDSASignAndVerifyAlgorithm(): void
     {
         $key = new JWK([

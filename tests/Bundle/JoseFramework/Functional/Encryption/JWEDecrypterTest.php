@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory as JWEDecrypterFactoryService;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypter;
@@ -22,9 +23,7 @@ final class JWEDecrypterTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theJWEDecrypterFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -34,9 +33,7 @@ final class JWEDecrypterTest extends WebTestCase
         static::assertTrue($container->has(JWEDecrypterFactoryService::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theWEDecrypterFactoryCanCreateAJWEDecrypter(): void
     {
         static::ensureKernelShutdown();
@@ -50,9 +47,7 @@ final class JWEDecrypterTest extends WebTestCase
         $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWEDecrypterCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
@@ -65,9 +60,7 @@ final class JWEDecrypterTest extends WebTestCase
         static::assertInstanceOf(JWEDecrypter::class, $jwe);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWEDecrypterCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();

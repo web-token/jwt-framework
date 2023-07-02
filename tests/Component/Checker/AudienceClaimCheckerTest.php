@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\InvalidClaimException;
 use PHPUnit\Framework\TestCase;
@@ -13,9 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class AudienceClaimCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function anAudienceClaimMustBeAStringOrAnArrayOfStrings(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -25,9 +24,7 @@ final class AudienceClaimCheckerTest extends TestCase
         $checker->checkClaim(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAudienceClaimIsNotKnown(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -37,9 +34,7 @@ final class AudienceClaimCheckerTest extends TestCase
         $checker->checkClaim('bar');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAudienceClaimListDoesNotContainTheCurrentAudience(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -49,9 +44,7 @@ final class AudienceClaimCheckerTest extends TestCase
         $checker->checkClaim(['bar']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAudienceClaimIsSupported(): void
     {
         $checker = new AudienceChecker('foo');

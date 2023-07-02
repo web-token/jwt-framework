@@ -94,5 +94,8 @@ return static function (ECSConfig $config): void {
         __DIR__ . '/performance',
         __DIR__ . '/src',
         __DIR__ . '/tests',
+        __DIR__ . '/ecs.php',
+        __DIR__ . '/rector.php',
+        __DIR__ . '/monorepo-builder.php',
     ]);
 };

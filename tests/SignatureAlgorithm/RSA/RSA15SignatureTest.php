@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\RS256;
@@ -22,9 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class RSA15SignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function rS256(): void
     {
         /**

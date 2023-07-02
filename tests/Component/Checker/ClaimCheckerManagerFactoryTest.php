@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\ClaimCheckerManagerFactory;
@@ -22,17 +23,13 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
 {
     private ?ClaimCheckerManagerFactory $claimCheckerManagerFactory = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAliasListOfTheClaimCheckerManagerFactoryIsAvailable(): void
     {
         static::assertSame(['exp', 'iat', 'nbf', 'aud'], $this->getClaimCheckerManagerFactory()->aliases());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAliasDoesNotExist(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -42,9 +39,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
             ->create(['foo']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAClaimCheckerManager(): void
     {
         $manager = $this->getClaimCheckerManagerFactory()
@@ -52,9 +47,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
         static::assertCount(4, $manager->getCheckers());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCheckValidPayloadClaims(): void
     {
         $clock = new MockClock();
@@ -74,9 +67,7 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
         static::assertSame($expected, $result);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theMandatoryClaimsAreNotSet(): void
     {
         $this->expectException(MissingMandatoryClaimException::class);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\JWKFactory;
 use const JSON_THROW_ON_ERROR;
@@ -15,9 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class JWKFactoryTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanLoadAP12CertificateThatContainsARSAKey(): never
     {
         static::markTestIncomplete('Unable to run this test using the last OpenSSL versions');
@@ -39,9 +39,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromECCertificateFileInDERFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__ . '/EC/DER/prime256v1-cert.der');
@@ -62,9 +60,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromSecret(): void
     {
         $jwk = JWKFactory::createFromSecret('This is a very secured secret!!!!', [
@@ -78,9 +74,7 @@ final class JWKFactoryTest extends TestCase
         static::assertSame('FOO', $jwk->get('kid'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromKey(): void
     {
         $jwk = JWKFactory::createFromKey(file_get_contents(__DIR__ . '/Keys/EC/private.es256.encrypted.key'), 'test');
@@ -90,9 +84,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromResource(): void
     {
         $res = openssl_x509_read(file_get_contents(__DIR__ . '/RSA/PEM/1024b-rsa-example-cert.pem'));
@@ -113,9 +105,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromECCertificateFileInPEMFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__ . '/EC/PEM/prime256v1-cert.pem');
@@ -136,9 +126,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFrom32kRSACertificateFileInDERFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__ . '/RSA/DER/32k-rsa-example-cert.der');
@@ -158,9 +146,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFrom32kRSACertificateFileInPEMFormat(): void
     {
         $result = JWKFactory::createFromCertificateFile(__DIR__ . '/RSA/PEM/32k-rsa-example-cert.pem');
@@ -180,9 +166,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromPrivateEC256KeyFileEncrypted(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/private.es256.encrypted.key', 'test');
@@ -193,9 +177,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromPrivateEC384KeyFileEncrypted(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/private.es384.encrypted.key', 'test');
@@ -206,9 +188,7 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromPrivateEC512KeyFileEncrypted(): void
     {
         $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/private.es512.encrypted.key', 'test');
@@ -219,10 +199,8 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider publicKeysAndPem
-     * @test
-     */
+    #[Test]
+    #[DataProvider('publicKeysAndPem')]
     public function createFromPublicEC512KeyFile(string $filename, string $expectedJWK): void
     {
         // Given
@@ -252,9 +230,7 @@ final class JWKFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFromValues(): void
     {
         $result = JWKFactory::createFromValues([
@@ -271,10 +247,8 @@ final class JWKFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @dataProvider dataKeys
-     */
+    #[Test]
+    #[DataProvider('dataKeys')]
     public function loadKeyPEMEncoded(string $filename, array $expectedValues): void
     {
         $jwk = JWKFactory::createFromKeyFile($filename);

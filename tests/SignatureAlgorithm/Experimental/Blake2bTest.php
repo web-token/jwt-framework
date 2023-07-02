@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\Blake2b;
@@ -31,9 +33,7 @@ final class Blake2bTest extends TestCase
 
     private string $expectedHashWithKeyOne;
 
-    /**
-     * @before
-     */
+    #[Before]
     public function initializeKey(): void
     {
         $this->keyOne = new JWK([
@@ -47,9 +47,7 @@ final class Blake2bTest extends TestCase
         $this->expectedHashWithKeyOne = Base64UrlSafe::decode(self::EXPECTED_HASH_WITH_KEY_ONE);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function algorithmIdMustBeCorrect(): void
     {
         $algorithm = new Blake2b();
@@ -57,9 +55,7 @@ final class Blake2bTest extends TestCase
         static::assertSame('BLAKE2B', $algorithm->name());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function generatedSignatureMustBeSuccessfullyVerified(): void
     {
         $algorithm = new Blake2b();
@@ -68,9 +64,7 @@ final class Blake2bTest extends TestCase
         static::assertTrue($algorithm->verify($this->keyOne, self::CONTENTS, $this->expectedHashWithKeyOne));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signShouldRejectShortKeys(): void
     {
         $algorithm = new Blake2b();
@@ -85,9 +79,7 @@ final class Blake2bTest extends TestCase
         $algorithm->hash($key, self::CONTENTS);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function verifyShouldReturnFalseWhenExpectedHashWasNotCreatedWithSameInformation(): void
     {
         $algorithm = new Blake2b();

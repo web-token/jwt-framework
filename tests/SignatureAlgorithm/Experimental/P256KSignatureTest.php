@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256K;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -14,9 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class P256KSignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function es256KVerify(): void
     {
         $key = $this->getKey();
@@ -30,9 +29,7 @@ final class P256KSignatureTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function es256KSignAndVerify(): void
     {
         $key = $this->getKey();

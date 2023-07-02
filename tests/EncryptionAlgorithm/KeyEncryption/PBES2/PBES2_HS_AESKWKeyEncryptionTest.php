@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
@@ -22,9 +23,8 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7517#appendix-C
-     *
-     * @test
      */
+    #[Test]
     public function pBES2HS256A128KW(): void
     {
         $header = [
@@ -132,9 +132,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         static::assertSame($expected_cek, $pbes2->unwrapKey($key, $wrapped_cek, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pBES2HS256A128KWBis(): void
     {
         $header = [
@@ -240,9 +238,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         static::assertSame($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pBES2HS384A192KW(): void
     {
         $header = [
@@ -348,9 +344,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         static::assertSame($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function pBES2HS512A256KW(): void
     {
         $header = [
@@ -456,9 +450,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         static::assertSame($cek, $pbes2->unwrapKey($key, $encrypted_cek, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function badKeyType(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -563,9 +555,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         $pbes2->wrapKey($key, $cek, $header, $header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidKeyType(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -670,9 +660,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         $pbes2->wrapKey($key, $cek, $header, $header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function algorithmParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -776,9 +764,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         $pbes2->wrapKey($key, $cek, $header, $header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function p2CParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -850,9 +836,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
         $pbes2->unwrapKey($key, $wrapped_cek, $header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function p2SParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);

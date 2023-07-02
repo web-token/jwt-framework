@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory as HeaderCheckerManagerFactoryService;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,9 +22,7 @@ final class HeaderCheckerTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theHeaderCheckerManagerFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -33,9 +32,7 @@ final class HeaderCheckerTest extends WebTestCase
         static::assertTrue($container->has(HeaderCheckerManagerFactoryService::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theHeaderCheckerManagerFactoryCanCreateAHeaderCheckerManager(): void
     {
         static::ensureKernelShutdown();
@@ -49,9 +46,7 @@ final class HeaderCheckerTest extends WebTestCase
         $headerCheckerManagerFactory->create($aliases);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aHeaderCheckerCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
@@ -61,9 +56,7 @@ final class HeaderCheckerTest extends WebTestCase
         static::assertTrue($container->has('jose.header_checker.checker1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aHeaderCheckerCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();

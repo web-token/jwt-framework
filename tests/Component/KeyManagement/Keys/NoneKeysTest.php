@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use const JSON_THROW_ON_ERROR;
@@ -16,9 +17,8 @@ final class NoneKeysTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7638#section-3.1
-     *
-     * @test
      */
+    #[Test]
     public function keyThumbprint(): void
     {
         $key = new JWK([
@@ -37,9 +37,7 @@ final class NoneKeysTest extends TestCase
         static::assertSame('JI3gujreJtPt2gzxlbGnLQ', $key->thumbprint('md5'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createNoneKey(): void
     {
         $key = JWKFactory::createNoneKey([

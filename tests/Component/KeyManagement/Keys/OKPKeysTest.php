@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
@@ -13,9 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class OKPKeysTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function createOKPKeyWithInvalidKeySize(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -24,9 +23,7 @@ final class OKPKeysTest extends TestCase
         JWKFactory::createOKPKey('Ed455');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createOKPKeyWithCurveX25519(): void
     {
         $jwk = JWKFactory::createOKPKey('X25519', [
@@ -43,9 +40,7 @@ final class OKPKeysTest extends TestCase
         static::assertSame('enc', $jwk->get('use'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createOKPKeyWithCurveEd25519(): void
     {
         $jwk = JWKFactory::createOKPKey('Ed25519', [

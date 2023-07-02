@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -18,9 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class JWKTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function key(): void
     {
         $jwk = new JWK([
@@ -52,9 +51,7 @@ final class JWKTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function badConstruction(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -63,9 +60,7 @@ final class JWKTest extends TestCase
         new JWK([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function badCall(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -85,9 +80,7 @@ final class JWKTest extends TestCase
         $jwk->get('ABCD');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySet(): void
     {
         $jwk1 = new JWK([
@@ -142,9 +135,7 @@ final class JWKTest extends TestCase
         static::assertSame(0, $jwkset->count());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySet2(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -178,9 +169,7 @@ final class JWKTest extends TestCase
         $jwkset->get(2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function privateToPublic(): void
     {
         $private = new JWK([
@@ -209,9 +198,7 @@ final class JWKTest extends TestCase
         ]), json_encode($public, JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadCertificateChain(): void
     {
         $key = JWKFactory::createFromCertificateFile(
@@ -241,9 +228,7 @@ final class JWKTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theRSAKeyIsCorrectlyConvertedIntoPEM(): void
     {
         // Given

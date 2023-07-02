@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -27,9 +28,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class RSASignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function completeRS256Sign(): void
     {
         $key = new JWK([
@@ -74,9 +73,7 @@ final class RSASignatureTest extends TestCase
         static::assertSame('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function completeRS256SignWithDetachedPayload(): void
     {
         $key = new JWK([
@@ -121,9 +118,7 @@ final class RSASignatureTest extends TestCase
         static::assertSame('RS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function completeRS384Sign(): void
     {
         $key = new JWK([
@@ -168,9 +163,7 @@ final class RSASignatureTest extends TestCase
         static::assertSame('RS384', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function completeRS512Sign(): void
     {
         $key = new JWK([
@@ -216,9 +209,7 @@ final class RSASignatureTest extends TestCase
         static::assertSame('RS512', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function completePS256Sign(): void
     {
         $key = new JWK([
@@ -261,9 +252,7 @@ final class RSASignatureTest extends TestCase
         static::assertSame('PS256', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function completePS384Sign(): void
     {
         $key = new JWK([
@@ -304,9 +293,7 @@ final class RSASignatureTest extends TestCase
         static::assertSame('PS384', $result->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function completePS512Sign(): void
     {
         $key = new JWK([
@@ -349,9 +336,8 @@ final class RSASignatureTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.4
-     *
-     * @test
      */
+    #[Test]
     public function loadJWSJSONSerialization(): void
     {
         $serializer = new JSONGeneralSerializer();
@@ -372,9 +358,8 @@ final class RSASignatureTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.4
-     *
-     * @test
      */
+    #[Test]
     public function loadJWSJSONSerializationWithDetachedPayload(): void
     {
         $jwsVerifier = new JWSVerifier(new AlgorithmManager([new RS256()]));
@@ -396,9 +381,7 @@ final class RSASignatureTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadJWSJSONSerializationWithDetachedPayloadAndPayloadInJWS(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -420,9 +403,7 @@ final class RSASignatureTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadInvalidInput(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -433,9 +414,7 @@ final class RSASignatureTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadInvalidInput2(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -448,9 +427,8 @@ final class RSASignatureTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7515#appendix-A.1
-     *
-     * @test
      */
+    #[Test]
     public function loadIETFExample1(): void
     {
         $serializer = new CompactSerializer();
@@ -469,9 +447,8 @@ final class RSASignatureTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7515#appendix-A.2
-     *
-     * @test
      */
+    #[Test]
     public function loadIETFExample2(): void
     {
         $serializer = new CompactSerializer();
@@ -490,9 +467,8 @@ final class RSASignatureTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7515#appendix-A.3
-     *
-     * @test
      */
+    #[Test]
     public function loadIETFExample3(): void
     {
         $serializer = new CompactSerializer();
@@ -511,9 +487,8 @@ final class RSASignatureTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7515#appendix-A.4
-     *
-     * @test
      */
+    #[Test]
     public function loadIETFExample4(): void
     {
         $serializer = new CompactSerializer();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEBuilderFactory;
@@ -24,9 +25,7 @@ final class JWEComputationTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function iCanCreateAndLoadAToken(): void
     {
         static::ensureKernelShutdown();

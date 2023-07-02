@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource;
@@ -25,17 +26,13 @@ final class SerializerConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid([
@@ -45,9 +42,7 @@ final class SerializerConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid([
@@ -57,9 +52,7 @@ final class SerializerConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoSerializerIsSet(): void
     {
         $this->assertConfigurationIsValid([
@@ -71,9 +64,7 @@ final class SerializerConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoSerializerParameterIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -90,9 +81,7 @@ final class SerializerConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfTheSerializerListIsEmpty(): void
     {
         $this->assertConfigurationIsInvalid(

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Serializer;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Bundle\JoseFramework\Serializer\JWSEncoder;
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Component\Core\JWK;
@@ -32,10 +34,8 @@ final class JWSEncoderTest extends KernelTestCase
         }
     }
 
-    /**
-     * @test
-     * @dataProvider jwsFormatDataProvider
-     */
+    #[Test]
+    #[DataProvider('jwsFormatDataProvider')]
     public function theJWSSerializerSupportsAllFormatsByDefault(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -46,10 +46,8 @@ final class JWSEncoderTest extends KernelTestCase
         static::assertTrue($serializer->supportsDecoding($format));
     }
 
-    /**
-     * @test
-     * @dataProvider jwsFormatDataProvider
-     */
+    #[Test]
+    #[DataProvider('jwsFormatDataProvider')]
     public function aJWSCanBeEncodedInAllFormats(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -67,10 +65,8 @@ final class JWSEncoderTest extends KernelTestCase
         static::assertSame($expected[$format], $jwsString);
     }
 
-    /**
-     * @test
-     * @dataProvider jwsFormatDataProvider
-     */
+    #[Test]
+    #[DataProvider('jwsFormatDataProvider')]
     public function aJWSCanBeEncodedWithSpecificSignature(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -102,9 +98,7 @@ final class JWSEncoderTest extends KernelTestCase
         static::assertSame($expected[$format], $jwsString);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWSCanBeEncodedWithCustomSerializerManager(): void
     {
         $container = static::getContainer();
@@ -129,9 +123,7 @@ final class JWSEncoderTest extends KernelTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theJWSSerializerShouldThrowOnUnsupportedFormatWhenEncoding(): void
     {
         $container = static::getContainer();
@@ -147,10 +139,8 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer->encode($jws, 'jws_json_flattened');
     }
 
-    /**
-     * @test
-     * @dataProvider jwsFormatDataProvider
-     */
+    #[Test]
+    #[DataProvider('jwsFormatDataProvider')]
     public function aJWSCanBeDecodedInAllFormats(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -164,9 +154,7 @@ final class JWSEncoderTest extends KernelTestCase
         static::assertEqualsCanonicalizing($jwsData['jws'], $jws);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theJWSSerializerShouldThrowOnUnsupportedFormatWhenDecoding(): void
     {
         $container = static::getContainer();

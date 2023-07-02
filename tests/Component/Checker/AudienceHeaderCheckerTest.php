@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\InvalidHeaderException;
 use PHPUnit\Framework\TestCase;
@@ -13,9 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class AudienceHeaderCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -25,9 +24,7 @@ final class AudienceHeaderCheckerTest extends TestCase
         $checker->checkHeader(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAudienceHeaderIsNotKnown(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -37,9 +34,7 @@ final class AudienceHeaderCheckerTest extends TestCase
         $checker->checkHeader('bar');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAudienceHeaderListDoesNotContainTheCurrentAudience(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -49,9 +44,7 @@ final class AudienceHeaderCheckerTest extends TestCase
         $checker->checkHeader(['bar']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAudienceHeaderIsSupported(): void
     {
         $checker = new AudienceChecker('foo');

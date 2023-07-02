@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Tests\Component\Checker\Stub\MockClock;
@@ -14,9 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ExpirationTimeClaimCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function theExpirationTimeClaimMustBeAnInteger(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -27,9 +26,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
         $checker->checkClaim('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theExpirationTimeIsInThePast(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -40,9 +37,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
         $checker->checkClaim($clock->now()->getTimestamp() - 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theExpirationTimeIsInTheFutur(): void
     {
         $clock = new MockClock();

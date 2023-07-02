@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Core;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\Util\JsonConverter;
 use PHPUnit\Framework\TestCase;
 
@@ -12,9 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class JsonConverterTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanConvertAnObjectIntoAJsonString(): void
     {
         static::assertSame('{"foo":"BAR"}', JsonConverter::encode([

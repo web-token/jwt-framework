@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
@@ -32,10 +34,10 @@ final class ECDSAFromRFC6979Test extends TestCase
      * @param string $message
      * @param string $signature
      *
-     * @dataProvider dataWithVectors
      *
-     * @test
      */
+    #[Test]
+    #[DataProvider('dataWithVectors')]
     public function withVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature): void
     {
         $is_valid = $algorithm->verify($key, $message, $signature);

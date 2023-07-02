@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use Jose\Component\Console\GetThumbprintCommand;
 use Jose\Component\Console\KeyFileLoaderCommand;
 use Jose\Component\Console\OptimizeRsaKeyCommand;
@@ -24,10 +26,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class KeyConversionCommandTest extends TestCase
 {
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function iCanLoadAKeyFile(): void
     {
         $input = new ArrayInput([
@@ -40,10 +40,8 @@ final class KeyConversionCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function iCanLoadAnEncryptedKeyFile(): void
     {
         $input = new ArrayInput([
@@ -57,10 +55,8 @@ final class KeyConversionCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function iCanLoadAPKCS12CertificateFile(): never
     {
         static::markTestIncomplete('Unable to run this test using the last OpenSSL versions');
@@ -75,10 +71,8 @@ final class KeyConversionCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function iCanLoadAX509CertificateFile(): void
     {
         $input = new ArrayInput([
@@ -91,9 +85,7 @@ final class KeyConversionCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanOptimizeARsaKey(): void
     {
         $jwk = new JWK([
@@ -118,9 +110,7 @@ final class KeyConversionCommandTest extends TestCase
         static::assertTrue($jwk->has('qi'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanConvertARsaKeyIntoPKCS1(): void
     {
         $jwk = new JWK([
@@ -145,9 +135,7 @@ final class KeyConversionCommandTest extends TestCase
         static::assertStringContainsString('-----BEGIN PRIVATE KEY-----', $content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanConvertAnEcKeyIntoPKCS1(): void
     {
         $jwk = new JWK([
@@ -168,9 +156,7 @@ final class KeyConversionCommandTest extends TestCase
         static::assertStringContainsString('-----BEGIN EC PRIVATE KEY-----', $content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanConvertAPrivateKeyIntoPublicKey(): void
     {
         $jwk = new JWK([
@@ -194,9 +180,7 @@ final class KeyConversionCommandTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanConvertPrivateKeysIntoPublicKeys(): void
     {
         $keyset = JWKSet::createFromKeyData([
@@ -229,9 +213,7 @@ final class KeyConversionCommandTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanGetTheThumbprintOfAKey(): void
     {
         $jwk = new JWK([

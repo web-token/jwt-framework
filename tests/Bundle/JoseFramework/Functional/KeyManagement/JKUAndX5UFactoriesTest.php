@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,9 +22,7 @@ final class JKUAndX5UFactoriesTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theJKUFactoryServiceIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -34,9 +33,7 @@ final class JKUAndX5UFactoriesTest extends WebTestCase
         static::assertTrue($container->has(JKUFactory::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theX5UFactoryServiceIsAvailable(): void
     {
         static::ensureKernelShutdown();

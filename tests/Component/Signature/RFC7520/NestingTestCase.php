@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\RFC7520;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Signature\SignatureTestCase;
 use const JSON_THROW_ON_ERROR;
@@ -15,9 +16,7 @@ use const JSON_THROW_ON_ERROR;
  */
 final class NestingTestCase extends SignatureTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function signatureVerification(): void
     {
         $payload = [

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\PS256;
@@ -22,11 +24,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class RSAKeyWithoutAllPrimesTest extends TestCase
 {
-    /**
-     * @dataProvider dataSignatureAlgorithms
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('dataSignatureAlgorithms')]
     public function signatureAlgorithms(string $signature_algorithm): void
     {
         $algorithm = new $signature_algorithm();

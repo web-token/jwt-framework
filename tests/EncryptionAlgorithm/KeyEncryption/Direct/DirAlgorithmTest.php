@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
@@ -17,9 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class DirAlgorithmTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -34,9 +33,7 @@ final class DirAlgorithmTest extends TestCase
         $dir->getCEK($key);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function validCEK(): void
     {
         $key = new JWK([

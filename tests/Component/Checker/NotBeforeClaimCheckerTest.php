@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Tests\Component\Checker\Stub\MockClock;
@@ -14,9 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class NotBeforeClaimCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function theNotBeforeClaimMustBeAnInteger(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -27,9 +26,7 @@ final class NotBeforeClaimCheckerTest extends TestCase
         $checker->checkClaim('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theNotBeforeClaimIsInTheFutur(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -40,9 +37,7 @@ final class NotBeforeClaimCheckerTest extends TestCase
         $checker->checkClaim($clock->now()->getTimestamp() + 3600);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theNotBeforeClaimIsInThePast(): void
     {
         $clock = new MockClock();

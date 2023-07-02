@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\RFC7520;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Signature\SignatureTestCase;
 
@@ -14,9 +15,7 @@ use Jose\Tests\Component\Signature\SignatureTestCase;
  */
 final class MultipleSignaturesTestCase extends SignatureTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function multipleSignatures(): void
     {
         /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\ContentEncryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
@@ -16,9 +17,7 @@ use const STR_PAD_LEFT;
  */
 final class AESGCMContentEncryptionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function a128GCMEncryptAndDecrypt(): void
     {
         $header = Base64UrlSafe::encodeUnpadded(json_encode([
@@ -39,9 +38,7 @@ final class AESGCMContentEncryptionTest extends TestCase
         static::assertSame($plaintext, $algorithm->decryptContent($cyphertext, $cek, $iv, null, $header, $tag));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function a192GCMEncryptAndDecrypt(): void
     {
         $header = Base64UrlSafe::encodeUnpadded(json_encode([
@@ -62,9 +59,7 @@ final class AESGCMContentEncryptionTest extends TestCase
         static::assertSame($plaintext, $algorithm->decryptContent($cyphertext, $cek, $iv, null, $header, $tag));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function a256GCMEncryptAndDecrypt(): void
     {
         $header = Base64UrlSafe::encodeUnpadded(json_encode([
@@ -87,9 +82,8 @@ final class AESGCMContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
-     *
-     * @test
      */
+    #[Test]
     public function a256GCMDecryptTestVector(): void
     {
         $algorithm = new A256GCM();

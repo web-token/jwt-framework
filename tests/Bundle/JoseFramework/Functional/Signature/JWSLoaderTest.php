@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory as JWSLoaderFactoryService;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
@@ -22,9 +23,7 @@ final class JWSLoaderTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theJWSLoaderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -34,9 +33,7 @@ final class JWSLoaderTest extends WebTestCase
         static::assertTrue($container->has(JWSLoaderFactoryService::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theWELoaderFactoryCanCreateAJWSLoader(): void
     {
         static::ensureKernelShutdown();
@@ -53,9 +50,7 @@ final class JWSLoaderTest extends WebTestCase
         static::assertSame(['RS512'], $jws->getJwsVerifier()->getSignatureAlgorithmManager()->list());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWSLoaderCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
@@ -68,9 +63,7 @@ final class JWSLoaderTest extends WebTestCase
         static::assertInstanceOf(JWSLoader::class, $jws);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWSLoaderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();

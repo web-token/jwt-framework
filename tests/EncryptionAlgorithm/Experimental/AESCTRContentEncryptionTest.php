@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192CTR;
@@ -15,9 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class AESCTRContentEncryptionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function a128CTRKeyEncryptionAndDecryption(): void
     {
         $header = [];
@@ -32,9 +31,7 @@ final class AESCTRContentEncryptionTest extends TestCase
         static::assertSame($cek, $decrypted);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function a192CTRKeyEncryptionAndDecryption(): void
     {
         $header = [];
@@ -49,9 +46,7 @@ final class AESCTRContentEncryptionTest extends TestCase
         static::assertSame($cek, $decrypted);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function a256CTRKeyEncryptionAndDecryption(): void
     {
         $header = [];

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\HS256_64;
@@ -14,9 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ExperimentalHMACSignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function hS1SignAndVerify(): void
     {
         $key = $this->getKey();
@@ -30,9 +29,7 @@ final class ExperimentalHMACSignatureTest extends TestCase
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hS256SignAndVerify(): void
     {
         $key = $this->getKey();

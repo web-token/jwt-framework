@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use Exception;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWELoader;
@@ -17,9 +18,7 @@ final class JWELoaderTestCase extends EncryptionTestCase
 {
     private ?JWELoader $jweLoader = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theFlattenedTokenCannotBeLoaded(): void
     {
         $this->expectException(Exception::class);
@@ -39,9 +38,7 @@ final class JWELoaderTestCase extends EncryptionTestCase
             ->loadAndDecryptWithKey($token, $key, $recipient);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theTokenCannotBeVerifiedBecauseOfAnUnsupportedAlgorithm(): void
     {
         $this->expectException(Exception::class);
@@ -61,9 +58,7 @@ final class JWELoaderTestCase extends EncryptionTestCase
             ->loadAndDecryptWithKey($token, $key, $recipient);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theTokenCannotBeVerifiedBecauseOfABadKey(): void
     {
         $this->expectException(Exception::class);
@@ -83,9 +78,7 @@ final class JWELoaderTestCase extends EncryptionTestCase
             ->loadAndDecryptWithKey($token, $key, $recipient);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theJweLoaderCanLoadAndDecryptAToken(): void
     {
         $token = 'eyJhbGciOiJBMTI4S1ciLCJraWQiOiI4MWIyMDk2NS04MzMyLTQzZDktYTQ2OC04MjE2MGFkOTFhYzgiLCJlbmMiOiJBMTI4R0NNIn0.CBI6oDw8MydIx1IBntf_lQcw2MmJKIQx.Qx0pmsDa8KnJc9Jo.AwliP-KmWgsZ37BvzCefNen6VTbRK3QMA4TkvRkH0tP1bTdhtFJgJxeVmJkLD61A1hnWGetdg11c9ADsnWgL56NyxwSYjU1ZEHcGkd3EkU0vjHi9gTlb90qSYFfeF0LwkcTtjbYKCsiNJQkcIp1yeM03OmuiYSoYJVSpf7ej6zaYcMv3WwdxDFl8REwOhNImk2Xld2JXq6BR53TSFkyT7PwVLuq-1GwtGHlQeg7gDT6xW0JqHDPn_H-puQsmthc9Zg0ojmJfqqFvETUxLAF-KjcBTS5dNy6egwkYtOt8EIHK-oEsKYtZRaa8Z7MOZ7UGxGIMvEmxrGCPeJa14slv2-gaqK0kEThkaSqdYw0FkQZF.ER7MWJZ1FBI_NKvn7Zb1Lw';

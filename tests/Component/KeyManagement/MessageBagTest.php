@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\KeyManagement\Analyzer\Message;
 use Jose\Component\KeyManagement\Analyzer\MessageBag;
 use const JSON_THROW_ON_ERROR;
@@ -14,9 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class MessageBagTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanGetAMessageWithLowSeverity(): void
     {
         $message = Message::low('Not important');
@@ -25,9 +24,7 @@ final class MessageBagTest extends TestCase
         static::assertSame('Not important', $message->getMessage());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanGetAMessageWithMediumSeverity(): void
     {
         $message = Message::medium('Quite important');
@@ -36,9 +33,7 @@ final class MessageBagTest extends TestCase
         static::assertSame('Quite important', $message->getMessage());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanGetAMessageWithHighSeverity(): void
     {
         $message = Message::high('Very important');
@@ -47,9 +42,7 @@ final class MessageBagTest extends TestCase
         static::assertSame('Very important', $message->getMessage());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanSerializeAMessageIntoJson(): void
     {
         $message = Message::high('Very important');
@@ -60,9 +53,7 @@ final class MessageBagTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function aMessageBagCanHaveSeveralMessages(): void
     {
         $bag = new MessageBag();
@@ -74,9 +65,7 @@ final class MessageBagTest extends TestCase
         static::assertContainsOnlyInstancesOf(Message::class, $bag);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanSerializeAMessageBagIntoJson(): void
     {
         $bag = new MessageBag();

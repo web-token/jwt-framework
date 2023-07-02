@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\NestedToken;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\JWK;
@@ -57,9 +58,7 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decryption(): void
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';

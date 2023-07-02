@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
 use function count;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -15,9 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class JWKSetTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelection(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -26,9 +25,7 @@ final class JWKSetTest extends TestCase
         static::assertInstanceOf(JWK::class, $jwk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionWithAlgorithm(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -46,9 +43,7 @@ final class JWKSetTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionWithAlgorithmAndKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -68,9 +63,7 @@ final class JWKSetTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionWithKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -90,9 +83,7 @@ final class JWKSetTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionReturnsNothing(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -103,9 +94,7 @@ final class JWKSetTest extends TestCase
         static::assertNull($jwk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createKeySetFromValues(): void
     {
         $values = [

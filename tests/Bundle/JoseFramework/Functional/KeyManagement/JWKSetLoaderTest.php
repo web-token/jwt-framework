@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\MockClientCallback;
@@ -26,9 +27,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::$messageFactory = new Psr17Factory();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKSetCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -39,9 +38,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::assertInstanceOf(JWKSet::class, $container->get('jose.key_set.jwkset1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKSetCanBeSharedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -59,9 +56,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::assertSame('application/jwk-set+json; charset=UTF-8', $response->headers->get('Content-Type'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKSetCanBeDefinedFromAnotherBundle(): void
     {
         static::ensureKernelShutdown();
@@ -72,9 +67,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::assertInstanceOf(JWKSet::class, $container->get('jose.key_set.jwkset2'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKSetCanBeSharedFromAnotherBundle(): void
     {
         static::ensureKernelShutdown();
@@ -92,9 +85,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::assertSame('application/jwk-set+json; charset=UTF-8', $response->headers->get('Content-Type'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKSetCanBeRetrieveFromADistantJkuThroughConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -116,9 +107,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::assertInstanceOf(JWKSet::class, $container->get('jose.key_set.jku1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKSetCanBeRetrieveFromADistantX5uThroughConfiguration(): void
     {
         static::ensureKernelShutdown();

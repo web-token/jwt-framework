@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Signature\JWS;
 use const JSON_THROW_ON_ERROR;
@@ -15,9 +16,7 @@ use ParagonIE\ConstantTime\Base64UrlSafe;
  */
 final class JWSTestCase extends SignatureTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function jWS(): void
     {
         $claims = [
@@ -42,9 +41,7 @@ final class JWSTestCase extends SignatureTestCase
         static::assertSame([], $jws->getSignature(0)->getHeader());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toCompactJSONFailed(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -63,9 +60,7 @@ final class JWSTestCase extends SignatureTestCase
             ->serialize('jws_compact', $jws, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toFlattenedJSONFailed(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -84,9 +79,7 @@ final class JWSTestCase extends SignatureTestCase
             ->serialize('jws_json_flattened', $jws, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function toJSONFailed(): void
     {
         $this->expectException(LogicException::class);
@@ -105,9 +98,7 @@ final class JWSTestCase extends SignatureTestCase
             ->serialize('jws_json_general', $jws, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signatureContainsUnprotectedHeader(): void
     {
         $this->expectException(LogicException::class);
@@ -135,9 +126,7 @@ final class JWSTestCase extends SignatureTestCase
             ->serialize('jws_compact', $jws, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signatureDoesNotContainHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -160,9 +149,7 @@ final class JWSTestCase extends SignatureTestCase
             ->getHeaderParameter('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signatureDoesNotContainProtectedHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);

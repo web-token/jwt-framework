@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Console\KeyAnalyzerCommand;
 use Jose\Component\Console\KeysetAnalyzerCommand;
 use Jose\Component\Core\JWK;
@@ -32,9 +33,7 @@ final class AnalyzeCommandTest extends TestCase
 
     private ?KeysetAnalyzerManager $keysetAnalyzerManager = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeAKeyAndGetInformation(): void
     {
         $jwk = new JWK([
@@ -55,9 +54,7 @@ final class AnalyzeCommandTest extends TestCase
         static::assertStringContainsString('* The parameter "use" should be added.', $content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeAKeySetAndGetInformation(): void
     {
         $keyset = JWKSet::createFromKeyData([

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory as JWELoaderFactoryAlias;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWELoader;
@@ -22,9 +23,7 @@ final class JWELoaderTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theJWELoaderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -34,9 +33,7 @@ final class JWELoaderTest extends WebTestCase
         static::assertTrue($container->has(JWELoaderFactoryAlias::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theWELoaderFactoryCanCreateAJWELoader(): void
     {
         static::ensureKernelShutdown();
@@ -55,9 +52,7 @@ final class JWELoaderTest extends WebTestCase
         static::assertSame(['DEF'], $jwe->getJweDecrypter()->getCompressionMethodManager()->list());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWELoaderCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
@@ -70,9 +65,7 @@ final class JWELoaderTest extends WebTestCase
         static::assertInstanceOf(JWELoader::class, $jwe);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWELoaderCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();

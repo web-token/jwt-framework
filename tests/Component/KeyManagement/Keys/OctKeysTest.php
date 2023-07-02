@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\TestCase;
@@ -13,9 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class OctKeysTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function createOctKeyWithInvalidKeySize(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -24,9 +23,7 @@ final class OctKeysTest extends TestCase
         JWKFactory::createOctKey(12);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createOctKey(): void
     {
         $jwk = JWKFactory::createOctKey(64);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -17,9 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class NoneSignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function noneSignAndVerifyAlgorithm(): void
     {
         $key = new JWK([
@@ -35,9 +34,7 @@ final class NoneSignatureTest extends TestCase
         static::assertTrue($none->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -52,9 +49,7 @@ final class NoneSignatureTest extends TestCase
         $none->sign($key, $data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noneSignAndVerifyComplete(): void
     {
         $jwk = new JWK([

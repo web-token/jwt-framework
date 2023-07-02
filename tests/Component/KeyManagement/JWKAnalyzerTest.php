@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer;
@@ -29,9 +31,7 @@ final class JWKAnalyzerTest extends TestCase
 {
     private ?KeyAnalyzerManager $keyAnalyzerManager = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeANoneKeyAndGetMessages(): void
     {
         $key = JWKFactory::createNoneKey();
@@ -41,9 +41,7 @@ final class JWKAnalyzerTest extends TestCase
         static::assertNotEmpty($messages);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeAnRsaKeyAndGetMessages(): void
     {
         $key = new JWK([
@@ -58,10 +56,8 @@ final class JWKAnalyzerTest extends TestCase
         static::assertNotEmpty($messages);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function theRsaKeyHasALowExponent(): void
     {
         $key = JWK::createFromJson(
@@ -78,9 +74,7 @@ final class JWKAnalyzerTest extends TestCase
         static::fail('The low exponent should be catched');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeAnOctKeyAndGetMessages(): void
     {
         $key = JWKFactory::createOctKey(16, [
@@ -93,9 +87,7 @@ final class JWKAnalyzerTest extends TestCase
         static::assertNotEmpty($messages);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeAnES521OctKeyAndGetMessages(): void
     {
         $key = JWKFactory::createECKey('P-521', [

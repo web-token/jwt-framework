@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory as ClaimCheckerManagerFactoryService;
 use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,9 +22,7 @@ final class ClaimCheckerTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theClaimCheckerManagerFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -33,9 +32,7 @@ final class ClaimCheckerTest extends WebTestCase
         static::assertTrue($container->has(ClaimCheckerManagerFactoryService::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theClaimCheckerManagerFactoryCanCreateAClaimCheckerManager(): void
     {
         static::ensureKernelShutdown();
@@ -49,9 +46,7 @@ final class ClaimCheckerTest extends WebTestCase
         $claimCheckerManagerFactory->create($aliases);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aClaimCheckerCanBeDefinedUsingTheConfigurationFile(): void
     {
         static::ensureKernelShutdown();
@@ -61,9 +56,7 @@ final class ClaimCheckerTest extends WebTestCase
         static::assertTrue($container->has('jose.claim_checker.checker1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aClaimCheckerCanBeDefinedFromAnotherBundleUsingTheHelper(): void
     {
         static::ensureKernelShutdown();

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
@@ -18,9 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class CertificateTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function fileNotFound(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -29,9 +29,7 @@ final class CertificateTest extends TestCase
         KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function fileNotValid(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -39,9 +37,7 @@ final class CertificateTest extends TestCase
         KeyConverter::loadKeyFromCertificateFile(__DIR__ . __FILE__);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rsaEncryptedPrivateKeyConversion(): void
     {
         // When
@@ -61,9 +57,7 @@ final class CertificateTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rsaPublicKeyConversion(): void
     {
         // When
@@ -82,9 +76,7 @@ final class CertificateTest extends TestCase
         static::assertSame($content, $rsaKey->toPEM());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function certificateConversionPkcs8(): void
     {
         $details = KeyConverter::loadFromKeyFile(__DIR__ . '/Keys/RSA/pkcs8.private.encrypted.key', 'tests');
@@ -101,11 +93,8 @@ final class CertificateTest extends TestCase
         ]);
     }
 
-    /**
-     * @dataProvider dataLoadCertificate
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('dataLoadCertificate')]
     public function loadCertificate(string $file, array $expected_values): void
     {
         $result = KeyConverter::loadKeyFromCertificateFile($file);
@@ -327,9 +316,7 @@ final class CertificateTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadX5CParameter(): void
     {
         $key = new JWK([

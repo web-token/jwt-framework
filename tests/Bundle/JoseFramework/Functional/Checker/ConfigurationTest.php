@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
@@ -25,17 +26,13 @@ final class ConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid([
@@ -45,9 +42,7 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid([
@@ -57,9 +52,7 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoHeaderOrClaimCheckerIsSet(): void
     {
         $this->assertConfigurationIsValid([
@@ -72,9 +65,7 @@ final class ConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theHeadersForAHeaderCheckerShouldBeSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -93,9 +84,7 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function aHeaderCheckerMayContainNoChecker(): void
     {
         $this->assertConfigurationIsValid(
@@ -114,9 +103,7 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theClaimsForAClaimCheckerShouldBeSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -135,9 +122,7 @@ final class ConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function aClaimCheckerMayContainNoChecker(): void
     {
         $this->assertConfigurationIsValid(

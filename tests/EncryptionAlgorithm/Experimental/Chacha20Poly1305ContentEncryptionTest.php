@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use function in_array;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
@@ -22,9 +23,7 @@ final class Chacha20Poly1305ContentEncryptionTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function contentEncryptionAndDecryption(): void
     {
         $header = [];

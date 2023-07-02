@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature\Algorithm;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS256;
@@ -27,9 +28,8 @@ final class HMACFromRFC7520Test extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.4
-     *
-     * @test
      */
+    #[Test]
     public function hS256(): void
     {
         /**
@@ -101,9 +101,8 @@ final class HMACFromRFC7520Test extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.5
-     *
-     * @test
      */
+    #[Test]
     public function hS256WithDetachedPayload(): void
     {
         /**
@@ -176,9 +175,8 @@ final class HMACFromRFC7520Test extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.6
-     *
-     * @test
      */
+    #[Test]
     public function hS256WithUnprotectedHeader(): void
     {
         /**
@@ -246,9 +244,8 @@ final class HMACFromRFC7520Test extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7520#section-4.7
-     *
-     * @test
      */
+    #[Test]
     public function hS256WithoutProtectedHeader(): void
     {
         /**

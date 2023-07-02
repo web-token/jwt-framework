@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
+use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Checker\CallableChecker;
 use Jose\Component\Checker\InvalidClaimException;
@@ -15,9 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class CallableCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function theCallableIsCallable(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -26,9 +25,7 @@ final class CallableCheckerTest extends TestCase
         new CallableChecker('foo', 'not_a_callable');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theCallableDoesNotReturnABoolean(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -42,9 +39,7 @@ final class CallableCheckerTest extends TestCase
         $checker->checkHeader('baz');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theClaimIsInvalid(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -53,9 +48,7 @@ final class CallableCheckerTest extends TestCase
         $checker->checkClaim('baz');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theHeaderIsInvalid(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -64,9 +57,7 @@ final class CallableCheckerTest extends TestCase
         $checker->checkHeader('baz');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theClaimIsSupported(): void
     {
         $checker = new CallableChecker('foo', fn (mixed $value) => $value === 'bar');
@@ -75,9 +66,7 @@ final class CallableCheckerTest extends TestCase
         static::assertSame('foo', $checker->supportedClaim());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theHeaderIsSupported(): void
     {
         $checker = new CallableChecker('foo', fn (mixed $value) => $value === 'bar');

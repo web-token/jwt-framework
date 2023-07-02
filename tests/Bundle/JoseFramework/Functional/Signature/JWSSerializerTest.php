@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -21,9 +22,7 @@ final class JWSSerializerTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSSerializerManagerFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -36,9 +35,7 @@ final class JWSSerializerTest extends WebTestCase
         static::assertInstanceOf(JWSSerializerManager::class, $jws);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSSerializerManagerFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();

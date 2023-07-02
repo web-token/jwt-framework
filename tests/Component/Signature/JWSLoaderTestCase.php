@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
+use PHPUnit\Framework\Attributes\Test;
 use Exception;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSLoader;
@@ -15,9 +16,7 @@ final class JWSLoaderTestCase extends SignatureTestCase
 {
     private ?JWSLoader $jwsLoader = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theFlattenedTokenCannotBeLoaded(): void
     {
         $this->expectException(Exception::class);
@@ -36,9 +35,7 @@ final class JWSLoaderTestCase extends SignatureTestCase
             ->loadAndVerifyWithKey($token, $key, $signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theTokenCannotBeVerifiedBecauseOfAnUnsupportedAlgorithm(): void
     {
         $this->expectException(Exception::class);
@@ -57,9 +54,7 @@ final class JWSLoaderTestCase extends SignatureTestCase
             ->loadAndVerifyWithKey($token, $key, $signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theTokenCannotBeVerifiedBecauseOfABadKey(): void
     {
         $this->expectException(Exception::class);
@@ -78,9 +73,7 @@ final class JWSLoaderTestCase extends SignatureTestCase
             ->loadAndVerifyWithKey($token, $key, $signature);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theTokenCanBeVerified(): void
     {
         $token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0';

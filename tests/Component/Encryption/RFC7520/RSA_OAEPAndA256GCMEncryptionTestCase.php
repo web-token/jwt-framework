@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
+use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTestCase;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -18,9 +19,8 @@ final class RSA_OAEPAndA256GCMEncryptionTestCase extends EncryptionTestCase
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
      * always different). The output given in the RFC is used and only decrypted.
-     *
-     * @test
      */
+    #[Test]
     public function rSAOAEPAndA256GCMEncryption(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
@@ -109,9 +109,8 @@ final class RSA_OAEPAndA256GCMEncryptionTestCase extends EncryptionTestCase
 
     /**
      * Same input as before, but we perform the encryption first.
-     *
-     * @test
      */
+    #[Test]
     public function rSAOAEPAndA256GCMEncryptionBis(): void
     {
         $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";

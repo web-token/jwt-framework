@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Serializer;
 
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Bundle\JoseFramework\Serializer\JWESerializer;
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Component\Core\JWK;
@@ -31,10 +33,8 @@ final class JWESerializerTest extends KernelTestCase
         }
     }
 
-    /**
-     * @test
-     * @dataProvider jweFormatDataProvider
-     */
+    #[Test]
+    #[DataProvider('jweFormatDataProvider')]
     public function theJWESerializerSupportsAllFormatsByDefault(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -43,9 +43,7 @@ final class JWESerializerTest extends KernelTestCase
         static::assertTrue($serializer->supportsDenormalization(null, JWE::class, $format));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWECannotBeNormalized(): void
     {
         $container = static::getContainer();
@@ -57,10 +55,8 @@ final class JWESerializerTest extends KernelTestCase
         static::assertFalse(method_exists($serializer, 'supportsNormalization'));
     }
 
-    /**
-     * @test
-     * @dataProvider jweFormatDataProvider
-     */
+    #[Test]
+    #[DataProvider('jweFormatDataProvider')]
     public function theJWEDenormalizerPassesThrough(string $format, string $serializerId): void
     {
         $container = static::getContainer();
