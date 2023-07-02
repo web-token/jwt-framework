@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Console;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Console\EcKeyGeneratorCommand;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

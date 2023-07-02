@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
-use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Console\EcKeysetGeneratorCommand;
 use Jose\Component\Console\OctKeysetGeneratorCommand;
 use Jose\Component\Console\OkpKeysetGeneratorCommand;
 use Jose\Component\Console\RsaKeysetGeneratorCommand;
 use Jose\Component\Core\JWKSet;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;

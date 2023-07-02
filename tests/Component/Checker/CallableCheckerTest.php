@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
-use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Checker\CallableChecker;
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\InvalidHeaderException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

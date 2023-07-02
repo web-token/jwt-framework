@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
-use PHPUnit\Framework\Attributes\Test;
 use const DIRECTORY_SEPARATOR;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

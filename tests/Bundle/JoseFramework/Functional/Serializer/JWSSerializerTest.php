@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Serializer;
 
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Bundle\JoseFramework\Serializer\JWSSerializer;
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Component\Core\JWK;
@@ -13,6 +11,8 @@ use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilderFactory as BaseJWSBuilderFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

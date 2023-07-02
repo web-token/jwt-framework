@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
-use PHPUnit\Framework\Attributes\Test;
 use Exception;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWELoader;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class JWELoaderTest.

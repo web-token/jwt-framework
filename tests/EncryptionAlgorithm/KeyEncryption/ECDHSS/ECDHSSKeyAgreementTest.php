@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use const STR_PAD_LEFT;
 

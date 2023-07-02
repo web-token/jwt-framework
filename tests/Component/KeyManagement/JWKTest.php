@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -12,6 +11,7 @@ use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\KeyManagement\JWKFactory;
 use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Serializer;
 
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Bundle\JoseFramework\Serializer\JWESerializer;
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Component\Core\JWK;
@@ -13,6 +11,8 @@ use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilderFactory as BaseJWEBuilderFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

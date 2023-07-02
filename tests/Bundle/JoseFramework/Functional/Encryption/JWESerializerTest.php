@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

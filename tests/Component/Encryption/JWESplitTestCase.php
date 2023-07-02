@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Core;
 
-use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\AlgorithmManagerFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 

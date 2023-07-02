@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use InvalidArgumentException;
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
@@ -15,6 +13,8 @@ use Jose\Component\Checker\MissingMandatoryHeaderParameterException;
 use Jose\Tests\Component\Checker\Stub\OtherToken;
 use Jose\Tests\Component\Checker\Stub\Token;
 use Jose\Tests\Component\Checker\Stub\TokenSupport;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

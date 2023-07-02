@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWKSet;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

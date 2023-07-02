@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use const JSON_THROW_ON_ERROR;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

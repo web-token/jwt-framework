@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use PHPUnit\Framework\Attributes\Test;
 use function count;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

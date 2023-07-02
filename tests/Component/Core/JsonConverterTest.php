@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Core;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\Util\JsonConverter;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

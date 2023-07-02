@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\InvalidHeaderException;
 use Jose\Component\Checker\UnencodedPayloadChecker;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

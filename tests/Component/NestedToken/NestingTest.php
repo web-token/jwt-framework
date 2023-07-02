@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\NestedToken;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-6

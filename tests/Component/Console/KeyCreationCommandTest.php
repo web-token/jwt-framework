@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use InvalidArgumentException;
 use Jose\Component\Console\EcKeyGeneratorCommand;
 use Jose\Component\Console\NoneKeyGeneratorCommand;
@@ -15,6 +13,8 @@ use Jose\Component\Console\RsaKeyGeneratorCommand;
 use Jose\Component\Console\SecretKeyGeneratorCommand;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory as JWELoaderFactoryAlias;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWELoader;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

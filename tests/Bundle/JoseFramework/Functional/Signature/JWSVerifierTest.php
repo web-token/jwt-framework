@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory as JWSVerifierFactoryService;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

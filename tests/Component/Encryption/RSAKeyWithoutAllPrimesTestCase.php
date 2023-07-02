@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\DataProvider;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class RSAKeyWithoutAllPrimesTest.

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192CTR;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement\Keys;
 
-use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

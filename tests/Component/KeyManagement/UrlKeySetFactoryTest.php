@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use PHPUnit\Framework\Attributes\Test;
 use Http\Mock\Client;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
 use JsonException;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 

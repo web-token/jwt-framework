@@ -1,11 +1,12 @@
 <?php
 
 declare(strict_types=1);
-use Rector\PHPUnit\Rector\Class_\PreferPHPUnitThisCallRector;
 
 use Rector\Config\RectorConfig;
+
 use Rector\Core\ValueObject\PhpVersion;
 use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\PHPUnit\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\PHPUnit\Set\PHPUnitLevelSetList;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
@@ -44,7 +45,8 @@ return static function (RectorConfig $config): void {
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',
     ]);
-    $config->services()->remove(PreferPHPUnitThisCallRector::class);
+    $config->services()
+        ->remove(PreferPHPUnitThisCallRector::class);
     $config->phpVersion(PhpVersion::PHP_81);
     $config->parallel();
     $config->importNames();

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTestCase;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.5

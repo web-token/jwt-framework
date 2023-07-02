@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Checker;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Tests\Component\Checker\Stub\MockClock;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
 
-use PHPUnit\Framework\Attributes\Test;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**

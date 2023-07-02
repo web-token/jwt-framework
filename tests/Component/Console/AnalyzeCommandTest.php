@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Console\KeyAnalyzerCommand;
 use Jose\Component\Console\KeysetAnalyzerCommand;
 use Jose\Component\Core\JWK;
@@ -20,6 +19,7 @@ use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;

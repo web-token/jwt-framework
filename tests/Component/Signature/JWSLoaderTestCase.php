@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
-use PHPUnit\Framework\Attributes\Test;
 use Exception;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSLoader;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\NestedToken;
 
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\JWK;
@@ -25,6 +24,7 @@ use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer as JwsSerializer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
