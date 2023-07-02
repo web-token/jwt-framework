@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\Checker;
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\InvalidHeaderException;
 use Jose\Component\Checker\IsEqualChecker;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,9 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class IsEqualCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function theClaimIsInvalid(): void
     {
         $this->expectException(InvalidClaimException::class);
@@ -25,9 +24,7 @@ final class IsEqualCheckerTest extends TestCase
         $checker->checkClaim('baz');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theHeaderIsInvalid(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -36,9 +33,7 @@ final class IsEqualCheckerTest extends TestCase
         $checker->checkHeader('baz');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theClaimIsSupported(): void
     {
         $checker = new IsEqualChecker('foo', 'bar');
@@ -46,9 +41,7 @@ final class IsEqualCheckerTest extends TestCase
         static::assertSame('foo', $checker->supportedClaim());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theHeaderIsSupported(): void
     {
         $checker = new IsEqualChecker('foo', 'bar');

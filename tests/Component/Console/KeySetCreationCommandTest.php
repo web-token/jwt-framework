@@ -10,6 +10,7 @@ use Jose\Component\Console\OctKeysetGeneratorCommand;
 use Jose\Component\Console\OkpKeysetGeneratorCommand;
 use Jose\Component\Console\RsaKeysetGeneratorCommand;
 use Jose\Component\Core\JWKSet;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -20,9 +21,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class KeySetCreationCommandTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function theEllipticCurveKeySetCreationCommandIsAvailable(): void
     {
         $command = new EcKeysetGeneratorCommand();
@@ -30,9 +29,7 @@ final class KeySetCreationCommandTest extends TestCase
         static::assertTrue($command->isEnabled());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theEllipticCurveKeySetCreationCommandNeedTheCurveAndQuantityArguments(): void
     {
         $this->expectException(RuntimeException::class);
@@ -45,9 +42,7 @@ final class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnEllipticCurveKeySetWithAnUnsupportedCurve(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -63,9 +58,7 @@ final class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAnEllipticCurveKeySetWithCurveP256(): void
     {
         $input = new ArrayInput([
@@ -82,9 +75,7 @@ final class KeySetCreationCommandTest extends TestCase
         static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnOctetKeySetWithoutKeySetSize(): void
     {
         $this->expectException(RuntimeException::class);
@@ -102,9 +93,7 @@ final class KeySetCreationCommandTest extends TestCase
         static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAnOctetKeySet(): void
     {
         $input = new ArrayInput([
@@ -121,9 +110,7 @@ final class KeySetCreationCommandTest extends TestCase
         static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnOctetKeySetPairWithoutKeySetCurve(): void
     {
         $this->expectException(RuntimeException::class);
@@ -138,9 +125,7 @@ final class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAnOctetKeySetPair(): void
     {
         $input = new ArrayInput([
@@ -157,9 +142,7 @@ final class KeySetCreationCommandTest extends TestCase
         static::assertCount(2, $jwkset, 'Invalid number of keys in the keyset');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnRsaKeySetWithoutKeySetSize(): void
     {
         $this->expectException(RuntimeException::class);
@@ -174,9 +157,7 @@ final class KeySetCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAnRsaKeySet(): void
     {
         $input = new ArrayInput([

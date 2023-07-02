@@ -7,6 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,9 +23,7 @@ final class JWKLoaderTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -36,9 +35,7 @@ final class JWKLoaderTest extends WebTestCase
         static::assertInstanceOf(JWK::class, $container->get('jose.key.jwk1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKCanBeDefinedFromAnotherBundle(): void
     {
         static::ensureKernelShutdown();
@@ -50,9 +47,7 @@ final class JWKLoaderTest extends WebTestCase
         static::assertInstanceOf(JWK::class, $container->get('jose.key.jwk2'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aX509InFileCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -64,9 +59,7 @@ final class JWKLoaderTest extends WebTestCase
         static::assertInstanceOf(JWK::class, $container->get('jose.key.certificate1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aDirectX509InputCanBeDefinedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -78,9 +71,7 @@ final class JWKLoaderTest extends WebTestCase
         static::assertInstanceOf(JWK::class, $container->get('jose.key.x5c1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function anEncryptedKeyFileCanBeLoadedInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -92,9 +83,7 @@ final class JWKLoaderTest extends WebTestCase
         static::assertInstanceOf(JWK::class, $container->get('jose.key.file1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKCanBeLoadedFromAJwkSetInTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -106,9 +95,7 @@ final class JWKLoaderTest extends WebTestCase
         static::assertInstanceOf(JWK::class, $container->get('jose.key.jwkset1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWKCanBeLoadedFromASecretInTheConfiguration(): void
     {
         static::ensureKernelShutdown();

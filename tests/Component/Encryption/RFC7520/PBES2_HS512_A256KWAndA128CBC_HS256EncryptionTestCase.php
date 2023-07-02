@@ -8,6 +8,7 @@ use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTestCase;
 use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.3
@@ -19,9 +20,8 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTestCase extends Encrypt
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
      * always different). The output given in the RFC is used and only decrypted.
-     *
-     * @test
      */
+    #[Test]
     public function pBES2HS512A256KWAndA128CBCHS256Encryption(): void
     {
         $expected_payload = [
@@ -134,9 +134,8 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTestCase extends Encrypt
 
     /**
      * Same input as before, but we perform the encryption first.
-     *
-     * @test
      */
+    #[Test]
     public function pBES2HS512A256KWAndA128CBCHS256EncryptionBis(): void
     {
         $expected_payload = json_encode([

@@ -19,6 +19,8 @@ use Jose\Component\Signature\Algorithm\PS256;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\Serializer as JwsSerializer;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -50,10 +52,8 @@ final class NestingTokenBuilderTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[Test]
+    #[DoesNotPerformAssertions]
     public function decryption(): void
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';

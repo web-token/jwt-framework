@@ -19,6 +19,7 @@ use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -32,9 +33,7 @@ final class AnalyzeCommandTest extends TestCase
 
     private ?KeysetAnalyzerManager $keysetAnalyzerManager = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeAKeyAndGetInformation(): void
     {
         $jwk = new JWK([
@@ -55,9 +54,7 @@ final class AnalyzeCommandTest extends TestCase
         static::assertStringContainsString('* The parameter "use" should be added.', $content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAnalyzeAKeySetAndGetInformation(): void
     {
         $keyset = JWKSet::createFromKeyData([

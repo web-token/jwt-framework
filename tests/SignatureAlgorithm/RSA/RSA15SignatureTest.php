@@ -13,6 +13,7 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use const JSON_THROW_ON_ERROR;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,9 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class RSA15SignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function rS256(): void
     {
         /**

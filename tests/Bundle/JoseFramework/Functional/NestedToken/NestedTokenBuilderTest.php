@@ -8,6 +8,7 @@ use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\NestedToken\NestedTokenBuilder;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -22,9 +23,7 @@ final class NestedTokenBuilderTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theNestedTokenBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -34,9 +33,7 @@ final class NestedTokenBuilderTest extends WebTestCase
         static::assertTrue($container->has(NestedTokenBuilderFactory::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theNestedTokenBuilderFromTheConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -46,9 +43,7 @@ final class NestedTokenBuilderTest extends WebTestCase
         static::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_1'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function theNestedTokenBuilderFromTheConfigurationHelperIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -58,9 +53,7 @@ final class NestedTokenBuilderTest extends WebTestCase
         static::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_2'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfiguration(): void
     {
         static::ensureKernelShutdown();
@@ -123,9 +116,7 @@ final class NestedTokenBuilderTest extends WebTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aNestedTokenCanBeSignedAndEncryptedUsingTheServiceCreatedFromTheConfigurationHelper(): void
     {
         static::ensureKernelShutdown();

@@ -9,6 +9,7 @@ use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,9 +25,7 @@ final class JWSComputationTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function createAndLoadAToken(): void
     {
         static::ensureKernelShutdown();

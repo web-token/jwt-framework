@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,9 +19,8 @@ final class RSAKeysTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7638#section-3.1
-     *
-     * @test
      */
+    #[Test]
     public function keyThumbprint(): void
     {
         $key = new JWK([
@@ -34,9 +34,7 @@ final class RSAKeysTest extends TestCase
         static::assertSame('NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs', $key->thumbprint('sha256'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hashAlgorithmNotSupported(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -53,9 +51,7 @@ final class RSAKeysTest extends TestCase
         $key->thumbprint('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unsupportedKeyType(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -70,9 +66,7 @@ final class RSAKeysTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPublicRSAKeyFromPEM(): void
     {
         $file = 'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'RSA' . DIRECTORY_SEPARATOR . 'public.key';
@@ -86,9 +80,7 @@ final class RSAKeysTest extends TestCase
         static::assertTrue($rsa_key->isPublic());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPublicRSAKeyFromJWK(): void
     {
         $jwk = new JWK([
@@ -110,9 +102,7 @@ final class RSAKeysTest extends TestCase
         static::assertTrue($rsa_key->isPublic());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPublicRSAKeyFromValues(): void
     {
         $rsa_key = RSAKey::createFromJWK(new JWK([
@@ -129,9 +119,7 @@ final class RSAKeysTest extends TestCase
         static::assertTrue($rsa_key->isPublic());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPrivateRSAKey(): void
     {
         // Given
@@ -165,9 +153,7 @@ final class RSAKeysTest extends TestCase
         static::assertSame($content, \Jose\Component\Core\Util\RSAKey::createFromJWK($rsaKey->toJwk())->toPEM());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPrivateRSAKeyFromJWK(): void
     {
         $jwk = new JWK([
@@ -205,9 +191,7 @@ final class RSAKeysTest extends TestCase
         static::assertTrue($public_key->isPublic());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPrivateRSAKeyFromValues(): void
     {
         $rsa_key = RSAKey::createFromJWK(new JWK([
@@ -245,9 +229,7 @@ final class RSAKeysTest extends TestCase
         static::assertTrue($public_key->isPublic());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function convertPrivateKeyToPublic(): void
     {
         $private_ec_key = RSAKey::createFromJWK(new JWK([
@@ -275,9 +257,7 @@ final class RSAKeysTest extends TestCase
         ], $public_ec_key->toArray());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createRSAKey512Bits(): void
     {
         $jwk = JWKFactory::createRSAKey(512);
@@ -292,9 +272,7 @@ final class RSAKeysTest extends TestCase
         static::assertTrue($jwk->has('qi'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPrivateRSAKeyFromMinimalValues(): void
     {
         $rsa_key = RSAKey::createFromJWK(new JWK([

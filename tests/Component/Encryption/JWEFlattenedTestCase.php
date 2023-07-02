@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Encryption;
 
 use Jose\Component\Core\JWKSet;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal
@@ -14,9 +15,8 @@ final class JWEFlattenedTestCase extends EncryptionTestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.5
-     *
-     * @test
      */
+    #[Test]
     public function loadFlattenedJWE(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()

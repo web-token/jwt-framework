@@ -10,6 +10,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,9 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ECKeysTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function keyTypeNotSupported(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -32,9 +31,8 @@ final class ECKeysTest extends TestCase
     /**
      * @see https://github.com/Spomky-Labs/jose/issues/141
      * @see https://gist.github.com/Spomky/246eca6aaeeb7a40f11d3a2d98960282
-     *
-     * @test
      */
+    #[Test]
     public function loadPrivateEC256KeyGenerateByAPN(): void
     {
         $pem = file_get_contents(
@@ -50,9 +48,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPublicEC256Key(): void
     {
         $pem = file_get_contents(
@@ -67,9 +63,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPrivateEC256Key(): void
     {
         // Given
@@ -93,9 +87,7 @@ final class ECKeysTest extends TestCase
         static::assertSame($private_pem, $ecKey);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadEncryptedPrivateEC256Key(): void
     {
         $private_pem = file_get_contents(
@@ -111,9 +103,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadEncryptedPrivateEC256KeyWithoutPassword(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -124,9 +114,7 @@ final class ECKeysTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPublicEC384Key(): void
     {
         $pem = file_get_contents(
@@ -141,9 +129,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPrivateEC384Key(): void
     {
         $private_pem = file_get_contents(
@@ -159,9 +145,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadEncryptedPrivateEC384Key(): void
     {
         $private_pem = file_get_contents(
@@ -177,9 +161,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPublicEC512Key(): void
     {
         $pem = file_get_contents(
@@ -194,9 +176,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadPrivateEC512Key(): void
     {
         $private_pem = file_get_contents(
@@ -212,9 +192,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function loadEncryptedPrivateEC512Key(): void
     {
         $private_pem = file_get_contents(
@@ -230,9 +208,7 @@ final class ECKeysTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function convertPrivateKeyToPublic(): void
     {
         $jwk = new JWK([
@@ -258,9 +234,7 @@ final class ECKeysTest extends TestCase
             ->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createECKeyOnP256(): void
     {
         $jwk = JWKFactory::createECKey('P-256');
@@ -271,9 +245,7 @@ final class ECKeysTest extends TestCase
         static::assertTrue($jwk->has('y'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createECKeyOnP384(): void
     {
         $jwk = JWKFactory::createECKey('P-384');
@@ -284,9 +256,7 @@ final class ECKeysTest extends TestCase
         static::assertTrue($jwk->has('y'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createECKeyOnP521(): void
     {
         $jwk = JWKFactory::createECKey('P-521');

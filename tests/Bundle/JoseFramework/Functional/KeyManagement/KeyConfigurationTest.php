@@ -9,6 +9,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManagementSource;
 use Jose\Component\KeyManagement\JWKFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,17 +26,13 @@ final class KeyConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid([
@@ -45,9 +42,7 @@ final class KeyConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid([
@@ -57,9 +52,7 @@ final class KeyConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoKeyTypeIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -74,9 +67,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfAnUnsupportedKeyTypeIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -93,9 +84,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theCertificateConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -112,9 +101,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theJwkConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -131,9 +118,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -150,9 +135,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theJwkSetConfigurationIsInvalidIfRequiredParametersAreNotSet2(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -171,9 +154,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeyFileConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -190,9 +171,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theValuesConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -209,9 +188,7 @@ final class KeyConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theX5CConfigurationIsInvalidIfRequiredParametersAreNotSet(): void
     {
         $this->assertConfigurationIsInvalid(

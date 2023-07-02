@@ -6,6 +6,8 @@ namespace Jose\Tests\Component\Encryption;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class RSAKeyWithoutAllPrimesTest.
@@ -14,11 +16,8 @@ use Jose\Component\Core\Util\JsonConverter;
  */
 final class RSAKeyWithoutAllPrimesTestCase extends EncryptionTestCase
 {
-    /**
-     * @dataProvider dataEncryptionAlgorithms
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('dataEncryptionAlgorithms')]
     public function encryptionAlgorithms(string $encryption_algorithm): void
     {
         $key = $this->getPrivateKey();
@@ -50,11 +49,8 @@ final class RSAKeyWithoutAllPrimesTestCase extends EncryptionTestCase
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
-    /**
-     * @dataProvider dataEncryptionAlgorithms
-     *
-     * @test
-     */
+    #[Test]
+    #[DataProvider('dataEncryptionAlgorithms')]
     public function encryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm): void
     {
         $key = $this->getMinimalPrivateKey();

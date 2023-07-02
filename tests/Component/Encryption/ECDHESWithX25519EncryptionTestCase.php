@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption;
 
 use Jose\Component\Core\JWK;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class ECDHESWithX25519EncryptionTest.
@@ -15,9 +16,8 @@ final class ECDHESWithX25519EncryptionTestCase extends EncryptionTestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B
-     *
-     * @test
      */
+    #[Test]
     public function a128CBCHS256EncryptAndDecrypt(): void
     {
         $receiverKey = new JWK([

@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Checker;
 
 use Jose\Component\Checker\AlgorithmChecker;
 use Jose\Component\Checker\InvalidHeaderException;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,9 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class AlgorithmHeaderCheckerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function anAlgorithmMustBeAString(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -25,9 +24,7 @@ final class AlgorithmHeaderCheckerTest extends TestCase
         $checker->checkHeader(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAlgorithmHeaderIsNotAllowed(): void
     {
         $this->expectException(InvalidHeaderException::class);
@@ -37,9 +34,7 @@ final class AlgorithmHeaderCheckerTest extends TestCase
         $checker->checkHeader('bar');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theAlgorithmHeaderIsSupported(): void
     {
         $checker = new AlgorithmChecker(['foo']);

@@ -9,15 +9,14 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal
  */
 final class EncrypterTestCase extends EncryptionTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptWithJWTInput(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -52,9 +51,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         static::assertSame('FOO', $loaded->getPayload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function duplicatedHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -76,9 +73,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createCompactJWEUsingFactory(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -112,9 +107,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         static::assertSame('FOO', $loaded->getPayload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFlattenedJWEUsingFactory(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -157,9 +150,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         static::assertSame('FOO', $loaded->getPayload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptAndLoadFlattenedWithAAD(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -197,9 +188,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function compressionAlgorithmNotSupported(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -223,9 +212,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->serialize('jwe_json_flattened', $jwe, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function foreignKeyManagementModeForbidden(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -251,9 +238,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function operationNotAllowedForTheKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -274,9 +259,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function algorithmNotAllowedForTheKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -297,9 +280,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptAndLoadFlattenedWithDeflateCompression(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -337,9 +318,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function algParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -360,9 +339,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -383,9 +360,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notAKeyEncryptionAlgorithm(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -409,9 +384,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function notAContentEncryptionAlgorithm(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -435,9 +408,7 @@ final class EncrypterTestCase extends EncryptionTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptAndLoadCompactWithDirectKeyEncryption(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -474,9 +445,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptAndLoadCompactKeyAgreement(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -514,9 +483,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         static::assertSame($payload, $loaded->getPayload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptAndLoadCompactKeyAgreementWithWrappingCompact(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -552,9 +519,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptAndLoadWithGCMAndAAD(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
@@ -591,9 +556,7 @@ final class EncrypterTestCase extends EncryptionTestCase
         static::assertSame('Live long and Prosper.', $loaded->getPayload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function encryptAndLoadCompactKeyAgreementWithWrapping(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
