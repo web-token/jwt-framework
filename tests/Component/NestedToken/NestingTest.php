@@ -12,7 +12,7 @@ use Jose\Component\Core\JWK;
  *
  * @internal
  */
-final class NestingTest extends NestedTokenTest
+final class NestingTest extends NestedTokenTestCase
 {
     #[Test]
     public function decryption(): void

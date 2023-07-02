@@ -5,23 +5,23 @@
     bootstrap="vendor/autoload.php"
     colors="true"
 >
-  <coverage/>
-  <testsuites>
-    <testsuite name="Test Suite">
-      <directory>./tests/</directory>
-    </testsuite>
-  </testsuites>
-  <php>
-    <ini name="error_reporting" value="-1"/>
-    <ini name="intl.default_locale" value="en"/>
-    <ini name="intl.error_level" value="0"/>
-    <ini name="memory_limit" value="-1"/>
-    <server name="KERNEL_CLASS" value="Jose\Tests\Bundle\JoseFramework\AppKernel"/>
-    <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
-  </php>
-  <source>
-    <include>
-      <directory suffix=".php">./src</directory>
-    </include>
-  </source>
+    <coverage/>
+    <testsuites>
+        <testsuite name="Test Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="intl.default_locale" value="en"/>
+        <ini name="intl.error_level" value="0"/>
+        <ini name="memory_limit" value="-1"/>
+        <server name="KERNEL_CLASS" value="Jose\Tests\Bundle\JoseFramework\AppKernel"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+    </php>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
 </phpunit>
