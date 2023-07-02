@@ -6,8 +6,6 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 
 use function array_key_exists;
 use function count;
-use const E_ALL;
-use const E_WARNING;
 use function extension_loaded;
 use function in_array;
 use InvalidArgumentException;
@@ -49,7 +47,6 @@ final class KeyConverter
         if (! extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
-        $previousErrorReportingSetting = error_reporting(E_ALL & ~E_WARNING);
 
         try {
             $res = openssl_x509_read($certificate);
@@ -60,7 +57,6 @@ final class KeyConverter
             $certificate = self::convertDerToPem($certificate);
             $res = openssl_x509_read($certificate);
         }
-        error_reporting($previousErrorReportingSetting);
         if ($res === false) {
             throw new InvalidArgumentException('Unable to load the certificate.');
         }
