@@ -22,7 +22,7 @@ final class IssuedAtClaimCheckerTest extends TestCase
         $this->expectExceptionMessage('"iat" must be an integer.');
 
         $clock = new MockClock();
-        $checker = new IssuedAtChecker(clock: $clock);
+        $checker = IssuedAtChecker::create(clock: $clock);
         $checker->checkClaim('foo');
     }
 
@@ -33,7 +33,7 @@ final class IssuedAtClaimCheckerTest extends TestCase
         $this->expectExceptionMessage('The JWT is issued in the future.');
 
         $clock = new MockClock();
-        $checker = new IssuedAtChecker(clock: $clock);
+        $checker = IssuedAtChecker::create(clock: $clock);
         $checker->checkClaim($clock->now()->getTimestamp() + 3600);
     }
 
@@ -41,7 +41,7 @@ final class IssuedAtClaimCheckerTest extends TestCase
     public function theIssuedAtClaimIsInThePast(): void
     {
         $clock = new MockClock();
-        $checker = new IssuedAtChecker(clock: $clock);
+        $checker = IssuedAtChecker::create(clock: $clock);
         $checker->checkClaim($clock->now()->getTimestamp() - 3600);
         static::assertSame('iat', $checker->supportedClaim());
     }

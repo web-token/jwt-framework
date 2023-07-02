@@ -17,6 +17,10 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
 
     private readonly ClockInterface $clock;
 
+    /**
+     * @private
+     * @deprecated since 3.3.0, to be private in 4.0.0. Please use named constructor `create` instead.
+     */
     public function __construct(
         private readonly int $allowedTimeDrift = 0,
         private readonly bool $protectedHeaderOnly = false,
@@ -31,6 +35,14 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
             $clock = new InternalClock();
         }
         $this->clock = $clock;
+    }
+
+    public static function create(
+        ClockInterface $clock,
+        int $allowedTimeDrift = 0,
+        bool $protectedHeaderOnly = false,
+    ): self {
+        return new self($allowedTimeDrift, $protectedHeaderOnly, $clock);
     }
 
     /**

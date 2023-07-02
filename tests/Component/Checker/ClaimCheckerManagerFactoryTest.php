@@ -93,9 +93,9 @@ final class ClaimCheckerManagerFactoryTest extends TestCase
     {
         if ($this->claimCheckerManagerFactory === null) {
             $this->claimCheckerManagerFactory = new ClaimCheckerManagerFactory();
-            $this->claimCheckerManagerFactory->add('exp', new ExpirationTimeChecker(clock: $clock));
-            $this->claimCheckerManagerFactory->add('iat', new IssuedAtChecker(clock: $clock));
-            $this->claimCheckerManagerFactory->add('nbf', new NotBeforeChecker(clock: $clock));
+            $this->claimCheckerManagerFactory->add('exp', ExpirationTimeChecker::create(clock: $clock));
+            $this->claimCheckerManagerFactory->add('iat', IssuedAtChecker::create(clock: $clock));
+            $this->claimCheckerManagerFactory->add('nbf', NotBeforeChecker::create(clock: $clock));
             $this->claimCheckerManagerFactory->add('aud', new AudienceChecker('My Service'));
         }
 

@@ -22,7 +22,7 @@ final class NotBeforeClaimCheckerTest extends TestCase
         $this->expectExceptionMessage('"nbf" must be an integer.');
 
         $clock = new MockClock();
-        $checker = new NotBeforeChecker(clock: $clock);
+        $checker = NotBeforeChecker::create(clock: $clock);
         $checker->checkClaim('foo');
     }
 
@@ -33,7 +33,7 @@ final class NotBeforeClaimCheckerTest extends TestCase
         $this->expectExceptionMessage('The JWT can not be used yet.');
 
         $clock = new MockClock();
-        $checker = new NotBeforeChecker(clock: $clock);
+        $checker = NotBeforeChecker::create(clock: $clock);
         $checker->checkClaim($clock->now()->getTimestamp() + 3600);
     }
 
@@ -41,7 +41,7 @@ final class NotBeforeClaimCheckerTest extends TestCase
     public function theNotBeforeClaimIsInThePast(): void
     {
         $clock = new MockClock();
-        $checker = new NotBeforeChecker(clock: $clock);
+        $checker = NotBeforeChecker::create(clock: $clock);
         $checker->checkClaim($clock->now()->getTimestamp() - 3600);
         static::assertSame('nbf', $checker->supportedClaim());
     }

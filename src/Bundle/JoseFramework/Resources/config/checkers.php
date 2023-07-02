@@ -35,6 +35,7 @@ return function (ContainerConfigurator $container): void {
         ->public();
 
     $container->set(ExpirationTimeChecker::class)
+        ->factory([null, 'create'])
         ->arg('$clock', service('jose.internal_clock'))
         ->tag('jose.checker.claim', [
             'alias' => 'exp',
@@ -44,6 +45,7 @@ return function (ContainerConfigurator $container): void {
         ]);
 
     $container->set(IssuedAtChecker::class)
+        ->factory([null, 'create'])
         ->arg('$clock', service('jose.internal_clock'))
         ->tag('jose.checker.claim', [
             'alias' => 'iat',
@@ -53,6 +55,7 @@ return function (ContainerConfigurator $container): void {
         ]);
 
     $container->set(NotBeforeChecker::class)
+        ->factory([null, 'create'])
         ->arg('$clock', service('jose.internal_clock'))
         ->tag('jose.checker.claim', [
             'alias' => 'nbf',

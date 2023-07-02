@@ -22,7 +22,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
         $this->expectExceptionMessage('"exp" must be an integer.');
 
         $clock = new MockClock();
-        $checker = new ExpirationTimeChecker(clock: $clock);
+        $checker = ExpirationTimeChecker::create(clock: $clock);
         $checker->checkClaim('foo');
     }
 
@@ -33,7 +33,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
         $this->expectExceptionMessage('The token expired.');
 
         $clock = new MockClock();
-        $checker = new ExpirationTimeChecker(clock: $clock);
+        $checker = ExpirationTimeChecker::create(clock: $clock);
         $checker->checkClaim($clock->now()->getTimestamp() - 1);
     }
 
@@ -41,7 +41,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
     public function theExpirationTimeIsInTheFutur(): void
     {
         $clock = new MockClock();
-        $checker = new ExpirationTimeChecker(clock: $clock);
+        $checker = ExpirationTimeChecker::create(clock: $clock);
         $checker->checkClaim($clock->now()->getTimestamp() + 3600);
         static::assertSame('exp', $checker->supportedClaim());
     }
