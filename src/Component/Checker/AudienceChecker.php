@@ -22,17 +22,13 @@ final class AudienceChecker implements ClaimChecker, HeaderChecker
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function checkClaim(mixed $value): void
     {
         $this->checkValue($value, InvalidClaimException::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function checkHeader(mixed $value): void
     {
         $this->checkValue($value, InvalidHeaderException::class);

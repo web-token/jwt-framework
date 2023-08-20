@@ -6,8 +6,8 @@ namespace Jose\Component\Core\Util\Ecc;
 
 use Brick\Math\BigInteger;
 use RuntimeException;
-use const STR_PAD_LEFT;
 use Stringable;
+use const STR_PAD_LEFT;
 
 /**
  * @internal

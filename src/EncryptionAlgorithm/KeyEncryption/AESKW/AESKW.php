@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use AESKW\Wrapper as WrapperInterface;
-use function in_array;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use function in_array;
+use function is_string;
 
 abstract class AESKW implements KeyWrapping
 {

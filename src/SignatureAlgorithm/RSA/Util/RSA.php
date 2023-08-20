@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm\Util;
 
-use function chr;
 use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
-use function ord;
 use RuntimeException;
+use function chr;
+use function ord;
 use const STR_PAD_LEFT;
 
 /**

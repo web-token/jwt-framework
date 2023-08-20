@@ -29,17 +29,13 @@ final class JWKSetLoader implements LoaderInterface
         $this->routes->add(sprintf('jwkset_%s', $name), $route);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function load(mixed $resource, string $type = null): RouteCollection
     {
         return $this->routes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function supports(mixed $resource, string $type = null): bool
     {
         return $type === 'jwkset';

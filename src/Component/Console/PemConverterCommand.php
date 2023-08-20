@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_array;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\JsonConverter;
@@ -14,6 +12,8 @@ use Jose\Component\Core\Util\RSAKey;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function is_array;
+use function is_string;
 
 final class PemConverterCommand extends ObjectOutputCommand
 {

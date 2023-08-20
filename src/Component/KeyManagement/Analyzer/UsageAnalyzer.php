@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use function in_array;
 use Jose\Component\Core\JWK;
+use function in_array;
 
 final class UsageAnalyzer implements KeyAnalyzer
 {

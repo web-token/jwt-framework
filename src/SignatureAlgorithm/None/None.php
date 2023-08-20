@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use function in_array;
 
 final class None implements SignatureAlgorithm
 {

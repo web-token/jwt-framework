@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use function count;
 use InvalidArgumentException;
-use function is_array;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function count;
+use function is_array;
+use function is_string;
 
 final class RotateKeysetCommand extends ObjectOutputCommand
 {

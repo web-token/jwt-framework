@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Brick\Math\BigInteger as BrickBigInteger;
-use function chr;
 use InvalidArgumentException;
+use function chr;
 
 /**
  * @internal

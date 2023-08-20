@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use function array_key_exists;
-use function count;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
@@ -24,6 +21,9 @@ use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function array_key_exists;
+use function count;
+use function is_string;
 
 class JWEBuilder
 {

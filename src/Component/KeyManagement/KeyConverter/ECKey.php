@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use function array_key_exists;
 use InvalidArgumentException;
-use function is_string;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;
 use Throwable;
+use function array_key_exists;
+use function is_string;
 
 /**
  * @internal

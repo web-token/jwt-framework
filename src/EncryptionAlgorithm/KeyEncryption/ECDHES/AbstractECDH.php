@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use function array_key_exists;
 use Brick\Math\BigInteger;
-use function extension_loaded;
-use function function_exists;
-use function in_array;
 use InvalidArgumentException;
-use function is_array;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\EcDH;
@@ -22,6 +16,12 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
+use function array_key_exists;
+use function extension_loaded;
+use function function_exists;
+use function in_array;
+use function is_array;
+use function is_string;
 
 abstract class AbstractECDH implements KeyAgreement
 {

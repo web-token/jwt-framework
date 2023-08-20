@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
-use function array_key_exists;
-use function count;
-use function extension_loaded;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\SignatureSerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
@@ -23,6 +20,9 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use function array_key_exists;
+use function count;
+use function extension_loaded;
 
 class SignatureSource implements SourceWithCompilerPasses
 {

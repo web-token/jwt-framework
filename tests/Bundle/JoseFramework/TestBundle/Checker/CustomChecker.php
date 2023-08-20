@@ -10,9 +10,6 @@ use Jose\Component\Checker\HeaderChecker;
 
 class CustomChecker implements ClaimChecker, HeaderChecker
 {
-    /**
-     * {@inheritdoc}
-     */
     public function checkClaim($value): void
     {
         if ($value === true) {
@@ -25,9 +22,7 @@ class CustomChecker implements ClaimChecker, HeaderChecker
         return 'custom';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function checkHeader($value): void
     {
         if ($value === true) {
