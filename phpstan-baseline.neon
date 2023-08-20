@@ -1216,11 +1216,6 @@ parameters:
             path: src/Component/Core/Util/ECSignature.php
 
         -
-            message: "#^Access to an uninitialized property Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:\\$modulus\\.$#"
-            count: 1
-            path: src/Component/Core/Util/RSAKey.php
-
-        -
             message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Component/Core/Util/RSAKey.php

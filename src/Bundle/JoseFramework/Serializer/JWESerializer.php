@@ -26,6 +26,9 @@ final class JWESerializer implements DenormalizerInterface
         $this->serializerManager = $serializerManager;
     }
 
+    /**
+     * @return array<string, bool>
+     */
     public function getSupportedTypes(?string $format): array
     {
         return [
