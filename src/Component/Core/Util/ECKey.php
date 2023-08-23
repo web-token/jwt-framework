@@ -317,9 +317,12 @@ final class ECKey
         if (! is_string($y)) {
             throw new InvalidArgumentException('Unable to get the public key');
         }
+        $binX = ltrim(Base64UrlSafe::decode($x), "\0");
+        $binY = ltrim(Base64UrlSafe::decode($y), "\0");
 
         return "\04"
-            . str_pad(Base64UrlSafe::decode($x), $length, "\0", STR_PAD_LEFT)
-            . str_pad(Base64UrlSafe::decode($y), $length, "\0", STR_PAD_LEFT);
+            . str_pad($binX, $length, "\0", STR_PAD_LEFT)
+            . str_pad($binY, $length, "\0", STR_PAD_LEFT)
+        ;
     }
 }
