@@ -144,7 +144,7 @@
         "symfony/var-dumper": "^6.1.3",
         "symfony/yaml": "^6.1.3",
         "symplify/easy-coding-standard": "^11.0",
-        "symplify/monorepo-builder": "11.2.3.72"
+        "symplify/monorepo-builder": "11.2.17"
     },
     "replace": {
         "web-token/encryption-pack": "self.version",
