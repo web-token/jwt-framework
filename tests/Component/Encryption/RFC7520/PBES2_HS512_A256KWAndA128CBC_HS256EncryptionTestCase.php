@@ -85,10 +85,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTestCase extends Encrypt
             ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertSame(
-            $expected_ciphertext,
-            Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext())
-        );
+        static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext()));
         static::assertSame($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
         static::assertSame(

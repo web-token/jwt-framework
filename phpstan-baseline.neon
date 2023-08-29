@@ -811,6 +811,11 @@ parameters:
             path: src/Bundle/JoseFramework/Serializer/JWESerializer.php
 
         -
+            message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWESerializer\\:\\:getSupportedTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
+            count: 1
+            path: src/Bundle/JoseFramework/Serializer/JWESerializer.php
+
+        -
             message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWESerializer\\:\\:supportsDenormalization\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Bundle/JoseFramework/Serializer/JWESerializer.php
@@ -842,6 +847,11 @@ parameters:
 
         -
             message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSSerializer\\:\\:denormalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+            count: 1
+            path: src/Bundle/JoseFramework/Serializer/JWSSerializer.php
+
+        -
+            message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSSerializer\\:\\:getSupportedTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Bundle/JoseFramework/Serializer/JWSSerializer.php
 
@@ -1216,11 +1226,6 @@ parameters:
             path: src/Component/Core/Util/ECSignature.php
 
         -
-            message: "#^Access to an uninitialized property Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:\\$modulus\\.$#"
-            count: 1
-            path: src/Component/Core/Util/RSAKey.php
-
-        -
             message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Component/Core/Util/RSAKey.php
@@ -1234,6 +1239,66 @@ parameters:
             message: "#^Property Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Component/Core/Util/RSAKey.php
+
+        -
+            message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/ContentEncryption/AESCBCHS.php
+
+        -
+            message: "#^Access to an undefined property Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\AbstractECDH\\:\\:\\$MODE_AGREEMENT\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/AbstractECDH.php
+
+        -
+            message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/AbstractECDH.php
+
+        -
+            message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/PBES2AESKW.php
+
+        -
+            message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
+
+        -
+            message: "#^Parameter \\#3 \\$hash of method Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\RSA\\:\\:decrypt\\(\\) expects string, string\\|null given\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
+
+        -
+            message: "#^Parameter \\#3 \\$hash of method Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\RSA\\:\\:encrypt\\(\\) expects string, string\\|null given\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
+
+        -
+            message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
+
+        -
+            message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
+            count: 2
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
+
+        -
+            message: "#^Access to constant ENCRYPTION_PKCS1 on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA15.php
+
+        -
+            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSAOAEP.php
+
+        -
+            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSAOAEP256.php
 
         -
             message: "#^Method Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:\\:__construct\\(\\) has parameter \\$methods with no value type specified in iterable type array\\.$#"
@@ -1801,6 +1866,16 @@ parameters:
             path: src/Component/NestedToken/NestedTokenBuilder.php
 
         -
+            message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+            count: 1
+            path: src/Component/Signature/Algorithm/RSAPSS.php
+
+        -
+            message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
+            count: 2
+            path: src/Component/Signature/Algorithm/RSAPSS.php
+
+        -
             message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
             count: 1
             path: src/Component/Signature/JWS.php
@@ -1906,41 +1981,16 @@ parameters:
             path: src/Ecc/Curve.php
 
         -
-            message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
+            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
             count: 1
-            path: src/EncryptionAlgorithm/ContentEncryption/AESCBC/AESCBCHS.php
+            path: src/EncryptionAlgorithm/Experimental/KeyEncryption/RSAOAEP384.php
 
         -
-            message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
             count: 1
-            path: src/EncryptionAlgorithm/KeyEncryption/ECDHES/AbstractECDH.php
-
-        -
-            message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
-            count: 1
-            path: src/EncryptionAlgorithm/KeyEncryption/PBES2/PBES2AESKW.php
-
-        -
-            message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
-            count: 2
-            path: src/EncryptionAlgorithm/KeyEncryption/RSA/Util/RSACrypt.php
-
-        -
-            message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
-            count: 2
-            path: src/EncryptionAlgorithm/KeyEncryption/RSA/Util/RSACrypt.php
+            path: src/EncryptionAlgorithm/Experimental/KeyEncryption/RSAOAEP512.php
 
         -
             message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
             count: 1
             path: src/SignatureAlgorithm/None/None.php
-
-        -
-            message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
-            count: 1
-            path: src/SignatureAlgorithm/RSA/Util/RSA.php
-
-        -
-            message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
-            count: 2
-            path: src/SignatureAlgorithm/RSA/Util/RSA.php

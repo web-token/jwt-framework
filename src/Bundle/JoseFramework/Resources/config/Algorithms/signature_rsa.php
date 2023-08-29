@@ -8,6 +8,7 @@ use Jose\Component\Signature\Algorithm\PS512;
 use Jose\Component\Signature\Algorithm\RS256;
 use Jose\Component\Signature\Algorithm\RS384;
 use Jose\Component\Signature\Algorithm\RS512;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /*
  * The MIT License (MIT)
@@ -17,8 +18,6 @@ use Jose\Component\Signature\Algorithm\RS512;
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
     $container = $container->services()

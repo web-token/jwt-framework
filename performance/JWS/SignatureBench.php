@@ -27,7 +27,6 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
-use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
 /**
  * @BeforeMethods({"init"})

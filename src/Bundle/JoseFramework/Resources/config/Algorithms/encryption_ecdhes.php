@@ -10,6 +10,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /*
  * The MIT License (MIT)
@@ -19,8 +20,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW;
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
     $container = $container->services()

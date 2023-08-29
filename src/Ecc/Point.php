@@ -30,10 +30,10 @@ use const STR_PAD_LEFT;
 final class Point
 {
     private function __construct(
-        private BigInteger $x,
-        private BigInteger $y,
-        private BigInteger $order,
-        private bool $infinity = false
+        public BigInteger $x,
+        public BigInteger $y,
+        public BigInteger $order,
+        public bool $infinity = false
     ) {
     }
 
@@ -47,26 +47,6 @@ final class Point
         $zero = BigInteger::zero();
 
         return new self($zero, $zero, $zero, true);
-    }
-
-    public function isInfinity(): bool
-    {
-        return $this->infinity;
-    }
-
-    public function getOrder(): BigInteger
-    {
-        return $this->order;
-    }
-
-    public function getX(): BigInteger
-    {
-        return $this->x;
-    }
-
-    public function getY(): BigInteger
-    {
-        return $this->y;
     }
 
     public static function cswap(self $a, self $b, int $cond): void

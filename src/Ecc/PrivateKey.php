@@ -29,17 +29,12 @@ use Brick\Math\BigInteger;
 final class PrivateKey
 {
     private function __construct(
-        private readonly BigInteger $secret
+        public readonly BigInteger $secret
     ) {
     }
 
     public static function create(BigInteger $secret): self
     {
         return new self($secret);
-    }
-
-    public function getSecret(): BigInteger
-    {
-        return $this->secret;
     }
 }

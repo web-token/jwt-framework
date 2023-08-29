@@ -92,12 +92,9 @@ final class HMACSignatureTest extends TestCase
 
         $signature = $hmac->hash($key, $data);
 
-        static::assertSame(
-            hex2bin(
-                'e8b36712b6c6dc422eec77f31ce372ccac769450413238158bd702069630456a148d0c10dd3a661a774217fb90b0d5f94fa6c3c985438bade92ff975b9e4dc04'
-            ),
-            $signature
-        );
+        static::assertSame(hex2bin(
+            'e8b36712b6c6dc422eec77f31ce372ccac769450413238158bd702069630456a148d0c10dd3a661a774217fb90b0d5f94fa6c3c985438bade92ff975b9e4dc04'
+        ), $signature);
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
 }

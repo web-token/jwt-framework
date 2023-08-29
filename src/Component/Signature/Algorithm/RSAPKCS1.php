@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
+use function extension_loaded;
 use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
-use Jose\Component\Signature\Algorithm\Util\RSA as JoseRSA;
+use RuntimeException;
 
-abstract class RSAPSS implements SignatureAlgorithm
+abstract class RSAPKCS1 implements SignatureAlgorithm
 {
+    public function __construct()
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('The OpenSSL extension must be loaded.');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
@@ -22,12 +30,9 @@ abstract class RSAPSS implements SignatureAlgorithm
         $this->checkKey($key);
         $pub = RSAKey::createFromJWK($key->toPublic());
 
-        return JoseRSA::verify($pub, $input, $signature, $this->getAlgorithm(), JoseRSA::SIGNATURE_PSS);
+        return openssl_verify($input, $signature, $pub->toPEM(), $this->getAlgorithm()) === 1;
     }
 
-    /**
-     * @return non-empty-string
-     */
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -37,7 +42,12 @@ abstract class RSAPSS implements SignatureAlgorithm
 
         $priv = RSAKey::createFromJWK($key);
 
-        return JoseRSA::sign($priv, $input, $this->getAlgorithm(), JoseRSA::SIGNATURE_PSS);
+        $result = openssl_sign($input, $signature, $priv->toPEM(), $this->getAlgorithm());
+        if ($result !== true) {
+            throw new RuntimeException('Unable to sign');
+        }
+
+        return $signature;
     }
 
     abstract protected function getAlgorithm(): string;

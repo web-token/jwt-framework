@@ -22,11 +22,9 @@ final class P256KSignatureTest extends TestCase
         $algorithm = new ES256K();
         $data = 'Hello';
 
-        static::assertTrue(
-            $algorithm->verify($key, $data, hex2bin(
-                '9c75b9d171d9690a37f2474d4bfab5c234911cb150950ea5cbfc9aedda5ec360725cc47978de95b4efb2a3ed617c7b36b1cd0a26b536662a79d0f3ae873a7924'
-            ))
-        );
+        static::assertTrue($algorithm->verify($key, $data, hex2bin(
+            '9c75b9d171d9690a37f2474d4bfab5c234911cb150950ea5cbfc9aedda5ec360725cc47978de95b4efb2a3ed617c7b36b1cd0a26b536662a79d0f3ae873a7924'
+        )));
     }
 
     #[Test]

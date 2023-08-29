@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Signature\Algorithm\Util;
+namespace Jose\Component\Signature\Algorithm;
 
 use function chr;
+use function extension_loaded;
+use function in_array;
 use InvalidArgumentException;
+use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
@@ -13,54 +16,66 @@ use function ord;
 use RuntimeException;
 use const STR_PAD_LEFT;
 
-/**
- * @internal
- */
-final class RSA
+abstract class RSAPSS implements SignatureAlgorithm
 {
-    /**
-     * Probabilistic Signature Scheme.
-     */
-    public const SIGNATURE_PSS = 1;
+    public function __construct()
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('The OpenSSL extension must be loaded.');
+        }
+    }
 
-    /**
-     * Use the PKCS#1.
-     */
-    public const SIGNATURE_PKCS1 = 2;
+    public function allowedKeyTypes(): array
+    {
+        return ['RSA'];
+    }
+
+    public function verify(JWK $key, string $input, string $signature): bool
+    {
+        $this->checkKey($key);
+        $pub = RSAKey::createFromJWK($key->toPublic());
+
+        return $this->verifyWithPSS($pub, $input, $signature, $this->getAlgorithm());
+    }
 
     /**
      * @return non-empty-string
      */
-    public static function sign(RSAKey $key, string $message, string $hash, int $mode): string
+    public function sign(JWK $key, string $input): string
     {
-        switch ($mode) {
-            case self::SIGNATURE_PSS:
-                return self::signWithPSS($key, $message, $hash);
+        $this->checkKey($key);
+        if (! $key->has('d')) {
+            throw new InvalidArgumentException('The key is not a private key.');
+        }
 
-            case self::SIGNATURE_PKCS1:
-                $result = openssl_sign($message, $signature, $key->toPEM(), $hash);
-                if ($result !== true) {
-                    throw new RuntimeException('Unable to sign the data');
-                }
+        $priv = RSAKey::createFromJWK($key);
 
-                return $signature;
+        return $this->computeSignature($priv, $input, $this->getAlgorithm());
+    }
 
-            default:
-                throw new InvalidArgumentException('Unsupported mode.');
+    abstract protected function getAlgorithm(): string;
+
+    private function checkKey(JWK $key): void
+    {
+        if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
+        }
+        foreach (['n', 'e'] as $k) {
+            if (! $key->has($k)) {
+                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+            }
         }
     }
 
     /**
-     * Create a signature.
-     *
      * @return non-empty-string
      */
-    public static function signWithPSS(RSAKey $key, string $message, string $hash): string
+    private function computeSignature(RSAKey $key, string $message, string $hash): string
     {
-        $em = self::encodeEMSAPSS($message, 8 * $key->getModulusLength() - 1, Hash::$hash());
+        $em = $this->encodeEMSAPSS($message, 8 * $key->getModulusLength() - 1, Hash::$hash());
         $message = BigInteger::createFromBinaryString($em);
         $signature = RSAKey::exponentiate($key, $message);
-        $result = self::convertIntegerToOctetString($signature, $key->getModulusLength());
+        $result = $this->convertIntegerToOctetString($signature, $key->getModulusLength());
         if ($result === '') {
             throw new InvalidArgumentException('Invalid signature.');
         }
@@ -68,32 +83,24 @@ final class RSA
         return $result;
     }
 
-    public static function verify(RSAKey $key, string $message, string $signature, string $hash, int $mode): bool
-    {
-        return match ($mode) {
-            self::SIGNATURE_PSS => self::verifyWithPSS($key, $message, $signature, $hash),
-            self::SIGNATURE_PKCS1 => openssl_verify($message, $signature, $key->toPEM(), $hash) === 1,
-            default => throw new InvalidArgumentException('Unsupported mode.'),
-        };
-    }
-
     /**
      * Verifies a signature.
      */
-    public static function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
+    private function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
     {
         if (mb_strlen($signature, '8bit') !== $key->getModulusLength()) {
             throw new RuntimeException();
         }
         $s2 = BigInteger::createFromBinaryString($signature);
         $m2 = RSAKey::exponentiate($key, $s2);
-        $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
-        $modBits = 8 * $key->getModulusLength();
+        $em = $this->convertIntegerToOctetString($m2, $key->getModulusLength());
+        $modBits = 8 * $key->getModulusLength() - 1;
+        $hashingFunction = Hash::$hash();
 
-        return self::verifyEMSAPSS($message, $em, $modBits - 1, Hash::$hash());
+        return $this->verifyEMSAPSS($message, $em, $modBits, $hashingFunction);
     }
 
-    private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
+    private function convertIntegerToOctetString(BigInteger $x, int $xLen): string
     {
         $x = $x->toBytes();
         if (mb_strlen($x, '8bit') > $xLen) {
@@ -106,7 +113,7 @@ final class RSA
     /**
      * MGF1.
      */
-    private static function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
+    private function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
     {
         $t = '';
         $count = ceil($maskLen / $mgfHash->getLength());
@@ -121,7 +128,7 @@ final class RSA
     /**
      * EMSA-PSS-ENCODE.
      */
-    private static function encodeEMSAPSS(string $message, int $modulusLength, Hash $hash): string
+    private function encodeEMSAPSS(string $message, int $modulusLength, Hash $hash): string
     {
         $emLen = ($modulusLength + 1) >> 3;
         $sLen = $hash->getLength();
@@ -134,7 +141,7 @@ final class RSA
         $h = $hash->hash($m2);
         $ps = str_repeat(chr(0), $emLen - $sLen - $hash->getLength() - 2);
         $db = $ps . chr(1) . $salt;
-        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash);
+        $dbMask = $this->getMGF1($h, $emLen - $hash->getLength() - 1, $hash);
         $maskedDB = $db ^ $dbMask;
         $maskedDB[0] = ~chr(0xFF << ($modulusLength & 7)) & $maskedDB[0];
 
@@ -144,11 +151,11 @@ final class RSA
     /**
      * EMSA-PSS-VERIFY.
      */
-    private static function verifyEMSAPSS(string $m, string $em, int $emBits, Hash $hash): bool
+    private function verifyEMSAPSS(string $message, string $em, int $modBits, Hash $hash): bool
     {
-        $emLen = ($emBits + 1) >> 3;
+        $emLen = ($modBits + 1) >> 3;
         $sLen = $hash->getLength();
-        $mHash = $hash->hash($m);
+        $mHash = $hash->hash($message);
         if ($emLen < $hash->getLength() + $sLen + 2) {
             throw new InvalidArgumentException();
         }
@@ -157,13 +164,13 @@ final class RSA
         }
         $maskedDB = mb_substr($em, 0, -$hash->getLength() - 1, '8bit');
         $h = mb_substr($em, -$hash->getLength() - 1, $hash->getLength(), '8bit');
-        $temp = chr(0xFF << ($emBits & 7));
+        $temp = chr(0xFF << ($modBits & 7));
         if ((~$maskedDB[0] & $temp) !== $temp) {
             throw new InvalidArgumentException();
         }
-        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
+        $dbMask = $this->getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
         $db = $maskedDB ^ $dbMask;
-        $db[0] = ~chr(0xFF << ($emBits & 7)) & $db[0];
+        $db[0] = ~chr(0xFF << ($modBits & 7)) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;
         if (mb_substr($db, 0, $temp, '8bit') !== str_repeat(chr(0), $temp)) {
             throw new InvalidArgumentException();

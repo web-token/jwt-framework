@@ -15,39 +15,19 @@ use Stringable;
 final class Curve implements Stringable
 {
     public function __construct(
-        private readonly int $size,
-        private readonly BigInteger $prime,
-        private readonly BigInteger $a,
-        private readonly BigInteger $b,
-        private readonly Point $generator
+        public readonly int $size,
+        public readonly BigInteger $prime,
+        public readonly BigInteger $a,
+        public readonly BigInteger $b,
+        public readonly Point $generator
     ) {
     }
 
     public function __toString(): string
     {
-        return 'curve(' . Math::toString($this->getA()) . ', ' . Math::toString($this->getB()) . ', ' . Math::toString(
-            $this->getPrime()
+        return 'curve(' . Math::toString($this->a) . ', ' . Math::toString($this->b) . ', ' . Math::toString(
+            $this->prime
         ) . ')';
-    }
-
-    public function getA(): BigInteger
-    {
-        return $this->a;
-    }
-
-    public function getB(): BigInteger
-    {
-        return $this->b;
-    }
-
-    public function getPrime(): BigInteger
-    {
-        return $this->prime;
-    }
-
-    public function getSize(): int
-    {
-        return $this->size;
     }
 
     public function getPoint(BigInteger $x, BigInteger $y, ?BigInteger $order = null): Point
@@ -60,7 +40,7 @@ final class Curve implements Stringable
         $point = Point::create($x, $y, $order);
         if ($order !== null) {
             $mul = $this->mul($point, $order);
-            if (! $mul->isInfinity()) {
+            if (! $mul->infinity) {
                 throw new RuntimeException('SELF * ORDER MUST EQUAL INFINITY.');
             }
         }
@@ -71,9 +51,9 @@ final class Curve implements Stringable
     public function getPublicKeyFrom(BigInteger $x, BigInteger $y): PublicKey
     {
         $zero = BigInteger::zero();
-        if ($x->compareTo($zero) < 0 || $y->compareTo($zero) < 0 || $this->generator->getOrder()->compareTo(
+        if ($x->compareTo($zero) < 0 || $y->compareTo($zero) < 0 || $this->generator->order->compareTo(
             $x
-        ) <= 0 || $this->generator->getOrder()
+        ) <= 0 || $this->generator->order
             ->compareTo($y) <= 0) {
             throw new RuntimeException('Generator point has x and y out of range.');
         }
@@ -87,8 +67,8 @@ final class Curve implements Stringable
         return Math::equals(
             ModularArithmetic::sub(
                 $y->power(2),
-                Math::add(Math::add($x->power(3), $this->getA()->multipliedBy($x)), $this->getB()),
-                $this->getPrime()
+                Math::add(Math::add($x->power(3), $this->a->multipliedBy($x)), $this->b),
+                $this->prime
             ),
             BigInteger::zero()
         );
@@ -96,51 +76,41 @@ final class Curve implements Stringable
 
     public function add(Point $one, Point $two): Point
     {
-        if ($two->isInfinity()) {
+        if ($two->infinity) {
             return clone $one;
         }
 
-        if ($one->isInfinity()) {
+        if ($one->infinity) {
             return clone $two;
         }
 
-        if ($two->getX()->isEqualTo($one->getX())) {
-            if ($two->getY()->isEqualTo($one->getY())) {
+        if ($two->x->isEqualTo($one->x)) {
+            if ($two->y->isEqualTo($one->y)) {
                 return $this->getDouble($one);
             }
 
             return Point::infinity();
         }
 
-        $slope = ModularArithmetic::div(
-            $two->getY()
-                ->minus($one->getY()),
-            $two->getX()
-                ->minus($one->getX()),
-            $this->getPrime()
-        );
+        $slope = ModularArithmetic::div($two->y ->minus($one->y), $two->x ->minus($one->x), $this->prime);
 
-        $xR = ModularArithmetic::sub($slope->power(2)->minus($one->getX()), $two->getX(), $this->getPrime());
+        $xR = ModularArithmetic::sub($slope->power(2)->minus($one->x), $two->x, $this->prime);
 
-        $yR = ModularArithmetic::sub(
-            $slope->multipliedBy($one->getX()->minus($xR)),
-            $one->getY(),
-            $this->getPrime()
-        );
+        $yR = ModularArithmetic::sub($slope->multipliedBy($one->x->minus($xR)), $one->y, $this->prime);
 
-        return $this->getPoint($xR, $yR, $one->getOrder());
+        return $this->getPoint($xR, $yR, $one->order);
     }
 
     public function mul(Point $one, BigInteger $n): Point
     {
-        if ($one->isInfinity()) {
+        if ($one->infinity) {
             return Point::infinity();
         }
 
         /** @var BigInteger $zero */
         $zero = BigInteger::zero();
-        if ($one->getOrder()->compareTo($zero) > 0) {
-            $n = $n->mod($one->getOrder());
+        if ($one->order->compareTo($zero) > 0) {
+            $n = $n->mod($one->order);
         }
 
         if ($n->isEqualTo($zero)) {
@@ -150,7 +120,7 @@ final class Curve implements Stringable
         /** @var Point[] $r */
         $r = [Point::infinity(), clone $one];
 
-        $k = $this->getSize();
+        $k = $this->size;
         $n1 = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
 
         for ($i = 0; $i < $k; ++$i) {
@@ -168,12 +138,12 @@ final class Curve implements Stringable
 
     public function cmp(self $other): int
     {
-        $equalsA = $this->getA()
-            ->isEqualTo($other->getA());
-        $equalsB = $this->getB()
-            ->isEqualTo($other->getB());
-        $equalsPrime = $this->getPrime()
-            ->isEqualTo($other->getPrime());
+        $equalsA = $this->a
+            ->isEqualTo($other->a);
+        $equalsB = $this->b
+            ->isEqualTo($other->b);
+        $equalsPrime = $this->prime
+            ->isEqualTo($other->prime);
         $equal = $equalsA && $equalsB && $equalsPrime;
 
         return $equal ? 0 : 1;
@@ -186,32 +156,24 @@ final class Curve implements Stringable
 
     public function getDouble(Point $point): Point
     {
-        if ($point->isInfinity()) {
+        if ($point->infinity) {
             return Point::infinity();
         }
 
-        $a = $this->getA();
-        $threeX2 = BigInteger::of(3)->multipliedBy($point->getX()->power(2));
+        $a = $this->a;
+        $threeX2 = BigInteger::of(3)->multipliedBy($point->x->power(2));
 
         $tangent = ModularArithmetic::div(
             $threeX2->plus($a),
-            BigInteger::of(2)->multipliedBy($point->getY()),
-            $this->getPrime()
+            BigInteger::of(2)->multipliedBy($point->y),
+            $this->prime
         );
 
-        $x3 = ModularArithmetic::sub(
-            $tangent->power(2),
-            BigInteger::of(2)->multipliedBy($point->getX()),
-            $this->getPrime()
-        );
+        $x3 = ModularArithmetic::sub($tangent->power(2), BigInteger::of(2)->multipliedBy($point->x), $this->prime);
 
-        $y3 = ModularArithmetic::sub(
-            $tangent->multipliedBy($point->getX()->minus($x3)),
-            $point->getY(),
-            $this->getPrime()
-        );
+        $y3 = ModularArithmetic::sub($tangent->multipliedBy($point->x->minus($x3)), $point->y, $this->prime);
 
-        return $this->getPoint($x3, $y3, $point->getOrder());
+        return $this->getPoint($x3, $y3, $point->order);
     }
 
     public function createPrivateKey(): PrivateKey
@@ -221,7 +183,7 @@ final class Curve implements Stringable
 
     public function createPublicKey(PrivateKey $privateKey): PublicKey
     {
-        $point = $this->mul($this->generator, $privateKey->getSecret());
+        $point = $this->mul($this->generator, $privateKey->secret);
 
         return new PublicKey($point);
     }
@@ -233,14 +195,14 @@ final class Curve implements Stringable
 
     private function validate(Point $point): void
     {
-        if (! $point->isInfinity() && ! $this->contains($point->getX(), $point->getY())) {
+        if (! $point->infinity && ! $this->contains($point->x, $point->y)) {
             throw new RuntimeException('Invalid point');
         }
     }
 
     private function generate(): BigInteger
     {
-        $max = $this->generator->getOrder();
+        $max = $this->generator->order;
         $numBits = $this->bnNumBits($max);
         $numBytes = (int) ceil($numBits / 8);
         // Generate an integer of size >= $numBits

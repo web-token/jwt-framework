@@ -32,15 +32,12 @@ final class JWKSetTest extends TestCase
 
         $jwk = $jwkset->selectKey('sig', new FooAlgorithm());
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
     #[Test]
@@ -52,15 +49,12 @@ final class JWKSetTest extends TestCase
             'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
         ]);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
     #[Test]
@@ -72,15 +66,12 @@ final class JWKSetTest extends TestCase
             'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
         ]);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
     #[Test]

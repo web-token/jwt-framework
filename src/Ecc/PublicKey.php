@@ -27,12 +27,7 @@ namespace Jose\Component\Core\Util\Ecc;
 final class PublicKey
 {
     public function __construct(
-        private readonly Point $point
+        public readonly Point $point
     ) {
-    }
-
-    public function getPoint(): Point
-    {
-        return $this->point;
     }
 }

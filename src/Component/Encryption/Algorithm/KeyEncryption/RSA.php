@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
+namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use function chr;
 use function count;
+use function in_array;
 use InvalidArgumentException;
+use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
@@ -15,100 +17,73 @@ use function ord;
 use RuntimeException;
 use const STR_PAD_LEFT;
 
-/**
- * @internal
- */
-final class RSACrypt
+abstract class RSA implements KeyEncryption
 {
+    public function allowedKeyTypes(): array
+    {
+        return ['RSA'];
+    }
+
     /**
-     * Optimal Asymmetric Encryption Padding (OAEP).
+     * @param array<string, mixed> $completeHeader
+     * @param array<string, mixed> $additionalHeader
      */
-    public const ENCRYPTION_OAEP = 1;
+    public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
+    {
+        $this->checkKey($key);
+        $pub = RSAKey::toPublic(RSAKey::createFromJWK($key));
+
+        return $this->encrypt($pub, $cek, $this->getHashAlgorithm());
+    }
 
     /**
-     * Use PKCS#1 padding.
+     * @param array<string, mixed> $header
      */
-    public const ENCRYPTION_PKCS1 = 2;
-
-    public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
+    public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
-        switch ($mode) {
-            case self::ENCRYPTION_OAEP:
-                if ($hash === null) {
-                    throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
-                }
+        $this->checkKey($key);
+        if (! $key->has('d')) {
+            throw new InvalidArgumentException('The key is not a private key');
+        }
+        $priv = RSAKey::createFromJWK($key);
 
-                return self::encryptWithRSAOAEP($key, $data, $hash);
-            case self::ENCRYPTION_PKCS1:
-                return self::encryptWithRSA15($key, $data);
-            default:
-                throw new InvalidArgumentException('Unsupported mode.');
+        return $this->decrypt($priv, $encrypted_cek, $this->getHashAlgorithm());
+    }
+
+    public function getKeyManagementMode(): string
+    {
+        return self::MODE_ENCRYPT;
+    }
+
+    protected function checkKey(JWK $key): void
+    {
+        if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
+            throw new InvalidArgumentException('Wrong key type.');
         }
     }
 
-    public static function decrypt(RSAKey $key, string $plaintext, int $mode, ?string $hash = null): string
-    {
-        switch ($mode) {
-            case self::ENCRYPTION_OAEP:
-                if ($hash === null) {
-                    throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
-                }
+    abstract protected function getEncryptionMode(): int;
 
-                return self::decryptWithRSAOAEP($key, $plaintext, $hash);
-            case self::ENCRYPTION_PKCS1:
-                return self::decryptWithRSA15($key, $plaintext);
-            default:
-                throw new InvalidArgumentException('Unsupported mode.');
+    abstract protected function getHashAlgorithm(): ?string;
+
+    private function encrypt(RSAKey $key, string $data, string $hash): string
+    {
+        if ($hash === null) {
+            throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
         }
+
+        return self::encryptWithRSAOAEP($key, $data, $hash);
     }
 
-    public static function encryptWithRSA15(RSAKey $key, string $data): string
+    private function decrypt(RSAKey $key, string $plaintext, string $hash): string
     {
-        $mLen = mb_strlen($data, '8bit');
-        if ($mLen > $key->getModulusLength() - 11) {
-            throw new InvalidArgumentException('Message too long');
-        }
-
-        $psLen = $key->getModulusLength() - $mLen - 3;
-        $ps = '';
-        while (mb_strlen($ps, '8bit') !== $psLen) {
-            $temp = random_bytes($psLen - mb_strlen($ps, '8bit'));
-            $temp = str_replace("\x00", '', $temp);
-            $ps .= $temp;
-        }
-        $type = 2;
-        $data = chr(0) . chr($type) . $ps . chr(0) . $data;
-
-        $binaryData = BigInteger::createFromBinaryString($data);
-        $c = self::getRSAEP($key, $binaryData);
-
-        return self::convertIntegerToOctetString($c, $key->getModulusLength());
-    }
-
-    public static function decryptWithRSA15(RSAKey $key, string $c): string
-    {
-        if (mb_strlen($c, '8bit') !== $key->getModulusLength()) {
-            throw new InvalidArgumentException('Unable to decrypt');
-        }
-        $c = BigInteger::createFromBinaryString($c);
-        $m = self::getRSADP($key, $c);
-        $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
-        if (ord($em[0]) !== 0 || ord($em[1]) > 2) {
-            throw new InvalidArgumentException('Unable to decrypt');
-        }
-        $ps = mb_substr($em, 2, (int) mb_strpos($em, chr(0), 2, '8bit') - 2, '8bit');
-        $m = mb_substr($em, mb_strlen($ps, '8bit') + 3, null, '8bit');
-        if (mb_strlen($ps, '8bit') < 8) {
-            throw new InvalidArgumentException('Unable to decrypt');
-        }
-
-        return $m;
+        return self::decryptWithRSAOAEP($key, $plaintext, $hash);
     }
 
     /**
      * Encryption.
      */
-    public static function encryptWithRSAOAEP(RSAKey $key, string $plaintext, string $hash_algorithm): string
+    private function encryptWithRSAOAEP(RSAKey $key, string $plaintext, string $hash_algorithm): string
     {
         /** @var Hash $hash */
         $hash = Hash::$hash_algorithm();
@@ -128,7 +103,7 @@ final class RSACrypt
     /**
      * Decryption.
      */
-    public static function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
+    private function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
     {
         if ($key->getModulusLength() <= 0) {
             throw new RuntimeException('Invalid modulus length');
@@ -150,7 +125,7 @@ final class RSACrypt
         return $plaintext;
     }
 
-    private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
+    private function convertIntegerToOctetString(BigInteger $x, int $xLen): string
     {
         $x = $x->toBytes();
         if (mb_strlen($x, '8bit') > $xLen) {
@@ -163,7 +138,7 @@ final class RSACrypt
     /**
      * Octet-String-to-Integer primitive.
      */
-    private static function convertOctetStringToInteger(string $x): BigInteger
+    private function convertOctetStringToInteger(string $x): BigInteger
     {
         return BigInteger::createFromBinaryString($x);
     }
@@ -171,7 +146,7 @@ final class RSACrypt
     /**
      * RSA EP.
      */
-    private static function getRSAEP(RSAKey $key, BigInteger $m): BigInteger
+    private function getRSAEP(RSAKey $key, BigInteger $m): BigInteger
     {
         if ($m->compare(BigInteger::createFromDecimal(0)) < 0 || $m->compare($key->getModulus()) > 0) {
             throw new RuntimeException();
@@ -183,7 +158,7 @@ final class RSACrypt
     /**
      * RSA DP.
      */
-    private static function getRSADP(RSAKey $key, BigInteger $c): BigInteger
+    private function getRSADP(RSAKey $key, BigInteger $c): BigInteger
     {
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
             throw new RuntimeException();
@@ -195,7 +170,7 @@ final class RSACrypt
     /**
      * MGF1.
      */
-    private static function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
+    private function getMGF1(string $mgfSeed, int $maskLen, Hash $mgfHash): string
     {
         $t = '';
         $count = ceil($maskLen / $mgfHash->getLength());
@@ -210,7 +185,7 @@ final class RSACrypt
     /**
      * RSAES-OAEP-ENCRYPT.
      */
-    private static function encryptRSAESOAEP(RSAKey $key, string $m, Hash $hash): string
+    private function encryptRSAESOAEP(RSAKey $key, string $m, Hash $hash): string
     {
         $mLen = mb_strlen($m, '8bit');
         $lHash = $hash->hash('');
@@ -232,7 +207,7 @@ final class RSACrypt
     /**
      * RSAES-OAEP-DECRYPT.
      */
-    private static function getRSAESOAEP(RSAKey $key, string $c, Hash $hash): string
+    private function getRSAESOAEP(RSAKey $key, string $c, Hash $hash): string
     {
         $c = self::convertOctetStringToInteger($c);
         $m = self::getRSADP($key, $c);

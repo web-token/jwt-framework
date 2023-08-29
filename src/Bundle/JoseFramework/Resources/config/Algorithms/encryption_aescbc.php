@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /*
  * The MIT License (MIT)
@@ -14,8 +15,6 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
     $container = $container->services()

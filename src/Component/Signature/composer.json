@@ -42,11 +42,7 @@
         "web-token/jwt-core": "^3.2"
     },
     "suggest": {
-        "web-token/jwt-signature-algorithm-ecdsa": "ECDSA Based Signature Algorithms",
-        "web-token/jwt-signature-algorithm-eddsa": "EdDSA Based Signature Algorithms",
-        "web-token/jwt-signature-algorithm-hmac": "HMAC Based Signature Algorithms",
-        "web-token/jwt-signature-algorithm-none": "None Signature Algorithm",
-        "web-token/jwt-signature-algorithm-rsa": "RSA Based Signature Algorithms",
-        "web-token/jwt-signature-algorithm-experimental": "Experimental Signature Algorithms"
+        "ext-openssl": "Required by the OpenSSL signature algorithm such as RSxxx, PSxxx, ESxxx or EdDSA",
+        "web-token/jwt-signature-algorithm-none": "None Signature Algorithm"
     }
 }

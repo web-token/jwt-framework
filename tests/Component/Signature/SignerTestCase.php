@@ -669,11 +669,8 @@ final class SignerTestCase extends SignatureTestCase
 
         $expected_result = '{"signatures":[{"signature":"A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY","protected":"eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"},{"signature":"Mp-m-Vyst0zYCNkpg2RiIN8W9GO4nLU3FKsFtHzEcP4tgR4QcMys1_2m9HrDwszi0Cp2gv_Lioe6UPCcTNn6tQ","protected":"eyJhbGciOiJIUzUxMiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"}]}';
 
-        static::assertSame(
-            $expected_result,
-            $this->getJWSSerializerManager()
-                ->serialize('jws_json_general', $jws, 0)
-        );
+        static::assertSame($expected_result, $this->getJWSSerializerManager()
+            ->serialize('jws_json_general', $jws, 0));
 
         $loaded = $this->getJWSSerializerManager()
             ->unserialize($expected_result);
