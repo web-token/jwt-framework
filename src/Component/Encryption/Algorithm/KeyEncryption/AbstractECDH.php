@@ -14,13 +14,12 @@ use function is_array;
 use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
-use Jose\Component\Core\Util\Ecc\EcDH;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use const STR_PAD_LEFT;
 use Throwable;
 
 abstract class AbstractECDH implements KeyAgreement
@@ -59,7 +58,7 @@ abstract class AbstractECDH implements KeyAgreement
         $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
         is_string($apv) || throw new InvalidArgumentException('Invalid APU.');
 
-        return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
+        return $this->generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
 
     public function name(): string
@@ -69,7 +68,7 @@ abstract class AbstractECDH implements KeyAgreement
 
     public function getKeyManagementMode(): string
     {
-        return self::MODE_AGREEMENT;
+        return $this->MODE_AGREEMENT;
     }
 
     protected function calculateAgreementKey(JWK $private_key, JWK $public_key): string
@@ -88,7 +87,7 @@ abstract class AbstractECDH implements KeyAgreement
                         $publicPem = ECKey::convertPublicKeyToPEM($public_key);
                         $privatePem = ECKey::convertPrivateKeyToPEM($private_key);
 
-                        $res = openssl_pkey_derive($publicPem, $privatePem, $curve->getSize());
+                        $res = openssl_pkey_derive($publicPem, $privatePem, $curve->size);
                         if ($res === false) {
                             throw new RuntimeException('Unable to derive the key');
                         }
@@ -115,10 +114,12 @@ abstract class AbstractECDH implements KeyAgreement
                 $rec_y = $this->convertBase64ToBigInteger($y);
                 $sen_d = $this->convertBase64ToBigInteger($d);
 
-                $priv_key = PrivateKey::create($sen_d);
-                $pub_key = $curve->getPublicKeyFrom($rec_x, $rec_y);
+                $privateKey = PrivateKey::create($sen_d);
+                $publicKey = $curve->getPublicKeyFrom($rec_x, $rec_y);
+                $sharedKey = $curve->mul($publicKey->point, $privateKey->secret)
+->x;
 
-                return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
+                return $this->convertDecToBin($sharedKey);
 
             case 'X25519':
                 $x = $public_key->get('x');
@@ -328,5 +329,59 @@ abstract class AbstractECDH implements KeyAgreement
         if (! extension_loaded('sodium')) {
             throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
         }
+    }
+
+    /**
+     * Key Derivation Function.
+     *
+     * @param string $Z Shared secret
+     * @param string $algorithm Encryption algorithm
+     * @param int $encryption_key_size Size of the encryption key
+     * @param string $apu Agreement PartyUInfo (information about the producer)
+     * @param string $apv Agreement PartyVInfo (information about the recipient)
+     */
+    private function generate(
+        string $Z,
+        string $algorithm,
+        int $encryption_key_size,
+        string $apu = '',
+        string $apv = ''
+    ): string {
+        $apu = ! $this->isEmpty($apu) ? Base64UrlSafe::decode($apu) : '';
+        $apv = ! $this->isEmpty($apv) ? Base64UrlSafe::decode($apv) : '';
+        $encryption_segments = [
+            $this->toInt32Bits(1),                                  // Round number 1
+            $Z,                                                          // Z (shared secret)
+            $this->toInt32Bits(mb_strlen($algorithm, '8bit')) . $algorithm, // Size of algorithm's name and algorithm
+            $this->toInt32Bits(mb_strlen($apu, '8bit')) . $apu,             // PartyUInfo
+            $this->toInt32Bits(mb_strlen($apv, '8bit')) . $apv,             // PartyVInfo
+            $this->toInt32Bits($encryption_key_size),                     // SuppPubInfo (the encryption key size)
+            '',                                                          // SuppPrivInfo
+        ];
+
+        $input = implode('', $encryption_segments);
+        $hash = hash('sha256', $input, true);
+
+        return mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
+    }
+
+    /**
+     * Convert an integer into a 32 bits string.
+     *
+     * @param int $value Integer to convert
+     */
+    private function toInt32Bits(int $value): string
+    {
+        $result = hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+        if ($result === false) {
+            throw new InvalidArgumentException('Invalid result');
+        }
+
+        return $result;
+    }
+
+    private function isEmpty(?string $value): bool
+    {
+        return $value === null || $value === '';
     }
 }
