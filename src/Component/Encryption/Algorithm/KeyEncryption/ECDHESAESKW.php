@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use AESKW\Wrapper;
 use Jose\Component\Core\JWK;
-use RuntimeException;
 
 abstract class ECDHESAESKW extends AbstractECDHAESKW
 {
