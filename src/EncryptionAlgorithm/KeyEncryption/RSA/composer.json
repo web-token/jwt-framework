@@ -1,6 +1,6 @@
 {
-    "name": "[DEPRECATED] web-token/jwt-encryption-algorithm-rsa",
-    "description": "RSA Based Key Encryption Algorithms the JWT Framework.",
+    "name": "web-token/jwt-encryption-algorithm-rsa",
+    "description": "[DEPRECATED] RSA Based Key Encryption Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [

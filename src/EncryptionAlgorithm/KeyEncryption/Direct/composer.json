@@ -1,6 +1,6 @@
 {
-    "name": "[DEPRECATED] web-token/jwt-encryption-algorithm-dir",
-    "description": "Direct Key Encryption Algorithm the JWT Framework.",
+    "name": "web-token/jwt-encryption-algorithm-dir",
+    "description": "[DEPRECATED] Direct Key Encryption Algorithm the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [

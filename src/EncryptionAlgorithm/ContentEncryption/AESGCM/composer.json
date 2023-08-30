@@ -1,6 +1,6 @@
 {
-    "name": "[DEPRECATED] web-token/jwt-encryption-algorithm-aesgcm",
-    "description": "AES GCM Based Content Encryption Algorithms the JWT Framework.",
+    "name": "web-token/jwt-encryption-algorithm-aesgcm",
+    "description": "[DEPRECATED] AES GCM Based Content Encryption Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [

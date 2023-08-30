@@ -1,6 +1,6 @@
 {
-    "name": "[DEPRECATED] web-token/jwt-encryption-algorithm-aescbc",
-    "description": "AES CBC Based Content Encryption Algorithms the JWT Framework.",
+    "name": "web-token/jwt-encryption-algorithm-aescbc",
+    "description": "[DEPRECATED] AES CBC Based Content Encryption Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [

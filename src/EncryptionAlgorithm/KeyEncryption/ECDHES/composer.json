@@ -1,6 +1,6 @@
 {
-    "name": "[DEPRECATED] web-token/jwt-encryption-algorithm-ecdh-es",
-    "description": "ECDH-ES Based Key Encryption Algorithms the JWT Framework.",
+    "name": "web-token/jwt-encryption-algorithm-ecdh-es",
+    "description": "[DEPRECATED] ECDH-ES Based Key Encryption Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [

@@ -1,6 +1,6 @@
 {
-    "name": "[DEPRECATED] web-token/jwt-encryption-algorithm-aeskw",
-    "description": "AES Key Wrapping Based Key Encryption Algorithms the JWT Framework.",
+    "name": "web-token/jwt-encryption-algorithm-aeskw",
+    "description": "[DEPRECATED] AES Key Wrapping Based Key Encryption Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [
