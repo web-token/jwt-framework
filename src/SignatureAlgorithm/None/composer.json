@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-signature-algorithm-none",
-    "description": "None Signature Algorithm the JWT Framework.",
+    "description": "[DEPRECATED] None Signature Algorithm the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [

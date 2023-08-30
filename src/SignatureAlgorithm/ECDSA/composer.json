@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-signature-algorithm-ecdsa",
-    "description": "ECDSA Based Signature Algorithms the JWT Framework.",
+    "description": "[DEPRECATED] ECDSA Based Signature Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [

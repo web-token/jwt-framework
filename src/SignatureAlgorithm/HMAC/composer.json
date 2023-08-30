@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-signature-algorithm-hmac",
-    "description": "HMAC Based Signature Algorithms the JWT Framework.",
+    "description": "[DEPRECATED] HMAC Based Signature Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [
