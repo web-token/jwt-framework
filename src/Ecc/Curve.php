@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 use Brick\Math\BigInteger;
+use Jose\Component\Core\Util\BigInteger as CoreBigInteger;
 use RuntimeException;
-use const STR_PAD_LEFT;
 use Stringable;
+use const STR_PAD_LEFT;
 
 /**
  * @internal
@@ -25,17 +26,14 @@ final class Curve implements Stringable
 
     public function __toString(): string
     {
-        return 'curve(' . Math::toString($this->a) . ', ' . Math::toString($this->b) . ', ' . Math::toString(
-            $this->prime
-        ) . ')';
+        return 'curve(' . $this->a->toBase(10) . ', ' . $this->b->toBase(10) . ', ' . $this->prime->toBase(10) . ')';
     }
 
     public function getPoint(BigInteger $x, BigInteger $y, ?BigInteger $order = null): Point
     {
         if (! $this->contains($x, $y)) {
-            throw new RuntimeException('Curve ' . $this->__toString() . ' does not contain point (' . Math::toString(
-                $x
-            ) . ', ' . Math::toString($y) . ')');
+            throw new RuntimeException('Curve ' . $this->__toString() . ' does not contain point (' . $x->toBase(10)
+            . ', ' . $y->toBase(10) . ')');
         }
         $point = Point::create($x, $y, $order);
         if ($order !== null) {
@@ -59,19 +57,18 @@ final class Curve implements Stringable
         }
         $point = $this->getPoint($x, $y);
 
-        return new PublicKey($point);
+        return PublicKey::create($point);
     }
 
     public function contains(BigInteger $x, BigInteger $y): bool
     {
-        return Math::equals(
-            ModularArithmetic::sub(
-                $y->power(2),
-                Math::add(Math::add($x->power(3), $this->a->multipliedBy($x)), $this->b),
-                $this->prime
-            ),
-            BigInteger::zero()
+        $first = self::modularSubstract(
+            $y->power(2),
+            Math::add(Math::add($x->power(3), $this->a->multipliedBy($x)), $this->b),
+            $this->prime
         );
+
+        return $first->isEqualTo(BigInteger::zero());
     }
 
     public function add(Point $one, Point $two): Point
@@ -92,11 +89,11 @@ final class Curve implements Stringable
             return Point::infinity();
         }
 
-        $slope = ModularArithmetic::div($two->y ->minus($one->y), $two->x ->minus($one->x), $this->prime);
+        $slope = self::modularDivide($two->y ->minus($one->y), $two->x ->minus($one->x), $this->prime);
 
-        $xR = ModularArithmetic::sub($slope->power(2)->minus($one->x), $two->x, $this->prime);
+        $xR = self::modularSubstract($slope->power(2)->minus($one->x), $two->x, $this->prime);
 
-        $yR = ModularArithmetic::sub($slope->multipliedBy($one->x->minus($xR)), $one->y, $this->prime);
+        $yR = self::modularSubstract($slope->multipliedBy($one->x->minus($xR)), $one->y, $this->prime);
 
         return $this->getPoint($xR, $yR, $one->order);
     }
@@ -121,7 +118,7 @@ final class Curve implements Stringable
         $r = [Point::infinity(), clone $one];
 
         $k = $this->size;
-        $n1 = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
+        $n1 = str_pad(BigInteger::fromBase($n->toBase(10), 10)->toBase(2), $k, '0', STR_PAD_LEFT);
 
         for ($i = 0; $i < $k; ++$i) {
             $j = $n1[$i];
@@ -163,15 +160,15 @@ final class Curve implements Stringable
         $a = $this->a;
         $threeX2 = BigInteger::of(3)->multipliedBy($point->x->power(2));
 
-        $tangent = ModularArithmetic::div(
+        $tangent = self::modularDivide(
             $threeX2->plus($a),
             BigInteger::of(2)->multipliedBy($point->y),
             $this->prime
         );
 
-        $x3 = ModularArithmetic::sub($tangent->power(2), BigInteger::of(2)->multipliedBy($point->x), $this->prime);
+        $x3 = self::modularSubstract($tangent->power(2), BigInteger::of(2)->multipliedBy($point->x), $this->prime);
 
-        $y3 = ModularArithmetic::sub($tangent->multipliedBy($point->x->minus($x3)), $point->y, $this->prime);
+        $y3 = self::modularSubstract($tangent->multipliedBy($point->x->minus($x3)), $point->y, $this->prime);
 
         return $this->getPoint($x3, $y3, $point->order);
     }
@@ -185,7 +182,7 @@ final class Curve implements Stringable
     {
         $point = $this->mul($this->generator, $privateKey->secret);
 
-        return new PublicKey($point);
+        return PublicKey::create($point);
     }
 
     public function getGenerator(): Point
@@ -230,5 +227,32 @@ final class Curve implements Stringable
         }
 
         return $log2;
+    }
+
+    private static function modularSubstract(
+        BigInteger $minuend,
+        BigInteger $subtrahend,
+        BigInteger $modulus
+    ): BigInteger {
+        return $minuend->minus($subtrahend)
+            ->mod($modulus);
+    }
+
+    private static function modularMultiply(
+        BigInteger $multiplier,
+        BigInteger $muliplicand,
+        BigInteger $modulus
+    ): BigInteger {
+        return $multiplier->multipliedBy($muliplicand)
+            ->mod($modulus);
+    }
+
+    private static function modularDivide(BigInteger $dividend, BigInteger $divisor, BigInteger $modulus): BigInteger
+    {
+        $inverseMod = CoreBigInteger::createFromBigInteger($divisor)->modInverse(
+            CoreBigInteger::createFromBigInteger($modulus)
+        )->get();
+
+        return self::modularMultiply($dividend, $inverseMod, $modulus);
     }
 }

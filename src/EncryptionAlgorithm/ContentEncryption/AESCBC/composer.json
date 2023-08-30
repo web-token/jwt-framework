@@ -32,14 +32,6 @@
             "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": ""
-        }
-    },
-    "require": {
-        "php": ">=8.1",
-        "ext-openssl": "*",
-        "web-token/jwt-encryption": "^3.2"
-    }
+    "autoload": {},
+    "require": {}
 }

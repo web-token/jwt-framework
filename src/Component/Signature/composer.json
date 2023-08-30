@@ -42,7 +42,11 @@
         "web-token/jwt-core": "^3.2"
     },
     "suggest": {
-        "ext-openssl": "Required by the OpenSSL signature algorithm such as RSxxx, PSxxx, ESxxx or EdDSA",
-        "web-token/jwt-signature-algorithm-none": "None Signature Algorithm"
+        "ext-sodium": "Required by the EdDSA signature algorithm",
+        "ext-openssl": "Required by the OpenSSL signature algorithm such as RSxxx, PSxxx or ESxxx",
+        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
+        "web-token/jwt-signature-algorithm-none": "None Signature Algorithm",
+        "web-token/jwt-algorithm-experimental": "Experimental Algorithms"
     }
 }

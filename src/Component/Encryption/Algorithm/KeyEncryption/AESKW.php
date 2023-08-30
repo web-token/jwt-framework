@@ -5,14 +5,22 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use AESKW\Wrapper as WrapperInterface;
-use function in_array;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use RuntimeException;
+use function in_array;
+use function is_string;
 
 abstract class AESKW implements KeyWrapping
 {
+    public function __construct()
+    {
+        if (! interface_exists(WrapperInterface::class)) {
+            throw new RuntimeException('The library "spomky-labs/aes-key-wrap" is required to use this algorithm.');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['oct'];

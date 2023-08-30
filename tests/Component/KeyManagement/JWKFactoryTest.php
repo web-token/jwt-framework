@@ -6,11 +6,11 @@ namespace Jose\Tests\Component\KeyManagement;
 
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\JWKFactory;
-use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal

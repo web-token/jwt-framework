@@ -32,13 +32,6 @@
             "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Jose\\Component\\Signature\\Algorithm\\": ""
-        }
-    },
-    "require": {
-        "php": ">=8.1",
-        "web-token/jwt-signature": "^3.2"
-    }
+    "autoload": {},
+    "require": {}
 }

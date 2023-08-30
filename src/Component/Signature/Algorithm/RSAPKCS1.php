@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use function extension_loaded;
-use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use RuntimeException;
+use function extension_loaded;
+use function in_array;
 
 abstract class RSAPKCS1 implements SignatureAlgorithm
 {

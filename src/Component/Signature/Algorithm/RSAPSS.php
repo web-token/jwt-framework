@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use function chr;
-use function extension_loaded;
-use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
-use function ord;
 use RuntimeException;
+use function chr;
+use function extension_loaded;
+use function in_array;
+use function ord;
 use const STR_PAD_LEFT;
 
 abstract class RSAPSS implements SignatureAlgorithm

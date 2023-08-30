@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
-use function array_key_exists;
-use function extension_loaded;
 use InvalidArgumentException;
-use function is_array;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
-use const JSON_THROW_ON_ERROR;
-use const OPENSSL_KEYTYPE_RSA;
 use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use Throwable;
+use function array_key_exists;
+use function extension_loaded;
+use function is_array;
+use function is_string;
+use const JSON_THROW_ON_ERROR;
+use const OPENSSL_KEYTYPE_RSA;
 
 /**
  * @see \Jose\Tests\Component\KeyManagement\JWKFactoryTest

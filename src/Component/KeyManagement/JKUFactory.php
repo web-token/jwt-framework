@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
-use function is_array;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use RuntimeException;
+use function is_array;
 
 class JKUFactory extends UrlKeySetFactory
 {

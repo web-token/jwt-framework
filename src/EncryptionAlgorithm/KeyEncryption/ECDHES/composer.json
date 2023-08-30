@@ -37,14 +37,6 @@
             "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": ""
         }
     },
-    "suggest": {
-        "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys"
-    },
-    "require": {
-        "php": ">=8.1",
-        "ext-openssl": "*",
-        "spomky-labs/aes-key-wrap": "^7.0",
-        "web-token/jwt-encryption": "^3.2",
-        "web-token/jwt-util-ecc": "^3.2"
-    }
+    "autoload": {},
+    "require": {}
 }

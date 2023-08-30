@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use function chr;
-use function count;
-use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 use LogicException;
-use function ord;
 use RuntimeException;
+use function chr;
+use function count;
+use function in_array;
+use function ord;
 use const STR_PAD_LEFT;
 
 abstract class RSA implements KeyEncryption

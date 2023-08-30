@@ -24,9 +24,6 @@ final class AlgorithmChecker implements HeaderChecker
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkHeader(mixed $value): void
     {
         if (! is_string($value)) {

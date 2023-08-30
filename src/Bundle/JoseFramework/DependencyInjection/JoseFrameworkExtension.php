@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection;
 
-use function count;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use function count;
 
 final class JoseFrameworkExtension extends Extension implements PrependExtensionInterface
 {
@@ -28,7 +28,6 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
     }
 
     /**
-     * {@inheritdoc}
      * @param array<array> $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
@@ -41,17 +40,11 @@ final class JoseFrameworkExtension extends Extension implements PrependExtension
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration($this->getAlias(), $this->sources);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container): void
     {
         $configs = $container->getExtensionConfig($this->getAlias());

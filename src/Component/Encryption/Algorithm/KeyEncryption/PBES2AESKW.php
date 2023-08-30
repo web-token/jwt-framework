@@ -7,12 +7,14 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use AESKW\A128KW;
 use AESKW\A192KW;
 use AESKW\A256KW;
-use function in_array;
+use AESKW\Wrapper;
 use InvalidArgumentException;
-use function is_int;
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use RuntimeException;
+use function in_array;
+use function is_int;
+use function is_string;
 
 abstract class PBES2AESKW implements KeyWrapping
 {
@@ -20,6 +22,9 @@ abstract class PBES2AESKW implements KeyWrapping
         private readonly int $salt_size = 64,
         private readonly int $nb_count = 4096
     ) {
+        if (! interface_exists(Wrapper::class)) {
+            throw new RuntimeException('The library "spomky-labs/aes-key-wrap" is required to use this algorithm.');
+        }
     }
 
     public function allowedKeyTypes(): array

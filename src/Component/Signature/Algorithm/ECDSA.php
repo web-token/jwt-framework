@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use function defined;
-use function extension_loaded;
-use function in_array;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
@@ -14,6 +11,9 @@ use Jose\Component\Core\Util\ECSignature;
 use LogicException;
 use RuntimeException;
 use Throwable;
+use function defined;
+use function extension_loaded;
+use function in_array;
 
 abstract class ECDSA implements SignatureAlgorithm
 {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Compression;
 
 use InvalidArgumentException;
-use function is_string;
 use Throwable;
+use function is_string;
 
 final class Deflate implements CompressionMethod
 {

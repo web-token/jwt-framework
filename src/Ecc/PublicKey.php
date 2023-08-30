@@ -26,8 +26,13 @@ namespace Jose\Component\Core\Util\Ecc;
  */
 final class PublicKey
 {
-    public function __construct(
+    private function __construct(
         public readonly Point $point
     ) {
+    }
+
+    public static function create(Point $point): self
+    {
+        return new self($point);
     }
 }

@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use function array_key_exists;
 use Brick\Math\BigInteger;
-use function extension_loaded;
-use function function_exists;
-use function in_array;
 use InvalidArgumentException;
-use function is_array;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\NistCurve;
@@ -19,11 +13,24 @@ use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
-use const STR_PAD_LEFT;
 use Throwable;
+use function array_key_exists;
+use function extension_loaded;
+use function function_exists;
+use function in_array;
+use function is_array;
+use function is_string;
+use const STR_PAD_LEFT;
 
 abstract class AbstractECDH implements KeyAgreement
 {
+    public function __construct()
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('The openssl extension is required to use this algorithm.');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['EC', 'OKP'];

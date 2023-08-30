@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Helper;
 
-use function is_array;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use function is_array;
 
 class ConfigurationHelper
 {
