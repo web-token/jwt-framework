@@ -1866,6 +1866,11 @@ parameters:
             path: src/Component/NestedToken/NestedTokenBuilder.php
 
         -
+            message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
+            count: 1
+            path: src/Component/Signature/Algorithm/None.php
+
+        -
             message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
             count: 1
             path: src/Component/Signature/Algorithm/RSAPSS.php
@@ -1989,8 +1994,3 @@ parameters:
             message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
             count: 1
             path: src/EncryptionAlgorithm/Experimental/KeyEncryption/RSAOAEP512.php
-
-        -
-            message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
-            count: 1
-            path: src/SignatureAlgorithm/None/None.php
