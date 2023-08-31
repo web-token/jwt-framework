@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Jose\Experimental\KeyEncryption;
 
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
 
 final class RSAOAEP384 extends RSA
 {
     public function getEncryptionMode(): int
     {
-        return RSACrypt::ENCRYPTION_OAEP;
+        return self::ENCRYPTION_OAEP;
     }
 
     public function getHashAlgorithm(): string

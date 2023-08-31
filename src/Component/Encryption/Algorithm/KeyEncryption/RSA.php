@@ -19,6 +19,16 @@ use const STR_PAD_LEFT;
 
 abstract class RSA implements KeyEncryption
 {
+    /**
+     * Optimal Asymmetric Encryption Padding (OAEP).
+     */
+    protected const ENCRYPTION_OAEP = 1;
+
+    /**
+     * Use PKCS#1 padding.
+     */
+    protected const ENCRYPTION_PKCS1 = 2;
+
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
@@ -68,16 +78,34 @@ abstract class RSA implements KeyEncryption
 
     private function encrypt(RSAKey $key, string $data, string $hash): string
     {
-        if ($hash === null) {
-            throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
-        }
+        switch ($this->getEncryptionMode()) {
+            case self::ENCRYPTION_OAEP:
+                if ($hash === null) {
+                    throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
+                }
 
-        return self::encryptWithRSAOAEP($key, $data, $hash);
+                return self::encryptWithRSAOAEP($key, $data, $hash);
+            case self::ENCRYPTION_PKCS1:
+                return self::encryptWithRSA15($key, $data);
+            default:
+                throw new InvalidArgumentException('Unsupported mode.');
+        }
     }
 
     private function decrypt(RSAKey $key, string $plaintext, string $hash): string
     {
-        return self::decryptWithRSAOAEP($key, $plaintext, $hash);
+        switch ($this->getEncryptionMode()) {
+            case self::ENCRYPTION_OAEP:
+                if ($hash === null) {
+                    throw new LogicException('Hash shall be defined for RSA OAEP cyphering');
+                }
+
+                return self::decryptWithRSAOAEP($key, $plaintext, $hash);
+            case self::ENCRYPTION_PKCS1:
+                return self::decryptWithRSA15($key, $plaintext);
+            default:
+                throw new InvalidArgumentException('Unsupported mode.');
+        }
     }
 
     /**

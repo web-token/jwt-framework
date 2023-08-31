@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
-
 final class RSAOAEP256 extends RSA
 {
     public function getEncryptionMode(): int
     {
-        return RSACrypt::ENCRYPTION_OAEP;
+        return self::ENCRYPTION_OAEP;
     }
 
     public function getHashAlgorithm(): string

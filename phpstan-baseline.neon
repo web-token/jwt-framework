@@ -1261,6 +1261,16 @@ parameters:
             path: src/Component/Encryption/Algorithm/KeyEncryption/PBES2AESKW.php
 
         -
+            message: "#^Call to an undefined static method Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\RSA\\:\\:decryptWithRSA15\\(\\)\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
+
+        -
+            message: "#^Call to an undefined static method Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\RSA\\:\\:encryptWithRSA15\\(\\)\\.$#"
+            count: 1
+            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
+
+        -
             message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
             count: 1
             path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
@@ -1277,7 +1287,7 @@ parameters:
 
         -
             message: "#^Strict comparison using \\=\\=\\= between string and null will always evaluate to false\\.$#"
-            count: 1
+            count: 2
             path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
 
         -
@@ -1289,16 +1299,6 @@ parameters:
             message: "#^Access to constant ENCRYPTION_PKCS1 on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
             count: 1
             path: src/Component/Encryption/Algorithm/KeyEncryption/RSA15.php
-
-        -
-            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
-            count: 1
-            path: src/Component/Encryption/Algorithm/KeyEncryption/RSAOAEP.php
-
-        -
-            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
-            count: 1
-            path: src/Component/Encryption/Algorithm/KeyEncryption/RSAOAEP256.php
 
         -
             message: "#^Method Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:\\:__construct\\(\\) has parameter \\$methods with no value type specified in iterable type array\\.$#"
@@ -1984,13 +1984,3 @@ parameters:
             message: "#^Binary operation \"\\^\" between string and 1 results in an error\\.$#"
             count: 2
             path: src/Ecc/Curve.php
-
-        -
-            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
-            count: 1
-            path: src/EncryptionAlgorithm/Experimental/KeyEncryption/RSAOAEP384.php
-
-        -
-            message: "#^Access to constant ENCRYPTION_OAEP on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
-            count: 1
-            path: src/EncryptionAlgorithm/Experimental/KeyEncryption/RSAOAEP512.php

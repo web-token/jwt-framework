@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-signature-algorithm-experimental",
-    "description": "Experimental Signature Algorithms the JWT Framework.",
+    "description": "[DEPRECATED] Experimental Signature Algorithms the JWT Framework.",
     "type": "library",
     "license": "MIT",
     "keywords": [
