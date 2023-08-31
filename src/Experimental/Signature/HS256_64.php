@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Signature\Algorithm;
+namespace Jose\Experimental\Signature;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\Signature\Algorithm\HMAC;
 
 final class HS256_64 extends HMAC
 {

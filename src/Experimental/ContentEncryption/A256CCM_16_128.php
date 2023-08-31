@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
+namespace Jose\Experimental\ContentEncryption;
 
-final class A256CCM_64_64 extends AESCCM
+final class A256CCM_16_128 extends AESCCM
 {
     public function getCEKSize(): int
     {
@@ -13,12 +13,12 @@ final class A256CCM_64_64 extends AESCCM
 
     public function name(): string
     {
-        return 'A256CCM-16-64';
+        return 'A256CCM-16-128';
     }
 
     public function getIVSize(): int
     {
-        return 7 * 8;
+        return 13 * 8;
     }
 
     protected function getMode(): string

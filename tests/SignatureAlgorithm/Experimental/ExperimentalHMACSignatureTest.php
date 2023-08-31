@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Signature\Algorithm;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Algorithm\HS1;
-use Jose\Component\Signature\Algorithm\HS256_64;
+use Jose\Experimental\Signature\HS1;
+use Jose\Experimental\Signature\HS256_64;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

@@ -33,5 +33,7 @@
         }
     ],
     "autoload": {},
-    "require": {}
+    "require": {
+        "web-token/jwt-signature": "^3.2"
+    }
 }

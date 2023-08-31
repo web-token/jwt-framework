@@ -38,5 +38,7 @@
         }
     },
     "autoload": {},
-    "require": {}
+    "require": {
+        "web-token/jwt-encryption": "^3.2"
+    }
 }

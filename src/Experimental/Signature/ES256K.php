@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Signature\Algorithm;
+namespace Jose\Experimental\Signature;
+
+use Jose\Component\Signature\Algorithm\ECDSA;
 
 final class ES256K extends ECDSA
 {

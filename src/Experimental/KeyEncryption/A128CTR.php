@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
+namespace Jose\Experimental\KeyEncryption;
 
 final class A128CTR extends AESCTR
 {

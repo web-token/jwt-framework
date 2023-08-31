@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
+namespace Jose\Experimental\ContentEncryption;
 
 final class A128CCM_16_128 extends AESCCM
 {

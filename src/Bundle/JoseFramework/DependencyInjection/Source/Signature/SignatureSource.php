@@ -10,11 +10,11 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasse
 use Jose\Component\Signature\Algorithm\ECDSA;
 use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Signature\Algorithm\HMAC;
-use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\None;
 use Jose\Component\Signature\Algorithm\RSAPSS;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
+use Jose\Experimental\Signature\HS1;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

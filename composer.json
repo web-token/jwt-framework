@@ -39,50 +39,32 @@
             "Jose\\Component\\Checker\\": "src/Component/Checker/",
             "Jose\\Component\\Console\\": "src/Component/Console/",
             "Jose\\Component\\Core\\": "src/Component/Core/",
-            "Jose\\Component\\Core\\Util\\Ecc\\": [
-                "src/Ecc",
-                "src/Ecc/"
-            ],
+            "Jose\\Component\\Core\\Util\\Ecc\\": "src/Ecc/",
             "Jose\\Component\\Encryption\\": "src/Component/Encryption/",
-            "Jose\\Component\\Encryption\\Algorithm\\": [
-                "src/EncryptionAlgorithm/Experimental",
-                "src/EncryptionAlgorithm/Experimental/"
-            ],
+            "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": "src/Experimental/KeyEncryption/",
+            "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": "src/Experimental/ContentEncryption/",
+            "Jose\\\\Component\\\\Signature\\\\Algorithm\\": "src/Experimental/Signature/",
             "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": [
-                "src/EncryptionAlgorithm/ContentEncryption/AESCBC",
                 "src/EncryptionAlgorithm/ContentEncryption/AESCBC/",
-                "src/EncryptionAlgorithm/ContentEncryption/AESGCM",
                 "src/EncryptionAlgorithm/ContentEncryption/AESGCM/"
             ],
             "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": [
-                "src/EncryptionAlgorithm/KeyEncryption/AESGCMKW",
                 "src/EncryptionAlgorithm/KeyEncryption/AESGCMKW/",
-                "src/EncryptionAlgorithm/KeyEncryption/AESKW",
                 "src/EncryptionAlgorithm/KeyEncryption/AESKW/",
-                "src/EncryptionAlgorithm/KeyEncryption/Direct",
                 "src/EncryptionAlgorithm/KeyEncryption/Direct/",
-                "src/EncryptionAlgorithm/KeyEncryption/ECDHES",
                 "src/EncryptionAlgorithm/KeyEncryption/ECDHES/",
-                "src/EncryptionAlgorithm/KeyEncryption/PBES2",
                 "src/EncryptionAlgorithm/KeyEncryption/PBES2/",
-                "src/EncryptionAlgorithm/KeyEncryption/RSA",
                 "src/EncryptionAlgorithm/KeyEncryption/RSA/"
             ],
             "Jose\\Component\\KeyManagement\\": "src/Component/KeyManagement/",
             "Jose\\Component\\NestedToken\\": "src/Component/NestedToken/",
             "Jose\\Component\\Signature\\": "src/Component/Signature/",
             "Jose\\Component\\Signature\\Algorithm\\": [
-                "src/SignatureAlgorithm/ECDSA",
                 "src/SignatureAlgorithm/ECDSA/",
-                "src/SignatureAlgorithm/EdDSA",
                 "src/SignatureAlgorithm/EdDSA/",
-                "src/SignatureAlgorithm/Experimental",
                 "src/SignatureAlgorithm/Experimental/",
-                "src/SignatureAlgorithm/HMAC",
                 "src/SignatureAlgorithm/HMAC/",
-                "src/SignatureAlgorithm/None",
                 "src/SignatureAlgorithm/None/",
-                "src/SignatureAlgorithm/RSA",
                 "src/SignatureAlgorithm/RSA/"
             ]
         }
@@ -172,7 +154,8 @@
         "web-token/jwt-signature-algorithm-none": "self.version",
         "web-token/jwt-signature-algorithm-rsa": "self.version",
         "web-token/jwt-util-ecc": "self.version",
-        "web-token/signature-pack": "self.version"
+        "web-token/signature-pack": "self.version",
+        "web-token/jwt-experimental": "self.version"
     },
     "suggest": {
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",

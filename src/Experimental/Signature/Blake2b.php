@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jose\Component\Signature\Algorithm;
+namespace Jose\Experimental\Signature;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use function in_array;
 use function is_string;
