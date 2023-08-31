@@ -81,7 +81,6 @@ final class ComposerJsonTest extends TestCase
             'EncryptionAlgorithm',
             'ContentEncryption',
             'KeyEncryption',
-            'Experimental',
             'SignatureAlgorithm',
         ];
         foreach (new DirectoryIterator($path) as $dirInfo) {
