@@ -41,9 +41,8 @@
             "Jose\\Component\\Core\\": "src/Component/Core/",
             "Jose\\Component\\Core\\Util\\Ecc\\": "src/Ecc/",
             "Jose\\Component\\Encryption\\": "src/Component/Encryption/",
-            "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": "src/Experimental/KeyEncryption/",
-            "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": "src/Experimental/ContentEncryption/",
-            "Jose\\\\Component\\\\Signature\\\\Algorithm\\": "src/Experimental/Signature/",
+            "Jose\\Experimental\\KeyEncryption\\": "src/Experimental/KeyEncryption/",
+            "Jose\\Experimental\\ContentEncryption\\": "src/Experimental/ContentEncryption/",
             "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": [
                 "src/EncryptionAlgorithm/ContentEncryption/AESCBC/",
                 "src/EncryptionAlgorithm/ContentEncryption/AESGCM/"
@@ -65,7 +64,8 @@
                 "src/SignatureAlgorithm/Experimental/",
                 "src/SignatureAlgorithm/HMAC/",
                 "src/SignatureAlgorithm/None/",
-                "src/SignatureAlgorithm/RSA/"
+                "src/SignatureAlgorithm/RSA/",
+                "src/Experimental/Signature/"
             ]
         }
     },
