@@ -1296,11 +1296,6 @@ parameters:
             path: src/Component/Encryption/Algorithm/KeyEncryption/RSA.php
 
         -
-            message: "#^Access to constant ENCRYPTION_PKCS1 on an unknown class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Util\\\\RSACrypt\\.$#"
-            count: 1
-            path: src/Component/Encryption/Algorithm/KeyEncryption/RSA15.php
-
-        -
             message: "#^Method Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:\\:__construct\\(\\) has parameter \\$methods with no value type specified in iterable type array\\.$#"
             count: 1
             path: src/Component/Encryption/Compression/CompressionMethodManager.php

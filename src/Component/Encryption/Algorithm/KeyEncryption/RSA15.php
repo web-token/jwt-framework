@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
-
 final class RSA15 extends RSA
 {
     public function name(): string
@@ -15,7 +13,7 @@ final class RSA15 extends RSA
 
     protected function getEncryptionMode(): int
     {
-        return RSACrypt::ENCRYPTION_PKCS1;
+        return self::ENCRYPTION_PKCS1;
     }
 
     protected function getHashAlgorithm(): ?string
