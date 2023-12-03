@@ -44,10 +44,7 @@ final class KeyConverter
 
     public static function loadKeyFromCertificate(string $certificate): array
     {
-        if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
-        }
-
+        self::checkRequirements();
         try {
             $res = openssl_x509_read($certificate);
             if ($res === false) {
@@ -66,9 +63,7 @@ final class KeyConverter
 
     public static function loadKeyFromX509Resource(OpenSSLCertificate $res): array
     {
-        if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
-        }
+        self::checkRequirements();
         $key = openssl_pkey_get_public($res);
         if ($key === false) {
             throw new InvalidArgumentException('Unable to load the certificate.');
@@ -150,6 +145,15 @@ final class KeyConverter
         return self::loadKeyFromCertificate(reset($x5c));
     }
 
+    private static function checkRequirements(): void
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException(
+                'The extension "openssl" is not available. Please install it to use this method'
+            );
+        }
+    }
+
     private static function loadKeyFromDER(string $der, ?string $password = null): array
     {
         $pem = self::convertDerToPem($der);
@@ -159,12 +163,9 @@ final class KeyConverter
 
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
+        self::checkRequirements();
         if (preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches) === 1) {
             $pem = self::decodePem($pem, $matches, $password);
-        }
-
-        if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
         }
 
         if (preg_match('#BEGIN ENCRYPTED PRIVATE KEY(.+)(.+)#', $pem) === 1) {
@@ -205,10 +206,12 @@ final class KeyConverter
         try {
             return ECKey::createFromPEM($input)->toArray();
         } catch (Throwable) {
+            // Ignore
         }
         try {
             return self::tryToLoadOtherKeyTypes($input);
         } catch (Throwable) {
+            // Ignore
         }
         throw new InvalidArgumentException('Unable to load the key.');
     }
@@ -229,6 +232,7 @@ final class KeyConverter
             ];
             return self::populatePoints($key, $values);
         } catch (Throwable) {
+            // Ignore
         }
         try {
             $key = PublicKey::fromPEM($pem);
@@ -240,6 +244,7 @@ final class KeyConverter
                 'x' => Base64UrlSafe::encodeUnpadded((string) $key->subjectPublicKey()),
             ];
         } catch (Throwable) {
+            // Ignore
         }
         throw new InvalidArgumentException('Unsupported key type');
     }

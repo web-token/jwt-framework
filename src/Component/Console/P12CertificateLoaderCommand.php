@@ -6,12 +6,14 @@ namespace Jose\Component\Console;
 
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_string;
 
+#[AsCommand(name: 'key:load:p12', description: 'Load a key from a P12 certificate file.',)]
 final class P12CertificateLoaderCommand extends GeneratorCommand
 {
     protected static $defaultName = 'key:load:p12';

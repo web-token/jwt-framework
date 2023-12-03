@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-encryption-algorithm-experimental",
-    "description": "[DEPRECATED] Experimental Key and Content Encryption Algorithms the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-experimental instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [

@@ -17,7 +17,7 @@ abstract class ESKeyAnalyzer implements KeyAnalyzer
     public function __construct()
     {
         if (! class_exists(NistCurve::class)) {
-            throw new RuntimeException('Please install web-token/jwt-util-ecc to use this key analyzer');
+            throw new RuntimeException('Please install web-token/jwt-library to use this key analyzer');
         }
     }
 

@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,6 +16,7 @@ use function count;
 use function is_array;
 use function is_string;
 
+#[AsCommand(name: 'keyset:rotate', description: 'Rotate a key set.',)]
 final class RotateKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:rotate';

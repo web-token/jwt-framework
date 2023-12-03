@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-console",
-    "description": "Console component of the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -39,7 +39,6 @@
     },
     "require": {
         "php": ">=8.1",
-        "symfony/console": "^5.4|^6.0",
-        "web-token/jwt-key-mgmt": "^3.2"
+        "web-token/jwt-library": "^3.3"
     }
 }

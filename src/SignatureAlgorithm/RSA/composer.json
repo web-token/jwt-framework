@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-signature-algorithm-rsa",
-    "description": "[DEPRECATED] RSA Based Signature Algorithms the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -32,8 +32,8 @@
             "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {},
     "require": {
-        "web-token/jwt-signature": "^3.2"
+        "php": ">=8.1",
+        "web-token/jwt-library": "^3.3"
     }
 }

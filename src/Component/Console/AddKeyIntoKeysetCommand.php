@@ -8,12 +8,14 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_array;
 use function is_string;
 
+#[AsCommand(name: 'keyset:add:key', description: 'Add a key into a key set.',)]
 final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:add:key';

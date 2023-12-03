@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-encryption",
-    "description": "Encryption component of the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -39,17 +39,6 @@
     },
     "require": {
         "php": ">=8.1",
-        "brick/math": "^0.9|^0.10|^0.11",
-        "symfony/polyfill-mbstring": "^1.12",
-        "web-token/jwt-core": "^3.2",
-        "web-token/jwt-util-ecc": "^3.2"
-    },
-    "suggest": {
-        "spomky-labs/aes-key-wrap": "For AES Key Wrap algorithms",
-        "web-token/jwt-algorithm-experimental": "Experimental Algorithms",
-        "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
-        "ext-openssl": "Required by algorithms such as AES or RSA based",
-        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
-        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance"
+        "web-token/jwt-library": "^3.3"
     }
 }

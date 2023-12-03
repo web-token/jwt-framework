@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function is_array;
 use function is_string;
 
+#[AsCommand(name: 'key:analyze', description: 'JWK quality analyzer.',)]
 final class KeyAnalyzerCommand extends Command
 {
     protected static $defaultName = 'key:analyze';

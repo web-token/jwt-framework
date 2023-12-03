@@ -7,11 +7,16 @@ namespace Jose\Component\Console;
 use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_string;
 
+#[AsCommand(
+    name: 'keyset:generate:okp',
+    description: 'Generate a key set with Octet Key Pairs keys (JWKSet format)',
+)]
 final class OkpKeysetGeneratorCommand extends GeneratorCommand
 {
     protected static $defaultName = 'keyset:generate:okp';

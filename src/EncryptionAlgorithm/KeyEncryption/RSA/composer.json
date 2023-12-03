@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-encryption-algorithm-rsa",
-    "description": "[DEPRECATED] RSA Based Key Encryption Algorithms the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -37,8 +37,8 @@
             "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": ""
         }
     },
-    "autoload": {},
     "require": {
-        "web-token/jwt-encryption": "^3.2"
+        "php": ">=8.1",
+        "web-token/jwt-library": "^3.3"
     }
 }

@@ -7,12 +7,17 @@ namespace Jose\Component\Console;
 use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_array;
 use function is_string;
 
+#[AsCommand(
+    name: 'keyset:convert:public',
+    description: 'Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.',
+)]
 final class PublicKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:convert:public';

@@ -75,18 +75,8 @@ final class ComposerJsonTest extends TestCase
 
     private function listSubPackages(?string $path = self::SRC_DIR): Traversable
     {
-        $packageFolders = [
-            'Bundle',
-            'Component',
-            'EncryptionAlgorithm',
-            'ContentEncryption',
-            'KeyEncryption',
-            'SignatureAlgorithm',
-        ];
         foreach (new DirectoryIterator($path) as $dirInfo) {
-            if (in_array($dirInfo->getFilename(), $packageFolders, true)) {
-                yield from $this->listSubPackages($dirInfo->getRealPath());
-            } elseif ($dirInfo->isDir() && ! $dirInfo->isDot() && $dirInfo->getFilename() !== '.github') {
+            if ($dirInfo->isDir() && ! $dirInfo->isDot() && $dirInfo->getFilename() !== '.github') {
                 yield $dirInfo->getRealPath();
             }
         }

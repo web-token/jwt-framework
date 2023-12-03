@@ -18,6 +18,9 @@ use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use ZxcvbnPhp\Zxcvbn;
 
 /*
  * The MIT License (MIT)
@@ -27,10 +30,6 @@ use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
-
-use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use ZxcvbnPhp\Zxcvbn;
 
 return function (ContainerConfigurator $container): void {
     $container = $container->services()

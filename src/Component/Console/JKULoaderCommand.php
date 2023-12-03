@@ -6,11 +6,13 @@ namespace Jose\Component\Console;
 
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JKUFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_string;
 
+#[AsCommand(name: 'keyset:load:jku', description: 'Loads a key set from an url.',)]
 final class JKULoaderCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:load:jku';

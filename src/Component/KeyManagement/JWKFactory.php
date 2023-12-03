@@ -34,6 +34,7 @@ class JWKFactory
      */
     public static function createRSAKey(int $size, array $values = []): JWK
     {
+        self::checkRequirements();
         if ($size % 8 !== 0) {
             throw new InvalidArgumentException('Invalid key size.');
         }
@@ -219,6 +220,7 @@ class JWKFactory
         string $secret = '',
         array $additional_values = []
     ): JWK {
+        self::checkRequirements();
         try {
             $content = file_get_contents($file);
             if (! is_string($content)) {
@@ -293,5 +295,14 @@ class JWKFactory
         $values = array_merge($values, $additional_values);
 
         return new JWK($values);
+    }
+
+    private static function checkRequirements(): void
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException(
+                'The extension "openssl" is not available. Please install it to use this method'
+            );
+        }
     }
 }
