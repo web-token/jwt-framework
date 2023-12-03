@@ -1,0 +1,66 @@
+{
+    "name": "web-token/jwt-library",
+    "description": "JWT Signature and Encryption library.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "JWS",
+        "JWT",
+        "JWE",
+        "JWA",
+        "JWK",
+        "JWKSet",
+        "Jot",
+        "Jose",
+        "RFC7515",
+        "RFC7516",
+        "RFC7517",
+        "RFC7518",
+        "RFC7519",
+        "RFC7520",
+        "Symfony"
+    ],
+    "homepage": "https://github.com/web-token",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },
+        {
+            "name": "All contributors",
+            "homepage": "https://github.com/web-token/jwt-library/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jose\\Component\\": ""
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "brick/math": "^0.9|^0.10|^0.11|^0.12",
+        "paragonie/constant_time_encoding": "^2.4",
+        "psr/clock": "^1.0",
+        "spomky-labs/pki-framework": "^1.0",
+        "symfony/console": "^5.4|^6.0|^7.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-client": "^1.0"
+    },
+    "suggest": {
+        "ext-sodium": "Required by the EdDSA signature algorithm",
+        "ext-openssl": "Required by the OpenSSL signature algorithm such as RSxxx, PSxxx or ESxxx",
+        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
+        "spomky-labs/aes-key-wrap": "For AES Key Wrap algorithms",
+        "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
+        "web-token/jwt-experimental": "Experimental Algorithms",
+        "psr/http-client-implementation": "For JKU/X5U support",
+        "psr/http-factory-implementation": "For JKU/X5U support",
+        "symfony/http-client": "For JKU/X5U support"
+    },
+    "conflict": {
+        "spomky-labs/jose": "*"
+    }
+}

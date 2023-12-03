@@ -1,0 +1,6 @@
+daysUntilStale: 1
+daysUntilClose: 1
+staleLabel: wontfix
+markComment: >
+  This repository is in read only mode. Please visit the main repository
+closeComment: false
