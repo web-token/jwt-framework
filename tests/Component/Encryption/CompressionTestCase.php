@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\Encryption;
 use InvalidArgumentException;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\Compression\Deflate;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Class CompressionTest.
@@ -15,9 +16,7 @@ use Jose\Component\Encryption\Compression\Deflate;
  */
 final class CompressionTestCase extends EncryptionTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function getValidCompressionAlgorithm(): void
     {
         $manager = new CompressionMethodManager([new Deflate()]);
@@ -26,9 +25,7 @@ final class CompressionTestCase extends EncryptionTestCase
         $manager->get('DEF');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getInvalidCompressionAlgorithm(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -39,9 +36,7 @@ final class CompressionTestCase extends EncryptionTestCase
         $manager->get('FOO');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function deflate(): void
     {
         $compression = new Deflate(9);
@@ -53,9 +48,7 @@ final class CompressionTestCase extends EncryptionTestCase
         static::assertSame($data, $uncompressed);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function deflateInvalidCompressionLevel(): void
     {
         $this->expectException(InvalidArgumentException::class);

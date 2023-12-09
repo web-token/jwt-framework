@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption;
 
 use Jose\Component\Core\JWK;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal
  */
 final class InvalidCurveAttackTestCase extends EncryptionTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function curveCheckNegativeP256AttackPt1(): void
     {
         $maliciousJWE = 'eyJhbGciOiJFQ0RILUVTK0ExMjhLVyIsImVuYyI6IkExMjhDQkMtSFMyNTYiLCJlcGsiOnsia3R5IjoiRUMiLCJ4IjoiZ1RsaTY1ZVRRN3otQmgxNDdmZjhLM203azJVaURpRzJMcFlrV0FhRkpDYyIsInkiOiJjTEFuakthNGJ6akQ3REpWUHdhOUVQclJ6TUc3ck9OZ3NpVUQta2YzMEZzIiwiY3J2IjoiUC0yNTYifX0.qGAdxtEnrV_3zbIxU2ZKrMWcejNltjA_dtefBFnRh9A2z9cNIqYRWg.pEA5kX304PMCOmFSKX_cEg.a9fwUrx2JXi1OnWEMOmZhXd94-bEGCH9xxRwqcGuG2AMo-AwHoljdsH5C_kcTqlXS5p51OB1tvgQcMwB5rpTxg.72CHiYFecyDvuUa43KKT6w';
@@ -33,9 +32,7 @@ final class InvalidCurveAttackTestCase extends EncryptionTestCase
         static::assertFalse($jweDecrypter->decryptUsingKey($loaded_compact_json, $privateKey, 0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function curveCheckNegativeP256AttackPt2(): void
     {
         // The malicious JWE contains a public key with order 2447

@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\Encryption\Algorithm;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP384;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP512;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,9 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class RSAOAEPKeyEncryptionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function rSAOAEP384EncryptionAndDecryption(): void
     {
         $header = [];
@@ -33,9 +32,7 @@ final class RSAOAEPKeyEncryptionTest extends TestCase
         static::assertSame($cek, $decrypted);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rSAOAEP512EncryptionAndDecryption(): void
     {
         $header = [];

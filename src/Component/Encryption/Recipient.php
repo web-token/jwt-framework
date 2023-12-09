@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use function array_key_exists;
 use InvalidArgumentException;
+use function array_key_exists;
 
 /**
  * @internal

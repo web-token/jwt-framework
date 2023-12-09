@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use function array_key_exists;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -21,6 +19,8 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Throwable;
+use function array_key_exists;
+use function is_string;
 
 class JWEDecrypter
 {

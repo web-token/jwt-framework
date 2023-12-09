@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Psr\Clock\ClockInterface;
 use function is_float;
 use function is_int;
-use Psr\Clock\ClockInterface;
 
 /**
  * This class is a claim checker. When the "exp" is present, it will compare the value with the current timestamp.
@@ -33,9 +33,6 @@ final class ExpirationTimeChecker implements ClaimChecker, HeaderChecker
         $this->clock = $clock;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkClaim(mixed $value): void
     {
         if (! is_float($value) && ! is_int($value)) {

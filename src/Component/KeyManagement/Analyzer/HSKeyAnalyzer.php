@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use function is_string;
 
 abstract class HSKeyAnalyzer implements KeyAnalyzer
 {

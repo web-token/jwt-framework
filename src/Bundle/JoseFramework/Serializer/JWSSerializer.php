@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
-use function in_array;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use LogicException;
-use function mb_strtolower;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use function in_array;
+use function mb_strtolower;
 
 final class JWSSerializer implements DenormalizerInterface
 {
@@ -31,6 +31,17 @@ final class JWSSerializer implements DenormalizerInterface
         return $type === JWS::class
             && class_exists(JWSSerializerManager::class)
             && $this->formatSupported($format);
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        if (! class_exists(JWSSerializerManager::class) || ! $this->formatSupported($format)) {
+            return [];
+        }
+
+        return [
+            JWS::class => true,
+        ];
     }
 
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): JWS

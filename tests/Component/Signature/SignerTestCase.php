@@ -8,18 +8,17 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\CompactSerializer;
-use const JSON_THROW_ON_ERROR;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
  */
 final class SignerTestCase extends SignatureTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function algParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -34,9 +33,7 @@ final class SignerTestCase extends SignatureTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function algParameterIsNotSupported(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -53,9 +50,7 @@ final class SignerTestCase extends SignatureTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function duplicatedHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -74,9 +69,7 @@ final class SignerTestCase extends SignatureTestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoadCompact(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -101,9 +94,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertSame('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signMultipleInstructionWithCompactRepresentation(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -132,9 +123,7 @@ final class SignerTestCase extends SignatureTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signMultipleInstructionWithCompactRepresentationUsingBuilder(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -163,9 +152,7 @@ final class SignerTestCase extends SignatureTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signMultipleInstructionWithCompactRepresentationUsingBuilderAndDetachedPayload(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -194,9 +181,7 @@ final class SignerTestCase extends SignatureTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createCompactJWSUsingFactory(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -268,9 +253,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signMultipleInstructionWithFlattenedRepresentation(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -299,9 +282,7 @@ final class SignerTestCase extends SignatureTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createFlattenedJWSUsingFactory(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -380,9 +361,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_3, $this->getKey2(), 0, 'Live long and Prosper.'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function algorithmNotAllowedForTheKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -399,9 +378,7 @@ final class SignerTestCase extends SignatureTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function operationNotAllowedForTheKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -418,9 +395,7 @@ final class SignerTestCase extends SignatureTestCase
             ->build();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoadFlattened(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -442,9 +417,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertSame('HS512', $loaded->getSignature(0)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoad(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -476,9 +449,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertSame('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoadWithWrongKeys(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -502,9 +473,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoadWithUnsupportedAlgorithm(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -528,9 +497,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertFalse($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoadWithJWSWithoutSignatures(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -553,9 +520,8 @@ final class SignerTestCase extends SignatureTestCase
     /**
      * @see https://tools.ietf.org/html/rfc7797#section-4
      * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     *
-     * @test
      */
+    #[Test]
     public function compactJSONWithUnencodedPayloadFailsBecauseOfForbiddenCharacters(): void
     {
         $this->expectException(LogicException::class);
@@ -587,9 +553,8 @@ final class SignerTestCase extends SignatureTestCase
     /**
      * @see https://tools.ietf.org/html/rfc7797#section-4
      * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     *
-     * @test
      */
+    #[Test]
     public function compactJSONWithUnencodedPayloadSucceeded(): void
     {
         $protectedHeader = [
@@ -629,9 +594,8 @@ final class SignerTestCase extends SignatureTestCase
     /**
      * @see https://tools.ietf.org/html/rfc7797#section-4
      * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     *
-     * @test
      */
+    #[Test]
     public function compactJSONWithUnencodedDetachedPayload(): void
     {
         $payload = '$.02';
@@ -671,9 +635,8 @@ final class SignerTestCase extends SignatureTestCase
 
     /**
      * The library is able to support multiple payload encoding and conversion in JSON if payload is detached.
-     *
-     * @test
      */
+    #[Test]
     public function compactJSONWithUnencodedDetachedPayloadAndMultipleSignatures(): void
     {
         $payload = '$.02';
@@ -706,11 +669,8 @@ final class SignerTestCase extends SignatureTestCase
 
         $expected_result = '{"signatures":[{"signature":"A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY","protected":"eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"},{"signature":"Mp-m-Vyst0zYCNkpg2RiIN8W9GO4nLU3FKsFtHzEcP4tgR4QcMys1_2m9HrDwszi0Cp2gv_Lioe6UPCcTNn6tQ","protected":"eyJhbGciOiJIUzUxMiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"}]}';
 
-        static::assertSame(
-            $expected_result,
-            $this->getJWSSerializerManager()
-                ->serialize('jws_json_general', $jws, 0)
-        );
+        static::assertSame($expected_result, $this->getJWSSerializerManager()
+            ->serialize('jws_json_general', $jws, 0));
 
         $loaded = $this->getJWSSerializerManager()
             ->unserialize($expected_result);
@@ -721,9 +681,8 @@ final class SignerTestCase extends SignatureTestCase
     /**
      * The library is able to support multiple payload encoding and conversion in JSON is not available if payload is
      * not detached.
-     *
-     * @test
      */
+    #[Test]
     public function compactJSONWithUnencodedPayloadAndMultipleSignatures(): void
     {
         $this->expectException(LogicException::class);
@@ -757,9 +716,7 @@ final class SignerTestCase extends SignatureTestCase
             ->serialize('jws_json_general', $jws, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function jWSWithUnencodedPayloadButNoCritHeader(): void
     {
         $this->expectException(LogicException::class);
@@ -789,9 +746,7 @@ final class SignerTestCase extends SignatureTestCase
             ->serialize('jws_compact', $jws, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function jWSWithUnencodedPayloadButCritHeaderIsNotAnArray(): void
     {
         $this->expectException(LogicException::class);
@@ -820,9 +775,7 @@ final class SignerTestCase extends SignatureTestCase
             ->serialize('jws_compact', $jws, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function jWSWithUnencodedPayloadButCritHeaderDoesNotContainB64(): void
     {
         $this->expectException(LogicException::class);
@@ -856,9 +809,8 @@ final class SignerTestCase extends SignatureTestCase
     /**
      * @see https://tools.ietf.org/html/rfc7797#section-4
      * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     *
-     * @test
      */
+    #[Test]
     public function flattenedJSONWithUnencodedPayload(): void
     {
         $payload = '$.02';
@@ -904,9 +856,8 @@ final class SignerTestCase extends SignatureTestCase
     /**
      * @see https://tools.ietf.org/html/rfc7797#section-4
      * @see https://tools.ietf.org/html/rfc7797#section-4.2
-     *
-     * @test
      */
+    #[Test]
     public function flattenedJSONWithUnencodedDetachedPayload(): void
     {
         $payload = '$.02';
@@ -939,9 +890,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertSame($expected_result, json_decode($jws, true, 512, JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoadWithoutAlgParameterInTheHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -961,9 +910,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signAndLoadJWKSet(): void
     {
         $jwsBuilder = $this->getJWSBuilderFactory()
@@ -997,9 +944,7 @@ final class SignerTestCase extends SignatureTestCase
         static::assertSame('RS512', $loaded->getSignature(1)->getProtectedHeaderParameter('alg'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySetIsEmpty(): void
     {
         $this->expectException(InvalidArgumentException::class);

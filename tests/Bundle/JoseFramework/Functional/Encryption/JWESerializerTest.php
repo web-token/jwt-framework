@@ -6,6 +6,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -21,9 +22,7 @@ final class JWESerializerTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWESerializerManagerFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -36,9 +35,7 @@ final class JWESerializerTest extends WebTestCase
         static::assertInstanceOf(JWESerializerManager::class, $jwe);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWESerializerManagerFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();

@@ -15,6 +15,8 @@ use Jose\Component\Signature\Algorithm\RS512;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,11 +24,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class RSAKeyWithoutAllPrimesTest extends TestCase
 {
-    /**
-     * @dataProvider dataSignatureAlgorithms
-     *
-     * @test
-     */
+    #[DataProvider('dataSignatureAlgorithms')]
+    #[Test]
     public function signatureAlgorithms(string $signature_algorithm): void
     {
         $algorithm = new $signature_algorithm();

@@ -9,6 +9,7 @@ use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -24,9 +25,7 @@ final class JWEComputationTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function iCanCreateAndLoadAToken(): void
     {
         static::ensureKernelShutdown();

@@ -10,6 +10,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\None;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,9 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class NoneSignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function noneSignAndVerifyAlgorithm(): void
     {
         $key = new JWK([
@@ -35,9 +34,7 @@ final class NoneSignatureTest extends TestCase
         static::assertTrue($none->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -52,9 +49,7 @@ final class NoneSignatureTest extends TestCase
         $none->sign($key, $data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function noneSignAndVerifyComplete(): void
     {
         $jwk = new JWK([

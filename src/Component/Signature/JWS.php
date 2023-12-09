@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
+use function count;
 
 class JWS implements JWT
 {

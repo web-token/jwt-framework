@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
+use InvalidArgumentException;
+use JsonSerializable;
+use ParagonIE\ConstantTime\Base64UrlSafe;
 use function array_key_exists;
 use function in_array;
-use InvalidArgumentException;
 use function is_array;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
-use JsonSerializable;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 
 /**
  * @see \Jose\Tests\Component\Core\JWKTest

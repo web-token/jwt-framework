@@ -9,6 +9,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS256;
 use Jose\Component\Signature\Algorithm\HS384;
 use Jose\Component\Signature\Algorithm\HS512;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,9 +17,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class HMACSignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -33,9 +32,7 @@ final class HMACSignatureTest extends TestCase
         $hmac->hash($key, $data);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function signatureHasBadBadLength(): void
     {
         $key = new JWK([
@@ -48,9 +45,7 @@ final class HMACSignatureTest extends TestCase
         static::assertFalse($hmac->verify($key, $data, hex2bin('326eb338c465d3587f3349df0b96ba81')));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hS256SignAndVerify(): void
     {
         $key = new JWK([
@@ -66,9 +61,7 @@ final class HMACSignatureTest extends TestCase
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hS384SignAndVerify(): void
     {
         $key = new JWK([
@@ -87,9 +80,7 @@ final class HMACSignatureTest extends TestCase
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function hS512SignAndVerify(): void
     {
         $key = new JWK([
@@ -101,12 +92,9 @@ final class HMACSignatureTest extends TestCase
 
         $signature = $hmac->hash($key, $data);
 
-        static::assertSame(
-            hex2bin(
-                'e8b36712b6c6dc422eec77f31ce372ccac769450413238158bd702069630456a148d0c10dd3a661a774217fb90b0d5f94fa6c3c985438bade92ff975b9e4dc04'
-            ),
-            $signature
-        );
+        static::assertSame(hex2bin(
+            'e8b36712b6c6dc422eec77f31ce372ccac769450413238158bd702069630456a148d0c10dd3a661a774217fb90b0d5f94fa6c3c985438bade92ff975b9e4dc04'
+        ), $signature);
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
 }

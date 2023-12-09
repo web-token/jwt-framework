@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
-use const OPENSSL_RAW_DATA;
 use RuntimeException;
+use const OPENSSL_RAW_DATA;
 
 abstract class AESCCM implements ContentEncryptionAlgorithm
 {

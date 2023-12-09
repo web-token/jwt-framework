@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use function count;
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
+use function count;
+use function is_array;
 
 final class CompactSerializer extends Serializer
 {

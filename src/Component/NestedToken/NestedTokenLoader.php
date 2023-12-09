@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Jose\Component\NestedToken;
 
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWELoader;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
+use function is_string;
 
 class NestedTokenLoader
 {

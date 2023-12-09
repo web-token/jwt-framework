@@ -7,6 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory as JWSVerifierFactoryService;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,9 +23,7 @@ final class JWSVerifierTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSVerifierFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -34,9 +33,7 @@ final class JWSVerifierTest extends WebTestCase
         static::assertTrue($container->has(JWSVerifierFactoryService::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSVerifierFactoryCanCreateAJWSVerifier(): void
     {
         static::ensureKernelShutdown();
@@ -50,9 +47,7 @@ final class JWSVerifierTest extends WebTestCase
         $jwsFactory->create(['none']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSVerifierFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -65,9 +60,7 @@ final class JWSVerifierTest extends WebTestCase
         static::assertInstanceOf(JWSVerifier::class, $jws);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSVerifierFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();

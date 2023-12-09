@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use function in_array;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWK;
-use const OPENSSL_RAW_DATA;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function in_array;
+use function is_string;
+use const OPENSSL_RAW_DATA;
 
 abstract class AESGCMKW implements KeyWrapping
 {

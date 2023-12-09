@@ -10,6 +10,8 @@ use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,11 +33,9 @@ final class ECDSAFromRFC6979Test extends TestCase
     /**
      * @param string $message
      * @param string $signature
-     *
-     * @dataProvider dataWithVectors
-     *
-     * @test
      */
+    #[DataProvider('dataWithVectors')]
+    #[Test]
     public function withVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature): void
     {
         $is_valid = $algorithm->verify($key, $message, $signature);

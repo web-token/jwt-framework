@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Signature\RFC7520;
 
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Signature\SignatureTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.8
@@ -14,9 +15,7 @@ use Jose\Tests\Component\Signature\SignatureTestCase;
  */
 final class MultipleSignaturesTestCase extends SignatureTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function multipleSignatures(): void
     {
         /**

@@ -11,6 +11,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use const STR_PAD_LEFT;
 
 /**
@@ -20,9 +21,7 @@ use const STR_PAD_LEFT;
  */
 final class RSAKeyEncryptionTestCase extends EncryptionTestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -43,9 +42,8 @@ final class RSAKeyEncryptionTestCase extends EncryptionTestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.2
-     *
-     * @test
      */
+    #[Test]
     public function rSA15EncryptionAndDecryption(): void
     {
         $header = [];
@@ -114,9 +112,8 @@ final class RSAKeyEncryptionTestCase extends EncryptionTestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
-     *
-     * @test
      */
+    #[Test]
     public function rSAOAEPEncryptionAndDecryption(): void
     {
         $header = [];
@@ -185,9 +182,8 @@ final class RSAKeyEncryptionTestCase extends EncryptionTestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
-     *
-     * @test
      */
+    #[Test]
     public function rSAOAEP256EncryptionAndDecryption(): void
     {
         $header = [];
@@ -251,9 +247,8 @@ final class RSAKeyEncryptionTestCase extends EncryptionTestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.1
-     *
-     * @test
      */
+    #[Test]
     public function loadJWK1(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
@@ -273,9 +268,8 @@ final class RSAKeyEncryptionTestCase extends EncryptionTestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.2
-     *
-     * @test
      */
+    #[Test]
     public function loadJWK2(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
@@ -293,9 +287,8 @@ final class RSAKeyEncryptionTestCase extends EncryptionTestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.3
-     *
-     * @test
      */
+    #[Test]
     public function loadJWK3(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()

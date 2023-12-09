@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Checker;
 
 use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\ClaimCheckerManager;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,9 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ClaimCheckerManagerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function getCheckers(): void
     {
         $checkers = [new AudienceChecker('some-expected-audience')];
