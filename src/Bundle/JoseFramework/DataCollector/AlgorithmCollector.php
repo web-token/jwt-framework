@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
-use function array_key_exists;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -14,6 +13,7 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use function array_key_exists;
 
 final class AlgorithmCollector implements Collector
 {

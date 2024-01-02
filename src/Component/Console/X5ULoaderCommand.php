@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\KeyManagement\X5UFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function is_string;
 
+#[AsCommand(name: 'keyset:load:x5u', description: 'Loads a key set from an url.',)]
 final class X5ULoaderCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:load:x5u';

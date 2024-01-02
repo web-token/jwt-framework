@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use InvalidArgumentException;
+use Jose\Component\Core\JWT;
 use function array_key_exists;
 use function count;
-use InvalidArgumentException;
 use function is_array;
-use Jose\Component\Core\JWT;
 
 class HeaderCheckerManager
 {

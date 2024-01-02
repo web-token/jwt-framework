@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use function array_key_exists;
-use function count;
-use function in_array;
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -19,6 +15,10 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function array_key_exists;
+use function count;
+use function in_array;
+use function is_array;
 
 class JWSBuilder
 {

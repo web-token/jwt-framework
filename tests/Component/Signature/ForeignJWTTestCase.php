@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Signature;
 
 use Jose\Component\Core\JWK;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal
@@ -15,10 +16,7 @@ final class ForeignJWTTestCase extends SignatureTestCase
      * The following test uses an assertion created with another library.
      * This assertion is valid if verified with the JWK.
      */
-
-    /**
-     * @test
-     */
+    #[Test]
     public function validJWTFromOtherLibrary(): void
     {
         $jwk = new JWK([

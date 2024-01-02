@@ -7,6 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 use Jose\Bundle\JoseFramework\Services\JWSBuilder;
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory as JWSBuilderFactoryService;
 use Jose\Component\Signature\JWSBuilderFactory;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -22,9 +23,7 @@ final class JWSBuilderTest extends WebTestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -34,9 +33,7 @@ final class JWSBuilderTest extends WebTestCase
         static::assertTrue($container->has(JWSBuilderFactoryService::class));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSBuilderFactoryCanCreateAJWSBuilder(): void
     {
         static::ensureKernelShutdown();
@@ -52,9 +49,7 @@ final class JWSBuilderTest extends WebTestCase
         static::assertInstanceOf(JWSBuilder::class, $jws);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSBuilderFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
@@ -67,9 +62,7 @@ final class JWSBuilderTest extends WebTestCase
         static::assertInstanceOf(JWSBuilder::class, $jws);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function jWSBuilderFromExternalBundleExtensionIsAvailable(): void
     {
         static::ensureKernelShutdown();

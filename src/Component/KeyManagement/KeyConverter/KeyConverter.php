@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use function array_key_exists;
-use function count;
-use function extension_loaded;
-use function in_array;
 use InvalidArgumentException;
-use function is_array;
-use function is_string;
-use const OPENSSL_KEYTYPE_EC;
-use const OPENSSL_KEYTYPE_RSA;
-use const OPENSSL_RAW_DATA;
 use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
-use const PHP_EOL;
-use const PREG_PATTERN_ORDER;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 use Throwable;
+use function array_key_exists;
+use function count;
+use function extension_loaded;
+use function in_array;
+use function is_array;
+use function is_string;
+use const OPENSSL_KEYTYPE_EC;
+use const OPENSSL_KEYTYPE_RSA;
+use const OPENSSL_RAW_DATA;
+use const PHP_EOL;
+use const PREG_PATTERN_ORDER;
 
 /**
  * @internal

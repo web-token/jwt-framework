@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
-use function in_array;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use LogicException;
-use function mb_strtolower;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use function in_array;
+use function mb_strtolower;
 
 final class JWESerializer implements DenormalizerInterface
 {
@@ -31,6 +31,17 @@ final class JWESerializer implements DenormalizerInterface
         return $type === JWE::class
             && class_exists(JWESerializerManager::class)
             && $this->formatSupported($format);
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        if (! class_exists(JWESerializerManager::class) || ! $this->formatSupported($format)) {
+            return [];
+        }
+
+        return [
+            JWE::class => true,
+        ];
     }
 
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): JWE

@@ -9,6 +9,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use const STR_PAD_LEFT;
 
@@ -21,9 +22,8 @@ final class ECDHSSKeyAgreementTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C
-     *
-     * @test
      */
+    #[Test]
     public function getAgreementKey(): void
     {
         $receiver = new JWK([
@@ -52,9 +52,7 @@ final class ECDHSSKeyAgreementTest extends TestCase
         static::assertArrayNotHasKey('epk', $additional_header_values);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAgreementKeyWithA128KeyWrapAndOctetKeyPairKey(): void
     {
         $additional_header_values = [
@@ -128,9 +126,7 @@ final class ECDHSSKeyAgreementTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAgreementKeyWithA128KeyWrap(): void
     {
         $additional_header_values = [
@@ -206,9 +202,7 @@ final class ECDHSSKeyAgreementTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAgreementKeyWithA192KeyWrap(): void
     {
         $additional_header_values = [
@@ -285,9 +279,7 @@ final class ECDHSSKeyAgreementTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAgreementKeyWithA256KeyWrap(): void
     {
         $additional_header_values = [

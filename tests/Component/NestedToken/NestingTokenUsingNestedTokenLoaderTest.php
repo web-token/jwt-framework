@@ -24,6 +24,7 @@ use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer as JwsSerializer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -57,9 +58,7 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decryption(): void
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';

@@ -7,12 +7,12 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use AESKW\A128KW;
 use AESKW\A192KW;
 use AESKW\A256KW;
-use function in_array;
 use InvalidArgumentException;
-use function is_int;
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use function in_array;
+use function is_int;
+use function is_string;
 
 abstract class PBES2AESKW implements KeyWrapping
 {

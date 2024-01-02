@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Analyzer;
 
 use Brick\Math\BigInteger;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function is_string;
 
 abstract class ESKeyAnalyzer implements KeyAnalyzer
 {

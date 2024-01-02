@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use function extension_loaded;
 use InvalidArgumentException;
+use Jose\Component\Core\JWK;
+use ParagonIE\ConstantTime\Base64UrlSafe;
+use RuntimeException;
+use function extension_loaded;
 use function is_array;
 use function is_string;
-use Jose\Component\Core\JWK;
 use const OPENSSL_KEYTYPE_EC;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use const PHP_EOL;
-use RuntimeException;
 use const STR_PAD_LEFT;
 
 /**

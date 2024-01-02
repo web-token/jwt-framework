@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function is_array;
 
+#[AsCommand(name: 'keyset:merge', description: 'Merge several key sets into one.',)]
 final class MergeKeysetCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'keyset:merge';

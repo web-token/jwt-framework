@@ -13,6 +13,8 @@ use Jose\Component\Console\RsaKeyGeneratorCommand;
 use Jose\Component\Console\SecretKeyGeneratorCommand;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -23,9 +25,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class KeyCreationCommandTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function theEllipticCurveKeyCreationCommandIsAvailable(): void
     {
         $command = new EcKeyGeneratorCommand();
@@ -33,9 +33,7 @@ final class KeyCreationCommandTest extends TestCase
         static::assertTrue($command->isEnabled());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theEllipticCurveKeyCreationCommandNeedTheCurveArgument(): void
     {
         $this->expectException(RuntimeException::class);
@@ -48,9 +46,7 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnEllipticCurveKeyWithAnUnsupportedCurve(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -65,10 +61,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnEllipticCurveKeyWithCurveP256(): void
     {
         $input = new ArrayInput([
@@ -83,9 +77,7 @@ final class KeyCreationCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnOctetKeyWithoutKeySize(): void
     {
         $this->expectException(RuntimeException::class);
@@ -98,10 +90,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnOctetKey(): void
     {
         $input = new ArrayInput([
@@ -116,9 +106,7 @@ final class KeyCreationCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAnOctetKeyUsingASecret(): void
     {
         $input = new ArrayInput([
@@ -134,9 +122,7 @@ final class KeyCreationCommandTest extends TestCase
         static::assertSame('This is my secret', Base64UrlSafe::decode($jwk->get('k')));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAnOctetKeyUsingABinarySecret(): void
     {
         $secret = random_bytes(20);
@@ -155,9 +141,7 @@ final class KeyCreationCommandTest extends TestCase
         static::assertSame($secret, Base64UrlSafe::decode($jwk->get('k')));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnOctetKeyPairWithoutKeyCurve(): void
     {
         $this->expectException(RuntimeException::class);
@@ -170,10 +154,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnOctetKeyPair(): void
     {
         $input = new ArrayInput([
@@ -188,10 +170,8 @@ final class KeyCreationCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateANoneKey(): void
     {
         $input = new ArrayInput([
@@ -205,9 +185,7 @@ final class KeyCreationCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnRsaKeyWithoutKeySize(): void
     {
         $this->expectException(RuntimeException::class);
@@ -220,10 +198,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    /**
-     * @test
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnRsaKey(): void
     {
         $input = new ArrayInput([

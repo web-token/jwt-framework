@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use function array_key_exists;
 use InvalidArgumentException;
+use function array_key_exists;
 
 class AlgorithmManager
 {
