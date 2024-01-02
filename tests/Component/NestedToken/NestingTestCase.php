@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class NestingTest extends NestedTokenTest
+final class NestingTestCase extends NestedTokenTestCase
 {
     #[Test]
     public function decryption(): void
