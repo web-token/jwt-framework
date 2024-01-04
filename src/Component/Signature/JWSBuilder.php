@@ -69,9 +69,6 @@ class JWSBuilder
      */
     public function withPayload(string $payload, bool $isPayloadDetached = false): self
     {
-        if (mb_detect_encoding($payload, 'UTF-8', true) === false) {
-            throw new InvalidArgumentException('The payload must be encoded in UTF-8');
-        }
         $clone = clone $this;
         $clone->payload = $payload;
         $clone->isPayloadDetached = $isPayloadDetached;
@@ -124,6 +121,13 @@ class JWSBuilder
         $encodedPayload = $this->isPayloadEncoded === false ? $this->payload : Base64UrlSafe::encodeUnpadded(
             $this->payload
         );
+
+        if ($this->isPayloadEncoded === false && $this->isPayloadDetached === false) {
+            mb_detect_encoding($this->payload, 'UTF-8', true) !== false || throw new InvalidArgumentException(
+                'The payload must be encoded in UTF-8'
+            );
+        }
+
         $jws = new JWS($this->payload, $encodedPayload, $this->isPayloadDetached);
         foreach ($this->signatures as $signature) {
             /** @var MacAlgorithm|SignatureAlgorithm $algorithm */
