@@ -2046,16 +2046,6 @@ parameters:
 			path: src/Component/NestedToken/NestedTokenBuilder.php
 
 		-
-			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
-			count: 1
-			path: src/Component/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Parameter \\#3 \\$header of method Jose\\\\Component\\\\Signature\\\\JWSBuilder\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
-			count: 1
-			path: src/Component/NestedToken/NestedTokenBuilder.php
-
-		-
 			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 2
 			path: src/Component/NestedToken/NestedTokenBuilder.php
