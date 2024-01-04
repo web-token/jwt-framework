@@ -11,6 +11,9 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use RuntimeException;
 use Throwable;
 
+/**
+ * @see \Jose\Tests\Component\Encryption\JWELoaderTest
+ */
 class JWELoader
 {
     public function __construct(

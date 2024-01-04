@@ -123,7 +123,9 @@ class JWSBuilder
         );
 
         if ($this->isPayloadEncoded === false && $this->isPayloadDetached === false) {
-            mb_detect_encoding($this->payload, 'UTF-8', true) !== false || throw new InvalidArgumentException('The payload must be encoded in UTF-8');
+            mb_detect_encoding($this->payload, 'UTF-8', true) !== false || throw new InvalidArgumentException(
+                'The payload must be encoded in UTF-8'
+            );
         }
 
         $jws = new JWS($this->payload, $encodedPayload, $this->isPayloadDetached);
