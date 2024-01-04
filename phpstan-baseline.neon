@@ -1746,7 +1746,7 @@ parameters:
 			path: src/Component/Encryption/Serializer/JSONFlattenedSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decode\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 3
 			path: src/Component/Encryption/Serializer/JSONFlattenedSerializer.php
 
@@ -1776,7 +1776,7 @@ parameters:
 			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decode\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 3
 			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
 
@@ -2091,7 +2091,7 @@ parameters:
 			path: src/Component/Signature/Serializer/CompactSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decode\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 1
 			path: src/Component/Signature/Serializer/JSONFlattenedSerializer.php
 
@@ -2121,7 +2121,7 @@ parameters:
 			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decode\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 1
 			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
 

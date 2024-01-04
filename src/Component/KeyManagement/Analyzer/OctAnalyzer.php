@@ -21,7 +21,7 @@ final class OctAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $k = Base64UrlSafe::decode($k);
+        $k = Base64UrlSafe::decodeNoPadding($k);
         $kLength = 8 * mb_strlen($k, '8bit');
         if ($kLength < 128) {
             $bag->add(Message::high('The key length is less than 128 bits.'));

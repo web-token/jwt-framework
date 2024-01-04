@@ -59,11 +59,11 @@ final class JSONFlattenedSerializer extends Serializer
         if (! isset($data['signature'])) {
             throw new InvalidArgumentException('Unsupported input.');
         }
-        $signature = Base64UrlSafe::decode($data['signature']);
+        $signature = Base64UrlSafe::decodeNoPadding($data['signature']);
 
         if (isset($data['protected'])) {
             $encodedProtectedHeader = $data['protected'];
-            $protectedHeader = JsonConverter::decode(Base64UrlSafe::decode($data['protected']));
+            $protectedHeader = JsonConverter::decode(Base64UrlSafe::decodeNoPadding($data['protected']));
             if (! is_array($protectedHeader)) {
                 throw new InvalidArgumentException('Bad protected header.');
             }
@@ -82,7 +82,7 @@ final class JSONFlattenedSerializer extends Serializer
 
         if (isset($data['payload'])) {
             $encodedPayload = $data['payload'];
-            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decode(
+            $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decodeNoPadding(
                 $encodedPayload
             ) : $encodedPayload;
         } else {

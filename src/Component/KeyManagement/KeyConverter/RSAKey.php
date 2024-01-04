@@ -135,9 +135,9 @@ final class RSAKey
     private function populateCRT(): void
     {
         if (! array_key_exists('p', $this->values) && ! array_key_exists('q', $this->values)) {
-            $d = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['d']));
-            $e = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['e']));
-            $n = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['n']));
+            $d = BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($this->values['d']));
+            $e = BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($this->values['e']));
+            $n = BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($this->values['n']));
 
             [$p, $q] = $this->findPrimeFactors($d, $e, $n);
             $this->values['p'] = Base64UrlSafe::encodeUnpadded($p->toBytes());
@@ -152,9 +152,9 @@ final class RSAKey
         }
 
         $one = BigInteger::createFromDecimal(1);
-        $d = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['d']));
-        $p = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['p']));
-        $q = BigInteger::createFromBinaryString(Base64UrlSafe::decode($this->values['q']));
+        $d = BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($this->values['d']));
+        $p = BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($this->values['p']));
+        $q = BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($this->values['q']));
 
         $this->values['dp'] = Base64UrlSafe::encodeUnpadded($d->mod($p->subtract($one))->toBytes());
         $this->values['dq'] = Base64UrlSafe::encodeUnpadded($d->mod($q->subtract($one))->toBytes());

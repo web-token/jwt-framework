@@ -61,7 +61,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         $k = $this->getKey($key);
         isset($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is missing.');
         is_string($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
-        $nonce = Base64UrlSafe::decode($header['nonce']);
+        $nonce = Base64UrlSafe::decodeNoPadding($header['nonce']);
         if (mb_strlen($nonce, '8bit') !== 12) {
             throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
         }
@@ -92,6 +92,6 @@ final class Chacha20Poly1305 implements KeyEncryption
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64UrlSafe::decode($k);
+        return Base64UrlSafe::decodeNoPadding($k);
     }
 }

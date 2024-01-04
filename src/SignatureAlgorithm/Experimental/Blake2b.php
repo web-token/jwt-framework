@@ -51,7 +51,7 @@ final class Blake2b implements MacAlgorithm
         if (! is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
-        $key = Base64UrlSafe::decode($k);
+        $key = Base64UrlSafe::decodeNoPadding($k);
         if (mb_strlen($key, '8bit') < self::MINIMUM_KEY_LENGTH) {
             throw new InvalidArgumentException('Key provided is shorter than 256 bits.');
         }

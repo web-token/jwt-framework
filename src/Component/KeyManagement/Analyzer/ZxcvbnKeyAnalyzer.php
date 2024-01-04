@@ -23,7 +23,7 @@ final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $k = Base64UrlSafe::decode($k);
+        $k = Base64UrlSafe::decodeNoPadding($k);
         if (! class_exists(Zxcvbn::class)) {
             return;
         }

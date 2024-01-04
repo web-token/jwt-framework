@@ -65,12 +65,14 @@ final class JSONFlattenedSerializer implements JWESerializer
         }
         $this->checkData($data);
 
-        $ciphertext = Base64UrlSafe::decode($data['ciphertext']);
-        $iv = Base64UrlSafe::decode($data['iv']);
-        $tag = Base64UrlSafe::decode($data['tag']);
-        $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decode($data['aad']) : null;
+        $ciphertext = Base64UrlSafe::decodeNoPadding($data['ciphertext']);
+        $iv = Base64UrlSafe::decodeNoPadding($data['iv']);
+        $tag = Base64UrlSafe::decodeNoPadding($data['tag']);
+        $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decodeNoPadding($data['aad']) : null;
         [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
-        $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64UrlSafe::decode($data['encrypted_key']) : null;
+        $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64UrlSafe::decodeNoPadding(
+            $data['encrypted_key']
+        ) : null;
         $header = array_key_exists('header', $data) ? $data['header'] : [];
 
         return new JWE(
@@ -96,7 +98,7 @@ final class JSONFlattenedSerializer implements JWESerializer
     {
         $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
         $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(
-            Base64UrlSafe::decode($encodedSharedProtectedHeader)
+            Base64UrlSafe::decodeNoPadding($encodedSharedProtectedHeader)
         ) : [];
         $sharedHeader = $data['unprotected'] ?? [];
 

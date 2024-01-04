@@ -31,8 +31,8 @@ final class ConcatKDF
         string $apu = '',
         string $apv = ''
     ): string {
-        $apu = ! self::isEmpty($apu) ? Base64UrlSafe::decode($apu) : '';
-        $apv = ! self::isEmpty($apv) ? Base64UrlSafe::decode($apv) : '';
+        $apu = ! self::isEmpty($apu) ? Base64UrlSafe::decodeNoPadding($apu) : '';
+        $apv = ! self::isEmpty($apv) ? Base64UrlSafe::decodeNoPadding($apv) : '';
         $encryption_segments = [
             self::toInt32Bits(1),                                  // Round number 1
             $Z,                                                          // Z (shared secret)

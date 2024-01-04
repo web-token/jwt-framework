@@ -481,7 +481,7 @@ class JWEBuilder
                     throw new RuntimeException('Invalid key.');
                 }
 
-                return Base64UrlSafe::decode($k);
+                return Base64UrlSafe::decodeNoPadding($k);
 
             default :
                 throw new InvalidArgumentException(sprintf(
