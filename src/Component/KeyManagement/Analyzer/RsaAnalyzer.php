@@ -30,7 +30,7 @@ final class RsaAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $exponent = unpack('l', str_pad(Base64UrlSafe::decode($e), 4, "\0"));
+        $exponent = unpack('l', str_pad(Base64UrlSafe::decodeNoPadding($e), 4, "\0"));
         if (! is_array($exponent) || ! isset($exponent[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -47,7 +47,7 @@ final class RsaAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $n = 8 * mb_strlen(Base64UrlSafe::decode($n), '8bit');
+        $n = 8 * mb_strlen(Base64UrlSafe::decodeNoPadding($n), '8bit');
         if ($n < 2048) {
             $bag->add(Message::high('The key length is less than 2048 bits.'));
         }

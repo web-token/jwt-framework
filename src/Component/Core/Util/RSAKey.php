@@ -229,12 +229,12 @@ final class RSAKey
 
     private function convertBase64StringToBigInteger(string $value): BigInteger
     {
-        return BigInteger::createFromBinaryString(Base64UrlSafe::decode($value));
+        return BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($value));
     }
 
     private function fromBase64ToInteger(string $value): string
     {
-        $unpacked = unpack('H*', Base64UrlSafe::decode($value));
+        $unpacked = unpack('H*', Base64UrlSafe::decodeNoPadding($value));
         if (! is_array($unpacked) || count($unpacked) === 0) {
             throw new InvalidArgumentException('Unable to get the private key');
         }

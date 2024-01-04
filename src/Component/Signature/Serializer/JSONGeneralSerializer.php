@@ -81,7 +81,7 @@ final class JSONGeneralSerializer extends Serializer
             }
             [$encodedProtectedHeader, $protectedHeader, $header] = $this->processHeaders($signature);
             $signatures[] = [
-                'signature' => Base64UrlSafe::decode($signature['signature']),
+                'signature' => Base64UrlSafe::decodeNoPadding($signature['signature']),
                 'protected' => $protectedHeader,
                 'encoded_protected' => $encodedProtectedHeader,
                 'header' => $header,
@@ -126,7 +126,7 @@ final class JSONGeneralSerializer extends Serializer
     {
         $encodedProtectedHeader = $signature['protected'] ?? null;
         $protectedHeader = $encodedProtectedHeader === null ? [] : JsonConverter::decode(
-            Base64UrlSafe::decode($encodedProtectedHeader)
+            Base64UrlSafe::decodeNoPadding($encodedProtectedHeader)
         );
         $header = array_key_exists('header', $signature) ? $signature['header'] : [];
 
@@ -139,7 +139,7 @@ final class JSONGeneralSerializer extends Serializer
             return null;
         }
 
-        return $isPayloadEncoded === false ? $rawPayload : Base64UrlSafe::decode($rawPayload);
+        return $isPayloadEncoded === false ? $rawPayload : Base64UrlSafe::decodeNoPadding($rawPayload);
     }
 
     private function checkPayloadEncoding(JWS $jws): void

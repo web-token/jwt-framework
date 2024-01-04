@@ -129,8 +129,8 @@ abstract class AbstractECDH implements KeyAgreement
                 if (! is_string($d)) {
                     throw new InvalidArgumentException('Invalid key parameter "d"');
                 }
-                $sKey = Base64UrlSafe::decode($d);
-                $recipientPublickey = Base64UrlSafe::decode($x);
+                $sKey = Base64UrlSafe::decodeNoPadding($d);
+                $recipientPublickey = Base64UrlSafe::decodeNoPadding($x);
 
                 return sodium_crypto_scalarmult($sKey, $recipientPublickey);
 
@@ -260,7 +260,7 @@ abstract class AbstractECDH implements KeyAgreement
 
     private function convertBase64ToBigInteger(string $value): BigInteger
     {
-        $data = unpack('H*', Base64UrlSafe::decode($value));
+        $data = unpack('H*', Base64UrlSafe::decodeNoPadding($value));
         if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1])) {
             throw new InvalidArgumentException('Unable to convert base64 to integer');
         }

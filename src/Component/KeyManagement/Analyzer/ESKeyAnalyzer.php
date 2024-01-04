@@ -40,7 +40,7 @@ abstract class ESKeyAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $x = Base64UrlSafe::decode($x);
+        $x = Base64UrlSafe::decodeNoPadding($x);
         $xLength = 8 * mb_strlen($x, '8bit');
         $y = $jwk->get('y');
         if (! is_string($y)) {
@@ -48,7 +48,7 @@ abstract class ESKeyAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $y = Base64UrlSafe::decode($y);
+        $y = Base64UrlSafe::decodeNoPadding($y);
         $yLength = 8 * mb_strlen($y, '8bit');
         if ($yLength !== $xLength || $yLength !== $this->getKeySize()) {
             $bag->add(

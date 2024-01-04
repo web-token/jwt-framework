@@ -24,7 +24,7 @@ abstract class HSKeyAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $k = Base64UrlSafe::decode($k);
+        $k = Base64UrlSafe::decodeNoPadding($k);
         $kLength = 8 * mb_strlen($k, '8bit');
         if ($kLength < $this->getMinimumKeySize()) {
             $bag->add(

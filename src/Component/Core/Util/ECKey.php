@@ -203,7 +203,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decode($d), 32, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -229,7 +229,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decode($d), 32, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -255,7 +255,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decode($d), 48, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 48, "\0", STR_PAD_LEFT));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -281,7 +281,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decode($d), 66, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 66, "\0", STR_PAD_LEFT));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -317,8 +317,8 @@ final class ECKey
         if (! is_string($y)) {
             throw new InvalidArgumentException('Unable to get the public key');
         }
-        $binX = ltrim(Base64UrlSafe::decode($x), "\0");
-        $binY = ltrim(Base64UrlSafe::decode($y), "\0");
+        $binX = ltrim(Base64UrlSafe::decodeNoPadding($x), "\0");
+        $binY = ltrim(Base64UrlSafe::decodeNoPadding($y), "\0");
 
         return "\04"
             . str_pad($binX, $length, "\0", STR_PAD_LEFT)

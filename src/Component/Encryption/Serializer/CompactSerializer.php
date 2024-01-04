@@ -58,14 +58,16 @@ final class CompactSerializer implements JWESerializer
 
         try {
             $encodedSharedProtectedHeader = $parts[0];
-            $sharedProtectedHeader = JsonConverter::decode(Base64UrlSafe::decode($encodedSharedProtectedHeader));
+            $sharedProtectedHeader = JsonConverter::decode(
+                Base64UrlSafe::decodeNoPadding($encodedSharedProtectedHeader)
+            );
             if (! is_array($sharedProtectedHeader)) {
                 throw new InvalidArgumentException('Unsupported input.');
             }
-            $encryptedKey = $parts[1] === '' ? null : Base64UrlSafe::decode($parts[1]);
-            $iv = Base64UrlSafe::decode($parts[2]);
-            $ciphertext = Base64UrlSafe::decode($parts[3]);
-            $tag = Base64UrlSafe::decode($parts[4]);
+            $encryptedKey = $parts[1] === '' ? null : Base64UrlSafe::decodeNoPadding($parts[1]);
+            $iv = Base64UrlSafe::decodeNoPadding($parts[2]);
+            $ciphertext = Base64UrlSafe::decodeNoPadding($parts[3]);
+            $tag = Base64UrlSafe::decodeNoPadding($parts[4]);
 
             return new JWE(
                 $ciphertext,

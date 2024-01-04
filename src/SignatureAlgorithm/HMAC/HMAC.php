@@ -42,7 +42,7 @@ abstract class HMAC implements MacAlgorithm
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64UrlSafe::decode($k);
+        return Base64UrlSafe::decodeNoPadding($k);
     }
 
     abstract protected function getHashAlgorithm(): string;

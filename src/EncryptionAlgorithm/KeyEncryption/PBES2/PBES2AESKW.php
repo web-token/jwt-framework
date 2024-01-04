@@ -69,7 +69,7 @@ abstract class PBES2AESKW implements KeyWrapping
         $key_size = $this->getKeySize();
         $p2s = $completeHeader['p2s'];
         is_string($p2s) || throw new InvalidArgumentException('Invalid salt.');
-        $salt = $completeHeader['alg'] . "\x00" . Base64UrlSafe::decode($p2s);
+        $salt = $completeHeader['alg'] . "\x00" . Base64UrlSafe::decodeNoPadding($p2s);
         $count = $completeHeader['p2c'];
         is_int($count) || throw new InvalidArgumentException('Invalid counter.');
 
@@ -96,7 +96,7 @@ abstract class PBES2AESKW implements KeyWrapping
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64UrlSafe::decode($k);
+        return Base64UrlSafe::decodeNoPadding($k);
     }
 
     /**

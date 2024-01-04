@@ -25,7 +25,7 @@ final class Dir implements DirectEncryption
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64UrlSafe::decode($k);
+        return Base64UrlSafe::decodeNoPadding($k);
     }
 
     public function name(): string

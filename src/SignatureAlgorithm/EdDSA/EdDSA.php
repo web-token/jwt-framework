@@ -48,9 +48,9 @@ final class EdDSA implements SignatureAlgorithm
             throw new InvalidArgumentException('Invalid "x" parameter.');
         }
         /** @var non-empty-string $x */
-        $x = Base64UrlSafe::decode($x);
+        $x = Base64UrlSafe::decodeNoPadding($x);
         /** @var non-empty-string $d */
-        $d = Base64UrlSafe::decode($d);
+        $d = Base64UrlSafe::decodeNoPadding($d);
         $secret = $d . $x;
 
         return match ($key->get('crv')) {
@@ -71,7 +71,7 @@ final class EdDSA implements SignatureAlgorithm
         }
 
         /** @var non-empty-string $public */
-        $public = Base64UrlSafe::decode($x);
+        $public = Base64UrlSafe::decodeNoPadding($x);
 
         return match ($key->get('crv')) {
             'Ed25519' => sodium_crypto_sign_verify_detached($signature, $input, $public),
