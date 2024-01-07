@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
-
 /*
  * The MIT License (MIT)
  *

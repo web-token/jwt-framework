@@ -87,8 +87,7 @@ return static function (ECSConfig $config): void {
         'import_functions' => true,
     ]);
 
-    $config->services()
-        ->remove(PhpUnitTestClassRequiresCoversFixer::class);
+    $config->skip([PhpUnitTestClassRequiresCoversFixer::class]);
     $config->parallel();
     $config->paths([
         __DIR__ . '/performance',
@@ -96,6 +95,5 @@ return static function (ECSConfig $config): void {
         __DIR__ . '/tests',
         __DIR__ . '/ecs.php',
         __DIR__ . '/rector.php',
-        __DIR__ . '/monorepo-builder.php',
     ]);
 };

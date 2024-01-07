@@ -26,8 +26,8 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 final class KeyConversionCommandTest extends TestCase
 {
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanLoadAKeyFile(): void
     {
         $input = new ArrayInput([
@@ -40,8 +40,8 @@ final class KeyConversionCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanLoadAnEncryptedKeyFile(): void
     {
         $input = new ArrayInput([
@@ -55,8 +55,8 @@ final class KeyConversionCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanLoadAPKCS12CertificateFile(): never
     {
         static::markTestIncomplete('Unable to run this test using the last OpenSSL versions');
@@ -71,8 +71,8 @@ final class KeyConversionCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanLoadAX509CertificateFile(): void
     {
         $input = new ArrayInput([

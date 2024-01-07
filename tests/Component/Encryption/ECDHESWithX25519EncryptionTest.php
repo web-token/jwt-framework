@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class ECDHESWithX25519EncryptionTestCase extends EncryptionTestCase
+final class ECDHESWithX25519EncryptionTest extends EncryptionTestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B

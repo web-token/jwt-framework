@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use function array_key_exists;
-use function count;
-use function in_array;
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -19,6 +15,11 @@ use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function array_key_exists;
+use function count;
+use function in_array;
+use function is_array;
+use function is_string;
 
 class JWSBuilder
 {
@@ -69,9 +70,6 @@ class JWSBuilder
      */
     public function withPayload(string $payload, bool $isPayloadDetached = false): self
     {
-        if (mb_detect_encoding($payload, 'UTF-8', true) === false) {
-            throw new InvalidArgumentException('The payload must be encoded in UTF-8');
-        }
         $clone = clone $this;
         $clone->payload = $payload;
         $clone->isPayloadDetached = $isPayloadDetached;
@@ -82,8 +80,8 @@ class JWSBuilder
     /**
      * Adds the information needed to compute the signature. This method will return a new JWSBuilder object.
      *
-     * @param array{alg?: string, string?: mixed} $protectedHeader
-     * @param array{alg?: string, string?: mixed} $header
+     * @param array<string, mixed> $protectedHeader
+     * @param array<string, mixed> $header
      */
     public function addSignature(JWK $signatureKey, array $protectedHeader, array $header = []): self
     {
@@ -124,6 +122,13 @@ class JWSBuilder
         $encodedPayload = $this->isPayloadEncoded === false ? $this->payload : Base64UrlSafe::encodeUnpadded(
             $this->payload
         );
+
+        if ($this->isPayloadEncoded === false && $this->isPayloadDetached === false) {
+            mb_detect_encoding($this->payload, 'UTF-8', true) !== false || throw new InvalidArgumentException(
+                'The payload must be encoded in UTF-8'
+            );
+        }
+
         $jws = new JWS($this->payload, $encodedPayload, $this->isPayloadDetached);
         foreach ($this->signatures as $signature) {
             /** @var MacAlgorithm|SignatureAlgorithm $algorithm */
@@ -181,26 +186,25 @@ class JWSBuilder
     }
 
     /**
-     * @param array{alg?: string, string?: mixed} $protectedHeader
-     * @param array{alg?: string, string?: mixed} $header
+     * @param array<string, mixed> $protectedHeader
+     * @param array<string, mixed> $header
      * @return MacAlgorithm|SignatureAlgorithm
      */
     private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): Algorithm
     {
         $completeHeader = [...$header, ...$protectedHeader];
-        if (! array_key_exists('alg', $completeHeader)) {
+        $alg = $completeHeader['alg'] ?? null;
+        if (! is_string($alg)) {
             throw new InvalidArgumentException('No "alg" parameter set in the header.');
         }
-        if ($key->has('alg') && $key->get('alg') !== $completeHeader['alg']) {
-            throw new InvalidArgumentException(sprintf(
-                'The algorithm "%s" is not allowed with this key.',
-                $completeHeader['alg']
-            ));
+        $keyAlg = $key->has('alg') ? $key->get('alg') : null;
+        if (is_string($keyAlg) && $keyAlg !== $alg) {
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not allowed with this key.', $alg));
         }
 
-        $algorithm = $this->signatureAlgorithmManager->get($completeHeader['alg']);
+        $algorithm = $this->signatureAlgorithmManager->get($alg);
         if (! $algorithm instanceof SignatureAlgorithm && ! $algorithm instanceof MacAlgorithm) {
-            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $completeHeader['alg']));
+            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $alg));
         }
 
         return $algorithm;

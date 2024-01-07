@@ -33,8 +33,8 @@ final class JWSSerializerTest extends KernelTestCase
         }
     }
 
-    #[Test]
     #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function theJWSSerializerSupportsAllFormatsByDefault(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -55,8 +55,8 @@ final class JWSSerializerTest extends KernelTestCase
         static::assertFalse(method_exists($serializer, 'supportsNormalization'));
     }
 
-    #[Test]
     #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function theJWSDenormalizerPassesThrough(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -69,12 +69,10 @@ final class JWSSerializerTest extends KernelTestCase
         static::assertSame($jws, $serializer->denormalize($jws, JWS::class, $format));
     }
 
-    public function serializerServiceDataProvider(): array
+    public function serializerServiceDataProvider(): iterable
     {
-        return [
-            'indirect serializer' => ['serializer'],
-            'direct serializer' => [JWSSerializer::class],
-        ];
+        yield 'indirect serializer' => ['serializer'];
+        yield 'direct serializer' => [JWSSerializer::class];
     }
 
     public static function jwsFormatDataProvider(): iterable

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Jose\Component\Console\JKULoaderCommand;
 use Jose\Component\Console\X5ULoaderCommand;
-
 /*
  * The MIT License (MIT)
  *

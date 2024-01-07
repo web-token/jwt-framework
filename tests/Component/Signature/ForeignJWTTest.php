@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * @internal
  */
-final class ForeignJWTTestCase extends SignatureTestCase
+final class ForeignJWTTest extends SignatureTestCase
 {
     /*
      * The following test uses an assertion created with another library.

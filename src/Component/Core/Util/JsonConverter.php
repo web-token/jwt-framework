@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use RuntimeException;
+use Throwable;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const JSON_UNESCAPED_UNICODE;
-use RuntimeException;
-use Throwable;
 
 final class JsonConverter
 {

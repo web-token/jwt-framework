@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use function in_array;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWK;
-use const OPENSSL_RAW_DATA;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function in_array;
+use function is_string;
+use const OPENSSL_RAW_DATA;
 
 abstract class AESGCMKW implements KeyWrapping
 {
@@ -53,8 +53,8 @@ abstract class AESGCMKW implements KeyWrapping
             'Parameter "tag" is missing.'
         );
 
-        $tag = Base64UrlSafe::decode($completeHeader['tag']);
-        $iv = Base64UrlSafe::decode($completeHeader['iv']);
+        $tag = Base64UrlSafe::decodeNoPadding($completeHeader['tag']);
+        $iv = Base64UrlSafe::decodeNoPadding($completeHeader['iv']);
 
         $mode = sprintf('aes-%d-gcm', $this->getKeySize());
         $cek = openssl_decrypt($encrypted_cek, $mode, $kek, OPENSSL_RAW_DATA, $iv, $tag, '');
@@ -83,7 +83,7 @@ abstract class AESGCMKW implements KeyWrapping
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64UrlSafe::decode($k);
+        return Base64UrlSafe::decodeNoPadding($k);
     }
 
     abstract protected function getKeySize(): int;

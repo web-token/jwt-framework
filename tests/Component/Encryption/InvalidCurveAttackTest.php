@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * @internal
  */
-final class InvalidCurveAttackTestCase extends EncryptionTestCase
+final class InvalidCurveAttackTest extends EncryptionTestCase
 {
     #[Test]
     public function curveCheckNegativeP256AttackPt1(): void

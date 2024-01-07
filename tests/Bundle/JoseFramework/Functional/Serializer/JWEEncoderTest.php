@@ -35,8 +35,8 @@ final class JWEEncoderTest extends KernelTestCase
         }
     }
 
-    #[Test]
     #[DataProvider('jweFormatDataProvider')]
+    #[Test]
     public function theJWEEncoderSupportsAllFormatsByDefault(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -47,8 +47,8 @@ final class JWEEncoderTest extends KernelTestCase
         static::assertTrue($serializer->supportsDecoding($format));
     }
 
-    #[Test]
     #[DataProvider('jweFormatDataProvider')]
+    #[Test]
     public function aJWECanBeEncodedInAllFormats(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -62,8 +62,8 @@ final class JWEEncoderTest extends KernelTestCase
         static::assertSame(0, $this->loadJWE($jweString, $jwk));
     }
 
-    #[Test]
     #[DataProvider('jweFormatDataProvider')]
+    #[Test]
     public function aJWECanBeEncodedWithSpecificRecipient(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -88,8 +88,8 @@ final class JWEEncoderTest extends KernelTestCase
         static::assertSame($format === 'jwe_json_general' ? 1 : 0, $this->loadJWE($jweString, $jwk2));
     }
 
-    #[Test]
     #[DataProvider('encoderServiceDataProvider')]
+    #[Test]
     public function theJWEEncoderThrowsOnNonExistingRecipient(string $serializerId): void
     {
         $container = static::getContainer();
@@ -144,8 +144,8 @@ final class JWEEncoderTest extends KernelTestCase
         $serializer->encode($jwe, 'jwe_json_flattened');
     }
 
-    #[Test]
     #[DataProvider('jweFormatDataProvider')]
+    #[Test]
     public function aJWECanBeDecodedInAllFormats(string $format, string $serializerId): void
     {
         $container = static::getContainer();

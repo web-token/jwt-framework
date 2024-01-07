@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
-
 /*
  * The MIT License (MIT)
  *

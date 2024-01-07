@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTestCase extends EncryptionTestCase
+final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extends EncryptionTestCase
 {
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are

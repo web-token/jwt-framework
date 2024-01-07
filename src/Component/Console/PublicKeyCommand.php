@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_array;
-use function is_string;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function is_array;
+use function is_string;
 
+#[AsCommand(
+    name: 'key:convert:public',
+    description: 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.',
+)]
 final class PublicKeyCommand extends ObjectOutputCommand
 {
     protected static $defaultName = 'key:convert:public';

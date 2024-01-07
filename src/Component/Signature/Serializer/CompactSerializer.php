@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use function count;
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
+use function count;
+use function is_array;
 
 final class CompactSerializer extends Serializer
 {
@@ -62,7 +62,7 @@ final class CompactSerializer extends Serializer
 
         try {
             $encodedProtectedHeader = $parts[0];
-            $protectedHeader = JsonConverter::decode(Base64UrlSafe::decode($parts[0]));
+            $protectedHeader = JsonConverter::decode(Base64UrlSafe::decodeNoPadding($parts[0]));
             if (! is_array($protectedHeader)) {
                 throw new InvalidArgumentException('Bad protected header.');
             }
@@ -72,11 +72,11 @@ final class CompactSerializer extends Serializer
                 $encodedPayload = null;
             } else {
                 $encodedPayload = $parts[1];
-                $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decode(
+                $payload = $this->isPayloadEncoded($protectedHeader) ? Base64UrlSafe::decodeNoPadding(
                     $encodedPayload
                 ) : $encodedPayload;
             }
-            $signature = Base64UrlSafe::decode($parts[2]);
+            $signature = Base64UrlSafe::decodeNoPadding($parts[2]);
 
             $jws = new JWS($payload, $encodedPayload, ! $hasPayload);
 

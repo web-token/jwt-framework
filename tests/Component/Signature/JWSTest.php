@@ -6,15 +6,15 @@ namespace Jose\Tests\Component\Signature;
 
 use InvalidArgumentException;
 use Jose\Component\Signature\JWS;
-use const JSON_THROW_ON_ERROR;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
  */
-final class JWSTestCase extends SignatureTestCase
+final class JWSTest extends SignatureTestCase
 {
     #[Test]
     public function jWS(): void

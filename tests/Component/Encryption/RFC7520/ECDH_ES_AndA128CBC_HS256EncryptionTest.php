@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class ECDH_ES_AndA128CBC_HS256EncryptionTestCase extends EncryptionTestCase
+final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTestCase
 {
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
@@ -62,10 +62,7 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTestCase extends EncryptionTestCas
         $loaded_json = $this->getJWESerializerManager()
             ->unserialize($expected_json);
 
-        static::assertSame(
-            $expected_ciphertext,
-            Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext())
-        );
+        static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext()));
         static::assertSame($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
         static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getTag()));

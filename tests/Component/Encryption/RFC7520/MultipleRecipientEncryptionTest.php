@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class MultipleRecipientEncryptionTestCase extends EncryptionTestCase
+final class MultipleRecipientEncryptionTest extends EncryptionTestCase
 {
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are

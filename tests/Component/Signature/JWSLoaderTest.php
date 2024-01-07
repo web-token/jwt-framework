@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * @internal
  */
-final class JWSLoaderTestCase extends SignatureTestCase
+final class JWSLoaderTest extends SignatureTestCase
 {
     private ?JWSLoader $jwsLoader = null;
 

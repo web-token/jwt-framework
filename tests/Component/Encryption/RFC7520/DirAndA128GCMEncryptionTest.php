@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class DirAndA128GCMEncryptionTestCase extends EncryptionTestCase
+final class DirAndA128GCMEncryptionTest extends EncryptionTestCase
 {
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
@@ -56,10 +56,7 @@ final class DirAndA128GCMEncryptionTestCase extends EncryptionTestCase
             ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertSame(
-            $expected_ciphertext,
-            Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext())
-        );
+        static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext()));
         static::assertSame($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
         static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getTag()));

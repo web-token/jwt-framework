@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement;
 
-use function count;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\KeyAnalyzerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\KeysetAnalyzerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\KeySetControllerCompilerPass;
@@ -18,6 +17,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use function count;
 
 class KeyManagementSource implements SourceWithCompilerPasses
 {

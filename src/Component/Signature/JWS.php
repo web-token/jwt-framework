@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use function count;
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
+use function count;
 
+/**
+ * @see \Jose\Tests\Component\Signature\JWSTest
+ */
 class JWS implements JWT
 {
     /**

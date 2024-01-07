@@ -8,7 +8,6 @@ use Jose\Bundle\JoseFramework\DataCollector\JoseCollector;
 use Jose\Bundle\JoseFramework\DataCollector\JWECollector;
 use Jose\Bundle\JoseFramework\DataCollector\JWSCollector;
 use Jose\Bundle\JoseFramework\DataCollector\KeyCollector;
-
 /*
  * The MIT License (MIT)
  *

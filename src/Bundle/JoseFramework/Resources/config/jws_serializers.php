@@ -6,7 +6,6 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
-
 /*
  * The MIT License (MIT)
  *

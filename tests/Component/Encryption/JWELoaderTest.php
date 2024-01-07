@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class JWELoaderTestCase extends EncryptionTestCase
+final class JWELoaderTest extends EncryptionTestCase
 {
     private ?JWELoader $jweLoader = null;
 

@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class CompressionTestCase extends EncryptionTestCase
+final class CompressionTest extends EncryptionTestCase
 {
     #[Test]
     public function getValidCompressionAlgorithm(): void

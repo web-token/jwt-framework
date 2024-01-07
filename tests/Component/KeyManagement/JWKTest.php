@@ -9,10 +9,10 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\KeyManagement\JWKFactory;
-use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
@@ -212,20 +212,17 @@ final class JWKTest extends TestCase
             '178f7e93a74ed73d88c29042220b9ae6e4b371cd',
             mb_strtolower(bin2hex(Base64UrlSafe::decode($key->get('x5t'))))
         );
-        static::assertEqualsCanonicalizing(
-            [
-                'kty' => 'RSA',
-                'n' => 'nCoEd1zYUJE6BqOC4NhQSLyJP_EZcBqIRn7gj8Xxic4h7lr-YQ23MkSJoHQLU09VpM6CYpXu61lfxuEFgBLEXpQ_vFtIOPRT9yTm-5HpFcTP9FMN9Er8n1Tefb6ga2-HwNBQHygwA0DaCHNRbH__OjynNwaOvUsRBOt9JN7m-fwxcfuU1WDzLkqvQtLL6sRqGrLMU90VS4sfyBlhH82dqD5jK4Q1aWWEyBnFRiL4U5W-44BKEMYq7LqXIBHHOZkQBKDwYXqVJYxOUnXitu0IyhT8ziJqs07PRgOXlwN-wLHee69FM8-6PnG33vQlJcINNYmdnfsOEXmJHjfFr45yaQ',
-                'e' => 'AQAB',
-                'x5t' => 'F49-k6dO1z2IwpBCIgua5uSzcc0',
-                'x5t#256' => 'pBJP2vnKx7ruHKsy4yJddGUAwJ888-uyU-8_uwiK_TQ',
-                'kid' => 'From www.google.com',
-                'x5c' => [
-                    'MIID8DCCAtigAwIBAgIDAjqDMA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1HZW9UcnVzdCBJbmMuMRswGQYDVQQDExJHZW9UcnVzdCBHbG9iYWwgQ0EwHhcNMTMwNDA1MTUxNTU2WhcNMTYxMjMxMjM1OTU5WjBJMQswCQYDVQQGEwJVUzETMBEGA1UEChMKR29vZ2xlIEluYzElMCMGA1UEAxMcR29vZ2xlIEludGVybmV0IEF1dGhvcml0eSBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJwqBHdc2FCROgajguDYUEi8iT/xGXAaiEZ+4I/F8YnOIe5a/mENtzJEiaB0C1NPVaTOgmKV7utZX8bhBYASxF6UP7xbSDj0U/ck5vuR6RXEz/RTDfRK/J9U3n2+oGtvh8DQUB8oMANA2ghzUWx//zo8pzcGjr1LEQTrfSTe5vn8MXH7lNVg8y5Kr0LSy+rEahqyzFPdFUuLH8gZYR/Nnag+YyuENWllhMgZxUYi+FOVvuOAShDGKuy6lyARxzmZEASg8GF6lSWMTlJ14rbtCMoU/M4iarNOz0YDl5cDfsCx3nuvRTPPuj5xt970JSXCDTWJnZ37DhF5iR43xa+OcmkCAwEAAaOB5zCB5DAfBgNVHSMEGDAWgBTAephojYn7qwVkDBF9qn1luMrMTjAdBgNVHQ4EFgQUSt0GFhu89mi1dvWBtrtiGrpagS8wDgYDVR0PAQH/BAQDAgEGMC4GCCsGAQUFBwEBBCIwIDAeBggrBgEFBQcwAYYSaHR0cDovL2cuc3ltY2QuY29tMBIGA1UdEwEB/wQIMAYBAf8CAQAwNQYDVR0fBC4wLDAqoCigJoYkaHR0cDovL2cuc3ltY2IuY29tL2NybHMvZ3RnbG9iYWwuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAHWeQIFATANBgkqhkiG9w0BAQsFAAOCAQEAqvqpIM1qZ4PtXtR+3h3Ef+AlBgDFJPupyC1tft6dgmUsgWM0Zj7pUsIItMsv91+ZOmqcUHqFBYx90SpIhNMJbHzCzTWf84LuUt5oX+QAihcglvcpjZpNy6jehsgNb1aHA30DP9z6eX0hGfnIOi9RdozHQZJxjyXON/hKTAAj78Q1EK7gI4BzfE00LshukNYQHpmEcxpw8u1VDu4XBupn7jLrLN1nBz/2i8Jw3lsA5rsb0zYaImxssDVCbJAJPZPpZAkiDoUGn8JzIdPmX4DkjYUiOnMDsWCOrmji9D6X52ASCWg23jrW4kOVWzeBkoEfu43XrVJkFleW2V40fsg12A==',
-                ],
+        static::assertEqualsCanonicalizing([
+            'kty' => 'RSA',
+            'n' => 'nCoEd1zYUJE6BqOC4NhQSLyJP_EZcBqIRn7gj8Xxic4h7lr-YQ23MkSJoHQLU09VpM6CYpXu61lfxuEFgBLEXpQ_vFtIOPRT9yTm-5HpFcTP9FMN9Er8n1Tefb6ga2-HwNBQHygwA0DaCHNRbH__OjynNwaOvUsRBOt9JN7m-fwxcfuU1WDzLkqvQtLL6sRqGrLMU90VS4sfyBlhH82dqD5jK4Q1aWWEyBnFRiL4U5W-44BKEMYq7LqXIBHHOZkQBKDwYXqVJYxOUnXitu0IyhT8ziJqs07PRgOXlwN-wLHee69FM8-6PnG33vQlJcINNYmdnfsOEXmJHjfFr45yaQ',
+            'e' => 'AQAB',
+            'x5t' => 'F49-k6dO1z2IwpBCIgua5uSzcc0',
+            'x5t#256' => 'pBJP2vnKx7ruHKsy4yJddGUAwJ888-uyU-8_uwiK_TQ',
+            'kid' => 'From www.google.com',
+            'x5c' => [
+                'MIID8DCCAtigAwIBAgIDAjqDMA0GCSqGSIb3DQEBCwUAMEIxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1HZW9UcnVzdCBJbmMuMRswGQYDVQQDExJHZW9UcnVzdCBHbG9iYWwgQ0EwHhcNMTMwNDA1MTUxNTU2WhcNMTYxMjMxMjM1OTU5WjBJMQswCQYDVQQGEwJVUzETMBEGA1UEChMKR29vZ2xlIEluYzElMCMGA1UEAxMcR29vZ2xlIEludGVybmV0IEF1dGhvcml0eSBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJwqBHdc2FCROgajguDYUEi8iT/xGXAaiEZ+4I/F8YnOIe5a/mENtzJEiaB0C1NPVaTOgmKV7utZX8bhBYASxF6UP7xbSDj0U/ck5vuR6RXEz/RTDfRK/J9U3n2+oGtvh8DQUB8oMANA2ghzUWx//zo8pzcGjr1LEQTrfSTe5vn8MXH7lNVg8y5Kr0LSy+rEahqyzFPdFUuLH8gZYR/Nnag+YyuENWllhMgZxUYi+FOVvuOAShDGKuy6lyARxzmZEASg8GF6lSWMTlJ14rbtCMoU/M4iarNOz0YDl5cDfsCx3nuvRTPPuj5xt970JSXCDTWJnZ37DhF5iR43xa+OcmkCAwEAAaOB5zCB5DAfBgNVHSMEGDAWgBTAephojYn7qwVkDBF9qn1luMrMTjAdBgNVHQ4EFgQUSt0GFhu89mi1dvWBtrtiGrpagS8wDgYDVR0PAQH/BAQDAgEGMC4GCCsGAQUFBwEBBCIwIDAeBggrBgEFBQcwAYYSaHR0cDovL2cuc3ltY2QuY29tMBIGA1UdEwEB/wQIMAYBAf8CAQAwNQYDVR0fBC4wLDAqoCigJoYkaHR0cDovL2cuc3ltY2IuY29tL2NybHMvZ3RnbG9iYWwuY3JsMBcGA1UdIAQQMA4wDAYKKwYBBAHWeQIFATANBgkqhkiG9w0BAQsFAAOCAQEAqvqpIM1qZ4PtXtR+3h3Ef+AlBgDFJPupyC1tft6dgmUsgWM0Zj7pUsIItMsv91+ZOmqcUHqFBYx90SpIhNMJbHzCzTWf84LuUt5oX+QAihcglvcpjZpNy6jehsgNb1aHA30DP9z6eX0hGfnIOi9RdozHQZJxjyXON/hKTAAj78Q1EK7gI4BzfE00LshukNYQHpmEcxpw8u1VDu4XBupn7jLrLN1nBz/2i8Jw3lsA5rsb0zYaImxssDVCbJAJPZPpZAkiDoUGn8JzIdPmX4DkjYUiOnMDsWCOrmji9D6X52ASCWg23jrW4kOVWzeBkoEfu43XrVJkFleW2V40fsg12A==',
             ],
-            $key->all()
-        );
+        ], $key->all());
     }
 
     #[Test]
@@ -242,8 +239,7 @@ final class JWKTest extends TestCase
         $pem = RSAKey::createFromJWK($key)->toPEM();
 
         // Then
-        static::assertSame(
-            '-----BEGIN PUBLIC KEY-----
+        static::assertSame('-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAz62tHQzm4fDHipqlcrNh
 C1gUdn0N38pmlcQbVlLvtZf1aRm1OO43cB9YQyWr1MsTrYH4nyWZDMPIGY/BsIfY
 w1lp9fo2D1tpG2vtCaKRETVimu+N9DySQ9vYs6n8lG0vXy/spK7sGrOLFooijDSt
@@ -256,8 +252,6 @@ kS8Ub4Y60QvPkInCGBMHNdUqpJUkLoA5Mddl8hVW+cMjC2qCckgT1KgZxIsZTgOJ
 XCARX1IObFJNoinxYJ5SNX9bCSRtgefuBKE7BSNukAkHyBPf+++kEi9GbYXzlJr+
 yCMAIsA0UoiEx264hkAF9zF+N1yRhS/QmrhzU5hpj1IE8WRCqyIZV8f/IbSGXBue
 7MmgknLVRWHuGqehkTSfiNECAwEAAQ==
------END PUBLIC KEY-----',
-            $pem
-        );
+-----END PUBLIC KEY-----', $pem);
     }
 }

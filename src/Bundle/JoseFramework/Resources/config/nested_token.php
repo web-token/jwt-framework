@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
-
 /*
  * The MIT License (MIT)
  *

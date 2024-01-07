@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use function array_key_exists;
-use function count;
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
@@ -19,6 +16,9 @@ use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
+use function array_key_exists;
+use function count;
+use function is_array;
 
 /**
  * @internal
@@ -229,12 +229,12 @@ final class RSAKey
 
     private function convertBase64StringToBigInteger(string $value): BigInteger
     {
-        return BigInteger::createFromBinaryString(Base64UrlSafe::decode($value));
+        return BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($value));
     }
 
     private function fromBase64ToInteger(string $value): string
     {
-        $unpacked = unpack('H*', Base64UrlSafe::decode($value));
+        $unpacked = unpack('H*', Base64UrlSafe::decodeNoPadding($value));
         if (! is_array($unpacked) || count($unpacked) === 0) {
             throw new InvalidArgumentException('Unable to get the private key');
         }

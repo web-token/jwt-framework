@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Signature\Algorithm;
+namespace Jose\Tests\SignatureAlgorithm\RSA;
 
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -12,9 +12,9 @@ use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
-use const JSON_THROW_ON_ERROR;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-4.1

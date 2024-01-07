@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Serializer;
 
-use function in_array;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use LogicException;
-use function mb_strtolower;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use function in_array;
+use function mb_strtolower;
 
 final class JWSSerializer implements DenormalizerInterface
 {

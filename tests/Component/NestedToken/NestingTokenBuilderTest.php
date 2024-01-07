@@ -52,8 +52,8 @@ final class NestingTokenBuilderTest extends TestCase
         }
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function decryption(): void
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';

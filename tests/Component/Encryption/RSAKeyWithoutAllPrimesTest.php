@@ -14,10 +14,10 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class RSAKeyWithoutAllPrimesTestCase extends EncryptionTestCase
+final class RSAKeyWithoutAllPrimesTest extends EncryptionTestCase
 {
-    #[Test]
     #[DataProvider('dataEncryptionAlgorithms')]
+    #[Test]
     public function encryptionAlgorithms(string $encryption_algorithm): void
     {
         $key = $this->getPrivateKey();
@@ -49,8 +49,8 @@ final class RSAKeyWithoutAllPrimesTestCase extends EncryptionTestCase
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded, $key, 0));
     }
 
-    #[Test]
     #[DataProvider('dataEncryptionAlgorithms')]
+    #[Test]
     public function encryptionAlgorithmsWithMinimalRsaKey(string $encryption_algorithm): void
     {
         $key = $this->getMinimalPrivateKey();
@@ -89,9 +89,10 @@ final class RSAKeyWithoutAllPrimesTestCase extends EncryptionTestCase
         yield ['RSA-OAEP-256'];
     }
 
-    public function dataEncryptionAlgorithmsWithSimpleKey(): array
+    public function dataEncryptionAlgorithmsWithSimpleKey(): iterable
     {
-        return [['RSA-OAEP'], ['RSA-OAEP-256']];
+        yield ['RSA-OAEP'];
+        yield ['RSA-OAEP-256'];
     }
 
     private function getPrivateKey(): JWK

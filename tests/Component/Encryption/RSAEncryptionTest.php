@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * @internal
  */
-final class RSAEncryptionTestCase extends EncryptionTestCase
+final class RSAEncryptionTest extends EncryptionTestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516

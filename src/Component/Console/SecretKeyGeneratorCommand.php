@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use InvalidArgumentException;
-use function is_bool;
-use function is_string;
 use Jose\Component\KeyManagement\JWKFactory;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function is_bool;
+use function is_string;
 
+#[AsCommand(
+    name: 'key:generate:from_secret',
+    description: 'Generate an octet key (JWK format) using an existing secret',
+)]
 final class SecretKeyGeneratorCommand extends GeneratorCommand
 {
     protected static $defaultName = 'key:generate:from_secret';

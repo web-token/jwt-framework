@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Jose\Component\Signature\Algorithm\EdDSA;
-
 /*
  * The MIT License (MIT)
  *

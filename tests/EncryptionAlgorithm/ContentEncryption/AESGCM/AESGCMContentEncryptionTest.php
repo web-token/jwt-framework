@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Encryption\Algorithm\ContentEncryption;
+namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\AESGCM;
 
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;

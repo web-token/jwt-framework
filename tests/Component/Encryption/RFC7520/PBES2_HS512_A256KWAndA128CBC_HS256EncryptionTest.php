@@ -6,16 +6,16 @@ namespace Jose\Tests\Component\Encryption\RFC7520;
 
 use Jose\Component\Core\JWK;
 use Jose\Tests\Component\Encryption\EncryptionTestCase;
-use const JSON_THROW_ON_ERROR;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.3
  *
  * @internal
  */
-final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTestCase extends EncryptionTestCase
+final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionTestCase
 {
     /**
      * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
@@ -85,10 +85,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTestCase extends Encrypt
             ->unserialize($expected_json);
         static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
-        static::assertSame(
-            $expected_ciphertext,
-            Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext())
-        );
+        static::assertSame($expected_ciphertext, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getCiphertext()));
         static::assertSame($protectedHeader, $loaded_compact_json->getSharedProtectedHeader());
         static::assertSame($expected_iv, Base64UrlSafe::encodeUnpadded($loaded_compact_json->getIV()));
         static::assertSame(

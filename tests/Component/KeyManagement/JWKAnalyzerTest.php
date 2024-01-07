@@ -56,8 +56,8 @@ final class JWKAnalyzerTest extends TestCase
         static::assertNotEmpty($messages);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function theRsaKeyHasALowExponent(): void
     {
         $key = JWK::createFromJson(

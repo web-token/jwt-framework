@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
-
 /*
  * The MIT License (MIT)
  *

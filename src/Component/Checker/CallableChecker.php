@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use function call_user_func;
 use InvalidArgumentException;
+use function call_user_func;
 use function is_callable;
 
 /**

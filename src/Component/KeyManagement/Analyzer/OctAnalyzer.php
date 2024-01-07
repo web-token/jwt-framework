@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use function is_string;
 
 final class OctAnalyzer implements KeyAnalyzer
 {
@@ -21,7 +21,7 @@ final class OctAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $k = Base64UrlSafe::decode($k);
+        $k = Base64UrlSafe::decodeNoPadding($k);
         $kLength = 8 * mb_strlen($k, '8bit');
         if ($kLength < 128) {
             $bag->add(Message::high('The key length is less than 128 bits.'));

@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
  *
  * @internal
  */
-final class MultipleSignaturesTestCase extends SignatureTestCase
+final class MultipleSignaturesTest extends SignatureTestCase
 {
     #[Test]
     public function multipleSignatures(): void

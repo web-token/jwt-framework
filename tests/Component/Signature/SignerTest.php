@@ -8,15 +8,15 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\CompactSerializer;
-use const JSON_THROW_ON_ERROR;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
  */
-final class SignerTestCase extends SignatureTestCase
+final class SignerTest extends SignatureTestCase
 {
     #[Test]
     public function algParameterIsMissing(): void
@@ -598,7 +598,9 @@ final class SignerTestCase extends SignatureTestCase
     #[Test]
     public function compactJSONWithUnencodedDetachedPayload(): void
     {
-        $payload = '$.02';
+        $payload = hex2bin(
+            '43a40763650d45edcfc7e22bda5bf3ea3039464a53617c83bbffd815f48bb7fade3cacb6c8885ca7ef923ae04cc0567a450473b6e8777640e159e5aba4f6d653fa00c06ca1d48ca826eb68e32d10378716406577a5f92d759e887a3d3d4c496e60cfa1a8700c08aa59b9f1d34039f16119deb8c30ec6195ef352ba7526fbff6fab47360a1e743dd86ba11878c8f9f7bbc901bf04d7843fd0125c310337afef704e1d281b879f0f5dfecd21b69b29d413a597efa2092cbe7ba0e1de5a996b845004047446524f199a08da259d1c5564984e4d8d65058c37577aa344e10e7f188202f330b8f61f66b22e530659d023203efbf91852ddc6babef9dbbf012149dc86678016a2c0351a432f6e652da6913e215c506eb68e0b71f2a2842ae75b7c605d5c1495d53610beff10b11e4991929e2dece56c8472ea8b6a4ee5d846123545efa4d234534d669c8031cb719cc1c8dee3c7072bdf9534616ecf3b53be8be1983734c1e91f6a33cc0d5c34aaecb043b65113fb55a335f8f65a023ae2dba2e8b1488ae1a505bdd7aabc794fffbf1e0ea0ce437df92ac8ad3a4b12e2d5d4bfbaf2f3a1e69f15fc44c3beb310e3bd302407bf265a752a4d09f1f0f5715d409a4b82a5e16748f22934d34592dc5995c16dc73fde436867e576033fcc47a4ff51d6a24b41311d41f8a4f1af78c81ad966dd3baab94b4140'
+        );
         $protectedHeader = [
             'alg' => 'HS256',
             'b64' => false,
@@ -622,7 +624,7 @@ final class SignerTestCase extends SignatureTestCase
         $jws = $this->getJWSSerializerManager()
             ->serialize('jws_compact', $jws, 0);
         static::assertSame(
-            'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY',
+            'eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..fSKLLXhwLhGW6L4hftrjw9EkAiIikH4KDn9YZ3FDlz8',
             $jws
         );
 
@@ -631,6 +633,40 @@ final class SignerTestCase extends SignatureTestCase
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, $key, 0, $payload));
 
         static::assertSame($protectedHeader, $loaded->getSignature(0)->getProtectedHeader());
+    }
+
+    /**
+     * @see https://tools.ietf.org/html/rfc7797#section-4
+     * @see https://tools.ietf.org/html/rfc7797#section-4.2
+     */
+    #[Test]
+    public function compactJSONWithUnencodedAttachedPayloadButNotUTF8(): void
+    {
+        static::expectException(InvalidArgumentException::class);
+        static::expectExceptionMessage('The payload must be encoded in UTF-8');
+        $payload = hex2bin(
+            '43a40763650d45edcfc7e22bda5bf3ea3039464a53617c83bbffd815f48bb7fade3cacb6c8885ca7ef923ae04cc0567a450473b6e8777640e159e5aba4f6d653fa00c06ca1d48ca826eb68e32d10378716406577a5f92d759e887a3d3d4c496e60cfa1a8700c08aa59b9f1d34039f16119deb8c30ec6195ef352ba7526fbff6fab47360a1e743dd86ba11878c8f9f7bbc901bf04d7843fd0125c310337afef704e1d281b879f0f5dfecd21b69b29d413a597efa2092cbe7ba0e1de5a996b845004047446524f199a08da259d1c5564984e4d8d65058c37577aa344e10e7f188202f330b8f61f66b22e530659d023203efbf91852ddc6babef9dbbf012149dc86678016a2c0351a432f6e652da6913e215c506eb68e0b71f2a2842ae75b7c605d5c1495d53610beff10b11e4991929e2dece56c8472ea8b6a4ee5d846123545efa4d234534d669c8031cb719cc1c8dee3c7072bdf9534616ecf3b53be8be1983734c1e91f6a33cc0d5c34aaecb043b65113fb55a335f8f65a023ae2dba2e8b1488ae1a505bdd7aabc794fffbf1e0ea0ce437df92ac8ad3a4b12e2d5d4bfbaf2f3a1e69f15fc44c3beb310e3bd302407bf265a752a4d09f1f0f5715d409a4b82a5e16748f22934d34592dc5995c16dc73fde436867e576033fcc47a4ff51d6a24b41311d41f8a4f1af78c81ad966dd3baab94b4140'
+        );
+        $protectedHeader = [
+            'alg' => 'HS256',
+            'b64' => false,
+            'crit' => ['b64'],
+        ];
+
+        $key = new JWK([
+            'kty' => 'oct',
+            'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
+        ]);
+
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['HS256']);
+        $this->getJWSVerifierFactory()
+            ->create(['HS256']);
+        $jwsBuilder
+            ->create()
+            ->withPayload($payload)
+            ->addSignature($key, $protectedHeader)
+            ->build();
     }
 
     /**
@@ -669,11 +705,8 @@ final class SignerTestCase extends SignatureTestCase
 
         $expected_result = '{"signatures":[{"signature":"A5dxf2s96_n5FLueVuW1Z_vh161FwXZC4YLPff6dmDY","protected":"eyJhbGciOiJIUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"},{"signature":"Mp-m-Vyst0zYCNkpg2RiIN8W9GO4nLU3FKsFtHzEcP4tgR4QcMys1_2m9HrDwszi0Cp2gv_Lioe6UPCcTNn6tQ","protected":"eyJhbGciOiJIUzUxMiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19"}]}';
 
-        static::assertSame(
-            $expected_result,
-            $this->getJWSSerializerManager()
-                ->serialize('jws_json_general', $jws, 0)
-        );
+        static::assertSame($expected_result, $this->getJWSSerializerManager()
+            ->serialize('jws_json_general', $jws, 0));
 
         $loaded = $this->getJWSSerializerManager()
             ->unserialize($expected_result);

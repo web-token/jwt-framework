@@ -12,9 +12,6 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 final class KeyEnvVarProcessor implements EnvVarProcessorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getEnv(string $prefix, string $name, Closure $getEnv): mixed
     {
         $env = $getEnv($name);

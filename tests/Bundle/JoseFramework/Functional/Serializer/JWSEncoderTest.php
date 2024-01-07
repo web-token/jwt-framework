@@ -34,8 +34,8 @@ final class JWSEncoderTest extends KernelTestCase
         }
     }
 
-    #[Test]
     #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function theJWSSerializerSupportsAllFormatsByDefault(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -46,8 +46,8 @@ final class JWSEncoderTest extends KernelTestCase
         static::assertTrue($serializer->supportsDecoding($format));
     }
 
-    #[Test]
     #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function aJWSCanBeEncodedInAllFormats(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -65,8 +65,8 @@ final class JWSEncoderTest extends KernelTestCase
         static::assertSame($expected[$format], $jwsString);
     }
 
-    #[Test]
     #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function aJWSCanBeEncodedWithSpecificSignature(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -139,8 +139,8 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer->encode($jws, 'jws_json_flattened');
     }
 
-    #[Test]
     #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function aJWSCanBeDecodedInAllFormats(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -170,12 +170,10 @@ final class JWSEncoderTest extends KernelTestCase
         $serializer->decode($jwsString, 'jws_json_flattened');
     }
 
-    public function serializerServiceDataProvider(): array
+    public function serializerServiceDataProvider(): iterable
     {
-        return [
-            'indirect serializer' => ['serializer'],
-            'direct serializer' => [JWSEncoder::class],
-        ];
+        yield 'indirect serializer' => ['serializer'];
+        yield 'direct serializer' => [JWSEncoder::class];
     }
 
     public static function jwsFormatDataProvider(): iterable

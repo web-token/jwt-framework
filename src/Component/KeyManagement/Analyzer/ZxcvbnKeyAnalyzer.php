@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
 use ZxcvbnPhp\Zxcvbn;
+use function is_string;
 
 final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
 {
@@ -23,7 +23,7 @@ final class ZxcvbnKeyAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $k = Base64UrlSafe::decode($k);
+        $k = Base64UrlSafe::decodeNoPadding($k);
         if (! class_exists(Zxcvbn::class)) {
             return;
         }

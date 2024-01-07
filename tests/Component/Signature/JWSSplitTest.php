@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * @internal
  */
-final class JWSSplitTestCase extends SignatureTestCase
+final class JWSSplitTest extends SignatureTestCase
 {
     #[Test]
     public function aJwsObjectWithMoreThanOneRecipientCanBeSplittedIntoSeveralJwsObjects(): void

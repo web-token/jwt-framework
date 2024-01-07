@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-use function array_key_exists;
-use function count;
 use InvalidArgumentException;
-use function is_array;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 use LogicException;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use function array_key_exists;
+use function count;
+use function is_array;
 
 final class JSONGeneralSerializer implements JWESerializer
 {
@@ -71,10 +71,10 @@ final class JSONGeneralSerializer implements JWESerializer
         }
         $this->checkData($data);
 
-        $ciphertext = Base64UrlSafe::decode($data['ciphertext']);
-        $iv = Base64UrlSafe::decode($data['iv']);
-        $tag = Base64UrlSafe::decode($data['tag']);
-        $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decode($data['aad']) : null;
+        $ciphertext = Base64UrlSafe::decodeNoPadding($data['ciphertext']);
+        $iv = Base64UrlSafe::decodeNoPadding($data['iv']);
+        $tag = Base64UrlSafe::decodeNoPadding($data['tag']);
+        $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decodeNoPadding($data['aad']) : null;
         [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
         $recipients = [];
         foreach ($data['recipients'] as $recipient) {
@@ -103,7 +103,7 @@ final class JSONGeneralSerializer implements JWESerializer
 
     private function processRecipient(array $recipient): array
     {
-        $encryptedKey = array_key_exists('encrypted_key', $recipient) ? Base64UrlSafe::decode(
+        $encryptedKey = array_key_exists('encrypted_key', $recipient) ? Base64UrlSafe::decodeNoPadding(
             $recipient['encrypted_key']
         ) : null;
         $header = array_key_exists('header', $recipient) ? $recipient['header'] : [];
@@ -115,7 +115,7 @@ final class JSONGeneralSerializer implements JWESerializer
     {
         $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
         $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(
-            Base64UrlSafe::decode($encodedSharedProtectedHeader)
+            Base64UrlSafe::decodeNoPadding($encodedSharedProtectedHeader)
         ) : [];
         $sharedHeader = array_key_exists('unprotected', $data) ? $data['unprotected'] : [];
 

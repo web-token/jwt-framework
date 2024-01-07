@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use function in_array;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWK;
-use const OPENSSL_RAW_DATA;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function in_array;
+use function is_string;
+use const OPENSSL_RAW_DATA;
 
 abstract class AESCTR implements KeyEncryption
 {
@@ -47,7 +47,7 @@ abstract class AESCTR implements KeyEncryption
         $k = $this->getKey($key);
         isset($header['iv']) || throw new InvalidArgumentException('The header parameter "iv" is missing.');
         is_string($header['iv']) || throw new InvalidArgumentException('The header parameter "iv" is not valid.');
-        $iv = Base64UrlSafe::decode($header['iv']);
+        $iv = Base64UrlSafe::decodeNoPadding($header['iv']);
 
         $result = openssl_decrypt($encrypted_cek, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if ($result === false) {
@@ -77,6 +77,6 @@ abstract class AESCTR implements KeyEncryption
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
 
-        return Base64UrlSafe::decode($k);
+        return Base64UrlSafe::decodeNoPadding($k);
     }
 }

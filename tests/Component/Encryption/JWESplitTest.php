@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * @internal
  */
-final class JWESplitTestCase extends EncryptionTestCase
+final class JWESplitTest extends EncryptionTestCase
 {
     #[Test]
     public function aJweObjectWithMoreThanOneRecipientCanBeSplittedIntoSeveralJweObjects(): void

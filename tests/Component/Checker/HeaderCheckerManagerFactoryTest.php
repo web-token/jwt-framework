@@ -70,8 +70,8 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $headerCheckerManager->check($token, 0);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function theHeaderIsSuccessfullyChecked(): void
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
@@ -125,8 +125,8 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
         $headerCheckerManager->check($token, 0);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function theHeaderContainsUnknownParametersAndIsSuccessfullyChecked(): void
     {
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()

@@ -19,7 +19,7 @@ use const STR_PAD_LEFT;
  *
  * @internal
  */
-final class RSAKeyEncryptionTestCase extends EncryptionTestCase
+final class RSAKeyEncryptionTest extends EncryptionTestCase
 {
     #[Test]
     public function invalidKey(): void

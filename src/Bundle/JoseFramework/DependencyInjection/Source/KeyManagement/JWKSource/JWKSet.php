@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource;
 
-use function is_int;
-use function is_string;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
@@ -13,6 +11,8 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use function is_int;
+use function is_string;
 
 class JWKSet extends AbstractSource implements JWKSource
 {

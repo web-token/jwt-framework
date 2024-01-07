@@ -61,8 +61,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnEllipticCurveKeyWithCurveP256(): void
     {
         $input = new ArrayInput([
@@ -90,8 +90,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnOctetKey(): void
     {
         $input = new ArrayInput([
@@ -154,8 +154,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnOctetKeyPair(): void
     {
         $input = new ArrayInput([
@@ -170,8 +170,8 @@ final class KeyCreationCommandTest extends TestCase
         JWK::createFromJson($content);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateANoneKey(): void
     {
         $input = new ArrayInput([
@@ -198,8 +198,8 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
     }
 
-    #[Test]
     #[DoesNotPerformAssertions]
+    #[Test]
     public function iCanCreateAnRsaKey(): void
     {
         $input = new ArrayInput([

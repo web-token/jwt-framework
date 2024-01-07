@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
+namespace Jose\Tests\EncryptionAlgorithm\KeyEncryption\ECDHSS;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS;

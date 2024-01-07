@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use function in_array;
 use InvalidArgumentException;
-use function is_string;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use function in_array;
+use function is_string;
 
 /**
  * @see \Jose\Tests\Component\Signature\Algorithm\Blake2bTest
@@ -51,7 +51,7 @@ final class Blake2b implements MacAlgorithm
         if (! is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
-        $key = Base64UrlSafe::decode($k);
+        $key = Base64UrlSafe::decodeNoPadding($k);
         if (mb_strlen($key, '8bit') < self::MINIMUM_KEY_LENGTH) {
             throw new InvalidArgumentException('Key provided is shorter than 256 bits.');
         }

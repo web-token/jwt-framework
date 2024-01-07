@@ -49,6 +49,8 @@ final class ConsoleTest extends KernelTestCase
         self::bootKernel();
         $application = new Application(self::$kernel);
 
-        static::assertEmpty(array_diff($expectedCommands, array_keys($application->all())));
+        foreach ($expectedCommands as $expectedCommand) {
+            static::assertArrayHasKey($expectedCommand, $application->all());
+        }
     }
 }

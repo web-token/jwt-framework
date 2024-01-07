@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * @internal
  */
-final class JWEFlattenedTestCase extends EncryptionTestCase
+final class JWEFlattenedTest extends EncryptionTestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-A.5

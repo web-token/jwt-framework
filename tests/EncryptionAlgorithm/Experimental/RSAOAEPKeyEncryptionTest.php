@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Encryption\Algorithm;
+namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\Experimental;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP384;
