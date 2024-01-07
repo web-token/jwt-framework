@@ -13,7 +13,7 @@ splits:
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-console.git"
   - prefix: "src/Component/NestedToken"
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-nested-token.git"
-  - prefix: "src/Bundle/JoseFramework"
+  - prefix: "src/JoseFramework"
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-bundle.git"
   - prefix: "src/EncryptionAlgorithm/ContentEncryption/AESCBC"
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-aescbc.git"
