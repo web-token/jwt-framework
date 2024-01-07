@@ -26,6 +26,13 @@ final class JWSSerializer implements DenormalizerInterface
         $this->serializerManager = $serializerManager;
     }
 
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            JWS::class => class_exists(JWSSerializerManager::class) && $this->formatSupported($format),
+        ];
+    }
+
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $type === JWS::class

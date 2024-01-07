@@ -93,8 +93,8 @@ final class CertificateTest extends TestCase
         ]);
     }
 
-    #[DataProvider('dataLoadCertificate')]
     #[Test]
+    #[DataProvider('dataLoadCertificate')]
     public function loadCertificate(string $file, array $expected_values): void
     {
         $result = KeyConverter::loadKeyFromCertificateFile($file);

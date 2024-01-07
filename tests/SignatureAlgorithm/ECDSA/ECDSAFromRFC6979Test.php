@@ -34,8 +34,8 @@ final class ECDSAFromRFC6979Test extends TestCase
      * @param string $message
      * @param string $signature
      */
-    #[DataProvider('dataWithVectors')]
     #[Test]
+    #[DataProvider('dataWithVectors')]
     public function withVectors(SignatureAlgorithm $algorithm, $message, JWK $key, $signature): void
     {
         $is_valid = $algorithm->verify($key, $message, $signature);
