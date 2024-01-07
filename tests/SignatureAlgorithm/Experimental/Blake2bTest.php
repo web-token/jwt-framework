@@ -6,7 +6,7 @@ namespace Jose\Tests\SignatureAlgorithm\Experimental;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Algorithm\Blake2b;
+use Jose\Experimental\Signature\Blake2b;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Test;

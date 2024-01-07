@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\Experimental;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP384;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP512;
+use Jose\Experimental\KeyEncryption\RSAOAEP384;
+use Jose\Experimental\KeyEncryption\RSAOAEP512;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
