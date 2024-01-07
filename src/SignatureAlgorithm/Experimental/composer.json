@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-signature-algorithm-experimental",
-    "description": "Experimental Signature Algorithms the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-experimental instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -32,14 +32,7 @@
             "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Jose\\Component\\Signature\\Algorithm\\": ""
-        }
-    },
     "require": {
-        "php": ">=8.1",
-        "web-token/jwt-signature-algorithm-rsa": "^3.2",
-        "web-token/jwt-signature-algorithm-hmac": "^3.2"
+        "web-token/jwt-experimental": "^3.3"
     }
 }

@@ -35,7 +35,8 @@
     "autoload": {
         "psr-4": {
             "Jose\\": "src/",
-            "Jose\\Bundle\\JoseFramework\\": "src/Bundle/JoseFramework/",
+            "Jose\\Bundle\\JoseFramework\\": "src/JoseFramework/",
+            "Jose\\Experimental\\": "src/Experimental/",
             "Jose\\Component\\Checker\\": "src/Component/Checker/",
             "Jose\\Component\\Console\\": "src/Component/Console/",
             "Jose\\Component\\Core\\": "src/Component/Core/",
@@ -170,8 +171,10 @@
         "web-token/jwt-signature-algorithm-hmac": "self.version",
         "web-token/jwt-signature-algorithm-none": "self.version",
         "web-token/jwt-signature-algorithm-rsa": "self.version",
+        "web-token/jwt-signature-pack": "self.version",
         "web-token/jwt-util-ecc": "self.version",
-        "web-token/signature-pack": "self.version"
+        "web-token/signature-pack": "self.version",
+        "web-token/jwt-experimental": "self.version"
     },
     "suggest": {
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",

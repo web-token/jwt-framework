@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\Experimental;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A192CTR;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR;
+use Jose\Experimental\KeyEncryption\A128CTR;
+use Jose\Experimental\KeyEncryption\A192CTR;
+use Jose\Experimental\KeyEncryption\A256CTR;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
