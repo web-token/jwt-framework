@@ -7,7 +7,6 @@ use Jose\Component\Signature\Algorithm\ES256K;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\HS256_64;
 use Jose\Component\Signature\Algorithm\RS1;
-
 /*
  * The MIT License (MIT)
  *

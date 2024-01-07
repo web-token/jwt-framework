@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
+namespace Jose\Tests\EncryptionAlgorithm\KeyEncryption\AESKW;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;

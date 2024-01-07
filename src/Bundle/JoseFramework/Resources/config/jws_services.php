@@ -6,7 +6,6 @@ use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
 use Jose\Component\Signature\JWSTokenSupport;
-
 /*
  * The MIT License (MIT)
  *

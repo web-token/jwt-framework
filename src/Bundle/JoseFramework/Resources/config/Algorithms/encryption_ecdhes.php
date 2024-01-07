@@ -10,7 +10,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSS;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHSSA256KW;
-
 /*
  * The MIT License (MIT)
  *

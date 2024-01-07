@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
-
 /*
  * The MIT License (MIT)
  *

@@ -20,7 +20,6 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
  * of the MIT license.  See the LICENSE file for details.
  */
 
-
 return function (ContainerConfigurator $container): void {
     $container = $container->services()
         ->defaults()

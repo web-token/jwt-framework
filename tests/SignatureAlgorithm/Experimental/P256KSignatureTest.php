@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Signature\Algorithm;
+namespace Jose\Tests\SignatureAlgorithm\Experimental;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\ES256K;

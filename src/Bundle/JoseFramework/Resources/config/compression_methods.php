@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\Compression\Deflate;
-
 /*
  * The MIT License (MIT)
  *

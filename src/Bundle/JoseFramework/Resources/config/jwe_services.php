@@ -6,7 +6,6 @@ use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Encryption\JWETokenSupport;
-
 /*
  * The MIT License (MIT)
  *

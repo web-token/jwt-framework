@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Jose\Component\Signature\Algorithm\ES256;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
-
 /*
  * The MIT License (MIT)
  *

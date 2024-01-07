@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
-
 /*
  * The MIT License (MIT)
  *

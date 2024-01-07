@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
-
 /*
  * The MIT License (MIT)
  *

@@ -15,7 +15,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A192CTR;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP384;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP512;
-
 /*
  * The MIT License (MIT)
  *

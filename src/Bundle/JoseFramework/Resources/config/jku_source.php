@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
-
 /*
  * The MIT License (MIT)
  *

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Jose\Bundle\JoseFramework\EnvVarProcessor\KeyEnvVarProcessor;
-
 /*
  * The MIT License (MIT)
  *

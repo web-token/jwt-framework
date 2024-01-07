@@ -6,7 +6,6 @@ use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
-
 /*
  * The MIT License (MIT)
  *

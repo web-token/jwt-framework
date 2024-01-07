@@ -25,7 +25,6 @@ use Jose\Component\Console\RsaKeyGeneratorCommand;
 use Jose\Component\Console\RsaKeysetGeneratorCommand;
 use Jose\Component\Console\SecretKeyGeneratorCommand;
 use Jose\Component\Console\X509CertificateLoaderCommand;
-
 /*
  * The MIT License (MIT)
  *
