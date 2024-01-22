@@ -90,10 +90,14 @@ final class ECKey
         if (! extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
         }
-        $key = openssl_pkey_new([
+        $configArgs = [
             'curve_name' => self::getOpensslCurveName($curve),
             'private_key_type' => OPENSSL_KEYTYPE_EC,
-        ]);
+        ];
+        if (env('USE_OPENSSL_CONFIG_FILE')) {
+            $configArgs['config'] = env('USE_OPENSSL_CONFIG_FILE');
+        }
+        $key = openssl_pkey_new($configArgs);
         if ($key === false) {
             throw new RuntimeException('Unable to create the key');
         }
