@@ -18,15 +18,6 @@ use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use ZxcvbnPhp\Zxcvbn;

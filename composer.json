@@ -40,15 +40,7 @@
             "Jose\\Component\\Checker\\": "src/Component/Checker/",
             "Jose\\Component\\Console\\": "src/Component/Console/",
             "Jose\\Component\\Core\\": "src/Component/Core/",
-            "Jose\\Component\\Core\\Util\\Ecc\\": [
-                "src/Ecc",
-                "src/Ecc/"
-            ],
             "Jose\\Component\\Encryption\\": "src/Component/Encryption/",
-            "Jose\\Component\\Encryption\\Algorithm\\": [
-                "src/EncryptionAlgorithm/Experimental",
-                "src/EncryptionAlgorithm/Experimental/"
-            ],
             "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": [
                 "src/EncryptionAlgorithm/ContentEncryption/AESCBC",
                 "src/EncryptionAlgorithm/ContentEncryption/AESCBC/",
@@ -119,7 +111,6 @@
         "ext-curl": "*",
         "ext-gmp": "*",
         "bjeavons/zxcvbn-php": "^1.3",
-        "blackfire/php-sdk": "^2.0",
         "ekino/phpstan-banned-code": "^1.0",
         "infection/infection": "^0.27",
         "matthiasnoback/symfony-config-test": "^5.0",
@@ -134,7 +125,7 @@
         "phpstan/phpstan-strict-rules": "^1.4",
         "phpunit/phpunit": "^10.1",
         "qossmic/deptrac-shim": "^1.0",
-        "rector/rector": "^0.18",
+        "rector/rector": "^0.19",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^6.1|^7.0",
         "symfony/finder": "^6.1|^7.0",
