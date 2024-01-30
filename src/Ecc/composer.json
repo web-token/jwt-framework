@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-util-ecc",
-    "description": "ECC Tools for the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-core instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -32,17 +32,7 @@
             "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Jose\\Component\\Core\\Util\\Ecc\\": ""
-        }
-    },
     "require": {
-        "php": ">=8.1",
-        "brick/math": "^0.9|^0.10|^0.11|^0.12"
-    },
-    "suggest": {
-        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
-        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance"
+        "web-token/jwt-core": "^3.3"
     }
 }

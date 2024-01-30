@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Experimental\Signature;
 
-use Jose\Experimental\RSAPKCS1;
+use Jose\Component\Signature\Algorithm\RSAPKCS1;
 
 final class RS1 extends RSAPKCS1
 {

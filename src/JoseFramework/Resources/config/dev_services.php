@@ -8,15 +8,6 @@ use Jose\Bundle\JoseFramework\DataCollector\JoseCollector;
 use Jose\Bundle\JoseFramework\DataCollector\JWECollector;
 use Jose\Bundle\JoseFramework\DataCollector\JWSCollector;
 use Jose\Bundle\JoseFramework\DataCollector\KeyCollector;
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2020 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {

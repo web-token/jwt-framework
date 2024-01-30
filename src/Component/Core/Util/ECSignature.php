@@ -73,7 +73,9 @@ final class ECSignature
         $pointR = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
         $pointS = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
 
-        $bin = hex2bin(str_pad($pointR, $length, '0', STR_PAD_LEFT) . str_pad($pointS, $length, '0', STR_PAD_LEFT));
+        $bin = hex2bin(
+            str_pad($pointR, $length, '0', STR_PAD_LEFT) . str_pad($pointS, $length, '0', STR_PAD_LEFT)
+        );
         if (! is_string($bin)) {
             throw new InvalidArgumentException('Unable to parse the data');
         }

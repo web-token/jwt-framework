@@ -47,5 +47,9 @@
     },
     "conflict": {
         "spomky-labs/jose": "*"
+    },
+    "suggest": {
+        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance"
     }
 }

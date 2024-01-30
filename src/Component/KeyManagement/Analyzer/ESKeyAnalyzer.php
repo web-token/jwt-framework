@@ -7,20 +7,11 @@ namespace Jose\Component\KeyManagement\Analyzer;
 use Brick\Math\BigInteger;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Ecc\Curve;
-use Jose\Component\Core\Util\Ecc\NistCurve;
 use ParagonIE\ConstantTime\Base64UrlSafe;
-use RuntimeException;
 use function is_string;
 
 abstract class ESKeyAnalyzer implements KeyAnalyzer
 {
-    public function __construct()
-    {
-        if (! class_exists(NistCurve::class)) {
-            throw new RuntimeException('Please install web-token/jwt-util-ecc to use this key analyzer');
-        }
-    }
-
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
         if ($jwk->get('kty') !== 'EC') {
