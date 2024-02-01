@@ -8,8 +8,6 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\ClaimCheckerCompilerP
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\HeaderCheckerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
-use Jose\Component\Checker\ClaimCheckerManagerFactory;
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Checker\TokenTypeSupport;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
@@ -38,9 +36,6 @@ class CheckerSource implements SourceWithCompilerPasses
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $container->registerForAutoconfiguration(TokenTypeSupport::class)->addTag('jose.checker.token_type');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('checkers.php');
@@ -55,9 +50,6 @@ class CheckerSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $node->children()
             ->scalarNode('clock')
             ->defaultValue('jose.internal_clock')
@@ -79,9 +71,6 @@ class CheckerSource implements SourceWithCompilerPasses
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (! $this->isEnabled()) {
-            return [];
-        }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
@@ -99,10 +88,5 @@ class CheckerSource implements SourceWithCompilerPasses
     public function getCompilerPasses(): array
     {
         return [new ClaimCheckerCompilerPass(), new HeaderCheckerCompilerPass()];
-    }
-
-    private function isEnabled(): bool
-    {
-        return class_exists(HeaderCheckerManagerFactory::class) && class_exists(ClaimCheckerManagerFactory::class);
     }
 }

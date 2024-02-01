@@ -1,2061 +1,2066 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Invalid type object to throw\\.$#"
-			count: 3
-			path: src/Component/Checker/AudienceChecker.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\ClaimCheckerManager\\:\\:check\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/ClaimCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\ClaimCheckerManager\\:\\:check\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/ClaimCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\ClaimCheckerManager\\:\\:checkMandatoryClaims\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/ClaimCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkCriticalHeader\\(\\) has parameter \\$checkedHeaderParameters with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkCriticalHeader\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkCriticalHeader\\(\\) has parameter \\$protected with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header1 with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header2 with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkHeaders\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkHeaders\\(\\) has parameter \\$protected with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkMandatoryHeaderParameters\\(\\) has parameter \\$protected with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkMandatoryHeaderParameters\\(\\) has parameter \\$unprotected with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/HeaderCheckerManager.php
-
-		-
-			message: "#^Invalid type object to throw\\.$#"
-			count: 2
-			path: src/Component/Checker/IssuerChecker.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Checker\\\\IssuerChecker\\:\\:__construct\\(\\) has parameter \\$issuers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Checker/IssuerChecker.php
-
-		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: src/Component/Console/EcKeysetGeneratorCommand.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Console\\\\GeneratorCommand\\:\\:getOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Console/GeneratorCommand.php
-
-		-
 			message: "#^Parameter \\#1 \\$jwk of method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\KeyAnalyzerManager\\:\\:analyze\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
 			count: 1
-			path: src/Component/Console/KeysetAnalyzerCommand.php
-
-		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
-			count: 1
-			path: src/Component/Console/KeysetAnalyzerCommand.php
-
-		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Component/Console/NoneKeyGeneratorCommand.php
-
-		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: src/Component/Console/OctKeyGeneratorCommand.php
-
-		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 2
-			path: src/Component/Console/OctKeysetGeneratorCommand.php
-
-		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: src/Component/Console/OkpKeysetGeneratorCommand.php
-
-		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Component/Console/PublicKeyCommand.php
-
-		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: src/Component/Console/RsaKeyGeneratorCommand.php
-
-		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 2
-			path: src/Component/Console/RsaKeysetGeneratorCommand.php
-
-		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Component/Console/X5ULoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Core\\\\AlgorithmManager\\:\\:\\$algorithms type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/AlgorithmManager.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
-			count: 1
-			path: src/Component/Core/AlgorithmManagerFactory.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Core\\\\AlgorithmManagerFactory\\:\\:\\$algorithms type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/AlgorithmManagerFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWK\\:\\:__construct\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWK.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWK\\:\\:all\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWK.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWK\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWK.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Core\\\\JWK\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWK.php
-
-		-
-			message: "#^Class Jose\\\\Component\\\\Core\\\\JWKSet implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Instanceof between Jose\\\\Component\\\\Core\\\\JWK and Jose\\\\Component\\\\Core\\\\JWK will always evaluate to true\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:convertKeyOpsToKeyUse\\(\\) has parameter \\$key_ops with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:createFromKeyData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:doesKeySatisfyRestrictions\\(\\) has parameter \\$restrictions with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$a with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$b with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Parameter \\#1 \\$values of class Jose\\\\Component\\\\Core\\\\JWK constructor expects array, mixed given\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:\\$keys type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/JWKSet.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\ECKey\\:\\:createECKey\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/Util/ECKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\ECKey\\:\\:createECKeyUsingOpenSSL\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/Util/ECKey.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between '30' and '81' will always evaluate to false\\.$#"
-			count: 1
-			path: src/Component/Core/Util/ECSignature.php
-
-		-
-			message: "#^Binary operation \"\\^\" between string and 1 results in an error\\.$#"
-			count: 2
-			path: src/Component/Core/Util/Ecc/Curve.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/Util/RSAKey.php
-
-		-
-			message: "#^Parameter \\#1 \\$number of static method Brick\\\\Math\\\\BigInteger\\:\\:fromBase\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Component/Core/Util/RSAKey.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Core/Util/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:\\:__construct\\(\\) has parameter \\$methods with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Compression/CompressionMethodManager.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:__construct\\(\\) has parameter \\$recipients with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWE.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:__construct\\(\\) has parameter \\$sharedHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWE.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:__construct\\(\\) has parameter \\$sharedProtectedHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWE.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:getSharedHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWE.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:getSharedProtectedHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWE.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:addRecipient\\(\\) has parameter \\$recipientHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:checkAndSetContentEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header1 with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header2 with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:determineCEK\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:encryptJWE\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getCompressionMethod\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getContentEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKey\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKey\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyEncryptionAlgorithm\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyWrappingAlgorithm\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyWrappingAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getKeyEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:processRecipient\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:processRecipient\\(\\) has parameter \\$recipient with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:withSharedHeader\\(\\) has parameter \\$sharedHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:withSharedProtectedHeader\\(\\) has parameter \\$sharedProtectedHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, \\(float\\|int\\) given\\.$#"
-			count: 2
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$recipients type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$sharedHeader type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$sharedProtectedHeader type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEBuilder.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:checkCompleteHeader\\(\\) has parameter \\$completeHeaders with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decompressIfNeeded\\(\\) has parameter \\$completeHeaders with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptCEK\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptPayload\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:getContentEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:getKeyEncryptionAlgorithm\\(\\) has parameter \\$completeHeaders with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\Core\\\\Util\\\\KeyChecker\\:\\:checkKeyAlgorithm\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
-			count: 2
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\Core\\\\Util\\\\KeyChecker\\:\\:checkKeyUsage\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Parameter \\#3 \\$recipientKey of method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptCEK\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWEDecrypter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$headerCheckers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$serializers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Recipient\\:\\:__construct\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Recipient.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Recipient\\:\\:getHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Recipient.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONFlattenedSerializer\\:\\:checkData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONFlattenedSerializer\\:\\:processHeaders\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONFlattenedSerializer\\:\\:processHeaders\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
-			count: 3
-			path: src/Component/Encryption/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:checkData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processHeaders\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processHeaders\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processRecipient\\(\\) has parameter \\$recipient with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processRecipient\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
-			count: 3
-			path: src/Component/Encryption/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\Message\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/Analyzer/Message.php
-
-		-
-			message: "#^Class Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\MessageBag implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: src/Component/KeyManagement/Analyzer/MessageBag.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\MessageBag\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/Analyzer/MessageBag.php
-
-		-
-			message: "#^Cannot call method get\\(\\) on mixed\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/Analyzer/MixedKeyTypes.php
-
-		-
-			message: "#^Cannot call method get\\(\\) on mixed\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/Analyzer/MixedPublicAndPrivateKeys.php
-
-		-
-			message: "#^Cannot call method has\\(\\) on mixed\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/Analyzer/MixedPublicAndPrivateKeys.php
-
-		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
-			count: 2
-			path: src/Component/KeyManagement/Analyzer/UsageAnalyzer.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JKUFactory\\:\\:loadFromUrl\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JKUFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromCertificate\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromCertificateFile\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromKey\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromKeyFile\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromPKCS12CertificateFile\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromSecret\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromValues\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromX509Resource\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromX5C\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromX5C\\(\\) has parameter \\$x5c with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromKey\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, \\(float\\|int\\) given\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/JWKFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/ECKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:getSupportedCurves\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/ECKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:loadJWK\\(\\) has parameter \\$jwk with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/ECKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:loadPEM\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/ECKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/ECKey.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/ECKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromKey\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromKeyFile\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromX5C\\(\\) has parameter \\$x5c with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromX5C\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificateFile\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromDER\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromPEM\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromX509Resource\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:tryToLoadECKey\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:tryToLoadOtherKeyTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:createFromKeyDetails\\(\\) has parameter \\$details with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:loadJWK\\(\\) has parameter \\$jwk with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Parameter \\#1 \\$details of static method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:createFromKeyDetails\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\UrlKeySetFactory\\:\\:getContent\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/UrlKeySetFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$request of method Psr\\\\Http\\\\Client\\\\ClientInterface\\:\\:sendRequest\\(\\) expects Psr\\\\Http\\\\Message\\\\RequestInterface, Psr\\\\Http\\\\Message\\\\MessageInterface given\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/UrlKeySetFactory.php
-
-		-
-			message: "#^Cannot cast mixed to string\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/X5UFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\X5UFactory\\:\\:loadFromUrl\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/X5UFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$certificate of static method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificate\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Component/KeyManagement/X5UFactory.php
-
-		-
-			message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Component/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Component/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Component/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Component/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: src/Component/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
-			count: 1
-			path: src/Component/Signature/JWS.php
-
-		-
-			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
-			count: 1
-			path: src/Component/Signature/JWS.php
-
-		-
-			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
-			count: 1
-			path: src/Component/Signature/JWSBuilder.php
-
-		-
-			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
-			count: 1
-			path: src/Component/Signature/JWSBuilder.php
-
-		-
-			message: "#^Parameter \\#1 \\$algorithm of method Jose\\\\Component\\\\Core\\\\AlgorithmManager\\:\\:get\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/JWSVerifier.php
-
-		-
-			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/JWSVerifier.php
-
-		-
-			message: "#^Parameter \\#1 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\Serializer\\:\\:isPayloadEncoded\\(\\) expects array\\<string, mixed\\>, array given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/CompactSerializer.php
-
-		-
-			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/CompactSerializer.php
-
-		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Parameter \\#1 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\Serializer\\:\\:isPayloadEncoded\\(\\) expects array\\<string, mixed\\>, array given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Cannot access offset 'signature' on mixed\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#1 \\$signature of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processHeaders\\(\\) expects array\\{protected\\?\\: string, header\\?\\: array\\<string, mixed\\>\\}, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processIsPayloadEncoded\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#3 \\$encodedProtectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects string\\|null, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
-			count: 1
-			path: src/Component/Signature/Serializer/JSONGeneralSerializer.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
-			count: 1
-			path: src/EncryptionAlgorithm/ContentEncryption/AESCBC/AESCBCHS.php
-
-		-
-			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
-			count: 1
-			path: src/EncryptionAlgorithm/KeyEncryption/ECDHES/AbstractECDH.php
-
-		-
-			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
-			count: 1
-			path: src/EncryptionAlgorithm/KeyEncryption/PBES2/PBES2AESKW.php
-
-		-
-			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
-			count: 2
-			path: src/EncryptionAlgorithm/KeyEncryption/RSA/Util/RSACrypt.php
-
-		-
-			message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
-			count: 2
-			path: src/EncryptionAlgorithm/KeyEncryption/RSA/Util/RSACrypt.php
-
-		-
-			message: "#^Parameter \\#1 \\$jwk of method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\KeyAnalyzerManager\\:\\:analyze\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
-			count: 1
-			path: src/JoseFramework/DataCollector/KeyCollector.php
+			path: src/Bundle/DataCollector/KeyCollector.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\JoseFrameworkExtension\\:\\:getConfiguration\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/JoseFrameworkExtension.php
+			path: src/Bundle/DependencyInjection/JoseFrameworkExtension.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\JoseFrameworkExtension\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/JoseFrameworkExtension.php
-
-		-
-			message: "#^Parameter \\#1 \\$configs \\(array\\<array\\>\\) of method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\JoseFrameworkExtension\\:\\:load\\(\\) should be contravariant with parameter \\$configs \\(array\\) of method Symfony\\\\Component\\\\DependencyInjection\\\\Extension\\\\ExtensionInterface\\:\\:load\\(\\)$#"
-			count: 2
-			path: src/JoseFramework/DependencyInjection/JoseFrameworkExtension.php
+			path: src/Bundle/DependencyInjection/JoseFrameworkExtension.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/AbstractSource.php
+			path: src/Bundle/DependencyInjection/Source/AbstractSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\AbstractSource\\:\\:create\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/AbstractSource.php
+			path: src/Bundle/DependencyInjection/Source/AbstractSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 2
-			path: src/JoseFramework/DependencyInjection/Source/Checker/CheckerSource.php
+			path: src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\CheckerSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/CheckerSource.php
+			path: src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\CheckerSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/CheckerSource.php
+			path: src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\CheckerSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/CheckerSource.php
+			path: src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/ClaimChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\ClaimChecker\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/ClaimChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\ClaimChecker\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/ClaimChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\ClaimChecker\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/ClaimChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/HeaderChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\HeaderChecker\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/HeaderChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\HeaderChecker\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/HeaderChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Checker\\\\HeaderChecker\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Checker/HeaderChecker.php
+			path: src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Console\\\\ConsoleSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Console/ConsoleSource.php
+			path: src/Bundle/DependencyInjection/Source/Console/ConsoleSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Console\\\\ConsoleSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Console/ConsoleSource.php
+			path: src/Bundle/DependencyInjection/Source/Console/ConsoleSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Console\\\\ConsoleSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Console/ConsoleSource.php
+			path: src/Bundle/DependencyInjection/Source/Console/ConsoleSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Core\\\\CoreSource\\:\\:load\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Core/CoreSource.php
+			path: src/Bundle/DependencyInjection/Source/Core/CoreSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Core\\\\CoreSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Core/CoreSource.php
+			path: src/Bundle/DependencyInjection/Source/Core/CoreSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Core\\\\CoreSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Core/CoreSource.php
+			path: src/Bundle/DependencyInjection/Source/Core/CoreSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\AbstractEncryptionSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\AbstractEncryptionSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\A128CTR not found\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Chacha20Poly1305 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\EncryptionSource\\:\\:getAlgorithmsFiles\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\EncryptionSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\EncryptionSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\EncryptionSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/EncryptionSource.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWEBuilder\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWEBuilder.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWEBuilder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWEDecrypter\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWEDecrypter.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWEDecrypter.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWELoader.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWELoader\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWELoader.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWELoader\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWELoader.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWELoader\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWELoader.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWESerializer.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWESerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWESerializer\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWESerializer.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWESerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWESerializer\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWESerializer.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWESerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Encryption\\\\JWESerializer\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Encryption/JWESerializer.php
+			path: src/Bundle/DependencyInjection/Source/Encryption/JWESerializer.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JKUSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JKUSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JKUSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JKUSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JKUSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JKUSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JKUSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKSetSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKSetSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKSetSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource/JKU.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JKU.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource/JWKSet.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JWKSet.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource/X5U.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/X5U.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/CertificateFile.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/CertificateFile.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/JWK.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWK.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
 
 		-
 			message: "#^Parameter \\#1 \\$id of class Symfony\\\\Component\\\\DependencyInjection\\\\Reference constructor expects string, mixed given\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/KeyFile.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/KeyFile.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/P12.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/P12.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/Secret.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/Secret.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/Values.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/Values.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource/X5C.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/X5C.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKUriSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKUriSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKUriSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKUriSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKUriSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKUriSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKUriSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKUriSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\JWKUriSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/JWKUriSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/JWKUriSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\KeyManagementSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/KeyManagementSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/KeyManagementSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\KeyManagementSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/KeyManagementSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/KeyManagementSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\KeyManagement\\\\KeyManagementSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/KeyManagement/KeyManagementSource.php
+			path: src/Bundle/DependencyInjection/Source/KeyManagement/KeyManagementSource.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedToken.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedToken\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedToken.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedToken\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedToken.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedToken\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedToken.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedTokenBuilder\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedTokenBuilder\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedTokenBuilder\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedTokenLoader\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedTokenLoader\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\NestedToken\\\\NestedTokenLoader\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/AbstractSignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\AbstractSignatureSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/AbstractSignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\AbstractSignatureSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/AbstractSignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSBuilder\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSBuilder.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSBuilder.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSLoader.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSLoader\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSLoader.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSLoader\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSLoader.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSLoader\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSLoader.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSSerializer.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSSerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSSerializer\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSSerializer.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSSerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSSerializer\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSSerializer.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSSerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSSerializer\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSSerializer.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSSerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\JWSVerifier\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/JWSVerifier.php
+			path: src/Bundle/DependencyInjection/Source/Signature/JWSVerifier.php
 
 		-
 			message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition\\:\\:children\\(\\)\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/SignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Signature\\\\Algorithm\\\\HS1 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/SignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\SignatureSource\\:\\:getAlgorithmsFiles\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/SignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\SignatureSource\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/SignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\SignatureSource\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/SignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Signature\\\\SignatureSource\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Signature/SignatureSource.php
+			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Source\\:\\:load\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Source.php
+			path: src/Bundle/DependencyInjection/Source/Source.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Source\\:\\:prepend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Source.php
+			path: src/Bundle/DependencyInjection/Source/Source.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\Source\\\\Source\\:\\:prepend\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/DependencyInjection/Source/Source.php
+			path: src/Bundle/DependencyInjection/Source/Source.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of static method Jose\\\\Component\\\\Core\\\\JWK\\:\\:createFromJson\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Bundle/EnvVarProcessor/KeyEnvVarProcessor.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of static method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:createFromJson\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Bundle/EnvVarProcessor/KeyEnvVarProcessor.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedFailureEvent\\:\\:__construct\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedFailureEvent.php
+			path: src/Bundle/Event/ClaimCheckedFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedFailureEvent\\:\\:__construct\\(\\) has parameter \\$mandatoryClaims with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedFailureEvent.php
+			path: src/Bundle/Event/ClaimCheckedFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedFailureEvent\\:\\:getClaims\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedFailureEvent.php
+			path: src/Bundle/Event/ClaimCheckedFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedFailureEvent\\:\\:getMandatoryClaims\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedFailureEvent.php
+			path: src/Bundle/Event/ClaimCheckedFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedSuccessEvent\\:\\:__construct\\(\\) has parameter \\$checkedClaims with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedSuccessEvent.php
+			path: src/Bundle/Event/ClaimCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedSuccessEvent\\:\\:__construct\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedSuccessEvent.php
+			path: src/Bundle/Event/ClaimCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedSuccessEvent\\:\\:__construct\\(\\) has parameter \\$mandatoryClaims with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedSuccessEvent.php
+			path: src/Bundle/Event/ClaimCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedSuccessEvent\\:\\:getCheckedClaims\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedSuccessEvent.php
+			path: src/Bundle/Event/ClaimCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedSuccessEvent\\:\\:getClaims\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedSuccessEvent.php
+			path: src/Bundle/Event/ClaimCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\ClaimCheckedSuccessEvent\\:\\:getMandatoryClaims\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/ClaimCheckedSuccessEvent.php
+			path: src/Bundle/Event/ClaimCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\HeaderCheckedFailureEvent\\:\\:__construct\\(\\) has parameter \\$mandatoryHeaderParameters with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/HeaderCheckedFailureEvent.php
+			path: src/Bundle/Event/HeaderCheckedFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\HeaderCheckedFailureEvent\\:\\:getMandatoryHeaderParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/HeaderCheckedFailureEvent.php
+			path: src/Bundle/Event/HeaderCheckedFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\HeaderCheckedSuccessEvent\\:\\:__construct\\(\\) has parameter \\$mandatoryHeaderParameters with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/HeaderCheckedSuccessEvent.php
+			path: src/Bundle/Event/HeaderCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\HeaderCheckedSuccessEvent\\:\\:getMandatoryHeaderParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/HeaderCheckedSuccessEvent.php
+			path: src/Bundle/Event/HeaderCheckedSuccessEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWEBuiltFailureEvent\\:\\:__construct\\(\\) has parameter \\$recipients with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWEBuiltFailureEvent.php
+			path: src/Bundle/Event/JWEBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWEBuiltFailureEvent\\:\\:__construct\\(\\) has parameter \\$sharedHeader with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWEBuiltFailureEvent.php
+			path: src/Bundle/Event/JWEBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWEBuiltFailureEvent\\:\\:__construct\\(\\) has parameter \\$sharedProtectedHeader with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWEBuiltFailureEvent.php
+			path: src/Bundle/Event/JWEBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWEBuiltFailureEvent\\:\\:getRecipients\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWEBuiltFailureEvent.php
+			path: src/Bundle/Event/JWEBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWEBuiltFailureEvent\\:\\:getSharedHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWEBuiltFailureEvent.php
+			path: src/Bundle/Event/JWEBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWEBuiltFailureEvent\\:\\:getSharedProtectedHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWEBuiltFailureEvent.php
+			path: src/Bundle/Event/JWEBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWSBuiltFailureEvent\\:\\:__construct\\(\\) has parameter \\$signatures with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWSBuiltFailureEvent.php
+			path: src/Bundle/Event/JWSBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWSBuiltFailureEvent\\:\\:getSignatures\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Event/JWSBuiltFailureEvent.php
+			path: src/Bundle/Event/JWSBuiltFailureEvent.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addClaimChecker\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addHeaderChecker\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$keyEncryptionAlgorithm with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$keyEncryptionAlgorithm with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWELoader\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWESerializer\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWSBuilder\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWSLoader\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWSSerializer\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWSVerifier\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addKey\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addKey\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addKeyUri\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addKeyUri\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addKeyset\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addKeyset\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addNestedTokenBuilder\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addNestedTokenLoader\\(\\) has parameter \\$tags with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:updateJoseConfiguration\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Parameter \\#1 \\.\\.\\.\\$arrays of function array_merge expects array, mixed given\\.$#"
 			count: 1
-			path: src/JoseFramework/Helper/ConfigurationHelper.php
+			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A128CCM_16_128 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A128CCM_16_64 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A128CCM_64_128 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A128CCM_64_64 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A256CCM_16_128 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A256CCM_16_64 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A256CCM_64_128 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\A256CCM_64_64 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\A128CTR not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\A192CTR not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\A256CTR not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\RSAOAEP384 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\RSAOAEP512 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\KeyEncryption\\\\Chacha20Poly1305 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/encryption_experimental_chacha20_poly1305.php
+			path: src/Bundle/Resources/config/Algorithms/encryption_experimental_chacha20_poly1305.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Signature\\\\Algorithm\\\\Blake2b not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/signature_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Signature\\\\Algorithm\\\\ES256K not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/signature_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Signature\\\\Algorithm\\\\HS1 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/signature_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Signature\\\\Algorithm\\\\HS256_64 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/signature_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Component\\\\Signature\\\\Algorithm\\\\RS1 not found\\.$#"
 			count: 1
-			path: src/JoseFramework/Resources/config/Algorithms/signature_experimental.php
+			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
 
 		-
 			message: "#^Class Jose\\\\Bundle\\\\JoseFramework\\\\Routing\\\\JWKSetLoader has an uninitialized property \\$resolver\\. Give it default value or assign it in the constructor\\.$#"
 			count: 1
-			path: src/JoseFramework/Routing/JWKSetLoader.php
+			path: src/Bundle/Routing/JWKSetLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWEEncoder\\:\\:decode\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWEEncoder.php
+			path: src/Bundle/Serializer/JWEEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWEEncoder\\:\\:encode\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWEEncoder.php
+			path: src/Bundle/Serializer/JWEEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWEEncoder\\:\\:getRecipientIndex\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWEEncoder.php
+			path: src/Bundle/Serializer/JWEEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWEEncoder\\:\\:supportsDecoding\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWEEncoder.php
+			path: src/Bundle/Serializer/JWEEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWEEncoder\\:\\:supportsEncoding\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWEEncoder.php
+			path: src/Bundle/Serializer/JWEEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWESerializer\\:\\:denormalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWESerializer.php
+			path: src/Bundle/Serializer/JWESerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWESerializer\\:\\:getSupportedTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWESerializer.php
+			path: src/Bundle/Serializer/JWESerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWESerializer\\:\\:supportsDenormalization\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWESerializer.php
+			path: src/Bundle/Serializer/JWESerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSEncoder\\:\\:decode\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSEncoder.php
+			path: src/Bundle/Serializer/JWSEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSEncoder\\:\\:encode\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSEncoder.php
+			path: src/Bundle/Serializer/JWSEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSEncoder\\:\\:getSignatureIndex\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSEncoder.php
+			path: src/Bundle/Serializer/JWSEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSEncoder\\:\\:supportsDecoding\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSEncoder.php
+			path: src/Bundle/Serializer/JWSEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSEncoder\\:\\:supportsEncoding\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSEncoder.php
+			path: src/Bundle/Serializer/JWSEncoder.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSSerializer\\:\\:denormalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSSerializer.php
+			path: src/Bundle/Serializer/JWSSerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSSerializer\\:\\:getSupportedTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSSerializer.php
+			path: src/Bundle/Serializer/JWSSerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSSerializer\\:\\:supportsDenormalization\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Serializer/JWSSerializer.php
+			path: src/Bundle/Serializer/JWSSerializer.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\ClaimCheckerManager\\:\\:check\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/ClaimCheckerManager.php
+			path: src/Bundle/Services/ClaimCheckerManager.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\ClaimCheckerManager\\:\\:check\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/ClaimCheckerManager.php
+			path: src/Bundle/Services/ClaimCheckerManager.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWEDecrypterFactory.php
+			path: src/Bundle/Services/JWEDecrypterFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWEDecrypterFactory.php
+			path: src/Bundle/Services/JWEDecrypterFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWEDecrypterFactory.php
+			path: src/Bundle/Services/JWEDecrypterFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWELoaderFactory.php
+			path: src/Bundle/Services/JWELoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWELoaderFactory.php
+			path: src/Bundle/Services/JWELoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$headerCheckers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWELoaderFactory.php
+			path: src/Bundle/Services/JWELoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWELoaderFactory.php
+			path: src/Bundle/Services/JWELoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$serializers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWELoaderFactory.php
+			path: src/Bundle/Services/JWELoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWSLoaderFactory\\:\\:create\\(\\) has parameter \\$algorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWSLoaderFactory.php
+			path: src/Bundle/Services/JWSLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWSLoaderFactory\\:\\:create\\(\\) has parameter \\$headerCheckers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWSLoaderFactory.php
+			path: src/Bundle/Services/JWSLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWSLoaderFactory\\:\\:create\\(\\) has parameter \\$serializers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWSLoaderFactory.php
+			path: src/Bundle/Services/JWSLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWSVerifierFactory\\:\\:create\\(\\) has parameter \\$algorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/JWSVerifierFactory.php
+			path: src/Bundle/Services/JWSVerifierFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenBuilderFactory.php
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenBuilderFactory.php
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$jwe_serializers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenBuilderFactory.php
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$jws_serializers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenBuilderFactory.php
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenBuilderFactory.php
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$signatureAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenBuilderFactory.php
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jweHeaderCheckers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jweSerializers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jwsHeaderCheckers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jwsSerializers with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$signatureAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/JoseFramework/Services/NestedTokenLoaderFactory.php
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
+			message: "#^Invalid type object to throw\\.$#"
+			count: 3
+			path: src/Library/Checker/AudienceChecker.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\ClaimCheckerManager\\:\\:check\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/SignatureAlgorithm/None/None.php
+			path: src/Library/Checker/ClaimCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\ClaimCheckerManager\\:\\:check\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/ClaimCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\ClaimCheckerManager\\:\\:checkMandatoryClaims\\(\\) has parameter \\$claims with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/ClaimCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkCriticalHeader\\(\\) has parameter \\$checkedHeaderParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkCriticalHeader\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkCriticalHeader\\(\\) has parameter \\$protected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header1 with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header2 with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkHeaders\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkHeaders\\(\\) has parameter \\$protected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkMandatoryHeaderParameters\\(\\) has parameter \\$protected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\HeaderCheckerManager\\:\\:checkMandatoryHeaderParameters\\(\\) has parameter \\$unprotected with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/HeaderCheckerManager.php
+
+		-
+			message: "#^Invalid type object to throw\\.$#"
+			count: 2
+			path: src/Library/Checker/IssuerChecker.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Checker\\\\IssuerChecker\\:\\:__construct\\(\\) has parameter \\$issuers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Checker/IssuerChecker.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Library/Console/EcKeysetGeneratorCommand.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Console\\\\GeneratorCommand\\:\\:getOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Console/GeneratorCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$jwk of method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\KeyAnalyzerManager\\:\\:analyze\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Library/Console/KeysetAnalyzerCommand.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: src/Library/Console/KeysetAnalyzerCommand.php
+
+		-
+			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
+			count: 1
+			path: src/Library/Console/NoneKeyGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Library/Console/OctKeyGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: src/Library/Console/OctKeysetGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Library/Console/OkpKeysetGeneratorCommand.php
+
+		-
+			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
+			count: 1
+			path: src/Library/Console/PublicKeyCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: src/Library/Console/RsaKeyGeneratorCommand.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: src/Library/Console/RsaKeysetGeneratorCommand.php
+
+		-
+			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
+			count: 1
+			path: src/Library/Console/X5ULoaderCommand.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Core\\\\AlgorithmManager\\:\\:\\$algorithms type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/AlgorithmManager.php
+
+		-
+			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
+			count: 1
+			path: src/Library/Core/AlgorithmManagerFactory.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Core\\\\AlgorithmManagerFactory\\:\\:\\$algorithms type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/AlgorithmManagerFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWK\\:\\:__construct\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWK.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWK\\:\\:all\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWK.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWK\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWK.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Core\\\\JWK\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWK.php
+
+		-
+			message: "#^Class Jose\\\\Component\\\\Core\\\\JWKSet implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Instanceof between Jose\\\\Component\\\\Core\\\\JWK and Jose\\\\Component\\\\Core\\\\JWK will always evaluate to true\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:convertKeyOpsToKeyUse\\(\\) has parameter \\$key_ops with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:createFromKeyData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:doesKeySatisfyRestrictions\\(\\) has parameter \\$restrictions with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$a with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:sortKeys\\(\\) has parameter \\$b with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Only numeric types are allowed in \\+, int\\|true given on the right side\\.$#"
+			count: 2
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Parameter \\#1 \\$values of class Jose\\\\Component\\\\Core\\\\JWK constructor expects array, mixed given\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:\\$keys type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\ECKey\\:\\:createECKey\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/Util/ECKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\ECKey\\:\\:createECKeyUsingOpenSSL\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/Util/ECKey.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between '30' and '81' will always evaluate to false\\.$#"
+			count: 1
+			path: src/Library/Core/Util/ECSignature.php
+
+		-
+			message: "#^Binary operation \"\\^\" between string and 1 results in an error\\.$#"
+			count: 2
+			path: src/Library/Core/Util/Ecc/Curve.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/Util/RSAKey.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of static method Brick\\\\Math\\\\BigInteger\\:\\:fromBase\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Library/Core/Util/RSAKey.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Core/Util/RSAKey.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
+			count: 1
+			path: src/Library/Encryption/Algorithm/ContentEncryption/AESCBCHS.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+			count: 1
+			path: src/Library/Encryption/Algorithm/KeyEncryption/AbstractECDH.php
 
 		-
 			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
 			count: 1
-			path: src/SignatureAlgorithm/RSA/Util/RSA.php
+			path: src/Library/Encryption/Algorithm/KeyEncryption/PBES2AESKW.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+			count: 2
+			path: src/Library/Encryption/Algorithm/KeyEncryption/Util/RSACrypt.php
 
 		-
 			message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
 			count: 2
-			path: src/SignatureAlgorithm/RSA/Util/RSA.php
+			path: src/Library/Encryption/Algorithm/KeyEncryption/Util/RSACrypt.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:\\:__construct\\(\\) has parameter \\$methods with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Compression/CompressionMethodManager.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:__construct\\(\\) has parameter \\$recipients with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWE.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:__construct\\(\\) has parameter \\$sharedHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWE.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:__construct\\(\\) has parameter \\$sharedProtectedHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWE.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:getSharedHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWE.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:getSharedProtectedHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWE.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:addRecipient\\(\\) has parameter \\$recipientHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:checkAndSetContentEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header1 with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:checkDuplicatedHeaderParameters\\(\\) has parameter \\$header2 with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:determineCEK\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:encryptJWE\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getCompressionMethod\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getContentEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKey\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKey\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyAgreementAndKeyWrappingAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyEncryptionAlgorithm\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyWrappingAlgorithm\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getEncryptedKeyFromKeyWrappingAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getKeyEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:processRecipient\\(\\) has parameter \\$additionalHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:processRecipient\\(\\) has parameter \\$recipient with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:withSharedHeader\\(\\) has parameter \\$sharedHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:withSharedProtectedHeader\\(\\) has parameter \\$sharedProtectedHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, \\(float\\|int\\) given\\.$#"
+			count: 2
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$recipients type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$sharedHeader type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$sharedProtectedHeader type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:checkCompleteHeader\\(\\) has parameter \\$completeHeaders with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decompressIfNeeded\\(\\) has parameter \\$completeHeaders with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptCEK\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptPayload\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:getContentEncryptionAlgorithm\\(\\) has parameter \\$completeHeader with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:getKeyEncryptionAlgorithm\\(\\) has parameter \\$completeHeaders with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\Core\\\\Util\\\\KeyChecker\\:\\:checkKeyAlgorithm\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 2
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\Core\\\\Util\\\\KeyChecker\\:\\:checkKeyUsage\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Parameter \\#3 \\$recipientKey of method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptCEK\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWELoaderFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWELoaderFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$headerCheckers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWELoaderFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWELoaderFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$serializers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWELoaderFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Recipient\\:\\:__construct\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Recipient.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Recipient\\:\\:getHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Recipient.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONFlattenedSerializer\\:\\:checkData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONFlattenedSerializer\\:\\:processHeaders\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONFlattenedSerializer\\:\\:processHeaders\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			count: 3
+			path: src/Library/Encryption/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:checkData\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processHeaders\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processHeaders\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processRecipient\\(\\) has parameter \\$recipient with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processRecipient\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			count: 3
+			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\Message\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/Message.php
+
+		-
+			message: "#^Class Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\MessageBag implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/MessageBag.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\MessageBag\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/MessageBag.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/MixedKeyTypes.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/MixedPublicAndPrivateKeys.php
+
+		-
+			message: "#^Cannot call method has\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/MixedPublicAndPrivateKeys.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 2
+			path: src/Library/KeyManagement/Analyzer/UsageAnalyzer.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JKUFactory\\:\\:loadFromUrl\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JKUFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromCertificate\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromCertificateFile\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromKey\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromKeyFile\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromPKCS12CertificateFile\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromSecret\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromValues\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromX509Resource\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromX5C\\(\\) has parameter \\$additional_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromX5C\\(\\) has parameter \\$x5c with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of static method Jose\\\\Component\\\\KeyManagement\\\\JWKFactory\\:\\:createFromKey\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, \\(float\\|int\\) given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/JWKFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/ECKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:getSupportedCurves\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/ECKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:loadJWK\\(\\) has parameter \\$jwk with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/ECKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:loadPEM\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/ECKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/ECKey.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/ECKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromKey\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromKeyFile\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromX5C\\(\\) has parameter \\$x5c with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromX5C\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificate\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificateFile\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromDER\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromPEM\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromX509Resource\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:tryToLoadECKey\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:tryToLoadOtherKeyTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:createFromKeyDetails\\(\\) has parameter \\$details with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:loadJWK\\(\\) has parameter \\$jwk with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			message: "#^Parameter \\#1 \\$details of static method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:createFromKeyDetails\\(\\) expects array, mixed given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			message: "#^Property Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\UrlKeySetFactory\\:\\:getContent\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/X5UFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\X5UFactory\\:\\:loadFromUrl\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/X5UFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$certificate of static method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificate\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/X5UFactory.php
+
+		-
+			message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
+			count: 1
+			path: src/Library/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
+			count: 1
+			path: src/Library/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
+			count: 1
+			path: src/Library/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
+			count: 1
+			path: src/Library/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Result of \\|\\| is always false\\.$#"
+			count: 2
+			path: src/Library/NestedToken/NestedTokenBuilder.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
+			count: 1
+			path: src/Library/Signature/Algorithm/None.php
+
+		-
+			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: src/Library/Signature/Algorithm/Util/RSA.php
+
+		-
+			message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
+			count: 2
+			path: src/Library/Signature/Algorithm/Util/RSA.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Library/Signature/JWS.php
+
+		-
+			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Library/Signature/JWS.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Library/Signature/JWSBuilder.php
+
+		-
+			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Library/Signature/JWSBuilder.php
+
+		-
+			message: "#^Parameter \\#1 \\$algorithm of method Jose\\\\Component\\\\Core\\\\AlgorithmManager\\:\\:get\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/JWSVerifier.php
+
+		-
+			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/JWSVerifier.php
+
+		-
+			message: "#^Parameter \\#1 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\Serializer\\:\\:isPayloadEncoded\\(\\) expects array\\<string, mixed\\>, array given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/CompactSerializer.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/CompactSerializer.php
+
+		-
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Parameter \\#1 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\Serializer\\:\\:isPayloadEncoded\\(\\) expects array\\<string, mixed\\>, array given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONFlattenedSerializer.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Cannot access offset 'signature' on mixed\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#1 \\$signature of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processHeaders\\(\\) expects array\\{protected\\?\\: string, header\\?\\: array\\<string, mixed\\>\\}, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\JSONGeneralSerializer\\:\\:processIsPayloadEncoded\\(\\) expects array\\<string, mixed\\>, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#3 \\$encodedProtectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects string\\|null, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
+
+		-
+			message: "#^Parameter \\#4 \\$header of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, mixed given\\.$#"
+			count: 1
+			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php

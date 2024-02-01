@@ -13,8 +13,6 @@ use Jose\Component\Signature\Algorithm\HMAC;
 use Jose\Component\Signature\Algorithm\HS1;
 use Jose\Component\Signature\Algorithm\None;
 use Jose\Component\Signature\Algorithm\RSAPSS;
-use Jose\Component\Signature\JWSBuilderFactory;
-use Jose\Component\Signature\JWSVerifierFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -43,9 +41,6 @@ class SignatureSource implements SourceWithCompilerPasses
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $container->registerForAutoconfiguration(\Jose\Component\Signature\Serializer\JWSSerializer::class)->addTag(
             'jose.jws.serializer'
         );
@@ -69,9 +64,6 @@ class SignatureSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $childNode = $node->children()
             ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
@@ -85,9 +77,6 @@ class SignatureSource implements SourceWithCompilerPasses
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (! $this->isEnabled()) {
-            return [];
-        }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
@@ -122,10 +111,5 @@ class SignatureSource implements SourceWithCompilerPasses
         }
 
         return $algorithms;
-    }
-
-    private function isEnabled(): bool
-    {
-        return class_exists(JWSBuilderFactory::class) && class_exists(JWSVerifierFactory::class);
     }
 }

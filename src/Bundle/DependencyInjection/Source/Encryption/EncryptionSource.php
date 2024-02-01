@@ -18,8 +18,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
-use Jose\Component\Encryption\JWEBuilderFactory;
-use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\Serializer\JWESerializer as JWESerializerAlias;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
@@ -49,9 +47,6 @@ class EncryptionSource implements SourceWithCompilerPasses
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $container->registerForAutoconfiguration(JWESerializerAlias::class)->addTag('jose.jwe.serializer');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('jwe_services.php');
@@ -74,9 +69,6 @@ class EncryptionSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $childNode = $node->children()
             ->arrayNode($this->name())
             ->addDefaultsIfNotSet()
@@ -90,9 +82,6 @@ class EncryptionSource implements SourceWithCompilerPasses
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (! $this->isEnabled()) {
-            return [];
-        }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
@@ -130,10 +119,5 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
 
         return $list;
-    }
-
-    private function isEnabled(): bool
-    {
-        return class_exists(JWEBuilderFactory::class) && class_exists(JWEDecrypterFactory::class);
     }
 }
