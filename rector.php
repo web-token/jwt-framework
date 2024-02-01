@@ -36,7 +36,7 @@ return static function (RectorConfig $config): void {
     ]);
     $config->skip([
         PreferPHPUnitThisCallRector::class => __DIR__ . '/tests',
-        __DIR__ . '/src/Component/Core/JWKSet.php',
+        __DIR__ . '/src/Library/Core/JWKSet.php',
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',
     ]);

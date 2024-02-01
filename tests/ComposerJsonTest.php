@@ -8,7 +8,6 @@ use DirectoryIterator;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Traversable;
-use function in_array;
 use const JSON_THROW_ON_ERROR;
 
 /**
@@ -28,7 +27,6 @@ final class ComposerJsonTest extends TestCase
         $rootDependencies = $this->getComposerDependencies(__DIR__ . '/../composer.json');
 
         foreach ($this->listSubPackages() as $package) {
-            dump($package);
             $packageDependencies = $this->getComposerDependencies($package . '/composer.json');
             foreach ($packageDependencies as $dependency => $version) {
                 // Skip web-auth/* dependencies
@@ -76,19 +74,13 @@ final class ComposerJsonTest extends TestCase
 
     private function listSubPackages(?string $path = self::SRC_DIR): Traversable
     {
-        $packageFolders = [
-            'Bundle',
-            'Deprecated',
-            'EncryptionAlgorithm',
-            'ContentEncryption',
-            'KeyEncryption',
-            'SignatureAlgorithm',
-        ];
         foreach (new DirectoryIterator($path) as $dirInfo) {
-            if (in_array($dirInfo->getFilename(), $packageFolders, true)) {
+            if ($dirInfo->getFilename() === 'composer.json') {
+                yield $dirInfo->getPath();
+            } elseif ($dirInfo->isDir() && $dirInfo->isDot()) {
+                continue;
+            } elseif ($dirInfo->isDir()) {
                 yield from $this->listSubPackages($dirInfo->getRealPath());
-            } elseif ($dirInfo->isDir() && ! $dirInfo->isDot() && $dirInfo->getFilename() !== '.github') {
-                yield $dirInfo->getRealPath();
             }
         }
     }
