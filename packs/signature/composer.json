@@ -2,13 +2,9 @@
     "name": "web-token/signature-pack",
     "type": "symfony-pack",
     "license": "MIT",
-    "description": "A pack with all signature algorithms for the web-token/jwt-signature package",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "require": {
-        "web-token/jwt-signature-algorithm-ecdsa": "^3.2",
-        "web-token/jwt-signature-algorithm-eddsa": "^3.2",
-        "web-token/jwt-signature-algorithm-none": "^3.2",
-        "web-token/jwt-signature-algorithm-hmac": "^3.2",
-        "web-token/jwt-signature-algorithm-rsa": "^3.2",
-        "web-token/jwt-signature-algorithm-experimental": "^3.2"
+        "web-token/jwt-library": "^3.3",
+        "web-token/jwt-experimental": "^3.3"
     }
 }
