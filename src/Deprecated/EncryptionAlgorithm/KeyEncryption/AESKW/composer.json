@@ -33,6 +33,8 @@
         }
     ],
     "require": {
+        "ext-openssl": "*",
+        "spomky-labs/aes-key-wrap": "^7.0",
         "web-token/jwt-library": "^3.3"
     }
 }

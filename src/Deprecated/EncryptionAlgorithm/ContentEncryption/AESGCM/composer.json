@@ -33,6 +33,7 @@
         }
     ],
     "require": {
+        "ext-openssl": "*",
         "web-token/jwt-library": "^3.3"
     }
 }

@@ -33,6 +33,7 @@
         }
     ],
     "require": {
+        "ext-sodium": "*",
         "web-token/jwt-library": "^3.3"
     }
 }
