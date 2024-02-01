@@ -18,6 +18,8 @@ use function extension_loaded;
 use function in_array;
 use function is_array;
 use function is_string;
+use const E_ERROR;
+use const E_PARSE;
 use const OPENSSL_KEYTYPE_EC;
 use const OPENSSL_KEYTYPE_RSA;
 use const OPENSSL_RAW_DATA;
@@ -48,6 +50,7 @@ final class KeyConverter
             throw new RuntimeException('Please install the OpenSSL extension');
         }
 
+        $errorReporting = error_reporting(E_ERROR | E_PARSE);
         try {
             $res = openssl_x509_read($certificate);
             if ($res === false) {
@@ -56,6 +59,8 @@ final class KeyConverter
         } catch (Throwable) {
             $certificate = self::convertDerToPem($certificate);
             $res = openssl_x509_read($certificate);
+        } finally {
+            error_reporting($errorReporting);
         }
         if ($res === false) {
             throw new InvalidArgumentException('Unable to load the certificate.');
