@@ -51,14 +51,12 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
-        "ext-sodium": "*",
         "brick/math": "^0.9|^0.10|^0.11|^0.12",
         "paragonie/constant_time_encoding": "^2.6",
         "psr/clock": "^1.0",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "spomky-labs/aes-key-wrap": "^7.0",
         "spomky-labs/pki-framework": "^1.0",
         "symfony/config": "^5.4|^6.0|^7.0",
         "symfony/console": "^5.4|^6.0|^7.0",
@@ -87,6 +85,7 @@
         "qossmic/deptrac-shim": "^1.0",
         "rector/rector": "^0.19",
         "roave/security-advisories": "dev-latest",
+        "spomky-labs/aes-key-wrap": "^7.0",
         "symfony/browser-kit": "^6.1|^7.0",
         "symfony/finder": "^6.1|^7.0",
         "symfony/framework-bundle": "^6.1|^7.0",
@@ -135,7 +134,8 @@
         "php-http/httplug-bundle": "To enable JKU/X5U support.",
         "php-http/message-factory": "To enable JKU/X5U support.",
         "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
-        "symfony/var-dumper": "Used to show data on the debug toolbar."
+        "symfony/var-dumper": "Used to show data on the debug toolbar.",
+        "spomky-labs/aes-key-wrap": "To enable AES Key Wrap algorithm."
     },
     "conflict": {
         "spomky-labs/jose": "*"
