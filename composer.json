@@ -37,27 +37,7 @@
             "Jose\\": "src/",
             "Jose\\Bundle\\JoseFramework\\": "src/JoseFramework/",
             "Jose\\Experimental\\": "src/Experimental/",
-            "Jose\\Component\\": "src/Component/",
-            "Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\": [
-                "src/EncryptionAlgorithm/ContentEncryption/AESCBC",
-                "src/EncryptionAlgorithm/ContentEncryption/AESGCM"
-            ],
-            "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": [
-                "src/EncryptionAlgorithm/KeyEncryption/AESGCMKW",
-                "src/EncryptionAlgorithm/KeyEncryption/AESKW",
-                "src/EncryptionAlgorithm/KeyEncryption/Direct",
-                "src/EncryptionAlgorithm/KeyEncryption/ECDHES",
-                "src/EncryptionAlgorithm/KeyEncryption/PBES2",
-                "src/EncryptionAlgorithm/KeyEncryption/RSA"
-            ],
-            "Jose\\Component\\Signature\\Algorithm\\": [
-                "src/SignatureAlgorithm/ECDSA",
-                "src/SignatureAlgorithm/EdDSA",
-                "src/SignatureAlgorithm/Experimental",
-                "src/SignatureAlgorithm/HMAC",
-                "src/SignatureAlgorithm/None",
-                "src/SignatureAlgorithm/RSA"
-            ]
+            "Jose\\Component\\": "src/Component/"
         }
     },
     "autoload-dev": {
