@@ -59,8 +59,7 @@
         "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
         "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
-        "php-http/message-factory": "To enable JKU/X5U support.",
-        "php-http/httplug": "To enable JKU/X5U support.",
+        "symfony/http-client": "To enable JKU/X5U support.",
         "spomky-labs/aes-key-wrap": "For all Key Wrapping algorithms (A128KW, A192KW, A256KW, A128GCMKW, A192GCMKW, A256GCMKW, PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW...)"
     }
 }
