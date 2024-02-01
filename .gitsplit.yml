@@ -51,9 +51,9 @@ splits:
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-signature-algorithm-experimental.git"
   - prefix: "src/Deprecated/EncryptionAlgorithm/Experimental"
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-encryption-algorithm-experimental.git"
-  - prefix: "packs/encryption"
+  - prefix: "src/Deprecated/Pack/Encryption"
     target: "https://${GH_TOKEN}@github.com/web-token/encryption-pack.git"
-  - prefix: "packs/signature"
+  - prefix: "rc/Deprecated/Pack/Signature"
     target: "https://${GH_TOKEN}@github.com/web-token/signature-pack.git"
 
 origins:
