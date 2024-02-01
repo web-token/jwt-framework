@@ -1,5 +1,5 @@
-PHP JWT Checker Component
-=========================
+PHP JWT Library
+===============
 
 This repository is a sub repository of [the JWT Framework](https://github.com/web-token/jwt-framework) project and is
 READ ONLY.
