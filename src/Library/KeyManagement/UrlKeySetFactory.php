@@ -29,13 +29,16 @@ abstract class UrlKeySetFactory
             );
         }
         if (! $this->client instanceof HttpClientInterface && $this->requestFactory === null) {
-            throw new RuntimeException(qprintf(
+            throw new RuntimeException(sprintf(
                 'The request factory must be provided when using an instance of "%s" as client.',
                 ClientInterface::class
             ));
         }
     }
 
+    /**
+     * @param array<string, string|string[]> $header
+     */
     protected function getContent(string $url, array $header = []): string
     {
         if ($this->client instanceof HttpClientInterface) {
@@ -44,8 +47,12 @@ abstract class UrlKeySetFactory
         return $this->sendPsrRequest($url, $header);
     }
 
+    /**
+     * @param array<string, string|string[]> $header
+     */
     private function sendSymfonyRequest(string $url, array $header = []): string
     {
+        assert($this->client instanceof HttpClientInterface);
         $response = $this->client->request('GET', $url, [
             'headers' => $header,
         ]);
@@ -57,8 +64,13 @@ abstract class UrlKeySetFactory
         return $response->getContent();
     }
 
+    /**
+     * @param array<string, string|string[]> $header
+     */
     private function sendPsrRequest(string $url, array $header = []): string
     {
+        assert($this->client instanceof ClientInterface);
+        assert($this->requestFactory instanceof RequestFactoryInterface);
         $request = $this->requestFactory->createRequest('GET', $url);
         foreach ($header as $k => $v) {
             $request = $request->withHeader($k, $v);
