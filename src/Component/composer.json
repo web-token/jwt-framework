@@ -1,6 +1,6 @@
 {
-    "name": "web-token/jwt-key-mgmt",
-    "description": "Key Management component of the JWT Framework.",
+    "name": "web-token/jwt-library",
+    "description": "JWT library",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -29,22 +29,33 @@
         },
         {
             "name": "All contributors",
-            "homepage": "https://github.com/web-token/jwt-key-mgmt/contributors"
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Jose\\Component\\KeyManagement\\": ""
+            "Jose\\Component\\": ""
         }
     },
     "require": {
         "php": ">=8.1",
-        "ext-openssl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "brick/math": "^0.9|^0.10|^0.11|^0.12",
+        "paragonie/constant_time_encoding": "^2.6",
+        "psr/clock": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0",
-        "web-token/jwt-core": "^3.2"
+        "spomky-labs/pki-framework": "^1.0",
+        "symfony/console": "^5.4|^6.0|^7.0"
+    },
+    "conflict": {
+        "spomky-labs/jose": "*"
     },
     "suggest": {
+        "ext-openssl": "For key management (creation, optimization, etc.)",
+        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
         "php-http/message-factory": "To enable JKU/X5U support.",
         "php-http/httplug": "To enable JKU/X5U support."

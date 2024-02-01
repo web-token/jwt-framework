@@ -1,6 +1,6 @@
 {
-    "name": "web-token/jwt-encryption-algorithm-pbes2",
-    "description": "PBES2* Based Key Encryption Algorithms the JWT Framework.",
+    "name": "web-token/jwt-checker",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -32,13 +32,7 @@
             "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Jose\\Component\\Encryption\\Algorithm\\KeyEncryption\\": ""
-        }
-    },
     "require": {
-        "php": ">=8.1",
         "web-token/jwt-library": "^3.3"
     }
 }

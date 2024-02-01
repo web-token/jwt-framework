@@ -44,14 +44,9 @@
         "symfony/dependency-injection": "^5.4|^6.0|^7.0",
         "symfony/event-dispatcher": "^5.4|^6.0|^7.0",
         "symfony/http-kernel": "^5.4|^6.0|^7.0",
-        "web-token/jwt-core": "^3.2"
+        "web-token/jwt-library": "^3.3"
     },
     "suggest": {
-        "web-token/jwt-checker": "Add header and claim checker managers as Symfony services.",
-        "web-token/jwt-console": "Add Keys (JWK) and Key sets (JWKSet) management commands for your Symfony console.",
-        "web-token/jwt-encryption": "Add Encrypted tokens (JWE) support and useful Symfony services.",
-        "web-token/jwt-key-mgmt": "Add Keys (JWK) and Key sets (JWKSet) management tools.",
-        "web-token/jwt-signature": "Add signed tokens (JWS) support and useful Symfony services.",
         "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens."
     }
 }
