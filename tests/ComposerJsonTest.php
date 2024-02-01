@@ -77,7 +77,7 @@ final class ComposerJsonTest extends TestCase
     {
         $packageFolders = [
             'Bundle',
-            'Component',
+            'Deprecated',
             'EncryptionAlgorithm',
             'ContentEncryption',
             'KeyEncryption',

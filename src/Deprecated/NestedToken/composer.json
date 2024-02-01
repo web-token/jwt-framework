@@ -1,6 +1,6 @@
 {
     "name": "web-token/jwt-nested-token",
-    "description": "Nested Token component of the JWT Framework.",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -29,17 +29,10 @@
         },
         {
             "name": "All contributors",
-            "homepage": "https://github.com/web-token/jwt-nested-token/contributors"
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Jose\\Component\\NestedToken\\": ""
-        }
-    },
     "require": {
-        "php": ">=8.1",
-        "web-token/jwt-encryption": "^3.2",
-        "web-token/jwt-signature": "^3.2"
+        "web-token/jwt-library": "^3.3"
     }
 }

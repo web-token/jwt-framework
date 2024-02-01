@@ -40,8 +40,6 @@
     "require": {
         "php": ">=8.1",
         "ext-openssl": "*",
-        "web-token/jwt-encryption-algorithm-rsa": "^3.3",
-        "web-token/jwt-signature-algorithm-rsa": "^3.3",
-        "web-token/jwt-signature-algorithm-hmac": "^3.3"
+        "web-token/jwt-library": "^3.3"
     }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "web-token/jwt-util-ecc",
-    "description": "[DEPRECATED] Please use web-token/jwt-core instead.",
+    "name": "web-token/jwt-signature",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -33,6 +33,6 @@
         }
     ],
     "require": {
-        "web-token/jwt-core": "^3.3"
+        "web-token/jwt-library": "^3.3"
     }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "web-token/jwt-checker",
-    "description": "Checker component of the JWT Framework.",
+    "name": "web-token/jwt-console",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -29,17 +29,10 @@
         },
         {
             "name": "All contributors",
-            "homepage": "https://github.com/web-token/jwt-checker/contributors"
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
         }
     ],
-    "autoload": {
-        "psr-4": {
-            "Jose\\Component\\Checker\\": ""
-        }
-    },
     "require": {
-        "php": ">=8.1",
-        "psr/clock": "^1.0",
-        "web-token/jwt-core": "^3.2"
+        "web-token/jwt-library": "^3.3"
     }
 }
