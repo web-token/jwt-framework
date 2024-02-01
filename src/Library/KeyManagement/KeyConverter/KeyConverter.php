@@ -50,8 +50,8 @@ final class KeyConverter
             throw new RuntimeException('Please install the OpenSSL extension');
         }
 
+        $errorReporting = error_reporting(E_ERROR | E_PARSE);
         try {
-            $errorReporting = error_reporting(E_ERROR | E_PARSE);
             $res = openssl_x509_read($certificate);
             if ($res === false) {
                 throw new InvalidArgumentException('Unable to load the certificate.');
