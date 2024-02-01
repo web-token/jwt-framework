@@ -9,18 +9,18 @@ framework:
     strict_requirements: ~
   fragments: ~
   http_method_override: true
+  http_client:
+    mock_response_factory: 'Jose\Tests\Bundle\JoseFramework\TestBundle\Service\MockClientCallback'
 
 services:
   _defaults:
     public: true
-  Nyholm\Psr7\Factory\Psr17Factory: ~
   Jose\Tests\Bundle\JoseFramework\TestBundle\Service\MockClientCallback: ~
 
 jose:
   jku_factory:
     enabled: true
-    client: 'Jose\Tests\Bundle\JoseFramework\TestBundle\Service\MockClientCallback'
-    request_factory: 'Nyholm\Psr7\Factory\Psr17Factory'
+    client: 'http_client'
   checkers:
     claims:
       checker1:
