@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Component\NestedToken\NestedTokenBuilder as JoseNestedTokenBuilder;
-use Jose\Component\NestedToken\NestedTokenLoader as JoseNestedTokenLoader;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -33,9 +31,6 @@ class NestedToken implements Source
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('nested_token.php');
 
@@ -48,9 +43,6 @@ class NestedToken implements Source
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $childNode = $node->children()
             ->arrayNode($this->name())
             ->treatNullLike([])
@@ -63,9 +55,6 @@ class NestedToken implements Source
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (! $this->isEnabled()) {
-            return [];
-        }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
@@ -75,11 +64,5 @@ class NestedToken implements Source
         }
 
         return $result;
-    }
-
-    private function isEnabled(): bool
-    {
-        return class_exists(JoseNestedTokenBuilder::class)
-            && class_exists(JoseNestedTokenLoader::class);
     }
 }

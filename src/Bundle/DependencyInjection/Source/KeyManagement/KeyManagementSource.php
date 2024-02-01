@@ -11,7 +11,6 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzer;
-use Jose\Component\KeyManagement\JWKFactory;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -38,9 +37,6 @@ class KeyManagementSource implements SourceWithCompilerPasses
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $container->registerForAutoconfiguration(KeyAnalyzer::class)->addTag('jose.key_analyzer');
         $container->registerForAutoconfiguration(KeysetAnalyzer::class)->addTag('jose.keyset_analyzer');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
@@ -55,9 +51,6 @@ class KeyManagementSource implements SourceWithCompilerPasses
 
     public function getNodeDefinition(NodeDefinition $node): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         foreach ($this->sources as $source) {
             $source->getNodeDefinition($node);
         }
@@ -65,9 +58,6 @@ class KeyManagementSource implements SourceWithCompilerPasses
 
     public function prepend(ContainerBuilder $container, array $config): array
     {
-        if (! $this->isEnabled()) {
-            return [];
-        }
         $result = [];
         foreach ($this->sources as $source) {
             $prepend = $source->prepend($container, $config);
@@ -89,10 +79,5 @@ class KeyManagementSource implements SourceWithCompilerPasses
             new KeysetAnalyzerCompilerPass(),
             new KeySetControllerCompilerPass(),
         ];
-    }
-
-    private function isEnabled(): bool
-    {
-        return class_exists(JWKFactory::class);
     }
 }

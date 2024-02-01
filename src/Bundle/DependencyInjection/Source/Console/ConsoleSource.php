@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Console;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
-use Jose\Component\Console\EcKeyGeneratorCommand;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,9 +19,6 @@ class ConsoleSource implements Source
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        if (! $this->isEnabled()) {
-            return;
-        }
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('commands.php');
     }
@@ -34,10 +30,5 @@ class ConsoleSource implements Source
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];
-    }
-
-    private function isEnabled(): bool
-    {
-        return class_exists(EcKeyGeneratorCommand::class);
     }
 }
