@@ -48,6 +48,7 @@
         "psr/http-client": "^1.0",
         "spomky-labs/pki-framework": "^1.0",
         "symfony/console": "^5.4|^6.0|^7.0",
+        "symfony/http-client": "^5.4|^6.0|^7.0",
         "symfony/polyfill-mbstring": "^1.12"
     },
     "conflict": {

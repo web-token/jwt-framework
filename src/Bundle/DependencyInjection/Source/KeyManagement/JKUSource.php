@@ -24,7 +24,9 @@ class JKUSource implements Source
             $loader->load('jku_source.php');
             $loader->load('jku_commands.php');
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
-            $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);
+            if (isset($configs[$this->name()]['request_factory'])) {
+                $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);
+            }
         }
     }
 
@@ -42,7 +44,6 @@ class JKUSource implements Source
             ->end()
             ->scalarNode('request_factory')
             ->info('The request factory service.')
-            ->isRequired()
             ->end()
             ->end()
             ->end()

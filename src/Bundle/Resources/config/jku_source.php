@@ -16,9 +16,9 @@ return function (ContainerConfigurator $container): void {
 
     $container->set(JKUFactory::class)
         ->public()
-        ->args([service('jose.http_client'), service('jose.request_factory')]);
+        ->args([service('jose.http_client'), service('jose.request_factory') ->nullOnInvalid()]);
 
     $container->set(X5UFactory::class)
         ->public()
-        ->args([service('jose.http_client'), service('jose.request_factory')]);
+        ->args([service('jose.http_client'), service('jose.request_factory') ->nullOnInvalid()]);
 };
