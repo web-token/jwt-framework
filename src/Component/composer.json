@@ -47,17 +47,19 @@
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0",
         "spomky-labs/pki-framework": "^1.0",
-        "symfony/console": "^5.4|^6.0|^7.0"
+        "symfony/console": "^5.4|^6.0|^7.0",
+        "symfony/polyfill-mbstring": "^1.12"
     },
     "conflict": {
         "spomky-labs/jose": "*"
     },
     "suggest": {
-        "ext-openssl": "For key management (creation, optimization, etc.)",
+        "ext-openssl": "For key management (creation, optimization, etc.) and some algorithms (AES, RSA, ECDSA, etc.)",
         "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
         "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
         "php-http/message-factory": "To enable JKU/X5U support.",
-        "php-http/httplug": "To enable JKU/X5U support."
+        "php-http/httplug": "To enable JKU/X5U support.",
+        "spomky-labs/aes-key-wrap": "For all Key Wrapping algorithms (A128KW, A192KW, A256KW, A128GCMKW, A192GCMKW, A256GCMKW, PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW...)"
     }
 }

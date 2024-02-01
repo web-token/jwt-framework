@@ -28,6 +28,7 @@ final class ComposerJsonTest extends TestCase
         $rootDependencies = $this->getComposerDependencies(__DIR__ . '/../composer.json');
 
         foreach ($this->listSubPackages() as $package) {
+            dump($package);
             $packageDependencies = $this->getComposerDependencies($package . '/composer.json');
             foreach ($packageDependencies as $dependency => $version) {
                 // Skip web-auth/* dependencies
