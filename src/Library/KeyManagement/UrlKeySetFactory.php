@@ -8,6 +8,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function assert;
 
 /**
  * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest

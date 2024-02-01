@@ -90,7 +90,6 @@
         "symfony/browser-kit": "^6.1|^7.0",
         "symfony/finder": "^6.1|^7.0",
         "symfony/framework-bundle": "^6.1|^7.0",
-        "symfony/http-client": "^6.1|^7.0",
         "symfony/phpunit-bridge": "^6.1|^7.0",
         "symfony/serializer": "^6.1|^7.0",
         "symfony/var-dumper": "^6.1|^7.0",
