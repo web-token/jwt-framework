@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\KeyManagement;
 
 use Http\Mock\Client;
+use InvalidArgumentException;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
-use JsonException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -52,8 +52,8 @@ final class UrlKeySetFactoryTest extends TestCase
     #[Test]
     public function theJWKUrlIsValidButDoesNotContainAKeySet(): void
     {
-        $this->expectException(JsonException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported input.');
 
         $response = $this->messageFactory->createResponse(200);
         $response->getBody()
@@ -104,8 +104,8 @@ final class UrlKeySetFactoryTest extends TestCase
     #[Test]
     public function theX509UrlIsValidButDoesNotContainAKeySet(): void
     {
-        $this->expectException(JsonException::class);
-        $this->expectExceptionMessage('Syntax error');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported input.');
 
         $response = $this->messageFactory->createResponse(200);
         $response->getBody()
