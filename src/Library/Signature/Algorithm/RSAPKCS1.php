@@ -8,10 +8,18 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use RuntimeException;
+use function extension_loaded;
 use function in_array;
 
 abstract class RSAPKCS1 implements SignatureAlgorithm
 {
+    public function __construct()
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['RSA'];

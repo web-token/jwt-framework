@@ -8,12 +8,20 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function extension_loaded;
 use function in_array;
 use function is_string;
 use const OPENSSL_RAW_DATA;
 
 abstract class AESGCMKW implements KeyWrapping
 {
+    public function __construct()
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['oct'];

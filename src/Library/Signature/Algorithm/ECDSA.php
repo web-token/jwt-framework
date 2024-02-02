@@ -9,14 +9,19 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
 use LogicException;
+use RuntimeException;
 use Throwable;
 use function defined;
+use function extension_loaded;
 use function in_array;
 
 abstract class ECDSA implements SignatureAlgorithm
 {
     public function __construct()
     {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
         if (! defined('OPENSSL_KEYTYPE_EC')) {
             throw new LogicException('Elliptic Curve key type not supported by your environment.');
         }

@@ -133,6 +133,9 @@ final class KeyConverter
      */
     public static function loadFromX5C(array $x5c): array
     {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
         if (count($x5c) === 0) {
             throw new InvalidArgumentException('The certificate chain is empty');
         }
@@ -164,12 +167,12 @@ final class KeyConverter
 
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
-        if (preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches) === 1) {
-            $pem = self::decodePem($pem, $matches, $password);
-        }
-
         if (! extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
+        }
+
+        if (preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches) === 1) {
+            $pem = self::decodePem($pem, $matches, $password);
         }
 
         if (preg_match('#BEGIN ENCRYPTED PRIVATE KEY(.+)(.+)#', $pem) === 1) {
@@ -255,7 +258,10 @@ final class KeyConverter
      */
     private static function populatePoints(PrivateKey $key, array $values): array
     {
-        if (($values['crv'] === 'Ed25519' || $values['crv'] === 'X25519') && extension_loaded('sodium')) {
+        if (($values['crv'] === 'Ed25519' || $values['crv'] === 'X25519')) {
+            if (! extension_loaded('sodium')) {
+                throw new RuntimeException('Please install the Sodium extension');
+            }
             $x = sodium_crypto_scalarmult_base($key->privateKeyData());
             $values['x'] = Base64UrlSafe::encodeUnpadded($x);
         }

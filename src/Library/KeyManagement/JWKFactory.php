@@ -34,6 +34,9 @@ class JWKFactory
      */
     public static function createRSAKey(int $size, array $values = []): JWK
     {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
         if ($size % 8 !== 0) {
             throw new InvalidArgumentException('Invalid key size.');
         }
@@ -80,13 +83,8 @@ class JWKFactory
         if ($size % 8 !== 0) {
             throw new InvalidArgumentException('Invalid key size.');
         }
-        $values = [
-            ...$values,
-            'kty' => 'oct',
-            'k' => Base64UrlSafe::encodeUnpadded(random_bytes($size / 8)),
-        ];
 
-        return new JWK($values);
+        return self::createFromSecret(random_bytes($size / 8), $values);
     }
 
     /**

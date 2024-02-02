@@ -10,6 +10,7 @@ use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 use RuntimeException;
 use function chr;
+use function extension_loaded;
 use function ord;
 use const STR_PAD_LEFT;
 
@@ -38,6 +39,9 @@ final class RSA
                 return self::signWithPSS($key, $message, $hash);
 
             case self::SIGNATURE_PKCS1:
+                if (! extension_loaded('openssl')) {
+                    throw new RuntimeException('Please install the OpenSSL extension');
+                }
                 $result = openssl_sign($message, $signature, $key->toPEM(), $hash);
                 if ($result !== true) {
                     throw new RuntimeException('Unable to sign the data');
@@ -70,11 +74,17 @@ final class RSA
 
     public static function verify(RSAKey $key, string $message, string $signature, string $hash, int $mode): bool
     {
-        return match ($mode) {
-            self::SIGNATURE_PSS => self::verifyWithPSS($key, $message, $signature, $hash),
-            self::SIGNATURE_PKCS1 => openssl_verify($message, $signature, $key->toPEM(), $hash) === 1,
-            default => throw new InvalidArgumentException('Unsupported mode.'),
-        };
+        switch ($mode) {
+            case self::SIGNATURE_PSS:
+                return self::verifyWithPSS($key, $message, $signature, $hash);
+            case self::SIGNATURE_PKCS1:
+                if (! extension_loaded('openssl')) {
+                    throw new RuntimeException('Please install the OpenSSL extension');
+                }
+                return openssl_verify($message, $signature, $key->toPEM(), $hash) === 1;
+            default:
+                throw new InvalidArgumentException('Unsupported mode.');
+        }
     }
 
     /**

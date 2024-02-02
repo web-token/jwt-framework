@@ -121,6 +121,7 @@ abstract class AbstractECDH implements KeyAgreement
                 return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
 
             case 'X25519' :
+                $this->checkSodiumExtensionIsAvailable();
                 $x = $public_key->get('x');
                 if (! is_string($x)) {
                     throw new InvalidArgumentException('Invalid key parameter "x"');
@@ -155,23 +156,11 @@ abstract class AbstractECDH implements KeyAgreement
         if (! is_string($crv)) {
             throw new InvalidArgumentException('Invalid key parameter "crv"');
         }
-        switch ($crv) {
-            case 'P-256' :
-            case 'P-384' :
-            case 'P-521' :
-                $private_key = $senderKey ?? ECKey::createECKey($crv);
-
-                break;
-
-            case 'X25519' :
-                $this->checkSodiumExtensionIsAvailable();
-                $private_key = $senderKey ?? $this->createOKPKey('X25519');
-
-                break;
-
-            default :
-                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
-        }
+        $private_key = match ($crv) {
+            'P-256', 'P-384', 'P-521' => $senderKey ?? ECKey::createECKey($crv),
+            'X25519' => $senderKey ?? $this->createOKPKey('X25519'),
+            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv)),
+        };
         $epk = $private_key->toPublic()
             ->all();
         $additional_header_values['epk'] = $epk;

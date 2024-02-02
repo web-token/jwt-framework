@@ -7,10 +7,18 @@ namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
+use function extension_loaded;
 use const OPENSSL_RAW_DATA;
 
 abstract class AESGCM implements ContentEncryptionAlgorithm
 {
+    public function __construct()
+    {
+        if (! extension_loaded('openssl')) {
+            throw new RuntimeException('Please install the OpenSSL extension');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return []; //Irrelevant

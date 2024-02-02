@@ -8,6 +8,8 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use RuntimeException;
+use function extension_loaded;
 use function in_array;
 use function is_string;
 
@@ -17,6 +19,13 @@ use function is_string;
 final class Blake2b implements MacAlgorithm
 {
     private const MINIMUM_KEY_LENGTH = 32;
+
+    public function __construct()
+    {
+        if (! extension_loaded('sodium')) {
+            throw new RuntimeException('Please install the Sodium extension');
+        }
+    }
 
     public function allowedKeyTypes(): array
     {
