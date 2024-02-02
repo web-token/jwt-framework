@@ -203,10 +203,11 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory->add('A128GCM', new A128GCM());
-            $this->algorithmManagerFactory->add('RSA-OAEP', new RSAOAEP());
-            $this->algorithmManagerFactory->add('PS256', new PS256());
+            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
+                new A128GCM(),
+                new RSAOAEP(),
+                new PS256(),
+            ]);
         }
 
         return $this->algorithmManagerFactory;

@@ -62,11 +62,6 @@ abstract class AbstractECDH implements KeyAgreement
         return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
 
-    public function name(): string
-    {
-        return 'ECDH-ES';
-    }
-
     public function getKeyManagementMode(): string
     {
         return self::MODE_AGREEMENT;

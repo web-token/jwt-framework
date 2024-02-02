@@ -63,34 +63,35 @@ abstract class EncryptionTestCase extends TestCase
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory->add('A128GCM', new A128GCM());
-            $this->algorithmManagerFactory->add('A192GCM', new A192GCM());
-            $this->algorithmManagerFactory->add('A256GCM', new A256GCM());
-            $this->algorithmManagerFactory->add('A128CBC-HS256', new A128CBCHS256());
-            $this->algorithmManagerFactory->add('A192CBC-HS384', new A192CBCHS384());
-            $this->algorithmManagerFactory->add('A256CBC-HS512', new A256CBCHS512());
-            $this->algorithmManagerFactory->add('A128GCMKW', new A128GCMKW());
-            $this->algorithmManagerFactory->add('A192GCMKW', new A192GCMKW());
-            $this->algorithmManagerFactory->add('A256GCMKW', new A256GCMKW());
-            $this->algorithmManagerFactory->add('A128KW', new A128KW());
-            $this->algorithmManagerFactory->add('A192KW', new A192KW());
-            $this->algorithmManagerFactory->add('A256KW', new A256KW());
-            $this->algorithmManagerFactory->add('dir', new Dir());
-            $this->algorithmManagerFactory->add('ECDH-ES', new ECDHES());
-            $this->algorithmManagerFactory->add('ECDH-ES+A128KW', new ECDHESA128KW());
-            $this->algorithmManagerFactory->add('ECDH-ES+A192KW', new ECDHESA192KW());
-            $this->algorithmManagerFactory->add('ECDH-ES+A256KW', new ECDHESA256KW());
-            $this->algorithmManagerFactory->add('ECDH-SS', new ECDHSS());
-            $this->algorithmManagerFactory->add('ECDH-SS+A128KW', new ECDHSSA128KW());
-            $this->algorithmManagerFactory->add('ECDH-SS+A192KW', new ECDHSSA192KW());
-            $this->algorithmManagerFactory->add('ECDH-SS+A256KW', new ECDHSSA256KW());
-            $this->algorithmManagerFactory->add('PBES2-HS256+A128KW', new PBES2HS256A128KW());
-            $this->algorithmManagerFactory->add('PBES2-HS384+A192KW', new PBES2HS384A192KW());
-            $this->algorithmManagerFactory->add('PBES2-HS512+A256KW', new PBES2HS512A256KW());
-            $this->algorithmManagerFactory->add('RSA1_5', new RSA15());
-            $this->algorithmManagerFactory->add('RSA-OAEP', new RSAOAEP());
-            $this->algorithmManagerFactory->add('RSA-OAEP-256', new RSAOAEP256());
+            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
+                new A128GCM(),
+                new A192GCM(),
+                new A256GCM(),
+                new A128CBCHS256(),
+                new A192CBCHS384(),
+                new A256CBCHS512(),
+                new A128GCMKW(),
+                new A192GCMKW(),
+                new A256GCMKW(),
+                new A128KW(),
+                new A192KW(),
+                new A256KW(),
+                new Dir(),
+                new ECDHES(),
+                new ECDHESA128KW(),
+                new ECDHESA192KW(),
+                new ECDHESA256KW(),
+                new ECDHSS(),
+                new ECDHSSA128KW(),
+                new ECDHSSA192KW(),
+                new ECDHSSA256KW(),
+                new PBES2HS256A128KW(),
+                new PBES2HS384A192KW(),
+                new PBES2HS512A256KW(),
+                new RSA15(),
+                new RSAOAEP(),
+                new RSAOAEP256(),
+            ]);
         }
 
         return $this->algorithmManagerFactory;

@@ -50,8 +50,7 @@ final class AlgorithmManagerFactoryTest extends TestCase
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory->add('foo', new FooAlgorithm());
+            $this->algorithmManagerFactory = new AlgorithmManagerFactory([new FooAlgorithm()]);
         }
 
         return $this->algorithmManagerFactory;

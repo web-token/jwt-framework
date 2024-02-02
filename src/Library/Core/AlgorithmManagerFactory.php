@@ -15,6 +15,16 @@ class AlgorithmManagerFactory
     private array $algorithms = [];
 
     /**
+     * @param Algorithm[] $algorithms
+     */
+    public function __construct(array $algorithms = [])
+    {
+        foreach ($algorithms as $algorithm) {
+            $this->add($algorithm->name(), $algorithm);
+        }
+    }
+
+    /**
      * Adds an algorithm.
      *
      * Each algorithm is identified by an alias hence it is allowed to have the same algorithm twice (or more). This can

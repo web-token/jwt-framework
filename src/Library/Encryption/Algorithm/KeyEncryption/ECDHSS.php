@@ -9,6 +9,11 @@ use LogicException;
 
 final class ECDHSS extends AbstractECDH
 {
+    public function name(): string
+    {
+        return 'ECDH-SS';
+    }
+
     /**
      * @param array<string, mixed> $complete_header
      * @param array<string, mixed> $additional_header_values
