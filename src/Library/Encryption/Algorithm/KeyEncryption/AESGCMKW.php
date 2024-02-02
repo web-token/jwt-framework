@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use AESKW\Wrapper as WrapperInterface;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
@@ -19,6 +20,9 @@ abstract class AESGCMKW implements KeyWrapping
     {
         if (! extension_loaded('openssl')) {
             throw new RuntimeException('Please install the OpenSSL extension');
+        }
+        if (! interface_exists(WrapperInterface::class)) {
+            throw new RuntimeException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');
         }
     }
 

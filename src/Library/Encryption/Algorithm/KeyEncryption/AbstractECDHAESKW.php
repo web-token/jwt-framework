@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use AESKW\A128KW;
-use AESKW\A192KW;
-use AESKW\A256KW;
+use AESKW\Wrapper as WrapperInterface;
+use RuntimeException;
 
 abstract class AbstractECDHAESKW implements KeyAgreementWithKeyWrapping
 {
+    public function __construct()
+    {
+        if (! interface_exists(WrapperInterface::class)) {
+            throw new RuntimeException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['EC', 'OKP'];
@@ -20,7 +26,7 @@ abstract class AbstractECDHAESKW implements KeyAgreementWithKeyWrapping
         return self::MODE_WRAP;
     }
 
-    abstract protected function getWrapper(): A128KW|A192KW|A256KW;
+    abstract protected function getWrapper(): WrapperInterface;
 
     abstract protected function getKeyLength(): int;
 }

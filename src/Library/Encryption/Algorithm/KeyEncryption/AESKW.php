@@ -8,11 +8,19 @@ use AESKW\Wrapper as WrapperInterface;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use RuntimeException;
 use function in_array;
 use function is_string;
 
 abstract class AESKW implements KeyWrapping
 {
+    public function __construct()
+    {
+        if (! interface_exists(WrapperInterface::class)) {
+            throw new RuntimeException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');
+        }
+    }
+
     public function allowedKeyTypes(): array
     {
         return ['oct'];
