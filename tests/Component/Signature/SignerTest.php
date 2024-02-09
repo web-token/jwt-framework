@@ -971,7 +971,7 @@ final class SignerTest extends SignatureTestCase
         static::assertSame(2, $loaded->countSignatures());
         static::assertEqualsCanonicalizing(
             $this->getKeyset(),
-            JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            JWKSet::createFromKeyData(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
         static::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getSymmetricKeySet(), 0));
         static::assertTrue($jwsVerifier->verifyWithKeySet($loaded, $this->getPublicKeySet(), 1));
@@ -1009,7 +1009,7 @@ final class SignerTest extends SignatureTestCase
         static::assertSame(2, $loaded->countSignatures());
         static::assertEqualsCanonicalizing(
             $this->getKeyset(),
-            JWKSet::createFromKeyData(json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
+            JWKSet::createFromKeyData(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
         );
         static::assertTrue($jwsVerifier->verifyWithKeySet($loaded, new JWKSet([]), 0));
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, new JWK([

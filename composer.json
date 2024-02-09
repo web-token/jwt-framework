@@ -86,7 +86,7 @@
         "phpstan/phpstan-strict-rules": "^1.4",
         "phpunit/phpunit": "^10.1",
         "qossmic/deptrac-shim": "^1.0",
-        "rector/rector": "^0.19",
+        "rector/rector": "^1.0",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "^6.1|^7.0",
         "symfony/finder": "^6.1|^7.0",

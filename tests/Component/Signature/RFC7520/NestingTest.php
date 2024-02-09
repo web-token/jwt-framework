@@ -53,6 +53,6 @@ final class NestingTest extends SignatureTestCase
 
         static::assertTrue($jwsVerifier->verifyWithKey($loaded_compact_json, $signature_key, 0));
         static::assertSame($signature_header, $loaded_compact_json->getSignature(0)->getProtectedHeader());
-        static::assertSame($payload, json_decode($loaded_compact_json->getPayload(), true, 512, JSON_THROW_ON_ERROR));
+        static::assertSame($payload, json_decode((string) $loaded_compact_json->getPayload(), true, 512, JSON_THROW_ON_ERROR));
     }
 }
