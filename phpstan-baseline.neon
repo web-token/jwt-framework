@@ -1871,11 +1871,6 @@ parameters:
 			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
 
 		-
-			message: "#^Parameter \\#3 \\$subject of function preg_replace expects array\\|string, string\\|null given\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
 			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
