@@ -86,7 +86,7 @@ final class KeyConverter
             $values = self::loadKeyFromPEM($details['key']);
             openssl_x509_export($res, $out);
             $x5c = preg_replace('#-.*-#', '', (string) $out);
-            $x5c = preg_replace('~\R~', '', $x5c);
+            $x5c = preg_replace('~\R~', '', (string) $x5c);
             if (! is_string($x5c)) {
                 throw new InvalidArgumentException('Unable to load the certificate');
             }

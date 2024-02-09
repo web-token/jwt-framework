@@ -28,6 +28,6 @@ final class JWSFlattenedTest extends SignatureTestCase
             'iss' => 'joe',
             'exp' => 1_300_819_380,
             'http://example.com/is_root' => true,
-        ], json_decode($loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR));
+        ], json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR));
     }
 }
