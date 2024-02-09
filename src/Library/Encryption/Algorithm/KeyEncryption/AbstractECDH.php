@@ -74,9 +74,9 @@ abstract class AbstractECDH implements KeyAgreement
             throw new InvalidArgumentException('Invalid key parameter "crv"');
         }
         switch ($crv) {
-            case 'P-256' :
-            case 'P-384' :
-            case 'P-521' :
+            case 'P-256':
+            case 'P-384':
+            case 'P-521':
                 $curve = $this->getCurve($crv);
                 if (function_exists('openssl_pkey_derive')) {
                     try {
@@ -115,7 +115,7 @@ abstract class AbstractECDH implements KeyAgreement
 
                 return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
 
-            case 'X25519' :
+            case 'X25519':
                 $this->checkSodiumExtensionIsAvailable();
                 $x = $public_key->get('x');
                 if (! is_string($x)) {
@@ -130,7 +130,7 @@ abstract class AbstractECDH implements KeyAgreement
 
                 return sodium_crypto_scalarmult($sKey, $recipientPublickey);
 
-            default :
+            default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
     }
@@ -212,19 +212,19 @@ abstract class AbstractECDH implements KeyAgreement
             throw new InvalidArgumentException('Invalid key parameter "crv"');
         }
         switch ($crv) {
-            case 'P-256' :
-            case 'P-384' :
-            case 'P-521' :
+            case 'P-256':
+            case 'P-384':
+            case 'P-521':
                 if (! $key->has('y')) {
                     throw new InvalidArgumentException('The key parameter "y" is missing.');
                 }
 
                 break;
 
-            case 'X25519' :
+            case 'X25519':
                 break;
 
-            default :
+            default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
         if ($is_private === true && ! $key->has('d')) {
@@ -279,14 +279,14 @@ abstract class AbstractECDH implements KeyAgreement
         $this->checkSodiumExtensionIsAvailable();
 
         switch ($curve) {
-            case 'X25519' :
+            case 'X25519':
                 $keyPair = sodium_crypto_box_keypair();
                 $d = sodium_crypto_box_secretkey($keyPair);
                 $x = sodium_crypto_box_publickey($keyPair);
 
                 break;
 
-            case 'Ed25519' :
+            case 'Ed25519':
                 $keyPair = sodium_crypto_sign_keypair();
                 $secret = sodium_crypto_sign_secretkey($keyPair);
                 $secretLength = mb_strlen($secret, '8bit');
@@ -295,7 +295,7 @@ abstract class AbstractECDH implements KeyAgreement
 
                 break;
 
-            default :
+            default:
                 throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
         }
 
