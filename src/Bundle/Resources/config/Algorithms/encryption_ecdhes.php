@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AESKW\Wrapper;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
@@ -29,7 +30,7 @@ return function (ContainerConfigurator $container): void {
             'alias' => 'ECDH-SS',
         ]);
 
-    if (interface_exists(\AESKW\Wrapper::class)) {
+    if (interface_exists(Wrapper::class)) {
         $container->set(ECDHESA128KW::class)
             ->tag('jose.algorithm', [
                 'alias' => 'ECDH-ES+A128KW',

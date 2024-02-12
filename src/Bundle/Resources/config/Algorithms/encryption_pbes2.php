@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AESKW\Wrapper;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
@@ -14,7 +15,7 @@ return function (ContainerConfigurator $container): void {
         ->autoconfigure()
         ->autowire();
 
-    if (interface_exists(\AESKW\Wrapper::class)) {
+    if (interface_exists(Wrapper::class)) {
         $container->set(PBES2HS256A128KW::class)
             ->tag('jose.algorithm', [
                 'alias' => 'PBES2-HS256+A128KW',
