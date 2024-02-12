@@ -24,38 +24,40 @@ return function (ContainerConfigurator $container): void {
             'alias' => 'ECDH-ES',
         ]);
 
-    $container->set(ECDHESA128KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'ECDH-ES+A128KW',
-        ]);
-
-    $container->set(ECDHESA192KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'ECDH-ES+A192KW',
-        ]);
-
-    $container->set(ECDHESA256KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'ECDH-ES+A256KW',
-        ]);
-
     $container->set(ECDHSS::class)
         ->tag('jose.algorithm', [
             'alias' => 'ECDH-SS',
         ]);
 
-    $container->set(ECDHSSA128KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'ECDH-SS+A128KW',
-        ]);
+    if (interface_exists(\AESKW\Wrapper::class)) {
+        $container->set(ECDHESA128KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'ECDH-ES+A128KW',
+            ]);
 
-    $container->set(ECDHSSA192KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'ECDH-SS+A192KW',
-        ]);
+        $container->set(ECDHESA192KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'ECDH-ES+A192KW',
+            ]);
 
-    $container->set(ECDHSSA256KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'ECDH-SS+A256KW',
-        ]);
+        $container->set(ECDHESA256KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'ECDH-ES+A256KW',
+            ]);
+
+        $container->set(ECDHSSA128KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'ECDH-SS+A128KW',
+            ]);
+
+        $container->set(ECDHSSA192KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'ECDH-SS+A192KW',
+            ]);
+
+        $container->set(ECDHSSA256KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'ECDH-SS+A256KW',
+            ]);
+    }
 };

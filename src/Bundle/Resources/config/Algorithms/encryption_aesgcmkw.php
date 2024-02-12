@@ -14,18 +14,20 @@ return function (ContainerConfigurator $container): void {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(A128GCMKW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'A128GCMKW',
-        ]);
+    if (interface_exists(\AESKW\Wrapper::class)) {
+        $container->set(A128GCMKW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'A128GCMKW',
+            ]);
 
-    $container->set(A192GCMKW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'A192GCMKW',
-        ]);
+        $container->set(A192GCMKW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'A192GCMKW',
+            ]);
 
-    $container->set(A256GCMKW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'A256GCMKW',
-        ]);
+        $container->set(A256GCMKW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'A256GCMKW',
+            ]);
+    }
 };

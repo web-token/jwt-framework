@@ -14,18 +14,20 @@ return function (ContainerConfigurator $container): void {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(PBES2HS256A128KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'PBES2-HS256+A128KW',
-        ]);
+    if (interface_exists(\AESKW\Wrapper::class)) {
+        $container->set(PBES2HS256A128KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'PBES2-HS256+A128KW',
+            ]);
 
-    $container->set(PBES2HS384A192KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'PBES2-HS384+A192KW',
-        ]);
+        $container->set(PBES2HS384A192KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'PBES2-HS384+A192KW',
+            ]);
 
-    $container->set(PBES2HS512A256KW::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'PBES2-HS512+A256KW',
-        ]);
+        $container->set(PBES2HS512A256KW::class)
+            ->tag('jose.algorithm', [
+                'alias' => 'PBES2-HS512+A256KW',
+            ]);
+    }
 };
