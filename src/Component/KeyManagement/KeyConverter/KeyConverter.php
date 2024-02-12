@@ -252,12 +252,14 @@ final class KeyConverter
     private static function populatePoints(PrivateKey $key, array $values): array
     {
         $x = self::getPublicKey($key, $values['crv']);
-        $values['x'] = Base64UrlSafe::encodeUnpadded($x);
+        if ($x !== null) {
+            $values['x'] = Base64UrlSafe::encodeUnpadded($x);
+        }
 
         return $values;
     }
 
-    private static function getPublicKey(PrivateKey $key, string $crv): string
+    private static function getPublicKey(PrivateKey $key, string $crv): ?string
     {
         switch ($crv) {
             case 'Ed25519':
@@ -268,7 +270,7 @@ final class KeyConverter
                 }
                 // no break
             default:
-                throw new InvalidArgumentException('Unsupported key type');
+                return null;
         }
     }
 
