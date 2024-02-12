@@ -297,7 +297,7 @@ final class JWKFactoryTest extends TestCase
                 'kty' => 'OKP',
                 'crv' => 'Ed25519',
                 'd' => 'Pr9AxZivB-zSq95wLrZfYa7DQ3TUPqZTkP_0w33r3rc',
-                'x' => 'uRhai1TsvrSB43HD-36TQ2hMQfV8ruJz7F8o0wIe1VI',
+                'x' => 'wrI33AEj15KHHYplueUE5cnJKtbM8oVHFf6wGnw2oOE',
             ],
         ];
         yield [

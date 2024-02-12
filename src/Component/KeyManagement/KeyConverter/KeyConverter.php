@@ -7,6 +7,7 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 use InvalidArgumentException;
 use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
@@ -250,12 +251,27 @@ final class KeyConverter
      */
     private static function populatePoints(PrivateKey $key, array $values): array
     {
-        if (($values['crv'] === 'Ed25519' || $values['crv'] === 'X25519') && extension_loaded('sodium')) {
-            $x = sodium_crypto_scalarmult_base($key->privateKeyData());
+        $x = self::getPublicKey($key, $values['crv']);
+        if ($x !== null) {
             $values['x'] = Base64UrlSafe::encodeUnpadded($x);
         }
 
         return $values;
+    }
+
+    private static function getPublicKey(PrivateKey $key, string $crv): ?string
+    {
+        switch ($crv) {
+            case 'Ed25519':
+                return Ed25519::publickey_from_secretkey($key->privateKeyData());
+            case 'X25519':
+                if (extension_loaded('sodium')) {
+                    return sodium_crypto_scalarmult_base($key->privateKeyData());
+                }
+                // no break
+            default:
+                return null;
+        }
     }
 
     private static function checkType(string $curve): void
