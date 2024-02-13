@@ -14,6 +14,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 use Throwable;
 use function array_key_exists;
+use function assert;
 use function count;
 use function extension_loaded;
 use function in_array;
