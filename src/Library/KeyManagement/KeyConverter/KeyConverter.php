@@ -7,12 +7,14 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 use InvalidArgumentException;
 use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
 use Throwable;
 use function array_key_exists;
+use function assert;
 use function count;
 use function extension_loaded;
 use function in_array;
@@ -258,15 +260,29 @@ final class KeyConverter
      */
     private static function populatePoints(PrivateKey $key, array $values): array
     {
-        if (($values['crv'] === 'Ed25519' || $values['crv'] === 'X25519')) {
-            if (! extension_loaded('sodium')) {
-                throw new RuntimeException('Please install the Sodium extension');
-            }
-            $x = sodium_crypto_scalarmult_base($key->privateKeyData());
+        $crv = $values['crv'] ?? null;
+        assert(is_string($crv), 'Unsupported key type.');
+        $x = self::getPublicKey($key, $crv);
+        if ($x !== null) {
             $values['x'] = Base64UrlSafe::encodeUnpadded($x);
         }
 
         return $values;
+    }
+
+    private static function getPublicKey(PrivateKey $key, string $crv): ?string
+    {
+        switch ($crv) {
+            case 'Ed25519':
+                return Ed25519::publickey_from_secretkey($key->privateKeyData());
+            case 'X25519':
+                if (extension_loaded('sodium')) {
+                    return sodium_crypto_scalarmult_base($key->privateKeyData());
+                }
+                // no break
+            default:
+                return null;
+        }
     }
 
     private static function checkType(string $curve): void

@@ -7,7 +7,9 @@ namespace Jose\Component\Signature\Algorithm;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
+use function assert;
 use function extension_loaded;
 use function in_array;
 use function is_string;
@@ -40,7 +42,7 @@ final class EdDSA implements SignatureAlgorithm
             throw new InvalidArgumentException('Invalid "d" parameter.');
         }
         if (! $key->has('x')) {
-            $x = sodium_crypto_sign_publickey_from_secretkey($d);
+            $x = self::getPublicKey($key);
         } else {
             $x = $key->get('x');
         }
@@ -82,6 +84,24 @@ final class EdDSA implements SignatureAlgorithm
     public function name(): string
     {
         return 'EdDSA';
+    }
+
+    private static function getPublicKey(JWK $key): string
+    {
+        $d = $key->get('d');
+        assert(is_string($d), 'Unsupported key type');
+
+        switch ($key->get('crv')) {
+            case 'Ed25519':
+                return Ed25519::publickey_from_secretkey($d);
+            case 'X25519':
+                if (extension_loaded('sodium')) {
+                    return sodium_crypto_scalarmult_base($d);
+                }
+                // no break
+            default:
+                throw new InvalidArgumentException('Unsupported key type');
+        }
     }
 
     private function checkKey(JWK $key): void
