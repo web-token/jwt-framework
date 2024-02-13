@@ -34,7 +34,7 @@ final class MixedKeyTypes implements KeysetAnalyzer
         }
 
         if ($hasAsymmetricKeys && $hasSymmetricKeys) {
-            $bag->add(Message::medium('This key set mixes symmetric and assymetric keys.'));
+            $bag->add(Message::medium('This key set mixes symmetric and asymmetric keys.'));
         }
     }
 }

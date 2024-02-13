@@ -82,7 +82,7 @@ class JWE implements JWT
     /**
      * Returns the ciphertext. This method will return null is the JWE has not yet been encrypted.
      *
-     * @return string|null The cyphertext
+     * @return string|null The ciphertext
      */
     public function getCiphertext(): ?string
     {

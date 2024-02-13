@@ -25,7 +25,7 @@ st: vendor ## Run static analyse
 
 ################################################
 
-ci-mu: vendor ## Mutation tests (for Github only)
+ci-mu: vendor ## Mutation tests (for GitHub only)
 	vendor/bin/infection --logger-github -s --threads=$$(nproc) --min-msi=45 --min-covered-msi=60
 
 ci-cc: vendor ## Show test coverage rates (console)
