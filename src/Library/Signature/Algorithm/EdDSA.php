@@ -7,6 +7,7 @@ namespace Jose\Component\Signature\Algorithm;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use function extension_loaded;
 use function in_array;
@@ -40,7 +41,7 @@ final class EdDSA implements SignatureAlgorithm
             throw new InvalidArgumentException('Invalid "d" parameter.');
         }
         if (! $key->has('x')) {
-            $x = $this->getPublicKey($key);
+            $x = self::getPublicKey($key);
         } else {
             $x = $key->get('x');
         }
