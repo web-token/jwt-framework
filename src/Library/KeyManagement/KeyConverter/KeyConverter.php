@@ -259,7 +259,9 @@ final class KeyConverter
      */
     private static function populatePoints(PrivateKey $key, array $values): array
     {
-        $x = self::getPublicKey($key, $values['crv']);
+        $crv = $values['crv'] ?? null;
+        assert(is_string($crv), 'Unsupported key type.');
+        $x = self::getPublicKey($key, $crv);
         if ($x !== null) {
             $values['x'] = Base64UrlSafe::encodeUnpadded($x);
         }
