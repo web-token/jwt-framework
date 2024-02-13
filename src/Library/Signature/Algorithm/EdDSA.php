@@ -9,6 +9,7 @@ use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
+use function assert;
 use function extension_loaded;
 use function in_array;
 use function is_string;
