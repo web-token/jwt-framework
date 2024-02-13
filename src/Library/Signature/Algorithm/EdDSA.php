@@ -87,12 +87,15 @@ final class EdDSA implements SignatureAlgorithm
 
     private static function getPublicKey(JWK $key): string
     {
+        $d = $key->get('d');
+        assert(is_string($d), 'Unsupported key type');
+
         switch ($key->get('crv')) {
             case 'Ed25519':
-                return Ed25519::publickey_from_secretkey($key->get('d'));
+                return Ed25519::publickey_from_secretkey($d);
             case 'X25519':
                 if (extension_loaded('sodium')) {
-                    return sodium_crypto_scalarmult_base($key->get('d'));
+                    return sodium_crypto_scalarmult_base($d);
                 }
                 // no break
             default:
