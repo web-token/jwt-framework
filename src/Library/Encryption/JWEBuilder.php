@@ -191,7 +191,7 @@ class JWEBuilder
         return $clone;
     }
 
-    //TODO: Verify if the key is compatible with the key encrytion algorithm like is done to the ECDH-ES
+    //TODO: Verify if the key is compatible with the key encryption algorithm like is done to the ECDH-ES
     /**
      * Set the sender JWK to be used instead of the internal generated JWK
      */

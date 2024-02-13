@@ -30,7 +30,7 @@ final class UsageAnalyzer implements KeyAnalyzer
                 Message::high(sprintf(
                     'The parameter "key_ops" has an unsupported value "%s". Please use one of the following values: %s.',
                     $jwk->get('key_ops'),
-                    implode(', ', ['verify', 'sign', 'encryp', 'decrypt', 'wrapKey', 'unwrapKey'])
+                    implode(', ', ['verify', 'sign', 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey'])
                 ))
             );
         }
