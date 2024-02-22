@@ -1246,11 +1246,6 @@ parameters:
 			path: src/Library/Console/X5ULoaderCommand.php
 
 		-
-			message: "#^Property Jose\\\\Component\\\\Core\\\\AlgorithmManager\\:\\:\\$algorithms type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/Core/AlgorithmManager.php
-
-		-
 			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
 			count: 1
 			path: src/Library/Core/AlgorithmManagerFactory.php

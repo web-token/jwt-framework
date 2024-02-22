@@ -9,6 +9,9 @@ use function array_key_exists;
 
 class AlgorithmManager
 {
+    /**
+     * @var array<string, Algorithm>
+     */
     private array $algorithms = [];
 
     /**
@@ -29,6 +32,14 @@ class AlgorithmManager
     public function has(string $algorithm): bool
     {
         return array_key_exists($algorithm, $this->algorithms);
+    }
+
+    /**
+     * @return array<string, Algorithm>
+     */
+    public function all(): array
+    {
+        return $this->algorithms;
     }
 
     /**

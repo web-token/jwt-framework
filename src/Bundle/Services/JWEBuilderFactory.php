@@ -21,23 +21,19 @@ final class JWEBuilderFactory
      * This method creates a JWEBuilder using the given algorithm aliases.
      *
      * @param string[] $keyEncryptionAlgorithms
-     * @param string[] $contentEncryptionAlgorithm
+     * @param string[] $contentEncryptionAlgorithms
      * @param string[] $compressionMethods
      */
     public function create(
         array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithm,
+        array $contentEncryptionAlgorithms,
         array $compressionMethods
     ): JWEBuilder {
-        $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
-        $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithm);
+        $algorithmManager = $this->algorithmManagerFactory->create(
+            array_merge($keyEncryptionAlgorithms, $contentEncryptionAlgorithms)
+        );
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-        return new JWEBuilder(
-            $keyEncryptionAlgorithmManager,
-            $contentEncryptionAlgorithmManager,
-            $compressionMethodManager,
-            $this->eventDispatcher
-        );
+        return new JWEBuilder($algorithmManager, null, $compressionMethodManager, $this->eventDispatcher);
     }
 }

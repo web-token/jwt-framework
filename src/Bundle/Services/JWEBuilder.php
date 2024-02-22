@@ -16,12 +16,12 @@ use Throwable;
 final class JWEBuilder extends BaseJWEBuilder
 {
     public function __construct(
-        AlgorithmManager $keyEncryptionKeyEncryptionAlgorithmManager,
-        AlgorithmManager $contentEncryptionAlgorithmManager,
+        AlgorithmManager $algorithmManager,
+        null|AlgorithmManager $contentEncryptionAlgorithmManager,
         CompressionMethodManager $compressionManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($keyEncryptionKeyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionManager);
+        parent::__construct($algorithmManager, $contentEncryptionAlgorithmManager, $compressionManager);
     }
 
     public function build(): JWE
