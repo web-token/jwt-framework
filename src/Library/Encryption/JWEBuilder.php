@@ -45,11 +45,37 @@ class JWEBuilder
 
     private ?ContentEncryptionAlgorithm $contentEncryptionAlgorithm = null;
 
+    private readonly AlgorithmManager $keyEncryptionAlgorithmManager;
+
+    private readonly AlgorithmManager $contentEncryptionAlgorithmManager;
+
     public function __construct(
-        private readonly AlgorithmManager $keyEncryptionAlgorithmManager,
-        private readonly AlgorithmManager $contentEncryptionAlgorithmManager,
+        AlgorithmManager $algorithmManager,
+        null|AlgorithmManager $contentEncryptionAlgorithmManager,
         private readonly CompressionMethodManager $compressionManager
     ) {
+        if ($contentEncryptionAlgorithmManager !== null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3.0',
+                'The parameter "$contentEncryptionAlgorithmManager" is deprecated and will be removed in 4.0.0. Please set all algorithms in the first argument and set "null" instead.'
+            );
+            $this->keyEncryptionAlgorithmManager = $algorithmManager;
+            $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
+        } else {
+            $keyEncryptionAlgorithms = [];
+            $contentEncryptionAlgorithms = [];
+            foreach ($algorithmManager->all() as $algorithm) {
+                if ($algorithm instanceof KeyEncryptionAlgorithm) {
+                    $keyEncryptionAlgorithms[] = $algorithm;
+                }
+                if ($algorithm instanceof ContentEncryptionAlgorithm) {
+                    $contentEncryptionAlgorithms[] = $algorithm;
+                }
+            }
+            $this->keyEncryptionAlgorithmManager = new AlgorithmManager($keyEncryptionAlgorithms);
+            $this->contentEncryptionAlgorithmManager = new AlgorithmManager($contentEncryptionAlgorithms);
+        }
     }
 
     /**
