@@ -33,7 +33,9 @@
         }
     ],
     "require": {
+        "php": ">=8.1",
         "ext-sodium": "*",
+        "paragonie/sodium_compat": "^1.20",
         "web-token/jwt-library": "^3.3"
     }
 }
