@@ -4,21 +4,28 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\TestBundle\Service;
 
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
-final class MockClientCallback implements ClientInterface
+final class MockClientCallback extends MockHttpClient
 {
-    private ?ResponseInterface $response = null;
+    private null|MockResponse $response = null;
 
-    public function set(ResponseInterface $response): void
+    public function __invoke(string $method, string $url, array $options = []): ?MockResponse
     {
-        $this->response = $response;
+        if ($this->response === null) {
+            throw new RuntimeException(sprintf(
+                'Unable to find a response for a %s request to the URL %s',
+                $method,
+                $url
+            ));
+        }
+
+        return $this->response;
     }
 
-    public function sendRequest(RequestInterface $request): ResponseInterface
+    public function set(MockResponse $response): void
     {
-        return $this->response;
+        $this->response = $response;
     }
 }

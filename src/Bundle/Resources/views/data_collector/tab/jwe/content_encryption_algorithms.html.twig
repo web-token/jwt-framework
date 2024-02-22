@@ -1,0 +1,39 @@
+<h3>Available Content Encryption Algorithms</h3>
+<p class="help">
+    The following table lists all content encryption algorithms available in this environment.
+</p>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Alias</th>
+        <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set encryptionAlgorithms = collector.getData().algorithm.algorithms %}
+    {% if encryptionAlgorithms['Content Encryption'] is defined %}
+        {% for alias, alg in encryptionAlgorithms['Content Encryption'] %}
+            <tr class="{% if alg.name in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[alg.name]['severity'] }}{% else %}no-severity{% endif %}">
+                <td>{{ alg.name }}</td>
+                <td>{{ alias }}</td>
+                <td>
+                    {% if alg.name in collector.getData().algorithm.messages|keys %}
+                        {{ collector.getData().algorithm.messages[alg.name]['message']|raw }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="3">
+                No algorithm. You should consider the installation of the following packages or create your own
+                algorithm:
+                <ul>
+                    <li>web-token/jwt-library</li>
+                </ul>
+            </td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>

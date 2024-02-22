@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Encryption\Algorithm\ContentEncryption;
+namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\AESCBC;
 
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192CBCHS384;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CBCHS512;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -21,9 +22,8 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7516#appendix-B
-     *
-     * @test
      */
+    #[Test]
     public function a128CBCHS256EncryptAndDecrypt(): void
     {
         $header = Base64UrlSafe::encodeUnpadded(json_encode([
@@ -120,9 +120,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
         static::assertSame($expected_T, $T);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function badTag(): void
     {
         $this->expectException(RuntimeException::class);
@@ -214,9 +212,8 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.1
-     *
-     * @test
      */
+    #[Test]
     public function a128CBCHS256EncryptAndDecryptBis(): void
     {
         $header = Base64UrlSafe::encodeUnpadded(json_encode([
@@ -252,9 +249,8 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.2
-     *
-     * @test
      */
+    #[Test]
     public function a192CBCHS384EncryptAndDecrypt(): void
     {
         $header = Base64UrlSafe::encodeUnpadded(json_encode([]));
@@ -288,9 +284,8 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-B.3
-     *
-     * @test
      */
+    #[Test]
     public function a256CBCHS512EncryptAndDecrypt(): void
     {
         $header = Base64UrlSafe::encodeUnpadded(json_encode([]));

@@ -1,0 +1,10 @@
+{
+    "name": "web-token/encryption-pack",
+    "type": "symfony-pack",
+    "license": "MIT",
+    "description": "[DEPRECATED] Please use web-token/jwt-library instead.",
+    "require": {
+        "web-token/jwt-library": "^3.3",
+        "web-token/jwt-experimental": "^3.3"
+    }
+}

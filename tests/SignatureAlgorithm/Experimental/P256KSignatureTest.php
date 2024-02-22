@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Signature\Algorithm;
+namespace Jose\Tests\SignatureAlgorithm\Experimental;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Signature\Algorithm\ES256K;
+use Jose\Experimental\Signature\ES256K;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,25 +15,19 @@ use PHPUnit\Framework\TestCase;
  */
 final class P256KSignatureTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function es256KVerify(): void
     {
         $key = $this->getKey();
         $algorithm = new ES256K();
         $data = 'Hello';
 
-        static::assertTrue(
-            $algorithm->verify($key, $data, hex2bin(
-                '9c75b9d171d9690a37f2474d4bfab5c234911cb150950ea5cbfc9aedda5ec360725cc47978de95b4efb2a3ed617c7b36b1cd0a26b536662a79d0f3ae873a7924'
-            ))
-        );
+        static::assertTrue($algorithm->verify($key, $data, hex2bin(
+            '9c75b9d171d9690a37f2474d4bfab5c234911cb150950ea5cbfc9aedda5ec360725cc47978de95b4efb2a3ed617c7b36b1cd0a26b536662a79d0f3ae873a7924'
+        )));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function es256KSignAndVerify(): void
     {
         $key = $this->getKey();

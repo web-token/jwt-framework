@@ -6,17 +6,17 @@ namespace Jose\Tests\Component\Core;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use const JSON_THROW_ON_ERROR;
+use Jose\Component\Core\Util\ECKey;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
  */
 final class JWKTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function aKeyContainsAllExpectedParameters(): void
     {
         $jwk = new JWK([
@@ -51,9 +51,7 @@ final class JWKTest extends TestCase
         static::assertSame('dqwHnan4iJ1_eEll-o4Egw', $jwk->thumbprint('md5'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotGetTheThumbprintOfTheKeyWhenIUseAnUnsupportedHashingAlgorithm(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -73,9 +71,7 @@ final class JWKTest extends TestCase
         $jwk->thumbprint('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iMustSetAtLeastTheKtyParameter(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -84,9 +80,7 @@ final class JWKTest extends TestCase
         new JWK([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotGetAParameterThatDoesNotExist(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -106,9 +100,7 @@ final class JWKTest extends TestCase
         $jwk->get('ABCD');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanConvertAPrivateKeyIntoPublicKey(): void
     {
         $private = new JWK([
@@ -135,5 +127,26 @@ final class JWKTest extends TestCase
             'alg' => 'ES256',
             'kid' => '9876543210',
         ]), json_encode($public, JSON_THROW_ON_ERROR));
+    }
+
+    #[Test]
+    public static function convertToPEM(): void
+    {
+        // Given
+        $key = '{"kty":"EC","crv":"P-256","x":"GDDdmNtwNvlXN04SEUp20BZJ9im6SQqkP8u4d8G6RAk","y":"AIAxkBwTTqbCcNbqbpk8l_Eh-4KtpgyyHkNJ6K4jnvOv","use":"sig","alg":"ES256","kid":"ayRrlw","key_ops":["verify"]}';
+        $jwk = JWK::createFromJson($key);
+        $expectedPEM = <<<'PEM'
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEGDDdmNtwNvlXN04SEUp20BZJ9im6
+SQqkP8u4d8G6RAmAMZAcE06mwnDW6m6ZPJfxIfuCraYMsh5DSeiuI57zrw==
+-----END PUBLIC KEY-----
+
+PEM;
+
+        //When
+        $pem = ECKey::convertToPEM($jwk);
+
+        //Then
+        static::assertSame($expectedPEM, $pem);
     }
 }

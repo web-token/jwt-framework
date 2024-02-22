@@ -2,22 +2,16 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     backupGlobals="false"
-    backupStaticAttributes="false"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     processIsolation="false"
     stopOnFailure="false"
     bootstrap="vendor/autoload.php"
     beStrictAboutTestsThatDoNotTestAnything="false"
     colors="true"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    cacheDirectory=".phpunit.cache"
+    backupStaticProperties="false"
 >
-    <coverage>
-        <include>
-            <directory suffix=".php">./src</directory>
-        </include>
-    </coverage>
+    <coverage/>
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./tests/</directory>
@@ -33,7 +27,9 @@
         <server name="SYMFONY_PHPUNIT_VERSION" value="8"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    </listeners>
+    <source>
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+    </source>
 </phpunit>

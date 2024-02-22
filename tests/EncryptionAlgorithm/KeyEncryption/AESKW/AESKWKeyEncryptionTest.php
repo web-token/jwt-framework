@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
+namespace Jose\Tests\EncryptionAlgorithm\KeyEncryption\AESKW;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -10,6 +10,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,9 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class AESKWKeyEncryptionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function a128KW(): void
     {
         $header = [];
@@ -41,9 +40,7 @@ final class AESKWKeyEncryptionTest extends TestCase
         static::assertSame($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function badKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -61,9 +58,7 @@ final class AESKWKeyEncryptionTest extends TestCase
         $aeskw->wrapKey($key, $cek, $header, $header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function a192KW(): void
     {
         $header = [];
@@ -85,9 +80,7 @@ final class AESKWKeyEncryptionTest extends TestCase
         static::assertSame($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function a256KW(): void
     {
         $header = [];

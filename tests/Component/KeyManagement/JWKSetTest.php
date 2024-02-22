@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
-use function count;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use function count;
 
 /**
  * @internal
  */
 final class JWKSetTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelection(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -26,29 +25,22 @@ final class JWKSetTest extends TestCase
         static::assertInstanceOf(JWK::class, $jwk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionWithAlgorithm(): void
     {
         $jwkset = $this->getPublicKeySet();
 
         $jwk = $jwkset->selectKey('sig', new FooAlgorithm());
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionWithAlgorithmAndKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -57,20 +49,15 @@ final class JWKSetTest extends TestCase
             'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
         ]);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionWithKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -79,20 +66,15 @@ final class JWKSetTest extends TestCase
             'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
         ]);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySelectionReturnsNothing(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -103,9 +85,7 @@ final class JWKSetTest extends TestCase
         static::assertNull($jwk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function createKeySetFromValues(): void
     {
         $values = [

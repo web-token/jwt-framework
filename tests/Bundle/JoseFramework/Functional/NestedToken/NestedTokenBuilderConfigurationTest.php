@@ -12,6 +12,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedToken
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,17 +29,13 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
     {
         $this->assertConfigurationIsValid([]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsFalse(): void
     {
         $this->assertConfigurationIsValid([
@@ -48,9 +45,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfConfigurationIsEmpty(): void
     {
         $this->assertConfigurationIsValid([
@@ -60,9 +55,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValidIfNoBuilderIsSet(): void
     {
         $this->assertConfigurationIsValid([
@@ -74,9 +67,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoSignatureAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -93,9 +84,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoKeyEncryptionAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -114,9 +103,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoContentEncryptionAlgorithmIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -136,9 +123,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoJwsSerializerIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -159,9 +144,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsInvalidIfNoJweSerializerIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
@@ -183,9 +166,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theConfigurationIsValid(): void
     {
         $this->assertConfigurationIsValid(

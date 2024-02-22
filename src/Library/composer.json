@@ -1,0 +1,67 @@
+{
+    "name": "web-token/jwt-library",
+    "description": "JWT library",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "JWS",
+        "JWT",
+        "JWE",
+        "JWA",
+        "JWK",
+        "JWKSet",
+        "Jot",
+        "Jose",
+        "RFC7515",
+        "RFC7516",
+        "RFC7517",
+        "RFC7518",
+        "RFC7519",
+        "RFC7520",
+        "Bundle",
+        "Symfony"
+    ],
+    "homepage": "https://github.com/web-token",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },
+        {
+            "name": "All contributors",
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jose\\Component\\": ""
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "brick/math": "^0.9|^0.10|^0.11|^0.12",
+        "paragonie/constant_time_encoding": "^2.6",
+        "paragonie/sodium_compat": "^1.20",
+        "psr/clock": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-client": "^1.0",
+        "spomky-labs/pki-framework": "^1.0",
+        "symfony/console": "^5.4|^6.0|^7.0",
+        "symfony/http-client": "^5.4|^6.0|^7.0",
+        "symfony/polyfill-mbstring": "^1.12"
+    },
+    "conflict": {
+        "spomky-labs/jose": "*"
+    },
+    "suggest": {
+        "ext-openssl": "For key management (creation, optimization, etc.) and some algorithms (AES, RSA, ECDSA, etc.)",
+        "ext-gmp": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
+        "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
+        "paragonie/sodium_compat": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
+        "symfony/http-client": "To enable JKU/X5U support.",
+        "spomky-labs/aes-key-wrap": "For all Key Wrapping algorithms (A128KW, A192KW, A256KW, A128GCMKW, A192GCMKW, A256GCMKW, PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW...)"
+    }
+}

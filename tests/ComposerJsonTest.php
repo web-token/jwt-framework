@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Jose;
 
 use DirectoryIterator;
-use function in_array;
-use const JSON_THROW_ON_ERROR;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Traversable;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
@@ -20,9 +20,7 @@ final class ComposerJsonTest extends TestCase
 {
     private const SRC_DIR = __DIR__ . '/../src';
 
-    /**
-     * @test
-     */
+    #[Test]
     public function packageDependenciesEqualRootDependencies(): void
     {
         $usedDependencies = ['symfony/symfony']; // Some builds add this to composer.json
@@ -63,9 +61,7 @@ final class ComposerJsonTest extends TestCase
         static::assertCount(0, $unusedDependencies, $message);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function rootReplacesSubPackages(): void
     {
         $rootReplaces = $this->getComposerReplaces(__DIR__ . '/../composer.json');
@@ -78,19 +74,13 @@ final class ComposerJsonTest extends TestCase
 
     private function listSubPackages(?string $path = self::SRC_DIR): Traversable
     {
-        $packageFolders = [
-            'Bundle',
-            'Component',
-            'EncryptionAlgorithm',
-            'ContentEncryption',
-            'KeyEncryption',
-            'SignatureAlgorithm',
-        ];
         foreach (new DirectoryIterator($path) as $dirInfo) {
-            if (in_array($dirInfo->getFilename(), $packageFolders, true)) {
+            if ($dirInfo->getFilename() === 'composer.json') {
+                yield $dirInfo->getPath();
+            } elseif ($dirInfo->isDir() && $dirInfo->isDot()) {
+                continue;
+            } elseif ($dirInfo->isDir()) {
                 yield from $this->listSubPackages($dirInfo->getRealPath());
-            } elseif ($dirInfo->isDir() && ! $dirInfo->isDot() && $dirInfo->getFilename() !== '.github') {
-                yield $dirInfo->getRealPath();
             }
         }
     }

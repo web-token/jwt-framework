@@ -7,6 +7,7 @@ namespace Jose\Tests\Component\Core;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\AlgorithmManagerFactory;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -17,18 +18,14 @@ final class AlgorithmManagerFactoryTest extends TestCase
 {
     private ?AlgorithmManagerFactory $algorithmManagerFactory = null;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanListSupportedAliases(): void
     {
         static::assertSame(['foo'], $this->getAlgorithmManagerFactory()->aliases());
         static::assertSame(['foo'], array_keys($this->getAlgorithmManagerFactory()->all()));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAnAlgorithmManagerWithABadArgument(): void
     {
         $this->expectException(TypeError::class);
@@ -36,9 +33,7 @@ final class AlgorithmManagerFactoryTest extends TestCase
         new AlgorithmManager(['foo']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotGetAnAlgorithmThatDoesNotExist(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -55,8 +50,7 @@ final class AlgorithmManagerFactoryTest extends TestCase
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory->add('foo', new FooAlgorithm());
+            $this->algorithmManagerFactory = new AlgorithmManagerFactory([new FooAlgorithm()]);
         }
 
         return $this->algorithmManagerFactory;

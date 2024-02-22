@@ -14,7 +14,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: "Checkout code"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Check file permissions"
         run: |
@@ -34,7 +34,7 @@ jobs:
           php-version: "8.1"
 
       - name: "Checkout code"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Install dependencies"
         uses: "ramsey/composer-install@v2"
@@ -55,6 +55,8 @@ jobs:
           - "ubuntu-latest"
         php-version:
           - "8.1"
+          - "8.2"
+          - "8.3"
         dependencies:
           - "lowest"
           - "highest"
@@ -68,7 +70,7 @@ jobs:
           coverage: "xdebug"
 
       - name: "Checkout code"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Install dependencies"
         uses: "ramsey/composer-install@v2"
@@ -101,7 +103,7 @@ jobs:
           extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
 
       - name: "Checkout code"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Validate Composer configuration"
         run: "composer validate --strict"
@@ -129,7 +131,7 @@ jobs:
           extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
 
       - name: "Checkout code"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Check adherence to EditorConfig"
         uses: "greut/eclint-action@v0"
@@ -142,34 +144,6 @@ jobs:
 
       - name: "Check coding style"
         run: "make ci-cs"
-
-  mutation_testing:
-    name: "5️⃣ Mutation Testing"
-    needs:
-      - "byte_level"
-      - "syntax_errors"
-    runs-on: "ubuntu-latest"
-    steps:
-      - name: "Set up PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "8.1"
-          extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
-
-      - name: "Checkout code"
-        uses: "actions/checkout@v3"
-
-      - name: "Fetch Git base reference"
-        run: "git fetch --depth=1 origin ${GITHUB_BASE_REF}"
-
-      - name: "Install dependencies"
-        uses: "ramsey/composer-install@v2"
-        with:
-          dependency-versions: "highest"
-          composer-options: "--optimize-autoloader"
-
-      - name: "Execute Infection"
-        run: "make ci-mu"
 
   rector_checkstyle:
     name: "6️⃣ Rector Checkstyle"
@@ -186,7 +160,7 @@ jobs:
           coverage: "xdebug"
 
       - name: "Checkout code"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Fetch Git base reference"
         run: "git fetch --depth=1 origin ${GITHUB_BASE_REF}"
@@ -208,7 +182,7 @@ jobs:
     runs-on: "ubuntu-20.04"
     steps:
       - name: "Checkout code"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Check exported files"
         run: |

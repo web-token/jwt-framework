@@ -24,6 +24,7 @@ use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer as JwsSerializer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -57,9 +58,7 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function decryption(): void
     {
         $payload = '{"iss":"hobbiton.example","exp":1300819380,"http://example.com/is_root":true}';
@@ -204,10 +203,11 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory->add('A128GCM', new A128GCM());
-            $this->algorithmManagerFactory->add('RSA-OAEP', new RSAOAEP());
-            $this->algorithmManagerFactory->add('PS256', new PS256());
+            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
+                new A128GCM(),
+                new RSAOAEP(),
+                new PS256(),
+            ]);
         }
 
         return $this->algorithmManagerFactory;

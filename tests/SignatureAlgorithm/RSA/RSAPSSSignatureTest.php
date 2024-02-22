@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Signature\Algorithm;
+namespace Jose\Tests\SignatureAlgorithm\RSA;
 
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
@@ -12,6 +12,7 @@ use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,9 +27,8 @@ final class RSAPSSSignatureTest extends TestCase
      * always different). This test case create a signature and verifies it. Then the output given in the RFC is used
      * and verified. This way, we can say that the library is able to create/verify RSA-PSS signatures and verify
      * signature from test vectors.
-     *
-     * @test
      */
+    #[Test]
     public function pS384(): void
     {
         /**

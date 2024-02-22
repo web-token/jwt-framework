@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\Component\Encryption\Algorithm\KeyEncryption;
+namespace Jose\Tests\EncryptionAlgorithm\KeyEncryption\ECDHES;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -11,6 +11,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHESA256KW;
 use ParagonIE\ConstantTime\Base64UrlSafe;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use const STR_PAD_LEFT;
 
@@ -23,9 +24,8 @@ final class ECDHESKeyAgreementTest extends TestCase
 {
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C
-     *
-     * @test
      */
+    #[Test]
     public function getAgreementKeyWithEllipticCurveKey(): void
     {
         $receiver = new JWK([
@@ -53,9 +53,8 @@ final class ECDHESKeyAgreementTest extends TestCase
 
     /**
      * @see https://tools.ietf.org/html/rfc7518#appendix-C
-     *
-     * @test
      */
+    #[Test]
     public function getAgreementKeyWithA128KeyWrapAndWithOctetKeyPairKey(): void
     {
         $header = [
@@ -121,9 +120,7 @@ final class ECDHESKeyAgreementTest extends TestCase
         static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAgreementKeyWithA128KeyWrap(): void
     {
         $header = [
@@ -190,9 +187,7 @@ final class ECDHESKeyAgreementTest extends TestCase
         static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 128, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAgreementKeyWithA192KeyWrap(): void
     {
         $header = [
@@ -259,9 +254,7 @@ final class ECDHESKeyAgreementTest extends TestCase
         static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 192, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getAgreementKeyWithA256KeyWrap(): void
     {
         $header = [
@@ -334,9 +327,7 @@ final class ECDHESKeyAgreementTest extends TestCase
         static::assertSame($cek, $ecdh_es->unwrapAgreementKey($private, null, $encrypted_cek, 256, $header));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function ePKParameterAreMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -354,9 +345,7 @@ final class ECDHESKeyAgreementTest extends TestCase
         $ecdh_es->getAgreementKey(256, 'A128GCM', $sender, null);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function badEPKParameter(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -377,9 +366,7 @@ final class ECDHESKeyAgreementTest extends TestCase
         $ecdh_es->getAgreementKey(256, 'A128GCM', $sender, null, $header);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function eCKeyHasMissingParameters(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -394,9 +381,7 @@ final class ECDHESKeyAgreementTest extends TestCase
         $ecdh_es->getAgreementKey(256, 'A128GCM', $receiver, null);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function unsupportedCurve(): void
     {
         $this->expectException(InvalidArgumentException::class);

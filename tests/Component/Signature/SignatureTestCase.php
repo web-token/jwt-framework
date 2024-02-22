@@ -46,21 +46,22 @@ abstract class SignatureTestCase extends TestCase
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
         if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory();
-            $this->algorithmManagerFactory->add('HS256', new HS256());
-            $this->algorithmManagerFactory->add('HS384', new HS384());
-            $this->algorithmManagerFactory->add('HS512', new HS512());
-            $this->algorithmManagerFactory->add('ES256', new ES256());
-            $this->algorithmManagerFactory->add('ES384', new ES384());
-            $this->algorithmManagerFactory->add('ES512', new ES512());
-            $this->algorithmManagerFactory->add('RS256', new RS256());
-            $this->algorithmManagerFactory->add('RS384', new RS384());
-            $this->algorithmManagerFactory->add('RS512', new RS512());
-            $this->algorithmManagerFactory->add('PS256', new PS256());
-            $this->algorithmManagerFactory->add('PS384', new PS384());
-            $this->algorithmManagerFactory->add('PS512', new PS512());
-            $this->algorithmManagerFactory->add('none', new None());
-            $this->algorithmManagerFactory->add('EdDSA', new EdDSA());
+            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
+                new HS256(),
+                new HS384(),
+                new HS512(),
+                new ES256(),
+                new ES384(),
+                new ES512(),
+                new RS256(),
+                new RS384(),
+                new RS512(),
+                new PS256(),
+                new PS384(),
+                new PS512(),
+                new None(),
+                new EdDSA(),
+            ]);
         }
 
         return $this->algorithmManagerFactory;

@@ -11,6 +11,8 @@ use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilderFactory as BaseJWSBuilderFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -31,10 +33,8 @@ final class JWSSerializerTest extends KernelTestCase
         }
     }
 
-    /**
-     * @test
-     * @dataProvider jwsFormatDataProvider
-     */
+    #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function theJWSSerializerSupportsAllFormatsByDefault(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -43,9 +43,7 @@ final class JWSSerializerTest extends KernelTestCase
         static::assertTrue($serializer->supportsDenormalization(null, JWS::class, $format));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public static function aJWSCannotBeNormalized(): void
     {
         $container = static::getContainer();
@@ -57,10 +55,8 @@ final class JWSSerializerTest extends KernelTestCase
         static::assertFalse(method_exists($serializer, 'supportsNormalization'));
     }
 
-    /**
-     * @test
-     * @dataProvider jwsFormatDataProvider
-     */
+    #[DataProvider('jwsFormatDataProvider')]
+    #[Test]
     public function theJWSDenormalizerPassesThrough(string $format, string $serializerId): void
     {
         $container = static::getContainer();
@@ -73,12 +69,10 @@ final class JWSSerializerTest extends KernelTestCase
         static::assertSame($jws, $serializer->denormalize($jws, JWS::class, $format));
     }
 
-    public function serializerServiceDataProvider(): array
+    public function serializerServiceDataProvider(): iterable
     {
-        return [
-            'indirect serializer' => ['serializer'],
-            'direct serializer' => [JWSSerializer::class],
-        ];
+        yield 'indirect serializer' => ['serializer'];
+        yield 'direct serializer' => [JWSSerializer::class];
     }
 
     public static function jwsFormatDataProvider(): iterable

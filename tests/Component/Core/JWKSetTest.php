@@ -7,17 +7,16 @@ namespace Jose\Tests\Component\Core;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use const JSON_THROW_ON_ERROR;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
  */
 final class JWKSetTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanSelectAKeyInAKeySet(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -26,9 +25,7 @@ final class JWKSetTest extends TestCase
         static::assertInstanceOf(JWK::class, $jwk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotSelectAKeyFromAKeySetWithUnsupportedUsageParameter(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -38,9 +35,7 @@ final class JWKSetTest extends TestCase
         $jwkset->selectKey('foo');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCannotCreateAKeySetWithBadArguments(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -51,18 +46,14 @@ final class JWKSetTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanGetAllKeysInAKeySet(): void
     {
         $jwkset = $this->getPublicKeySet();
         static::assertCount(3, $jwkset->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanAddKeysInAKeySet(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -73,29 +64,22 @@ final class JWKSetTest extends TestCase
         static::assertNotSame($jwkset, $new_jwkset);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanSelectAKeyWithAlgorithm(): void
     {
         $jwkset = $this->getPublicKeySet();
 
         $jwk = $jwkset->selectKey('enc', new FooAlgorithm());
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'enc',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '71ee230371d19630bc17fb90ccf20ae632ad8cf8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'enc',
+        ], $jwk->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanSelectAKeyWithAlgorithmAndKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -104,20 +88,15 @@ final class JWKSetTest extends TestCase
             'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
         ]);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanSelectAKeyWithWithKeyId(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -126,20 +105,15 @@ final class JWKSetTest extends TestCase
             'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
         ]);
         static::assertInstanceOf(JWK::class, $jwk);
-        static::assertSame(
-            [
-                'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
-                'kty' => 'FOO',
-                'alg' => 'foo',
-                'use' => 'sig',
-            ],
-            $jwk->all()
-        );
+        static::assertSame([
+            'kid' => '02491f945c951adf156f370788e8ccdabf8877a8',
+            'kty' => 'FOO',
+            'alg' => 'foo',
+            'use' => 'sig',
+        ], $jwk->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function theKeySetDoesNotContainsSuitableAKeyThatFitsOnTheRequirements(): void
     {
         $jwkset = $this->getPublicKeySet();
@@ -150,9 +124,7 @@ final class JWKSetTest extends TestCase
         static::assertNull($jwk);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function iCanCreateAKeySetUsingValues(): void
     {
         $values = [
@@ -169,9 +141,7 @@ final class JWKSetTest extends TestCase
         static::assertFalse($jwkset->has(0));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySet(): void
     {
         $jwk1 = new JWK([
@@ -225,9 +195,7 @@ final class JWKSetTest extends TestCase
         static::assertSame(0, $jwkset->count());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function keySet2(): void
     {
         $this->expectException(InvalidArgumentException::class);
