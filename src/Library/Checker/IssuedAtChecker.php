@@ -24,8 +24,8 @@ final class IssuedAtChecker implements ClaimChecker, HeaderChecker
     ) {
         if ($clock === null) {
             trigger_deprecation(
-                'web-token/jwt-checker',
-                '3.2.0',
+                'web-token/jwt-library',
+                '3.3.0',
                 'The parameter "$clock" will become mandatory in 4.0.0. Please set a valid PSR Clock implementation instead of "null".'
             );
             $clock = new InternalClock();
