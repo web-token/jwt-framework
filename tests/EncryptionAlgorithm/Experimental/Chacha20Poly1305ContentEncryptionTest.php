@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\Experimental;
+namespace Jose\Tests\EncryptionAlgorithm\Experimental;
 
 use Jose\Component\Core\JWK;
 use Jose\Experimental\KeyEncryption\Chacha20Poly1305;
