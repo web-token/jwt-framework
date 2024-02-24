@@ -83,7 +83,7 @@
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.1",
         "phpstan/phpstan-strict-rules": "^1.4",
-        "phpunit/phpunit": "^10.1",
+        "phpunit/phpunit": "^10.5.10",
         "qossmic/deptrac-shim": "^1.0",
         "rector/rector": "^1.0",
         "roave/security-advisories": "dev-latest",
