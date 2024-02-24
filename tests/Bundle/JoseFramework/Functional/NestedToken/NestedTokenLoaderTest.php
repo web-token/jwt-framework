@@ -16,13 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class NestedTokenLoaderTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(NestedTokenLoaderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
-        }
-    }
-
     #[Test]
     public static function theNestedTokenLoaderFactoryIsAvailable(): void
     {

@@ -16,7 +16,7 @@ use function is_string;
 
 final class JSONGeneralSerializer extends Serializer
 {
-    public const NAME = 'jws_json_general';
+    public const string NAME = 'jws_json_general';
 
     public function displayName(): string
     {

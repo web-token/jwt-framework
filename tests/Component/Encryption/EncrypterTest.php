@@ -364,9 +364,7 @@ final class EncrypterTest extends EncryptionTestCase
     public function notAKeyEncryptionAlgorithm(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'The key encryption algorithm "A256CBC-HS512" is not supported or not a key encryption algorithm instance.'
-        );
+        $this->expectExceptionMessage('The algorithm "A256CBC-HS512" is not supported.');
 
         $jweBuilder = $this->getJWEBuilderFactory()
             ->create(['A256CBC-HS512'], ['A256CBC-HS512'], ['DEF']);
@@ -388,9 +386,7 @@ final class EncrypterTest extends EncryptionTestCase
     public function notAContentEncryptionAlgorithm(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'The content encryption algorithm "RSA-OAEP-256" is not supported or not a content encryption algorithm instance.'
-        );
+        $this->expectExceptionMessage('The algorithm "RSA-OAEP-256" is not supported.');
 
         $jweBuilder = $this->getJWEBuilderFactory()
             ->create(['RSA-OAEP-256'], ['RSA-OAEP-256'], ['DEF']);

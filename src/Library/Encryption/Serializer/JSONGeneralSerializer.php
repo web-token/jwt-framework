@@ -16,7 +16,7 @@ use function is_array;
 
 final class JSONGeneralSerializer implements JWESerializer
 {
-    public const NAME = 'jwe_json_general';
+    public const string NAME = 'jwe_json_general';
 
     public function displayName(): string
     {

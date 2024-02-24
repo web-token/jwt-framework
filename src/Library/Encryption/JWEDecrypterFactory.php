@@ -33,6 +33,6 @@ class JWEDecrypterFactory
         );
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-        return new JWEDecrypter($algorithmManager, null, $compressionMethodManager);
+        return new JWEDecrypter($algorithmManager, $compressionMethodManager);
     }
 }

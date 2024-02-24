@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Tests\Bundle\JoseFramework\Functional\NestedToken;
 
 use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
-use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\NestedToken\NestedTokenBuilder;
 use PHPUnit\Framework\Attributes\Test;
@@ -16,13 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 final class NestedTokenBuilderTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(NestedTokenLoaderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
-        }
-    }
-
     #[Test]
     public static function theNestedTokenBuilderFactoryIsAvailable(): void
     {

@@ -22,15 +22,12 @@ final class JWEDecrypterFactory
         array $contentEncryptionAlgorithms,
         array $compressionMethods
     ): JWEDecrypter {
-        $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
-        $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithms);
+        $algorithmManager = $this->algorithmManagerFactory->create(array_merge(
+            $keyEncryptionAlgorithms,
+            $contentEncryptionAlgorithms
+        ));
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-        return new JWEDecrypter(
-            $keyEncryptionAlgorithmManager,
-            $contentEncryptionAlgorithmManager,
-            $compressionMethodManager,
-            $this->eventDispatcher
-        );
+        return new JWEDecrypter($algorithmManager, $compressionMethodManager, $this->eventDispatcher);
     }
 }

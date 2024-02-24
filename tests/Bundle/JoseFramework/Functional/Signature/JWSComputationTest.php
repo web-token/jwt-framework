@@ -6,32 +6,22 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSBuilder;
-use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @internal
  */
 final class JWSComputationTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(JWSBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-    }
-
     #[Test]
     public static function createAndLoadAToken(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
 
         $jwk = new JWK([
             'kty' => 'oct',

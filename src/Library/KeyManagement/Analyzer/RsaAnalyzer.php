@@ -9,6 +9,7 @@ use Jose\Component\Core\JWK;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use function is_array;
 use function is_string;
+use const STR_PAD_RIGHT;
 
 final class RsaAnalyzer implements KeyAnalyzer
 {
@@ -30,7 +31,7 @@ final class RsaAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $exponent = unpack('l', str_pad(Base64UrlSafe::decodeNoPadding($e), 4, "\0"));
+        $exponent = unpack('l', mb_str_pad(Base64UrlSafe::decodeNoPadding($e), 4, "\0", STR_PAD_RIGHT, '8bit'));
         if (! is_array($exponent) || ! isset($exponent[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }

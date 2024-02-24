@@ -16,7 +16,7 @@ use function is_array;
 
 final class CompactSerializer implements JWESerializer
 {
-    public const NAME = 'jwe_compact';
+    public const string NAME = 'jwe_compact';
 
     public function displayName(): string
     {

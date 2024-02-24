@@ -13,7 +13,7 @@ use function is_array;
 
 final class JSONFlattenedSerializer extends Serializer
 {
-    public const NAME = 'jws_json_flattened';
+    public const string NAME = 'jws_json_flattened';
 
     public function displayName(): string
     {

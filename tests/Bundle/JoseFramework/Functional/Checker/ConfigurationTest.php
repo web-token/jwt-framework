@@ -7,7 +7,6 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Checker;
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
-use Jose\Component\Checker\ClaimCheckerManagerFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -18,13 +17,6 @@ use PHPUnit\Framework\TestCase;
 final class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
-
-    protected function setUp(): void
-    {
-        if (! class_exists(ClaimCheckerManagerFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
-        }
-    }
 
     #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void

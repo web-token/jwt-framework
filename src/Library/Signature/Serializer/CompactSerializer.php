@@ -15,7 +15,7 @@ use function is_array;
 
 final class CompactSerializer extends Serializer
 {
-    public const NAME = 'jws_compact';
+    public const string NAME = 'jws_compact';
 
     public function displayName(): string
     {

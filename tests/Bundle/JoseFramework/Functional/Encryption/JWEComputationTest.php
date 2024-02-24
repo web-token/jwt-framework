@@ -6,32 +6,22 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
-use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @internal
  */
 final class JWEComputationTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(JWEBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-    }
-
     #[Test]
     public static function iCanCreateAndLoadAToken(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
 
         $jwk = new JWK([
             'kty' => 'oct',
