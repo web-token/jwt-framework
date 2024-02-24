@@ -56,7 +56,7 @@ final class ComposerJsonTest extends TestCase
         $unusedDependencies = array_diff(array_keys($rootDependencies), array_unique($usedDependencies));
         $message = sprintf(
             'Dependencies declared in root composer.json, which are not declared in any sub-package: %s',
-            implode('', $unusedDependencies)
+            implode(', ', $unusedDependencies)
         );
         static::assertCount(0, $unusedDependencies, $message);
     }

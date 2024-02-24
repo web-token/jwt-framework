@@ -9,7 +9,7 @@ use function is_array;
 
 class ConfigurationHelper
 {
-    final public const BUNDLE_ALIAS = 'jose';
+    final public const string BUNDLE_ALIAS = 'jose';
 
     /**
      * @param string[] $signatureAlgorithms

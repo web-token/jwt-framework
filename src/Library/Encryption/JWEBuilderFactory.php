@@ -28,14 +28,12 @@ class JWEBuilderFactory
         array $contentEncryptionAlgorithm,
         array $compressionMethods
     ): JWEBuilder {
-        $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
-        $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithm);
+        $algorithmManager = $this->algorithmManagerFactory->create(array_merge(
+            $keyEncryptionAlgorithms,
+            $contentEncryptionAlgorithm
+        ));
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-        return new JWEBuilder(
-            $keyEncryptionAlgorithmManager,
-            $contentEncryptionAlgorithmManager,
-            $compressionMethodManager
-        );
+        return new JWEBuilder($algorithmManager, $compressionMethodManager);
     }
 }

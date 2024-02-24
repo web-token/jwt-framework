@@ -17,11 +17,10 @@ final class JWEBuilder extends BaseJWEBuilder
 {
     public function __construct(
         AlgorithmManager $algorithmManager,
-        null|AlgorithmManager $contentEncryptionAlgorithmManager,
         CompressionMethodManager $compressionManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($algorithmManager, $contentEncryptionAlgorithmManager, $compressionManager);
+        parent::__construct($algorithmManager, $compressionManager);
     }
 
     public function build(): JWE

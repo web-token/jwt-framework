@@ -15,8 +15,8 @@ use Rector\ValueObject\PhpVersion;
 
 return static function (RectorConfig $config): void {
     $config->import(SetList::DEAD_CODE);
-    $config->import(LevelSetList::UP_TO_PHP_81);
-    $config->import(SymfonyLevelSetList::UP_TO_SYMFONY_54);
+    $config->import(LevelSetList::UP_TO_PHP_83);
+    $config->import(SymfonyLevelSetList::UP_TO_SYMFONY_64);
     $config->import(SymfonySetList::SYMFONY_50_TYPES);
     $config->import(SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES);
     $config->import(SymfonySetList::SYMFONY_CODE_QUALITY);

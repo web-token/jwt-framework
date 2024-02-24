@@ -115,13 +115,13 @@ final class ECKey
             'kty' => 'EC',
             'crv' => $curve,
             'd' => Base64UrlSafe::encodeUnpadded(
-                str_pad((string) $details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
+                mb_str_pad((string) $details['ec']['d'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT, '8bit')
             ),
             'x' => Base64UrlSafe::encodeUnpadded(
-                str_pad((string) $details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
+                mb_str_pad((string) $details['ec']['x'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT, '8bit')
             ),
             'y' => Base64UrlSafe::encodeUnpadded(
-                str_pad((string) $details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT)
+                mb_str_pad((string) $details['ec']['y'], (int) ceil($nistCurveSize / 8), "\0", STR_PAD_LEFT, '8bit')
             ),
         ];
     }
@@ -203,7 +203,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', mb_str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT, '8bit'));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -229,7 +229,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', mb_str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT, '8bit'));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -255,7 +255,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 48, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', mb_str_pad(Base64UrlSafe::decodeNoPadding($d), 48, "\0", STR_PAD_LEFT, '8bit'));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -281,7 +281,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 66, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', mb_str_pad(Base64UrlSafe::decodeNoPadding($d), 66, "\0", STR_PAD_LEFT, '8bit'));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -321,8 +321,8 @@ final class ECKey
         $binY = ltrim(Base64UrlSafe::decodeNoPadding($y), "\0");
 
         return "\04"
-            . str_pad($binX, $length, "\0", STR_PAD_LEFT)
-            . str_pad($binY, $length, "\0", STR_PAD_LEFT)
+            . mb_str_pad($binX, $length, "\0", STR_PAD_LEFT, '8bit')
+            . mb_str_pad($binY, $length, "\0", STR_PAD_LEFT, '8bit')
         ;
     }
 }

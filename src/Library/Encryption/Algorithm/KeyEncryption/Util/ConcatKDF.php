@@ -56,7 +56,7 @@ final class ConcatKDF
      */
     private static function toInt32Bits(int $value): string
     {
-        $result = hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+        $result = hex2bin(mb_str_pad(dechex($value), 8, '0', STR_PAD_LEFT, '8bit'));
         if ($result === false) {
             throw new InvalidArgumentException('Invalid result');
         }

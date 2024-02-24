@@ -17,12 +17,11 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 final class JWEDecrypter extends BaseJWEDecrypter
 {
     public function __construct(
-        AlgorithmManager $keyEncryptionAlgorithmManager,
-        AlgorithmManager $contentEncryptionAlgorithmManager,
+        AlgorithmManager $algorithmManager,
         CompressionMethodManager $compressionMethodManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
+        parent::__construct($algorithmManager, $compressionMethodManager);
     }
 
     public function decryptUsingKeySet(

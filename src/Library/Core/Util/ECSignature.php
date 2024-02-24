@@ -74,7 +74,13 @@ final class ECSignature
         $pointS = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
 
         $bin = hex2bin(
-            str_pad($pointR, $length, '0', STR_PAD_LEFT) . str_pad($pointS, $length, '0', STR_PAD_LEFT)
+            mb_str_pad($pointR, $length, '0', STR_PAD_LEFT, '8bit') . mb_str_pad(
+                $pointS,
+                $length,
+                '0',
+                STR_PAD_LEFT,
+                '8bit'
+            )
         );
         if (! is_string($bin)) {
             throw new InvalidArgumentException('Unable to parse the data');

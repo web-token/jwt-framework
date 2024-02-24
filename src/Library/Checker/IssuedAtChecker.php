@@ -13,24 +13,13 @@ use function is_int;
  */
 final class IssuedAtChecker implements ClaimChecker, HeaderChecker
 {
-    private const NAME = 'iat';
-
-    private readonly ClockInterface $clock;
+    private const string NAME = 'iat';
 
     public function __construct(
+        private readonly ClockInterface $clock,
         private readonly int $allowedTimeDrift = 0,
         private readonly bool $protectedHeaderOnly = false,
-        ?ClockInterface $clock = null,
     ) {
-        if ($clock === null) {
-            trigger_deprecation(
-                'web-token/jwt-library',
-                '3.3.0',
-                'The parameter "$clock" will become mandatory in 4.0.0. Please set a valid PSR Clock implementation instead of "null".'
-            );
-            $clock = new InternalClock();
-        }
-        $this->clock = $clock;
     }
 
     public function checkClaim(mixed $value): void

@@ -34,6 +34,6 @@ final class JWEBuilderFactory
         );
         $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
 
-        return new JWEBuilder($algorithmManager, null, $compressionMethodManager, $this->eventDispatcher);
+        return new JWEBuilder($algorithmManager, $compressionMethodManager, $this->eventDispatcher);
     }
 }

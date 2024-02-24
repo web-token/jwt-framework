@@ -15,7 +15,7 @@ use function is_array;
 
 final class JSONFlattenedSerializer implements JWESerializer
 {
-    public const NAME = 'jwe_json_flattened';
+    public const string NAME = 'jwe_json_flattened';
 
     public function displayName(): string
     {
