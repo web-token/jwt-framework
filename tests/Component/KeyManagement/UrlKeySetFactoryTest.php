@@ -25,10 +25,6 @@ final class UrlKeySetFactoryTest extends TestCase
 
     private ?HttpClientInterface $httpClient = null;
 
-    protected function setUp(): void
-    {
-    }
-
     #[Test]
     public function iCanGetAKeySetFromAJWKUrl(): void
     {

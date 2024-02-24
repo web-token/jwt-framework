@@ -115,10 +115,10 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "infection/extension-installer": true,
             "composer/package-versions-deprecated": true,
             "phpstan/extension-installer": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "infection/extension-installer": false
         }
     }
 }

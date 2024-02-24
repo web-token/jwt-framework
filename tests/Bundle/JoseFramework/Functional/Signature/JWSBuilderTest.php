@@ -9,27 +9,18 @@ use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory as JWSBuilderFactorySer
 use Jose\Component\Signature\JWSBuilderFactory;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @internal
  */
 final class JWSBuilderTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(JWSBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-    }
-
     #[Test]
     public static function jWSBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has(JWSBuilderFactoryService::class));
     }
 
@@ -39,7 +30,6 @@ final class JWSBuilderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
 
         /** @var JWSBuilderFactory $jwsFactory */
         $jwsFactory = $container->get(JWSBuilderFactoryService::class);
@@ -55,7 +45,6 @@ final class JWSBuilderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_builder.builder1'));
 
         $jws = $container->get('jose.jws_builder.builder1');
@@ -68,7 +57,6 @@ final class JWSBuilderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_builder.builder2'));
 
         $jws = $container->get('jose.jws_builder.builder2');
