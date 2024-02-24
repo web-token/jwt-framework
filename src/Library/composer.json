@@ -45,10 +45,9 @@
         "paragonie/constant_time_encoding": "^2.6",
         "paragonie/sodium_compat": "^1.20",
         "psr/clock": "^1.0",
-        "spomky-labs/pki-framework": "^1.0",
+        "spomky-labs/pki-framework": "^1.1",
         "symfony/console": "^7.0",
-        "symfony/http-client": "^7.0",
-        "symfony/polyfill-mbstring": "^1.12"
+        "symfony/http-client": "^7.0"
     },
     "conflict": {
         "spomky-labs/jose": "*"
