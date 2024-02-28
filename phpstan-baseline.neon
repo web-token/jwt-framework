@@ -1206,11 +1206,6 @@ parameters:
 			path: src/Library/Console/KeysetAnalyzerCommand.php
 
 		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Library/Console/NoneKeyGeneratorCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 1
 			path: src/Library/Console/OctKeyGeneratorCommand.php
@@ -1226,11 +1221,6 @@ parameters:
 			path: src/Library/Console/OkpKeysetGeneratorCommand.php
 
 		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Library/Console/PublicKeyCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 1
 			path: src/Library/Console/RsaKeyGeneratorCommand.php
@@ -1239,11 +1229,6 @@ parameters:
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 2
 			path: src/Library/Console/RsaKeysetGeneratorCommand.php
-
-		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Library/Console/X5ULoaderCommand.php
 
 		-
 			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
