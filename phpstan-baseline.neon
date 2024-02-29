@@ -886,11 +886,6 @@ parameters:
 			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
 
 		-
-			message: "#^Class Jose\\\\Bundle\\\\JoseFramework\\\\Routing\\\\JWKSetLoader has an uninitialized property \\$resolver\\. Give it default value or assign it in the constructor\\.$#"
-			count: 1
-			path: src/Bundle/Routing/JWKSetLoader.php
-
-		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWEEncoder\\:\\:decode\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Serializer/JWEEncoder.php

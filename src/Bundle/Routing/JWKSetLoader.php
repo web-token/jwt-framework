@@ -9,12 +9,13 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use function assert;
 
-final readonly class JWKSetLoader implements LoaderInterface
+final class JWKSetLoader implements LoaderInterface
 {
     private readonly RouteCollection $routes;
 
-    private LoaderResolverInterface $resolver;
+    private null|LoaderResolverInterface $resolver = null;
 
     public function __construct()
     {
@@ -45,6 +46,7 @@ final readonly class JWKSetLoader implements LoaderInterface
     #[Override]
     public function getResolver(): LoaderResolverInterface
     {
+        assert($this->resolver !== null, 'Resolver is not set.');
         return $this->resolver;
     }
 
