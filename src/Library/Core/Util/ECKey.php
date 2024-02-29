@@ -6,7 +6,6 @@ namespace Jose\Component\Core\Util;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use function extension_loaded;
 use function is_array;
@@ -18,7 +17,7 @@ use const STR_PAD_LEFT;
 /**
  * @internal
  */
-final class ECKey
+final readonly class ECKey
 {
     public static function convertToPEM(JWK $jwk): string
     {

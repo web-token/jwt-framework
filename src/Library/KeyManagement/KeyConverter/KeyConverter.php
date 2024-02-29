@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use OpenSSLCertificate;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -31,7 +31,7 @@ use const PREG_PATTERN_ORDER;
 /**
  * @internal
  */
-final class KeyConverter
+final readonly class KeyConverter
 {
     public static function loadKeyFromCertificateFile(string $file): array
     {

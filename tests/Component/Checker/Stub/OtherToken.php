@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Checker\Stub;
 
 use Jose\Component\Core\JWT;
+use Override;
 
 class OtherToken implements JWT
 {
@@ -15,6 +16,7 @@ class OtherToken implements JWT
     ) {
     }
 
+    #[Override]
     public function getPayload(): ?string
     {
         return $this->payload;

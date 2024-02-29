@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
-abstract class AbstractSource
+abstract readonly class AbstractSource
 {
     /**
      * @param array{is_public: bool, tags: array<string, array>, string?: mixed} $config

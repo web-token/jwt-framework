@@ -7,7 +7,7 @@ namespace Jose\Component\Encryption\Serializer;
 use InvalidArgumentException;
 use Jose\Component\Encryption\JWE;
 
-class JWESerializerManager
+final class JWESerializerManager
 {
     /**
      * @var JWESerializer[]

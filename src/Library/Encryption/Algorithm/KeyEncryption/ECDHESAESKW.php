@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
+use Override;
 
-abstract class ECDHESAESKW extends AbstractECDHAESKW
+abstract readonly class ECDHESAESKW extends AbstractECDHAESKW
 {
     /**
      * @param array<string, mixed> $complete_header
      * @param array<string, mixed> $additional_header_values
      */
+    #[Override]
     public function wrapAgreementKey(
         JWK $recipientKey,
         ?JWK $senderKey,
@@ -37,6 +39,7 @@ abstract class ECDHESAESKW extends AbstractECDHAESKW
     /**
      * @param array<string, mixed> $complete_header
      */
+    #[Override]
     public function unwrapAgreementKey(
         JWK $recipientKey,
         ?JWK $senderKey,

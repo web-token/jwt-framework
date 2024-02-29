@@ -9,6 +9,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\RSAKey;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,16 +20,14 @@ use function is_string;
 #[AsCommand(name: 'key:convert:pkcs1', description: 'Converts a RSA or EC key into PKCS#1 key.',)]
 final class PemConverterCommand extends ObjectOutputCommand
 {
-    protected static $defaultName = 'key:convert:pkcs1';
-
-    protected static $defaultDescription = 'Converts a RSA or EC key into PKCS#1 key.';
-
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
         $this->addArgument('jwk', InputArgument::REQUIRED, 'The key');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwk = $input->getArgument('jwk');

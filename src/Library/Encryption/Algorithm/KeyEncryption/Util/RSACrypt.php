@@ -18,7 +18,7 @@ use const STR_PAD_LEFT;
 /**
  * @internal
  */
-final class RSACrypt
+final readonly class RSACrypt
 {
     /**
      * Optimal Asymmetric Encryption Padding (OAEP).

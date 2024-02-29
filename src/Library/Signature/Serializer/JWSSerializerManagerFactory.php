@@ -6,7 +6,7 @@ namespace Jose\Component\Signature\Serializer;
 
 use InvalidArgumentException;
 
-class JWSSerializerManagerFactory
+final class JWSSerializerManagerFactory
 {
     /**
      * @var JWSSerializer[]

@@ -1176,37 +1176,7 @@ parameters:
 			path: src/Library/Checker/IssuerChecker.php
 
 		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\AddKeyIntoKeysetCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/AddKeyIntoKeysetCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\AddKeyIntoKeysetCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/AddKeyIntoKeysetCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\EcKeyGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/EcKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\EcKeyGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/EcKeyGeneratorCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: src/Library/Console/EcKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\EcKeysetGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/EcKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\EcKeysetGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
 			count: 1
 			path: src/Library/Console/EcKeysetGeneratorCommand.php
 
@@ -1214,46 +1184,6 @@ parameters:
 			message: "#^Method Jose\\\\Component\\\\Console\\\\GeneratorCommand\\:\\:getOptions\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Console/GeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\GetThumbprintCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/GetThumbprintCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\GetThumbprintCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/GetThumbprintCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\JKULoaderCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/JKULoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\JKULoaderCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/JKULoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\KeyAnalyzerCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/KeyAnalyzerCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\KeyAnalyzerCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/KeyAnalyzerCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\KeyFileLoaderCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/KeyFileLoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\KeyFileLoaderCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/KeyFileLoaderCommand.php
 
 		-
 			message: "#^Parameter \\#1 \\$jwk of method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\KeyAnalyzerManager\\:\\:analyze\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
@@ -1266,52 +1196,12 @@ parameters:
 			path: src/Library/Console/KeysetAnalyzerCommand.php
 
 		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\KeysetAnalyzerCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/KeysetAnalyzerCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\KeysetAnalyzerCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/KeysetAnalyzerCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\MergeKeysetCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/MergeKeysetCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\MergeKeysetCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/MergeKeysetCommand.php
-
-		-
 			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
 			count: 1
 			path: src/Library/Console/NoneKeyGeneratorCommand.php
 
 		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\NoneKeyGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/NoneKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\NoneKeyGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/NoneKeyGeneratorCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: src/Library/Console/OctKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OctKeyGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OctKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OctKeyGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
 			count: 1
 			path: src/Library/Console/OctKeyGeneratorCommand.php
 
@@ -1321,69 +1211,9 @@ parameters:
 			path: src/Library/Console/OctKeysetGeneratorCommand.php
 
 		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OctKeysetGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OctKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OctKeysetGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OctKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OkpKeyGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OkpKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OkpKeyGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OkpKeyGeneratorCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 1
 			path: src/Library/Console/OkpKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OkpKeysetGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OkpKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OkpKeysetGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OkpKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OptimizeRsaKeyCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OptimizeRsaKeyCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\OptimizeRsaKeyCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/OptimizeRsaKeyCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\P12CertificateLoaderCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/P12CertificateLoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\P12CertificateLoaderCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/P12CertificateLoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\PemConverterCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/PemConverterCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\PemConverterCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/PemConverterCommand.php
 
 		-
 			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
@@ -1391,47 +1221,7 @@ parameters:
 			path: src/Library/Console/PublicKeyCommand.php
 
 		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\PublicKeyCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/PublicKeyCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\PublicKeyCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/PublicKeyCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\PublicKeysetCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/PublicKeysetCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\PublicKeysetCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/PublicKeysetCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\RotateKeysetCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/RotateKeysetCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\RotateKeysetCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/RotateKeysetCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
-			count: 1
-			path: src/Library/Console/RsaKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\RsaKeyGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/RsaKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\RsaKeyGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
 			count: 1
 			path: src/Library/Console/RsaKeyGeneratorCommand.php
 
@@ -1441,47 +1231,7 @@ parameters:
 			path: src/Library/Console/RsaKeysetGeneratorCommand.php
 
 		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\RsaKeysetGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/RsaKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\RsaKeysetGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/RsaKeysetGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\SecretKeyGeneratorCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/SecretKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\SecretKeyGeneratorCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/SecretKeyGeneratorCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\X509CertificateLoaderCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/X509CertificateLoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\X509CertificateLoaderCommand\\:\\:\\$defaultName has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/X509CertificateLoaderCommand.php
-
-		-
 			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Library/Console/X5ULoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\X5ULoaderCommand\\:\\:\\$defaultDescription has no type specified\\.$#"
-			count: 1
-			path: src/Library/Console/X5ULoaderCommand.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\Console\\\\X5ULoaderCommand\\:\\:\\$defaultName has no type specified\\.$#"
 			count: 1
 			path: src/Library/Console/X5ULoaderCommand.php
 
@@ -1571,6 +1321,41 @@ parameters:
 			path: src/Library/Core/JWKSet.php
 
 		-
+			message: "#^Comparison operation \"\\>\" between 0 and 1 is always false\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Base64UrlSafe.php
+
+		-
+			message: "#^Instantiated class Jose\\\\Component\\\\Core\\\\Util\\\\InvalidArgumentException not found\\.$#"
+			count: 2
+			path: src/Library/Core/Util/Base64UrlSafe.php
+
+		-
+			message: "#^Instantiated class Jose\\\\Component\\\\Core\\\\Util\\\\RangeException not found\\.$#"
+			count: 3
+			path: src/Library/Core/Util/Base64UrlSafe.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\Base64UrlSafe\\:\\:safeSubstr\\(\\) has parameter \\$length with no type specified\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Base64UrlSafe.php
+
+		-
+			message: "#^Throwing object of an unknown class Jose\\\\Component\\\\Core\\\\Util\\\\InvalidArgumentException\\.$#"
+			count: 2
+			path: src/Library/Core/Util/Base64UrlSafe.php
+
+		-
+			message: "#^Throwing object of an unknown class Jose\\\\Component\\\\Core\\\\Util\\\\RangeException\\.$#"
+			count: 3
+			path: src/Library/Core/Util/Base64UrlSafe.php
+
+		-
+			message: "#^Variable \\$i might not be defined\\.$#"
+			count: 2
+			path: src/Library/Core/Util/Base64UrlSafe.php
+
+		-
 			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\ECKey\\:\\:createECKey\\(\\) has parameter \\$values with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Core/Util/ECKey.php
@@ -1589,6 +1374,46 @@ parameters:
 			message: "#^Binary operation \"\\^\" between string and 1 results in an error\\.$#"
 			count: 2
 			path: src/Library/Core/Util/Ecc/Curve.php
+
+		-
+			message: "#^Parameter \\#1 \\$a is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$infinity\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
+
+		-
+			message: "#^Parameter \\#1 \\$sa is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$order\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
+
+		-
+			message: "#^Parameter \\#1 \\$sa is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$x\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
+
+		-
+			message: "#^Parameter \\#1 \\$sa is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$y\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
+
+		-
+			message: "#^Parameter \\#2 \\$b is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$infinity\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
+
+		-
+			message: "#^Parameter \\#2 \\$sb is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$order\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
+
+		-
+			message: "#^Parameter \\#2 \\$sb is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$x\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
+
+		-
+			message: "#^Parameter \\#2 \\$sb is passed by reference so it does not accept readonly property Jose\\\\Component\\\\Core\\\\Util\\\\Ecc\\\\Point\\:\\:\\$y\\.$#"
+			count: 1
+			path: src/Library/Core/Util/Ecc/Point.php
 
 		-
 			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -1881,7 +1706,7 @@ parameters:
 			path: src/Library/Encryption/Serializer/JSONFlattenedSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method Jose\\\\Component\\\\Core\\\\Util\\\\Base64UrlSafe\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 3
 			path: src/Library/Encryption/Serializer/JSONFlattenedSerializer.php
 
@@ -1911,7 +1736,7 @@ parameters:
 			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method Jose\\\\Component\\\\Core\\\\Util\\\\Base64UrlSafe\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 3
 			path: src/Library/Encryption/Serializer/JSONGeneralSerializer.php
 
@@ -1949,6 +1774,21 @@ parameters:
 			message: "#^Parameter \\#2 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
 			count: 2
 			path: src/Library/KeyManagement/Analyzer/UsageAnalyzer.php
+
+		-
+			message: "#^Argument of an invalid type array\\<int, int\\>\\|string supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/ZxcvbnKeyAnalyzer.php
+
+		-
+			message: "#^Only booleans are allowed in a negated boolean, int\\<0, max\\> given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/ZxcvbnKeyAnalyzer.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, array\\<int, int\\>\\|string given\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/Analyzer/ZxcvbnKeyAnalyzer.php
 
 		-
 			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\JKUFactory\\:\\:loadFromUrl\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
@@ -2231,7 +2071,7 @@ parameters:
 			path: src/Library/Signature/Serializer/CompactSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method Jose\\\\Component\\\\Core\\\\Util\\\\Base64UrlSafe\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 1
 			path: src/Library/Signature/Serializer/JSONFlattenedSerializer.php
 
@@ -2261,7 +2101,7 @@ parameters:
 			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
+			message: "#^Parameter \\#1 \\$encodedString of static method Jose\\\\Component\\\\Core\\\\Util\\\\Base64UrlSafe\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
 			count: 1
 			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
 

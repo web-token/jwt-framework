@@ -7,7 +7,7 @@ namespace Jose\Bundle\JoseFramework\Helper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use function is_array;
 
-class ConfigurationHelper
+final readonly class ConfigurationHelper
 {
     final public const string BUNDLE_ALIAS = 'jose';
 

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Routing;
 
+use Override;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-final class JWKSetLoader implements LoaderInterface
+final readonly class JWKSetLoader implements LoaderInterface
 {
     private readonly RouteCollection $routes;
 
@@ -29,21 +30,25 @@ final class JWKSetLoader implements LoaderInterface
         $this->routes->add(sprintf('jwkset_%s', $name), $route);
     }
 
+    #[Override]
     public function load(mixed $resource, string $type = null): RouteCollection
     {
         return $this->routes;
     }
 
+    #[Override]
     public function supports(mixed $resource, string $type = null): bool
     {
         return $type === 'jwkset';
     }
 
+    #[Override]
     public function getResolver(): LoaderResolverInterface
     {
         return $this->resolver;
     }
 
+    #[Override]
     public function setResolver(LoaderResolverInterface $resolver): void
     {
         $this->resolver = $resolver;

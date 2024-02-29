@@ -6,12 +6,14 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class ClaimCheckerCompilerPass implements CompilerPassInterface
+final readonly class ClaimCheckerCompilerPass implements CompilerPassInterface
 {
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         if (! $container->hasDefinition(ClaimCheckerManagerFactory::class)) {

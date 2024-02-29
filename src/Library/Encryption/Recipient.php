@@ -10,11 +10,11 @@ use function array_key_exists;
 /**
  * @internal
  */
-final class Recipient
+final readonly class Recipient
 {
     public function __construct(
-        private readonly array $header,
-        private readonly ?string $encryptedKey
+        private array $header,
+        private ?string $encryptedKey
     ) {
     }
 

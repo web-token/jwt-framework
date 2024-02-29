@@ -6,8 +6,8 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\BigInteger;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use function array_key_exists;
 use function extension_loaded;

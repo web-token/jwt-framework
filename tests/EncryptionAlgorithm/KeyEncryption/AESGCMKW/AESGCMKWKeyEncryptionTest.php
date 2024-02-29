@@ -6,10 +6,10 @@ namespace Jose\Tests\EncryptionAlgorithm\KeyEncryption\AESGCMKW;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

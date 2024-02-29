@@ -6,7 +6,7 @@ namespace Jose\Component\Encryption\Compression;
 
 use InvalidArgumentException;
 
-class CompressionMethodManagerFactory
+final class CompressionMethodManagerFactory
 {
     /**
      * @var CompressionMethod[]

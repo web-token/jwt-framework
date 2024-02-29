@@ -6,7 +6,8 @@ namespace Jose\Component\Signature\Algorithm;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
+use Override;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use function assert;
@@ -14,7 +15,7 @@ use function extension_loaded;
 use function in_array;
 use function is_string;
 
-final class EdDSA implements SignatureAlgorithm
+final readonly class EdDSA implements SignatureAlgorithm
 {
     public function __construct()
     {
@@ -23,6 +24,7 @@ final class EdDSA implements SignatureAlgorithm
         }
     }
 
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['OKP'];
@@ -31,6 +33,7 @@ final class EdDSA implements SignatureAlgorithm
     /**
      * @return non-empty-string
      */
+    #[Override]
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -64,6 +67,7 @@ final class EdDSA implements SignatureAlgorithm
     /**
      * @param non-empty-string $signature
      */
+    #[Override]
     public function verify(JWK $key, string $input, string $signature): bool
     {
         $this->checkKey($key);
@@ -81,6 +85,7 @@ final class EdDSA implements SignatureAlgorithm
         };
     }
 
+    #[Override]
     public function name(): string
     {
         return 'EdDSA';

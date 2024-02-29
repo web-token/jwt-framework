@@ -8,7 +8,7 @@ use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class NestedTokenBuilderFactory
+final readonly class NestedTokenBuilderFactory
 {
     public function __construct(
         private readonly JWEBuilderFactory $jweBuilderFactory,

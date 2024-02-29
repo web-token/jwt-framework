@@ -8,7 +8,7 @@ use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class JWEBuilderFactory
+final readonly class JWEBuilderFactory
 {
     public function __construct(
         private readonly AlgorithmManagerFactory $algorithmManagerFactory,

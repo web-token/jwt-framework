@@ -13,6 +13,7 @@ use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWELoader;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Override;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Throwable;
 
-class JWECollector implements Collector, EventSubscriberInterface
+final class JWECollector implements Collector, EventSubscriberInterface
 {
     /**
      * @var array<Data>
@@ -66,6 +67,7 @@ class JWECollector implements Collector, EventSubscriberInterface
     /**
      * @param array<string, mixed> $data
      */
+    #[Override]
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectSupportedCompressionMethods($data);
@@ -91,6 +93,7 @@ class JWECollector implements Collector, EventSubscriberInterface
         $this->jweLoaders[$id] = $jweLoader;
     }
 
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         return [

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Checker\Stub;
 
 use Jose\Component\Core\JWT;
+use Override;
 
-class Token implements JWT
+final readonly class Token implements JWT
 {
     public function __construct(
         private readonly ?string $payload,
@@ -15,6 +16,7 @@ class Token implements JWT
     ) {
     }
 
+    #[Override]
     public function getPayload(): ?string
     {
         return $this->payload;

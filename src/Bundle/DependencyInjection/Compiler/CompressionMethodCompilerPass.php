@@ -6,12 +6,14 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use InvalidArgumentException;
 use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class CompressionMethodCompilerPass implements CompilerPassInterface
+final readonly class CompressionMethodCompilerPass implements CompilerPassInterface
 {
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         if (! $container->hasDefinition(CompressionMethodManagerFactory::class)) {

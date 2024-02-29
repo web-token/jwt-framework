@@ -10,6 +10,7 @@ use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\MessageBag;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -22,10 +23,6 @@ use function is_string;
 #[AsCommand(name: 'keyset:analyze', description: 'JWKSet quality analyzer.',)]
 final class KeysetAnalyzerCommand extends Command
 {
-    protected static $defaultName = 'keyset:analyze';
-
-    protected static $defaultDescription = 'JWKSet quality analyzer.';
-
     public function __construct(
         private readonly KeysetAnalyzerManager $keysetAnalyzerManager,
         private readonly KeyAnalyzerManager $keyAnalyzerManager,
@@ -34,6 +31,7 @@ final class KeysetAnalyzerCommand extends Command
         parent::__construct($name);
     }
 
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
@@ -41,6 +39,7 @@ final class KeysetAnalyzerCommand extends Command
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->getFormatter()
