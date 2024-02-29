@@ -64,12 +64,12 @@ final readonly class EdDSA implements SignatureAlgorithm
         };
     }
 
-    /**
-     * @param non-empty-string $signature
-     */
     #[Override]
     public function verify(JWK $key, string $input, string $signature): bool
     {
+        if ($signature === '') {
+            return false;
+        }
         $this->checkKey($key);
         $x = $key->get('x');
         if (! is_string($x)) {

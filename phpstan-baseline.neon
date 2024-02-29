@@ -1191,11 +1191,6 @@ parameters:
 			path: src/Library/Console/KeysetAnalyzerCommand.php
 
 		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Library/Console/NoneKeyGeneratorCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 1
 			path: src/Library/Console/OctKeyGeneratorCommand.php
@@ -1211,11 +1206,6 @@ parameters:
 			path: src/Library/Console/OkpKeysetGeneratorCommand.php
 
 		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Library/Console/PublicKeyCommand.php
-
-		-
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 1
 			path: src/Library/Console/RsaKeyGeneratorCommand.php
@@ -1224,11 +1214,6 @@ parameters:
 			message: "#^Cannot cast mixed to int\\.$#"
 			count: 2
 			path: src/Library/Console/RsaKeysetGeneratorCommand.php
-
-		-
-			message: "#^Attribute class Jose\\\\Component\\\\Console\\\\AsCommand does not exist\\.$#"
-			count: 1
-			path: src/Library/Console/X5ULoaderCommand.php
 
 		-
 			message: "#^Call to function is_string\\(\\) with string will always evaluate to true\\.$#"
@@ -1442,7 +1427,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
-			count: 2
+			count: 1
 			path: src/Library/Encryption/Algorithm/KeyEncryption/Util/RSACrypt.php
 
 		-
@@ -1884,146 +1869,6 @@ parameters:
 			message: "#^Property Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\ECKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/KeyManagement/KeyConverter/ECKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromKey\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromKeyFile\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromX5C\\(\\) has parameter \\$x5c with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadFromX5C\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificate\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificateFile\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromDER\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromPEM\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromX509Resource\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:tryToLoadECKey\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:tryToLoadOtherKeyTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:createFromKeyDetails\\(\\) has parameter \\$details with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:loadJWK\\(\\) has parameter \\$jwk with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Parameter \\#1 \\$details of static method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:createFromKeyDetails\\(\\) expects array, mixed given\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Property Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\RSAKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			message: "#^Cannot cast mixed to string\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/X5UFactory.php
-
-		-
-			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\X5UFactory\\:\\:loadFromUrl\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/X5UFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$certificate of static method Jose\\\\Component\\\\KeyManagement\\\\KeyConverter\\\\KeyConverter\\:\\:loadKeyFromCertificate\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Library/KeyManagement/X5UFactory.php
-
-		-
-			message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Library/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Call to function array_key_exists\\(\\) with 'key' and array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Library/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Library/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with array\\{key\\: Jose\\\\Component\\\\Core\\\\JWK, protected_header\\?\\: array\\<string, mixed\\>, header\\?\\: array\\<string, mixed\\>\\} will always evaluate to true\\.$#"
-			count: 1
-			path: src/Library/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: src/Library/NestedToken/NestedTokenBuilder.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
-			count: 1
-			path: src/Library/Signature/Algorithm/None.php
-
-		-
-			message: "#^Parameter \\#1 \\$length of function random_bytes expects int\\<1, max\\>, int given\\.$#"
-			count: 1
-			path: src/Library/Signature/Algorithm/Util/RSA.php
-
-		-
-			message: "#^Variable static method call on Jose\\\\Component\\\\Core\\\\Util\\\\Hash\\.$#"
-			count: 2
-			path: src/Library/Signature/Algorithm/Util/RSA.php
 
 		-
 			message: "#^Parameter \\#2 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\JWS\\:\\:addSignature\\(\\) expects array\\{alg\\?\\: string, string\\?\\: mixed\\}, array\\<string, mixed\\> given\\.$#"

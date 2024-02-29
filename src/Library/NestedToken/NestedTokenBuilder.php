@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\NestedToken;
 
-use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use function array_key_exists;
-use function is_array;
 
 class NestedTokenBuilder
 {
@@ -44,11 +42,6 @@ class NestedTokenBuilder
         $jws = $this->jwsBuilder->create()
             ->withPayload($payload);
         foreach ($signatures as $signature) {
-            if (! is_array($signature) || ! array_key_exists('key', $signature)) {
-                throw new InvalidArgumentException(
-                    'The signatures must be an array of arrays containing a key, a protected header and a header'
-                );
-            }
             $signature['protected_header'] = array_key_exists(
                 'protected_header',
                 $signature
@@ -68,11 +61,6 @@ class NestedTokenBuilder
             ->withSharedHeader($jweSharedHeader)
             ->withAAD($aad);
         foreach ($recipients as $recipient) {
-            if (! is_array($recipient) || ! array_key_exists('key', $recipient)) {
-                throw new InvalidArgumentException(
-                    'The recipients must be an array of arrays containing a key and a header'
-                );
-            }
             $recipient['header'] = array_key_exists('header', $recipient) ? $recipient['header'] : [];
             $jwe = $jwe->addRecipient($recipient['key'], $recipient['header']);
         }
