@@ -42,7 +42,7 @@ return static function (RectorConfig $config): void {
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',
     ]);
-    $config->phpVersion(PhpVersion::PHP_81);
+    $config->phpVersion(PhpVersion::PHP_83);
     $config->parallel();
     $config->importNames();
     $config->importShortClasses();

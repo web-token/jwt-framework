@@ -6,15 +6,16 @@ namespace Jose\Experimental\KeyEncryption;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use LogicException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Override;
 use RuntimeException;
 use function in_array;
 use function is_string;
 use const OPENSSL_RAW_DATA;
 
-final class Chacha20Poly1305 implements KeyEncryption
+final readonly class Chacha20Poly1305 implements KeyEncryption
 {
     public function __construct()
     {
@@ -23,11 +24,13 @@ final class Chacha20Poly1305 implements KeyEncryption
         }
     }
 
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['oct'];
     }
 
+    #[Override]
     public function name(): string
     {
         return 'chacha20-poly1305';
@@ -37,6 +40,7 @@ final class Chacha20Poly1305 implements KeyEncryption
      * @param array<string, mixed> $completeHeader
      * @param array<string, mixed> $additionalHeader
      */
+    #[Override]
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
@@ -57,6 +61,7 @@ final class Chacha20Poly1305 implements KeyEncryption
     /**
      * @param array<string, mixed> $header
      */
+    #[Override]
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $k = $this->getKey($key);
@@ -75,6 +80,7 @@ final class Chacha20Poly1305 implements KeyEncryption
         return $result;
     }
 
+    #[Override]
     public function getKeyManagementMode(): string
     {
         return self::MODE_ENCRYPT;

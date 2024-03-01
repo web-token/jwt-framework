@@ -11,6 +11,7 @@ use Jose\Component\Encryption\JWELoader;
 use Jose\Component\NestedToken\NestedTokenLoader as BaseNestedTokenLoader;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader;
+use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
@@ -24,6 +25,7 @@ final class NestedTokenLoader extends BaseNestedTokenLoader
         parent::__construct($jweLoader, $jwsLoader);
     }
 
+    #[Override]
     public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$signature = null): JWS
     {
         try {

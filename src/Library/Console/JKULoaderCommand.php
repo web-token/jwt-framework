@@ -6,6 +6,7 @@ namespace Jose\Component\Console;
 
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JKUFactory;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,10 +16,6 @@ use function is_string;
 #[AsCommand(name: 'keyset:load:jku', description: 'Loads a key set from an url.',)]
 final class JKULoaderCommand extends ObjectOutputCommand
 {
-    protected static $defaultName = 'keyset:load:jku';
-
-    protected static $defaultDescription = 'Loads a key set from an url.';
-
     public function __construct(
         private readonly JKUFactory $jkuFactory,
         ?string $name = null
@@ -26,6 +23,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
         parent::__construct($name);
     }
 
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
@@ -33,6 +31,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
             ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $url = $input->getArgument('url');

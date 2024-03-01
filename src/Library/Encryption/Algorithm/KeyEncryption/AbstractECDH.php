@@ -7,13 +7,14 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 use Brick\Math\BigInteger;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\EcDH;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Override;
 use RuntimeException;
 use Throwable;
 use function array_key_exists;
@@ -23,8 +24,9 @@ use function in_array;
 use function is_array;
 use function is_string;
 
-abstract class AbstractECDH implements KeyAgreement
+abstract readonly class AbstractECDH implements KeyAgreement
 {
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['EC', 'OKP'];
@@ -34,6 +36,7 @@ abstract class AbstractECDH implements KeyAgreement
      * @param array<string, mixed> $complete_header
      * @param array<string, mixed> $additional_header_values
      */
+    #[Override]
     public function getAgreementKey(
         int $encryptionKeyLength,
         string $algorithm,
@@ -62,6 +65,7 @@ abstract class AbstractECDH implements KeyAgreement
         return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
 
+    #[Override]
     public function getKeyManagementMode(): string
     {
         return self::MODE_AGREEMENT;

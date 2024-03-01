@@ -15,7 +15,7 @@ parameters:
       collectors:
         - { type: className, regex: '^Symfony\\' }
         - { type: className, regex: '^SpomkyLabs\\Pki\\' }
-        - { type: className, regex: '^ParagonIE\\' }
+        - { type: className, regex: '^ParagonIE\\Sodium\\' }
         - { type: className, regex: '^Psr\\EventDispatcher\\' }
         - { type: className, regex: '^Psr\\Clock\\' }
         - { type: className, regex: '^Brick\\Math\\' }

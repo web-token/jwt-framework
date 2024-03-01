@@ -10,6 +10,7 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilder as BaseJWEBuilder;
+use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
@@ -23,6 +24,7 @@ final class JWEBuilder extends BaseJWEBuilder
         parent::__construct($algorithmManager, $compressionManager);
     }
 
+    #[Override]
     public function build(): JWE
     {
         try {

@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource as JWKSetSourceInterface;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use LogicException;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -15,18 +16,20 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use function array_key_exists;
 use function count;
 
-class JWKSetSource implements Source
+final class JWKSetSource implements Source
 {
     /**
      * @var JWKSetSourceInterface[]
      */
     private ?array $jwkset_sources = null;
 
+    #[Override]
     public function name(): string
     {
         return 'key_sets';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $sources = $this->getJWKSetSources();
@@ -42,6 +45,7 @@ class JWKSetSource implements Source
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $sourceNodeBuilder = $node
@@ -63,6 +67,7 @@ class JWKSetSource implements Source
         }
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

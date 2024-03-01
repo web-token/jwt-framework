@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use OpenSSLCertificate;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
@@ -31,8 +31,11 @@ use const PREG_PATTERN_ORDER;
 /**
  * @internal
  */
-final class KeyConverter
+final readonly class KeyConverter
 {
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function loadKeyFromCertificateFile(string $file): array
     {
         if (! file_exists($file)) {
@@ -46,6 +49,9 @@ final class KeyConverter
         return self::loadKeyFromCertificate($content);
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function loadKeyFromCertificate(string $certificate): array
     {
         if (! extension_loaded('openssl')) {
@@ -71,6 +77,9 @@ final class KeyConverter
         return self::loadKeyFromX509Resource($res);
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function loadKeyFromX509Resource(OpenSSLCertificate $res): array
     {
         if (! extension_loaded('openssl')) {
@@ -110,6 +119,9 @@ final class KeyConverter
         throw new InvalidArgumentException('Unable to load the certificate');
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function loadFromKeyFile(string $file, ?string $password = null): array
     {
         $content = file_get_contents($file);
@@ -120,6 +132,9 @@ final class KeyConverter
         return self::loadFromKey($content, $password);
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     public static function loadFromKey(string $key, ?string $password = null): array
     {
         try {
@@ -132,6 +147,9 @@ final class KeyConverter
     /**
      * Be careful! The certificate chain is loaded, but it is NOT VERIFIED by any mean! It is mandatory to verify the
      * root CA or intermediate  CA are trusted. If not done, it may lead to potential security issues.
+     *
+     * @param array<array-key, mixed> $x5c
+     * @return array<array-key, mixed>
      */
     public static function loadFromX5C(array $x5c): array
     {
@@ -142,8 +160,9 @@ final class KeyConverter
             throw new InvalidArgumentException('The certificate chain is empty');
         }
         foreach ($x5c as $id => $cert) {
+            assert(is_string($cert), 'Invalid certificate');
             $x5c[$id] = '-----BEGIN CERTIFICATE-----' . PHP_EOL . chunk_split(
-                (string) $cert,
+                $cert,
                 64,
                 PHP_EOL
             ) . '-----END CERTIFICATE-----';
@@ -160,6 +179,9 @@ final class KeyConverter
         return self::loadKeyFromCertificate(reset($x5c));
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     private static function loadKeyFromDER(string $der, ?string $password = null): array
     {
         $pem = self::convertDerToPem($der);
@@ -167,6 +189,9 @@ final class KeyConverter
         return self::loadKeyFromPEM($pem, $password);
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
         if (! extension_loaded('openssl')) {
@@ -209,22 +234,28 @@ final class KeyConverter
 
     /**
      * This method tries to load Ed448, X488, Ed25519 and X25519 keys.
+     *
+     * @return array<array-key, mixed>
      */
     private static function tryToLoadECKey(string $input): array
     {
         try {
             return ECKey::createFromPEM($input)->toArray();
         } catch (Throwable) {
+            // no break
         }
         try {
             return self::tryToLoadOtherKeyTypes($input);
         } catch (Throwable) {
+            // no break
         }
         throw new InvalidArgumentException('Unable to load the key.');
     }
 
     /**
      * This method tries to load Ed448, X488, Ed25519 and X25519 keys.
+     *
+     * @return array<array-key, mixed>
      */
     private static function tryToLoadOtherKeyTypes(string $input): array
     {
@@ -239,6 +270,7 @@ final class KeyConverter
             ];
             return self::populatePoints($key, $values);
         } catch (Throwable) {
+            // no break
         }
         try {
             $key = PublicKey::fromPEM($pem);
@@ -250,6 +282,7 @@ final class KeyConverter
                 'x' => Base64UrlSafe::encodeUnpadded((string) $key->subjectPublicKey()),
             ];
         } catch (Throwable) {
+            // no break
         }
         throw new InvalidArgumentException('Unsupported key type');
     }

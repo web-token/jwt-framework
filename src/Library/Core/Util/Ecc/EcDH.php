@@ -33,7 +33,7 @@ use Brick\Math\BigInteger;
 /**
  * @internal
  */
-final class EcDH
+final readonly class EcDH
 {
     public static function computeSharedKey(Curve $curve, PublicKey $publicKey, PrivateKey $privateKey): BigInteger
     {

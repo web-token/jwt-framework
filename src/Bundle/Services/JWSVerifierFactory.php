@@ -7,7 +7,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class JWSVerifierFactory
+final readonly class JWSVerifierFactory
 {
     public function __construct(
         private readonly AlgorithmManagerFactory $algorithmManagerFactory,

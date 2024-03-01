@@ -6,13 +6,15 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class HeaderCheckerCompilerPass implements CompilerPassInterface
+final readonly class HeaderCheckerCompilerPass implements CompilerPassInterface
 {
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         if (! $container->hasDefinition(HeaderCheckerManagerFactory::class)) {

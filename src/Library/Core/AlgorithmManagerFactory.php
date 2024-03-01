@@ -10,7 +10,7 @@ use function is_string;
 /**
  * @see \Jose\Tests\Component\Core\AlgorithmManagerFactoryTest
  */
-class AlgorithmManagerFactory
+final class AlgorithmManagerFactory
 {
     private array $algorithms = [];
 
