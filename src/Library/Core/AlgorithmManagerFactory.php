@@ -17,7 +17,7 @@ class AlgorithmManagerFactory
     /**
      * @param Algorithm[] $algorithms
      */
-    public function __construct(array $algorithms = [])
+    public function __construct(iterable $algorithms = [])
     {
         foreach ($algorithms as $algorithm) {
             $this->add($algorithm->name(), $algorithm);

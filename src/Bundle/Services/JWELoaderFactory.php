@@ -21,7 +21,7 @@ final class JWELoaderFactory
         array $serializers,
         array $keyEncryptionAlgorithms,
         array $contentEncryptionAlgorithms,
-        array $compressionMethods,
+        null|array $compressionMethods,
         array $headerCheckers = []
     ): JWELoader {
         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);

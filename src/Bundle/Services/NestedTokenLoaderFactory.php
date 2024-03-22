@@ -19,7 +19,7 @@ final class NestedTokenLoaderFactory
         array $jweSerializers,
         array $keyEncryptionAlgorithms,
         array $contentEncryptionAlgorithms,
-        array $compressionMethods,
+        null|array $compressionMethods,
         array $jweHeaderCheckers,
         array $jwsSerializers,
         array $signatureAlgorithms,

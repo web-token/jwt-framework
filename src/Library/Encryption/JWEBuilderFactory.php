@@ -11,8 +11,15 @@ class JWEBuilderFactory
 {
     public function __construct(
         private readonly AlgorithmManagerFactory $algorithmManagerFactory,
-        private readonly CompressionMethodManagerFactory $compressionMethodManagerFactory
+        private readonly null|CompressionMethodManagerFactory $compressionMethodManagerFactory = null
     ) {
+        if ($compressionMethodManagerFactory !== null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3.0',
+                'The parameter "$compressionMethodManagerFactory" is deprecated and will be removed in 4.0.0. Compression is not recommended for JWE. Please set "null" instead.'
+            );
+        }
     }
 
     /**
@@ -21,16 +28,18 @@ class JWEBuilderFactory
      *
      * @param string[] $keyEncryptionAlgorithms
      * @param string[] $contentEncryptionAlgorithm
-     * @param string[] $compressionMethods
+     * @param null|string[] $compressionMethods
      */
     public function create(
         array $keyEncryptionAlgorithms,
         array $contentEncryptionAlgorithm,
-        array $compressionMethods
+        null|array $compressionMethods
     ): JWEBuilder {
         $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
         $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithm);
-        $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
+        $compressionMethodManager = $compressionMethods === null ? null : $this->compressionMethodManagerFactory?->create(
+            $compressionMethods
+        );
 
         return new JWEBuilder(
             $keyEncryptionAlgorithmManager,

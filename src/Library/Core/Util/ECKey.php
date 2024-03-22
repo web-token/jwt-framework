@@ -203,7 +203,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', mb_str_pad(Base64UrlSafe::decodeNoPadding($d), 32, "\0", STR_PAD_LEFT, '8bit'));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
@@ -255,7 +255,7 @@ final class ECKey
         if (! is_string($d)) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
-        $d = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), 48, "\0", STR_PAD_LEFT));
+        $d = unpack('H*', mb_str_pad(Base64UrlSafe::decodeNoPadding($d), 48, "\0", STR_PAD_LEFT, '8bit'));
         if (! is_array($d) || ! isset($d[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
