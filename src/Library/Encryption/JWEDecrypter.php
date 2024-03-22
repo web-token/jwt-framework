@@ -278,7 +278,7 @@ class JWEDecrypter
 
     private function decompressIfNeeded(string $payload, array $completeHeaders): string
     {
-        if ($this->compressionMethodManager === null || !array_key_exists('zip', $completeHeaders)) {
+        if ($this->compressionMethodManager === null || ! array_key_exists('zip', $completeHeaders)) {
             return $payload;
         }
 
