@@ -914,7 +914,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     private function convertArrayToBinString(array $data)
     {
         foreach ($data as $key => $value) {
-            $data[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
 
         return hex2bin(implode('', $data));
