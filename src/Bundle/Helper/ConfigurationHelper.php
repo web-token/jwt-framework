@@ -128,7 +128,7 @@ class ConfigurationHelper
      * @param string[] $jwe_serializers
      * @param string[] $key_encryption_algorithms
      * @param string[] $content_encryption_algorithms
-     * @param string[] $compression_methods
+     * @param null|string[] $compression_methods
      * @param string[] $jwe_header_checkers
      * @param string[] $jws_serializers
      * @param string[] $signature_algorithms
@@ -140,7 +140,7 @@ class ConfigurationHelper
         array $jwe_serializers,
         array $key_encryption_algorithms,
         array $content_encryption_algorithms,
-        array $compression_methods,
+        null|array $compression_methods,
         array $jwe_header_checkers,
         array $jws_serializers,
         array $signature_algorithms,
@@ -176,7 +176,7 @@ class ConfigurationHelper
      * @param string[] $jwe_serializers
      * @param string[] $key_encryption_algorithms
      * @param string[] $content_encryption_algorithms
-     * @param string[] $compression_methods
+     * @param null|string[] $compression_methods
      * @param string[] $jws_serializers
      * @param string[] $signature_algorithms
      */
@@ -186,7 +186,7 @@ class ConfigurationHelper
         array $jwe_serializers,
         array $key_encryption_algorithms,
         array $content_encryption_algorithms,
-        array $compression_methods,
+        null|array $compression_methods,
         array $jws_serializers,
         array $signature_algorithms,
         bool $is_public = true,
@@ -245,7 +245,7 @@ class ConfigurationHelper
      * @param string[] $serializers
      * @param string[] $key_encryption_algorithms
      * @param string[] $content_encryption_algorithms
-     * @param string[] $compression_methods
+     * @param null|string[] $compression_methods
      * @param string[] $header_checkers
      */
     public static function addJWELoader(
@@ -254,7 +254,7 @@ class ConfigurationHelper
         array $serializers,
         array $key_encryption_algorithms,
         array $content_encryption_algorithms,
-        array $compression_methods,
+        null|array $compression_methods,
         array $header_checkers,
         bool $is_public = true,
         array $tags = []

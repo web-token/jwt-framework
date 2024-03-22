@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Compression;
 
+/**
+ * @deprecated This class is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
+ */
 interface CompressionMethod
 {
     /**

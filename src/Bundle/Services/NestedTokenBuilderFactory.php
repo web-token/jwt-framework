@@ -23,7 +23,7 @@ final class NestedTokenBuilderFactory
         array $jwe_serializers,
         array $keyEncryptionAlgorithms,
         array $contentEncryptionAlgorithms,
-        array $compressionMethods,
+        null|array $compressionMethods,
         array $jws_serializers,
         array $signatureAlgorithms
     ): NestedTokenBuilder {

@@ -26,7 +26,7 @@ class NestedTokenBuilderFactory
      * @param array<string> $jwe_serializers
      * @param array<string> $keyEncryptionAlgorithms
      * @param array<string> $contentEncryptionAlgorithms
-     * @param array<string> $compressionMethods
+     * @param null|array<string> $compressionMethods
      * @param array<string> $jws_serializers
      * @param array<string> $signatureAlgorithms
      */
@@ -34,7 +34,7 @@ class NestedTokenBuilderFactory
         array $jwe_serializers,
         array $keyEncryptionAlgorithms,
         array $contentEncryptionAlgorithms,
-        array $compressionMethods,
+        null|array $compressionMethods,
         array $jws_serializers,
         array $signatureAlgorithms
     ): NestedTokenBuilder {

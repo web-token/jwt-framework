@@ -8,6 +8,9 @@ use InvalidArgumentException;
 use Throwable;
 use function is_string;
 
+/**
+ * @deprecated This class is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
+ */
 final class Deflate implements CompressionMethod
 {
     private int $compressionLevel = -1;

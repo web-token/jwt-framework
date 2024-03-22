@@ -52,8 +52,15 @@ class JWEBuilder
     public function __construct(
         AlgorithmManager $algorithmManager,
         null|AlgorithmManager $contentEncryptionAlgorithmManager,
-        private readonly CompressionMethodManager $compressionManager
+        private readonly null|CompressionMethodManager $compressionManager = null
     ) {
+        if ($compressionManager !== null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3.0',
+                'The parameter "$compressionManager" is deprecated and will be removed in 4.0.0. Compression is not recommended for JWE. Please set "null" instead.'
+            );
+        }
         if ($contentEncryptionAlgorithmManager !== null) {
             trigger_deprecation(
                 'web-token/jwt-library',
@@ -113,8 +120,9 @@ class JWEBuilder
 
     /**
      * Returns the compression method manager.
+     * @deprecated This method is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
      */
-    public function getCompressionMethodManager(): CompressionMethodManager
+    public function getCompressionMethodManager(): null|CompressionMethodManager
     {
         return $this->compressionManager;
     }
@@ -519,7 +527,7 @@ class JWEBuilder
 
     private function getCompressionMethod(array $completeHeader): ?CompressionMethod
     {
-        if (! array_key_exists('zip', $completeHeader)) {
+        if ($this->compressionManager === null || ! array_key_exists('zip', $completeHeader)) {
             return null;
         }
 

@@ -31,8 +31,15 @@ class JWEDecrypter
     public function __construct(
         AlgorithmManager $algorithmManager,
         null|AlgorithmManager $contentEncryptionAlgorithmManager,
-        private readonly CompressionMethodManager $compressionMethodManager
+        private readonly null|CompressionMethodManager $compressionMethodManager = null
     ) {
+        if ($compressionMethodManager !== null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3.0',
+                'The parameter "$compressionMethodManager" is deprecated and will be removed in 4.0.0. Compression is not recommended for JWE. Please set "null" instead.'
+            );
+        }
         if ($contentEncryptionAlgorithmManager !== null) {
             trigger_deprecation(
                 'web-token/jwt-library',
@@ -75,8 +82,9 @@ class JWEDecrypter
 
     /**
      * Returns the compression method manager.
+     * @deprecated This method is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
      */
-    public function getCompressionMethodManager(): CompressionMethodManager
+    public function getCompressionMethodManager(): null|CompressionMethodManager
     {
         return $this->compressionMethodManager;
     }
@@ -270,12 +278,13 @@ class JWEDecrypter
 
     private function decompressIfNeeded(string $payload, array $completeHeaders): string
     {
-        if (array_key_exists('zip', $completeHeaders)) {
-            $compression_method = $this->compressionMethodManager->get($completeHeaders['zip']);
-            $payload = $compression_method->uncompress($payload);
+        if ($this->compressionMethodManager === null || ! array_key_exists('zip', $completeHeaders)) {
+            return $payload;
         }
 
-        return $payload;
+        $compression_method = $this->compressionMethodManager->get($completeHeaders['zip']);
+
+        return $compression_method->uncompress($payload);
     }
 
     private function checkCompleteHeader(array $completeHeaders): void

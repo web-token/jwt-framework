@@ -1,9 +1,79 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Parameter \\#1 \\$data of method Jose\\\\Bundle\\\\JoseFramework\\\\DataCollector\\\\CheckerCollector\\:\\:collectHeaderCheckerManagers\\(\\) expects array\\<string, array\\<string, mixed\\>\\>, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Bundle/DataCollector/CheckerCollector.php
+
+		-
+			message: """
+				#^Call to deprecated method collectSupportedCompressionMethods\\(\\) of class Jose\\\\Bundle\\\\JoseFramework\\\\DataCollector\\\\JWECollector\\:
+				This method is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/DataCollector/JWECollector.php
+
+		-
+			message: """
+				#^Call to deprecated method getCompressionMethodManager\\(\\) of class Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:
+				This method is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/DataCollector/JWECollector.php
+
+		-
+			message: """
+				#^Call to deprecated method getCompressionMethodManager\\(\\) of class Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:
+				This method is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 2
+			path: src/Bundle/DataCollector/JWECollector.php
+
+		-
+			message: "#^Cannot call method list\\(\\) on Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\|null\\.$#"
+			count: 3
+			path: src/Bundle/DataCollector/JWECollector.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of method Jose\\\\Bundle\\\\JoseFramework\\\\DataCollector\\\\JWECollector\\:\\:collectSupportedCompressionMethods\\(\\) expects array\\<string, array\\<string, mixed\\>\\>, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Bundle/DataCollector/JWECollector.php
+
+		-
+			message: """
+				#^Parameter \\$compressionMethodManagerFactory of method Jose\\\\Bundle\\\\JoseFramework\\\\DataCollector\\\\JWECollector\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/DataCollector/JWECollector.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of method Jose\\\\Bundle\\\\JoseFramework\\\\DataCollector\\\\JWSCollector\\:\\:collectSupportedJWSSerializations\\(\\) expects array\\<string, array\\<string, mixed\\>\\>, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Bundle/DataCollector/JWSCollector.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of method Jose\\\\Bundle\\\\JoseFramework\\\\DataCollector\\\\Collector\\:\\:collect\\(\\) expects array\\<string, mixed\\>, array\\|Symfony\\\\Component\\\\VarDumper\\\\Cloner\\\\Data given\\.$#"
+			count: 1
+			path: src/Bundle/DataCollector/JoseCollector.php
+
+		-
+			message: "#^Parameter \\#1 \\$data of method Jose\\\\Bundle\\\\JoseFramework\\\\DataCollector\\\\KeyCollector\\:\\:collectJWK\\(\\) expects array\\<string, array\\<string, mixed\\>\\>, array\\<string, mixed\\> given\\.$#"
+			count: 1
+			path: src/Bundle/DataCollector/KeyCollector.php
+
+		-
 			message: "#^Parameter \\#1 \\$jwk of method Jose\\\\Component\\\\KeyManagement\\\\Analyzer\\\\KeyAnalyzerManager\\:\\:analyze\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK, mixed given\\.$#"
 			count: 1
 			path: src/Bundle/DataCollector/KeyCollector.php
+
+		-
+			message: """
+				#^Fetching class constant class of deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 2
+			path: src/Bundle/DependencyInjection/Compiler/CompressionMethodCompilerPass.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\DependencyInjection\\\\JoseFrameworkExtension\\:\\:getConfiguration\\(\\) has parameter \\$configs with no value type specified in iterable type array\\.$#"
@@ -886,6 +956,22 @@ parameters:
 			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
 
 		-
+			message: """
+				#^Fetching class constant class of deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/Resources/config/compression_methods.php
+
+		-
+			message: """
+				#^Fetching class constant class of deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\Deflate\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/Resources/config/compression_methods.php
+
+		-
 			message: "#^Class Jose\\\\Bundle\\\\JoseFramework\\\\Routing\\\\JWKSetLoader has an uninitialized property \\$resolver\\. Give it default value or assign it in the constructor\\.$#"
 			count: 1
 			path: src/Bundle/Routing/JWKSetLoader.php
@@ -981,6 +1067,35 @@ parameters:
 			path: src/Bundle/Services/ClaimCheckerManager.php
 
 		-
+			message: """
+				#^Parameter \\$compressionManager of method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEBuilder\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/Services/JWEBuilder.php
+
+		-
+			message: """
+				#^Parameter \\$compressionMethodManagerFactory of method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEBuilderFactory\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/Services/JWEBuilderFactory.php
+
+		-
+			message: "#^Parameter \\#3 \\$JWK of class Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWEDecryptionSuccessEvent constructor expects Jose\\\\Component\\\\Core\\\\JWK, Jose\\\\Component\\\\Core\\\\JWK\\|null given\\.$#"
+			count: 1
+			path: src/Bundle/Services/JWEDecrypter.php
+
+		-
+			message: """
+				#^Parameter \\$compressionMethodManager of method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypter\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/Services/JWEDecrypter.php
+
+		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/JWEDecrypterFactory.php
@@ -994,6 +1109,19 @@ parameters:
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/JWEDecrypterFactory.php
+
+		-
+			message: """
+				#^Parameter \\$compressionMethodManagerFactory of method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Bundle/Services/JWEDecrypterFactory.php
+
+		-
+			message: "#^Parameter \\#4 \\$recipient of class Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWELoadingSuccessEvent constructor expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/Bundle/Services/JWELoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
@@ -1021,6 +1149,11 @@ parameters:
 			path: src/Bundle/Services/JWELoaderFactory.php
 
 		-
+			message: "#^Parameter \\#4 \\$signature of class Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWSLoadingSuccessEvent constructor expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/Bundle/Services/JWSLoader.php
+
+		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWSLoaderFactory\\:\\:create\\(\\) has parameter \\$algorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/JWSLoaderFactory.php
@@ -1034,6 +1167,11 @@ parameters:
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWSLoaderFactory\\:\\:create\\(\\) has parameter \\$serializers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/JWSLoaderFactory.php
+
+		-
+			message: "#^Parameter \\#5 \\$JWK of class Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWSVerificationSuccessEvent constructor expects Jose\\\\Component\\\\Core\\\\JWK, Jose\\\\Component\\\\Core\\\\JWK\\|null given\\.$#"
+			count: 1
+			path: src/Bundle/Services/JWSVerifier.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWSVerifierFactory\\:\\:create\\(\\) has parameter \\$algorithms with no value type specified in iterable type array\\.$#"
@@ -1069,6 +1207,11 @@ parameters:
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$signatureAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenBuilderFactory.php
+
+		-
+			message: "#^Parameter \\#5 \\$signature of class Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\NestedTokenLoadingSuccessEvent constructor expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/Bundle/Services/NestedTokenLoader.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
@@ -1351,6 +1494,11 @@ parameters:
 			path: src/Library/Core/Util/RSAKey.php
 
 		-
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Algorithm\\\\ContentEncryption\\\\AESCBCHS\\:\\:encryptContent\\(\\) never assigns null to &\\$tag so it can be removed from the by\\-ref type\\.$#"
+			count: 1
+			path: src/Library/Encryption/Algorithm/ContentEncryption/AESCBCHS.php
+
+		-
 			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
 			count: 1
 			path: src/Library/Encryption/Algorithm/ContentEncryption/AESCBCHS.php
@@ -1376,11 +1524,6 @@ parameters:
 			path: src/Library/Encryption/Algorithm/KeyEncryption/Util/RSACrypt.php
 
 		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:\\:__construct\\(\\) has parameter \\$methods with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Library/Encryption/Compression/CompressionMethodManager.php
-
-		-
 			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:__construct\\(\\) has parameter \\$recipients with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWE.php
@@ -1404,6 +1547,11 @@ parameters:
 			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWE\\:\\:getSharedProtectedHeader\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWE.php
+
+		-
+			message: "#^Call to function is_countable\\(\\) with array will always evaluate to true\\.$#"
+			count: 2
+			path: src/Library/Encryption/JWEBuilder.php
 
 		-
 			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:addRecipient\\(\\) has parameter \\$recipientHeader with no value type specified in iterable type array\\.$#"
@@ -1516,6 +1664,14 @@ parameters:
 			path: src/Library/Encryption/JWEBuilder.php
 
 		-
+			message: """
+				#^Parameter \\$compressionManager of method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
 			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$recipients type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWEBuilder.php
@@ -1529,6 +1685,22 @@ parameters:
 			message: "#^Property Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:\\$sharedProtectedHeader type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: """
+				#^Return type of method Jose\\\\Component\\\\Encryption\\\\JWEBuilder\\:\\:getCompressionMethod\\(\\) has typehint with deprecated interface Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethod\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Library/Encryption/JWEBuilder.php
+
+		-
+			message: """
+				#^Parameter \\$compressionMethodManagerFactory of method Jose\\\\Component\\\\Encryption\\\\JWEBuilderFactory\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Library/Encryption/JWEBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:checkCompleteHeader\\(\\) has parameter \\$completeHeaders with no value type specified in iterable type array\\.$#"
@@ -1576,6 +1748,27 @@ parameters:
 			path: src/Library/Encryption/JWEDecrypter.php
 
 		-
+			message: """
+				#^Parameter \\$compressionMethodManager of method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManager\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: "#^Parameter &\\$successJwk by\\-ref type of method Jose\\\\Component\\\\Encryption\\\\JWEDecrypter\\:\\:decryptRecipientKey\\(\\) expects Jose\\\\Component\\\\Core\\\\JWK\\|null, mixed given\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWEDecrypter.php
+
+		-
+			message: """
+				#^Parameter \\$compressionMethodManagerFactory of method Jose\\\\Component\\\\Encryption\\\\JWEDecrypterFactory\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
+				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
+			"""
+			count: 1
+			path: src/Library/Encryption/JWEDecrypterFactory.php
+
+		-
 			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWELoaderFactory.php
@@ -1599,6 +1792,16 @@ parameters:
 			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$serializers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWELoaderFactory.php
+
+		-
+			message: "#^Parameter &\\$protectedHeader by\\-ref type of method Jose\\\\Component\\\\Encryption\\\\JWETokenSupport\\:\\:retrieveTokenHeaders\\(\\) expects array\\<string, mixed\\>, array given\\.$#"
+			count: 1
+			path: src/Library/Encryption/JWETokenSupport.php
+
+		-
+			message: "#^Parameter &\\$unprotectedHeader by\\-ref type of method Jose\\\\Component\\\\Encryption\\\\JWETokenSupport\\:\\:retrieveTokenHeaders\\(\\) expects array\\<string, mixed\\>, array given\\.$#"
+			count: 2
+			path: src/Library/Encryption/JWETokenSupport.php
 
 		-
 			message: "#^Method Jose\\\\Component\\\\Encryption\\\\Recipient\\:\\:__construct\\(\\) has parameter \\$header with no value type specified in iterable type array\\.$#"
@@ -1921,6 +2124,11 @@ parameters:
 			path: src/Library/NestedToken/NestedTokenBuilder.php
 
 		-
+			message: "#^Parameter \\#2 \\$recipient of method Jose\\\\Component\\\\NestedToken\\\\NestedTokenLoader\\:\\:checkContentTypeHeader\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: src/Library/NestedToken/NestedTokenLoader.php
+
+		-
 			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and '' will always evaluate to false\\.$#"
 			count: 1
 			path: src/Library/Signature/Algorithm/None.php
@@ -1977,11 +2185,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$encodedString of static method ParagonIE\\\\ConstantTime\\\\Base64\\:\\:decodeNoPadding\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Library/Signature/Serializer/JSONFlattenedSerializer.php
-
-		-
-			message: "#^Parameter \\#1 \\$protectedHeader of method Jose\\\\Component\\\\Signature\\\\Serializer\\\\Serializer\\:\\:isPayloadEncoded\\(\\) expects array\\<string, mixed\\>, array given\\.$#"
 			count: 1
 			path: src/Library/Signature/Serializer/JSONFlattenedSerializer.php
 

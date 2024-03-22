@@ -127,6 +127,7 @@ class JWECollector implements Collector, EventSubscriberInterface
 
     /**
      * @param array<string, array<string, mixed>> $data
+     * @deprecated This method is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
      */
     private function collectSupportedCompressionMethods(array &$data): void
     {

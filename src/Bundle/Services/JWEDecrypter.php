@@ -19,7 +19,7 @@ final class JWEDecrypter extends BaseJWEDecrypter
     public function __construct(
         AlgorithmManager $keyEncryptionAlgorithmManager,
         AlgorithmManager $contentEncryptionAlgorithmManager,
-        CompressionMethodManager $compressionMethodManager,
+        null|CompressionMethodManager $compressionMethodManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($keyEncryptionAlgorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
