@@ -27,18 +27,24 @@ final class JWEBuilderFactory
     /**
      * This method creates a JWEBuilder using the given algorithm aliases.
      *
-     * @param string[] $keyEncryptionAlgorithms
+     * @param string[] $encryptionAlgorithms
      * @param string[] $contentEncryptionAlgorithms
      * @param null|string[] $compressionMethods
      */
     public function create(
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
+        array $encryptionAlgorithms,
+        null|array $contentEncryptionAlgorithms = null,
         null|array $compressionMethods = null
     ): JWEBuilder {
-        $algorithmManager = $this->algorithmManagerFactory->create(
-            array_merge($keyEncryptionAlgorithms, $contentEncryptionAlgorithms)
-        );
+        if ($contentEncryptionAlgorithms !== null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3.0',
+                'The parameter "$contentEncryptionAlgorithms" is deprecated and will be removed in 4.0.0. Please set "null" instead.'
+            );
+            $encryptionAlgorithms = array_merge($encryptionAlgorithms, $contentEncryptionAlgorithms);
+        }
+        $algorithmManager = $this->algorithmManagerFactory->create($encryptionAlgorithms);
         if ($compressionMethods !== null) {
             trigger_deprecation(
                 'web-token/jwt-library',

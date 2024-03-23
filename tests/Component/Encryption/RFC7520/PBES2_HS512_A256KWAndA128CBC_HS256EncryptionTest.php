@@ -71,7 +71,7 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
         $expected_tag = '0HlwodAhOCILG5SQ2LQ9dg';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['PBES2-HS512+A256KW', 'A128CBC-HS256']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
             ->unserialize($expected_compact_json);
@@ -172,9 +172,9 @@ final class PBES2_HS512_A256KWAndA128CBC_HS256EncryptionTest extends EncryptionT
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['PBES2-HS512+A256KW', 'A128CBC-HS256']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['PBES2-HS512+A256KW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['PBES2-HS512+A256KW', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
             ->create()

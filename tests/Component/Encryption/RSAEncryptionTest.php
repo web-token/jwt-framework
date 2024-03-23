@@ -19,7 +19,7 @@ final class RSAEncryptionTest extends EncryptionTestCase
     public function loadJWEFromRFC7516(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'A128CBC-HS256']);
 
         $loaded = $this->getJWESerializerManager()
             ->unserialize(
@@ -40,7 +40,7 @@ final class RSAEncryptionTest extends EncryptionTestCase
     public function loadJWEJSONSerialization(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5', 'A128KW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'A128KW', 'A128CBC-HS256']);
 
         $loaded = $this->getJWESerializerManager()
             ->unserialize(

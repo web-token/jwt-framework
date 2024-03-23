@@ -51,7 +51,7 @@ class JWEBuilder
 
     public function __construct(
         AlgorithmManager $algorithmManager,
-        null|AlgorithmManager $contentEncryptionAlgorithmManager,
+        null|AlgorithmManager $contentEncryptionAlgorithmManager = null,
         private readonly null|CompressionMethodManager $compressionManager = null
     ) {
         if ($compressionManager !== null) {

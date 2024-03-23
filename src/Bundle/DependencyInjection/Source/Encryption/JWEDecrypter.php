@@ -26,8 +26,8 @@ class JWEDecrypter extends AbstractEncryptionSource
                 ->setFactory([new Reference(JWEDecrypterFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['key_encryption_algorithms'],
-                    $itemConfig['content_encryption_algorithms'],
-                    $itemConfig['compression_methods'],
+                    $itemConfig['content_encryption_algorithms'] === [] ? null : $itemConfig['content_encryption_algorithms'],
+                    $itemConfig['compression_methods'] === [] ? null : $itemConfig['compression_methods'],
                 ])
                 ->addTag('jose.jwe_decrypter')
                 ->setPublic($itemConfig['is_public']);

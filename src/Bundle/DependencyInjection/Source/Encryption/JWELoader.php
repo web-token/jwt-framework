@@ -29,8 +29,8 @@ class JWELoader implements Source
                 ->setArguments([
                     $itemConfig['serializers'],
                     $itemConfig['key_encryption_algorithms'],
-                    $itemConfig['content_encryption_algorithms'],
-                    $itemConfig['compression_methods'],
+                    $itemConfig['content_encryption_algorithms'] === [] ? null : $itemConfig['content_encryption_algorithms'],
+                    $itemConfig['compression_methods'] === [] ? null : $itemConfig['compression_methods'],
                     $itemConfig['header_checkers'],
                 ])
                 ->addTag('jose.jwe_loader')
@@ -67,14 +67,18 @@ class JWELoader implements Source
             ->arrayNode('content_encryption_algorithms')
             ->info('A list of key encryption algorithm aliases.')
             ->useAttributeAsKey('name')
-            ->isRequired()
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->defaultValue([])
             ->scalarPrototype()
             ->end()
             ->end()
             ->arrayNode('compression_methods')
             ->info('A list of compression method aliases.')
             ->useAttributeAsKey('name')
-            ->defaultValue(['DEF'])
+            ->treatNullLike([])
+            ->treatFalseLike([])
+            ->defaultValue([])
             ->scalarPrototype()
             ->end()
             ->end()

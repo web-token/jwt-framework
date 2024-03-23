@@ -54,7 +54,7 @@ final class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTestCase
         $expected_tag = 'kvKuFBXHe5mQr4lqgobAUg';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'A128CBC-HS256']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
             ->unserialize($expected_compact_json);
@@ -132,9 +132,9 @@ final class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'A128CBC-HS256']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
             ->create()

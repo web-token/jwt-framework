@@ -21,17 +21,16 @@ final class NestedTokenBuilderFactory
 
     public function create(
         array $jwe_serializers,
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
+        array $encryptionAlgorithms,
+        null|array $contentEncryptionAlgorithms,
         null|array $compressionMethods,
         array $jws_serializers,
         array $signatureAlgorithms
     ): NestedTokenBuilder {
-        $jweBuilder = $this->jweBuilderFactory->create(
-            $keyEncryptionAlgorithms,
-            $contentEncryptionAlgorithms,
-            $compressionMethods
-        );
+        if ($contentEncryptionAlgorithms !== null) {
+            $encryptionAlgorithms = array_merge($encryptionAlgorithms, $contentEncryptionAlgorithms);
+        }
+        $jweBuilder = $this->jweBuilderFactory->create($encryptionAlgorithms, null, $compressionMethods);
         $jweSerializerManager = $this->jweSerializerManagerFactory->create($jwe_serializers);
         $jwsBuilder = $this->jwsBuilderFactory->create($signatureAlgorithms);
         $jwsSerializerManager = $this->jwsSerializerManagerFactory->create($jws_serializers);

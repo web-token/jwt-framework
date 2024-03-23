@@ -227,7 +227,7 @@ final class JWEEncoderTest extends KernelTestCase
         $jweSerializerManager = $jweSerializerManagerFactory->create($jweSerializerManagerFactory->names());
         static::assertInstanceOf(JWESerializerManager::class, $jweSerializerManager);
 
-        $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
+        $builder = $jweFactory->create(['A256KW', 'A256CBC-HS512']);
 
         $jwk = new JWK([
             'kty' => 'oct',

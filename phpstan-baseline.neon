@@ -751,7 +751,7 @@ parameters:
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$keyEncryptionAlgorithm with no value type specified in iterable type array\\.$#"
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$encryptionAlgorithm with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
@@ -771,7 +771,7 @@ parameters:
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$keyEncryptionAlgorithm with no value type specified in iterable type array\\.$#"
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$encryptionAlgorithm with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
@@ -1096,21 +1096,6 @@ parameters:
 			path: src/Bundle/Services/JWEDecrypter.php
 
 		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWEDecrypterFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWEDecrypterFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWEDecrypterFactory.php
-
-		-
 			message: """
 				#^Parameter \\$compressionMethodManagerFactory of method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWEDecrypterFactory\\:\\:__construct\\(\\) has typehint with deprecated class Jose\\\\Component\\\\Encryption\\\\Compression\\\\CompressionMethodManagerFactory\\:
 				This class is deprecated and will be removed in v4\\.0\\. Compression is not recommended for JWE\\.$#
@@ -1122,31 +1107,6 @@ parameters:
 			message: "#^Parameter \\#4 \\$recipient of class Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWELoadingSuccessEvent constructor expects int, int\\|null given\\.$#"
 			count: 1
 			path: src/Bundle/Services/JWELoader.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$compressionMethods with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$contentEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$headerCheckers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWELoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$serializers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/JWELoaderFactory.php
 
 		-
 			message: "#^Parameter \\#4 \\$signature of class Jose\\\\Bundle\\\\JoseFramework\\\\Event\\\\JWSLoadingSuccessEvent constructor expects int, int\\|null given\\.$#"
@@ -1189,17 +1149,17 @@ parameters:
 			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$encryptionAlgorithms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
+
+		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$jwe_serializers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$jws_serializers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/NestedTokenBuilderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
@@ -1224,6 +1184,11 @@ parameters:
 			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$encryptionAlgorithms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
+
+		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jweHeaderCheckers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenLoaderFactory.php
@@ -1240,11 +1205,6 @@ parameters:
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jwsSerializers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/NestedTokenLoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
@@ -1779,12 +1739,12 @@ parameters:
 			path: src/Library/Encryption/JWELoaderFactory.php
 
 		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$headerCheckers with no value type specified in iterable type array\\.$#"
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$encryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWELoaderFactory.php
 
 		-
-			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
+			message: "#^Method Jose\\\\Component\\\\Encryption\\\\JWELoaderFactory\\:\\:create\\(\\) has parameter \\$headerCheckers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Encryption/JWELoaderFactory.php
 

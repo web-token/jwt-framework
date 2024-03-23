@@ -100,45 +100,6 @@ final class JweBuilderConfigurationTest extends TestCase
         );
     }
 
-    #[Test]
-    public function theConfigurationIsInvalidIfNotContentEncryptionAlgorithmIsSet(): void
-    {
-        $this->assertConfigurationIsInvalid(
-            [
-                [
-                    'jwe' => [
-                        'builders' => [
-                            'foo' => [
-                                'key_encryption_algorithms' => ['A256GCMKW'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'The child config "content_encryption_algorithms" under "jose.jwe.builders.foo" must be configured:'
-        );
-    }
-
-    #[Test]
-    public function theConfigurationIsInvalidIfTheContentEncryptionAlgorithmIsEmpty(): void
-    {
-        $this->assertConfigurationIsInvalid(
-            [
-                [
-                    'jwe' => [
-                        'builders' => [
-                            'foo' => [
-                                'key_encryption_algorithms' => ['A256GCMKW'],
-                                'content_encryption_algorithms' => [],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'The path "jose.jwe.builders.foo.content_encryption_algorithms" should have at least 1 element(s) defined.'
-        );
-    }
-
     protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [new CoreSource(), new EncryptionSource()]);

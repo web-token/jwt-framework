@@ -104,26 +104,6 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
     }
 
     #[Test]
-    public function theConfigurationIsInvalidIfNoContentEncryptionAlgorithmIsSet(): void
-    {
-        $this->assertConfigurationIsInvalid(
-            [
-                [
-                    'nested_token' => [
-                        'builders' => [
-                            'foo' => [
-                                'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'The child config "content_encryption_algorithms" under "jose.nested_token.builders.foo" must be configured:'
-        );
-    }
-
-    #[Test]
     public function theConfigurationIsInvalidIfNoJwsSerializerIsSet(): void
     {
         $this->assertConfigurationIsInvalid(
