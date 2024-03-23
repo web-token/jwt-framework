@@ -48,8 +48,6 @@ abstract class EncryptionBench
 {
     private AlgorithmManager $algorithmsManager;
 
-    private CompressionMethodManager $compressionMethodsManager;
-
     private JWESerializerManager $serializerManager;
 
     public function init(): void
@@ -96,7 +94,7 @@ abstract class EncryptionBench
      */
     public function encryption(array $params): void
     {
-        $jweBuilder = new JWEBuilder($this->getAlgorithmsManager(), $this->getCompressionMethodsManager());
+        $jweBuilder = new JWEBuilder($this->getAlgorithmsManager());
         $jweBuilder
             ->withPayload($params['payload'])
             ->withAAD($this->getAAD())
@@ -113,7 +111,7 @@ abstract class EncryptionBench
      */
     public function decryption(array $params): void
     {
-        $jweLoader = new JWEDecrypter($this->getAlgorithmsManager(), $this->getCompressionMethodsManager());
+        $jweLoader = new JWEDecrypter($this->getAlgorithmsManager());
         $jwe = $this->serializerManager->unserialize($params['input']);
         $keyset = JWKSet::createFromKeyData($params['recipient_keys']);
         $jweLoader->decryptUsingKeySet($jwe, $keyset, 0);
@@ -137,10 +135,5 @@ abstract class EncryptionBench
     private function getAlgorithmsManager(): AlgorithmManager
     {
         return $this->algorithmsManager;
-    }
-
-    private function getCompressionMethodsManager(): CompressionMethodManager
-    {
-        return $this->compressionMethodsManager;
     }
 }

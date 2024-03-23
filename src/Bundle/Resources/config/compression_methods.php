@@ -16,7 +16,7 @@ return function (ContainerConfigurator $container): void {
     $container->set(CompressionMethodManagerFactory::class)
         ->deprecate(
             'web-token/jwt-bundle',
-            '3.3.X',
+            '3.3.0',
             'The "%service_id%" service is deprecated and will be removed in version 4.0. Compression is not recommended for the JWE.'
         )
         ->public();
@@ -24,7 +24,7 @@ return function (ContainerConfigurator $container): void {
     $container->set(Deflate::class)
         ->deprecate(
             'web-token/jwt-bundle',
-            '3.3.X',
+            '3.3.0',
             'The "%service_id%" service is deprecated and will be removed in version 4.0. Compression is not recommended for the JWE.'
         )
         ->tag('jose.compression_method', [

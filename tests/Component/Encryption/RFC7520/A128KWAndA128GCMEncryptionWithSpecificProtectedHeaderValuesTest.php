@@ -50,7 +50,7 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
         $expected_tag = 'fNYLqpUe84KD45lvDiaBAQ';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['A128KW', 'A128GCM']);
 
         $loaded_flattened_json = $this->getJWESerializerManager()
             ->unserialize($expected_flattened_json);
@@ -113,9 +113,9 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['A128KW', 'A128GCM']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['A128KW', 'A128GCM']);
 
         $jwe = $jweBuilder
             ->create()

@@ -26,25 +26,28 @@ class JWEBuilderFactory
      * Creates a JWE Builder object using the given key encryption algorithms, content encryption algorithms and
      * compression methods.
      *
-     * @param string[] $keyEncryptionAlgorithms
-     * @param string[] $contentEncryptionAlgorithm
+     * @param array<string> $encryptionAlgorithms
+     * @param null|array<string> $contentEncryptionAlgorithm
      * @param null|string[] $compressionMethods
      */
     public function create(
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithm,
-        null|array $compressionMethods
+        array $encryptionAlgorithms,
+        null|array $contentEncryptionAlgorithm = null,
+        null|array $compressionMethods = null
     ): JWEBuilder {
-        $keyEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($keyEncryptionAlgorithms);
-        $contentEncryptionAlgorithmManager = $this->algorithmManagerFactory->create($contentEncryptionAlgorithm);
+        if ($contentEncryptionAlgorithm !== null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3.0',
+                'The parameter "$contentEncryptionAlgorithm" is deprecated and will be removed in 4.0.0. Please set "null" instead.'
+            );
+            $encryptionAlgorithms = array_merge($encryptionAlgorithms, $contentEncryptionAlgorithm);
+        }
+        $encryptionAlgorithmManager = $this->algorithmManagerFactory->create($encryptionAlgorithms);
         $compressionMethodManager = $compressionMethods === null ? null : $this->compressionMethodManagerFactory?->create(
             $compressionMethods
         );
 
-        return new JWEBuilder(
-            $keyEncryptionAlgorithmManager,
-            $contentEncryptionAlgorithmManager,
-            $compressionMethodManager
-        );
+        return new JWEBuilder($encryptionAlgorithmManager, null, $compressionMethodManager);
     }
 }

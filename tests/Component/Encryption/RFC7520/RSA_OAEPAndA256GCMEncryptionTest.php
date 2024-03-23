@@ -55,7 +55,7 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTestCase
         $expected_tag = 'UCGiqJxhBI3IFVdPalHHvA';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
+            ->create(['RSA-OAEP', 'A256GCM']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
             ->unserialize($expected_compact_json);
@@ -134,9 +134,9 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
+            ->create(['RSA-OAEP', 'A256GCM']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
+            ->create(['RSA-OAEP', 'A256GCM']);
 
         $jwe = $jweBuilder
             ->create()

@@ -17,16 +17,23 @@ final class JWELoaderFactory
     ) {
     }
 
+    /**
+     * @param array<string> $serializers
+     * @param array<string> $encryptionAlgorithms
+     * @param array<string>|null $contentEncryptionAlgorithms
+     * @param array<string>|null $compressionMethods
+     * @param array<string> $headerCheckers
+     */
     public function create(
         array $serializers,
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
-        null|array $compressionMethods,
+        array $encryptionAlgorithms,
+        null|array $contentEncryptionAlgorithms = null,
+        null|array $compressionMethods = null,
         array $headerCheckers = []
     ): JWELoader {
         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
         $jweDecrypter = $this->jweDecrypterFactory->create(
-            $keyEncryptionAlgorithms,
+            $encryptionAlgorithms,
             $contentEncryptionAlgorithms,
             $compressionMethods
         );

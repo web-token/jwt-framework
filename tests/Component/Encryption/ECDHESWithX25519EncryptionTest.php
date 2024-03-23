@@ -34,9 +34,9 @@ final class ECDHESWithX25519EncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['ECDH-ES+A128KW', 'A128GCM']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES+A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['ECDH-ES+A128KW', 'A128GCM']);
 
         $jwt = $jweBuilder
             ->create()

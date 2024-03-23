@@ -101,7 +101,7 @@ final class JWELoaderTest extends EncryptionTestCase
     {
         if ($this->jweLoader === null) {
             $this->jweLoader = $this->getJWELoaderFactory()
-                ->create(['jwe_compact'], ['A128KW'], ['A128GCM'], ['DEF']);
+                ->create(['jwe_compact'], ['A128KW'], ['A128GCM']);
         }
 
         return $this->jweLoader;

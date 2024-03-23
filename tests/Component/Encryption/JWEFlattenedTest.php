@@ -20,7 +20,7 @@ final class JWEFlattenedTest extends EncryptionTestCase
     public function loadFlattenedJWE(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['A128KW', 'A128CBC-HS256']);
 
         $loaded = $this->getJWESerializerManager()
             ->unserialize(
