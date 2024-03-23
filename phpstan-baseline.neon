@@ -751,7 +751,7 @@ parameters:
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$keyEncryptionAlgorithm with no value type specified in iterable type array\\.$#"
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEBuilder\\(\\) has parameter \\$encryptionAlgorithm with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
@@ -771,7 +771,7 @@ parameters:
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
 		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$keyEncryptionAlgorithm with no value type specified in iterable type array\\.$#"
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Helper\\\\ConfigurationHelper\\:\\:addJWEDecrypter\\(\\) has parameter \\$encryptionAlgorithm with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Helper/ConfigurationHelper.php
 
@@ -1149,17 +1149,17 @@ parameters:
 			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$encryptionAlgorithms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Bundle/Services/NestedTokenBuilderFactory.php
+
+		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$jwe_serializers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$jws_serializers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/NestedTokenBuilderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenBuilderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenBuilderFactory.php
 
@@ -1184,6 +1184,11 @@ parameters:
 			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
+			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$encryptionAlgorithms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Bundle/Services/NestedTokenLoaderFactory.php
+
+		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jweHeaderCheckers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenLoaderFactory.php
@@ -1200,11 +1205,6 @@ parameters:
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$jwsSerializers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Services/NestedTokenLoaderFactory.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Services\\\\NestedTokenLoaderFactory\\:\\:create\\(\\) has parameter \\$keyEncryptionAlgorithms with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 

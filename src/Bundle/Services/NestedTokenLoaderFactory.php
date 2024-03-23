@@ -17,18 +17,21 @@ final class NestedTokenLoaderFactory
 
     public function create(
         array $jweSerializers,
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
+        array $encryptionAlgorithms,
+        null|array $contentEncryptionAlgorithms,
         null|array $compressionMethods,
         array $jweHeaderCheckers,
         array $jwsSerializers,
         array $signatureAlgorithms,
         array $jwsHeaderCheckers
     ): NestedTokenLoader {
+        if ($contentEncryptionAlgorithms !== null) {
+            $encryptionAlgorithms = array_merge($encryptionAlgorithms, $contentEncryptionAlgorithms);
+        }
         $jweLoader = $this->jweLoaderFactory->create(
             $jweSerializers,
-            $keyEncryptionAlgorithms,
-            $contentEncryptionAlgorithms,
+            $encryptionAlgorithms,
+            null,
             $compressionMethods,
             $jweHeaderCheckers
         );

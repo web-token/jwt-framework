@@ -31,12 +31,16 @@ final class JWELoaderFactory
         null|array $compressionMethods = null,
         array $headerCheckers = []
     ): JWELoader {
+        if ($contentEncryptionAlgorithms !== null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3.0',
+                'The parameter "$contentEncryptionAlgorithms" is deprecated and will be removed in 4.0.0. Please set "null" instead.'
+            );
+            $encryptionAlgorithms = array_merge($encryptionAlgorithms, $contentEncryptionAlgorithms);
+        }
         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
-        $jweDecrypter = $this->jweDecrypterFactory->create(
-            $encryptionAlgorithms,
-            $contentEncryptionAlgorithms,
-            $compressionMethods
-        );
+        $jweDecrypter = $this->jweDecrypterFactory->create($encryptionAlgorithms, null, $compressionMethods);
         if ($this->headerCheckerManagerFactory !== null) {
             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
         } else {
