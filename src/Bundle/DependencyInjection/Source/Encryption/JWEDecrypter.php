@@ -6,17 +6,20 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWEDecrypter as JWEDecrypterService;
+use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JWEDecrypter extends AbstractEncryptionSource
+final readonly class JWEDecrypter extends AbstractEncryptionSource
 {
+    #[Override]
     public function name(): string
     {
         return 'decrypters';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {

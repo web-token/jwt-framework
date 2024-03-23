@@ -7,6 +7,7 @@ namespace Jose\Component\Encryption;
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -19,7 +20,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethod;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use LogicException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use function array_key_exists;
 use function count;
@@ -51,38 +51,19 @@ class JWEBuilder
 
     public function __construct(
         AlgorithmManager $algorithmManager,
-        null|AlgorithmManager $contentEncryptionAlgorithmManager = null,
-        private readonly null|CompressionMethodManager $compressionManager = null
     ) {
-        if ($compressionManager !== null) {
-            trigger_deprecation(
-                'web-token/jwt-library',
-                '3.3.0',
-                'The parameter "$compressionManager" is deprecated and will be removed in 4.0.0. Compression is not recommended for JWE. Please set "null" instead.'
-            );
-        }
-        if ($contentEncryptionAlgorithmManager !== null) {
-            trigger_deprecation(
-                'web-token/jwt-library',
-                '3.3.0',
-                'The parameter "$contentEncryptionAlgorithmManager" is deprecated and will be removed in 4.0.0. Please set all algorithms in the first argument and set "null" instead.'
-            );
-            $this->keyEncryptionAlgorithmManager = $algorithmManager;
-            $this->contentEncryptionAlgorithmManager = $contentEncryptionAlgorithmManager;
-        } else {
-            $keyEncryptionAlgorithms = [];
-            $contentEncryptionAlgorithms = [];
-            foreach ($algorithmManager->all() as $algorithm) {
-                if ($algorithm instanceof KeyEncryptionAlgorithm) {
-                    $keyEncryptionAlgorithms[] = $algorithm;
-                }
-                if ($algorithm instanceof ContentEncryptionAlgorithm) {
-                    $contentEncryptionAlgorithms[] = $algorithm;
-                }
+        $keyEncryptionAlgorithms = [];
+        $contentEncryptionAlgorithms = [];
+        foreach ($algorithmManager->all() as $algorithm) {
+            if ($algorithm instanceof KeyEncryptionAlgorithm) {
+                $keyEncryptionAlgorithms[] = $algorithm;
             }
-            $this->keyEncryptionAlgorithmManager = new AlgorithmManager($keyEncryptionAlgorithms);
-            $this->contentEncryptionAlgorithmManager = new AlgorithmManager($contentEncryptionAlgorithms);
+            if ($algorithm instanceof ContentEncryptionAlgorithm) {
+                $contentEncryptionAlgorithms[] = $algorithm;
+            }
         }
+        $this->keyEncryptionAlgorithmManager = new AlgorithmManager($keyEncryptionAlgorithms);
+        $this->contentEncryptionAlgorithmManager = new AlgorithmManager($contentEncryptionAlgorithms);
     }
 
     /**

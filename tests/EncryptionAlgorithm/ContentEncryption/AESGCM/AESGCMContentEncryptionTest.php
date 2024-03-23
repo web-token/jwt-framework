@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\AESGCM;
 
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use const STR_PAD_LEFT;
@@ -211,7 +211,7 @@ final class AESGCMContentEncryptionTest extends TestCase
     private function convertArrayToBinString(array $data): string
     {
         foreach ($data as $key => $value) {
-            $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $data[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
 
         return hex2bin(implode('', $data));

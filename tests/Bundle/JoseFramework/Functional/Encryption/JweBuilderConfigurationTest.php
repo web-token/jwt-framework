@@ -7,7 +7,6 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource;
-use Jose\Component\Encryption\JWEBuilderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -18,13 +17,6 @@ use PHPUnit\Framework\TestCase;
 final class JweBuilderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
-
-    protected function setUp(): void
-    {
-        if (! class_exists(JWEBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-    }
 
     #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void

@@ -10,7 +10,7 @@ use function array_key_exists;
 /**
  * @deprecated This class is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
  */
-class CompressionMethodManager
+final class CompressionMethodManager
 {
     /**
      * @var CompressionMethod[]
@@ -63,7 +63,7 @@ class CompressionMethodManager
     /**
      * Add the given compression method to the manager.
      */
-    protected function add(CompressionMethod $compressionMethod): void
+    private function add(CompressionMethod $compressionMethod): void
     {
         $name = $compressionMethod->name();
         $this->compressionMethods[$name] = $compressionMethod;

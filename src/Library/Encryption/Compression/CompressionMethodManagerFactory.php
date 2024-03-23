@@ -9,7 +9,7 @@ use InvalidArgumentException;
 /**
  * @deprecated This class is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
  */
-class CompressionMethodManagerFactory
+final class CompressionMethodManagerFactory
 {
     /**
      * @var CompressionMethod[]

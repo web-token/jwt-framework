@@ -7,6 +7,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWK
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
 use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -14,11 +15,12 @@ use Symfony\Component\DependencyInjection\Reference;
 use function is_int;
 use function is_string;
 
-class JWKSet extends AbstractSource implements JWKSource
+final readonly class JWKSet extends AbstractSource implements JWKSource
 {
     /**
      * @param array<string, mixed> $config
      */
+    #[Override]
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWK::class);
@@ -29,11 +31,13 @@ class JWKSet extends AbstractSource implements JWKSource
         return $definition;
     }
 
+    #[Override]
     public function getKey(): string
     {
         return 'jwkset';
     }
 
+    #[Override]
     public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);

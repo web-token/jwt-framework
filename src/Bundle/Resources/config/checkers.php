@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory;
 use Jose\Component\Checker\ExpirationTimeChecker;
-use Jose\Component\Checker\InternalClock;
 use Jose\Component\Checker\IssuedAtChecker;
 use Jose\Component\Checker\NotBeforeChecker;
+use Psr\Clock\ClockInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -25,7 +25,7 @@ return function (ContainerConfigurator $container): void {
         ->public();
 
     $container->set(ExpirationTimeChecker::class)
-        ->arg('$clock', service('jose.internal_clock'))
+        ->arg('$clock', service(ClockInterface::class))
         ->tag('jose.checker.claim', [
             'alias' => 'exp',
         ])
@@ -34,7 +34,7 @@ return function (ContainerConfigurator $container): void {
         ]);
 
     $container->set(IssuedAtChecker::class)
-        ->arg('$clock', service('jose.internal_clock'))
+        ->arg('$clock', service(ClockInterface::class))
         ->tag('jose.checker.claim', [
             'alias' => 'iat',
         ])
@@ -43,20 +43,11 @@ return function (ContainerConfigurator $container): void {
         ]);
 
     $container->set(NotBeforeChecker::class)
-        ->arg('$clock', service('jose.internal_clock'))
+        ->arg('$clock', service(ClockInterface::class))
         ->tag('jose.checker.claim', [
             'alias' => 'nbf',
         ])
         ->tag('jose.checker.header', [
             'alias' => 'nbf',
         ]);
-
-    $container->set('jose.internal_clock')
-        ->class(InternalClock::class)
-        ->deprecate(
-            'web-token/jwt-bundle',
-            '3.2.0',
-            'The service "%service_id%" is an internal service that will be removed in 4.0.0. Please use a PSR-20 compatible service as clock.'
-        )
-        ->private();
 };

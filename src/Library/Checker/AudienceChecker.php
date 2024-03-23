@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Override;
 use function in_array;
 use function is_array;
 use function is_string;
@@ -12,36 +13,41 @@ use function is_string;
  * This class is a header parameter and claim checker. When the "aud" header parameter or claim is present, it will
  * check if the value is within the allowed ones.
  */
-final class AudienceChecker implements ClaimChecker, HeaderChecker
+final readonly class AudienceChecker implements ClaimChecker, HeaderChecker
 {
-    private const CLAIM_NAME = 'aud';
+    private const string CLAIM_NAME = 'aud';
 
     public function __construct(
-        private readonly string $audience,
-        private readonly bool $protectedHeader = false
+        private string $audience,
+        private bool $protectedHeader = false
     ) {
     }
 
+    #[Override]
     public function checkClaim(mixed $value): void
     {
         $this->checkValue($value, InvalidClaimException::class);
     }
 
+    #[Override]
     public function checkHeader(mixed $value): void
     {
         $this->checkValue($value, InvalidHeaderException::class);
     }
 
+    #[Override]
     public function supportedClaim(): string
     {
         return self::CLAIM_NAME;
     }
 
+    #[Override]
     public function supportedHeader(): string
     {
         return self::CLAIM_NAME;
     }
 
+    #[Override]
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;

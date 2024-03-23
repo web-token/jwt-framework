@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\Analyzer;
 
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
+use Override;
 use function is_string;
 
-final class OctAnalyzer implements KeyAnalyzer
+final readonly class OctAnalyzer implements KeyAnalyzer
 {
+    #[Override]
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
         if ($jwk->get('kty') !== 'oct') {

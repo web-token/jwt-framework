@@ -6,8 +6,8 @@ namespace Jose\Tests\SignatureAlgorithm\Experimental;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Experimental\Signature\Blake2b;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -17,15 +17,15 @@ use PHPUnit\Framework\TestCase;
  */
 final class Blake2bTest extends TestCase
 {
-    private const KEY_ONE = 'GOu4rLyVCBxmxP-sbniU68ojAja5PkRdvv7vNvBCqDQ';
+    private const string KEY_ONE = 'GOu4rLyVCBxmxP-sbniU68ojAja5PkRdvv7vNvBCqDQ';
 
-    private const KEY_TWO = 'Pu7gywseH-R5HLIWnMll4rEg1ltjUPq_P9WwEzAsAb8';
+    private const string KEY_TWO = 'Pu7gywseH-R5HLIWnMll4rEg1ltjUPq_P9WwEzAsAb8';
 
-    private const CONTENTS = 'test';
+    private const string CONTENTS = 'test';
 
-    private const EXPECTED_HASH_WITH_KEY_ONE = '_TG5kmkav_YGl3I9uQiv4cm1VN6Q0zPCom4G7-p74JU';
+    private const string EXPECTED_HASH_WITH_KEY_ONE = '_TG5kmkav_YGl3I9uQiv4cm1VN6Q0zPCom4G7-p74JU';
 
-    private const SHORT_KEY = 'PIBQuM5PopdMxtmTWmyvNA';
+    private const string SHORT_KEY = 'PIBQuM5PopdMxtmTWmyvNA';
 
     private JWK $keyOne;
 

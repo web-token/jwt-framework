@@ -44,6 +44,6 @@ class JWEDecrypterFactory
             $compressionMethods
         );
 
-        return new JWEDecrypter($algorithmManager, null, $compressionMethodManager);
+        return new JWEDecrypter($algorithmManager, $compressionMethodManager);
     }
 }

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-abstract class AbstractEncryptionSource implements Source
+abstract readonly class AbstractEncryptionSource implements Source
 {
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $node
@@ -62,6 +64,7 @@ abstract class AbstractEncryptionSource implements Source
             ->end();
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

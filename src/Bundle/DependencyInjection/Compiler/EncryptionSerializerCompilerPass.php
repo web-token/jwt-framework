@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class EncryptionSerializerCompilerPass implements CompilerPassInterface
+final readonly class EncryptionSerializerCompilerPass implements CompilerPassInterface
 {
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         if (! $container->hasDefinition(JWESerializerManagerFactory::class)) {

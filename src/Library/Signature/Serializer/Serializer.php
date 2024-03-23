@@ -6,7 +6,7 @@ namespace Jose\Component\Signature\Serializer;
 
 use function array_key_exists;
 
-abstract class Serializer implements JWSSerializer
+abstract readonly class Serializer implements JWSSerializer
 {
     /**
      * @param array<string, mixed> $protectedHeader

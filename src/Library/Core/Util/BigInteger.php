@@ -11,10 +11,10 @@ use function chr;
 /**
  * @internal
  */
-final class BigInteger
+final readonly class BigInteger
 {
     private function __construct(
-        private readonly BrickBigInteger $value
+        private BrickBigInteger $value
     ) {
     }
 

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use AESKW\Wrapper as WrapperInterface;
+use Override;
 use RuntimeException;
 
-abstract class AbstractECDHAESKW implements KeyAgreementWithKeyWrapping
+abstract readonly class AbstractECDHAESKW implements KeyAgreementWithKeyWrapping
 {
     public function __construct()
     {
@@ -16,11 +17,13 @@ abstract class AbstractECDHAESKW implements KeyAgreementWithKeyWrapping
         }
     }
 
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['EC', 'OKP'];
     }
 
+    #[Override]
     public function getKeyManagementMode(): string
     {
         return self::MODE_WRAP;

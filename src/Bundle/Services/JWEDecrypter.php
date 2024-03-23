@@ -12,19 +12,19 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEDecrypter as BaseJWEDecrypter;
+use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class JWEDecrypter extends BaseJWEDecrypter
 {
     public function __construct(
         AlgorithmManager $algorithmManager,
-        null|AlgorithmManager $contentEncryptionAlgorithmManager,
-        null|CompressionMethodManager $compressionMethodManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($algorithmManager, $contentEncryptionAlgorithmManager, $compressionMethodManager);
+        parent::__construct($algorithmManager);
     }
 
+    #[Override]
     public function decryptUsingKeySet(
         JWE &$jwe,
         JWKSet $jwkset,

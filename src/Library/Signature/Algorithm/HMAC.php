@@ -6,22 +6,26 @@ namespace Jose\Component\Signature\Algorithm;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
+use Override;
 use function in_array;
 use function is_string;
 
-abstract class HMAC implements MacAlgorithm
+abstract readonly class HMAC implements MacAlgorithm
 {
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['oct'];
     }
 
+    #[Override]
     public function verify(JWK $key, string $input, string $signature): bool
     {
         return hash_equals($this->hash($key, $input), $signature);
     }
 
+    #[Override]
     public function hash(JWK $key, string $input): string
     {
         $k = $this->getKey($key);

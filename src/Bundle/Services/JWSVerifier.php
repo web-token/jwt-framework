@@ -11,6 +11,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSVerifier as BaseJWSVerifier;
+use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final class JWSVerifier extends BaseJWSVerifier
@@ -22,6 +23,7 @@ final class JWSVerifier extends BaseJWSVerifier
         parent::__construct($signatureAlgorithmManager);
     }
 
+    #[Override]
     public function verifyWithKeySet(
         JWS $jws,
         JWKSet $jwkset,

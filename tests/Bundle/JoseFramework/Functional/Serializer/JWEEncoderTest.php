@@ -9,7 +9,6 @@ use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
-use Jose\Component\Encryption\JWEBuilderFactory as BaseJWEBuilderFactory;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
@@ -18,23 +17,12 @@ use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * @internal
  */
 final class JWEEncoderTest extends KernelTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(BaseJWEBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-        if (! class_exists(Serializer::class)) {
-            static::markTestSkipped('The component "symfony/serializer" is not installed.');
-        }
-    }
-
     #[DataProvider('jweFormatDataProvider')]
     #[Test]
     public function theJWEEncoderSupportsAllFormatsByDefault(string $format, string $serializerId): void

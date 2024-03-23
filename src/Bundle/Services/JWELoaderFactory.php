@@ -7,7 +7,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class JWELoaderFactory
+final readonly class JWELoaderFactory
 {
     public function __construct(
         private readonly JWESerializerManagerFactory $jweSerializerManagerFactory,

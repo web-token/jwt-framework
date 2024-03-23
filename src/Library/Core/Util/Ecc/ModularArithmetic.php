@@ -9,7 +9,7 @@ use Brick\Math\BigInteger;
 /**
  * @internal
  */
-final class ModularArithmetic
+final readonly class ModularArithmetic
 {
     public static function sub(BigInteger $minuend, BigInteger $subtrahend, BigInteger $modulus): BigInteger
     {

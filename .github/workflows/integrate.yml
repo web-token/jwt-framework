@@ -1,5 +1,3 @@
-# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
-
 name: "Integrate"
 
 on:
@@ -31,7 +29,7 @@ jobs:
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "8.1"
+          php-version: "8.3"
 
       - name: "Checkout code"
         uses: "actions/checkout@v4"
@@ -54,8 +52,6 @@ jobs:
         operating-system:
           - "ubuntu-latest"
         php-version:
-          - "8.1"
-          - "8.2"
           - "8.3"
         dependencies:
           - "lowest"
@@ -81,14 +77,6 @@ jobs:
       - name: "Execute unit tests"
         run: "make ci-cc"
 
-  #      - name: Send coverage to Coveralls
-  #        if: "matrix.php-version == '8.1' && matrix.dependencies == 'highest'"
-  #        env:
-  #          COVERALLS_REPO_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-  #        run: |
-  #          wget "https://github.com/php-coveralls/php-coveralls/releases/download/v2.5.2/php-coveralls.phar"
-  #          php ./php-coveralls.phar -v
-
   static_analysis:
     name: "3️⃣ Static Analysis"
     needs:
@@ -99,7 +87,7 @@ jobs:
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "8.1"
+          php-version: "8.3"
           extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
 
       - name: "Checkout code"
@@ -127,7 +115,7 @@ jobs:
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "8.1"
+          php-version: "8.3"
           extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
 
       - name: "Checkout code"
@@ -155,7 +143,7 @@ jobs:
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "8.1"
+          php-version: "8.3"
           extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
           coverage: "xdebug"
 

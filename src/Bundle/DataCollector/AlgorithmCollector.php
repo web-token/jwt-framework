@@ -10,21 +10,23 @@ use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 use function array_key_exists;
 
-final class AlgorithmCollector implements Collector
+final readonly class AlgorithmCollector implements Collector
 {
     public function __construct(
-        private readonly AlgorithmManagerFactory $algorithmManagerFactory
+        private AlgorithmManagerFactory $algorithmManagerFactory
     ) {
     }
 
     /**
      * @param array<string, mixed> $data
      */
+    #[Override]
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $algorithms = $this->algorithmManagerFactory->all();

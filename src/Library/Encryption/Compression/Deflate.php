@@ -5,31 +5,32 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Compression;
 
 use InvalidArgumentException;
+use Override;
 use Throwable;
 use function is_string;
 
 /**
  * @deprecated This class is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
  */
-final class Deflate implements CompressionMethod
+final readonly class Deflate implements CompressionMethod
 {
-    private int $compressionLevel = -1;
-
-    public function __construct(int $compressionLevel = -1)
-    {
+    public function __construct(
+        private int $compressionLevel = -1
+    ) {
         if ($compressionLevel < -1 || $compressionLevel > 9) {
             throw new InvalidArgumentException(
                 'The compression level can be given as 0 for no compression up to 9 for maximum compression. If -1 given, the default compression level will be the default compression level of the zlib library.'
             );
         }
-        $this->compressionLevel = $compressionLevel;
     }
 
+    #[Override]
     public function name(): string
     {
         return 'DEF';
     }
 
+    #[Override]
     public function compress(string $data): string
     {
         try {
@@ -44,6 +45,7 @@ final class Deflate implements CompressionMethod
         }
     }
 
+    #[Override]
     public function uncompress(string $data): string
     {
         try {

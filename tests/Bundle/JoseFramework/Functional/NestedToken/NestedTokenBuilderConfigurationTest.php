@@ -10,7 +10,6 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedToken;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
-use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -21,13 +20,6 @@ use PHPUnit\Framework\TestCase;
 final class NestedTokenBuilderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
-
-    protected function setUp(): void
-    {
-        if (! class_exists(NestedTokenLoaderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
-        }
-    }
 
     #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void

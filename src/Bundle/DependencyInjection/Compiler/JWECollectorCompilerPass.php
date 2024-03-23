@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use Jose\Bundle\JoseFramework\DataCollector\JWECollector;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class JWECollectorCompilerPass implements CompilerPassInterface
+final readonly class JWECollectorCompilerPass implements CompilerPassInterface
 {
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         if (! $container->hasDefinition(JWECollector::class)) {

@@ -6,9 +6,11 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
 use LogicException;
+use Override;
 
-final class ECDHSS extends AbstractECDH
+final readonly class ECDHSS extends AbstractECDH
 {
+    #[Override]
     public function name(): string
     {
         return 'ECDH-SS';
@@ -18,6 +20,7 @@ final class ECDHSS extends AbstractECDH
      * @param array<string, mixed> $complete_header
      * @param array<string, mixed> $additional_header_values
      */
+    #[Override]
     public function getAgreementKey(
         int $encryptionKeyLength,
         string $algorithm,

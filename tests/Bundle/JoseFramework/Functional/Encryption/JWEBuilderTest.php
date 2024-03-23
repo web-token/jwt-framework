@@ -6,30 +6,20 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEBuilder;
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory as JWEBuilderFactoryService;
-use Jose\Component\Encryption\JWEBuilderFactory;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @internal
  */
 final class JWEBuilderTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(JWEBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-encryption" is not installed.');
-        }
-    }
-
     #[Test]
     public static function theJWEBuilderFactoryIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has(JWEBuilderFactoryService::class));
     }
 
@@ -39,7 +29,6 @@ final class JWEBuilderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
 
         $jweFactory = $container->get(JWEBuilderFactoryService::class);
         static::assertInstanceOf(JWEBuilderFactoryService::class, $jweFactory);
@@ -53,7 +42,6 @@ final class JWEBuilderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_builder.builder1'));
 
         $jwe = $container->get('jose.jwe_builder.builder1');
@@ -66,7 +54,6 @@ final class JWEBuilderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jwe_builder.builder2'));
 
         $jwe = $container->get('jose.jwe_builder.builder2');

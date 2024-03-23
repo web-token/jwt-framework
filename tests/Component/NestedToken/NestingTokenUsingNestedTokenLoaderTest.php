@@ -19,7 +19,6 @@ use Jose\Component\Encryption\Serializer as JweSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\NestedToken\NestedTokenLoaderFactory;
 use Jose\Component\Signature\Algorithm\PS256;
-use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifierFactory;
@@ -47,16 +46,6 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
     private ?JWEDecrypterFactory $jweDecrypterFactory = null;
 
     private ?JWESerializerManagerFactory $jwsSerializerManagerFactory = null;
-
-    protected function setUp(): void
-    {
-        if (! class_exists(HeaderCheckerManagerFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
-        }
-        if (! class_exists(JWSLoader::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-    }
 
     #[Test]
     public function decryption(): void

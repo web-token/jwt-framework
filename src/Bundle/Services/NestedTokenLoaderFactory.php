@@ -6,7 +6,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class NestedTokenLoaderFactory
+final readonly class NestedTokenLoaderFactory
 {
     public function __construct(
         private readonly JWELoaderFactory $jweLoaderFactory,
