@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final readonly class JWEDecrypterFactory
@@ -16,9 +15,8 @@ final readonly class JWEDecrypterFactory
     ) {
     }
 
-    public function create(
-        array $encryptionAlgorithms,
-    ): JWEDecrypter {
+    public function create(array $encryptionAlgorithms): JWEDecrypter
+    {
         $algorithmManager = $this->algorithmManagerFactory->create($encryptionAlgorithms);
 
         return new JWEDecrypter($algorithmManager, $this->eventDispatcher);

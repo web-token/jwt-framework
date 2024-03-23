@@ -8,7 +8,6 @@ use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\JWELoader;
@@ -59,7 +58,6 @@ final class JWECollector implements Collector, EventSubscriberInterface
     private array $jweLoaders = [];
 
     public function __construct(
-        private readonly ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null,
         private readonly ?JWESerializerManagerFactory $jweSerializerManagerFactory = null
     ) {
     }
@@ -70,7 +68,6 @@ final class JWECollector implements Collector, EventSubscriberInterface
     #[Override]
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
-        $this->collectSupportedCompressionMethods($data);
         $this->collectSupportedJWESerializations($data);
         $this->collectSupportedJWEBuilders($data);
         $this->collectSupportedJWEDecrypters($data);
@@ -130,22 +127,6 @@ final class JWECollector implements Collector, EventSubscriberInterface
 
     /**
      * @param array<string, array<string, mixed>> $data
-     * @deprecated This method is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
-     */
-    private function collectSupportedCompressionMethods(array &$data): void
-    {
-        $data['jwe']['compression_methods'] = [];
-        if ($this->compressionMethodManagerFactory === null) {
-            return;
-        }
-        $compressionMethods = $this->compressionMethodManagerFactory->all();
-        foreach ($compressionMethods as $alias => $compressionMethod) {
-            $data['jwe']['compression_methods'][$alias] = $compressionMethod->name();
-        }
-    }
-
-    /**
-     * @param array<string, array<string, mixed>> $data
      */
     private function collectSupportedJWESerializations(array &$data): void
     {
@@ -171,8 +152,6 @@ final class JWECollector implements Collector, EventSubscriberInterface
                     ->list(),
                 'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()
                     ->list(),
-                'compression_methods' => $jweBuilder->getCompressionMethodManager()
-                    ->list(),
             ];
         }
     }
@@ -188,8 +167,6 @@ final class JWECollector implements Collector, EventSubscriberInterface
                 'key_encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()
                     ->list(),
                 'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()
-                    ->list(),
-                'compression_methods' => $jweDecrypter->getCompressionMethodManager()
                     ->list(),
             ];
         }
@@ -210,9 +187,6 @@ final class JWECollector implements Collector, EventSubscriberInterface
                     ->list(),
                 'content_encryption_algorithms' => $jweLoader->getJweDecrypter()
                     ->getContentEncryptionAlgorithmManager()
-                    ->list(),
-                'compression_methods' => $jweLoader->getJweDecrypter()
-                    ->getCompressionMethodManager()
                     ->list(),
             ];
         }

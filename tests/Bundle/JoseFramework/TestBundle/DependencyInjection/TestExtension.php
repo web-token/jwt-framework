@@ -47,8 +47,8 @@ final class TestExtension extends Extension implements PrependExtensionInterface
             true
         );
         ConfigurationHelper::addJWSLoader($container, 'jws_loader2', ['jws_compact'], ['HS512'], [], true);
-        ConfigurationHelper::addJWEBuilder($container, 'builder2', ['RSA-OAEP-256', 'A128GCM'], null, null, true);
-        ConfigurationHelper::addJWEDecrypter($container, 'loader2', ['RSA-OAEP-256', 'A128GCM'], null, null, true);
+        ConfigurationHelper::addJWEBuilder($container, 'builder2', ['RSA-OAEP-256', 'A128GCM'], null, null);
+        ConfigurationHelper::addJWEDecrypter($container, 'loader2', ['RSA-OAEP-256', 'A128GCM'], null, null);
         ConfigurationHelper::addJWESerializer(
             $container,
             'jwe_serializer2',
@@ -62,8 +62,7 @@ final class TestExtension extends Extension implements PrependExtensionInterface
             ['RSA-OAEP-256', 'A128GCM'],
             null,
             null,
-            [],
-            true
+            []
         );
         ConfigurationHelper::addNestedTokenLoader(
             $container,
@@ -75,8 +74,6 @@ final class TestExtension extends Extension implements PrependExtensionInterface
             [],
             ['jws_compact'],
             ['PS256'],
-            [],
-            true,
             []
         );
         ConfigurationHelper::addNestedTokenBuilder(
@@ -87,9 +84,7 @@ final class TestExtension extends Extension implements PrependExtensionInterface
             null,
             null,
             ['jws_compact'],
-            ['PS256'],
-            true,
-            []
+            ['PS256']
         );
     }
 }

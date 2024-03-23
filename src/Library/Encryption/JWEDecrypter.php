@@ -17,9 +17,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrappin
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
-use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Throwable;
-use function array_key_exists;
 use function is_string;
 
 class JWEDecrypter
@@ -59,15 +57,6 @@ class JWEDecrypter
     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
     {
         return $this->contentEncryptionAlgorithmManager;
-    }
-
-    /**
-     * Returns the compression method manager.
-     * @deprecated This method is deprecated and will be removed in v4.0. Compression is not recommended for JWE.
-     */
-    public function getCompressionMethodManager(): null|CompressionMethodManager
-    {
-        return $this->compressionMethodManager;
     }
 
     /**
@@ -156,7 +145,7 @@ class JWEDecrypter
                     $completeHeader
                 );
                 $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
-                $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm, $completeHeader);
+                $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm);
                 $successJwk = $recipientKey;
 
                 return $payload;
@@ -243,9 +232,8 @@ class JWEDecrypter
         JWE $jwe,
         string $cek,
         ContentEncryptionAlgorithm $content_encryption_algorithm,
-        array $completeHeader
     ): string {
-        $payload = $content_encryption_algorithm->decryptContent(
+        return $content_encryption_algorithm->decryptContent(
             $jwe->getCiphertext() ?? '',
             $cek,
             $jwe->getIV() ?? '',
@@ -253,19 +241,6 @@ class JWEDecrypter
             $jwe->getEncodedSharedProtectedHeader(),
             $jwe->getTag() ?? ''
         );
-
-        return $this->decompressIfNeeded($payload, $completeHeader);
-    }
-
-    private function decompressIfNeeded(string $payload, array $completeHeaders): string
-    {
-        if ($this->compressionMethodManager === null || ! array_key_exists('zip', $completeHeaders)) {
-            return $payload;
-        }
-
-        $compression_method = $this->compressionMethodManager->get($completeHeaders['zip']);
-
-        return $compression_method->uncompress($payload);
     }
 
     private function checkCompleteHeader(array $completeHeaders): void

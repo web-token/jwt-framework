@@ -75,9 +75,7 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
                 ['A128GCM'],
                 ['DEF'],
                 [],
-                ['jws_compact', 'jws_json_flattened', 'jws_json_general'],
-                ['PS256'],
-                []
+                ['jws_compact', 'jws_json_flattened', 'jws_json_general']
             );
 
         $signature_key = new JWK([

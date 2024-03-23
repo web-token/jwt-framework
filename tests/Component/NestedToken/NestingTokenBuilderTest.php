@@ -76,7 +76,7 @@ final class NestingTokenBuilderTest extends TestCase
         ]);
 
         $nestedTokenBuilder = $this->getNestedTokenBuilderFactory()
-            ->create(['jwe_compact'], ['RSA-OAEP', 'A128GCM'], null, null, ['jws_compact'], ['PS256']);
+            ->create(['jwe_compact'], ['RSA-OAEP', 'A128GCM'], null, null);
 
         $nestedTokenBuilder->create(
             $payload,

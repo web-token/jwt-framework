@@ -32,8 +32,6 @@ final readonly class NestedTokenBuilder implements Source
                 ->setArguments([
                     $itemConfig['jwe_serializers'],
                     $itemConfig['key_encryption_algorithms'],
-                    $itemConfig['content_encryption_algorithms'] === [] ? null : $itemConfig['content_encryption_algorithms'],
-                    $itemConfig['compression_methods'] === [] ? null : $itemConfig['compression_methods'],
                     $itemConfig['jws_serializers'],
                     $itemConfig['signature_algorithms'],
                 ])
@@ -68,28 +66,10 @@ final readonly class NestedTokenBuilder implements Source
             ->scalarPrototype()
             ->end()
             ->end()
-            ->arrayNode('key_encryption_algorithms')
+            ->arrayNode('encryption_algorithms')
             ->info('A list of key encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('content_encryption_algorithms')
-            ->info('A list of key encryption algorithm aliases.')
-            ->useAttributeAsKey('name')
-            ->treatNullLike([])
-            ->treatFalseLike([])
-            ->defaultValue([])
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('compression_methods')
-            ->info('A list of compression method aliases.')
-            ->useAttributeAsKey('name')
-            ->treatNullLike([])
-            ->treatFalseLike([])
-            ->defaultValue([])
             ->scalarPrototype()
             ->end()
             ->end()

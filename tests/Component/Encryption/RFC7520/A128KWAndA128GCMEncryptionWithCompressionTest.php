@@ -49,7 +49,7 @@ final class A128KWAndA128GCMEncryptionWithCompressionTest extends EncryptionTest
         $expected_tag = 'VILuUwuIxaLVmh5X-T7kmA';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW', 'A128GCM'], null, ['DEF']);
+            ->create(['A128KW', 'A128GCM']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
             ->unserialize($expected_compact_json);
