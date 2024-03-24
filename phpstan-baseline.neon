@@ -921,11 +921,6 @@ parameters:
 			path: src/Bundle/Serializer/JWESerializer.php
 
 		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWESerializer\\:\\:getSupportedTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Serializer/JWESerializer.php
-
-		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWESerializer\\:\\:supportsDenormalization\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Serializer/JWESerializer.php
@@ -957,11 +952,6 @@ parameters:
 
 		-
 			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSSerializer\\:\\:denormalize\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Bundle/Serializer/JWSSerializer.php
-
-		-
-			message: "#^Method Jose\\\\Bundle\\\\JoseFramework\\\\Serializer\\\\JWSSerializer\\:\\:getSupportedTypes\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Bundle/Serializer/JWSSerializer.php
 
