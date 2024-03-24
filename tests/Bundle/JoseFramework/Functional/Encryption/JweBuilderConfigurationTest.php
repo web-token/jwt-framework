@@ -77,7 +77,7 @@ final class JweBuilderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child config "key_encryption_algorithms" under "jose.jwe.builders.foo" must be configured:'
+            'The child config "encryption_algorithms" under "jose.jwe.builders.foo" must be configured:'
         );
     }
 
@@ -96,7 +96,7 @@ final class JweBuilderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The path "jose.jwe.builders.foo.key_encryption_algorithms" should have at least 1 element(s) defined.'
+            'The path "jose.jwe.builders.foo.encryption_algorithms" should have at least 1 element(s) defined.'
         );
     }
 

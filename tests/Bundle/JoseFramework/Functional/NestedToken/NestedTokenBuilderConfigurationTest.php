@@ -99,7 +99,7 @@ final class NestedTokenBuilderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child config "key_encryption_algorithms" under "jose.nested_token.builders.foo" must be configured:'
+            'The child config "encryption_algorithms" under "jose.nested_token.builders.foo" must be configured:'
         );
     }
 

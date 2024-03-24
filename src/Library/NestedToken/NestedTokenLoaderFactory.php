@@ -31,7 +31,7 @@ class NestedTokenLoaderFactory
     public function create(
         array $jweSerializers,
         array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
+        null|array $contentEncryptionAlgorithms,
         null|array $compressionMethods,
         array $jweHeaderCheckers,
         array $jwsSerializers,
