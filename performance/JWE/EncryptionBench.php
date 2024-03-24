@@ -30,8 +30,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
-use Jose\Component\Encryption\Compression\CompressionMethodManager;
-use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
@@ -80,7 +78,6 @@ abstract class EncryptionBench
             new A192GCM(),
             new A256GCM(),
         ]);
-        $this->compressionMethodsManager = new CompressionMethodManager([new Deflate()]);
         $this->serializerManager = new JWESerializerManager([
             new CompactSerializer(),
             new JSONFlattenedSerializer(),

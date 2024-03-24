@@ -27,9 +27,6 @@ final readonly class JKUSource implements Source
             $loader->load('jku_source.php');
             $loader->load('jku_commands.php');
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
-            if (isset($configs[$this->name()]['request_factory'])) {
-                $container->setAlias('jose.request_factory', $configs[$this->name()]['request_factory']);
-            }
         }
     }
 
@@ -38,20 +35,15 @@ final readonly class JKUSource implements Source
     {
         $node->children()
             ->arrayNode('jku_factory')
-            ->canBeEnabled()
-            ->children()
-            ->scalarNode('client')
-            ->info('HTTP Client used to retrieve key sets.')
-            ->isRequired()
+                ->canBeEnabled()
+                ->children()
+                    ->scalarNode('client')
+                        ->info('HTTP Client used to retrieve key sets.')
+                        ->isRequired()
+                    ->end()
+                ->end()
             ->end()
-            ->scalarNode('request_factory')
-            ->info('The request factory service.')
-            //->setDeprecated('The "%node%" option is deprecated and will be removed in 4.0.')
-            ->defaultNull()
-            ->end()
-            ->end()
-            ->end()
-            ->end();
+        ->end();
     }
 
     #[Override]
