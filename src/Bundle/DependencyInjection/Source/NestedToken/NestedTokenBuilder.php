@@ -67,7 +67,7 @@ class NestedTokenBuilder implements Source
                 );
                 unset($v['key_encryption_algorithms'], $v['content_encryption_algorithms']);
                 $v['encryption_algorithms'] = array_unique(array_values($v['encryption_algorithms']));
-                dump($v);
+
                 return $v;
             })
             ->end()
