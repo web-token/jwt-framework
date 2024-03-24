@@ -33,7 +33,7 @@ final class JWELoaderTest extends WebTestCase
         $jweLoaderFactory = $container->get(JWELoaderFactoryAlias::class);
         static::assertInstanceOf(JWELoaderFactoryAlias::class, $jweLoaderFactory);
 
-        $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5'], ['A256GCM']);
+        $jwe = $jweLoaderFactory->create(['jwe_compact'], ['RSA1_5', 'A256GCM']);
 
         static::assertSame(['jwe_compact'], $jwe->getSerializerManager()->names());
         static::assertSame(['RSA1_5'], $jwe->getJweDecrypter()->getKeyEncryptionAlgorithmManager()->list());

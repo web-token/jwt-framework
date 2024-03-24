@@ -27,7 +27,7 @@ final readonly class JWEDecrypter extends AbstractEncryptionSource
             $definition = new Definition(JWEDecrypterService::class);
             $definition
                 ->setFactory([new Reference(JWEDecrypterFactory::class), 'create'])
-                ->setArguments([$itemConfig['key_encryption_algorithms']])
+                ->setArguments([$itemConfig['encryption_algorithms']])
                 ->addTag('jose.jwe_decrypter')
                 ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {

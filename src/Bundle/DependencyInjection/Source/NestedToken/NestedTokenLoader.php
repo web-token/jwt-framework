@@ -31,7 +31,7 @@ final readonly class NestedTokenLoader implements Source
                 ->setFactory([new Reference(NestedTokenLoaderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['jwe_serializers'],
-                    $itemConfig['key_encryption_algorithms'],
+                    $itemConfig['encryption_algorithms'],
                     $itemConfig['jwe_header_checkers'],
                     $itemConfig['jws_serializers'],
                     $itemConfig['signature_algorithms'],

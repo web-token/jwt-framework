@@ -31,7 +31,7 @@ final readonly class JWELoader implements Source
                 ->setFactory([new Reference(JWELoaderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['serializers'],
-                    $itemConfig['key_encryption_algorithms'],
+                    $itemConfig['encryption_algorithms'],
                     $itemConfig['header_checkers'],
                 ])
                 ->addTag('jose.jwe_loader')

@@ -31,7 +31,7 @@ final readonly class NestedTokenBuilder implements Source
                 ->setFactory([new Reference(NestedTokenBuilderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['jwe_serializers'],
-                    $itemConfig['key_encryption_algorithms'],
+                    $itemConfig['encryption_algorithms'],
                     $itemConfig['jws_serializers'],
                     $itemConfig['signature_algorithms'],
                 ])

@@ -246,42 +246,6 @@ final class EncrypterTest extends EncryptionTestCase
     }
 
     #[Test]
-    public function encryptAndLoadFlattenedWithDeflateCompression(): void
-    {
-        $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA-OAEP-256', 'A128CBC-HS256']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP-256', 'A128CBC-HS256']);
-
-        $jwe = $jweBuilder
-            ->create()
-            ->withPayload(json_encode($this->getKeySetToEncrypt(), JSON_THROW_ON_ERROR))
-            ->withSharedProtectedHeader([
-                'kid' => '123456789',
-                'enc' => 'A128CBC-HS256',
-                'alg' => 'RSA-OAEP-256',
-            ])
-            ->addRecipient($this->getRSARecipientKey())
-            ->build();
-        $jwe = $this->getJWESerializerManager()
-            ->serialize('jwe_compact', $jwe, 0);
-
-        $loaded = $this->getJWESerializerManager()
-            ->unserialize($jwe);
-
-        static::assertSame('RSA-OAEP-256', $loaded->getSharedProtectedHeaderParameter('alg'));
-        static::assertSame('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
-        static::assertNull($loaded->getPayload());
-
-        static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
-
-        static::assertEqualsCanonicalizing(
-            $this->getKeySetToEncrypt(),
-            JWKSet::createFromKeyData(json_decode((string) $loaded->getPayload(), true, 512, JSON_THROW_ON_ERROR))
-        );
-    }
-
-    #[Test]
     public function algParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -561,23 +525,6 @@ final class EncrypterTest extends EncryptionTestCase
             'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
             'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
         ]);
-    }
-
-    /**
-     * @return JWKSet
-     */
-    private function getKeySetToEncrypt()
-    {
-        $key = new JWK([
-            'kty' => 'EC',
-            'use' => 'enc',
-            'crv' => 'P-256',
-            'x' => 'f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU',
-            'y' => 'x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0',
-            'd' => 'jpsQnnGQmL-YBIffH1136cspYG6-0iY7X1fCE9-E9LI',
-        ]);
-
-        return new JWKSet([$key]);
     }
 
     /**

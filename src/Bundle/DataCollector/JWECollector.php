@@ -148,9 +148,7 @@ final class JWECollector implements Collector, EventSubscriberInterface
         $data['jwe']['jwe_builders'] = [];
         foreach ($this->jweBuilders as $id => $jweBuilder) {
             $data['jwe']['jwe_builders'][$id] = [
-                'key_encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()
-                    ->list(),
-                'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()
+                'encryption_algorithms' => $jweBuilder->getKeyEncryptionAlgorithmManager()
                     ->list(),
             ];
         }
@@ -164,9 +162,7 @@ final class JWECollector implements Collector, EventSubscriberInterface
         $data['jwe']['jwe_decrypters'] = [];
         foreach ($this->jweDecrypters as $id => $jweDecrypter) {
             $data['jwe']['jwe_decrypters'][$id] = [
-                'key_encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()
-                    ->list(),
-                'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()
+                'encryption_algorithms' => $jweDecrypter->getKeyEncryptionAlgorithmManager()
                     ->list(),
             ];
         }
@@ -182,11 +178,8 @@ final class JWECollector implements Collector, EventSubscriberInterface
             $data['jwe']['jwe_loaders'][$id] = [
                 'serializers' => $jweLoader->getSerializerManager()
                     ->names(),
-                'key_encryption_algorithms' => $jweLoader->getJweDecrypter()
+                'encryption_algorithms' => $jweLoader->getJweDecrypter()
                     ->getKeyEncryptionAlgorithmManager()
-                    ->list(),
-                'content_encryption_algorithms' => $jweLoader->getJweDecrypter()
-                    ->getContentEncryptionAlgorithmManager()
                     ->list(),
             ];
         }
