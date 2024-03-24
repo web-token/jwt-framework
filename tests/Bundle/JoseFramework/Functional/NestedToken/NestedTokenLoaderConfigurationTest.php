@@ -91,27 +91,7 @@ final class NestedTokenLoaderConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child config "key_encryption_algorithms" under "jose.nested_token.loaders.foo" must be configured:'
-        );
-    }
-
-    #[Test]
-    public function theConfigurationIsInvalidIfNoContentEncryptionAlgorithmIsSet(): void
-    {
-        $this->assertConfigurationIsInvalid(
-            [
-                [
-                    'nested_token' => [
-                        'loaders' => [
-                            'foo' => [
-                                'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'The child config "content_encryption_algorithms" under "jose.nested_token.loaders.foo" must be configured:'
+            'The child config "encryption_algorithms" under "jose.nested_token.loaders.foo" must be configured:'
         );
     }
 
@@ -125,8 +105,7 @@ final class NestedTokenLoaderConfigurationTest extends TestCase
                         'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                                'content_encryption_algorithms' => ['A128GCM'],
+                                'encryption_algorithms' => ['RSA-OAEP', 'A128GCM'],
                             ],
                         ],
                     ],
@@ -146,8 +125,7 @@ final class NestedTokenLoaderConfigurationTest extends TestCase
                         'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                                'content_encryption_algorithms' => ['A128GCM'],
+                                'encryption_algorithms' => ['RSA-OAEP', 'A128GCM'],
                                 'jws_serializers' => ['jws_compact'],
                             ],
                         ],
@@ -168,8 +146,7 @@ final class NestedTokenLoaderConfigurationTest extends TestCase
                         'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                                'content_encryption_algorithms' => ['A128GCM'],
+                                'encryption_algorithms' => ['RSA-OAEP', 'A128GCM'],
                                 'jws_serializers' => ['jws_compact'],
                                 'jwe_serializers' => ['jwe_compact'],
                             ],

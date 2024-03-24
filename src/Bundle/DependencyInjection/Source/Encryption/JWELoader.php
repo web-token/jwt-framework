@@ -31,9 +31,7 @@ final readonly class JWELoader implements Source
                 ->setFactory([new Reference(JWELoaderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['serializers'],
-                    $itemConfig['key_encryption_algorithms'],
-                    $itemConfig['content_encryption_algorithms'],
-                    $itemConfig['compression_methods'],
+                    $itemConfig['encryption_algorithms'],
                     $itemConfig['header_checkers'],
                 ])
                 ->addTag('jose.jwe_loader')
@@ -61,24 +59,10 @@ final readonly class JWELoader implements Source
             ->info('If true, the service will be public, else private.')
             ->defaultTrue()
             ->end()
-            ->arrayNode('key_encryption_algorithms')
+            ->arrayNode('encryption_algorithms')
             ->info('A list of key encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('content_encryption_algorithms')
-            ->info('A list of key encryption algorithm aliases.')
-            ->useAttributeAsKey('name')
-            ->isRequired()
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('compression_methods')
-            ->info('A list of compression method aliases.')
-            ->useAttributeAsKey('name')
-            ->defaultValue(['DEF'])
             ->scalarPrototype()
             ->end()
             ->end()

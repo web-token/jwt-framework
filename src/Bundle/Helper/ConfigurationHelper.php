@@ -18,7 +18,7 @@ final readonly class ConfigurationHelper
         ContainerBuilder $container,
         string $name,
         array $signatureAlgorithms,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -26,7 +26,7 @@ final readonly class ConfigurationHelper
                 'jws' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'signature_algorithms' => $signatureAlgorithms,
                             'tags' => $tags,
                         ],
@@ -44,7 +44,7 @@ final readonly class ConfigurationHelper
         ContainerBuilder $container,
         string $name,
         array $signatureAlgorithms,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -52,7 +52,7 @@ final readonly class ConfigurationHelper
                 'jws' => [
                     'verifiers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'signature_algorithms' => $signatureAlgorithms,
                             'tags' => $tags,
                         ],
@@ -71,7 +71,7 @@ final readonly class ConfigurationHelper
         ContainerBuilder $container,
         string $name,
         array $serializers,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -79,7 +79,7 @@ final readonly class ConfigurationHelper
                 'jws' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'serializers' => $serializers,
                             'tags' => $tags,
                         ],
@@ -93,16 +93,16 @@ final readonly class ConfigurationHelper
 
     /**
      * @param string[] $serializers
-     * @param string[] $signature_algorithms
+     * @param string[] $signatureAlgorithms
      * @param string[] $header_checkers
      */
     public static function addJWSLoader(
         ContainerBuilder $container,
         string $name,
         array $serializers,
-        array $signature_algorithms,
+        array $signatureAlgorithms,
         array $header_checkers,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -110,9 +110,9 @@ final readonly class ConfigurationHelper
                 'jws' => [
                     'loaders' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'serializers' => $serializers,
-                            'signature_algorithms' => $signature_algorithms,
+                            'signature_algorithms' => $signatureAlgorithms,
                             'header_checkers' => $header_checkers,
                             'tags' => $tags,
                         ],
@@ -125,27 +125,23 @@ final readonly class ConfigurationHelper
     }
 
     /**
-     * @param string[] $jwe_serializers
-     * @param string[] $key_encryption_algorithms
-     * @param string[] $content_encryption_algorithms
-     * @param string[] $compression_methods
-     * @param string[] $jwe_header_checkers
-     * @param string[] $jws_serializers
-     * @param string[] $signature_algorithms
-     * @param string[] $jws_header_checkers
+     * @param string[] $jweSerializers
+     * @param string[] $encryptionAlgorithms
+     * @param string[] $jweHeaderCheckers
+     * @param string[] $jwsSerializers
+     * @param string[] $signatureAlgorithms
+     * @param string[] $jwsHeaderCheckers
      */
     public static function addNestedTokenLoader(
         ContainerBuilder $container,
         string $name,
-        array $jwe_serializers,
-        array $key_encryption_algorithms,
-        array $content_encryption_algorithms,
-        array $compression_methods,
-        array $jwe_header_checkers,
-        array $jws_serializers,
-        array $signature_algorithms,
-        array $jws_header_checkers,
-        bool $is_public = true,
+        array $jweSerializers,
+        array $encryptionAlgorithms,
+        array $jweHeaderCheckers,
+        array $jwsSerializers,
+        array $signatureAlgorithms,
+        array $jwsHeaderCheckers,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -153,15 +149,13 @@ final readonly class ConfigurationHelper
                 'nested_token' => [
                     'loaders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'jwe_serializers' => $jwe_serializers,
-                            'key_encryption_algorithms' => $key_encryption_algorithms,
-                            'content_encryption_algorithms' => $content_encryption_algorithms,
-                            'compression_methods' => $compression_methods,
-                            'jwe_header_checkers' => $jwe_header_checkers,
-                            'jws_serializers' => $jws_serializers,
-                            'signature_algorithms' => $signature_algorithms,
-                            'jws_header_checkers' => $jws_header_checkers,
+                            'is_public' => $isPublic,
+                            'jwe_serializers' => $jweSerializers,
+                            'encryption_algorithms' => $encryptionAlgorithms,
+                            'jwe_header_checkers' => $jweHeaderCheckers,
+                            'jws_serializers' => $jwsSerializers,
+                            'signature_algorithms' => $signatureAlgorithms,
+                            'jws_header_checkers' => $jwsHeaderCheckers,
                             'tags' => $tags,
                         ],
                     ],
@@ -173,23 +167,19 @@ final readonly class ConfigurationHelper
     }
 
     /**
-     * @param string[] $jwe_serializers
-     * @param string[] $key_encryption_algorithms
-     * @param string[] $content_encryption_algorithms
-     * @param string[] $compression_methods
-     * @param string[] $jws_serializers
-     * @param string[] $signature_algorithms
+     * @param string[] $jweSerializers
+     * @param string[] $encryptionAlgorithms
+     * @param string[] $jwsSerializers
+     * @param string[] $signatureAlgorithms
      */
     public static function addNestedTokenBuilder(
         ContainerBuilder $container,
         string $name,
-        array $jwe_serializers,
-        array $key_encryption_algorithms,
-        array $content_encryption_algorithms,
-        array $compression_methods,
-        array $jws_serializers,
-        array $signature_algorithms,
-        bool $is_public = true,
+        array $jweSerializers,
+        array $encryptionAlgorithms,
+        array $jwsSerializers,
+        array $signatureAlgorithms,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -197,13 +187,11 @@ final readonly class ConfigurationHelper
                 'nested_token' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'jwe_serializers' => $jwe_serializers,
-                            'key_encryption_algorithms' => $key_encryption_algorithms,
-                            'content_encryption_algorithms' => $content_encryption_algorithms,
-                            'compression_methods' => $compression_methods,
-                            'jws_serializers' => $jws_serializers,
-                            'signature_algorithms' => $signature_algorithms,
+                            'is_public' => $isPublic,
+                            'jwe_serializers' => $jweSerializers,
+                            'encryption_algorithms' => $encryptionAlgorithms,
+                            'jws_serializers' => $jwsSerializers,
+                            'signature_algorithms' => $signatureAlgorithms,
                             'tags' => $tags,
                         ],
                     ],
@@ -221,7 +209,7 @@ final readonly class ConfigurationHelper
         ContainerBuilder $container,
         string $name,
         array $serializers,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -229,7 +217,7 @@ final readonly class ConfigurationHelper
                 'jwe' => [
                     'serializers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'serializers' => $serializers,
                             'tags' => $tags,
                         ],
@@ -243,20 +231,16 @@ final readonly class ConfigurationHelper
 
     /**
      * @param string[] $serializers
-     * @param string[] $key_encryption_algorithms
-     * @param string[] $content_encryption_algorithms
-     * @param string[] $compression_methods
+     * @param string[] $encryptionAlgorithms
      * @param string[] $header_checkers
      */
     public static function addJWELoader(
         ContainerBuilder $container,
         string $name,
         array $serializers,
-        array $key_encryption_algorithms,
-        array $content_encryption_algorithms,
-        array $compression_methods,
+        array $encryptionAlgorithms,
         array $header_checkers,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -264,11 +248,9 @@ final readonly class ConfigurationHelper
                 'jwe' => [
                     'loaders' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'serializers' => $serializers,
-                            'key_encryption_algorithms' => $key_encryption_algorithms,
-                            'content_encryption_algorithms' => $content_encryption_algorithms,
-                            'compression_methods' => $compression_methods,
+                            'encryption_algorithms' => $encryptionAlgorithms,
                             'header_checkers' => $header_checkers,
                             'tags' => $tags,
                         ],
@@ -287,7 +269,7 @@ final readonly class ConfigurationHelper
         ContainerBuilder $container,
         string $name,
         array $claimCheckers,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -295,7 +277,7 @@ final readonly class ConfigurationHelper
                 'checkers' => [
                     'claims' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'claims' => $claimCheckers,
                             'tags' => $tags,
                         ],
@@ -314,7 +296,7 @@ final readonly class ConfigurationHelper
         ContainerBuilder $container,
         string $name,
         array $headerCheckers,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -322,7 +304,7 @@ final readonly class ConfigurationHelper
                 'checkers' => [
                     'headers' => [
                         $name => [
-                            'is_public' => $is_public,
+                            'is_public' => $isPublic,
                             'headers' => $headerCheckers,
                             'tags' => $tags,
                         ],
@@ -339,10 +321,10 @@ final readonly class ConfigurationHelper
         string $name,
         string $type,
         array $parameters,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
-        $parameters['is_public'] = $is_public;
+        $parameters['is_public'] = $isPublic;
         $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
@@ -362,10 +344,10 @@ final readonly class ConfigurationHelper
         string $name,
         string $type,
         array $parameters,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
-        $parameters['is_public'] = $is_public;
+        $parameters['is_public'] = $isPublic;
         $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
@@ -384,10 +366,10 @@ final readonly class ConfigurationHelper
         ContainerBuilder $container,
         string $name,
         array $parameters,
-        bool $is_public = true,
+        bool $isPublic = true,
         array $tags = []
     ): void {
-        $parameters['is_public'] = $is_public;
+        $parameters['is_public'] = $isPublic;
         $parameters['tags'] = $tags;
         $config = [
             self::BUNDLE_ALIAS => [
@@ -403,10 +385,8 @@ final readonly class ConfigurationHelper
     public static function addJWEBuilder(
         ContainerBuilder $container,
         string $name,
-        array $keyEncryptionAlgorithm,
-        array $contentEncryptionAlgorithms,
-        array $compressionMethods = ['DEF'],
-        bool $is_public = true,
+        array $encryptionAlgorithm,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -414,10 +394,8 @@ final readonly class ConfigurationHelper
                 'jwe' => [
                     'builders' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
-                            'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
+                            'is_public' => $isPublic,
+                            'encryption_algorithms' => $encryptionAlgorithm,
                             'tags' => $tags,
                         ],
                     ],
@@ -431,10 +409,8 @@ final readonly class ConfigurationHelper
     public static function addJWEDecrypter(
         ContainerBuilder $container,
         string $name,
-        array $keyEncryptionAlgorithm,
-        array $contentEncryptionAlgorithms,
-        array $compressionMethods = ['DEF'],
-        bool $is_public = true,
+        array $encryptionAlgorithm,
+        bool $isPublic = true,
         array $tags = []
     ): void {
         $config = [
@@ -442,10 +418,8 @@ final readonly class ConfigurationHelper
                 'jwe' => [
                     'decrypters' => [
                         $name => [
-                            'is_public' => $is_public,
-                            'key_encryption_algorithms' => $keyEncryptionAlgorithm,
-                            'content_encryption_algorithms' => $contentEncryptionAlgorithms,
-                            'compression_methods' => $compressionMethods,
+                            'is_public' => $isPublic,
+                            'encryption_algorithms' => $encryptionAlgorithm,
                             'tags' => $tags,
                         ],
                     ],

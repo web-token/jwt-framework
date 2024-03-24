@@ -7,7 +7,6 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWEBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEBuilder as BaseJWEBuilder;
 use Override;
@@ -18,10 +17,9 @@ final class JWEBuilder extends BaseJWEBuilder
 {
     public function __construct(
         AlgorithmManager $algorithmManager,
-        CompressionMethodManager $compressionManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($algorithmManager, $compressionManager);
+        parent::__construct($algorithmManager);
     }
 
     #[Override]

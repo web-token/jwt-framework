@@ -46,7 +46,7 @@ final class DirAndA128GCMEncryptionTest extends EncryptionTestCase
         $expected_tag = 'vbb32Xvllea2OtmHAdccRQ';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['dir'], ['A128GCM'], ['DEF']);
+            ->create(['dir', 'A128GCM']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
             ->unserialize($expected_compact_json);
@@ -93,9 +93,9 @@ final class DirAndA128GCMEncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['dir'], ['A128GCM'], ['DEF']);
+            ->create(['dir', 'A128GCM']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['dir'], ['A128GCM'], ['DEF']);
+            ->create(['dir', 'A128GCM']);
 
         $jwe = $jweBuilder
             ->create()

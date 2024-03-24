@@ -33,7 +33,7 @@ final class JWEBuilderTest extends WebTestCase
         $jweFactory = $container->get(JWEBuilderFactoryService::class);
         static::assertInstanceOf(JWEBuilderFactoryService::class, $jweFactory);
 
-        $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
+        $jweFactory->create(['RSA1_5', 'A256GCM']);
     }
 
     #[Test]

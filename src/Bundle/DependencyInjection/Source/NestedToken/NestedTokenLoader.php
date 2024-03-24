@@ -31,9 +31,7 @@ final readonly class NestedTokenLoader implements Source
                 ->setFactory([new Reference(NestedTokenLoaderFactory::class), 'create'])
                 ->setArguments([
                     $itemConfig['jwe_serializers'],
-                    $itemConfig['key_encryption_algorithms'],
-                    $itemConfig['content_encryption_algorithms'],
-                    $itemConfig['compression_methods'],
+                    $itemConfig['encryption_algorithms'],
                     $itemConfig['jwe_header_checkers'],
                     $itemConfig['jws_serializers'],
                     $itemConfig['signature_algorithms'],
@@ -70,24 +68,10 @@ final readonly class NestedTokenLoader implements Source
             ->scalarPrototype()
             ->end()
             ->end()
-            ->arrayNode('key_encryption_algorithms')
-            ->info('A list of key encryption algorithm aliases.')
+            ->arrayNode('encryption_algorithms')
+            ->info('A list of encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('content_encryption_algorithms')
-            ->info('A list of key encryption algorithm aliases.')
-            ->useAttributeAsKey('name')
-            ->isRequired()
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('compression_methods')
-            ->info('A list of compression method aliases.')
-            ->useAttributeAsKey('name')
-            ->defaultValue(['DEF'])
             ->scalarPrototype()
             ->end()
             ->end()

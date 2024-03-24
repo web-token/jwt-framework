@@ -49,7 +49,7 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
         $expected_tag = 'e2m0Vm7JvjK2VpCKXS-kyg';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['A128KW', 'A128GCM']);
 
         $loaded_flattened_json = $this->getJWESerializerManager()
             ->unserialize($expected_flattened_json);
@@ -111,9 +111,9 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['A128KW', 'A128GCM']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128GCM'], ['DEF']);
+            ->create(['A128KW', 'A128GCM']);
 
         $jwe = $jweBuilder
             ->create()

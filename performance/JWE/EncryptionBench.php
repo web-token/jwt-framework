@@ -46,17 +46,14 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
  */
 abstract class EncryptionBench
 {
-    private AlgorithmManager $contentEncryptionAlgorithmsManager;
-
-    private AlgorithmManager $keyEncryptionAlgorithmsManager;
-
-    private CompressionMethodManager $compressionMethodsManager;
+    private AlgorithmManager $algorithmsManager;
 
     private JWESerializerManager $serializerManager;
 
     public function init(): void
     {
-        $this->keyEncryptionAlgorithmsManager = new AlgorithmManager([
+        $this->algorithmsManager = new AlgorithmManager([
+            // Key Encryption
             new A128KW(),
             new A192KW(),
             new A256KW(),
@@ -74,8 +71,8 @@ abstract class EncryptionBench
             new RSA15(),
             new RSAOAEP(),
             new RSAOAEP256(),
-        ]);
-        $this->contentEncryptionAlgorithmsManager = new AlgorithmManager([
+
+            // Content Encryption
             new A128CBCHS256(),
             new A192CBCHS384(),
             new A256CBCHS512(),
@@ -97,11 +94,7 @@ abstract class EncryptionBench
      */
     public function encryption(array $params): void
     {
-        $jweBuilder = new JWEBuilder(
-            $this->getKeyEncryptionAlgorithmsManager(),
-            $this->getContentEncryptionAlgorithmsManager(),
-            $this->getCompressionMethodsManager()
-        );
+        $jweBuilder = new JWEBuilder($this->getAlgorithmsManager());
         $jweBuilder
             ->withPayload($params['payload'])
             ->withAAD($this->getAAD())
@@ -118,11 +111,7 @@ abstract class EncryptionBench
      */
     public function decryption(array $params): void
     {
-        $jweLoader = new JWEDecrypter(
-            $this->getKeyEncryptionAlgorithmsManager(),
-            $this->getContentEncryptionAlgorithmsManager(),
-            $this->getCompressionMethodsManager()
-        );
+        $jweLoader = new JWEDecrypter($this->getAlgorithmsManager());
         $jwe = $this->serializerManager->unserialize($params['input']);
         $keyset = JWKSet::createFromKeyData($params['recipient_keys']);
         $jweLoader->decryptUsingKeySet($jwe, $keyset, 0);
@@ -143,18 +132,8 @@ abstract class EncryptionBench
 
     abstract protected function getAAD(): ?string;
 
-    private function getKeyEncryptionAlgorithmsManager(): AlgorithmManager
+    private function getAlgorithmsManager(): AlgorithmManager
     {
-        return $this->keyEncryptionAlgorithmsManager;
-    }
-
-    private function getContentEncryptionAlgorithmsManager(): AlgorithmManager
-    {
-        return $this->contentEncryptionAlgorithmsManager;
-    }
-
-    private function getCompressionMethodsManager(): CompressionMethodManager
-    {
-        return $this->compressionMethodsManager;
+        return $this->algorithmsManager;
     }
 }

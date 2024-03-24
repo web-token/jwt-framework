@@ -54,7 +54,7 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTestCase
         $expected_tag = 'WCCkNa-x4BeB9hIDIfFuhg';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['ECDH-ES', 'A128CBC-HS256']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
             ->unserialize($expected_compact_json);
@@ -113,9 +113,9 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['ECDH-ES', 'A128CBC-HS256']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['ECDH-ES'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['ECDH-ES', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
             ->create()

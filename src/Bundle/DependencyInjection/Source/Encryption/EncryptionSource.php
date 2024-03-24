@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\CompressionMethodCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\EncryptionSerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
@@ -54,7 +53,6 @@ final readonly class EncryptionSource implements SourceWithCompilerPasses
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('jwe_services.php');
         $loader->load('jwe_serializers.php');
-        $loader->load('compression_methods.php');
 
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
@@ -104,7 +102,7 @@ final readonly class EncryptionSource implements SourceWithCompilerPasses
     #[Override]
     public function getCompilerPasses(): array
     {
-        return [new EncryptionSerializerCompilerPass(), new CompressionMethodCompilerPass()];
+        return [new EncryptionSerializerCompilerPass()];
     }
 
     private function getAlgorithmsFiles(): array

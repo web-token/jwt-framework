@@ -69,7 +69,7 @@ final class JweDecrypterConfigurationTest extends TestCase
                     ],
                 ],
             ],
-            'The child config "key_encryption_algorithms" under "jose.jwe.decrypters.foo" must be configured:'
+            'The child config "encryption_algorithms" under "jose.jwe.decrypters.foo" must be configured:'
         );
     }
 
@@ -82,52 +82,13 @@ final class JweDecrypterConfigurationTest extends TestCase
                     'jwe' => [
                         'decrypters' => [
                             'foo' => [
-                                'key_encryption_algorithms' => [],
+                                'encryption_algorithms' => [],
                             ],
                         ],
                     ],
                 ],
             ],
-            'The path "jose.jwe.decrypters.foo.key_encryption_algorithms" should have at least 1 element(s) defined.'
-        );
-    }
-
-    #[Test]
-    public function theConfigurationIsInvalidIfNotContentEncryptionAlgorithmIsSet(): void
-    {
-        $this->assertConfigurationIsInvalid(
-            [
-                [
-                    'jwe' => [
-                        'decrypters' => [
-                            'foo' => [
-                                'key_encryption_algorithms' => ['A256GCMKW'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'The child config "content_encryption_algorithms" under "jose.jwe.decrypters.foo" must be configured:'
-        );
-    }
-
-    #[Test]
-    public function theConfigurationIsInvalidIfTheContentEncryptionAlgorithmIsEmpty(): void
-    {
-        $this->assertConfigurationIsInvalid(
-            [
-                [
-                    'jwe' => [
-                        'decrypters' => [
-                            'foo' => [
-                                'key_encryption_algorithms' => ['A256GCMKW'],
-                                'content_encryption_algorithms' => [],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'The path "jose.jwe.decrypters.foo.content_encryption_algorithms" should have at least 1 element(s) defined.'
+            'The path "jose.jwe.decrypters.foo.encryption_algorithms" should have at least 1 element(s) defined.'
         );
     }
 

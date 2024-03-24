@@ -17,8 +17,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrappin
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
-use Jose\Component\Encryption\Compression\CompressionMethod;
-use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use LogicException;
 use RuntimeException;
 use function array_key_exists;
@@ -39,8 +37,6 @@ class JWEBuilder
 
     protected array $sharedHeader = [];
 
-    private ?CompressionMethod $compressionMethod = null;
-
     private ?string $keyManagementMode = null;
 
     private ?ContentEncryptionAlgorithm $contentEncryptionAlgorithm = null;
@@ -51,7 +47,6 @@ class JWEBuilder
 
     public function __construct(
         AlgorithmManager $algorithmManager,
-        private readonly CompressionMethodManager $compressionManager
     ) {
         $keyEncryptionAlgorithms = [];
         $contentEncryptionAlgorithms = [];
@@ -78,7 +73,6 @@ class JWEBuilder
         $this->recipients = [];
         $this->sharedProtectedHeader = [];
         $this->sharedHeader = [];
-        $this->compressionMethod = null;
         $this->keyManagementMode = null;
 
         return $this;
@@ -98,14 +92,6 @@ class JWEBuilder
     public function getContentEncryptionAlgorithmManager(): AlgorithmManager
     {
         return $this->contentEncryptionAlgorithmManager;
-    }
-
-    /**
-     * Returns the compression method manager.
-     */
-    public function getCompressionMethodManager(): CompressionMethodManager
-    {
-        return $this->compressionManager;
     }
 
     /**
@@ -185,17 +171,6 @@ class JWEBuilder
             }
         }
 
-        $compressionMethod = $clone->getCompressionMethod($completeHeader);
-        if ($compressionMethod !== null) {
-            if ($clone->compressionMethod === null) {
-                $clone->compressionMethod = $compressionMethod;
-            } elseif ($clone->compressionMethod->name() !== $compressionMethod->name()) {
-                throw new InvalidArgumentException('Incompatible compression method.');
-            }
-        }
-        if ($compressionMethod === null && $clone->compressionMethod !== null) {
-            throw new InvalidArgumentException('Inconsistent compression method.');
-        }
         $clone->checkKey($keyEncryptionAlgorithm, $recipientKey);
         $clone->recipients[] = [
             'key' => $recipientKey,
@@ -316,7 +291,7 @@ class JWEBuilder
         }
         $iv_size = $this->contentEncryptionAlgorithm->getIVSize();
         $iv = $this->createIV($iv_size);
-        $payload = $this->preparePayload();
+        $payload = $this->payload;
         $tag = null;
         $ciphertext = $this->contentEncryptionAlgorithm->encryptContent(
             $payload ?? '',
@@ -328,16 +303,6 @@ class JWEBuilder
         );
 
         return [$ciphertext, $iv, $tag];
-    }
-
-    private function preparePayload(): ?string
-    {
-        $prepared = $this->payload;
-        if ($this->compressionMethod === null) {
-            return $prepared;
-        }
-
-        return $this->compressionMethod->compress($prepared ?? '');
     }
 
     private function getEncryptedKey(
@@ -504,15 +469,6 @@ class JWEBuilder
                     $this->keyManagementMode
                 ));
         }
-    }
-
-    private function getCompressionMethod(array $completeHeader): ?CompressionMethod
-    {
-        if (! array_key_exists('zip', $completeHeader)) {
-            return null;
-        }
-
-        return $this->compressionManager->get($completeHeader['zip']);
     }
 
     private function areKeyManagementModesCompatible(string $current, string $new): bool

@@ -22,7 +22,7 @@ class ClaimCheckerManager
     /**
      * @param ClaimChecker[] $checkers
      */
-    public function __construct(array $checkers)
+    public function __construct(iterable $checkers)
     {
         foreach ($checkers as $checker) {
             $this->add($checker);

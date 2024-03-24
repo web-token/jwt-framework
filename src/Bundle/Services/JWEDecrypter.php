@@ -9,7 +9,6 @@ use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEDecrypter as BaseJWEDecrypter;
 use Override;
@@ -19,10 +18,9 @@ final class JWEDecrypter extends BaseJWEDecrypter
 {
     public function __construct(
         AlgorithmManager $algorithmManager,
-        CompressionMethodManager $compressionMethodManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($algorithmManager, $compressionMethodManager);
+        parent::__construct($algorithmManager);
     }
 
     #[Override]

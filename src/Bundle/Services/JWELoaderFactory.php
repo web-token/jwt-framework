@@ -17,19 +17,15 @@ final readonly class JWELoaderFactory
     ) {
     }
 
-    public function create(
-        array $serializers,
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
-        array $compressionMethods,
-        array $headerCheckers = []
-    ): JWELoader {
+    /**
+     * @param array<string> $serializers
+     * @param array<string> $encryptionAlgorithms
+     * @param array<string> $headerCheckers
+     */
+    public function create(array $serializers, array $encryptionAlgorithms, array $headerCheckers = []): JWELoader
+    {
         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
-        $jweDecrypter = $this->jweDecrypterFactory->create(
-            $keyEncryptionAlgorithms,
-            $contentEncryptionAlgorithms,
-            $compressionMethods
-        );
+        $jweDecrypter = $this->jweDecrypterFactory->create($encryptionAlgorithms);
         if ($this->headerCheckerManagerFactory !== null) {
             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
         } else {

@@ -252,7 +252,7 @@ final class RSAKeyEncryptionTest extends EncryptionTestCase
     public function loadJWK1(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA-OAEP'], ['A256GCM'], ['DEF']);
+            ->create(['RSA-OAEP', 'A256GCM']);
 
         $loaded = $this->getJWESerializerManager()
             ->unserialize(
@@ -273,7 +273,7 @@ final class RSAKeyEncryptionTest extends EncryptionTestCase
     public function loadJWK2(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'A128CBC-HS256']);
 
         $loaded = $this->getJWESerializerManager()
             ->unserialize(
@@ -292,7 +292,7 @@ final class RSAKeyEncryptionTest extends EncryptionTestCase
     public function loadJWK3(): void
     {
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['A128KW', 'A128CBC-HS256']);
 
         $loaded = $this->getJWESerializerManager()
             ->unserialize(

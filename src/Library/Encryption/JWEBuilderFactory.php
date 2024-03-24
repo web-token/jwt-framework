@@ -5,35 +5,21 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 
 class JWEBuilderFactory
 {
     public function __construct(
         private readonly AlgorithmManagerFactory $algorithmManagerFactory,
-        private readonly CompressionMethodManagerFactory $compressionMethodManagerFactory
     ) {
     }
 
     /**
-     * Creates a JWE Builder object using the given key encryption algorithms, content encryption algorithms and
-     * compression methods.
-     *
-     * @param string[] $keyEncryptionAlgorithms
-     * @param string[] $contentEncryptionAlgorithm
-     * @param string[] $compressionMethods
+     * @param string[] $encryptionAlgorithms
      */
-    public function create(
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithm,
-        array $compressionMethods
-    ): JWEBuilder {
-        $algorithmManager = $this->algorithmManagerFactory->create(array_merge(
-            $keyEncryptionAlgorithms,
-            $contentEncryptionAlgorithm
-        ));
-        $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
+    public function create(array $encryptionAlgorithms): JWEBuilder
+    {
+        $algorithmManager = $this->algorithmManagerFactory->create($encryptionAlgorithms);
 
-        return new JWEBuilder($algorithmManager, $compressionMethodManager);
+        return new JWEBuilder($algorithmManager);
     }
 }

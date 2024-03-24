@@ -98,7 +98,7 @@ final class MultipleRecipientEncryptionTest extends EncryptionTestCase
         $expected_tag = 'BESYyFN7T09KY7i8zKs5_g';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW', 'A128CBC-HS256']);
 
         $loaded_json = $this->getJWESerializerManager()
             ->unserialize($expected_json);
@@ -209,9 +209,9 @@ final class MultipleRecipientEncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW', 'A128CBC-HS256']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
             ->create()
@@ -295,7 +295,7 @@ final class MultipleRecipientEncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['RSA1_5', 'A256GCMKW'], ['A128CBC-HS256', 'A128GCM'], ['DEF']);
+            ->create(['RSA1_5', 'A256GCMKW', 'A128CBC-HS256', 'A128GCM']);
         $jweBuilder
             ->create()
             ->withPayload($expected_payload)

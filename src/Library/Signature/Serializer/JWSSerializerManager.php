@@ -17,7 +17,7 @@ final class JWSSerializerManager
     /**
      * @param JWSSerializer[] $serializers
      */
-    public function __construct(array $serializers)
+    public function __construct(iterable $serializers)
     {
         foreach ($serializers as $serializer) {
             $this->add($serializer);

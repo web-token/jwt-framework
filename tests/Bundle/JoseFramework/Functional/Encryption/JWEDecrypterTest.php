@@ -24,7 +24,7 @@ final class JWEDecrypterTest extends WebTestCase
     }
 
     #[Test]
-    public static function theWEDecrypterFactoryCanCreateAJWEDecrypter(): void
+    public static function theJWEDecrypterFactoryCanCreateAJWEDecrypter(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
@@ -33,7 +33,7 @@ final class JWEDecrypterTest extends WebTestCase
         $jweFactory = $container->get(JWEDecrypterFactoryService::class);
         static::assertInstanceOf(JWEDecrypterFactoryService::class, $jweFactory);
 
-        $jweFactory->create(['RSA1_5'], ['A256GCM'], ['DEF']);
+        $jweFactory->create(['RSA1_5', 'A256GCM']);
     }
 
     #[Test]

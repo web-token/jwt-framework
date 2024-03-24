@@ -198,7 +198,7 @@ final class JWEEncoderTest extends KernelTestCase
         static::assertInstanceOf(JWESerializerManagerFactory::class, $jweSerializerManagerFactory);
         $jweLoaderFactory = $container->get(JWELoaderFactory::class);
         static::assertInstanceOf(JWELoaderFactory::class, $jweLoaderFactory);
-        $loader = $jweLoaderFactory->create($jweSerializerManagerFactory->names(), ['A256KW'], ['A256CBC-HS512'], []);
+        $loader = $jweLoaderFactory->create($jweSerializerManagerFactory->names(), ['A256KW', 'A256CBC-HS512']);
 
         $loader->loadAndDecryptWithKey($jwe, $jwk, $recipient);
 
@@ -215,7 +215,7 @@ final class JWEEncoderTest extends KernelTestCase
         $jweSerializerManager = $jweSerializerManagerFactory->create($jweSerializerManagerFactory->names());
         static::assertInstanceOf(JWESerializerManager::class, $jweSerializerManager);
 
-        $builder = $jweFactory->create(['A256KW'], ['A256CBC-HS512'], []);
+        $builder = $jweFactory->create(['A256KW', 'A256CBC-HS512']);
 
         $jwk = new JWK([
             'kty' => 'oct',

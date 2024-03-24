@@ -56,7 +56,7 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTestCase
         $expected_tag = 'DKW7jrb4WaRSNfbXVPlT5g';
 
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['A256GCMKW', 'A128CBC-HS256']);
 
         $loaded_compact_json = $this->getJWESerializerManager()
             ->unserialize($expected_compact_json);
@@ -128,9 +128,9 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTestCase
         ];
 
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['A256GCMKW', 'A128CBC-HS256']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A256GCMKW'], ['A128CBC-HS256'], ['DEF']);
+            ->create(['A256GCMKW', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
             ->create()

@@ -5,29 +5,20 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 final readonly class JWEDecrypterFactory
 {
     public function __construct(
-        private readonly AlgorithmManagerFactory $algorithmManagerFactory,
-        private readonly CompressionMethodManagerFactory $compressionMethodManagerFactory,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private AlgorithmManagerFactory $algorithmManagerFactory,
+        private EventDispatcherInterface $eventDispatcher
     ) {
     }
 
-    public function create(
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
-        array $compressionMethods
-    ): JWEDecrypter {
-        $algorithmManager = $this->algorithmManagerFactory->create(array_merge(
-            $keyEncryptionAlgorithms,
-            $contentEncryptionAlgorithms
-        ));
-        $compressionMethodManager = $this->compressionMethodManagerFactory->create($compressionMethods);
+    public function create(array $encryptionAlgorithms): JWEDecrypter
+    {
+        $algorithmManager = $this->algorithmManagerFactory->create($encryptionAlgorithms);
 
-        return new JWEDecrypter($algorithmManager, $compressionMethodManager, $this->eventDispatcher);
+        return new JWEDecrypter($algorithmManager, $this->eventDispatcher);
     }
 }

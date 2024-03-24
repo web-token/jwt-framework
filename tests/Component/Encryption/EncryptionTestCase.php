@@ -32,8 +32,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
-use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWELoaderFactory;
@@ -47,8 +45,6 @@ use PHPUnit\Framework\TestCase;
 abstract class EncryptionTestCase extends TestCase
 {
     private ?AlgorithmManagerFactory $algorithmManagerFactory = null;
-
-    private ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null;
 
     private ?JWEBuilderFactory $jweBuilderFactory = null;
 
@@ -97,23 +93,10 @@ abstract class EncryptionTestCase extends TestCase
         return $this->algorithmManagerFactory;
     }
 
-    protected function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
-    {
-        if ($this->compressionMethodManagerFactory === null) {
-            $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
-            $this->compressionMethodManagerFactory->add('DEF', new Deflate());
-        }
-
-        return $this->compressionMethodManagerFactory;
-    }
-
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
         if ($this->jweBuilderFactory === null) {
-            $this->jweBuilderFactory = new JWEBuilderFactory(
-                $this->getAlgorithmManagerFactory(),
-                $this->getCompressionMethodManagerFactory()
-            );
+            $this->jweBuilderFactory = new JWEBuilderFactory($this->getAlgorithmManagerFactory());
         }
 
         return $this->jweBuilderFactory;
@@ -122,10 +105,7 @@ abstract class EncryptionTestCase extends TestCase
     protected function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
         if ($this->jweDecrypterFactory === null) {
-            $this->jweDecrypterFactory = new JWEDecrypterFactory(
-                $this->getAlgorithmManagerFactory(),
-                $this->getCompressionMethodManagerFactory()
-            );
+            $this->jweDecrypterFactory = new JWEDecrypterFactory($this->getAlgorithmManagerFactory());
         }
 
         return $this->jweDecrypterFactory;

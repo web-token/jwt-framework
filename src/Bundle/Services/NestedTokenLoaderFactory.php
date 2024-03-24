@@ -17,21 +17,13 @@ final readonly class NestedTokenLoaderFactory
 
     public function create(
         array $jweSerializers,
-        array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
-        array $compressionMethods,
+        array $encryptionAlgorithms,
         array $jweHeaderCheckers,
         array $jwsSerializers,
         array $signatureAlgorithms,
         array $jwsHeaderCheckers
     ): NestedTokenLoader {
-        $jweLoader = $this->jweLoaderFactory->create(
-            $jweSerializers,
-            $keyEncryptionAlgorithms,
-            $contentEncryptionAlgorithms,
-            $compressionMethods,
-            $jweHeaderCheckers
-        );
+        $jweLoader = $this->jweLoaderFactory->create($jweSerializers, $encryptionAlgorithms, $jweHeaderCheckers);
         $jwsLoader = $this->jwsLoaderFactory->create($jwsSerializers, $signatureAlgorithms, $jwsHeaderCheckers);
 
         return new NestedTokenLoader($jweLoader, $jwsLoader, $this->eventDispatcher);

@@ -28,7 +28,7 @@ class HeaderCheckerManager
      * @param HeaderChecker[] $checkers
      * @param TokenTypeSupport[] $tokenTypes
      */
-    public function __construct(array $checkers, array $tokenTypes)
+    public function __construct(iterable $checkers, iterable $tokenTypes)
     {
         foreach ($checkers as $checker) {
             $this->add($checker);
