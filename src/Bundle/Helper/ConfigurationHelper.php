@@ -158,8 +158,7 @@ class ConfigurationHelper
                         $name => [
                             'is_public' => $isPublic,
                             'jwe_serializers' => $jweSerializers,
-                            'key_encryption_algorithms' => $encryptionAlgorithms,
-                            'content_encryption_algorithms' => null,
+                            'encryption_algorithms' => $encryptionAlgorithms,
                             'compression_methods' => $compressionMethods,
                             'jwe_header_checkers' => $jweHeaderCheckers,
                             'jws_serializers' => $jwsSerializers,
@@ -205,8 +204,7 @@ class ConfigurationHelper
                         $name => [
                             'is_public' => $isPublic,
                             'jwe_serializers' => $jweSerializers,
-                            'key_encryption_algorithms' => $encryptionAlgorithms,
-                            'content_encryption_algorithms' => null,
+                            'encryption_algorithms' => $encryptionAlgorithms,
                             'compression_methods' => $compressionMethods,
                             'jws_serializers' => $jwsSerializers,
                             'signature_algorithms' => $signatureAlgorithms,
@@ -275,8 +273,7 @@ class ConfigurationHelper
                         $name => [
                             'is_public' => $isPublic,
                             'serializers' => $serializers,
-                            'key_encryption_algorithms' => $encryptionAlgorithms,
-                            'content_encryption_algorithms' => null,
+                            'encryption_algorithms' => $encryptionAlgorithms,
                             'compression_methods' => $compressionMethods,
                             'header_checkers' => $header_checkers,
                             'tags' => $tags,
@@ -428,8 +425,7 @@ class ConfigurationHelper
                     'builders' => [
                         $name => [
                             'is_public' => $isPublic,
-                            'key_encryption_algorithms' => $encryptionAlgorithm,
-                            'content_encryption_algorithms' => null,
+                            'encryption_algorithms' => $encryptionAlgorithm,
                             'compression_methods' => $compressionMethods,
                             'tags' => $tags,
                         ],
@@ -460,8 +456,7 @@ class ConfigurationHelper
                     'decrypters' => [
                         $name => [
                             'is_public' => $isPublic,
-                            'key_encryption_algorithms' => $encryptionAlgorithm,
-                            'content_encryption_algorithms' => null,
+                            'encryption_algorithms' => $encryptionAlgorithm,
                             'compression_methods' => $compressionMethods,
                             'tags' => $tags,
                         ],
