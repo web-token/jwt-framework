@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
+use Brick\Math\BigInteger;
 use InvalidArgumentException;
 use OpenSSLCertificate;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
+use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
+use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSASSAPSSPrivateKey;
 use Throwable;
 use function array_key_exists;
 use function assert;
@@ -229,29 +232,79 @@ final class KeyConverter
     private static function tryToLoadOtherKeyTypes(string $input): array
     {
         $pem = PEM::fromString($input);
+        return match ($pem->type()) {
+            PEM::TYPE_PUBLIC_KEY => self::loadPublicKey($pem),
+            PEM::TYPE_PRIVATE_KEY => self::loadPrivateKey($pem),
+            default => throw new InvalidArgumentException('Unsupported key type'),
+        };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function loadPrivateKey(PEM $pem): array
+    {
         try {
             $key = PrivateKey::fromPEM($pem);
-            $curve = self::getCurve($key->algorithmIdentifier()->oid());
-            $values = [
-                'kty' => 'OKP',
-                'crv' => $curve,
-                'd' => Base64UrlSafe::encodeUnpadded($key->privateKeyData()),
-            ];
-            return self::populatePoints($key, $values);
-        } catch (Throwable) {
+            switch ($key->algorithmIdentifier()->oid()) {
+                case AlgorithmIdentifier::OID_RSASSA_PSS_ENCRYPTION:
+                    assert($key instanceof RSASSAPSSPrivateKey);
+                    return [
+                        'kty' => 'RSA',
+                        'n' => self::convertDecimalToBas64Url($key->modulus()),
+                        'e' => self::convertDecimalToBas64Url($key->publicExponent()),
+                        'd' => self::convertDecimalToBas64Url($key->privateExponent()),
+                        'dp' => self::convertDecimalToBas64Url($key->exponent1()),
+                        'dq' => self::convertDecimalToBas64Url($key->exponent2()),
+                        'p' => self::convertDecimalToBas64Url($key->prime1()),
+                        'q' => self::convertDecimalToBas64Url($key->prime2()),
+                        'qi' => self::convertDecimalToBas64Url($key->coefficient()),
+                    ];
+                case AlgorithmIdentifier::OID_ED25519:
+                case AlgorithmIdentifier::OID_ED448:
+                case AlgorithmIdentifier::OID_X25519:
+                case AlgorithmIdentifier::OID_X448:
+                    $curve = self::getCurve($key->algorithmIdentifier()->oid());
+                    $values = [
+                        'kty' => 'OKP',
+                        'crv' => $curve,
+                        'd' => Base64UrlSafe::encodeUnpadded($key->privateKeyData()),
+                    ];
+                    return self::populatePoints($key, $values);
+                default:
+                    throw new InvalidArgumentException('Unsupported key type');
+            }
+        } catch (Throwable $e) {
+            throw new InvalidArgumentException('Unable to load the key.', 0, $e);
         }
-        try {
-            $key = PublicKey::fromPEM($pem);
-            $curve = self::getCurve($key->algorithmIdentifier()->oid());
-            self::checkType($curve);
-            return [
-                'kty' => 'OKP',
-                'crv' => $curve,
-                'x' => Base64UrlSafe::encodeUnpadded((string) $key->subjectPublicKey()),
-            ];
-        } catch (Throwable) {
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function loadPublicKey(PEM $pem): array
+    {
+        $key = PublicKey::fromPEM($pem);
+        switch ($key->algorithmIdentifier()->oid()) {
+            case AlgorithmIdentifier::OID_ED25519:
+            case AlgorithmIdentifier::OID_ED448:
+            case AlgorithmIdentifier::OID_X25519:
+            case AlgorithmIdentifier::OID_X448:
+                $curve = self::getCurve($key->algorithmIdentifier()->oid());
+                self::checkType($curve);
+                return [
+                    'kty' => 'OKP',
+                    'crv' => $curve,
+                    'x' => Base64UrlSafe::encodeUnpadded((string) $key->subjectPublicKey()),
+                ];
+            default:
+                throw new InvalidArgumentException('Unsupported key type');
         }
-        throw new InvalidArgumentException('Unsupported key type');
+    }
+
+    private static function convertDecimalToBas64Url(string $decimal): string
+    {
+        return Base64UrlSafe::encodeUnpadded(BigInteger::fromBase($decimal, 10)->toBytes());
     }
 
     /**
