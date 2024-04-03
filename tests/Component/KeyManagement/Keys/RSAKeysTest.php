@@ -313,4 +313,25 @@ final class RSAKeysTest extends TestCase
         ], $public_key->toArray());
         static::assertTrue($public_key->isPublic());
     }
+
+    #[Test]
+    public function loadsRSASSAPSSKey(): void
+    {
+        $key = JWKFactory::createFromKeyFile(__DIR__ . '/RSA/rsassa-pss.pem');
+
+        static::assertSame(
+            [
+                'kty' => 'RSA',
+                'n' => 'AL1gIpgcH5QmcNWbRa3AG6DuKIOQYtcUn-UjmB0GaKudvsLWBDId_GiBMo7CoCTIk30WOt2_YRB8BmNGlJB0jJS-fztLx86gP7m5SfFhJJUcAG10Vj2xpkNQZ9aHUyyeNKZpzMBXmlt6k8d-eF_0qJ6v_CpCzkCK3-SFsw22ntCTluuqyiT2UJs0YXK9cpI_4Np8LJPP2Hqb_ByvG1bEit3-k3UWiiK0bwUFe1Gg49GHIfuSCoOAAYNmoZ8rNHQ0SLmo6htwuqKMa7KdEODeEGB2k8gV1tTjag8_ZbdJ0wfhS8YPs_IBwbuicQJlzpNHHW1DRY5XgsJJym9o5Pm5PrD0Q_cjhjOZkEhQs5Y8_XWBE8onlhKt4h9ce5JdfO3qP1H-PG2GnYdIZEXhwQyjqT4_V1agrPD9DHBFW72aWrYfpU7pTry5FsRLaLQJjNDfEYLumYqOVspWgLrr0Er-B1_03VS93kJnq0Y5xglU_p4wRUBKXUn_ntF9Q6Cy2XnaSvIFF3l20IwPPG9wdtjR8kTd21z1IBMVYI0-WLWK3hNXz5C0perOtH51_6-hNP7bG_IrGbILd3EkkZ7Yd3fxX4T0-ZKAoEgQ_4P1A5aJl-2wzEN0r95S62WUcZEXDwXlfkCsWXo3LSdOW8Aht-2xQoGOl5Cx0bd84kfxYGdzBuyh',
+                'e' => 'AQAB',
+                'd' => 'A8YQxmnIDiXCdEU89cMztxN2h_b2e0KlqYqkfzk87c-NyQ2RUEDaoj1R2ThYZIdBMM94DT9r2HOKP-FHYwYJikoYrbaFv6YKmGGQefCFlWQ_6hkfgf5NDyoWOaHhIXexGlBWfyONF5h-mE2lPy9C9W-RwDNW2hXSXpgfSxffUWN226Z1KFhRX024yTvXIWzdBumNd1q_faOnr1gkx11mXC8J9_M4KIx31Q3TXmXs_ZnFDqGYl0nTmI9bi45ljru_J8D4PPippW_UJ787bP8L1z-W_rhDBiNr04GKng-I6_nRuVuKf86dvPwV5wD0RVPNVVuEnTCnUhu86UGvOhPhONt2-EPbzJaBb433VC6eO05DJK7JaxrR7vpGn4v4U_xTBUJMTES1-2woPoCjovftMQacNgzoWeuwtFwDdZOkW3rhO5ZEM8msucO3K4AJFRW0MyzGWhUIXqadN_tXKhgKrhgwrQ-M1w4-agBMb_paqIzaePX45YcsT2cd1q_xwr2UM1-8VpfeTouRmiYJINOHiWOsu997H-JTuEpJtpCID6lHDHRoHxpKSEnV4mGSsE74AgdnSvRamDFt8JF2dMdkIOlPrcxXsR8_M0BcQts8vDJ-IQ3RaEbia6vFMSFtTgRK0uV9UuMRp18vQneJXs3GfeDmA7Ej46JCh5m6v0JBNyE',
+                'dp' => 'AM0IEiWYWSzSz_YsTGKaubsb0vJlwnnN01Kk8coFqQ-5IBUxGVzBVkdVl6HHDKnP1Is0ImA7kLE9BWgHpMSsI4ohocdwJYqYiK3EKx_LjUweSVKm_01almeSUgok0XxFJGrFEFDO9Fvtt8DRElim6TWM8tViH-HXHGtR90IpvEBUlmdoAR-FNMDzB8h5w3OcZOVnYs3CSAB4wCPo3QO7HzfRgAjUt7t16Kd1bDL4qvRKa-ZePg1mQ697yDidAUheJebAuITxfIcnaoIUGD8QGMB1ugwixzEIYWSrSnOSaPwNESHwZPDAUSrqp0axohhqDc0rMdj9kbWWWFL8i4MKSmE',
+                'dq' => 'AM6bvykUO7YnqHyyXw8G1uO74Vm3bjE7LDON3nLD4-FXBJg2IoVqwghiEsK6s8f3QuY0j1PwXS-PlJuGyUSaBrpn2WSbHA2EwkTihbVW33dW7H0dxaovhHvgCx8HnqmVAaagkHl4M1ZJSiKBrFAR8aSy-0vnnpOHOX3tJVM6pL5BrYUa6INY2uhbXZTXxr4EwBHmpiReYQ4zGrE2kptpI8ikSbkQrfBDv4ARqWILp0a1xFea6KeqvjQ3wTx13OhvNPkLrNNcpy4O32ZiuxkDhIlPrzTwUtaQKiB15qFdoe5a-caPc_TcOTWmkqxE6o7yBiwylIJccqMb_j8xnEuyCnE',
+                'p' => 'AOCxqqGImEgJgbiHa8bxGICnLq3Aeg1XGhJxW3WBYyhcMLmwUdbu3TeW_wwF_IcWOjbzf4-GtBIbRXtVis9zfPdQpCW2pgVZ77Vl4M0qCJPJz7MVhgzeGoh1KeTSFSba7Da7ZGAgWcWi0HfmZbOv-WjYipIZWQPBFP6u49dsHhO_Icrk7AYWtN07AENnRzIKtENqRp7xItTuDIl4GOqw1_hU9u0XNn7JeMRcPbauqiPT23ZoSCwyPnkKm0ZN74iL2suSTktVW1RFfjIUTQiWt6X-fJ0BgzSb7xqakS65aX9ysAE9SaBAqlIn_fNz3glQziAcNvu5q2htCAuHEdlgufE',
+                'q' => 'ANfCvLub-wh4ULifAdqFCAjKL-vNiAyJdZ6KFwitioPge889am3kM7A-T45sislBx_MCcQmSm59GyZmRcrOGHCgVt4vwnagQN9fY6k9omUYSCaKiv3yjLhBxAbzwx3Z2pS7E6roa7zEFykaYJGTQprh5K1hrxFeH_kqafln6vNjtQ2E40WdvMli_rr4fOIAidBjxfYjAAb-OmeTpM1IX6L1GwXNZlG9FmD-K8s1xNT9kL55Kk9Vgtr6-lEffTncStYCLC0JBugk4IcwlOZPFwUXmAEnAIGac6hGMh5tXkvQ-SDuo3JbqcQsCSi4aC49ZuA9Gk9wGbtStVwsVKj7nLbE',
+                'qi' => 'AI7uWbGZxN8e6eQIkTm5VjOS5zic6C1zu1cxfZupmsStI_UYfI0UVSYJ6dOCxMvAqtS2Gqm7P2zyCT-xzkU-XcTxlbMshRKtzg0G8BpfFYcCKjEIqCq8MXpK6osp45SKctKcpFC3H-xl5flbasyx5AW5UQriYErUvP-yitVRuIqv2tKVN8Dl5gMmnuQ32vYZsaOagQqy459T42Y42Vw1N_DYMVe8gdDXpwpItp6IhjmHwmZJcOYBFPKPOKEw3LE7AkvaAfzpznSCY_0v6oD9Fvz6tsFxynRtzhPVFSzDAada1kNjop9h91Kd2nxMXmwqW5TPnLQvoMyunCTK2mRq120',
+            ],
+            $key->all()
+        );
+    }
 }

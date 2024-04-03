@@ -60,7 +60,7 @@
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "spomky-labs/aes-key-wrap": "^7.0",
-        "spomky-labs/pki-framework": "^1.0",
+        "spomky-labs/pki-framework": "^1.2.1",
         "symfony/config": "^5.4|^6.0|^7.0",
         "symfony/console": "^5.4|^6.0|^7.0",
         "symfony/dependency-injection": "^5.4|^6.0|^7.0",
