@@ -74,7 +74,7 @@
         "ext-gmp": "*",
         "bjeavons/zxcvbn-php": "^1.3",
         "ekino/phpstan-banned-code": "^1.0",
-        "infection/infection": "^0.27",
+        "infection/infection": "^0.27 || ^0.28",
         "matthiasnoback/symfony-config-test": "^5.0",
         "nyholm/psr7": "^1.8",
         "php-http/mock-client": "^1.5",
