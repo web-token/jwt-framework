@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement;
 
 use Psr\Cache\CacheItemPoolInterface;
-use Psr\Http\Client\ClientInterface;
 use RuntimeException;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
