@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use Ergebnis\PHPUnit\SlowTestDetector\Attribute\MaximumDuration;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\JWKFactory;
@@ -231,6 +232,7 @@ final class JWKFactoryTest extends TestCase
 
     #[DataProvider('dataKeys')]
     #[Test]
+    #[MaximumDuration(500)]
     public function loadKeyPEMEncoded(string $filename, array $expectedValues): void
     {
         $jwk = JWKFactory::createFromKeyFile($filename);
