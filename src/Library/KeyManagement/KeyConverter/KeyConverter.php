@@ -277,15 +277,6 @@ final readonly class KeyConverter
     {
         try {
             $key = PrivateKey::fromPEM($pem);
-            $curve = self::getCurve($key->algorithmIdentifier()->oid());
-            $values = [
-                'kty' => 'OKP',
-                'crv' => $curve,
-                'd' => Base64UrlSafe::encodeUnpadded($key->privateKeyData()),
-            ];
-            return self::populatePoints($key, $values);
-        } catch (Throwable) {
-            // no break
             switch ($key->algorithmIdentifier()->oid()) {
                 case AlgorithmIdentifier::OID_RSASSA_PSS_ENCRYPTION:
                     assert($key instanceof RSASSAPSSPrivateKey);
@@ -317,19 +308,6 @@ final readonly class KeyConverter
         } catch (Throwable $e) {
             throw new InvalidArgumentException('Unable to load the key.', 0, $e);
         }
-        try {
-            $key = PublicKey::fromPEM($pem);
-            $curve = self::getCurve($key->algorithmIdentifier()->oid());
-            self::checkType($curve);
-            return [
-                'kty' => 'OKP',
-                'crv' => $curve,
-                'x' => Base64UrlSafe::encodeUnpadded((string) $key->subjectPublicKey()),
-            ];
-        } catch (Throwable) {
-            // no break
-        }
-        throw new InvalidArgumentException('Unsupported key type');
     }
 
     /**

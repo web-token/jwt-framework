@@ -43,7 +43,7 @@
         "ext-mbstring": "*",
         "brick/math": "^0.12",
         "psr/clock": "^1.0",
-        "spomky-labs/pki-framework": "^1.1"
+        "spomky-labs/pki-framework": "^1.2.1"
     },
     "conflict": {
         "spomky-labs/jose": "*"

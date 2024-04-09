@@ -1841,6 +1841,41 @@ parameters:
 			path: src/Library/KeyManagement/KeyConverter/ECKey.php
 
 		-
+			message: "#^Access to an undefined property Jose\\\\Component\\\\KeyManagement\\\\UrlKeySetFactory\\:\\:\\$requestFactory\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
+			message: "#^Call to an undefined method Jose\\\\Component\\\\KeyManagement\\\\UrlKeySetFactory\\:\\:sendPsrRequest\\(\\)\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
+			message: "#^Call to function assert\\(\\) with true will always evaluate to true\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
+			message: "#^Class Psr\\\\Http\\\\Client\\\\ClientInterface not found\\.$#"
+			count: 3
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
+			message: "#^Instanceof between Symfony\\\\Contracts\\\\HttpClient\\\\HttpClientInterface and Symfony\\\\Contracts\\\\HttpClient\\\\HttpClientInterface will always evaluate to true\\.$#"
+			count: 3
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\UrlKeySetFactory\\:\\:getContent\\(\\) should return string but returns mixed\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
 			message: "#^Parameter \\#2 \\$recipient of method Jose\\\\Component\\\\NestedToken\\\\NestedTokenLoader\\:\\:checkContentTypeHeader\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
 			path: src/Library/NestedToken/NestedTokenLoader.php

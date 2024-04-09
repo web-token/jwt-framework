@@ -6,10 +6,10 @@ namespace Jose\Component\KeyManagement;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
 use RuntimeException;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function assert;
 
 /**
  * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
