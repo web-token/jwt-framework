@@ -35,15 +35,15 @@ final readonly class JKUSource implements Source
     {
         $node->children()
             ->arrayNode('jku_factory')
-                ->canBeEnabled()
-                ->children()
-                    ->scalarNode('client')
-                        ->info('HTTP Client used to retrieve key sets.')
-                        ->isRequired()
-                    ->end()
-                ->end()
+            ->canBeEnabled()
+            ->children()
+            ->scalarNode('client')
+            ->info('HTTP Client used to retrieve key sets.')
+            ->isRequired()
             ->end()
-        ->end();
+            ->end()
+            ->end()
+            ->end();
     }
 
     #[Override]

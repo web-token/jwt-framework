@@ -4,17 +4,48 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Client\ClientInterface;
 use RuntimeException;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function assert;
 
 /**
  * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
  */
 abstract class UrlKeySetFactory
 {
+    private CacheItemPoolInterface $cacheItemPool;
+
+    private int $expiresAfter = 3600;
+
     public function __construct(
         private readonly HttpClientInterface $client,
     ) {
+        if ($this->client instanceof ClientInterface) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '3.3',
+                'Using "%s" with an instance of "%s" is deprecated, use "%s" instead.',
+                self::class,
+                ClientInterface::class,
+                HttpClientInterface::class
+            );
+        }
+        if (! $this->client instanceof HttpClientInterface && $this->requestFactory === null) {
+            throw new RuntimeException(sprintf(
+                'The request factory must be provided when using an instance of "%s" as client.',
+                ClientInterface::class
+            ));
+        }
+        $this->cacheItemPool = new NullAdapter();
+    }
+
+    public function enabledCache(CacheItemPoolInterface $cacheItemPool, int $expiresAfter = 3600): void
+    {
+        $this->cacheItemPool = $cacheItemPool;
+        $this->expiresAfter = $expiresAfter;
     }
 
     /**
@@ -22,6 +53,30 @@ abstract class UrlKeySetFactory
      */
     protected function getContent(string $url, array $header = []): string
     {
+        $cacheKey = hash('xxh128', $url);
+        $item = $this->cacheItemPool->getItem($cacheKey);
+        if ($item->isHit()) {
+            return $item->get();
+        }
+
+        $content = $this->client instanceof HttpClientInterface ? $this->sendSymfonyRequest(
+            $url,
+            $header
+        ) : $this->sendPsrRequest($url, $header);
+        $item = $this->cacheItemPool->getItem($cacheKey);
+        $item->expiresAfter($this->expiresAfter);
+        $item->set($content);
+        $this->cacheItemPool->save($item);
+
+        return $content;
+    }
+
+    /**
+     * @param array<string, string|string[]> $header
+     */
+    private function sendSymfonyRequest(string $url, array $header = []): string
+    {
+        assert($this->client instanceof HttpClientInterface);
         $response = $this->client->request('GET', $url, [
             'headers' => $header,
         ]);
