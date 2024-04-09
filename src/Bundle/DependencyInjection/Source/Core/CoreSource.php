@@ -12,6 +12,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\JWECollectorCompilerP
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\JWSCollectorCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\KeyCollectorCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -19,13 +20,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
-class CoreSource implements SourceWithCompilerPasses
+final readonly class CoreSource implements SourceWithCompilerPasses
 {
+    #[Override]
     public function name(): string
     {
         return 'core';
     }
 
+    #[Override]
     public function load(array $config, ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
@@ -41,10 +44,13 @@ class CoreSource implements SourceWithCompilerPasses
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
+        // No configuration needed
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];
@@ -53,6 +59,7 @@ class CoreSource implements SourceWithCompilerPasses
     /**
      * @return CompilerPassInterface[]
      */
+    #[Override]
     public function getCompilerPasses(): array
     {
         return [

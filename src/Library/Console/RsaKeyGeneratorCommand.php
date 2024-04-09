@@ -6,6 +6,7 @@ namespace Jose\Component\Console;
 
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JWKFactory;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,16 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'key:generate:rsa', description: 'Generate a RSA key (JWK format)',)]
 final class RsaKeyGeneratorCommand extends GeneratorCommand
 {
-    protected static $defaultName = 'key:generate:rsa';
-
-    protected static $defaultDescription = 'Generate a RSA key (JWK format)';
-
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
         $this->addArgument('size', InputArgument::REQUIRED, 'Key size.');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $size = (int) $input->getArgument('size');

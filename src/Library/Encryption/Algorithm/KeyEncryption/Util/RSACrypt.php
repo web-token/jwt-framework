@@ -18,17 +18,17 @@ use const STR_PAD_LEFT;
 /**
  * @internal
  */
-final class RSACrypt
+final readonly class RSACrypt
 {
     /**
      * Optimal Asymmetric Encryption Padding (OAEP).
      */
-    public const ENCRYPTION_OAEP = 1;
+    public const int ENCRYPTION_OAEP = 1;
 
     /**
      * Use PKCS#1 padding.
      */
-    public const ENCRYPTION_PKCS1 = 2;
+    public const int ENCRYPTION_PKCS1 = 2;
 
     public static function encrypt(RSAKey $key, string $data, int $mode, ?string $hash = null): string
     {
@@ -135,11 +135,12 @@ final class RSACrypt
         }
         $hash = Hash::$hash_algorithm();
         $splitCiphertext = mb_str_split($ciphertext, $key->getModulusLength(), '8bit');
-        $splitCiphertext[count($splitCiphertext) - 1] = str_pad(
+        $splitCiphertext[count($splitCiphertext) - 1] = mb_str_pad(
             $splitCiphertext[count($splitCiphertext) - 1],
             $key->getModulusLength(),
             chr(0),
-            STR_PAD_LEFT
+            STR_PAD_LEFT,
+            '8bit'
         );
         $plaintext = '';
         foreach ($splitCiphertext as $c) {
@@ -157,7 +158,7 @@ final class RSACrypt
             throw new RuntimeException('Invalid length.');
         }
 
-        return str_pad($x, $xLen, chr(0), STR_PAD_LEFT);
+        return mb_str_pad($x, $xLen, chr(0), STR_PAD_LEFT, '8bit');
     }
 
     /**

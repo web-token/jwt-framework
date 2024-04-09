@@ -8,13 +8,13 @@ use Jose\Component\Core\Algorithm;
 
 interface KeyEncryptionAlgorithm extends Algorithm
 {
-    public const MODE_DIRECT = 'dir';
+    public const string MODE_DIRECT = 'dir';
 
-    public const MODE_ENCRYPT = 'enc';
+    public const string MODE_ENCRYPT = 'enc';
 
-    public const MODE_WRAP = 'wrap';
+    public const string MODE_WRAP = 'wrap';
 
-    public const MODE_AGREEMENT = 'agree';
+    public const string MODE_AGREEMENT = 'agree';
 
     /**
      * Returns the key management mode used by the key encryption algorithm.

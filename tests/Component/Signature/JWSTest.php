@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Signature;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Signature\JWS;
 use LogicException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 use const JSON_THROW_ON_ERROR;
 

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Jose\Component\Core;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use JsonSerializable;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Override;
 use function array_key_exists;
 use function in_array;
 use function is_array;
@@ -48,6 +49,7 @@ class JWK implements JsonSerializable
     /**
      * Returns the values to be serialized.
      */
+    #[Override]
     public function jsonSerialize(): array
     {
         return $this->values;

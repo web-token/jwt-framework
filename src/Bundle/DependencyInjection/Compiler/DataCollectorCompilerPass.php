@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use Jose\Bundle\JoseFramework\DataCollector\JoseCollector;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class DataCollectorCompilerPass implements CompilerPassInterface
+final readonly class DataCollectorCompilerPass implements CompilerPassInterface
 {
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         if (! $container->hasDefinition(JoseCollector::class)) {

@@ -9,10 +9,10 @@ use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
 
 class JWSVerifier

@@ -7,6 +7,7 @@ namespace Jose\Component\Console;
 use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\JWKFactory;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,10 +20,7 @@ use function is_string;
 )]
 final class OkpKeysetGeneratorCommand extends GeneratorCommand
 {
-    protected static $defaultName = 'keyset:generate:okp';
-
-    protected static $defaultDescription = 'Generate a key set with Octet Key Pairs keys (JWKSet format)';
-
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
@@ -30,6 +28,7 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
             ->addArgument('curve', InputArgument::REQUIRED, 'Curve of the keys.');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $quantity = (int) $input->getArgument('quantity');

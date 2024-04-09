@@ -7,16 +7,18 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWK
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\KeyManagement\X5UFactory;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class X5U extends AbstractSource implements JWKSetSource
+final readonly class X5U extends AbstractSource implements JWKSetSource
 {
     /**
      * @param array<string, mixed> $config
      */
+    #[Override]
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWKSet::class);
@@ -27,11 +29,13 @@ class X5U extends AbstractSource implements JWKSetSource
         return $definition;
     }
 
+    #[Override]
     public function getKeySet(): string
     {
         return 'x5u';
     }
 
+    #[Override]
     public function addConfiguration(NodeDefinition $node): void
     {
         parent::addConfiguration($node);

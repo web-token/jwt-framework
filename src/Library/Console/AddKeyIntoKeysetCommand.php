@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,10 +19,7 @@ use function is_string;
 #[AsCommand(name: 'keyset:add:key', description: 'Add a key into a key set.',)]
 final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
 {
-    protected static $defaultName = 'keyset:add:key';
-
-    protected static $defaultDescription = 'Add a key into a key set.';
-
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
@@ -30,6 +28,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
             ->addArgument('jwk', InputArgument::REQUIRED, 'The new JWK object');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $jwkset = $this->getKeyset($input);

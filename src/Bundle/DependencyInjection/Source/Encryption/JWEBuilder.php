@@ -6,17 +6,20 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEBuilder as JWEBuilderService;
+use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JWEBuilder extends AbstractEncryptionSource
+final readonly class JWEBuilder extends AbstractEncryptionSource
 {
+    #[Override]
     public function name(): string
     {
         return 'builders';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -24,11 +27,7 @@ class JWEBuilder extends AbstractEncryptionSource
             $definition = new Definition(JWEBuilderService::class);
             $definition
                 ->setFactory([new Reference(JWEBuilderFactory::class), 'create'])
-                ->setArguments([
-                    $itemConfig['encryption_algorithms'],
-                    null,
-                    $itemConfig['compression_methods'] === [] ? null : $itemConfig['compression_methods'],
-                ])
+                ->setArguments([$itemConfig['encryption_algorithms']])
                 ->addTag('jose.jwe_builder')
                 ->setPublic($itemConfig['is_public']);
             foreach ($itemConfig['tags'] as $id => $attributes) {

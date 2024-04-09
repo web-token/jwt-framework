@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -12,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use function array_key_exists;
 use function count;
 
-class NestedToken implements Source
+final readonly class NestedToken implements Source
 {
     /**
      * @var Source[]
@@ -24,11 +25,13 @@ class NestedToken implements Source
         $this->sources = [new NestedTokenLoader(), new NestedTokenBuilder()];
     }
 
+    #[Override]
     public function name(): string
     {
         return 'nested_token';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
@@ -41,6 +44,7 @@ class NestedToken implements Source
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $childNode = $node->children()
@@ -53,6 +57,7 @@ class NestedToken implements Source
         }
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         $result = [];

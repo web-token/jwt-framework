@@ -6,10 +6,10 @@ namespace Jose\Tests\EncryptionAlgorithm\KeyEncryption\PBES2;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS256A128KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS384A192KW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2HS512A256KW;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use const STR_PAD_LEFT;
@@ -914,7 +914,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     private function convertArrayToBinString(array $data)
     {
         foreach ($data as $key => $value) {
-            $data[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $data[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
 
         return hex2bin(implode('', $data));

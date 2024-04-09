@@ -6,19 +6,23 @@ namespace Jose\Component\Signature\Algorithm;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Override;
 
-final class HS512 extends HMAC
+final readonly class HS512 extends HMAC
 {
+    #[Override]
     public function name(): string
     {
         return 'HS512';
     }
 
+    #[Override]
     protected function getHashAlgorithm(): string
     {
         return 'sha512';
     }
 
+    #[Override]
     protected function getKey(JWK $key): string
     {
         $k = parent::getKey($key);

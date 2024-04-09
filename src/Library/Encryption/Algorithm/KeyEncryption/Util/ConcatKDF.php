@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use InvalidArgumentException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use const STR_PAD_LEFT;
 
 /**
@@ -13,7 +13,7 @@ use const STR_PAD_LEFT;
  *
  * @see https://tools.ietf.org/html/rfc7518#section-4.6.2
  */
-final class ConcatKDF
+final readonly class ConcatKDF
 {
     /**
      * Key Derivation Function.
@@ -56,7 +56,7 @@ final class ConcatKDF
      */
     private static function toInt32Bits(int $value): string
     {
-        $result = hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
+        $result = hex2bin(mb_str_pad(dechex($value), 8, '0', STR_PAD_LEFT, '8bit'));
         if ($result === false) {
             throw new InvalidArgumentException('Invalid result');
         }

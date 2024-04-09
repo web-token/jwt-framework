@@ -6,12 +6,14 @@ namespace Jose\Component\KeyManagement\Analyzer;
 
 use Brick\Math\BigInteger;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\Ecc\Curve;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Override;
 use function is_string;
 
-abstract class ESKeyAnalyzer implements KeyAnalyzer
+abstract readonly class ESKeyAnalyzer implements KeyAnalyzer
 {
+    #[Override]
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
         if ($jwk->get('kty') !== 'EC') {

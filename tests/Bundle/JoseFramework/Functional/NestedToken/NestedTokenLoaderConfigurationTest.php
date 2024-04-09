@@ -10,7 +10,6 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedToken;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
-use Jose\Component\Encryption\JWELoaderFactory;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -21,13 +20,6 @@ use PHPUnit\Framework\TestCase;
 final class NestedTokenLoaderConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
-
-    protected function setUp(): void
-    {
-        if (! class_exists(JWELoaderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-nested-token" is not installed.');
-        }
-    }
 
     #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void
@@ -113,8 +105,7 @@ final class NestedTokenLoaderConfigurationTest extends TestCase
                         'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                                'content_encryption_algorithms' => ['A128GCM'],
+                                'encryption_algorithms' => ['RSA-OAEP', 'A128GCM'],
                             ],
                         ],
                     ],
@@ -134,8 +125,7 @@ final class NestedTokenLoaderConfigurationTest extends TestCase
                         'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                                'content_encryption_algorithms' => ['A128GCM'],
+                                'encryption_algorithms' => ['RSA-OAEP', 'A128GCM'],
                                 'jws_serializers' => ['jws_compact'],
                             ],
                         ],
@@ -156,8 +146,7 @@ final class NestedTokenLoaderConfigurationTest extends TestCase
                         'loaders' => [
                             'foo' => [
                                 'signature_algorithms' => ['RS256'],
-                                'key_encryption_algorithms' => ['RSA-OAEP'],
-                                'content_encryption_algorithms' => ['A128GCM'],
+                                'encryption_algorithms' => ['RSA-OAEP', 'A128GCM'],
                                 'jws_serializers' => ['jws_compact'],
                                 'jwe_serializers' => ['jwe_compact'],
                             ],

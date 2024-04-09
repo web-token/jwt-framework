@@ -10,7 +10,6 @@ use Psr\Http\Message\RequestFactoryInterface;
 use RuntimeException;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function assert;
 
 /**
  * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
@@ -22,8 +21,7 @@ abstract class UrlKeySetFactory
     private int $expiresAfter = 3600;
 
     public function __construct(
-        private readonly ClientInterface|HttpClientInterface $client,
-        private readonly null|RequestFactoryInterface $requestFactory = null
+        private readonly HttpClientInterface $client,
     ) {
         if ($this->client instanceof ClientInterface) {
             trigger_deprecation(
@@ -88,26 +86,5 @@ abstract class UrlKeySetFactory
         }
 
         return $response->getContent();
-    }
-
-    /**
-     * @param array<string, string|string[]> $header
-     */
-    private function sendPsrRequest(string $url, array $header = []): string
-    {
-        assert($this->client instanceof ClientInterface);
-        assert($this->requestFactory instanceof RequestFactoryInterface);
-        $request = $this->requestFactory->createRequest('GET', $url);
-        foreach ($header as $k => $v) {
-            $request = $request->withHeader($k, $v);
-        }
-        $response = $this->client->sendRequest($request);
-
-        if ($response->getStatusCode() >= 400) {
-            throw new RuntimeException('Unable to get the key set.', $response->getStatusCode());
-        }
-
-        return $response->getBody()
-            ->getContents();
     }
 }

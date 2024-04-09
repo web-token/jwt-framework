@@ -17,17 +17,17 @@ use const STR_PAD_LEFT;
 /**
  * @internal
  */
-final class RSA
+final readonly class RSA
 {
     /**
      * Probabilistic Signature Scheme.
      */
-    public const SIGNATURE_PSS = 1;
+    public const int SIGNATURE_PSS = 1;
 
     /**
      * Use the PKCS#1.
      */
-    public const SIGNATURE_PKCS1 = 2;
+    public const int SIGNATURE_PKCS1 = 2;
 
     /**
      * @return non-empty-string
@@ -61,7 +61,7 @@ final class RSA
      */
     public static function signWithPSS(RSAKey $key, string $message, string $hash): string
     {
-        $em = self::encodeEMSAPSS($message, 8 * $key->getModulusLength() - 1, Hash::$hash());
+        $em = self::encodeEMSAPSS($message, 8 * $key->getModulusLength() - 1, Hash::get($hash));
         $message = BigInteger::createFromBinaryString($em);
         $signature = RSAKey::exponentiate($key, $message);
         $result = self::convertIntegerToOctetString($signature, $key->getModulusLength());
@@ -100,7 +100,7 @@ final class RSA
         $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
         $modBits = 8 * $key->getModulusLength();
 
-        return self::verifyEMSAPSS($message, $em, $modBits - 1, Hash::$hash());
+        return self::verifyEMSAPSS($message, $em, $modBits - 1, Hash::get($hash));
     }
 
     private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
@@ -110,7 +110,7 @@ final class RSA
             throw new RuntimeException();
         }
 
-        return str_pad($x, $xLen, chr(0), STR_PAD_LEFT);
+        return mb_str_pad($x, $xLen, chr(0), STR_PAD_LEFT, '8bit');
     }
 
     /**

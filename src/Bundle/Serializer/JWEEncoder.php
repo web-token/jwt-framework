@@ -9,6 +9,7 @@ use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use LogicException;
+use Override;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
@@ -18,7 +19,7 @@ use function in_array;
 use function is_int;
 use function mb_strtolower;
 
-final class JWEEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
+final readonly class JWEEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
     private readonly JWESerializerManager $serializerManager;
 
@@ -32,16 +33,19 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface, Normalizat
         $this->serializerManager = $serializerManager;
     }
 
+    #[Override]
     public function supportsEncoding(string $format, array $context = []): bool
     {
         return class_exists(JWESerializerManager::class) && $this->formatSupported($format);
     }
 
+    #[Override]
     public function supportsDecoding(string $format, array $context = []): bool
     {
         return class_exists(JWESerializerManager::class) && $this->formatSupported($format);
     }
 
+    #[Override]
     public function encode(mixed $data, string $format, array $context = []): string
     {
         if ($data instanceof JWE === false) {
@@ -59,6 +63,7 @@ final class JWEEncoder implements EncoderInterface, DecoderInterface, Normalizat
         }
     }
 
+    #[Override]
     public function decode(string $data, string $format, array $context = []): JWE
     {
         try {

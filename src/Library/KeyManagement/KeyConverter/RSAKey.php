@@ -6,26 +6,37 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\BigInteger;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use function array_key_exists;
+use function assert;
 use function extension_loaded;
 use function in_array;
 use function is_array;
+use function is_string;
 
 /**
  * @internal
  */
 final class RSAKey
 {
+    /**
+     * @var array<array-key, string>
+     */
     private array $values = [];
 
+    /**
+     * @param array<array-key, string> $data
+     */
     private function __construct(array $data)
     {
         $this->loadJWK($data);
     }
 
+    /**
+     * @param array<array-key, mixed> $details
+     */
     public static function createFromKeyDetails(array $details): self
     {
         $values = [
@@ -43,6 +54,7 @@ final class RSAKey
         ];
         foreach ($details as $key => $value) {
             if (in_array($key, $keys, true)) {
+                assert(is_string($value), 'Invalid key.');
                 $value = Base64UrlSafe::encodeUnpadded($value);
                 $values[array_search($key, $keys, true)] = $value;
             }
@@ -68,8 +80,12 @@ final class RSAKey
         if (! is_array($details) || ! isset($details['rsa'])) {
             throw new InvalidArgumentException('Unable to load the key.');
         }
+        $data = $details['rsa'];
+        if (! is_array($data)) {
+            throw new InvalidArgumentException('Unable to load the key.');
+        }
 
-        return self::createFromKeyDetails($details['rsa']);
+        return self::createFromKeyDetails($data);
     }
 
     public static function createFromJWK(JWK $jwk): self
@@ -95,6 +111,9 @@ final class RSAKey
         return new self($data);
     }
 
+    /**
+     * @return array<array-key, string>
+     */
     public function toArray(): array
     {
         return $this->values;
@@ -116,6 +135,9 @@ final class RSAKey
         }
     }
 
+    /**
+     * @param array<array-key, string> $jwk
+     */
     private function loadJWK(array $jwk): void
     {
         if (! array_key_exists('kty', $jwk)) {
