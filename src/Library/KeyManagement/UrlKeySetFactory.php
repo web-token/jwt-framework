@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use RuntimeException;
+use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function assert;
 
@@ -15,6 +17,10 @@ use function assert;
  */
 abstract class UrlKeySetFactory
 {
+    private CacheItemPoolInterface $cacheItemPool;
+
+    private int $expiresAfter = 3600;
+
     public function __construct(
         private readonly ClientInterface|HttpClientInterface $client,
         private readonly null|RequestFactoryInterface $requestFactory = null
@@ -35,6 +41,13 @@ abstract class UrlKeySetFactory
                 ClientInterface::class
             ));
         }
+        $this->cacheItemPool = new NullAdapter();
+    }
+
+    public function enabledCache(CacheItemPoolInterface $cacheItemPool, int $expiresAfter = 3600): void
+    {
+        $this->cacheItemPool = $cacheItemPool;
+        $this->expiresAfter = $expiresAfter;
     }
 
     /**
@@ -42,10 +55,22 @@ abstract class UrlKeySetFactory
      */
     protected function getContent(string $url, array $header = []): string
     {
-        if ($this->client instanceof HttpClientInterface) {
-            return $this->sendSymfonyRequest($url, $header);
+        $cacheKey = hash('xxh128', $url);
+        $item = $this->cacheItemPool->getItem($cacheKey);
+        if ($item->isHit()) {
+            return $item->get();
         }
-        return $this->sendPsrRequest($url, $header);
+
+        $content = $this->client instanceof HttpClientInterface ? $this->sendSymfonyRequest(
+            $url,
+            $header
+        ) : $this->sendPsrRequest($url, $header);
+        $item = $this->cacheItemPool->getItem($cacheKey);
+        $item->expiresAfter($this->expiresAfter);
+        $item->set($content);
+        $this->cacheItemPool->save($item);
+
+        return $content;
     }
 
     /**

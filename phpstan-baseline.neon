@@ -2044,6 +2044,11 @@ parameters:
 			path: src/Library/KeyManagement/KeyConverter/RSAKey.php
 
 		-
+			message: "#^Method Jose\\\\Component\\\\KeyManagement\\\\UrlKeySetFactory\\:\\:getContent\\(\\) should return string but returns mixed\\.$#"
+			count: 1
+			path: src/Library/KeyManagement/UrlKeySetFactory.php
+
+		-
 			message: "#^Cannot cast mixed to string\\.$#"
 			count: 1
 			path: src/Library/KeyManagement/X5UFactory.php
