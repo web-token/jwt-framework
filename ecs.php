@@ -90,11 +90,6 @@ return static function (ECSConfig $config): void {
 
     $config->skip([PhpUnitTestClassRequiresCoversFixer::class]);
     $config->parallel();
-    $config->paths([
-        __DIR__ . '/performance',
-        __DIR__ . '/src',
-        __DIR__ . '/tests',
-        __DIR__ . '/ecs.php',
-        __DIR__ . '/rector.php',
-    ]);
+    $config->paths([__DIR__]);
+    $config->skip([__DIR__ . '/.github', __DIR__ . '/.castor.stub.php', __DIR__ . '/var', __DIR__ . '/vendor']);
 };

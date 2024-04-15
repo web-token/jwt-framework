@@ -8,3 +8,4 @@ composer.lock
 vendor/
 src/Bundle/JoseFramework/var/
 infection.txt
+.castor.stub.php

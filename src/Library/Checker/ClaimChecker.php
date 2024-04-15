@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * Represents a claim checker interface.
+ * Claim checkers are responsible for validating claims on a token.
+ */
 interface ClaimChecker
 {
     /**
-     * When the token has the applicable claim, the value is checked. If for some reason the value is not valid, an
-     * InvalidClaimException must be thrown.
+     * Checks if the given value matches the claim.
      */
     public function checkClaim(mixed $value): void;
 
     /**
-     * The method returns the claim to be checked.
+     * Returns the supported claim.
      */
     public function supportedClaim(): string;
 }

@@ -6,6 +6,13 @@ namespace Jose\Component\Checker;
 
 use Jose\Component\Core\JWT;
 
+/**
+ * This interface is used to support token types.
+ *
+ * The token type is a way to define the format of the token.
+ * For example, the JWE token type is used to define the format of the token when it is encrypted.
+ * The JWS token type is used to define the format of the token when it is signed.
+ */
 interface TokenTypeSupport
 {
     /**

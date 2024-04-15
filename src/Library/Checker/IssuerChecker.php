@@ -9,8 +9,9 @@ use function in_array;
 use function is_string;
 
 /**
- * This class is a header parameter and claim checker. When the "iss" header parameter or claim is present, it will
- * check if the value is within the allowed ones.
+ * This class is a header parameter and claim checker.
+ *
+ * When the "iss" header parameter or claim is present, it will check if the value is within the allowed ones.
  */
 final readonly class IssuerChecker implements ClaimChecker, HeaderChecker
 {

@@ -9,8 +9,9 @@ use function in_array;
 use function is_string;
 
 /**
- * This class is a header parameter checker. When the "alg" header parameter is present, it will check if the value is
- * within the allowed ones.
+ * AlgorithmChecker class.
+ *
+ * This class implements the HeaderChecker interface and is responsible for checking the "alg" header in a token.
  */
 final readonly class AlgorithmChecker implements HeaderChecker
 {
