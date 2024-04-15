@@ -10,7 +10,9 @@ use function is_float;
 use function is_int;
 
 /**
- * This class is a claim checker. When the "exp" is present, it will compare the value with the current timestamp.
+ * This class is a claim checker.
+ *
+ * When the "exp" is present, it will compare the value with the current timestamp.
  */
 final readonly class ExpirationTimeChecker implements ClaimChecker, HeaderChecker
 {

@@ -7,6 +7,7 @@ namespace Jose\Component\Checker;
 use Override;
 
 /**
+ * This class implements a claim and header checker that checks if the value is equal to the expected value.
  * @see \Jose\Tests\Component\Checker\IsEqualCheckerTest
  */
 final readonly class IsEqualChecker implements ClaimChecker, HeaderChecker

@@ -10,8 +10,7 @@ use function is_array;
 use function is_string;
 
 /**
- * This class is a header parameter and claim checker. When the "aud" header parameter or claim is present, it will
- * check if the value is within the allowed ones.
+ * Represents a class that checks the audience claim and header in a JWT token.
  */
 final readonly class AudienceChecker implements ClaimChecker, HeaderChecker
 {

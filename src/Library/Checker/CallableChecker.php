@@ -10,6 +10,7 @@ use function call_user_func;
 use function is_callable;
 
 /**
+ * This class is responsible for checking claims and headers using a callable function.
  * @see \Jose\Tests\Component\Checker\CallableCheckerTest
  */
 final class CallableChecker implements ClaimChecker, HeaderChecker
