@@ -365,7 +365,11 @@ final class KeyConverter
      */
     private static function sanitizePEM(string &$pem): void
     {
-        preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
+        $number = preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
+        if ($number !== 2) {
+            throw new InvalidArgumentException('Unable to load the key');
+        }
+
         $ciphertext = preg_replace('#-.*-|\r|\n| #', '', $pem);
 
         $pem = $matches[0][0] . PHP_EOL;
