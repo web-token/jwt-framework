@@ -59,7 +59,7 @@ class JWSVerifier
         JWKSet $jwkset,
         int $signatureIndex,
         ?string $detachedPayload = null,
-        JWK &$jwk = null
+        ?JWK &$jwk = null
     ): bool {
         if ($jwkset->count() === 0) {
             throw new InvalidArgumentException('There is no key in the key set.');
@@ -78,7 +78,7 @@ class JWSVerifier
         JWKSet $jwkset,
         Signature $signature,
         ?string $detachedPayload = null,
-        JWK &$successJwk = null
+        ?JWK &$successJwk = null
     ): bool {
         $input = $this->getInputToVerify($jws, $signature, $detachedPayload);
         $algorithm = $this->getAlgorithm($signature);
