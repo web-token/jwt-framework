@@ -33,14 +33,14 @@ final class JWESerializer implements DenormalizerInterface
         ];
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return $type === JWE::class
             && class_exists(JWESerializerManager::class)
             && $this->formatSupported($format);
     }
 
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): JWE
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): JWE
     {
         if ($data instanceof JWE === false) {
             throw new LogicException('Expected data to be a JWE.');

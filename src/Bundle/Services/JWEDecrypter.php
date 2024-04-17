@@ -29,7 +29,7 @@ final class JWEDecrypter extends BaseJWEDecrypter
         JWE &$jwe,
         JWKSet $jwkset,
         int $recipient,
-        JWK &$jwk = null,
+        ?JWK &$jwk = null,
         ?JWK $senderKey = null
     ): bool {
         $success = parent::decryptUsingKeySet($jwe, $jwkset, $recipient, $jwk, $senderKey);
