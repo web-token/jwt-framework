@@ -26,7 +26,7 @@ Or
 
 # Contributing
 
-Requests for new features, bug fixed and all other ideas to make this library useful are welcome. [Please follow these best practices](doc/Contributing.md).
+Requests for new features, bug fixed and all other ideas to make this library useful are welcome. [Please follow these best practices](.github/CONTRIBUTING.md).
 
 If you discover a security vulnerability within the project, please **don't use the bug tracker and don't publish it publicly**.
 Instead, all security issues must be sent to security [at] spomky-labs.com.
