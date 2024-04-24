@@ -6,7 +6,6 @@ namespace Jose\Component\Core\Util;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -31,11 +30,11 @@ final class RSAKey
 
     private BigInteger $modulus;
 
-    private int $modulus_length;
+    private int $modulusLength;
 
-    private BigInteger $public_exponent;
+    private BigInteger $publicExponent;
 
-    private ?BigInteger $private_exponent = null;
+    private ?BigInteger $privateExponent = null;
 
     /**
      * @var BigInteger[]
@@ -67,7 +66,7 @@ final class RSAKey
 
     public function getModulusLength(): int
     {
-        return $this->modulus_length;
+        return $this->modulusLength;
     }
 
     public function getExponent(): BigInteger
@@ -82,12 +81,12 @@ final class RSAKey
 
     public function getPublicExponent(): BigInteger
     {
-        return $this->public_exponent;
+        return $this->publicExponent;
     }
 
     public function getPrivateExponent(): ?BigInteger
     {
-        return $this->private_exponent;
+        return $this->privateExponent;
     }
 
     /**
@@ -202,11 +201,11 @@ final class RSAKey
     private function populateBigIntegers(): void
     {
         $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
-        $this->modulus_length = mb_strlen($this->getModulus()->toBytes(), '8bit');
-        $this->public_exponent = $this->convertBase64StringToBigInteger($this->values['e']);
+        $this->modulusLength = mb_strlen($this->getModulus()->toBytes(), '8bit');
+        $this->publicExponent = $this->convertBase64StringToBigInteger($this->values['e']);
 
         if (! $this->isPublic()) {
-            $this->private_exponent = $this->convertBase64StringToBigInteger($this->values['d']);
+            $this->privateExponent = $this->convertBase64StringToBigInteger($this->values['d']);
 
             if (array_key_exists('p', $this->values) && array_key_exists('q', $this->values)) {
                 $this->primes = [

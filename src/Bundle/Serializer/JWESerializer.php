@@ -8,11 +8,12 @@ use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use LogicException;
+use Override;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use function in_array;
 use function mb_strtolower;
 
-final class JWESerializer implements DenormalizerInterface
+final readonly class JWESerializer implements DenormalizerInterface
 {
     private readonly JWESerializerManager $serializerManager;
 
@@ -26,6 +27,7 @@ final class JWESerializer implements DenormalizerInterface
         $this->serializerManager = $serializerManager;
     }
 
+    #[Override]
     public function getSupportedTypes(?string $format): array
     {
         return [
@@ -33,17 +35,15 @@ final class JWESerializer implements DenormalizerInterface
         ];
     }
 
-    public function supportsDenormalization(
-        mixed $data,
-        string $type,
-        ?string $format = null,
-        array $context = []
-    ): bool {
+    #[Override]
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+    {
         return $type === JWE::class
             && class_exists(JWESerializerManager::class)
             && $this->formatSupported($format);
     }
 
+    #[Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): JWE
     {
         if ($data instanceof JWE === false) {

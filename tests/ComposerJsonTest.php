@@ -18,7 +18,7 @@ use const JSON_THROW_ON_ERROR;
  */
 final class ComposerJsonTest extends TestCase
 {
-    private const SRC_DIR = __DIR__ . '/../src';
+    private const string SRC_DIR = __DIR__ . '/../src';
 
     #[Test]
     public function packageDependenciesEqualRootDependencies(): void
@@ -56,7 +56,7 @@ final class ComposerJsonTest extends TestCase
         $unusedDependencies = array_diff(array_keys($rootDependencies), array_unique($usedDependencies));
         $message = sprintf(
             'Dependencies declared in root composer.json, which are not declared in any sub-package: %s',
-            implode('', $unusedDependencies)
+            implode(', ', $unusedDependencies)
         );
         static::assertCount(0, $unusedDependencies, $message);
     }

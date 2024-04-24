@@ -4,21 +4,25 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+/**
+ * Interface HeaderChecker
+ *
+ * This interface defines the contract for a header checker.
+ */
 interface HeaderChecker
 {
     /**
-     * This method is called when the header parameter is present. If for some reason the value is not valid, an
-     * InvalidHeaderException must be thrown.
+     * Checks if the given value matches the header parameter of the token.
      */
     public function checkHeader(mixed $value): void;
 
     /**
-     * The method returns the header parameter to be checked.
+     * Retrieves the supported header for the token.
      */
     public function supportedHeader(): string;
 
     /**
-     * When true, the header parameter to be checked MUST be set in the protected header of the token.
+     * Returns a boolean value indicating whether the requested resource can only be accessed with a protected header.
      */
     public function protectedHeaderOnly(): bool;
 }

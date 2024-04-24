@@ -51,13 +51,11 @@ jose:
   jwe:
     builders:
       builder1:
-        key_encryption_algorithms: [ 'RSA-OAEP-256', 'A256KW' ]
-        content_encryption_algorithms: [ 'A256CBC-HS512' ]
+        encryption_algorithms: [ 'RSA-OAEP-256', 'A256KW', 'A256CBC-HS512' ]
         is_public: true
     decrypters:
       loader1:
-        key_encryption_algorithms: [ 'RSA-OAEP-256', 'A256KW' ]
-        content_encryption_algorithms: [ 'A256CBC-HS512' ]
+        encryption_algorithms: [ 'RSA-OAEP-256', 'A256KW', 'A256CBC-HS512' ]
         is_public: true
     serializers:
       jwe_serializer1:
@@ -66,24 +64,20 @@ jose:
     loaders:
       jwe_loader1:
         serializers: [ 'jwe_compact' ]
-        key_encryption_algorithms: [ 'RSA-OAEP-256' ]
-        content_encryption_algorithms: [ 'A256CBC-HS512' ]
-        compression_methods: [ ]
+        encryption_algorithms: [ 'RSA-OAEP-256', 'A256CBC-HS512' ]
         is_public: true
   nested_token:
     loaders:
       nested_token_loader_1:
         signature_algorithms: [ 'PS256' ]
-        key_encryption_algorithms: [ 'RSA-OAEP' ]
-        content_encryption_algorithms: [ 'A128GCM' ]
+        encryption_algorithms: [ 'RSA-OAEP', 'A128GCM' ]
         jws_serializers: [ 'jws_compact' ]
         jwe_serializers: [ 'jwe_compact' ]
         is_public: true
     builders:
       nested_token_builder_1:
         signature_algorithms: [ 'PS256' ]
-        key_encryption_algorithms: [ 'RSA-OAEP' ]
-        content_encryption_algorithms: [ 'A128GCM' ]
+        encryption_algorithms: [ 'RSA-OAEP', 'A128GCM' ]
         jws_serializers: [ 'jws_compact' ]
         jwe_serializers: [ 'jwe_compact' ]
         is_public: true

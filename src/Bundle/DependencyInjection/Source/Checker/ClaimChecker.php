@@ -7,18 +7,21 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManager;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ClaimChecker implements Source
+final readonly class ClaimChecker implements Source
 {
+    #[Override]
     public function name(): string
     {
         return 'claims';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -41,6 +44,7 @@ class ClaimChecker implements Source
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $node
@@ -76,6 +80,7 @@ class ClaimChecker implements Source
             ->end();
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

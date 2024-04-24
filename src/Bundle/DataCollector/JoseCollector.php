@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DataCollector;
 
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Throwable;
 
-class JoseCollector extends DataCollector
+final class JoseCollector extends DataCollector
 {
     /**
      * @var Collector[]
      */
     private array $collectors = [];
 
+    #[Override]
     public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         foreach ($this->collectors as $collector) {
@@ -29,6 +31,7 @@ class JoseCollector extends DataCollector
         $this->collectors[] = $collector;
     }
 
+    #[Override]
     public function getName(): string
     {
         return 'jose_collector';
@@ -42,6 +45,7 @@ class JoseCollector extends DataCollector
         return $this->data;
     }
 
+    #[Override]
     public function reset(): void
     {
         $this->data = [];

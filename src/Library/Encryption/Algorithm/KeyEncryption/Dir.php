@@ -6,12 +6,14 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
+use Override;
 use function in_array;
 use function is_string;
 
-final class Dir implements DirectEncryption
+final readonly class Dir implements DirectEncryption
 {
+    #[Override]
     public function getCEK(JWK $key): string
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
@@ -28,16 +30,19 @@ final class Dir implements DirectEncryption
         return Base64UrlSafe::decodeNoPadding($k);
     }
 
+    #[Override]
     public function name(): string
     {
         return 'dir';
     }
 
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['oct'];
     }
 
+    #[Override]
     public function getKeyManagementMode(): string
     {
         return self::MODE_DIRECT;

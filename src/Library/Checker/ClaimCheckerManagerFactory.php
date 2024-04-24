@@ -7,6 +7,7 @@ namespace Jose\Component\Checker;
 use InvalidArgumentException;
 
 /**
+ * This class is responsible for creating and managing claim checkers.
  * @see \Jose\Tests\Component\Checker\ClaimCheckerManagerFactoryTest
  */
 class ClaimCheckerManagerFactory

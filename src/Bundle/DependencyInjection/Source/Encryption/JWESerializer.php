@@ -7,18 +7,21 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JWESerializer implements Source
+final readonly class JWESerializer implements Source
 {
+    #[Override]
     public function name(): string
     {
         return 'serializers';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -37,6 +40,7 @@ class JWESerializer implements Source
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $node->children()
@@ -73,6 +77,7 @@ class JWESerializer implements Source
             ->end();
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

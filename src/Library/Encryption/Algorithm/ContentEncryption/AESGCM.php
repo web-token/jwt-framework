@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Override;
 use RuntimeException;
 use function extension_loaded;
 use const OPENSSL_RAW_DATA;
 
-abstract class AESGCM implements ContentEncryptionAlgorithm
+abstract readonly class AESGCM implements ContentEncryptionAlgorithm
 {
     public function __construct()
     {
@@ -19,11 +20,13 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         }
     }
 
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return []; //Irrelevant
     }
 
+    #[Override]
     public function encryptContent(
         string $data,
         string $cek,
@@ -45,6 +48,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         return $result;
     }
 
+    #[Override]
     public function decryptContent(
         string $data,
         string $cek,
@@ -66,6 +70,7 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         return $result;
     }
 
+    #[Override]
     public function getIVSize(): int
     {
         return 96;

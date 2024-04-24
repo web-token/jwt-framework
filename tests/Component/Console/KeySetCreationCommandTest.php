@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
+use Ergebnis\PHPUnit\SlowTestDetector\Attribute\MaximumDuration;
 use InvalidArgumentException;
 use Jose\Component\Console\EcKeysetGeneratorCommand;
 use Jose\Component\Console\OctKeysetGeneratorCommand;
@@ -158,6 +159,7 @@ final class KeySetCreationCommandTest extends TestCase
     }
 
     #[Test]
+    #[MaximumDuration(500)]
     public function iCanCreateAnRsaKeySet(): void
     {
         $input = new ArrayInput([

@@ -38,8 +38,8 @@
         }
     },
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.3",
         "ext-openssl": "*",
-        "web-token/jwt-library": "^3.3"
+        "web-token/jwt-library": "^4.0"
     }
 }

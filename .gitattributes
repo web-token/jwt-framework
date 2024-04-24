@@ -10,6 +10,7 @@
 /.gitsplit.yml export-ignore
 /monorepo-builder.php export-ignore
 /CODE_OF_CONDUCT.md export-ignore
+/castor.php export-ignore
 /deptrac.yaml export-ignore
 /ecs.php export-ignore
 /infection.json export-ignore

@@ -6,6 +6,7 @@ namespace Jose\Component\Signature;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
+use Override;
 use function count;
 
 /**
@@ -25,6 +26,7 @@ class JWS implements JWT
     ) {
     }
 
+    #[Override]
     public function getPayload(): ?string
     {
         return $this->payload;

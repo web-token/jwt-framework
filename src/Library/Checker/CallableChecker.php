@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use InvalidArgumentException;
+use Override;
 use function call_user_func;
 use function is_callable;
 
 /**
+ * This class is responsible for checking claims and headers using a callable function.
  * @see \Jose\Tests\Component\Checker\CallableCheckerTest
  */
 final class CallableChecker implements ClaimChecker, HeaderChecker
@@ -27,6 +29,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
         }
     }
 
+    #[Override]
     public function checkClaim(mixed $value): void
     {
         if (call_user_func($this->callable, $value) !== true) {
@@ -34,11 +37,13 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
         }
     }
 
+    #[Override]
     public function supportedClaim(): string
     {
         return $this->key;
     }
 
+    #[Override]
     public function checkHeader(mixed $value): void
     {
         if (call_user_func($this->callable, $value) !== true) {
@@ -46,11 +51,13 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
         }
     }
 
+    #[Override]
     public function supportedHeader(): string
     {
         return $this->key;
     }
 
+    #[Override]
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeaderOnly;

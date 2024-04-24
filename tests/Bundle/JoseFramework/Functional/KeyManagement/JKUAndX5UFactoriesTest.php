@@ -8,20 +8,12 @@ use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @internal
  */
 final class JKUAndX5UFactoriesTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(JKUFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-key-mgmt" is not installed.');
-        }
-    }
-
     #[Test]
     public static function theJKUFactoryServiceIsAvailable(): void
     {
@@ -29,7 +21,6 @@ final class JKUAndX5UFactoriesTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has(JKUFactory::class));
     }
 
@@ -40,7 +31,6 @@ final class JKUAndX5UFactoriesTest extends WebTestCase
         $client = static::createClient();
 
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has(X5UFactory::class));
     }
 }

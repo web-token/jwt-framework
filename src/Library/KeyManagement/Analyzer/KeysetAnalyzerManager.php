@@ -6,7 +6,7 @@ namespace Jose\Component\KeyManagement\Analyzer;
 
 use Jose\Component\Core\JWKSet;
 
-class KeysetAnalyzerManager
+final class KeysetAnalyzerManager
 {
     /**
      * @var KeysetAnalyzer[]

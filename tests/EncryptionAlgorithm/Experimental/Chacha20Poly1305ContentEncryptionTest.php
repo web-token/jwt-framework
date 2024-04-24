@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Jose\Tests\EncryptionAlgorithm\ContentEncryption\Experimental;
+namespace Jose\Tests\EncryptionAlgorithm\Experimental;
 
 use Jose\Component\Core\JWK;
 use Jose\Experimental\KeyEncryption\Chacha20Poly1305;
+use Override;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Throwable;
@@ -16,6 +17,7 @@ use function in_array;
  */
 final class Chacha20Poly1305ContentEncryptionTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         if (! in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {

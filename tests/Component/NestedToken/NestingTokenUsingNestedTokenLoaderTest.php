@@ -10,8 +10,6 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
-use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWELoaderFactory;
 use Jose\Component\Encryption\JWETokenSupport;
@@ -19,7 +17,6 @@ use Jose\Component\Encryption\Serializer as JweSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\NestedToken\NestedTokenLoaderFactory;
 use Jose\Component\Signature\Algorithm\PS256;
-use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifierFactory;
@@ -42,21 +39,9 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 
     private ?AlgorithmManagerFactory $algorithmManagerFactory = null;
 
-    private ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null;
-
     private ?JWEDecrypterFactory $jweDecrypterFactory = null;
 
     private ?JWESerializerManagerFactory $jwsSerializerManagerFactory = null;
-
-    protected function setUp(): void
-    {
-        if (! class_exists(HeaderCheckerManagerFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
-        }
-        if (! class_exists(JWSLoader::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-    }
 
     #[Test]
     public function decryption(): void
@@ -82,9 +67,7 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         $nestedTokenLoader = $this->getNestedTokenLoaderFactory()
             ->create(
                 ['jwe_compact', 'jwe_json_flattened', 'jwe_json_general'],
-                ['RSA-OAEP'],
-                ['A128GCM'],
-                ['DEF'],
+                ['RSA-OAEP', 'A128GCM'],
                 [],
                 ['jws_compact', 'jws_json_flattened', 'jws_json_general'],
                 ['PS256'],
@@ -213,23 +196,10 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
         return $this->algorithmManagerFactory;
     }
 
-    private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
-    {
-        if ($this->compressionMethodManagerFactory === null) {
-            $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
-            $this->compressionMethodManagerFactory->add('DEF', new Deflate());
-        }
-
-        return $this->compressionMethodManagerFactory;
-    }
-
     private function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
         if ($this->jweDecrypterFactory === null) {
-            $this->jweDecrypterFactory = new JWEDecrypterFactory(
-                $this->getAlgorithmManagerFactory(),
-                $this->getCompressionMethodManagerFactory()
-            );
+            $this->jweDecrypterFactory = new JWEDecrypterFactory($this->getAlgorithmManagerFactory());
         }
 
         return $this->jweDecrypterFactory;

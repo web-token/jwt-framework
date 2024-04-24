@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -20,10 +21,6 @@ use function is_string;
 #[AsCommand(name: 'key:analyze', description: 'JWK quality analyzer.',)]
 final class KeyAnalyzerCommand extends Command
 {
-    protected static $defaultName = 'key:analyze';
-
-    protected static $defaultDescription = 'JWK quality analyzer.';
-
     public function __construct(
         private readonly KeyAnalyzerManager $analyzerManager,
         ?string $name = null
@@ -31,6 +28,7 @@ final class KeyAnalyzerCommand extends Command
         parent::__construct($name);
     }
 
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
@@ -38,6 +36,7 @@ final class KeyAnalyzerCommand extends Command
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->getFormatter()

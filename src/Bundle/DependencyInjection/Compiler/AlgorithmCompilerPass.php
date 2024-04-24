@@ -6,12 +6,14 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManagerFactory;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-final class AlgorithmCompilerPass implements CompilerPassInterface
+final readonly class AlgorithmCompilerPass implements CompilerPassInterface
 {
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         if (! $container->hasDefinition(AlgorithmManagerFactory::class)) {

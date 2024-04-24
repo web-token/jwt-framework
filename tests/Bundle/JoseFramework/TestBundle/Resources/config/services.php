@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\CustomChecker;
+use Psr\Clock\ClockInterface;
+use Symfony\Component\Clock\NativeClock;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container) {
@@ -19,4 +21,8 @@ return function (ContainerConfigurator $container) {
         ->tag('jose.checker.claim', [
             'alias' => 'custom_checker',
         ]);
+
+    $container->set(ClockInterface::class)
+        ->class(NativeClock::class)
+    ;
 };

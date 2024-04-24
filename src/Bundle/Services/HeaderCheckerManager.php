@@ -8,6 +8,7 @@ use Jose\Bundle\JoseFramework\Event\HeaderCheckedFailureEvent;
 use Jose\Bundle\JoseFramework\Event\HeaderCheckedSuccessEvent;
 use Jose\Component\Checker\HeaderCheckerManager as BaseHeaderCheckerManager;
 use Jose\Component\Core\JWT;
+use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
@@ -21,6 +22,7 @@ final class HeaderCheckerManager extends BaseHeaderCheckerManager
         parent::__construct($checkers, $tokenTypes);
     }
 
+    #[Override]
     public function check(JWT $jwt, int $index, array $mandatoryHeaderParameters = []): void
     {
         try {

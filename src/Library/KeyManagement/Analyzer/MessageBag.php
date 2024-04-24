@@ -8,10 +8,11 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
+use Override;
 use Traversable;
 use function count;
 
-class MessageBag implements JsonSerializable, IteratorAggregate, Countable
+final class MessageBag implements JsonSerializable, IteratorAggregate, Countable
 {
     /**
      * @var Message[]
@@ -36,16 +37,19 @@ class MessageBag implements JsonSerializable, IteratorAggregate, Countable
         return $this->messages;
     }
 
+    #[Override]
     public function jsonSerialize(): array
     {
         return array_values($this->messages);
     }
 
+    #[Override]
     public function count(): int
     {
         return count($this->messages);
     }
 
+    #[Override]
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->messages);

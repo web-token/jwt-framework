@@ -4,26 +4,29 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Override;
 use function in_array;
 use function is_string;
 
 /**
- * This class is a header parameter checker. When the "alg" header parameter is present, it will check if the value is
- * within the allowed ones.
+ * AlgorithmChecker class.
+ *
+ * This class implements the HeaderChecker interface and is responsible for checking the "alg" header in a token.
  */
-final class AlgorithmChecker implements HeaderChecker
+final readonly class AlgorithmChecker implements HeaderChecker
 {
-    private const HEADER_NAME = 'alg';
+    private const string HEADER_NAME = 'alg';
 
     /**
      * @param string[] $supportedAlgorithms
      */
     public function __construct(
-        private readonly array $supportedAlgorithms,
-        private readonly bool $protectedHeader = false
+        private array $supportedAlgorithms,
+        private bool $protectedHeader = false
     ) {
     }
 
+    #[Override]
     public function checkHeader(mixed $value): void
     {
         if (! is_string($value)) {
@@ -34,11 +37,13 @@ final class AlgorithmChecker implements HeaderChecker
         }
     }
 
+    #[Override]
     public function supportedHeader(): string
     {
         return self::HEADER_NAME;
     }
 
+    #[Override]
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeader;

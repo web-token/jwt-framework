@@ -12,9 +12,9 @@ namespace Jose\Tests\Bundle\JoseFramework;
  * This software may be modified and distributed under the terms
  * of the MIT license.  See the LICENSE file for details.
  */
-
 use Jose\Bundle\JoseFramework\JoseFrameworkBundle;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\TestBundle;
+use Override;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
@@ -30,11 +30,13 @@ class AppKernel extends Kernel
     /**
      * @return BundleInterface[]
      */
+    #[Override]
     public function registerBundles(): array
     {
         return [new FrameworkBundle(), new JoseFrameworkBundle(), new TestBundle()];
     }
 
+    #[Override]
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');

@@ -7,10 +7,10 @@ namespace Jose\Tests\Component\Encryption;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 use const STR_PAD_LEFT;
 
@@ -94,7 +94,7 @@ final class RSAKeyEncryptionTest extends EncryptionTestCase
             207,
         ];
         foreach ($cek as $key => $value) {
-            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
         $cek = hex2bin(implode('', $cek));
 
@@ -164,7 +164,7 @@ final class RSAKeyEncryptionTest extends EncryptionTestCase
             252,
         ];
         foreach ($cek as $key => $value) {
-            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
         $cek = hex2bin(implode('', $cek));
 
@@ -234,7 +234,7 @@ final class RSAKeyEncryptionTest extends EncryptionTestCase
             252,
         ];
         foreach ($cek as $key => $value) {
-            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
         $cek = hex2bin(implode('', $cek));
 

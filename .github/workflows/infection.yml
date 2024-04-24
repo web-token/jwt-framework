@@ -1,6 +1,4 @@
-# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
-
-name: "Integrate"
+name: "Infection"
 
 on:
   push:
@@ -9,20 +7,18 @@ on:
 
 jobs:
   mutation_testing:
-    name: "5️⃣ Mutation Testing"
+    name: "0️⃣ Mutation Testing"
     runs-on: "ubuntu-latest"
     steps:
       - name: "Set up PHP"
         uses: "shivammathur/setup-php@v2"
         with:
-          php-version: "8.1"
+          php-version: "8.3"
           extensions: "json, mbstring, openssl, sqlite3, curl, uuid"
+          tools: castor
 
       - name: "Checkout code"
         uses: "actions/checkout@v4"
-
-      - name: "Fetch Git base reference"
-        run: "git fetch --depth=1 origin ${GITHUB_BASE_REF}"
 
       - name: "Install dependencies"
         uses: "ramsey/composer-install@v3"
@@ -31,4 +27,4 @@ jobs:
           composer-options: "--optimize-autoloader"
 
       - name: "Execute Infection"
-        run: "make ci-mu"
+        run: "castor infect"
