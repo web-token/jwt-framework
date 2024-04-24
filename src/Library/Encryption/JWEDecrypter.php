@@ -85,7 +85,7 @@ class JWEDecrypter
         JWE &$jwe,
         JWKSet $jwkset,
         int $recipient,
-        JWK &$jwk = null,
+        ?JWK &$jwk = null,
         ?JWK $senderKey = null
     ): bool {
         if ($jwkset->count() === 0) {
@@ -112,7 +112,7 @@ class JWEDecrypter
         JWE $jwe,
         JWKSet $jwkset,
         int $i,
-        JWK &$successJwk = null,
+        ?JWK &$successJwk = null,
         ?JWK $senderKey = null
     ): ?string {
         $recipient = $jwe->getRecipient($i);

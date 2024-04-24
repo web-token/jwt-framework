@@ -32,13 +32,13 @@ final class JWKSetLoader implements LoaderInterface
     }
 
     #[Override]
-    public function load(mixed $resource, string $type = null): RouteCollection
+    public function load(mixed $resource, ?string $type = null): RouteCollection
     {
         return $this->routes;
     }
 
     #[Override]
-    public function supports(mixed $resource, string $type = null): bool
+    public function supports(mixed $resource, ?string $type = null): bool
     {
         return $type === 'jwkset';
     }

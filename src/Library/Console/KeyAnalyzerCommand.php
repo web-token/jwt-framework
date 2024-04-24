@@ -23,7 +23,7 @@ final class KeyAnalyzerCommand extends Command
 {
     public function __construct(
         private readonly KeyAnalyzerManager $analyzerManager,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
     }
