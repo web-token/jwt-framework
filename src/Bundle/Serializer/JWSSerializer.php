@@ -36,8 +36,12 @@ final readonly class JWSSerializer implements DenormalizerInterface
     }
 
     #[Override]
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
-    {
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $type === JWS::class
             && class_exists(JWSSerializerManager::class)
             && $this->formatSupported($format);
