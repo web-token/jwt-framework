@@ -1,10 +1,8 @@
 name: gitsplit
 on:
   push:
-    tags:
-      - '*'
-  release:
-    types: [published]
+    branches:
+      - "*.x"
 
 jobs:
   gitsplit:
