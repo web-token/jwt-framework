@@ -69,7 +69,7 @@
         "ergebnis/phpunit-slow-test-detector": "^2.14",
         "infection/infection": "^0.28",
         "matthiasnoback/symfony-config-test": "^5.0",
-        "paragonie/sodium_compat": "^1.20",
+        "paragonie/sodium_compat": "^1.20 || ^2.0",
         "php-parallel-lint/php-parallel-lint": "^1.3",
         "phpbench/phpbench": "^1.2",
         "phpstan/extension-installer": "^1.3",
