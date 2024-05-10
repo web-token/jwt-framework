@@ -219,7 +219,7 @@ final readonly class KeyConverter
             $res = openssl_pkey_get_public($pem);
         }
         if ($res === false) {
-            throw new InvalidArgumentException('Unable to load the key.');
+            throw new InvalidArgumentException('Unable to load the key. Error: ' . openssl_error_string());
         }
 
         $details = openssl_pkey_get_details($res);
