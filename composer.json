@@ -86,7 +86,7 @@
         "spomky-labs/aes-key-wrap": "^7.0",
         "staabm/phpstan-dba": "^0.2.79",
         "staabm/phpstan-todo-by": "^0.1.25",
-        "struggle-for-php/sfp-phpstan-psr-log": "^0.20.0",
+        "struggle-for-php/sfp-phpstan-psr-log": "^0.20.0 || ^0.21.0",
         "symfony/browser-kit": "^7.0",
         "symfony/http-client": "^7.0",
         "symfony/clock": "^7.0",
