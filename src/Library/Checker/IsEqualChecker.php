@@ -14,7 +14,6 @@ final readonly class IsEqualChecker implements ClaimChecker, HeaderChecker
 {
     /**
      * @param string $key                 The claim or header parameter name to check.
-     * @param mixed  $value               The expected value.
      * @param bool   $protectedHeaderOnly [optional] Whether the header parameter MUST be protected.
      *                                    This option has no effect for claim checkers.
      */
