@@ -9,6 +9,7 @@ use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\MockClientCallback;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpClient\Response\MockResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,7 +34,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
 
-        $client->request('GET', '/keys/1.jwkset');
+        $client->request(Request::METHOD_GET, '/keys/1.jwkset');
         /** @var Response $response */
         $response = $client->getResponse();
 
@@ -62,7 +63,7 @@ final class JWKSetLoaderTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
 
-        $client->request('GET', '/keys/2.jwkset');
+        $client->request(Request::METHOD_GET, '/keys/2.jwkset');
         /** @var Response $response */
         $response = $client->getResponse();
 

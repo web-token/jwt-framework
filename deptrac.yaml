@@ -4,23 +4,24 @@ parameters:
   layers:
     - name: 'Library'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\' }
+        - { type: classLike, value: '^Jose\\Component\\' }
     - name: 'Experimental'
       collectors:
-        - { type: className, regex: '^Jose\\Experimental\\' }
+        - { type: classLike, value: '^Jose\\Experimental\\' }
     - name: 'Bundle'
       collectors:
-        - { type: className, regex: '^Jose\\Bundle\\' }
+        - { type: classLike, value: '^Jose\\Bundle\\' }
     - name: 'Vendors'
       collectors:
-        - { type: className, regex: '^Symfony\\' }
-        - { type: className, regex: '^SpomkyLabs\\Pki\\' }
-        - { type: className, regex: '^ParagonIE\\Sodium\\' }
-        - { type: className, regex: '^Psr\\EventDispatcher\\' }
-        - { type: className, regex: '^Psr\\Clock\\' }
-        - { type: className, regex: '^Brick\\Math\\' }
-        - { type: className, regex: '^AESKW\\' }
-        - { type: className, regex: '^ZxcvbnPhp\\' }
+        - { type: classLike, value: '^Symfony\\' }
+        - { type: classLike, value: '^SpomkyLabs\\Pki\\' }
+        - { type: classLike, value: '^ParagonIE\\Sodium\\' }
+        - { type: classLike, value: '^Psr\\EventDispatcher\\' }
+        - { type: classLike, value: '^Psr\\Clock\\' }
+        - { type: classLike, value: '^Brick\\Math\\' }
+        - { type: classLike, value: '^AESKW\\' }
+        - { type: classLike, value: '^ZxcvbnPhp\\' }
+        - { type: classLike, value: '^Psr\\' }
   ruleset:
     Library:
       - 'Vendors'
