@@ -4,7 +4,7 @@
     backupGlobals="false"
     processIsolation="false"
     stopOnFailure="false"
-    bootstrap="vendor/autoload.php"
+    bootstrap="tests/autoload.php"
     beStrictAboutTestsThatDoNotTestAnything="false"
     colors="true"
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
