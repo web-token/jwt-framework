@@ -162,8 +162,9 @@ final readonly class KeyConverter
             throw new InvalidArgumentException('The certificate chain is empty');
         }
         foreach ($x5c as $id => $cert) {
+            assert(is_string($cert), 'Invalid certificate chain');
             $x5c[$id] = '-----BEGIN CERTIFICATE-----' . "\n" . chunk_split(
-                (string) $cert,
+                $cert,
                 64,
                 "\n"
             ) . '-----END CERTIFICATE-----';
@@ -180,6 +181,9 @@ final readonly class KeyConverter
         return self::loadKeyFromCertificate(reset($x5c));
     }
 
+    /**
+     * @return array<array-key, mixed>
+     */
     private static function loadKeyFromDER(string $der, ?string $password = null): array
     {
         $pem = self::convertDerToPem($der);
