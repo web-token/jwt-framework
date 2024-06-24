@@ -35,7 +35,7 @@
     "require": {
         "php": ">=8.1",
         "ext-sodium": "*",
-        "paragonie/sodium_compat": "^1.20",
+        "paragonie/sodium_compat": "^1.20|^2.0",
         "web-token/jwt-library": "^3.3"
     }
 }

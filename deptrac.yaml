@@ -4,38 +4,40 @@ parameters:
   layers:
     - name: 'Core'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\Core\\' }
+        - { type: classLike, value: '^Jose\\Component\\Core\\' }
     - name: 'Checker'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\Checker\\' }
+        - { type: classLike, value: '^Jose\\Component\\Checker\\' }
     - name: 'Console'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\Console\\' }
+        - { type: classLike, value: '^Jose\\Component\\Console\\' }
     - name: 'KeyManagement'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\KeyManagement\\' }
+        - { type: classLike, value: '^Jose\\Component\\KeyManagement\\' }
     - name: 'NestedToken'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\NestedToken\\' }
+        - { type: classLike, value: '^Jose\\Component\\NestedToken\\' }
     - name: 'Encryption'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\Encryption\\' }
+        - { type: classLike, value: '^Jose\\Component\\Encryption\\' }
     - name: 'Signature'
       collectors:
-        - { type: className, regex: '^Jose\\Component\\Signature\\' }
+        - { type: classLike, value: '^Jose\\Component\\Signature\\' }
     - name: 'Bundle'
       collectors:
-        - { type: className, regex: '^Jose\\Bundle\\JoseFramework\\' }
+        - { type: classLike, value: '^Jose\\Bundle\\JoseFramework\\' }
     - name: 'Vendors'
       collectors:
-        - { type: className, regex: '^Symfony\\' }
-        - { type: className, regex: '^SpomkyLabs\\Pki\\' }
-        - { type: className, regex: '^ParagonIE\\' }
-        - { type: className, regex: '^Psr\\EventDispatcher\\' }
-        - { type: className, regex: '^Psr\\Http\\' }
-        - { type: className, regex: '^Brick\\Math\\' }
-        - { type: className, regex: '^AESKW\\' }
-        - { type: className, regex: '^ZxcvbnPhp\\' }
+        - { type: classLike, value: '^Symfony\\' }
+        - { type: classLike, value: '^SpomkyLabs\\Pki\\' }
+        - { type: classLike, value: '^ParagonIE\\' }
+        - { type: classLike, value: '^Psr\\EventDispatcher\\' }
+        - { type: classLike, value: '^Psr\\Http\\' }
+        - { type: classLike, value: '^Psr\\Cache\\' }
+        - { type: classLike, value: '^Psr\\Clock\\' }
+        - { type: classLike, value: '^Brick\\Math\\' }
+        - { type: classLike, value: '^AESKW\\' }
+        - { type: classLike, value: '^ZxcvbnPhp\\' }
   ruleset:
     Core:
       - 'Vendors'

@@ -11,7 +11,6 @@ use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use RuntimeException;
 use function is_array;
 use function is_string;
-use const PHP_EOL;
 
 class X5UFactory extends UrlKeySetFactory
 {
@@ -29,7 +28,7 @@ class X5UFactory extends UrlKeySetFactory
         $keys = [];
         foreach ($data as $kid => $cert) {
             if (mb_strpos((string) $cert, '-----BEGIN CERTIFICATE-----') === false) {
-                $cert = '-----BEGIN CERTIFICATE-----' . PHP_EOL . $cert . PHP_EOL . '-----END CERTIFICATE-----';
+                $cert = '-----BEGIN CERTIFICATE-----' . "\n" . $cert . "\n" . '-----END CERTIFICATE-----';
             }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
             if (is_string($kid)) {
