@@ -28,7 +28,6 @@ use const E_PARSE;
 use const OPENSSL_KEYTYPE_EC;
 use const OPENSSL_KEYTYPE_RSA;
 use const OPENSSL_RAW_DATA;
-use const PHP_EOL;
 use const PREG_PATTERN_ORDER;
 
 /**
@@ -163,11 +162,11 @@ final readonly class KeyConverter
             throw new InvalidArgumentException('The certificate chain is empty');
         }
         foreach ($x5c as $id => $cert) {
-            assert(is_string($cert), 'Invalid certificate');
-            $x5c[$id] = '-----BEGIN CERTIFICATE-----' . PHP_EOL . chunk_split(
+            assert(is_string($cert), 'Invalid certificate chain');
+            $x5c[$id] = '-----BEGIN CERTIFICATE-----' . "\n" . chunk_split(
                 $cert,
                 64,
-                PHP_EOL
+                "\n"
             ) . '-----END CERTIFICATE-----';
             $x509 = openssl_x509_read($x5c[$id]);
             if ($x509 === false) {
@@ -403,9 +402,9 @@ final readonly class KeyConverter
 
         $ciphertext = preg_replace('#-.*-|\r|\n| #', '', $pem);
 
-        $pem = $matches[0][0] . PHP_EOL;
-        $pem .= chunk_split($ciphertext ?? '', 64, PHP_EOL);
-        $pem .= $matches[0][1] . PHP_EOL;
+        $pem = $matches[0][0] . "\n";
+        $pem .= chunk_split($ciphertext ?? '', 64, "\n");
+        $pem .= $matches[0][1] . "\n";
     }
 
     /**
@@ -436,16 +435,16 @@ final readonly class KeyConverter
             throw new InvalidArgumentException('Unable to load the key');
         }
 
-        $pem = $result[0][0] . PHP_EOL;
+        $pem = $result[0][0] . "\n";
         $pem .= chunk_split(base64_encode($decoded), 64);
 
-        return $pem . ($result[0][1] . PHP_EOL);
+        return $pem . ($result[0][1] . "\n");
     }
 
     private static function convertDerToPem(string $der_data): string
     {
-        $pem = chunk_split(base64_encode($der_data), 64, PHP_EOL);
+        $pem = chunk_split(base64_encode($der_data), 64, "\n");
 
-        return '-----BEGIN CERTIFICATE-----' . PHP_EOL . $pem . '-----END CERTIFICATE-----' . PHP_EOL;
+        return '-----BEGIN CERTIFICATE-----' . "\n" . $pem . '-----END CERTIFICATE-----' . "\n";
     }
 }

@@ -12,7 +12,6 @@ use RuntimeException;
 use function assert;
 use function is_array;
 use function is_string;
-use const PHP_EOL;
 
 class X5UFactory extends UrlKeySetFactory
 {
@@ -33,7 +32,7 @@ class X5UFactory extends UrlKeySetFactory
         foreach ($data as $kid => $cert) {
             assert(is_string($cert), 'Invalid content.');
             if (mb_strpos($cert, '-----BEGIN CERTIFICATE-----') === false) {
-                $cert = '-----BEGIN CERTIFICATE-----' . PHP_EOL . $cert . PHP_EOL . '-----END CERTIFICATE-----';
+                $cert = '-----BEGIN CERTIFICATE-----' . "\n" . $cert . "\n" . '-----END CERTIFICATE-----';
             }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
             if (is_string($kid)) {
