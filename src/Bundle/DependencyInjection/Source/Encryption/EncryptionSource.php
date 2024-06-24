@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
-use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\CompressionMethodCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\EncryptionSerializerCompilerPass;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
@@ -19,6 +18,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\ECDHES;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
 use Jose\Component\Encryption\Serializer\JWESerializer as JWESerializerAlias;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -28,7 +28,7 @@ use function array_key_exists;
 use function count;
 use function in_array;
 
-class EncryptionSource implements SourceWithCompilerPasses
+final readonly class EncryptionSource implements SourceWithCompilerPasses
 {
     /**
      * @var Source[]
@@ -40,18 +40,19 @@ class EncryptionSource implements SourceWithCompilerPasses
         $this->sources = [new JWEBuilder(), new JWEDecrypter(), new JWESerializer(), new JWELoader()];
     }
 
+    #[Override]
     public function name(): string
     {
         return 'jwe';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $container->registerForAutoconfiguration(JWESerializerAlias::class)->addTag('jose.jwe.serializer');
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config'));
         $loader->load('jwe_services.php');
         $loader->load('jwe_serializers.php');
-        $loader->load('compression_methods.php');
 
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../../Resources/config/Algorithms/'));
         foreach ($this->getAlgorithmsFiles() as $class => $file) {
@@ -67,6 +68,7 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $childNode = $node->children()
@@ -80,6 +82,7 @@ class EncryptionSource implements SourceWithCompilerPasses
         }
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         $result = [];
@@ -96,9 +99,10 @@ class EncryptionSource implements SourceWithCompilerPasses
     /**
      * @return CompilerPassInterface[]
      */
+    #[Override]
     public function getCompilerPasses(): array
     {
-        return [new EncryptionSerializerCompilerPass(), new CompressionMethodCompilerPass()];
+        return [new EncryptionSerializerCompilerPass()];
     }
 
     private function getAlgorithmsFiles(): array

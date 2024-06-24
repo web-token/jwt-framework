@@ -8,7 +8,6 @@ use Jose\Bundle\JoseFramework\Serializer\JWSEncoder;
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
-use Jose\Component\Signature\JWSBuilderFactory as BaseJWSBuilderFactory;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
@@ -17,23 +16,12 @@ use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * @internal
  */
 final class JWSEncoderTest extends KernelTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(BaseJWSBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-        if (! class_exists(Serializer::class)) {
-            static::markTestSkipped('The component "symfony/serializer" is not installed.');
-        }
-    }
-
     #[DataProvider('jwsFormatDataProvider')]
     #[Test]
     public function theJWSSerializerSupportsAllFormatsByDefault(string $format, string $serializerId): void

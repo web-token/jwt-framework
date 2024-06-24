@@ -4,24 +4,27 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Override;
+
 /**
+ * This class implements a claim and header checker that checks if the value is equal to the expected value.
  * @see \Jose\Tests\Component\Checker\IsEqualCheckerTest
  */
-final class IsEqualChecker implements ClaimChecker, HeaderChecker
+final readonly class IsEqualChecker implements ClaimChecker, HeaderChecker
 {
     /**
      * @param string $key                 The claim or header parameter name to check.
-     * @param mixed  $value               The expected value.
      * @param bool   $protectedHeaderOnly [optional] Whether the header parameter MUST be protected.
      *                                    This option has no effect for claim checkers.
      */
     public function __construct(
-        private readonly string $key,
-        private readonly mixed $value,
-        private readonly bool $protectedHeaderOnly = true
+        private string $key,
+        private mixed $value,
+        private bool $protectedHeaderOnly = true
     ) {
     }
 
+    #[Override]
     public function checkClaim(mixed $value): void
     {
         if ($value !== $this->value) {
@@ -29,11 +32,13 @@ final class IsEqualChecker implements ClaimChecker, HeaderChecker
         }
     }
 
+    #[Override]
     public function supportedClaim(): string
     {
         return $this->key;
     }
 
+    #[Override]
     public function checkHeader(mixed $value): void
     {
         if ($value !== $this->value) {
@@ -41,11 +46,13 @@ final class IsEqualChecker implements ClaimChecker, HeaderChecker
         }
     }
 
+    #[Override]
     public function supportedHeader(): string
     {
         return $this->key;
     }
 
+    #[Override]
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeaderOnly;

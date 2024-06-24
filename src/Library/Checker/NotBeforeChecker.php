@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Override;
 use Psr\Clock\ClockInterface;
 use function is_float;
 use function is_int;
@@ -11,28 +12,18 @@ use function is_int;
 /**
  * This class is a claim checker. When the "nbf" is present, it will compare the value with the current timestamp.
  */
-final class NotBeforeChecker implements ClaimChecker, HeaderChecker
+final readonly class NotBeforeChecker implements ClaimChecker, HeaderChecker
 {
-    private const NAME = 'nbf';
-
-    private readonly ClockInterface $clock;
+    private const string NAME = 'nbf';
 
     public function __construct(
-        private readonly int $allowedTimeDrift = 0,
-        private readonly bool $protectedHeaderOnly = false,
-        ?ClockInterface $clock = null,
+        private ClockInterface $clock,
+        private int $allowedTimeDrift = 0,
+        private bool $protectedHeaderOnly = false,
     ) {
-        if ($clock === null) {
-            trigger_deprecation(
-                'web-token/jwt-library',
-                '3.3.0',
-                'The parameter "$clock" will become mandatory in 4.0.0. Please set a valid PSR Clock implementation instead of "null".'
-            );
-            $clock = new InternalClock();
-        }
-        $this->clock = $clock;
     }
 
+    #[Override]
     public function checkClaim(mixed $value): void
     {
         if (! is_float($value) && ! is_int($value)) {
@@ -46,11 +37,13 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
         }
     }
 
+    #[Override]
     public function supportedClaim(): string
     {
         return self::NAME;
     }
 
+    #[Override]
     public function checkHeader(mixed $value): void
     {
         if (! is_float($value) && ! is_int($value)) {
@@ -64,11 +57,13 @@ final class NotBeforeChecker implements ClaimChecker, HeaderChecker
         }
     }
 
+    #[Override]
     public function supportedHeader(): string
     {
         return self::NAME;
     }
 
+    #[Override]
     public function protectedHeaderOnly(): bool
     {
         return $this->protectedHeaderOnly;

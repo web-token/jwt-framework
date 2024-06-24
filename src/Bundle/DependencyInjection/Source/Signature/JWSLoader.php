@@ -7,18 +7,21 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
 use Jose\Component\Signature\JWSLoader as JWSLoaderService;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class JWSLoader implements Source
+final readonly class JWSLoader implements Source
 {
+    #[Override]
     public function name(): string
     {
         return 'loaders';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -42,6 +45,7 @@ class JWSLoader implements Source
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $node
@@ -91,6 +95,7 @@ class JWSLoader implements Source
             ->end();
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

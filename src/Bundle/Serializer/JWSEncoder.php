@@ -9,6 +9,7 @@ use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use LogicException;
+use Override;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
@@ -17,7 +18,7 @@ use function in_array;
 use function is_int;
 use function mb_strtolower;
 
-final class JWSEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
+final readonly class JWSEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
     private readonly JWSSerializerManager $serializerManager;
 
@@ -31,16 +32,19 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface, Normalizat
         $this->serializerManager = $serializerManager;
     }
 
+    #[Override]
     public function supportsEncoding(string $format, array $context = []): bool
     {
         return class_exists(JWSSerializerManager::class) && $this->formatSupported($format);
     }
 
+    #[Override]
     public function supportsDecoding(string $format, array $context = []): bool
     {
         return class_exists(JWSSerializerManager::class) && $this->formatSupported($format);
     }
 
+    #[Override]
     public function encode($data, $format, array $context = []): string
     {
         if ($data instanceof JWS === false) {
@@ -58,6 +62,7 @@ final class JWSEncoder implements EncoderInterface, DecoderInterface, Normalizat
         }
     }
 
+    #[Override]
     public function decode($data, $format, array $context = []): JWS
     {
         try {

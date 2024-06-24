@@ -21,8 +21,8 @@ interface SignatureAlgorithm extends Algorithm
      * Verify the signature of data.
      *
      * @param JWK $key The private key used to sign the data
-     * @param non-empty-string $input The input
-     * @param non-empty-string $signature The signature to verify
+     * @param string $input The input
+     * @param string $signature The signature to verify
      */
     public function verify(JWK $key, string $input, string $signature): bool;
 }

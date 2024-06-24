@@ -6,7 +6,7 @@ namespace Jose\Component\KeyManagement\Analyzer;
 
 use Jose\Component\Core\JWK;
 
-class KeyAnalyzerManager
+final class KeyAnalyzerManager
 {
     /**
      * @var KeyAnalyzer[]

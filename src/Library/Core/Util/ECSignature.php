@@ -11,21 +11,21 @@ use const STR_PAD_LEFT;
 /**
  * @internal
  */
-final class ECSignature
+final readonly class ECSignature
 {
-    private const ASN1_SEQUENCE = '30';
+    private const string ASN1_SEQUENCE = '30';
 
-    private const ASN1_INTEGER = '02';
+    private const string ASN1_INTEGER = '02';
 
-    private const ASN1_MAX_SINGLE_BYTE = 128;
+    private const int ASN1_MAX_SINGLE_BYTE = 128;
 
-    private const ASN1_LENGTH_2BYTES = '81';
+    private const string ASN1_LENGTH_2BYTES = '81';
 
-    private const ASN1_BIG_INTEGER_LIMIT = '7f';
+    private const string ASN1_BIG_INTEGER_LIMIT = '7f';
 
-    private const ASN1_NEGATIVE_INTEGER = '00';
+    private const string ASN1_NEGATIVE_INTEGER = '00';
 
-    private const BYTE_SIZE = 2;
+    private const int BYTE_SIZE = 2;
 
     public static function toAsn1(string $signature, int $length): string
     {
@@ -74,7 +74,13 @@ final class ECSignature
         $pointS = self::retrievePositiveInteger(self::readAsn1Integer($message, $position));
 
         $bin = hex2bin(
-            str_pad($pointR, $length, '0', STR_PAD_LEFT) . str_pad($pointS, $length, '0', STR_PAD_LEFT)
+            mb_str_pad($pointR, $length, '0', STR_PAD_LEFT, '8bit') . mb_str_pad(
+                $pointS,
+                $length,
+                '0',
+                STR_PAD_LEFT,
+                '8bit'
+            )
         );
         if (! is_string($bin)) {
             throw new InvalidArgumentException('Unable to parse the data');

@@ -2,74 +2,33 @@ parameters:
   paths:
     - './src'
   layers:
-    - name: 'Core'
+    - name: 'Library'
       collectors:
-        - { type: classLike, value: '^Jose\\Component\\Core\\' }
-    - name: 'Checker'
+        - { type: classLike, value: '^Jose\\Component\\' }
+    - name: 'Experimental'
       collectors:
-        - { type: classLike, value: '^Jose\\Component\\Checker\\' }
-    - name: 'Console'
-      collectors:
-        - { type: classLike, value: '^Jose\\Component\\Console\\' }
-    - name: 'KeyManagement'
-      collectors:
-        - { type: classLike, value: '^Jose\\Component\\KeyManagement\\' }
-    - name: 'NestedToken'
-      collectors:
-        - { type: classLike, value: '^Jose\\Component\\NestedToken\\' }
-    - name: 'Encryption'
-      collectors:
-        - { type: classLike, value: '^Jose\\Component\\Encryption\\' }
-    - name: 'Signature'
-      collectors:
-        - { type: classLike, value: '^Jose\\Component\\Signature\\' }
+        - { type: classLike, value: '^Jose\\Experimental\\' }
     - name: 'Bundle'
       collectors:
-        - { type: classLike, value: '^Jose\\Bundle\\JoseFramework\\' }
+        - { type: classLike, value: '^Jose\\Bundle\\' }
     - name: 'Vendors'
       collectors:
         - { type: classLike, value: '^Symfony\\' }
         - { type: classLike, value: '^SpomkyLabs\\Pki\\' }
-        - { type: classLike, value: '^ParagonIE\\' }
+        - { type: classLike, value: '^ParagonIE\\Sodium\\' }
         - { type: classLike, value: '^Psr\\EventDispatcher\\' }
-        - { type: classLike, value: '^Psr\\Http\\' }
-        - { type: classLike, value: '^Psr\\Cache\\' }
         - { type: classLike, value: '^Psr\\Clock\\' }
         - { type: classLike, value: '^Brick\\Math\\' }
         - { type: classLike, value: '^AESKW\\' }
         - { type: classLike, value: '^ZxcvbnPhp\\' }
+        - { type: classLike, value: '^Psr\\' }
   ruleset:
-    Core:
+    Library:
       - 'Vendors'
-    Checker:
-      - 'Core'
-      - 'Vendors'
-    Console:
-      - 'Core'
-      - 'KeyManagement'
-      - 'Vendors'
-    KeyManagement:
-      - 'Core'
-      - 'Vendors'
-    Encryption:
-      - 'Core'
-      - 'Checker'
-      - 'Vendors'
-    Signature:
-      - 'Core'
-      - 'Checker'
-      - 'Vendors'
-    NestedToken:
-      - 'Core'
-      - 'Encryption'
-      - 'Signature'
+    Experimental:
+      - 'Library'
       - 'Vendors'
     Bundle:
-      - 'Core'
-      - 'Checker'
-      - 'Console'
-      - 'KeyManagement'
-      - 'Encryption'
-      - 'Signature'
-      - 'NestedToken'
+      - 'Library'
+      - 'Experimental'
       - 'Vendors'

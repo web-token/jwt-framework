@@ -6,8 +6,8 @@ namespace Jose\Tests\Component\Encryption\RFC7520;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Tests\Component\Encryption\EncryptionTestCase;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 
 /**

@@ -27,7 +27,7 @@ use const STR_PAD_LEFT;
 /**
  * @internal
  */
-final class Point
+final readonly class Point
 {
     private function __construct(
         private BigInteger $x,
@@ -92,7 +92,7 @@ final class Point
     {
         $size = max(mb_strlen($sa->toBase(2), '8bit'), mb_strlen($sb->toBase(2), '8bit'));
         $mask = (string) (1 - $cond);
-        $mask = str_pad('', $size, $mask, STR_PAD_LEFT);
+        $mask = mb_str_pad('', $size, $mask, STR_PAD_LEFT, '8bit');
         $mask = BigInteger::fromBase($mask, 2);
         $taA = $sa->and($mask);
         $taB = $sb->and($mask);

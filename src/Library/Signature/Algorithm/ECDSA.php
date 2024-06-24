@@ -9,13 +9,14 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
 use LogicException;
+use Override;
 use RuntimeException;
 use Throwable;
 use function defined;
 use function extension_loaded;
 use function in_array;
 
-abstract class ECDSA implements SignatureAlgorithm
+abstract readonly class ECDSA implements SignatureAlgorithm
 {
     public function __construct()
     {
@@ -27,11 +28,13 @@ abstract class ECDSA implements SignatureAlgorithm
         }
     }
 
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['EC'];
     }
 
+    #[Override]
     public function sign(JWK $key, string $input): string
     {
         $this->checkKey($key);
@@ -44,6 +47,7 @@ abstract class ECDSA implements SignatureAlgorithm
         return ECSignature::fromAsn1($signature, $this->getSignaturePartLength());
     }
 
+    #[Override]
     public function verify(JWK $key, string $input, string $signature): bool
     {
         $this->checkKey($key);

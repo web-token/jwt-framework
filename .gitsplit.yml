@@ -56,6 +56,7 @@ splits:
   - prefix: "rc/Deprecated/Pack/Signature"
     target: "https://${GH_TOKEN}@github.com/web-token/signature-pack.git"
 
+
 origins:
   - ^\d+\.\d+\.x$
   - ^\d+\.\d+\.\d+$

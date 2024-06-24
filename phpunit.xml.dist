@@ -32,4 +32,10 @@
             <directory suffix=".php">./src</directory>
         </include>
     </source>
+    <extensions>
+        <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension">
+            <parameter name="maximum-count" value="50"/>
+            <parameter name="maximum-duration" value="100"/>
+        </bootstrap>
+    </extensions>
 </phpunit>

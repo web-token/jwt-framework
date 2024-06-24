@@ -6,6 +6,7 @@ namespace Jose\Performance\JWS;
 
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
+use Override;
 use PhpBench\Benchmark\Metadata\Annotations\Groups;
 use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
@@ -42,6 +43,7 @@ final class PS256Bench extends SignatureBench
         ];
     }
 
+    #[Override]
     protected function getAlgorithm(): SignatureAlgorithm
     {
         return $this->getSignatureAlgorithmsManager()
@@ -49,11 +51,13 @@ final class PS256Bench extends SignatureBench
         ;
     }
 
+    #[Override]
     protected function getInput(): string
     {
         return 'eyJhbGciOiJQUzI1NiJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4';
     }
 
+    #[Override]
     protected function getPrivateKey(): JWK
     {
         return new JWK([
@@ -71,6 +75,7 @@ final class PS256Bench extends SignatureBench
         ]);
     }
 
+    #[Override]
     protected function getPublicKey(): JWK
     {
         return $this->getPrivateKey()

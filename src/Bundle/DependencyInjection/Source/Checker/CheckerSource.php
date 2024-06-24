@@ -9,6 +9,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\HeaderCheckerCompiler
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Checker\TokenTypeSupport;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use function array_key_exists;
 use function count;
 
-class CheckerSource implements SourceWithCompilerPasses
+final readonly class CheckerSource implements SourceWithCompilerPasses
 {
     /**
      * @var Source[]
@@ -29,11 +30,13 @@ class CheckerSource implements SourceWithCompilerPasses
         $this->sources = [new ClaimChecker(), new HeaderChecker()];
     }
 
+    #[Override]
     public function name(): string
     {
         return 'checkers';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $container->registerForAutoconfiguration(TokenTypeSupport::class)->addTag('jose.checker.token_type');
@@ -48,6 +51,7 @@ class CheckerSource implements SourceWithCompilerPasses
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $node->children()
@@ -69,6 +73,7 @@ class CheckerSource implements SourceWithCompilerPasses
         }
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         $result = [];
@@ -85,6 +90,7 @@ class CheckerSource implements SourceWithCompilerPasses
     /**
      * @return CompilerPassInterface[]
      */
+    #[Override]
     public function getCompilerPasses(): array
     {
         return [new ClaimCheckerCompilerPass(), new HeaderCheckerCompilerPass()];

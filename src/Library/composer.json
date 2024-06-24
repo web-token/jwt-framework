@@ -38,20 +38,12 @@
         }
     },
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.3",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "brick/math": "^0.9|^0.10|^0.11|^0.12",
-        "paragonie/constant_time_encoding": "^2.6|^3.0",
-        "paragonie/sodium_compat": "^1.20|^2.0",
-        "psr/cache": "^3.0",
+        "brick/math": "^0.12",
         "psr/clock": "^1.0",
-        "psr/http-factory": "^1.0",
-        "psr/http-client": "^1.0",
-        "spomky-labs/pki-framework": "^1.2.1",
-        "symfony/console": "^5.4|^6.0|^7.0",
-        "symfony/http-client": "^5.4|^6.0|^7.0",
-        "symfony/polyfill-mbstring": "^1.12"
+        "spomky-labs/pki-framework": "^1.2.1"
     },
     "conflict": {
         "spomky-labs/jose": "*"
@@ -62,7 +54,8 @@
         "ext-bcmath": "GMP or BCMath is highly recommended to improve the library performance",
         "ext-sodium": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
         "paragonie/sodium_compat": "Sodium is required for OKP key creation, EdDSA signature algorithm and ECDH-ES key encryption with OKP keys",
+        "symfony/console": "Needed to use console commands",
         "symfony/http-client": "To enable JKU/X5U support.",
-        "spomky-labs/aes-key-wrap": "For all Key Wrapping algorithms (A128KW, A192KW, A256KW, A128GCMKW, A192GCMKW, A256GCMKW, PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW...)"
+        "spomky-labs/aes-key-wrap": "For all Key Wrapping algorithms (AxxxKW, AxxxGCMKW, PBES2-HSxxx+AyyyKW...)"
     }
 }

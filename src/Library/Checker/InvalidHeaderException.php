@@ -7,7 +7,7 @@ namespace Jose\Component\Checker;
 use Exception;
 
 /**
- * This exception is thrown by header parameter checkers when a header parameter check failed.
+ * This exception is thrown by header checkers when a header check failed.
  */
 class InvalidHeaderException extends Exception
 {

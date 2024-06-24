@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Performance\JWE;
 
+use Override;
 use PhpBench\Benchmark\Metadata\Annotations\Groups;
 use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
@@ -13,6 +14,7 @@ use PhpBench\Benchmark\Metadata\Annotations\Revs;
  */
 final class RSAOAEP256Bench extends EncryptionBench
 {
+    #[Override]
     public function dataHeadersAndAlgorithms(): array
     {
         return [
@@ -168,6 +170,7 @@ final class RSAOAEP256Bench extends EncryptionBench
         ];
     }
 
+    #[Override]
     public function dataRecipientPublicKeys(): array
     {
         return [
@@ -195,6 +198,7 @@ final class RSAOAEP256Bench extends EncryptionBench
         ];
     }
 
+    #[Override]
     protected function getAAD(): ?string
     {
         return 'A,B,C,D';

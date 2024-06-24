@@ -9,6 +9,7 @@ use Jose\Bundle\JoseFramework\Event\JWSBuiltSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder as BaseJWSBuilder;
+use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
@@ -21,6 +22,7 @@ final class JWSBuilder extends BaseJWSBuilder
         parent::__construct($signatureAlgorithmManager);
     }
 
+    #[Override]
     public function build(): JWS
     {
         try {

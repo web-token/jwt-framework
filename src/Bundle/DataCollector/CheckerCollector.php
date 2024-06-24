@@ -12,6 +12,7 @@ use Jose\Bundle\JoseFramework\Services\ClaimCheckerManager;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManager;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory;
+use Override;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Throwable;
 
-class CheckerCollector implements Collector, EventSubscriberInterface
+final class CheckerCollector implements Collector, EventSubscriberInterface
 {
     /**
      * @var array<Data>
@@ -60,6 +61,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
     /**
      * @param array<string, mixed> $data
      */
+    #[Override]
     public function collect(array &$data, Request $request, Response $response, ?Throwable $exception = null): void
     {
         $this->collectHeaderCheckerManagers($data);
@@ -79,6 +81,7 @@ class CheckerCollector implements Collector, EventSubscriberInterface
         $this->claimCheckerManagers[$id] = $claimCheckerManager;
     }
 
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         return [

@@ -8,10 +8,12 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
+use Override;
 use function in_array;
 
-abstract class RSA implements KeyEncryption
+abstract readonly class RSA implements KeyEncryption
 {
+    #[Override]
     public function allowedKeyTypes(): array
     {
         return ['RSA'];
@@ -21,6 +23,7 @@ abstract class RSA implements KeyEncryption
      * @param array<string, mixed> $completeHeader
      * @param array<string, mixed> $additionalHeader
      */
+    #[Override]
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $this->checkKey($key);
@@ -32,6 +35,7 @@ abstract class RSA implements KeyEncryption
     /**
      * @param array<string, mixed> $header
      */
+    #[Override]
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $this->checkKey($key);
@@ -43,6 +47,7 @@ abstract class RSA implements KeyEncryption
         return RSACrypt::decrypt($priv, $encrypted_cek, $this->getEncryptionMode(), $this->getHashAlgorithm());
     }
 
+    #[Override]
     public function getKeyManagementMode(): string
     {
         return self::MODE_ENCRYPT;

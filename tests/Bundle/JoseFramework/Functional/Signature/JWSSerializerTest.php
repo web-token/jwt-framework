@@ -4,31 +4,21 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
-use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @internal
  */
 final class JWSSerializerTest extends WebTestCase
 {
-    protected function setUp(): void
-    {
-        if (! class_exists(JWSBuilderFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-    }
-
     #[Test]
     public static function jWSSerializerManagerFromConfigurationIsAvailable(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_serializer.jws_serializer1'));
 
         $jws = $container->get('jose.jws_serializer.jws_serializer1');
@@ -41,7 +31,6 @@ final class JWSSerializerTest extends WebTestCase
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
-        static::assertInstanceOf(ContainerInterface::class, $container);
         static::assertTrue($container->has('jose.jws_serializer.jws_serializer2'));
 
         $jws = $container->get('jose.jws_serializer.jws_serializer2');

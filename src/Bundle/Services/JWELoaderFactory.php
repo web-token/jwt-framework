@@ -7,7 +7,7 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-final class JWELoaderFactory
+final readonly class JWELoaderFactory
 {
     public function __construct(
         private readonly JWESerializerManagerFactory $jweSerializerManagerFactory,
@@ -20,27 +20,12 @@ final class JWELoaderFactory
     /**
      * @param array<string> $serializers
      * @param array<string> $encryptionAlgorithms
-     * @param array<string>|null $contentEncryptionAlgorithms
-     * @param array<string>|null $compressionMethods
      * @param array<string> $headerCheckers
      */
-    public function create(
-        array $serializers,
-        array $encryptionAlgorithms,
-        null|array $contentEncryptionAlgorithms = null,
-        null|array $compressionMethods = null,
-        array $headerCheckers = []
-    ): JWELoader {
-        if ($contentEncryptionAlgorithms !== null) {
-            trigger_deprecation(
-                'web-token/jwt-library',
-                '3.3.0',
-                'The parameter "$contentEncryptionAlgorithms" is deprecated and will be removed in 4.0.0. Please set "null" instead.'
-            );
-            $encryptionAlgorithms = array_merge($encryptionAlgorithms, $contentEncryptionAlgorithms);
-        }
+    public function create(array $serializers, array $encryptionAlgorithms, array $headerCheckers = []): JWELoader
+    {
         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
-        $jweDecrypter = $this->jweDecrypterFactory->create($encryptionAlgorithms, null, $compressionMethods);
+        $jweDecrypter = $this->jweDecrypterFactory->create($encryptionAlgorithms);
         if ($this->headerCheckerManagerFactory !== null) {
             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
         } else {

@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 use Symfony\Component\ErrorHandler\ErrorHandler;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-ErrorHandler::register(null, false);
+set_exception_handler([new ErrorHandler(), 'handleException']);

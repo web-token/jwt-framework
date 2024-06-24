@@ -7,18 +7,21 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Component\NestedToken\NestedTokenBuilder as NestedTokenBuilderService;
+use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class NestedTokenBuilder implements Source
+final readonly class NestedTokenBuilder implements Source
 {
+    #[Override]
     public function name(): string
     {
         return 'builders';
     }
 
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         foreach ($configs[$this->name()] as $name => $itemConfig) {
@@ -29,8 +32,6 @@ class NestedTokenBuilder implements Source
                 ->setArguments([
                     $itemConfig['jwe_serializers'],
                     $itemConfig['encryption_algorithms'],
-                    null,
-                    $itemConfig['compression_methods'] === [] ? null : $itemConfig['compression_methods'],
                     $itemConfig['jws_serializers'],
                     $itemConfig['signature_algorithms'],
                 ])
@@ -44,6 +45,7 @@ class NestedTokenBuilder implements Source
         }
     }
 
+    #[Override]
     public function getNodeDefinition(NodeDefinition $node): void
     {
         $node->children()
@@ -52,25 +54,6 @@ class NestedTokenBuilder implements Source
             ->treatFalseLike([])
             ->useAttributeAsKey('name')
             ->arrayPrototype()
-            ->beforeNormalization()
-            ->ifTrue(
-                static fn (array $v) => isset($v['key_encryption_algorithms']) || isset($v['content_encryption_algorithms'])
-            )
-            ->then(static function (array $v) {
-                $v['encryption_algorithms'] = array_merge(
-                    $v['encryption_algorithms'] ?? [],
-                    $v['key_encryption_algorithms'] ?? []
-                );
-                $v['encryption_algorithms'] = array_merge(
-                    $v['encryption_algorithms'],
-                    $v['content_encryption_algorithms'] ?? []
-                );
-                unset($v['key_encryption_algorithms'], $v['content_encryption_algorithms']);
-                $v['encryption_algorithms'] = array_unique(array_values($v['encryption_algorithms']));
-
-                return $v;
-            })
-            ->end()
             ->children()
             ->booleanNode('is_public')
             ->info('If true, the service will be public, else private.')
@@ -84,52 +67,9 @@ class NestedTokenBuilder implements Source
             ->end()
             ->end()
             ->arrayNode('encryption_algorithms')
-            ->info('A list of key or content encryption algorithm aliases.')
+            ->info('A list of key encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
-            ->requiresAtLeastOneElement()
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('key_encryption_algorithms')
-            ->info('A list of key encryption algorithm aliases.')
-            ->setDeprecated(
-                'web-token/jwt-bundle',
-                '3.3.0',
-                'The child node "%node%" at path "%path%" is deprecated and will be removed in 4.0.0. Please use "encryption_algorithms" instead.'
-            )
-            ->useAttributeAsKey('name')
-            ->treatNullLike([])
-            ->treatFalseLike([])
-            ->defaultValue([])
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('content_encryption_algorithms')
-            ->info('A list of key encryption algorithm aliases.')
-            ->setDeprecated(
-                'web-token/jwt-bundle',
-                '3.3.0',
-                'The child node "%node%" at path "%path%" is deprecated and will be removed in 4.0.0. Please use "encryption_algorithms" instead.'
-            )
-            ->useAttributeAsKey('name')
-            ->treatNullLike([])
-            ->treatFalseLike([])
-            ->defaultValue([])
-            ->scalarPrototype()
-            ->end()
-            ->end()
-            ->arrayNode('compression_methods')
-            ->info('A list of compression method aliases.')
-            ->setDeprecated(
-                'web-token/jwt-bundle',
-                '3.3.0',
-                'The child node "%node%" at path "%path%" is deprecated and will be removed in 4.0.0.'
-            )
-            ->useAttributeAsKey('name')
-            ->treatNullLike([])
-            ->treatFalseLike([])
-            ->defaultValue([])
             ->scalarPrototype()
             ->end()
             ->end()
@@ -166,6 +106,7 @@ class NestedTokenBuilder implements Source
             ->end();
     }
 
+    #[Override]
     public function prepend(ContainerBuilder $container, array $config): array
     {
         return [];

@@ -4,19 +4,15 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\NestedToken;
 
-use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
-use Jose\Component\Encryption\Compression\CompressionMethodManagerFactory;
-use Jose\Component\Encryption\Compression\Deflate;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\Serializer as JweSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Component\NestedToken\NestedTokenBuilderFactory;
 use Jose\Component\Signature\Algorithm\PS256;
-use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\Serializer as JwsSerializer;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
@@ -38,19 +34,7 @@ final class NestingTokenBuilderTest extends TestCase
 
     private ?AlgorithmManagerFactory $algorithmManagerFactory = null;
 
-    private ?CompressionMethodManagerFactory $compressionMethodManagerFactory = null;
-
     private ?JWESerializerManagerFactory $jwsSerializerManagerFactory = null;
-
-    protected function setUp(): void
-    {
-        if (! class_exists(HeaderCheckerManagerFactory::class)) {
-            static::markTestSkipped('The component "web-token/jwt-checker" is not installed.');
-        }
-        if (! class_exists(JWSBuilder::class)) {
-            static::markTestSkipped('The component "web-token/jwt-signature" is not installed.');
-        }
-    }
 
     #[DoesNotPerformAssertions]
     #[Test]
@@ -88,7 +72,7 @@ final class NestingTokenBuilderTest extends TestCase
         ]);
 
         $nestedTokenBuilder = $this->getNestedTokenBuilderFactory()
-            ->create(['jwe_compact'], ['RSA-OAEP', 'A128GCM'], null, null, ['jws_compact'], ['PS256']);
+            ->create(['jwe_compact'], ['RSA-OAEP', 'A128GCM'], ['jws_compact'], ['PS256']);
 
         $nestedTokenBuilder->create(
             $payload,
@@ -127,10 +111,7 @@ final class NestingTokenBuilderTest extends TestCase
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
         if ($this->jweBuilderFactory === null) {
-            $this->jweBuilderFactory = new JWEBuilderFactory(
-                $this->getAlgorithmManagerFactory(),
-                $this->getCompressionMethodManagerFactory()
-            );
+            $this->jweBuilderFactory = new JWEBuilderFactory($this->getAlgorithmManagerFactory());
         }
 
         return $this->jweBuilderFactory;
@@ -171,16 +152,6 @@ final class NestingTokenBuilderTest extends TestCase
         }
 
         return $this->algorithmManagerFactory;
-    }
-
-    private function getCompressionMethodManagerFactory(): CompressionMethodManagerFactory
-    {
-        if ($this->compressionMethodManagerFactory === null) {
-            $this->compressionMethodManagerFactory = new CompressionMethodManagerFactory();
-            $this->compressionMethodManagerFactory->add('DEF', new Deflate());
-        }
-
-        return $this->compressionMethodManagerFactory;
     }
 
     private function getJWESerializerManagerFactory(): JweSerializer\JWESerializerManagerFactory

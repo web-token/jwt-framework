@@ -20,7 +20,6 @@ use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use ZxcvbnPhp\Zxcvbn;
 
 return function (ContainerConfigurator $container): void {
     $container = $container->services()
@@ -52,7 +51,5 @@ return function (ContainerConfigurator $container): void {
         $container->set(ES512KeyAnalyzer::class);
     }
 
-    if (class_exists(Zxcvbn::class)) {
-        $container->set(ZxcvbnKeyAnalyzer::class);
-    }
+    $container->set(ZxcvbnKeyAnalyzer::class);
 };
