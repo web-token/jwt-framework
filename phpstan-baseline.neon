@@ -1674,11 +1674,6 @@ parameters:
 			path: src/Library/Core/Util/Base64UrlSafe.php
 
 		-
-			message: "#^Instantiated class Jose\\\\Component\\\\Core\\\\Util\\\\RangeException not found\\.$#"
-			count: 3
-			path: src/Library/Core/Util/Base64UrlSafe.php
-
-		-
 			message: "#^Method Jose\\\\Component\\\\Core\\\\Util\\\\Base64UrlSafe\\:\\:safeSubstr\\(\\) has parameter \\$length with no type specified\\.$#"
 			count: 1
 			path: src/Library/Core/Util/Base64UrlSafe.php
@@ -1686,11 +1681,6 @@ parameters:
 		-
 			message: "#^Throwing object of an unknown class Jose\\\\Component\\\\Core\\\\Util\\\\InvalidArgumentException\\.$#"
 			count: 2
-			path: src/Library/Core/Util/Base64UrlSafe.php
-
-		-
-			message: "#^Throwing object of an unknown class Jose\\\\Component\\\\Core\\\\Util\\\\RangeException\\.$#"
-			count: 3
 			path: src/Library/Core/Util/Base64UrlSafe.php
 
 		-
