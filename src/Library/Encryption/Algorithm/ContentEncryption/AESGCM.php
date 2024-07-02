@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use function extension_loaded;
 use const OPENSSL_RAW_DATA;

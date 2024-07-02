@@ -6,9 +6,9 @@ namespace Jose\Experimental\KeyEncryption;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use LogicException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use function in_array;
 use function is_string;

@@ -6,8 +6,8 @@ namespace Jose\Component\KeyManagement\KeyConverter;
 
 use Brick\Math\BigInteger;
 use InvalidArgumentException;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use OpenSSLCertificate;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;

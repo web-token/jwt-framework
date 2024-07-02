@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use function array_key_exists;
 use function count;
 use function is_array;

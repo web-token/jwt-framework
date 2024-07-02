@@ -10,7 +10,7 @@ use AESKW\A256KW;
 use AESKW\Wrapper as WrapperInterface;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use RuntimeException;
 use function in_array;
 use function is_int;

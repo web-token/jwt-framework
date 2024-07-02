@@ -6,8 +6,8 @@ namespace Jose\Experimental\Signature;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use function extension_loaded;
 use function in_array;
