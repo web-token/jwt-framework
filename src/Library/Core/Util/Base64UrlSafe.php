@@ -27,6 +27,8 @@ namespace Jose\Component\Core\Util;
  *  SOFTWARE.
  */
 
+use RangeException;
+
 /**
  * @readonly
  */
