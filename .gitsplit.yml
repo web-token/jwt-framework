@@ -57,5 +57,5 @@ splits:
     target: "https://${GH_TOKEN}@github.com/web-token/signature-pack.git"
 
 origins:
-  - ^\d+\.\d+\.x$
-  - ^\d+\.\d+\.\d+$
+  - ^(1|2|3)\.\d+\.x$
+  - ^(1|2|3)\.\d+\.\d+$
