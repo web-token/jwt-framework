@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use InvalidArgumentException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use const STR_PAD_LEFT;
 
 /**

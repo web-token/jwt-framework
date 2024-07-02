@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use InvalidArgumentException;
-use ParagonIE\ConstantTime\Base64UrlSafe;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPublicKey;

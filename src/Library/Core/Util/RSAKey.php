@@ -6,7 +6,6 @@ namespace Jose\Component\Core\Util;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;

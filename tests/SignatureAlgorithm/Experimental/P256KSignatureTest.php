@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Tests\SignatureAlgorithm\Experimental;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Experimental\Signature\ES256K;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
