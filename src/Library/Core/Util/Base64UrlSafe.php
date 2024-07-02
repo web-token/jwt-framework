@@ -27,7 +27,10 @@ namespace Jose\Component\Core\Util;
  *  SOFTWARE.
  */
 
-final readonly class Base64UrlSafe
+/**
+ * @readonly
+ */
+final class Base64UrlSafe
 {
     public static function encode(string $binString): string
     {
