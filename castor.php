@@ -77,10 +77,13 @@ function cs(
 }
 
 #[AsTask(description: 'Running PHPStan')]
-function stan(): void
+function stan(bool $baseline = false): void
 {
     io()->title('Running PHPStan');
     $command = ['php', 'vendor/bin/phpstan', 'analyse'];
+    if ($baseline) {
+        $command[] = '--generate-baseline';
+    }
     $environment = [
         'XDEBUG_MODE' => 'off',
     ];

@@ -14,7 +14,7 @@ use function is_bool;
  */
 final class UnencodedPayloadChecker implements HeaderChecker
 {
-    private const string HEADER_NAME = 'b64';
+    private const HEADER_NAME = 'b64';
 
     #[Override]
     public function checkHeader(mixed $value): void

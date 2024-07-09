@@ -13,6 +13,7 @@ use Override;
 use RuntimeException;
 use function in_array;
 use function is_string;
+use function strlen;
 use const OPENSSL_RAW_DATA;
 
 final readonly class Chacha20Poly1305 implements KeyEncryption
@@ -68,7 +69,7 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
         isset($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is missing.');
         is_string($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
         $nonce = Base64UrlSafe::decodeNoPadding($header['nonce']);
-        if (mb_strlen($nonce, '8bit') !== 12) {
+        if (strlen($nonce) !== 12) {
             throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
         }
 

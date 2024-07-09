@@ -1226,6 +1226,11 @@ parameters:
 			path: src/Library/Core/JWKSet.php
 
 		-
+			message: "#^Parameter \\#2 \\$mode of function count expects 0\\|1, int given\\.$#"
+			count: 1
+			path: src/Library/Core/JWKSet.php
+
+		-
 			message: "#^Property Jose\\\\Component\\\\Core\\\\JWKSet\\:\\:\\$keys type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Core/JWKSet.php
@@ -1346,12 +1351,12 @@ parameters:
 			path: src/Library/Encryption/Algorithm/ContentEncryption/AESCBCHS.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, float\\|int\\<1, max\\> given\\.$#"
 			count: 1
 			path: src/Library/Encryption/Algorithm/ContentEncryption/AESCBCHS.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
 			count: 1
 			path: src/Library/Encryption/Algorithm/KeyEncryption/AbstractECDH.php
 
@@ -1761,7 +1766,7 @@ parameters:
 			path: src/Library/KeyManagement/JWKFactory.php
 
 		-
-			message: "#^Parameter \\#3 \\$length of function mb_substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
+			message: "#^Parameter \\#3 \\$length of function substr expects int\\|null, float\\|int\\<min, \\-1\\> given\\.$#"
 			count: 1
 			path: src/Library/KeyManagement/JWKFactory.php
 

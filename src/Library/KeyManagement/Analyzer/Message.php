@@ -9,11 +9,11 @@ use Override;
 
 final readonly class Message implements JsonSerializable
 {
-    final public const string SEVERITY_LOW = 'low';
+    final public const SEVERITY_LOW = 'low';
 
-    final public const string SEVERITY_MEDIUM = 'medium';
+    final public const SEVERITY_MEDIUM = 'medium';
 
-    final public const string SEVERITY_HIGH = 'high';
+    final public const SEVERITY_HIGH = 'high';
 
     private function __construct(
         private string $message,

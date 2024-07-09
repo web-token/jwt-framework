@@ -16,7 +16,6 @@ use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use function in_array;
 use function is_int;
-use function mb_strtolower;
 
 final readonly class JWSEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
@@ -53,7 +52,7 @@ final readonly class JWSEncoder implements EncoderInterface, DecoderInterface, N
 
         try {
             return $this->serializerManager->serialize(
-                mb_strtolower($format),
+                strtolower($format),
                 $data,
                 $this->getSignatureIndex($context)
             );
@@ -90,6 +89,6 @@ final readonly class JWSEncoder implements EncoderInterface, DecoderInterface, N
     private function formatSupported(?string $format): bool
     {
         return $format !== null
-            && in_array(mb_strtolower($format), $this->serializerManager->list(), true);
+            && in_array(strtolower($format), $this->serializerManager->list(), true);
     }
 }

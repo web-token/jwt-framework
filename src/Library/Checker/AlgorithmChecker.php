@@ -15,7 +15,7 @@ use function is_string;
  */
 final readonly class AlgorithmChecker implements HeaderChecker
 {
-    private const string HEADER_NAME = 'alg';
+    private const HEADER_NAME = 'alg';
 
     /**
      * @param string[] $supportedAlgorithms

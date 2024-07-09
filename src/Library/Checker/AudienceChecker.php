@@ -14,7 +14,7 @@ use function is_string;
  */
 final readonly class AudienceChecker implements ClaimChecker, HeaderChecker
 {
-    private const string CLAIM_NAME = 'aud';
+    private const CLAIM_NAME = 'aud';
 
     public function __construct(
         private string $audience,

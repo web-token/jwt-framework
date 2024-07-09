@@ -14,7 +14,7 @@ use function is_int;
  */
 final readonly class NotBeforeChecker implements ClaimChecker, HeaderChecker
 {
-    private const string NAME = 'nbf';
+    private const NAME = 'nbf';
 
     public function __construct(
         private ClockInterface $clock,

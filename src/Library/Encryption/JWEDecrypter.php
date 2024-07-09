@@ -19,6 +19,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Throwable;
 use function is_string;
+use function strlen;
 
 class JWEDecrypter
 {
@@ -166,7 +167,7 @@ class JWEDecrypter
         if ($keyEncryptionAlgorithm instanceof DirectEncryption || $keyEncryptionAlgorithm instanceof KeyAgreement) {
             return;
         }
-        if (mb_strlen($cek, '8bit') * 8 !== $algorithm->getCEKSize()) {
+        if (strlen($cek) * 8 !== $algorithm->getCEKSize()) {
             throw new InvalidArgumentException('Invalid CEK size');
         }
     }
@@ -176,7 +177,7 @@ class JWEDecrypter
         if ($iv === null && $requiredIvSize !== 0) {
             throw new InvalidArgumentException('Invalid IV size');
         }
-        if (is_string($iv) && mb_strlen($iv, '8bit') !== $requiredIvSize / 8) {
+        if (is_string($iv) && strlen($iv) !== $requiredIvSize / 8) {
             throw new InvalidArgumentException('Invalid IV size');
         }
     }

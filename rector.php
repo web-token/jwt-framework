@@ -13,7 +13,7 @@ use Rector\ValueObject\PhpVersion;
 
 return static function (RectorConfig $config): void {
     $config->import(SetList::DEAD_CODE);
-    $config->import(LevelSetList::UP_TO_PHP_83);
+    $config->import(LevelSetList::UP_TO_PHP_82);
     $config->import(SymfonySetList::SYMFONY_64);
     $config->import(SymfonySetList::SYMFONY_50_TYPES);
     $config->import(SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES);
@@ -38,7 +38,7 @@ return static function (RectorConfig $config): void {
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
         __DIR__ . '/src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',
     ]);
-    $config->phpVersion(PhpVersion::PHP_83);
+    $config->phpVersion(PhpVersion::PHP_82);
     $config->parallel();
     $config->importNames();
     $config->importShortClasses();

@@ -38,9 +38,8 @@
         }
     },
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.2",
         "ext-json": "*",
-        "ext-mbstring": "*",
         "brick/math": "^0.12",
         "psr/clock": "^1.0",
         "spomky-labs/pki-framework": "^1.2.1"

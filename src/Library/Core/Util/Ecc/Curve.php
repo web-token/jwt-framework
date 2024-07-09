@@ -153,7 +153,7 @@ final readonly class Curve implements Stringable
         $r = [Point::infinity(), clone $one];
 
         $k = $this->getSize();
-        $n1 = mb_str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT, '8bit');
+        $n1 = str_pad(Math::baseConvert(Math::toString($n), 10, 2), $k, '0', STR_PAD_LEFT);
 
         for ($i = 0; $i < $k; ++$i) {
             $j = $n1[$i];

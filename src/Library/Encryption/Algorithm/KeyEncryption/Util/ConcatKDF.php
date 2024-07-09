@@ -6,6 +6,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use InvalidArgumentException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use function strlen;
 use const STR_PAD_LEFT;
 
 /**
@@ -36,9 +37,9 @@ final readonly class ConcatKDF
         $encryption_segments = [
             self::toInt32Bits(1),                                  // Round number 1
             $Z,                                                          // Z (shared secret)
-            self::toInt32Bits(mb_strlen($algorithm, '8bit')) . $algorithm, // Size of algorithm's name and algorithm
-            self::toInt32Bits(mb_strlen($apu, '8bit')) . $apu,             // PartyUInfo
-            self::toInt32Bits(mb_strlen($apv, '8bit')) . $apv,             // PartyVInfo
+            self::toInt32Bits(strlen($algorithm)) . $algorithm, // Size of algorithm's name and algorithm
+            self::toInt32Bits(strlen($apu)) . $apu,             // PartyUInfo
+            self::toInt32Bits(strlen($apv)) . $apv,             // PartyVInfo
             self::toInt32Bits($encryption_key_size),                     // SuppPubInfo (the encryption key size)
             '',                                                          // SuppPrivInfo
         ];
@@ -46,7 +47,7 @@ final readonly class ConcatKDF
         $input = implode('', $encryption_segments);
         $hash = hash('sha256', $input, true);
 
-        return mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
+        return substr($hash, 0, $encryption_key_size / 8);
     }
 
     /**
@@ -56,7 +57,7 @@ final readonly class ConcatKDF
      */
     private static function toInt32Bits(int $value): string
     {
-        $result = hex2bin(mb_str_pad(dechex($value), 8, '0', STR_PAD_LEFT, '8bit'));
+        $result = hex2bin(str_pad(dechex($value), 8, '0', STR_PAD_LEFT));
         if ($result === false) {
             throw new InvalidArgumentException('Invalid result');
         }

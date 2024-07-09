@@ -18,7 +18,7 @@ use const JSON_THROW_ON_ERROR;
  */
 final class ComposerJsonTest extends TestCase
 {
-    private const string SRC_DIR = __DIR__ . '/../src';
+    private const SRC_DIR = __DIR__ . '/../src';
 
     #[Test]
     public function packageDependenciesEqualRootDependencies(): void

@@ -210,7 +210,7 @@ final class JWKTest extends TestCase
 
         static::assertSame(
             '178f7e93a74ed73d88c29042220b9ae6e4b371cd',
-            mb_strtolower(bin2hex(Base64UrlSafe::decode($key->get('x5t'))))
+            strtolower(bin2hex(Base64UrlSafe::decode($key->get('x5t'))))
         );
         static::assertEqualsCanonicalizing([
             'kty' => 'RSA',

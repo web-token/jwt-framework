@@ -8,6 +8,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Override;
 use function is_string;
+use function strlen;
 
 abstract readonly class HSKeyAnalyzer implements KeyAnalyzer
 {
@@ -27,7 +28,7 @@ abstract readonly class HSKeyAnalyzer implements KeyAnalyzer
             return;
         }
         $k = Base64UrlSafe::decodeNoPadding($k);
-        $kLength = 8 * mb_strlen($k, '8bit');
+        $kLength = 8 * strlen($k);
         if ($kLength < $this->getMinimumKeySize()) {
             $bag->add(
                 Message::high(sprintf(

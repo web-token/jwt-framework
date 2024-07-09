@@ -10,19 +10,19 @@ use Override;
 use SensitiveParameter;
 use function count;
 use function is_string;
-use function mb_strlen;
+use function strlen;
 
 final readonly class ZxcvbnKeyAnalyzer implements KeyAnalyzer
 {
-    public const int STRENGTH_VERY_WEAK = 0;
+    public const STRENGTH_VERY_WEAK = 0;
 
-    public const int STRENGTH_WEAK = 1;
+    public const STRENGTH_WEAK = 1;
 
-    public const int STRENGTH_MEDIUM = 2;
+    public const STRENGTH_MEDIUM = 2;
 
-    public const int STRENGTH_STRONG = 3;
+    public const STRENGTH_STRONG = 3;
 
-    public const int STRENGTH_VERY_STRONG = 4;
+    public const STRENGTH_VERY_STRONG = 4;
 
     #[Override]
     public function analyze(JWK $jwk, MessageBag $bag): void
@@ -67,7 +67,7 @@ final readonly class ZxcvbnKeyAnalyzer implements KeyAnalyzer
      */
     private static function estimateStrength(#[SensitiveParameter] string $password): int
     {
-        if (! $length = mb_strlen($password)) {
+        if (! $length = strlen($password)) {
             return self::STRENGTH_VERY_WEAK;
         }
         $password = count_chars($password, 1);

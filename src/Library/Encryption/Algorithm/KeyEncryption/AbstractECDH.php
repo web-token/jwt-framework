@@ -23,6 +23,7 @@ use function function_exists;
 use function in_array;
 use function is_array;
 use function is_string;
+use function strlen;
 
 abstract readonly class AbstractECDH implements KeyAgreement
 {
@@ -263,7 +264,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
         }
         $hex = $dec->toBase(16);
 
-        if (mb_strlen($hex, '8bit') % 2 !== 0) {
+        if (strlen($hex) % 2 !== 0) {
             $hex = '0' . $hex;
         }
 
@@ -293,8 +294,8 @@ abstract readonly class AbstractECDH implements KeyAgreement
             case 'Ed25519':
                 $keyPair = sodium_crypto_sign_keypair();
                 $secret = sodium_crypto_sign_secretkey($keyPair);
-                $secretLength = mb_strlen($secret, '8bit');
-                $d = mb_substr($secret, 0, -$secretLength / 2, '8bit');
+                $secretLength = strlen($secret);
+                $d = substr($secret, 0, -$secretLength / 2);
                 $x = sodium_crypto_sign_publickey($keyPair);
 
                 break;

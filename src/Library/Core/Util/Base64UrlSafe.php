@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use function strlen;
+
 /**
  *  Copyright (c) 2016 - 2022 Paragon Initiative Enterprises.
  *  Copyright (c) 2014 Steve "Sc00bz" Thomas (steve at tobtu dot com)
@@ -202,7 +204,7 @@ final readonly class Base64UrlSafe
 
     private static function safeStrlen(string $str): int
     {
-        return mb_strlen($str, '8bit');
+        return strlen($str);
     }
 
     private static function safeSubstr(string $str, int $start = 0, $length = null): string
@@ -210,6 +212,6 @@ final readonly class Base64UrlSafe
         if ($length === 0) {
             return '';
         }
-        return mb_substr($str, $start, $length, '8bit');
+        return substr($str, $start, $length);
     }
 }

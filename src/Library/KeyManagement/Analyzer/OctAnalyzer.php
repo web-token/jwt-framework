@@ -8,6 +8,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Override;
 use function is_string;
+use function strlen;
 
 final readonly class OctAnalyzer implements KeyAnalyzer
 {
@@ -24,7 +25,7 @@ final readonly class OctAnalyzer implements KeyAnalyzer
             return;
         }
         $k = Base64UrlSafe::decodeNoPadding($k);
-        $kLength = 8 * mb_strlen($k, '8bit');
+        $kLength = 8 * strlen($k);
         if ($kLength < 128) {
             $bag->add(Message::high('The key length is less than 128 bits.'));
         }

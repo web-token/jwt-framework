@@ -18,6 +18,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use function array_key_exists;
 use function count;
 use function is_array;
+use function strlen;
 
 /**
  * @internal
@@ -201,7 +202,7 @@ final class RSAKey
     private function populateBigIntegers(): void
     {
         $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
-        $this->modulusLength = mb_strlen($this->getModulus()->toBytes(), '8bit');
+        $this->modulusLength = strlen($this->getModulus()->toBytes());
         $this->publicExponent = $this->convertBase64StringToBigInteger($this->values['e']);
 
         if (! $this->isPublic()) {
