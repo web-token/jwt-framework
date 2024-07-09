@@ -38,7 +38,7 @@
         }
     },
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.2",
         "ext-openssl": "*",
         "web-token/jwt-library": "^4.0"
     }

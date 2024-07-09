@@ -104,7 +104,7 @@ final class ECDHESKeyAgreementTest extends TestCase
             207,
         ];
         foreach ($cek as $key => $value) {
-            $cek[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
         $cek = hex2bin(implode('', $cek));
 
@@ -171,7 +171,7 @@ final class ECDHESKeyAgreementTest extends TestCase
             207,
         ];
         foreach ($cek as $key => $value) {
-            $cek[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
         $cek = hex2bin(implode('', $cek));
 
@@ -238,7 +238,7 @@ final class ECDHESKeyAgreementTest extends TestCase
             207,
         ];
         foreach ($cek as $key => $value) {
-            $cek[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
         $cek = hex2bin(implode('', $cek));
 
@@ -311,7 +311,7 @@ final class ECDHESKeyAgreementTest extends TestCase
             207,
         ];
         foreach ($cek as $key => $value) {
-            $cek[$key] = mb_str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+            $cek[$key] = str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
         }
         $cek = hex2bin(implode('', $cek));
 

@@ -14,7 +14,7 @@ use function is_array;
 
 final readonly class JSONFlattenedSerializer extends Serializer
 {
-    public const string NAME = 'jws_json_flattened';
+    public const NAME = 'jws_json_flattened';
 
     #[Override]
     public function displayName(): string

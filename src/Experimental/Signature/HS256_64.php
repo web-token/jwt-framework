@@ -15,7 +15,7 @@ final readonly class HS256_64 extends HMAC
     {
         $signature = parent::hash($key, $input);
 
-        return mb_substr($signature, 0, 8, '8bit');
+        return substr($signature, 0, 8);
     }
 
     #[Override]

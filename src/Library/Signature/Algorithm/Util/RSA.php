@@ -12,6 +12,7 @@ use RuntimeException;
 use function chr;
 use function extension_loaded;
 use function ord;
+use function strlen;
 use const STR_PAD_LEFT;
 
 /**
@@ -22,12 +23,12 @@ final readonly class RSA
     /**
      * Probabilistic Signature Scheme.
      */
-    public const int SIGNATURE_PSS = 1;
+    public const SIGNATURE_PSS = 1;
 
     /**
      * Use the PKCS#1.
      */
-    public const int SIGNATURE_PKCS1 = 2;
+    public const SIGNATURE_PKCS1 = 2;
 
     /**
      * @return non-empty-string
@@ -92,7 +93,7 @@ final readonly class RSA
      */
     public static function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
     {
-        if (mb_strlen($signature, '8bit') !== $key->getModulusLength()) {
+        if (strlen($signature) !== $key->getModulusLength()) {
             throw new RuntimeException();
         }
         $s2 = BigInteger::createFromBinaryString($signature);
@@ -106,11 +107,11 @@ final readonly class RSA
     private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
     {
         $x = $x->toBytes();
-        if (mb_strlen($x, '8bit') > $xLen) {
+        if (strlen($x) > $xLen) {
             throw new RuntimeException();
         }
 
-        return mb_str_pad($x, $xLen, chr(0), STR_PAD_LEFT, '8bit');
+        return str_pad($x, $xLen, chr(0), STR_PAD_LEFT);
     }
 
     /**
@@ -125,7 +126,7 @@ final readonly class RSA
             $t .= $mgfHash->hash($mgfSeed . $c);
         }
 
-        return mb_substr($t, 0, $maskLen, '8bit');
+        return substr($t, 0, $maskLen);
     }
 
     /**
@@ -162,11 +163,11 @@ final readonly class RSA
         if ($emLen < $hash->getLength() + $sLen + 2) {
             throw new InvalidArgumentException();
         }
-        if ($em[mb_strlen($em, '8bit') - 1] !== chr(0xBC)) {
+        if ($em[strlen($em) - 1] !== chr(0xBC)) {
             throw new InvalidArgumentException();
         }
-        $maskedDB = mb_substr($em, 0, -$hash->getLength() - 1, '8bit');
-        $h = mb_substr($em, -$hash->getLength() - 1, $hash->getLength(), '8bit');
+        $maskedDB = substr($em, 0, -$hash->getLength() - 1);
+        $h = substr($em, -$hash->getLength() - 1, $hash->getLength());
         $temp = chr(0xFF << ($emBits & 7));
         if ((~$maskedDB[0] & $temp) !== $temp) {
             throw new InvalidArgumentException();
@@ -175,13 +176,13 @@ final readonly class RSA
         $db = $maskedDB ^ $dbMask;
         $db[0] = ~chr(0xFF << ($emBits & 7)) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;
-        if (mb_substr($db, 0, $temp, '8bit') !== str_repeat(chr(0), $temp)) {
+        if (substr($db, 0, $temp) !== str_repeat(chr(0), $temp)) {
             throw new InvalidArgumentException();
         }
         if (ord($db[$temp]) !== 1) {
             throw new InvalidArgumentException();
         }
-        $salt = mb_substr($db, $temp + 1, null, '8bit'); // should be $sLen long
+        $salt = substr($db, $temp + 1, null); // should be $sLen long
         $m2 = "\0\0\0\0\0\0\0\0" . $mHash . $salt;
         $h2 = $hash->hash($m2);
 

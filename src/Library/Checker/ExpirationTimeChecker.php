@@ -16,7 +16,7 @@ use function is_int;
  */
 final readonly class ExpirationTimeChecker implements ClaimChecker, HeaderChecker
 {
-    private const string NAME = 'exp';
+    private const NAME = 'exp';
 
     public function __construct(
         private ClockInterface $clock,

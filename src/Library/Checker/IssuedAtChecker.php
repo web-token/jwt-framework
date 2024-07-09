@@ -14,7 +14,7 @@ use function is_int;
  */
 final readonly class IssuedAtChecker implements ClaimChecker, HeaderChecker
 {
-    private const string NAME = 'iat';
+    private const NAME = 'iat';
 
     public function __construct(
         private ClockInterface $clock,

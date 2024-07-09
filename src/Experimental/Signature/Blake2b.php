@@ -13,13 +13,14 @@ use RuntimeException;
 use function extension_loaded;
 use function in_array;
 use function is_string;
+use function strlen;
 
 /**
  * @see \Jose\Tests\Component\Signature\Algorithm\Blake2bTest
  */
 final readonly class Blake2b implements MacAlgorithm
 {
-    private const int MINIMUM_KEY_LENGTH = 32;
+    private const MINIMUM_KEY_LENGTH = 32;
 
     public function __construct()
     {
@@ -67,7 +68,7 @@ final readonly class Blake2b implements MacAlgorithm
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
         $key = Base64UrlSafe::decodeNoPadding($k);
-        if (mb_strlen($key, '8bit') < self::MINIMUM_KEY_LENGTH) {
+        if (strlen($key) < self::MINIMUM_KEY_LENGTH) {
             throw new InvalidArgumentException('Key provided is shorter than 256 bits.');
         }
 

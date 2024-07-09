@@ -11,7 +11,6 @@ use LogicException;
 use Override;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use function in_array;
-use function mb_strtolower;
 
 final readonly class JWSSerializer implements DenormalizerInterface
 {
@@ -63,6 +62,6 @@ final readonly class JWSSerializer implements DenormalizerInterface
     private function formatSupported(?string $format): bool
     {
         return $format !== null
-            && in_array(mb_strtolower($format), $this->serializerManager->list(), true);
+            && in_array(strtolower($format), $this->serializerManager->list(), true);
     }
 }

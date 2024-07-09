@@ -417,7 +417,7 @@ final readonly class KeyConverter
         }
 
         $iv = pack('H*', trim($matches[2]));
-        $iv_sub = mb_substr($iv, 0, 8, '8bit');
+        $iv_sub = substr($iv, 0, 8);
         $symkey = pack('H*', md5($password . $iv_sub));
         $symkey .= pack('H*', md5($symkey . $password . $iv_sub));
         $key = preg_replace('#^(?:Proc-Type|DEK-Info): .*#m', '', $pem);
@@ -426,7 +426,7 @@ final readonly class KeyConverter
             throw new InvalidArgumentException('Unable to encode the data.');
         }
 
-        $decoded = openssl_decrypt($ciphertext, mb_strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
+        $decoded = openssl_decrypt($ciphertext, strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
         if ($decoded === false) {
             throw new RuntimeException('Unable to decrypt the key');
         }

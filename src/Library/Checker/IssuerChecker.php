@@ -15,7 +15,7 @@ use function is_string;
  */
 final readonly class IssuerChecker implements ClaimChecker, HeaderChecker
 {
-    private const string CLAIM_NAME = 'iss';
+    private const CLAIM_NAME = 'iss';
 
     public function __construct(
         private array $issuers,

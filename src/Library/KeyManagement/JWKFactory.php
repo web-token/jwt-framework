@@ -18,6 +18,7 @@ use function array_key_exists;
 use function extension_loaded;
 use function is_array;
 use function is_string;
+use function strlen;
 use const JSON_THROW_ON_ERROR;
 use const OPENSSL_KEYTYPE_RSA;
 
@@ -110,8 +111,8 @@ class JWKFactory
             case 'Ed25519':
                 $keyPair = sodium_crypto_sign_keypair();
                 $secret = sodium_crypto_sign_secretkey($keyPair);
-                $secretLength = mb_strlen($secret, '8bit');
-                $d = mb_substr($secret, 0, -$secretLength / 2, '8bit');
+                $secretLength = strlen($secret);
+                $d = substr($secret, 0, -$secretLength / 2);
                 $x = sodium_crypto_sign_publickey($keyPair);
 
                 break;

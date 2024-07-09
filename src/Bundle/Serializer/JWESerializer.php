@@ -11,11 +11,10 @@ use LogicException;
 use Override;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use function in_array;
-use function mb_strtolower;
 
 final readonly class JWESerializer implements DenormalizerInterface
 {
-    private readonly JWESerializerManager $serializerManager;
+    private JWESerializerManager $serializerManager;
 
     public function __construct(
         JWESerializerManagerFactory $serializerManagerFactory,
@@ -63,6 +62,6 @@ final readonly class JWESerializer implements DenormalizerInterface
     private function formatSupported(?string $format): bool
     {
         return $format !== null
-            && in_array(mb_strtolower($format), $this->serializerManager->names(), true);
+            && in_array(strtolower($format), $this->serializerManager->names(), true);
     }
 }

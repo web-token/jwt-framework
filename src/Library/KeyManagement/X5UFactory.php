@@ -31,7 +31,7 @@ class X5UFactory extends UrlKeySetFactory
         $keys = [];
         foreach ($data as $kid => $cert) {
             assert(is_string($cert), 'Invalid content.');
-            if (mb_strpos($cert, '-----BEGIN CERTIFICATE-----') === false) {
+            if (! str_contains($cert, '-----BEGIN CERTIFICATE-----')) {
                 $cert = '-----BEGIN CERTIFICATE-----' . "\n" . $cert . "\n" . '-----END CERTIFICATE-----';
             }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);

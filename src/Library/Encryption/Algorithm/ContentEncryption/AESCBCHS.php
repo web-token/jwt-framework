@@ -9,6 +9,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Override;
 use RuntimeException;
 use function extension_loaded;
+use function strlen;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
@@ -35,7 +36,7 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         string $encoded_protected_header,
         ?string &$tag = null
     ): string {
-        $k = mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
+        $k = substr($cek, $this->getCEKSize() / 16);
         $result = openssl_encrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if ($result === false) {
             throw new RuntimeException('Unable to encrypt the content');
@@ -58,7 +59,7 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         if (! $this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
             throw new RuntimeException('Unable to decrypt or to verify the tag.');
         }
-        $k = mb_substr($cek, $this->getCEKSize() / 16, null, '8bit');
+        $k = substr($cek, $this->getCEKSize() / 16);
 
         $result = openssl_decrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if ($result === false) {
@@ -85,8 +86,8 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         if ($aad !== null) {
             $calculated_aad .= '.' . Base64UrlSafe::encodeUnpadded($aad);
         }
-        $mac_key = mb_substr($cek, 0, $this->getCEKSize() / 16, '8bit');
-        $auth_data_length = mb_strlen($encoded_header, '8bit');
+        $mac_key = substr($cek, 0, $this->getCEKSize() / 16);
+        $auth_data_length = strlen($encoded_header);
 
         $secured_input = implode('', [
             $calculated_aad,
@@ -96,7 +97,7 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         ]);
         $hash = hash_hmac($this->getHashAlgorithm(), $secured_input, $mac_key, true);
 
-        return mb_substr($hash, 0, mb_strlen($hash, '8bit') / 2, '8bit');
+        return substr($hash, 0, strlen($hash) / 2);
     }
 
     protected function isTagValid(
