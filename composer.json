@@ -64,7 +64,7 @@
         "ext-curl": "*",
         "ext-gmp": "*",
         "ext-sodium": "*",
-        "ekino/phpstan-banned-code": "^1.0",
+        "ekino/phpstan-banned-code": "^1.0 || ^2.0",
         "ergebnis/phpunit-slow-test-detector": "^2.14",
         "infection/infection": "^0.29",
         "matthiasnoback/symfony-config-test": "5.1.x-dev",
