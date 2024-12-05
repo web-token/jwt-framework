@@ -169,7 +169,7 @@ class JWECollector implements Collector, EventSubscriberInterface
                 'content_encryption_algorithms' => $jweBuilder->getContentEncryptionAlgorithmManager()
                     ->list(),
                 'compression_methods' => $jweBuilder->getCompressionMethodManager()
-                    ->list(),
+                    ?->list(),
             ];
         }
     }
@@ -187,7 +187,7 @@ class JWECollector implements Collector, EventSubscriberInterface
                 'content_encryption_algorithms' => $jweDecrypter->getContentEncryptionAlgorithmManager()
                     ->list(),
                 'compression_methods' => $jweDecrypter->getCompressionMethodManager()
-                    ->list(),
+                    ?->list(),
             ];
         }
     }
@@ -210,7 +210,7 @@ class JWECollector implements Collector, EventSubscriberInterface
                     ->list(),
                 'compression_methods' => $jweLoader->getJweDecrypter()
                     ->getCompressionMethodManager()
-                    ->list(),
+                    ?->list(),
             ];
         }
     }
