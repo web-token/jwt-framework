@@ -4,6 +4,7 @@ splits:
   - prefix: "src/Library"
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-library.git"
   - prefix: "src/Experimental"
+    target: "https://${GH_TOKEN}@github.com/web-token/jwt-experimental.git"
 
 origins:
   - ^\d+\.\d+\.x$
