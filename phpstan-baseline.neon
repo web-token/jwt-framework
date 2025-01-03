@@ -5503,6 +5503,42 @@ parameters:
 			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
 
 		-
+			message: '#^Parameter \#1 \$details of static method Jose\\Component\\KeyManagement\\KeyConverter\\KeyConverter\:\:tryToLoadECKey\(\) expects array\{type\: int, key\: string\}, non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: '#^Parameter \#1 \$details of static method Jose\\Component\\KeyManagement\\KeyConverter\\KeyConverter\:\:tryToLoadOtherKeyTypes\(\) expects array\{key\: string\}, non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: '#^Parameter \#1 \$input of static method Jose\\Component\\KeyManagement\\KeyConverter\\KeyConverter\:\:tryToLoadED25519Key\(\) expects array\{bits\: int, type\: int, key\: string, ed25519\: array\{pub_key\?\: string, priv_key\?\: string\}\}, non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: '#^Parameter \#1 \$input of static method Jose\\Component\\KeyManagement\\KeyConverter\\KeyConverter\:\:tryToLoadED448Key\(\) expects array\{bits\: int, type\: int, key\: string, ed448\: array\{pub_key\?\: string, priv_key\?\: string\}\}, non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: '#^Parameter \#1 \$input of static method Jose\\Component\\KeyManagement\\KeyConverter\\KeyConverter\:\:tryToLoadX25519Key\(\) expects array\{bits\: int, type\: int, key\: string, x25519\: array\{pub_key\?\: string, priv_key\?\: string\}\}, non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
+			message: '#^Parameter \#1 \$input of static method Jose\\Component\\KeyManagement\\KeyConverter\\KeyConverter\:\:tryToLoadX448Key\(\) expects array\{bits\: int, type\: int, key\: string, x448\: array\{pub_key\?\: string, priv_key\?\: string\}\}, non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Library/KeyManagement/KeyConverter/KeyConverter.php
+
+		-
 			message: '#^Parameter \#1 \$pem of static method Jose\\Component\\KeyManagement\\KeyConverter\\KeyConverter\:\:loadKeyFromPEM\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
