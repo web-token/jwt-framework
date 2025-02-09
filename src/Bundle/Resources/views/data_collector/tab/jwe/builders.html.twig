@@ -8,8 +8,7 @@
     <thead>
     <tr>
         <th>Service ID</th>
-        <th>Key Encryption Algorithms</th>
-        <th>Content Encryption Algorithms</th>
+        <th>Encryption Algorithms</th>
     </tr>
     </thead>
     <tbody>
@@ -19,16 +18,7 @@
                 <td>{{ id }}</td>
                 <td>
                     <ul>
-                        {% for algorithm in data.key_encryption_algorithms %}
-                            <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
-                                {{ algorithm }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {% for algorithm in data.content_encryption_algorithms %}
+                        {% for algorithm in data.encryption_algorithms %}
                             <li class="{% if algorithm in collector.getData().algorithm.messages|keys %}{{ collector.getData().algorithm.messages[algorithm]['severity'] }}{% else %}no-severity{% endif %}">
                                 {{ algorithm }}
                             </li>
