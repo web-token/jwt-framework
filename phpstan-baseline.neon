@@ -4033,10 +4033,22 @@ parameters:
 			path: src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
-			message: '#^Parameter &\$tag by\-ref type of method Jose\\Experimental\\ContentEncryption\\AESCCM\:\:encryptContent\(\) expects string\|null, mixed given\.$#'
-			identifier: parameterByRef.type
+			message: '#^Call to function is_string\(\) with null will always evaluate to false\.$#'
+			identifier: function.impossibleType
 			count: 1
-			path: src/Experimental/ContentEncryption/AESCCM.php
+			path: src/Experimental/KeyEncryption/Chacha20Poly1305.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: src/Experimental/KeyEncryption/Chacha20Poly1305.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 1
+			path: src/Experimental/KeyEncryption/Chacha20Poly1305.php
 
 		-
 			message: '#^Invalid type object to throw\.$#'
@@ -4621,13 +4633,7 @@ parameters:
 			path: src/Library/Encryption/Algorithm/ContentEncryption/AESCBCHS.php
 
 		-
-			message: '#^Parameter &\$tag by\-ref type of method Jose\\Component\\Encryption\\Algorithm\\ContentEncryption\\AESGCM\:\:encryptContent\(\) expects string\|null, mixed given\.$#'
-			identifier: parameterByRef.type
-			count: 1
-			path: src/Library/Encryption/Algorithm/ContentEncryption/AESGCM.php
-
-		-
-			message: '#^Parameter \#1 \$src of static method Jose\\Component\\Core\\Util\\Base64UrlSafe\:\:encodeUnpadded\(\) expects string, mixed given\.$#'
+			message: '#^Parameter \#1 \$src of static method Jose\\Component\\Core\\Util\\Base64UrlSafe\:\:encodeUnpadded\(\) expects string, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Library/Encryption/Algorithm/KeyEncryption/AESGCMKW.php
