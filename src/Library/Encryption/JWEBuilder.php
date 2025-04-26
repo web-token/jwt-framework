@@ -46,9 +46,8 @@ class JWEBuilder
 
     private readonly AlgorithmManager $contentEncryptionAlgorithmManager;
 
-    public function __construct(
-        AlgorithmManager $algorithmManager,
-    ) {
+    public function __construct(AlgorithmManager $algorithmManager)
+    {
         $keyEncryptionAlgorithms = [];
         $contentEncryptionAlgorithms = [];
         foreach ($algorithmManager->all() as $algorithm) {
