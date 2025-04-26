@@ -223,13 +223,13 @@ parameters:
 			path: src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
 		-
-			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:load\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Checker\\ClaimChecker\:\:load\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
 		-
-			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
+			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Checker\\ClaimChecker\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
@@ -757,13 +757,13 @@ parameters:
 			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
-			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:load\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Encryption\\JWEBuilder\:\:load\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
 		-
-			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
+			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Encryption\\AbstractEncryptionSource\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
@@ -2365,13 +2365,13 @@ parameters:
 			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
 		-
-			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:load\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\NestedToken\\NestedTokenBuilder\:\:load\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
 		-
-			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
+			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\NestedToken\\NestedTokenBuilder\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
@@ -3367,13 +3367,13 @@ parameters:
 			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
-			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:load\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Signature\\JWSBuilder\:\:load\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
-			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Source\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
+			message: '#^Parameter \#1 \$node of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\Signature\\AbstractSignatureSource\:\:getNodeDefinition\(\) expects Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
