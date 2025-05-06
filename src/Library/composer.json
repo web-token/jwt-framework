@@ -44,7 +44,7 @@
         "brick/math": "^0.9|^0.10|^0.11|^0.12",
         "paragonie/constant_time_encoding": "^2.6|^3.0",
         "paragonie/sodium_compat": "^1.20|^2.0",
-        "psr/cache": "^3.0",
+        "psr/cache": "^2.0|^3.0",
         "psr/clock": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-client": "^1.0",
