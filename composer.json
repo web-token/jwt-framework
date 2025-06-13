@@ -82,7 +82,7 @@
         "rector/rector": "^1.0|^2.0",
         "roave/security-advisories": "dev-latest",
         "spomky-labs/aes-key-wrap": "^7.0",
-        "staabm/phpstan-dba": "^0.2.79|^0.3",
+        "staabm/phpstan-dba": "^0.2.79|^0.3|^0.4",
         "staabm/phpstan-todo-by": "^0.1.25|^0.2",
         "struggle-for-php/sfp-phpstan-psr-log": "^0.20|^0.21|^0.22|^0.23|^0.24",
         "symfony/browser-kit": "^7.0",
