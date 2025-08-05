@@ -583,14 +583,8 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Compiler/SymfonySerializerCompilerPass.php
 
 		-
-			message: '#^Class "Jose\\Bundle\\JoseFramework\\DependencyInjection\\JoseFrameworkExtension" is not allowed to extend "Symfony\\Component\\HttpKernel\\DependencyInjection\\Extension"\.$#'
+			message: '#^Class "Jose\\Bundle\\JoseFramework\\DependencyInjection\\JoseFrameworkExtension" is not allowed to extend "Symfony\\Component\\DependencyInjection\\Extension\\Extension"\.$#'
 			identifier: ergebnis.noExtends
-			count: 1
-			path: ../src/Bundle/DependencyInjection/JoseFrameworkExtension.php
-
-		-
-			message: '#^Class Jose\\Bundle\\JoseFramework\\DependencyInjection\\JoseFrameworkExtension extends internal class Symfony\\Component\\HttpKernel\\DependencyInjection\\Extension\.$#'
-			identifier: class.extendsInternalClass
 			count: 1
 			path: ../src/Bundle/DependencyInjection/JoseFrameworkExtension.php
 
