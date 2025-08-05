@@ -6349,32 +6349,26 @@ parameters:
 			path: ../src/Library/Console/JKULoaderCommand.php
 
 		-
-			message: '#^Access to undefined constant Jose\\Component\\Console\\KeyAnalyzerCommand\:\:SUCCESS\.$#'
-			identifier: classConstant.notFound
+			message: '#^Class "Jose\\Component\\Console\\KeyAnalyzerCommand" is not allowed to extend "Symfony\\Component\\Console\\Command\\Command"\.$#'
+			identifier: ergebnis.noExtends
 			count: 1
 			path: ../src/Library/Console/KeyAnalyzerCommand.php
 
 		-
-			message: '#^Method Jose\\Component\\Console\\KeyAnalyzerCommand\:\:__invoke\(\) should return int but returns mixed\.$#'
-			identifier: return.type
+			message: '#^Constructor in Jose\\Component\\Console\\KeyAnalyzerCommand has parameter \$name with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
 			count: 1
 			path: ../src/Library/Console/KeyAnalyzerCommand.php
 
 		-
-			message: '#^Method Jose\\Component\\Console\\KeyAnalyzerCommand\:\:configure\(\) is protected, but since the containing class is final, it can be private\.$#'
-			identifier: ergebnis.privateInFinalClass
+			message: '#^Method Jose\\Component\\Console\\KeyAnalyzerCommand\:\:__construct\(\) has parameter \$name with a nullable type declaration\.$#'
+			identifier: ergebnis.noParameterWithNullableTypeDeclaration
 			count: 1
 			path: ../src/Library/Console/KeyAnalyzerCommand.php
 
 		-
-			message: '#^Parameter \#1 \$input of method Jose\\Component\\Console\\KeyAnalyzerCommand\:\:getKey\(\) expects Symfony\\Component\\Console\\Input\\InputInterface, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/KeyAnalyzerCommand.php
-
-		-
-			message: '#^Undefined variable\: \$input$#'
-			identifier: variable.undefined
+			message: '#^Method Jose\\Component\\Console\\KeyAnalyzerCommand\:\:__construct\(\) has parameter \$name with null as default value\.$#'
+			identifier: ergebnis.noParameterWithNullDefaultValue
 			count: 1
 			path: ../src/Library/Console/KeyAnalyzerCommand.php
 
@@ -6385,26 +6379,26 @@ parameters:
 			path: ../src/Library/Console/KeyFileLoaderCommand.php
 
 		-
-			message: '#^Access to undefined constant Jose\\Component\\Console\\KeysetAnalyzerCommand\:\:SUCCESS\.$#'
-			identifier: classConstant.notFound
+			message: '#^Class "Jose\\Component\\Console\\KeysetAnalyzerCommand" is not allowed to extend "Symfony\\Component\\Console\\Command\\Command"\.$#'
+			identifier: ergebnis.noExtends
 			count: 1
 			path: ../src/Library/Console/KeysetAnalyzerCommand.php
 
 		-
-			message: '#^Method Jose\\Component\\Console\\KeysetAnalyzerCommand\:\:__invoke\(\) should return int but returns mixed\.$#'
-			identifier: return.type
+			message: '#^Constructor in Jose\\Component\\Console\\KeysetAnalyzerCommand has parameter \$name with default value\.$#'
+			identifier: ergebnis.noConstructorParameterWithDefaultValue
 			count: 1
 			path: ../src/Library/Console/KeysetAnalyzerCommand.php
 
 		-
-			message: '#^Method Jose\\Component\\Console\\KeysetAnalyzerCommand\:\:configure\(\) is protected, but since the containing class is final, it can be private\.$#'
-			identifier: ergebnis.privateInFinalClass
+			message: '#^Method Jose\\Component\\Console\\KeysetAnalyzerCommand\:\:__construct\(\) has parameter \$name with a nullable type declaration\.$#'
+			identifier: ergebnis.noParameterWithNullableTypeDeclaration
 			count: 1
 			path: ../src/Library/Console/KeysetAnalyzerCommand.php
 
 		-
-			message: '#^Parameter \#1 \$input of method Jose\\Component\\Console\\KeysetAnalyzerCommand\:\:getKeyset\(\) expects Symfony\\Component\\Console\\Input\\InputInterface, mixed given\.$#'
-			identifier: argument.type
+			message: '#^Method Jose\\Component\\Console\\KeysetAnalyzerCommand\:\:__construct\(\) has parameter \$name with null as default value\.$#'
+			identifier: ergebnis.noParameterWithNullDefaultValue
 			count: 1
 			path: ../src/Library/Console/KeysetAnalyzerCommand.php
 
@@ -6417,12 +6411,6 @@ parameters:
 		-
 			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/KeysetAnalyzerCommand.php
-
-		-
-			message: '#^Undefined variable\: \$input$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../src/Library/Console/KeysetAnalyzerCommand.php
 
