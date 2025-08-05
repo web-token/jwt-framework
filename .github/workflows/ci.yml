@@ -220,7 +220,7 @@ jobs:
   infection:
     name: "🧬 Mutation Testing"
     needs: [prepare_dependencies, tests]
-    if: github.ref == 'refs/heads/main'
+    if: ${{ github.ref_name =~ '^[0-9]+\.[0-9]+\.x$' }}
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
@@ -245,7 +245,7 @@ jobs:
             phpunit-
       - name: Execute Infection
         run: castor infect
-  
+
   exported_files:
     name: "📁 Exported Files Check"
     needs: [prepare_dependencies]
@@ -261,131 +261,4 @@ jobs:
           if [[ "$CURRENT" != "$EXPECTED" ]]; then
             echo "❌ Exported files do not match expected list"
             exit 1
-          fi
-  
-  prepare:
-    name: "🧰 Build Preparation"
-    needs: [tests]
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
-    outputs:
-      image_name: ${{ steps.normalize.outputs.name }}
-      short_sha: ${{ steps.sha.outputs.short }}
-      is_tag: ${{ steps.tag.outputs.is_tag }}
-      version: ${{ steps.tag.outputs.version }}
-      major: ${{ steps.tag.outputs.major }}
-      minor: ${{ steps.tag.outputs.minor }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Normalize image name
-        id: normalize
-        run: echo "name=${IMAGE_NAME,,}" >> "$GITHUB_OUTPUT"
-      - name: Extract short SHA
-        id: sha
-        run: echo "short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
-      - name: Extract version from tag
-        id: tag
-        run: |
-          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-            version="${GITHUB_REF#refs/tags/}"
-            major=$(cut -d. -f1 <<< "$version")
-            minor=$(cut -d. -f2 <<< "$version")
-            echo "is_tag=true" >> "$GITHUB_OUTPUT"
-            echo "version=$version" >> "$GITHUB_OUTPUT"
-            echo "major=$major" >> "$GITHUB_OUTPUT"
-            echo "minor=$minor" >> "$GITHUB_OUTPUT"
-          else
-            echo "is_tag=false" >> "$GITHUB_OUTPUT"
-          fi
-  
-  build-amd64:
-    name: "🐳 Build Docker (AMD64)"
-    needs: prepare
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push AMD64 image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          platforms: linux/amd64
-          tags: |
-            ${{ needs.prepare.outputs.image_name }}:amd64
-            ${{ needs.prepare.outputs.image_name }}:${{ needs.prepare.outputs.short_sha }}-amd64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-  
-  build-arm64:
-    name: "🐳 Build Docker (ARM64)"
-    needs: prepare
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push ARM64 image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          platforms: linux/arm64
-          tags: |
-            ${{ needs.prepare.outputs.image_name }}:arm64
-            ${{ needs.prepare.outputs.image_name }}:${{ needs.prepare.outputs.short_sha }}-arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-  
-  manifest:
-    name: "📦 Docker Manifest"
-    needs: [build-amd64, build-arm64, prepare]
-    runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: ${{ needs.prepare.outputs.image_name }}
-      SHORT_SHA: ${{ needs.prepare.outputs.short_sha }}
-      IS_TAG: ${{ needs.prepare.outputs.is_tag }}
-      VERSION: ${{ needs.prepare.outputs.version }}
-      MAJOR: ${{ needs.prepare.outputs.major }}
-      MINOR: ${{ needs.prepare.outputs.minor }}
-      GITHUB_REF: ${{ github.ref }}
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
-    steps:
-      - uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create and push Docker manifest
-        run: |
-          docker buildx imagetools create \
-            --tag $IMAGE_NAME:$SHORT_SHA \
-            $IMAGE_NAME:amd64 \
-            $IMAGE_NAME:arm64
-          
-          if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
-            docker buildx imagetools create \
-              --tag $IMAGE_NAME:latest \
-              $IMAGE_NAME:amd64 \
-              $IMAGE_NAME:arm64
-          fi
-          
-          if [[ "$IS_TAG" == "true" ]]; then
-            docker buildx imagetools create \
-              --tag $IMAGE_NAME:$VERSION \
-              --tag $IMAGE_NAME:$MAJOR \
-              --tag $IMAGE_NAME:$MAJOR.$MINOR \
-              $IMAGE_NAME:amd64 \
-              $IMAGE_NAME:arm64
           fi
