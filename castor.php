@@ -201,8 +201,7 @@ function phpqa(array $command, array $dockerOptions = []): void
         '-e', 'XDEBUG_MODE=off',
     ];
 
-    $phpVersion = getenv('PHP_VERSION')
-        ?: (\PHP_MAJOR_VERSION . '.' . \PHP_MINOR_VERSION)
+    $phpVersion = (getenv('PHP_VERSION') ?: \PHP_MAJOR_VERSION . '.' . \PHP_MINOR_VERSION)
             ?: '8.4';
 
     run([
