@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @internal

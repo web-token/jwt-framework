@@ -7,8 +7,8 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 use Jose\Bundle\JoseFramework\Services\JWSBuilder;
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory as JWSBuilderFactoryService;
 use Jose\Component\Signature\JWSBuilderFactory;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @internal

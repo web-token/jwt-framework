@@ -8,8 +8,8 @@ use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\NestedToken\NestedTokenLoader;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @internal

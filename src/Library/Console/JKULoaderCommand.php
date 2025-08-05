@@ -13,7 +13,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_string;
 
-#[AsCommand(name: 'keyset:load:jku', description: 'Loads a key set from an url.',)]
+#[AsCommand(name: 'keyset:load:jku', description: 'Loads a key set from an url.', help: <<<'TXT'
+This command will try to get a key set from an URL. The distant key set is a JWKSet.
+TXT)]
 final class JKULoaderCommand extends ObjectOutputCommand
 {
     public function __construct(
@@ -27,7 +29,7 @@ final class JKULoaderCommand extends ObjectOutputCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->setHelp('This command will try to get a key set from an URL. The distant key set is a JWKSet.')
+        $this
             ->addArgument('url', InputArgument::REQUIRED, 'The URL');
     }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jose;
+namespace Jose\Tests;
 
 use DirectoryIterator;
 use PHPUnit\Framework\Attributes\Test;

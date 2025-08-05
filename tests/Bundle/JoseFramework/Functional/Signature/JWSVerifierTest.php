@@ -6,8 +6,8 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory as JWSVerifierFactoryService;
 use Jose\Component\Signature\JWSVerifier;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @internal
