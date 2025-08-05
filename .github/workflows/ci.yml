@@ -181,8 +181,6 @@ jobs:
       matrix:
         include:
           - php-version: '8.2'
-            lowest-deps: true
-          - php-version: '8.2'
           - php-version: '8.3'
           - php-version: '8.4'
     container:

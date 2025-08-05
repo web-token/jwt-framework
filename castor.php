@@ -283,9 +283,13 @@ function deptrac(): void
 }
 
 #[AsTask(description: 'Install the dependencies')]
-function install(): void
+function install(bool $lowest = false): void
 {
-    phpqa(['composer', 'install']);
+    $command = ['composer', 'install'];
+    if ($lowest) {
+        $command[] = '--prefer-lowest';
+    }
+    phpqa($command);
 }
 
 #[AsTask(description: 'Run PHP parallel linter')]
