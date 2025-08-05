@@ -8,8 +8,8 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Override;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use function count;
 
 final class JoseFrameworkExtension extends Extension implements PrependExtensionInterface
