@@ -189,6 +189,7 @@ jobs:
       image: ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}
     env:
       XDEBUG_MODE: coverage
+      PHP_VERSION: ${{ matrix.php-version }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4

@@ -201,11 +201,15 @@ function phpqa(array $command, array $dockerOptions = []): void
         '-e', 'XDEBUG_MODE=off',
     ];
 
+    $phpVersion = getenv('PHP_VERSION')
+        ?: (\PHP_MAJOR_VERSION . '.' . \PHP_MINOR_VERSION)
+            ?: '8.4';
+
     run([
         'docker', 'run',
         ...$defaultDockerOptions,
         ...$dockerOptions,
-        'ghcr.io/spomky-labs/phpqa:8.4',
+        sprintf('ghcr.io/spomky-labs/phpqa:%s', $phpVersion),
         ...$command,
     ]);
 }
