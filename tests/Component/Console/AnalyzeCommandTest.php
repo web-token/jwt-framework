@@ -29,10 +29,6 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 final class AnalyzeCommandTest extends KernelTestCase
 {
-    private ?KeyAnalyzerManager $keyAnalyzerManager = null;
-
-    private ?KeysetAnalyzerManager $keysetAnalyzerManager = null;
-
     #[Test]
     public function iCanAnalyzeAKeyAndGetInformation(): void
     {
@@ -91,31 +87,5 @@ final class AnalyzeCommandTest extends KernelTestCase
         static::assertStringContainsString('* The parameter "alg" should be added.', $output);
         static::assertStringContainsString('* The parameter "kid" should be added.', $output);
         static::assertStringContainsString('* The parameter "use" should be added.', $output);
-    }
-
-    private function getKeyAnalyzer(): KeyAnalyzerManager
-    {
-        if ($this->keyAnalyzerManager === null) {
-            $this->keyAnalyzerManager = new KeyAnalyzerManager();
-            $this->keyAnalyzerManager->add(new AlgorithmAnalyzer());
-            $this->keyAnalyzerManager->add(new KeyIdentifierAnalyzer());
-            $this->keyAnalyzerManager->add(new NoneAnalyzer());
-            $this->keyAnalyzerManager->add(new OctAnalyzer());
-            $this->keyAnalyzerManager->add(new RsaAnalyzer());
-            $this->keyAnalyzerManager->add(new UsageAnalyzer());
-        }
-
-        return $this->keyAnalyzerManager;
-    }
-
-    private function getKeysetAnalyzer(): KeysetAnalyzerManager
-    {
-        if ($this->keysetAnalyzerManager === null) {
-            $this->keysetAnalyzerManager = new KeysetAnalyzerManager();
-            $this->keysetAnalyzerManager->add(new MixedKeyTypes());
-            $this->keysetAnalyzerManager->add(new MixedPublicAndPrivateKeys());
-        }
-
-        return $this->keysetAnalyzerManager;
     }
 }
