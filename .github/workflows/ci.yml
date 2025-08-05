@@ -172,7 +172,7 @@ jobs:
       - run: castor deptrac
 
   tests:
-    name: "8️⃣ Unit & Functional Tests"
+    name: "8️⃣ Unit & Functional Tests (PHP ${{ matrix.php-version }})"
     needs:
       - prepare_dependencies
       - phpstan
@@ -183,8 +183,12 @@ jobs:
       - check_licenses
       - deptrac
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.2', '8.3', '8.4', '8.5']
     container:
-      image: ghcr.io/spomky-labs/phpqa:8.4
+      image: ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}
     env:
       XDEBUG_MODE: coverage
     steps:
@@ -195,10 +199,22 @@ jobs:
             vendor
             ~/.composer/cache
           key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+
+      - name: Check if image exists
+        id: check-image
+        run: |
+          if ! docker pull ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}; then
+            echo "Image for PHP ${{ matrix.php-version }} not found"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+  
       - name: Run PHPUnit
+        if: steps.check-image.outputs.skip == 'false'
         run: castor phpunit
       - name: Cache PHPUnit result and coverage
-        if: always()
+        if: always() && steps.check-image.outputs.skip == 'false'
         uses: actions/cache@v4
         with:
           path: |
