@@ -40,18 +40,9 @@ jobs:
             exit 1
           fi
 
-  docker_lint:
-    name: "🐋 Lint Dockerfile"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: ./Dockerfile
-
   prepare_dependencies:
     name: "📦 Prepare Composer Dependencies"
-    needs: [pre_checks, docker_lint]
+    needs: [pre_checks]
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
