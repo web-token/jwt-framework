@@ -7,7 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

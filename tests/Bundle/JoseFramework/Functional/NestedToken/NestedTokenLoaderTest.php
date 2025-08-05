@@ -9,7 +9,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\NestedToken\NestedTokenLoader;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

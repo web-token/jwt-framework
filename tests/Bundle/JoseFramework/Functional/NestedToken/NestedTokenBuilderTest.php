@@ -8,7 +8,7 @@ use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\NestedToken\NestedTokenBuilder;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

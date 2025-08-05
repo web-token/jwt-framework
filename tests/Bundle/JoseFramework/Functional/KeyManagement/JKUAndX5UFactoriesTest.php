@@ -7,7 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

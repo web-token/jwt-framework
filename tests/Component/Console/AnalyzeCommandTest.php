@@ -19,15 +19,15 @@ use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
+use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @internal
  */
-final class AnalyzeCommandTest extends TestCase
+final class AnalyzeCommandTest extends KernelTestCase
 {
     private ?KeyAnalyzerManager $keyAnalyzerManager = null;
 
@@ -36,22 +36,26 @@ final class AnalyzeCommandTest extends TestCase
     #[Test]
     public function iCanAnalyzeAKeyAndGetInformation(): void
     {
+        // Given
         $jwk = new JWK([
             'kty' => 'RSA',
             'n' => '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
             'e' => 'AQAB',
         ]);
 
-        $input = new ArrayInput([
-            'jwk' => JsonConverter::encode($jwk),
-        ]);
-        $output = new BufferedOutput();
-        $command = new KeyAnalyzerCommand($this->getKeyAnalyzer());
-        $command->run($input, $output);
-        $content = $output->fetch();
-        static::assertStringContainsString('* The parameter "alg" should be added.', $content);
-        static::assertStringContainsString('* The parameter "kid" should be added.', $content);
-        static::assertStringContainsString('* The parameter "use" should be added.', $content);
+        $command = (new Application(self::bootKernel()))->find('key:analyze');
+        $commandTester = new CommandTester($command);
+
+        // When
+        $commandTester->execute(['jwk' => JsonConverter::encode($jwk)]);
+
+        // Then
+        $commandTester->assertCommandIsSuccessful();
+        $output = $commandTester->getDisplay();
+
+        static::assertStringContainsString('* The parameter "alg" should be added.', $output);
+        static::assertStringContainsString('* The parameter "kid" should be added.', $output);
+        static::assertStringContainsString('* The parameter "use" should be added.', $output);
     }
 
     #[Test]
@@ -74,17 +78,19 @@ final class AnalyzeCommandTest extends TestCase
             ],
         ]);
 
-        $input = new ArrayInput([
-            'jwkset' => JsonConverter::encode($keyset),
-        ]);
-        $output = new BufferedOutput();
-        $command = new KeysetAnalyzerCommand($this->getKeysetAnalyzer(), $this->getKeyAnalyzer());
-        $command->run($input, $output);
-        $content = $output->fetch();
-        static::assertStringContainsString('Analysing key with index/kid "1"', $content);
-        static::assertStringContainsString('* The parameter "alg" should be added.', $content);
-        static::assertStringContainsString('* The parameter "kid" should be added.', $content);
-        static::assertStringContainsString('* The parameter "use" should be added.', $content);
+        $command = (new Application(self::bootKernel()))->find('keyset:analyze');
+        $commandTester = new CommandTester($command);
+        // When
+        $commandTester->execute(['jwkset' => JsonConverter::encode($keyset)]);
+
+        // Then
+        $commandTester->assertCommandIsSuccessful();
+        $output = $commandTester->getDisplay();
+
+        static::assertStringContainsString('Analysing key with index/kid "1"', $output);
+        static::assertStringContainsString('* The parameter "alg" should be added.', $output);
+        static::assertStringContainsString('* The parameter "kid" should be added.', $output);
+        static::assertStringContainsString('* The parameter "use" should be added.', $output);
     }
 
     private function getKeyAnalyzer(): KeyAnalyzerManager

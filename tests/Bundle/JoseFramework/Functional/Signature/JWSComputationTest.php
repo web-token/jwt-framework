@@ -9,7 +9,7 @@ use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

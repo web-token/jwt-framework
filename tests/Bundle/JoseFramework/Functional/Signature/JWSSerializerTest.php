@@ -6,7 +6,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

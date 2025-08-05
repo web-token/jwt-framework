@@ -1,0 +1,391 @@
+name: 📁 PHP CI & Docker Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['*']
+  pull_request: ~
+  workflow_dispatch: ~
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
+  PHPQA_IMAGE: ghcr.io/spomky-labs/phpqa
+  PHP_VERSION: 8.4
+  ACTIONS_STEP_DEBUG: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  pre_checks:
+    name: "0️⃣ Pre-checks"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Check file permissions"
+        run: |
+          NON_EXECUTABLE=$(find . -type f -not -path './.git/*' -not -path './bin/console' -not -path './frankenphp/docker-entrypoint.sh' -not -path './link' -executable)
+          if [[ -n "$NON_EXECUTABLE" ]]; then
+            echo "Found non-executable files with executable permission:"
+            echo "$NON_EXECUTABLE"
+            exit 1
+          fi
+
+      - name: "Find non-printable ASCII characters"
+        run: |
+          if LC_ALL=C.UTF-8 find . -type f -name "*.php" -print0 | xargs -0 grep -PHn "[[:cntrl:]]"; then
+            echo "Non-printable ASCII characters found"
+            exit 1
+          fi
+
+  docker_lint:
+    name: "🐋 Lint Dockerfile"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ./Dockerfile
+
+  prepare_dependencies:
+    name: "📦 Prepare Composer Dependencies"
+    needs: [pre_checks, docker_lint]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    outputs:
+      cache-key: ${{ steps.cache-key-generator.outputs.key }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: cache-key-generator
+        run: echo "key=composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ steps.cache-key-generator.outputs.key }}
+          restore-keys: |
+            composer-${{ runner.os }}-
+
+      - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: highest
+          composer-options: --optimize-autoloader
+
+  phpstan:
+    name: "1️⃣ Static Analysis (PHPStan)"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - run: castor phpstan
+
+  ecs:
+    name: "2️⃣ Coding Standards (ECS)"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - run: castor ecs
+
+  rector:
+    name: "3️⃣ Refactoring (Rector)"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - run: castor rector
+
+  validate:
+    name: "4️⃣ Validate composer.json"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - run: |
+          composer dump-autoload --optimize --strict-psr
+          composer validate --strict
+          composer normalize --dry-run --diff || true
+
+  lint:
+    name: "5️⃣ Syntax Check"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    steps:
+      - uses: actions/checkout@v4
+      - run: composer exec -- parallel-lint src tests
+
+  check_licenses:
+    name: "6️⃣ License Check"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    steps:
+      - uses: actions/checkout@v4
+      - run: castor check-licenses
+
+  deptrac:
+    name: "7️⃣ Architecture Layer Check (Deptrac)"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - run: castor deptrac
+
+  tests:
+    name: "8️⃣ Unit & Functional Tests"
+    needs:
+      - prepare_dependencies
+      - phpstan
+      - ecs
+      - rector
+      - lint
+      - validate
+      - check_licenses
+      - deptrac
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    env:
+      XDEBUG_MODE: coverage
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - name: Run PHPUnit
+        run: castor phpunit
+      - name: Cache PHPUnit result and coverage
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: |
+            .ci-tools/.phpunit.cache
+            .ci-tools/coverage
+          key: phpunit-${{ needs.prepare_dependencies.outputs.cache-key }}
+          restore-keys: |
+            phpunit-
+
+  infection:
+    name: "🧬 Mutation Testing"
+    needs: [prepare_dependencies, tests]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/spomky-labs/phpqa:8.4
+    env:
+      XDEBUG_MODE: coverage
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - name: Restore PHPUnit result and coverage
+        uses: actions/cache@v4
+        with:
+          path: |
+            .ci-tools/.phpunit.cache
+            .ci-tools/coverage
+          key: phpunit-${{ needs.prepare_dependencies.outputs.cache-key }}
+          restore-keys: |
+            phpunit-
+      - name: Execute Infection
+        run: castor infect
+  
+  exported_files:
+    name: "📁 Exported Files Check"
+    needs: [prepare_dependencies]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check exported files
+        run: |
+          EXPECTED=".env,Dockerfile,README.md,castor.php,compose.prod.yaml,compose.yaml,composer.json,composer.lock,importmap.php,symfony.lock"
+          CURRENT=$(git archive HEAD | tar --list | grep -v '/$' | grep -Ev '^(assets|bin|config|fixtures|frankenphp|migrations|public|src|templates|translations)/' | sort | paste -sd "," -)
+          echo "CURRENT = ${CURRENT}"
+          echo "EXPECTED = ${EXPECTED}"
+          if [[ "$CURRENT" != "$EXPECTED" ]]; then
+            echo "❌ Exported files do not match expected list"
+            exit 1
+          fi
+  
+  prepare:
+    name: "🧰 Build Preparation"
+    needs: [tests]
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    outputs:
+      image_name: ${{ steps.normalize.outputs.name }}
+      short_sha: ${{ steps.sha.outputs.short }}
+      is_tag: ${{ steps.tag.outputs.is_tag }}
+      version: ${{ steps.tag.outputs.version }}
+      major: ${{ steps.tag.outputs.major }}
+      minor: ${{ steps.tag.outputs.minor }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Normalize image name
+        id: normalize
+        run: echo "name=${IMAGE_NAME,,}" >> "$GITHUB_OUTPUT"
+      - name: Extract short SHA
+        id: sha
+        run: echo "short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Extract version from tag
+        id: tag
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            version="${GITHUB_REF#refs/tags/}"
+            major=$(cut -d. -f1 <<< "$version")
+            minor=$(cut -d. -f2 <<< "$version")
+            echo "is_tag=true" >> "$GITHUB_OUTPUT"
+            echo "version=$version" >> "$GITHUB_OUTPUT"
+            echo "major=$major" >> "$GITHUB_OUTPUT"
+            echo "minor=$minor" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_tag=false" >> "$GITHUB_OUTPUT"
+          fi
+  
+  build-amd64:
+    name: "🐳 Build Docker (AMD64)"
+    needs: prepare
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push AMD64 image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ${{ needs.prepare.outputs.image_name }}:amd64
+            ${{ needs.prepare.outputs.image_name }}:${{ needs.prepare.outputs.short_sha }}-amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+  
+  build-arm64:
+    name: "🐳 Build Docker (ARM64)"
+    needs: prepare
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push ARM64 image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/arm64
+          tags: |
+            ${{ needs.prepare.outputs.image_name }}:arm64
+            ${{ needs.prepare.outputs.image_name }}:${{ needs.prepare.outputs.short_sha }}-arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+  
+  manifest:
+    name: "📦 Docker Manifest"
+    needs: [build-amd64, build-arm64, prepare]
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ${{ needs.prepare.outputs.image_name }}
+      SHORT_SHA: ${{ needs.prepare.outputs.short_sha }}
+      IS_TAG: ${{ needs.prepare.outputs.is_tag }}
+      VERSION: ${{ needs.prepare.outputs.version }}
+      MAJOR: ${{ needs.prepare.outputs.major }}
+      MINOR: ${{ needs.prepare.outputs.minor }}
+      GITHUB_REF: ${{ github.ref }}
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create and push Docker manifest
+        run: |
+          docker buildx imagetools create \
+            --tag $IMAGE_NAME:$SHORT_SHA \
+            $IMAGE_NAME:amd64 \
+            $IMAGE_NAME:arm64
+          
+          if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
+            docker buildx imagetools create \
+              --tag $IMAGE_NAME:latest \
+              $IMAGE_NAME:amd64 \
+              $IMAGE_NAME:arm64
+          fi
+          
+          if [[ "$IS_TAG" == "true" ]]; then
+            docker buildx imagetools create \
+              --tag $IMAGE_NAME:$VERSION \
+              --tag $IMAGE_NAME:$MAJOR \
+              --tag $IMAGE_NAME:$MAJOR.$MINOR \
+              $IMAGE_NAME:amd64 \
+              $IMAGE_NAME:arm64
+          fi

@@ -7,7 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 use Jose\Bundle\JoseFramework\Services\JWEBuilder;
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory as JWEBuilderFactoryService;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

@@ -6,7 +6,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Console;
 
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 
 /**
  * @internal

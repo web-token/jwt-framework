@@ -8,7 +8,7 @@ use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory as JWSLoaderFactoryServi
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal

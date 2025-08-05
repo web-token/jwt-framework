@@ -1,6 +1,6 @@
 {
-    "runner.bootstrap": "vendor/autoload.php",
-    "runner.path": "performance",
+    "runner.bootstrap": "../vendor/bootstrap.php",
+    "runner.path": "../performance",
     "runner.progress": "dots",
     "runner.time_unit": "microseconds",
     "runner.retry_threshold": 10,

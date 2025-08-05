@@ -6,7 +6,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use PHPUnit\Framework\Attributes\Test;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 
 /**
  * @internal
