@@ -184,9 +184,8 @@ jobs:
       - deptrac
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        php-version: ['8.2', '8.3', '8.4', '8.5']
+        php-version: ['8.2', '8.3', '8.4']
     container:
       image: ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}
     env:
@@ -199,22 +198,10 @@ jobs:
             vendor
             ~/.composer/cache
           key: ${{ needs.prepare_dependencies.outputs.cache-key }}
-
-      - name: Check if image exists
-        id: check-image
-        run: |
-          if ! docker pull ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}; then
-            echo "Image for PHP ${{ matrix.php-version }} not found"
-            echo "skip=true" >> $GITHUB_OUTPUT
-          else
-            echo "skip=false" >> $GITHUB_OUTPUT
-          fi
-  
       - name: Run PHPUnit
-        if: steps.check-image.outputs.skip == 'false'
         run: castor phpunit
       - name: Cache PHPUnit result and coverage
-        if: always() && steps.check-image.outputs.skip == 'false'
+        if: always()
         uses: actions/cache@v4
         with:
           path: |
