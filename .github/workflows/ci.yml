@@ -192,13 +192,6 @@ jobs:
       PHP_VERSION: ${{ matrix.php-version }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: |
-            vendor
-            ~/.composer/cache
-          key: ${{ needs.prepare_dependencies.outputs.cache-key }}-${{ matrix.php-version }}-${{ matrix.lowest-deps || 'false' }}
-  
       - name: Install dependencies
         run: |
           if [ "${{ matrix.lowest-deps || 'false' }}" = "true" ]; then
@@ -209,17 +202,6 @@ jobs:
   
       - name: Run PHPUnit
         run: castor phpunit
-  
-      - name: Cache PHPUnit result and coverage
-        if: always()
-        uses: actions/cache@v4
-        with:
-          path: |
-            .ci-tools/.phpunit.cache
-            .ci-tools/coverage
-          key: phpunit-${{ needs.prepare_dependencies.outputs.cache-key }}-${{ matrix.php-version }}-${{ matrix.lowest-deps || 'false' }}
-          restore-keys: |
-            phpunit-
 
   infection:
     name: "🧬 Mutation Testing"
@@ -232,21 +214,6 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: |
-            vendor
-            ~/.composer/cache
-          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
-      - name: Restore PHPUnit result and coverage
-        uses: actions/cache@v4
-        with:
-          path: |
-            .ci-tools/.phpunit.cache
-            .ci-tools/coverage
-          key: phpunit-${{ needs.prepare_dependencies.outputs.cache-key }}
-          restore-keys: |
-            phpunit-
       - name: Execute Infection
         run: castor infect
 
