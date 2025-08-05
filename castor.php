@@ -218,7 +218,7 @@ function phpunit(): void
 {
     phpqa(
         [
-            'phpunit',
+            'composer', 'exec', '--', 'phpunit',
             '--coverage-xml', '.ci-tools/coverage',
             '--log-junit=.ci-tools/coverage/junit.xml',
             '--configuration', '.ci-tools/phpunit.xml.dist',
@@ -230,38 +230,40 @@ function phpunit(): void
 #[AsTask(description: 'Run Easy Coding Standard')]
 function ecs(): void
 {
-    phpqa(['ecs', 'check', '--config', '.ci-tools/ecs.php']);
+    phpqa(['composer', 'exec', '--', 'ecs', 'check', '--config', '.ci-tools/ecs.php']);
 }
 
 #[AsTask(description: 'Fix coding style with Easy Coding Standard')]
 function ecs_fix(): void
 {
-    phpqa(['ecs', 'check', '--config', '.ci-tools/ecs.php', '--fix']);
+    phpqa(['composer', 'exec', '--', 'ecs', 'check', '--config', '.ci-tools/ecs.php', '--fix']);
 }
 
 #[AsTask(description: 'Run Rector dry-run')]
 function rector(): void
 {
-    phpqa(['rector', 'process', '--dry-run', '--config', '.ci-tools/rector.php']);
+    phpqa(['composer', 'exec', '--', 'rector', 'process', '--dry-run', '--config', '.ci-tools/rector.php']);
 }
 
 #[AsTask(description: 'Run Rector with fix')]
 function rector_fix(): void
 {
-    phpqa(['rector', 'process', '--config', '.ci-tools/rector.php']);
+    phpqa(['composer', 'exec', '--', 'rector', 'process', '--config', '.ci-tools/rector.php']);
 }
 
 #[AsTask(description: 'Run PHPStan')]
 function phpstan(): void
 {
-    phpqa(['phpstan', 'analyse', '--error-format=github', '--configuration=.ci-tools/phpstan.neon']);
+    phpqa([
+        'composer', 'exec', '--', 'phpstan', 'analyse', '--error-format=github', '--configuration=.ci-tools/phpstan.neon']
+    );
 }
 
 #[AsTask(description: 'Generate PHPStan baseline')]
 function phpstan_baseline(): void
 {
     phpqa([
-        'phpstan', 'analyse',
+        'composer', 'exec', '--', 'phpstan', 'analyse',
         '--configuration=.ci-tools/phpstan.neon',
         '--generate-baseline=.ci-tools/phpstan-baseline.neon',
     ]);
@@ -271,12 +273,18 @@ function phpstan_baseline(): void
 function deptrac(): void
 {
     phpqa([
-        'deptrac',
+        'composer', 'exec', '--', 'deptrac',
         '--config-file', '.ci-tools/deptrac.yaml',
         '--report-uncovered',
         '--report-skipped',
         '--fail-on-uncovered',
     ]);
+}
+
+#[AsTask(description: 'Install the dependencies')]
+function install(): void
+{
+    phpqa(['composer', 'install']);
 }
 
 #[AsTask(description: 'Run PHP parallel linter')]
@@ -289,7 +297,7 @@ function lint(): void
 function infect($minMsi = 0, $minCoveredMsi = 0): void
 {
     phpqa([
-        'infection',
+        'composer', 'exec', '--', 'infection',
         '--coverage=coverage',
         sprintf('--min-msi=%d', $minMsi),
         sprintf('--min-covered-msi=%d', $minCoveredMsi),
@@ -304,5 +312,5 @@ function infect($minMsi = 0, $minCoveredMsi = 0): void
 #[AsTask(description: 'Run QA command', ignoreValidationErrors: true)]
 function qa(#[AsRawTokens] array $args = []): void
 {
-    phpqa($args);
+    phpqa(['composer', 'exec', '--', ...$args]);
 }
