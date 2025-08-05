@@ -254,8 +254,9 @@ function rector_fix(): void
 #[AsTask(description: 'Run PHPStan')]
 function phpstan(): void
 {
-    phpqa([
-        'composer', 'exec', '--', 'phpstan', 'analyse', '--error-format=github', '--configuration=.ci-tools/phpstan.neon']
+    phpqa(
+        [
+            'composer', 'exec', '--', 'phpstan', 'analyse', '--error-format=github', '--configuration=.ci-tools/phpstan.neon']
     );
 }
 
