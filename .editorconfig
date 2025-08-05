@@ -1,38 +1,56 @@
-# https://EditorConfig.org
+# EditorConfig helps developers define and maintain consistent
+# coding styles between different editors and IDEs
+# editorconfig.org
 
 root = true
 
 [*]
-indent_style = space
-# Reduce tab size on GitHub
-indent_size = 4
-end_of_line = lf
+# Change these settings to your own preference
 charset = utf-8
-trim_trailing_whitespace = true
+end_of_line = lf
+indent_size = 4
+indent_style = space
 insert_final_newline = true
-block_comment_start = /*
-block_comment = *
-block_comment_end = */
+trim_trailing_whitespace = true
 
-[{*.yml,*.yaml}]
+[*.{js,html,ts,tsx}]
 indent_size = 2
 
-[*.neon]
-indent_style = tab
+[*.json]
+indent_size = 2
 
 [*.md]
 trim_trailing_whitespace = false
 
-[Makefile]
+[*.sh]
 indent_style = tab
 
-# Generated file
-[*.txt]
-indent_size = unset
-trim_trailing_whitespace = unset
-insert_final_newline = unset
+[*.xml{,.dist}]
+indent_style = space
+indent_size = 4
 
-[{*.p12, *.der}]
-indent_size = unset
-trim_trailing_whitespace = unset
-insert_final_newline = unset
+[*.{yaml,yml}]
+trim_trailing_whitespace = false
+
+[.github/workflows/*.yml]
+indent_size = 2
+
+[.gitmodules]
+indent_style = tab
+
+[.php_cs{,.dist}]
+indent_style = space
+indent_size = 4
+
+[composer.json]
+indent_size = 4
+
+[{,docker-}compose{,.*}.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[{,*.*}Dockerfile]
+indent_style = tab
+
+[{,*.*}Caddyfile]
+indent_style = tab
