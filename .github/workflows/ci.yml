@@ -245,7 +245,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check exported files
         run: |
-          EXPECTED=".env,Dockerfile,README.md,castor.php,compose.prod.yaml,compose.yaml,composer.json,composer.lock,importmap.php,symfony.lock"
+          EXPECTED=".gitsplit.yml,CODE_OF_CONDUCT.md,LICENSE,README.md,SECURITY.md,castor.php,composer.json"
           CURRENT=$(git archive HEAD | tar --list | grep -v '/$' | grep -Ev '^(assets|bin|config|fixtures|frankenphp|migrations|public|src|templates|translations)/' | sort | paste -sd "," -)
           echo "CURRENT = ${CURRENT}"
           echo "EXPECTED = ${EXPECTED}"

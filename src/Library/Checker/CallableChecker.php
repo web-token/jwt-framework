@@ -25,7 +25,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
         private $callable,
         private readonly bool $protectedHeaderOnly = true
     ) {
-        if (! is_callable($this->callable)) { // @phpstan-ignore-line
+        if (! is_callable($this->callable)) {
             throw new InvalidArgumentException('The $callable argument must be a callable.');
         }
     }
