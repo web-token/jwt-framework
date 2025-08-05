@@ -7,12 +7,6 @@ on:
   pull_request: ~
   workflow_dispatch: ~
 
-env:
-  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
-  PHPQA_IMAGE: ghcr.io/spomky-labs/phpqa
-  PHP_VERSION: 8.4
-  ACTIONS_STEP_DEBUG: true
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
@@ -172,7 +166,7 @@ jobs:
       - run: castor deptrac
 
   tests:
-    name: "8️⃣ Unit & Functional Tests (PHP ${{ matrix.php-version }})"
+    name: "8️⃣ Unit & Functional Tests (PHP ${{ matrix.php-version }}${{ matrix.lowest-deps && ' --prefer-lowest' || '' }})"
     needs:
       - prepare_dependencies
       - phpstan
@@ -185,7 +179,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.2', '8.3', '8.4']
+        include:
+          - php-version: '8.2'
+            lowest-deps: true
+          - php-version: '8.2'
+          - php-version: '8.3'
+          - php-version: '8.4'
     container:
       image: ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}
     env:
@@ -197,9 +196,19 @@ jobs:
           path: |
             vendor
             ~/.composer/cache
-          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}-${{ matrix.php-version }}-${{ matrix.lowest-deps || 'false' }}
+  
+      - name: Install dependencies
+        run: |
+          if [ "${{ matrix.lowest-deps || 'false' }}" = "true" ]; then
+            composer update --prefer-lowest --no-interaction --no-progress
+          else
+            composer install --no-interaction --no-progress
+          fi
+  
       - name: Run PHPUnit
         run: castor phpunit
+  
       - name: Cache PHPUnit result and coverage
         if: always()
         uses: actions/cache@v4
@@ -207,7 +216,7 @@ jobs:
           path: |
             .ci-tools/.phpunit.cache
             .ci-tools/coverage
-          key: phpunit-${{ needs.prepare_dependencies.outputs.cache-key }}
+          key: phpunit-${{ needs.prepare_dependencies.outputs.cache-key }}-${{ matrix.php-version }}-${{ matrix.lowest-deps || 'false' }}
           restore-keys: |
             phpunit-
 
