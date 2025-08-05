@@ -4,21 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
-use Jose\Component\Console\KeyAnalyzerCommand;
-use Jose\Component\Console\KeysetAnalyzerCommand;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
-use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
-use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
-use Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer;
-use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
-use Jose\Component\KeyManagement\Analyzer\MixedKeyTypes;
-use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
-use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
-use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
-use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
-use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
 use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -43,7 +31,9 @@ final class AnalyzeCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
 
         // When
-        $commandTester->execute(['jwk' => JsonConverter::encode($jwk)]);
+        $commandTester->execute([
+            'jwk' => JsonConverter::encode($jwk),
+        ]);
 
         // Then
         $commandTester->assertCommandIsSuccessful();
@@ -77,7 +67,9 @@ final class AnalyzeCommandTest extends KernelTestCase
         $command = (new Application(self::bootKernel()))->find('keyset:analyze');
         $commandTester = new CommandTester($command);
         // When
-        $commandTester->execute(['jwkset' => JsonConverter::encode($keyset)]);
+        $commandTester->execute([
+            'jwkset' => JsonConverter::encode($keyset),
+        ]);
 
         // Then
         $commandTester->assertCommandIsSuccessful();

@@ -7,8 +7,8 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory as JWSLoaderFactoryService;
 use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSLoaderFactory;
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

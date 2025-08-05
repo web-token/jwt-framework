@@ -8,8 +8,8 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

@@ -8,8 +8,8 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

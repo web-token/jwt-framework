@@ -10,9 +10,9 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 

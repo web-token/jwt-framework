@@ -11,9 +11,9 @@ use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
+use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 

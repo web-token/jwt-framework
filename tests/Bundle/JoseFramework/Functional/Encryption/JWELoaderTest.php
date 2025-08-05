@@ -6,8 +6,8 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory as JWELoaderFactoryAlias;
 use Jose\Component\Encryption\JWELoader;
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

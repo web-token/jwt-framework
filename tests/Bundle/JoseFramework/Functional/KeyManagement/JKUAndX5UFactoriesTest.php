@@ -6,8 +6,8 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
 use Jose\Component\KeyManagement\JKUFactory;
 use Jose\Component\KeyManagement\X5UFactory;
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Console;
 
+use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Jose\Tests\Bundle\JoseFramework\KernelTestCase;
 
 /**
  * @internal

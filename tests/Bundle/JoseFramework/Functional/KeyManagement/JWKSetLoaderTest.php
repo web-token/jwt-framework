@@ -6,8 +6,8 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
 use Jose\Component\Core\JWKSet;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\MockClientCallback;
-use PHPUnit\Framework\Attributes\Test;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
