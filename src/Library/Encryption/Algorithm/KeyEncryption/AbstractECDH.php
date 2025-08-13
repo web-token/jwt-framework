@@ -89,7 +89,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
                         $publicPem = ECKey::convertPublicKeyToPEM($public_key);
                         $privatePem = ECKey::convertPrivateKeyToPEM($private_key);
 
-                        $res = openssl_pkey_derive($publicPem, $privatePem, $curve->getSize());
+                        $res = openssl_pkey_derive($publicPem, $privatePem);
                         if ($res === false) {
                             throw new RuntimeException('Unable to derive the key');
                         }

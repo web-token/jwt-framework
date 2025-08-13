@@ -2365,7 +2365,7 @@ parameters:
 			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
 		-
-			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\NestedToken\\NestedTokenBuilder\:\:load\(\) expects array, mixed given\.$#'
+			message: '#^Parameter \#1 \$configs of method Jose\\Bundle\\JoseFramework\\DependencyInjection\\Source\\NestedToken\\NestedTokenLoader\:\:load\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
@@ -3797,6 +3797,12 @@ parameters:
 			identifier: class.notFound
 			count: 1
 			path: src/Bundle/Resources/config/Algorithms/signature_experimental.php
+
+		-
+			message: '#^Access to constant on internal class Jose\\Component\\Core\\Util\\Ecc\\NistCurve\.$#'
+			identifier: classConstant.internalClass
+			count: 1
+			path: src/Bundle/Resources/config/analyzers.php
 
 		-
 			message: '#^Method Jose\\Bundle\\JoseFramework\\Serializer\\JWEEncoder\:\:getRecipientIndex\(\) has parameter \$context with no value type specified in iterable type array\.$#'
@@ -5597,6 +5603,12 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/Library/Signature/Algorithm/ECDSA.php
+
+		-
+			message: '#^Call to internal static method ParagonIE_Sodium_Core_Ed25519\:\:publickey_from_secretkey\(\)\.$#'
+			identifier: staticMethod.internal
+			count: 1
+			path: src/Library/Signature/Algorithm/EdDSA.php
 
 		-
 			message: '#^Method Jose\\Component\\Signature\\Algorithm\\RSAPKCS1\:\:sign\(\) should return string but returns mixed\.$#'
