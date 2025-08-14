@@ -320,10 +320,8 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
     protected static function getMethod(string $class, string $name): ReflectionMethod
     {
         $class = new ReflectionClass($class);
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
 
-        return $method;
+        return $class->getMethod($name);
     }
 
     private function convertArrayToBinString(array $data): string
