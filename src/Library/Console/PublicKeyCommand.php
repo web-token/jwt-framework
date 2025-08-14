@@ -18,6 +18,9 @@ use function is_string;
 #[AsCommand(
     name: 'key:convert:public',
     description: 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.',
+    help: <<<'TXT'
+This command converts a private key into a public key.
+TXT
 )]
 final class PublicKeyCommand extends ObjectOutputCommand
 {
@@ -25,7 +28,7 @@ final class PublicKeyCommand extends ObjectOutputCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->setHelp('This command converts a private key into a public key.')
+        $this
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 

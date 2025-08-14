@@ -21,7 +21,9 @@ use function is_array;
 use function is_string;
 use function sprintf;
 
-#[AsCommand(name: 'keyset:analyze', description: 'JWKSet quality analyzer.',)]
+#[AsCommand(name: 'keyset:analyze', description: 'JWKSet quality analyzer.', help: <<<'TXT'
+This command will analyze a JWKSet object and find security issues.
+TXT)]
 final class KeysetAnalyzerCommand extends Command
 {
     public function __construct(
@@ -36,7 +38,7 @@ final class KeysetAnalyzerCommand extends Command
     protected function configure(): void
     {
         parent::configure();
-        $this->setHelp('This command will analyze a JWKSet object and find security issues.')
+        $this
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 

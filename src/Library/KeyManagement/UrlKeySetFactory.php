@@ -25,6 +25,9 @@ abstract class UrlKeySetFactory
         $this->cacheItemPool = new NullAdapter();
     }
 
+    /**
+     * @deprecated since 4.1 and will be removed in 5.0. Please use the Http Client to cache the responses instead.
+     */
     public function enabledCache(CacheItemPoolInterface $cacheItemPool, int $expiresAfter = 3600): void
     {
         $this->cacheItemPool = $cacheItemPool;

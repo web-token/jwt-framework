@@ -9,3 +9,5 @@ vendor/
 src/Bundle/JoseFramework/var/
 infection.txt
 .castor.stub.php
+/tmp*
+/.ci-tools/coverage
