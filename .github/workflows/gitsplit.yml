@@ -3,8 +3,11 @@ on:
   push:
     tags:
       - '*'
+    branches:
+      - '*.*.x'
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   gitsplit:
