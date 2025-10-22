@@ -220,7 +220,7 @@ final class ECDHESA192KWBench extends EncryptionBench
     }
 
     #[Override]
-    protected function getAAD(): ?string
+    protected function getAAD(): string
     {
         return 'A,B,C,D';
     }

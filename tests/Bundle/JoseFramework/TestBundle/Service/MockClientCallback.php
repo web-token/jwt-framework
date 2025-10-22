@@ -12,7 +12,7 @@ final class MockClientCallback extends MockHttpClient
 {
     private null|MockResponse $response = null;
 
-    public function __invoke(string $method, string $url, array $options = []): ?MockResponse
+    public function __invoke(string $method, string $url, array $options = []): MockResponse
     {
         if ($this->response === null) {
             throw new RuntimeException(sprintf(
