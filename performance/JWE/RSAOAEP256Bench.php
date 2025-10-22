@@ -199,7 +199,7 @@ final class RSAOAEP256Bench extends EncryptionBench
     }
 
     #[Override]
-    protected function getAAD(): ?string
+    protected function getAAD(): string
     {
         return 'A,B,C,D';
     }
