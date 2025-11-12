@@ -97,7 +97,7 @@ final readonly class ECSignature
 
         while (str_starts_with($data, self::ASN1_NEGATIVE_INTEGER)
             && substr($data, 2, self::BYTE_SIZE) <= self::ASN1_BIG_INTEGER_LIMIT) {
-            $data = substr($data, 2, null);
+            $data = substr($data, 2);
         }
 
         return $data;

@@ -29,13 +29,18 @@ final readonly class UsageAnalyzer implements KeyAnalyzer
         if ($jwk->has('key_ops')) {
             $key_ops = $jwk->get('key_ops');
             if (! is_array($key_ops)) {
-                $bag->add(
-                    Message::high(
-                        'The parameter "key_ops" must be an array of key operation values.'
-                    )
-                );
+                $bag->add(Message::high('The parameter "key_ops" must be an array of key operation values.'));
             } else {
-                $allowedOps = ['sign', 'verify', 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits'];
+                $allowedOps = [
+                    'sign',
+                    'verify',
+                    'encrypt',
+                    'decrypt',
+                    'wrapKey',
+                    'unwrapKey',
+                    'deriveKey',
+                    'deriveBits',
+                ];
                 $unsupportedOps = array_diff($key_ops, $allowedOps);
                 if ($unsupportedOps !== []) {
                     $bag->add(

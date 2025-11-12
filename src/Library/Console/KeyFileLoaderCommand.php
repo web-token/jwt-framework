@@ -22,7 +22,7 @@ final class KeyFileLoaderCommand extends GeneratorCommand
     {
         parent::configure();
         $this->addArgument('file', InputArgument::REQUIRED, 'Filename of the key.')
-            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.', null);
+            ->addOption('secret', 's', InputOption::VALUE_OPTIONAL, 'Secret if the key is encrypted.');
     }
 
     #[Override]

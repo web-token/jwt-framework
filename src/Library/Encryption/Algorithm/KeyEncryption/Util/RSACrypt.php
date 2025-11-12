@@ -98,7 +98,7 @@ final readonly class RSACrypt
             throw new InvalidArgumentException('Unable to decrypt');
         }
         $ps = substr($em, 2, (int) strpos($em, chr(0), 2) - 2);
-        $m = substr($em, strlen($ps) + 3, null);
+        $m = substr($em, strlen($ps) + 3);
         if (strlen($ps) < 8) {
             throw new InvalidArgumentException('Unable to decrypt');
         }

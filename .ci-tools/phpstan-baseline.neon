@@ -9441,7 +9441,7 @@ parameters:
 		-
 			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
 			identifier: argument.type
-			count: 2
+			count: 1
 			path: ../src/Library/KeyManagement/Analyzer/UsageAnalyzer.php
 
 		-
