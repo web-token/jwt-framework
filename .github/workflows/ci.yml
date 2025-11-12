@@ -2,7 +2,7 @@ name: 📁 PHP CI & Docker Build
 
 on:
   push:
-    branches: [main]
+    branches: ['*.x']
     tags: ['*']
   pull_request: ~
   workflow_dispatch: ~
