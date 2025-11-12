@@ -6,7 +6,9 @@ namespace Jose\Component\KeyManagement\Analyzer;
 
 use Jose\Component\Core\JWK;
 use Override;
+use function array_diff;
 use function in_array;
+use function is_array;
 use function sprintf;
 
 final readonly class UsageAnalyzer implements KeyAnalyzer
@@ -24,18 +26,27 @@ final readonly class UsageAnalyzer implements KeyAnalyzer
                 ))
             );
         }
-        if ($jwk->has('key_ops') && ! in_array(
-            $jwk->get('key_ops'),
-            ['sign', 'verify', 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey'],
-            true
-        )) {
-            $bag->add(
-                Message::high(sprintf(
-                    'The parameter "key_ops" has an unsupported value "%s". Please use one of the following values: %s.',
-                    $jwk->get('key_ops'),
-                    implode(', ', ['verify', 'sign', 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey'])
-                ))
-            );
+        if ($jwk->has('key_ops')) {
+            $key_ops = $jwk->get('key_ops');
+            if (! is_array($key_ops)) {
+                $bag->add(
+                    Message::high(
+                        'The parameter "key_ops" must be an array of key operation values.'
+                    )
+                );
+            } else {
+                $allowedOps = ['sign', 'verify', 'encrypt', 'decrypt', 'wrapKey', 'unwrapKey', 'deriveKey', 'deriveBits'];
+                $unsupportedOps = array_diff($key_ops, $allowedOps);
+                if ($unsupportedOps !== []) {
+                    $bag->add(
+                        Message::high(sprintf(
+                            'The parameter "key_ops" contains unsupported values: "%s". Please use only the following values: %s.',
+                            implode('", "', $unsupportedOps),
+                            implode(', ', $allowedOps)
+                        ))
+                    );
+                }
+            }
         }
     }
 }
