@@ -27,7 +27,9 @@ namespace Jose\Component\Core\Util;
  *  SOFTWARE.
  */
 
+use InvalidArgumentException;
 use RangeException;
+use SodiumException;
 
 /**
  * @readonly
@@ -36,11 +38,25 @@ final class Base64UrlSafe
 {
     public static function encode(string $binString): string
     {
+        if (extension_loaded('sodium')) {
+            try {
+                return sodium_bin2base64($binString, SODIUM_BASE64_VARIANT_URLSAFE);
+            } catch (SodiumException $ex) {
+                throw new RangeException($ex->getMessage(), $ex->getCode(), $ex);
+            }
+        }
         return static::doEncode($binString, true);
     }
 
     public static function encodeUnpadded(string $src): string
     {
+        if (extension_loaded('sodium')) {
+            try {
+                return sodium_bin2base64($src, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
+            } catch (SodiumException $ex) {
+                throw new RangeException($ex->getMessage(), $ex->getCode(), $ex);
+            }
+        }
         return static::doEncode($src, false);
     }
 
@@ -65,6 +81,16 @@ final class Base64UrlSafe
             }
             if ($encodedString[$srcLen - 1] === '=') {
                 throw new RangeException('Incorrect padding');
+            }
+            if (extension_loaded('sodium')) {
+                try {
+                    return sodium_base642bin(
+                        self::safeSubstr($encodedString, 0, $srcLen),
+                        SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING
+                    );
+                } catch (SodiumException $ex) {
+                    throw new RangeException($ex->getMessage(), $ex->getCode(), $ex);
+                }
             }
         } else {
             $encodedString = rtrim($encodedString, '=');
@@ -128,13 +154,8 @@ final class Base64UrlSafe
             return '';
         }
         if (($srcLen & 3) === 0) {
-            if ($encodedString[$srcLen - 1] === '=') {
+            if ($encodedString[$srcLen - 1] === '=' || $encodedString[$srcLen - 2] === '=') {
                 throw new InvalidArgumentException("decodeNoPadding() doesn't tolerate padding");
-            }
-            if (($srcLen & 3) > 1) {
-                if ($encodedString[$srcLen - 2] === '=') {
-                    throw new InvalidArgumentException("decodeNoPadding() doesn't tolerate padding");
-                }
             }
         }
         return static::decode($encodedString, true);
