@@ -18,9 +18,6 @@ use function is_string;
 #[AsCommand(
     name: 'keyset:convert:public',
     description: 'Convert private keys in a key set into public keys. Symmetric keys (shared keys) are not changed.',
-    help: <<<'TXT'
-This command converts private keys in a key set into public keys.
-TXT
 )]
 final class PublicKeysetCommand extends ObjectOutputCommand
 {
@@ -29,6 +26,7 @@ final class PublicKeysetCommand extends ObjectOutputCommand
     {
         parent::configure();
         $this
+            ->setHelp('This command converts private keys in a key set into public keys.')
             ->addArgument('jwkset', InputArgument::REQUIRED, 'The JWKSet object');
     }
 

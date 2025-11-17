@@ -601,12 +601,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/JoseFrameworkExtension.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension::getAlias() has Symfony\Component\DependencyInjection\Exception\BadMethodCallException in PHPDoc @throws tag but it''s not thrown.'
-			identifier: throws.unusedType
-			count: 1
-			path: ../src/Bundle/DependencyInjection/JoseFrameworkExtension.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension::getConfiguration() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -5371,12 +5365,6 @@ parameters:
 			path: ../src/Bundle/Resources/config/analyzers.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\Routing\JWKSetLoader::load() has Exception in PHPDoc @throws tag but it''s not thrown.'
-			identifier: throws.unusedType
-			count: 1
-			path: ../src/Bundle/Routing/JWKSetLoader.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Routing\JWKSetLoader::load() has parameter $type with a nullable type declaration.'
 			identifier: ergebnis.noParameterWithNullableTypeDeclaration
 			count: 1
@@ -5463,12 +5451,6 @@ parameters:
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Serializer\JWESerializer::__construct() has parameter $serializerManager with null as default value.'
 			identifier: ergebnis.noParameterWithNullDefaultValue
-			count: 1
-			path: ../src/Bundle/Serializer/JWESerializer.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\Serializer\JWESerializer::denormalize() has Symfony\Component\Serializer\Exception\ExceptionInterface in PHPDoc @throws tag but it''s not thrown.'
-			identifier: throws.unusedType
 			count: 1
 			path: ../src/Bundle/Serializer/JWESerializer.php
 
@@ -5571,12 +5553,6 @@ parameters:
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Serializer\JWSSerializer::__construct() has parameter $serializerManager with null as default value.'
 			identifier: ergebnis.noParameterWithNullDefaultValue
-			count: 1
-			path: ../src/Bundle/Serializer/JWSSerializer.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\Serializer\JWSSerializer::denormalize() has Symfony\Component\Serializer\Exception\ExceptionInterface in PHPDoc @throws tag but it''s not thrown.'
-			identifier: throws.unusedType
 			count: 1
 			path: ../src/Bundle/Serializer/JWSSerializer.php
 
@@ -9717,12 +9693,6 @@ parameters:
 		-
 			rawMessage: 'Method Jose\Component\KeyManagement\KeyConverter\KeyConverter::sanitizePEM() has parameter $pem that is passed by reference.'
 			identifier: ergebnis.noParameterPassedByReference
-			count: 1
-			path: ../src/Library/KeyManagement/KeyConverter/KeyConverter.php
-
-		-
-			rawMessage: 'Parameter #1 $certificate of static method Jose\Component\KeyManagement\KeyConverter\KeyConverter::loadKeyFromCertificate() expects string, mixed given.'
-			identifier: argument.type
 			count: 1
 			path: ../src/Library/KeyManagement/KeyConverter/KeyConverter.php
 

@@ -16,7 +16,7 @@ jobs:
     name: "0️⃣ Pre-checks"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: "Check file permissions"
         run: |
@@ -43,7 +43,7 @@ jobs:
     outputs:
       cache-key: ${{ steps.cache-key-generator.outputs.key }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - id: cache-key-generator
         run: echo "key=composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}" >> $GITHUB_OUTPUT
@@ -69,7 +69,7 @@ jobs:
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: |
@@ -85,7 +85,7 @@ jobs:
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: |
@@ -101,7 +101,7 @@ jobs:
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: |
@@ -117,7 +117,7 @@ jobs:
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: |
@@ -136,7 +136,7 @@ jobs:
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: composer exec -- parallel-lint src tests
 
   check_licenses:
@@ -146,7 +146,7 @@ jobs:
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: castor check-licenses
 
   deptrac:
@@ -156,7 +156,7 @@ jobs:
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/cache@v4
         with:
           path: |
@@ -166,7 +166,7 @@ jobs:
       - run: castor deptrac
 
   tests:
-    name: "8️⃣ Unit & Functional Tests (PHP ${{ matrix.php-version }}${{ matrix.lowest-deps && ' --prefer-lowest' || '' }})"
+    name: "🧪 Unit & Functional Tests (PHP ${{ matrix.php-version }}${{ matrix.lowest-deps && ' - Lowest Deps' || '' }})"
     needs:
       - prepare_dependencies
       - phpstan
@@ -177,19 +177,25 @@ jobs:
       - check_licenses
       - deptrac
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - php-version: '8.2'
+            lowest-deps: true
+          - php-version: '8.2'
           - php-version: '8.3'
           - php-version: '8.4'
+          - php-version: '8.5'
+            experimental: true
     container:
       image: ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}
     env:
       XDEBUG_MODE: coverage
       PHP_VERSION: ${{ matrix.php-version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install dependencies
         run: |
           if [ "${{ matrix.lowest-deps || 'false' }}" = "true" ]; then
@@ -197,7 +203,7 @@ jobs:
           else
             composer install --no-interaction --no-progress
           fi
-  
+
       - name: Run PHPUnit
         run: castor phpunit
 
@@ -211,7 +217,7 @@ jobs:
     env:
       XDEBUG_MODE: coverage
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Execute Infection
         run: castor infect
 
@@ -220,7 +226,7 @@ jobs:
     needs: [prepare_dependencies]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Check exported files
         run: |
           EXPECTED=".gitsplit.yml,CODE_OF_CONDUCT.md,LICENSE,README.md,SECURITY.md,castor.php,composer.json"
