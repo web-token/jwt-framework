@@ -18,6 +18,22 @@ use Symfony\Component\Console\Tester\CommandTester;
 final class AnalyzeCommandTest extends KernelTestCase
 {
     #[Test]
+    public function commandsHaveHelpTextDefined(): void
+    {
+        // Given
+        $application = new Application(self::bootKernel());
+
+        // When & Then - Verify help text is set for all analyze commands
+        $keyAnalyzeCommand = $application->find('key:analyze');
+        static::assertNotEmpty($keyAnalyzeCommand->getHelp(), 'key:analyze command should have help text');
+        static::assertStringContainsString('JWK object', $keyAnalyzeCommand->getHelp());
+
+        $keysetAnalyzeCommand = $application->find('keyset:analyze');
+        static::assertNotEmpty($keysetAnalyzeCommand->getHelp(), 'keyset:analyze command should have help text');
+        static::assertStringContainsString('JWKSet object', $keysetAnalyzeCommand->getHelp());
+    }
+
+    #[Test]
     public function iCanAnalyzeAKeyAndGetInformation(): void
     {
         // Given

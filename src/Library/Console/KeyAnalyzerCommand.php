@@ -18,9 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function is_array;
 use function is_string;
 
-#[AsCommand(name: 'key:analyze', description: 'JWK quality analyzer.', help: <<<'TXT'
-This command will analyze a JWK object and find security issues.
-TXT)]
+#[AsCommand(name: 'key:analyze', description: 'JWK quality analyzer.')]
 final class KeyAnalyzerCommand extends Command
 {
     public function __construct(
@@ -35,6 +33,7 @@ final class KeyAnalyzerCommand extends Command
     {
         parent::configure();
         $this
+            ->setHelp('This command will analyze a JWK object and find security issues.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
