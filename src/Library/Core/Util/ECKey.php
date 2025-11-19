@@ -32,6 +32,7 @@ final readonly class ECKey
     {
         $der = match ($jwk->get('crv')) {
             'P-256' => self::p256PublicKey(),
+            'BP-256' => self::p256PublicKey(),
             'secp256k1' => self::p256KPublicKey(),
             'P-384' => self::p384PublicKey(),
             'P-521' => self::p521PublicKey(),
@@ -48,6 +49,7 @@ final readonly class ECKey
     {
         $der = match ($jwk->get('crv')) {
             'P-256' => self::p256PrivateKey($jwk),
+            'BP-256' => self::p256PrivateKey($jwk),
             'secp256k1' => self::p256KPrivateKey($jwk),
             'P-384' => self::p384PrivateKey($jwk),
             'P-521' => self::p521PrivateKey($jwk),
@@ -77,7 +79,7 @@ final readonly class ECKey
     private static function getNistCurveSize(string $curve): int
     {
         return match ($curve) {
-            'P-256', 'secp256k1' => 256,
+            'P-256', 'BP-256', 'secp256k1' => 256,
             'P-384' => 384,
             'P-521' => 521,
             default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve)),
@@ -130,6 +132,7 @@ final readonly class ECKey
     {
         return match ($curve) {
             'P-256' => 'prime256v1',
+            'BP-256' => 'brainpoolP256r1',
             'secp256k1' => 'secp256k1',
             'P-384' => 'secp384r1',
             'P-521' => 'secp521r1',
