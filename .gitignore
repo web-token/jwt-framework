@@ -11,3 +11,4 @@ infection.txt
 .castor.stub.php
 /tmp*
 /.ci-tools/coverage
+/var/cache
