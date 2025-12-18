@@ -589,12 +589,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Compiler/SymfonySerializerCompilerPass.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Configuration::getConfigTreeBuilder() return type with generic class Symfony\Component\Config\Definition\Builder\TreeBuilder does not specify its types: T'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Configuration.php
-
-		-
 			rawMessage: Class "Jose\Bundle\JoseFramework\DependencyInjection\JoseFrameworkExtension" is not allowed to extend "Symfony\Component\DependencyInjection\Extension\Extension".
 			identifier: ergebnis.noExtends
 			count: 1
@@ -691,12 +685,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/AbstractSource.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/AbstractSource.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource::addConfiguration() is not final, but since the containing class is abstract, it should be.'
 			identifier: ergebnis.finalInAbstractClass
 			count: 1
@@ -783,12 +771,6 @@ parameters:
 		-
 			rawMessage: 'Cannot call method treatNullLike() on mixed.'
 			identifier: method.nonObject
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
@@ -951,12 +933,6 @@ parameters:
 		-
 			rawMessage: 'Cannot call method variablePrototype() on mixed.'
 			identifier: method.nonObject
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\ClaimChecker::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
@@ -1129,12 +1105,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\HeaderChecker::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\HeaderChecker::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -1189,12 +1159,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Console\ConsoleSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Console/ConsoleSource.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Console\ConsoleSource::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -1223,12 +1187,6 @@ parameters:
 			identifier: missingType.iterableValue
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Console/ConsoleSource.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Core/CoreSource.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
@@ -1351,12 +1309,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\AbstractEncryptionSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\AbstractEncryptionSource::getNodeDefinition() is not final, but since the containing class is abstract, it should be.'
 			identifier: ergebnis.finalInAbstractClass
 			count: 1
@@ -1431,12 +1383,6 @@ parameters:
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource::getAlgorithmsFiles() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/EncryptionSource.php
 
@@ -1759,12 +1705,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\JWELoader::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\JWELoader::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -1939,12 +1879,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWESerializer.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\JWESerializer::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWESerializer.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\JWESerializer::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -2059,12 +1993,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JKUSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JKUSource::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -2175,12 +2103,6 @@ parameters:
 		-
 			rawMessage: 'Cannot call method validate() on mixed.'
 			identifier: method.nonObject
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource.php
 
@@ -2317,12 +2239,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JKU.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JKU::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JKU.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JKU::createDefinition() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -2365,22 +2281,10 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JWKSet.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSet::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JWKSet.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSet::createDefinition() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JWKSet.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource::addConfiguration() has parameter $builder with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/JWKSetSource.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\JWKSetSource::create() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
@@ -2451,12 +2355,6 @@ parameters:
 		-
 			rawMessage: Class "Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\X5U" is not allowed to extend "Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource".
 			identifier: ergebnis.noExtends
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/X5U.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSetSource\X5U::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSetSource/X5U.php
 
@@ -2541,12 +2439,6 @@ parameters:
 		-
 			rawMessage: 'Cannot call method validate() on mixed.'
 			identifier: method.nonObject
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource.php
 
@@ -2677,12 +2569,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/CertificateFile.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\CertificateFile::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/CertificateFile.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\CertificateFile::createDefinition() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -2721,12 +2607,6 @@ parameters:
 		-
 			rawMessage: Class "Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWK" is not allowed to extend "Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource".
 			identifier: ergebnis.noExtends
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWK.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWK::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWK.php
 
@@ -2797,12 +2677,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSet::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSet::createDefinition() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -2813,12 +2687,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWKSet.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSource::addConfiguration() has parameter $builder with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/JWKSource.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\JWKSource::create() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
@@ -2889,12 +2757,6 @@ parameters:
 		-
 			rawMessage: Class "Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\KeyFile" is not allowed to extend "Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource".
 			identifier: ergebnis.noExtends
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/KeyFile.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\KeyFile::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/KeyFile.php
 
@@ -2971,12 +2833,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/P12.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\P12::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/P12.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\P12::createDefinition() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -3043,12 +2899,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/Secret.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Secret::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/Secret.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Secret::createDefinition() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -3099,12 +2949,6 @@ parameters:
 		-
 			rawMessage: Class "Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Values" is not allowed to extend "Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource".
 			identifier: ergebnis.noExtends
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/Values.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\Values::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/Values.php
 
@@ -3171,12 +3015,6 @@ parameters:
 		-
 			rawMessage: Class "Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\X5C" is not allowed to extend "Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource".
 			identifier: ergebnis.noExtends
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/X5C.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKSource\X5C::addConfiguration() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKSource/X5C.php
 
@@ -3307,12 +3145,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKUriSource.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKUriSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKUriSource.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWKUriSource::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -3373,12 +3205,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JWKUriSource.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManagementSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/KeyManagementSource.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManagementSource::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -3429,12 +3255,6 @@ parameters:
 		-
 			rawMessage: 'Cannot call method treatNullLike() on mixed.'
 			identifier: method.nonObject
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedToken::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedToken.php
 
@@ -3615,12 +3435,6 @@ parameters:
 		-
 			rawMessage: 'Cannot call method variablePrototype() on mixed.'
 			identifier: method.nonObject
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedTokenBuilder::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
@@ -3829,12 +3643,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedTokenLoader::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedTokenLoader::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -3975,12 +3783,6 @@ parameters:
 		-
 			rawMessage: 'Cannot call method variablePrototype() on mixed.'
 			identifier: method.nonObject
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\AbstractSignatureSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
 
@@ -4219,12 +4021,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\JWSLoader::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\JWSLoader::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -4399,12 +4195,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSSerializer.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\JWSSerializer::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSSerializer.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\JWSSerializer::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -4573,12 +4363,6 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
-
-		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
 			identifier: ergebnis.noParameterWithContainerTypeDeclaration
 			count: 1
@@ -4619,12 +4403,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Signature/SignatureSource.php
-
-		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Source::getNodeDefinition() has parameter $node with generic class Symfony\Component\Config\Definition\Builder\NodeDefinition but does not specify its types: TParent'
-			identifier: missingType.generics
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Source/Source.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\Source::load() has a parameter $container with a type declaration of Symfony\Component\DependencyInjection\ContainerBuilder, but containers should not be injected.'
