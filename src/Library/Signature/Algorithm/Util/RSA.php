@@ -147,7 +147,9 @@ final readonly class RSA
         $db = $ps . chr(1) . $salt;
         $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash);
         $maskedDB = $db ^ $dbMask;
-        $maskedDB[0] = ~chr(0xFF << ($modulusLength & 7)) & $maskedDB[0];
+        // PHP 8.5 Compatibility: Constrain value to 0-255 before passing to chr()
+        $shiftBits = $modulusLength & 7;
+        $maskedDB[0] = ~chr((0xFF << $shiftBits) & 0xFF) & $maskedDB[0];
 
         return $maskedDB . $h . chr(0xBC);
     }
@@ -168,13 +170,15 @@ final readonly class RSA
         }
         $maskedDB = substr($em, 0, -$hash->getLength() - 1);
         $h = substr($em, -$hash->getLength() - 1, $hash->getLength());
-        $temp = chr(0xFF << ($emBits & 7));
+        // PHP 8.5 Compatibility: Constrain value to 0-255 before passing to chr()
+        $shiftBits = $emBits & 7;
+        $temp = chr((0xFF << $shiftBits) & 0xFF);
         if ((~$maskedDB[0] & $temp) !== $temp) {
             throw new InvalidArgumentException();
         }
         $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
         $db = $maskedDB ^ $dbMask;
-        $db[0] = ~chr(0xFF << ($emBits & 7)) & $db[0];
+        $db[0] = ~chr((0xFF << $shiftBits) & 0xFF) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;
         if (substr($db, 0, $temp) !== str_repeat(chr(0), $temp)) {
             throw new InvalidArgumentException();
