@@ -64,7 +64,6 @@
         "ext-gmp": "*",
         "ext-sodium": "*",
         "matthiasnoback/symfony-config-test": "^6.0",
-        "paragonie/sodium_compat": "^1.20|^2.0",
         "phpbench/phpbench": "^1.2",
         "roave/security-advisories": "dev-latest",
         "spomky-labs/aes-key-wrap": "^7.0|^8.0",
