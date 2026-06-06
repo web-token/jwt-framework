@@ -47,8 +47,13 @@ final readonly class RSACrypt
         }
     }
 
-    public static function decrypt(RSAKey $key, string $plaintext, int $mode, ?string $hash = null): string
-    {
+    public static function decrypt(
+        RSAKey $key,
+        string $plaintext,
+        int $mode,
+        ?string $hash = null,
+        ?int $expectedKeyLength = null
+    ): string {
         switch ($mode) {
             case self::ENCRYPTION_OAEP:
                 if ($hash === null) {
@@ -57,7 +62,7 @@ final readonly class RSACrypt
 
                 return self::decryptWithRSAOAEP($key, $plaintext, $hash);
             case self::ENCRYPTION_PKCS1:
-                return self::decryptWithRSA15($key, $plaintext);
+                return self::decryptWithRSA15($key, $plaintext, $expectedKeyLength);
             default:
                 throw new InvalidArgumentException('Unsupported mode.');
         }
@@ -86,7 +91,7 @@ final readonly class RSACrypt
         return self::convertIntegerToOctetString($c, $key->getModulusLength());
     }
 
-    public static function decryptWithRSA15(RSAKey $key, string $c): string
+    public static function decryptWithRSA15(RSAKey $key, string $c, ?int $expectedKeyLength = null): string
     {
         if (strlen($c) !== $key->getModulusLength()) {
             throw new InvalidArgumentException('Unable to decrypt');
@@ -94,16 +99,71 @@ final readonly class RSACrypt
         $c = BigInteger::createFromBinaryString($c);
         $m = self::getRSADP($key, $c);
         $em = self::convertIntegerToOctetString($m, $key->getModulusLength());
-        if (ord($em[0]) !== 0 || ord($em[1]) > 2) {
-            throw new InvalidArgumentException('Unable to decrypt');
-        }
-        $ps = substr($em, 2, (int) strpos($em, chr(0), 2) - 2);
-        $m = substr($em, strlen($ps) + 3);
-        if (strlen($ps) < 8) {
-            throw new InvalidArgumentException('Unable to decrypt');
+        if ($expectedKeyLength === null) {
+            if (ord($em[0]) !== 0 || ord($em[1]) > 2) {
+                throw new InvalidArgumentException('Unable to decrypt');
+            }
+            $ps = substr($em, 2, (int) strpos($em, chr(0), 2) - 2);
+            $m = substr($em, strlen($ps) + 3);
+            if (strlen($ps) < 8) {
+                throw new InvalidArgumentException('Unable to decrypt');
+            }
+
+            return $m;
         }
 
-        return $m;
+        return self::extractRSA15KeyOrRandom($em, $expectedKeyLength);
+    }
+
+    private static function extractRSA15KeyOrRandom(string $em, int $expectedKeyLength): string
+    {
+        $k = strlen($em);
+        $random = random_bytes($expectedKeyLength);
+
+        if ($k < $expectedKeyLength + 11) {
+            return $random;
+        }
+        $candidate = substr($em, $k - $expectedKeyLength);
+
+        $valid = self::ctEq(ord($em[0]), 0x00) & self::ctEq(ord($em[1]), 0x02);
+
+        $seenSeparator = 0;
+        $separatorIndex = 0;
+        $psLength = 0;
+        for ($i = 2; $i < $k; ++$i) {
+            $isZero = self::ctEq(ord($em[$i]), 0x00);
+            $firstZero = $isZero & (1 - $seenSeparator);
+            $separatorIndex |= $firstZero * $i;
+            $psLength += (1 - $seenSeparator) & (1 - $isZero);
+            $seenSeparator |= $isZero;
+        }
+
+        $valid &= $seenSeparator;
+        $valid &= self::ctGe($psLength, 8);
+
+        $messageLength = $k - $separatorIndex - 1;
+        $valid &= self::ctEq($messageLength, $expectedKeyLength);
+
+        return self::ctSelect($valid, $candidate, $random);
+    }
+
+    private static function ctEq(int $a, int $b): int
+    {
+        $diff = $a ^ $b;
+
+        return (($diff - 1) >> 63) & 1;
+    }
+
+    private static function ctGe(int $a, int $b): int
+    {
+        return (($b - $a - 1) >> 63) & 1;
+    }
+
+    private static function ctSelect(int $condition, string $a, string $b): string
+    {
+        $mask = str_repeat(chr(($condition * 0xFF) & 0xFF), strlen($a));
+
+        return ($a & $mask) | ($b & ~$mask);
     }
 
     /**
