@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\SignatureAlgorithm\HMAC;
 
+use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HS256;
@@ -302,9 +303,10 @@ final class HMACFromRFC7520Test extends TestCase
         );
 
         $loaded_flattened_json = $jsonFlattenedSerializer->unserialize($expected_flattened_json);
-        static::assertTrue($jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0));
-
         $loaded_json = $jsonGeneralSerializer->unserialize($expected_json);
-        static::assertTrue($jwsVerifier->verifyWithKey($loaded_json, $key, 0));
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('No "alg" parameter set in the protected header.');
+        $jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0);
     }
 }
