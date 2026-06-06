@@ -47,14 +47,14 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
         $k = $this->getKey($key);
         $nonce = random_bytes(12);
 
-        // We set header parameters
-        $additionalHeader['nonce'] = Base64UrlSafe::encodeUnpadded($nonce);
-
         $tag = null;
         $result = openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce, $tag);
-        if ($result === false || ! is_string($tag)) {
+        if ($result === false || ! is_string($tag) || strlen($tag) !== 16) {
             throw new RuntimeException('Unable to encrypt the CEK');
         }
+
+        $additionalHeader['nonce'] = Base64UrlSafe::encodeUnpadded($nonce);
+        $additionalHeader['tag'] = Base64UrlSafe::encodeUnpadded($tag);
 
         return $result;
     }
@@ -72,8 +72,14 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
         if (strlen($nonce) !== 12) {
             throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
         }
+        isset($header['tag']) || throw new InvalidArgumentException('The header parameter "tag" is missing.');
+        is_string($header['tag']) || throw new InvalidArgumentException('The header parameter "tag" is not valid.');
+        $tag = Base64UrlSafe::decodeNoPadding($header['tag']);
+        if (strlen($tag) !== 16) {
+            throw new InvalidArgumentException('The header parameter "tag" is not valid.');
+        }
 
-        $result = openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce);
+        $result = openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce, $tag);
         if ($result === false) {
             throw new RuntimeException('Unable to decrypt the CEK');
         }
