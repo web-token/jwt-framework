@@ -124,8 +124,12 @@ class JWEDecrypter
         );
         $this->checkCompleteHeader($completeHeader);
 
-        $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($completeHeader);
-        $content_encryption_algorithm = $this->getContentEncryptionAlgorithm($completeHeader);
+        // RFC 7516 §4.1.1 (alg) and §4.1.2 (enc) require both parameters to be
+        // integrity-protected. Reading them from the merged $completeHeader allows
+        // an attacker to override either value via an unprotected header field.
+        $sharedProtectedHeader = $jwe->getSharedProtectedHeader();
+        $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($sharedProtectedHeader);
+        $content_encryption_algorithm = $this->getContentEncryptionAlgorithm($sharedProtectedHeader);
 
         $this->checkIvSize($jwe->getIV(), $content_encryption_algorithm->getIVSize());
 
@@ -253,26 +257,38 @@ class JWEDecrypter
         }
     }
 
-    private function getKeyEncryptionAlgorithm(array $completeHeaders): KeyEncryptionAlgorithm
+    private function getKeyEncryptionAlgorithm(array $protectedHeader): KeyEncryptionAlgorithm
     {
-        $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($completeHeaders['alg']);
+        $alg = $protectedHeader['alg'] ?? null;
+        if (! is_string($alg) || $alg === '') {
+            throw new InvalidArgumentException(
+                'The "alg" parameter must be a non-empty string in the protected header (RFC 7516 §4.1.1).'
+            );
+        }
+        $key_encryption_algorithm = $this->keyEncryptionAlgorithmManager->get($alg);
         if (! $key_encryption_algorithm instanceof KeyEncryptionAlgorithm) {
             throw new InvalidArgumentException(sprintf(
                 'The key encryption algorithm "%s" is not supported or does not implement KeyEncryptionAlgorithm interface.',
-                $completeHeaders['alg']
+                $alg
             ));
         }
 
         return $key_encryption_algorithm;
     }
 
-    private function getContentEncryptionAlgorithm(array $completeHeader): ContentEncryptionAlgorithm
+    private function getContentEncryptionAlgorithm(array $protectedHeader): ContentEncryptionAlgorithm
     {
-        $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($completeHeader['enc']);
+        $enc = $protectedHeader['enc'] ?? null;
+        if (! is_string($enc) || $enc === '') {
+            throw new InvalidArgumentException(
+                'The "enc" parameter must be a non-empty string in the protected header (RFC 7516 §4.1.2).'
+            );
+        }
+        $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($enc);
         if (! $content_encryption_algorithm instanceof ContentEncryptionAlgorithm) {
             throw new InvalidArgumentException(sprintf(
-                'The key encryption algorithm "%s" is not supported or does not implement the ContentEncryption interface.',
-                $completeHeader['enc']
+                'The content encryption algorithm "%s" is not supported or does not implement the ContentEncryption interface.',
+                $enc
             ));
         }
 
