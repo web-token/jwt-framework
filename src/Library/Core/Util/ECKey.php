@@ -7,6 +7,13 @@ namespace Jose\Component\Core\Util;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use RuntimeException;
+use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\ObjectIdentifier;
+use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
+use SpomkyLabs\Pki\ASN1\Type\Tagged\ExplicitlyTaggedType;
+use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use function extension_loaded;
 use function is_array;
 use function is_string;
@@ -19,6 +26,11 @@ use const STR_PAD_LEFT;
  */
 final readonly class ECKey
 {
+    /**
+     * OID of the id-ecPublicKey algorithm identifier.
+     */
+    private const EC_PUBLIC_KEY_OID = '1.2.840.10045.2.1';
+
     public static function convertToPEM(JWK $jwk): string
     {
         if ($jwk->has('d')) {
@@ -26,6 +38,49 @@ final readonly class ECKey
         }
 
         return self::convertPublicKeyToPEM($jwk);
+    }
+
+    /**
+     * Converts the key into a PKCS#8 PEM. As PKCS#8 only covers private keys, public keys are converted into a
+     * SubjectPublicKeyInfo structure, which is the format expected by the tools consuming PKCS#8 private keys.
+     */
+    public static function convertToPKCS8PEM(JWK $jwk): string
+    {
+        if ($jwk->has('d')) {
+            return self::convertPrivateKeyToPKCS8PEM($jwk);
+        }
+
+        return self::convertPublicKeyToPEM($jwk);
+    }
+
+    /**
+     * Converts the private key into a PKCS#8 (RFC 5208) PEM, i.e. a PrivateKeyInfo structure wrapping the RFC 5915
+     * ECPrivateKey. The curve is only carried by the algorithm identifier: the optional "parameters" field of the
+     * inner ECPrivateKey is left out to avoid the duplication, exactly as OpenSSL does.
+     */
+    public static function convertPrivateKeyToPKCS8PEM(JWK $jwk): string
+    {
+        $curve = $jwk->get('crv');
+        if (! is_string($curve)) {
+            throw new InvalidArgumentException('Unable to get the curve');
+        }
+        $length = (int) ceil(self::getCurveSize($curve) / 8);
+        $ecPrivateKey = Sequence::create(
+            Integer::create(1),
+            OctetString::create(self::getPrivateKeyBytes($jwk, $length)),
+            ExplicitlyTaggedType::create(1, BitString::create(self::getKey($jwk))),
+        );
+        $privateKeyInfo = Sequence::create(
+            Integer::create(0),
+            Sequence::create(
+                ObjectIdentifier::create(self::EC_PUBLIC_KEY_OID),
+                ObjectIdentifier::create(self::getCurveOid($curve)),
+            ),
+            OctetString::create($ecPrivateKey->toDER()),
+        );
+
+        return PEM::create(PEM::TYPE_PRIVATE_KEY, $privateKeyInfo->toDER())
+            ->string();
     }
 
     public static function convertPublicKeyToPEM(JWK $jwk): string
@@ -131,6 +186,24 @@ final readonly class ECKey
                 str_pad((string) $details['ec']['y'], (int) ceil($curveSize / 8), "\0", STR_PAD_LEFT)
             ),
         ];
+    }
+
+    /**
+     * Returns the OID of the named curve, as used by the AlgorithmIdentifier of the PKCS#8 and SubjectPublicKeyInfo
+     * structures.
+     */
+    private static function getCurveOid(string $curve): string
+    {
+        return match ($curve) {
+            'P-256' => '1.2.840.10045.3.1.7',
+            'secp256k1' => '1.3.132.0.10',
+            'P-384' => '1.3.132.0.34',
+            'P-521' => '1.3.132.0.35',
+            'BP-256' => '1.3.36.3.3.2.8.1.1.7',
+            'BP-384' => '1.3.36.3.3.2.8.1.1.11',
+            'BP-512' => '1.3.36.3.3.2.8.1.1.13',
+            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve)),
+        };
     }
 
     private static function getOpensslCurveName(string $curve): string
@@ -346,16 +419,25 @@ final readonly class ECKey
      */
     private static function getPrivateKeyOctets(JWK $jwk, int $length): string
     {
-        $d = $jwk->get('d');
-        if (! is_string($d)) {
-            throw new InvalidArgumentException('Unable to get the private key');
-        }
-        $data = unpack('H*', str_pad(Base64UrlSafe::decodeNoPadding($d), $length, "\0", STR_PAD_LEFT));
+        $data = unpack('H*', self::getPrivateKeyBytes($jwk, $length));
         if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1])) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
 
         return $data[1];
+    }
+
+    /**
+     * Returns the binary representation of the private key, left-padded to the size of the curve.
+     */
+    private static function getPrivateKeyBytes(JWK $jwk, int $length): string
+    {
+        $d = $jwk->get('d');
+        if (! is_string($d)) {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
+
+        return str_pad(Base64UrlSafe::decodeNoPadding($d), $length, "\0", STR_PAD_LEFT);
     }
 
     private static function getKey(JWK $jwk): string

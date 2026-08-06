@@ -18,6 +18,7 @@ use Jose\Component\Console\OkpKeysetGeneratorCommand;
 use Jose\Component\Console\OptimizeRsaKeyCommand;
 use Jose\Component\Console\P12CertificateLoaderCommand;
 use Jose\Component\Console\PemConverterCommand;
+use Jose\Component\Console\Pkcs8ConverterCommand;
 use Jose\Component\Console\PublicKeyCommand;
 use Jose\Component\Console\PublicKeysetCommand;
 use Jose\Component\Console\RotateKeysetCommand;
@@ -50,6 +51,7 @@ return function (ContainerConfigurator $container): void {
     $container->set(OkpKeysetGeneratorCommand::class);
     $container->set(P12CertificateLoaderCommand::class);
     $container->set(PemConverterCommand::class);
+    $container->set(Pkcs8ConverterCommand::class);
     $container->set(PublicKeyCommand::class);
     $container->set(PublicKeysetCommand::class);
     $container->set(RotateKeysetCommand::class);

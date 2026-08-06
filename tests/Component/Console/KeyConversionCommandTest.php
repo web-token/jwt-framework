@@ -4,22 +4,28 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Console;
 
+use InvalidArgumentException;
 use Jose\Component\Console\GetThumbprintCommand;
 use Jose\Component\Console\KeyFileLoaderCommand;
 use Jose\Component\Console\OptimizeRsaKeyCommand;
 use Jose\Component\Console\P12CertificateLoaderCommand;
 use Jose\Component\Console\PemConverterCommand;
+use Jose\Component\Console\Pkcs8ConverterCommand;
 use Jose\Component\Console\PublicKeyCommand;
 use Jose\Component\Console\PublicKeysetCommand;
 use Jose\Component\Console\X509CertificateLoaderCommand;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
+use Jose\Component\KeyManagement\JWKFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use const STR_PAD_LEFT;
 
 /**
  * @internal
@@ -157,6 +163,98 @@ final class KeyConversionCommandTest extends TestCase
     }
 
     #[Test]
+    public function iCanConvertARsaKeyIntoPKCS8(): void
+    {
+        $jwk = JWKFactory::createRSAKey(2048);
+
+        $content = self::convertIntoPKCS8($jwk);
+
+        static::assertStringStartsWith('-----BEGIN PRIVATE KEY-----', $content);
+        self::assertSameKeyMaterial($jwk, JWKFactory::createFromKey($content));
+    }
+
+    #[Test]
+    #[DataProvider('ecCurves')]
+    public function iCanConvertAnEcKeyIntoPKCS8(string $curve, int $size): void
+    {
+        $jwk = JWKFactory::createECKey($curve);
+
+        $content = self::convertIntoPKCS8($jwk);
+
+        static::assertStringStartsWith('-----BEGIN PRIVATE KEY-----', $content);
+        $details = self::getKeyDetails($content);
+        static::assertSame(self::getRawParameter($jwk, 'd', $size), str_pad($details['ec']['d'], $size, "\0", STR_PAD_LEFT));
+        static::assertSame(self::getRawParameter($jwk, 'x', $size), str_pad($details['ec']['x'], $size, "\0", STR_PAD_LEFT));
+        static::assertSame(self::getRawParameter($jwk, 'y', $size), str_pad($details['ec']['y'], $size, "\0", STR_PAD_LEFT));
+    }
+
+    #[Test]
+    #[DataProvider('okpCurves')]
+    public function iCanConvertAnOkpKeyIntoPKCS8(string $curve): void
+    {
+        $jwk = JWKFactory::createOKPKey($curve);
+
+        $content = self::convertIntoPKCS8($jwk);
+
+        static::assertStringStartsWith('-----BEGIN PRIVATE KEY-----', $content);
+        self::assertSameKeyMaterial($jwk, JWKFactory::createFromKey($content));
+    }
+
+    /**
+     * PKCS#8 only covers private keys. Public keys are converted into a SubjectPublicKeyInfo structure.
+     */
+    #[Test]
+    #[DataProvider('publicKeys')]
+    public function iCanConvertAPublicKeyIntoSubjectPublicKeyInfo(JWK $jwk): void
+    {
+        $content = self::convertIntoPKCS8($jwk->toPublic());
+
+        static::assertStringStartsWith('-----BEGIN PUBLIC KEY-----', $content);
+        self::assertSameKeyMaterial($jwk->toPublic(), JWKFactory::createFromKey($content));
+    }
+
+    #[Test]
+    public function iCannotConvertAnOctKeyIntoPKCS8(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        self::convertIntoPKCS8(JWKFactory::createOctKey(256));
+    }
+
+    /**
+     * @return iterable<string, array{string, int}>
+     */
+    public static function ecCurves(): iterable
+    {
+        yield 'P-256' => ['P-256', 32];
+        yield 'secp256k1' => ['secp256k1', 32];
+        yield 'P-384' => ['P-384', 48];
+        yield 'P-521' => ['P-521', 66];
+        yield 'BP-256' => ['BP-256', 32];
+        yield 'BP-384' => ['BP-384', 48];
+        yield 'BP-512' => ['BP-512', 64];
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function okpCurves(): iterable
+    {
+        yield 'Ed25519' => ['Ed25519'];
+        yield 'X25519' => ['X25519'];
+    }
+
+    /**
+     * @return iterable<string, array{JWK}>
+     */
+    public static function publicKeys(): iterable
+    {
+        yield 'RSA' => [JWKFactory::createRSAKey(2048)];
+        yield 'EC' => [JWKFactory::createECKey('P-256')];
+        yield 'OKP' => [JWKFactory::createOKPKey('Ed25519')];
+    }
+
+    #[Test]
     public function iCanConvertAPrivateKeyIntoPublicKey(): void
     {
         $jwk = new JWK([
@@ -232,5 +330,54 @@ final class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         static::assertSame('NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs', $content);
+    }
+
+    /**
+     * The order of the key parameters is irrelevant and depends on the way the key has been loaded.
+     */
+    private static function assertSameKeyMaterial(JWK $expected, JWK $actual): void
+    {
+        $expectedValues = $expected->all();
+        $actualValues = $actual->all();
+        ksort($expectedValues);
+        ksort($actualValues);
+
+        static::assertSame($expectedValues, $actualValues);
+    }
+
+    private static function convertIntoPKCS8(JWK $jwk): string
+    {
+        $input = new ArrayInput([
+            'jwk' => JsonConverter::encode($jwk),
+        ]);
+        $output = new BufferedOutput();
+        $command = new Pkcs8ConverterCommand();
+        $command->run($input, $output);
+
+        return $output->fetch();
+    }
+
+    /**
+     * @return array{ec: array{d: string, x: string, y: string}}
+     */
+    private static function getKeyDetails(string $pem): array
+    {
+        $key = openssl_pkey_get_private($pem);
+        static::assertNotFalse($key, 'The PKCS#8 key is not readable by OpenSSL');
+        $details = openssl_pkey_get_details($key);
+        static::assertIsArray($details);
+
+        return $details;
+    }
+
+    /**
+     * Returns the binary value of the given parameter, left-padded to the size of the curve.
+     */
+    private static function getRawParameter(JWK $jwk, string $parameter, int $size): string
+    {
+        $value = $jwk->get($parameter);
+        static::assertIsString($value);
+
+        return str_pad(Base64UrlSafe::decodeNoPadding($value), $size, "\0", STR_PAD_LEFT);
     }
 }

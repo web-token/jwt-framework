@@ -32,6 +32,7 @@ final class ConsoleTest extends KernelTestCase
             'key:optimize',
             'key:load:p12',
             'key:convert:pkcs1',
+            'key:convert:pkcs8',
             'keyset:convert:public',
             'keyset:rotate',
             'key:generate:rsa',
