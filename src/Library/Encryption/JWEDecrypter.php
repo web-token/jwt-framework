@@ -226,18 +226,25 @@ class JWEDecrypter
                 $completeHeader
             );
         }
+        // The size of the key expected by the content encryption algorithm is passed as an additional
+        // argument. It is not part of the interfaces yet (it will be in 5.0.0): implementations that do not
+        // expect it simply ignore it, the others read it with func_num_args()/func_get_arg(3).
         if ($key_encryption_algorithm instanceof KeyEncryption) {
+            // @phpstan-ignore arguments.count (the fourth argument will be part of the interface in 5.0.0)
             return $key_encryption_algorithm->decryptKey(
                 $recipientKey,
                 $recipient->getEncryptedKey() ?? '',
-                $completeHeader
+                $completeHeader,
+                $content_encryption_algorithm->getCEKSize()
             );
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
+            // @phpstan-ignore arguments.count (the fourth argument will be part of the interface in 5.0.0)
             return $key_encryption_algorithm->unwrapKey(
                 $recipientKey,
                 $recipient->getEncryptedKey() ?? '',
-                $completeHeader
+                $completeHeader,
+                $content_encryption_algorithm->getCEKSize()
             );
         }
 
