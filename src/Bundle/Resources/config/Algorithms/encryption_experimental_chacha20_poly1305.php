@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Jose\Component\Encryption\Algorithm\KeyEncryption\Chacha20Poly1305;
+use Jose\Experimental\KeyEncryption\Chacha20Poly1305;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /*
