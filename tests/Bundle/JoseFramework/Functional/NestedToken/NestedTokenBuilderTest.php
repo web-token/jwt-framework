@@ -7,6 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\NestedToken;
 use Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\NestedToken\NestedTokenBuilder;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\NestedTokenServiceConsumer;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -43,6 +44,23 @@ final class NestedTokenBuilderTest extends WebTestCase
         $container = $client->getContainer();
         static::assertNotNull($container);
         static::assertTrue($container->has('jose.nested_token_builder.nested_token_builder_2'));
+    }
+
+    #[Test]
+    public static function theNestedTokenBuilderFromTheConfigurationCanBeAutowired(): void
+    {
+        static::ensureKernelShutdown();
+        $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertNotNull($container);
+
+        /** @var NestedTokenServiceConsumer $consumer */
+        $consumer = $container->get(NestedTokenServiceConsumer::class);
+
+        static::assertSame(
+            $container->get('jose.nested_token_builder.nested_token_builder_1'),
+            $consumer->getBuilder()
+        );
     }
 
     #[Test]
