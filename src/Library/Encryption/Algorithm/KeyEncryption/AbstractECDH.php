@@ -8,6 +8,7 @@ use Brick\Math\BigInteger;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\Ecc\BrainpoolCurve;
 use Jose\Component\Core\Util\Ecc\Curve;
 use Jose\Component\Core\Util\Ecc\EcDH;
 use Jose\Component\Core\Util\Ecc\NistCurve;
@@ -83,6 +84,9 @@ abstract readonly class AbstractECDH implements KeyAgreement
             case 'P-256':
             case 'P-384':
             case 'P-521':
+            case 'BP-256':
+            case 'BP-384':
+            case 'BP-512':
                 $curve = $this->getCurve($crv);
                 if (function_exists('openssl_pkey_derive')) {
                     try {
@@ -158,7 +162,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
             throw new InvalidArgumentException('Invalid key parameter "crv"');
         }
         $private_key = match ($crv) {
-            'P-256', 'P-384', 'P-521' => $senderKey ?? ECKey::createECKey($crv),
+            'P-256', 'P-384', 'P-521', 'BP-256', 'BP-384', 'BP-512' => $senderKey ?? ECKey::createECKey($crv),
             'X25519' => $senderKey ?? $this->createOKPKey('X25519'),
             default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv)),
         };
@@ -221,6 +225,9 @@ abstract readonly class AbstractECDH implements KeyAgreement
             case 'P-256':
             case 'P-384':
             case 'P-521':
+            case 'BP-256':
+            case 'BP-384':
+            case 'BP-512':
                 if (! $key->has('y')) {
                     throw new InvalidArgumentException('The key parameter "y" is missing.');
                 }
@@ -244,6 +251,9 @@ abstract readonly class AbstractECDH implements KeyAgreement
             'P-256' => NistCurve::curve256(),
             'P-384' => NistCurve::curve384(),
             'P-521' => NistCurve::curve521(),
+            'BP-256' => BrainpoolCurve::curve256(),
+            'BP-384' => BrainpoolCurve::curve384(),
+            'BP-512' => BrainpoolCurve::curve512(),
             default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv)),
         };
     }

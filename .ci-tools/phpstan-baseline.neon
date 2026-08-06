@@ -4285,30 +4285,6 @@ parameters:
 			path: ../src/Library/Core/Util/Base64UrlSafe.php
 
 		-
-			rawMessage: Binary operation "." between '30740201010420' and mixed results in an error.
-			identifier: binaryOp.invalid
-			count: 1
-			path: ../src/Library/Core/Util/ECKey.php
-
-		-
-			rawMessage: Binary operation "." between '30770201010420' and mixed results in an error.
-			identifier: binaryOp.invalid
-			count: 1
-			path: ../src/Library/Core/Util/ECKey.php
-
-		-
-			rawMessage: Binary operation "." between '3081a40201010430' and mixed results in an error.
-			identifier: binaryOp.invalid
-			count: 1
-			path: ../src/Library/Core/Util/ECKey.php
-
-		-
-			rawMessage: Binary operation "." between '3081dc0201010442' and mixed results in an error.
-			identifier: binaryOp.invalid
-			count: 1
-			path: ../src/Library/Core/Util/ECKey.php
-
-		-
 			rawMessage: Cannot access offset 'd' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
