@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use Jose\Component\Signature\Algorithm\Blake2b;
-use Jose\Component\Signature\Algorithm\ES256K;
-use Jose\Component\Signature\Algorithm\HS1;
-use Jose\Component\Signature\Algorithm\HS256_64;
-use Jose\Component\Signature\Algorithm\RS1;
+use Jose\Experimental\Signature\Blake2b;
+use Jose\Experimental\Signature\ES256K;
+use Jose\Experimental\Signature\HS1;
+use Jose\Experimental\Signature\HS256_64;
+use Jose\Experimental\Signature\RS1;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /*

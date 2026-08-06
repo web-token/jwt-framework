@@ -17,7 +17,7 @@ final readonly class A256CCM_64_128 extends AESCCM
     #[Override]
     public function name(): string
     {
-        return 'A256CCM-16-128';
+        return 'A256CCM-64-128';
     }
 
     #[Override]
