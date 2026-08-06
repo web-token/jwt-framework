@@ -45,6 +45,11 @@ abstract readonly class ESKeyAnalyzer implements KeyAnalyzer
         }
         $y = Base64UrlSafe::decodeNoPadding($y);
         $yLength = 8 * strlen($y);
+        if ($x === '' || $y === '') {
+            $bag->add(Message::high('Invalid key. The components "x" and "y" shall not be empty.'));
+
+            return;
+        }
         if ($yLength !== $xLength || $yLength !== $this->getKeySize()) {
             $bag->add(
                 Message::high(sprintf(

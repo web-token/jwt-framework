@@ -9,6 +9,7 @@ use Jose\Component\Core\JWT;
 use function array_key_exists;
 use function count;
 use function is_array;
+use function is_string;
 use function sprintf;
 
 /**
@@ -20,7 +21,7 @@ use function sprintf;
 class HeaderCheckerManager
 {
     /**
-     * @var HeaderChecker[]
+     * @var array<string, HeaderChecker>
      */
     private array $checkers = [];
 
@@ -148,17 +149,21 @@ class HeaderCheckerManager
         $this->checkCriticalHeader($protected, $header, $checkedHeaderParameters);
     }
 
+    /**
+     * @param string[] $checkedHeaderParameters
+     */
     private function checkCriticalHeader(array $protected, array $header, array $checkedHeaderParameters): void
     {
         if (array_key_exists('crit', $protected)) {
-            if (! is_array($protected['crit'])) {
+            $crit = $protected['crit'];
+            if (! is_array($crit) || $crit !== array_filter($crit, static fn (mixed $v): bool => is_string($v))) {
                 throw new InvalidHeaderException(
                     'The header "crit" must be a list of header parameters.',
                     'crit',
                     $protected['crit']
                 );
             }
-            $diff = array_diff($protected['crit'], $checkedHeaderParameters);
+            $diff = array_diff($crit, $checkedHeaderParameters);
             if (count($diff) !== 0) {
                 throw new InvalidHeaderException(sprintf(
                     'One or more header parameters are marked as critical, but they are missing or have not been checked: %s.',

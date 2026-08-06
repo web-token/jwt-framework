@@ -24,12 +24,7 @@ final readonly class JsonConverter
     public static function decode(string $payload): mixed
     {
         try {
-            return json_decode(
-                $payload,
-                true,
-                512,
-                JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-            );
+            return json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
         } catch (Throwable $throwable) {
             throw new InvalidArgumentException('Unsupported input.', $throwable->getCode(), $throwable);
         }

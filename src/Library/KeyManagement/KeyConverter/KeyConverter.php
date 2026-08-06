@@ -225,7 +225,8 @@ final readonly class KeyConverter
         }
 
         $details = openssl_pkey_get_details($res);
-        if (! is_array($details) || ! array_key_exists('type', $details)) {
+        if (! is_array($details) || ! array_key_exists('type', $details)
+            || ! array_key_exists('key', $details) || ! is_string($details['key'])) {
             throw new InvalidArgumentException('Unable to get details of the key');
         }
 
@@ -359,7 +360,7 @@ final readonly class KeyConverter
      * This method tries to load Ed448, X488, Ed25519 and X25519 keys.
      * Only needed on PHP8.3 and earlier.
      *
-     * @param array{key: string} $details
+     * @param array{key: string, ...} $details
      *
      * @return array<array-key, mixed>
      */
@@ -374,7 +375,7 @@ final readonly class KeyConverter
     }
 
     /**
-     * @param array{key: string} $details
+     * @param array{key: string, ...} $details
      *
      * @return array<string, mixed>
      */
@@ -443,6 +444,10 @@ final readonly class KeyConverter
 
     private static function convertDecimalToBas64Url(string $decimal): string
     {
+        if ($decimal === '') {
+            throw new InvalidArgumentException('Unsupported key type');
+        }
+
         return Base64UrlSafe::encodeUnpadded(BigInteger::fromBase($decimal, 10)->toBytes());
     }
 

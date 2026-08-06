@@ -251,7 +251,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
     private function convertBase64ToBigInteger(string $value): BigInteger
     {
         $data = unpack('H*', Base64UrlSafe::decodeNoPadding($value));
-        if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1])) {
+        if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1]) || $data[1] === '') {
             throw new InvalidArgumentException('Unable to convert base64 to integer');
         }
 

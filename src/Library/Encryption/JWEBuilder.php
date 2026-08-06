@@ -276,7 +276,7 @@ class JWEBuilder
             $keyEncryptionAlgorithm,
             $additionalHeader,
             $recipient['key'],
-            $recipient['sender_key'] ?? $this->senderKey ?? null
+            $recipient['sender_key'] ?? $this->senderKey
         );
         $recipientHeader = $recipient['header'];
         if ((is_countable($additionalHeader) ? count($additionalHeader) : 0) !== 0 && count($this->recipients) !== 1) {

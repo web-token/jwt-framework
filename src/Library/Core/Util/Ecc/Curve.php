@@ -244,7 +244,7 @@ final readonly class Curve implements Stringable
     {
         $max = $this->generator->getOrder();
         $numBits = $this->bnNumBits($max);
-        $numBytes = (int) ceil($numBits / 8);
+        $numBytes = max(1, intdiv($numBits + 7, 8));
         // Generate an integer of size >= $numBits
         $bytes = BigInteger::randomBits($numBytes);
         $mask = BigInteger::of(2)->power($numBits)->minus(1);
@@ -256,6 +256,8 @@ final readonly class Curve implements Stringable
      * Returns the number of bits used to store this number. Non-significant upper bits are not counted.
      *
      * @see https://www.openssl.org/docs/crypto/BN_num_bytes.html
+     *
+     * @return int<0, max>
      */
     private function bnNumBits(BigInteger $x): int
     {
