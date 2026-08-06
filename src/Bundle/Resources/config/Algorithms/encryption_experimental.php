@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_16_128;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_16_64;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_64_128;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CCM_64_64;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_16_128;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_16_64;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_64_128;
-use Jose\Component\Encryption\Algorithm\ContentEncryption\A256CCM_64_64;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A128CTR;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A192CTR;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\A256CTR;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP384;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP512;
+use Jose\Experimental\ContentEncryption\A128CCM_16_128;
+use Jose\Experimental\ContentEncryption\A128CCM_16_64;
+use Jose\Experimental\ContentEncryption\A128CCM_64_128;
+use Jose\Experimental\ContentEncryption\A128CCM_64_64;
+use Jose\Experimental\ContentEncryption\A256CCM_16_128;
+use Jose\Experimental\ContentEncryption\A256CCM_16_64;
+use Jose\Experimental\ContentEncryption\A256CCM_64_128;
+use Jose\Experimental\ContentEncryption\A256CCM_64_64;
+use Jose\Experimental\KeyEncryption\A128CTR;
+use Jose\Experimental\KeyEncryption\A192CTR;
+use Jose\Experimental\KeyEncryption\A256CTR;
+use Jose\Experimental\KeyEncryption\RSAOAEP384;
+use Jose\Experimental\KeyEncryption\RSAOAEP512;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 /*
