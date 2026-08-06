@@ -14,7 +14,7 @@ abstract readonly class AESCCM implements ContentEncryptionAlgorithm
     #[Override]
     public function allowedKeyTypes(): array
     {
-        return []; //Irrelevant
+        return []; // Irrelevant
     }
 
     #[Override]

@@ -24,7 +24,7 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
     #[Override]
     public function allowedKeyTypes(): array
     {
-        return []; //Irrelevant
+        return []; // Irrelevant
     }
 
     #[Override]

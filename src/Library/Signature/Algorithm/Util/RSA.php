@@ -176,7 +176,7 @@ final readonly class RSA
         if ((~$maskedDB[0] & $temp) !== $temp) {
             throw new InvalidArgumentException();
         }
-        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
+        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/* MGF */);
         $db = $maskedDB ^ $dbMask;
         $db[0] = ~chr((0xFF << $shiftBits) & 0xFF) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;

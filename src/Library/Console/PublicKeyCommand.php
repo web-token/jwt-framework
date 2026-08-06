@@ -17,7 +17,7 @@ use function is_string;
 
 #[AsCommand(
     name: 'key:convert:public',
-    description: 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.',
+    description: 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.'
 )]
 final class PublicKeyCommand extends ObjectOutputCommand
 {

@@ -80,7 +80,10 @@ final class RSA15ImplicitRejectionTest extends TestCase
             'A256CBC-HS512' => 64,
         ];
         foreach ($lengths as $enc => $expected) {
-            $result = $algorithm->decryptKey($jwk, $garbage, ['alg' => 'RSA1_5', 'enc' => $enc]);
+            $result = $algorithm->decryptKey($jwk, $garbage, [
+                'alg' => 'RSA1_5',
+                'enc' => $enc,
+            ]);
             static::assertSame($expected, mb_strlen($result, '8bit'), $enc);
         }
     }

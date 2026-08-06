@@ -278,9 +278,9 @@ final readonly class RSACrypt
         $ps = str_repeat(chr(0), $key->getModulusLength() - $mLen - 2 * $hash->getLength() - 2);
         $db = $lHash . $ps . chr(1) . $m;
         $seed = random_bytes($hash->getLength());
-        $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/*MGF*/);
+        $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/* MGF */);
         $maskedDB = $db ^ $dbMask;
-        $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/*MGF*/);
+        $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/* MGF */);
         $maskedSeed = $seed ^ $seedMask;
         $em = chr(0) . $maskedSeed . $maskedDB;
 
@@ -301,9 +301,9 @@ final readonly class RSACrypt
         $lHash = $hash->hash('');
         $maskedSeed = substr($em, 1, $hash->getLength());
         $maskedDB = substr($em, $hash->getLength() + 1);
-        $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/*MGF*/);
+        $seedMask = self::getMGF1($maskedDB, $hash->getLength(), $hash/* MGF */);
         $seed = $maskedSeed ^ $seedMask;
-        $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/*MGF*/);
+        $dbMask = self::getMGF1($seed, $key->getModulusLength() - $hash->getLength() - 1, $hash/* MGF */);
         $db = $maskedDB ^ $dbMask;
         $lHash2 = substr($db, 0, $hash->getLength());
         $m = substr($db, $hash->getLength());

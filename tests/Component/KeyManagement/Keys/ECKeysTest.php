@@ -81,7 +81,7 @@ final class ECKeysTest extends TestCase
         // Whent
         $details = KeyConverter::loadFromKey($private_pem, 'test');
 
-        //Then
+        // Then
         static::assertSame($details, $expectedValues);
         $ecKey = ECKey::convertPrivateKeyToPEM(new JWK($expectedValues));
         static::assertSame($private_pem, $ecKey);

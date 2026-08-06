@@ -96,7 +96,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
 
                         return $res;
                     } catch (Throwable) {
-                        //Does nothing. Will fallback to the pure PHP function
+                        // Does nothing. Will fallback to the pure PHP function
                     }
                 }
                 $x = $public_key->get('x');
