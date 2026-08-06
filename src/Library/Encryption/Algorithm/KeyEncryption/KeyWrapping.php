@@ -25,6 +25,11 @@ interface KeyWrapping extends KeyEncryptionAlgorithm
      * @param JWK $key The key used to wrap the CEK
      * @param string $encrypted_cek The CEK to decrypt
      * @param array<string, mixed> $completeHeader The complete header of the JWT
+     *
+     * BC NOTE: since 4.2, the JWEDecrypter calls this method with an additional argument
+     * "int $encryptionKeyLength": the size (in bits) of the key expected by the content encryption algorithm,
+     * as returned by ContentEncryptionAlgorithm::getCEKSize(). As it is not declared yet, implementations that
+     * need it can read it with func_num_args()/func_get_arg(3). It will be declared and required in 5.0.
      */
     public function unwrapKey(JWK $key, string $encrypted_cek, array $completeHeader): string;
 }
