@@ -4,27 +4,30 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption\RFC7520;
 
+use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Encryption\JWE;
 use Jose\Tests\Component\Encryption\EncryptionTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @see https://tools.ietf.org/html/rfc7520#section-5.11
  *
+ * In this example, only "enc" is protected: "alg" is carried by the shared unprotected header and is
+ * therefore not covered by the AAD. Such a token is parsed, but its decryption is refused: the key management
+ * algorithm is only read from the protected header or from the per-recipient header (RFC 7516 section 7.2.1).
+ *
  * @internal
  */
 final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest extends EncryptionTestCase
 {
     /**
-     * Please note that we cannot the encryption and get the same result as the example (IV, TAG and other data are
-     * always different). The output given in the RFC is used and only decrypted.
+     * The output given in the RFC is used and only parsed: the token cannot be decrypted anymore.
      */
     #[Test]
     public function a128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValues(): void
     {
-        $expected_payload = "You can trust us to stick with you through thick and thin\xe2\x80\x93to the bitter end. And you can trust us to keep any secret of yours\xe2\x80\x93closer than you keep it yourself. But you cannot trust us to let you face trouble alone, and go off without a word. We are your friends, Frodo.";
-
         $private_key = new JWK([
             'kty' => 'oct',
             'kid' => '81b20965-8332-43d9-a468-82160ad91ac8',
@@ -49,16 +52,10 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
         $expected_ciphertext = 'lIbCyRmRJxnB2yLQOTqjCDKV3H30ossOw3uD9DPsqLL2DM3swKkjOwQyZtWsFLYMj5YeLht_StAn21tHmQJuuNt64T8D4t6C7kC9OCCJ1IHAolUv4MyOt80MoPb8fZYbNKqplzYJgIL58g8N2v46OgyG637d6uuKPwhAnTGm_zWhqc_srOvgiLkzyFXPq1hBAURbc3-8BqeRb48iR1-_5g5UjWVD3lgiLCN_P7AW8mIiFvUNXBPJK3nOWL4teUPS8yHLbWeL83olU4UAgL48x-8dDkH23JykibVSQju-f7e-1xreHWXzWLHs1NqBbre0dEwK3HX_xM0LjUz77Krppgegoutpf5qaKg3l-_xMINmf';
         $expected_tag = 'fNYLqpUe84KD45lvDiaBAQ';
 
-        $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW', 'A128GCM']);
-
         $loaded_flattened_json = $this->getJWESerializerManager()
             ->unserialize($expected_flattened_json);
-        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
-
         $loaded_json = $this->getJWESerializerManager()
             ->unserialize($expected_json);
-        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame(
             $expected_ciphertext,
@@ -83,8 +80,8 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
         static::assertSame($header, $loaded_json->getSharedHeader());
         static::assertSame($expected_tag, Base64UrlSafe::encodeUnpadded($loaded_json->getTag()));
 
-        static::assertSame($expected_payload, $loaded_flattened_json->getPayload());
-        static::assertSame($expected_payload, $loaded_json->getPayload());
+        $this->assertDecryptionIsRefused($loaded_flattened_json, $private_key);
+        $this->assertDecryptionIsRefused($loaded_json, $private_key);
     }
 
     /**
@@ -114,8 +111,6 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
 
         $jweBuilder = $this->getJWEBuilderFactory()
             ->create(['A128KW', 'A128GCM']);
-        $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['A128KW', 'A128GCM']);
 
         $jwe = $jweBuilder
             ->create()
@@ -127,11 +122,8 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
 
         $loaded_flattened_json = $this->getJWESerializerManager()
             ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_flattened', $jwe, 0));
-        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_flattened_json, $private_key, 0));
-
         $loaded_json = $this->getJWESerializerManager()
             ->unserialize($this->getJWESerializerManager()->serialize('jwe_json_general', $jwe));
-        static::assertTrue($jweDecrypter->decryptUsingKey($loaded_json, $private_key, 0));
 
         static::assertSame($protectedHeader, $loaded_flattened_json->getSharedProtectedHeader());
         static::assertSame($header, $loaded_flattened_json->getSharedHeader());
@@ -139,7 +131,23 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
         static::assertSame($protectedHeader, $loaded_json->getSharedProtectedHeader());
         static::assertSame($header, $loaded_json->getSharedHeader());
 
-        static::assertSame($expected_payload, $loaded_flattened_json->getPayload());
-        static::assertSame($expected_payload, $loaded_json->getPayload());
+        $this->assertDecryptionIsRefused($loaded_flattened_json, $private_key);
+        $this->assertDecryptionIsRefused($loaded_json, $private_key);
+    }
+
+    private function assertDecryptionIsRefused(JWE $jwe, JWK $key): void
+    {
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['A128KW', 'A128GCM']);
+
+        try {
+            $jweDecrypter->decryptUsingKey($jwe, $key, 0);
+            static::fail('The token should not be decrypted: "alg" is not protected.');
+        } catch (InvalidArgumentException $exception) {
+            static::assertSame(
+                'The "alg" parameter must be a non-empty string set in the protected header or in the recipient header.',
+                $exception->getMessage()
+            );
+        }
     }
 }

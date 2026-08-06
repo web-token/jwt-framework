@@ -257,6 +257,12 @@ class JWEBuilder
         }
     }
 
+    /**
+     * The header parameters computed by the key encryption algorithm are added to the per-recipient header
+     * when there is more than one recipient. Those already set in a shared header are filtered out: the
+     * header parameter names of the three headers must be disjoint (RFC 7516 section 7.2.1), and a shared
+     * value takes precedence, as it does with a single recipient.
+     */
     private function processRecipient(array $recipient, string $cek, array &$additionalHeader): Recipient
     {
         $completeHeader = array_merge($this->sharedHeader, $recipient['header'], $this->sharedProtectedHeader);
@@ -274,6 +280,7 @@ class JWEBuilder
         );
         $recipientHeader = $recipient['header'];
         if ((is_countable($additionalHeader) ? count($additionalHeader) : 0) !== 0 && count($this->recipients) !== 1) {
+            $additionalHeader = array_diff_key($additionalHeader, $this->sharedProtectedHeader, $this->sharedHeader);
             $recipientHeader = array_merge($recipientHeader, $additionalHeader);
             $additionalHeader = [];
         }
