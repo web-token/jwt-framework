@@ -28,7 +28,9 @@ final class AlgorithmConfusionTest extends TestCase
         $jws = (new JWSBuilder($algorithmManager))
             ->create()
             ->withPayload('payload')
-            ->addSignature($key, ['alg' => 'HS256'])
+            ->addSignature($key, [
+                'alg' => 'HS256',
+            ])
             ->build();
 
         $verifier = new JWSVerifier($algorithmManager);
@@ -44,11 +46,15 @@ final class AlgorithmConfusionTest extends TestCase
         $jws = (new JWSBuilder($algorithmManager))
             ->create()
             ->withPayload('payload')
-            ->addSignature($key, ['alg' => 'HS256'])
+            ->addSignature($key, [
+                'alg' => 'HS256',
+            ])
             ->build();
         $serializer = new JSONFlattenedSerializer();
         $data = json_decode($serializer->serialize($jws, 0), true);
-        $data['header'] = ['alg' => 'HS512'];
+        $data['header'] = [
+            'alg' => 'HS512',
+        ];
         $tamperedJws = $serializer->unserialize(json_encode($data));
 
         $verifier = new JWSVerifier($algorithmManager);
@@ -65,12 +71,16 @@ final class AlgorithmConfusionTest extends TestCase
         $jws = (new JWSBuilder($algorithmManager))
             ->create()
             ->withPayload('payload')
-            ->addSignature($key, ['alg' => 'HS256'])
+            ->addSignature($key, [
+                'alg' => 'HS256',
+            ])
             ->build();
         $serializer = new JSONFlattenedSerializer();
         $data = json_decode($serializer->serialize($jws, 0), true);
         unset($data['protected']);
-        $data['header'] = ['alg' => 'HS256'];
+        $data['header'] = [
+            'alg' => 'HS256',
+        ];
         $tamperedJws = $serializer->unserialize(json_encode($data));
 
         $verifier = new JWSVerifier($algorithmManager);

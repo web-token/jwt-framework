@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 use Brick\Math\BigInteger;
+use InvalidArgumentException;
 use Jose\Component\Core\Util\BigInteger as CoreBigInteger;
 
 /**
@@ -32,8 +33,16 @@ final readonly class Math
         return CoreBigInteger::createFromBigInteger($a)->modInverse(CoreBigInteger::createFromBigInteger($m))->get();
     }
 
+    /**
+     * @param int<2, 36> $from
+     * @param int<2, 36> $to
+     */
     public static function baseConvert(string $number, int $from, int $to): string
     {
+        if ($number === '') {
+            throw new InvalidArgumentException('The number cannot be empty.');
+        }
+
         return BigInteger::fromBase($number, $from)->toBase($to);
     }
 }

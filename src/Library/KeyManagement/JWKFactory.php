@@ -82,11 +82,11 @@ class JWKFactory
      */
     public static function createOctKey(int $size, array $values = []): JWK
     {
-        if ($size % 8 !== 0) {
+        if ($size < 8 || $size % 8 !== 0) {
             throw new InvalidArgumentException('Invalid key size.');
         }
 
-        return self::createFromSecret(random_bytes($size / 8), $values);
+        return self::createFromSecret(random_bytes(max(1, intdiv($size, 8))), $values);
     }
 
     /**

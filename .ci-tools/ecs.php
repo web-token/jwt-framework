@@ -36,7 +36,6 @@ return static function (ECSConfig $config): void {
     $config->import(SetList::CLEAN_CODE);
     $config->import(SetList::DOCTRINE_ANNOTATIONS);
     $config->import(SetList::SPACES);
-    $config->import(SetList::PHPUNIT);
     $config->import(SetList::SYMPLIFY);
     $config->import(SetList::ARRAY);
     $config->import(SetList::COMMON);
@@ -44,12 +43,10 @@ return static function (ECSConfig $config): void {
     $config->import(SetList::CONTROL_STRUCTURES);
     $config->import(SetList::DOCBLOCK);
     $config->import(SetList::NAMESPACES);
-    $config->import(SetList::STRICT);
 
     $config->rule(StrictParamFixer::class);
     $config->rule(StrictComparisonFixer::class);
     $config->rule(ArrayIndentationFixer::class);
-    $config->rule(OrderedImportsFixer::class);
     $config->rule(ProtectedToPrivateFixer::class);
     $config->rule(DeclareStrictTypesFixer::class);
     $config->rule(NativeConstantInvocationFixer::class);
@@ -62,6 +59,9 @@ return static function (ECSConfig $config): void {
     $config->rule(PhpdocOrderFixer::class);
     $config->rule(SimplifiedNullReturnFixer::class);
     $config->rule(PhpUnitTestCaseStaticMethodCallsFixer::class);
+    $config->ruleWithConfiguration(OrderedImportsFixer::class, [
+        'imports_order' => ['class', 'function', 'const'],
+    ]);
     $config->ruleWithConfiguration(ArraySyntaxFixer::class, [
         'syntax' => 'short',
     ]);

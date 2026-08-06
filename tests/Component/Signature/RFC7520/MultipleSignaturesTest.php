@@ -70,16 +70,16 @@ final class MultipleSignaturesTest extends SignatureTestCase
             ->addSignature($ecdsa_private_key, [], [
                 'alg' => 'ES512',
                 'kid' => 'bilbo.baggins@hobbiton.example',
-            ]) //@see https://tools.ietf.org/html/rfc7520#section-4.8.2
+            ]) // @see https://tools.ietf.org/html/rfc7520#section-4.8.2
             ->addSignature($rsa_private_key, [
                 'alg' => 'RS256',
             ], [
                 'kid' => 'bilbo.baggins@hobbiton.example',
-            ])    //@see https://tools.ietf.org/html/rfc7520#section-4.8.3
+            ])    // @see https://tools.ietf.org/html/rfc7520#section-4.8.3
             ->addSignature($symmetric_key, [
                 'alg' => 'HS256',
                 'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
-            ])   //@see https://tools.ietf.org/html/rfc7520#section-4.8.4
+            ])   // @see https://tools.ietf.org/html/rfc7520#section-4.8.4
             ->build();
 
         static::assertSame(3, $jws->countSignatures());

@@ -9,6 +9,7 @@ use Override;
 use function array_diff;
 use function in_array;
 use function is_array;
+use function is_string;
 use function sprintf;
 
 final readonly class UsageAnalyzer implements KeyAnalyzer
@@ -28,7 +29,7 @@ final readonly class UsageAnalyzer implements KeyAnalyzer
         }
         if ($jwk->has('key_ops')) {
             $key_ops = $jwk->get('key_ops');
-            if (! is_array($key_ops)) {
+            if (! is_array($key_ops) || $key_ops !== array_filter($key_ops, static fn (mixed $v): bool => is_string($v))) {
                 $bag->add(Message::high('The parameter "key_ops" must be an array of key operation values.'));
             } else {
                 $allowedOps = [

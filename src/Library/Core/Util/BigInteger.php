@@ -7,6 +7,7 @@ namespace Jose\Component\Core\Util;
 use Brick\Math\BigInteger as BrickBigInteger;
 use InvalidArgumentException;
 use function chr;
+use function is_string;
 use function strlen;
 
 /**
@@ -26,6 +27,9 @@ final readonly class BigInteger
             throw new InvalidArgumentException('Unable to convert the value');
         }
         $data = current($res);
+        if (! is_string($data) || $data === '') {
+            throw new InvalidArgumentException('Unable to convert the value');
+        }
 
         return new self(BrickBigInteger::fromBase($data, 16));
     }

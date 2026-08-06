@@ -14,6 +14,7 @@ use function array_key_exists;
 use function count;
 use function in_array;
 use function is_array;
+use function is_string;
 use function sprintf;
 use const COUNT_NORMAL;
 use const JSON_THROW_ON_ERROR;
@@ -237,7 +238,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         }
         if ($key->has('key_ops')) {
             $key_ops = $key->get('key_ops');
-            if (! is_array($key_ops)) {
+            if (! is_array($key_ops) || $key_ops !== array_filter($key_ops, static fn (mixed $v): bool => is_string($v))) {
                 throw new InvalidArgumentException(
                     'Invalid key parameter "key_ops". Should be a list of key operations'
                 );
@@ -275,6 +276,9 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         return true;
     }
 
+    /**
+     * @param string[] $key_ops
+     */
     private static function convertKeyOpsToKeyUse(array $key_ops): string
     {
         return match (true) {

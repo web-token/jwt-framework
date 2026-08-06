@@ -18,6 +18,7 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use function array_key_exists;
 use function count;
 use function is_array;
+use function is_string;
 use function strlen;
 
 /**
@@ -238,7 +239,11 @@ final class RSAKey
         if (! is_array($unpacked) || count($unpacked) === 0) {
             throw new InvalidArgumentException('Unable to get the private key');
         }
+        $hexadecimal = current($unpacked);
+        if (! is_string($hexadecimal) || $hexadecimal === '') {
+            throw new InvalidArgumentException('Unable to get the private key');
+        }
 
-        return \Brick\Math\BigInteger::fromBase(current($unpacked), 16)->toBase(10);
+        return \Brick\Math\BigInteger::fromBase($hexadecimal, 16)->toBase(10);
     }
 }

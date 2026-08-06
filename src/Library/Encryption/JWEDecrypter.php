@@ -166,7 +166,7 @@ class JWEDecrypter
 
                 return $payload;
             } catch (Throwable) {
-                //We do nothing, we continue with other keys
+                // We do nothing, we continue with other keys
                 continue;
             }
         }

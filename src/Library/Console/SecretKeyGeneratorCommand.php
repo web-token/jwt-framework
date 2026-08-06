@@ -17,7 +17,7 @@ use function is_string;
 
 #[AsCommand(
     name: 'key:generate:from_secret',
-    description: 'Generate an octet key (JWK format) using an existing secret',
+    description: 'Generate an octet key (JWK format) using an existing secret'
 )]
 final class SecretKeyGeneratorCommand extends GeneratorCommand
 {

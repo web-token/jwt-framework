@@ -143,10 +143,10 @@ SQqkP8u4d8G6RAmAMZAcE06mwnDW6m6ZPJfxIfuCraYMsh5DSeiuI57zrw==
 
 PEM;
 
-        //When
+        // When
         $pem = ECKey::convertToPEM($jwk);
 
-        //Then
+        // Then
         static::assertSame($expectedPEM, $pem);
     }
 }

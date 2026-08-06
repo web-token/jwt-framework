@@ -16,7 +16,7 @@ use function is_string;
 
 #[AsCommand(
     name: 'keyset:generate:okp',
-    description: 'Generate a key set with Octet Key Pairs keys (JWKSet format)',
+    description: 'Generate a key set with Octet Key Pairs keys (JWKSet format)'
 )]
 final class OkpKeysetGeneratorCommand extends GeneratorCommand
 {
