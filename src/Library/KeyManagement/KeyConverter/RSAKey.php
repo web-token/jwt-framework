@@ -12,7 +12,6 @@ use RuntimeException;
 use function array_key_exists;
 use function assert;
 use function extension_loaded;
-use function in_array;
 use function is_array;
 use function is_string;
 
@@ -53,10 +52,10 @@ final class RSAKey
             'qi' => 'iqmp',
         ];
         foreach ($details as $key => $value) {
-            if (in_array($key, $keys, true)) {
+            $name = array_search($key, $keys, true);
+            if ($name !== false) {
                 assert(is_string($value), 'Invalid key.');
-                $value = Base64UrlSafe::encodeUnpadded($value);
-                $values[array_search($key, $keys, true)] = $value;
+                $values[$name] = Base64UrlSafe::encodeUnpadded($value);
             }
         }
 
@@ -241,7 +240,7 @@ final class RSAKey
             if ($y === null) {
                 throw new InvalidArgumentException('Unable to find prime factors.');
             }
-            if ($found === true) {
+            if ($found) {
                 $p = $y->subtract($one)
                     ->gcd($n);
                 $q = $n->divide($p);

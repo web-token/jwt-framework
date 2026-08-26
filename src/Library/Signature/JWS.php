@@ -45,7 +45,7 @@ class JWS implements JWT
      */
     public function getEncodedPayload(): ?string
     {
-        if ($this->isPayloadDetached() === true) {
+        if ($this->isPayloadDetached()) {
             return null;
         }
 

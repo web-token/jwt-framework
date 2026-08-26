@@ -238,7 +238,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
         static::assertSame($expected_cyphertext, $cyphertext);
 
-        //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
+        // We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 
@@ -273,7 +273,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
         static::assertSame($expected_cyphertext, $cyphertext);
 
-        //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
+        // We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 
@@ -308,7 +308,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
         static::assertSame($expected_cyphertext, $cyphertext);
 
-        //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
+        // We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 

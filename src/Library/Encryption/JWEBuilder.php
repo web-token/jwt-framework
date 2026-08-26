@@ -184,7 +184,7 @@ class JWEBuilder
         return $clone;
     }
 
-    //TODO: Verify if the key is compatible with the key encryption algorithm like is done to the ECDH-ES
+    // TODO: Verify if the key is compatible with the key encryption algorithm like is done to the ECDH-ES
     /**
      * Set the sender JWK to be used instead of the internal generated JWK
      */
@@ -276,7 +276,7 @@ class JWEBuilder
             $keyEncryptionAlgorithm,
             $additionalHeader,
             $recipient['key'],
-            $recipient['sender_key'] ?? $this->senderKey ?? null
+            $recipient['sender_key'] ?? $this->senderKey
         );
         $recipientHeader = $recipient['header'];
         if ((is_countable($additionalHeader) ? count($additionalHeader) : 0) !== 0 && count($this->recipients) !== 1) {

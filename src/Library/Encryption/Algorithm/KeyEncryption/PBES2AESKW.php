@@ -23,9 +23,9 @@ abstract readonly class PBES2AESKW implements KeyWrapping
     public const DEFAULT_MAX_COUNT = 1_000_000;
 
     public function __construct(
-        private readonly int $salt_size = 64,
-        private readonly int $nb_count = 4096,
-        private readonly int $max_count = self::DEFAULT_MAX_COUNT
+        private int $salt_size = 64,
+        private int $nb_count = 4096,
+        private int $max_count = self::DEFAULT_MAX_COUNT
     ) {
         if (! interface_exists(WrapperInterface::class)) {
             throw new RuntimeException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');

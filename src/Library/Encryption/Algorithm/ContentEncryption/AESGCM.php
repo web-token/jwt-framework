@@ -23,7 +23,7 @@ abstract readonly class AESGCM implements ContentEncryptionAlgorithm
     #[Override]
     public function allowedKeyTypes(): array
     {
-        return []; //Irrelevant
+        return []; // Irrelevant
     }
 
     #[Override]

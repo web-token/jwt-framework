@@ -21,7 +21,7 @@ use function sprintf;
 
 final readonly class JWEEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
-    private readonly JWESerializerManager $serializerManager;
+    private JWESerializerManager $serializerManager;
 
     public function __construct(
         JWESerializerManagerFactory $serializerManagerFactory,

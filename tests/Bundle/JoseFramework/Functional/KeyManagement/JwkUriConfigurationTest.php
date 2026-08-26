@@ -7,7 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManagementSource;
-use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use Jose\Tests\Bundle\JoseFramework\ConfigurationAssertionsTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class JwkUriConfigurationTest extends TestCase
 {
-    use ConfigurationTestCaseTrait;
+    use ConfigurationAssertionsTrait;
 
     #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void

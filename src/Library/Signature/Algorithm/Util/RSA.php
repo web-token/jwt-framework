@@ -44,7 +44,7 @@ final readonly class RSA
                     throw new RuntimeException('Please install the OpenSSL extension');
                 }
                 $result = openssl_sign($message, $signature, $key->toPEM(), $hash);
-                if ($result !== true) {
+                if (! $result) {
                     throw new RuntimeException('Unable to sign the data');
                 }
 
@@ -176,7 +176,7 @@ final readonly class RSA
         if ((~$maskedDB[0] & $temp) !== $temp) {
             throw new InvalidArgumentException();
         }
-        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/*MGF*/);
+        $dbMask = self::getMGF1($h, $emLen - $hash->getLength() - 1, $hash/* MGF */);
         $db = $maskedDB ^ $dbMask;
         $db[0] = ~chr((0xFF << $shiftBits) & 0xFF) & $db[0];
         $temp = $emLen - $hash->getLength() - $sLen - 2;

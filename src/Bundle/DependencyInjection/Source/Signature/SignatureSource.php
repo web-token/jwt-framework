@@ -28,7 +28,7 @@ final readonly class SignatureSource implements SourceWithCompilerPasses
     /**
      * @var Source[]
      */
-    private readonly array $sources;
+    private array $sources;
 
     public function __construct()
     {

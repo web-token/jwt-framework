@@ -33,7 +33,7 @@ final readonly class EncryptionSource implements SourceWithCompilerPasses
     /**
      * @var Source[]
      */
-    private readonly array $sources;
+    private array $sources;
 
     public function __construct()
     {

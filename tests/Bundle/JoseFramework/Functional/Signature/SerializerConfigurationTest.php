@@ -7,7 +7,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional\Signature;
 use Jose\Bundle\JoseFramework\DependencyInjection\Configuration;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
-use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use Jose\Tests\Bundle\JoseFramework\ConfigurationAssertionsTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class SerializerConfigurationTest extends TestCase
 {
-    use ConfigurationTestCaseTrait;
+    use ConfigurationAssertionsTrait;
 
     #[Test]
     public function theConfigurationIsValidIfNoConfigurationIsSet(): void

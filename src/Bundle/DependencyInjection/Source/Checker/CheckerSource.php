@@ -23,7 +23,7 @@ final readonly class CheckerSource implements SourceWithCompilerPasses
     /**
      * @var Source[]
      */
-    private readonly array $sources;
+    private array $sources;
 
     public function __construct()
     {
