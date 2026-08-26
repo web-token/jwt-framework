@@ -96,7 +96,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
 
                         return $res;
                     } catch (Throwable) {
-                        //Does nothing. Will fallback to the pure PHP function
+                        // Does nothing. Will fallback to the pure PHP function
                     }
                 }
                 $x = $public_key->get('x');
@@ -233,7 +233,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
-        if ($is_private === true && ! $key->has('d')) {
+        if ($is_private && ! $key->has('d')) {
             throw new InvalidArgumentException('The key parameter "d" is missing.');
         }
     }
@@ -251,7 +251,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
     private function convertBase64ToBigInteger(string $value): BigInteger
     {
         $data = unpack('H*', Base64UrlSafe::decodeNoPadding($value));
-        if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1])) {
+        if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1]) || $data[1] === '') {
             throw new InvalidArgumentException('Unable to convert base64 to integer');
         }
 

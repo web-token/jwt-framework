@@ -18,7 +18,7 @@ final class OKPKeysTest extends TestCase
     public function createOKPKeyWithInvalidKeySize(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported "Ed455" curve');
+        $this->expectExceptionMessageIsOrContains('Unsupported "Ed455" curve');
 
         JWKFactory::createOKPKey('Ed455');
     }

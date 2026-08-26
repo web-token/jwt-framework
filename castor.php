@@ -124,7 +124,7 @@ function frontend(): void
     $commandsToRun = [
         'assets:install' => [],
         'importmap:install' => [],
-        //'tailwind:build' => ['--watch'],
+        // 'tailwind:build' => ['--watch'],
     ];
 
     foreach ($commandsToRun as $command => $arguments) {

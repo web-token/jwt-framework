@@ -87,7 +87,7 @@ final class JWEEncoderTest extends KernelTestCase
 
         ['jwe' => $jwe] = self::createJWE();
 
-        $this->expectExceptionMessage(sprintf('Cannot encode JWE to %s format.', 'jwe_compact'));
+        $this->expectExceptionMessageIsOrContains(sprintf('Cannot encode JWE to %s format.', 'jwe_compact'));
         $serializer->encode($jwe, 'jwe_compact', [
             'recipient_index' => 2,
         ]);
@@ -129,7 +129,7 @@ final class JWEEncoderTest extends KernelTestCase
 
         ['jwe' => $jwe] = self::createJWE();
 
-        $this->expectExceptionMessage('Cannot encode JWE to jwe_json_flattened format.');
+        $this->expectExceptionMessageIsOrContains('Cannot encode JWE to jwe_json_flattened format.');
         $serializer->encode($jwe, 'jwe_json_flattened');
     }
 
@@ -159,7 +159,7 @@ final class JWEEncoderTest extends KernelTestCase
 
         ['jwe_json_flattened' => $jweString] = self::createJWE();
 
-        $this->expectExceptionMessage('Cannot decode JWE from jwe_json_flattened format.');
+        $this->expectExceptionMessageIsOrContains('Cannot decode JWE from jwe_json_flattened format.');
         $serializer->decode($jweString, 'jwe_json_flattened');
     }
 

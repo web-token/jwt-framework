@@ -45,7 +45,7 @@ final class JWSTest extends SignatureTestCase
     public function toCompactJSONFailed(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The signature does not exist.');
+        $this->expectExceptionMessageIsOrContains('The signature does not exist.');
 
         $claims = [
             'nbf' => time(),
@@ -64,7 +64,7 @@ final class JWSTest extends SignatureTestCase
     public function toFlattenedJSONFailed(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The signature does not exist.');
+        $this->expectExceptionMessageIsOrContains('The signature does not exist.');
 
         $claims = [
             'nbf' => time(),
@@ -83,7 +83,7 @@ final class JWSTest extends SignatureTestCase
     public function toJSONFailed(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('No signature.');
+        $this->expectExceptionMessageIsOrContains('No signature.');
 
         $claims = [
             'nbf' => time(),
@@ -102,7 +102,7 @@ final class JWSTest extends SignatureTestCase
     public function signatureContainsUnprotectedHeader(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'The signature contains unprotected header parameters and cannot be converted into compact JSON'
         );
 
@@ -130,7 +130,7 @@ final class JWSTest extends SignatureTestCase
     public function signatureDoesNotContainHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The header "foo" does not exist');
+        $this->expectExceptionMessageIsOrContains('The header "foo" does not exist');
 
         $claims = [
             'nbf' => time(),
@@ -153,7 +153,7 @@ final class JWSTest extends SignatureTestCase
     public function signatureDoesNotContainProtectedHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The protected header "foo" does not exist');
+        $this->expectExceptionMessageIsOrContains('The protected header "foo" does not exist');
 
         $claims = [
             'nbf' => time(),

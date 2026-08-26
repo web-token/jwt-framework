@@ -38,7 +38,7 @@ final class RSAKeysTest extends TestCase
     public function hashAlgorithmNotSupported(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The hash algorithm "foo" is not supported.');
+        $this->expectExceptionMessageIsOrContains('The hash algorithm "foo" is not supported.');
 
         $key = new JWK([
             'kty' => 'RSA',
@@ -55,7 +55,7 @@ final class RSAKeysTest extends TestCase
     public function unsupportedKeyType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('JWK is not a RSA key');
+        $this->expectExceptionMessageIsOrContains('JWK is not a RSA key');
 
         RSAKey::createFromJWK(new JWK([
             'kty' => 'EC',

@@ -124,7 +124,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
     public function badTag(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unable to decrypt or to verify the tag.');
+        $this->expectExceptionMessageIsOrContains('Unable to decrypt or to verify the tag.');
 
         $header = Base64UrlSafe::encodeUnpadded(json_encode([
             'alg' => 'A128KW',
@@ -238,7 +238,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
         static::assertSame($expected_cyphertext, $cyphertext);
 
-        //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
+        // We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 
@@ -273,7 +273,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
         static::assertSame($expected_cyphertext, $cyphertext);
 
-        //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
+        // We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 
@@ -308,7 +308,7 @@ final class AESCBC_HSContentEncryptionTest extends TestCase
 
         static::assertSame($expected_cyphertext, $cyphertext);
 
-        //We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
+        // We invoke protected methods to test vectors directly. This is due to the encryption signature: this test case uses a string as AAD, but the algorithm uses the protected header.
         $calc_method = self::getMethod(A128CBCHS256::class, 'calculateAuthenticationTag');
         $check_method = self::getMethod(A128CBCHS256::class, 'isTagValid');
 

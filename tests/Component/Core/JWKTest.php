@@ -55,7 +55,7 @@ final class JWKTest extends TestCase
     public function iCannotGetTheThumbprintOfTheKeyWhenIUseAnUnsupportedHashingAlgorithm(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The hash algorithm "foo" is not supported.');
+        $this->expectExceptionMessageIsOrContains('The hash algorithm "foo" is not supported.');
 
         $jwk = new JWK([
             'kty' => 'EC',
@@ -75,7 +75,7 @@ final class JWKTest extends TestCase
     public function iMustSetAtLeastTheKtyParameter(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The parameter "kty" is mandatory.');
+        $this->expectExceptionMessageIsOrContains('The parameter "kty" is mandatory.');
 
         new JWK([]);
     }
@@ -84,7 +84,7 @@ final class JWKTest extends TestCase
     public function iCannotGetAParameterThatDoesNotExist(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The value identified by "ABCD" does not exist.');
+        $this->expectExceptionMessageIsOrContains('The value identified by "ABCD" does not exist.');
 
         $jwk = new JWK([
             'kty' => 'EC',
@@ -143,10 +143,10 @@ SQqkP8u4d8G6RAmAMZAcE06mwnDW6m6ZPJfxIfuCraYMsh5DSeiuI57zrw==
 
 PEM;
 
-        //When
+        // When
         $pem = ECKey::convertToPEM($jwk);
 
-        //Then
+        // Then
         static::assertSame($expectedPEM, $pem);
     }
 }

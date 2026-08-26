@@ -22,7 +22,7 @@ final class DirAlgorithmTest extends TestCase
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Wrong key type.');
+        $this->expectExceptionMessageIsOrContains('Wrong key type.');
 
         $key = new JWK([
             'kty' => 'EC',

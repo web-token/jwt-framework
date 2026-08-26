@@ -22,7 +22,7 @@ final class ECDSASignatureTest extends TestCase
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Wrong key type.');
+        $this->expectExceptionMessageIsOrContains('Wrong key type.');
         $key = new JWK([
             'kty' => 'RSA',
         ]);
@@ -77,7 +77,7 @@ final class ECDSASignatureTest extends TestCase
     public function keyNotPrivate(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The EC key is not private');
+        $this->expectExceptionMessageIsOrContains('The EC key is not private');
         $key = new JWK([
             'kty' => 'EC',
             'crv' => 'P-256',

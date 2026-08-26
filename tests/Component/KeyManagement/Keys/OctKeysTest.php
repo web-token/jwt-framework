@@ -18,7 +18,7 @@ final class OctKeysTest extends TestCase
     public function createOctKeyWithInvalidKeySize(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid key size.');
+        $this->expectExceptionMessageIsOrContains('Invalid key size.');
 
         JWKFactory::createOctKey(12);
     }

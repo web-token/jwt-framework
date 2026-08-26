@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function is_array;
 use function is_string;
 
-#[AsCommand(name: 'key:thumbprint', description: 'Get the thumbprint of a JWK key.',)]
+#[AsCommand(name: 'key:thumbprint', description: 'Get the thumbprint of a JWK key.', )]
 final class GetThumbprintCommand extends ObjectOutputCommand
 {
     #[Override]

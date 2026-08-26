@@ -48,7 +48,7 @@ abstract readonly class RSAPKCS1 implements SignatureAlgorithm
         $priv = RSAKey::createFromJWK($key);
 
         $result = openssl_sign($input, $signature, $priv->toPEM(), $this->getAlgorithm());
-        if ($result !== true) {
+        if (! $result) {
             throw new RuntimeException('Unable to sign');
         }
 

@@ -34,7 +34,7 @@ final class KeySetCreationCommandTest extends TestCase
     public function theEllipticCurveKeySetCreationCommandNeedTheCurveAndQuantityArguments(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Not enough arguments (missing: "quantity, curve").');
+        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "quantity, curve").');
 
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -47,7 +47,7 @@ final class KeySetCreationCommandTest extends TestCase
     public function iCannotCreateAnEllipticCurveKeySetWithAnUnsupportedCurve(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The curve "P-128" is not supported.');
+        $this->expectExceptionMessageIsOrContains('The curve "P-128" is not supported.');
 
         $input = new ArrayInput([
             'quantity' => 2,
@@ -80,7 +80,7 @@ final class KeySetCreationCommandTest extends TestCase
     public function iCannotCreateAnOctetKeySetWithoutKeySetSize(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Not enough arguments (missing: "size").');
+        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "size").');
 
         $input = new ArrayInput([
             'quantity' => 2,
@@ -115,7 +115,7 @@ final class KeySetCreationCommandTest extends TestCase
     public function iCannotCreateAnOctetKeySetPairWithoutKeySetCurve(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
+        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "curve").');
 
         $input = new ArrayInput([
             'quantity' => 2,
@@ -147,7 +147,7 @@ final class KeySetCreationCommandTest extends TestCase
     public function iCannotCreateAnRsaKeySetWithoutKeySetSize(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Not enough arguments (missing: "size").');
+        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "size").');
 
         $input = new ArrayInput([
             'quantity' => 2,

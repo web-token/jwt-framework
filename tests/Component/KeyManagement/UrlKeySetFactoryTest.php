@@ -47,7 +47,7 @@ final class UrlKeySetFactoryTest extends TestCase
     public function theJWKUrlIsValidButDoesNotContainAKeySet(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessageIsOrContains('Unsupported input.');
 
         $response = new MockResponse('Hello World!', [
             'http_code' => 200,
@@ -62,7 +62,7 @@ final class UrlKeySetFactoryTest extends TestCase
     public function theUrlIsNotValidAndJWKSetCannotBeLoaded(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unable to get the key set.');
+        $this->expectExceptionMessageIsOrContains('Unable to get the key set.');
 
         $response = new MockResponse('Not found', [
             'http_code' => 404,
@@ -94,7 +94,7 @@ final class UrlKeySetFactoryTest extends TestCase
     public function theX509UrlIsValidButDoesNotContainAKeySet(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessageIsOrContains('Unsupported input.');
 
         $response = new MockResponse('Hello World!', [
             'http_code' => 200,
@@ -109,7 +109,7 @@ final class UrlKeySetFactoryTest extends TestCase
     public function theUrlIsNotValidAndX509CertificatesCannotBeLoaded(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unable to get the key set.');
+        $this->expectExceptionMessageIsOrContains('Unable to get the key set.');
 
         $response = new MockResponse('Not found', [
             'http_code' => 404,

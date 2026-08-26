@@ -14,7 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_array;
 
-#[AsCommand(name: 'keyset:merge', description: 'Merge several key sets into one.')]
+#[AsCommand(name: 'keyset:merge', description: 'Merge several key sets into one.', help: <<<'TXT'
+This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.
+TXT)]
 final class MergeKeysetCommand extends ObjectOutputCommand
 {
     #[Override]
@@ -22,9 +24,6 @@ final class MergeKeysetCommand extends ObjectOutputCommand
     {
         parent::configure();
         $this
-            ->setHelp(
-                'This command merges several key sets into one. It is very useful when you generate e.g. RSA, EC and OKP keys and you want only one key set to rule them all.'
-            )
             ->addArgument('jwksets', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The JWKSet objects');
     }
 

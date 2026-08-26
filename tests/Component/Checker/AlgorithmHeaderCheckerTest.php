@@ -18,7 +18,7 @@ final class AlgorithmHeaderCheckerTest extends TestCase
     public function anAlgorithmMustBeAString(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessage('"alg" must be a string.');
+        $this->expectExceptionMessageIsOrContains('"alg" must be a string.');
 
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader(1);
@@ -28,7 +28,7 @@ final class AlgorithmHeaderCheckerTest extends TestCase
     public function theAlgorithmHeaderIsNotAllowed(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessage('Unsupported algorithm.');
+        $this->expectExceptionMessageIsOrContains('Unsupported algorithm.');
 
         $checker = new AlgorithmChecker(['foo']);
         $checker->checkHeader('bar');

@@ -21,7 +21,7 @@ use const JSON_UNESCAPED_UNICODE;
  */
 class JWK implements JsonSerializable
 {
-    private array $values = [];
+    private array $values;
 
     /**
      * Creates a JWK object using the given values. The member "kty" is mandatory. Other members are NOT checked.

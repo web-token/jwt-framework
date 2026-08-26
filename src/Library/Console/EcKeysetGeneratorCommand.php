@@ -14,7 +14,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_string;
 
-#[AsCommand(name: 'keyset:generate:ec', description: 'Generate an EC key set (JWKSet format)',)]
+#[AsCommand(name: 'keyset:generate:ec', description: 'Generate an EC key set (JWKSet format)', )]
 final class EcKeysetGeneratorCommand extends GeneratorCommand
 {
     #[Override]

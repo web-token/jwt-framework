@@ -41,7 +41,6 @@ use const SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING;
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
  */
-
 final readonly class Base64UrlSafe
 {
     public static function encode(#[SensitiveParameter] string $binString): string
@@ -117,9 +116,9 @@ final readonly class Base64UrlSafe
 
             $dest .= pack(
                 'CCC',
-                ((($c0 << 2) | ($c1 >> 4)) & 0xff),
-                ((($c1 << 4) | ($c2 >> 2)) & 0xff),
-                ((($c2 << 6) | $c3) & 0xff)
+                ((($c0 << 2) | ($c1 >> 4)) & 0xFF),
+                ((($c1 << 4) | ($c2 >> 2)) & 0xFF),
+                ((($c2 << 6) | $c3) & 0xFF)
             );
             $err |= ($c0 | $c1 | $c2 | $c3) >> 8;
         }
@@ -132,17 +131,17 @@ final readonly class Base64UrlSafe
             if ($i + 2 < $srcLen) {
                 $c1 = static::decode6Bits($chunk[2]);
                 $c2 = static::decode6Bits($chunk[3]);
-                $dest .= pack('CC', ((($c0 << 2) | ($c1 >> 4)) & 0xff), ((($c1 << 4) | ($c2 >> 2)) & 0xff));
+                $dest .= pack('CC', ((($c0 << 2) | ($c1 >> 4)) & 0xFF), ((($c1 << 4) | ($c2 >> 2)) & 0xFF));
                 $err |= ($c0 | $c1 | $c2) >> 8;
                 if ($strictPadding) {
-                    $err |= ($c2 << 6) & 0xff;
+                    $err |= ($c2 << 6) & 0xFF;
                 }
             } elseif ($i + 1 < $srcLen) {
                 $c1 = static::decode6Bits($chunk[2]);
-                $dest .= pack('C', ((($c0 << 2) | ($c1 >> 4)) & 0xff));
+                $dest .= pack('C', ((($c0 << 2) | ($c1 >> 4)) & 0xFF));
                 $err |= ($c0 | $c1) >> 8;
                 if ($strictPadding) {
-                    $err |= ($c1 << 4) & 0xff;
+                    $err |= ($c1 << 4) & 0xFF;
                 }
             } elseif ($strictPadding) {
                 $err |= 1;
@@ -215,12 +214,12 @@ final readonly class Base64UrlSafe
     private static function decode6Bits(int $src): int
     {
         $ret = -1;
-        $ret += (((0x40 - $src) & ($src - 0x5b)) >> 8) & ($src - 64);
-        $ret += (((0x60 - $src) & ($src - 0x7b)) >> 8) & ($src - 70);
-        $ret += (((0x2f - $src) & ($src - 0x3a)) >> 8) & ($src + 5);
-        $ret += (((0x2c - $src) & ($src - 0x2e)) >> 8) & 63;
+        $ret += (((0x40 - $src) & ($src - 0x5B)) >> 8) & ($src - 64);
+        $ret += (((0x60 - $src) & ($src - 0x7B)) >> 8) & ($src - 70);
+        $ret += (((0x2F - $src) & ($src - 0x3A)) >> 8) & ($src + 5);
+        $ret += (((0x2C - $src) & ($src - 0x2E)) >> 8) & 63;
 
-        return $ret + ((((0x5e - $src) & ($src - 0x60)) >> 8) & 64);
+        return $ret + ((((0x5E - $src) & ($src - 0x60)) >> 8) & 64);
     }
 
     private static function encode6Bits(int $src): string

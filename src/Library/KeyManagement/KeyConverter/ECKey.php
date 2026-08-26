@@ -18,7 +18,7 @@ use function is_string;
  */
 final class ECKey
 {
-    private array $values = [];
+    private array $values;
 
     private function __construct(array $data)
     {

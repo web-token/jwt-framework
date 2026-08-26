@@ -34,7 +34,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function aHeaderMustNotContainDuplicatedHeaderParameters(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The header contains duplicated entries: alg.');
+        $this->expectExceptionMessageIsOrContains('The header contains duplicated entries: alg.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
             ->create(['aud', 'iss']);
@@ -54,7 +54,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function theTokenHasCriticalHeaderNotSatisfied(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessage(
+        $this->expectExceptionMessageIsOrContains(
             'One or more header parameters are marked as critical, but they are missing or have not been checked: alg.'
         );
 
@@ -92,7 +92,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function theCriticalHeaderParameterMustBeProtected(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessage('The header parameter "crit" must be protected.');
+        $this->expectExceptionMessageIsOrContains('The header parameter "crit" must be protected.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
             ->create(['aud', 'iss']);
@@ -111,7 +111,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function theCriticalHeaderParameterMustBeAListOfHeaderParameters(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessage('The header "crit" must be a list of header parameters.');
+        $this->expectExceptionMessageIsOrContains('The header "crit" must be a list of header parameters.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
             ->create(['aud', 'iss']);
@@ -145,7 +145,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function theHeaderDoesNotContainSomeMandatoryParameters(): void
     {
         $this->expectException(MissingMandatoryHeaderParameterException::class);
-        $this->expectExceptionMessage('The following header parameters are mandatory: mandatory.');
+        $this->expectExceptionMessageIsOrContains('The following header parameters are mandatory: mandatory.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
             ->create(['aud', 'iss']);
@@ -165,7 +165,7 @@ final class HeaderCheckerManagerFactoryTest extends TestCase
     public function iTryToCheckATokenThatIsNotSupported(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported token type.');
+        $this->expectExceptionMessageIsOrContains('Unsupported token type.');
 
         $headerCheckerManager = $this->getHeaderCheckerManagerFactory()
             ->create(['aud', 'iss']);

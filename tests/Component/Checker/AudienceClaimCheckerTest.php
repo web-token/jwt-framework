@@ -18,7 +18,7 @@ final class AudienceClaimCheckerTest extends TestCase
     public function anAudienceClaimMustBeAStringOrAnArrayOfStrings(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessage('Bad audience.');
+        $this->expectExceptionMessageIsOrContains('Bad audience.');
 
         $checker = new AudienceChecker('foo');
         $checker->checkClaim(1);
@@ -28,7 +28,7 @@ final class AudienceClaimCheckerTest extends TestCase
     public function theAudienceClaimIsNotKnown(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessage('Bad audience.');
+        $this->expectExceptionMessageIsOrContains('Bad audience.');
 
         $checker = new AudienceChecker('foo');
         $checker->checkClaim('bar');
@@ -38,7 +38,7 @@ final class AudienceClaimCheckerTest extends TestCase
     public function theAudienceClaimListDoesNotContainTheCurrentAudience(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessage('Bad audience.');
+        $this->expectExceptionMessageIsOrContains('Bad audience.');
 
         $checker = new AudienceChecker('foo');
         $checker->checkClaim(['bar']);

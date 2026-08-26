@@ -454,7 +454,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function badKeyType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Wrong key type.');
+        $this->expectExceptionMessageIsOrContains('Wrong key type.');
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
             'enc' => 'A256CBC-HS512',
@@ -559,7 +559,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function invalidKeyType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The key parameter "k" is missing.');
+        $this->expectExceptionMessageIsOrContains('The key parameter "k" is missing.');
         $header = [
             'alg' => 'PBES2-HS512+A256KW',
             'enc' => 'A256CBC-HS512',
@@ -664,7 +664,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function algorithmParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The header parameter "alg" is missing.');
+        $this->expectExceptionMessageIsOrContains('The header parameter "alg" is missing.');
         $header = [
             'enc' => 'A256CBC-HS512',
             'cty' => 'jwk+json',
@@ -768,7 +768,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function p2CParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The header parameter "p2s" is missing.');
+        $this->expectExceptionMessageIsOrContains('The header parameter "p2s" is missing.');
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
             'p2c' => 4096,
@@ -840,7 +840,7 @@ final class PBES2_HS_AESKWKeyEncryptionTest extends TestCase
     public function p2SParameterIsMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The header parameter "p2c" is missing.');
+        $this->expectExceptionMessageIsOrContains('The header parameter "p2c" is missing.');
         $header = [
             'alg' => 'PBES2-HS256+A128KW',
             'p2s' => '2WCTcJZ1Rvd_CJuJripQ1w',

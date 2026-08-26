@@ -123,7 +123,7 @@ final class JWSEncoderTest extends KernelTestCase
 
         ['jws' => $jws] = static::createJWS();
 
-        $this->expectExceptionMessage('Cannot encode JWS to jws_json_flattened format.');
+        $this->expectExceptionMessageIsOrContains('Cannot encode JWS to jws_json_flattened format.');
         $serializer->encode($jws, 'jws_json_flattened');
     }
 
@@ -154,7 +154,7 @@ final class JWSEncoderTest extends KernelTestCase
 
         $jwsString = '{"payload":"SGVsbG8gV29ybGQh","protected":"eyJhbGciOiJIUzI1NiJ9","signature":"ZIKPsa3NtNoACjvh6fhfg6PZgmKiuss_9sDPtMZxtNU"}';
 
-        $this->expectExceptionMessage('Cannot decode JWS from jws_json_flattened format.');
+        $this->expectExceptionMessageIsOrContains('Cannot decode JWS from jws_json_flattened format.');
         $serializer->decode($jwsString, 'jws_json_flattened');
     }
 

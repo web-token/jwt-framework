@@ -44,7 +44,7 @@ final class AESKWKeyEncryptionTest extends TestCase
     public function badKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Wrong key type');
+        $this->expectExceptionMessageIsOrContains('Wrong key type');
 
         $header = [];
         $key = new JWK([

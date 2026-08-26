@@ -44,7 +44,7 @@ final class AESGCMKWKeyEncryptionTest extends TestCase
     public function badKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Wrong key type.');
+        $this->expectExceptionMessageIsOrContains('Wrong key type.');
 
         $header = [];
         $key = new JWK([
@@ -62,7 +62,7 @@ final class AESGCMKWKeyEncryptionTest extends TestCase
     public function missingParameters(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Parameter "iv" is missing.');
+        $this->expectExceptionMessageIsOrContains('Parameter "iv" is missing.');
 
         $header = [];
         $key = new JWK([
