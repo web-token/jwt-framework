@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use function is_string;
 
-#[AsCommand(name: 'key:generate:ec', description: 'Generate an EC key (JWK format)', )]
+#[AsCommand(name: 'key:generate:ec', description: 'Generate an EC key (JWK format)')]
 final class EcKeyGeneratorCommand extends GeneratorCommand
 {
     #[Override]

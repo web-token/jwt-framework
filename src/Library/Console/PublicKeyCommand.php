@@ -15,9 +15,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function is_array;
 use function is_string;
 
-#[AsCommand(name: 'key:convert:public', description: 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.', help: <<<'TXT'
-This command converts a private key into a public key.
-TXT)]
+#[AsCommand(
+    name: 'key:convert:public',
+    description: 'Convert a private key into public key. Symmetric keys (shared keys) are not changed.',
+)]
 final class PublicKeyCommand extends ObjectOutputCommand
 {
     #[Override]
@@ -25,6 +26,7 @@ final class PublicKeyCommand extends ObjectOutputCommand
     {
         parent::configure();
         $this
+            ->setHelp('This command converts a private key into a public key.')
             ->addArgument('jwk', InputArgument::REQUIRED, 'The JWK object');
     }
 
