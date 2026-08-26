@@ -42,7 +42,11 @@ final readonly class NestedTokenBuilder implements Source
                 $definition->addTag($id, $attributes);
             }
             $container->setDefinition($service_id, $definition);
-            $container->registerAliasForArgument($service_id, self::class, $name . 'NestedTokenBuilder');
+            $container->registerAliasForArgument(
+                $service_id,
+                NestedTokenBuilderService::class,
+                $name . 'NestedTokenBuilder'
+            );
         }
     }
 

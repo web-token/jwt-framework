@@ -8,6 +8,7 @@ use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\NestedToken\NestedTokenLoader;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\NestedTokenServiceConsumer;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -44,6 +45,23 @@ final class NestedTokenLoaderTest extends WebTestCase
         $container = $client->getContainer();
         static::assertNotNull($container);
         static::assertTrue($container->has('jose.nested_token_loader.nested_token_loader_2'));
+    }
+
+    #[Test]
+    public static function theNestedTokenLoaderFromTheConfigurationCanBeAutowired(): void
+    {
+        static::ensureKernelShutdown();
+        $client = static::createClient();
+        $container = $client->getContainer();
+        static::assertNotNull($container);
+
+        /** @var NestedTokenServiceConsumer $consumer */
+        $consumer = $container->get(NestedTokenServiceConsumer::class);
+
+        static::assertSame(
+            $container->get('jose.nested_token_loader.nested_token_loader_1'),
+            $consumer->getLoader()
+        );
     }
 
     #[Test]

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\CustomChecker;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\NestedTokenServiceConsumer;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Clock\NativeClock;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -24,5 +25,9 @@ return function (ContainerConfigurator $container) {
 
     $container->set(ClockInterface::class)
         ->class(NativeClock::class)
+    ;
+
+    $container->set(NestedTokenServiceConsumer::class)
+        ->public()
     ;
 };
