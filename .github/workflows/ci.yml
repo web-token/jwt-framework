@@ -205,7 +205,11 @@ jobs:
           fi
 
       - name: Run PHPUnit
-        run: castor phpunit
+        run: |
+          composer exec -- phpunit-11 \
+            --coverage-xml .ci-tools/coverage \
+            --log-junit=.ci-tools/coverage/junit.xml \
+            --configuration .ci-tools/phpunit.xml.dist
 
   infection:
     name: "🧬 Mutation Testing"
