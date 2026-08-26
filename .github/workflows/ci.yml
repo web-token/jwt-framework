@@ -216,6 +216,7 @@ jobs:
     needs: [prepare_dependencies, tests]
     if: ${{ endsWith(github.ref_name, '.x') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     container:
       image: ghcr.io/spomky-labs/phpqa:8.4
     env:
