@@ -19,7 +19,7 @@ final class NotBeforeClaimCheckerTest extends TestCase
     public function theNotBeforeClaimMustBeAnInteger(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessageIsOrContains('"nbf" must be an integer.');
+        $this->expectExceptionMessage('"nbf" must be an integer.');
 
         $clock = new MockClock();
         $checker = new NotBeforeChecker(clock: $clock);
@@ -30,7 +30,7 @@ final class NotBeforeClaimCheckerTest extends TestCase
     public function theNotBeforeClaimIsInTheFutur(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessageIsOrContains('The JWT can not be used yet.');
+        $this->expectExceptionMessage('The JWT can not be used yet.');
 
         $clock = new MockClock();
         $checker = new NotBeforeChecker(clock: $clock);

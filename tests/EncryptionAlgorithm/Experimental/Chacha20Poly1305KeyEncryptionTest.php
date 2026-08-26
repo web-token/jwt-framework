@@ -55,7 +55,7 @@ final class Chacha20Poly1305KeyEncryptionTest extends TestCase
         $encrypted = substr_replace($encrypted, $encrypted[0] ^ "\xff", 0, 1);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIsOrContains('Unable to decrypt the CEK');
+        $this->expectExceptionMessage('Unable to decrypt the CEK');
         $algorithm->decryptKey($key, $encrypted, $additionalHeader);
     }
 
@@ -74,7 +74,7 @@ final class Chacha20Poly1305KeyEncryptionTest extends TestCase
         $additionalHeader['tag'] = Base64UrlSafe::encodeUnpadded($tag);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIsOrContains('Unable to decrypt the CEK');
+        $this->expectExceptionMessage('Unable to decrypt the CEK');
         $algorithm->decryptKey($key, $encrypted, $additionalHeader);
     }
 
@@ -90,7 +90,7 @@ final class Chacha20Poly1305KeyEncryptionTest extends TestCase
         unset($additionalHeader['tag']);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The header parameter "tag" is missing.');
+        $this->expectExceptionMessage('The header parameter "tag" is missing.');
         $algorithm->decryptKey($key, $encrypted, $additionalHeader);
     }
 

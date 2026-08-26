@@ -20,7 +20,7 @@ final class CallableCheckerTest extends TestCase
     public function theCallableIsCallable(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The $callable argument must be a callable.');
+        $this->expectExceptionMessage('The $callable argument must be a callable.');
 
         new CallableChecker('foo', 'not_a_callable');
     }

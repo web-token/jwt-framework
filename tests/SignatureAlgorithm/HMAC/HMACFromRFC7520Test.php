@@ -306,7 +306,7 @@ final class HMACFromRFC7520Test extends TestCase
         $jsonGeneralSerializer->unserialize($expected_json);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('No "alg" parameter set in the protected header.');
+        $this->expectExceptionMessage('No "alg" parameter set in the protected header.');
         $jwsVerifier->verifyWithKey($loaded_flattened_json, $key, 0);
     }
 }

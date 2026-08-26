@@ -85,7 +85,7 @@ final class AlgorithmConfusionTest extends TestCase
 
         $verifier = new JWSVerifier($algorithmManager);
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('No "alg" parameter set in the protected header.');
+        $this->expectExceptionMessage('No "alg" parameter set in the protected header.');
         $verifier->verifyWithKey($tamperedJws, $key, 0);
     }
 

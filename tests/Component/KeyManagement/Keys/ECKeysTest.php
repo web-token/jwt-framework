@@ -22,7 +22,7 @@ final class ECKeysTest extends TestCase
     public function keyTypeNotSupported(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Unsupported key type');
+        $this->expectExceptionMessage('Unsupported key type');
 
         $file = 'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'DSA' . DIRECTORY_SEPARATOR . 'DSA.key';
         KeyConverter::loadFromKeyFile($file);
@@ -107,7 +107,7 @@ final class ECKeysTest extends TestCase
     public function loadEncryptedPrivateEC256KeyWithoutPassword(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Password required for encrypted keys.');
+        $this->expectExceptionMessage('Password required for encrypted keys.');
 
         KeyConverter::loadFromKeyFile(
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es256.encrypted.key'
@@ -213,7 +213,7 @@ final class ECKeysTest extends TestCase
     {
         // Then
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Unable to load the key');
+        $this->expectExceptionMessage('Unable to load the key');
 
         // Given
         $private_pem = trim(<<<PEM

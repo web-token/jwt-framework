@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - id: cache-key-generator
-        run: echo "key=composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}" >> $GITHUB_OUTPUT
+        run: echo "key=composer-${{ runner.os }}-${{ hashFiles('composer.json', 'src/*/composer.json') }}" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
         with:

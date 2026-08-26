@@ -37,7 +37,7 @@ final class AlgorithmManagerFactoryTest extends TestCase
     public function iCannotGetAnAlgorithmThatDoesNotExist(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The algorithm "HS384" is not supported.');
+        $this->expectExceptionMessage('The algorithm "HS384" is not supported.');
 
         $manager = new AlgorithmManager([new FooAlgorithm()]);
 

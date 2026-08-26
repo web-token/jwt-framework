@@ -55,7 +55,7 @@ final class JWKTest extends TestCase
     public function badConstruction(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The parameter "kty" is mandatory.');
+        $this->expectExceptionMessage('The parameter "kty" is mandatory.');
 
         new JWK([]);
     }
@@ -64,7 +64,7 @@ final class JWKTest extends TestCase
     public function badCall(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The value identified by "ABCD" does not exist.');
+        $this->expectExceptionMessage('The value identified by "ABCD" does not exist.');
 
         $jwk = new JWK([
             'kty' => 'EC',
@@ -139,7 +139,7 @@ final class JWKTest extends TestCase
     public function keySet2(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Undefined index.');
+        $this->expectExceptionMessage('Undefined index.');
 
         $jwk1 = new JWK([
             'kty' => 'EC',

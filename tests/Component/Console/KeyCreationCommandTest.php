@@ -37,7 +37,7 @@ final class KeyCreationCommandTest extends TestCase
     public function theEllipticCurveKeyCreationCommandNeedTheCurveArgument(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "curve").');
+        $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
 
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -50,7 +50,7 @@ final class KeyCreationCommandTest extends TestCase
     public function iCannotCreateAnEllipticCurveKeyWithAnUnsupportedCurve(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The curve "P-128" is not supported.');
+        $this->expectExceptionMessage('The curve "P-128" is not supported.');
 
         $input = new ArrayInput([
             'curve' => 'P-128',
@@ -81,7 +81,7 @@ final class KeyCreationCommandTest extends TestCase
     public function iCannotCreateAnOctetKeyWithoutKeySize(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "size").');
+        $this->expectExceptionMessage('Not enough arguments (missing: "size").');
 
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -145,7 +145,7 @@ final class KeyCreationCommandTest extends TestCase
     public function iCannotCreateAnOctetKeyPairWithoutKeyCurve(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "curve").');
+        $this->expectExceptionMessage('Not enough arguments (missing: "curve").');
 
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
@@ -189,7 +189,7 @@ final class KeyCreationCommandTest extends TestCase
     public function iCannotCreateAnRsaKeyWithoutKeySize(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessageIsOrContains('Not enough arguments (missing: "size").');
+        $this->expectExceptionMessage('Not enough arguments (missing: "size").');
 
         $input = new ArrayInput([]);
         $output = new BufferedOutput();

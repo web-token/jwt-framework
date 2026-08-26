@@ -385,7 +385,7 @@ final class RSASignatureTest extends TestCase
     public function loadJWSJSONSerializationWithDetachedPayloadAndPayloadInJWS(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('A detached payload is set, but the JWS already has a payload');
+        $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload');
         $jwsVerifier = new JWSVerifier(new AlgorithmManager([new RS256()]));
         $serializer = new JSONGeneralSerializer();
         $result = $serializer->unserialize(
@@ -407,7 +407,7 @@ final class RSASignatureTest extends TestCase
     public function loadInvalidInput(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Unsupported input');
+        $this->expectExceptionMessage('Unsupported input');
         $serializer = new CompactSerializer();
         $serializer->unserialize(
             'DtEhU3ljbEg8L38VWAfUAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q'
@@ -418,7 +418,7 @@ final class RSASignatureTest extends TestCase
     public function loadInvalidInput2(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Unsupported input');
+        $this->expectExceptionMessage('Unsupported input');
         $serializer = new CompactSerializer();
         $serializer->unserialize(
             'DtEhU3ljb.Eg8L.38VWAf.UAqOyKAM6-Xx-F4GawxaepmXFCgfTjDxw5djxLa8ISlSApmWQxfKTUJqPP3-Kg6NU1Q'

@@ -74,7 +74,7 @@ final class Blake2bTest extends TestCase
         ]);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Key provided is shorter than 256 bits.');
+        $this->expectExceptionMessage('Key provided is shorter than 256 bits.');
 
         $algorithm->hash($key, self::CONTENTS);
     }

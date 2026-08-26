@@ -19,7 +19,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
     public function theExpirationTimeClaimMustBeAnInteger(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessageIsOrContains('"exp" must be an integer.');
+        $this->expectExceptionMessage('"exp" must be an integer.');
 
         $clock = new MockClock();
         $checker = new ExpirationTimeChecker(clock: $clock);
@@ -30,7 +30,7 @@ final class ExpirationTimeClaimCheckerTest extends TestCase
     public function theExpirationTimeIsInThePast(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessageIsOrContains('The token expired.');
+        $this->expectExceptionMessage('The token expired.');
 
         $clock = new MockClock();
         $checker = new ExpirationTimeChecker(clock: $clock);

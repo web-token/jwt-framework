@@ -18,7 +18,7 @@ final class AudienceHeaderCheckerTest extends TestCase
     public function anAudienceHeaderMustBeAStringOrAnArrayOfStrings(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessageIsOrContains('Bad audience.');
+        $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
         $checker->checkHeader(1);
@@ -28,7 +28,7 @@ final class AudienceHeaderCheckerTest extends TestCase
     public function theAudienceHeaderIsNotKnown(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessageIsOrContains('Bad audience.');
+        $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
         $checker->checkHeader('bar');
@@ -38,7 +38,7 @@ final class AudienceHeaderCheckerTest extends TestCase
     public function theAudienceHeaderListDoesNotContainTheCurrentAudience(): void
     {
         $this->expectException(InvalidHeaderException::class);
-        $this->expectExceptionMessageIsOrContains('Bad audience.');
+        $this->expectExceptionMessage('Bad audience.');
 
         $checker = new AudienceChecker('foo');
         $checker->checkHeader(['bar']);

@@ -331,7 +331,7 @@ final class ECDHESKeyAgreementTest extends TestCase
     public function ePKParameterAreMissing(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The header parameter "epk" is missing');
+        $this->expectExceptionMessage('The header parameter "epk" is missing');
 
         $sender = new JWK([
             'kty' => 'EC',
@@ -349,7 +349,7 @@ final class ECDHESKeyAgreementTest extends TestCase
     public function badEPKParameter(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The header parameter "epk" is not an array of parameters');
+        $this->expectExceptionMessage('The header parameter "epk" is not an array of parameters');
 
         $header = [
             'epk' => 'foo',
@@ -370,7 +370,7 @@ final class ECDHESKeyAgreementTest extends TestCase
     public function eCKeyHasMissingParameters(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The key parameter "x" is missing.');
+        $this->expectExceptionMessage('The key parameter "x" is missing.');
 
         $receiver = new JWK([
             'kty' => 'EC',
@@ -385,7 +385,7 @@ final class ECDHESKeyAgreementTest extends TestCase
     public function unsupportedCurve(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('The curve "P-192" is not supported');
+        $this->expectExceptionMessage('The curve "P-192" is not supported');
 
         $header = [
             'enc' => 'A128GCM',

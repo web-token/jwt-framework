@@ -22,7 +22,7 @@ final class HMACSignatureTest extends TestCase
     public function invalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Wrong key type.');
+        $this->expectExceptionMessage('Wrong key type.');
         $key = new JWK([
             'kty' => 'EC',
         ]);

@@ -19,7 +19,7 @@ final class IssuedAtClaimCheckerTest extends TestCase
     public function anIssuedAtClaimMustBeAnInteger(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessageIsOrContains('"iat" must be an integer.');
+        $this->expectExceptionMessage('"iat" must be an integer.');
 
         $clock = new MockClock();
         $checker = new IssuedAtChecker(clock: $clock);
@@ -30,7 +30,7 @@ final class IssuedAtClaimCheckerTest extends TestCase
     public function theIssuedAtClaimIsInTheFutur(): void
     {
         $this->expectException(InvalidClaimException::class);
-        $this->expectExceptionMessageIsOrContains('The JWT is issued in the future.');
+        $this->expectExceptionMessage('The JWT is issued in the future.');
 
         $clock = new MockClock();
         $checker = new IssuedAtChecker(clock: $clock);

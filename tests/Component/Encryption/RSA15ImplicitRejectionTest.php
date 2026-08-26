@@ -99,7 +99,7 @@ final class RSA15ImplicitRejectionTest extends TestCase
         $garbage = "\x00" . random_bytes($key->getModulusLength() - 1);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('Unable to decrypt');
+        $this->expectExceptionMessage('Unable to decrypt');
         RSACrypt::decrypt($key, $garbage, RSACrypt::ENCRYPTION_PKCS1);
     }
 }

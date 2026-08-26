@@ -24,7 +24,7 @@ final class CertificateTest extends TestCase
     public function fileNotFound(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageIsOrContains('File "file:///foo/bar" does not exist.');
+        $this->expectExceptionMessage('File "file:///foo/bar" does not exist.');
 
         KeyConverter::loadKeyFromCertificateFile('file:///foo/bar');
     }
