@@ -118,6 +118,8 @@ class JWEBuilder
 
     /**
      * Set the shared protected header of the JWE to build.
+     *
+     * @param array<string, mixed> $sharedProtectedHeader
      */
     public function withSharedProtectedHeader(array $sharedProtectedHeader): self
     {
@@ -133,6 +135,8 @@ class JWEBuilder
 
     /**
      * Set the shared header of the JWE to build.
+     *
+     * @param array<string, mixed> $sharedHeader
      */
     public function withSharedHeader(array $sharedHeader): self
     {
@@ -148,6 +152,8 @@ class JWEBuilder
 
     /**
      * Adds a recipient to the JWE to build.
+     *
+     * @param array<string, mixed> $recipientHeader
      */
     public function addRecipient(JWK $recipientKey, array $recipientHeader = []): self
     {

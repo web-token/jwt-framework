@@ -44,7 +44,7 @@ final readonly class RSA
                     throw new RuntimeException('Please install the OpenSSL extension');
                 }
                 $result = openssl_sign($message, $signature, $key->toPEM(), $hash);
-                if ($result !== true) {
+                if (! $result) {
                     throw new RuntimeException('Unable to sign the data');
                 }
 

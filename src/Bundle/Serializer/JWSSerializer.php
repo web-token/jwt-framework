@@ -14,7 +14,7 @@ use function in_array;
 
 final readonly class JWSSerializer implements DenormalizerInterface
 {
-    private readonly JWSSerializerManager $serializerManager;
+    private JWSSerializerManager $serializerManager;
 
     public function __construct(
         JWSSerializerManagerFactory $serializerManagerFactory,

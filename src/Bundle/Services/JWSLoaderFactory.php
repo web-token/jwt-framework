@@ -10,10 +10,10 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 final readonly class JWSLoaderFactory
 {
     public function __construct(
-        private readonly JWSSerializerManagerFactory $jwsSerializerManagerFactory,
-        private readonly JWSVerifierFactory $jwsVerifierFactory,
-        private readonly ?HeaderCheckerManagerFactory $headerCheckerManagerFactory,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private JWSSerializerManagerFactory $jwsSerializerManagerFactory,
+        private JWSVerifierFactory $jwsVerifierFactory,
+        private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory,
+        private EventDispatcherInterface $eventDispatcher
     ) {
     }
 

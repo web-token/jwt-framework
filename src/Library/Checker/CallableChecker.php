@@ -33,7 +33,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
     #[Override]
     public function checkClaim(mixed $value): void
     {
-        if (call_user_func($this->callable, $value) !== true) {
+        if (! call_user_func($this->callable, $value)) {
             throw new InvalidClaimException(sprintf('The "%s" claim is invalid.', $this->key), $this->key, $value);
         }
     }
@@ -47,7 +47,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
     #[Override]
     public function checkHeader(mixed $value): void
     {
-        if (call_user_func($this->callable, $value) !== true) {
+        if (! call_user_func($this->callable, $value)) {
             throw new InvalidHeaderException(sprintf('The "%s" header is invalid.', $this->key), $this->key, $value);
         }
     }

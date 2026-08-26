@@ -240,7 +240,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
             default:
                 throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
         }
-        if ($is_private === true && ! $key->has('d')) {
+        if ($is_private && ! $key->has('d')) {
             throw new InvalidArgumentException('The key parameter "d" is missing.');
         }
     }

@@ -5,6 +5,7 @@
     colors="true"
     xsi:noNamespaceSchemaLocation="phpunit.xsd"
     cacheDirectory=".phpunit.cache"
+    executionOrder="default"
 >
 <coverage/>
 <testsuites>
@@ -27,7 +28,4 @@
       <directory>./../tests</directory>
     </exclude>
   </source>
-  <extensions>
-    <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
-  </extensions>
 </phpunit>

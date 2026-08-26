@@ -10,9 +10,9 @@ use Override;
 final readonly class Token implements JWT
 {
     public function __construct(
-        private readonly ?string $payload,
-        private readonly array $protectedHeader,
-        private readonly array $unprotectedHeader
+        private ?string $payload,
+        private array $protectedHeader,
+        private array $unprotectedHeader
     ) {
     }
 

@@ -15,8 +15,8 @@ final readonly class Configuration implements ConfigurationInterface
      * @param Source[] $sources
      */
     public function __construct(
-        private readonly string $alias,
-        private readonly array $sources
+        private string $alias,
+        private array $sources
     ) {
     }
 

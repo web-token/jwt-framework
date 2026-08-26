@@ -4507,12 +4507,6 @@ parameters:
 			path: ../src/Library/Encryption/JWEBuilder.php
 
 		-
-			rawMessage: 'Method Jose\Component\Encryption\JWEBuilder::addRecipient() has parameter $recipientHeader with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Encryption/JWEBuilder.php
-
-		-
 			rawMessage: 'Method Jose\Component\Encryption\JWEBuilder::checkAndSetContentEncryptionAlgorithm() has parameter $completeHeader with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
@@ -4610,18 +4604,6 @@ parameters:
 
 		-
 			rawMessage: 'Method Jose\Component\Encryption\JWEBuilder::processRecipient() has parameter $recipient with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Encryption/JWEBuilder.php
-
-		-
-			rawMessage: 'Method Jose\Component\Encryption\JWEBuilder::withSharedHeader() has parameter $sharedHeader with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Encryption/JWEBuilder.php
-
-		-
-			rawMessage: 'Method Jose\Component\Encryption\JWEBuilder::withSharedProtectedHeader() has parameter $sharedProtectedHeader with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
 			path: ../src/Library/Encryption/JWEBuilder.php
@@ -5287,15 +5269,9 @@ parameters:
 			path: ../src/Library/KeyManagement/UrlKeySetFactory.php
 
 		-
-			rawMessage: 'Call to function assert() with true will always evaluate to true.'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../src/Library/KeyManagement/UrlKeySetFactory.php
-
-		-
 			rawMessage: Instanceof between Symfony\Contracts\HttpClient\HttpClientInterface and Symfony\Contracts\HttpClient\HttpClientInterface will always evaluate to true.
 			identifier: instanceof.alwaysTrue
-			count: 2
+			count: 1
 			path: ../src/Library/KeyManagement/UrlKeySetFactory.php
 
 		-
@@ -5341,30 +5317,6 @@ parameters:
 			path: ../src/Library/Signature/Algorithm/Util/RSA.php
 
 		-
-			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Signature/JWS.php
-
-		-
-			rawMessage: 'Parameter #4 $header of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Signature/JWS.php
-
-		-
-			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Signature/JWSBuilder.php
-
-		-
-			rawMessage: 'Parameter #4 $header of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, array<string, mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Signature/JWSBuilder.php
-
-		-
 			rawMessage: 'Parameter #1 $algorithm of method Jose\Component\Core\AlgorithmManager::get() expects string, mixed given.'
 			identifier: argument.type
 			count: 1
@@ -5383,7 +5335,7 @@ parameters:
 			path: ../src/Library/Signature/Serializer/CompactSerializer.php
 
 		-
-			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, array<mixed, mixed> given.'
+			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array<string, mixed>, array<mixed, mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/CompactSerializer.php
@@ -5413,7 +5365,7 @@ parameters:
 			path: ../src/Library/Signature/Serializer/JSONFlattenedSerializer.php
 
 		-
-			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, array<mixed> given.'
+			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array<string, mixed>, array<mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/JSONFlattenedSerializer.php
@@ -5425,7 +5377,7 @@ parameters:
 			path: ../src/Library/Signature/Serializer/JSONFlattenedSerializer.php
 
 		-
-			rawMessage: 'Parameter #4 $header of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, array<mixed> given.'
+			rawMessage: 'Parameter #4 $header of method Jose\Component\Signature\JWS::addSignature() expects array<string, mixed>, array<mixed> given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/JSONFlattenedSerializer.php
@@ -5467,7 +5419,7 @@ parameters:
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, mixed given.'
+			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array<string, mixed>, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
@@ -5485,8 +5437,7 @@ parameters:
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			rawMessage: 'Parameter #4 $header of method Jose\Component\Signature\JWS::addSignature() expects array{alg?: string, string?: mixed}, mixed given.'
+			rawMessage: 'Parameter #4 $header of method Jose\Component\Signature\JWS::addSignature() expects array<string, mixed>, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
-

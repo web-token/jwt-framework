@@ -58,10 +58,16 @@ final readonly class CompactSerializer extends Serializer
         );
     }
 
+    /**
+     * The split is bounded to four segments: a valid compact JWS has exactly three, so a fourth one is enough to
+     * detect and reject any longer input. Without that bound, a delimiter-heavy string would be expanded into one
+     * array entry per delimiter before the segment count is checked, which costs about twenty-five times the size
+     * of the input in memory.
+     */
     #[Override]
     public function unserialize(string $input): JWS
     {
-        $parts = explode('.', $input);
+        $parts = explode('.', $input, 4);
         if (count($parts) !== 3) {
             throw new InvalidArgumentException('Unsupported input');
         }

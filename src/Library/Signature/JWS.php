@@ -45,7 +45,7 @@ class JWS implements JWT
      */
     public function getEncodedPayload(): ?string
     {
-        if ($this->isPayloadDetached() === true) {
+        if ($this->isPayloadDetached()) {
             return null;
         }
 
@@ -79,8 +79,8 @@ class JWS implements JWT
      *
      * @internal
      *
-     * @param array{alg?: string, string?: mixed} $protectedHeader
-     * @param array{alg?: string, string?: mixed} $header
+     * @param array<string, mixed> $protectedHeader
+     * @param array<string, mixed> $header
      */
     public function addSignature(
         string $signature,

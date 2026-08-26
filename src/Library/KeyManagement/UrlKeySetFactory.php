@@ -8,7 +8,6 @@ use Psr\Cache\CacheItemPoolInterface;
 use RuntimeException;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function assert;
 
 /**
  * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
@@ -62,7 +61,6 @@ abstract class UrlKeySetFactory
      */
     private function sendSymfonyRequest(string $url, array $header = []): string
     {
-        assert($this->client instanceof HttpClientInterface);
         $response = $this->client->request('GET', $url, [
             'headers' => $header,
         ]);

@@ -115,7 +115,7 @@ class JWSVerifier
             return sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
         }
 
-        $callable = $isPayloadBase64Encoded === true ? static fn (?string $p): string => Base64UrlSafe::encodeUnpadded(
+        $callable = $isPayloadBase64Encoded ? static fn (?string $p): string => Base64UrlSafe::encodeUnpadded(
             $p ?? ''
         )
             : static fn (?string $p): string => $p ?? '';

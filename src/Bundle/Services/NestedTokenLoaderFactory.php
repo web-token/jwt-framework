@@ -9,9 +9,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 final readonly class NestedTokenLoaderFactory
 {
     public function __construct(
-        private readonly JWELoaderFactory $jweLoaderFactory,
-        private readonly JWSLoaderFactory $jwsLoaderFactory,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private JWELoaderFactory $jweLoaderFactory,
+        private JWSLoaderFactory $jwsLoaderFactory,
+        private EventDispatcherInterface $eventDispatcher
     ) {
     }
 

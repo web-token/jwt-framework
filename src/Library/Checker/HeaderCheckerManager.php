@@ -156,7 +156,7 @@ class HeaderCheckerManager
     {
         if (array_key_exists('crit', $protected)) {
             $crit = $protected['crit'];
-            if (! is_array($crit) || $crit !== array_filter($crit, static fn (mixed $v): bool => is_string($v))) {
+            if (! is_array($crit) || $crit !== array_filter($crit, is_string(...))) {
                 throw new InvalidHeaderException(
                     'The header "crit" must be a list of header parameters.',
                     'crit',

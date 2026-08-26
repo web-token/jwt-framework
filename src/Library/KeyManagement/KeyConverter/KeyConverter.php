@@ -11,7 +11,6 @@ use OpenSSLCertificate;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
-use SpomkyLabs\Pki\ASN1\Type\UnspecifiedType;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
@@ -403,7 +402,6 @@ final readonly class KeyConverter
                 case AlgorithmIdentifier::OID_X448:
                     $curve = self::getCurve($key->algorithmIdentifier()->oid());
                     $publicKey = PEM::fromString($details['key']);
-                    /** @var UnspecifiedType $publicKeyBits */
                     $publicKeyBits = Sequence::fromDER($publicKey->data())->at(1);
                     return [
                         'kty' => 'OKP',

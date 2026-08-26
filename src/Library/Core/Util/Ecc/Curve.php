@@ -139,7 +139,6 @@ final readonly class Curve implements Stringable
             return Point::infinity();
         }
 
-        /** @var BigInteger $zero */
         $zero = BigInteger::zero();
         if ($one->getOrder()->compareTo($zero) > 0) {
             $n = $n->mod($one->getOrder());

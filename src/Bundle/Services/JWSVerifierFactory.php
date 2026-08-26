@@ -10,8 +10,8 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 final readonly class JWSVerifierFactory
 {
     public function __construct(
-        private readonly AlgorithmManagerFactory $algorithmManagerFactory,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private AlgorithmManagerFactory $algorithmManagerFactory,
+        private EventDispatcherInterface $eventDispatcher
     ) {
     }
 

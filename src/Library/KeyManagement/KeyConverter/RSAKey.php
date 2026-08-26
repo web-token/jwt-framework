@@ -240,7 +240,7 @@ final class RSAKey
             if ($y === null) {
                 throw new InvalidArgumentException('Unable to find prime factors.');
             }
-            if ($found === true) {
+            if ($found) {
                 $p = $y->subtract($one)
                     ->gcd($n);
                 $q = $n->divide($p);

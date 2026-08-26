@@ -20,7 +20,7 @@ use function sprintf;
 
 final readonly class JWSEncoder implements EncoderInterface, DecoderInterface, NormalizationAwareInterface
 {
-    private readonly JWSSerializerManager $serializerManager;
+    private JWSSerializerManager $serializerManager;
 
     public function __construct(
         JWSSerializerManagerFactory $serializerManagerFactory,
