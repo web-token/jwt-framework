@@ -222,6 +222,20 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            ~/.composer/cache
+          key: ${{ needs.prepare_dependencies.outputs.cache-key }}
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+      - name: Generate coverage reports
+        run: |
+          composer exec -- phpunit-11 \
+            --coverage-xml .ci-tools/coverage \
+            --log-junit=.ci-tools/coverage/junit.xml \
+            --configuration .ci-tools/phpunit.xml.dist
       - name: Execute Infection
         run: castor infect
 
