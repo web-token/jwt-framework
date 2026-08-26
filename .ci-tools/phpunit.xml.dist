@@ -27,7 +27,4 @@
       <directory>./../tests</directory>
     </exclude>
   </source>
-  <extensions>
-    <bootstrap class="Ergebnis\PHPUnit\SlowTestDetector\Extension"/>
-  </extensions>
 </phpunit>
