@@ -54,10 +54,16 @@ final readonly class CompactSerializer implements JWESerializer
         );
     }
 
+    /**
+     * The split is bounded to six segments: a valid compact JWE has exactly five, so a sixth one is enough to
+     * detect and reject any longer input. Without that bound, a delimiter-heavy string would be expanded into one
+     * array entry per delimiter before the segment count is checked, which costs about twenty-five times the size
+     * of the input in memory.
+     */
     #[Override]
     public function unserialize(string $input): JWE
     {
-        $parts = explode('.', $input);
+        $parts = explode('.', $input, 6);
         if (count($parts) !== 5) {
             throw new InvalidArgumentException('Unsupported input');
         }
