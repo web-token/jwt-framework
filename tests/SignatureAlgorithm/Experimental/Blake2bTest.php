@@ -7,8 +7,10 @@ namespace Jose\Tests\SignatureAlgorithm\Experimental;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Experimental\Signature\Blake2b;
 use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -60,7 +62,7 @@ final class Blake2bTest extends TestCase
     {
         $algorithm = new Blake2b();
 
-        static::assertTrue(hash_equals($this->expectedHashWithKeyOne, $algorithm->hash($this->keyOne, self::CONTENTS)));
+        static::assertTrue(hash_equals($this->expectedHashWithKeyOne, $algorithm->sign($this->keyOne, self::CONTENTS)));
         static::assertTrue($algorithm->verify($this->keyOne, self::CONTENTS, $this->expectedHashWithKeyOne));
     }
 
@@ -76,7 +78,7 @@ final class Blake2bTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Key provided is shorter than 256 bits.');
 
-        $algorithm->hash($key, self::CONTENTS);
+        $algorithm->sign($key, self::CONTENTS);
     }
 
     #[Test]
@@ -85,8 +87,26 @@ final class Blake2bTest extends TestCase
         $algorithm = new Blake2b();
 
         static::assertFalse(
-            hash_equals($this->expectedHashWithKeyOne, $algorithm->hash($this->keyTwo, self::CONTENTS))
+            hash_equals($this->expectedHashWithKeyOne, $algorithm->sign($this->keyTwo, self::CONTENTS))
         );
         static::assertFalse($algorithm->verify($this->keyTwo, self::CONTENTS, $this->expectedHashWithKeyOne));
+    }
+
+    #[Test]
+    public function theAlgorithmIsASignatureAlgorithm(): void
+    {
+        static::assertInstanceOf(SignatureAlgorithm::class, new Blake2b());
+    }
+
+    #[Test]
+    #[IgnoreDeprecations]
+    public function theDeprecatedHashMethodReturnsTheSignature(): void
+    {
+        $algorithm = new Blake2b();
+
+        static::assertSame(
+            $algorithm->sign($this->keyOne, self::CONTENTS),
+            $algorithm->hash($this->keyOne, self::CONTENTS)
+        );
     }
 }

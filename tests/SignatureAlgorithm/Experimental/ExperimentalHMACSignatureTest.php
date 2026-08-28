@@ -7,6 +7,7 @@ namespace Jose\Tests\SignatureAlgorithm\Experimental;
 use Jose\Component\Core\JWK;
 use Jose\Experimental\Signature\HS1;
 use Jose\Experimental\Signature\HS256_64;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +25,7 @@ final class ExperimentalHMACSignatureTest extends TestCase
 
         static::assertSame('HS1', $hmac->name());
 
-        $signature = $hmac->hash($key, $data);
+        $signature = $hmac->sign($key, $data);
 
         static::assertTrue($hmac->verify($key, $data, $signature));
     }
@@ -38,10 +39,21 @@ final class ExperimentalHMACSignatureTest extends TestCase
 
         static::assertSame('HS256/64', $hmac->name());
 
-        $signature = $hmac->hash($key, $data);
+        $signature = $hmac->sign($key, $data);
 
         static::assertSame(hex2bin('89f750759cb8ad93'), $signature);
         static::assertTrue($hmac->verify($key, $data, $signature));
+    }
+
+    #[Test]
+    #[IgnoreDeprecations]
+    public function theDeprecatedHashMethodOfATruncatedAlgorithmIsTruncatedToo(): void
+    {
+        $key = $this->getKey();
+        $hmac = new HS256_64();
+        $data = 'Live long and Prosper.';
+
+        static::assertSame(hex2bin('89f750759cb8ad93'), $hmac->hash($key, $data));
     }
 
     private function getKey(): JWK

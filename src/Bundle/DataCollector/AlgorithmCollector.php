@@ -70,15 +70,15 @@ final readonly class AlgorithmCollector implements Collector
         int &$contentEncryptionAlgorithms
     ): string {
         switch (true) {
-            case $algorithm instanceof SignatureAlgorithm:
-                $signatureAlgorithms++;
-
-                return 'Signature';
-
             case $algorithm instanceof MacAlgorithm:
                 $macAlgorithms++;
 
                 return 'MAC';
+
+            case $algorithm instanceof SignatureAlgorithm:
+                $signatureAlgorithms++;
+
+                return 'Signature';
 
             case $algorithm instanceof KeyEncryptionAlgorithm:
                 $keyEncryptionAlgorithms++;

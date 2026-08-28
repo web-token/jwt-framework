@@ -22,6 +22,7 @@ use function in_array;
 use function is_array;
 use function is_string;
 use function sprintf;
+use function trigger_deprecation;
 
 class JWSBuilder
 {
@@ -193,15 +194,39 @@ class JWSBuilder
                 JsonConverter::encode($protectedHeader)
             );
             $input = sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
-            if ($algorithm instanceof SignatureAlgorithm) {
-                $s = $algorithm->sign($signatureKey, $input);
-            } else {
-                $s = $algorithm->hash($signatureKey, $input);
-            }
+            $s = $this->computeSignature($algorithm, $signatureKey, $input);
             $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
         }
 
         return $jws;
+    }
+
+    /**
+     * Computes the signature of the input.
+     *
+     * Algorithms that only implement MacAlgorithm are signed through hash(); that fallback goes away in 5.0.0, when
+     * MacAlgorithm will extend SignatureAlgorithm.
+     *
+     * @param MacAlgorithm|SignatureAlgorithm $algorithm
+     */
+    private function computeSignature(Algorithm $algorithm, JWK $key, string $input): string
+    {
+        if ($algorithm instanceof SignatureAlgorithm) {
+            return $algorithm->sign($key, $input);
+        }
+
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The class "%s" implements "%s" only. Relying on "%s::hash()" is deprecated since 4.3.0 and will not be supported in 5.0.0: implement "%s" and its sign() method instead.',
+            $algorithm::class,
+            MacAlgorithm::class,
+            MacAlgorithm::class,
+            SignatureAlgorithm::class
+        );
+
+        // @phpstan-ignore method.deprecated (the deprecated method is still supported until 5.0.0)
+        return $algorithm->hash($key, $input);
     }
 
     /**

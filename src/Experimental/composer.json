@@ -40,6 +40,7 @@
     "require": {
         "php": ">=8.2",
         "ext-openssl": "*",
+        "symfony/deprecation-contracts": "^2.5|^3.0",
         "web-token/jwt-library": "^4.0"
     }
 }
