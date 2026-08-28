@@ -7,6 +7,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Encryption\JWELoader as JWELoaderService;
+use Jose\Component\Encryption\JWELoaderInterface;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -43,6 +44,7 @@ final readonly class JWELoader implements Source
 
             $container->setDefinition($service_id, $definition);
             $container->registerAliasForArgument($service_id, JWELoaderService::class, $name . 'JweLoader');
+            $container->registerAliasForArgument($service_id, JWELoaderInterface::class, $name . 'JweLoader');
         }
     }
 

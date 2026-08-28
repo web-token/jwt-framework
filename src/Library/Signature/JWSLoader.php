@@ -5,28 +5,33 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Exception;
-use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\Checker\HeaderCheckerManagerInterface;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Throwable;
 
 /**
+ * @final The class will be final in 5.0.0: implement JWSLoaderInterface and decorate the service instead of
+ * extending it.
+ *
  * @see \Jose\Tests\Component\Signature\JWSLoaderTest
  */
-class JWSLoader
+class JWSLoader implements JWSLoaderInterface
 {
     public function __construct(
         private readonly JWSSerializerManager $serializerManager,
-        private readonly JWSVerifier $jwsVerifier,
-        private readonly ?HeaderCheckerManager $headerCheckerManager
+        private readonly JWSVerifierInterface $jwsVerifier,
+        private readonly ?HeaderCheckerManagerInterface $headerCheckerManager
     ) {
+        InheritanceChecker::warnIfExtended(static::class, self::class, JWSLoaderInterface::class);
     }
 
     /**
      * Returns the JWSVerifier associated to the JWSLoader.
      */
-    public function getJwsVerifier(): JWSVerifier
+    public function getJwsVerifier(): JWSVerifierInterface
     {
         return $this->jwsVerifier;
     }
@@ -34,7 +39,7 @@ class JWSLoader
     /**
      * Returns the Header Checker Manager associated to the JWSLoader.
      */
-    public function getHeaderCheckerManager(): ?HeaderCheckerManager
+    public function getHeaderCheckerManager(): ?HeaderCheckerManagerInterface
     {
         return $this->headerCheckerManager;
     }

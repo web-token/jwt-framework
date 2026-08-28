@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -35,8 +36,11 @@ use function trigger_deprecation;
  * complete header of each recipient, which is only known once every shared header is set: they are resolved
  * by build(), together with all the checks that involve more than one recipient. The order of the calls is
  * therefore irrelevant.
+ *
+ * @final The class will be final in 5.0.0: implement JWEBuilderInterface and decorate the service instead of
+ * extending it.
  */
-class JWEBuilder
+class JWEBuilder implements JWEBuilderInterface
 {
     protected ?JWK $senderKey = null;
 
@@ -65,6 +69,7 @@ class JWEBuilder
 
     public function __construct(AlgorithmManager $algorithmManager)
     {
+        InheritanceChecker::warnIfExtended(static::class, self::class, JWEBuilderInterface::class);
         $keyEncryptionAlgorithms = [];
         $contentEncryptionAlgorithms = [];
         foreach ($algorithmManager->all() as $algorithm) {

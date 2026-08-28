@@ -6,6 +6,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEBuilder as JWEBuilderService;
+use Jose\Component\Encryption\JWEBuilderInterface;
 use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -36,6 +37,7 @@ final readonly class JWEBuilder extends AbstractEncryptionSource
             }
             $container->setDefinition($service_id, $definition);
             $container->registerAliasForArgument($service_id, JWEBuilderService::class, $name . 'JweBuilder');
+            $container->registerAliasForArgument($service_id, JWEBuilderInterface::class, $name . 'JweBuilder');
         }
     }
 }

@@ -5,28 +5,19 @@ declare(strict_types=1);
 namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\NestedTokenIssuedEvent;
-use Jose\Component\Encryption\JWEBuilderInterface;
-use Jose\Component\Encryption\Serializer\JWESerializerManager;
-use Jose\Component\NestedToken\NestedTokenBuilder as BaseNestedTokenBuilder;
-use Jose\Component\Signature\JWSBuilderInterface;
-use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use Jose\Component\NestedToken\NestedTokenBuilderInterface;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @deprecated since 4.3.0, use EventDispatchingNestedTokenBuilder instead. The class extends a service of
- * the library that will be final in 5.0.0.
+ * Dispatches an event whenever a nested token is issued, without extending the builder it decorates.
  */
-final class NestedTokenBuilder extends BaseNestedTokenBuilder
+final readonly class EventDispatchingNestedTokenBuilder implements NestedTokenBuilderInterface
 {
     public function __construct(
-        JWEBuilderInterface $jweBuilder,
-        JWESerializerManager $jweSerializerManager,
-        JWSBuilderInterface $jwsBuilder,
-        JWSSerializerManager $jwsSerializerManager,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private NestedTokenBuilderInterface $builder,
+        private EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($jweBuilder, $jweSerializerManager, $jwsBuilder, $jwsSerializerManager);
     }
 
     #[Override]
@@ -40,7 +31,7 @@ final class NestedTokenBuilder extends BaseNestedTokenBuilder
         string $jwe_serialization_mode,
         ?string $aad = null
     ): string {
-        $nestedToken = parent::create(
+        $nestedToken = $this->builder->create(
             $payload,
             $signatures,
             $jws_serialization_mode,

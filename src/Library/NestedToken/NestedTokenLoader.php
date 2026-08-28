@@ -6,18 +6,24 @@ namespace Jose\Component\NestedToken;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Encryption\JWE;
-use Jose\Component\Encryption\JWELoader;
+use Jose\Component\Encryption\JWELoaderInterface;
 use Jose\Component\Signature\JWS;
-use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSLoaderInterface;
 use function is_string;
 
-class NestedTokenLoader
+/**
+ * @final The class will be final in 5.0.0: implement NestedTokenLoaderInterface and decorate the service instead of
+ * extending it.
+ */
+class NestedTokenLoader implements NestedTokenLoaderInterface
 {
     public function __construct(
-        private readonly JWELoader $jweLoader,
-        private readonly JWSLoader $jwsLoader
+        private readonly JWELoaderInterface $jweLoader,
+        private readonly JWSLoaderInterface $jwsLoader
     ) {
+        InheritanceChecker::warnIfExtended(static::class, self::class, NestedTokenLoaderInterface::class);
     }
 
     /**

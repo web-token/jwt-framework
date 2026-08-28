@@ -10,6 +10,7 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
@@ -18,11 +19,16 @@ use function func_num_args;
 use function is_callable;
 use function sprintf;
 
-class JWSVerifier
+/**
+ * @final The class will be final in 5.0.0: implement JWSVerifierInterface and decorate the service instead of
+ * extending it.
+ */
+class JWSVerifier implements JWSVerifierInterface
 {
     public function __construct(
         private readonly AlgorithmManager $signatureAlgorithmManager
     ) {
+        InheritanceChecker::warnIfExtended(static::class, self::class, JWSVerifierInterface::class);
     }
 
     /**

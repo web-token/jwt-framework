@@ -7,33 +7,28 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Bundle\JoseFramework\Event\NestedTokenLoadingFailureEvent;
 use Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\Encryption\JWELoaderInterface;
-use Jose\Component\NestedToken\NestedTokenLoader as BaseNestedTokenLoader;
+use Jose\Component\NestedToken\NestedTokenLoaderInterface;
 use Jose\Component\Signature\JWS;
-use Jose\Component\Signature\JWSLoaderInterface;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 /**
- * @deprecated since 4.3.0, use EventDispatchingNestedTokenLoader instead. The class extends a service of
- * the library that will be final in 5.0.0.
+ * Dispatches an event whenever a nested token is loaded, without extending the loader it decorates.
  */
-final class NestedTokenLoader extends BaseNestedTokenLoader
+final readonly class EventDispatchingNestedTokenLoader implements NestedTokenLoaderInterface
 {
     public function __construct(
-        JWELoaderInterface $jweLoader,
-        JWSLoaderInterface $jwsLoader,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private NestedTokenLoaderInterface $loader,
+        private EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($jweLoader, $jwsLoader);
     }
 
     #[Override]
     public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$signature = null): JWS
     {
         try {
-            $jws = parent::load($token, $encryptionKeySet, $signatureKeySet, $signature);
+            $jws = $this->loader->load($token, $encryptionKeySet, $signatureKeySet, $signature);
             $this->eventDispatcher->dispatch(new NestedTokenLoadingSuccessEvent(
                 $token,
                 $jws,

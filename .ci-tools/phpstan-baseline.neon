@@ -7,6 +7,46 @@ parameters:
 			path: ../src/Bundle/DataCollector/CheckerCollector.php
 
 		-
+			rawMessage: '''
+				Parameter $claimCheckerManager of method Jose\Bundle\JoseFramework\DataCollector\CheckerCollector::addClaimCheckerManager() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\ClaimCheckerManager:
+				since 4.3.0, use EventDispatchingClaimCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: ../src/Bundle/DataCollector/CheckerCollector.php
+
+		-
+			rawMessage: '''
+				Parameter $headerCheckerManager of method Jose\Bundle\JoseFramework\DataCollector\CheckerCollector::addHeaderCheckerManager() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager:
+				since 4.3.0, use EventDispatchingHeaderCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: ../src/Bundle/DataCollector/CheckerCollector.php
+
+		-
+			rawMessage: '''
+				Property $claimCheckerManagers references deprecated class Jose\Bundle\JoseFramework\Services\ClaimCheckerManager in its type:
+				since 4.3.0, use EventDispatchingClaimCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: property.deprecatedClass
+			count: 1
+			path: ../src/Bundle/DataCollector/CheckerCollector.php
+
+		-
+			rawMessage: '''
+				Property $headerCheckerManagers references deprecated class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager in its type:
+				since 4.3.0, use EventDispatchingHeaderCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: property.deprecatedClass
+			count: 1
+			path: ../src/Bundle/DataCollector/CheckerCollector.php
+
+		-
 			rawMessage: 'Parameter #1 $data of method Jose\Bundle\JoseFramework\DataCollector\JWECollector::collectSupportedJWESerializations() expects array<string, array<string, mixed>>, array<string, mixed> given.'
 			identifier: argument.type
 			count: 1
@@ -247,6 +287,16 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/CheckerSource.php
 
 		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Bundle\JoseFramework\Services\ClaimCheckerManager:
+				since 4.3.0, use EventDispatchingClaimCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
+
+		-
 			rawMessage: 'Argument of an invalid type mixed supplied for foreach, only iterables are supported.'
 			identifier: foreach.nonIterable
 			count: 2
@@ -255,7 +305,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'ClaimCheckerManager' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
@@ -403,6 +453,16 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager:
+				since 4.3.0, use EventDispatchingHeaderCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: 'Argument of an invalid type mixed supplied for foreach, only iterables are supported.'
 			identifier: foreach.nonIterable
 			count: 2
@@ -411,7 +471,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'HeaderCheckerManager' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -771,7 +831,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'JweBuilder' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWEBuilder.php
 
 		-
@@ -831,7 +891,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'JweDecrypter' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWEDecrypter.php
 
 		-
@@ -891,7 +951,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'JweLoader' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
@@ -2379,7 +2439,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'NestedTokenBuilder' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
 		-
@@ -2559,7 +2619,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'NestedTokenLoader' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
@@ -2853,7 +2913,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'JwsBuilder' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSBuilder.php
 
 		-
@@ -2913,7 +2973,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'JwsLoader' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
@@ -3249,7 +3309,7 @@ parameters:
 		-
 			rawMessage: Binary operation "." between mixed and 'JwsVerifier' results in an error.
 			identifier: binaryOp.invalid
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSVerifier.php
 
 		-
@@ -3727,22 +3787,186 @@ parameters:
 			path: ../src/Bundle/Serializer/JWSSerializer.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\Services\ClaimCheckerManager::check() has parameter $claims with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\ClaimCheckerManager extends @final class Jose\Component\Checker\ClaimCheckerManager.
+			identifier: class.extendsFinalByPhpDoc
 			count: 1
 			path: ../src/Bundle/Services/ClaimCheckerManager.php
 
 		-
-			rawMessage: 'Method Jose\Bundle\JoseFramework\Services\ClaimCheckerManager::check() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\ClaimCheckerManager:
+				since 4.3.0, use EventDispatchingClaimCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
 			count: 1
-			path: ../src/Bundle/Services/ClaimCheckerManager.php
+			path: ../src/Bundle/Services/ClaimCheckerManagerFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\ClaimCheckerManager:
+				since 4.3.0, use EventDispatchingClaimCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/ClaimCheckerManagerFactory.php
+
+		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\ClaimCheckerManager:
+				since 4.3.0, use EventDispatchingClaimCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/ClaimCheckerManagerFactory.php
+
+		-
+			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypterInterface::decryptUsingKeySet() invoked with 6 parameters, 3-5 required.'
+			identifier: arguments.count
+			count: 1
+			path: ../src/Bundle/Services/EventDispatchingJWEDecrypter.php
+
+		-
+			rawMessage: 'Parameter #3 $JWK of class Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/Services/EventDispatchingJWEDecrypter.php
+
+		-
+			rawMessage: 'Parameter #4 $recipient of class Jose\Bundle\JoseFramework\Event\JWELoadingSuccessEvent constructor expects int, int|null given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/Services/EventDispatchingJWELoader.php
+
+		-
+			rawMessage: 'Parameter #4 $signature of class Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent constructor expects int, int|null given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/Services/EventDispatchingJWSLoader.php
+
+		-
+			rawMessage: 'Method Jose\Component\Signature\JWSVerifierInterface::verifyWithKeySet() invoked with 6 parameters, 3-5 required.'
+			identifier: arguments.count
+			count: 1
+			path: ../src/Bundle/Services/EventDispatchingJWSVerifier.php
+
+		-
+			rawMessage: 'Parameter #5 $JWK of class Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/Services/EventDispatchingJWSVerifier.php
+
+		-
+			rawMessage: 'Parameter #5 $signature of class Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent constructor expects int, int|null given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/Services/EventDispatchingNestedTokenLoader.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager extends @final class Jose\Component\Checker\HeaderCheckerManager.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/HeaderCheckerManager.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager:
+				since 4.3.0, use EventDispatchingHeaderCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/HeaderCheckerManagerFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager:
+				since 4.3.0, use EventDispatchingHeaderCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/HeaderCheckerManagerFactory.php
+
+		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager:
+				since 4.3.0, use EventDispatchingHeaderCheckerManager instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/HeaderCheckerManagerFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWEBuilder extends @final class Jose\Component\Encryption\JWEBuilder.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/JWEBuilder.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWEBuilder:
+				since 4.3.0, use EventDispatchingJWEBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWEBuilderFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\JWEBuilder:
+				since 4.3.0, use EventDispatchingJWEBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWEBuilderFactory.php
+
+		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\JWEBuilderFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\JWEBuilder:
+				since 4.3.0, use EventDispatchingJWEBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWEBuilderFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWEDecrypter extends @final class Jose\Component\Encryption\JWEDecrypter.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/JWEDecrypter.php
 
 		-
 			rawMessage: 'Parameter #3 $JWK of class Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/JWEDecrypter.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWEDecrypter:
+				since 4.3.0, use EventDispatchingJWEDecrypter instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWEDecrypterFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\JWEDecrypter:
+				since 4.3.0, use EventDispatchingJWEDecrypter instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWEDecrypterFactory.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory::create() has parameter $encryptionAlgorithms with no value type specified in iterable type array.'
@@ -3757,16 +3981,124 @@ parameters:
 			path: ../src/Bundle/Services/JWEDecrypterFactory.php
 
 		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\JWEDecrypter:
+				since 4.3.0, use EventDispatchingJWEDecrypter instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWEDecrypterFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWELoader extends @final class Jose\Component\Encryption\JWELoader.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/JWELoader.php
+
+		-
 			rawMessage: 'Parameter #4 $recipient of class Jose\Bundle\JoseFramework\Event\JWELoadingSuccessEvent constructor expects int, int|null given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/JWELoader.php
 
 		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWELoader:
+				since 4.3.0, use EventDispatchingJWELoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWELoaderFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\JWELoader:
+				since 4.3.0, use EventDispatchingJWELoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWELoaderFactory.php
+
+		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\JWELoaderFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\JWELoader:
+				since 4.3.0, use EventDispatchingJWELoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWELoaderFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWSBuilder extends @final class Jose\Component\Signature\JWSBuilder.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/JWSBuilder.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWSBuilder:
+				since 4.3.0, use EventDispatchingJWSBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSBuilderFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\JWSBuilder:
+				since 4.3.0, use EventDispatchingJWSBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSBuilderFactory.php
+
+		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\JWSBuilderFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\JWSBuilder:
+				since 4.3.0, use EventDispatchingJWSBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSBuilderFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWSLoader extends @final class Jose\Component\Signature\JWSLoader.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/JWSLoader.php
+
+		-
 			rawMessage: 'Parameter #4 $signature of class Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent constructor expects int, int|null given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/JWSLoader.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWSLoader:
+				since 4.3.0, use EventDispatchingJWSLoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSLoaderFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\JWSLoader:
+				since 4.3.0, use EventDispatchingJWSLoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSLoaderFactory.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Services\JWSLoaderFactory::create() has parameter $algorithms with no value type specified in iterable type array.'
@@ -3799,10 +4131,46 @@ parameters:
 			path: ../src/Bundle/Services/JWSLoaderFactory.php
 
 		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\JWSLoaderFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\JWSLoader:
+				since 4.3.0, use EventDispatchingJWSLoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSLoaderFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWSVerifier extends @final class Jose\Component\Signature\JWSVerifier.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/JWSVerifier.php
+
+		-
 			rawMessage: 'Parameter #5 $JWK of class Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/JWSVerifier.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWSVerifier:
+				since 4.3.0, use EventDispatchingJWSVerifier instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSVerifierFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\JWSVerifier:
+				since 4.3.0, use EventDispatchingJWSVerifier instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSVerifierFactory.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Services\JWSVerifierFactory::create() has parameter $algorithms with no value type specified in iterable type array.'
@@ -3815,6 +4183,42 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/JWSVerifierFactory.php
+
+		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\JWSVerifierFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\JWSVerifier:
+				since 4.3.0, use EventDispatchingJWSVerifier instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/JWSVerifierFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\NestedTokenBuilder extends @final class Jose\Component\NestedToken\NestedTokenBuilder.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenBuilder.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\NestedTokenBuilder:
+				since 4.3.0, use EventDispatchingNestedTokenBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenBuilderFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\NestedTokenBuilder:
+				since 4.3.0, use EventDispatchingNestedTokenBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory::create() has parameter $encryptionAlgorithms with no value type specified in iterable type array.'
@@ -3865,10 +4269,46 @@ parameters:
 			path: ../src/Bundle/Services/NestedTokenBuilderFactory.php
 
 		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\NestedTokenBuilderFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\NestedTokenBuilder:
+				since 4.3.0, use EventDispatchingNestedTokenBuilder instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenBuilderFactory.php
+
+		-
+			rawMessage: Class Jose\Bundle\JoseFramework\Services\NestedTokenLoader extends @final class Jose\Component\NestedToken\NestedTokenLoader.
+			identifier: class.extendsFinalByPhpDoc
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenLoader.php
+
+		-
 			rawMessage: 'Parameter #5 $signature of class Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent constructor expects int, int|null given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/NestedTokenLoader.php
+
+		-
+			rawMessage: '''
+				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\NestedTokenLoader:
+				since 4.3.0, use EventDispatchingNestedTokenLoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: method.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenLoaderFactory.php
+
+		-
+			rawMessage: '''
+				Instantiation of deprecated class Jose\Bundle\JoseFramework\Services\NestedTokenLoader:
+				since 4.3.0, use EventDispatchingNestedTokenLoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: new.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
 			rawMessage: 'Method Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory::create() has parameter $encryptionAlgorithms with no value type specified in iterable type array.'
@@ -3925,6 +4365,16 @@ parameters:
 			path: ../src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
+			rawMessage: '''
+				Return type of method Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory::create() has typehint with deprecated class Jose\Bundle\JoseFramework\Services\NestedTokenLoader:
+				since 4.3.0, use EventDispatchingNestedTokenLoader instead. The class extends a service of
+				the library that will be final in 5.0.0.
+			'''
+			identifier: return.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Services/NestedTokenLoaderFactory.php
+
+		-
 			rawMessage: 'Call to function is_string() with null will always evaluate to false.'
 			identifier: function.impossibleType
 			count: 1
@@ -3935,18 +4385,6 @@ parameters:
 			identifier: throw.notThrowable
 			count: 3
 			path: ../src/Library/Checker/AudienceChecker.php
-
-		-
-			rawMessage: 'Method Jose\Component\Checker\ClaimCheckerManager::check() has parameter $claims with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Checker/ClaimCheckerManager.php
-
-		-
-			rawMessage: 'Method Jose\Component\Checker\ClaimCheckerManager::check() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Checker/ClaimCheckerManager.php
 
 		-
 			rawMessage: 'Method Jose\Component\Checker\ClaimCheckerManager::checkMandatoryClaims() has parameter $claims with no value type specified in iterable type array.'
@@ -4555,6 +4993,12 @@ parameters:
 			path: ../src/Library/Encryption/JWEDecrypter.php
 
 		-
+			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypterInterface::decryptUsingKeySet() invoked with 6 parameters, 3-5 required.'
+			identifier: arguments.count
+			count: 1
+			path: ../src/Library/Encryption/JWELoader.php
+
+		-
 			rawMessage: 'Method Jose\Component\Encryption\JWELoaderFactory::create() has parameter $encryptionAlgorithms with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
@@ -5021,6 +5465,12 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: ../src/Library/Signature/Algorithm/Util/RSA.php
+
+		-
+			rawMessage: 'Method Jose\Component\Signature\JWSVerifierInterface::verifyWithKeySet() invoked with 6 parameters, 3-5 required.'
+			identifier: arguments.count
+			count: 1
+			path: ../src/Library/Signature/JWSLoader.php
 
 		-
 			rawMessage: 'Parameter #1 $algorithm of method Jose\Component\Core\AlgorithmManager::get() expects string, mixed given.'

@@ -4,29 +4,34 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\Checker\HeaderCheckerManagerInterface;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use RuntimeException;
 use Throwable;
 
 /**
+ * @final The class will be final in 5.0.0: implement JWELoaderInterface and decorate the service instead of
+ * extending it.
+ *
  * @see \Jose\Tests\Component\Encryption\JWELoaderTest
  */
-class JWELoader
+class JWELoader implements JWELoaderInterface
 {
     public function __construct(
         private readonly JWESerializerManager $serializerManager,
-        private readonly JWEDecrypter $jweDecrypter,
-        private readonly ?HeaderCheckerManager $headerCheckerManager
+        private readonly JWEDecrypterInterface $jweDecrypter,
+        private readonly ?HeaderCheckerManagerInterface $headerCheckerManager
     ) {
+        InheritanceChecker::warnIfExtended(static::class, self::class, JWELoaderInterface::class);
     }
 
     /**
      * Returns the JWE Decrypter object.
      */
-    public function getJweDecrypter(): JWEDecrypter
+    public function getJweDecrypter(): JWEDecrypterInterface
     {
         return $this->jweDecrypter;
     }
@@ -34,7 +39,7 @@ class JWELoader
     /**
      * Returns the header checker manager if set.
      */
-    public function getHeaderCheckerManager(): ?HeaderCheckerManager
+    public function getHeaderCheckerManager(): ?HeaderCheckerManagerInterface
     {
         return $this->headerCheckerManager;
     }

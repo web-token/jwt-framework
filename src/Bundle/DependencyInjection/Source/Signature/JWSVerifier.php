@@ -6,6 +6,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
 use Jose\Component\Signature\JWSVerifier as JWSVerifierService;
+use Jose\Component\Signature\JWSVerifierInterface;
 use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -36,6 +37,7 @@ final readonly class JWSVerifier extends AbstractSignatureSource
             }
             $container->setDefinition($service_id, $definition);
             $container->registerAliasForArgument($service_id, JWSVerifierService::class, $name . 'JwsVerifier');
+            $container->registerAliasForArgument($service_id, JWSVerifierInterface::class, $name . 'JwsVerifier');
         }
     }
 }

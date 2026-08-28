@@ -9,6 +9,7 @@ use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
@@ -25,7 +26,11 @@ use function is_string;
 use function sprintf;
 use function strlen;
 
-class JWEDecrypter
+/**
+ * @final The class will be final in 5.0.0: implement JWEDecrypterInterface and decorate the service instead of
+ * extending it.
+ */
+class JWEDecrypter implements JWEDecrypterInterface
 {
     private readonly AlgorithmManager $keyEncryptionAlgorithmManager;
 
@@ -33,6 +38,7 @@ class JWEDecrypter
 
     public function __construct(AlgorithmManager $algorithmManager)
     {
+        InheritanceChecker::warnIfExtended(static::class, self::class, JWEDecrypterInterface::class);
         $keyEncryptionAlgorithms = [];
         $contentEncryptionAlgorithms = [];
         foreach ($algorithmManager->all() as $key => $algorithm) {

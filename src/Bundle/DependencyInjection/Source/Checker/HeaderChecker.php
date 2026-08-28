@@ -7,6 +7,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManager;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory;
+use Jose\Component\Checker\HeaderCheckerManagerInterface;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,6 +41,11 @@ final readonly class HeaderChecker implements Source
             $container->registerAliasForArgument(
                 $service_id,
                 HeaderCheckerManager::class,
+                $name . 'HeaderCheckerManager'
+            );
+            $container->registerAliasForArgument(
+                $service_id,
+                HeaderCheckerManagerInterface::class,
                 $name . 'HeaderCheckerManager'
             );
         }

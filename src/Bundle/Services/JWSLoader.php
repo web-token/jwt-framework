@@ -6,22 +6,26 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\JWSLoadingFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent;
-use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\Checker\HeaderCheckerManagerInterface;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader as BaseJWSLoader;
-use Jose\Component\Signature\JWSVerifier;
+use Jose\Component\Signature\JWSVerifierInterface;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
+/**
+ * @deprecated since 4.3.0, use EventDispatchingJWSLoader instead. The class extends a service of
+ * the library that will be final in 5.0.0.
+ */
 final class JWSLoader extends BaseJWSLoader
 {
     public function __construct(
         JWSSerializerManager $serializerManager,
-        JWSVerifier $jwsVerifier,
-        ?HeaderCheckerManager $headerCheckerManager,
+        JWSVerifierInterface $jwsVerifier,
+        ?HeaderCheckerManagerInterface $headerCheckerManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
         parent::__construct($serializerManager, $jwsVerifier, $headerCheckerManager);
