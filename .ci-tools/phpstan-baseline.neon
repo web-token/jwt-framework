@@ -4473,7 +4473,7 @@ parameters:
 		-
 			rawMessage: Cannot access offset 'header' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
+			count: 3
 			path: ../src/Library/Encryption/JWEBuilder.php
 
 		-
@@ -4492,12 +4492,6 @@ parameters:
 			rawMessage: Cannot access offset 'sender_key' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
-			path: ../src/Library/Encryption/JWEBuilder.php
-
-		-
-			rawMessage: 'Cannot call method getHeader() on mixed.'
-			identifier: method.nonObject
-			count: 2
 			path: ../src/Library/Encryption/JWEBuilder.php
 
 		-

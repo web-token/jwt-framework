@@ -125,7 +125,7 @@ class JWEBuilder
     {
         $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $this->sharedHeader);
         foreach ($this->recipients as $recipient) {
-            $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $recipient->getHeader());
+            $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $recipient['header']);
         }
         $clone = clone $this;
         $clone->sharedProtectedHeader = $sharedProtectedHeader;
@@ -142,7 +142,7 @@ class JWEBuilder
     {
         $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $sharedHeader);
         foreach ($this->recipients as $recipient) {
-            $this->checkDuplicatedHeaderParameters($sharedHeader, $recipient->getHeader());
+            $this->checkDuplicatedHeaderParameters($sharedHeader, $recipient['header']);
         }
         $clone = clone $this;
         $clone->sharedHeader = $sharedHeader;
