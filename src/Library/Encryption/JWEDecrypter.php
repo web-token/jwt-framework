@@ -19,6 +19,8 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Throwable;
 use function count;
+use function func_num_args;
+use function is_callable;
 use function is_string;
 use function sprintf;
 use function strlen;
@@ -80,6 +82,12 @@ class JWEDecrypter
     /**
      * This method will try to decrypt the given JWE and recipient using a JWKSet.
      *
+     * A key that cannot be used, or that does not decrypt the recipient, does not abort the decryption: the next key of
+     * the key set is tried and the reason of the failure is otherwise lost. A callable is accepted as an additional
+     * argument to observe those failures; it is called with every discarded Throwable. That argument is not part of the
+     * signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(5), so that classes extending
+     * this one remain compatible.
+     *
      * @param JWE $jwe A JWE object to decrypt
      * @param JWKSet $jwkset The key set used to decrypt the input
      * @param JWK $jwk The key used to decrypt the token in case of success
@@ -92,6 +100,10 @@ class JWEDecrypter
         ?JWK &$jwk = null,
         ?JWK $senderKey = null
     ): bool {
+        $onError = func_num_args() >= 6 ? func_get_arg(5) : null;
+        if (! is_callable($onError)) {
+            $onError = null;
+        }
         if ($jwkset->count() === 0) {
             throw new InvalidArgumentException('No key in the key set.');
         }
@@ -102,7 +114,7 @@ class JWEDecrypter
             throw new InvalidArgumentException('The JWE does not contain any recipient.');
         }
 
-        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk, $senderKey);
+        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk, $senderKey, $onError);
         if ($plaintext !== null) {
             $jwe = $jwe->withPayload($plaintext);
 
@@ -120,13 +132,16 @@ class JWEDecrypter
      *
      * The shared unprotected header is never a valid source for "alg" and "enc": it is not covered by the
      * AAD and, unlike the per-recipient header, nothing requires those parameters to be located there.
+     *
+     * @param callable(Throwable): void|null $onError
      */
     private function decryptRecipientKey(
         JWE $jwe,
         JWKSet $jwkset,
         int $i,
         ?JWK &$successJwk = null,
-        ?JWK $senderKey = null
+        ?JWK $senderKey = null,
+        ?callable $onError = null
     ): ?string {
         $recipient = $jwe->getRecipient($i);
         $sharedProtectedHeader = $jwe->getSharedProtectedHeader();
@@ -167,8 +182,11 @@ class JWEDecrypter
                 $successJwk = $recipientKey;
 
                 return $payload;
-            } catch (Throwable) {
-                // We do nothing, we continue with other keys
+            } catch (Throwable $throwable) {
+                if ($onError !== null) {
+                    $onError($throwable);
+                }
+
                 continue;
             }
         }

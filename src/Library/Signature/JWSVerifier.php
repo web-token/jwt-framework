@@ -14,6 +14,8 @@ use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Throwable;
+use function func_num_args;
+use function is_callable;
 use function sprintf;
 
 class JWSVerifier
@@ -48,6 +50,12 @@ class JWSVerifier
      * This method will try to verify the JWS object using the given key set and for the given signature. It returns
      * true if the signature is verified, otherwise false.
      *
+     * A key that cannot be used, or that does not verify the signature, does not abort the verification: the next key
+     * of the key set is tried and the reason of the failure is otherwise lost. A callable is accepted as an additional
+     * argument to observe those failures; it is called with every discarded Throwable. That argument is not part of the
+     * signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(5), so that classes extending
+     * this one remain compatible.
+     *
      * @param JWS $jws A JWS object
      * @param JWKSet $jwkset The signature will be verified using keys in the key set
      * @param JWK $jwk The key used to verify the signature in case of success
@@ -62,6 +70,10 @@ class JWSVerifier
         ?string $detachedPayload = null,
         ?JWK &$jwk = null
     ): bool {
+        $onError = func_num_args() >= 6 ? func_get_arg(5) : null;
+        if (! is_callable($onError)) {
+            $onError = null;
+        }
         if ($jwkset->count() === 0) {
             throw new InvalidArgumentException('There is no key in the key set.');
         }
@@ -71,15 +83,19 @@ class JWSVerifier
         $this->checkPayload($jws, $detachedPayload);
         $signature = $jws->getSignature($signatureIndex);
 
-        return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload, $jwk);
+        return $this->verifySignature($jws, $jwkset, $signature, $detachedPayload, $jwk, $onError);
     }
 
+    /**
+     * @param callable(Throwable): void|null $onError
+     */
     private function verifySignature(
         JWS $jws,
         JWKSet $jwkset,
         Signature $signature,
         ?string $detachedPayload = null,
-        ?JWK &$successJwk = null
+        ?JWK &$successJwk = null,
+        ?callable $onError = null
     ): bool {
         $input = $this->getInputToVerify($jws, $signature, $detachedPayload);
         $algorithm = $this->getAlgorithm($signature);
@@ -92,8 +108,11 @@ class JWSVerifier
 
                     return true;
                 }
-            } catch (Throwable) {
-                // We do nothing, we continue with other keys
+            } catch (Throwable $throwable) {
+                if ($onError !== null) {
+                    $onError($throwable);
+                }
+
                 continue;
             }
         }
