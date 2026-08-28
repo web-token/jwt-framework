@@ -5,8 +5,13 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Signature;
 
 use Exception;
+use InvalidArgumentException;
+use Jose\Component\Checker\AlgorithmChecker;
+use Jose\Component\Checker\HeaderCheckerManager;
+use Jose\Component\Checker\InvalidHeaderException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWSLoader;
+use Jose\Component\Signature\JWSTokenSupport;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
@@ -74,6 +79,91 @@ final class JWSLoaderTest extends SignatureTestCase
     }
 
     #[Test]
+    public function theSerializationFailureIsChainedAsPreviousException(): void
+    {
+        $token = 'This is not a token';
+        $key = new JWK([
+            'kty' => 'oct',
+            'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
+            'use' => 'sig',
+            'alg' => 'HS256',
+            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+        ]);
+
+        $exception = $this->loadAndCatch($this->getJWSLoader(), $token, $key);
+
+        static::assertSame('Unable to load and verify the token.', $exception->getMessage());
+        $previous = $exception->getPrevious();
+        static::assertInstanceOf(InvalidArgumentException::class, $previous);
+        static::assertSame('Unsupported input.', $previous->getMessage());
+        static::assertInstanceOf(InvalidArgumentException::class, $previous->getPrevious());
+    }
+
+    #[Test]
+    public function theUnsupportedAlgorithmIsChainedAsPreviousException(): void
+    {
+        $token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImJpbGJvLmJhZ2dpbnNAaG9iYml0b24uZXhhbXBsZSJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.MRjdkly7_-oTPTS3AXP41iQIGKa80A0ZmTuV5MEaHoxnW2e5CZ5NlKtainoFmKZopdHM1O2U4mwzJdQx996ivp83xuglII7PNDi84wnB-BDkoBwA78185hX-Es4JIwmDLJK3lfWRa-XtL0RnltuYv746iYTh_qHRD68BNt1uSNCrUCTJDt5aAE6x8wW1Kt9eRo4QPocSadnHXFxnt8Is9UzpERV0ePPQdLuW3IS_de3xyIrDaLGdjluPxUAhb6L2aXic1U12podGU0KLUQSE_oI-ZnmKJ3F4uOZDnd6QZWJushZ41Axf_fcIe8u9ipH84ogoree7vjbU5y18kDquDg';
+        $key = new JWK([
+            'kty' => 'RSA',
+            'kid' => 'bilbo.baggins@hobbiton.example',
+            'use' => 'sig',
+            'n' => 'n4EPtAOCc9AlkeQHPzHStgAbgs7bTZLwUBZdR8_KuKPEHLd4rHVTeT-O-XV2jRojdNhxJWTDvNd7nqQ0VEiZQHz_AJmSCpMaJMRBSFKrKb2wqVwGU_NsYOYL-QtiWN2lbzcEe6XC0dApr5ydQLrHqkHHig3RBordaZ6Aj-oBHqFEHYpPe7Tpe-OfVfHd1E6cS6M1FZcD1NNLYD5lFHpPI9bTwJlsde3uhGqC0ZCuEHg8lhzwOHrtIQbS0FVbb9k3-tVTU4fg_3L_vniUFAKwuCLqKnS2BYwdq_mzSnbLY7h_qixoR7jig3__kRhuaxwUkRz5iaiQkqgc5gHdrNP5zw',
+            'e' => 'AQAB',
+        ]);
+        $exception = $this->loadAndCatch($this->getJWSLoader(), $token, $key);
+
+        static::assertSame('Unable to load and verify the token.', $exception->getMessage());
+        $previous = $exception->getPrevious();
+        static::assertInstanceOf(InvalidArgumentException::class, $previous);
+        static::assertSame('The algorithm "RS256" is not supported.', $previous->getMessage());
+    }
+
+    #[Test]
+    public function theKeyRejectionIsChainedAsPreviousException(): void
+    {
+        $token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0';
+        $key = new JWK([
+            'kty' => 'RSA',
+            'kid' => 'bilbo.baggins@hobbiton.example',
+            'use' => 'sig',
+            'n' => 'n4EPtAOCc9AlkeQHPzHStgAbgs7bTZLwUBZdR8_KuKPEHLd4rHVTeT-O-XV2jRojdNhxJWTDvNd7nqQ0VEiZQHz_AJmSCpMaJMRBSFKrKb2wqVwGU_NsYOYL-QtiWN2lbzcEe6XC0dApr5ydQLrHqkHHig3RBordaZ6Aj-oBHqFEHYpPe7Tpe-OfVfHd1E6cS6M1FZcD1NNLYD5lFHpPI9bTwJlsde3uhGqC0ZCuEHg8lhzwOHrtIQbS0FVbb9k3-tVTU4fg_3L_vniUFAKwuCLqKnS2BYwdq_mzSnbLY7h_qixoR7jig3__kRhuaxwUkRz5iaiQkqgc5gHdrNP5zw',
+            'e' => 'AQAB',
+        ]);
+        $exception = $this->loadAndCatch($this->getJWSLoader(), $token, $key);
+
+        static::assertSame('Unable to load and verify the token.', $exception->getMessage());
+        $previous = $exception->getPrevious();
+        static::assertInstanceOf(InvalidArgumentException::class, $previous);
+        static::assertSame('Wrong key type.', $previous->getMessage());
+    }
+
+    #[Test]
+    public function theHeaderCheckerFailureIsChainedAsPreviousException(): void
+    {
+        $token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0';
+        $key = new JWK([
+            'kty' => 'oct',
+            'kid' => '018c0ae5-4d9b-471b-bfd6-eef314bc7037',
+            'use' => 'sig',
+            'alg' => 'HS256',
+            'k' => 'hJtXIZ2uSN5kbQfbtTNWbpdmhkV8FJG-Onbc6mxCcYg',
+        ]);
+        $jwsLoader = new JWSLoader(
+            $this->getJWSSerializerManager(),
+            $this->getJWSVerifierFactory()
+                ->create(['HS256']),
+            new HeaderCheckerManager([new AlgorithmChecker(['RS256'])], [new JWSTokenSupport()])
+        );
+
+        $exception = $this->loadAndCatch($jwsLoader, $token, $key);
+
+        static::assertSame('Unable to load and verify the token.', $exception->getMessage());
+        $previous = $exception->getPrevious();
+        static::assertInstanceOf(InvalidHeaderException::class, $previous);
+        static::assertSame('Unsupported algorithm.', $previous->getMessage());
+    }
+
+    #[Test]
     public function theTokenCanBeVerified(): void
     {
         $token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6IjAxOGMwYWU1LTRkOWItNDcxYi1iZmQ2LWVlZjMxNGJjNzAzNyJ9.SXTigJlzIGEgZGFuZ2Vyb3VzIGJ1c2luZXNzLCBGcm9kbywgZ29pbmcgb3V0IHlvdXIgZG9vci4gWW91IHN0ZXAgb250byB0aGUgcm9hZCwgYW5kIGlmIHlvdSBkb24ndCBrZWVwIHlvdXIgZmVldCwgdGhlcmXigJlzIG5vIGtub3dpbmcgd2hlcmUgeW91IG1pZ2h0IGJlIHN3ZXB0IG9mZiB0by4.s0h6KThzkfBBBkLspW1h84VsJZFTsPPqMDA7g1Md7p0';
@@ -92,6 +182,17 @@ final class JWSLoaderTest extends SignatureTestCase
             $jws->getPayload()
         );
         static::assertSame(0, $signature);
+    }
+
+    private function loadAndCatch(JWSLoader $jwsLoader, string $token, JWK $key): Exception
+    {
+        try {
+            $jwsLoader->loadAndVerifyWithKey($token, $key, $signature);
+        } catch (Exception $exception) {
+            return $exception;
+        }
+
+        static::fail('The token should not be loaded.');
     }
 
     private function getJWSLoader(): JWSLoader
