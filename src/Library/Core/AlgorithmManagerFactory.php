@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use Jose\Component\Core\Exception\InvalidArgumentException;
-use function is_string;
-use function sprintf;
+use Jose\Component\Core\Util\AliasedRegistry;
 
 /**
  * @see \Jose\Tests\Component\Core\AlgorithmManagerFactoryTest
  */
 final class AlgorithmManagerFactory
 {
-    private array $algorithms = [];
+    /**
+     * @use AliasedRegistry<Algorithm>
+     */
+    use AliasedRegistry;
 
     /**
      * @param Algorithm[] $algorithms
@@ -33,28 +34,7 @@ final class AlgorithmManagerFactory
      */
     public function add(string $alias, Algorithm $algorithm): void
     {
-        $this->algorithms[$alias] = $algorithm;
-    }
-
-    /**
-     * Returns the list of aliases.
-     *
-     * @return string[]
-     */
-    public function aliases(): array
-    {
-        return array_keys($this->algorithms);
-    }
-
-    /**
-     * Returns all algorithms supported by this factory. This is an associative array. Keys are the aliases of the
-     * algorithms.
-     *
-     * @return Algorithm[]
-     */
-    public function all(): array
-    {
-        return $this->algorithms;
+        $this->register($alias, $algorithm);
     }
 
     /**
@@ -64,20 +44,6 @@ final class AlgorithmManagerFactory
      */
     public function create(array $aliases): AlgorithmManager
     {
-        $algorithms = [];
-        foreach ($aliases as $alias) {
-            if (! is_string($alias)) {
-                throw new InvalidArgumentException('Invalid alias');
-            }
-            if (! isset($this->algorithms[$alias])) {
-                throw new InvalidArgumentException(sprintf(
-                    'The algorithm with the alias "%s" is not supported.',
-                    $alias
-                ));
-            }
-            $algorithms[] = $this->algorithms[$alias];
-        }
-
-        return new AlgorithmManager($algorithms);
+        return new AlgorithmManager($this->select($aliases, 'algorithm'));
     }
 }

@@ -15,6 +15,7 @@ use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
@@ -157,7 +158,7 @@ class JWSBuilder implements JWSBuilderInterface
     public function addSignature(JWK $signatureKey, array $protectedHeader, array $header = []): self
     {
         $this->checkB64AndCriticalHeader($protectedHeader);
-        $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
+        HeaderParameterChecker::checkDuplicates($protectedHeader, $header);
         KeyChecker::checkKeyUsage($signatureKey, 'signature');
         $algorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
         KeyChecker::checkKeyAlgorithm($signatureKey, $algorithm->name());
@@ -314,20 +315,5 @@ class JWSBuilder implements JWSBuilderInterface
         }
 
         return $algorithm;
-    }
-
-    /**
-     * @param array<string, mixed> $header1
-     * @param array<string, mixed> $header2
-     */
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
-    {
-        $inter = array_intersect_key($header1, $header2);
-        if (count($inter) !== 0) {
-            throw new InvalidHeaderParameterException(sprintf(
-                'The header contains duplicated entries: %s.',
-                implode(', ', array_keys($inter))
-            ));
-        }
     }
 }

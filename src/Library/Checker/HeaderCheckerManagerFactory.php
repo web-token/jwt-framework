@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use Jose\Component\Core\Exception\InvalidArgumentException;
-use function sprintf;
+use Jose\Component\Core\Util\AliasedRegistry;
 
 /**
  * This class is a factory to create Header Checker Managers. It allows to add header parameter checkers and token type
@@ -16,9 +15,9 @@ use function sprintf;
 class HeaderCheckerManagerFactory
 {
     /**
-     * @var HeaderChecker[]
+     * @use AliasedRegistry<HeaderChecker>
      */
-    private array $checkers = [];
+    use AliasedRegistry;
 
     /**
      * @var TokenTypeSupport[]
@@ -33,18 +32,7 @@ class HeaderCheckerManagerFactory
      */
     public function create(array $aliases): HeaderCheckerManager
     {
-        $checkers = [];
-        foreach ($aliases as $alias) {
-            if (! isset($this->checkers[$alias])) {
-                throw new InvalidArgumentException(sprintf(
-                    'The header checker with the alias "%s" is not supported.',
-                    $alias
-                ));
-            }
-            $checkers[] = $this->checkers[$alias];
-        }
-
-        return new HeaderCheckerManager($checkers, $this->tokenTypes);
+        return new HeaderCheckerManager($this->select($aliases, 'header checker'), $this->tokenTypes);
     }
 
     /**
@@ -53,7 +41,7 @@ class HeaderCheckerManagerFactory
      */
     public function add(string $alias, HeaderChecker $checker): void
     {
-        $this->checkers[$alias] = $checker;
+        $this->register($alias, $checker);
     }
 
     /**
@@ -62,25 +50,5 @@ class HeaderCheckerManagerFactory
     public function addTokenTypeSupport(TokenTypeSupport $tokenType): void
     {
         $this->tokenTypes[] = $tokenType;
-    }
-
-    /**
-     * Returns all header parameter checker aliases supported by this factory.
-     *
-     * @return string[]
-     */
-    public function aliases(): array
-    {
-        return array_keys($this->checkers);
-    }
-
-    /**
-     * Returns all header parameter checkers supported by this factory.
-     *
-     * @return HeaderChecker[]
-     */
-    public function all(): array
-    {
-        return $this->checkers;
     }
 }
