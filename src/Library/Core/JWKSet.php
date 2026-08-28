@@ -14,6 +14,7 @@ use function array_key_exists;
 use function count;
 use function in_array;
 use function is_array;
+use function is_int;
 use function is_string;
 use function sprintf;
 use const COUNT_NORMAL;
@@ -28,17 +29,12 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function __construct(array $keys)
     {
-        foreach ($keys as $k => $key) {
+        foreach ($keys as $key) {
             if (! $key instanceof JWK) {
                 throw new InvalidArgumentException('Invalid list. Should only contains JWK objects');
             }
 
-            if ($key->has('kid')) {
-                unset($keys[$k]);
-                $this->keys[$key->get('kid')] = $key;
-            } else {
-                $this->keys[] = $key;
-            }
+            $this->add($key);
         }
     }
 
@@ -56,12 +52,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 
         $jwkset = new self([]);
         foreach ($data['keys'] as $key) {
-            $jwk = new JWK($key);
-            if ($jwk->has('kid')) {
-                $jwkset->keys[$jwk->get('kid')] = $jwk;
-            } else {
-                $jwkset->keys[] = $jwk;
-            }
+            $jwkset->add(new JWK($key));
         }
 
         return $jwkset;
@@ -91,17 +82,13 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     }
 
     /**
-     * Add key to store in the key set. This method is immutable and will return a new object.
+     * Add key to store in the key set. This method is immutable and will return a new object. A key is never replaced:
+     * adding a key that carries an already used "kid" appends it to the key set.
      */
     public function with(JWK $jwk): self
     {
         $clone = clone $this;
-
-        if ($jwk->has('kid')) {
-            $clone->keys[$jwk->get('kid')] = $jwk;
-        } else {
-            $clone->keys[] = $jwk;
-        }
+        $clone->add($jwk);
 
         return $clone;
     }
@@ -109,34 +96,39 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     /**
      * Remove key from the key set. This method is immutable and will return a new object.
      *
-     * @param int|string $key Key to remove from the key set
+     * @param int|string $key Key to remove from the key set. When several keys share the same "kid", only the first
+     * one is removed
      */
     public function without(int|string $key): self
     {
-        if (! $this->has($key)) {
+        $index = $this->indexOf($key);
+        if ($index === null) {
             return $this;
         }
 
         $clone = clone $this;
-        unset($clone->keys[$key]);
+        unset($clone->keys[$index]);
 
         return $clone;
     }
 
     /**
-     * Returns true if the key set contains a key with the given index.
+     * Returns true if the key set contains a key with the given index or, when a string is given, a key with that
+     * "kid".
      */
     public function has(int|string $index): bool
     {
-        return array_key_exists($index, $this->keys);
+        return $this->indexOf($index) !== null;
     }
 
     /**
-     * Returns the key with the given index. Throws an exception if the index is not present in the key store.
+     * Returns the key with the given index. When several keys share the same "kid", the first one is returned. Throws
+     * an exception if the index is not present in the key store.
      */
     public function get(int|string $index): JWK
     {
-        if (! $this->has($index)) {
+        $index = $this->indexOf($index);
+        if ($index === null) {
             throw new InvalidArgumentException('Undefined index.');
         }
 
@@ -229,6 +221,47 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->keys);
+    }
+
+    /**
+     * Stores the given key. Keys carrying a "kid" are indexed by that "kid", unless that index is already in use. As
+     * stated by the RFC7517 section 4.5, several keys of a key set may share the same "kid": such keys are appended to
+     * the key set instead of replacing the ones already stored.
+     */
+    private function add(JWK $jwk): void
+    {
+        if ($jwk->has('kid')) {
+            $kid = $jwk->get('kid');
+            if ((is_string($kid) || is_int($kid)) && ! array_key_exists($kid, $this->keys)) {
+                $this->keys[$kid] = $jwk;
+
+                return;
+            }
+        }
+
+        $this->keys[] = $jwk;
+    }
+
+    /**
+     * Resolves the given index into an internal key of the key store, or null when the key set has no such key. A
+     * string index that is not used as an index is compared against the "kid" of every key, so that keys sharing a
+     * "kid" with an already indexed key remain reachable.
+     */
+    private function indexOf(int|string $index): int|string|null
+    {
+        if (array_key_exists($index, $this->keys)) {
+            return $index;
+        }
+        if (is_int($index)) {
+            return null;
+        }
+        foreach ($this->all() as $key => $jwk) {
+            if ($jwk->has('kid') && $jwk->get('kid') === $index) {
+                return $key;
+            }
+        }
+
+        return null;
     }
 
     private function canKeyBeUsedFor(string $type, JWK $key): bool|int
