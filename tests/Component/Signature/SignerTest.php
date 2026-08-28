@@ -10,6 +10,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use const JSON_THROW_ON_ERROR;
 
@@ -1015,6 +1016,169 @@ final class SignerTest extends SignatureTestCase
         static::assertTrue($jwsVerifier->verifyWithKey($loaded, new JWK([
             'kty' => 'EC',
         ]), 1));
+    }
+
+    /**
+     * A payload that is only available in its encoded form is signed as is, and not encoded a second time.
+     *
+     * @see https://github.com/web-token/jwt-framework/pull/329
+     */
+    #[Test]
+    public function jWSWithEncodedPayload(): void
+    {
+        $payload = hash('sha256', '{"user":"nemo"}', true);
+        $encodedPayload = Base64UrlSafe::encodeUnpadded($payload);
+
+        $key = new JWK([
+            'kty' => 'oct',
+            'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
+        ]);
+
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['HS256']);
+        $jws = $jwsBuilder
+            ->create()
+            ->withEncodedPayload($encodedPayload)
+            ->addSignature($key, [
+                'alg' => 'HS256',
+            ])
+            ->build();
+
+        $compact = $this->getJWSSerializerManager()
+            ->serialize('jws_compact', $jws, 0);
+        static::assertSame(
+            'eyJhbGciOiJIUzI1NiJ9.YXQplEYQHShAnWp_r3yZ84_plbxXR8LtwNNQ-LltjoM.ZBepdsr35k9RpfD5FQPTWBskZorDj1Crq5dsRlxkh6s',
+            $compact
+        );
+        static::assertSame($encodedPayload, $jws->getEncodedPayload());
+        static::assertSame($payload, $jws->getPayload());
+
+        $loaded = $this->getJWSSerializerManager()
+            ->unserialize($compact);
+        static::assertTrue(
+            $this->getJWSVerifierFactory()
+                ->create(['HS256'])
+                ->verifyWithKey($loaded, $key, 0)
+        );
+    }
+
+    /**
+     * Both ways of setting the payload describe the same JWS, whichever form the caller has at hand.
+     */
+    #[Test]
+    public function jWSWithEncodedPayloadIsTheSameAsWithTheDecodedPayload(): void
+    {
+        $payload = hash('sha256', '{"user":"nemo"}', true);
+
+        $key = new JWK([
+            'kty' => 'oct',
+            'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
+        ]);
+
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['HS256']);
+        $fromEncodedPayload = $jwsBuilder
+            ->create()
+            ->withEncodedPayload(Base64UrlSafe::encodeUnpadded($payload))
+            ->addSignature($key, [
+                'alg' => 'HS256',
+            ])
+            ->build();
+        $fromPayload = $jwsBuilder
+            ->create()
+            ->withPayload($payload)
+            ->addSignature($key, [
+                'alg' => 'HS256',
+            ])
+            ->build();
+
+        static::assertSame(
+            $this->getJWSSerializerManager()
+                ->serialize('jws_compact', $fromPayload, 0),
+            $this->getJWSSerializerManager()
+                ->serialize('jws_compact', $fromEncodedPayload, 0)
+        );
+    }
+
+    /**
+     * Anything this library would not produce itself is rejected, as the serializers refuse to load it back.
+     */
+    #[Test]
+    #[DataProvider('invalidEncodedPayloads')]
+    public function jWSWithInvalidEncodedPayload(string $encodedPayload): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The payload must be a Base64Url encoded string without padding.');
+
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['HS256']);
+        $jwsBuilder
+            ->create()
+            ->withEncodedPayload($encodedPayload);
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function invalidEncodedPayloads(): iterable
+    {
+        yield 'not encoded at all' => ['{"iss":"me"}'];
+        yield 'Base64 instead of Base64Url' => ['eA/B'];
+        yield 'padded' => ['eA=='];
+        yield 'impossible length' => ['a'];
+        yield 'non-canonical trailing bits' => ['eB'];
+        yield 'trailing newline' => ["eA\n"];
+    }
+
+    #[Test]
+    public function jWSWithEncodedPayloadAndUnencodedPayloadHeader(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
+        );
+
+        $key = new JWK([
+            'kty' => 'oct',
+            'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
+        ]);
+
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['HS256']);
+        $jwsBuilder
+            ->create()
+            ->withEncodedPayload('YWJj')
+            ->addSignature($key, [
+                'alg' => 'HS256',
+                'b64' => false,
+                'crit' => ['b64'],
+            ])
+            ->build();
+    }
+
+    #[Test]
+    public function jWSWithUnencodedPayloadHeaderAndEncodedPayload(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
+        );
+
+        $key = new JWK([
+            'kty' => 'oct',
+            'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
+        ]);
+
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['HS256']);
+        $jwsBuilder
+            ->create()
+            ->addSignature($key, [
+                'alg' => 'HS256',
+                'b64' => false,
+                'crit' => ['b64'],
+            ])
+            ->withEncodedPayload('YWJj');
     }
 
     private function getKey1(): JWK

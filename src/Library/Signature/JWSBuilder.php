@@ -14,6 +14,7 @@ use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use LogicException;
+use RangeException;
 use RuntimeException;
 use function array_key_exists;
 use function count;
@@ -40,6 +41,14 @@ class JWSBuilder
 
     protected ?bool $isPayloadEncoded = null;
 
+    /**
+     * Indicates the payload was Base64Url encoded by the caller.
+     *
+     * This is not the "b64" header parameter, which removes the encoding altogether: here the payload is encoded as
+     * usual, the builder simply did not compute that encoding itself.
+     */
+    protected bool $isPayloadAlreadyEncoded = false;
+
     public function __construct(
         private readonly AlgorithmManager $signatureAlgorithmManager
     ) {
@@ -62,6 +71,7 @@ class JWSBuilder
         $this->isPayloadDetached = false;
         $this->signatures = [];
         $this->isPayloadEncoded = null;
+        $this->isPayloadAlreadyEncoded = false;
 
         return $this;
     }
@@ -74,6 +84,40 @@ class JWSBuilder
         $clone = clone $this;
         $clone->payload = $payload;
         $clone->isPayloadDetached = $isPayloadDetached;
+        $clone->isPayloadAlreadyEncoded = false;
+
+        return $clone;
+    }
+
+    /**
+     * Set a payload that is already Base64Url encoded. This method will return a new JWSBuilder object.
+     *
+     * Use it when the payload is only available in its encoded form, so that it is not encoded a second time. The
+     * value is decoded and must be a canonical Base64Url string without padding, the only form this library produces
+     * and accepts everywhere else.
+     *
+     * @throws InvalidArgumentException if the payload is not a canonical Base64Url string without padding
+     */
+    public function withEncodedPayload(string $payload, bool $isPayloadDetached = false): self
+    {
+        if ($this->isPayloadEncoded === false) {
+            throw new InvalidArgumentException(
+                'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
+            );
+        }
+        try {
+            $decodedPayload = Base64UrlSafe::decodeNoPadding($payload);
+        } catch (InvalidArgumentException|RangeException $throwable) {
+            throw new InvalidArgumentException(
+                'The payload must be a Base64Url encoded string without padding.',
+                0,
+                $throwable
+            );
+        }
+        $clone = clone $this;
+        $clone->payload = $decodedPayload;
+        $clone->isPayloadDetached = $isPayloadDetached;
+        $clone->isPayloadAlreadyEncoded = true;
 
         return $clone;
     }
@@ -88,6 +132,11 @@ class JWSBuilder
     {
         $this->checkB64AndCriticalHeader($protectedHeader);
         $isPayloadEncoded = $this->checkIfPayloadIsEncoded($protectedHeader);
+        if ($this->isPayloadAlreadyEncoded && $isPayloadEncoded === false) {
+            throw new InvalidArgumentException(
+                'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
+            );
+        }
         if ($this->isPayloadEncoded === null) {
             $this->isPayloadEncoded = $isPayloadEncoded;
         } elseif ($this->isPayloadEncoded !== $isPayloadEncoded) {
