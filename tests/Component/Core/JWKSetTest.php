@@ -196,6 +196,128 @@ final class JWKSetTest extends TestCase
     }
 
     #[Test]
+    public function keysSharingTheSameKidAreAllKept(): void
+    {
+        $jwkset = new JWKSet([
+            new JWK([
+                'kty' => 'oct',
+                'kid' => 'k1',
+                'k' => 'AAAA',
+            ]),
+            new JWK([
+                'kty' => 'oct',
+                'kid' => 'k1',
+                'k' => 'BBBB',
+            ]),
+            new JWK([
+                'kty' => 'oct',
+                'kid' => 'k2',
+                'k' => 'CCCC',
+            ]),
+        ]);
+
+        static::assertCount(3, $jwkset);
+        static::assertSame(
+            '{"keys":[{"kty":"oct","kid":"k1","k":"AAAA"},{"kty":"oct","kid":"k1","k":"BBBB"},{"kty":"oct","kid":"k2","k":"CCCC"}]}',
+            json_encode($jwkset, JSON_THROW_ON_ERROR)
+        );
+        static::assertTrue($jwkset->has('k1'));
+        static::assertSame('AAAA', $jwkset->get('k1')->get('k'));
+    }
+
+    #[Test]
+    public function keysSharingTheSameKidAreAllKeptWhenCreatedFromKeyData(): void
+    {
+        $jwkset = JWKSet::createFromKeyData([
+            'keys' => [
+                [
+                    'kty' => 'oct',
+                    'kid' => 'k1',
+                    'k' => 'AAAA',
+                ],
+                [
+                    'kty' => 'oct',
+                    'kid' => 'k1',
+                    'k' => 'BBBB',
+                ],
+            ],
+        ]);
+
+        static::assertCount(2, $jwkset);
+        static::assertSame('AAAA', $jwkset->get('k1')->get('k'));
+    }
+
+    #[Test]
+    public function keysSharingTheSameKidAreAllKeptWhenAddedOneByOne(): void
+    {
+        $jwkset = new JWKSet([]);
+        $jwkset = $jwkset->with(new JWK([
+            'kty' => 'oct',
+            'kid' => 'k1',
+            'k' => 'AAAA',
+        ]));
+        $jwkset = $jwkset->with(new JWK([
+            'kty' => 'oct',
+            'kid' => 'k1',
+            'k' => 'BBBB',
+        ]));
+
+        static::assertCount(2, $jwkset);
+        static::assertSame('AAAA', $jwkset->get('k1')->get('k'));
+    }
+
+    #[Test]
+    public function keysSharingTheSameKidAreRemovedOneByOne(): void
+    {
+        $jwkset = new JWKSet([
+            new JWK([
+                'kty' => 'oct',
+                'kid' => 'k1',
+                'k' => 'AAAA',
+            ]),
+            new JWK([
+                'kty' => 'oct',
+                'kid' => 'k1',
+                'k' => 'BBBB',
+            ]),
+        ]);
+
+        $jwkset = $jwkset->without('k1');
+        static::assertCount(1, $jwkset);
+        static::assertTrue($jwkset->has('k1'));
+        static::assertSame('BBBB', $jwkset->get('k1')->get('k'));
+
+        $jwkset = $jwkset->without('k1');
+        static::assertCount(0, $jwkset);
+        static::assertFalse($jwkset->has('k1'));
+    }
+
+    #[Test]
+    public function aKeySharingTheKidOfAnUnusableKeyCanStillBeSelected(): void
+    {
+        $jwkset = new JWKSet([
+            new JWK([
+                'kty' => 'BAR',
+                'kid' => 'k1',
+                'use' => 'sig',
+            ]),
+            new JWK([
+                'kty' => 'FOO',
+                'kid' => 'k1',
+                'alg' => 'foo',
+                'use' => 'sig',
+            ]),
+        ]);
+
+        $jwk = $jwkset->selectKey('sig', new FooAlgorithm(), [
+            'kid' => 'k1',
+        ]);
+
+        static::assertInstanceOf(JWK::class, $jwk);
+        static::assertSame('FOO', $jwk->get('kty'));
+    }
+
+    #[Test]
     public function keySet2(): void
     {
         $this->expectException(InvalidArgumentException::class);
