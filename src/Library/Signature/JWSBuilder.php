@@ -137,16 +137,16 @@ class JWSBuilder
                 'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
             );
         }
-        if ($this->isPayloadEncoded === null) {
-            $this->isPayloadEncoded = $isPayloadEncoded;
-        } elseif ($this->isPayloadEncoded !== $isPayloadEncoded) {
+        $clone = clone $this;
+        if ($clone->isPayloadEncoded === null) {
+            $clone->isPayloadEncoded = $isPayloadEncoded;
+        } elseif ($clone->isPayloadEncoded !== $isPayloadEncoded) {
             throw new InvalidArgumentException('Foreign payload encoding detected.');
         }
         $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
         KeyChecker::checkKeyUsage($signatureKey, 'signature');
         $algorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
         KeyChecker::checkKeyAlgorithm($signatureKey, $algorithm->name());
-        $clone = clone $this;
         $clone->signatures[] = [
             'signature_algorithm' => $algorithm,
             'signature_key' => $signatureKey,
