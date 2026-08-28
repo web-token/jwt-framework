@@ -4491,7 +4491,7 @@ parameters:
 		-
 			rawMessage: Cannot access offset 'key_encryption_algorithm' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
+			count: 2
 			path: ../src/Library/Encryption/JWEBuilder.php
 
 		-
