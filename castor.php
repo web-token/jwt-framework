@@ -173,13 +173,23 @@ function php(#[AsRawTokens] array $args = []): void
     run(['docker', 'compose', 'exec', '-T', 'php', ...$args]);
 }
 
-function phpqa(array $command, array $dockerOptions = []): void
+/**
+ * Runs a command in the QA image, or directly when Docker is unavailable or when the current process already is a
+ * container, as it is on the CI.
+ *
+ * The environment is applied to both paths. Passing it as Docker options only would drop it silently on the CI,
+ * where nothing goes through Docker.
+ *
+ * @param array<string>         $command
+ * @param array<string, string> $environment
+ */
+function phpqa(array $command, array $environment = []): void
 {
     $inContainer = file_exists('/.dockerenv');
     $hasDocker = trim((string) shell_exec('command -v docker')) !== '';
 
     if (! $hasDocker || $inContainer) {
-        run($command);
+        run($command, context: context()->withEnvironment($environment));
         return;
     }
 
@@ -201,13 +211,19 @@ function phpqa(array $command, array $dockerOptions = []): void
         '-e', 'XDEBUG_MODE=off',
     ];
 
+    $environmentOptions = [];
+    foreach ($environment as $name => $value) {
+        $environmentOptions[] = '-e';
+        $environmentOptions[] = sprintf('%s=%s', $name, $value);
+    }
+
     $phpVersion = (getenv('PHP_VERSION') ?: \PHP_MAJOR_VERSION . '.' . \PHP_MINOR_VERSION)
             ?: '8.4';
 
     run([
         'docker', 'run',
         ...$defaultDockerOptions,
-        ...$dockerOptions,
+        ...$environmentOptions,
         sprintf('ghcr.io/spomky-labs/phpqa:%s', $phpVersion),
         ...$command,
     ]);
@@ -223,7 +239,9 @@ function phpunit(): void
             '--log-junit=.ci-tools/coverage/junit.xml',
             '--configuration', '.ci-tools/phpunit.xml.dist',
         ],
-        ['-e', 'XDEBUG_MODE=coverage'] // Docker options supplémentaires
+        [
+            'XDEBUG_MODE' => 'coverage',
+        ]
     );
 }
 
@@ -311,7 +329,10 @@ function infect($minMsi = 0, $minCoveredMsi = 0): void
         '-s',
         '--filter=src/',
         '--configuration=.ci-tools/infection.json.dist',
-    ], ['-e', 'XDEBUG_MODE=coverage']);
+    ], [
+        'XDEBUG_MODE' => 'coverage',
+        'COMPOSER_PROCESS_TIMEOUT' => '0',
+    ]);
 }
 
 #[AsTask(description: 'Run QA command', ignoreValidationErrors: true)]
