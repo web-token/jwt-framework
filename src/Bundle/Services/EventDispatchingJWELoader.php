@@ -12,10 +12,12 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEDecrypterInterface;
 use Jose\Component\Encryption\JWELoaderInterface;
+use Jose\Component\Encryption\LoadingResult;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
+use function trigger_deprecation;
 
 /**
  * Dispatches an event whenever a JWE is loaded, without extending the loader it decorates.
@@ -47,25 +49,61 @@ final readonly class EventDispatchingJWELoader implements JWELoaderInterface
     }
 
     #[Override]
-    public function loadAndDecryptWithKey(string $token, JWK $key, ?int &$recipient): JWE
+    public function loadAndDecrypt(string $token, JWK|JWKSet $keys): LoadingResult
     {
-        $keyset = new JWKSet([$key]);
-
-        return $this->loadAndDecryptWithKeySet($token, $keyset, $recipient);
-    }
-
-    #[Override]
-    public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, ?int &$recipient): JWE
-    {
+        $keyset = $keys instanceof JWK ? new JWKSet([$keys]) : $keys;
         try {
-            $jwe = $this->loader->loadAndDecryptWithKeySet($token, $keyset, $recipient);
-            $this->eventDispatcher->dispatch(new JWELoadingSuccessEvent($token, $jwe, $keyset, $recipient));
+            $result = $this->loader->loadAndDecrypt($token, $keys);
+            $this->eventDispatcher->dispatch(
+                new JWELoadingSuccessEvent($token, $result->getJwe(), $keyset, $result->getRecipientIndex())
+            );
 
-            return $jwe;
+            return $result;
         } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(new JWELoadingFailureEvent($token, $keyset, $throwable));
 
             throw $throwable;
         }
+    }
+
+    /**
+     * @param-out int $recipient
+     *
+     * @deprecated since 4.3.0, use "loadAndDecrypt()" instead. Will be removed in 5.0.0.
+     */
+    public function loadAndDecryptWithKey(string $token, JWK $key, ?int &$recipient): JWE
+    {
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::loadAndDecryptWithKey()" is deprecated and will be removed in 5.0.0. Please use "%s::loadAndDecrypt()" instead: it returns a "%s" object that carries the index of the decrypted recipient instead of writing it into a variable of the caller.',
+            self::class,
+            self::class,
+            LoadingResult::class
+        );
+        $keyset = new JWKSet([$key]);
+
+        return $this->loadAndDecryptWithKeySet($token, $keyset, $recipient);
+    }
+
+    /**
+     * @param-out int $recipient
+     *
+     * @deprecated since 4.3.0, use "loadAndDecrypt()" instead. Will be removed in 5.0.0.
+     */
+    public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, ?int &$recipient): JWE
+    {
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::loadAndDecryptWithKeySet()" is deprecated and will be removed in 5.0.0. Please use "%s::loadAndDecrypt()" instead: it returns a "%s" object that carries the index of the decrypted recipient instead of writing it into a variable of the caller.',
+            self::class,
+            self::class,
+            LoadingResult::class
+        );
+        $result = $this->loadAndDecrypt($token, $keyset);
+        $recipient = $result->getRecipientIndex();
+
+        return $result->getJwe();
     }
 }

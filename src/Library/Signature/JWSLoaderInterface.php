@@ -14,6 +14,11 @@ use Jose\Component\Signature\Serializer\JWSSerializerManager;
  *
  * The interface is implemented by JWSLoader and by every object that decorates it. Decoration is the supported way of
  * plugging behaviour into the loader: JWSLoader is annotated as final and will be final in 5.0.0.
+ *
+ * The interface only declares the methods that will survive 5.0.0. "loadAndVerifyWithKey()" and
+ * "loadAndVerifyWithKeySet()", deprecated since 4.3.0 because they write the index of the verified signature into a
+ * variable of the caller, are still available on JWSLoader and on the objects of this package that decorate it, but
+ * they are not part of the contract.
  */
 interface JWSLoaderInterface
 {
@@ -33,19 +38,11 @@ interface JWSLoaderInterface
     public function getSerializerManager(): JWSSerializerManager;
 
     /**
-     * Loads and verifies the token using the given key. It returns a JWS and populates the $signature variable in case
-     * of success, otherwise an exception is thrown.
+     * Loads and verifies the token using the given key or key set. The JWS, the index of the verified signature and
+     * the key that verified it are carried by the returned result, otherwise an exception is thrown.
+     *
+     * @param JWK|JWKSet $keys The signature will be verified using that key or the keys in that key set
+     * @param string|null $payload If not null, the value must be the detached payload encoded in Base64 URL safe
      */
-    public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS;
-
-    /**
-     * Loads and verifies the token using the given key set. It returns a JWS and populates the $signature variable in
-     * case of success, otherwise an exception is thrown.
-     */
-    public function loadAndVerifyWithKeySet(
-        string $token,
-        JWKSet $keyset,
-        ?int &$signature,
-        ?string $payload = null
-    ): JWS;
+    public function loadAndVerify(string $token, JWK|JWKSet $keys, ?string $payload = null): LoadingResult;
 }

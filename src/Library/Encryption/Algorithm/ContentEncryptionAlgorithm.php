@@ -12,6 +12,11 @@ interface ContentEncryptionAlgorithm extends Algorithm
      * This method encrypts the data using the given CEK, IV, AAD and protected header. The variable $tag is populated
      * on success.
      *
+     * BC NOTE: in 5.0, this method will return an "EncryptedContent" object - the ciphertext and the tag - and the
+     * "?string &$tag" output parameter will be removed. The change cannot be made now without breaking every
+     * implementation of this interface. Implementations are encouraged to prepare for it: the object is already
+     * available as Jose\Component\Encryption\Algorithm\EncryptedContent.
+     *
      * @param string $data The data to encrypt
      * @param string $cek The content encryption key
      * @param string $iv The Initialization Vector

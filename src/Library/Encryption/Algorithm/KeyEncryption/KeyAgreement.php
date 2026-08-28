@@ -14,6 +14,12 @@ interface KeyAgreement extends KeyEncryptionAlgorithm
      *
      * @param array<string, mixed> $completeHeader
      * @param array<string, mixed> $additionalHeaderValues
+     *
+     * BC NOTE: in 5.0, this method will return a "WrappedKey" object - the agreement key and the header parameters
+     * to add to the token - and the "array &$additionalHeaderValues" output parameter will be removed. The change
+     * cannot be made now without breaking every implementation of this interface. Implementations are encouraged to
+     * prepare for it: the object is already available as
+     * Jose\Component\Encryption\Algorithm\KeyEncryption\WrappedKey.
      */
     public function getAgreementKey(
         int $encryptionKeyLength,

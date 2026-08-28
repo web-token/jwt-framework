@@ -3823,48 +3823,6 @@ parameters:
 			path: ../src/Bundle/Services/ClaimCheckerManagerFactory.php
 
 		-
-			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypterInterface::decryptUsingKeySet() invoked with 6 parameters, 3-5 required.'
-			identifier: arguments.count
-			count: 1
-			path: ../src/Bundle/Services/EventDispatchingJWEDecrypter.php
-
-		-
-			rawMessage: 'Parameter #3 $JWK of class Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Bundle/Services/EventDispatchingJWEDecrypter.php
-
-		-
-			rawMessage: 'Parameter #4 $recipient of class Jose\Bundle\JoseFramework\Event\JWELoadingSuccessEvent constructor expects int, int|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Bundle/Services/EventDispatchingJWELoader.php
-
-		-
-			rawMessage: 'Parameter #4 $signature of class Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent constructor expects int, int|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Bundle/Services/EventDispatchingJWSLoader.php
-
-		-
-			rawMessage: 'Method Jose\Component\Signature\JWSVerifierInterface::verifyWithKeySet() invoked with 6 parameters, 3-5 required.'
-			identifier: arguments.count
-			count: 1
-			path: ../src/Bundle/Services/EventDispatchingJWSVerifier.php
-
-		-
-			rawMessage: 'Parameter #5 $JWK of class Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Bundle/Services/EventDispatchingJWSVerifier.php
-
-		-
-			rawMessage: 'Parameter #5 $signature of class Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent constructor expects int, int|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Bundle/Services/EventDispatchingNestedTokenLoader.php
-
-		-
 			rawMessage: Class Jose\Bundle\JoseFramework\Services\HeaderCheckerManager extends @final class Jose\Component\Checker\HeaderCheckerManager.
 			identifier: class.extendsFinalByPhpDoc
 			count: 1
@@ -3943,12 +3901,6 @@ parameters:
 			path: ../src/Bundle/Services/JWEDecrypter.php
 
 		-
-			rawMessage: 'Parameter #3 $JWK of class Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Bundle/Services/JWEDecrypter.php
-
-		-
 			rawMessage: '''
 				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWEDecrypter:
 				since 4.3.0, use EventDispatchingJWEDecrypter instead. The class extends a service of
@@ -3993,12 +3945,6 @@ parameters:
 		-
 			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWELoader extends @final class Jose\Component\Encryption\JWELoader.
 			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: ../src/Bundle/Services/JWELoader.php
-
-		-
-			rawMessage: 'Parameter #4 $recipient of class Jose\Bundle\JoseFramework\Event\JWELoadingSuccessEvent constructor expects int, int|null given.'
-			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/JWELoader.php
 
@@ -4075,12 +4021,6 @@ parameters:
 			path: ../src/Bundle/Services/JWSLoader.php
 
 		-
-			rawMessage: 'Parameter #4 $signature of class Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent constructor expects int, int|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Bundle/Services/JWSLoader.php
-
-		-
 			rawMessage: '''
 				Call to method __construct() of deprecated class Jose\Bundle\JoseFramework\Services\JWSLoader:
 				since 4.3.0, use EventDispatchingJWSLoader instead. The class extends a service of
@@ -4143,12 +4083,6 @@ parameters:
 		-
 			rawMessage: Class Jose\Bundle\JoseFramework\Services\JWSVerifier extends @final class Jose\Component\Signature\JWSVerifier.
 			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: ../src/Bundle/Services/JWSVerifier.php
-
-		-
-			rawMessage: 'Parameter #5 $JWK of class Jose\Bundle\JoseFramework\Event\JWSVerificationSuccessEvent constructor expects Jose\Component\Core\JWK, Jose\Component\Core\JWK|null given.'
-			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/JWSVerifier.php
 
@@ -4281,12 +4215,6 @@ parameters:
 		-
 			rawMessage: Class Jose\Bundle\JoseFramework\Services\NestedTokenLoader extends @final class Jose\Component\NestedToken\NestedTokenLoader.
 			identifier: class.extendsFinalByPhpDoc
-			count: 1
-			path: ../src/Bundle/Services/NestedTokenLoader.php
-
-		-
-			rawMessage: 'Parameter #5 $signature of class Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent constructor expects int, int|null given.'
-			identifier: argument.type
 			count: 1
 			path: ../src/Bundle/Services/NestedTokenLoader.php
 
@@ -4910,18 +4838,6 @@ parameters:
 			path: ../src/Library/Encryption/JWEDecrypter.php
 
 		-
-			rawMessage: 'Parameter #1 $key of static method Jose\Component\Core\Util\KeyChecker::checkKeyAlgorithm() expects Jose\Component\Core\JWK, mixed given.'
-			identifier: argument.type
-			count: 2
-			path: ../src/Library/Encryption/JWEDecrypter.php
-
-		-
-			rawMessage: 'Parameter #1 $key of static method Jose\Component\Core\Util\KeyChecker::checkKeyUsage() expects Jose\Component\Core\JWK, mixed given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Encryption/JWEDecrypter.php
-
-		-
 			rawMessage: 'Parameter #3 $completeHeader of method Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping::unwrapKey() expects array<string, mixed>, array given.'
 			identifier: argument.type
 			count: 1
@@ -4929,12 +4845,6 @@ parameters:
 
 		-
 			rawMessage: 'Parameter #3 $header of method Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption::decryptKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Encryption/JWEDecrypter.php
-
-		-
-			rawMessage: 'Parameter #3 $recipientKey of method Jose\Component\Encryption\JWEDecrypter::decryptCEK() expects Jose\Component\Core\JWK, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Encryption/JWEDecrypter.php
@@ -4950,18 +4860,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Encryption/JWEDecrypter.php
-
-		-
-			rawMessage: 'Parameter &$successJwk by-ref type of method Jose\Component\Encryption\JWEDecrypter::decryptRecipientKey() expects Jose\Component\Core\JWK|null, mixed given.'
-			identifier: parameterByRef.type
-			count: 1
-			path: ../src/Library/Encryption/JWEDecrypter.php
-
-		-
-			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypterInterface::decryptUsingKeySet() invoked with 6 parameters, 3-5 required.'
-			identifier: arguments.count
-			count: 1
-			path: ../src/Library/Encryption/JWELoader.php
 
 		-
 			rawMessage: 'Method Jose\Component\Encryption\JWELoaderFactory::create() has parameter $encryptionAlgorithms with no value type specified in iterable type array.'
@@ -5366,12 +5264,6 @@ parameters:
 			path: ../src/Library/KeyManagement/KeyConverter/RSAKey.php
 
 		-
-			rawMessage: 'Parameter #2 $recipient of method Jose\Component\NestedToken\NestedTokenLoader::checkContentTypeHeader() expects int, int|null given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/NestedToken/NestedTokenLoader.php
-
-		-
 			rawMessage: 'Parameter #1 $signature of static method Jose\Component\Core\Util\ECSignature::fromAsn1() expects string, mixed given.'
 			identifier: argument.type
 			count: 1
@@ -5400,12 +5292,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: ../src/Library/Signature/Algorithm/Util/RSA.php
-
-		-
-			rawMessage: 'Method Jose\Component\Signature\JWSVerifierInterface::verifyWithKeySet() invoked with 6 parameters, 3-5 required.'
-			identifier: arguments.count
-			count: 1
-			path: ../src/Library/Signature/JWSLoader.php
 
 		-
 			rawMessage: 'Parameter #1 $algorithm of method Jose\Component\Core\AlgorithmManager::get() expects string, mixed given.'

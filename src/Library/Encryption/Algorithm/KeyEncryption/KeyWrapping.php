@@ -16,6 +16,12 @@ interface KeyWrapping extends KeyEncryptionAlgorithm
      * @param string $cek The CEK to encrypt
      * @param array<string, mixed> $completeHeader The complete header of the JWT
      * @param array<string, mixed> $additionalHeader The complete header of the JWT
+     *
+     * BC NOTE: in 5.0, this method will return a "WrappedKey" object - the wrapped CEK and the header parameters to
+     * add to the token - and the "array &$additionalHeader" output parameter will be removed. The change cannot be
+     * made now without breaking every implementation of this interface. Implementations are encouraged to prepare
+     * for it: the object is already available as
+     * Jose\Component\Encryption\Algorithm\KeyEncryption\WrappedKey.
      */
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string;
 
