@@ -28,7 +28,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create([]);
         $jwsBuilder
-            ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [])
             ->build();
@@ -43,7 +42,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create([]);
         $jwsBuilder
-            ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'foo',
@@ -60,7 +58,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create([]);
         $jwsBuilder
-            ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'ES256',
@@ -76,7 +73,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload(json_encode($this->getKey3(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -101,7 +97,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -130,7 +125,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -159,7 +153,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.', true)
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -191,7 +184,6 @@ final class SignerTest extends SignatureTestCase
             ->create(['HS512', 'RS512']);
 
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -206,7 +198,6 @@ final class SignerTest extends SignatureTestCase
             ->serialize('jws_compact', $jws, 1);
 
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.', true)
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -260,7 +251,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -291,7 +281,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -310,7 +299,6 @@ final class SignerTest extends SignatureTestCase
             ->serialize('jws_json_flattened', $jws, 1);
 
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.', true)
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -371,7 +359,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create([]);
         $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey5(), [
                 'alg' => 'RS512',
@@ -388,7 +375,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['PS512']);
         $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey4(), [
                 'alg' => 'PS512',
@@ -402,7 +388,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload(json_encode(['baz', 'ban']))
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -426,7 +411,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -458,7 +442,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
@@ -482,7 +465,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($this->getKey2(), [
                 'alg' => 'RS512',
@@ -542,7 +524,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -572,7 +553,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper~')
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -618,7 +598,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -664,7 +643,6 @@ final class SignerTest extends SignatureTestCase
         $this->getJWSVerifierFactory()
             ->create(['HS256']);
         $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -698,7 +676,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['HS256', 'HS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader1)
             ->addSignature($key, $protectedHeader2)
@@ -743,7 +720,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($key, $protectedHeader1)
             ->addSignature($key, $protectedHeader2)
@@ -775,7 +751,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -804,7 +779,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -835,7 +809,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -873,7 +846,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -917,7 +889,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $protectedHeader)
             ->build();
@@ -955,7 +926,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyset(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -992,7 +962,6 @@ final class SignerTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['HS512', 'RS512']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyset(), JSON_THROW_ON_ERROR))
             ->addSignature($this->getKey1(), [
                 'alg' => 'HS512',
@@ -1037,7 +1006,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withEncodedPayload($encodedPayload)
             ->addSignature($key, [
                 'alg' => 'HS256',
@@ -1078,14 +1046,12 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $fromEncodedPayload = $jwsBuilder
-            ->create()
             ->withEncodedPayload(Base64UrlSafe::encodeUnpadded($payload))
             ->addSignature($key, [
                 'alg' => 'HS256',
             ])
             ->build();
         $fromPayload = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($key, [
                 'alg' => 'HS256',
@@ -1113,7 +1079,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jwsBuilder
-            ->create()
             ->withEncodedPayload($encodedPayload);
     }
 
@@ -1146,7 +1111,6 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jwsBuilder
-            ->create()
             ->withEncodedPayload('YWJj')
             ->addSignature($key, [
                 'alg' => 'HS256',
@@ -1172,13 +1136,13 @@ final class SignerTest extends SignatureTestCase
         $jwsBuilder = $this->getJWSBuilderFactory()
             ->create(['HS256']);
         $jwsBuilder
-            ->create()
             ->addSignature($key, [
                 'alg' => 'HS256',
                 'b64' => false,
                 'crit' => ['b64'],
             ])
-            ->withEncodedPayload('YWJj');
+            ->withEncodedPayload('YWJj')
+            ->build();
     }
 
     /**

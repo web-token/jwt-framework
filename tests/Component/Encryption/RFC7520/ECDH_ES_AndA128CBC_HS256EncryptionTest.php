@@ -118,7 +118,6 @@ final class ECDH_ES_AndA128CBC_HS256EncryptionTest extends EncryptionTestCase
             ->create(['ECDH-ES', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($public_key)

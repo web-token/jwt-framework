@@ -65,7 +65,6 @@ final class MultipleSignaturesTest extends SignatureTestCase
         $jwsVerifier = $this->getJWSVerifierFactory()
             ->create(['RS256', 'ES512', 'HS256']);
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($ecdsa_private_key, [], [
                 'alg' => 'ES512',

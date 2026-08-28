@@ -76,7 +76,6 @@ final class BrainpoolSignatureTest extends TestCase
         $serializer = new CompactSerializer();
 
         $jws = (new JWSBuilder($algorithmManager))
-            ->create()
             ->withPayload(self::MESSAGE)
             ->addSignature($jwk, [
                 'alg' => $algorithm->name(),

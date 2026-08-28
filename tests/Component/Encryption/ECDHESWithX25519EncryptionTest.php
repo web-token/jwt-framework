@@ -39,7 +39,6 @@ final class ECDHESWithX25519EncryptionTest extends EncryptionTestCase
             ->create(['ECDH-ES+A128KW', 'A128GCM']);
 
         $jwt = $jweBuilder
-            ->create()
             ->withPayload($input)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($receiverKey)

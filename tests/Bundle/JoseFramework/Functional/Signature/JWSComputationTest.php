@@ -37,7 +37,6 @@ final class JWSComputationTest extends WebTestCase
         $serializer = new CompactSerializer();
 
         $jws = $builder
-            ->create()
             ->withPayload('Hello World!')
             ->addSignature($jwk, [
                 'alg' => 'HS256',

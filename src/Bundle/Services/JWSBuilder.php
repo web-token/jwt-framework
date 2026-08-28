@@ -33,7 +33,7 @@ final class JWSBuilder extends BaseJWSBuilder
         } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(new JWSBuiltFailureEvent(
                 $this->payload,
-                $this->signatures,
+                $this->getSignaturesAsArray(),
                 $this->isPayloadDetached,
                 $this->isPayloadEncoded,
                 $throwable

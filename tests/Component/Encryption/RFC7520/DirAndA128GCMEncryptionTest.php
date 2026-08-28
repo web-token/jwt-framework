@@ -98,7 +98,6 @@ final class DirAndA128GCMEncryptionTest extends EncryptionTestCase
             ->create(['dir', 'A128GCM']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)

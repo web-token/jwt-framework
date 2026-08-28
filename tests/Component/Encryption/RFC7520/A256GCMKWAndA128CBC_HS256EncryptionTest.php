@@ -133,7 +133,6 @@ final class A256GCMKWAndA128CBC_HS256EncryptionTest extends EncryptionTestCase
             ->create(['A256GCMKW', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)

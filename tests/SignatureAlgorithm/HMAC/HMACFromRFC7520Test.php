@@ -64,7 +64,6 @@ final class HMACFromRFC7520Test extends TestCase
         $jsonFlattenedSerializer = new JSONFlattenedSerializer();
         $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($key, $header)
             ->build();
@@ -137,7 +136,6 @@ final class HMACFromRFC7520Test extends TestCase
         $jsonFlattenedSerializer = new JSONFlattenedSerializer();
         $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload, true)
             ->addSignature($key, $header)
             ->build();
@@ -213,7 +211,6 @@ final class HMACFromRFC7520Test extends TestCase
         $jsonFlattenedSerializer = new JSONFlattenedSerializer();
         $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($key, $protectedHeader, $unprotectedHeader)
             ->build();
@@ -279,7 +276,6 @@ final class HMACFromRFC7520Test extends TestCase
         $jsonFlattenedSerializer = new JSONFlattenedSerializer();
         $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($key, [], $unprotectedHeader)
             ->build();

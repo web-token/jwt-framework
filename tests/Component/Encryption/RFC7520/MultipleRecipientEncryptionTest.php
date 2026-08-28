@@ -214,7 +214,6 @@ final class MultipleRecipientEncryptionTest extends EncryptionTestCase
             ->create(['RSA1_5', 'ECDH-ES+A256KW', 'A256GCMKW', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)
@@ -297,7 +296,6 @@ final class MultipleRecipientEncryptionTest extends EncryptionTestCase
         $jweBuilder = $this->getJWEBuilderFactory()
             ->create(['RSA1_5', 'A256GCMKW', 'A128CBC-HS256', 'A128GCM']);
         $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)

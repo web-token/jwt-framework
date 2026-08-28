@@ -39,8 +39,7 @@ class NestedTokenBuilder
         string $jwe_serialization_mode,
         ?string $aad = null
     ): string {
-        $jws = $this->jwsBuilder->create()
-            ->withPayload($payload);
+        $jws = $this->jwsBuilder->withPayload($payload);
         foreach ($signatures as $signature) {
             $signature['protected_header'] = array_key_exists(
                 'protected_header',
@@ -55,7 +54,6 @@ class NestedTokenBuilder
         $jweSharedProtectedHeader['cty'] = 'JWT';
 
         $jwe = $this->jweBuilder
-            ->create()
             ->withPayload($token)
             ->withSharedProtectedHeader($jweSharedProtectedHeader)
             ->withSharedHeader($jweSharedHeader)

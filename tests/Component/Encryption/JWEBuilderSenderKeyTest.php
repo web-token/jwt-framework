@@ -30,7 +30,6 @@ final class JWEBuilderSenderKeyTest extends EncryptionTestCase
             ->create(['ECDH-SS', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload(self::PAYLOAD)
             ->withSharedProtectedHeader([
                 'alg' => 'ECDH-SS',
@@ -51,7 +50,6 @@ final class JWEBuilderSenderKeyTest extends EncryptionTestCase
             ->create(['ECDH-SS', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload(self::PAYLOAD)
             ->withSharedProtectedHeader([
                 'alg' => 'ECDH-SS',
@@ -75,7 +73,6 @@ final class JWEBuilderSenderKeyTest extends EncryptionTestCase
         $this->expectExceptionMessage('The sender key shall be set');
 
         $jweBuilder
-            ->create()
             ->withPayload(self::PAYLOAD)
             ->withSharedProtectedHeader([
                 'alg' => 'ECDH-SS',
@@ -92,7 +89,6 @@ final class JWEBuilderSenderKeyTest extends EncryptionTestCase
             ->create(['ECDH-SS+A128KW', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload(self::PAYLOAD)
             ->withSharedProtectedHeader([
                 'alg' => 'ECDH-SS+A128KW',
@@ -114,7 +110,6 @@ final class JWEBuilderSenderKeyTest extends EncryptionTestCase
             ->create(['ECDH-ES', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload(self::PAYLOAD)
             ->withSharedProtectedHeader([
                 'alg' => 'ECDH-ES',
@@ -147,7 +142,6 @@ final class JWEBuilderSenderKeyTest extends EncryptionTestCase
         $this->expectExceptionMessage('Key cannot be used to encrypt or decrypt.');
 
         $jweBuilder
-            ->create()
             ->withPayload(self::PAYLOAD)
             ->withSharedProtectedHeader([
                 'alg' => 'ECDH-SS',

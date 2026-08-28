@@ -113,7 +113,6 @@ final class A128KWAndA128GCMEncryptionWithAdditionalAuthenticatedDataTest extend
             ->create(['A128KW', 'A128GCM']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)

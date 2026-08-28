@@ -26,7 +26,6 @@ final class AlgorithmConfusionTest extends TestCase
         $key = $this->key();
         $algorithmManager = new AlgorithmManager([new HS256(), new HS512()]);
         $jws = (new JWSBuilder($algorithmManager))
-            ->create()
             ->withPayload('payload')
             ->addSignature($key, [
                 'alg' => 'HS256',
@@ -44,7 +43,6 @@ final class AlgorithmConfusionTest extends TestCase
         $algorithmManager = new AlgorithmManager([new HS256(), new HS512()]);
 
         $jws = (new JWSBuilder($algorithmManager))
-            ->create()
             ->withPayload('payload')
             ->addSignature($key, [
                 'alg' => 'HS256',
@@ -69,7 +67,6 @@ final class AlgorithmConfusionTest extends TestCase
         $algorithmManager = new AlgorithmManager([new HS256(), new HS512()]);
 
         $jws = (new JWSBuilder($algorithmManager))
-            ->create()
             ->withPayload('payload')
             ->addSignature($key, [
                 'alg' => 'HS256',

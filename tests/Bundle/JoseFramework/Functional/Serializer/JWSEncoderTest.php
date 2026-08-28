@@ -198,7 +198,6 @@ final class JWSEncoderTest extends KernelTestCase
             : null;
 
         $jwsBuilder = $builder
-            ->create()
             ->withPayload('Hello World!')
             ->addSignature($jwk, [
                 'alg' => 'HS256',
