@@ -71,6 +71,87 @@ final class EncrypterTest extends EncryptionTestCase
     }
 
     #[Test]
+    public function sharedHeaderCanBeSetAfterTheRecipientHasBeenAdded(): void
+    {
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
+        $jweDecrypter = $this->getJWEDecrypterFactory()
+            ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
+
+        $jwe = $jweBuilder
+            ->create()
+            ->withPayload('FOO')
+            ->withSharedProtectedHeader([
+                'enc' => 'A256CBC-HS512',
+                'alg' => 'RSA-OAEP-256',
+            ])
+            ->addRecipient($this->getRSARecipientKey())
+            ->withSharedHeader([
+                'cty' => 'text/plain',
+            ])
+            ->build();
+
+        $token = $this->getJWESerializerManager()
+            ->serialize('jwe_json_flattened', $jwe, 0);
+        $loaded = $this->getJWESerializerManager()
+            ->unserialize($token);
+
+        static::assertSame('text/plain', $loaded->getSharedHeaderParameter('cty'));
+        static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getPrivateKeySet(), 0));
+        static::assertSame('FOO', $loaded->getPayload());
+    }
+
+    #[Test]
+    public function duplicatedHeaderWhenTheSharedHeaderIsSetAfterTheRecipient(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header contains duplicated entries: cty.');
+
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
+
+        $jweBuilder
+            ->create()
+            ->withPayload('FOO')
+            ->withSharedProtectedHeader([
+                'enc' => 'A256CBC-HS512',
+                'alg' => 'RSA-OAEP-256',
+            ])
+            ->addRecipient($this->getRSARecipientKey(), [
+                'cty' => 'text/plain',
+            ])
+            ->withSharedHeader([
+                'cty' => 'application/json',
+            ]);
+    }
+
+    #[Test]
+    public function duplicatedHeaderWhenTheSharedProtectedHeaderIsSetAfterTheRecipient(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The header contains duplicated entries: cty.');
+
+        $jweBuilder = $this->getJWEBuilderFactory()
+            ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
+
+        $jweBuilder
+            ->create()
+            ->withPayload('FOO')
+            ->withSharedProtectedHeader([
+                'enc' => 'A256CBC-HS512',
+                'alg' => 'RSA-OAEP-256',
+            ])
+            ->addRecipient($this->getRSARecipientKey(), [
+                'cty' => 'text/plain',
+            ])
+            ->withSharedProtectedHeader([
+                'enc' => 'A256CBC-HS512',
+                'alg' => 'RSA-OAEP-256',
+                'cty' => 'application/json',
+            ]);
+    }
+
+    #[Test]
     public function createCompactJWEUsingFactory(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()

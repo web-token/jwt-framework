@@ -48,23 +48,29 @@ final class JWSSerializerManager
     /**
      * Loads data and return a JWS object.
      *
+     * When no serializer is able to convert the input, the exception thrown by the last one is chained as the previous
+     * exception, so that the actual reason of the failure remains available to the caller.
+     *
      * @param string $input A string that represents a JWS
      * @param string|null $name the name of the serializer if the input is unserialized
      */
     public function unserialize(string $input, ?string &$name = null): JWS
     {
+        $lastError = null;
         foreach ($this->serializers as $serializer) {
             try {
                 $jws = $serializer->unserialize($input);
                 $name = $serializer->name();
 
                 return $jws;
-            } catch (InvalidArgumentException) {
+            } catch (InvalidArgumentException $invalidArgumentException) {
+                $lastError = $invalidArgumentException;
+
                 continue;
             }
         }
 
-        throw new InvalidArgumentException('Unsupported input.');
+        throw new InvalidArgumentException('Unsupported input.', 0, $lastError);
     }
 
     private function add(JWSSerializer $serializer): void

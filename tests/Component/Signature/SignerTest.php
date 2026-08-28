@@ -1181,6 +1181,41 @@ final class SignerTest extends SignatureTestCase
             ->withEncodedPayload('YWJj');
     }
 
+    /**
+     * The builder is immutable: the "b64" mode is carried by the objects returned by addSignature(), never pinned on
+     * the receiver. The bundle registers the builder as a shared service, so a first build with an unencoded payload
+     * must not prevent any later, unrelated build from using the default encoding.
+     */
+    #[Test]
+    public function theBuilderInstanceIsNotPinnedToTheFirstPayloadEncoding(): void
+    {
+        $key = new JWK([
+            'kty' => 'oct',
+            'k' => 'AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow',
+        ]);
+
+        $jwsBuilder = $this->getJWSBuilderFactory()
+            ->create(['HS256']);
+
+        $jwsBuilder->addSignature($key, [
+            'alg' => 'HS256',
+            'b64' => false,
+            'crit' => ['b64'],
+        ]);
+
+        $jws = $jwsBuilder->withPayload('$.02')
+            ->addSignature($key, [
+                'alg' => 'HS256',
+            ])
+            ->build();
+
+        static::assertSame(
+            'eyJhbGciOiJIUzI1NiJ9.JC4wMg.5mvfOroL-g7HyqJoozehmsaqmvTYGEq5jTI1gVvoEoQ',
+            $this->getJWSSerializerManager()
+                ->serialize('jws_compact', $jws, 0)
+        );
+    }
+
     private function getKey1(): JWK
     {
         return new JWK([
