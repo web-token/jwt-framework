@@ -184,26 +184,17 @@ class JWEBuilder
         return $clone;
     }
 
-    // TODO: Verify if the key is compatible with the key encryption algorithm like is done to the ECDH-ES
     /**
-     * Set the sender JWK to be used instead of the internal generated JWK
+     * Set the sender JWK to be used instead of the internal generated JWK.
+     *
+     * The sender key does not add a recipient: it takes no part in the key management mode compatibility
+     * check, otherwise a static key agreement algorithm such as ECDH-SS would be rejected as a foreign key
+     * management mode. The key itself is verified by build(), where the recipients and the content
+     * encryption algorithm are known whatever the call order is.
      */
     public function withSenderKey(JWK $senderKey): self
     {
         $clone = clone $this;
-        $completeHeader = array_merge($clone->sharedHeader, $clone->sharedProtectedHeader);
-        $keyEncryptionAlgorithm = $clone->getKeyEncryptionAlgorithm($completeHeader);
-        if ($clone->keyManagementMode === null) {
-            $clone->keyManagementMode = $keyEncryptionAlgorithm->getKeyManagementMode();
-        } else {
-            if (! $clone->areKeyManagementModesCompatible(
-                $clone->keyManagementMode,
-                $keyEncryptionAlgorithm->getKeyManagementMode()
-            )) {
-                throw new InvalidArgumentException('Foreign key management mode forbidden.');
-            }
-        }
-        $clone->checkKey($keyEncryptionAlgorithm, $senderKey);
         $clone->senderKey = $senderKey;
 
         return $clone;
@@ -220,6 +211,7 @@ class JWEBuilder
         if (count($this->recipients) === 0) {
             throw new LogicException('No recipient.');
         }
+        $this->checkSenderKey();
 
         $additionalHeader = [];
         $cek = $this->determineCEK($additionalHeader);
@@ -403,6 +395,26 @@ class JWEBuilder
         return $keyEncryptionAlgorithm->wrapKey($recipientKey, $cek, $completeHeader, $additionalHeader);
     }
 
+    /**
+     * The sender key is shared by all the recipients: it is verified against the key encryption algorithm of
+     * each of them. Nothing is done when no sender key is set or when the key encryption algorithm does not
+     * use one.
+     */
+    private function checkSenderKey(): void
+    {
+        $senderKey = $this->senderKey;
+        if ($senderKey === null) {
+            return;
+        }
+        foreach ($this->recipients as $recipient) {
+            $keyEncryptionAlgorithm = $recipient['key_encryption_algorithm'];
+            if (! $keyEncryptionAlgorithm instanceof KeyEncryptionAlgorithm) {
+                throw new InvalidArgumentException('The key encryption algorithm is not valid');
+            }
+            $this->checkKey($keyEncryptionAlgorithm, $senderKey);
+        }
+    }
+
     private function checkKey(KeyEncryptionAlgorithm $keyEncryptionAlgorithm, JWK $recipientKey): void
     {
         if ($this->contentEncryptionAlgorithm === null) {
@@ -435,7 +447,7 @@ class JWEBuilder
                     );
                 }
                 $recipientKey = $this->recipients[0]['key'];
-                $senderKey = $this->recipients[0]['sender_key'] ?? null;
+                $senderKey = $this->recipients[0]['sender_key'] ?? $this->senderKey;
                 $algorithm = $this->recipients[0]['key_encryption_algorithm'];
                 if (! $algorithm instanceof KeyAgreement) {
                     throw new InvalidArgumentException('Invalid content encryption algorithm');

@@ -67,12 +67,14 @@ class JWEDecrypter
      * @param JWE $jwe A JWE object to decrypt
      * @param JWK $jwk The key used to decrypt the input
      * @param int $recipient The recipient used to decrypt the token
+     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
      */
     public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient, ?JWK $senderKey = null): bool
     {
         $jwkset = new JWKSet([$jwk]);
+        $successJwk = null;
 
-        return $this->decryptUsingKeySet($jwe, $jwkset, $recipient, $senderKey);
+        return $this->decryptUsingKeySet($jwe, $jwkset, $recipient, $successJwk, $senderKey);
     }
 
     /**
