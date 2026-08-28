@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
+use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -62,7 +64,7 @@ final readonly class ECKey
     {
         $curve = $jwk->get('crv');
         if (! is_string($curve)) {
-            throw new InvalidArgumentException('Unable to get the curve');
+            throw new InvalidKeyException('Unable to get the curve');
         }
         $length = (int) ceil(self::getCurveSize($curve) / 8);
         $ecPrivateKey = Sequence::create(
@@ -93,7 +95,7 @@ final readonly class ECKey
             'BP-256' => self::bp256PublicKey(),
             'BP-384' => self::bp384PublicKey(),
             'BP-512' => self::bp512PublicKey(),
-            default => throw new InvalidArgumentException('Unsupported curve.'),
+            default => throw new UnsupportedCurveException('Unsupported curve.'),
         };
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN PUBLIC KEY-----' . "\n";
@@ -112,7 +114,7 @@ final readonly class ECKey
             'BP-256' => self::bp256PrivateKey($jwk),
             'BP-384' => self::bp384PrivateKey($jwk),
             'BP-512' => self::bp512PrivateKey($jwk),
-            default => throw new InvalidArgumentException('Unsupported curve.'),
+            default => throw new UnsupportedCurveException('Unsupported curve.'),
         };
         $der .= self::getKey($jwk);
         $pem = '-----BEGIN EC PRIVATE KEY-----' . "\n";
@@ -142,14 +144,14 @@ final readonly class ECKey
             'P-384', 'BP-384' => 384,
             'BP-512' => 512,
             'P-521' => 521,
-            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve)),
+            default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported.', $curve)),
         };
     }
 
     private static function createECKeyUsingOpenSSL(string $curve): array
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
         $key = openssl_pkey_new([
             'curve_name' => self::getOpensslCurveName($curve),
@@ -169,7 +171,7 @@ final readonly class ECKey
         }
         $details = openssl_pkey_get_details($res);
         if ($details === false) {
-            throw new InvalidArgumentException('Unable to get the key details');
+            throw new InvalidKeyException('Unable to get the key details');
         }
         $curveSize = self::getCurveSize($curve);
 
@@ -202,7 +204,7 @@ final readonly class ECKey
             'BP-256' => '1.3.36.3.3.2.8.1.1.7',
             'BP-384' => '1.3.36.3.3.2.8.1.1.11',
             'BP-512' => '1.3.36.3.3.2.8.1.1.13',
-            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve)),
+            default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported.', $curve)),
         };
     }
 
@@ -216,7 +218,7 @@ final readonly class ECKey
             'BP-256' => 'brainpoolP256r1',
             'BP-384' => 'brainpoolP384r1',
             'BP-512' => 'brainpoolP512r1',
-            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve)),
+            default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported.', $curve)),
         };
     }
 
@@ -421,7 +423,7 @@ final readonly class ECKey
     {
         $data = unpack('H*', self::getPrivateKeyBytes($jwk, $length));
         if (! is_array($data) || ! isset($data[1]) || ! is_string($data[1])) {
-            throw new InvalidArgumentException('Unable to get the private key');
+            throw new InvalidKeyException('Unable to get the private key');
         }
 
         return $data[1];
@@ -434,7 +436,7 @@ final readonly class ECKey
     {
         $d = $jwk->get('d');
         if (! is_string($d)) {
-            throw new InvalidArgumentException('Unable to get the private key');
+            throw new InvalidKeyException('Unable to get the private key');
         }
 
         return str_pad(Base64UrlSafe::decodeNoPadding($d), $length, "\0", STR_PAD_LEFT);
@@ -444,17 +446,17 @@ final readonly class ECKey
     {
         $crv = $jwk->get('crv');
         if (! is_string($crv)) {
-            throw new InvalidArgumentException('Unable to get the curve');
+            throw new InvalidKeyException('Unable to get the curve');
         }
         $curveSize = self::getCurveSize($crv);
         $length = (int) ceil($curveSize / 8);
         $x = $jwk->get('x');
         if (! is_string($x)) {
-            throw new InvalidArgumentException('Unable to get the public key');
+            throw new InvalidKeyException('Unable to get the public key');
         }
         $y = $jwk->get('y');
         if (! is_string($y)) {
-            throw new InvalidArgumentException('Unable to get the public key');
+            throw new InvalidKeyException('Unable to get the public key');
         }
         $binX = ltrim(Base64UrlSafe::decodeNoPadding($x), "\0");
         $binY = ltrim(Base64UrlSafe::decodeNoPadding($y), "\0");

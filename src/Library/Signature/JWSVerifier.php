@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use InvalidArgumentException;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\InvalidKeySetException;
+use Jose\Component\Core\Exception\InvalidPayloadException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\Base64UrlSafe;
@@ -81,7 +85,7 @@ class JWSVerifier implements JWSVerifierInterface
             $onError = null;
         }
         if ($jwkset->count() === 0) {
-            throw new InvalidArgumentException('There is no key in the key set.');
+            throw new InvalidKeySetException('There is no key in the key set.');
         }
         if ($jws->countSignatures() === 0) {
             throw new InvalidArgumentException('The JWS does not contain any signature.');
@@ -154,10 +158,10 @@ class JWSVerifier implements JWSVerifierInterface
     {
         $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
         if ($detachedPayload !== null && ! $isPayloadEmpty) {
-            throw new InvalidArgumentException('A detached payload is set, but the JWS already has a payload.');
+            throw new InvalidPayloadException('A detached payload is set, but the JWS already has a payload.');
         }
         if ($isPayloadEmpty && $detachedPayload === null) {
-            throw new InvalidArgumentException('The JWS has a detached payload, but no payload is provided.');
+            throw new InvalidPayloadException('The JWS has a detached payload, but no payload is provided.');
         }
     }
 
@@ -168,13 +172,13 @@ class JWSVerifier implements JWSVerifierInterface
     {
         $protectedHeader = $signature->getProtectedHeader();
         if (! isset($protectedHeader['alg'])) {
-            throw new InvalidArgumentException('No "alg" parameter set in the protected header.');
+            throw new InvalidHeaderParameterException('No "alg" parameter set in the protected header.');
         }
         $alg = $protectedHeader['alg'];
 
         $algorithm = $this->signatureAlgorithmManager->get($alg);
         if (! $algorithm instanceof SignatureAlgorithm && ! $algorithm instanceof MacAlgorithm) {
-            throw new InvalidArgumentException(sprintf(
+            throw new UnsupportedAlgorithmException(sprintf(
                 'The algorithm "%s" is not supported or is not a signature or MAC algorithm.',
                 $alg
             ));

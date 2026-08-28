@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Experimental\Signature;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Override;
-use RuntimeException;
 use function extension_loaded;
 use function in_array;
 use function is_string;
@@ -25,7 +25,7 @@ final readonly class Blake2b implements MacAlgorithm
     public function __construct()
     {
         if (! extension_loaded('sodium')) {
-            throw new RuntimeException('Please install the Sodium extension');
+            throw new MissingDependencyException('Please install the Sodium extension');
         }
     }
 
@@ -58,18 +58,18 @@ final readonly class Blake2b implements MacAlgorithm
     private function getKey(JWK $key): string
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidArgumentException('Wrong key type.');
+            throw new InvalidKeyException('Wrong key type.');
         }
         if (! $key->has('k')) {
-            throw new InvalidArgumentException('The key parameter "k" is missing.');
+            throw new InvalidKeyException('The key parameter "k" is missing.');
         }
         $k = $key->get('k');
         if (! is_string($k)) {
-            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+            throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
         $key = Base64UrlSafe::decodeNoPadding($k);
         if (strlen($key) < self::MINIMUM_KEY_LENGTH) {
-            throw new InvalidArgumentException('Key provided is shorter than 256 bits.');
+            throw new InvalidKeyException('Key provided is shorter than 256 bits.');
         }
 
         return $key;

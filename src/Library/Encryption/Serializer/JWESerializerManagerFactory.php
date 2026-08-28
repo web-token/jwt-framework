@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\UnsupportedSerializerException;
 use function sprintf;
 
 final class JWESerializerManagerFactory
@@ -24,7 +24,7 @@ final class JWESerializerManagerFactory
         $serializers = [];
         foreach ($names as $name) {
             if (! isset($this->serializers[$name])) {
-                throw new InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
+                throw new UnsupportedSerializerException(sprintf('Unsupported serializer "%s".', $name));
             }
             $serializers[] = $this->serializers[$name];
         }

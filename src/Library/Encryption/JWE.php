@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use Jose\Component\Core\JWT;
 use Override;
 use function array_key_exists;
@@ -143,7 +144,7 @@ class JWE implements JWT
     public function getSharedProtectedHeaderParameter(string $key)
     {
         if (! $this->hasSharedProtectedHeaderParameter($key)) {
-            throw new InvalidArgumentException(sprintf('The shared protected header "%s" does not exist.', $key));
+            throw new InvalidHeaderParameterException(sprintf('The shared protected header "%s" does not exist.', $key));
         }
 
         return $this->sharedProtectedHeader[$key];
@@ -178,7 +179,7 @@ class JWE implements JWT
     public function getSharedHeaderParameter(string $key)
     {
         if (! $this->hasSharedHeaderParameter($key)) {
-            throw new InvalidArgumentException(sprintf('The shared header "%s" does not exist.', $key));
+            throw new InvalidHeaderParameterException(sprintf('The shared header "%s" does not exist.', $key));
         }
 
         return $this->sharedHeader[$key];

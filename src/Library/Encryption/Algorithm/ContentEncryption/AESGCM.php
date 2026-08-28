@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Jose\Component\Core\Exception\DecryptionFailedException;
+use Jose\Component\Core\Exception\EncryptionFailedException;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Override;
-use RuntimeException;
 use function extension_loaded;
 use const OPENSSL_RAW_DATA;
 
@@ -16,7 +18,7 @@ abstract readonly class AESGCM implements ContentEncryptionAlgorithm
     public function __construct()
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
     }
 
@@ -42,7 +44,7 @@ abstract readonly class AESGCM implements ContentEncryptionAlgorithm
         $tag = '';
         $result = openssl_encrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if ($result === false) {
-            throw new RuntimeException('Unable to encrypt the content');
+            throw new EncryptionFailedException('Unable to encrypt the content');
         }
 
         return $result;
@@ -64,7 +66,7 @@ abstract readonly class AESGCM implements ContentEncryptionAlgorithm
 
         $result = openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if ($result === false) {
-            throw new RuntimeException('Unable to decrypt the content');
+            throw new DecryptionFailedException('Unable to decrypt the content');
         }
 
         return $result;

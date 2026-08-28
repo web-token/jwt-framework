@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Override;
 use function call_user_func;
 use function is_callable;

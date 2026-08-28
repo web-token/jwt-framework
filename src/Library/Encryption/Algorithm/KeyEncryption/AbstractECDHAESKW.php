@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use AESKW\Wrapper as WrapperInterface;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Override;
-use RuntimeException;
 
 abstract readonly class AbstractECDHAESKW implements KeyAgreementWithKeyWrapping
 {
     public function __construct()
     {
         if (! interface_exists(WrapperInterface::class)) {
-            throw new RuntimeException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');
+            throw new MissingDependencyException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');
         }
     }
 

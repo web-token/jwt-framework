@@ -8,11 +8,13 @@ use AESKW\A128KW;
 use AESKW\A192KW;
 use AESKW\A256KW;
 use AESKW\Wrapper as WrapperInterface;
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Override;
-use RuntimeException;
 use function in_array;
 use function is_int;
 use function is_string;
@@ -28,7 +30,7 @@ abstract readonly class PBES2AESKW implements KeyWrapping
         private int $max_count = self::DEFAULT_MAX_COUNT
     ) {
         if (! interface_exists(WrapperInterface::class)) {
-            throw new RuntimeException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');
+            throw new MissingDependencyException('Please install "spomky-labs/aes-key-wrap" to use AES-KW algorithms');
         }
     }
 
@@ -81,10 +83,10 @@ abstract readonly class PBES2AESKW implements KeyWrapping
         $hash_algorithm = $this->getHashAlgorithm();
         $key_size = $this->getKeySize();
         $p2s = $completeHeader['p2s'];
-        is_string($p2s) || throw new InvalidArgumentException('Invalid salt.');
+        is_string($p2s) || throw new InvalidHeaderParameterException('Invalid salt.');
         $salt = $completeHeader['alg'] . "\x00" . Base64UrlSafe::decodeNoPadding($p2s);
         $count = $completeHeader['p2c'];
-        is_int($count) || throw new InvalidArgumentException('Invalid counter.');
+        is_int($count) || throw new InvalidHeaderParameterException('Invalid counter.');
 
         $derived_key = hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
 
@@ -100,14 +102,14 @@ abstract readonly class PBES2AESKW implements KeyWrapping
     protected function getKey(JWK $key): string
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidArgumentException('Wrong key type.');
+            throw new InvalidKeyException('Wrong key type.');
         }
         if (! $key->has('k')) {
-            throw new InvalidArgumentException('The key parameter "k" is missing.');
+            throw new InvalidKeyException('The key parameter "k" is missing.');
         }
         $k = $key->get('k');
         if (! is_string($k)) {
-            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+            throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
 
         return Base64UrlSafe::decodeNoPadding($k);
@@ -119,10 +121,10 @@ abstract readonly class PBES2AESKW implements KeyWrapping
     protected function checkHeaderAlgorithm(array $header): void
     {
         if (! isset($header['alg'])) {
-            throw new InvalidArgumentException('The header parameter "alg" is missing.');
+            throw new InvalidHeaderParameterException('The header parameter "alg" is missing.');
         }
         if (! is_string($header['alg'])) {
-            throw new InvalidArgumentException('The header parameter "alg" is not valid.');
+            throw new InvalidHeaderParameterException('The header parameter "alg" is not valid.');
         }
     }
 
@@ -132,16 +134,16 @@ abstract readonly class PBES2AESKW implements KeyWrapping
     protected function checkHeaderAdditionalParameters(array $header): void
     {
         if (! isset($header['p2s'])) {
-            throw new InvalidArgumentException('The header parameter "p2s" is missing.');
+            throw new InvalidHeaderParameterException('The header parameter "p2s" is missing.');
         }
         if (! is_string($header['p2s'])) {
-            throw new InvalidArgumentException('The header parameter "p2s" is not valid.');
+            throw new InvalidHeaderParameterException('The header parameter "p2s" is not valid.');
         }
         if (! isset($header['p2c'])) {
-            throw new InvalidArgumentException('The header parameter "p2c" is missing.');
+            throw new InvalidHeaderParameterException('The header parameter "p2c" is missing.');
         }
         if (! is_int($header['p2c']) || $header['p2c'] <= 0) {
-            throw new InvalidArgumentException('The header parameter "p2c" is not valid.');
+            throw new InvalidHeaderParameterException('The header parameter "p2c" is not valid.');
         }
         if ($header['p2c'] > $this->max_count) {
             throw new InvalidArgumentException(sprintf(

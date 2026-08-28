@@ -6,8 +6,10 @@ namespace Jose\Component\Core;
 
 use ArrayIterator;
 use Countable;
-use InvalidArgumentException;
 use IteratorAggregate;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\InvalidKeySetException;
 use JsonSerializable;
 use Traversable;
 use function array_key_exists;
@@ -31,7 +33,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     {
         foreach ($keys as $key) {
             if (! $key instanceof JWK) {
-                throw new InvalidArgumentException('Invalid list. Should only contains JWK objects');
+                throw new InvalidKeySetException('Invalid list. Should only contains JWK objects');
             }
 
             $this->add($key);
@@ -44,10 +46,10 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     public static function createFromKeyData(array $data): self
     {
         if (! isset($data['keys'])) {
-            throw new InvalidArgumentException('Invalid data.');
+            throw new InvalidKeySetException('Invalid data.');
         }
         if (! is_array($data['keys'])) {
-            throw new InvalidArgumentException('Invalid data.');
+            throw new InvalidKeySetException('Invalid data.');
         }
 
         $jwkset = new self([]);
@@ -65,7 +67,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     {
         $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         if (! is_array($data)) {
-            throw new InvalidArgumentException('Invalid argument.');
+            throw new InvalidKeySetException('Invalid argument.');
         }
 
         return self::createFromKeyData($data);
@@ -129,7 +131,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     {
         $index = $this->indexOf($index);
         if ($index === null) {
-            throw new InvalidArgumentException('Undefined index.');
+            throw new InvalidKeySetException('Undefined index.');
         }
 
         return $this->keys[$index];
@@ -165,7 +167,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     public function selectKey(string $type, ?Algorithm $algorithm = null, array $restrictions = []): ?JWK
     {
         if (! in_array($type, ['enc', 'sig'], true)) {
-            throw new InvalidArgumentException('Allowed key types are "sig" or "enc".');
+            throw new InvalidKeySetException('Allowed key types are "sig" or "enc".');
         }
 
         $result = [];
@@ -272,7 +274,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         if ($key->has('key_ops')) {
             $key_ops = $key->get('key_ops');
             if (! is_array($key_ops) || $key_ops !== array_filter($key_ops, static fn (mixed $v): bool => is_string($v))) {
-                throw new InvalidArgumentException(
+                throw new InvalidKeyException(
                     'Invalid key parameter "key_ops". Should be a list of key operations'
                 );
             }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\EC\ECPrivateKey;
@@ -75,7 +76,7 @@ final class ECKey
             ];
         } catch (Throwable) {
         }
-        throw new InvalidArgumentException('Unable to load the key.');
+        throw new InvalidKeyException('Unable to load the key.');
     }
 
     private static function getCurve(string $oid): string
@@ -83,7 +84,7 @@ final class ECKey
         $curves = self::getSupportedCurves();
         $curve = array_search($oid, $curves, true);
         if (! is_string($curve)) {
-            throw new InvalidArgumentException('Unsupported OID.');
+            throw new InvalidKeyException('Unsupported OID.');
         }
 
         return $curve;
@@ -116,7 +117,7 @@ final class ECKey
         }
 
         if ($jwk['kty'] !== 'EC') {
-            throw new InvalidArgumentException('JWK is not an Elliptic Curve key.');
+            throw new InvalidKeyException('JWK is not an Elliptic Curve key.');
         }
         $this->values = $jwk;
     }

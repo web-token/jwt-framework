@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement\KeyConverter;
 
 use Brick\Math\BigInteger;
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\DecryptionFailedException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use OpenSSLCertificate;
 use ParagonIE\Sodium\Core\Ed25519;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\AlgorithmIdentifier;
@@ -59,7 +61,7 @@ final readonly class KeyConverter
     public static function loadKeyFromCertificate(string $certificate): array
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
 
         $errorReporting = error_reporting(E_ERROR | E_PARSE);
@@ -87,7 +89,7 @@ final readonly class KeyConverter
     public static function loadKeyFromX509Resource(OpenSSLCertificate $res): array
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
         $key = openssl_pkey_get_public($res);
         if ($key === false) {
@@ -130,7 +132,7 @@ final readonly class KeyConverter
     {
         $content = file_get_contents($file);
         if (! is_string($content)) {
-            throw new InvalidArgumentException('Unable to load the key from the file.');
+            throw new InvalidKeyException('Unable to load the key from the file.');
         }
 
         return self::loadFromKey($content, $password);
@@ -158,7 +160,7 @@ final readonly class KeyConverter
     public static function loadFromX5C(array $x5c): array
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
         if (count($x5c) === 0) {
             throw new InvalidArgumentException('The certificate chain is empty');
@@ -199,7 +201,7 @@ final readonly class KeyConverter
     private static function loadKeyFromPEM(string $pem, ?string $password = null): array
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
 
         if (preg_match('#DEK-Info: (.+),(.+)#', $pem, $matches) === 1) {
@@ -209,7 +211,7 @@ final readonly class KeyConverter
         if (preg_match('#BEGIN ENCRYPTED PRIVATE KEY(.+)(.+)#', $pem) === 1) {
             $decrypted = openssl_pkey_get_private($pem, $password);
             if ($decrypted === false) {
-                throw new InvalidArgumentException('Unable to decrypt the key.');
+                throw new InvalidKeyException('Unable to decrypt the key.');
             }
             openssl_pkey_export($decrypted, $pem);
         }
@@ -220,13 +222,13 @@ final readonly class KeyConverter
             $res = openssl_pkey_get_public($pem);
         }
         if ($res === false) {
-            throw new InvalidArgumentException('Unable to load the key.');
+            throw new InvalidKeyException('Unable to load the key.');
         }
 
         $details = openssl_pkey_get_details($res);
         if (! is_array($details) || ! array_key_exists('type', $details)
             || ! array_key_exists('key', $details) || ! is_string($details['key'])) {
-            throw new InvalidArgumentException('Unable to get details of the key');
+            throw new InvalidKeyException('Unable to get details of the key');
         }
 
         return match ($details['type']) {
@@ -237,7 +239,7 @@ final readonly class KeyConverter
             6 => self::tryToLoadX448Key($details), // OPENSSL_KEYTYPE_X448
             7 => self::tryToLoadED448Key($details), // OPENSSL_KEYTYPE_ED448
             -1 => self::tryToLoadOtherKeyTypes($details, $pem),
-            default => throw new InvalidArgumentException('Unsupported key type'),
+            default => throw new InvalidKeyException('Unsupported key type'),
         };
     }
 
@@ -260,7 +262,7 @@ final readonly class KeyConverter
         } catch (Throwable) {
             // no break
         }
-        throw new InvalidArgumentException('Unable to load the key.');
+        throw new InvalidKeyException('Unable to load the key.');
     }
 
     /**
@@ -369,7 +371,7 @@ final readonly class KeyConverter
         return match ($pem->type()) {
             PEM::TYPE_PUBLIC_KEY => self::loadPublicKey($pem),
             PEM::TYPE_PRIVATE_KEY => self::loadPrivateKey($details, $pem),
-            default => throw new InvalidArgumentException('Unsupported key type'),
+            default => throw new InvalidKeyException('Unsupported key type'),
         };
     }
 
@@ -410,10 +412,10 @@ final readonly class KeyConverter
                         'd' => Base64UrlSafe::encodeUnpadded($key->privateKeyData()),
                     ];
                 default:
-                    throw new InvalidArgumentException('Unsupported key type');
+                    throw new InvalidKeyException('Unsupported key type');
             }
         } catch (Throwable $e) {
-            throw new InvalidArgumentException('Unable to load the key.', 0, $e);
+            throw new InvalidKeyException('Unable to load the key.', 0, $e);
         }
     }
 
@@ -436,14 +438,14 @@ final readonly class KeyConverter
                     'x' => Base64UrlSafe::encodeUnpadded((string) $key->subjectPublicKey()),
                 ];
             default:
-                throw new InvalidArgumentException('Unsupported key type');
+                throw new InvalidKeyException('Unsupported key type');
         }
     }
 
     private static function convertDecimalToBas64Url(string $decimal): string
     {
         if ($decimal === '') {
-            throw new InvalidArgumentException('Unsupported key type');
+            throw new InvalidKeyException('Unsupported key type');
         }
 
         return Base64UrlSafe::encodeUnpadded(BigInteger::fromBase($decimal, 10)->toBytes());
@@ -452,7 +454,7 @@ final readonly class KeyConverter
     private static function checkType(string $curve): void
     {
         $curves = ['Ed448ph', 'Ed25519ph', 'Ed448', 'Ed25519', 'X448', 'X25519'];
-        in_array($curve, $curves, true) || throw new InvalidArgumentException('Unsupported key type.');
+        in_array($curve, $curves, true) || throw new InvalidKeyException('Unsupported key type.');
     }
 
     /**
@@ -467,7 +469,7 @@ final readonly class KeyConverter
             '1.3.101.112' => 'Ed25519',
             '1.3.101.111' => 'X448',
             '1.3.101.110' => 'X25519',
-            default => throw new InvalidArgumentException('Unsupported key type.'),
+            default => throw new InvalidKeyException('Unsupported key type.'),
         };
     }
 
@@ -478,7 +480,7 @@ final readonly class KeyConverter
     {
         $number = preg_match_all('#(-.*-)#', $pem, $matches, PREG_PATTERN_ORDER);
         if ($number !== 2) {
-            throw new InvalidArgumentException('Unable to load the key');
+            throw new InvalidKeyException('Unable to load the key');
         }
 
         $ciphertext = preg_replace('#-.*-|\r|\n| #', '', $pem);
@@ -494,7 +496,7 @@ final readonly class KeyConverter
     private static function decodePem(string $pem, array $matches, ?string $password = null): string
     {
         if ($password === null) {
-            throw new InvalidArgumentException('Password required for encrypted keys.');
+            throw new InvalidKeyException('Password required for encrypted keys.');
         }
 
         $iv = pack('H*', trim($matches[2]));
@@ -509,11 +511,11 @@ final readonly class KeyConverter
 
         $decoded = openssl_decrypt($ciphertext, strtolower($matches[1]), $symkey, OPENSSL_RAW_DATA, $iv);
         if ($decoded === false) {
-            throw new RuntimeException('Unable to decrypt the key');
+            throw new DecryptionFailedException('Unable to decrypt the key');
         }
         $number = preg_match_all('#-{5}.*-{5}#', $pem, $result);
         if ($number !== 2) {
-            throw new InvalidArgumentException('Unable to load the key');
+            throw new InvalidKeyException('Unable to load the key');
         }
 
         $pem = $result[0][0] . "\n";

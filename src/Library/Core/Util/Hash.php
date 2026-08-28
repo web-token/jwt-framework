@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 
 /**
  * @internal
@@ -28,7 +28,7 @@ final readonly class Hash
             'sha256' => self::sha256(),
             'sha384' => self::sha384(),
             'sha512' => self::sha512(),
-            default => throw new InvalidArgumentException('Unsupported hash function'),
+            default => throw new UnsupportedAlgorithmException('Unsupported hash function'),
         };
     }
 

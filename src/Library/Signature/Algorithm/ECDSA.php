@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\LogicException;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\ECSignature;
-use LogicException;
 use Override;
-use RuntimeException;
 use Throwable;
 use function defined;
 use function extension_loaded;
@@ -22,7 +22,7 @@ abstract readonly class ECDSA implements SignatureAlgorithm
     public function __construct()
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
         if (! defined('OPENSSL_KEYTYPE_EC')) {
             throw new LogicException('Elliptic Curve key type not supported by your environment.');
@@ -40,7 +40,7 @@ abstract readonly class ECDSA implements SignatureAlgorithm
     {
         $this->checkKey($key);
         if (! $key->has('d')) {
-            throw new InvalidArgumentException('The EC key is not private');
+            throw new InvalidKeyException('The EC key is not private');
         }
         $pem = ECKey::convertPrivateKeyToPEM($key);
         openssl_sign($input, $signature, $pem, $this->getHashAlgorithm());
@@ -70,11 +70,11 @@ abstract readonly class ECDSA implements SignatureAlgorithm
     private function checkKey(JWK $key): void
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidArgumentException('Wrong key type.');
+            throw new InvalidKeyException('Wrong key type.');
         }
         foreach (['x', 'y', 'crv'] as $k) {
             if (! $key->has($k)) {
-                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+                throw new InvalidKeyException(sprintf('The key parameter "%s" is missing.', $k));
             }
         }
     }

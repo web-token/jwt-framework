@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
+use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Override;
-use RuntimeException;
 use function extension_loaded;
 use function in_array;
 use function sprintf;
@@ -18,7 +19,7 @@ abstract readonly class RSAPKCS1 implements SignatureAlgorithm
     public function __construct()
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
     }
 
@@ -42,7 +43,7 @@ abstract readonly class RSAPKCS1 implements SignatureAlgorithm
     {
         $this->checkKey($key);
         if (! $key->has('d')) {
-            throw new InvalidArgumentException('The key is not a private key.');
+            throw new InvalidKeyException('The key is not a private key.');
         }
 
         $priv = RSAKey::createFromJWK($key);
@@ -60,11 +61,11 @@ abstract readonly class RSAPKCS1 implements SignatureAlgorithm
     private function checkKey(JWK $key): void
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidArgumentException('Wrong key type.');
+            throw new InvalidKeyException('Wrong key type.');
         }
         foreach (['n', 'e'] as $k) {
             if (! $key->has($k)) {
-                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+                throw new InvalidKeyException(sprintf('The key parameter "%s" is missing.', $k));
             }
         }
     }

@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\LogicException;
+use Jose\Component\Core\Exception\MissingPayloadLogicException;
+use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\InheritanceChecker;
@@ -18,8 +23,6 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrappin
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
-use LogicException;
-use RuntimeException;
 use function array_key_exists;
 use function count;
 use function intdiv;
@@ -210,7 +213,7 @@ class JWEBuilder implements JWEBuilderInterface
     public function build(): JWE
     {
         if ($this->payload === null) {
-            throw new LogicException('Payload not set.');
+            throw new MissingPayloadLogicException('Payload not set.');
         }
         if (count($this->recipients) === 0) {
             throw new LogicException('No recipient.');
@@ -339,11 +342,11 @@ class JWEBuilder implements JWEBuilderInterface
                 continue;
             }
             if ($current->name() !== $contentEncryptionAlgorithm->name()) {
-                throw new InvalidArgumentException('Inconsistent content encryption algorithm');
+                throw new UnsupportedAlgorithmException('Inconsistent content encryption algorithm');
             }
         }
         if ($contentEncryptionAlgorithm === null) {
-            throw new InvalidArgumentException('Invalid content encryption algorithm');
+            throw new UnsupportedAlgorithmException('Invalid content encryption algorithm');
         }
 
         return $contentEncryptionAlgorithm;
@@ -526,7 +529,7 @@ class JWEBuilder implements JWEBuilderInterface
             return null;
         }
 
-        throw new InvalidArgumentException('Unsupported key encryption algorithm.');
+        throw new UnsupportedAlgorithmException('Unsupported key encryption algorithm.');
     }
 
     /**
@@ -616,7 +619,7 @@ class JWEBuilder implements JWEBuilderInterface
                 }
                 $algorithm = $keyEncryptionAlgorithms[0];
                 if (! $algorithm instanceof KeyAgreement) {
-                    throw new InvalidArgumentException('Invalid content encryption algorithm');
+                    throw new UnsupportedAlgorithmException('Invalid content encryption algorithm');
                 }
 
                 return $algorithm->getAgreementKey(
@@ -702,7 +705,7 @@ class JWEBuilder implements JWEBuilderInterface
     {
         $alg = $completeHeader['alg'] ?? null;
         if (! is_string($alg)) {
-            throw new InvalidArgumentException('Parameter "alg" is missing.');
+            throw new InvalidHeaderParameterException('Parameter "alg" is missing.');
         }
         $keyEncryptionAlgorithm = $this->keyEncryptionAlgorithmManager->get($alg);
         if (! $keyEncryptionAlgorithm instanceof KeyEncryptionAlgorithm) {
@@ -722,11 +725,11 @@ class JWEBuilder implements JWEBuilderInterface
     {
         $enc = $completeHeader['enc'] ?? null;
         if (! is_string($enc)) {
-            throw new InvalidArgumentException('Parameter "enc" is missing.');
+            throw new InvalidHeaderParameterException('Parameter "enc" is missing.');
         }
         $contentEncryptionAlgorithm = $this->contentEncryptionAlgorithmManager->get($enc);
         if (! $contentEncryptionAlgorithm instanceof ContentEncryptionAlgorithm) {
-            throw new InvalidArgumentException(sprintf(
+            throw new UnsupportedAlgorithmException(sprintf(
                 'The content encryption algorithm "%s" is not supported or not a content encryption algorithm instance.',
                 $enc
             ));
@@ -743,7 +746,7 @@ class JWEBuilder implements JWEBuilderInterface
     {
         $inter = array_intersect_key($header1, $header2);
         if (count($inter) !== 0) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidHeaderParameterException(sprintf(
                 'The header contains duplicated entries: %s.',
                 implode(', ', array_keys($inter))
             ));

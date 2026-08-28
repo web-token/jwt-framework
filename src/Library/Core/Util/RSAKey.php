@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWK;
-use RuntimeException;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
@@ -237,11 +237,11 @@ final class RSAKey
     {
         $unpacked = unpack('H*', Base64UrlSafe::decodeNoPadding($value));
         if (! is_array($unpacked) || count($unpacked) === 0) {
-            throw new InvalidArgumentException('Unable to get the private key');
+            throw new InvalidKeyException('Unable to get the private key');
         }
         $hexadecimal = current($unpacked);
         if (! is_string($hexadecimal) || $hexadecimal === '') {
-            throw new InvalidArgumentException('Unable to get the private key');
+            throw new InvalidKeyException('Unable to get the private key');
         }
 
         return \Brick\Math\BigInteger::fromBase($hexadecimal, 16)->toBase(10);

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
+use Jose\Component\Core\Exception\UnsupportedSerializerException;
 use Jose\Component\Encryption\JWE;
 use function sprintf;
 
@@ -41,7 +43,7 @@ final class JWESerializerManager
     public function serialize(string $name, JWE $jws, ?int $recipientIndex = null): string
     {
         if (! isset($this->serializers[$name])) {
-            throw new InvalidArgumentException(sprintf('Unsupported serializer "%s".', $name));
+            throw new UnsupportedSerializerException(sprintf('Unsupported serializer "%s".', $name));
         }
 
         return $this->serializers[$name]->serialize($jws, $recipientIndex);
@@ -72,7 +74,7 @@ final class JWESerializerManager
             }
         }
 
-        throw new InvalidArgumentException('Unsupported input.', 0, $lastError);
+        throw new InvalidSerializationException('Unsupported input.', 0, $lastError);
     }
 
     /**

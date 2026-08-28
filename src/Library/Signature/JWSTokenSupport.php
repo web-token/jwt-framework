@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use InvalidArgumentException;
 use Jose\Component\Checker\TokenTypeSupport;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\JWT;
 use Override;
 

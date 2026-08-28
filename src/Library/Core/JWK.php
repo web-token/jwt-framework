@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use JsonSerializable;
 use Override;
@@ -29,7 +31,7 @@ class JWK implements JsonSerializable
     public function __construct(array $values)
     {
         if (! isset($values['kty'])) {
-            throw new InvalidArgumentException('The parameter "kty" is mandatory.');
+            throw new InvalidKeyException('The parameter "kty" is mandatory.');
         }
         $this->values = $values;
     }
@@ -66,7 +68,7 @@ class JWK implements JsonSerializable
     public function get(string $key)
     {
         if (! $this->has($key)) {
-            throw new InvalidArgumentException(sprintf('The value identified by "%s" does not exist.', $key));
+            throw new InvalidKeyException(sprintf('The value identified by "%s" does not exist.', $key));
         }
 
         return $this->values[$key];
@@ -100,13 +102,13 @@ class JWK implements JsonSerializable
     public function thumbprint(string $hash_algorithm): string
     {
         if (! in_array($hash_algorithm, hash_algos(), true)) {
-            throw new InvalidArgumentException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
+            throw new UnsupportedAlgorithmException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         }
         $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
         ksort($values);
         $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         if ($input === false) {
-            throw new InvalidArgumentException('Unable to compute the key thumbprint');
+            throw new InvalidKeyException('Unable to compute the key thumbprint');
         }
 
         return Base64UrlSafe::encodeUnpadded(hash($hash_algorithm, $input, true));

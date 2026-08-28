@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Jose\Experimental\KeyEncryption;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\DecryptionFailedException;
+use Jose\Component\Core\Exception\EncryptionFailedException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
-use LogicException;
 use Override;
-use RuntimeException;
 use function in_array;
 use function is_string;
 use function strlen;
@@ -50,7 +52,7 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
         $tag = null;
         $result = openssl_encrypt($cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce, $tag);
         if ($result === false || ! is_string($tag) || strlen($tag) !== 16) {
-            throw new RuntimeException('Unable to encrypt the CEK');
+            throw new EncryptionFailedException('Unable to encrypt the CEK');
         }
 
         $additionalHeader['nonce'] = Base64UrlSafe::encodeUnpadded($nonce);
@@ -66,22 +68,22 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
     public function decryptKey(JWK $key, string $encrypted_cek, array $header): string
     {
         $k = $this->getKey($key);
-        isset($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is missing.');
-        is_string($header['nonce']) || throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
+        isset($header['nonce']) || throw new InvalidHeaderParameterException('The header parameter "nonce" is missing.');
+        is_string($header['nonce']) || throw new InvalidHeaderParameterException('The header parameter "nonce" is not valid.');
         $nonce = Base64UrlSafe::decodeNoPadding($header['nonce']);
         if (strlen($nonce) !== 12) {
-            throw new InvalidArgumentException('The header parameter "nonce" is not valid.');
+            throw new InvalidHeaderParameterException('The header parameter "nonce" is not valid.');
         }
-        isset($header['tag']) || throw new InvalidArgumentException('The header parameter "tag" is missing.');
-        is_string($header['tag']) || throw new InvalidArgumentException('The header parameter "tag" is not valid.');
+        isset($header['tag']) || throw new InvalidHeaderParameterException('The header parameter "tag" is missing.');
+        is_string($header['tag']) || throw new InvalidHeaderParameterException('The header parameter "tag" is not valid.');
         $tag = Base64UrlSafe::decodeNoPadding($header['tag']);
         if (strlen($tag) !== 16) {
-            throw new InvalidArgumentException('The header parameter "tag" is not valid.');
+            throw new InvalidHeaderParameterException('The header parameter "tag" is not valid.');
         }
 
         $result = openssl_decrypt($encrypted_cek, 'chacha20-poly1305', $k, OPENSSL_RAW_DATA, $nonce, $tag);
         if ($result === false) {
-            throw new RuntimeException('Unable to decrypt the CEK');
+            throw new DecryptionFailedException('Unable to decrypt the CEK');
         }
 
         return $result;
@@ -96,14 +98,14 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
     private function getKey(JWK $key): string
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidArgumentException('Wrong key type.');
+            throw new InvalidKeyException('Wrong key type.');
         }
         if (! $key->has('k')) {
-            throw new InvalidArgumentException('The key parameter "k" is missing.');
+            throw new InvalidKeyException('The key parameter "k" is missing.');
         }
         $k = $key->get('k');
         if (! is_string($k)) {
-            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+            throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
 
         return Base64UrlSafe::decodeNoPadding($k);

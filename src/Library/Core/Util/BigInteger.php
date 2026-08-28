@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Brick\Math\BigInteger as BrickBigInteger;
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use function chr;
 use function is_string;
 use function strlen;

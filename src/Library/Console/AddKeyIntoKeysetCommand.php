@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\InvalidKeySetException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -44,11 +45,11 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     {
         $jwkset = $input->getArgument('jwkset');
         if (! is_string($jwkset)) {
-            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+            throw new InvalidKeySetException('The argument must be a valid JWKSet.');
         }
         $json = JsonConverter::decode($jwkset);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+            throw new InvalidKeySetException('The argument must be a valid JWKSet.');
         }
 
         return JWKSet::createFromKeyData($json);
@@ -58,11 +59,11 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         if (! is_string($jwk)) {
-            throw new InvalidArgumentException('The argument must be a valid JWK.');
+            throw new InvalidKeyException('The argument must be a valid JWK.');
         }
         $json = JsonConverter::decode($jwk);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('The argument must be a valid JWK.');
+            throw new InvalidKeyException('The argument must be a valid JWK.');
         }
 
         return new JWK($json);

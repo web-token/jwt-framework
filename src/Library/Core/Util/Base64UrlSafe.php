@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use InvalidArgumentException;
-use RangeException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\RangeException;
 use SensitiveParameter;
 use SodiumException;
 use function extension_loaded;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
@@ -51,7 +51,7 @@ final readonly class RSA15 extends RSA
         $encryptionKeyLength = func_num_args() > 3 ? func_get_arg(3) : null;
         $this->checkKey($key);
         if (! $key->has('d')) {
-            throw new InvalidArgumentException('The key is not a private key');
+            throw new InvalidKeyException('The key is not a private key');
         }
         $priv = RSAKey::createFromJWK($key);
 

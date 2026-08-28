@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Override;
@@ -36,7 +36,7 @@ final readonly class RsaAnalyzer implements KeyAnalyzer
         }
         $exponent = unpack('l', str_pad(Base64UrlSafe::decodeNoPadding($e), 4, "\0", STR_PAD_RIGHT));
         if (! is_array($exponent) || ! isset($exponent[1])) {
-            throw new InvalidArgumentException('Unable to get the private key');
+            throw new InvalidKeyException('Unable to get the private key');
         }
         if ($exponent[1] < 65537) {
             $bag->add(Message::high('The exponent is too low. It should be at least 65537.'));

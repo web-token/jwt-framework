@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\InvalidKeySetException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
@@ -51,11 +52,11 @@ final class RotateKeysetCommand extends ObjectOutputCommand
     {
         $jwkset = $input->getArgument('jwkset');
         if (! is_string($jwkset)) {
-            throw new InvalidArgumentException('Invalid JWKSet');
+            throw new InvalidKeySetException('Invalid JWKSet');
         }
         $json = JsonConverter::decode($jwkset);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('Invalid JWKSet');
+            throw new InvalidKeySetException('Invalid JWKSet');
         }
 
         return JWKSet::createFromKeyData($json);
@@ -65,11 +66,11 @@ final class RotateKeysetCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         if (! is_string($jwk)) {
-            throw new InvalidArgumentException('Invalid JWK');
+            throw new InvalidKeyException('Invalid JWK');
         }
         $json = JsonConverter::decode($jwk);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('Invalid JWK');
+            throw new InvalidKeyException('Invalid JWK');
         }
 
         return new JWK($json);

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption;
 
 use Jose\Component\Checker\HeaderCheckerManagerInterface;
+use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
-use RuntimeException;
 use Throwable;
 
 /**
@@ -88,7 +88,7 @@ class JWELoader implements JWELoaderInterface
             $lastError = $throwable;
         }
 
-        throw new RuntimeException('Unable to load and decrypt the token.', 0, $lastError);
+        throw new InvalidTokenException('Unable to load and decrypt the token.', 0, $lastError);
     }
 
     private function processRecipient(JWE &$jwe, JWKSet $keyset, int $recipient, ?Throwable &$lastError): bool

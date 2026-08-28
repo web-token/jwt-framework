@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeySetException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -83,11 +83,11 @@ final class KeysetAnalyzerCommand extends Command
     {
         $jwkset = $input->getArgument('jwkset');
         if (! is_string($jwkset)) {
-            throw new InvalidArgumentException('Invalid JWKSet');
+            throw new InvalidKeySetException('Invalid JWKSet');
         }
         $json = JsonConverter::decode($jwkset);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('Invalid JWKSet');
+            throw new InvalidKeySetException('Invalid JWKSet');
         }
 
         return JWKSet::createFromKeyData($json);

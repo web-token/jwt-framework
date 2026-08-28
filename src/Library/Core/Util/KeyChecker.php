@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use function in_array;
 use function is_array;
@@ -33,10 +33,10 @@ final readonly class KeyChecker
         }
         $alg = $key->get('alg');
         if (! is_string($alg)) {
-            throw new InvalidArgumentException('Invalid algorithm.');
+            throw new InvalidKeyException('Invalid algorithm.');
         }
         if ($alg !== $algorithm) {
-            throw new InvalidArgumentException(sprintf('Key is only allowed for algorithm "%s".', $alg));
+            throw new InvalidKeyException(sprintf('Key is only allowed for algorithm "%s".', $alg));
         }
     }
 
@@ -44,20 +44,20 @@ final readonly class KeyChecker
     {
         $ops = $key->get('key_ops');
         if (! is_array($ops)) {
-            throw new InvalidArgumentException('Invalid key parameter "key_ops". Should be a list of key operations');
+            throw new InvalidKeyException('Invalid key parameter "key_ops". Should be a list of key operations');
         }
 
         switch ($usage) {
             case 'verification':
                 if (! in_array('verify', $ops, true)) {
-                    throw new InvalidArgumentException('Key cannot be used to verify a signature');
+                    throw new InvalidKeyException('Key cannot be used to verify a signature');
                 }
 
                 break;
 
             case 'signature':
                 if (! in_array('sign', $ops, true)) {
-                    throw new InvalidArgumentException('Key cannot be used to sign');
+                    throw new InvalidKeyException('Key cannot be used to sign');
                 }
 
                 break;
@@ -68,7 +68,7 @@ final readonly class KeyChecker
                     $ops,
                     true
                 )) {
-                    throw new InvalidArgumentException('Key cannot be used to encrypt');
+                    throw new InvalidKeyException('Key cannot be used to encrypt');
                 }
 
                 break;
@@ -79,13 +79,13 @@ final readonly class KeyChecker
                     $ops,
                     true
                 )) {
-                    throw new InvalidArgumentException('Key cannot be used to decrypt');
+                    throw new InvalidKeyException('Key cannot be used to decrypt');
                 }
 
                 break;
 
             default:
-                throw new InvalidArgumentException('Unsupported key usage.');
+                throw new InvalidKeyException('Unsupported key usage.');
         }
     }
 
@@ -97,7 +97,7 @@ final readonly class KeyChecker
             case 'verification':
             case 'signature':
                 if ($use !== 'sig') {
-                    throw new InvalidArgumentException('Key cannot be used to sign or verify a signature.');
+                    throw new InvalidKeyException('Key cannot be used to sign or verify a signature.');
                 }
 
                 break;
@@ -105,13 +105,13 @@ final readonly class KeyChecker
             case 'encryption':
             case 'decryption':
                 if ($use !== 'enc') {
-                    throw new InvalidArgumentException('Key cannot be used to encrypt or decrypt.');
+                    throw new InvalidKeyException('Key cannot be used to encrypt or decrypt.');
                 }
 
                 break;
 
             default:
-                throw new InvalidArgumentException('Unsupported key usage.');
+                throw new InvalidKeyException('Unsupported key usage.');
         }
     }
 }

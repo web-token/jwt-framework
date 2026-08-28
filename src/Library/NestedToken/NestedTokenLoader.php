@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\NestedToken;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\InvalidPayloadException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Encryption\JWE;
@@ -36,7 +38,7 @@ class NestedTokenLoader implements NestedTokenLoaderInterface
         $jwe = $this->jweLoader->loadAndDecryptWithKeySet($token, $encryptionKeySet, $recipient);
         $this->checkContentTypeHeader($jwe, $recipient);
         if ($jwe->getPayload() === null) {
-            throw new InvalidArgumentException('The token has no payload.');
+            throw new InvalidPayloadException('The token has no payload.');
         }
 
         return $this->jwsLoader->loadAndVerifyWithKeySet($jwe->getPayload(), $signatureKeySet, $signature);
@@ -53,7 +55,7 @@ class NestedTokenLoader implements NestedTokenLoaderInterface
             default => throw new InvalidArgumentException('The token is not a nested token.'),
         };
         if (! is_string($cty)) {
-            throw new InvalidArgumentException('Invalid "cty" header parameter.');
+            throw new InvalidHeaderParameterException('Invalid "cty" header parameter.');
         }
 
         if (strcasecmp($cty, 'jwt') !== 0) {

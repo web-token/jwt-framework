@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\MissingDependencyException;
+use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
-use RuntimeException;
 use function chr;
 use function extension_loaded;
 use function ord;
@@ -41,7 +43,7 @@ final readonly class RSA
 
             case self::SIGNATURE_PKCS1:
                 if (! extension_loaded('openssl')) {
-                    throw new RuntimeException('Please install the OpenSSL extension');
+                    throw new MissingDependencyException('Please install the OpenSSL extension');
                 }
                 $result = openssl_sign($message, $signature, $key->toPEM(), $hash);
                 if (! $result) {
@@ -51,7 +53,7 @@ final readonly class RSA
                 return $signature;
 
             default:
-                throw new InvalidArgumentException('Unsupported mode.');
+                throw new UnsupportedAlgorithmException('Unsupported mode.');
         }
     }
 
@@ -80,11 +82,11 @@ final readonly class RSA
                 return self::verifyWithPSS($key, $message, $signature, $hash);
             case self::SIGNATURE_PKCS1:
                 if (! extension_loaded('openssl')) {
-                    throw new RuntimeException('Please install the OpenSSL extension');
+                    throw new MissingDependencyException('Please install the OpenSSL extension');
                 }
                 return openssl_verify($message, $signature, $key->toPEM(), $hash) === 1;
             default:
-                throw new InvalidArgumentException('Unsupported mode.');
+                throw new UnsupportedAlgorithmException('Unsupported mode.');
         }
     }
 

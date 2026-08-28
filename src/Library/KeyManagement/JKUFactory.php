@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
+use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
-use RuntimeException;
 use function is_array;
 
 class JKUFactory extends UrlKeySetFactory

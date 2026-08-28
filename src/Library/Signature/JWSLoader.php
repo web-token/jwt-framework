@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
-use Exception;
 use Jose\Component\Checker\HeaderCheckerManagerInterface;
+use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\InheritanceChecker;
@@ -92,7 +92,7 @@ class JWSLoader implements JWSLoaderInterface
             $lastError = $throwable;
         }
 
-        throw new Exception('Unable to load and verify the token.', 0, $lastError);
+        throw new InvalidTokenException('Unable to load and verify the token.', 0, $lastError);
     }
 
     private function processSignature(

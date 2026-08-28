@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
@@ -68,11 +68,11 @@ final class KeyAnalyzerCommand extends Command
     {
         $jwk = $input->getArgument('jwk');
         if (! is_string($jwk)) {
-            throw new InvalidArgumentException('Invalid JWK');
+            throw new InvalidKeyException('Invalid JWK');
         }
         $json = JsonConverter::decode($jwk);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('Invalid JWK.');
+            throw new InvalidKeyException('Invalid JWK.');
         }
 
         return new JWK($json);

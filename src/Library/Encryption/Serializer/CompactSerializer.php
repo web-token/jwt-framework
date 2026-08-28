@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
+use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
-use LogicException;
 use Override;
 use Throwable;
 use function count;
@@ -65,7 +65,7 @@ final readonly class CompactSerializer implements JWESerializer
     {
         $parts = explode('.', $input, 6);
         if (count($parts) !== 5) {
-            throw new InvalidArgumentException('Unsupported input');
+            throw new InvalidSerializationException('Unsupported input');
         }
 
         try {
@@ -74,7 +74,7 @@ final readonly class CompactSerializer implements JWESerializer
                 Base64UrlSafe::decodeNoPadding($encodedSharedProtectedHeader)
             );
             if (! is_array($sharedProtectedHeader)) {
-                throw new InvalidArgumentException('Unsupported input.');
+                throw new InvalidSerializationException('Unsupported input.');
             }
             $encryptedKey = $parts[1] === '' ? null : Base64UrlSafe::decodeNoPadding($parts[1]);
             $iv = Base64UrlSafe::decodeNoPadding($parts[2]);
@@ -92,7 +92,7 @@ final readonly class CompactSerializer implements JWESerializer
                 [new Recipient([], $encryptedKey)]
             );
         } catch (Throwable $throwable) {
-            throw new InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
+            throw new InvalidSerializationException('Unsupported input', $throwable->getCode(), $throwable);
         }
     }
 

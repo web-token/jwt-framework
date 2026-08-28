@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\ContentEncryption;
 
+use Jose\Component\Core\Exception\DecryptionFailedException;
+use Jose\Component\Core\Exception\EncryptionFailedException;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Override;
-use RuntimeException;
 use function extension_loaded;
 use function strlen;
 use const OPENSSL_RAW_DATA;
@@ -17,7 +19,7 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
     public function __construct()
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
     }
 
@@ -39,7 +41,7 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         $k = substr($cek, $this->getCEKSize() / 16);
         $result = openssl_encrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if ($result === false) {
-            throw new RuntimeException('Unable to encrypt the content');
+            throw new EncryptionFailedException('Unable to encrypt the content');
         }
 
         $tag = $this->calculateAuthenticationTag($result, $cek, $iv, $aad, $encoded_protected_header);
@@ -57,13 +59,13 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         string $tag
     ): string {
         if (! $this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
-            throw new RuntimeException('Unable to decrypt or to verify the tag.');
+            throw new DecryptionFailedException('Unable to decrypt or to verify the tag.');
         }
         $k = substr($cek, $this->getCEKSize() / 16);
 
         $result = openssl_decrypt($data, $this->getMode(), $k, OPENSSL_RAW_DATA, $iv);
         if ($result === false) {
-            throw new RuntimeException('Unable to decrypt or to verify the tag.');
+            throw new DecryptionFailedException('Unable to decrypt or to verify the tag.');
         }
 
         return $result;

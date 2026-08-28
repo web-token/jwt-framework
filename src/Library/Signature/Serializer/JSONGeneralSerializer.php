@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidPayloadException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
+use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
-use LogicException;
 use Override;
 use function array_key_exists;
 use function count;
@@ -71,10 +72,10 @@ final readonly class JSONGeneralSerializer extends Serializer
     {
         $data = JsonConverter::decode($input);
         if (! is_array($data)) {
-            throw new InvalidArgumentException('Unsupported input.');
+            throw new InvalidSerializationException('Unsupported input.');
         }
         if (! isset($data['signatures'])) {
-            throw new InvalidArgumentException('Unsupported input.');
+            throw new InvalidSerializationException('Unsupported input.');
         }
 
         $isPayloadEncoded = null;
@@ -82,7 +83,7 @@ final readonly class JSONGeneralSerializer extends Serializer
         $signatures = [];
         foreach ($data['signatures'] as $signature) {
             if (! isset($signature['signature'])) {
-                throw new InvalidArgumentException('Unsupported input.');
+                throw new InvalidSerializationException('Unsupported input.');
             }
             [$encodedProtectedHeader, $protectedHeader, $header] = $this->processHeaders($signature);
             $signatures[] = [
@@ -117,7 +118,7 @@ final readonly class JSONGeneralSerializer extends Serializer
             return $this->isPayloadEncoded($protectedHeader);
         }
         if ($this->isPayloadEncoded($protectedHeader) !== $isPayloadEncoded) {
-            throw new InvalidArgumentException('Foreign payload encoding detected.');
+            throw new InvalidPayloadException('Foreign payload encoding detected.');
         }
 
         return $isPayloadEncoded;
