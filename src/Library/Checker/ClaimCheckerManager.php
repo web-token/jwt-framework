@@ -12,6 +12,9 @@ use function sprintf;
 /**
  * This class manages claim checkers and performs claim checks.
  *
+ * The set of checkers is fixed at construction time: a manager expresses a policy that no consumer is allowed to widen
+ * afterwards.
+ *
  * @final The class will be final in 5.0.0: implement ClaimCheckerManagerInterface and decorate the service instead of
  * extending it.
  *
@@ -22,7 +25,7 @@ class ClaimCheckerManager implements ClaimCheckerManagerInterface
     /**
      * @var ClaimChecker[]
      */
-    private array $checkers = [];
+    private readonly array $checkers;
 
     /**
      * @param ClaimChecker[] $checkers
@@ -30,9 +33,11 @@ class ClaimCheckerManager implements ClaimCheckerManagerInterface
     public function __construct(iterable $checkers)
     {
         InheritanceChecker::warnIfExtended(static::class, self::class, ClaimCheckerManagerInterface::class);
+        $indexedCheckers = [];
         foreach ($checkers as $checker) {
-            $this->add($checker);
+            $indexedCheckers[$checker->supportedClaim()] = $checker;
         }
+        $this->checkers = $indexedCheckers;
     }
 
     /**
@@ -66,12 +71,6 @@ class ClaimCheckerManager implements ClaimCheckerManagerInterface
         }
 
         return $checkedClaims;
-    }
-
-    private function add(ClaimChecker $checker): void
-    {
-        $claim = $checker->supportedClaim();
-        $this->checkers[$claim] = $checker;
     }
 
     /**
