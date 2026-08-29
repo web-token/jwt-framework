@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use InvalidArgumentException;
 use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\InvalidKeySetException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\InheritanceChecker;
@@ -111,7 +114,7 @@ class JWEDecrypter implements JWEDecrypterInterface
             $onError = null;
         }
         if ($jwkset->count() === 0) {
-            throw new InvalidArgumentException('No key in the key set.');
+            throw new InvalidKeySetException('No key in the key set.');
         }
         if ($jwe->getPayload() !== null) {
             return true;
@@ -274,7 +277,7 @@ class JWEDecrypter implements JWEDecrypterInterface
             );
         }
 
-        throw new InvalidArgumentException('Unsupported CEK generation');
+        throw new UnsupportedAlgorithmException('Unsupported CEK generation');
     }
 
     private function decryptPayload(
@@ -296,7 +299,7 @@ class JWEDecrypter implements JWEDecrypterInterface
     {
         foreach (['enc', 'alg'] as $key) {
             if (! isset($completeHeaders[$key])) {
-                throw new InvalidArgumentException(sprintf("Parameter '%s' is missing.", $key));
+                throw new InvalidHeaderParameterException(sprintf("Parameter '%s' is missing.", $key));
             }
         }
     }
@@ -330,7 +333,7 @@ class JWEDecrypter implements JWEDecrypterInterface
         }
         $content_encryption_algorithm = $this->contentEncryptionAlgorithmManager->get($enc);
         if (! $content_encryption_algorithm instanceof ContentEncryptionAlgorithm) {
-            throw new InvalidArgumentException(sprintf(
+            throw new UnsupportedAlgorithmException(sprintf(
                 'The content encryption algorithm "%s" is not supported or does not implement the ContentEncryption interface.',
                 $enc
             ));
@@ -343,7 +346,7 @@ class JWEDecrypter implements JWEDecrypterInterface
     {
         $inter = array_intersect_key($header1, $header2);
         if (count($inter) !== 0) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidHeaderParameterException(sprintf(
                 'The header contains duplicated entries: %s.',
                 implode(', ', array_keys($inter))
             ));

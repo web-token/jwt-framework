@@ -6,6 +6,13 @@ namespace Jose\Component\Signature;
 
 use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\InvalidPayloadException;
+use Jose\Component\Core\Exception\LogicException;
+use Jose\Component\Core\Exception\MissingPayloadRuntimeException;
+use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\InheritanceChecker;
@@ -13,9 +20,7 @@ use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
-use LogicException;
 use RangeException;
-use RuntimeException;
 use function array_key_exists;
 use function count;
 use function in_array;
@@ -122,14 +127,14 @@ class JWSBuilder implements JWSBuilderInterface
      * value is decoded and must be a canonical Base64Url string without padding, the only form this library produces
      * and accepts everywhere else.
      *
-     * @throws InvalidArgumentException if the payload is not a canonical Base64Url string without padding
+     * @throws InvalidPayloadException if the payload is not a canonical Base64Url string without padding
      */
     public function withEncodedPayload(string $payload, bool $isPayloadDetached = false): self
     {
         try {
             $decodedPayload = Base64UrlSafe::decodeNoPadding($payload);
         } catch (InvalidArgumentException|RangeException $throwable) {
-            throw new InvalidArgumentException(
+            throw new InvalidPayloadException(
                 'The payload must be a Base64Url encoded string without padding.',
                 0,
                 $throwable
@@ -171,14 +176,14 @@ class JWSBuilder implements JWSBuilderInterface
     public function build(): JWS
     {
         if ($this->payload === null) {
-            throw new RuntimeException('The payload is not set.');
+            throw new MissingPayloadRuntimeException('The payload is not set.');
         }
         if (count($this->signatures) === 0) {
             throw new RuntimeException('At least one signature must be set.');
         }
         $isPayloadEncoded = $this->getPayloadEncoding();
         if ($this->isPayloadAlreadyEncoded && $isPayloadEncoded === false) {
-            throw new InvalidArgumentException(
+            throw new InvalidPayloadException(
                 'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
             );
         }
@@ -188,7 +193,7 @@ class JWSBuilder implements JWSBuilderInterface
         );
 
         if ($isPayloadEncoded === false && $this->isPayloadDetached === false) {
-            mb_detect_encoding($this->payload, 'UTF-8', true) !== false || throw new InvalidArgumentException(
+            mb_detect_encoding($this->payload, 'UTF-8', true) !== false || throw new InvalidPayloadException(
                 'The payload must be encoded in UTF-8'
             );
         }
@@ -241,7 +246,7 @@ class JWSBuilder implements JWSBuilderInterface
     /**
      * Returns the payload encoding shared by all the signatures.
      *
-     * @throws InvalidArgumentException if the signatures do not agree on the encoding of the payload
+     * @throws InvalidPayloadException if the signatures do not agree on the encoding of the payload
      */
     private function getPayloadEncoding(): bool
     {
@@ -254,7 +259,7 @@ class JWSBuilder implements JWSBuilderInterface
                 continue;
             }
             if ($isPayloadEncoded !== $currentEncoding) {
-                throw new InvalidArgumentException('Foreign payload encoding detected.');
+                throw new InvalidPayloadException('Foreign payload encoding detected.');
             }
         }
 
@@ -296,16 +301,16 @@ class JWSBuilder implements JWSBuilderInterface
         $completeHeader = [...$header, ...$protectedHeader];
         $alg = $completeHeader['alg'] ?? null;
         if (! is_string($alg)) {
-            throw new InvalidArgumentException('No "alg" parameter set in the header.');
+            throw new InvalidHeaderParameterException('No "alg" parameter set in the header.');
         }
         $keyAlg = $key->has('alg') ? $key->get('alg') : null;
         if (is_string($keyAlg) && $keyAlg !== $alg) {
-            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not allowed with this key.', $alg));
+            throw new InvalidKeyException(sprintf('The algorithm "%s" is not allowed with this key.', $alg));
         }
 
         $algorithm = $this->signatureAlgorithmManager->get($alg);
         if (! $algorithm instanceof SignatureAlgorithm && ! $algorithm instanceof MacAlgorithm) {
-            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $alg));
+            throw new UnsupportedAlgorithmException(sprintf('The algorithm "%s" is not supported.', $alg));
         }
 
         return $algorithm;
@@ -319,7 +324,7 @@ class JWSBuilder implements JWSBuilderInterface
     {
         $inter = array_intersect_key($header1, $header2);
         if (count($inter) !== 0) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidHeaderParameterException(sprintf(
                 'The header contains duplicated entries: %s.',
                 implode(', ', array_keys($inter))
             ));

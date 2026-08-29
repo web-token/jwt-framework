@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
@@ -59,10 +59,10 @@ final readonly class JSONFlattenedSerializer extends Serializer
     {
         $data = JsonConverter::decode($input);
         if (! is_array($data)) {
-            throw new InvalidArgumentException('Unsupported input.');
+            throw new InvalidSerializationException('Unsupported input.');
         }
         if (! isset($data['signature'])) {
-            throw new InvalidArgumentException('Unsupported input.');
+            throw new InvalidSerializationException('Unsupported input.');
         }
         $signature = Base64UrlSafe::decodeNoPadding($data['signature']);
 
@@ -70,7 +70,7 @@ final readonly class JSONFlattenedSerializer extends Serializer
             $encodedProtectedHeader = $data['protected'];
             $protectedHeader = JsonConverter::decode(Base64UrlSafe::decodeNoPadding($data['protected']));
             if (! is_array($protectedHeader)) {
-                throw new InvalidArgumentException('Bad protected header.');
+                throw new InvalidSerializationException('Bad protected header.');
             }
         } else {
             $encodedProtectedHeader = null;
@@ -78,7 +78,7 @@ final readonly class JSONFlattenedSerializer extends Serializer
         }
         if (isset($data['header'])) {
             if (! is_array($data['header'])) {
-                throw new InvalidArgumentException('Bad header.');
+                throw new InvalidSerializationException('Bad header.');
             }
             $header = $data['header'];
         } else {

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\KeyConverter;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\BigInteger;
-use RuntimeException;
 use function array_key_exists;
 use function assert;
 use function extension_loaded;
@@ -65,23 +65,23 @@ final class RSAKey
     public static function createFromPEM(string $pem): self
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
         $res = openssl_pkey_get_private($pem);
         if ($res === false) {
             $res = openssl_pkey_get_public($pem);
         }
         if ($res === false) {
-            throw new InvalidArgumentException('Unable to load the key.');
+            throw new InvalidKeyException('Unable to load the key.');
         }
 
         $details = openssl_pkey_get_details($res);
         if (! is_array($details) || ! isset($details['rsa'])) {
-            throw new InvalidArgumentException('Unable to load the key.');
+            throw new InvalidKeyException('Unable to load the key.');
         }
         $data = $details['rsa'];
         if (! is_array($data)) {
-            throw new InvalidArgumentException('Unable to load the key.');
+            throw new InvalidKeyException('Unable to load the key.');
         }
 
         return self::createFromKeyDetails($data);
@@ -140,10 +140,10 @@ final class RSAKey
     private function loadJWK(array $jwk): void
     {
         if (! array_key_exists('kty', $jwk)) {
-            throw new InvalidArgumentException('The key parameter "kty" is missing.');
+            throw new InvalidKeyException('The key parameter "kty" is missing.');
         }
         if ($jwk['kty'] !== 'RSA') {
-            throw new InvalidArgumentException('The JWK is not a RSA key.');
+            throw new InvalidKeyException('The JWK is not a RSA key.');
         }
 
         $this->values = $jwk;
@@ -238,7 +238,7 @@ final class RSAKey
                 }
             }
             if ($y === null) {
-                throw new InvalidArgumentException('Unable to find prime factors.');
+                throw new InvalidKeyException('Unable to find prime factors.');
             }
             if ($found) {
                 $p = $y->subtract($one)
@@ -249,6 +249,6 @@ final class RSAKey
             }
         }
 
-        throw new InvalidArgumentException('Unable to find prime factors.');
+        throw new InvalidKeyException('Unable to find prime factors.');
     }
 }

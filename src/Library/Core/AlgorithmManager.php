@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use function array_key_exists;
 use function sprintf;
 
@@ -61,7 +61,7 @@ final class AlgorithmManager
     public function get(string $algorithm): Algorithm
     {
         if (! $this->has($algorithm)) {
-            throw new InvalidArgumentException(sprintf('The algorithm "%s" is not supported.', $algorithm));
+            throw new UnsupportedAlgorithmException(sprintf('The algorithm "%s" is not supported.', $algorithm));
         }
 
         return $this->algorithms[$algorithm];

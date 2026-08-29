@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\LogicException;
+use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
-use LogicException;
-use RuntimeException;
 use function chr;
 use function count;
 use function ord;
@@ -43,7 +44,7 @@ final readonly class RSACrypt
             case self::ENCRYPTION_PKCS1:
                 return self::encryptWithRSA15($key, $data);
             default:
-                throw new InvalidArgumentException('Unsupported mode.');
+                throw new UnsupportedAlgorithmException('Unsupported mode.');
         }
     }
 
@@ -64,7 +65,7 @@ final readonly class RSACrypt
             case self::ENCRYPTION_PKCS1:
                 return self::decryptWithRSA15($key, $plaintext, $expectedKeyLength);
             default:
-                throw new InvalidArgumentException('Unsupported mode.');
+                throw new UnsupportedAlgorithmException('Unsupported mode.');
         }
     }
 

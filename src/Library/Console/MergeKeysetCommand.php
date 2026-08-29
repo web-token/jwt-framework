@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeySetException;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use Override;
@@ -37,7 +37,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         foreach ($keySets as $keySet) {
             $json = JsonConverter::decode($keySet);
             if (! is_array($json)) {
-                throw new InvalidArgumentException('The argument must be a valid JWKSet.');
+                throw new InvalidKeySetException('The argument must be a valid JWKSet.');
             }
             $jwkset = JWKSet::createFromKeyData($json);
             foreach ($jwkset->all() as $jwk) {

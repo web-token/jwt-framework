@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\JsonConverter;
 use Override;
@@ -32,7 +33,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         if (! is_string($jwk)) {
-            throw new InvalidArgumentException('Invalid JWK');
+            throw new InvalidKeyException('Invalid JWK');
         }
         $hash = $input->getOption('hash');
         if (! is_string($hash)) {

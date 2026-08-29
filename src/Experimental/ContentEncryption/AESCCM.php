@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Experimental\ContentEncryption;
 
+use Jose\Component\Core\Exception\DecryptionFailedException;
+use Jose\Component\Core\Exception\EncryptionFailedException;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Override;
-use RuntimeException;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESCCM implements ContentEncryptionAlgorithm
@@ -42,7 +43,7 @@ abstract readonly class AESCCM implements ContentEncryptionAlgorithm
             $this->getTagLength()
         );
         if ($result === false) {
-            throw new RuntimeException('Unable to encrypt the content');
+            throw new EncryptionFailedException('Unable to encrypt the content');
         }
 
         return $result;
@@ -64,7 +65,7 @@ abstract readonly class AESCCM implements ContentEncryptionAlgorithm
 
         $result = openssl_decrypt($data, $this->getMode(), $cek, OPENSSL_RAW_DATA, $iv, $tag, $calculated_aad);
         if ($result === false) {
-            throw new RuntimeException('Unable to decrypt the content');
+            throw new DecryptionFailedException('Unable to decrypt the content');
         }
 
         return $result;

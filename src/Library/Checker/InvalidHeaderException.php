@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Exception;
+use Jose\Component\Core\Exception\JoseException;
 
 /**
  * This exception is thrown by header checkers when a header check failed.
  */
-class InvalidHeaderException extends Exception
+class InvalidHeaderException extends Exception implements JoseException
 {
     public function __construct(
         string $message,

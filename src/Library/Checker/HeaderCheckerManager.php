@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use Jose\Component\Core\JWT;
 use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
@@ -98,7 +99,7 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
     {
         $inter = array_intersect_key($header1, $header2);
         if (count($inter) !== 0) {
-            throw new InvalidArgumentException(sprintf(
+            throw new InvalidHeaderParameterException(sprintf(
                 'The header contains duplicated entries: %s.',
                 implode(', ', array_keys($inter))
             ));

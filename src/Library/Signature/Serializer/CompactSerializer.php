@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Serializer;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
+use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
-use LogicException;
 use Override;
 use Throwable;
 use function count;
@@ -69,14 +69,14 @@ final readonly class CompactSerializer extends Serializer
     {
         $parts = explode('.', $input, 4);
         if (count($parts) !== 3) {
-            throw new InvalidArgumentException('Unsupported input');
+            throw new InvalidSerializationException('Unsupported input');
         }
 
         try {
             $encodedProtectedHeader = $parts[0];
             $protectedHeader = JsonConverter::decode(Base64UrlSafe::decodeNoPadding($parts[0]));
             if (! is_array($protectedHeader)) {
-                throw new InvalidArgumentException('Bad protected header.');
+                throw new InvalidSerializationException('Bad protected header.');
             }
             $hasPayload = $parts[1] !== '';
             if (! $hasPayload) {
@@ -94,7 +94,7 @@ final readonly class CompactSerializer extends Serializer
 
             return $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
         } catch (Throwable $throwable) {
-            throw new InvalidArgumentException('Unsupported input', $throwable->getCode(), $throwable);
+            throw new InvalidSerializationException('Unsupported input', $throwable->getCode(), $throwable);
         }
     }
 }

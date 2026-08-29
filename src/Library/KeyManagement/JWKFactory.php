@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
+use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\Base64UrlSafe;
@@ -12,7 +15,6 @@ use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
 use OpenSSLCertificate;
-use RuntimeException;
 use Throwable;
 use function array_key_exists;
 use function extension_loaded;
@@ -37,13 +39,13 @@ class JWKFactory
     public static function createRSAKey(int $size, array $values = []): JWK
     {
         if (! extension_loaded('openssl')) {
-            throw new RuntimeException('Please install the OpenSSL extension');
+            throw new MissingDependencyException('Please install the OpenSSL extension');
         }
         if ($size % 8 !== 0) {
-            throw new InvalidArgumentException('Invalid key size.');
+            throw new InvalidKeyException('Invalid key size.');
         }
         if ($size < 512) {
-            throw new InvalidArgumentException('Key length is too short. It needs to be at least 512 bits.');
+            throw new InvalidKeyException('Key length is too short. It needs to be at least 512 bits.');
         }
 
         $key = openssl_pkey_new([
@@ -51,11 +53,11 @@ class JWKFactory
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
         ]);
         if ($key === false) {
-            throw new InvalidArgumentException('Unable to create the key');
+            throw new InvalidKeyException('Unable to create the key');
         }
         $details = openssl_pkey_get_details($key);
         if (! is_array($details)) {
-            throw new InvalidArgumentException('Unable to create the key');
+            throw new InvalidKeyException('Unable to create the key');
         }
         $rsa = RSAKey::createFromKeyDetails($details['rsa']);
         $values = array_merge($values, $rsa->toArray());
@@ -83,7 +85,7 @@ class JWKFactory
     public static function createOctKey(int $size, array $values = []): JWK
     {
         if ($size < 8 || $size % 8 !== 0) {
-            throw new InvalidArgumentException('Invalid key size.');
+            throw new InvalidKeyException('Invalid key size.');
         }
 
         return self::createFromSecret(random_bytes(max(1, intdiv($size, 8))), $values);
@@ -98,7 +100,7 @@ class JWKFactory
     public static function createOKPKey(string $curve, array $values = []): JWK
     {
         if (! extension_loaded('sodium')) {
-            throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
+            throw new MissingDependencyException('The extension "sodium" is not available. Please install it to use this method');
         }
 
         switch ($curve) {
@@ -119,7 +121,7 @@ class JWKFactory
                 break;
 
             default:
-                throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
+                throw new UnsupportedCurveException(sprintf('Unsupported "%s" curve', $curve));
         }
 
         $values = [
@@ -158,7 +160,7 @@ class JWKFactory
     {
         $json = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('Invalid key or key set.');
+            throw new InvalidKeyException('Invalid key or key set.');
         }
 
         return self::createFromValues($json);

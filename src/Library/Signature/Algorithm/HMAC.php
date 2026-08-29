@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Override;
@@ -36,14 +36,14 @@ abstract readonly class HMAC implements MacAlgorithm
     protected function getKey(JWK $key): string
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidArgumentException('Wrong key type.');
+            throw new InvalidKeyException('Wrong key type.');
         }
         if (! $key->has('k')) {
-            throw new InvalidArgumentException('The key parameter "k" is missing.');
+            throw new InvalidKeyException('The key parameter "k" is missing.');
         }
         $k = $key->get('k');
         if (! is_string($k)) {
-            throw new InvalidArgumentException('The key parameter "k" is invalid.');
+            throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
 
         return Base64UrlSafe::decodeNoPadding($k);

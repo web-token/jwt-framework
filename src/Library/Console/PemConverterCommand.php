@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\JsonConverter;
@@ -32,18 +32,18 @@ final class PemConverterCommand extends ObjectOutputCommand
     {
         $jwk = $input->getArgument('jwk');
         if (! is_string($jwk)) {
-            throw new InvalidArgumentException('Invalid JWK');
+            throw new InvalidKeyException('Invalid JWK');
         }
         $json = JsonConverter::decode($jwk);
         if (! is_array($json)) {
-            throw new InvalidArgumentException('Invalid JWK.');
+            throw new InvalidKeyException('Invalid JWK.');
         }
         $key = new JWK($json);
 
         $pem = match ($key->get('kty')) {
             'RSA' => RSAKey::createFromJWK($key)->toPEM(),
             'EC' => ECKey::convertToPEM($key),
-            default => throw new InvalidArgumentException('Not a RSA or EC key.'),
+            default => throw new InvalidKeyException('Not a RSA or EC key.'),
         };
         $output->write($pem);
 

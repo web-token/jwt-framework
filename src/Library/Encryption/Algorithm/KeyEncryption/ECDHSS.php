@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\JWK;
-use LogicException;
 use Override;
 
 final readonly class ECDHSS extends AbstractECDH

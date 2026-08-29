@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util\Ecc;
 
 use Brick\Math\BigInteger;
+use Jose\Component\Core\Exception\RuntimeException;
 use Override;
-use RuntimeException;
 use Stringable;
 use const STR_PAD_LEFT;
 

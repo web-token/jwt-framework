@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
@@ -75,7 +76,7 @@ final readonly class OKPKey
             'Ed448' => Ed448PrivateKey::create($d),
             'X25519' => X25519PrivateKey::create($d),
             'X448' => X448PrivateKey::create($d),
-            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve)),
+            default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported.', $curve)),
         };
     }
 
@@ -89,7 +90,7 @@ final readonly class OKPKey
             'Ed448' => Ed448PublicKey::create($x),
             'X25519' => X25519PublicKey::create($x),
             'X448' => X448PublicKey::create($x),
-            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported.', $curve)),
+            default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported.', $curve)),
         };
     }
 
@@ -97,7 +98,7 @@ final readonly class OKPKey
     {
         $value = $jwk->get($parameter);
         if (! is_string($value)) {
-            throw new InvalidArgumentException(sprintf('Unable to get the "%s" parameter', $parameter));
+            throw new InvalidKeyException(sprintf('Unable to get the "%s" parameter', $parameter));
         }
 
         return $value;

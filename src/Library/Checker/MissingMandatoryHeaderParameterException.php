@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Exception;
+use Jose\Component\Core\Exception\JoseException;
 
-class MissingMandatoryHeaderParameterException extends Exception
+class MissingMandatoryHeaderParameterException extends Exception implements JoseException
 {
     /**
      * @param string[] $parameters

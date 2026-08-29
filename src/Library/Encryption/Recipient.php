@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use function array_key_exists;
 use function sprintf;
 
@@ -37,7 +37,7 @@ final readonly class Recipient
     public function getHeaderParameter(string $key)
     {
         if (! $this->hasHeaderParameter($key)) {
-            throw new InvalidArgumentException(sprintf('The header "%s" does not exist.', $key));
+            throw new InvalidHeaderParameterException(sprintf('The header "%s" does not exist.', $key));
         }
 
         return $this->header[$key];

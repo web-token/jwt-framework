@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Brick\Math\BigInteger;
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Exception\InvalidKeyException;
+use Jose\Component\Core\Exception\MissingDependencyException;
+use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\Ecc\BrainpoolCurve;
@@ -16,7 +21,6 @@ use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
 use Override;
-use RuntimeException;
 use Throwable;
 use function array_key_exists;
 use function extension_loaded;
@@ -61,9 +65,9 @@ abstract readonly class AbstractECDH implements KeyAgreement
         $agreed_key = $this->calculateAgreementKey($private_key, $public_key);
 
         $apu = array_key_exists('apu', $complete_header) ? $complete_header['apu'] : '';
-        is_string($apu) || throw new InvalidArgumentException('Invalid APU.');
+        is_string($apu) || throw new InvalidHeaderParameterException('Invalid APU.');
         $apv = array_key_exists('apv', $complete_header) ? $complete_header['apv'] : '';
-        is_string($apv) || throw new InvalidArgumentException('Invalid APU.');
+        is_string($apv) || throw new InvalidHeaderParameterException('Invalid APU.');
 
         return ConcatKDF::generate($agreed_key, $algorithm, $encryptionKeyLength, $apu, $apv);
     }
@@ -78,7 +82,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
     {
         $crv = $public_key->get('crv');
         if (! is_string($crv)) {
-            throw new InvalidArgumentException('Invalid key parameter "crv"');
+            throw new InvalidKeyException('Invalid key parameter "crv"');
         }
         switch ($crv) {
             case 'P-256':
@@ -105,15 +109,15 @@ abstract readonly class AbstractECDH implements KeyAgreement
                 }
                 $x = $public_key->get('x');
                 if (! is_string($x)) {
-                    throw new InvalidArgumentException('Invalid key parameter "x"');
+                    throw new InvalidKeyException('Invalid key parameter "x"');
                 }
                 $y = $public_key->get('y');
                 if (! is_string($y)) {
-                    throw new InvalidArgumentException('Invalid key parameter "y"');
+                    throw new InvalidKeyException('Invalid key parameter "y"');
                 }
                 $d = $private_key->get('d');
                 if (! is_string($d)) {
-                    throw new InvalidArgumentException('Invalid key parameter "d"');
+                    throw new InvalidKeyException('Invalid key parameter "d"');
                 }
 
                 $rec_x = $this->convertBase64ToBigInteger($x);
@@ -129,11 +133,11 @@ abstract readonly class AbstractECDH implements KeyAgreement
                 $this->checkSodiumExtensionIsAvailable();
                 $x = $public_key->get('x');
                 if (! is_string($x)) {
-                    throw new InvalidArgumentException('Invalid key parameter "x"');
+                    throw new InvalidKeyException('Invalid key parameter "x"');
                 }
                 $d = $private_key->get('d');
                 if (! is_string($d)) {
-                    throw new InvalidArgumentException('Invalid key parameter "d"');
+                    throw new InvalidKeyException('Invalid key parameter "d"');
                 }
                 $sKey = Base64UrlSafe::decodeNoPadding($d);
                 $recipientPublickey = Base64UrlSafe::decodeNoPadding($x);
@@ -141,7 +145,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
                 return sodium_crypto_scalarmult($sKey, $recipientPublickey);
 
             default:
-                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
+                throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported', $crv));
         }
     }
 
@@ -159,12 +163,12 @@ abstract readonly class AbstractECDH implements KeyAgreement
 
         $crv = $public_key->get('crv');
         if (! is_string($crv)) {
-            throw new InvalidArgumentException('Invalid key parameter "crv"');
+            throw new InvalidKeyException('Invalid key parameter "crv"');
         }
         $private_key = match ($crv) {
             'P-256', 'P-384', 'P-521', 'BP-256', 'BP-384', 'BP-512' => $senderKey ?? ECKey::createECKey($crv),
             'X25519' => $senderKey ?? $this->createOKPKey('X25519'),
-            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv)),
+            default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported', $crv)),
         };
         $epk = $private_key->toPublic()
             ->all();
@@ -183,7 +187,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
         $private_key = $recipient_key;
         $public_key = $this->getPublicKey($complete_header);
         if ($private_key->get('crv') !== $public_key->get('crv')) {
-            throw new InvalidArgumentException('Curves are different');
+            throw new InvalidKeyException('Curves are different');
         }
 
         return [$public_key, $private_key];
@@ -195,10 +199,10 @@ abstract readonly class AbstractECDH implements KeyAgreement
     private function getPublicKey(array $complete_header): JWK
     {
         if (! isset($complete_header['epk'])) {
-            throw new InvalidArgumentException('The header parameter "epk" is missing.');
+            throw new InvalidHeaderParameterException('The header parameter "epk" is missing.');
         }
         if (! is_array($complete_header['epk'])) {
-            throw new InvalidArgumentException('The header parameter "epk" is not an array of parameters');
+            throw new InvalidHeaderParameterException('The header parameter "epk" is not an array of parameters');
         }
         $public_key = new JWK($complete_header['epk']);
         $this->checkKey($public_key, false);
@@ -209,17 +213,17 @@ abstract readonly class AbstractECDH implements KeyAgreement
     private function checkKey(JWK $key, bool $is_private): void
     {
         if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidArgumentException('Wrong key type.');
+            throw new InvalidKeyException('Wrong key type.');
         }
         foreach (['x', 'crv'] as $k) {
             if (! $key->has($k)) {
-                throw new InvalidArgumentException(sprintf('The key parameter "%s" is missing.', $k));
+                throw new InvalidKeyException(sprintf('The key parameter "%s" is missing.', $k));
             }
         }
 
         $crv = $key->get('crv');
         if (! is_string($crv)) {
-            throw new InvalidArgumentException('Invalid key parameter "crv"');
+            throw new InvalidKeyException('Invalid key parameter "crv"');
         }
         switch ($crv) {
             case 'P-256':
@@ -229,7 +233,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
             case 'BP-384':
             case 'BP-512':
                 if (! $key->has('y')) {
-                    throw new InvalidArgumentException('The key parameter "y" is missing.');
+                    throw new InvalidKeyException('The key parameter "y" is missing.');
                 }
 
                 break;
@@ -238,10 +242,10 @@ abstract readonly class AbstractECDH implements KeyAgreement
                 break;
 
             default:
-                throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv));
+                throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported', $crv));
         }
         if ($is_private && ! $key->has('d')) {
-            throw new InvalidArgumentException('The key parameter "d" is missing.');
+            throw new InvalidKeyException('The key parameter "d" is missing.');
         }
     }
 
@@ -254,7 +258,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
             'BP-256' => BrainpoolCurve::curve256(),
             'BP-384' => BrainpoolCurve::curve384(),
             'BP-512' => BrainpoolCurve::curve512(),
-            default => throw new InvalidArgumentException(sprintf('The curve "%s" is not supported', $crv)),
+            default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported', $crv)),
         };
     }
 
@@ -312,7 +316,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
                 break;
 
             default:
-                throw new InvalidArgumentException(sprintf('Unsupported "%s" curve', $curve));
+                throw new UnsupportedCurveException(sprintf('Unsupported "%s" curve', $curve));
         }
 
         return new JWK([
@@ -326,7 +330,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
     private function checkSodiumExtensionIsAvailable(): void
     {
         if (! extension_loaded('sodium')) {
-            throw new RuntimeException('The extension "sodium" is not available. Please install it to use this method');
+            throw new MissingDependencyException('The extension "sodium" is not available. Please install it to use this method');
         }
     }
 }

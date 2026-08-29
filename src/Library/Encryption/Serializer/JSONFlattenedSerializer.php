@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Serializer;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
@@ -66,7 +66,7 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
     {
         $data = JsonConverter::decode($input);
         if (! is_array($data)) {
-            throw new InvalidArgumentException('Unsupported input.');
+            throw new InvalidSerializationException('Unsupported input.');
         }
         $this->checkData($data);
 
@@ -95,7 +95,7 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
     private function checkData(?array $data): void
     {
         if ($data === null || ! isset($data['ciphertext']) || isset($data['recipients'])) {
-            throw new InvalidArgumentException('Unsupported input.');
+            throw new InvalidSerializationException('Unsupported input.');
         }
     }
 

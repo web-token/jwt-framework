@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use function is_string;
 use function sprintf;
 
