@@ -127,7 +127,7 @@ final class RSA15ExpectedCekSizeTest extends TestCase
     #[Test]
     public function algorithmsThatDoNotExpectTheCekSizeStillWork(): void
     {
-        $jwk = JWKFactory::createOctKey(256, [
+        $jwk = (new JWKFactory())->oct(256, [
             'use' => 'enc',
         ]);
         $algorithm = new LegacyKeyEncryptionAlgorithm();
@@ -145,7 +145,7 @@ final class RSA15ExpectedCekSizeTest extends TestCase
 
     private function createKey(): JWK
     {
-        return JWKFactory::createRSAKey(2048, [
+        return (new JWKFactory())->rsa(2048, [
             'alg' => 'RSA1_5',
             'use' => 'enc',
         ]);

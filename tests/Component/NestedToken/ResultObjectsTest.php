@@ -101,7 +101,7 @@ final class ResultObjectsTest extends NestedTokenTestCase
     private function getEncryptionKey(): JWK
     {
         if ($this->encryptionKey === null) {
-            $this->encryptionKey = JWKFactory::createOctKey(256, [
+            $this->encryptionKey = (new JWKFactory())->oct(256, [
                 'alg' => 'A256KW',
                 'use' => 'enc',
             ]);
@@ -113,7 +113,7 @@ final class ResultObjectsTest extends NestedTokenTestCase
     private function getSignatureKey(): JWK
     {
         if ($this->signatureKey === null) {
-            $this->signatureKey = JWKFactory::createOctKey(512, [
+            $this->signatureKey = (new JWKFactory())->oct(512, [
                 'alg' => 'HS256',
                 'use' => 'sig',
             ]);

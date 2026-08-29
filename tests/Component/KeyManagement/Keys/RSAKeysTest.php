@@ -260,7 +260,7 @@ final class RSAKeysTest extends TestCase
     #[Test]
     public function createRSAKey512Bits(): void
     {
-        $jwk = JWKFactory::createRSAKey(512);
+        $jwk = (new JWKFactory())->rsa(512);
 
         static::assertSame('RSA', $jwk->get('kty'));
         static::assertTrue($jwk->has('p'));
@@ -317,7 +317,7 @@ final class RSAKeysTest extends TestCase
     #[Test]
     public function loadsRSASSAPSSKey(): void
     {
-        $key = JWKFactory::createFromKeyFile(__DIR__ . '/RSA/rsassa-pss.pem');
+        $key = (new JWKFactory())->fromKeyFile(__DIR__ . '/RSA/rsassa-pss.pem');
 
         static::assertSame(
             [

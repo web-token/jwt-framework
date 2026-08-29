@@ -8,6 +8,7 @@ use Ergebnis\PHPUnit\SlowTestDetector\Attribute\MaximumDuration;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\KeyManagement\JWKFactoryInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +23,8 @@ final class JWKFactoryTest extends TestCase
     public function iCanLoadAP12CertificateThatContainsARSAKey(): never
     {
         static::markTestIncomplete('Unable to run this test using the last OpenSSL versions');
-        $result = JWKFactory::createFromPKCS12CertificateFile(__DIR__ . '/P12/CertRSA.p12', 'cert');
+        $result = $this->factory()
+            ->fromPKCS12CertificateFile(__DIR__ . '/P12/CertRSA.p12', 'cert');
 
         static::assertSame([
             'kty' => 'RSA',
@@ -40,7 +42,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromECCertificateFileInDERFormat(): void
     {
-        $result = JWKFactory::createFromCertificateFile(__DIR__ . '/EC/DER/prime256v1-cert.der');
+        $result = $this->factory()
+            ->fromCertificateFile(__DIR__ . '/EC/DER/prime256v1-cert.der');
 
         static::assertSame([
             'kty' => 'EC',
@@ -58,9 +61,10 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromSecret(): void
     {
-        $jwk = JWKFactory::createFromSecret('This is a very secured secret!!!!', [
-            'kid' => 'FOO',
-        ]);
+        $jwk = $this->factory()
+            ->fromSecret('This is a very secured secret!!!!', [
+                'kid' => 'FOO',
+            ]);
         static::assertTrue($jwk->has('kty'));
         static::assertTrue($jwk->has('k'));
         static::assertTrue($jwk->has('kid'));
@@ -72,7 +76,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromKey(): void
     {
-        $jwk = JWKFactory::createFromKey(file_get_contents(__DIR__ . '/Keys/EC/private.es256.encrypted.key'), 'test');
+        $jwk = $this->factory()
+            ->fromKey(file_get_contents(__DIR__ . '/Keys/EC/private.es256.encrypted.key'), 'test');
         static::assertSame(
             '{"kty":"EC","crv":"P-256","d":"q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ","x":"vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U","y":"oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE"}',
             json_encode($jwk, JSON_THROW_ON_ERROR)
@@ -83,7 +88,8 @@ final class JWKFactoryTest extends TestCase
     public function createFromResource(): void
     {
         $res = openssl_x509_read(file_get_contents(__DIR__ . '/RSA/PEM/1024b-rsa-example-cert.pem'));
-        $jwk = JWKFactory::createFromX509Resource($res);
+        $jwk = $this->factory()
+            ->fromX509Resource($res);
 
         static::assertSame([
             'kty' => 'RSA',
@@ -100,7 +106,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromECCertificateFileInPEMFormat(): void
     {
-        $result = JWKFactory::createFromCertificateFile(__DIR__ . '/EC/PEM/prime256v1-cert.pem');
+        $result = $this->factory()
+            ->fromCertificateFile(__DIR__ . '/EC/PEM/prime256v1-cert.pem');
 
         static::assertSame([
             'kty' => 'EC',
@@ -118,7 +125,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFrom32kRSACertificateFileInDERFormat(): void
     {
-        $result = JWKFactory::createFromCertificateFile(__DIR__ . '/RSA/DER/32k-rsa-example-cert.der');
+        $result = $this->factory()
+            ->fromCertificateFile(__DIR__ . '/RSA/DER/32k-rsa-example-cert.der');
 
         static::assertSame([
             'kty' => 'RSA',
@@ -135,7 +143,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFrom32kRSACertificateFileInPEMFormat(): void
     {
-        $result = JWKFactory::createFromCertificateFile(__DIR__ . '/RSA/PEM/32k-rsa-example-cert.pem');
+        $result = $this->factory()
+            ->fromCertificateFile(__DIR__ . '/RSA/PEM/32k-rsa-example-cert.pem');
 
         static::assertSame([
             'kty' => 'RSA',
@@ -152,7 +161,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromPrivateEC256KeyFileEncrypted(): void
     {
-        $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/private.es256.encrypted.key', 'test');
+        $result = $this->factory()
+            ->fromKeyFile(__DIR__ . '/Keys/EC/private.es256.encrypted.key', 'test');
 
         static::assertSame(
             '{"kty":"EC","crv":"P-256","d":"q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ","x":"vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U","y":"oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE"}',
@@ -163,7 +173,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromPrivateEC384KeyFileEncrypted(): void
     {
-        $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/private.es384.encrypted.key', 'test');
+        $result = $this->factory()
+            ->fromKeyFile(__DIR__ . '/Keys/EC/private.es384.encrypted.key', 'test');
 
         static::assertSame(
             '{"kty":"EC","crv":"P-384","d":"pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr","x":"6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ","y":"b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU"}',
@@ -174,7 +185,8 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromPrivateEC512KeyFileEncrypted(): void
     {
-        $result = JWKFactory::createFromKeyFile(__DIR__ . '/Keys/EC/private.es512.encrypted.key', 'test');
+        $result = $this->factory()
+            ->fromKeyFile(__DIR__ . '/Keys/EC/private.es512.encrypted.key', 'test');
 
         static::assertSame(
             '{"kty":"EC","crv":"P-521","d":"Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE","x":"AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS","y":"AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC"}',
@@ -190,7 +202,8 @@ final class JWKFactoryTest extends TestCase
         $content = file_get_contents($filename);
 
         // When
-        $jwk = JWKFactory::createFromKeyFile($filename);
+        $jwk = $this->factory()
+            ->fromKeyFile($filename);
 
         // Then
         static::assertSame($expectedJWK, json_encode($jwk, JSON_THROW_ON_ERROR));
@@ -216,13 +229,14 @@ final class JWKFactoryTest extends TestCase
     #[Test]
     public function createFromValues(): void
     {
-        $result = JWKFactory::createFromValues([
-            'kty' => 'EC',
-            'crv' => 'P-521',
-            'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
-            'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
-            'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
-        ]);
+        $result = $this->factory()
+            ->fromValues([
+                'kty' => 'EC',
+                'crv' => 'P-521',
+                'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
+                'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
+                'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
+            ]);
 
         static::assertSame(
             '{"kty":"EC","crv":"P-521","d":"Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE","x":"AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS","y":"AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC"}',
@@ -235,7 +249,8 @@ final class JWKFactoryTest extends TestCase
     #[MaximumDuration(500)]
     public function loadKeyPEMEncoded(string $filename, array $expectedValues): void
     {
-        $jwk = JWKFactory::createFromKeyFile($filename);
+        $jwk = $this->factory()
+            ->fromKeyFile($filename);
 
         static::assertSame($expectedValues, $jwk->all());
     }
@@ -323,5 +338,10 @@ final class JWKFactoryTest extends TestCase
                 'd' => 'mG-fgDwkr58hwIeqCQKZbR8HKeY4yg_AzvU6zyNaVUE',
             ],
         ];
+    }
+
+    private function factory(): JWKFactoryInterface
+    {
+        return new JWKFactory();
     }
 }

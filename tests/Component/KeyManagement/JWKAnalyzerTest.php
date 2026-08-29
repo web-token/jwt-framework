@@ -34,7 +34,7 @@ final class JWKAnalyzerTest extends TestCase
     #[Test]
     public function iCanAnalyzeANoneKeyAndGetMessages(): void
     {
-        $key = JWKFactory::createNoneKey();
+        $key = (new JWKFactory())->none();
         $messages = $this->getKeyAnalyzer()
             ->analyze($key);
 
@@ -77,7 +77,7 @@ final class JWKAnalyzerTest extends TestCase
     #[Test]
     public function iCanAnalyzeAnOctKeyAndGetMessages(): void
     {
-        $key = JWKFactory::createOctKey(16, [
+        $key = (new JWKFactory())->oct(16, [
             'use' => 'foo',
             'key_ops' => 'foo',
         ]);
@@ -90,7 +90,7 @@ final class JWKAnalyzerTest extends TestCase
     #[Test]
     public function iCanAnalyzeAnES521OctKeyAndGetMessages(): void
     {
-        $key = JWKFactory::createECKey('P-521', [
+        $key = (new JWKFactory())->ec('P-521', [
             'kid' => '0123456789',
             'alg' => 'ES521',
             'use' => 'sig',

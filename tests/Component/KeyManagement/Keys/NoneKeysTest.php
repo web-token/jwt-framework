@@ -40,7 +40,7 @@ final class NoneKeysTest extends TestCase
     #[Test]
     public function createNoneKey(): void
     {
-        $key = JWKFactory::createNoneKey([
+        $key = (new JWKFactory())->none([
             'kid' => 'NONE_KEY',
         ]);
 

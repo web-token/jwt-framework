@@ -165,19 +165,19 @@ final class KeyConversionCommandTest extends TestCase
     #[Test]
     public function iCanConvertARsaKeyIntoPKCS8(): void
     {
-        $jwk = JWKFactory::createRSAKey(2048);
+        $jwk = (new JWKFactory())->rsa(2048);
 
         $content = self::convertIntoPKCS8($jwk);
 
         static::assertStringStartsWith('-----BEGIN PRIVATE KEY-----', $content);
-        self::assertSameKeyMaterial($jwk, JWKFactory::createFromKey($content));
+        self::assertSameKeyMaterial($jwk, (new JWKFactory())->fromKey($content));
     }
 
     #[Test]
     #[DataProvider('ecCurves')]
     public function iCanConvertAnEcKeyIntoPKCS8(string $curve, int $size): void
     {
-        $jwk = JWKFactory::createECKey($curve);
+        $jwk = (new JWKFactory())->ec($curve);
 
         $content = self::convertIntoPKCS8($jwk);
 
@@ -192,12 +192,12 @@ final class KeyConversionCommandTest extends TestCase
     #[DataProvider('okpCurves')]
     public function iCanConvertAnOkpKeyIntoPKCS8(string $curve): void
     {
-        $jwk = JWKFactory::createOKPKey($curve);
+        $jwk = (new JWKFactory())->okp($curve);
 
         $content = self::convertIntoPKCS8($jwk);
 
         static::assertStringStartsWith('-----BEGIN PRIVATE KEY-----', $content);
-        self::assertSameKeyMaterial($jwk, JWKFactory::createFromKey($content));
+        self::assertSameKeyMaterial($jwk, (new JWKFactory())->fromKey($content));
     }
 
     /**
@@ -210,7 +210,7 @@ final class KeyConversionCommandTest extends TestCase
         $content = self::convertIntoPKCS8($jwk->toPublic());
 
         static::assertStringStartsWith('-----BEGIN PUBLIC KEY-----', $content);
-        self::assertSameKeyMaterial($jwk->toPublic(), JWKFactory::createFromKey($content));
+        self::assertSameKeyMaterial($jwk->toPublic(), (new JWKFactory())->fromKey($content));
     }
 
     #[Test]
@@ -218,7 +218,7 @@ final class KeyConversionCommandTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        self::convertIntoPKCS8(JWKFactory::createOctKey(256));
+        self::convertIntoPKCS8((new JWKFactory())->oct(256));
     }
 
     /**
@@ -249,9 +249,9 @@ final class KeyConversionCommandTest extends TestCase
      */
     public static function publicKeys(): iterable
     {
-        yield 'RSA' => [JWKFactory::createRSAKey(2048)];
-        yield 'EC' => [JWKFactory::createECKey('P-256')];
-        yield 'OKP' => [JWKFactory::createOKPKey('Ed25519')];
+        yield 'RSA' => [(new JWKFactory())->rsa(2048)];
+        yield 'EC' => [(new JWKFactory())->ec('P-256')];
+        yield 'OKP' => [(new JWKFactory())->okp('Ed25519')];
     }
 
     #[Test]

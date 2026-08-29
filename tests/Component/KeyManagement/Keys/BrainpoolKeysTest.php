@@ -24,7 +24,7 @@ final class BrainpoolKeysTest extends TestCase
     #[DataProvider('curves')]
     public function aKeyIsCreatedOnTheExpectedCurve(string $curve, string $file, int $size): void
     {
-        $jwk = JWKFactory::createECKey($curve);
+        $jwk = (new JWKFactory())->ec($curve);
 
         static::assertSame('EC', $jwk->get('kty'));
         static::assertSame($curve, $jwk->get('crv'));
@@ -74,7 +74,7 @@ final class BrainpoolKeysTest extends TestCase
     #[DataProvider('curves')]
     public function aKeyIsConvertedToPemAndLoadedAgain(string $curve, string $file, int $size): void
     {
-        $jwk = JWKFactory::createECKey($curve);
+        $jwk = (new JWKFactory())->ec($curve);
 
         $private = KeyConverter::loadFromKey(ECKey::convertToPEM($jwk));
         $public = KeyConverter::loadFromKey(ECKey::convertToPEM($jwk->toPublic()));

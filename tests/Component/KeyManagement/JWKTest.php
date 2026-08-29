@@ -201,7 +201,7 @@ final class JWKTest extends TestCase
     #[Test]
     public function loadCertificateChain(): void
     {
-        $key = JWKFactory::createFromCertificateFile(
+        $key = (new JWKFactory())->fromCertificateFile(
             __DIR__ . '/Chain/google.crt',
             [
                 'kid' => 'From www.google.com',

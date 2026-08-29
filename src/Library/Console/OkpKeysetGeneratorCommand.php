@@ -6,7 +6,6 @@ namespace Jose\Component\Console;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\KeyManagement\JWKFactory;
 use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -43,7 +42,7 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
         $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
-            $keyset = $keyset->with(JWKFactory::createOKPKey($curve, $args));
+            $keyset = $keyset->with($this->jwkFactory->okp($curve, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
 

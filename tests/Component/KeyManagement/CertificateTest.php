@@ -330,7 +330,7 @@ final class CertificateTest extends TestCase
             ],
         ]);
 
-        $certificate = JWKFactory::createFromX5C($key->get('x5c'), [
+        $certificate = (new JWKFactory())->fromX5C($key->get('x5c'), [
             'use' => 'sig',
             'kid' => '1b94c',
         ]);
