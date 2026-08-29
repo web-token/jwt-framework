@@ -4,71 +4,37 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement;
 
-use Jose\Component\Core\Exception\RuntimeException;
-use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function trigger_deprecation;
 
 /**
- * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
+ * Base class JKUFactory and X5UFactory used to extend.
+ *
+ * Those two classes now carry their own implementation, so nothing in this package extends this one any more and
+ * neither of them emits the deprecation below. What is deprecated is this class as a public extension point: it
+ * never had a behaviour of its own beyond fetching a URL and caching the response, and the cache it offers -
+ * a PSR-6 pool with a fixed lifetime, unaware of the cache directives of the endpoint - is better handled by the
+ * HTTP client it is given.
+ *
+ * @deprecated since 4.3.0 and will be removed in 5.0.0. Use JKUFactory or X5UFactory, which no longer extend this
+ *             class, or write a factory of your own: an HTTP client is all that is needed to fetch the document.
  */
 abstract class UrlKeySetFactory
 {
-    private CacheItemPoolInterface $cacheItemPool;
+    use UrlKeySetFactoryTrait;
 
-    private int $expiresAfter = 3600;
-
-    public function __construct(
-        private readonly HttpClientInterface $client,
-    ) {
-        $this->cacheItemPool = new NullAdapter();
-    }
-
-    /**
-     * @deprecated since 4.1 and will be removed in 5.0. Please use the Http Client to cache the responses instead.
-     */
-    public function enabledCache(CacheItemPoolInterface $cacheItemPool, int $expiresAfter = 3600): void
+    public function __construct(HttpClientInterface $client)
     {
-        $this->cacheItemPool = $cacheItemPool;
-        $this->expiresAfter = $expiresAfter;
-    }
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The class "%s" is deprecated and will be removed in 5.0.0. "%s" extends it: use "%s" or "%s", which do not extend it any more, or fetch the document with the HTTP client directly.',
+            self::class,
+            static::class,
+            JKUFactory::class,
+            X5UFactory::class
+        );
 
-    /**
-     * @param array<string, string|string[]> $header
-     */
-    protected function getContent(string $url, array $header = []): string
-    {
-        $cacheKey = hash('xxh128', $url);
-        $item = $this->cacheItemPool->getItem($cacheKey);
-        if ($item->isHit()) {
-            return $item->get();
-        }
-
-        $content = $this->client instanceof HttpClientInterface ? $this->sendSymfonyRequest(
-            $url,
-            $header
-        ) : $this->sendPsrRequest($url, $header);
-        $item = $this->cacheItemPool->getItem($cacheKey);
-        $item->expiresAfter($this->expiresAfter);
-        $item->set($content);
-        $this->cacheItemPool->save($item);
-
-        return $content;
-    }
-
-    /**
-     * @param array<string, string|string[]> $header
-     */
-    private function sendSymfonyRequest(string $url, array $header = []): string
-    {
-        $response = $this->client->request('GET', $url, [
-            'headers' => $header,
-        ]);
-
-        if ($response->getStatusCode() >= 400) {
-            throw new RuntimeException('Unable to get the key set.', $response->getStatusCode());
-        }
-
-        return $response->getContent();
+        $this->client = $client;
     }
 }

@@ -5198,18 +5198,6 @@ parameters:
 			path: ../src/Library/KeyManagement/Analyzer/ZxcvbnKeyAnalyzer.php
 
 		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JKUFactory::loadFromUrl() has parameter $header with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JKUFactory.php
-
-		-
-			rawMessage: 'Parameter #2 $header of method Jose\Component\KeyManagement\UrlKeySetFactory::getContent() expects array<string, array<string>|string>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/KeyManagement/JKUFactory.php
-
-		-
 			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromCertificate() has parameter $additional_values with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
@@ -5376,24 +5364,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/KeyManagement/KeyConverter/RSAKey.php
-
-		-
-			rawMessage: 'Call to an undefined method Jose\Component\KeyManagement\UrlKeySetFactory::sendPsrRequest().'
-			identifier: method.notFound
-			count: 1
-			path: ../src/Library/KeyManagement/UrlKeySetFactory.php
-
-		-
-			rawMessage: Instanceof between Symfony\Contracts\HttpClient\HttpClientInterface and Symfony\Contracts\HttpClient\HttpClientInterface will always evaluate to true.
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: ../src/Library/KeyManagement/UrlKeySetFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\UrlKeySetFactory::getContent() should return string but returns mixed.'
-			identifier: return.type
-			count: 1
-			path: ../src/Library/KeyManagement/UrlKeySetFactory.php
 
 		-
 			rawMessage: 'Parameter #2 $recipient of method Jose\Component\NestedToken\NestedTokenLoader::checkContentTypeHeader() expects int, int|null given.'

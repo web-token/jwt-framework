@@ -6,19 +6,28 @@ namespace Jose\Tests\Component\KeyManagement;
 
 use InvalidArgumentException;
 use Jose\Component\KeyManagement\JKUFactory;
+use Jose\Component\KeyManagement\UrlKeySetFactory;
 use Jose\Component\KeyManagement\X5UFactory;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function restore_error_handler;
+use function set_error_handler;
+use const E_USER_DEPRECATED;
 
 /**
  * @internal
  */
 final class UrlKeySetFactoryTest extends TestCase
 {
+    private const KEY_SET = '{"keys":[{"kty":"oct","k":"AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow"}]}';
+
+    private const CERTIFICATE_SET = '["MIIE3jCCA8agAwIBAgICAwEwDQYJKoZIhvcNAQEFBQAwYzELMAkGA1UEBhMCVVM\nxITAfBgNVBAoTGFRoZSBHbyBEYWRkeSBHcm91cCwgSW5jLjExMC8GA1UECxMoR2\n8gRGFkZHkgQ2xhc3MgMiBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTAeFw0wNjExM\nTYwMTU0MzdaFw0yNjExMTYwMTU0MzdaMIHKMQswCQYDVQQGEwJVUzEQMA4GA1UE\nCBMHQXJpem9uYTETMBEGA1UEBxMKU2NvdHRzZGFsZTEaMBgGA1UEChMRR29EYWR\nkeS5jb20sIEluYy4xMzAxBgNVBAsTKmh0dHA6Ly9jZXJ0aWZpY2F0ZXMuZ29kYW\nRkeS5jb20vcmVwb3NpdG9yeTEwMC4GA1UEAxMnR28gRGFkZHkgU2VjdXJlIENlc\nnRpZmljYXRpb24gQXV0aG9yaXR5MREwDwYDVQQFEwgwNzk2OTI4NzCCASIwDQYJ\nKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMQt1RWMnCZM7DI161+4WQFapmGBWTt\nwY6vj3D3HKrjJM9N55DrtPDAjhI6zMBS2sofDPZVUBJ7fmd0LJR4h3mUpfjWoqV\nTr9vcyOdQmVZWt7/v+WIbXnvQAjYwqDL1CBM6nPwT27oDyqu9SoWlm2r4arV3aL\nGbqGmu75RpRSgAvSMeYddi5Kcju+GZtCpyz8/x4fKL4o/K1w/O5epHBp+YlLpyo\n7RJlbmr2EkRTcDCVw5wrWCs9CHRK8r5RsL+H0EwnWGu1NcWdrxcx+AuP7q2BNgW\nJCJjPOq8lh8BJ6qf9Z/dFjpfMFDniNoW1fho3/Rb2cRGadDAW/hOUoz+EDU8CAw\nEAAaOCATIwggEuMB0GA1UdDgQWBBT9rGEyk2xF1uLuhV+auud2mWjM5zAfBgNVH\nSMEGDAWgBTSxLDSkdRMEXGzYcs9of7dqGrU4zASBgNVHRMBAf8ECDAGAQH/AgEA\nMDMGCCsGAQUFBwEBBCcwJTAjBggrBgEFBQcwAYYXaHR0cDovL29jc3AuZ29kYWR\nkeS5jb20wRgYDVR0fBD8wPTA7oDmgN4Y1aHR0cDovL2NlcnRpZmljYXRlcy5nb2\nRhZGR5LmNvbS9yZXBvc2l0b3J5L2dkcm9vdC5jcmwwSwYDVR0gBEQwQjBABgRVH\nSAAMDgwNgYIKwYBBQUHAgEWKmh0dHA6Ly9jZXJ0aWZpY2F0ZXMuZ29kYWRkeS5j\nb20vcmVwb3NpdG9yeTAOBgNVHQ8BAf8EBAMCAQYwDQYJKoZIhvcNAQEFBQADggE\nBANKGwOy9+aG2Z+5mC6IGOgRQjhVyrEp0lVPLN8tESe8HkGsz2ZbwlFalEzAFPI\nUyIXvJxwqoJKSQ3kbTJSMUA2fCENZvD117esyfxVgqwcSeIaha86ykRvOe5GPLL\n5CkKSkB2XIsKd83ASe8T+5o0yGPwLPk9Qnt0hCqU7S+8MxZC9Y7lhyVJEnfzuz9\np0iRFEUOOjZv2kWzRaJBydTXRE4+uXR21aITVSzGh6O1mawGhId/dQb8vxRMDsx\nuxN89txJx9OjxUUAiKEngHUuHqDTMBqLdElrRhjZkAzVvb3du6/KFUJheqwNTrZ\nEjYx8WnM25sgVjOuH0aBsXBTWVU+4="]';
+
     private ?JKUFactory $jkuFactory = null;
 
     private ?X5UFactory $x5uFactory = null;
@@ -120,6 +129,77 @@ final class UrlKeySetFactoryTest extends TestCase
             ->loadFromUrl('https://foo.bar/bad/url');
     }
 
+    #[Test]
+    public function theFactoriesDoNotExtendTheDeprecatedBaseClass(): void
+    {
+        static::assertNotInstanceOf(UrlKeySetFactory::class, $this->getJKUFactory());
+        static::assertNotInstanceOf(UrlKeySetFactory::class, $this->getX5UFactory());
+    }
+
+    #[Test]
+    public function loadingAKeySetDoesNotTriggerADeprecation(): void
+    {
+        $this->getHttpClient()
+            ->setResponseFactory([
+                new MockResponse(self::KEY_SET, [
+                    'http_code' => 200,
+                ]),
+                new MockResponse(self::CERTIFICATE_SET, [
+                    'http_code' => 200,
+                ]),
+            ]);
+        $jkuFactory = $this->getJKUFactory();
+        $x5uFactory = $this->getX5UFactory();
+
+        $deprecations = $this->collectDeprecations(static function () use ($jkuFactory, $x5uFactory): void {
+            $jkuFactory->loadFromUrl('https://foo.bar/keys');
+            $x5uFactory->loadFromUrl('https://foo.bar/keys');
+        });
+
+        static::assertSame([], $deprecations);
+    }
+
+    #[Test]
+    public function extendingTheDeprecatedBaseClassTriggersADeprecation(): void
+    {
+        $client = $this->getHttpClient();
+
+        $deprecations = $this->collectDeprecations(static function () use ($client): void {
+            new class($client) extends UrlKeySetFactory {};
+        });
+
+        static::assertCount(1, $deprecations);
+        static::assertStringContainsString(
+            'The class "Jose\Component\KeyManagement\UrlKeySetFactory" is deprecated',
+            $deprecations[0]
+        );
+    }
+
+    #[Test]
+    public function theDeprecatedCacheStillPreventsASecondRequest(): void
+    {
+        $client = new MockHttpClient([
+            new MockResponse(self::KEY_SET, [
+                'http_code' => 200,
+            ]),
+            new MockResponse('Not found', [
+                'http_code' => 404,
+            ]),
+        ]);
+        $factory = new JKUFactory($client);
+
+        $deprecations = $this->collectDeprecations(static function () use ($factory): void {
+            $factory->enabledCache(new ArrayAdapter());
+        });
+
+        static::assertCount(1, $deprecations);
+        static::assertStringContainsString('::enabledCache()" is deprecated', $deprecations[0]);
+
+        static::assertCount(1, $factory->loadFromUrl('https://foo.bar/keys'));
+        static::assertCount(1, $factory->loadFromUrl('https://foo.bar/keys'));
+        static::assertSame(1, $client->getRequestsCount());
+    }
+
     private function getJKUFactory(): JKUFactory
     {
         if ($this->jkuFactory === null) {
@@ -136,6 +216,29 @@ final class UrlKeySetFactoryTest extends TestCase
         }
 
         return $this->x5uFactory;
+    }
+
+    /**
+     * @param callable(): void $callback
+     *
+     * @return list<string>
+     */
+    private function collectDeprecations(callable $callback): array
+    {
+        $deprecations = [];
+        set_error_handler(static function (int $type, string $message) use (&$deprecations): bool {
+            $deprecations[] = $message;
+
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $deprecations;
     }
 
     private function getHttpClient(): MockHttpClient

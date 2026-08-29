@@ -9,10 +9,17 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\JsonConverter;
 use function is_array;
 
-class JKUFactory extends UrlKeySetFactory
+/**
+ * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
+ */
+class JKUFactory
 {
+    use UrlKeySetFactoryTrait;
+
     /**
      * This method will try to fetch the url a retrieve the key set. Throws an exception in case of failure.
+     *
+     * @param array<string, string|string[]> $header
      */
     public function loadFromUrl(string $url, array $header = []): JWKSet
     {
