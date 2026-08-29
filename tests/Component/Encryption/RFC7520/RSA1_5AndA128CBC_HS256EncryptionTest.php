@@ -137,7 +137,6 @@ final class RSA1_5AndA128CBC_HS256EncryptionTest extends EncryptionTestCase
             ->create(['RSA1_5', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)

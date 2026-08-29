@@ -139,7 +139,6 @@ final class HeaderParameterConfusionTest extends EncryptionTestCase
         $key = $this->createSharedKey();
         $jwe = $this->getJWEBuilderFactory()
             ->create(['A128KW', 'A128GCM'])
-            ->create()
             ->withPayload('Live long and prosper.')
             ->withSharedProtectedHeader([
                 'alg' => 'A128KW',
@@ -170,7 +169,6 @@ final class HeaderParameterConfusionTest extends EncryptionTestCase
         $key = $this->createSharedKey();
         $jwe = $this->getJWEBuilderFactory()
             ->create(['A128KW', 'A256KW', 'A128GCM'])
-            ->create()
             ->withPayload('Live long and prosper.')
             ->withSharedProtectedHeader([
                 'enc' => 'A128GCM',
@@ -205,7 +203,6 @@ final class HeaderParameterConfusionTest extends EncryptionTestCase
         $key = $this->createSharedKey();
         $jwe = $this->getJWEBuilderFactory()
             ->create(['PBES2-HS256+A128KW', 'A128GCM'])
-            ->create()
             ->withPayload('Live long and prosper.')
             ->withSharedProtectedHeader([
                 'alg' => 'PBES2-HS256+A128KW',
@@ -236,7 +233,6 @@ final class HeaderParameterConfusionTest extends EncryptionTestCase
     {
         $jwe = $this->getJWEBuilderFactory()
             ->create(['A128KW', 'A128GCM'])
-            ->create()
             ->withPayload('Live long and prosper.')
             ->withSharedProtectedHeader([
                 'alg' => 'A128KW',

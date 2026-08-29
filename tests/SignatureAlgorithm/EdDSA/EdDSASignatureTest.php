@@ -61,7 +61,6 @@ final class EdDSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new EdDSA()]));
         $jwsVerifier = new JWSVerifier(new AlgorithmManager([new EdDSA()]));
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($input)
             ->addSignature($key, $header)
             ->build();

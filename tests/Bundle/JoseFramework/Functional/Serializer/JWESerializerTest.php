@@ -95,7 +95,6 @@ final class JWESerializerTest extends KernelTestCase
         ]);
 
         $jwe = $builder
-            ->create()
             ->withPayload('Hello World!')
             ->withSharedProtectedHeader([
                 'alg' => 'A256KW',

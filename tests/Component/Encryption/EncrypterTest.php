@@ -25,7 +25,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -59,7 +58,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -67,7 +65,8 @@ final class EncrypterTest extends EncryptionTestCase
             ])
             ->addRecipient($this->getRSARecipientKey(), [
                 'alg' => 'RSA-OAEP-256',
-            ]);
+            ])
+            ->build();
     }
 
     #[Test]
@@ -79,7 +78,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -111,7 +109,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -122,7 +119,8 @@ final class EncrypterTest extends EncryptionTestCase
             ])
             ->withSharedHeader([
                 'cty' => 'application/json',
-            ]);
+            ])
+            ->build();
     }
 
     #[Test]
@@ -135,7 +133,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -148,7 +145,8 @@ final class EncrypterTest extends EncryptionTestCase
                 'enc' => 'A256CBC-HS512',
                 'alg' => 'RSA-OAEP-256',
                 'cty' => 'application/json',
-            ]);
+            ])
+            ->build();
     }
 
     #[Test]
@@ -160,7 +158,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -192,7 +189,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload('FOO')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -233,7 +229,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -270,7 +265,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['dir', 'ECDH-ES+A256KW', 'A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -296,7 +290,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -316,7 +309,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',
@@ -336,7 +328,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
@@ -356,7 +347,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256']);
 
         $jweBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
@@ -376,7 +366,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['A256CBC-HS512', 'A256CBC-HS512']);
 
         $jweBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
@@ -397,7 +386,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'RSA-OAEP-256']);
 
         $jweBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => '123456789',
@@ -417,7 +405,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['dir', 'A192CBC-HS384']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => 'DIR_1',
@@ -457,7 +444,6 @@ final class EncrypterTest extends EncryptionTestCase
             'exp' => time() + 3600,
         ], JSON_THROW_ON_ERROR);
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($payload)
             ->withSharedProtectedHeader([
                 'kid' => 'e9bc097a-ce51-4036-9562-d2ade882db0d',
@@ -490,7 +476,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['ECDH-ES+A256KW', 'A256CBC-HS512']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->withSharedProtectedHeader([
                 'kid' => 'e9bc097a-ce51-4036-9562-d2ade882db0d',
@@ -524,7 +509,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['ECDH-ES+A256KW', 'A256GCM']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->withSharedProtectedHeader([
                 'kid' => 'e9bc097a-ce51-4036-9562-d2ade882db0d',
@@ -559,7 +543,6 @@ final class EncrypterTest extends EncryptionTestCase
             ->create(['RSA-OAEP-256', 'ECDH-ES+A256KW', 'A256CBC-HS512']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->withSharedProtectedHeader([
                 'enc' => 'A256CBC-HS512',

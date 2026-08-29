@@ -39,7 +39,6 @@ final class RSAKeyWithoutAllPrimesTest extends TestCase
         $jwsVerifier = new JWSVerifier(new AlgorithmManager([$algorithm]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($claims)
             ->addSignature($key, [
                 'alg' => $algorithm->name(),

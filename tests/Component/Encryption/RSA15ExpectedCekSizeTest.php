@@ -153,7 +153,6 @@ final class RSA15ExpectedCekSizeTest extends TestCase
     private function createToken(AlgorithmManager $algorithmManager, JWK $jwk, string $algorithm): string
     {
         $jwe = (new JWEBuilder($algorithmManager))
-            ->create()
             ->withPayload('Live long and prosper.')
             ->withSharedProtectedHeader([
                 'alg' => $algorithm,

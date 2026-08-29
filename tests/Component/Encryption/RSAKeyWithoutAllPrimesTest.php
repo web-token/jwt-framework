@@ -32,7 +32,6 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTestCase
             ->create([$encryption_algorithm, 'A256GCM']);
 
         $jwt = $jweBuilder
-            ->create()
             ->withPayload($claims)
             ->withSharedProtectedHeader([
                 'alg' => $encryption_algorithm,
@@ -65,7 +64,6 @@ final class RSAKeyWithoutAllPrimesTest extends EncryptionTestCase
             ->create([$encryption_algorithm, 'A256GCM']);
 
         $jwt = $jweBuilder
-            ->create()
             ->withPayload($claims)
             ->withSharedProtectedHeader([
                 'alg' => $encryption_algorithm,

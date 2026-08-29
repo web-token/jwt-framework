@@ -139,7 +139,6 @@ final class RSA_OAEPAndA256GCMEncryptionTest extends EncryptionTestCase
             ->create(['RSA-OAEP', 'A256GCM']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($private_key)

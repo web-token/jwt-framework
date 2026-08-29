@@ -228,7 +228,6 @@ final class JWEEncoderTest extends KernelTestCase
         ]);
 
         $jwe = $builder
-            ->create()
             ->withPayload('Hello World!')
             ->withSharedProtectedHeader([
                 'alg' => 'A256KW',

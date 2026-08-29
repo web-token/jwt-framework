@@ -68,7 +68,6 @@ final class RSAPSSSignatureTest extends TestCase
         $jsonFlattenedSerializer = new JSONFlattenedSerializer();
         $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($privateKey, $header)
             ->build();

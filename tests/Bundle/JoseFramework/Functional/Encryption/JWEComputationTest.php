@@ -37,7 +37,6 @@ final class JWEComputationTest extends WebTestCase
         $serializer = new CompactSerializer();
 
         $jwe = $builder
-            ->create()
             ->withPayload('Hello World!')
             ->withSharedProtectedHeader([
                 'alg' => 'A256KW',

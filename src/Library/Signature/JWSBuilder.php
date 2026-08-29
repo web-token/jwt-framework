@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use InvalidArgumentException;
-use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
@@ -22,7 +21,16 @@ use function in_array;
 use function is_array;
 use function is_string;
 use function sprintf;
+use function trigger_deprecation;
 
+/**
+ * Builds a JWS.
+ *
+ * The builder is immutable: every method that sets the payload or adds a signature returns a new object and
+ * never modifies the receiver, so that a builder registered as a shared service cannot be poisoned by a
+ * previous build. The consistency of the accumulated state is checked by build(), which makes the order of
+ * the calls irrelevant.
+ */
 class JWSBuilder
 {
     protected ?string $payload = null;
@@ -30,15 +38,16 @@ class JWSBuilder
     protected bool $isPayloadDetached = false;
 
     /**
-     * @var array<array{
-     *     header: array<string, mixed>,
-     *     protected_header: array<string, mixed>,
-     *     signature_key: JWK,
-     *     signature_algorithm: Algorithm
-     * }>
+     * @var list<SignatureSpec>
      */
     protected array $signatures = [];
 
+    /**
+     * The payload encoding requested by the first signature.
+     *
+     * The value is only informative: build() reads the encoding from the signatures themselves and rejects
+     * the ones that disagree, whatever the order in which they were added.
+     */
     protected ?bool $isPayloadEncoded = null;
 
     /**
@@ -64,16 +73,28 @@ class JWSBuilder
 
     /**
      * Reset the current data.
+     *
+     * @deprecated since 4.3.0 and will be removed in 5.0.0. The builder is immutable, hence there is no state
+     *             to reset: remove the call, or build a new object with "new JWSBuilder($algorithmManager)".
      */
     public function create(): self
     {
-        $this->payload = null;
-        $this->isPayloadDetached = false;
-        $this->signatures = [];
-        $this->isPayloadEncoded = null;
-        $this->isPayloadAlreadyEncoded = false;
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::create()" is deprecated and will be removed in 5.0.0. The builder is immutable, hence there is no state to reset: remove the call, or build a new object with "new %s($algorithmManager)".',
+            self::class,
+            self::class
+        );
 
-        return $this;
+        $clone = clone $this;
+        $clone->payload = null;
+        $clone->isPayloadDetached = false;
+        $clone->signatures = [];
+        $clone->isPayloadEncoded = null;
+        $clone->isPayloadAlreadyEncoded = false;
+
+        return $clone;
     }
 
     /**
@@ -100,11 +121,6 @@ class JWSBuilder
      */
     public function withEncodedPayload(string $payload, bool $isPayloadDetached = false): self
     {
-        if ($this->isPayloadEncoded === false) {
-            throw new InvalidArgumentException(
-                'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
-            );
-        }
         try {
             $decodedPayload = Base64UrlSafe::decodeNoPadding($payload);
         } catch (InvalidArgumentException|RangeException $throwable) {
@@ -131,28 +147,15 @@ class JWSBuilder
     public function addSignature(JWK $signatureKey, array $protectedHeader, array $header = []): self
     {
         $this->checkB64AndCriticalHeader($protectedHeader);
-        $isPayloadEncoded = $this->checkIfPayloadIsEncoded($protectedHeader);
-        if ($this->isPayloadAlreadyEncoded && $isPayloadEncoded === false) {
-            throw new InvalidArgumentException(
-                'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
-            );
-        }
-        $clone = clone $this;
-        if ($clone->isPayloadEncoded === null) {
-            $clone->isPayloadEncoded = $isPayloadEncoded;
-        } elseif ($clone->isPayloadEncoded !== $isPayloadEncoded) {
-            throw new InvalidArgumentException('Foreign payload encoding detected.');
-        }
         $this->checkDuplicatedHeaderParameters($protectedHeader, $header);
         KeyChecker::checkKeyUsage($signatureKey, 'signature');
         $algorithm = $this->findSignatureAlgorithm($signatureKey, $protectedHeader, $header);
         KeyChecker::checkKeyAlgorithm($signatureKey, $algorithm->name());
-        $clone->signatures[] = [
-            'signature_algorithm' => $algorithm,
-            'signature_key' => $signatureKey,
-            'protected_header' => $protectedHeader,
-            'header' => $header,
-        ];
+        $signature = new SignatureSpec($signatureKey, $algorithm, $protectedHeader, $header);
+
+        $clone = clone $this;
+        $clone->signatures[] = $signature;
+        $clone->isPayloadEncoded ??= $signature->isPayloadEncoded();
 
         return $clone;
     }
@@ -168,12 +171,18 @@ class JWSBuilder
         if (count($this->signatures) === 0) {
             throw new RuntimeException('At least one signature must be set.');
         }
+        $isPayloadEncoded = $this->getPayloadEncoding();
+        if ($this->isPayloadAlreadyEncoded && $isPayloadEncoded === false) {
+            throw new InvalidArgumentException(
+                'An encoded payload cannot be used when the protected header parameter "b64" is set to false.'
+            );
+        }
 
-        $encodedPayload = $this->isPayloadEncoded === false ? $this->payload : Base64UrlSafe::encodeUnpadded(
+        $encodedPayload = $isPayloadEncoded === false ? $this->payload : Base64UrlSafe::encodeUnpadded(
             $this->payload
         );
 
-        if ($this->isPayloadEncoded === false && $this->isPayloadDetached === false) {
+        if ($isPayloadEncoded === false && $this->isPayloadDetached === false) {
             mb_detect_encoding($this->payload, 'UTF-8', true) !== false || throw new InvalidArgumentException(
                 'The payload must be encoded in UTF-8'
             );
@@ -181,35 +190,70 @@ class JWSBuilder
 
         $jws = new JWS($this->payload, $encodedPayload, $this->isPayloadDetached);
         foreach ($this->signatures as $signature) {
-            /** @var MacAlgorithm|SignatureAlgorithm $algorithm */
-            $algorithm = $signature['signature_algorithm'];
-            /** @var JWK $signatureKey */
-            $signatureKey = $signature['signature_key'];
-            /** @var array<string, mixed> $protectedHeader */
-            $protectedHeader = $signature['protected_header'];
-            /** @var array<string, mixed> $header */
-            $header = $signature['header'];
+            $algorithm = $signature->algorithm;
+            $protectedHeader = $signature->protectedHeader;
             $encodedProtectedHeader = count($protectedHeader) === 0 ? null : Base64UrlSafe::encodeUnpadded(
                 JsonConverter::encode($protectedHeader)
             );
             $input = sprintf('%s.%s', $encodedProtectedHeader, $encodedPayload);
             if ($algorithm instanceof SignatureAlgorithm) {
-                $s = $algorithm->sign($signatureKey, $input);
+                $s = $algorithm->sign($signature->key, $input);
             } else {
-                $s = $algorithm->hash($signatureKey, $input);
+                $s = $algorithm->hash($signature->key, $input);
             }
-            $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $header);
+            $jws = $jws->addSignature($s, $protectedHeader, $encodedProtectedHeader, $signature->header);
         }
 
         return $jws;
     }
 
     /**
-     * @param array<string, mixed> $protectedHeader
+     * Returns the signatures in the array shape the builder used before 4.3.0.
+     *
+     * @internal
+     * @return array<array{
+     *     signature_algorithm: MacAlgorithm|SignatureAlgorithm,
+     *     signature_key: JWK,
+     *     protected_header: array<string, mixed>,
+     *     header: array<string, mixed>
+     * }>
      */
-    private function checkIfPayloadIsEncoded(array $protectedHeader): bool
+    protected function getSignaturesAsArray(): array
     {
-        return ! array_key_exists('b64', $protectedHeader) || $protectedHeader['b64'] === true;
+        $signatures = [];
+        foreach ($this->signatures as $signature) {
+            $signatures[] = [
+                'signature_algorithm' => $signature->algorithm,
+                'signature_key' => $signature->key,
+                'protected_header' => $signature->protectedHeader,
+                'header' => $signature->header,
+            ];
+        }
+
+        return $signatures;
+    }
+
+    /**
+     * Returns the payload encoding shared by all the signatures.
+     *
+     * @throws InvalidArgumentException if the signatures do not agree on the encoding of the payload
+     */
+    private function getPayloadEncoding(): bool
+    {
+        $isPayloadEncoded = null;
+        foreach ($this->signatures as $signature) {
+            $currentEncoding = $signature->isPayloadEncoded();
+            if ($isPayloadEncoded === null) {
+                $isPayloadEncoded = $currentEncoding;
+
+                continue;
+            }
+            if ($isPayloadEncoded !== $currentEncoding) {
+                throw new InvalidArgumentException('Foreign payload encoding detected.');
+            }
+        }
+
+        return $isPayloadEncoded ?? true;
     }
 
     /**
@@ -238,10 +282,12 @@ class JWSBuilder
     /**
      * @param array<string, mixed> $protectedHeader
      * @param array<string, mixed> $header
-     * @return MacAlgorithm|SignatureAlgorithm
      */
-    private function findSignatureAlgorithm(JWK $key, array $protectedHeader, array $header): Algorithm
-    {
+    private function findSignatureAlgorithm(
+        JWK $key,
+        array $protectedHeader,
+        array $header
+    ): MacAlgorithm|SignatureAlgorithm {
         $completeHeader = [...$header, ...$protectedHeader];
         $alg = $completeHeader['alg'] ?? null;
         if (! is_string($alg)) {

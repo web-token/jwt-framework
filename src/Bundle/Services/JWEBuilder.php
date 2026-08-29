@@ -33,7 +33,7 @@ final class JWEBuilder extends BaseJWEBuilder
         } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(new JWEBuiltFailureEvent(
                 $this->payload,
-                $this->recipients,
+                $this->getRecipientsAsArray(),
                 $this->sharedProtectedHeader,
                 $this->sharedHeader,
                 $this->aad,

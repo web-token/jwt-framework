@@ -46,7 +46,6 @@ final class RSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new RS256()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature(
                 $key,
@@ -91,7 +90,6 @@ final class RSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new RS256()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.', true)
             ->addSignature(
                 $key,
@@ -136,7 +134,6 @@ final class RSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new RS384()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature(
                 $key,
@@ -181,7 +178,6 @@ final class RSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new RS512()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature(
                 $key,
@@ -228,7 +224,6 @@ final class RSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new PS256()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature(
                 $key,
@@ -270,7 +265,6 @@ final class RSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new PS384()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature(
                 $key,
@@ -311,7 +305,6 @@ final class RSASignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new PS512()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature(
                 $key,

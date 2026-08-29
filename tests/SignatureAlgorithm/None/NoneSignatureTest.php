@@ -59,7 +59,6 @@ final class NoneSignatureTest extends TestCase
         $jwsBuilder = new JWSBuilder(new AlgorithmManager([new None()]));
         $serializer = new CompactSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload('Live long and Prosper.')
             ->addSignature($jwk, [
                 'alg' => 'none',

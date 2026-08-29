@@ -109,7 +109,6 @@ final class A128KWAndA128GCMEncryptionProtectedContentOnlyTest extends Encryptio
             ->create(['A128KW', 'A128GCM']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)

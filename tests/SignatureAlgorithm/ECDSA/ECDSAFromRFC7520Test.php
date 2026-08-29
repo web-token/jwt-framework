@@ -64,7 +64,6 @@ final class ECDSAFromRFC7520Test extends TestCase
         $jsonFlattenedSerializer = new JSONFlattenedSerializer();
         $jsonGeneralSerializer = new JSONGeneralSerializer();
         $jws = $jwsBuilder
-            ->create()
             ->withPayload($payload)
             ->addSignature($private_key, $header)
             ->build();

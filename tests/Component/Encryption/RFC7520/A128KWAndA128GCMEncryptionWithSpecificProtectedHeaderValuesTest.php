@@ -113,7 +113,6 @@ final class A128KWAndA128GCMEncryptionWithSpecificProtectedHeaderValuesTest exte
             ->create(['A128KW', 'A128GCM']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->withSharedHeader($header)

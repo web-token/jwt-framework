@@ -144,7 +144,6 @@ final class ECDH_ES_A128KWAndA128GCMEncryptionTest extends EncryptionTestCase
             ->create(['ECDH-ES+A128KW', 'A128GCM']);
 
         $jwe = $jweBuilder
-            ->create()
             ->withPayload($expected_payload)
             ->withSharedProtectedHeader($protectedHeader)
             ->addRecipient($public_key)
