@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
 use function count;
 use function sprintf;
 
 /**
  * This class manages claim checkers and performs claim checks.
+ *
+ * @final The class will be final in 5.0.0: implement ClaimCheckerManagerInterface and decorate the service instead of
+ * extending it.
+ *
  * @see \Jose\Tests\Component\Checker\ClaimCheckerManagerTest
  */
-class ClaimCheckerManager
+class ClaimCheckerManager implements ClaimCheckerManagerInterface
 {
     /**
      * @var ClaimChecker[]
@@ -24,6 +29,7 @@ class ClaimCheckerManager
      */
     public function __construct(iterable $checkers)
     {
+        InheritanceChecker::warnIfExtended(static::class, self::class, ClaimCheckerManagerInterface::class);
         foreach ($checkers as $checker) {
             $this->add($checker);
         }

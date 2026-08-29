@@ -7,6 +7,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\NestedToken\NestedTokenLoader as NestedTokenLoaderService;
+use Jose\Component\NestedToken\NestedTokenLoaderInterface;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -47,6 +48,11 @@ final readonly class NestedTokenLoader implements Source
             $container->registerAliasForArgument(
                 $service_id,
                 NestedTokenLoaderService::class,
+                $name . 'NestedTokenLoader'
+            );
+            $container->registerAliasForArgument(
+                $service_id,
+                NestedTokenLoaderInterface::class,
                 $name . 'NestedTokenLoader'
             );
         }

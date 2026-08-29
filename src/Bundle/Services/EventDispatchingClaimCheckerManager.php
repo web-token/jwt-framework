@@ -6,29 +6,33 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedFailureEvent;
 use Jose\Bundle\JoseFramework\Event\ClaimCheckedSuccessEvent;
-use Jose\Component\Checker\ClaimCheckerManager as BaseClaimCheckerManager;
+use Jose\Component\Checker\ClaimCheckerManagerInterface;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 /**
- * @deprecated since 4.3.0, use EventDispatchingClaimCheckerManager instead. The class extends a service of
- * the library that will be final in 5.0.0.
+ * Dispatches an event whenever claims are checked, without extending the manager it decorates.
  */
-final class ClaimCheckerManager extends BaseClaimCheckerManager
+final readonly class EventDispatchingClaimCheckerManager implements ClaimCheckerManagerInterface
 {
     public function __construct(
-        $checkers,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private ClaimCheckerManagerInterface $manager,
+        private EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($checkers);
+    }
+
+    #[Override]
+    public function getCheckers(): array
+    {
+        return $this->manager->getCheckers();
     }
 
     #[Override]
     public function check(array $claims, array $mandatoryClaims = []): array
     {
         try {
-            $checkedClaims = BaseClaimCheckerManager::check($claims, $mandatoryClaims);
+            $checkedClaims = $this->manager->check($claims, $mandatoryClaims);
             $this->eventDispatcher->dispatch(
                 new ClaimCheckedSuccessEvent($claims, $mandatoryClaims, $checkedClaims)
             );

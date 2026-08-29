@@ -6,6 +6,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
 use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWEDecrypter as JWEDecrypterService;
+use Jose\Component\Encryption\JWEDecrypterInterface;
 use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -36,6 +37,7 @@ final readonly class JWEDecrypter extends AbstractEncryptionSource
             }
             $container->setDefinition($service_id, $definition);
             $container->registerAliasForArgument($service_id, JWEDecrypterService::class, $name . 'JweDecrypter');
+            $container->registerAliasForArgument($service_id, JWEDecrypterInterface::class, $name . 'JweDecrypter');
         }
     }
 }

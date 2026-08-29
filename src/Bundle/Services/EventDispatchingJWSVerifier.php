@@ -10,29 +10,41 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
-use Jose\Component\Signature\JWSVerifier as BaseJWSVerifier;
+use Jose\Component\Signature\JWSVerifierInterface;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use function func_get_arg;
 use function func_num_args;
 
 /**
- * @deprecated since 4.3.0, use EventDispatchingJWSVerifier instead. The class extends a service of
- * the library that will be final in 5.0.0.
+ * Dispatches an event whenever a signature is verified, without extending the verifier it decorates.
  */
-final class JWSVerifier extends BaseJWSVerifier
+final readonly class EventDispatchingJWSVerifier implements JWSVerifierInterface
 {
     public function __construct(
-        AlgorithmManager $signatureAlgorithmManager,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private JWSVerifierInterface $verifier,
+        private EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($signatureAlgorithmManager);
+    }
+
+    #[Override]
+    public function getSignatureAlgorithmManager(): AlgorithmManager
+    {
+        return $this->verifier->getSignatureAlgorithmManager();
+    }
+
+    #[Override]
+    public function verifyWithKey(JWS $jws, JWK $jwk, int $signature, ?string $detachedPayload = null): bool
+    {
+        $jwkset = new JWKSet([$jwk]);
+
+        return $this->verifyWithKeySet($jws, $jwkset, $signature, $detachedPayload);
     }
 
     /**
-     * The callable used by the loaders to observe the keys that were discarded is not part of the signature yet:
-     * it is read with func_num_args()/func_get_arg(5) and forwarded to the parent, otherwise the reason of a
-     * failure would be lost as soon as this service is used in place of the verifier of the library.
+     * The callable used by the loaders to observe the keys that were discarded is not part of the signature yet: it is
+     * read with func_num_args()/func_get_arg(5) and forwarded to the decorated verifier, otherwise the reason of a
+     * failure would be lost as soon as the verifier is decorated.
      */
     #[Override]
     public function verifyWithKeySet(
@@ -42,14 +54,15 @@ final class JWSVerifier extends BaseJWSVerifier
         ?string $detachedPayload = null,
         ?JWK &$jwk = null
     ): bool {
-        $success = func_num_args() >= 6 ? parent::verifyWithKeySet(
+        $success = func_num_args() >= 6 ? $this->verifier->verifyWithKeySet(
             $jws,
             $jwkset,
             $signatureIndex,
             $detachedPayload,
             $jwk,
             func_get_arg(5)
-        ) : parent::verifyWithKeySet($jws, $jwkset, $signatureIndex, $detachedPayload, $jwk);
+        ) : $this->verifier->verifyWithKeySet($jws, $jwkset, $signatureIndex, $detachedPayload, $jwk);
+
         if ($success) {
             $this->eventDispatcher->dispatch(new JWSVerificationSuccessEvent(
                 $jws,

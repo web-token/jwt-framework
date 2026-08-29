@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
@@ -30,8 +31,11 @@ use function trigger_deprecation;
  * never modifies the receiver, so that a builder registered as a shared service cannot be poisoned by a
  * previous build. The consistency of the accumulated state is checked by build(), which makes the order of
  * the calls irrelevant.
+ *
+ * @final The class will be final in 5.0.0: implement JWSBuilderInterface and decorate the service instead of
+ * extending it.
  */
-class JWSBuilder
+class JWSBuilder implements JWSBuilderInterface
 {
     protected ?string $payload = null;
 
@@ -61,6 +65,7 @@ class JWSBuilder
     public function __construct(
         private readonly AlgorithmManager $signatureAlgorithmManager
     ) {
+        InheritanceChecker::warnIfExtended(static::class, self::class, JWSBuilderInterface::class);
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Jose\Component\Checker;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWT;
+use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
 use function count;
 use function is_array;
@@ -17,8 +18,11 @@ use function sprintf;
  *
  * It allows to add header parameter checkers and token type supports.
  * The factory is responsible to create a Header Checker Manager with the header parameter checkers found based
+ *
+ * @final The class will be final in 5.0.0: implement HeaderCheckerManagerInterface and decorate the service instead
+ * of extending it.
  */
-class HeaderCheckerManager
+class HeaderCheckerManager implements HeaderCheckerManagerInterface
 {
     /**
      * @var array<string, HeaderChecker>
@@ -36,6 +40,7 @@ class HeaderCheckerManager
      */
     public function __construct(iterable $checkers, iterable $tokenTypes)
     {
+        InheritanceChecker::warnIfExtended(static::class, self::class, HeaderCheckerManagerInterface::class);
         foreach ($checkers as $checker) {
             $this->add($checker);
         }

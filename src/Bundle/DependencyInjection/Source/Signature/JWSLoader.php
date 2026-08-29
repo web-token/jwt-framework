@@ -7,6 +7,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
 use Jose\Component\Signature\JWSLoader as JWSLoaderService;
+use Jose\Component\Signature\JWSLoaderInterface;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -43,6 +44,7 @@ final readonly class JWSLoader implements Source
 
             $container->setDefinition($service_id, $definition);
             $container->registerAliasForArgument($service_id, JWSLoaderService::class, $name . 'JwsLoader');
+            $container->registerAliasForArgument($service_id, JWSLoaderInterface::class, $name . 'JwsLoader');
         }
     }
 

@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace Jose\Component\NestedToken;
 
 use Jose\Component\Core\JWK;
-use Jose\Component\Encryption\JWEBuilder;
+use Jose\Component\Core\Util\InheritanceChecker;
+use Jose\Component\Encryption\JWEBuilderInterface;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
-use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\JWSBuilderInterface;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use function array_key_exists;
 
-class NestedTokenBuilder
+/**
+ * @final The class will be final in 5.0.0: implement NestedTokenBuilderInterface and decorate the service instead of
+ * extending it.
+ */
+class NestedTokenBuilder implements NestedTokenBuilderInterface
 {
     public function __construct(
-        private readonly JWEBuilder $jweBuilder,
+        private readonly JWEBuilderInterface $jweBuilder,
         private readonly JWESerializerManager $jweSerializerManager,
-        private readonly JWSBuilder $jwsBuilder,
+        private readonly JWSBuilderInterface $jwsBuilder,
         private readonly JWSSerializerManager $jwsSerializerManager
     ) {
+        InheritanceChecker::warnIfExtended(static::class, self::class, NestedTokenBuilderInterface::class);
     }
 
     /**

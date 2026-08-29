@@ -13,6 +13,10 @@ use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
+/**
+ * @deprecated since 4.3.0, use EventDispatchingJWSBuilder instead. The class extends a service of
+ * the library that will be final in 5.0.0.
+ */
 final class JWSBuilder extends BaseJWSBuilder
 {
     public function __construct(

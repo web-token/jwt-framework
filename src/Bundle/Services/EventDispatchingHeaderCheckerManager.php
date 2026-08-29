@@ -6,31 +6,34 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Bundle\JoseFramework\Event\HeaderCheckedFailureEvent;
 use Jose\Bundle\JoseFramework\Event\HeaderCheckedSuccessEvent;
-use Jose\Component\Checker\HeaderCheckerManager as BaseHeaderCheckerManager;
+use Jose\Component\Checker\HeaderCheckerManagerInterface;
 use Jose\Component\Core\JWT;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
 
 /**
- * @deprecated since 4.3.0, use EventDispatchingHeaderCheckerManager instead. The class extends a service of
- * the library that will be final in 5.0.0.
+ * Dispatches an event whenever header parameters are checked, without extending the manager it decorates.
  */
-final class HeaderCheckerManager extends BaseHeaderCheckerManager
+final readonly class EventDispatchingHeaderCheckerManager implements HeaderCheckerManagerInterface
 {
     public function __construct(
-        array $checkers,
-        array $tokenTypes,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private HeaderCheckerManagerInterface $manager,
+        private EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($checkers, $tokenTypes);
+    }
+
+    #[Override]
+    public function getCheckers(): array
+    {
+        return $this->manager->getCheckers();
     }
 
     #[Override]
     public function check(JWT $jwt, int $index, array $mandatoryHeaderParameters = []): void
     {
         try {
-            BaseHeaderCheckerManager::check($jwt, $index, $mandatoryHeaderParameters);
+            $this->manager->check($jwt, $index, $mandatoryHeaderParameters);
             $this->eventDispatcher->dispatch(
                 new HeaderCheckedSuccessEvent($jwt, $index, $mandatoryHeaderParameters)
             );

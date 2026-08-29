@@ -6,6 +6,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
 use Jose\Bundle\JoseFramework\Services\JWSBuilderFactory;
 use Jose\Component\Signature\JWSBuilder as JWSBuilderService;
+use Jose\Component\Signature\JWSBuilderInterface;
 use Override;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -36,6 +37,7 @@ final readonly class JWSBuilder extends AbstractSignatureSource
             }
             $container->setDefinition($service_id, $definition);
             $container->registerAliasForArgument($service_id, JWSBuilderService::class, $name . 'JwsBuilder');
+            $container->registerAliasForArgument($service_id, JWSBuilderInterface::class, $name . 'JwsBuilder');
         }
     }
 }

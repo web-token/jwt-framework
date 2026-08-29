@@ -7,6 +7,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManager;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
+use Jose\Component\Checker\ClaimCheckerManagerInterface;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,6 +41,11 @@ final readonly class ClaimChecker implements Source
             $container->registerAliasForArgument(
                 $service_id,
                 ClaimCheckerManager::class,
+                $name . 'ClaimCheckerManager'
+            );
+            $container->registerAliasForArgument(
+                $service_id,
+                ClaimCheckerManagerInterface::class,
                 $name . 'ClaimCheckerManager'
             );
         }
