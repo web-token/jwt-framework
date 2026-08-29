@@ -13,8 +13,13 @@ use function assert;
 use function is_array;
 use function is_string;
 
-class X5UFactory extends UrlKeySetFactory
+/**
+ * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
+ */
+class X5UFactory
 {
+    use UrlKeySetFactoryTrait;
+
     /**
      * This method will try to fetch the url a retrieve the key set. Throws an exception in case of failure.
      *

@@ -70,6 +70,7 @@
         "roave/security-advisories": "dev-latest",
         "spomky-labs/aes-key-wrap": "^7.0|^8.0",
         "symfony/browser-kit": "^7.0|^8.0",
+        "symfony/cache": "^7.0|^8.0",
         "symfony/clock": "^7.0|^8.0",
         "symfony/finder": "^7.0|^8.0",
         "symfony/framework-bundle": "^7.0|^8.0",
