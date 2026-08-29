@@ -21,7 +21,7 @@ final class RSA15ImplicitRejectionTest extends TestCase
     #[Test]
     public function validRoundTripStillWorks(): void
     {
-        $jwk = JWKFactory::createRSAKey(2048, [
+        $jwk = (new JWKFactory())->rsa(2048, [
             'alg' => 'RSA1_5',
             'use' => 'enc',
         ]);
@@ -42,7 +42,7 @@ final class RSA15ImplicitRejectionTest extends TestCase
     #[Test]
     public function malformedCiphertextDoesNotThrowAndReturnsExpectedLength(): void
     {
-        $jwk = JWKFactory::createRSAKey(2048, [
+        $jwk = (new JWKFactory())->rsa(2048, [
             'alg' => 'RSA1_5',
             'use' => 'enc',
         ]);
@@ -63,7 +63,7 @@ final class RSA15ImplicitRejectionTest extends TestCase
     #[Test]
     public function implicitRejectionRespectsEncCekLength(): void
     {
-        $jwk = JWKFactory::createRSAKey(2048, [
+        $jwk = (new JWKFactory())->rsa(2048, [
             'alg' => 'RSA1_5',
             'use' => 'enc',
         ]);
@@ -91,7 +91,7 @@ final class RSA15ImplicitRejectionTest extends TestCase
     #[Test]
     public function legacyDirectDecryptStillThrowsOnGarbage(): void
     {
-        $jwk = JWKFactory::createRSAKey(2048, [
+        $jwk = (new JWKFactory())->rsa(2048, [
             'alg' => 'RSA1_5',
             'use' => 'enc',
         ]);

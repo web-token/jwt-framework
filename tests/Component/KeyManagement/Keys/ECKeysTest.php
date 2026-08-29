@@ -262,7 +262,7 @@ PEM);
     #[Test]
     public function createECKeyOnP256(): void
     {
-        $jwk = JWKFactory::createECKey('P-256');
+        $jwk = (new JWKFactory())->ec('P-256');
 
         static::assertSame('EC', $jwk->get('kty'));
         static::assertTrue($jwk->has('d'));
@@ -273,7 +273,7 @@ PEM);
     #[Test]
     public function createECKeyOnP384(): void
     {
-        $jwk = JWKFactory::createECKey('P-384');
+        $jwk = (new JWKFactory())->ec('P-384');
 
         static::assertSame('EC', $jwk->get('kty'));
         static::assertTrue($jwk->has('d'));
@@ -284,7 +284,7 @@ PEM);
     #[Test]
     public function createECKeyOnP521(): void
     {
-        $jwk = JWKFactory::createECKey('P-521');
+        $jwk = (new JWKFactory())->ec('P-521');
 
         static::assertSame('EC', $jwk->get('kty'));
         static::assertTrue($jwk->has('d'));

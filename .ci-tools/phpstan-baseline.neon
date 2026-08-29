@@ -4332,8 +4332,6 @@ parameters:
 			count: 1
 			path: ../src/Library/Checker/HeaderCheckerManager.php
 
-
-
 		-
 			rawMessage: 'Method Jose\Component\Checker\HeaderCheckerManager::checkHeaders() has parameter $header with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
@@ -4371,28 +4369,10 @@ parameters:
 			path: ../src/Library/Checker/IssuerChecker.php
 
 		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createECKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/EcKeyGeneratorCommand.php
-
-		-
 			rawMessage: Cannot cast mixed to int.
 			identifier: cast.int
 			count: 1
 			path: ../src/Library/Console/EcKeysetGeneratorCommand.php
-
-		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createECKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/EcKeysetGeneratorCommand.php
-
-		-
-			rawMessage: 'Method Jose\Component\Console\GeneratorCommand::getOptions() return type has no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Console/GeneratorCommand.php
 
 		-
 			rawMessage: 'Parameter #1 $jwk of method Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager::analyze() expects Jose\Component\Core\JWK, mixed given.'
@@ -4407,20 +4387,8 @@ parameters:
 			path: ../src/Library/Console/KeysetAnalyzerCommand.php
 
 		-
-			rawMessage: 'Parameter #1 $values of static method Jose\Component\KeyManagement\JWKFactory::createNoneKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/NoneKeyGeneratorCommand.php
-
-		-
 			rawMessage: Cannot cast mixed to int.
 			identifier: cast.int
-			count: 1
-			path: ../src/Library/Console/OctKeyGeneratorCommand.php
-
-		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createOctKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
 			count: 1
 			path: ../src/Library/Console/OctKeyGeneratorCommand.php
 
@@ -4431,38 +4399,14 @@ parameters:
 			path: ../src/Library/Console/OctKeysetGeneratorCommand.php
 
 		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createOctKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/OctKeysetGeneratorCommand.php
-
-		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createOKPKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/OkpKeyGeneratorCommand.php
-
-		-
 			rawMessage: Cannot cast mixed to int.
 			identifier: cast.int
 			count: 1
 			path: ../src/Library/Console/OkpKeysetGeneratorCommand.php
 
 		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createOKPKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/OkpKeysetGeneratorCommand.php
-
-		-
 			rawMessage: Cannot cast mixed to int.
 			identifier: cast.int
-			count: 1
-			path: ../src/Library/Console/RsaKeyGeneratorCommand.php
-
-		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createRSAKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
 			count: 1
 			path: ../src/Library/Console/RsaKeyGeneratorCommand.php
 
@@ -4471,15 +4415,6 @@ parameters:
 			identifier: cast.int
 			count: 2
 			path: ../src/Library/Console/RsaKeysetGeneratorCommand.php
-
-		-
-			rawMessage: 'Parameter #2 $values of static method Jose\Component\KeyManagement\JWKFactory::createRSAKey() expects array<string, mixed>, array given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Console/RsaKeysetGeneratorCommand.php
-
-
-
 
 		-
 			rawMessage: 'Method Jose\Component\Core\JWK::__construct() has parameter $values with no value type specified in iterable type array.'
@@ -4805,8 +4740,6 @@ parameters:
 			count: 1
 			path: ../src/Library/Encryption/JWEDecrypter.php
 
-
-
 		-
 			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypter::decryptCEK() has parameter $completeHeader with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
@@ -5084,73 +5017,7 @@ parameters:
 			path: ../src/Library/KeyManagement/Analyzer/ZxcvbnKeyAnalyzer.php
 
 		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromCertificate() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromCertificateFile() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromKey() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromKeyFile() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromPKCS12CertificateFile() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromSecret() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromValues() has parameter $values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromX509Resource() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromX5C() has parameter $additional_values with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Method Jose\Component\KeyManagement\JWKFactory::createFromX5C() has parameter $x5c with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
 			rawMessage: 'Parameter #1 $details of static method Jose\Component\KeyManagement\KeyConverter\RSAKey::createFromKeyDetails() expects array<mixed>, mixed given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
-			rawMessage: 'Parameter #1 $key of static method Jose\Component\KeyManagement\JWKFactory::createFromKey() expects string, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/KeyManagement/JWKFactory.php

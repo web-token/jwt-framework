@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jose\Component\Console;
 
-use Jose\Component\KeyManagement\JWKFactory;
 use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +20,7 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
     {
         $args = $this->getOptions($input);
 
-        $jwk = JWKFactory::createNoneKey($args);
+        $jwk = $this->jwkFactory->none($args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

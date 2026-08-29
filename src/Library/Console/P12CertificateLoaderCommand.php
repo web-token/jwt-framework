@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
-use Jose\Component\KeyManagement\JWKFactory;
 use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -37,7 +36,7 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
             throw new InvalidArgumentException('Invalid secret');
         }
         $args = $this->getOptions($input);
-        $jwk = JWKFactory::createFromPKCS12CertificateFile($file, $password, $args);
+        $jwk = $this->jwkFactory->fromPKCS12CertificateFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

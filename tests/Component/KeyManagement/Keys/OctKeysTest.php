@@ -20,13 +20,13 @@ final class OctKeysTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid key size.');
 
-        JWKFactory::createOctKey(12);
+        (new JWKFactory())->oct(12);
     }
 
     #[Test]
     public function createOctKey(): void
     {
-        $jwk = JWKFactory::createOctKey(64);
+        $jwk = (new JWKFactory())->oct(64);
 
         static::assertSame('oct', $jwk->get('kty'));
         static::assertTrue($jwk->has('k'));

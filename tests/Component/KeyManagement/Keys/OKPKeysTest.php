@@ -20,13 +20,13 @@ final class OKPKeysTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported "Ed455" curve');
 
-        JWKFactory::createOKPKey('Ed455');
+        (new JWKFactory())->okp('Ed455');
     }
 
     #[Test]
     public function createOKPKeyWithCurveX25519(): void
     {
-        $jwk = JWKFactory::createOKPKey('X25519', [
+        $jwk = (new JWKFactory())->okp('X25519', [
             'kid' => 'KEY',
             'alg' => 'ECDH-ES',
             'use' => 'enc',
@@ -43,7 +43,7 @@ final class OKPKeysTest extends TestCase
     #[Test]
     public function createOKPKeyWithCurveEd25519(): void
     {
-        $jwk = JWKFactory::createOKPKey('Ed25519', [
+        $jwk = (new JWKFactory())->okp('Ed25519', [
             'kid' => 'KEY',
             'alg' => 'EdDSA',
             'use' => 'sig',

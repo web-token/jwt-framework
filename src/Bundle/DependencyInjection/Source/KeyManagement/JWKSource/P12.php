@@ -6,7 +6,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWK
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
 use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\KeyManagement\JWKFactoryInterface;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +22,7 @@ final readonly class P12 extends AbstractSource implements JWKSource
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWK::class);
-        $definition->setFactory([new Reference(JWKFactory::class), 'createFromPKCS12CertificateFile']);
+        $definition->setFactory([new Reference(JWKFactoryInterface::class), 'fromPKCS12CertificateFile']);
         $definition->setArguments([$config['path'], $config['password'], $config['additional_values']]);
         $definition->addTag('jose.jwk');
 

@@ -7,6 +7,7 @@ namespace Jose\Component\Console;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\KeyManagement\JWKFactoryInterface;
 use Override;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -14,6 +15,19 @@ use function is_bool;
 
 abstract class GeneratorCommand extends ObjectOutputCommand
 {
+    protected readonly JWKFactoryInterface $jwkFactory;
+
+    /**
+     * The key factory is the second argument, and not the first as in the other commands of the library, so that the
+     * name inherited from the Symfony command stays where it was: "new EcKeyGeneratorCommand('my:command')" keeps
+     * working.
+     */
+    public function __construct(?string $name = null, ?JWKFactoryInterface $jwkFactory = null)
+    {
+        parent::__construct($name);
+        $this->jwkFactory = $jwkFactory ?? new JWKFactory();
+    }
+
     #[Override]
     public function isEnabled(): bool
     {
@@ -35,6 +49,9 @@ abstract class GeneratorCommand extends ObjectOutputCommand
             );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getOptions(InputInterface $input): array
     {
         $args = [];

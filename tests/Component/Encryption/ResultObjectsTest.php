@@ -217,7 +217,7 @@ final class ResultObjectsTest extends EncryptionTestCase
     private function getKey(): JWK
     {
         if ($this->key === null) {
-            $this->key = JWKFactory::createOctKey(256, [
+            $this->key = (new JWKFactory())->oct(256, [
                 'alg' => 'A256KW',
                 'use' => 'enc',
             ]);
@@ -229,7 +229,7 @@ final class ResultObjectsTest extends EncryptionTestCase
     private function getWrongKey(): JWK
     {
         if ($this->wrongKey === null) {
-            $this->wrongKey = JWKFactory::createOctKey(256, [
+            $this->wrongKey = (new JWKFactory())->oct(256, [
                 'alg' => 'A256KW',
                 'use' => 'enc',
             ]);

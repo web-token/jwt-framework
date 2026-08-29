@@ -6,7 +6,7 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\JWK
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\AbstractSource;
 use Jose\Component\Core\JWKSet as JWKSetAlias;
-use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\KeyManagement\JWKFactoryInterface;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +22,7 @@ final readonly class JWKSet extends AbstractSource implements JWKSetSource
     public function createDefinition(ContainerBuilder $container, array $config): Definition
     {
         $definition = new Definition(JWKSetAlias::class);
-        $definition->setFactory([new Reference(JWKFactory::class), 'createFromJsonObject']);
+        $definition->setFactory([new Reference(JWKFactoryInterface::class), 'fromJsonObject']);
         $definition->setArguments([$config['value']]);
         $definition->addTag('jose.jwkset');
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jose\Component\Console;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
-use Jose\Component\KeyManagement\JWKFactory;
 use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -38,7 +37,7 @@ final class X509CertificateLoaderCommand extends GeneratorCommand
             }
         }
 
-        $jwk = JWKFactory::createFromCertificateFile($file, $args);
+        $jwk = $this->jwkFactory->fromCertificateFile($file, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;
