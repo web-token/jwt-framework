@@ -8,6 +8,7 @@ use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\InheritanceChecker;
 use JsonSerializable;
 use Override;
 use function array_key_exists;
@@ -28,6 +29,8 @@ use const JSON_UNESCAPED_UNICODE;
  * is absent. The class will be final and readonly in 5.0.0, where the parameters are validated against the key type
  * at construction time.
  *
+ * @final The class will be final and readonly in 5.0.0: build it with its constructor instead of extending it.
+ *
  * @see \Jose\Tests\Component\Core\JWKTest
  */
 class JWK implements JsonSerializable
@@ -39,6 +42,7 @@ class JWK implements JsonSerializable
      */
     public function __construct(array $values)
     {
+        InheritanceChecker::warnIfValueObjectExtended(static::class, self::class);
         if (! isset($values['kty'])) {
             throw new InvalidKeyException('The parameter "kty" is mandatory.');
         }

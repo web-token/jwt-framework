@@ -6,6 +6,7 @@ namespace Jose\Component\Signature;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidHeaderParameterException;
+use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
 use function sprintf;
 use function trigger_deprecation;
@@ -18,6 +19,8 @@ use function trigger_deprecation;
  * header therefore has no protected header at all, and the decoded one given to the constructor is discarded rather
  * than exposed, so that getProtectedHeader() never advertises parameters no signature protects. The class will be
  * final and readonly in 5.0.0, where the two arguments must agree.
+ *
+ * @final The class will be final and readonly in 5.0.0: build it with its constructor instead of extending it.
  */
 class Signature
 {
@@ -42,6 +45,7 @@ class Signature
         ?string $encodedProtectedHeader,
         private readonly array $header
     ) {
+        InheritanceChecker::warnIfValueObjectExtended(static::class, self::class);
         if ($encodedProtectedHeader === null && $protectedHeader !== []) {
             trigger_deprecation(
                 'web-token/jwt-framework',

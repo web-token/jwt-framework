@@ -10,6 +10,7 @@ use IteratorAggregate;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\InvalidKeySetException;
+use Jose\Component\Core\Util\InheritanceChecker;
 use JsonSerializable;
 use Traversable;
 use function array_key_exists;
@@ -28,6 +29,8 @@ use const JSON_THROW_ON_ERROR;
  *
  * Keys carrying a "kid" are indexed by it, so that get() and has() accept either a position or a "kid". The class will
  * be final and readonly in 5.0.0.
+ *
+ * @final The class will be final and readonly in 5.0.0: build it with its constructor instead of extending it.
  */
 class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 {
@@ -38,6 +41,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     public function __construct(array $keys)
     {
+        InheritanceChecker::warnIfValueObjectExtended(static::class, self::class);
         foreach ($keys as $key) {
             if (! $key instanceof JWK) {
                 throw new InvalidKeySetException('Invalid list. Should only contains JWK objects');

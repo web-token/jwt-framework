@@ -7,6 +7,7 @@ namespace Jose\Component\Encryption;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use Jose\Component\Core\JWT;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\InternalCallChecker;
 use Override;
 use function array_key_exists;
@@ -21,6 +22,8 @@ use function sprintf;
  * must be treated as such, since the payload it exposes is the one the decrypter authenticated against the
  * ciphertext, the tag and the additional authenticated data. The class will be final and readonly in 5.0.0, where
  * the decrypted payload is given to the constructor.
+ *
+ * @final The class will be final and readonly in 5.0.0: build it with its constructor instead of extending it.
  */
 class JWE implements JWT
 {
@@ -36,6 +39,7 @@ class JWE implements JWT
         private readonly ?string $encodedSharedProtectedHeader = null,
         private readonly array $recipients = []
     ) {
+        InheritanceChecker::warnIfValueObjectExtended(static::class, self::class);
     }
 
     #[Override]

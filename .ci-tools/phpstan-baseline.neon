@@ -4705,6 +4705,12 @@ parameters:
 			path: ../src/Library/Encryption/JWE.php
 
 		-
+			rawMessage: 'Method Jose\Component\Encryption\JWE::getIV() never returns null so it can be removed from the return type.'
+			identifier: return.unusedType
+			count: 1
+			path: ../src/Library/Encryption/JWE.php
+
+		-
 			rawMessage: 'Method Jose\Component\Encryption\JWE::getRecipient() should return Jose\Component\Encryption\Recipient but returns mixed.'
 			identifier: return.type
 			count: 1
@@ -4725,6 +4731,12 @@ parameters:
 		-
 			rawMessage: 'Method Jose\Component\Encryption\JWE::getSharedProtectedHeader() return type has no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Library/Encryption/JWE.php
+
+		-
+			rawMessage: 'Method Jose\Component\Encryption\JWE::getTag() never returns null so it can be removed from the return type.'
+			identifier: return.unusedType
 			count: 1
 			path: ../src/Library/Encryption/JWE.php
 
