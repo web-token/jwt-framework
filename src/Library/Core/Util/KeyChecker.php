@@ -8,7 +8,6 @@ use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use function in_array;
 use function is_array;
-use function is_string;
 use function sprintf;
 
 /**
@@ -28,12 +27,9 @@ final readonly class KeyChecker
 
     public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
     {
-        if (! $key->has('alg')) {
+        $alg = $key->alg();
+        if ($alg === null) {
             return;
-        }
-        $alg = $key->get('alg');
-        if (! is_string($alg)) {
-            throw new InvalidKeyException('Invalid algorithm.');
         }
         if ($alg !== $algorithm) {
             throw new InvalidKeyException(sprintf('Key is only allowed for algorithm "%s".', $alg));
@@ -91,7 +87,7 @@ final readonly class KeyChecker
 
     private static function checkUsage(JWK $key, string $usage): void
     {
-        $use = $key->get('use');
+        $use = $key->use();
 
         switch ($usage) {
             case 'verification':

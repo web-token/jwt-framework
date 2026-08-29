@@ -4548,18 +4548,6 @@ parameters:
 			path: ../src/Library/Core/JWKSet.php
 
 		-
-			rawMessage: 'Method Jose\Component\Core\JWKSet::sortKeys() has parameter $a with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Core/JWKSet.php
-
-		-
-			rawMessage: 'Method Jose\Component\Core\JWKSet::sortKeys() has parameter $b with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Core/JWKSet.php
-
-		-
 			rawMessage: 'Only numeric types are allowed in +, int|true given on the right side.'
 			identifier: plus.rightNonNumeric
 			count: 2
