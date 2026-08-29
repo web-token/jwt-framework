@@ -19,9 +19,16 @@ use function is_array;
 use function is_int;
 use function is_string;
 use function sprintf;
+use function trigger_deprecation;
 use const COUNT_NORMAL;
 use const JSON_THROW_ON_ERROR;
 
+/**
+ * A set of JSON Web Keys.
+ *
+ * Keys carrying a "kid" are indexed by it, so that get() and has() accept either a position or a "kid". The class will
+ * be final and readonly in 5.0.0.
+ */
 class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 {
     private array $keys = [];
@@ -160,6 +167,10 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     /**
      * Try to find a key that fits on the selected requirements. Returns null if not found.
      *
+     * A key that does not fit is skipped, never rejected: a key set is often built from a remote source and a single
+     * key carrying a malformed "kty", "alg" or "use" must not make the whole selection fail. This is why the selection
+     * reads those parameters with find() and compares them, instead of asserting their type with the typed accessors.
+     *
      * @param string $type Must be 'sig' (signature) or 'enc' (encryption)
      * @param Algorithm|null $algorithm Specifies the algorithm to be used
      * @param array<string, mixed> $restrictions More restrictions such as 'kid' or 'kty'
@@ -200,25 +211,37 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
             return null;
         }
 
-        usort($result, [$this, 'sortKeys']);
+        usort($result, static fn (array $a, array $b): int => $b['ind'] <=> $a['ind']);
 
         return $result[0]['key'];
     }
 
     /**
-     * Internal method only. Should not be used.
+     * Compares two candidates of selectKey() by the score they were given.
      *
-     * @internal
+     * The method was only public because the comparison used to be passed to usort() as a callable; it is a closure
+     * now and nothing in the library calls this method any more.
+     *
+     * @param array{key: JWK, ind: int} $a
+     * @param array{key: JWK, ind: int} $b
+     *
+     * @deprecated since 4.3.0 and will be removed in 5.0.0. The method is an implementation detail of selectKey().
      */
     public static function sortKeys(array $a, array $b): int
     {
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::sortKeys()" is deprecated and will be removed in 5.0.0. It is an implementation detail of "selectKey()".',
+            self::class
+        );
+
         return $b['ind'] <=> $a['ind'];
     }
 
     /**
-     * Internal method only. Should not be used.
-     *
-     * @internal
+     * Returns an iterator over the keys of the key set, as required by the IteratorAggregate contract: iterating over
+     * a key set with "foreach" is supported.
      */
     public function getIterator(): Traversable
     {
@@ -232,13 +255,11 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
      */
     private function add(JWK $jwk): void
     {
-        if ($jwk->has('kid')) {
-            $kid = $jwk->get('kid');
-            if ((is_string($kid) || is_int($kid)) && ! array_key_exists($kid, $this->keys)) {
-                $this->keys[$kid] = $jwk;
+        $kid = $jwk->find('kid');
+        if ((is_string($kid) || is_int($kid)) && ! array_key_exists($kid, $this->keys)) {
+            $this->keys[$kid] = $jwk;
 
-                return;
-            }
+            return;
         }
 
         $this->keys[] = $jwk;
@@ -258,7 +279,7 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
             return null;
         }
         foreach ($this->all() as $key => $jwk) {
-            if ($jwk->has('kid') && $jwk->get('kid') === $index) {
+            if ($jwk->find('kid') === $index) {
                 return $key;
             }
         }
@@ -268,8 +289,9 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
 
     private function canKeyBeUsedFor(string $type, JWK $key): bool|int
     {
-        if ($key->has('use')) {
-            return $type === $key->get('use') ? 1 : false;
+        $use = $key->find('use');
+        if ($use !== null) {
+            return $type === $use ? 1 : false;
         }
         if ($key->has('key_ops')) {
             $key_ops = $key->get('key_ops');
@@ -290,11 +312,12 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
         if ($algorithm === null) {
             return 0;
         }
-        if (! in_array($key->get('kty'), $algorithm->allowedKeyTypes(), true)) {
+        if (! in_array($key->find('kty'), $algorithm->allowedKeyTypes(), true)) {
             return false;
         }
-        if ($key->has('alg')) {
-            return $algorithm->name() === $key->get('alg') ? 2 : false;
+        $alg = $key->find('alg');
+        if ($alg !== null) {
+            return $algorithm->name() === $alg ? 2 : false;
         }
 
         return 1;

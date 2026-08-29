@@ -304,8 +304,8 @@ class JWSBuilder implements JWSBuilderInterface
         if (! is_string($alg)) {
             throw new InvalidHeaderParameterException('No "alg" parameter set in the header.');
         }
-        $keyAlg = $key->has('alg') ? $key->get('alg') : null;
-        if (is_string($keyAlg) && $keyAlg !== $alg) {
+        $keyAlg = $key->alg();
+        if ($keyAlg !== null && $keyAlg !== $alg) {
             throw new InvalidKeyException(sprintf('The algorithm "%s" is not allowed with this key.', $alg));
         }
 
