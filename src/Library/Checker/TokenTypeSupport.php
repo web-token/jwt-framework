@@ -23,6 +23,11 @@ interface TokenTypeSupport
      *
      * @param array<string, mixed> $protectedHeader
      * @param array<string, mixed> $unprotectedHeader
+     *
+     * BC NOTE: in 5.0, this method will return a "TokenHeaders" object - the protected and the unprotected header of
+     * the token - and the two "array &$header" output parameters will be removed. The change cannot be made now
+     * without breaking every implementation of this interface. Implementations are encouraged to prepare for it: the
+     * object is already available as Jose\Component\Checker\TokenHeaders.
      */
     public function retrieveTokenHeaders(
         JWT $jwt,
