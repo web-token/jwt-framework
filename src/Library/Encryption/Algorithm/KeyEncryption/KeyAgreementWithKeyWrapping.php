@@ -17,6 +17,12 @@ interface KeyAgreementWithKeyWrapping extends KeyEncryptionAlgorithm
      * @param int $encryption_key_length Size of the key expected for the algorithm used for data encryption
      * @param array<string, mixed> $complete_header The complete header of the JWT
      * @param array<string, mixed> $additional_header_values Set additional header values if needed
+     *
+     * BC NOTE: in 5.0, this method will return a "WrappedKey" object - the wrapped agreement key and the header
+     * parameters to add to the token - and the "array &$additional_header_values" output parameter will be removed.
+     * The change cannot be made now without breaking every implementation of this interface. Implementations are
+     * encouraged to prepare for it: the object is already available as
+     * Jose\Component\Encryption\Algorithm\KeyEncryption\WrappedKey.
      */
     public function wrapAgreementKey(
         JWK $recipientKey,

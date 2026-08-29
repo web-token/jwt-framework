@@ -6,6 +6,7 @@ namespace Jose\Component\Signature;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\JWT;
+use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\InternalCallChecker;
 use Jose\Component\Signature\Serializer\JWSSerializer;
 use Override;
@@ -19,6 +20,8 @@ use function count;
  * treated as such: a token returned by a loader carries signatures that have been verified against its payload, and
  * nothing else is allowed to append to that list. The class will be final and readonly in 5.0.0, where the
  * signatures are given to the constructor.
+ *
+ * @final The class will be final and readonly in 5.0.0: build it with its constructor instead of extending it.
  *
  * @see \Jose\Tests\Component\Signature\JWSTest
  */
@@ -34,6 +37,7 @@ class JWS implements JWT
         private readonly ?string $encodedPayload = null,
         private readonly bool $isPayloadDetached = false
     ) {
+        InheritanceChecker::warnIfValueObjectExtended(static::class, self::class);
     }
 
     #[Override]
