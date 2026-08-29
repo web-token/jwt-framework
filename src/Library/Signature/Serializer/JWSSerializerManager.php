@@ -10,21 +10,27 @@ use Jose\Component\Core\Exception\UnsupportedSerializerException;
 use Jose\Component\Signature\JWS;
 use function sprintf;
 
-final class JWSSerializerManager
+/**
+ * The set of serializers is fixed at construction time: a manager shared as a service cannot be silently extended by
+ * one of its consumers.
+ */
+final readonly class JWSSerializerManager
 {
     /**
      * @var JWSSerializer[]
      */
-    private array $serializers = [];
+    private array $serializers;
 
     /**
      * @param JWSSerializer[] $serializers
      */
     public function __construct(iterable $serializers)
     {
+        $indexedSerializers = [];
         foreach ($serializers as $serializer) {
-            $this->add($serializer);
+            $indexedSerializers[$serializer->name()] = $serializer;
         }
+        $this->serializers = $indexedSerializers;
     }
 
     /**
@@ -73,10 +79,5 @@ final class JWSSerializerManager
         }
 
         throw new InvalidSerializationException('Unsupported input.', 0, $lastError);
-    }
-
-    private function add(JWSSerializer $serializer): void
-    {
-        $this->serializers[$serializer->name()] = $serializer;
     }
 }

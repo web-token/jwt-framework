@@ -20,6 +20,9 @@ use function sprintf;
  * It allows to add header parameter checkers and token type supports.
  * The factory is responsible to create a Header Checker Manager with the header parameter checkers found based
  *
+ * The checkers and the token type supports are fixed at construction time: a manager expresses a policy that no
+ * consumer is allowed to widen afterwards.
+ *
  * @final The class will be final in 5.0.0: implement HeaderCheckerManagerInterface and decorate the service instead
  * of extending it.
  */
@@ -28,12 +31,12 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
     /**
      * @var array<string, HeaderChecker>
      */
-    private array $checkers = [];
+    private readonly array $checkers;
 
     /**
      * @var TokenTypeSupport[]
      */
-    private array $tokenTypes = [];
+    private readonly array $tokenTypes;
 
     /**
      * @param HeaderChecker[] $checkers
@@ -42,12 +45,17 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
     public function __construct(iterable $checkers, iterable $tokenTypes)
     {
         InheritanceChecker::warnIfExtended(static::class, self::class, HeaderCheckerManagerInterface::class);
+        $indexedCheckers = [];
         foreach ($checkers as $checker) {
-            $this->add($checker);
+            $indexedCheckers[$checker->supportedHeader()] = $checker;
         }
+        $this->checkers = $indexedCheckers;
+
+        $supportedTokenTypes = [];
         foreach ($tokenTypes as $tokenType) {
-            $this->addTokenTypeSupport($tokenType);
+            $supportedTokenTypes[] = $tokenType;
         }
+        $this->tokenTypes = $supportedTokenTypes;
     }
 
     /**
@@ -82,17 +90,6 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
         }
 
         throw new InvalidArgumentException('Unsupported token type.');
-    }
-
-    private function addTokenTypeSupport(TokenTypeSupport $tokenType): void
-    {
-        $this->tokenTypes[] = $tokenType;
-    }
-
-    private function add(HeaderChecker $checker): void
-    {
-        $header = $checker->supportedHeader();
-        $this->checkers[$header] = $checker;
     }
 
     private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
