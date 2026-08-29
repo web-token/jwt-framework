@@ -42,7 +42,9 @@
         "brick/math": "^0.12|^0.13|^0.14|^0.15|^0.16|^0.17|^0.18|^0.19",
         "psr/clock": "^1.0",
         "spomky-labs/pki-framework": "^1.2.1",
-        "symfony/deprecation-contracts": "^2.5|^3.0"
+        "symfony/deprecation-contracts": "^2.5|^3.0",
+        "web-token/jwt-rsa15": "^4.3",
+        "web-token/jwt-unsecured": "^4.3"
     },
     "conflict": {
         "spomky-labs/jose": "*"

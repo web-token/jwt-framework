@@ -8,11 +8,11 @@ use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Rsa15\KeyEncryption\RSA15;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function mb_strlen;
@@ -54,7 +54,7 @@ final class RSA15ExpectedCekSizeTest extends TestCase
         static::assertSame($cek, $decrypted);
         static::assertCount(1, $deprecations);
         static::assertStringContainsString(
-            'Calling "Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15::decryptKey()" without the size of the key expected by the content encryption algorithm as fourth argument is deprecated.',
+            'Calling "Jose\Rsa15\KeyEncryption\RSA15::decryptKey()" without the size of the key expected by the content encryption algorithm as fourth argument is deprecated.',
             $deprecations[0]
         );
     }

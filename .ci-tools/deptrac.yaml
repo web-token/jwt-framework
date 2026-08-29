@@ -8,6 +8,12 @@ parameters:
     - name: 'Experimental'
       collectors:
         - { type: classLike, value: '^Jose\\Experimental\\' }
+    - name: 'Unsecured'
+      collectors:
+        - { type: classLike, value: '^Jose\\Unsecured\\' }
+    - name: 'Rsa15'
+      collectors:
+        - { type: classLike, value: '^Jose\\Rsa15\\' }
     - name: 'Bundle'
       collectors:
         - { type: classLike, value: '^Jose\\Bundle\\' }
@@ -24,11 +30,21 @@ parameters:
         - { type: classLike, value: '^Psr\\' }
   ruleset:
     Library:
+      - 'Rsa15'
+      - 'Unsecured'
       - 'Vendors'
     Experimental:
+      - 'Library'
+      - 'Vendors'
+    Unsecured:
+      - 'Library'
+      - 'Vendors'
+    Rsa15:
       - 'Library'
       - 'Vendors'
     Bundle:
       - 'Library'
       - 'Experimental'
+      - 'Rsa15'
+      - 'Unsecured'
       - 'Vendors'

@@ -4,43 +4,23 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use Jose\Component\Core\Exception\InvalidKeyException;
-use Jose\Component\Core\JWK;
-use Override;
-use function in_array;
+use Jose\Unsecured\Signature\None as DeprecatedNone;
+use function trigger_deprecation;
 
-final readonly class None implements SignatureAlgorithm
+/**
+ * @deprecated since 4.3.0, will be removed in 5.0.0. The "none" algorithm moved to the "web-token/jwt-unsecured"
+ *             package: use Jose\Unsecured\Signature\None instead.
+ */
+final readonly class None extends DeprecatedNone
 {
-    #[Override]
-    public function allowedKeyTypes(): array
+    public function __construct()
     {
-        return ['none'];
-    }
-
-    #[Override]
-    public function sign(JWK $key, string $input): string
-    {
-        $this->checkKey($key);
-
-        return '';
-    }
-
-    #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
-    {
-        return $signature === '';
-    }
-
-    #[Override]
-    public function name(): string
-    {
-        return 'none';
-    }
-
-    private function checkKey(JWK $key): void
-    {
-        if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidKeyException('Wrong key type.');
-        }
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The class "%s" is deprecated and will be removed in 5.0.0. The "none" algorithm is now shipped by the "web-token/jwt-unsecured" package: require it and use "%s" instead.',
+            self::class,
+            DeprecatedNone::class
+        );
     }
 }

@@ -35,6 +35,8 @@
     "autoload": {
         "psr-4": {
             "Jose\\Bundle\\JoseFramework\\": "src/Bundle/",
+            "Jose\\Rsa15\\": "src/Rsa15/",
+            "Jose\\Unsecured\\": "src/Unsecured/",
             "Jose\\Experimental\\": "src/Experimental/",
             "Jose\\Component\\": "src/Library/"
         }
@@ -82,6 +84,8 @@
     "replace": {
         "web-token/jwt-bundle": "self.version",
         "web-token/jwt-library": "self.version",
+        "web-token/jwt-rsa15": "self.version",
+        "web-token/jwt-unsecured": "self.version",
         "web-token/jwt-experimental": "self.version"
     },
     "suggest": {

@@ -13,7 +13,6 @@ use Jose\Component\Signature\Algorithm\ES512;
 use Jose\Component\Signature\Algorithm\HS256;
 use Jose\Component\Signature\Algorithm\HS384;
 use Jose\Component\Signature\Algorithm\HS512;
-use Jose\Component\Signature\Algorithm\None;
 use Jose\Component\Signature\Algorithm\PS256;
 use Jose\Component\Signature\Algorithm\PS384;
 use Jose\Component\Signature\Algorithm\PS512;
@@ -27,6 +26,7 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use Jose\Unsecured\Signature\None;
 use PhpBench\Benchmark\Metadata\Annotations\Revs;
 
 /**

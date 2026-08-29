@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Jose\Component\Signature\Algorithm\None;
+use Jose\Unsecured\Signature\None;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
