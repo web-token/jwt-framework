@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\Checker;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
-use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use Jose\Component\Core\JWT;
+use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
 use function count;
@@ -81,7 +81,7 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
                 $protected = [];
                 $unprotected = [];
                 $tokenType->retrieveTokenHeaders($jwt, $index, $protected, $unprotected);
-                $this->checkDuplicatedHeaderParameters($protected, $unprotected);
+                HeaderParameterChecker::checkDuplicates($protected, $unprotected);
                 $this->checkMandatoryHeaderParameters($mandatoryHeaderParameters, $protected, $unprotected);
                 $this->checkHeaders($protected, $unprotected);
 
@@ -90,17 +90,6 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
         }
 
         throw new InvalidArgumentException('Unsupported token type.');
-    }
-
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
-    {
-        $inter = array_intersect_key($header1, $header2);
-        if (count($inter) !== 0) {
-            throw new InvalidHeaderParameterException(sprintf(
-                'The header contains duplicated entries: %s.',
-                implode(', ', array_keys($inter))
-            ));
-        }
     }
 
     /**

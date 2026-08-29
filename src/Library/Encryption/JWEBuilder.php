@@ -13,6 +13,7 @@ use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
@@ -23,6 +24,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrappin
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
+use Jose\Component\Encryption\Util\EncryptionAlgorithmManagers;
 use function array_key_exists;
 use function count;
 use function intdiv;
@@ -73,18 +75,9 @@ class JWEBuilder implements JWEBuilderInterface
     public function __construct(AlgorithmManager $algorithmManager)
     {
         InheritanceChecker::warnIfExtended(static::class, self::class, JWEBuilderInterface::class);
-        $keyEncryptionAlgorithms = [];
-        $contentEncryptionAlgorithms = [];
-        foreach ($algorithmManager->all() as $algorithm) {
-            if ($algorithm instanceof KeyEncryptionAlgorithm) {
-                $keyEncryptionAlgorithms[] = $algorithm;
-            }
-            if ($algorithm instanceof ContentEncryptionAlgorithm) {
-                $contentEncryptionAlgorithms[] = $algorithm;
-            }
-        }
-        $this->keyEncryptionAlgorithmManager = new AlgorithmManager($keyEncryptionAlgorithms);
-        $this->contentEncryptionAlgorithmManager = new AlgorithmManager($contentEncryptionAlgorithms);
+        $managers = EncryptionAlgorithmManagers::split($algorithmManager, static::class);
+        $this->keyEncryptionAlgorithmManager = $managers->keyEncryption;
+        $this->contentEncryptionAlgorithmManager = $managers->contentEncryption;
     }
 
     /**
@@ -321,10 +314,10 @@ class JWEBuilder implements JWEBuilderInterface
      */
     private function checkDuplicatedHeaderParametersOfAllRecipients(): void
     {
-        $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $this->sharedHeader);
+        HeaderParameterChecker::checkDuplicates($this->sharedProtectedHeader, $this->sharedHeader);
         foreach ($this->recipients as $recipient) {
-            $this->checkDuplicatedHeaderParameters($this->sharedProtectedHeader, $recipient->header);
-            $this->checkDuplicatedHeaderParameters($this->sharedHeader, $recipient->header);
+            HeaderParameterChecker::checkDuplicates($this->sharedProtectedHeader, $recipient->header);
+            HeaderParameterChecker::checkDuplicates($this->sharedHeader, $recipient->header);
         }
     }
 
@@ -736,20 +729,5 @@ class JWEBuilder implements JWEBuilderInterface
         }
 
         return $contentEncryptionAlgorithm;
-    }
-
-    /**
-     * @param array<string, mixed> $header1
-     * @param array<string, mixed> $header2
-     */
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
-    {
-        $inter = array_intersect_key($header1, $header2);
-        if (count($inter) !== 0) {
-            throw new InvalidHeaderParameterException(sprintf(
-                'The header contains duplicated entries: %s.',
-                implode(', ', array_keys($inter))
-            ));
-        }
     }
 }

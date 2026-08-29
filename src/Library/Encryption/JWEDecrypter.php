@@ -12,6 +12,7 @@ use Jose\Component\Core\Exception\InvalidKeySetException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
@@ -21,8 +22,8 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrappin
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
+use Jose\Component\Encryption\Util\EncryptionAlgorithmManagers;
 use Throwable;
-use function count;
 use function func_num_args;
 use function is_callable;
 use function is_string;
@@ -42,18 +43,9 @@ class JWEDecrypter implements JWEDecrypterInterface
     public function __construct(AlgorithmManager $algorithmManager)
     {
         InheritanceChecker::warnIfExtended(static::class, self::class, JWEDecrypterInterface::class);
-        $keyEncryptionAlgorithms = [];
-        $contentEncryptionAlgorithms = [];
-        foreach ($algorithmManager->all() as $key => $algorithm) {
-            if ($algorithm instanceof KeyEncryptionAlgorithm) {
-                $keyEncryptionAlgorithms[$key] = $algorithm;
-            }
-            if ($algorithm instanceof ContentEncryptionAlgorithm) {
-                $contentEncryptionAlgorithms[$key] = $algorithm;
-            }
-        }
-        $this->keyEncryptionAlgorithmManager = new AlgorithmManager($keyEncryptionAlgorithms);
-        $this->contentEncryptionAlgorithmManager = new AlgorithmManager($contentEncryptionAlgorithms);
+        $managers = EncryptionAlgorithmManagers::split($algorithmManager, static::class);
+        $this->keyEncryptionAlgorithmManager = $managers->keyEncryption;
+        $this->contentEncryptionAlgorithmManager = $managers->contentEncryption;
     }
 
     /**
@@ -157,9 +149,9 @@ class JWEDecrypter implements JWEDecrypterInterface
         $sharedHeader = $jwe->getSharedHeader();
         $recipientHeader = $recipient->getHeader();
 
-        $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $sharedHeader);
-        $this->checkDuplicatedHeaderParameters($sharedProtectedHeader, $recipientHeader);
-        $this->checkDuplicatedHeaderParameters($sharedHeader, $recipientHeader);
+        HeaderParameterChecker::checkDuplicates($sharedProtectedHeader, $sharedHeader);
+        HeaderParameterChecker::checkDuplicates($sharedProtectedHeader, $recipientHeader);
+        HeaderParameterChecker::checkDuplicates($sharedHeader, $recipientHeader);
 
         $completeHeader = array_merge($sharedHeader, $recipientHeader, $sharedProtectedHeader);
         $this->checkCompleteHeader($completeHeader);
@@ -340,16 +332,5 @@ class JWEDecrypter implements JWEDecrypterInterface
         }
 
         return $content_encryption_algorithm;
-    }
-
-    private function checkDuplicatedHeaderParameters(array $header1, array $header2): void
-    {
-        $inter = array_intersect_key($header1, $header2);
-        if (count($inter) !== 0) {
-            throw new InvalidHeaderParameterException(sprintf(
-                'The header contains duplicated entries: %s.',
-                implode(', ', array_keys($inter))
-            ));
-        }
     }
 }

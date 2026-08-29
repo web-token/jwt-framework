@@ -4404,17 +4404,7 @@ parameters:
 			count: 1
 			path: ../src/Library/Checker/HeaderCheckerManager.php
 
-		-
-			rawMessage: 'Method Jose\Component\Checker\HeaderCheckerManager::checkDuplicatedHeaderParameters() has parameter $header1 with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Checker/HeaderCheckerManager.php
 
-		-
-			rawMessage: 'Method Jose\Component\Checker\HeaderCheckerManager::checkDuplicatedHeaderParameters() has parameter $header2 with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Checker/HeaderCheckerManager.php
 
 		-
 			rawMessage: 'Method Jose\Component\Checker\HeaderCheckerManager::checkHeaders() has parameter $header with no value type specified in iterable type array.'
@@ -4560,23 +4550,8 @@ parameters:
 			count: 1
 			path: ../src/Library/Console/RsaKeysetGeneratorCommand.php
 
-		-
-			rawMessage: 'Method Jose\Component\Core\AlgorithmManagerFactory::all() should return array<Jose\Component\Core\Algorithm> but returns array.'
-			identifier: return.type
-			count: 1
-			path: ../src/Library/Core/AlgorithmManagerFactory.php
 
-		-
-			rawMessage: 'Parameter #1 $algorithms of class Jose\Component\Core\AlgorithmManager constructor expects iterable<Jose\Component\Core\Algorithm>, list<mixed> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Core/AlgorithmManagerFactory.php
 
-		-
-			rawMessage: Property Jose\Component\Core\AlgorithmManagerFactory::$algorithms type has no value type specified in iterable type array.
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Core/AlgorithmManagerFactory.php
 
 		-
 			rawMessage: 'Method Jose\Component\Core\JWK::__construct() has parameter $values with no value type specified in iterable type array.'
@@ -4914,17 +4889,7 @@ parameters:
 			count: 1
 			path: ../src/Library/Encryption/JWEDecrypter.php
 
-		-
-			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypter::checkDuplicatedHeaderParameters() has parameter $header1 with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Encryption/JWEDecrypter.php
 
-		-
-			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypter::checkDuplicatedHeaderParameters() has parameter $header2 with no value type specified in iterable type array.'
-			identifier: missingType.iterableValue
-			count: 1
-			path: ../src/Library/Encryption/JWEDecrypter.php
 
 		-
 			rawMessage: 'Method Jose\Component\Encryption\JWEDecrypter::decryptCEK() has parameter $completeHeader with no value type specified in iterable type array.'

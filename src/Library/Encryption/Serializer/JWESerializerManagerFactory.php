@@ -5,58 +5,52 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Serializer;
 
 use Jose\Component\Core\Exception\UnsupportedSerializerException;
-use function sprintf;
+use Jose\Component\Core\Util\AliasedRegistry;
+use function trigger_deprecation;
 
 final class JWESerializerManagerFactory
 {
     /**
-     * @var JWESerializer[]
+     * @use AliasedRegistry<JWESerializer>
      */
-    private array $serializers = [];
+    use AliasedRegistry;
 
     /**
-     * Creates a serializer manager factory using the given serializers.
+     * Creates a serializer manager using the given serializer names.
      *
      * @param string[] $names
      */
     public function create(array $names): JWESerializerManager
     {
-        $serializers = [];
-        foreach ($names as $name) {
-            if (! isset($this->serializers[$name])) {
-                throw new UnsupportedSerializerException(sprintf('Unsupported serializer "%s".', $name));
-            }
-            $serializers[] = $this->serializers[$name];
-        }
-
-        return new JWESerializerManager($serializers);
+        return new JWESerializerManager(
+            $this->select($names, 'JWE serializer', UnsupportedSerializerException::class)
+        );
     }
 
     /**
-     * Return the serializer names supported by the manager.
+     * Returns the serializer names supported by this factory.
+     *
+     * @deprecated since 4.3.0, will be removed in 5.0.0. Please use "aliases()" instead.
      *
      * @return string[]
      */
     public function names(): array
     {
-        return array_keys($this->serializers);
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::names()" is deprecated and will be removed in 5.0.0. Please use "aliases()" instead.',
+            self::class
+        );
+
+        return $this->aliases();
     }
 
     /**
-     * Returns all serializers supported by this factory.
-     *
-     * @return JWESerializer[]
-     */
-    public function all(): array
-    {
-        return $this->serializers;
-    }
-
-    /**
-     * Adds a serializer to the manager.
+     * Adds a serializer to this factory. The serializer is registered under its own name.
      */
     public function add(JWESerializer $serializer): void
     {
-        $this->serializers[$serializer->name()] = $serializer;
+        $this->register($serializer->name(), $serializer);
     }
 }

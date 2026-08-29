@@ -21,7 +21,7 @@ final readonly class JWSSerializer implements DenormalizerInterface
         ?JWSSerializerManager $serializerManager = null
     ) {
         if ($serializerManager === null) {
-            $serializerManager = $serializerManagerFactory->create($serializerManagerFactory->names());
+            $serializerManager = $serializerManagerFactory->create($serializerManagerFactory->aliases());
         }
         $this->serializerManager = $serializerManager;
     }
