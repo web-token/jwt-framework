@@ -4,10 +4,21 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature;
 
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use function array_key_exists;
 use function sprintf;
+use function trigger_deprecation;
 
+/**
+ * One signature of a JWS, with the two headers it was computed with.
+ *
+ * The protected header of a signature is defined by its encoded form: that string is what the signature covers, and
+ * it is the only proof that the parameters it carries were protected. A signature built without an encoded protected
+ * header therefore has no protected header at all, and the decoded one given to the constructor is discarded rather
+ * than exposed, so that getProtectedHeader() never advertises parameters no signature protects. The class will be
+ * final and readonly in 5.0.0, where the two arguments must agree.
+ */
 class Signature
 {
     private readonly ?string $encodedProtectedHeader;
@@ -18,8 +29,12 @@ class Signature
     private readonly array $protectedHeader;
 
     /**
-     * @param array<string, mixed> $protectedHeader
-     * @param array<string, mixed> $header
+     * @param array<string, mixed> $protectedHeader        The decoded protected header; it is discarded, and passing a
+     *                                                     non-empty one is deprecated since 4.3.0, when
+     *                                                     $encodedProtectedHeader is null
+     * @param string|null          $encodedProtectedHeader The Base64Url encoded protected header the signature covers,
+     *                                                     or null when the signature has no protected header
+     * @param array<string, mixed> $header                 The unprotected header
      */
     public function __construct(
         private readonly string $signature,
@@ -27,6 +42,15 @@ class Signature
         ?string $encodedProtectedHeader,
         private readonly array $header
     ) {
+        if ($encodedProtectedHeader === null && $protectedHeader !== []) {
+            trigger_deprecation(
+                'web-token/jwt-framework',
+                '4.3.0',
+                'Passing a protected header to "%s" without its encoded form is deprecated and will throw an "%s" in 5.0.0. The header is discarded: a signature that does not cover an encoded protected header has no protected header.',
+                self::class,
+                InvalidArgumentException::class
+            );
+        }
         $this->protectedHeader = $encodedProtectedHeader === null ? [] : $protectedHeader;
         $this->encodedProtectedHeader = $encodedProtectedHeader;
     }

@@ -6,10 +6,20 @@ namespace Jose\Component\Signature;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\JWT;
+use Jose\Component\Core\Util\InternalCallChecker;
+use Jose\Component\Signature\Serializer\JWSSerializer;
 use Override;
 use function count;
 
 /**
+ * A signed token, as returned by the builder or by a serializer.
+ *
+ * The object is assembled incrementally: the payload is given to the constructor and the signatures are appended by
+ * addSignature(), which is reserved to the builder and to the serializers. It is otherwise immutable and must be
+ * treated as such: a token returned by a loader carries signatures that have been verified against its payload, and
+ * nothing else is allowed to append to that list. The class will be final and readonly in 5.0.0, where the
+ * signatures are given to the constructor.
+ *
  * @see \Jose\Tests\Component\Signature\JWSTest
  */
 class JWS implements JWT
@@ -77,6 +87,11 @@ class JWS implements JWT
     /**
      * This method adds a signature to the JWS object. Its returns a new JWS object.
      *
+     * The method is reserved to the JWS builder and to the JWS serializers, the only objects that assemble a token
+     * from its parts. Calling it from anywhere else is deprecated since 4.3.0 and raises a deprecation notice: it
+     * defeats the immutability of the object and it will not be possible in 5.0.0, where the signatures are given
+     * to the constructor.
+     *
      * @internal
      *
      * @param array<string, mixed> $protectedHeader
@@ -88,6 +103,13 @@ class JWS implements JWT
         ?string $encodedProtectedHeader,
         array $header = []
     ): self {
+        InternalCallChecker::warnIfCalledFromOutside(
+            self::class . '::addSignature',
+            [self::class, JWSBuilderInterface::class, JWSSerializer::class],
+            'A JWS is assembled by the builder and by the serializers only. In 5.0.0 the signatures are passed to '
+            . 'the constructor of the JWS.'
+        );
+
         $jws = clone $this;
         $jws->signatures[] = new Signature($signature, $protectedHeader, $encodedProtectedHeader, $header);
 
