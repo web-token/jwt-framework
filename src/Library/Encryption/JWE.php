@@ -7,11 +7,21 @@ namespace Jose\Component\Encryption;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use Jose\Component\Core\JWT;
+use Jose\Component\Core\Util\InternalCallChecker;
 use Override;
 use function array_key_exists;
 use function count;
 use function sprintf;
 
+/**
+ * An encrypted token, as returned by the builder or by a serializer.
+ *
+ * Every part of the token is given to the constructor but the plaintext, which is only known once a recipient has
+ * been decrypted: withPayload() is reserved to the decrypter for that reason. The object is otherwise immutable and
+ * must be treated as such, since the payload it exposes is the one the decrypter authenticated against the
+ * ciphertext, the tag and the additional authenticated data. The class will be final and readonly in 5.0.0, where
+ * the decrypted payload is given to the constructor.
+ */
 class JWE implements JWT
 {
     private ?string $payload = null;
@@ -36,9 +46,22 @@ class JWE implements JWT
 
     /**
      * Set the payload. This method is immutable and a new object will be returned.
+     *
+     * The method is reserved to the JWE decrypter, the only object able to tell that the given plaintext is the one
+     * protected by the token. Calling it from anywhere else is deprecated since 4.3.0 and raises a deprecation
+     * notice: it lets any caller replace the payload of a decrypted token by an arbitrary value, and it will not be
+     * possible in 5.0.0, where the payload is given to the constructor.
+     *
+     * @internal
      */
     public function withPayload(string $payload): self
     {
+        InternalCallChecker::warnIfCalledFromOutside(
+            self::class . '::withPayload',
+            [self::class, JWEDecrypterInterface::class],
+            'The payload of a JWE is set by the decrypter only. In 5.0.0 it is passed to the constructor of the JWE.'
+        );
+
         $clone = clone $this;
         $clone->payload = $payload;
 

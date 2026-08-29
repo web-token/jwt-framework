@@ -8,15 +8,20 @@ use InvalidArgumentException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Signature\JWS;
 use LogicException;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\Test;
 use const JSON_THROW_ON_ERROR;
 
 /**
+ * The tests that assemble a JWS by hand call the mutator reserved to the builder and to the serializers, hence the
+ * deprecation they are expected to trigger.
+ *
  * @internal
  */
 final class JWSTest extends SignatureTestCase
 {
     #[Test]
+    #[IgnoreDeprecations]
     public function jWS(): void
     {
         $claims = [
@@ -99,6 +104,7 @@ final class JWSTest extends SignatureTestCase
     }
 
     #[Test]
+    #[IgnoreDeprecations]
     public function signatureContainsUnprotectedHeader(): void
     {
         $this->expectException(LogicException::class);
@@ -127,6 +133,7 @@ final class JWSTest extends SignatureTestCase
     }
 
     #[Test]
+    #[IgnoreDeprecations]
     public function signatureDoesNotContainHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -150,6 +157,7 @@ final class JWSTest extends SignatureTestCase
     }
 
     #[Test]
+    #[IgnoreDeprecations]
     public function signatureDoesNotContainProtectedHeader(): void
     {
         $this->expectException(InvalidArgumentException::class);
