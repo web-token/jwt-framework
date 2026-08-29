@@ -18,6 +18,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA;
 use Jose\Component\Encryption\Serializer\JWESerializer as JWESerializerAlias;
 use Jose\Experimental\KeyEncryption\A128CTR;
 use Jose\Experimental\KeyEncryption\Chacha20Poly1305;
+use Jose\Rsa15\KeyEncryption\RSA15;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\FileLocator;
@@ -116,6 +117,7 @@ final readonly class EncryptionSource implements SourceWithCompilerPasses
             ECDHES::class => 'encryption_ecdhes.php',
             PBES2AESKW::class => 'encryption_pbes2.php',
             RSA::class => 'encryption_rsa.php',
+            RSA15::class => 'encryption_rsa15.php',
             A128CTR::class => 'encryption_experimental.php',
         ];
         if (in_array('chacha20-poly1305', openssl_get_cipher_methods(), true)) {

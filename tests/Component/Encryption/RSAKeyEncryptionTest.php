@@ -8,9 +8,11 @@ use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\Base64UrlSafe;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15 as DeprecatedRSA15;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
+use Jose\Rsa15\KeyEncryption\RSA15;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\Test;
 use const STR_PAD_LEFT;
 
@@ -21,6 +23,21 @@ use const STR_PAD_LEFT;
  */
 final class RSAKeyEncryptionTest extends EncryptionTestCase
 {
+    /**
+     * The algorithm shipped by the library until 5.0.0 is now an empty subclass of the one of the
+     * web-token/jwt-rsa15 package, so that the applications that migrate can mix both classes.
+     */
+    #[Test]
+    #[IgnoreDeprecations]
+    public function theDeprecatedClassOfTheLibraryIsStillUsable(): void
+    {
+        $algorithm = new DeprecatedRSA15();
+
+        static::assertInstanceOf(RSA15::class, $algorithm);
+        static::assertSame('RSA1_5', $algorithm->name());
+        static::assertSame(['RSA'], $algorithm->allowedKeyTypes());
+    }
+
     #[Test]
     public function invalidKey(): void
     {

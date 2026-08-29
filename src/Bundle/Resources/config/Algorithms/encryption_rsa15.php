@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
+use Jose\Rsa15\KeyEncryption\RSA15;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return function (ContainerConfigurator $container): void {
@@ -13,13 +12,8 @@ return function (ContainerConfigurator $container): void {
         ->autoconfigure()
         ->autowire();
 
-    $container->set(RSAOAEP::class)
+    $container->set(RSA15::class)
         ->tag('jose.algorithm', [
-            'alias' => 'RSA-OAEP',
-        ]);
-
-    $container->set(RSAOAEP256::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'RSA-OAEP-256',
+            'alias' => 'RSA1_5',
         ]);
 };

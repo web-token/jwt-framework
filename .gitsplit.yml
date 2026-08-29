@@ -5,6 +5,10 @@ splits:
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-library.git"
   - prefix: "src/Experimental"
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-experimental.git"
+  - prefix: "src/Unsecured"
+    target: "https://${GH_TOKEN}@github.com/web-token/jwt-unsecured.git"
+  - prefix: "src/Rsa15"
+    target: "https://${GH_TOKEN}@github.com/web-token/jwt-rsa15.git"
 
 origins:
   - ^\d+\.\d+\.x$

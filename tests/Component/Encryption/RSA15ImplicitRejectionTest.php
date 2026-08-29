@@ -6,9 +6,9 @@ namespace Jose\Tests\Component\Encryption;
 
 use InvalidArgumentException;
 use Jose\Component\Core\Util\RSAKey;
-use Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\RSACrypt;
 use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Rsa15\KeyEncryption\RSA15;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function mb_strlen;
