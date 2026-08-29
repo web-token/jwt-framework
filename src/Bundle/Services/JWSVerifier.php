@@ -11,10 +11,10 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSVerifier as BaseJWSVerifier;
+use Jose\Component\Signature\VerificationResult;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use function func_get_arg;
-use function func_num_args;
+use Throwable;
 
 /**
  * @deprecated since 4.3.0, use EventDispatchingJWSVerifier instead. The class extends a service of
@@ -30,27 +30,23 @@ final class JWSVerifier extends BaseJWSVerifier
     }
 
     /**
-     * The callable used by the loaders to observe the keys that were discarded is not part of the signature yet:
-     * it is read with func_num_args()/func_get_arg(5) and forwarded to the parent, otherwise the reason of a
-     * failure would be lost as soon as this service is used in place of the verifier of the library.
+     * The deprecated methods of the parent class are implemented on top of this one: the events are dispatched
+     * whichever method the application calls.
+     *
+     * @param (callable(Throwable): void)|null $onError
      */
     #[Override]
-    public function verifyWithKeySet(
+    public function verify(
         JWS $jws,
-        JWKSet $jwkset,
+        JWK|JWKSet $keys,
         int $signatureIndex,
         ?string $detachedPayload = null,
-        ?JWK &$jwk = null
-    ): bool {
-        $success = func_num_args() >= 6 ? parent::verifyWithKeySet(
-            $jws,
-            $jwkset,
-            $signatureIndex,
-            $detachedPayload,
-            $jwk,
-            func_get_arg(5)
-        ) : parent::verifyWithKeySet($jws, $jwkset, $signatureIndex, $detachedPayload, $jwk);
-        if ($success) {
+        ?callable $onError = null
+    ): VerificationResult {
+        $result = parent::verify($jws, $keys, $signatureIndex, $detachedPayload, $onError);
+        $jwkset = $keys instanceof JWK ? new JWKSet([$keys]) : $keys;
+        $jwk = $result->getKey();
+        if ($jwk !== null) {
             $this->eventDispatcher->dispatch(new JWSVerificationSuccessEvent(
                 $jws,
                 $jwkset,
@@ -62,6 +58,6 @@ final class JWSVerifier extends BaseJWSVerifier
             $this->eventDispatcher->dispatch(new JWSVerificationFailureEvent($jws, $jwkset, $detachedPayload));
         }
 
-        return $success;
+        return $result;
     }
 }

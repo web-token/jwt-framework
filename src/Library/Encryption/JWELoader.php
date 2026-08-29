@@ -11,6 +11,7 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Throwable;
+use function trigger_deprecation;
 
 /**
  * @final The class will be final in 5.0.0: implement JWELoaderInterface and decorate the service instead of
@@ -55,9 +56,21 @@ class JWELoader implements JWELoaderInterface
     /**
      * This method will try to load and decrypt the given token using a JWK. If succeeded, the methods will populate the
      * $recipient variable and returns the JWE.
+     *
+     * @param-out int $recipient
+     *
+     * @deprecated since 4.3.0, use "loadAndDecrypt()" instead. Will be removed in 5.0.0.
      */
     public function loadAndDecryptWithKey(string $token, JWK $key, ?int &$recipient): JWE
     {
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::loadAndDecryptWithKey()" is deprecated and will be removed in 5.0.0. Please use "%s::loadAndDecrypt()" instead: it returns a "%s" object that carries the index of the decrypted recipient instead of writing it into a variable of the caller.',
+            self::class,
+            self::class,
+            LoadingResult::class
+        );
         $keyset = new JWKSet([$key]);
 
         return $this->loadAndDecryptWithKeySet($token, $keyset, $recipient);
@@ -67,21 +80,48 @@ class JWELoader implements JWELoaderInterface
      * This method will try to load and decrypt the given token using a JWKSet. If succeeded, the methods will populate
      * the $recipient variable and returns the JWE.
      *
+     * @param-out int $recipient
+     *
+     * @deprecated since 4.3.0, use "loadAndDecrypt()" instead. Will be removed in 5.0.0.
+     */
+    public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, ?int &$recipient): JWE
+    {
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::loadAndDecryptWithKeySet()" is deprecated and will be removed in 5.0.0. Please use "%s::loadAndDecrypt()" instead: it returns a "%s" object that carries the index of the decrypted recipient instead of writing it into a variable of the caller.',
+            self::class,
+            self::class,
+            LoadingResult::class
+        );
+        $result = $this->loadAndDecrypt($token, $keyset);
+        $recipient = $result->getRecipientIndex();
+
+        return $result->getJwe();
+    }
+
+    /**
+     * This method will try to load and decrypt the given token using a key or a key set. The decrypted JWE, the index
+     * of the decrypted recipient and the key that decrypted it are carried by the returned result, otherwise an
+     * exception is thrown.
+     *
      * The failure semantics are unchanged, but the last error met along the way - a serialization failure, a rejected
      * header or a key that could not decrypt the recipient - is chained as the previous exception, so that the reason
      * of the failure remains available to the caller.
+     *
+     * @param string $token A string that represents a JWE
+     * @param JWK|JWKSet $keys The recipient will be decrypted using that key or the keys in that key set
      */
-    public function loadAndDecryptWithKeySet(string $token, JWKSet $keyset, ?int &$recipient): JWE
+    public function loadAndDecrypt(string $token, JWK|JWKSet $keys): LoadingResult
     {
         $lastError = null;
         try {
             $jwe = $this->serializerManager->unserialize($token);
             $nbRecipients = $jwe->countRecipients();
             for ($i = 0; $i < $nbRecipients; ++$i) {
-                if ($this->processRecipient($jwe, $keyset, $i, $lastError)) {
-                    $recipient = $i;
-
-                    return $jwe;
+                $result = $this->processRecipient($jwe, $keys, $i, $lastError);
+                if ($result !== null && $result->isDecrypted()) {
+                    return new LoadingResult($result->getJwe(), $i, $result->getKey());
                 }
             }
         } catch (Throwable $throwable) {
@@ -91,19 +131,21 @@ class JWELoader implements JWELoaderInterface
         throw new InvalidTokenException('Unable to load and decrypt the token.', 0, $lastError);
     }
 
-    private function processRecipient(JWE &$jwe, JWKSet $keyset, int $recipient, ?Throwable &$lastError): bool
-    {
+    private function processRecipient(
+        JWE $jwe,
+        JWK|JWKSet $keys,
+        int $recipient,
+        ?Throwable &$lastError
+    ): ?DecryptionResult {
         try {
             if ($this->headerCheckerManager !== null) {
                 $this->headerCheckerManager->check($jwe, $recipient);
             }
-            $jwk = null;
 
-            return $this->jweDecrypter->decryptUsingKeySet(
+            return $this->jweDecrypter->decrypt(
                 $jwe,
-                $keyset,
+                $keys,
                 $recipient,
-                $jwk,
                 null,
                 static function (Throwable $throwable) use (&$lastError): void {
                     $lastError = $throwable;
@@ -112,7 +154,7 @@ class JWELoader implements JWELoaderInterface
         } catch (Throwable $throwable) {
             $lastError = $throwable;
 
-            return false;
+            return null;
         }
     }
 }

@@ -29,6 +29,7 @@ use function is_callable;
 use function is_string;
 use function sprintf;
 use function strlen;
+use function trigger_deprecation;
 
 /**
  * @final The class will be final in 5.0.0: implement JWEDecrypterInterface and decorate the service instead of
@@ -69,11 +70,21 @@ class JWEDecrypter implements JWEDecrypterInterface
      *
      * @param JWE $jwe A JWE object to decrypt
      * @param JWK $jwk The key used to decrypt the input
-     * @param int $recipient The recipient used to decrypt the token
+     * @param int $recipient The index of the recipient to decrypt
      * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     *
+     * @deprecated since 4.3.0, use "decrypt()" instead. Will be removed in 5.0.0.
      */
     public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient, ?JWK $senderKey = null): bool
     {
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::decryptUsingKey()" is deprecated and will be removed in 5.0.0. Please use "%s::decrypt()" instead: it returns a "%s" object that carries the decrypted JWE instead of replacing the variable of the caller.',
+            self::class,
+            self::class,
+            DecryptionResult::class
+        );
         $jwkset = new JWKSet([$jwk]);
         $successJwk = null;
 
@@ -83,16 +94,17 @@ class JWEDecrypter implements JWEDecrypterInterface
     /**
      * This method will try to decrypt the given JWE and recipient using a JWKSet.
      *
-     * A key that cannot be used, or that does not decrypt the recipient, does not abort the decryption: the next key of
-     * the key set is tried and the reason of the failure is otherwise lost. A callable is accepted as an additional
-     * argument to observe those failures; it is called with every discarded Throwable. That argument is not part of the
-     * signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(5), so that classes extending
+     * A callable is accepted as an additional argument to observe the failures met while trying the keys. That argument
+     * is not part of the signature and is read with func_num_args()/func_get_arg(5), so that the objects decorating
      * this one remain compatible.
      *
      * @param JWE $jwe A JWE object to decrypt
      * @param JWKSet $jwkset The key set used to decrypt the input
-     * @param JWK $jwk The key used to decrypt the token in case of success
-     * @param int $recipient The recipient used to decrypt the token in case of success
+     * @param int $recipient The index of the recipient to decrypt
+     * @param JWK|null $jwk The key used to decrypt the token in case of success
+     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     *
+     * @deprecated since 4.3.0, use "decrypt()" instead. Will be removed in 5.0.0.
      */
     public function decryptUsingKeySet(
         JWE &$jwe,
@@ -101,28 +113,66 @@ class JWEDecrypter implements JWEDecrypterInterface
         ?JWK &$jwk = null,
         ?JWK $senderKey = null
     ): bool {
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The method "%s::decryptUsingKeySet()" is deprecated and will be removed in 5.0.0. Please use "%s::decrypt()" instead: it returns a "%s" object that carries the decrypted JWE and the key instead of replacing the variables of the caller.',
+            self::class,
+            self::class,
+            DecryptionResult::class
+        );
         $onError = func_num_args() >= 6 ? func_get_arg(5) : null;
         if (! is_callable($onError)) {
             $onError = null;
         }
+        $result = $this->decrypt($jwe, $jwkset, $recipient, $senderKey, $onError);
+        if (! $result->isDecrypted()) {
+            return false;
+        }
+        $jwe = $result->getJwe();
+        $successJwk = $result->getKey();
+        if ($successJwk !== null) {
+            $jwk = $successJwk;
+        }
+
+        return true;
+    }
+
+    /**
+     * This method will try to decrypt the given recipient of the given JWE using a key or a key set. The decrypted JWE
+     * and the key that decrypted it are carried by the returned result: JWE objects are immutable, so the JWE given to
+     * this method is left untouched.
+     *
+     * A key that cannot be used, or that does not decrypt the recipient, does not abort the decryption: the next key of
+     * the key set is tried and the reason of the failure is otherwise lost. The optional callable is called with every
+     * discarded Throwable, so that those failures can be observed.
+     *
+     * @param JWE $jwe A JWE object to decrypt
+     * @param JWK|JWKSet $keys The recipient will be decrypted using that key or the keys in that key set
+     * @param int $recipientIndex The index of the recipient to decrypt
+     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param (callable(Throwable): void)|null $onError Called with every failure met while trying the keys
+     */
+    public function decrypt(
+        JWE $jwe,
+        JWK|JWKSet $keys,
+        int $recipientIndex,
+        ?JWK $senderKey = null,
+        ?callable $onError = null
+    ): DecryptionResult {
+        $jwkset = $keys instanceof JWK ? new JWKSet([$keys]) : $keys;
         if ($jwkset->count() === 0) {
             throw new InvalidKeySetException('No key in the key set.');
         }
         if ($jwe->getPayload() !== null) {
-            return true;
+            return DecryptionResult::success($jwe, $recipientIndex, null);
         }
         if ($jwe->countRecipients() === 0) {
             throw new InvalidArgumentException('The JWE does not contain any recipient.');
         }
 
-        $plaintext = $this->decryptRecipientKey($jwe, $jwkset, $recipient, $jwk, $senderKey, $onError);
-        if ($plaintext !== null) {
-            $jwe = $jwe->withPayload($plaintext);
-
-            return true;
-        }
-
-        return false;
+        return $this->decryptRecipientKey($jwe, $jwkset, $recipientIndex, $senderKey, $onError)
+            ?? DecryptionResult::failure($jwe, $recipientIndex);
     }
 
     /**
@@ -134,16 +184,15 @@ class JWEDecrypter implements JWEDecrypterInterface
      * The shared unprotected header is never a valid source for "alg" and "enc": it is not covered by the
      * AAD and, unlike the per-recipient header, nothing requires those parameters to be located there.
      *
-     * @param callable(Throwable): void|null $onError
+     * @param (callable(Throwable): void)|null $onError
      */
     private function decryptRecipientKey(
         JWE $jwe,
         JWKSet $jwkset,
         int $i,
-        ?JWK &$successJwk = null,
         ?JWK $senderKey = null,
         ?callable $onError = null
-    ): ?string {
+    ): ?DecryptionResult {
         $recipient = $jwe->getRecipient($i);
         $sharedProtectedHeader = $jwe->getSharedProtectedHeader();
         $sharedHeader = $jwe->getSharedHeader();
@@ -162,7 +211,7 @@ class JWEDecrypter implements JWEDecrypterInterface
 
         $this->checkIvSize($jwe->getIV(), $content_encryption_algorithm->getIVSize());
 
-        foreach ($jwkset as $recipientKey) {
+        foreach ($jwkset->all() as $recipientKey) {
             try {
                 KeyChecker::checkKeyUsage($recipientKey, 'decryption');
                 if ($key_encryption_algorithm->name() !== 'dir') {
@@ -180,9 +229,8 @@ class JWEDecrypter implements JWEDecrypterInterface
                 );
                 $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
                 $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm);
-                $successJwk = $recipientKey;
 
-                return $payload;
+                return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
             } catch (Throwable $throwable) {
                 if ($onError !== null) {
                     $onError($throwable);

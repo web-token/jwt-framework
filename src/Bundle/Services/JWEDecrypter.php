@@ -9,12 +9,12 @@ use Jose\Bundle\JoseFramework\Event\JWEDecryptionSuccessEvent;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Encryption\DecryptionResult;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\JWEDecrypter as BaseJWEDecrypter;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use function func_get_arg;
-use function func_num_args;
+use Throwable;
 
 /**
  * @deprecated since 4.3.0, use EventDispatchingJWEDecrypter instead. The class extends a service of
@@ -30,32 +30,33 @@ final class JWEDecrypter extends BaseJWEDecrypter
     }
 
     /**
-     * The callable used by the loaders to observe the keys that were discarded is not part of the signature yet:
-     * it is read with func_num_args()/func_get_arg(5) and forwarded to the parent, otherwise the reason of a
-     * failure would be lost as soon as this service is used in place of the decrypter of the library.
+     * The deprecated methods of the parent class are implemented on top of this one: the events are dispatched
+     * whichever method the application calls.
+     *
+     * A JWE that already has a payload is reported as decrypted without any key being used. There is nothing to
+     * report in that case, hence no event at all.
+     *
+     * @param (callable(Throwable): void)|null $onError
      */
     #[Override]
-    public function decryptUsingKeySet(
-        JWE &$jwe,
-        JWKSet $jwkset,
-        int $recipient,
-        ?JWK &$jwk = null,
-        ?JWK $senderKey = null
-    ): bool {
-        $success = func_num_args() >= 6 ? parent::decryptUsingKeySet(
-            $jwe,
-            $jwkset,
-            $recipient,
-            $jwk,
-            $senderKey,
-            func_get_arg(5)
-        ) : parent::decryptUsingKeySet($jwe, $jwkset, $recipient, $jwk, $senderKey);
-        if ($success) {
-            $this->eventDispatcher->dispatch(new JWEDecryptionSuccessEvent($jwe, $jwkset, $jwk, $recipient));
-        } else {
+    public function decrypt(
+        JWE $jwe,
+        JWK|JWKSet $keys,
+        int $recipientIndex,
+        ?JWK $senderKey = null,
+        ?callable $onError = null
+    ): DecryptionResult {
+        $result = parent::decrypt($jwe, $keys, $recipientIndex, $senderKey, $onError);
+        $jwkset = $keys instanceof JWK ? new JWKSet([$keys]) : $keys;
+        $jwk = $result->getKey();
+        if ($jwk !== null) {
+            $this->eventDispatcher->dispatch(
+                new JWEDecryptionSuccessEvent($result->getJwe(), $jwkset, $jwk, $recipientIndex)
+            );
+        } elseif (! $result->isDecrypted()) {
             $this->eventDispatcher->dispatch(new JWEDecryptionFailureEvent($jwe, $jwkset));
         }
 
-        return $success;
+        return $result;
     }
 }

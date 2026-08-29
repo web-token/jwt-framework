@@ -7,10 +7,11 @@ namespace Jose\Bundle\JoseFramework\Services;
 use Jose\Bundle\JoseFramework\Event\JWSLoadingFailureEvent;
 use Jose\Bundle\JoseFramework\Event\JWSLoadingSuccessEvent;
 use Jose\Component\Checker\HeaderCheckerManagerInterface;
+use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoader as BaseJWSLoader;
 use Jose\Component\Signature\JWSVerifierInterface;
+use Jose\Component\Signature\LoadingResult;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -31,18 +32,21 @@ final class JWSLoader extends BaseJWSLoader
         parent::__construct($serializerManager, $jwsVerifier, $headerCheckerManager);
     }
 
+    /**
+     * The deprecated methods of the parent class are implemented on top of this one: the events are dispatched
+     * whichever method the application calls.
+     */
     #[Override]
-    public function loadAndVerifyWithKeySet(
-        string $token,
-        JWKSet $keyset,
-        ?int &$signature,
-        ?string $payload = null
-    ): JWS {
+    public function loadAndVerify(string $token, JWK|JWKSet $keys, ?string $payload = null): LoadingResult
+    {
+        $keyset = $keys instanceof JWK ? new JWKSet([$keys]) : $keys;
         try {
-            $jws = parent::loadAndVerifyWithKeySet($token, $keyset, $signature, $payload);
-            $this->eventDispatcher->dispatch(new JWSLoadingSuccessEvent($token, $jws, $keyset, $signature));
+            $result = parent::loadAndVerify($token, $keys, $payload);
+            $this->eventDispatcher->dispatch(
+                new JWSLoadingSuccessEvent($token, $result->getJws(), $keyset, $result->getSignatureIndex())
+            );
 
-            return $jws;
+            return $result;
         } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(new JWSLoadingFailureEvent($token, $keyset, $throwable));
 

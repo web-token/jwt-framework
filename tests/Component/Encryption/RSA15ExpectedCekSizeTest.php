@@ -116,9 +116,9 @@ final class RSA15ExpectedCekSizeTest extends TestCase
         $decrypter = new JWEDecrypter($algorithmManager);
 
         $deprecations = $this->collectDeprecations(static function () use ($decrypter, $jwe, $jwk): void {
-            $jweToDecrypt = $jwe;
-            static::assertTrue($decrypter->decryptUsingKey($jweToDecrypt, $jwk, 0));
-            static::assertSame('Live long and prosper.', $jweToDecrypt->getPayload());
+            $result = $decrypter->decrypt($jwe, $jwk, 0);
+            static::assertTrue($result->isDecrypted());
+            static::assertSame('Live long and prosper.', $result->getJwe()->getPayload());
         });
 
         static::assertSame([], $deprecations);
@@ -137,8 +137,9 @@ final class RSA15ExpectedCekSizeTest extends TestCase
         $jwe = (new CompactSerializer())->unserialize($token);
         $decrypter = new JWEDecrypter($algorithmManager);
 
-        static::assertTrue($decrypter->decryptUsingKey($jwe, $jwk, 0));
-        static::assertSame('Live long and prosper.', $jwe->getPayload());
+        $result = $decrypter->decrypt($jwe, $jwk, 0);
+        static::assertTrue($result->isDecrypted());
+        static::assertSame('Live long and prosper.', $result->getJwe()->getPayload());
         static::assertSame(4, $algorithm->receivedArgumentCount);
     }
 

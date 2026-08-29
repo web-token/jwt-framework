@@ -9,9 +9,12 @@ use Jose\Bundle\JoseFramework\Event\NestedTokenLoadingSuccessEvent;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\NestedToken\NestedTokenLoaderInterface;
 use Jose\Component\Signature\JWS;
+use Jose\Component\Signature\LoadingResult;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
+use function func_num_args;
+use function trigger_deprecation;
 
 /**
  * Dispatches an event whenever a nested token is loaded, without extending the loader it decorates.
@@ -25,19 +28,19 @@ final readonly class EventDispatchingNestedTokenLoader implements NestedTokenLoa
     }
 
     #[Override]
-    public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$signature = null): JWS
+    public function loadAndVerify(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet): LoadingResult
     {
         try {
-            $jws = $this->loader->load($token, $encryptionKeySet, $signatureKeySet, $signature);
+            $result = $this->loader->loadAndVerify($token, $encryptionKeySet, $signatureKeySet);
             $this->eventDispatcher->dispatch(new NestedTokenLoadingSuccessEvent(
                 $token,
-                $jws,
+                $result->getJws(),
                 $signatureKeySet,
                 $encryptionKeySet,
-                $signature
+                $result->getSignatureIndex()
             ));
 
-            return $jws;
+            return $result;
         } catch (Throwable $throwable) {
             $this->eventDispatcher->dispatch(new NestedTokenLoadingFailureEvent(
                 $token,
@@ -48,5 +51,27 @@ final readonly class EventDispatchingNestedTokenLoader implements NestedTokenLoa
 
             throw $throwable;
         }
+    }
+
+    /**
+     * @param-out int $signature
+     */
+    #[Override]
+    public function load(string $token, JWKSet $encryptionKeySet, JWKSet $signatureKeySet, ?int &$signature = null): JWS
+    {
+        if (func_num_args() >= 4) {
+            trigger_deprecation(
+                'web-token/jwt-framework',
+                '4.3.0',
+                'Passing the "$signature" argument to "%s::load()" is deprecated and the argument will be removed in 5.0.0. Please use "%s::loadAndVerify()" instead: it returns a "%s" object that carries the index of the verified signature instead of writing it into a variable of the caller.',
+                self::class,
+                self::class,
+                LoadingResult::class
+            );
+        }
+        $result = $this->loadAndVerify($token, $encryptionKeySet, $signatureKeySet);
+        $signature = $result->getSignatureIndex();
+
+        return $result->getJws();
     }
 }
