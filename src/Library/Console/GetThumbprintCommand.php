@@ -39,7 +39,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
                 'uri',
                 null,
                 InputOption::VALUE_NONE,
-                'Output the JWK Thumbprint URI (RFC 9278) instead of the bare thumbprint. The hashing algorithm may then be given by its IANA name (e.g. "sha-256").'
+                'Output the JWK Thumbprint URI instead of the bare thumbprint. The hashing algorithm may then be given by its IANA name (e.g. "sha-256").'
             );
     }
 

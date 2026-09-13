@@ -40,7 +40,7 @@ final readonly class EdDSA extends AbstractEdDSA
         trigger_deprecation(
             'web-token/jwt-framework',
             '4.3.0',
-            'Signing with the "EdDSA" algorithm is deprecated by RFC 9864. Use the fully-specified "Ed25519" algorithm (%s) instead: the key is unchanged, only the "alg" value differs.',
+            'Signing with the "EdDSA" algorithm is deprecated. Use the fully-specified "Ed25519" algorithm (%s) instead: the key is unchanged, only the "alg" value differs.',
             Ed25519::class
         );
 

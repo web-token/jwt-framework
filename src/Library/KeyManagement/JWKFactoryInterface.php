@@ -55,6 +55,19 @@ interface JWKFactoryInterface
     public function okp(string $curve, array $values = []): JWK;
 
     /**
+     * Creates an ML-DSA key (RFC 9964) of the given parameter set: "ML-DSA-44", "ML-DSA-65" or "ML-DSA-87".
+     *
+     * The key is an AKP key whose "priv" is the 32-byte seed of FIPS 204 and whose "pub" is the public key the seed
+     * expands to. A fresh random seed is drawn unless the values carry a "priv", which is how a key stored by its
+     * seed - the only private key representation RFC 9964 section 4 allows - is rebuilt: "pub" is derived from it.
+     * Needs PHP 8.4 and an OpenSSL runtime that provides ML-DSA (3.5 or later).
+     *
+     * @param string               $algorithm The parameter set, which is also the "alg" of the key
+     * @param array<string, mixed> $values    Values to configure the key
+     */
+    public function mldsa(string $algorithm, array $values = []): JWK;
+
+    /**
      * Creates a none key with the given additional values. Please note that this key type is not part of any
      * specification. It is used to prevent the use of the "none" algorithm with other key types.
      *

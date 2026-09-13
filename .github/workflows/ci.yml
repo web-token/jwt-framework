@@ -181,19 +181,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # ml-dsa: whether the ML-DSA algorithms (RFC 9964) must be available on the job's platform, which
+        # tests/SignatureAlgorithm/MLDSA/MLDSASignatureTest.php asserts. The phpqa images ship OpenSSL 3.5, so the
+        # gate is the PHP version alone here: closed below 8.4, open from 8.4 on. The OpenSSL side of the gate is
+        # exercised by the tests_without_ml_dsa job below.
         include:
           - php-version: '8.2'
             lowest-deps: true
+            ml-dsa: 'no'
           - php-version: '8.2'
+            ml-dsa: 'no'
           - php-version: '8.3'
+            ml-dsa: 'no'
           - php-version: '8.4'
+            ml-dsa: 'yes'
           - php-version: '8.5'
             experimental: true
+            ml-dsa: 'yes'
     container:
       image: ghcr.io/spomky-labs/phpqa:${{ matrix.php-version }}
     env:
       XDEBUG_MODE: coverage
       PHP_VERSION: ${{ matrix.php-version }}
+      JOSE_ML_DSA_EXPECTED: ${{ matrix.ml-dsa }}
     steps:
       - uses: actions/checkout@v5
       - name: Install dependencies
@@ -210,6 +220,42 @@ jobs:
             --coverage-xml .ci-tools/coverage \
             --log-junit=.ci-tools/coverage/junit.xml \
             --configuration .ci-tools/phpunit.xml.dist
+
+  # The other side of the ML-DSA platform gate: a PHP recent enough (8.4) on an OpenSSL too old (3.0, the one
+  # Ubuntu 24.04 ships and the PHP of the PPA links against). MLDSA44::isSupported() must be false there, the
+  # constructor must throw, the bundle must compile and the rest of the suite must be unaffected; MLDSASignatureTest
+  # asserts the first through JOSE_ML_DSA_EXPECTED. The runner is pinned rather than "latest" so that a newer image
+  # with OpenSSL 3.5 cannot silently turn this job into a copy of the one above.
+  tests_without_ml_dsa:
+    name: "🧪 Unit & Functional Tests (PHP 8.4 - OpenSSL 3.0, no ML-DSA)"
+    needs:
+      - prepare_dependencies
+      - phpstan
+      - ecs
+      - rector
+      - lint
+      - validate
+      - check_licenses
+      - deptrac
+    runs-on: ubuntu-24.04
+    env:
+      JOSE_ML_DSA_EXPECTED: 'no'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: openssl, sodium, mbstring, gmp, intl
+          tools: composer, phpunit:11
+          coverage: none
+      - name: Show the OpenSSL the PHP binary loaded
+        run: |
+          php -r 'echo PHP_VERSION, " built against ", OPENSSL_VERSION_TEXT, PHP_EOL;'
+          openssl version
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+      - name: Run PHPUnit
+        run: phpunit --configuration .ci-tools/phpunit.xml.dist
 
   infection:
     name: "🧬 Mutation Testing"

@@ -11,6 +11,7 @@ use Jose\Component\Signature\Algorithm\ECDSA;
 use Jose\Component\Signature\Algorithm\Ed25519;
 use Jose\Component\Signature\Algorithm\Ed448;
 use Jose\Component\Signature\Algorithm\HMAC;
+use Jose\Component\Signature\Algorithm\MLDSA44;
 use Jose\Component\Signature\Algorithm\RSAPSS;
 use Jose\Experimental\Signature\HS1;
 use Jose\Unsecured\Signature\None;
@@ -114,6 +115,9 @@ final readonly class SignatureSource implements SourceWithCompilerPasses
 
         if (Ed25519::isSupported() || Ed448::isSupported()) {
             $algorithms[Ed25519::class] = 'signature_eddsa.php';
+        }
+        if (MLDSA44::isSupported()) {
+            $algorithms[MLDSA44::class] = 'signature_mldsa.php';
         }
 
         return $algorithms;

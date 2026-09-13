@@ -63,7 +63,7 @@ final class EdDSAAlgorithmsTest extends WebTestCase
         $messages = array_map(static fn ($message): string => $message->getMessage(), $analyzer->analyze($key)->all());
 
         static::assertContains(
-            'The algorithm "EdDSA" is deprecated (RFC 9864). Use the fully-specified "Ed25519" algorithm instead.',
+            'The algorithm "EdDSA" is deprecated. Use the fully-specified "Ed25519" algorithm instead.',
             $messages
         );
     }

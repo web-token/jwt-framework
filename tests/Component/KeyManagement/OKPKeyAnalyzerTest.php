@@ -173,11 +173,11 @@ final class OKPKeyAnalyzerTest extends TestCase
         ]);
 
         static::assertSame(
-            ['medium: The algorithm "EdDSA" is deprecated (RFC 9864). Use the fully-specified "Ed25519" algorithm instead.'],
+            ['medium: The algorithm "EdDSA" is deprecated. Use the fully-specified "Ed25519" algorithm instead.'],
             self::analyze(new AlgorithmAnalyzer(), $ed25519)
         );
         static::assertSame(
-            ['medium: The algorithm "EdDSA" is deprecated (RFC 9864). Use the fully-specified "Ed448" algorithm instead.'],
+            ['medium: The algorithm "EdDSA" is deprecated. Use the fully-specified "Ed448" algorithm instead.'],
             self::analyze(new AlgorithmAnalyzer(), $ed448)
         );
         static::assertSame([], self::analyze(new AlgorithmAnalyzer(), new JWK(self::key('Ed25519', 32, 32)->all() + [
