@@ -185,6 +185,21 @@ class JWK implements JsonSerializable
     }
 
     /**
+     * Returns the JWK Thumbprint URI of the key, as defined by RFC 9278.
+     *
+     * The hash function is designated by its IANA name ("sha-256", "sha-512", "sha3-256"...), which is the name
+     * carried by the URI; see JwkThumbprintUri for the supported names.
+     *
+     * @param string $hashAlgorithm the IANA name of the hash function, "sha-256" by default
+     *
+     * @see https://www.rfc-editor.org/rfc/rfc9278.html
+     */
+    public function thumbprintUri(string $hashAlgorithm = JwkThumbprintUri::DEFAULT_HASH_ALGORITHM): string
+    {
+        return JwkThumbprintUri::fromKey($this, $hashAlgorithm)->toString();
+    }
+
+    /**
      * Returns the associated public key.
      * This method has no effect for:
      * - public keys
