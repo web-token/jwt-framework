@@ -3779,6 +3779,16 @@ parameters:
 			path: ../src/Bundle/Resources/config/Algorithms/signature_eddsa.php
 
 		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Experimental\Signature\ES256K:
+				since 4.3.0, will be removed in 5.0.0. "ES256K" is a standard algorithm (RFC 8812) and moved to the
+				            library: use Jose\Component\Signature\Algorithm\ES256K instead.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/signature_experimental.php
+
+		-
 			rawMessage: Access to constant on internal class Jose\Component\Core\Util\Ecc\NistCurve.
 			identifier: classConstant.internalClass
 			count: 1

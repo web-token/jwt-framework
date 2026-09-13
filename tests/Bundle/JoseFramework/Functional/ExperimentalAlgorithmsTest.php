@@ -6,6 +6,7 @@ namespace Jose\Tests\Bundle\JoseFramework\Functional;
 
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use Jose\Component\Signature\Algorithm\ES256K as StandardES256K;
 use Jose\Experimental\ContentEncryption\A128CCM_16_128;
 use Jose\Experimental\ContentEncryption\A128CCM_16_64;
 use Jose\Experimental\ContentEncryption\A128CCM_64_128;
@@ -17,8 +18,10 @@ use Jose\Experimental\ContentEncryption\A256CCM_64_64;
 use Jose\Experimental\KeyEncryption\A128CTR;
 use Jose\Experimental\Signature\ES256K;
 use Jose\Experimental\Signature\HS1;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\DeprecatedES256KConsumer;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\Attributes\Test;
 use function extension_loaded;
 
@@ -49,9 +52,31 @@ final class ExperimentalAlgorithmsTest extends WebTestCase
     public function theExperimentalClassesAreTheOnesOfTheExperimentalPackage(): void
     {
         static::assertTrue(class_exists(HS1::class));
-        static::assertTrue(class_exists(ES256K::class));
         static::assertTrue(class_exists(A128CTR::class));
         static::assertTrue(class_exists(A128CCM_16_128::class));
+    }
+
+    /**
+     * "ES256K" is a standard algorithm (RFC 8812) and moved to the library in 4.3: the "ES256K" alias is served by
+     * the library class, and the experimental class survives as a deprecated service until 5.0.0.
+     */
+    #[Test]
+    #[IgnoreDeprecations]
+    public function es256kIsServedByTheLibraryClassAndTheExperimentalServiceIsDeprecated(): void
+    {
+        static::ensureKernelShutdown();
+        $container = static::createClient()
+            ->getContainer();
+
+        /** @var AlgorithmManagerFactory $factory */
+        $factory = $container->get(AlgorithmManagerFactory::class);
+        $algorithm = $factory->create(['ES256K'])->get('ES256K');
+        static::assertSame(StandardES256K::class, $algorithm::class);
+
+        $consumer = $container->get(DeprecatedES256KConsumer::class);
+        static::assertInstanceOf(DeprecatedES256KConsumer::class, $consumer);
+        static::assertInstanceOf(ES256K::class, $consumer->algorithm);
+        static::assertSame('ES256K', $consumer->algorithm->name());
     }
 
     /**
@@ -87,7 +112,6 @@ final class ExperimentalAlgorithmsTest extends WebTestCase
         yield 'RS1' => ['RS1'];
         yield 'HS1' => ['HS1'];
         yield 'HS256/64' => ['HS256/64'];
-        yield 'ES256K' => ['ES256K'];
         yield 'BLAKE2B' => ['BLAKE2B'];
         yield 'A128CTR' => ['A128CTR'];
         yield 'A192CTR' => ['A192CTR'];

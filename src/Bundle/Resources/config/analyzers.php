@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\ES256KKeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer;
@@ -51,6 +52,7 @@ return function (ContainerConfigurator $container): void {
 
     if (class_exists(NistCurve::class)) {
         $container->set(ES256KeyAnalyzer::class);
+        $container->set(ES256KKeyAnalyzer::class);
         $container->set(ES384KeyAnalyzer::class);
         $container->set(ES512KeyAnalyzer::class);
     }
