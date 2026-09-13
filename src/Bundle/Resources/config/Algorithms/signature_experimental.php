@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Signature\Algorithm\ES256K as StandardES256K;
 use Jose\Experimental\Signature\Blake2b;
 use Jose\Experimental\Signature\ES256K;
 use Jose\Experimental\Signature\HS1;
@@ -40,9 +41,11 @@ return function (ContainerConfigurator $container): void {
         ]);
 
     $container->set(ES256K::class)
-        ->tag('jose.algorithm', [
-            'alias' => 'ES256K',
-        ]);
+        ->deprecate(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'The "%service_id%" service is deprecated: the "ES256K" algorithm moved to the library and is registered as "' . StandardES256K::class . '", under the same "ES256K" alias.'
+        );
 
     $container->set(Blake2b::class)
         ->tag('jose.algorithm', [
