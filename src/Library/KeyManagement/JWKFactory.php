@@ -9,6 +9,7 @@ use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\AKPKey;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\InheritanceChecker;
@@ -346,6 +347,24 @@ class JWKFactory implements JWKFactoryInterface
             'crv' => $curve,
             'd' => $key->get('d'),
             'x' => $key->get('x'),
+        ]);
+    }
+
+    #[Override]
+    public function mldsa(string $algorithm, array $values = []): JWK
+    {
+        $seed = null;
+        if (array_key_exists('priv', $values)) {
+            if (! is_string($values['priv'])) {
+                throw new InvalidKeyException('Invalid AKP key. The "priv" parameter must be the base64url encoded seed.');
+            }
+            $seed = Base64UrlSafe::decodeNoPadding($values['priv']);
+        }
+        $key = AKPKey::generate($algorithm, $seed);
+
+        return new JWK([
+            ...$values,
+            ...$key->all(),
         ]);
     }
 

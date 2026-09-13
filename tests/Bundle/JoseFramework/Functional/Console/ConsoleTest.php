@@ -29,6 +29,8 @@ final class ConsoleTest extends KernelTestCase
             'keyset:generate:oct',
             'key:generate:okp',
             'keyset:generate:okp',
+            'key:generate:mldsa',
+            'keyset:generate:mldsa',
             'key:optimize',
             'key:load:p12',
             'key:convert:pkcs1',

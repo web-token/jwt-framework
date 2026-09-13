@@ -27,7 +27,7 @@ final readonly class AlgorithmAnalyzer implements KeyAnalyzer
         if ($jwk->find('alg') === 'EdDSA') {
             $replacement = $jwk->find('crv') === OKPKey::CURVE_ED448 ? 'Ed448' : 'Ed25519';
             $bag->add(Message::medium(sprintf(
-                'The algorithm "EdDSA" is deprecated (RFC 9864). Use the fully-specified "%s" algorithm instead.',
+                'The algorithm "EdDSA" is deprecated. Use the fully-specified "%s" algorithm instead.',
                 $replacement
             )));
         }

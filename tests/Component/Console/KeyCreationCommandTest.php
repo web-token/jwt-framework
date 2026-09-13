@@ -6,12 +6,16 @@ namespace Jose\Tests\Component\Console;
 
 use InvalidArgumentException;
 use Jose\Component\Console\EcKeyGeneratorCommand;
+use Jose\Component\Console\MldsaKeyGeneratorCommand;
+use Jose\Component\Console\MldsaKeysetGeneratorCommand;
 use Jose\Component\Console\NoneKeyGeneratorCommand;
 use Jose\Component\Console\OctKeyGeneratorCommand;
 use Jose\Component\Console\OkpKeyGeneratorCommand;
 use Jose\Component\Console\RsaKeyGeneratorCommand;
 use Jose\Component\Console\SecretKeyGeneratorCommand;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\AKPKey;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\OKPKey;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -172,6 +176,62 @@ final class KeyCreationCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         JWK::createFromJson($content);
+    }
+
+    /**
+     * @return iterable<string, array{string, int}>
+     */
+    public static function mldsaParameterSets(): iterable
+    {
+        yield 'ML-DSA-44' => ['ML-DSA-44', 1312];
+        yield 'ML-DSA-65' => ['ML-DSA-65', 1952];
+        yield 'ML-DSA-87' => ['ML-DSA-87', 2592];
+    }
+
+    #[Test]
+    #[DataProvider('mldsaParameterSets')]
+    public function iCanCreateAnMLDSAKey(string $algorithm, int $publicKeySize): void
+    {
+        if (! AKPKey::supportsOpenSSL()) {
+            static::markTestSkipped('This platform has no ML-DSA: PHP 8.4 and an OpenSSL 3.5 runtime are required.');
+        }
+        $input = new ArrayInput([
+            'algorithm' => $algorithm,
+            '--use' => 'sig',
+        ]);
+        $output = new BufferedOutput();
+        $command = new MldsaKeyGeneratorCommand();
+
+        $command->run($input, $output);
+        $jwk = JWK::createFromJson($output->fetch());
+
+        static::assertSame('AKP', $jwk->get('kty'));
+        static::assertSame($algorithm, $jwk->get('alg'));
+        static::assertSame('sig', $jwk->get('use'));
+        static::assertSame($publicKeySize, strlen(Base64UrlSafe::decodeNoPadding($jwk->getString('pub'))));
+        static::assertSame(32, strlen(Base64UrlSafe::decodeNoPadding($jwk->getString('priv'))));
+    }
+
+    #[Test]
+    public function iCanCreateAnMLDSAKeySet(): void
+    {
+        if (! AKPKey::supportsOpenSSL()) {
+            static::markTestSkipped('This platform has no ML-DSA: PHP 8.4 and an OpenSSL 3.5 runtime are required.');
+        }
+        $input = new ArrayInput([
+            'quantity' => 2,
+            'algorithm' => 'ML-DSA-44',
+        ]);
+        $output = new BufferedOutput();
+        $command = new MldsaKeysetGeneratorCommand();
+
+        $command->run($input, $output);
+        $jwkset = JWKSet::createFromJson($output->fetch());
+
+        static::assertCount(2, $jwkset);
+        foreach ($jwkset as $jwk) {
+            static::assertSame('ML-DSA-44', $jwk->get('alg'));
+        }
     }
 
     /**

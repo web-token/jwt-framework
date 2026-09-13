@@ -10,6 +10,8 @@ use Jose\Component\Console\KeyAnalyzerCommand;
 use Jose\Component\Console\KeyFileLoaderCommand;
 use Jose\Component\Console\KeysetAnalyzerCommand;
 use Jose\Component\Console\MergeKeysetCommand;
+use Jose\Component\Console\MldsaKeyGeneratorCommand;
+use Jose\Component\Console\MldsaKeysetGeneratorCommand;
 use Jose\Component\Console\NoneKeyGeneratorCommand;
 use Jose\Component\Console\OctKeyGeneratorCommand;
 use Jose\Component\Console\OctKeysetGeneratorCommand;
@@ -47,6 +49,8 @@ return function (ContainerConfigurator $container): void {
     $container->set(NoneKeyGeneratorCommand::class);
     $container->set(OctKeyGeneratorCommand::class);
     $container->set(OctKeysetGeneratorCommand::class);
+    $container->set(MldsaKeyGeneratorCommand::class);
+    $container->set(MldsaKeysetGeneratorCommand::class);
     $container->set(OkpKeyGeneratorCommand::class);
     $container->set(OkpKeysetGeneratorCommand::class);
     $container->set(P12CertificateLoaderCommand::class);

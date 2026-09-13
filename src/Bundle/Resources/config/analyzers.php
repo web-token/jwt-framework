@@ -15,6 +15,7 @@ use Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\MixedKeyTypes;
 use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
+use Jose\Component\KeyManagement\Analyzer\MLDSAKeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OKPKeyAnalyzer;
@@ -41,6 +42,7 @@ return function (ContainerConfigurator $container): void {
     $container->set(NoneAnalyzer::class);
     $container->set(OctAnalyzer::class);
     $container->set(OKPKeyAnalyzer::class);
+    $container->set(MLDSAKeyAnalyzer::class);
     $container->set(MixedKeyTypes::class);
     $container->set(MixedPublicAndPrivateKeys::class);
     $container->set(HS256KeyAnalyzer::class);
