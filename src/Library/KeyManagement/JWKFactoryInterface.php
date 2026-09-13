@@ -45,6 +45,10 @@ interface JWKFactoryInterface
     /**
      * Creates an OKP key with the given curve and additional values.
      *
+     * The curves are "Ed25519", "Ed448", "X25519" and "X448" (RFC 8037). Ed25519 and X25519 are generated with sodium
+     * when the extension is loaded and with OpenSSL otherwise; Ed448 and X448 with OpenSSL only. The OpenSSL paths
+     * need PHP 8.4 or later.
+     *
      * @param string               $curve  The curve
      * @param array<string, mixed> $values Values to configure the key
      */

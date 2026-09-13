@@ -17,6 +17,7 @@ use Jose\Component\KeyManagement\Analyzer\MixedKeyTypes;
 use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\OKPKeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -39,6 +40,7 @@ return function (ContainerConfigurator $container): void {
     $container->set(KeyIdentifierAnalyzer::class);
     $container->set(NoneAnalyzer::class);
     $container->set(OctAnalyzer::class);
+    $container->set(OKPKeyAnalyzer::class);
     $container->set(MixedKeyTypes::class);
     $container->set(MixedPublicAndPrivateKeys::class);
     $container->set(HS256KeyAnalyzer::class);

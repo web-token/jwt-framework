@@ -3769,6 +3769,16 @@ parameters:
 			path: ../src/Bundle/Helper/ConfigurationHelper.php
 
 		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Component\Signature\Algorithm\EdDSA:
+				since 4.3.0, deprecated by RFC 9864. Use "Ed25519" (or "Ed448") instead; the keys are unchanged, only
+				the "alg" value differs.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/signature_eddsa.php
+
+		-
 			rawMessage: Access to constant on internal class Jose\Component\Core\Util\Ecc\NistCurve.
 			identifier: classConstant.internalClass
 			count: 1
@@ -4675,12 +4685,6 @@ parameters:
 			path: ../src/Library/Encryption/Algorithm/KeyEncryption/AESGCMKW.php
 
 		-
-			rawMessage: 'Parameter #3 $length of function substr expects int|null, float|int<min, 0> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Encryption/Algorithm/KeyEncryption/AbstractECDH.php
-
-		-
 			rawMessage: Binary operation "." between mixed and "\000" results in an error.
 			identifier: binaryOp.invalid
 			count: 2
@@ -5071,12 +5075,6 @@ parameters:
 			path: ../src/Library/KeyManagement/JWKFactory.php
 
 		-
-			rawMessage: 'Parameter #3 $length of function substr expects int|null, float|int<min, 0> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
 			rawMessage: 'Method Jose\Component\KeyManagement\KeyConverter\ECKey::__construct() has parameter $data with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
@@ -5167,22 +5165,16 @@ parameters:
 			path: ../src/Library/KeyManagement/KeyConverter/RSAKey.php
 
 		-
+			rawMessage: 'Call to internal static method ParagonIE_Sodium_Core_Ed25519::publickey_from_secretkey().'
+			identifier: staticMethod.internal
+			count: 1
+			path: ../src/Library/Signature/Algorithm/AbstractEdDSA.php
+
+		-
 			rawMessage: 'Parameter #1 $signature of static method Jose\Component\Core\Util\ECSignature::fromAsn1() expects string, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Algorithm/ECDSA.php
-
-		-
-			rawMessage: 'Call to internal static method ParagonIE_Sodium_Core_Ed25519::publickey_from_secretkey().'
-			identifier: staticMethod.internal
-			count: 1
-			path: ../src/Library/Signature/Algorithm/EdDSA.php
-
-		-
-			rawMessage: 'Method Jose\Component\Signature\Algorithm\EdDSA::sign() should return non-empty-string but returns string.'
-			identifier: return.type
-			count: 1
-			path: ../src/Library/Signature/Algorithm/EdDSA.php
 
 		-
 			rawMessage: 'Method Jose\Component\Signature\Algorithm\RSAPKCS1::sign() should return string but returns mixed.'
