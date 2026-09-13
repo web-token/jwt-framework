@@ -133,6 +133,124 @@ final class ConfigurationTest extends TestCase
         );
     }
 
+    #[Test]
+    public function theAcceptedTypesOfAHeaderCheckerCanBeSet(): void
+    {
+        $this->assertProcessedConfigurationEquals(
+            [
+                [
+                    'checkers' => [
+                        'headers' => [
+                            'foo' => [
+                                'headers' => ['alg'],
+                                'typ' => ['at+jwt', 'application/dpop+jwt'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'checkers' => [
+                    'headers' => [
+                        'foo' => [
+                            'is_public' => true,
+                            'headers' => ['alg'],
+                            'typ' => ['at+jwt', 'application/dpop+jwt'],
+                            'tags' => [],
+                        ],
+                    ],
+                    'claims' => [],
+                ],
+            ],
+            'checkers'
+        );
+    }
+
+    #[Test]
+    public function aSingleAcceptedTypeCanBeGivenAsAString(): void
+    {
+        $this->assertProcessedConfigurationEquals(
+            [
+                [
+                    'checkers' => [
+                        'headers' => [
+                            'foo' => [
+                                'headers' => [],
+                                'typ' => 'at+jwt',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'checkers' => [
+                    'headers' => [
+                        'foo' => [
+                            'is_public' => true,
+                            'headers' => [],
+                            'typ' => ['at+jwt'],
+                            'tags' => [],
+                        ],
+                    ],
+                    'claims' => [],
+                ],
+            ],
+            'checkers'
+        );
+    }
+
+    #[Test]
+    public function theAcceptedTypesAreOptional(): void
+    {
+        $this->assertProcessedConfigurationEquals(
+            [
+                [
+                    'checkers' => [
+                        'headers' => [
+                            'foo' => [
+                                'headers' => ['alg'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'checkers' => [
+                    'headers' => [
+                        'foo' => [
+                            'is_public' => true,
+                            'headers' => ['alg'],
+                            'typ' => [],
+                            'tags' => [],
+                        ],
+                    ],
+                    'claims' => [],
+                ],
+            ],
+            'checkers'
+        );
+    }
+
+    #[Test]
+    public function anAcceptedTypeCannotBeEmpty(): void
+    {
+        $this->assertConfigurationIsInvalid(
+            [
+                [
+                    'checkers' => [
+                        'headers' => [
+                            'foo' => [
+                                'headers' => [],
+                                'typ' => [''],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'The path "jose.checkers.headers.foo.typ.0" cannot contain an empty value, but got "".'
+        );
+    }
+
     protected function getConfiguration(): Configuration
     {
         return new Configuration('jose', [new CoreSource(), new CheckerSource()]);
