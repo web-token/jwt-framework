@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Helper;
 
+use InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use function func_get_arg;
+use function func_num_args;
 use function is_array;
 
 final readonly class ConfigurationHelper
@@ -290,6 +293,10 @@ final readonly class ConfigurationHelper
     }
 
     /**
+     * The media types accepted for the "typ" header parameter (RFC 8725 section 3.11) are accepted as an additional
+     * string[] argument. That argument is not part of the signature and is read with func_num_args()/func_get_arg(5)
+     * until 5.0.0, where it will be declared.
+     *
      * @param string[] $headerCheckers
      */
     public static function addHeaderChecker(
@@ -299,6 +306,10 @@ final readonly class ConfigurationHelper
         bool $isPublic = true,
         array $tags = []
     ): void {
+        $types = func_num_args() >= 6 ? func_get_arg(5) : [];
+        if (! is_array($types)) {
+            throw new InvalidArgumentException('The accepted types for the "typ" header must be a list of strings.');
+        }
         $config = [
             self::BUNDLE_ALIAS => [
                 'checkers' => [
@@ -306,6 +317,7 @@ final readonly class ConfigurationHelper
                         $name => [
                             'is_public' => $isPublic,
                             'headers' => $headerCheckers,
+                            'typ' => $types,
                             'tags' => $tags,
                         ],
                     ],

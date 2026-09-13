@@ -481,6 +481,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
+			rawMessage: Cannot access an offset on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: Cannot access offset 'headers' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -499,9 +505,15 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
+			rawMessage: Cannot access offset 'typ' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 4
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -511,7 +523,19 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
+			rawMessage: 'Cannot call method beforeNormalization() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: 'Cannot call method booleanNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			rawMessage: 'Cannot call method cannotBeEmpty() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
@@ -531,13 +555,19 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 9
+			count: 12
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			rawMessage: 'Cannot call method ifString() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
 			rawMessage: 'Cannot call method info() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 4
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -548,6 +578,12 @@ parameters:
 
 		-
 			rawMessage: 'Cannot call method scalarPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			rawMessage: 'Cannot call method then() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
@@ -615,7 +651,7 @@ parameters:
 		-
 			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
 			identifier: argument.type
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-

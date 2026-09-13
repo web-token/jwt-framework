@@ -38,6 +38,7 @@ final class TestExtension extends Extension implements PrependExtensionInterface
         ]);
         ConfigurationHelper::addClaimChecker($container, 'checker2', ['exp', 'iat', 'nbf', 'custom_checker'], true);
         ConfigurationHelper::addHeaderChecker($container, 'checker2', ['custom_checker'], true);
+        ConfigurationHelper::addHeaderChecker($container, 'access_token2', [], true, [], ['at+jwt']);
         ConfigurationHelper::addJWSBuilder($container, 'builder2', ['RS512', 'HS512', 'ES512'], true);
         ConfigurationHelper::addJWSVerifier($container, 'loader2', ['RS512', 'HS512', 'ES512'], true);
         ConfigurationHelper::addJWSSerializer(
