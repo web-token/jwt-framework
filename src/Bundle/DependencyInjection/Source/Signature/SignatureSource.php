@@ -8,7 +8,8 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Compiler\SignatureSerializerCo
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Signature\Algorithm\ECDSA;
-use Jose\Component\Signature\Algorithm\EdDSA;
+use Jose\Component\Signature\Algorithm\Ed25519;
+use Jose\Component\Signature\Algorithm\Ed448;
 use Jose\Component\Signature\Algorithm\HMAC;
 use Jose\Component\Signature\Algorithm\RSAPSS;
 use Jose\Experimental\Signature\HS1;
@@ -21,7 +22,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use function array_key_exists;
 use function count;
-use function extension_loaded;
 
 final readonly class SignatureSource implements SourceWithCompilerPasses
 {
@@ -112,8 +112,8 @@ final readonly class SignatureSource implements SourceWithCompilerPasses
             RSAPSS::class => 'signature_rsa.php',
         ];
 
-        if (extension_loaded('sodium')) {
-            $algorithms[EdDSA::class] = 'signature_eddsa.php';
+        if (Ed25519::isSupported() || Ed448::isSupported()) {
+            $algorithms[Ed25519::class] = 'signature_eddsa.php';
         }
 
         return $algorithms;

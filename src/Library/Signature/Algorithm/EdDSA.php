@@ -4,125 +4,58 @@ declare(strict_types=1);
 
 namespace Jose\Component\Signature\Algorithm;
 
-use Jose\Component\Core\Exception\InvalidKeyException;
-use Jose\Component\Core\Exception\MissingDependencyException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
-use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\OKPKey;
 use Override;
-use ParagonIE\Sodium\Core\Ed25519;
-use function assert;
-use function extension_loaded;
-use function in_array;
-use function is_string;
-use function sprintf;
+use function trigger_deprecation;
 
-final readonly class EdDSA implements SignatureAlgorithm
+/**
+ * The polymorphic "EdDSA" algorithm of RFC 8037 section 3.1, restricted to the Ed25519 curve as it always was in
+ * this library.
+ *
+ * RFC 9864 section 4.1.2 deprecates the identifier in favour of the fully-specified "Ed25519" and "Ed448": the name
+ * of the algorithm alone must say which curve is in use. The algorithm keeps working for the tokens already in
+ * circulation, and its removal is a candidate for 5.0.0.
+ *
+ * @deprecated since 4.3.0, deprecated by RFC 9864. Use "Ed25519" (or "Ed448") instead; the keys are unchanged, only
+ * the "alg" value differs.
+ */
+final readonly class EdDSA extends AbstractEdDSA
 {
-    public function __construct()
-    {
-        if (! extension_loaded('sodium')) {
-            throw new MissingDependencyException('The extension "sodium" is not available. Please install it to use this method');
-        }
-    }
-
-    #[Override]
-    public function allowedKeyTypes(): array
-    {
-        return ['OKP'];
-    }
-
-    /**
-     * @return non-empty-string
-     */
-    #[Override]
-    public function sign(JWK $key, string $input): string
-    {
-        $this->checkKey($key);
-        if (! $key->has('d')) {
-            throw new InvalidKeyException('The EC key is not private');
-        }
-        $d = $key->get('d');
-        if (! is_string($d) || $d === '') {
-            throw new InvalidKeyException('Invalid "d" parameter.');
-        }
-        if (! $key->has('x')) {
-            $x = self::getPublicKey($key);
-        } else {
-            $x = $key->get('x');
-        }
-        if (! is_string($x) || $x === '') {
-            throw new InvalidKeyException('Invalid "x" parameter.');
-        }
-        /** @var non-empty-string $x */
-        $x = Base64UrlSafe::decodeNoPadding($x);
-        /** @var non-empty-string $d */
-        $d = Base64UrlSafe::decodeNoPadding($d);
-        $secret = $d . $x;
-
-        return match ($key->get('crv')) {
-            'Ed25519' => sodium_crypto_sign_detached($input, $secret),
-            default => throw new UnsupportedCurveException('Unsupported curve'),
-        };
-    }
-
-    #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
-    {
-        if ($signature === '') {
-            return false;
-        }
-        $this->checkKey($key);
-        $x = $key->get('x');
-        if (! is_string($x)) {
-            throw new InvalidKeyException('Invalid "x" parameter.');
-        }
-
-        /** @var non-empty-string $public */
-        $public = Base64UrlSafe::decodeNoPadding($x);
-
-        return match ($key->get('crv')) {
-            'Ed25519' => sodium_crypto_sign_verify_detached($signature, $input, $public),
-            default => throw new UnsupportedCurveException('Unsupported curve'),
-        };
-    }
-
     #[Override]
     public function name(): string
     {
         return 'EdDSA';
     }
 
-    private static function getPublicKey(JWK $key): string
+    /**
+     * Issuing a new token with the deprecated identifier is what RFC 9864 asks to stop; verifying the tokens already
+     * in circulation is not, so only signing raises the deprecation.
+     */
+    #[Override]
+    public function sign(JWK $key, string $input): string
     {
-        $d = $key->get('d');
-        assert(is_string($d), 'Unsupported key type');
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'Signing with the "EdDSA" algorithm is deprecated by RFC 9864. Use the fully-specified "Ed25519" algorithm (%s) instead: the key is unchanged, only the "alg" value differs.',
+            Ed25519::class
+        );
 
-        switch ($key->get('crv')) {
-            case 'Ed25519':
-                return Ed25519::publickey_from_secretkey($d);
-            case 'X25519':
-                if (extension_loaded('sodium')) {
-                    return sodium_crypto_scalarmult_base($d);
-                }
-                // no break
-            default:
-                throw new InvalidKeyException('Unsupported key type');
-        }
+        return parent::sign($key, $input);
     }
 
-    private function checkKey(JWK $key): void
+    #[Override]
+    protected static function curve(): string
     {
-        if (! in_array($key->get('kty'), $this->allowedKeyTypes(), true)) {
-            throw new InvalidKeyException('Wrong key type.');
-        }
-        foreach (['x', 'crv'] as $k) {
-            if (! $key->has($k)) {
-                throw new InvalidKeyException(sprintf('The key parameter "%s" is missing.', $k));
-            }
-        }
-        if ($key->get('crv') !== 'Ed25519') {
-            throw new UnsupportedCurveException('Unsupported curve.');
-        }
+        return OKPKey::CURVE_ED25519;
+    }
+
+    #[Override]
+    protected function curveMismatchException(): InvalidArgumentException
+    {
+        return new UnsupportedCurveException('Unsupported curve.');
     }
 }
