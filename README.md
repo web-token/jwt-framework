@@ -3,8 +3,7 @@
   <img alt="JWT Framework" width="316" height="48" src="https://raw.githubusercontent.com/Spomky-Labs/brand/main/4-Web/svg/marques-de-projet/marque-jwt-framework-couleur.svg">
 </picture>
 
-PHP JWT Framework
-=================
+JSON Web Tokens: JWS, JWE and JWK.
 
 ![Build Status](https://github.com/web-token/jwt-framework/workflows/Integrate/badge.svg)
 
