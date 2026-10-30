@@ -122,27 +122,21 @@ final class UrlKeySetFactoryTest extends TestCase
 
     private function getJKUFactory(): JKUFactory
     {
-        if ($this->jkuFactory === null) {
-            $this->jkuFactory = new JKUFactory($this->getHttpClient());
-        }
+        $this->jkuFactory ??= new JKUFactory($this->getHttpClient());
 
         return $this->jkuFactory;
     }
 
     private function getX5UFactory(): X5UFactory
     {
-        if ($this->x5uFactory === null) {
-            $this->x5uFactory = new X5UFactory($this->getHttpClient());
-        }
+        $this->x5uFactory ??= new X5UFactory($this->getHttpClient());
 
         return $this->x5uFactory;
     }
 
     private function getHttpClient(): MockHttpClient
     {
-        if ($this->httpClient === null) {
-            $this->httpClient = new MockHttpClient();
-        }
+        $this->httpClient ??= new MockHttpClient();
 
         return $this->httpClient;
     }

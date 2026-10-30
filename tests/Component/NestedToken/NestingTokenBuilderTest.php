@@ -101,32 +101,26 @@ final class NestingTokenBuilderTest extends TestCase
 
     protected function getJWSBuilderFactory(): JWSBuilderFactory
     {
-        if ($this->jwsBuilderFactory === null) {
-            $this->jwsBuilderFactory = new JWSBuilderFactory($this->getAlgorithmManagerFactory());
-        }
+        $this->jwsBuilderFactory ??= new JWSBuilderFactory($this->getAlgorithmManagerFactory());
 
         return $this->jwsBuilderFactory;
     }
 
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
-        if ($this->jweBuilderFactory === null) {
-            $this->jweBuilderFactory = new JWEBuilderFactory($this->getAlgorithmManagerFactory());
-        }
+        $this->jweBuilderFactory ??= new JWEBuilderFactory($this->getAlgorithmManagerFactory());
 
         return $this->jweBuilderFactory;
     }
 
     private function getNestedTokenBuilderFactory(): NestedTokenBuilderFactory
     {
-        if ($this->nestedTokenBuilderFactory === null) {
-            $this->nestedTokenBuilderFactory = new NestedTokenBuilderFactory(
-                $this->getJWEBuilderFactory(),
-                $this->getJWESerializerManagerFactory(),
-                $this->getJWSBuilderFactory(),
-                $this->getJWSSerializerManagerFactory()
-            );
-        }
+        $this->nestedTokenBuilderFactory ??= new NestedTokenBuilderFactory(
+            $this->getJWEBuilderFactory(),
+            $this->getJWESerializerManagerFactory(),
+            $this->getJWSBuilderFactory(),
+            $this->getJWSSerializerManagerFactory()
+        );
 
         return $this->nestedTokenBuilderFactory;
     }
@@ -143,13 +137,11 @@ final class NestingTokenBuilderTest extends TestCase
 
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
-        if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
-                new A128GCM(),
-                new RSAOAEP(),
-                new PS256(),
-            ]);
-        }
+        $this->algorithmManagerFactory ??= new AlgorithmManagerFactory([
+            new A128GCM(),
+            new RSAOAEP(),
+            new PS256(),
+        ]);
 
         return $this->algorithmManagerFactory;
     }

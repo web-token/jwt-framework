@@ -63,7 +63,7 @@ final class KeyCollector implements Collector
         foreach ($this->jwks as $id => $jwk) {
             $data['key']['jwk'][$id] = [
                 'jwk' => $cloner->cloneVar($jwk),
-                'analyze' => $this->jwkAnalyzerManager === null ? [] : $this->jwkAnalyzerManager->analyze($jwk),
+                'analyze' => $this->jwkAnalyzerManager?->analyze($jwk) ?? [],
             ];
         }
     }
