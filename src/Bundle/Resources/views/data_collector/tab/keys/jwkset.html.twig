@@ -2,7 +2,8 @@
 <p class="help">
     This table lists all key sets registered as service through the bundle configuration
     or the Configuration Helper. <br>
-    For each key in the key sets, it shows the result of the analyze performed on that key.
+    For each key in the key sets, it shows the result of the analyze performed on that key,
+    or the error raised when the key set could not be loaded or analyzed.
 </p>
 <table>
     <thead>
@@ -15,37 +16,47 @@
     <tbody>
     {% if not collector.getData().key.jwkset is empty %}
         {% for id, data in collector.getData().key.jwkset %}
-            <tr>
-                <td>{{ id }}</td>
-                <td>{{ profiler_dump(data.jwkset) }}</td>
-                <td>
-                    {% for kid, messages in data.analyze_jwkset %}
-                        <h5>Key set:</h5>
-                        <ul>
-                            {% if messages|length == 0 %}
-                                <li>No message. All good!</li>
-                            {% else %}
-                                {% for message in messages %}
-                                    <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    {% endfor %}
-                    <hr>
-                    {% for kid, messages in data.analyze %}
-                        <h5>Key index / Key ID "{{ kid }}":</h5>
-                        <ul>
-                            {% if messages|length == 0 %}
-                                <li>No message. All good!</li>
-                            {% else %}
-                                {% for message in messages %}
-                                    <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    {% endfor %}
-                </td>
-            </tr>
+            {% if data.error is defined %}
+                <tr class="severity-high">
+                    <td>{{ id }}</td>
+                    <td colspan="2">
+                        The key set could not be loaded or analyzed.<br>
+                        {{ data.error.class }}: {{ data.error.message }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ profiler_dump(data.jwkset) }}</td>
+                    <td>
+                        {% for kid, messages in data.analyze_jwkset %}
+                            <h5>Key set:</h5>
+                            <ul>
+                                {% if messages|length == 0 %}
+                                    <li>No message. All good!</li>
+                                {% else %}
+                                    {% for message in messages %}
+                                        <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        {% endfor %}
+                        <hr>
+                        {% for kid, messages in data.analyze %}
+                            <h5>Key index / Key ID "{{ kid }}":</h5>
+                            <ul>
+                                {% if messages|length == 0 %}
+                                    <li>No message. All good!</li>
+                                {% else %}
+                                    {% for message in messages %}
+                                        <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endif %}
         {% endfor %}
     {% else %}
         <tr>
