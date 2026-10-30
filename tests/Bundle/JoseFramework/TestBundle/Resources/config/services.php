@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\CustomChecker;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\DeprecatedES256KConsumer;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\NestedTokenServiceConsumer;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Clock\NativeClock;
@@ -28,6 +29,10 @@ return function (ContainerConfigurator $container) {
     ;
 
     $container->set(NestedTokenServiceConsumer::class)
+        ->public()
+    ;
+
+    $container->set(DeprecatedES256KConsumer::class)
         ->public()
     ;
 };

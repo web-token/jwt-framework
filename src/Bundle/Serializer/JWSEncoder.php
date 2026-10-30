@@ -26,9 +26,7 @@ final readonly class JWSEncoder implements EncoderInterface, DecoderInterface, N
         JWSSerializerManagerFactory $serializerManagerFactory,
         ?JWSSerializerManager $serializerManager = null
     ) {
-        if ($serializerManager === null) {
-            $serializerManager = $serializerManagerFactory->create($serializerManagerFactory->aliases());
-        }
+        $serializerManager ??= $serializerManagerFactory->create($serializerManagerFactory->aliases());
         $this->serializerManager = $serializerManager;
     }
 

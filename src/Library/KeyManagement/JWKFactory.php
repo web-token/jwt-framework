@@ -7,12 +7,13 @@ namespace Jose\Component\KeyManagement;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Exception\RuntimeException;
-use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\AKPKey;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\InheritanceChecker;
+use Jose\Component\Core\Util\OKPKey;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
 use OpenSSLCertificate;
@@ -22,8 +23,6 @@ use function array_key_exists;
 use function extension_loaded;
 use function is_array;
 use function is_string;
-use function sprintf;
-use function strlen;
 use function trigger_deprecation;
 use const JSON_THROW_ON_ERROR;
 use const OPENSSL_KEYTYPE_RSA;
@@ -340,40 +339,33 @@ class JWKFactory implements JWKFactoryInterface
     #[Override]
     public function okp(string $curve, array $values = []): JWK
     {
-        if (! extension_loaded('sodium')) {
-            throw new MissingDependencyException('The extension "sodium" is not available. Please install it to use this method');
-        }
+        $key = OKPKey::generate($curve);
 
-        switch ($curve) {
-            case 'X25519':
-                $keyPair = sodium_crypto_box_keypair();
-                $d = sodium_crypto_box_secretkey($keyPair);
-                $x = sodium_crypto_box_publickey($keyPair);
-
-                break;
-
-            case 'Ed25519':
-                $keyPair = sodium_crypto_sign_keypair();
-                $secret = sodium_crypto_sign_secretkey($keyPair);
-                $secretLength = strlen($secret);
-                $d = substr($secret, 0, -$secretLength / 2);
-                $x = sodium_crypto_sign_publickey($keyPair);
-
-                break;
-
-            default:
-                throw new UnsupportedCurveException(sprintf('Unsupported "%s" curve', $curve));
-        }
-
-        $values = [
+        return new JWK([
             ...$values,
             'kty' => 'OKP',
             'crv' => $curve,
-            'd' => Base64UrlSafe::encodeUnpadded($d),
-            'x' => Base64UrlSafe::encodeUnpadded($x),
-        ];
+            'd' => $key->get('d'),
+            'x' => $key->get('x'),
+        ]);
+    }
 
-        return new JWK($values);
+    #[Override]
+    public function mldsa(string $algorithm, array $values = []): JWK
+    {
+        $seed = null;
+        if (array_key_exists('priv', $values)) {
+            if (! is_string($values['priv'])) {
+                throw new InvalidKeyException('Invalid AKP key. The "priv" parameter must be the base64url encoded seed.');
+            }
+            $seed = Base64UrlSafe::decodeNoPadding($values['priv']);
+        }
+        $key = AKPKey::generate($algorithm, $seed);
+
+        return new JWK([
+            ...$values,
+            ...$key->all(),
+        ]);
     }
 
     #[Override]

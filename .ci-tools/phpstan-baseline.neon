@@ -481,6 +481,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
+			rawMessage: Cannot access an offset on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: Cannot access offset 'headers' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -499,9 +505,15 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
+			rawMessage: Cannot access offset 'typ' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 4
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -511,7 +523,19 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
+			rawMessage: 'Cannot call method beforeNormalization() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: 'Cannot call method booleanNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			rawMessage: 'Cannot call method cannotBeEmpty() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
@@ -531,13 +555,19 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 9
+			count: 12
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			rawMessage: 'Cannot call method ifString() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
 			rawMessage: 'Cannot call method info() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 4
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -548,6 +578,12 @@ parameters:
 
 		-
 			rawMessage: 'Cannot call method scalarPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			rawMessage: 'Cannot call method then() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
@@ -615,7 +651,7 @@ parameters:
 		-
 			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
 			identifier: argument.type
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -3733,6 +3769,26 @@ parameters:
 			path: ../src/Bundle/Helper/ConfigurationHelper.php
 
 		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Component\Signature\Algorithm\EdDSA:
+				since 4.3.0, deprecated by RFC 9864. Use "Ed25519" (or "Ed448") instead; the keys are unchanged, only
+				the "alg" value differs.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/signature_eddsa.php
+
+		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Experimental\Signature\ES256K:
+				since 4.3.0, will be removed in 5.0.0. "ES256K" is a standard algorithm (RFC 8812) and moved to the
+				            library: use Jose\Component\Signature\Algorithm\ES256K instead.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/signature_experimental.php
+
+		-
 			rawMessage: Access to constant on internal class Jose\Component\Core\Util\Ecc\NistCurve.
 			identifier: classConstant.internalClass
 			count: 1
@@ -4303,12 +4359,6 @@ parameters:
 			path: ../src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
-			rawMessage: 'Call to function is_string() with null will always evaluate to false.'
-			identifier: function.impossibleType
-			count: 1
-			path: ../src/Experimental/KeyEncryption/Chacha20Poly1305.php
-
-		-
 			rawMessage: Invalid type object to throw.
 			identifier: throw.notThrowable
 			count: 3
@@ -4637,12 +4687,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Encryption/Algorithm/KeyEncryption/AESGCMKW.php
-
-		-
-			rawMessage: 'Parameter #3 $length of function substr expects int|null, float|int<min, 0> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/Encryption/Algorithm/KeyEncryption/AbstractECDH.php
 
 		-
 			rawMessage: Binary operation "." between mixed and "\000" results in an error.
@@ -5035,12 +5079,6 @@ parameters:
 			path: ../src/Library/KeyManagement/JWKFactory.php
 
 		-
-			rawMessage: 'Parameter #3 $length of function substr expects int|null, float|int<min, 0> given.'
-			identifier: argument.type
-			count: 1
-			path: ../src/Library/KeyManagement/JWKFactory.php
-
-		-
 			rawMessage: 'Method Jose\Component\KeyManagement\KeyConverter\ECKey::__construct() has parameter $data with no value type specified in iterable type array.'
 			identifier: missingType.iterableValue
 			count: 1
@@ -5131,22 +5169,16 @@ parameters:
 			path: ../src/Library/KeyManagement/KeyConverter/RSAKey.php
 
 		-
+			rawMessage: 'Call to internal static method ParagonIE_Sodium_Core_Ed25519::publickey_from_secretkey().'
+			identifier: staticMethod.internal
+			count: 1
+			path: ../src/Library/Signature/Algorithm/AbstractEdDSA.php
+
+		-
 			rawMessage: 'Parameter #1 $signature of static method Jose\Component\Core\Util\ECSignature::fromAsn1() expects string, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Algorithm/ECDSA.php
-
-		-
-			rawMessage: 'Call to internal static method ParagonIE_Sodium_Core_Ed25519::publickey_from_secretkey().'
-			identifier: staticMethod.internal
-			count: 1
-			path: ../src/Library/Signature/Algorithm/EdDSA.php
-
-		-
-			rawMessage: 'Method Jose\Component\Signature\Algorithm\EdDSA::sign() should return non-empty-string but returns string.'
-			identifier: return.type
-			count: 1
-			path: ../src/Library/Signature/Algorithm/EdDSA.php
 
 		-
 			rawMessage: 'Method Jose\Component\Signature\Algorithm\RSAPKCS1::sign() should return string but returns mixed.'

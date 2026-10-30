@@ -221,6 +221,32 @@ class JWKSet implements Countable, IteratorAggregate, JsonSerializable
     }
 
     /**
+     * Returns the key identified by the given JWK Thumbprint URI (RFC 9278), or null when no key of the set matches.
+     *
+     * The thumbprint of every key is recomputed with the hash function named by the URI, so the lookup does not
+     * depend on the "kid" of the keys. It is the verifier-side counterpart of JWK::thumbprintUri(): given the "sub"
+     * of a DPoP proof or of a SIOP "id_token", it finds the key the token was bound to. As in selectKey(), a key
+     * whose thumbprint cannot be computed is skipped, not rejected.
+     */
+    public function selectKeyByThumbprintUri(string|JwkThumbprintUri $uri): ?JWK
+    {
+        if (is_string($uri)) {
+            $uri = JwkThumbprintUri::parse($uri);
+        }
+        foreach ($this->all() as $key) {
+            try {
+                if ($uri->matches($key)) {
+                    return $key;
+                }
+            } catch (InvalidKeyException) {
+                continue;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Compares two candidates of selectKey() by the score they were given.
      *
      * The method was only public because the comparison used to be passed to usort() as a callable; it is a closure

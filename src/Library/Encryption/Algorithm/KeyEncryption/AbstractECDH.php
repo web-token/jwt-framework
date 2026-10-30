@@ -8,7 +8,6 @@ use Brick\Math\BigInteger;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidHeaderParameterException;
 use Jose\Component\Core\Exception\InvalidKeyException;
-use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
@@ -19,11 +18,11 @@ use Jose\Component\Core\Util\Ecc\EcDH;
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
+use Jose\Component\Core\Util\OKPKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
 use Override;
 use Throwable;
 use function array_key_exists;
-use function extension_loaded;
 use function function_exists;
 use function in_array;
 use function is_array;
@@ -129,20 +128,9 @@ abstract readonly class AbstractECDH implements KeyAgreement
 
                 return $this->convertDecToBin(EcDH::computeSharedKey($curve, $pub_key, $priv_key));
 
-            case 'X25519':
-                $this->checkSodiumExtensionIsAvailable();
-                $x = $public_key->get('x');
-                if (! is_string($x)) {
-                    throw new InvalidKeyException('Invalid key parameter "x"');
-                }
-                $d = $private_key->get('d');
-                if (! is_string($d)) {
-                    throw new InvalidKeyException('Invalid key parameter "d"');
-                }
-                $sKey = Base64UrlSafe::decodeNoPadding($d);
-                $recipientPublickey = Base64UrlSafe::decodeNoPadding($x);
-
-                return sodium_crypto_scalarmult($sKey, $recipientPublickey);
+            case OKPKey::CURVE_X25519:
+            case OKPKey::CURVE_X448:
+                return OKPKey::deriveSharedSecret($private_key, $public_key);
 
             default:
                 throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported', $crv));
@@ -167,7 +155,7 @@ abstract readonly class AbstractECDH implements KeyAgreement
         }
         $private_key = match ($crv) {
             'P-256', 'P-384', 'P-521', 'BP-256', 'BP-384', 'BP-512' => $senderKey ?? ECKey::createECKey($crv),
-            'X25519' => $senderKey ?? $this->createOKPKey('X25519'),
+            OKPKey::CURVE_X25519, OKPKey::CURVE_X448 => $senderKey ?? OKPKey::generate($crv),
             default => throw new UnsupportedCurveException(sprintf('The curve "%s" is not supported', $crv)),
         };
         $epk = $private_key->toPublic()
@@ -238,7 +226,8 @@ abstract readonly class AbstractECDH implements KeyAgreement
 
                 break;
 
-            case 'X25519':
+            case OKPKey::CURVE_X25519:
+            case OKPKey::CURVE_X448:
                 break;
 
             default:
@@ -289,48 +278,5 @@ abstract readonly class AbstractECDH implements KeyAgreement
         }
 
         return $bin;
-    }
-
-    /**
-     * @param string $curve The curve
-     */
-    private function createOKPKey(string $curve): JWK
-    {
-        $this->checkSodiumExtensionIsAvailable();
-
-        switch ($curve) {
-            case 'X25519':
-                $keyPair = sodium_crypto_box_keypair();
-                $d = sodium_crypto_box_secretkey($keyPair);
-                $x = sodium_crypto_box_publickey($keyPair);
-
-                break;
-
-            case 'Ed25519':
-                $keyPair = sodium_crypto_sign_keypair();
-                $secret = sodium_crypto_sign_secretkey($keyPair);
-                $secretLength = strlen($secret);
-                $d = substr($secret, 0, -$secretLength / 2);
-                $x = sodium_crypto_sign_publickey($keyPair);
-
-                break;
-
-            default:
-                throw new UnsupportedCurveException(sprintf('Unsupported "%s" curve', $curve));
-        }
-
-        return new JWK([
-            'kty' => 'OKP',
-            'crv' => $curve,
-            'x' => Base64UrlSafe::encodeUnpadded($x),
-            'd' => Base64UrlSafe::encodeUnpadded($d),
-        ]);
-    }
-
-    private function checkSodiumExtensionIsAvailable(): void
-    {
-        if (! extension_loaded('sodium')) {
-            throw new MissingDependencyException('The extension "sodium" is not available. Please install it to use this method');
-        }
     }
 }

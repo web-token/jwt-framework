@@ -167,14 +167,28 @@ class JWK implements JsonSerializable
     /**
      * Returns the thumbprint of the key.
      *
+     * The required members are those of RFC 7638 section 3.2 for the "oct", "RSA", "EC" and "OKP" key types, and
+     * "alg", "kty" and "pub" for the "AKP" key type (RFC 9964 section 6): an AKP key without "alg" has no
+     * thumbprint, as the type says nothing about what "pub" holds.
+     *
      * @see https://tools.ietf.org/html/rfc7638
+     * @see https://www.rfc-editor.org/rfc/rfc9964.html#section-6
      */
     public function thumbprint(string $hash_algorithm): string
     {
         if (! in_array($hash_algorithm, hash_algos(), true)) {
             throw new UnsupportedAlgorithmException(sprintf('The hash algorithm "%s" is not supported.', $hash_algorithm));
         }
-        $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
+        if ($this->find('kty') === 'AKP') {
+            if (! $this->has('alg')) {
+                throw new InvalidKeyException(
+                    'Unable to compute the thumbprint of an AKP key without "alg".'
+                );
+            }
+            $values = array_intersect_key($this->values, array_flip(['alg', 'kty', 'pub']));
+        } else {
+            $values = array_intersect_key($this->values, array_flip(['kty', 'n', 'e', 'crv', 'x', 'y', 'k']));
+        }
         ksort($values);
         $input = json_encode($values, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         if ($input === false) {
@@ -185,17 +199,32 @@ class JWK implements JsonSerializable
     }
 
     /**
+     * Returns the JWK Thumbprint URI of the key, as defined by RFC 9278.
+     *
+     * The hash function is designated by its IANA name ("sha-256", "sha-512", "sha3-256"...), which is the name
+     * carried by the URI; see JwkThumbprintUri for the supported names.
+     *
+     * @param string $hashAlgorithm the IANA name of the hash function, "sha-256" by default
+     *
+     * @see https://www.rfc-editor.org/rfc/rfc9278.html
+     */
+    public function thumbprintUri(string $hashAlgorithm = JwkThumbprintUri::DEFAULT_HASH_ALGORITHM): string
+    {
+        return JwkThumbprintUri::fromKey($this, $hashAlgorithm)->toString();
+    }
+
+    /**
      * Returns the associated public key.
      * This method has no effect for:
      * - public keys
      * - shared keys
      * - unknown keys.
      *
-     * Known keys are "oct", "RSA", "EC" and "OKP".
+     * Known keys are "oct", "RSA", "EC", "OKP" and "AKP".
      */
     public function toPublic(): self
     {
-        $values = array_diff_key($this->values, array_flip(['p', 'd', 'q', 'dp', 'dq', 'qi']));
+        $values = array_diff_key($this->values, array_flip(['p', 'd', 'q', 'dp', 'dq', 'qi', 'priv']));
 
         return new self($values);
     }

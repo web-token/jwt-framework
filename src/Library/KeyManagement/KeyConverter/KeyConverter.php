@@ -9,6 +9,7 @@ use Jose\Component\Core\Exception\DecryptionFailedException;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\MissingDependencyException;
+use Jose\Component\Core\Util\AKPKey;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use OpenSSLCertificate;
 use ParagonIE\Sodium\Core\Ed25519;
@@ -93,9 +94,12 @@ final readonly class KeyConverter
         }
         $key = openssl_pkey_get_public($res);
         if ($key === false) {
-            throw new InvalidArgumentException('Unable to load the certificate.');
+            $details = [
+                'key' => self::subjectPublicKeyInfoOf($res),
+            ];
+        } else {
+            $details = openssl_pkey_get_details($key);
         }
-        $details = openssl_pkey_get_details($key);
         if (! is_array($details)) {
             throw new InvalidArgumentException('Unable to load the certificate');
         }
@@ -186,6 +190,30 @@ final readonly class KeyConverter
     }
 
     /**
+     * The SubjectPublicKeyInfo of a certificate whose key OpenSSL cannot load, as a PEM. An OpenSSL without ML-DSA
+     * parses a certificate holding an ML-DSA key but refuses to load the key; the structure is read here instead,
+     * so that the public key of such a certificate is usable wherever the algorithm is not needed.
+     */
+    private static function subjectPublicKeyInfoOf(OpenSSLCertificate $res): string
+    {
+        $out = '';
+        if (! openssl_x509_export($res, $out) || ! is_string($out)) {
+            throw new InvalidArgumentException('Unable to load the certificate.');
+        }
+        try {
+            $tbsCertificate = Sequence::fromDER(PEM::fromString($out)->data())
+                ->at(0)
+                ->asSequence();
+            $subjectPublicKeyInfo = $tbsCertificate->at($tbsCertificate->hasTagged(0) ? 6 : 5)
+                ->asSequence();
+        } catch (Throwable $e) {
+            throw new InvalidArgumentException('Unable to load the certificate.', 0, $e);
+        }
+
+        return PEM::create(PEM::TYPE_PUBLIC_KEY, $subjectPublicKeyInfo->toDER())->string();
+    }
+
+    /**
      * @return array<array-key, mixed>
      */
     private static function loadKeyFromDER(string $der, ?string $password = null): array
@@ -217,6 +245,9 @@ final readonly class KeyConverter
         }
 
         self::sanitizePEM($pem);
+        if (AKPKey::isMLDSAPEM($pem)) {
+            return AKPKey::loadFromPEM($pem);
+        }
         $res = openssl_pkey_get_private($pem);
         if ($res === false) {
             $res = openssl_pkey_get_public($pem);

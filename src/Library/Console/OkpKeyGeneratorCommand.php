@@ -19,7 +19,7 @@ final class OkpKeyGeneratorCommand extends GeneratorCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key.');
+        $this->addArgument('curve', InputArgument::REQUIRED, 'Curve of the key: Ed25519, Ed448, X25519 or X448.');
     }
 
     #[Override]

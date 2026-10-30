@@ -14,6 +14,7 @@ use Jose\Component\Console\Pkcs8ConverterCommand;
 use Jose\Component\Console\PublicKeyCommand;
 use Jose\Component\Console\PublicKeysetCommand;
 use Jose\Component\Console\X509CertificateLoaderCommand;
+use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\Base64UrlSafe;
@@ -330,6 +331,68 @@ final class KeyConversionCommandTest extends TestCase
         $command->run($input, $output);
         $content = $output->fetch();
         static::assertSame('NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs', $content);
+    }
+
+    #[Test]
+    #[DataProvider('thumbprintUriHashOptions')]
+    public function iCanGetTheThumbprintUriOfAKey(?string $hash, string $expectedUri): void
+    {
+        $jwk = new JWK([
+            'kty' => 'RSA',
+            'n' => '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
+            'e' => 'AQAB',
+            'alg' => 'RS256',
+            'kid' => '2011-04-29',
+        ]);
+
+        $arguments = [
+            'jwk' => JsonConverter::encode($jwk),
+            '--uri' => true,
+        ];
+        if ($hash !== null) {
+            $arguments['--hash'] = $hash;
+        }
+        $input = new ArrayInput($arguments);
+        $output = new BufferedOutput();
+        $command = new GetThumbprintCommand();
+        $command->run($input, $output);
+        $content = $output->fetch();
+        static::assertSame($expectedUri, $content);
+    }
+
+    /**
+     * @return iterable<string, array{string|null, string}>
+     */
+    public static function thumbprintUriHashOptions(): iterable
+    {
+        $sha256 = 'urn:ietf:params:oauth:jwk-thumbprint:sha-256:NzbLsXh8uDCcd-6MNwXF4W_7noWXFZAfHkxZsRGC9Xs';
+        $sha512 = 'urn:ietf:params:oauth:jwk-thumbprint:sha-512:DpvEwocfn3FjeWWQjcJHzWrpKTIymKwgoL1xVgQcud48-qZDSRCr1zfWZQdHAJn_ciqXqPTSARyg-L-NyNGpVA';
+
+        yield 'default hash' => [null, $sha256];
+        yield 'IANA name' => ['sha-256', $sha256];
+        yield 'PHP name' => ['sha256', $sha256];
+        yield 'IANA name, sha-512' => ['sha-512', $sha512];
+        yield 'PHP name, sha512' => ['sha512', $sha512];
+        yield 'sha3-256, same name for both' => [
+            'sha3-256',
+            'urn:ietf:params:oauth:jwk-thumbprint:sha3-256:OxvsYwfbJzpVoasK4e0ajHAApL0JyLLZxbmJJynhQ3A',
+        ];
+    }
+
+    #[Test]
+    public function iCannotGetTheThumbprintUriOfAKeyWithAnUnsupportedHash(): void
+    {
+        $this->expectException(UnsupportedAlgorithmException::class);
+        $this->expectExceptionMessage('The hash algorithm "md5" is not supported for a JWK Thumbprint URI.');
+
+        $input = new ArrayInput([
+            'jwk' => '{"kty":"oct","k":"AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow"}',
+            '--uri' => true,
+            '--hash' => 'md5',
+        ]);
+        $output = new BufferedOutput();
+        $command = new GetThumbprintCommand();
+        $command->run($input, $output);
     }
 
     /**

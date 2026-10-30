@@ -45,10 +45,27 @@ interface JWKFactoryInterface
     /**
      * Creates an OKP key with the given curve and additional values.
      *
+     * The curves are "Ed25519", "Ed448", "X25519" and "X448" (RFC 8037). Ed25519 and X25519 are generated with sodium
+     * when the extension is loaded and with OpenSSL otherwise; Ed448 and X448 with OpenSSL only. The OpenSSL paths
+     * need PHP 8.4 or later.
+     *
      * @param string               $curve  The curve
      * @param array<string, mixed> $values Values to configure the key
      */
     public function okp(string $curve, array $values = []): JWK;
+
+    /**
+     * Creates an ML-DSA key (RFC 9964) of the given parameter set: "ML-DSA-44", "ML-DSA-65" or "ML-DSA-87".
+     *
+     * The key is an AKP key whose "priv" is the 32-byte seed of FIPS 204 and whose "pub" is the public key the seed
+     * expands to. A fresh random seed is drawn unless the values carry a "priv", which is how a key stored by its
+     * seed - the only private key representation RFC 9964 section 4 allows - is rebuilt: "pub" is derived from it.
+     * Needs PHP 8.4 and an OpenSSL runtime that provides ML-DSA (3.5 or later).
+     *
+     * @param string               $algorithm The parameter set, which is also the "alg" of the key
+     * @param array<string, mixed> $values    Values to configure the key
+     */
+    public function mldsa(string $algorithm, array $values = []): JWK;
 
     /**
      * Creates a none key with the given additional values. Please note that this key type is not part of any

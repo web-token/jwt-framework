@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\ES256KKeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES512KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\HS256KeyAnalyzer;
@@ -15,8 +16,10 @@ use Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\KeysetAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\MixedKeyTypes;
 use Jose\Component\KeyManagement\Analyzer\MixedPublicAndPrivateKeys;
+use Jose\Component\KeyManagement\Analyzer\MLDSAKeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\OKPKeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -39,6 +42,8 @@ return function (ContainerConfigurator $container): void {
     $container->set(KeyIdentifierAnalyzer::class);
     $container->set(NoneAnalyzer::class);
     $container->set(OctAnalyzer::class);
+    $container->set(OKPKeyAnalyzer::class);
+    $container->set(MLDSAKeyAnalyzer::class);
     $container->set(MixedKeyTypes::class);
     $container->set(MixedPublicAndPrivateKeys::class);
     $container->set(HS256KeyAnalyzer::class);
@@ -47,6 +52,7 @@ return function (ContainerConfigurator $container): void {
 
     if (class_exists(NistCurve::class)) {
         $container->set(ES256KeyAnalyzer::class);
+        $container->set(ES256KKeyAnalyzer::class);
         $container->set(ES384KeyAnalyzer::class);
         $container->set(ES512KeyAnalyzer::class);
     }

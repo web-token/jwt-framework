@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Jose\Component\Signature\Algorithm\ES256;
+use Jose\Component\Signature\Algorithm\ES256K;
 use Jose\Component\Signature\Algorithm\ES384;
 use Jose\Component\Signature\Algorithm\ES512;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -27,5 +28,10 @@ return function (ContainerConfigurator $container): void {
     $container->set(ES512::class)
         ->tag('jose.algorithm', [
             'alias' => 'ES512',
+        ]);
+
+    $container->set(ES256K::class)
+        ->tag('jose.algorithm', [
+            'alias' => 'ES256K',
         ]);
 };

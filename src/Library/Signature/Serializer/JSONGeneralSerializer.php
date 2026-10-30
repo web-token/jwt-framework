@@ -155,9 +155,7 @@ final readonly class JSONGeneralSerializer extends Serializer
         }
         $is_encoded = null;
         foreach ($jws->getSignatures() as $signature) {
-            if ($is_encoded === null) {
-                $is_encoded = $this->isPayloadEncoded($signature->getProtectedHeader());
-            }
+            $is_encoded ??= $this->isPayloadEncoded($signature->getProtectedHeader());
             if ($is_encoded !== $this->isPayloadEncoded($signature->getProtectedHeader())) {
                 throw new LogicException('Foreign payload encoding detected.');
             }

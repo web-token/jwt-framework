@@ -100,24 +100,20 @@ final class ResultObjectsTest extends NestedTokenTestCase
 
     private function getEncryptionKey(): JWK
     {
-        if ($this->encryptionKey === null) {
-            $this->encryptionKey = (new JWKFactory())->oct(256, [
-                'alg' => 'A256KW',
-                'use' => 'enc',
-            ]);
-        }
+        $this->encryptionKey ??= (new JWKFactory())->oct(256, [
+            'alg' => 'A256KW',
+            'use' => 'enc',
+        ]);
 
         return $this->encryptionKey;
     }
 
     private function getSignatureKey(): JWK
     {
-        if ($this->signatureKey === null) {
-            $this->signatureKey = (new JWKFactory())->oct(512, [
-                'alg' => 'HS256',
-                'use' => 'sig',
-            ]);
-        }
+        $this->signatureKey ??= (new JWKFactory())->oct(512, [
+            'alg' => 'HS256',
+            'use' => 'sig',
+        ]);
 
         return $this->signatureKey;
     }

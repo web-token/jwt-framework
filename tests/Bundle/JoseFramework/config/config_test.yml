@@ -30,6 +30,10 @@ jose:
       checker1:
         is_public: true
         headers: [ 'custom_checker' ]
+      access_token:
+        is_public: true
+        headers: [ ]
+        typ: [ 'at+jwt', 'application/dpop+jwt' ]
   jws:
     builders:
       builder1:
