@@ -53,6 +53,9 @@ abstract class AESGCM implements ContentEncryptionAlgorithm
         string $encoded_protected_header,
         string $tag
     ): string {
+        if (mb_strlen($tag, '8bit') !== 16) {
+            throw new RuntimeException('Unable to decrypt the content');
+        }
         $calculated_aad = $encoded_protected_header;
         if ($aad !== null) {
             $calculated_aad .= '.' . Base64UrlSafe::encodeUnpadded($aad);
