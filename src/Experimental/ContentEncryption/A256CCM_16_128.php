@@ -28,6 +28,6 @@ final class A256CCM_16_128 extends AESCCM
 
     protected function getTagLength(): int
     {
-        return 8;
+        return 16;
     }
 }
