@@ -117,6 +117,19 @@ final class DisclosureTest extends TestCase
         );
     }
 
+    /**
+     * JSON allows white space before the array; the Disclosure is accepted as it is.
+     */
+    #[Test]
+    public function aDisclosureMayStartWithWhiteSpace(): void
+    {
+        $disclosure = Disclosure::fromString(Base64UrlSafe::encodeUnpadded(" \n\t[\"salt\", \"FR\"]"));
+
+        static::assertTrue($disclosure->isArrayElement());
+        static::assertSame('salt', $disclosure->getSalt());
+        static::assertSame('FR', $disclosure->getValue());
+    }
+
     #[Test]
     public function aSaltOf128BitsIsGeneratedForEveryDisclosure(): void
     {

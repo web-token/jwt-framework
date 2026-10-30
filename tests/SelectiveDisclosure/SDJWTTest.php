@@ -325,7 +325,8 @@ final class SDJWTTest extends SelectiveDisclosureTestCase
     }
 
     /**
-     * The paths of the Disclosures nested in an object or an array that is always disclosed start at the top level.
+     * The paths of the Disclosures nested in objects and arrays that are always disclosed start at the top level, and
+     * the name of a member is a string even when it is numeric.
      */
     #[Test]
     public function theDisclosuresNestedInClaimsAlwaysDisclosedAreSelected(): void
@@ -336,19 +337,29 @@ final class SDJWTTest extends SelectiveDisclosureTestCase
                     'locality' => new Disclosable('Anytown'),
                     'region' => new Disclosable('Anystate'),
                 ]),
+                'degrees' => [[
+                    'type' => new Disclosable('Bachelor'),
+                    'name' => new Disclosable('Computer Science'),
+                ]],
+                'scores' => [
+                    '2024' => [
+                        'math' => new Disclosable(95),
+                        'physics' => new Disclosable(90),
+                    ],
+                ],
             ],
-            'degrees' => [[
-                'type' => new Disclosable('Bachelor'),
-                'name' => new Disclosable('Computer Science'),
-            ]],
         ], self::issuerKey(), [
             'alg' => 'ES256',
         ]);
 
-        $selected = $sdJwt->select(['person', 'address', 'locality'], ['degrees', 0, 'type']);
+        $selected = $sdJwt->select(
+            ['person', 'address', 'locality'],
+            ['person', 'degrees', 0, 'type'],
+            ['person', 'scores', '2024', 'math']
+        );
 
         static::assertSame(
-            ['locality', 'address', 'type'],
+            ['locality', 'address', 'type', 'math'],
             array_map(static fn (Disclosure $disclosure): ?string => $disclosure->getClaimName(), $selected->getDisclosures())
         );
     }
