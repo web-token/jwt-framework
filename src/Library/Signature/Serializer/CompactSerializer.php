@@ -34,9 +34,7 @@ final readonly class CompactSerializer extends Serializer
     #[Override]
     public function serialize(JWS $jws, ?int $signatureIndex = null): string
     {
-        if ($signatureIndex === null) {
-            $signatureIndex = 0;
-        }
+        $signatureIndex ??= 0;
         $signature = $jws->getSignature($signatureIndex);
         if (count($signature->getHeader()) !== 0) {
             throw new LogicException(

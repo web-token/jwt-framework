@@ -36,7 +36,6 @@ return static function (ECSConfig $config): void {
     $config->import(SetList::CLEAN_CODE);
     $config->import(SetList::DOCTRINE_ANNOTATIONS);
     $config->import(SetList::SPACES);
-    $config->import(SetList::SYMPLIFY);
     $config->import(SetList::ARRAY);
     $config->import(SetList::COMMON);
     $config->import(SetList::COMMENTS);

@@ -39,13 +39,16 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es256.from.APN.key'
         );
         $details = KeyConverter::loadFromKey($pem);
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
-            'x' => 'YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0',
-            'y' => 'bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-256',
+                'd' => '13n3isfsEktzl-CtH5ECpRrKk-40prVuCbldkP77gak',
+                'x' => 'YcIMUkalwbeeAVkUF6FP3aBVlCzlqxEd7i0uN_4roA0',
+                'y' => 'bU8wOWJBkTNZ61gB1_4xp-r8-uVsQB8D6Xsl-aKMCy8',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -55,12 +58,15 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'public.es256.key'
         );
         $details = KeyConverter::loadFromKey($pem);
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'x' => 'vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U',
-            'y' => 'oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-256',
+                'x' => 'vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U',
+                'y' => 'oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -94,13 +100,16 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es256.encrypted.key'
         );
         $details = KeyConverter::loadFromKey($private_pem, 'test');
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-256',
-            'd' => 'q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ',
-            'x' => 'vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U',
-            'y' => 'oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-256',
+                'd' => 'q_VkzNnxTG39jHB0qkwA_SeVXud7yCHT7kb7kZv-0xQ',
+                'x' => 'vuYsP-QnrqAbM7Iyhzjt08hFSuzapyojCB_gFsBt65U',
+                'y' => 'oq-E2K-X0kPeqGuKnhlXkxc5fnxomRSC6KLby7Ij8AE',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -121,12 +130,15 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'public.es384.key'
         );
         $details = KeyConverter::loadFromKey($pem);
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-384',
-            'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
-            'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-384',
+                'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
+                'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -136,13 +148,16 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es384.key'
         );
         $details = KeyConverter::loadFromKey($private_pem);
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-384',
-            'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
-            'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
-            'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-384',
+                'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
+                'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
+                'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -152,13 +167,16 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es384.encrypted.key'
         );
         $details = KeyConverter::loadFromKey($private_pem, 'test');
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-384',
-            'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
-            'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
-            'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-384',
+                'd' => 'pcSSXrbeZEOaBIs7IwqcU9M_OOM81XhZuOHoGgmS_2PdECwcdQcXzv7W8-lYL0cr',
+                'x' => '6f-XZsg2Tvn0EoEapQ-ylMYNtsm8CPf0cb8HI2EkfY9Bqpt3QMzwlM7mVsFRmaMZ',
+                'y' => 'b8nOnRwmpmEnvA2U8ydS-dbnPv7bwYl-q1qNeh8Wpjor3VO-RTt4ce0Pn25oGGWU',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -168,12 +186,15 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'public.es512.key'
         );
         $details = KeyConverter::loadFromKey($pem);
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-521',
-            'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
-            'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-521',
+                'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
+                'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -183,13 +204,16 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es512.key'
         );
         $details = KeyConverter::loadFromKey($private_pem);
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-521',
-            'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
-            'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
-            'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-521',
+                'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
+                'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
+                'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
+            ],
+            $details
+        );
     }
 
     #[Test]
@@ -199,13 +223,16 @@ final class ECKeysTest extends TestCase
             'file://' . __DIR__ . DIRECTORY_SEPARATOR . 'EC' . DIRECTORY_SEPARATOR . 'private.es512.encrypted.key'
         );
         $details = KeyConverter::loadFromKey($private_pem, 'test');
-        static::assertSame($details, [
-            'kty' => 'EC',
-            'crv' => 'P-521',
-            'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
-            'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
-            'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
-        ]);
+        static::assertSame(
+            [
+                'kty' => 'EC',
+                'crv' => 'P-521',
+                'd' => 'Fp6KFKRiHIdR_7PP2VKxz6OkS_phyoQqwzv2I89-8zP7QScrx5r8GFLcN5mCCNJt3rN3SIgI4XoIQbNePlAj6vE',
+                'x' => 'AVpvo7TGpQk5P7ZLo0qkBpaT-fFDv6HQrWElBKMxcrJd_mRNapweATsVv83YON4lTIIRXzgGkmWeqbDr6RQO-1cS',
+                'y' => 'AIs-MoRmLaiPyG2xmPwQCHX2CGX_uCZiT3iOxTAJEZuUbeSA828K4WfAA4ODdGiB87YVShhPOkiQswV3LpbpPGhC',
+            ],
+            $details
+        );
     }
 
     #[Test]

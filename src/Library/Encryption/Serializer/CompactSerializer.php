@@ -35,9 +35,7 @@ final readonly class CompactSerializer implements JWESerializer
     #[Override]
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
-        if ($recipientIndex === null) {
-            $recipientIndex = 0;
-        }
+        $recipientIndex ??= 0;
         $recipient = $jwe->getRecipient($recipientIndex);
 
         $this->checkHasNoAAD($jwe);

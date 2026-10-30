@@ -15,7 +15,7 @@ interface KeyEncryption extends KeyEncryptionAlgorithm
      * @param JWK $key The key used to wrap the CEK
      * @param string $cek The CEK to encrypt
      * @param array<string, mixed> $completeHeader The complete header of the JWT
-     * @param array<string, mixed> $additionalHeader Additional header
+     * @param array<string, mixed> $additionalHeader
      *
      * BC NOTE: in 5.0, this method will return a "WrappedKey" object - the encrypted CEK and the header parameters
      * to add to the token - and the "array &$additionalHeader" output parameter will be removed. The change cannot
