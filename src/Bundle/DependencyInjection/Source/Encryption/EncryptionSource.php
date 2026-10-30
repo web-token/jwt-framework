@@ -9,6 +9,7 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\AESCBCHS;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\AESGCM;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AbstractHPKE;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\AESGCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Dir;
@@ -115,6 +116,7 @@ final readonly class EncryptionSource implements SourceWithCompilerPasses
             AESKW::class => 'encryption_aeskw.php',
             Dir::class => 'encryption_dir.php',
             ECDHES::class => 'encryption_ecdhes.php',
+            AbstractHPKE::class => 'encryption_hpke.php',
             PBES2AESKW::class => 'encryption_pbes2.php',
             RSA::class => 'encryption_rsa.php',
             RSA15::class => 'encryption_rsa15.php',
