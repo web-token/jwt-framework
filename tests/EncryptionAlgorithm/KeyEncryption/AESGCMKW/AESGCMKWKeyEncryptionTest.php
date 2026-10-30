@@ -10,8 +10,12 @@ use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A128GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A192GCMKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256GCMKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AESGCMKW;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
+use function sprintf;
 
 /**
  * @internal
@@ -121,5 +125,35 @@ final class AESGCMKWKeyEncryptionTest extends TestCase
         static::assertNotNull($header['iv']);
         static::assertNotNull($header['tag']);
         static::assertSame($cek, $aeskw->unwrapKey($key, $wrapped_cek, $header));
+    }
+
+    #[DataProvider('dataTruncatedTags')]
+    #[Test]
+    public function truncatedTagIsRejected(AESGCMKW $algorithm, int $keySize, int $length): void
+    {
+        $header = [];
+        $key = new JWK([
+            'kty' => 'oct',
+            'k' => Base64UrlSafe::encodeUnpadded(random_bytes($keySize)),
+        ]);
+        $cek = random_bytes(32);
+
+        $wrapped_cek = $algorithm->wrapKey($key, $cek, $header, $header);
+        $tag = Base64UrlSafe::decodeNoPadding($header['tag']);
+        $header['tag'] = Base64UrlSafe::encodeUnpadded(mb_substr($tag, 0, $length, '8bit'));
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unable to decrypt the CEK');
+
+        $algorithm->unwrapKey($key, $wrapped_cek, $header);
+    }
+
+    public static function dataTruncatedTags(): iterable
+    {
+        foreach ([[new A128GCMKW(), 16], [new A192GCMKW(), 24], [new A256GCMKW(), 32]] as [$algorithm, $keySize]) {
+            foreach ([0, 1, 4, 8, 12, 15] as $length) {
+                yield sprintf('%s, %d bytes', $algorithm->name(), $length) => [$algorithm, $keySize, $length];
+            }
+        }
     }
 }

@@ -159,12 +159,16 @@ class JWEDecrypter
         return null;
     }
 
+    /**
+     * A key obtained by key agreement is checked like a decrypted or unwrapped one: the content encryption algorithms
+     * pad a short key with zero bytes instead of rejecting it.
+     */
     private function checkCekSize(
         string $cek,
         KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
         ContentEncryptionAlgorithm $algorithm
     ): void {
-        if ($keyEncryptionAlgorithm instanceof DirectEncryption || $keyEncryptionAlgorithm instanceof KeyAgreement) {
+        if ($keyEncryptionAlgorithm instanceof DirectEncryption) {
             return;
         }
         if (strlen($cek) * 8 !== $algorithm->getCEKSize()) {
