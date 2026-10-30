@@ -1,0 +1,38 @@
+framework:
+  test: ~
+  secret: 'test'
+  router:
+    resource: "%kernel.project_dir%/tests/Bundle/JoseFramework/config/routing.yml"
+  profiler:
+    enabled: true
+    collect: false
+
+parameters:
+  env(JOSE_EMPTY_KEY): ''
+
+services:
+  Psr\Clock\ClockInterface:
+    class: Symfony\Component\Clock\NativeClock
+
+jose:
+  keys:
+    valid:
+      jwk:
+        value: '{"kty":"oct","k":"dzI6nbW4OcNF-AtfxGAmuyz7IpHRudBI0WgGjZWgaRJt6prBn3DARXgUR8NVwKhfL43QBIU2Un3AvCGCHRgY4TbEqhOi8-i98xxmCggNjde4oaW6wkJ2NgM3Ss9SOX9zS3lcVzdCMdum-RwVJ301kbin4UtGztuzJBeg5oVN00MGxjC2xWwyI0tgXVs-zJs5WlafCuGfX1HrVkIf5bvpE0MQCSjdJpSeVao6-RSTYDajZf7T88a2eVjeW31mMAg-jzAWfUrii61T_bYPJFOXW8kkRWoa1InLRdG6bKB9wQs9-VdXZP60Q4Yuj_WZ-lO7qV9AEFrUkkjpaDgZT86w2g"}'
+    empty_value:
+      jwk:
+        value: '%env(JOSE_EMPTY_KEY)%'
+    without_secret:
+      jwk:
+        value: '{"kty":"oct"}'
+  key_sets:
+    valid:
+      jwkset:
+        value: '{"keys":[{"kty":"oct","k":"dzI6nbW4OcNF-AtfxGAmuyz7IpHRudBI0WgGjZWgaRJt6prBn3DARXgUR8NVwKhfL43QBIU2Un3AvCGCHRgY4TbEqhOi8-i98xxmCggNjde4oaW6wkJ2NgM3Ss9SOX9zS3lcVzdCMdum-RwVJ301kbin4UtGztuzJBeg5oVN00MGxjC2xWwyI0tgXVs-zJs5WlafCuGfX1HrVkIf5bvpE0MQCSjdJpSeVao6-RSTYDajZf7T88a2eVjeW31mMAg-jzAWfUrii61T_bYPJFOXW8kkRWoa1InLRdG6bKB9wQs9-VdXZP60Q4Yuj_WZ-lO7qV9AEFrUkkjpaDgZT86w2g"}]}'
+    empty_value:
+      jwkset:
+        value: '%env(JOSE_EMPTY_KEY)%'
+  jwk_uris:
+    valid:
+      id: 'jose.key_set.valid'
+      path: '/valid.jwkset'

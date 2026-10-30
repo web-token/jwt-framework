@@ -2,7 +2,8 @@
 <p class="help">
     This table lists all keys registered as service through the bundle configuration
     or the Configuration Helper. <br>
-    For each key, it shows the result of the analyze performed on the key.
+    For each key, it shows the result of the analyze performed on the key,
+    or the error raised when the key could not be loaded or analyzed.
 </p>
 <table>
     <thead>
@@ -15,21 +16,31 @@
     <tbody>
     {% if not collector.getData().key.jwk is empty %}
         {% for id, data in collector.getData().key.jwk %}
-            <tr>
-                <td>{{ id }}</td>
-                <td>{{ profiler_dump(data.jwk) }}</td>
-                <td>
-                    {% if data.analyze.count() == 0 %}
-                        No message. All good!
-                    {% else %}
-                        <ul>
-                            {% for message in data.analyze %}
-                                <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </td>
-            </tr>
+            {% if data.error is defined %}
+                <tr class="severity-high">
+                    <td>{{ id }}</td>
+                    <td colspan="2">
+                        The key could not be loaded or analyzed.<br>
+                        {{ data.error.class }}: {{ data.error.message }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ profiler_dump(data.jwk) }}</td>
+                    <td>
+                        {% if data.analyze.count() == 0 %}
+                            No message. All good!
+                        {% else %}
+                            <ul>
+                                {% for message in data.analyze %}
+                                    <li class="severity-{{ message.getSeverity() }}">{{ message.getMessage() }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endif %}
         {% endfor %}
     {% else %}
         <tr>
