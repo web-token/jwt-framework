@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Castor\Attribute\AsOption;
 use Castor\Attribute\AsRawTokens;
 use Castor\Attribute\AsTask;
 use function Castor\context;
@@ -316,20 +317,43 @@ function lint(): void
     phpqa(['composer', 'exec', '--', 'parallel-lint', 'src', 'tests']);
 }
 
-#[AsTask(description: 'Run Infection for mutation testing')]
-function infect($minMsi = 0, $minCoveredMsi = 0): void
-{
-    phpqa([
+/**
+ * Runs Infection on the coverage of the last "castor phpunit", in .ci-tools/coverage, without running the tests again:
+ * that coverage must come from the same source.
+ *
+ * With --diff, only the lines added or modified since --base are mutated, which is what the CI does for a pull request
+ * and for a push; without it, the whole source is, which takes far longer. Infection gives the source directories of
+ * infection.json.dist to "git diff" as they are written, from the working directory: this is why that file sits at
+ * the root of the repository, where "src" is the source directory, and not in .ci-tools with the other
+ * configurations. Each mutant runs the test cases that cover its line only.
+ */
+#[AsTask(description: 'Run Infection for mutation testing. --diff keeps the mutants of the lines added or modified since --base, as the CI does; without it the whole source is mutated, which takes far longer')]
+function infect(
+    $minMsi = 0,
+    $minCoveredMsi = 0,
+    #[AsOption(description: 'Mutate only the lines added or modified since --base, committed or not')]
+    bool $diff = false,
+    #[AsOption(description: 'The branch or commit the diff of --diff is taken from; Infection narrows it to the merge base with HEAD')]
+    string $base = 'origin/HEAD',
+): void {
+    $command = [
         'composer', 'exec', '--', 'infection',
-        '--coverage=coverage',
+        '--coverage=.ci-tools/coverage',
+        '--skip-initial-tests',
         sprintf('--min-msi=%d', $minMsi),
         sprintf('--min-covered-msi=%d', $minCoveredMsi),
         '--threads=max',
         '--logger-github',
         '-s',
-        '--filter=src/',
-        '--configuration=.ci-tools/infection.json.dist',
-    ], [
+        '--only-covering-test-cases',
+        '--configuration=infection.json.dist',
+    ];
+    if ($diff) {
+        $command[] = '--git-diff-lines';
+        $command[] = '--git-diff-base=' . $base;
+    }
+
+    phpqa($command, [
         'XDEBUG_MODE' => 'coverage',
         'COMPOSER_PROCESS_TIMEOUT' => '0',
     ]);

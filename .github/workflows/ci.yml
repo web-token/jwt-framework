@@ -260,7 +260,10 @@ jobs:
   infection:
     name: "🧬 Mutation Testing"
     needs: [prepare_dependencies, tests]
-    if: ${{ endsWith(github.ref_name, '.x') }}
+    # Only the lines added or modified are mutated: those of a pull request, against its base branch, and those of a
+    # push to a maintenance branch, against the commit before it. A new branch has no commit before it and runs none
+    # of this. The whole source is mutated by "castor infect" without --diff, by hand: it takes far longer.
+    if: ${{ github.event_name == 'pull_request' || (github.event_name == 'push' && endsWith(github.ref_name, '.x') && github.event.before != '0000000000000000000000000000000000000000') }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     container:
@@ -269,6 +272,13 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
       - uses: actions/checkout@v5
+        with:
+          # The diff needs the base branch and the merge base with it, which a shallow clone does not have.
+          fetch-depth: 0
+      # The checkout is owned by the user of the runner while the steps run as root in the container: git refuses such
+      # a repository until it is declared safe, and Infection reads the diff with git.
+      - name: Trust the checkout
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/cache@v4
         with:
           path: |
@@ -283,8 +293,12 @@ jobs:
             --coverage-xml .ci-tools/coverage \
             --log-junit=.ci-tools/coverage/junit.xml \
             --configuration .ci-tools/phpunit.xml.dist
-      - name: Execute Infection
-        run: castor infect
+      - name: Mutations of the pull request
+        if: ${{ github.event_name == 'pull_request' }}
+        run: castor infect --diff --base="origin/${{ github.base_ref }}"
+      - name: Mutations of the push
+        if: ${{ github.event_name == 'push' }}
+        run: castor infect --diff --base="${{ github.event.before }}"
 
   exported_files:
     name: "📁 Exported Files Check"
