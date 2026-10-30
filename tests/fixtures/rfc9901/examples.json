@@ -1,0 +1,1739 @@
+{
+    "section-5": {
+        "claims": {
+            "sub": "user_42",
+            "given_name": "John",
+            "family_name": "Doe",
+            "email": "johndoe@example.com",
+            "phone_number": "+1-202-555-0101",
+            "phone_number_verified": true,
+            "address": {
+                "street_address": "123 Main St",
+                "locality": "Anytown",
+                "region": "Anystate",
+                "country": "US"
+            },
+            "birthdate": "1940-01-01",
+            "updated_at": 1570000000,
+            "nationalities": [
+                "US",
+                "DE"
+            ]
+        },
+        "payload": {
+            "_sd": [
+                "CrQe7S5kqBAHt-nMYXgc6bdt2SH5aTY1sU_M-PgkjPI",
+                "JzYjH4svliH0R3PyEMfeZu6Jt69u5qehZo7F7EPYlSE",
+                "PorFbpKuVu6xymJagvkFsFXAbRoc2JGlAUA2BA4o7cI",
+                "TGf4oLbgwd5JQaHyKVQZU9UdGE0w5rtDsrZzfUaomLo",
+                "XQ_3kPKt1XyX7KANkqVR6yZ2Va5NrPIvPYbyMvRKBMM",
+                "XzFrzwscM6Gn6CJDc6vVK8BkMnfG8vOSKfpPIZdAfdE",
+                "gbOsI4Edq2x2Kw-w5wPEzakob9hV1cRD0ATN3oQL9JM",
+                "jsu9yVulwQQlhFlM_3JlzMaSFzglhQG0DpfayQwLUK4"
+            ],
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "user_42",
+            "nationalities": [
+                {
+                    "...": "pFndjkZ_VCzmyTa6UjlZo3dh-ko8aIKQc9DlGzhaVYo"
+                },
+                {
+                    "...": "7Cf6JkPudry3lcbwHgeZ8khAv1U1OSlerP0VkBJrWZ0"
+                }
+            ],
+            "_sd_alg": "sha-256",
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            }
+        },
+        "issuer_signed_jwt": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImV4YW1wbGUrc2Qtand0In0.eyJfc2QiOiBbIkNyUWU3UzVrcUJBSHQtbk1ZWGdjNmJkdDJTSDVhVFkxc1VfTS1QZ2tqUEkiLCAiSnpZakg0c3ZsaUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQWWxTRSIsICJQb3JGYnBLdVZ1Nnh5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAiWFFfM2tQS3QxWHlYN0tBTmtxVlI2eVoyVmE1TnJQSXZQWWJ5TXZSS0JNTSIsICJYekZyendzY002R242Q0pEYzZ2Vks4QmtNbmZHOHZPU0tmcFBJWmRBZmRFIiwgImdiT3NJNEVkcTJ4Mkt3LXc1d1BFemFrb2I5aFYxY1JEMEFUTjNvUUw5Sk0iLCAianN1OXlWdWx3UVFsaEZsTV8zSmx6TWFTRnpnbGhRRzBEcGZheVF3TFVLNCJdLCAiaXNzIjogImh0dHBzOi8vaXNzdWVyLmV4YW1wbGUuY29tIiwgImlhdCI6IDE2ODMwMDAwMDAsICJleHAiOiAxODgzMDAwMDAwLCAic3ViIjogInVzZXJfNDIiLCAibmF0aW9uYWxpdGllcyI6IFt7Ii4uLiI6ICJwRm5kamtaX1ZDem15VGE2VWpsWm8zZGgta284YUlLUWM5RGxHemhhVllvIn0sIHsiLi4uIjogIjdDZjZKa1B1ZHJ5M2xjYndIZ2VaOGtoQXYxVTFPU2xlclAwVmtCSnJXWjAifV0sICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.MczwjBFGtzf-6WMT-hIvYbkb11NrV1WMO-jTijpMPNbswNzZ87wY2uHz-CXo6R04b7jYrpj9mNRAvVssXou1iw",
+        "sd_jwt": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImV4YW1wbGUrc2Qtand0In0.eyJfc2QiOiBbIkNyUWU3UzVrcUJBSHQtbk1ZWGdjNmJkdDJTSDVhVFkxc1VfTS1QZ2tqUEkiLCAiSnpZakg0c3ZsaUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQWWxTRSIsICJQb3JGYnBLdVZ1Nnh5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAiWFFfM2tQS3QxWHlYN0tBTmtxVlI2eVoyVmE1TnJQSXZQWWJ5TXZSS0JNTSIsICJYekZyendzY002R242Q0pEYzZ2Vks4QmtNbmZHOHZPU0tmcFBJWmRBZmRFIiwgImdiT3NJNEVkcTJ4Mkt3LXc1d1BFemFrb2I5aFYxY1JEMEFUTjNvUUw5Sk0iLCAianN1OXlWdWx3UVFsaEZsTV8zSmx6TWFTRnpnbGhRRzBEcGZheVF3TFVLNCJdLCAiaXNzIjogImh0dHBzOi8vaXNzdWVyLmV4YW1wbGUuY29tIiwgImlhdCI6IDE2ODMwMDAwMDAsICJleHAiOiAxODgzMDAwMDAwLCAic3ViIjogInVzZXJfNDIiLCAibmF0aW9uYWxpdGllcyI6IFt7Ii4uLiI6ICJwRm5kamtaX1ZDem15VGE2VWpsWm8zZGgta284YUlLUWM5RGxHemhhVllvIn0sIHsiLi4uIjogIjdDZjZKa1B1ZHJ5M2xjYndIZ2VaOGtoQXYxVTFPU2xlclAwVmtCSnJXWjAifV0sICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.MczwjBFGtzf-6WMT-hIvYbkb11NrV1WMO-jTijpMPNbswNzZ87wY2uHz-CXo6R04b7jYrpj9mNRAvVssXou1iw~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VAZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJlciIsICIrMS0yMDItNTU1LTAxMDEiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgInBob25lX251bWJlcl92ZXJpZmllZCIsIHRydWVd~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImJpcnRoZGF0ZSIsICIxOTQwLTAxLTAxIl0~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgInVwZGF0ZWRfYXQiLCAxNTcwMDAwMDAwXQ~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgIlVTIl0~WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgIkRFIl0~",
+        "presentation": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImV4YW1wbGUrc2Qtand0In0.eyJfc2QiOiBbIkNyUWU3UzVrcUJBSHQtbk1ZWGdjNmJkdDJTSDVhVFkxc1VfTS1QZ2tqUEkiLCAiSnpZakg0c3ZsaUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQWWxTRSIsICJQb3JGYnBLdVZ1Nnh5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAiWFFfM2tQS3QxWHlYN0tBTmtxVlI2eVoyVmE1TnJQSXZQWWJ5TXZSS0JNTSIsICJYekZyendzY002R242Q0pEYzZ2Vks4QmtNbmZHOHZPU0tmcFBJWmRBZmRFIiwgImdiT3NJNEVkcTJ4Mkt3LXc1d1BFemFrb2I5aFYxY1JEMEFUTjNvUUw5Sk0iLCAianN1OXlWdWx3UVFsaEZsTV8zSmx6TWFTRnpnbGhRRzBEcGZheVF3TFVLNCJdLCAiaXNzIjogImh0dHBzOi8vaXNzdWVyLmV4YW1wbGUuY29tIiwgImlhdCI6IDE2ODMwMDAwMDAsICJleHAiOiAxODgzMDAwMDAwLCAic3ViIjogInVzZXJfNDIiLCAibmF0aW9uYWxpdGllcyI6IFt7Ii4uLiI6ICJwRm5kamtaX1ZDem15VGE2VWpsWm8zZGgta284YUlLUWM5RGxHemhhVllvIn0sIHsiLi4uIjogIjdDZjZKa1B1ZHJ5M2xjYndIZ2VaOGtoQXYxVTFPU2xlclAwVmtCSnJXWjAifV0sICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.MczwjBFGtzf-6WMT-hIvYbkb11NrV1WMO-jTijpMPNbswNzZ87wY2uHz-CXo6R04b7jYrpj9mNRAvVssXou1iw~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkRvZSJd~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiSm9obiJd~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgIlVTIl0~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL3ZlcmlmaWVyLmV4YW1wbGUub3JnIiwgImlhdCI6IDE3NDg1MzcyNDQsICJzZF9oYXNoIjogIjBfQWYtMkItRWhMV1g1eWRoX3cyeHp3bU82aU02NkJfMlFDRWFuSTRmVVkifQ.T3SIus2OidNl41nmVkTZVCKKhOAX97aOldMyHFiYjHm261eLiJ1YiuONFiMN8QlCmYzDlBLAdPvrXh52KaLgUQ",
+        "key_binding_payload": {
+            "nonce": "1234567890",
+            "aud": "https://verifier.example.org",
+            "iat": 1748537244,
+            "sd_hash": "0_Af-2B-EhLWX5ydh_w2xzwmO6iM66B_2QCEanI4fUY"
+        },
+        "processed_payload": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "user_42",
+            "nationalities": [
+                "US"
+            ],
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            },
+            "family_name": "Doe",
+            "address": {
+                "street_address": "123 Main St",
+                "locality": "Anytown",
+                "region": "Anystate",
+                "country": "US"
+            },
+            "given_name": "John"
+        },
+        "disclosures": [
+            {
+                "claim": "given_name",
+                "digest": "jsu9yVulwQQlhFlM_3JlzMaSFzglhQG0DpfayQwLUK4",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiSm9obiJd",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"given_name\", \"John\"]"
+            },
+            {
+                "claim": "family_name",
+                "digest": "TGf4oLbgwd5JQaHyKVQZU9UdGE0w5rtDsrZzfUaomLo",
+                "disclosure": "WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkRvZSJd",
+                "contents": "[\"eluV5Og3gSNII8EYnsxA_A\", \"family_name\", \"Doe\"]"
+            },
+            {
+                "claim": "email",
+                "digest": "JzYjH4svliH0R3PyEMfeZu6Jt69u5qehZo7F7EPYlSE",
+                "disclosure": "WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VAZXhhbXBsZS5jb20iXQ",
+                "contents": "[\"6Ij7tM-a5iVPGboS5tmvVA\", \"email\", \"johndoe@example.com\"]"
+            },
+            {
+                "claim": "phone_number",
+                "digest": "PorFbpKuVu6xymJagvkFsFXAbRoc2JGlAUA2BA4o7cI",
+                "disclosure": "WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJlciIsICIrMS0yMDItNTU1LTAxMDEiXQ",
+                "contents": "[\"eI8ZWm9QnKPpNPeNenHdhQ\", \"phone_number\", \"+1-202-555-0101\"]"
+            },
+            {
+                "claim": "phone_number_verified",
+                "digest": "XQ_3kPKt1XyX7KANkqVR6yZ2Va5NrPIvPYbyMvRKBMM",
+                "disclosure": "WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgInBob25lX251bWJlcl92ZXJpZmllZCIsIHRydWVd",
+                "contents": "[\"Qg_O64zqAxe412a108iroA\", \"phone_number_verified\", true]"
+            },
+            {
+                "claim": "address",
+                "digest": "XzFrzwscM6Gn6CJDc6vVK8BkMnfG8vOSKfpPIZdAfdE",
+                "disclosure": "WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0",
+                "contents": "[\"AJx-095VPrpTtN4QMOqROA\", \"address\", {\"street_address\": \"123 Main St\", \"locality\": \"Anytown\", \"region\": \"Anystate\", \"country\": \"US\"}]"
+            },
+            {
+                "claim": "birthdate",
+                "digest": "gbOsI4Edq2x2Kw-w5wPEzakob9hV1cRD0ATN3oQL9JM",
+                "disclosure": "WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImJpcnRoZGF0ZSIsICIxOTQwLTAxLTAxIl0",
+                "contents": "[\"Pc33JM2LchcU_lHggv_ufQ\", \"birthdate\", \"1940-01-01\"]"
+            },
+            {
+                "claim": "updated_at",
+                "digest": "CrQe7S5kqBAHt-nMYXgc6bdt2SH5aTY1sU_M-PgkjPI",
+                "disclosure": "WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgInVwZGF0ZWRfYXQiLCAxNTcwMDAwMDAwXQ",
+                "contents": "[\"G02NSrQfjFXQ7Io09syajA\", \"updated_at\", 1570000000]"
+            },
+            {
+                "claim": null,
+                "digest": "pFndjkZ_VCzmyTa6UjlZo3dh-ko8aIKQc9DlGzhaVYo",
+                "disclosure": "WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgIlVTIl0",
+                "contents": "[\"lklxF5jMYlGTPUovMNIvCA\", \"US\"]"
+            },
+            {
+                "claim": null,
+                "digest": "7Cf6JkPudry3lcbwHgeZ8khAv1U1OSlerP0VkBJrWZ0",
+                "disclosure": "WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgIkRFIl0",
+                "contents": "[\"nPuoQnkRFq3BIeAm7AnXFA\", \"DE\"]"
+            }
+        ],
+        "marked_claims": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "user_42",
+            "nationalities": [
+                {
+                    "_selectively_disclosable": {
+                        "salt": "lklxF5jMYlGTPUovMNIvCA",
+                        "value": "US"
+                    }
+                },
+                {
+                    "_selectively_disclosable": {
+                        "salt": "nPuoQnkRFq3BIeAm7AnXFA",
+                        "value": "DE"
+                    }
+                }
+            ],
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            },
+            "updated_at": {
+                "_selectively_disclosable": {
+                    "salt": "G02NSrQfjFXQ7Io09syajA",
+                    "value": 1570000000
+                }
+            },
+            "email": {
+                "_selectively_disclosable": {
+                    "salt": "6Ij7tM-a5iVPGboS5tmvVA",
+                    "value": "johndoe@example.com"
+                }
+            },
+            "phone_number": {
+                "_selectively_disclosable": {
+                    "salt": "eI8ZWm9QnKPpNPeNenHdhQ",
+                    "value": "+1-202-555-0101"
+                }
+            },
+            "family_name": {
+                "_selectively_disclosable": {
+                    "salt": "eluV5Og3gSNII8EYnsxA_A",
+                    "value": "Doe"
+                }
+            },
+            "phone_number_verified": {
+                "_selectively_disclosable": {
+                    "salt": "Qg_O64zqAxe412a108iroA",
+                    "value": true
+                }
+            },
+            "address": {
+                "_selectively_disclosable": {
+                    "salt": "AJx-095VPrpTtN4QMOqROA",
+                    "value": {
+                        "street_address": "123 Main St",
+                        "locality": "Anytown",
+                        "region": "Anystate",
+                        "country": "US"
+                    }
+                }
+            },
+            "birthdate": {
+                "_selectively_disclosable": {
+                    "salt": "Pc33JM2LchcU_lHggv_ufQ",
+                    "value": "1940-01-01"
+                }
+            },
+            "given_name": {
+                "_selectively_disclosable": {
+                    "salt": "2GLC42sKQveCfGfryNRN9w",
+                    "value": "John"
+                }
+            }
+        }
+    },
+    "section-6.1": {
+        "payload": {
+            "_sd": [
+                "fOBUSQvo46yQO-wRwXBcGqvnbKIueISEL961_Sjd4do"
+            ],
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "6c5c0a49-b589-431d-bae7-219122a9ec2c",
+            "_sd_alg": "sha-256"
+        },
+        "disclosures": [
+            {
+                "claim": "address",
+                "digest": "fOBUSQvo46yQO-wRwXBcGqvnbKIueISEL961_Sjd4do",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIlNjaHVsc3RyLiAxMiIsICJsb2NhbGl0eSI6ICJTY2h1bHBmb3J0YSIsICJyZWdpb24iOiAiU2FjaHNlbi1BbmhhbHQiLCAiY291bnRyeSI6ICJERSJ9XQ",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"address\", {\"street_address\": \"Schulstr. 12\", \"locality\": \"Schulpforta\", \"region\": \"Sachsen-Anhalt\", \"country\": \"DE\"}]"
+            }
+        ],
+        "marked_claims": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "6c5c0a49-b589-431d-bae7-219122a9ec2c",
+            "address": {
+                "_selectively_disclosable": {
+                    "salt": "2GLC42sKQveCfGfryNRN9w",
+                    "value": {
+                        "street_address": "Schulstr. 12",
+                        "locality": "Schulpforta",
+                        "region": "Sachsen-Anhalt",
+                        "country": "DE"
+                    }
+                }
+            }
+        }
+    },
+    "section-6.2": {
+        "payload": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "6c5c0a49-b589-431d-bae7-219122a9ec2c",
+            "address": {
+                "_sd": [
+                    "6vh9bq-zS4GKM_7GpggVbYzzu6oOGXrmNVGPHP75Ud0",
+                    "9gjVuXtdFROCgRrtNcGUXmF65rdezi_6Er_j76kmYyM",
+                    "KURDPh4ZC19-3tiz-Df39V8eidy1oV3a3H1Da2N0g88",
+                    "WN9r9dCBJ8HTCsS2jKASxTjEyW5m5x65_Z_2ro2jfXM"
+                ]
+            },
+            "_sd_alg": "sha-256"
+        },
+        "disclosures": [
+            {
+                "claim": "street_address",
+                "digest": "9gjVuXtdFROCgRrtNcGUXmF65rdezi_6Er_j76kmYyM",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgInN0cmVldF9hZGRyZXNzIiwgIlNjaHVsc3RyLiAxMiJd",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"street_address\", \"Schulstr. 12\"]"
+            },
+            {
+                "claim": "locality",
+                "digest": "6vh9bq-zS4GKM_7GpggVbYzzu6oOGXrmNVGPHP75Ud0",
+                "disclosure": "WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImxvY2FsaXR5IiwgIlNjaHVscGZvcnRhIl0",
+                "contents": "[\"eluV5Og3gSNII8EYnsxA_A\", \"locality\", \"Schulpforta\"]"
+            },
+            {
+                "claim": "region",
+                "digest": "KURDPh4ZC19-3tiz-Df39V8eidy1oV3a3H1Da2N0g88",
+                "disclosure": "WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgInJlZ2lvbiIsICJTYWNoc2VuLUFuaGFsdCJd",
+                "contents": "[\"6Ij7tM-a5iVPGboS5tmvVA\", \"region\", \"Sachsen-Anhalt\"]"
+            },
+            {
+                "claim": "country",
+                "digest": "WN9r9dCBJ8HTCsS2jKASxTjEyW5m5x65_Z_2ro2jfXM",
+                "disclosure": "WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgImNvdW50cnkiLCAiREUiXQ",
+                "contents": "[\"eI8ZWm9QnKPpNPeNenHdhQ\", \"country\", \"DE\"]"
+            }
+        ],
+        "marked_claims": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "6c5c0a49-b589-431d-bae7-219122a9ec2c",
+            "address": {
+                "locality": {
+                    "_selectively_disclosable": {
+                        "salt": "eluV5Og3gSNII8EYnsxA_A",
+                        "value": "Schulpforta"
+                    }
+                },
+                "street_address": {
+                    "_selectively_disclosable": {
+                        "salt": "2GLC42sKQveCfGfryNRN9w",
+                        "value": "Schulstr. 12"
+                    }
+                },
+                "region": {
+                    "_selectively_disclosable": {
+                        "salt": "6Ij7tM-a5iVPGboS5tmvVA",
+                        "value": "Sachsen-Anhalt"
+                    }
+                },
+                "country": {
+                    "_selectively_disclosable": {
+                        "salt": "eI8ZWm9QnKPpNPeNenHdhQ",
+                        "value": "DE"
+                    }
+                }
+            }
+        }
+    },
+    "section-6.3": {
+        "payload": {
+            "_sd": [
+                "HvrKX6fPV0v9K_yCVFBiLFHsMaxcD_114Em6VT8x1lg"
+            ],
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "6c5c0a49-b589-431d-bae7-219122a9ec2c",
+            "_sd_alg": "sha-256"
+        },
+        "disclosures": [
+            {
+                "claim": "street_address",
+                "digest": "9gjVuXtdFROCgRrtNcGUXmF65rdezi_6Er_j76kmYyM",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgInN0cmVldF9hZGRyZXNzIiwgIlNjaHVsc3RyLiAxMiJd",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"street_address\", \"Schulstr. 12\"]"
+            },
+            {
+                "claim": "locality",
+                "digest": "6vh9bq-zS4GKM_7GpggVbYzzu6oOGXrmNVGPHP75Ud0",
+                "disclosure": "WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImxvY2FsaXR5IiwgIlNjaHVscGZvcnRhIl0",
+                "contents": "[\"eluV5Og3gSNII8EYnsxA_A\", \"locality\", \"Schulpforta\"]"
+            },
+            {
+                "claim": "region",
+                "digest": "KURDPh4ZC19-3tiz-Df39V8eidy1oV3a3H1Da2N0g88",
+                "disclosure": "WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgInJlZ2lvbiIsICJTYWNoc2VuLUFuaGFsdCJd",
+                "contents": "[\"6Ij7tM-a5iVPGboS5tmvVA\", \"region\", \"Sachsen-Anhalt\"]"
+            },
+            {
+                "claim": "country",
+                "digest": "WN9r9dCBJ8HTCsS2jKASxTjEyW5m5x65_Z_2ro2jfXM",
+                "disclosure": "WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgImNvdW50cnkiLCAiREUiXQ",
+                "contents": "[\"eI8ZWm9QnKPpNPeNenHdhQ\", \"country\", \"DE\"]"
+            },
+            {
+                "claim": "address",
+                "digest": "HvrKX6fPV0v9K_yCVFBiLFHsMaxcD_114Em6VT8x1lg",
+                "disclosure": "WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7Il9zZCI6IFsiNnZoOWJxLXpTNEdLTV83R3BnZ1ZiWXp6dTZvT0dYcm1OVkdQSFA3NVVkMCIsICI5Z2pWdVh0ZEZST0NnUnJ0TmNHVVhtRjY1cmRlemlfNkVyX2o3NmttWXlNIiwgIktVUkRQaDRaQzE5LTN0aXotRGYzOVY4ZWlkeTFvVjNhM0gxRGEyTjBnODgiLCAiV045cjlkQ0JKOEhUQ3NTMmpLQVN4VGpFeVc1bTV4NjVfWl8ycm8yamZYTSJdfV0",
+                "contents": "[\"Qg_O64zqAxe412a108iroA\", \"address\", {\"_sd\": [\"6vh9bq-zS4GKM_7GpggVbYzzu6oOGXrmNVGPHP75Ud0\", \"9gjVuXtdFROCgRrtNcGUXmF65rdezi_6Er_j76kmYyM\", \"KURDPh4ZC19-3tiz-Df39V8eidy1oV3a3H1Da2N0g88\", \"WN9r9dCBJ8HTCsS2jKASxTjEyW5m5x65_Z_2ro2jfXM\"]}]"
+            }
+        ],
+        "marked_claims": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "sub": "6c5c0a49-b589-431d-bae7-219122a9ec2c",
+            "address": {
+                "_selectively_disclosable": {
+                    "salt": "Qg_O64zqAxe412a108iroA",
+                    "value": {
+                        "locality": {
+                            "_selectively_disclosable": {
+                                "salt": "eluV5Og3gSNII8EYnsxA_A",
+                                "value": "Schulpforta"
+                            }
+                        },
+                        "street_address": {
+                            "_selectively_disclosable": {
+                                "salt": "2GLC42sKQveCfGfryNRN9w",
+                                "value": "Schulstr. 12"
+                            }
+                        },
+                        "region": {
+                            "_selectively_disclosable": {
+                                "salt": "6Ij7tM-a5iVPGboS5tmvVA",
+                                "value": "Sachsen-Anhalt"
+                            }
+                        },
+                        "country": {
+                            "_selectively_disclosable": {
+                                "salt": "eI8ZWm9QnKPpNPeNenHdhQ",
+                                "value": "DE"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "appendix-a.1": {
+        "claims": {
+            "sub": "6c5c0a49-b589-431d-bae7-219122a9ec2c",
+            "given_name": "太郎",
+            "family_name": "山田",
+            "email": "\"unusual email address\"@example.jp",
+            "phone_number": "+81-80-1234-5678",
+            "address": {
+                "street_address": "東京都港区芝公園４丁目２−８",
+                "locality": "東京都",
+                "region": "港区",
+                "country": "JP"
+            },
+            "birthdate": "1940-01-01"
+        },
+        "payload": {
+            "_sd": [
+                "C9inp6YoRaEXR427zYJP7Qrk1WH_8bdwOA_YUrUnGQU",
+                "Kuet1yAa0HIQvYnOVd59hcViO9Ug6J2kSfqYRBeowvE",
+                "MMldOFFzB2d0umlmpTIaGerhWdU_PpYfLvKhh_f_9aY",
+                "X6ZAYOII2vPN40V7xExZwVwz7yRmLNcVwt5DL8RLv4g",
+                "Y34zmIo0QLLOtdMpXGwjBgLvr17yEhhYT0FGofR-aIE",
+                "fyGp0WTwwPv2JDQln1lSiaeobZsMWA10bQ5989-9DTs",
+                "ommFAicVT8LGHCB0uywx7fYuo3MHYKO15cz-RZEYM5Q",
+                "s0BKYsLWxQQeU8tVlltM7MKsIRTrEIa1PkJmqxBBf5U"
+            ],
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "address": {
+                "_sd": [
+                    "6aUhzYhZ7SJ1kVmagQAO3u2ETN2CC1aHheZpKnaF0_E",
+                    "AzLlFobkJ2xiaupREPyoJz-9-NSldB6Cgjr7fUyoHzg",
+                    "PzzcVu0qbMuBGSjulfewzkesD9zutOExn5EWNwkrQ-k",
+                    "b2Dkw0jcIF9rGg8_PF8ZcvncW7zwZj5ryBWvXfrpzek",
+                    "cPYJHIZ8Vu-f9CCyVub2UfgEk8jvvXezwK1p_JneeXQ",
+                    "glT3hrSU7fSWgwF5UDZmWwBTw32gnUldIhi8hGVCaV4",
+                    "rvJd6iq6T5ejmsBMoGwuNXh9qAAFATAci40oidEeVsA",
+                    "uNHoWYhXsZhVJCNE2Dqy-zqt7t69gJKy5QaFv7GrMX4"
+                ]
+            },
+            "_sd_alg": "sha-256"
+        },
+        "decoys": [
+            "AzLlFobkJ2xiaupREPyoJz-9-NSldB6Cgjr7fUyoHzg",
+            "cPYJHIZ8Vu-f9CCyVub2UfgEk8jvvXezwK1p_JneeXQ",
+            "glT3hrSU7fSWgwF5UDZmWwBTw32gnUldIhi8hGVCaV4",
+            "b2Dkw0jcIF9rGg8_PF8ZcvncW7zwZj5ryBWvXfrpzek",
+            "fyGp0WTwwPv2JDQln1lSiaeobZsMWA10bQ5989-9DTs",
+            "Y34zmIo0QLLOtdMpXGwjBgLvr17yEhhYT0FGofR-aIE"
+        ],
+        "presentation": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImV4YW1wbGUrc2Qtand0In0.eyJfc2QiOiBbIkM5aW5wNllvUmFFWFI0Mjd6WUpQN1FyazFXSF84YmR3T0FfWVVyVW5HUVUiLCAiS3VldDF5QWEwSElRdlluT1ZkNTloY1ZpTzlVZzZKMmtTZnFZUkJlb3d2RSIsICJNTWxkT0ZGekIyZDB1bWxtcFRJYUdlcmhXZFVfUHBZZkx2S2hoX2ZfOWFZIiwgIlg2WkFZT0lJMnZQTjQwVjd4RXhad1Z3ejd5Um1MTmNWd3Q1REw4Ukx2NGciLCAiWTM0em1JbzBRTExPdGRNcFhHd2pCZ0x2cjE3eUVoaFlUMEZHb2ZSLWFJRSIsICJmeUdwMFdUd3dQdjJKRFFsbjFsU2lhZW9iWnNNV0ExMGJRNTk4OS05RFRzIiwgIm9tbUZBaWNWVDhMR0hDQjB1eXd4N2ZZdW8zTUhZS08xNWN6LVJaRVlNNVEiLCAiczBCS1lzTFd4UVFlVTh0VmxsdE03TUtzSVJUckVJYTFQa0ptcXhCQmY1VSJdLCAiaXNzIjogImh0dHBzOi8vaXNzdWVyLmV4YW1wbGUuY29tIiwgImlhdCI6IDE2ODMwMDAwMDAsICJleHAiOiAxODgzMDAwMDAwLCAiYWRkcmVzcyI6IHsiX3NkIjogWyI2YVVoelloWjdTSjFrVm1hZ1FBTzN1MkVUTjJDQzFhSGhlWnBLbmFGMF9FIiwgIkF6TGxGb2JrSjJ4aWF1cFJFUHlvSnotOS1OU2xkQjZDZ2pyN2ZVeW9IemciLCAiUHp6Y1Z1MHFiTXVCR1NqdWxmZXd6a2VzRDl6dXRPRXhuNUVXTndrclEtayIsICJiMkRrdzBqY0lGOXJHZzhfUEY4WmN2bmNXN3p3Wmo1cnlCV3ZYZnJwemVrIiwgImNQWUpISVo4VnUtZjlDQ3lWdWIyVWZnRWs4anZ2WGV6d0sxcF9KbmVlWFEiLCAiZ2xUM2hyU1U3ZlNXZ3dGNVVEWm1Xd0JUdzMyZ25VbGRJaGk4aEdWQ2FWNCIsICJydkpkNmlxNlQ1ZWptc0JNb0d3dU5YaDlxQUFGQVRBY2k0MG9pZEVlVnNBIiwgInVOSG9XWWhYc1poVkpDTkUyRHF5LXpxdDd0NjlnSkt5NVFhRnY3R3JNWDQiXX0sICJfc2RfYWxnIjogInNoYS0yNTYifQ.EOZa2YqK8j4i7cqBDkfPcTMaFsgPwcx3aYJkFoMfvV46LxL-PPqrWsIyNukB4x8Y2LT31eIHDc4Wg4XNzaqu4w~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgInJlZ2lvbiIsICJcdTZlMmZcdTUzM2EiXQ~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImNvdW50cnkiLCAiSlAiXQ~",
+        "processed_payload": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "address": {
+                "region": "港区",
+                "country": "JP"
+            }
+        },
+        "disclosures": [
+            {
+                "claim": "sub",
+                "digest": "X6ZAYOII2vPN40V7xExZwVwz7yRmLNcVwt5DL8RLv4g",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgInN1YiIsICI2YzVjMGE0OS1iNTg5LTQzMWQtYmFlNy0yMTkxMjJhOWVjMmMiXQ",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"sub\", \"6c5c0a49-b589-431d-bae7-219122a9ec2c\"]"
+            },
+            {
+                "claim": "given_name",
+                "digest": "ommFAicVT8LGHCB0uywx7fYuo3MHYKO15cz-RZEYM5Q",
+                "disclosure": "WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImdpdmVuX25hbWUiLCAiXHU1OTJhXHU5MGNlIl0",
+                "contents": "[\"eluV5Og3gSNII8EYnsxA_A\", \"given_name\", \"\\u592a\\u90ce\"]"
+            },
+            {
+                "claim": "family_name",
+                "digest": "C9inp6YoRaEXR427zYJP7Qrk1WH_8bdwOA_YUrUnGQU",
+                "disclosure": "WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImZhbWlseV9uYW1lIiwgIlx1NWM3MVx1NzUzMCJd",
+                "contents": "[\"6Ij7tM-a5iVPGboS5tmvVA\", \"family_name\", \"\\u5c71\\u7530\"]"
+            },
+            {
+                "claim": "email",
+                "digest": "Kuet1yAa0HIQvYnOVd59hcViO9Ug6J2kSfqYRBeowvE",
+                "disclosure": "WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgImVtYWlsIiwgIlwidW51c3VhbCBlbWFpbCBhZGRyZXNzXCJAZXhhbXBsZS5qcCJd",
+                "contents": "[\"eI8ZWm9QnKPpNPeNenHdhQ\", \"email\", \"\\\"unusual email address\\\"@example.jp\"]"
+            },
+            {
+                "claim": "phone_number",
+                "digest": "s0BKYsLWxQQeU8tVlltM7MKsIRTrEIa1PkJmqxBBf5U",
+                "disclosure": "WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgInBob25lX251bWJlciIsICIrODEtODAtMTIzNC01Njc4Il0",
+                "contents": "[\"Qg_O64zqAxe412a108iroA\", \"phone_number\", \"+81-80-1234-5678\"]"
+            },
+            {
+                "claim": "street_address",
+                "digest": "6aUhzYhZ7SJ1kVmagQAO3u2ETN2CC1aHheZpKnaF0_E",
+                "disclosure": "WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgInN0cmVldF9hZGRyZXNzIiwgIlx1Njc3MVx1NGVhY1x1OTBmZFx1NmUyZlx1NTMzYVx1ODI5ZFx1NTE2Y1x1NTcxMlx1ZmYxNFx1NGUwMVx1NzZlZVx1ZmYxMlx1MjIxMlx1ZmYxOCJd",
+                "contents": "[\"AJx-095VPrpTtN4QMOqROA\", \"street_address\", \"\\u6771\\u4eac\\u90fd\\u6e2f\\u533a\\u829d\\u516c\\u5712\\uff14\\u4e01\\u76ee\\uff12\\u2212\\uff18\"]"
+            },
+            {
+                "claim": "locality",
+                "digest": "rvJd6iq6T5ejmsBMoGwuNXh9qAAFATAci40oidEeVsA",
+                "disclosure": "WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImxvY2FsaXR5IiwgIlx1Njc3MVx1NGVhY1x1OTBmZCJd",
+                "contents": "[\"Pc33JM2LchcU_lHggv_ufQ\", \"locality\", \"\\u6771\\u4eac\\u90fd\"]"
+            },
+            {
+                "claim": "region",
+                "digest": "PzzcVu0qbMuBGSjulfewzkesD9zutOExn5EWNwkrQ-k",
+                "disclosure": "WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgInJlZ2lvbiIsICJcdTZlMmZcdTUzM2EiXQ",
+                "contents": "[\"G02NSrQfjFXQ7Io09syajA\", \"region\", \"\\u6e2f\\u533a\"]"
+            },
+            {
+                "claim": "country",
+                "digest": "uNHoWYhXsZhVJCNE2Dqy-zqt7t69gJKy5QaFv7GrMX4",
+                "disclosure": "WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImNvdW50cnkiLCAiSlAiXQ",
+                "contents": "[\"lklxF5jMYlGTPUovMNIvCA\", \"country\", \"JP\"]"
+            },
+            {
+                "claim": "birthdate",
+                "digest": "MMldOFFzB2d0umlmpTIaGerhWdU_PpYfLvKhh_f_9aY",
+                "disclosure": "WyJ5eXRWYmRBUEdjZ2wyckk0QzlHU29nIiwgImJpcnRoZGF0ZSIsICIxOTQwLTAxLTAxIl0",
+                "contents": "[\"yytVbdAPGcgl2rI4C9GSog\", \"birthdate\", \"1940-01-01\"]"
+            }
+        ],
+        "marked_claims": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "address": {
+                "street_address": {
+                    "_selectively_disclosable": {
+                        "salt": "AJx-095VPrpTtN4QMOqROA",
+                        "value": "東京都港区芝公園４丁目２−８"
+                    }
+                },
+                "region": {
+                    "_selectively_disclosable": {
+                        "salt": "G02NSrQfjFXQ7Io09syajA",
+                        "value": "港区"
+                    }
+                },
+                "locality": {
+                    "_selectively_disclosable": {
+                        "salt": "Pc33JM2LchcU_lHggv_ufQ",
+                        "value": "東京都"
+                    }
+                },
+                "country": {
+                    "_selectively_disclosable": {
+                        "salt": "lklxF5jMYlGTPUovMNIvCA",
+                        "value": "JP"
+                    }
+                }
+            },
+            "family_name": {
+                "_selectively_disclosable": {
+                    "salt": "6Ij7tM-a5iVPGboS5tmvVA",
+                    "value": "山田"
+                }
+            },
+            "email": {
+                "_selectively_disclosable": {
+                    "salt": "eI8ZWm9QnKPpNPeNenHdhQ",
+                    "value": "\"unusual email address\"@example.jp"
+                }
+            },
+            "birthdate": {
+                "_selectively_disclosable": {
+                    "salt": "yytVbdAPGcgl2rI4C9GSog",
+                    "value": "1940-01-01"
+                }
+            },
+            "sub": {
+                "_selectively_disclosable": {
+                    "salt": "2GLC42sKQveCfGfryNRN9w",
+                    "value": "6c5c0a49-b589-431d-bae7-219122a9ec2c"
+                }
+            },
+            "given_name": {
+                "_selectively_disclosable": {
+                    "salt": "eluV5Og3gSNII8EYnsxA_A",
+                    "value": "太郎"
+                }
+            },
+            "phone_number": {
+                "_selectively_disclosable": {
+                    "salt": "Qg_O64zqAxe412a108iroA",
+                    "value": "+81-80-1234-5678"
+                }
+            }
+        }
+    },
+    "appendix-a.2": {
+        "claims": {
+            "verified_claims": {
+                "verification": {
+                    "trust_framework": "de_aml",
+                    "time": "2012-04-23T18:25Z",
+                    "verification_process": "f24c6f-6d3f-4ec5-973e-b0d8506f3bc7",
+                    "evidence": [
+                        {
+                            "type": "document",
+                            "method": "pipp",
+                            "time": "2012-04-22T11:30Z",
+                            "document": {
+                                "type": "idcard",
+                                "issuer": {
+                                    "name": "Stadt Augsburg",
+                                    "country": "DE"
+                                },
+                                "number": "53554554",
+                                "date_of_issuance": "2010-03-23",
+                                "date_of_expiry": "2020-03-22"
+                            }
+                        }
+                    ]
+                },
+                "claims": {
+                    "given_name": "Max",
+                    "family_name": "Müller",
+                    "nationalities": [
+                        "DE"
+                    ],
+                    "birthdate": "1956-01-28",
+                    "place_of_birth": {
+                        "country": "IS",
+                        "locality": "Þykkvabæjarklaustur"
+                    },
+                    "address": {
+                        "locality": "Maxstadt",
+                        "postal_code": "12344",
+                        "country": "DE",
+                        "street_address": "Weidenstraße 22"
+                    }
+                }
+            },
+            "birth_middle_name": "Timotheus",
+            "salutation": "Dr.",
+            "msisdn": "49123456789"
+        },
+        "payload": {
+            "_sd": [
+                "-aSznId9mWM8ocuQolCllsxVggq1-vHW4OtnhUtVmWw",
+                "IKbrYNn3vA7WEFrysvbdBJjDDU_EvQIr0W18vTRpUSg",
+                "otkxuT14nBiwzNJ3MPaOitOl9pVnXOaEHal_xkyNfKI"
+            ],
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "verified_claims": {
+                "verification": {
+                    "_sd": [
+                        "7h4UE9qScvDKodXVCuoKfKBJpVBfXMF_TmAGVaZe3Sc",
+                        "vTwe3raHIFYgFA3xaUD2aMxFz5oDo8iBu05qKlOg9Lw"
+                    ],
+                    "trust_framework": "de_aml",
+                    "evidence": [
+                        {
+                            "...": "tYJ0TDucyZZCRMbROG4qRO5vkPSFRxFhUELc18CSl3k"
+                        }
+                    ]
+                },
+                "claims": {
+                    "_sd": [
+                        "RiOiCn6_w5ZHaadkQMrcQJf0Jte5RwurRs54231DTlo",
+                        "S_498bbpKzB6Eanftss0xc7cOaoneRr3pKr7NdRmsMo",
+                        "WNA-UNK7F_zhsAb9syWO6IIQ1uHlTmOU8r8CvJ0cIMk",
+                        "Wxh_sV3iRH9bgrTBJi-aYHNCLt-vjhX1sd-igOf_9lk",
+                        "_O-wJiH3enSB4ROHntToQT8JmLtz-mhO2f1c89XoerQ",
+                        "hvDXhwmGcJQsBCA2OtjuLAcwAMpDsaU0nkovcKOqWNE"
+                    ]
+                }
+            },
+            "_sd_alg": "sha-256"
+        },
+        "presentation": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImV4YW1wbGUrc2Qtand0In0.eyJfc2QiOiBbIi1hU3puSWQ5bVdNOG9jdVFvbENsbHN4VmdncTEtdkhXNE90bmhVdFZtV3ciLCAiSUticllObjN2QTdXRUZyeXN2YmRCSmpERFVfRXZRSXIwVzE4dlRScFVTZyIsICJvdGt4dVQxNG5CaXd6TkozTVBhT2l0T2w5cFZuWE9hRUhhbF94a3lOZktJIl0sICJpc3MiOiAiaHR0cHM6Ly9pc3N1ZXIuZXhhbXBsZS5jb20iLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ2ZXJpZmllZF9jbGFpbXMiOiB7InZlcmlmaWNhdGlvbiI6IHsiX3NkIjogWyI3aDRVRTlxU2N2REtvZFhWQ3VvS2ZLQkpwVkJmWE1GX1RtQUdWYVplM1NjIiwgInZUd2UzcmFISUZZZ0ZBM3hhVUQyYU14Rno1b0RvOGlCdTA1cUtsT2c5THciXSwgInRydXN0X2ZyYW1ld29yayI6ICJkZV9hbWwiLCAiZXZpZGVuY2UiOiBbeyIuLi4iOiAidFlKMFREdWN5WlpDUk1iUk9HNHFSTzV2a1BTRlJ4RmhVRUxjMThDU2wzayJ9XX0sICJjbGFpbXMiOiB7Il9zZCI6IFsiUmlPaUNuNl93NVpIYWFka1FNcmNRSmYwSnRlNVJ3dXJSczU0MjMxRFRsbyIsICJTXzQ5OGJicEt6QjZFYW5mdHNzMHhjN2NPYW9uZVJyM3BLcjdOZFJtc01vIiwgIldOQS1VTks3Rl96aHNBYjlzeVdPNklJUTF1SGxUbU9VOHI4Q3ZKMGNJTWsiLCAiV3hoX3NWM2lSSDliZ3JUQkppLWFZSE5DTHQtdmpoWDFzZC1pZ09mXzlsayIsICJfTy13SmlIM2VuU0I0Uk9IbnRUb1FUOEptTHR6LW1oTzJmMWM4OVhvZXJRIiwgImh2RFhod21HY0pRc0JDQTJPdGp1TEFjd0FNcERzYVUwbmtvdmNLT3FXTkUiXX19LCAiX3NkX2FsZyI6ICJzaGEtMjU2In0.QoWYWtikm-AtjmPnNVshbGXQl5raEz15PByTmZwfTQg9W2O3oR6j2tMmysTZZawdo6mNLR_PsZSI25qrUpiNTg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgInRpbWUiLCAiMjAxMi0wNC0yM1QxODoyNVoiXQ~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgeyJfc2QiOiBbIjl3cGpWUFd1RDdQSzBuc1FETDhCMDZsbWRnVjNMVnliaEh5ZFFwVE55TEkiLCAiRzVFbmhPQU9vVTlYXzZRTU52ekZYanBFQV9SYy1BRXRtMWJHX3djYUtJayIsICJJaHdGcldVQjYzUmNacTl5dmdaMFhQYzdHb3doM08ya3FYZUJJc3dnMUI0IiwgIldweFE0SFNvRXRjVG1DQ0tPZURzbEJfZW11Y1lMejJvTzhvSE5yMWJFVlEiXX1d~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgIm1ldGhvZCIsICJwaXBwIl0~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImdpdmVuX25hbWUiLCAiTWF4Il0~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImZhbWlseV9uYW1lIiwgIk1cdTAwZmNsbGVyIl0~WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImFkZHJlc3MiLCB7ImxvY2FsaXR5IjogIk1heHN0YWR0IiwgInBvc3RhbF9jb2RlIjogIjEyMzQ0IiwgImNvdW50cnkiOiAiREUiLCAic3RyZWV0X2FkZHJlc3MiOiAiV2VpZGVuc3RyYVx1MDBkZmUgMjIifV0~",
+        "processed_payload": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "verified_claims": {
+                "verification": {
+                    "trust_framework": "de_aml",
+                    "evidence": [
+                        {
+                            "method": "pipp"
+                        }
+                    ],
+                    "time": "2012-04-23T18:25Z"
+                },
+                "claims": {
+                    "given_name": "Max",
+                    "family_name": "Müller",
+                    "address": {
+                        "locality": "Maxstadt",
+                        "postal_code": "12344",
+                        "country": "DE",
+                        "street_address": "Weidenstraße 22"
+                    }
+                }
+            }
+        },
+        "disclosures": [
+            {
+                "claim": "time",
+                "digest": "vTwe3raHIFYgFA3xaUD2aMxFz5oDo8iBu05qKlOg9Lw",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgInRpbWUiLCAiMjAxMi0wNC0yM1QxODoyNVoiXQ",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"time\", \"2012-04-23T18:25Z\"]"
+            },
+            {
+                "claim": "verification_process",
+                "digest": "7h4UE9qScvDKodXVCuoKfKBJpVBfXMF_TmAGVaZe3Sc",
+                "disclosure": "WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgInZlcmlmaWNhdGlvbl9wcm9jZXNzIiwgImYyNGM2Zi02ZDNmLTRlYzUtOTczZS1iMGQ4NTA2ZjNiYzciXQ",
+                "contents": "[\"eluV5Og3gSNII8EYnsxA_A\", \"verification_process\", \"f24c6f-6d3f-4ec5-973e-b0d8506f3bc7\"]"
+            },
+            {
+                "claim": "type",
+                "digest": "G5EnhOAOoU9X_6QMNvzFXjpEA_Rc-AEtm1bG_wcaKIk",
+                "disclosure": "WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgInR5cGUiLCAiZG9jdW1lbnQiXQ",
+                "contents": "[\"6Ij7tM-a5iVPGboS5tmvVA\", \"type\", \"document\"]"
+            },
+            {
+                "claim": "method",
+                "digest": "WpxQ4HSoEtcTmCCKOeDslB_emucYLz2oO8oHNr1bEVQ",
+                "disclosure": "WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgIm1ldGhvZCIsICJwaXBwIl0",
+                "contents": "[\"eI8ZWm9QnKPpNPeNenHdhQ\", \"method\", \"pipp\"]"
+            },
+            {
+                "claim": "time",
+                "digest": "9wpjVPWuD7PK0nsQDL8B06lmdgV3LVybhHydQpTNyLI",
+                "disclosure": "WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgInRpbWUiLCAiMjAxMi0wNC0yMlQxMTozMFoiXQ",
+                "contents": "[\"Qg_O64zqAxe412a108iroA\", \"time\", \"2012-04-22T11:30Z\"]"
+            },
+            {
+                "claim": "document",
+                "digest": "IhwFrWUB63RcZq9yvgZ0XPc7Gowh3O2kqXeBIswg1B4",
+                "disclosure": "WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImRvY3VtZW50IiwgeyJ0eXBlIjogImlkY2FyZCIsICJpc3N1ZXIiOiB7Im5hbWUiOiAiU3RhZHQgQXVnc2J1cmciLCAiY291bnRyeSI6ICJERSJ9LCAibnVtYmVyIjogIjUzNTU0NTU0IiwgImRhdGVfb2ZfaXNzdWFuY2UiOiAiMjAxMC0wMy0yMyIsICJkYXRlX29mX2V4cGlyeSI6ICIyMDIwLTAzLTIyIn1d",
+                "contents": "[\"AJx-095VPrpTtN4QMOqROA\", \"document\", {\"type\": \"idcard\", \"issuer\": {\"name\": \"Stadt Augsburg\", \"country\": \"DE\"}, \"number\": \"53554554\", \"date_of_issuance\": \"2010-03-23\", \"date_of_expiry\": \"2020-03-22\"}]"
+            },
+            {
+                "claim": null,
+                "digest": "tYJ0TDucyZZCRMbROG4qRO5vkPSFRxFhUELc18CSl3k",
+                "disclosure": "WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgeyJfc2QiOiBbIjl3cGpWUFd1RDdQSzBuc1FETDhCMDZsbWRnVjNMVnliaEh5ZFFwVE55TEkiLCAiRzVFbmhPQU9vVTlYXzZRTU52ekZYanBFQV9SYy1BRXRtMWJHX3djYUtJayIsICJJaHdGcldVQjYzUmNacTl5dmdaMFhQYzdHb3doM08ya3FYZUJJc3dnMUI0IiwgIldweFE0SFNvRXRjVG1DQ0tPZURzbEJfZW11Y1lMejJvTzhvSE5yMWJFVlEiXX1d",
+                "contents": "[\"Pc33JM2LchcU_lHggv_ufQ\", {\"_sd\": [\"9wpjVPWuD7PK0nsQDL8B06lmdgV3LVybhHydQpTNyLI\", \"G5EnhOAOoU9X_6QMNvzFXjpEA_Rc-AEtm1bG_wcaKIk\", \"IhwFrWUB63RcZq9yvgZ0XPc7Gowh3O2kqXeBIswg1B4\", \"WpxQ4HSoEtcTmCCKOeDslB_emucYLz2oO8oHNr1bEVQ\"]}]"
+            },
+            {
+                "claim": "given_name",
+                "digest": "S_498bbpKzB6Eanftss0xc7cOaoneRr3pKr7NdRmsMo",
+                "disclosure": "WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImdpdmVuX25hbWUiLCAiTWF4Il0",
+                "contents": "[\"G02NSrQfjFXQ7Io09syajA\", \"given_name\", \"Max\"]"
+            },
+            {
+                "claim": "family_name",
+                "digest": "Wxh_sV3iRH9bgrTBJi-aYHNCLt-vjhX1sd-igOf_9lk",
+                "disclosure": "WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImZhbWlseV9uYW1lIiwgIk1cdTAwZmNsbGVyIl0",
+                "contents": "[\"lklxF5jMYlGTPUovMNIvCA\", \"family_name\", \"M\\u00fcller\"]"
+            },
+            {
+                "claim": "nationalities",
+                "digest": "hvDXhwmGcJQsBCA2OtjuLAcwAMpDsaU0nkovcKOqWNE",
+                "disclosure": "WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgIm5hdGlvbmFsaXRpZXMiLCBbIkRFIl1d",
+                "contents": "[\"nPuoQnkRFq3BIeAm7AnXFA\", \"nationalities\", [\"DE\"]]"
+            },
+            {
+                "claim": "birthdate",
+                "digest": "WNA-UNK7F_zhsAb9syWO6IIQ1uHlTmOU8r8CvJ0cIMk",
+                "disclosure": "WyI1YlBzMUlxdVpOYTBoa2FGenp6Wk53IiwgImJpcnRoZGF0ZSIsICIxOTU2LTAxLTI4Il0",
+                "contents": "[\"5bPs1IquZNa0hkaFzzzZNw\", \"birthdate\", \"1956-01-28\"]"
+            },
+            {
+                "claim": "place_of_birth",
+                "digest": "RiOiCn6_w5ZHaadkQMrcQJf0Jte5RwurRs54231DTlo",
+                "disclosure": "WyI1YTJXMF9OcmxFWnpmcW1rXzdQcS13IiwgInBsYWNlX29mX2JpcnRoIiwgeyJjb3VudHJ5IjogIklTIiwgImxvY2FsaXR5IjogIlx1MDBkZXlra3ZhYlx1MDBlNmphcmtsYXVzdHVyIn1d",
+                "contents": "[\"5a2W0_NrlEZzfqmk_7Pq-w\", \"place_of_birth\", {\"country\": \"IS\", \"locality\": \"\\u00deykkvab\\u00e6jarklaustur\"}]"
+            },
+            {
+                "claim": "address",
+                "digest": "_O-wJiH3enSB4ROHntToQT8JmLtz-mhO2f1c89XoerQ",
+                "disclosure": "WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImFkZHJlc3MiLCB7ImxvY2FsaXR5IjogIk1heHN0YWR0IiwgInBvc3RhbF9jb2RlIjogIjEyMzQ0IiwgImNvdW50cnkiOiAiREUiLCAic3RyZWV0X2FkZHJlc3MiOiAiV2VpZGVuc3RyYVx1MDBkZmUgMjIifV0",
+                "contents": "[\"y1sVU5wdfJahVdgwPgS7RQ\", \"address\", {\"locality\": \"Maxstadt\", \"postal_code\": \"12344\", \"country\": \"DE\", \"street_address\": \"Weidenstra\\u00dfe 22\"}]"
+            },
+            {
+                "claim": "birth_middle_name",
+                "digest": "otkxuT14nBiwzNJ3MPaOitOl9pVnXOaEHal_xkyNfKI",
+                "disclosure": "WyJIYlE0WDhzclZXM1FEeG5JSmRxeU9BIiwgImJpcnRoX21pZGRsZV9uYW1lIiwgIlRpbW90aGV1cyJd",
+                "contents": "[\"HbQ4X8srVW3QDxnIJdqyOA\", \"birth_middle_name\", \"Timotheus\"]"
+            },
+            {
+                "claim": "salutation",
+                "digest": "-aSznId9mWM8ocuQolCllsxVggq1-vHW4OtnhUtVmWw",
+                "disclosure": "WyJDOUdTb3VqdmlKcXVFZ1lmb2pDYjFBIiwgInNhbHV0YXRpb24iLCAiRHIuIl0",
+                "contents": "[\"C9GSoujviJquEgYfojCb1A\", \"salutation\", \"Dr.\"]"
+            },
+            {
+                "claim": "msisdn",
+                "digest": "IKbrYNn3vA7WEFrysvbdBJjDDU_EvQIr0W18vTRpUSg",
+                "disclosure": "WyJreDVrRjE3Vi14MEptd1V4OXZndnR3IiwgIm1zaXNkbiIsICI0OTEyMzQ1Njc4OSJd",
+                "contents": "[\"kx5kF17V-x0JmwUx9vgvtw\", \"msisdn\", \"49123456789\"]"
+            }
+        ],
+        "marked_claims": {
+            "iss": "https://issuer.example.com",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "verified_claims": {
+                "verification": {
+                    "trust_framework": "de_aml",
+                    "evidence": [
+                        {
+                            "_selectively_disclosable": {
+                                "salt": "Pc33JM2LchcU_lHggv_ufQ",
+                                "value": {
+                                    "time": {
+                                        "_selectively_disclosable": {
+                                            "salt": "Qg_O64zqAxe412a108iroA",
+                                            "value": "2012-04-22T11:30Z"
+                                        }
+                                    },
+                                    "type": {
+                                        "_selectively_disclosable": {
+                                            "salt": "6Ij7tM-a5iVPGboS5tmvVA",
+                                            "value": "document"
+                                        }
+                                    },
+                                    "document": {
+                                        "_selectively_disclosable": {
+                                            "salt": "AJx-095VPrpTtN4QMOqROA",
+                                            "value": {
+                                                "type": "idcard",
+                                                "issuer": {
+                                                    "name": "Stadt Augsburg",
+                                                    "country": "DE"
+                                                },
+                                                "number": "53554554",
+                                                "date_of_issuance": "2010-03-23",
+                                                "date_of_expiry": "2020-03-22"
+                                            }
+                                        }
+                                    },
+                                    "method": {
+                                        "_selectively_disclosable": {
+                                            "salt": "eI8ZWm9QnKPpNPeNenHdhQ",
+                                            "value": "pipp"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ],
+                    "verification_process": {
+                        "_selectively_disclosable": {
+                            "salt": "eluV5Og3gSNII8EYnsxA_A",
+                            "value": "f24c6f-6d3f-4ec5-973e-b0d8506f3bc7"
+                        }
+                    },
+                    "time": {
+                        "_selectively_disclosable": {
+                            "salt": "2GLC42sKQveCfGfryNRN9w",
+                            "value": "2012-04-23T18:25Z"
+                        }
+                    }
+                },
+                "claims": {
+                    "place_of_birth": {
+                        "_selectively_disclosable": {
+                            "salt": "5a2W0_NrlEZzfqmk_7Pq-w",
+                            "value": {
+                                "country": "IS",
+                                "locality": "Þykkvabæjarklaustur"
+                            }
+                        }
+                    },
+                    "given_name": {
+                        "_selectively_disclosable": {
+                            "salt": "G02NSrQfjFXQ7Io09syajA",
+                            "value": "Max"
+                        }
+                    },
+                    "birthdate": {
+                        "_selectively_disclosable": {
+                            "salt": "5bPs1IquZNa0hkaFzzzZNw",
+                            "value": "1956-01-28"
+                        }
+                    },
+                    "family_name": {
+                        "_selectively_disclosable": {
+                            "salt": "lklxF5jMYlGTPUovMNIvCA",
+                            "value": "Müller"
+                        }
+                    },
+                    "address": {
+                        "_selectively_disclosable": {
+                            "salt": "y1sVU5wdfJahVdgwPgS7RQ",
+                            "value": {
+                                "locality": "Maxstadt",
+                                "postal_code": "12344",
+                                "country": "DE",
+                                "street_address": "Weidenstraße 22"
+                            }
+                        }
+                    },
+                    "nationalities": {
+                        "_selectively_disclosable": {
+                            "salt": "nPuoQnkRFq3BIeAm7AnXFA",
+                            "value": [
+                                "DE"
+                            ]
+                        }
+                    }
+                }
+            },
+            "salutation": {
+                "_selectively_disclosable": {
+                    "salt": "C9GSoujviJquEgYfojCb1A",
+                    "value": "Dr."
+                }
+            },
+            "msisdn": {
+                "_selectively_disclosable": {
+                    "salt": "kx5kF17V-x0JmwUx9vgvtw",
+                    "value": "49123456789"
+                }
+            },
+            "birth_middle_name": {
+                "_selectively_disclosable": {
+                    "salt": "HbQ4X8srVW3QDxnIJdqyOA",
+                    "value": "Timotheus"
+                }
+            }
+        }
+    },
+    "appendix-a.3": {
+        "claims": {
+            "vct": "urn:eudi:pid:de:1",
+            "iss": "https://pid-issuer.bund.de.example",
+            "given_name": "Erika",
+            "family_name": "Mustermann",
+            "birthdate": "1963-08-12",
+            "address": {
+                "street_address": "Heidestraße 17",
+                "locality": "Köln",
+                "postal_code": "51147",
+                "country": "DE"
+            },
+            "nationalities": [
+                "DE"
+            ],
+            "sex": 2,
+            "birth_family_name": "Gabler",
+            "place_of_birth": {
+                "locality": "Berlin",
+                "country": "DE"
+            },
+            "age_equal_or_over": {
+                "12": true,
+                "14": true,
+                "16": true,
+                "18": true,
+                "21": true,
+                "65": false
+            },
+            "age_in_years": 62,
+            "age_birth_year": 1963,
+            "issuance_date": "2020-03-11",
+            "expiry_date": "2030-03-12",
+            "issuing_authority": "DE",
+            "issuing_country": "DE"
+        },
+        "sd_jwt": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImRjK3NkLWp3dCJ9.eyJfc2QiOiBbIjBIWm1uU0lQejMzN2tTV2U3QzM0bC0tODhnekppLWVCSjJWel9ISndBVGciLCAiMUNybjAzV21VZVJXcDR6d1B2dkNLWGw5WmFRcC1jZFFWX2dIZGFHU1dvdyIsICIycjAwOWR6dkh1VnJXclJYVDVrSk1tSG5xRUhIbldlME1MVlp3OFBBVEI4IiwgIjZaTklTRHN0NjJ5bWxyT0FrYWRqZEQ1WnVsVDVBMjk5Sjc4U0xoTV9fT3MiLCAiNzhqZzc3LUdZQmVYOElRZm9FTFB5TDBEWVBkbWZabzBKZ1ZpVjBfbEtDTSIsICI5MENUOEFhQlBibjVYOG5SWGtlc2p1MWkwQnFoV3FaM3dxRDRqRi1xREdrIiwgIkkwMGZjRlVvRFhDdWNwNXl5MnVqcVBzc0RWR2FXTmlVbGlOel9hd0QwZ2MiLCAiS2pBWGdBQTlONVdIRUR0UkloNHU1TW4xWnNXaXhoaFdBaVgtQTRRaXdnQSIsICJMYWk2SVU2ZDdHUWFnWFI3QXZHVHJuWGdTbGQzejhFSWdfZnYzZk9aMVdnIiwgIkxlemphYlJxaVpPWHpFWW1WWmY4Uk1pOXhBa2QzX00xTFo4VTdFNHMzdTQiLCAiUlR6M3FUbUZOSGJwV3JyT01aUzQxRjQ3NGtGcVJ2M3ZJUHF0aDZQVWhsTSIsICJXMTRYSGJVZmZ6dVc0SUZNanBTVGIxbWVsV3hVV2Y0Tl9vMmxka2tJcWM4IiwgIldUcEk3UmNNM2d4WnJ1UnBYemV6U2JrYk9yOTNQVkZ2V3g4d29KM2oxY0UiLCAiX29oSlZJUUlCc1U0dXBkTlM0X3c0S2IxTUhxSjBMOXFMR3NoV3E2SlhRcyIsICJ5NTBjemMwSVNDaHlfYnNiYTFkTW9VdUFPUTVBTW1PU2ZHb0VlODF2MUZVIl0sICJpc3MiOiAiaHR0cHM6Ly9waWQtaXNzdWVyLmJ1bmQuZGUuZXhhbXBsZSIsICJpYXQiOiAxNjgzMDAwMDAwLCAiZXhwIjogMTg4MzAwMDAwMCwgInZjdCI6ICJ1cm46ZXVkaTpwaWQ6ZGU6MSIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.ZOZQTqmq8X1mCyFXi0wbV8xjctX1AlEa5TkdnkKOyWvLfW40XDb5oj9tzkgwff5s44IDnrfAdgLtmTcojs97_Q~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiRXJpa2EiXQ~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIk11c3Rlcm1hbm4iXQ~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImJpcnRoZGF0ZSIsICIxOTYzLTA4LTEyIl0~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInN0cmVldF9hZGRyZXNzIiwgIkhlaWRlc3RyYVx1MDBkZmUgMTciXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImxvY2FsaXR5IiwgIktcdTAwZjZsbiJd~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgInBvc3RhbF9jb2RlIiwgIjUxMTQ3Il0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImNvdW50cnkiLCAiREUiXQ~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImFkZHJlc3MiLCB7Il9zZCI6IFsiQUxaRVJzU241V05pRVhkQ2tzVzhJNXFRdzNfTnBBblJxcFNBWkR1ZGd3OCIsICJEX19XX3VZY3ZSejN0dlVuSUp2QkRIaVRjN0NfX3FIZDB4Tkt3SXNfdzlrIiwgImVCcENYVTFKNWRoSDJnNHQ4UVlOVzVFeFM5QXhVVmJsVW9kb0xZb1BobzAiLCAieE9QeTktZ0pBTEs2VWJXS0ZMUjg1Y09CeVVEM0FiTndGZzNJM1lmUUVfSSJdfV0~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgIm5hdGlvbmFsaXRpZXMiLCBbIkRFIl1d~WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgInNleCIsIDJd~WyI1YlBzMUlxdVpOYTBoa2FGenp6Wk53IiwgImJpcnRoX2ZhbWlseV9uYW1lIiwgIkdhYmxlciJd~WyI1YTJXMF9OcmxFWnpmcW1rXzdQcS13IiwgImxvY2FsaXR5IiwgIkJlcmxpbiJd~WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImNvdW50cnkiLCAiREUiXQ~WyJIYlE0WDhzclZXM1FEeG5JSmRxeU9BIiwgInBsYWNlX29mX2JpcnRoIiwgeyJfc2QiOiBbIktVVmlhYUxuWTVqU01MOTBHMjlPT0xFTlBiYlhmaFNqU1BNalphR2t4QUUiLCAiWWJzVDBTNzZWcVhDVnNkMWpVU2x3S1BEZ21BTGVCMXVaY2xGSFhmLVVTUSJdfV0~WyJDOUdTb3VqdmlKcXVFZ1lmb2pDYjFBIiwgIjEyIiwgdHJ1ZV0~WyJreDVrRjE3Vi14MEptd1V4OXZndnR3IiwgIjE0IiwgdHJ1ZV0~WyJIM28xdXN3UDc2MEZpMnllR2RWQ0VRIiwgIjE2IiwgdHJ1ZV0~WyJPQktsVFZsdkxnLUFkd3FZR2JQOFpBIiwgIjE4IiwgdHJ1ZV0~WyJNMEpiNTd0NDF1YnJrU3V5ckRUM3hBIiwgIjIxIiwgdHJ1ZV0~WyJEc210S05ncFY0ZEFIcGpyY2Fvc0F3IiwgIjY1IiwgZmFsc2Vd~WyJlSzVvNXBIZmd1cFBwbHRqMXFoQUp3IiwgImFnZV9lcXVhbF9vcl9vdmVyIiwgeyJfc2QiOiBbIjF0RWl5elBSWU9Lc2Y3U3NZR01nUFpLc09UMWxRWlJ4SFhBMHI1X0J3a2siLCAiQ1ZLbmx5NVA5MHlKczNFd3R4UWlPdFVjemFYQ1lOQTRJY3pSYW9ock1EZyIsICJhNDQtZzJHcjhfM0FtSncyWFo4a0kxeTBRel96ZTlpT2NXMlczUkxwWEdnIiwgImdrdnkwRnV2QkJ2ajBoczJaTnd4Y3FPbGY4bXUyLWtDRTctTmIyUXh1QlUiLCAiaHJZNEhubUY1YjVKd0M5ZVR6YUZDVWNlSVFBYUlkaHJxVVhRTkNXYmZaSSIsICJ5NlNGclZGUnlxNTBJYlJKdmlUWnFxalFXejB0TGl1Q21NZU8wS3FhekdJIl19XQ~WyJqN0FEZGIwVVZiMExpMGNpUGNQMGV3IiwgImFnZV9pbl95ZWFycyIsIDYyXQ~WyJXcHhKckZ1WDh1U2kycDRodDA5anZ3IiwgImFnZV9iaXJ0aF95ZWFyIiwgMTk2M10~WyJhdFNtRkFDWU1iSlZLRDA1bzNKZ3RRIiwgImlzc3VhbmNlX2RhdGUiLCAiMjAyMC0wMy0xMSJd~WyI0S3lSMzJvSVp0LXprV3ZGcWJVTEtnIiwgImV4cGlyeV9kYXRlIiwgIjIwMzAtMDMtMTIiXQ~WyJjaEJDc3loeWgtSjg2SS1hd1FEaUNRIiwgImlzc3VpbmdfYXV0aG9yaXR5IiwgIkRFIl0~WyJmbE5QMW5jTXo5TGctYzlxTUl6XzlnIiwgImlzc3VpbmdfY291bnRyeSIsICJERSJd~",
+        "payload": {
+            "_sd": [
+                "0HZmnSIPz337kSWe7C34l--88gzJi-eBJ2Vz_HJwATg",
+                "1Crn03WmUeRWp4zwPvvCKXl9ZaQp-cdQV_gHdaGSWow",
+                "2r009dzvHuVrWrRXT5kJMmHnqEHHnWe0MLVZw8PATB8",
+                "6ZNISDst62ymlrOAkadjdD5ZulT5A299J78SLhM__Os",
+                "78jg77-GYBeX8IQfoELPyL0DYPdmfZo0JgViV0_lKCM",
+                "90CT8AaBPbn5X8nRXkesju1i0BqhWqZ3wqD4jF-qDGk",
+                "I00fcFUoDXCucp5yy2ujqPssDVGaWNiUliNz_awD0gc",
+                "KjAXgAA9N5WHEDtRIh4u5Mn1ZsWixhhWAiX-A4QiwgA",
+                "Lai6IU6d7GQagXR7AvGTrnXgSld3z8EIg_fv3fOZ1Wg",
+                "LezjabRqiZOXzEYmVZf8RMi9xAkd3_M1LZ8U7E4s3u4",
+                "RTz3qTmFNHbpWrrOMZS41F474kFqRv3vIPqth6PUhlM",
+                "W14XHbUffzuW4IFMjpSTb1melWxUWf4N_o2ldkkIqc8",
+                "WTpI7RcM3gxZruRpXzezSbkbOr93PVFvWx8woJ3j1cE",
+                "_ohJVIQIBsU4updNS4_w4Kb1MHqJ0L9qLGshWq6JXQs",
+                "y50czc0ISChy_bsba1dMoUuAOQ5AMmOSfGoEe81v1FU"
+            ],
+            "iss": "https://pid-issuer.bund.de.example",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "vct": "urn:eudi:pid:de:1",
+            "_sd_alg": "sha-256",
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            }
+        },
+        "presentation": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImRjK3NkLWp3dCJ9.eyJfc2QiOiBbIjBIWm1uU0lQejMzN2tTV2U3QzM0bC0tODhnekppLWVCSjJWel9ISndBVGciLCAiMUNybjAzV21VZVJXcDR6d1B2dkNLWGw5WmFRcC1jZFFWX2dIZGFHU1dvdyIsICIycjAwOWR6dkh1VnJXclJYVDVrSk1tSG5xRUhIbldlME1MVlp3OFBBVEI4IiwgIjZaTklTRHN0NjJ5bWxyT0FrYWRqZEQ1WnVsVDVBMjk5Sjc4U0xoTV9fT3MiLCAiNzhqZzc3LUdZQmVYOElRZm9FTFB5TDBEWVBkbWZabzBKZ1ZpVjBfbEtDTSIsICI5MENUOEFhQlBibjVYOG5SWGtlc2p1MWkwQnFoV3FaM3dxRDRqRi1xREdrIiwgIkkwMGZjRlVvRFhDdWNwNXl5MnVqcVBzc0RWR2FXTmlVbGlOel9hd0QwZ2MiLCAiS2pBWGdBQTlONVdIRUR0UkloNHU1TW4xWnNXaXhoaFdBaVgtQTRRaXdnQSIsICJMYWk2SVU2ZDdHUWFnWFI3QXZHVHJuWGdTbGQzejhFSWdfZnYzZk9aMVdnIiwgIkxlemphYlJxaVpPWHpFWW1WWmY4Uk1pOXhBa2QzX00xTFo4VTdFNHMzdTQiLCAiUlR6M3FUbUZOSGJwV3JyT01aUzQxRjQ3NGtGcVJ2M3ZJUHF0aDZQVWhsTSIsICJXMTRYSGJVZmZ6dVc0SUZNanBTVGIxbWVsV3hVV2Y0Tl9vMmxka2tJcWM4IiwgIldUcEk3UmNNM2d4WnJ1UnBYemV6U2JrYk9yOTNQVkZ2V3g4d29KM2oxY0UiLCAiX29oSlZJUUlCc1U0dXBkTlM0X3c0S2IxTUhxSjBMOXFMR3NoV3E2SlhRcyIsICJ5NTBjemMwSVNDaHlfYnNiYTFkTW9VdUFPUTVBTW1PU2ZHb0VlODF2MUZVIl0sICJpc3MiOiAiaHR0cHM6Ly9waWQtaXNzdWVyLmJ1bmQuZGUuZXhhbXBsZSIsICJpYXQiOiAxNjgzMDAwMDAwLCAiZXhwIjogMTg4MzAwMDAwMCwgInZjdCI6ICJ1cm46ZXVkaTpwaWQ6ZGU6MSIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.ZOZQTqmq8X1mCyFXi0wbV8xjctX1AlEa5TkdnkKOyWvLfW40XDb5oj9tzkgwff5s44IDnrfAdgLtmTcojs97_Q~WyJlSzVvNXBIZmd1cFBwbHRqMXFoQUp3IiwgImFnZV9lcXVhbF9vcl9vdmVyIiwgeyJfc2QiOiBbIjF0RWl5elBSWU9Lc2Y3U3NZR01nUFpLc09UMWxRWlJ4SFhBMHI1X0J3a2siLCAiQ1ZLbmx5NVA5MHlKczNFd3R4UWlPdFVjemFYQ1lOQTRJY3pSYW9ock1EZyIsICJhNDQtZzJHcjhfM0FtSncyWFo4a0kxeTBRel96ZTlpT2NXMlczUkxwWEdnIiwgImdrdnkwRnV2QkJ2ajBoczJaTnd4Y3FPbGY4bXUyLWtDRTctTmIyUXh1QlUiLCAiaHJZNEhubUY1YjVKd0M5ZVR6YUZDVWNlSVFBYUlkaHJxVVhRTkNXYmZaSSIsICJ5NlNGclZGUnlxNTBJYlJKdmlUWnFxalFXejB0TGl1Q21NZU8wS3FhekdJIl19XQ~WyJPQktsVFZsdkxnLUFkd3FZR2JQOFpBIiwgIjE4IiwgdHJ1ZV0~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgIm5hdGlvbmFsaXRpZXMiLCBbIkRFIl1d~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL3ZlcmlmaWVyLmV4YW1wbGUub3JnIiwgImlhdCI6IDE3NDg1MzcyNDQsICJzZF9oYXNoIjogIlBqTVlmTTA3VmJKZE14TElsdXZSTmI4OEpGbGpTWDRuLUc0M1VjX0JTUk0ifQ.f3TeS_1BWEG78EbIJRh5wgv8nYumk7euzu6xgbgpNB4pbQQqgRPWK-vQjlhhgU1EFGZ9LFakFX_0mgul1G_3mw",
+        "key_binding_payload": {
+            "nonce": "1234567890",
+            "aud": "https://verifier.example.org",
+            "iat": 1748537244,
+            "sd_hash": "PjMYfM07VbJdMxLIluvRNb88JFljSX4n-G43Uc_BSRM"
+        },
+        "processed_payload": {
+            "iss": "https://pid-issuer.bund.de.example",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "vct": "urn:eudi:pid:de:1",
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            },
+            "age_equal_or_over": {
+                "18": true
+            },
+            "nationalities": [
+                "DE"
+            ]
+        },
+        "disclosures": [
+            {
+                "claim": "given_name",
+                "digest": "0HZmnSIPz337kSWe7C34l--88gzJi-eBJ2Vz_HJwATg",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiRXJpa2EiXQ",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"given_name\", \"Erika\"]"
+            },
+            {
+                "claim": "family_name",
+                "digest": "I00fcFUoDXCucp5yy2ujqPssDVGaWNiUliNz_awD0gc",
+                "disclosure": "WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIk11c3Rlcm1hbm4iXQ",
+                "contents": "[\"eluV5Og3gSNII8EYnsxA_A\", \"family_name\", \"Mustermann\"]"
+            },
+            {
+                "claim": "birthdate",
+                "digest": "Lai6IU6d7GQagXR7AvGTrnXgSld3z8EIg_fv3fOZ1Wg",
+                "disclosure": "WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImJpcnRoZGF0ZSIsICIxOTYzLTA4LTEyIl0",
+                "contents": "[\"6Ij7tM-a5iVPGboS5tmvVA\", \"birthdate\", \"1963-08-12\"]"
+            },
+            {
+                "claim": "street_address",
+                "digest": "ALZERsSn5WNiEXdCksW8I5qQw3_NpAnRqpSAZDudgw8",
+                "disclosure": "WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInN0cmVldF9hZGRyZXNzIiwgIkhlaWRlc3RyYVx1MDBkZmUgMTciXQ",
+                "contents": "[\"eI8ZWm9QnKPpNPeNenHdhQ\", \"street_address\", \"Heidestra\\u00dfe 17\"]"
+            },
+            {
+                "claim": "locality",
+                "digest": "D__W_uYcvRz3tvUnIJvBDHiTc7C__qHd0xNKwIs_w9k",
+                "disclosure": "WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImxvY2FsaXR5IiwgIktcdTAwZjZsbiJd",
+                "contents": "[\"Qg_O64zqAxe412a108iroA\", \"locality\", \"K\\u00f6ln\"]"
+            },
+            {
+                "claim": "postal_code",
+                "digest": "xOPy9-gJALK6UbWKFLR85cOByUD3AbNwFg3I3YfQE_I",
+                "disclosure": "WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgInBvc3RhbF9jb2RlIiwgIjUxMTQ3Il0",
+                "contents": "[\"AJx-095VPrpTtN4QMOqROA\", \"postal_code\", \"51147\"]"
+            },
+            {
+                "claim": "country",
+                "digest": "eBpCXU1J5dhH2g4t8QYNW5ExS9AxUVblUodoLYoPho0",
+                "disclosure": "WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImNvdW50cnkiLCAiREUiXQ",
+                "contents": "[\"Pc33JM2LchcU_lHggv_ufQ\", \"country\", \"DE\"]"
+            },
+            {
+                "claim": "address",
+                "digest": "RTz3qTmFNHbpWrrOMZS41F474kFqRv3vIPqth6PUhlM",
+                "disclosure": "WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImFkZHJlc3MiLCB7Il9zZCI6IFsiQUxaRVJzU241V05pRVhkQ2tzVzhJNXFRdzNfTnBBblJxcFNBWkR1ZGd3OCIsICJEX19XX3VZY3ZSejN0dlVuSUp2QkRIaVRjN0NfX3FIZDB4Tkt3SXNfdzlrIiwgImVCcENYVTFKNWRoSDJnNHQ4UVlOVzVFeFM5QXhVVmJsVW9kb0xZb1BobzAiLCAieE9QeTktZ0pBTEs2VWJXS0ZMUjg1Y09CeVVEM0FiTndGZzNJM1lmUUVfSSJdfV0",
+                "contents": "[\"G02NSrQfjFXQ7Io09syajA\", \"address\", {\"_sd\": [\"ALZERsSn5WNiEXdCksW8I5qQw3_NpAnRqpSAZDudgw8\", \"D__W_uYcvRz3tvUnIJvBDHiTc7C__qHd0xNKwIs_w9k\", \"eBpCXU1J5dhH2g4t8QYNW5ExS9AxUVblUodoLYoPho0\", \"xOPy9-gJALK6UbWKFLR85cOByUD3AbNwFg3I3YfQE_I\"]}]"
+            },
+            {
+                "claim": "nationalities",
+                "digest": "y50czc0ISChy_bsba1dMoUuAOQ5AMmOSfGoEe81v1FU",
+                "disclosure": "WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgIm5hdGlvbmFsaXRpZXMiLCBbIkRFIl1d",
+                "contents": "[\"lklxF5jMYlGTPUovMNIvCA\", \"nationalities\", [\"DE\"]]"
+            },
+            {
+                "claim": "sex",
+                "digest": "90CT8AaBPbn5X8nRXkesju1i0BqhWqZ3wqD4jF-qDGk",
+                "disclosure": "WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgInNleCIsIDJd",
+                "contents": "[\"nPuoQnkRFq3BIeAm7AnXFA\", \"sex\", 2]"
+            },
+            {
+                "claim": "birth_family_name",
+                "digest": "KjAXgAA9N5WHEDtRIh4u5Mn1ZsWixhhWAiX-A4QiwgA",
+                "disclosure": "WyI1YlBzMUlxdVpOYTBoa2FGenp6Wk53IiwgImJpcnRoX2ZhbWlseV9uYW1lIiwgIkdhYmxlciJd",
+                "contents": "[\"5bPs1IquZNa0hkaFzzzZNw\", \"birth_family_name\", \"Gabler\"]"
+            },
+            {
+                "claim": "locality",
+                "digest": "KUViaaLnY5jSML90G29OOLENPbbXfhSjSPMjZaGkxAE",
+                "disclosure": "WyI1YTJXMF9OcmxFWnpmcW1rXzdQcS13IiwgImxvY2FsaXR5IiwgIkJlcmxpbiJd",
+                "contents": "[\"5a2W0_NrlEZzfqmk_7Pq-w\", \"locality\", \"Berlin\"]"
+            },
+            {
+                "claim": "country",
+                "digest": "YbsT0S76VqXCVsd1jUSlwKPDgmALeB1uZclFHXf-USQ",
+                "disclosure": "WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImNvdW50cnkiLCAiREUiXQ",
+                "contents": "[\"y1sVU5wdfJahVdgwPgS7RQ\", \"country\", \"DE\"]"
+            },
+            {
+                "claim": "place_of_birth",
+                "digest": "1Crn03WmUeRWp4zwPvvCKXl9ZaQp-cdQV_gHdaGSWow",
+                "disclosure": "WyJIYlE0WDhzclZXM1FEeG5JSmRxeU9BIiwgInBsYWNlX29mX2JpcnRoIiwgeyJfc2QiOiBbIktVVmlhYUxuWTVqU01MOTBHMjlPT0xFTlBiYlhmaFNqU1BNalphR2t4QUUiLCAiWWJzVDBTNzZWcVhDVnNkMWpVU2x3S1BEZ21BTGVCMXVaY2xGSFhmLVVTUSJdfV0",
+                "contents": "[\"HbQ4X8srVW3QDxnIJdqyOA\", \"place_of_birth\", {\"_sd\": [\"KUViaaLnY5jSML90G29OOLENPbbXfhSjSPMjZaGkxAE\", \"YbsT0S76VqXCVsd1jUSlwKPDgmALeB1uZclFHXf-USQ\"]}]"
+            },
+            {
+                "claim": "12",
+                "digest": "gkvy0FuvBBvj0hs2ZNwxcqOlf8mu2-kCE7-Nb2QxuBU",
+                "disclosure": "WyJDOUdTb3VqdmlKcXVFZ1lmb2pDYjFBIiwgIjEyIiwgdHJ1ZV0",
+                "contents": "[\"C9GSoujviJquEgYfojCb1A\", \"12\", true]"
+            },
+            {
+                "claim": "14",
+                "digest": "y6SFrVFRyq50IbRJviTZqqjQWz0tLiuCmMeO0KqazGI",
+                "disclosure": "WyJreDVrRjE3Vi14MEptd1V4OXZndnR3IiwgIjE0IiwgdHJ1ZV0",
+                "contents": "[\"kx5kF17V-x0JmwUx9vgvtw\", \"14\", true]"
+            },
+            {
+                "claim": "16",
+                "digest": "hrY4HnmF5b5JwC9eTzaFCUceIQAaIdhrqUXQNCWbfZI",
+                "disclosure": "WyJIM28xdXN3UDc2MEZpMnllR2RWQ0VRIiwgIjE2IiwgdHJ1ZV0",
+                "contents": "[\"H3o1uswP760Fi2yeGdVCEQ\", \"16\", true]"
+            },
+            {
+                "claim": "18",
+                "digest": "CVKnly5P90yJs3EwtxQiOtUczaXCYNA4IczRaohrMDg",
+                "disclosure": "WyJPQktsVFZsdkxnLUFkd3FZR2JQOFpBIiwgIjE4IiwgdHJ1ZV0",
+                "contents": "[\"OBKlTVlvLg-AdwqYGbP8ZA\", \"18\", true]"
+            },
+            {
+                "claim": "21",
+                "digest": "1tEiyzPRYOKsf7SsYGMgPZKsOT1lQZRxHXA0r5_Bwkk",
+                "disclosure": "WyJNMEpiNTd0NDF1YnJrU3V5ckRUM3hBIiwgIjIxIiwgdHJ1ZV0",
+                "contents": "[\"M0Jb57t41ubrkSuyrDT3xA\", \"21\", true]"
+            },
+            {
+                "claim": "65",
+                "digest": "a44-g2Gr8_3AmJw2XZ8kI1y0Qz_ze9iOcW2W3RLpXGg",
+                "disclosure": "WyJEc210S05ncFY0ZEFIcGpyY2Fvc0F3IiwgIjY1IiwgZmFsc2Vd",
+                "contents": "[\"DsmtKNgpV4dAHpjrcaosAw\", \"65\", false]"
+            },
+            {
+                "claim": "age_equal_or_over",
+                "digest": "2r009dzvHuVrWrRXT5kJMmHnqEHHnWe0MLVZw8PATB8",
+                "disclosure": "WyJlSzVvNXBIZmd1cFBwbHRqMXFoQUp3IiwgImFnZV9lcXVhbF9vcl9vdmVyIiwgeyJfc2QiOiBbIjF0RWl5elBSWU9Lc2Y3U3NZR01nUFpLc09UMWxRWlJ4SFhBMHI1X0J3a2siLCAiQ1ZLbmx5NVA5MHlKczNFd3R4UWlPdFVjemFYQ1lOQTRJY3pSYW9ock1EZyIsICJhNDQtZzJHcjhfM0FtSncyWFo4a0kxeTBRel96ZTlpT2NXMlczUkxwWEdnIiwgImdrdnkwRnV2QkJ2ajBoczJaTnd4Y3FPbGY4bXUyLWtDRTctTmIyUXh1QlUiLCAiaHJZNEhubUY1YjVKd0M5ZVR6YUZDVWNlSVFBYUlkaHJxVVhRTkNXYmZaSSIsICJ5NlNGclZGUnlxNTBJYlJKdmlUWnFxalFXejB0TGl1Q21NZU8wS3FhekdJIl19XQ",
+                "contents": "[\"eK5o5pHfgupPpltj1qhAJw\", \"age_equal_or_over\", {\"_sd\": [\"1tEiyzPRYOKsf7SsYGMgPZKsOT1lQZRxHXA0r5_Bwkk\", \"CVKnly5P90yJs3EwtxQiOtUczaXCYNA4IczRaohrMDg\", \"a44-g2Gr8_3AmJw2XZ8kI1y0Qz_ze9iOcW2W3RLpXGg\", \"gkvy0FuvBBvj0hs2ZNwxcqOlf8mu2-kCE7-Nb2QxuBU\", \"hrY4HnmF5b5JwC9eTzaFCUceIQAaIdhrqUXQNCWbfZI\", \"y6SFrVFRyq50IbRJviTZqqjQWz0tLiuCmMeO0KqazGI\"]}]"
+            },
+            {
+                "claim": "age_in_years",
+                "digest": "WTpI7RcM3gxZruRpXzezSbkbOr93PVFvWx8woJ3j1cE",
+                "disclosure": "WyJqN0FEZGIwVVZiMExpMGNpUGNQMGV3IiwgImFnZV9pbl95ZWFycyIsIDYyXQ",
+                "contents": "[\"j7ADdb0UVb0Li0ciPcP0ew\", \"age_in_years\", 62]"
+            },
+            {
+                "claim": "age_birth_year",
+                "digest": "LezjabRqiZOXzEYmVZf8RMi9xAkd3_M1LZ8U7E4s3u4",
+                "disclosure": "WyJXcHhKckZ1WDh1U2kycDRodDA5anZ3IiwgImFnZV9iaXJ0aF95ZWFyIiwgMTk2M10",
+                "contents": "[\"WpxJrFuX8uSi2p4ht09jvw\", \"age_birth_year\", 1963]"
+            },
+            {
+                "claim": "issuance_date",
+                "digest": "W14XHbUffzuW4IFMjpSTb1melWxUWf4N_o2ldkkIqc8",
+                "disclosure": "WyJhdFNtRkFDWU1iSlZLRDA1bzNKZ3RRIiwgImlzc3VhbmNlX2RhdGUiLCAiMjAyMC0wMy0xMSJd",
+                "contents": "[\"atSmFACYMbJVKD05o3JgtQ\", \"issuance_date\", \"2020-03-11\"]"
+            },
+            {
+                "claim": "expiry_date",
+                "digest": "78jg77-GYBeX8IQfoELPyL0DYPdmfZo0JgViV0_lKCM",
+                "disclosure": "WyI0S3lSMzJvSVp0LXprV3ZGcWJVTEtnIiwgImV4cGlyeV9kYXRlIiwgIjIwMzAtMDMtMTIiXQ",
+                "contents": "[\"4KyR32oIZt-zkWvFqbULKg\", \"expiry_date\", \"2030-03-12\"]"
+            },
+            {
+                "claim": "issuing_authority",
+                "digest": "6ZNISDst62ymlrOAkadjdD5ZulT5A299J78SLhM__Os",
+                "disclosure": "WyJjaEJDc3loeWgtSjg2SS1hd1FEaUNRIiwgImlzc3VpbmdfYXV0aG9yaXR5IiwgIkRFIl0",
+                "contents": "[\"chBCsyhyh-J86I-awQDiCQ\", \"issuing_authority\", \"DE\"]"
+            },
+            {
+                "claim": "issuing_country",
+                "digest": "_ohJVIQIBsU4updNS4_w4Kb1MHqJ0L9qLGshWq6JXQs",
+                "disclosure": "WyJmbE5QMW5jTXo5TGctYzlxTUl6XzlnIiwgImlzc3VpbmdfY291bnRyeSIsICJERSJd",
+                "contents": "[\"flNP1ncMz9Lg-c9qMIz_9g\", \"issuing_country\", \"DE\"]"
+            }
+        ],
+        "marked_claims": {
+            "iss": "https://pid-issuer.bund.de.example",
+            "iat": 1683000000,
+            "exp": 1883000000,
+            "vct": "urn:eudi:pid:de:1",
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            },
+            "given_name": {
+                "_selectively_disclosable": {
+                    "salt": "2GLC42sKQveCfGfryNRN9w",
+                    "value": "Erika"
+                }
+            },
+            "place_of_birth": {
+                "_selectively_disclosable": {
+                    "salt": "HbQ4X8srVW3QDxnIJdqyOA",
+                    "value": {
+                        "locality": {
+                            "_selectively_disclosable": {
+                                "salt": "5a2W0_NrlEZzfqmk_7Pq-w",
+                                "value": "Berlin"
+                            }
+                        },
+                        "country": {
+                            "_selectively_disclosable": {
+                                "salt": "y1sVU5wdfJahVdgwPgS7RQ",
+                                "value": "DE"
+                            }
+                        }
+                    }
+                }
+            },
+            "age_equal_or_over": {
+                "_selectively_disclosable": {
+                    "salt": "eK5o5pHfgupPpltj1qhAJw",
+                    "value": {
+                        "21": {
+                            "_selectively_disclosable": {
+                                "salt": "M0Jb57t41ubrkSuyrDT3xA",
+                                "value": true
+                            }
+                        },
+                        "18": {
+                            "_selectively_disclosable": {
+                                "salt": "OBKlTVlvLg-AdwqYGbP8ZA",
+                                "value": true
+                            }
+                        },
+                        "65": {
+                            "_selectively_disclosable": {
+                                "salt": "DsmtKNgpV4dAHpjrcaosAw",
+                                "value": false
+                            }
+                        },
+                        "12": {
+                            "_selectively_disclosable": {
+                                "salt": "C9GSoujviJquEgYfojCb1A",
+                                "value": true
+                            }
+                        },
+                        "16": {
+                            "_selectively_disclosable": {
+                                "salt": "H3o1uswP760Fi2yeGdVCEQ",
+                                "value": true
+                            }
+                        },
+                        "14": {
+                            "_selectively_disclosable": {
+                                "salt": "kx5kF17V-x0JmwUx9vgvtw",
+                                "value": true
+                            }
+                        }
+                    }
+                }
+            },
+            "issuing_authority": {
+                "_selectively_disclosable": {
+                    "salt": "chBCsyhyh-J86I-awQDiCQ",
+                    "value": "DE"
+                }
+            },
+            "expiry_date": {
+                "_selectively_disclosable": {
+                    "salt": "4KyR32oIZt-zkWvFqbULKg",
+                    "value": "2030-03-12"
+                }
+            },
+            "sex": {
+                "_selectively_disclosable": {
+                    "salt": "nPuoQnkRFq3BIeAm7AnXFA",
+                    "value": 2
+                }
+            },
+            "family_name": {
+                "_selectively_disclosable": {
+                    "salt": "eluV5Og3gSNII8EYnsxA_A",
+                    "value": "Mustermann"
+                }
+            },
+            "birth_family_name": {
+                "_selectively_disclosable": {
+                    "salt": "5bPs1IquZNa0hkaFzzzZNw",
+                    "value": "Gabler"
+                }
+            },
+            "birthdate": {
+                "_selectively_disclosable": {
+                    "salt": "6Ij7tM-a5iVPGboS5tmvVA",
+                    "value": "1963-08-12"
+                }
+            },
+            "age_birth_year": {
+                "_selectively_disclosable": {
+                    "salt": "WpxJrFuX8uSi2p4ht09jvw",
+                    "value": 1963
+                }
+            },
+            "address": {
+                "_selectively_disclosable": {
+                    "salt": "G02NSrQfjFXQ7Io09syajA",
+                    "value": {
+                        "street_address": {
+                            "_selectively_disclosable": {
+                                "salt": "eI8ZWm9QnKPpNPeNenHdhQ",
+                                "value": "Heidestraße 17"
+                            }
+                        },
+                        "locality": {
+                            "_selectively_disclosable": {
+                                "salt": "Qg_O64zqAxe412a108iroA",
+                                "value": "Köln"
+                            }
+                        },
+                        "country": {
+                            "_selectively_disclosable": {
+                                "salt": "Pc33JM2LchcU_lHggv_ufQ",
+                                "value": "DE"
+                            }
+                        },
+                        "postal_code": {
+                            "_selectively_disclosable": {
+                                "salt": "AJx-095VPrpTtN4QMOqROA",
+                                "value": "51147"
+                            }
+                        }
+                    }
+                }
+            },
+            "issuance_date": {
+                "_selectively_disclosable": {
+                    "salt": "atSmFACYMbJVKD05o3JgtQ",
+                    "value": "2020-03-11"
+                }
+            },
+            "age_in_years": {
+                "_selectively_disclosable": {
+                    "salt": "j7ADdb0UVb0Li0ciPcP0ew",
+                    "value": 62
+                }
+            },
+            "issuing_country": {
+                "_selectively_disclosable": {
+                    "salt": "flNP1ncMz9Lg-c9qMIz_9g",
+                    "value": "DE"
+                }
+            },
+            "nationalities": {
+                "_selectively_disclosable": {
+                    "salt": "lklxF5jMYlGTPUovMNIvCA",
+                    "value": [
+                        "DE"
+                    ]
+                }
+            }
+        }
+    },
+    "appendix-a.4": {
+        "claims": {
+            "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://w3id.org/vaccination/v1"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "VaccinationCertificate"
+            ],
+            "issuer": "https://example.com/issuer",
+            "issuanceDate": "2023-02-09T11:01:59Z",
+            "expirationDate": "2028-02-08T11:01:59Z",
+            "name": "COVID-19 Vaccination Certificate",
+            "description": "COVID-19 Vaccination Certificate",
+            "credentialSubject": {
+                "vaccine": {
+                    "type": "Vaccine",
+                    "atcCode": "J07BX03",
+                    "medicinalProductName": "COVID-19 Vaccine Moderna",
+                    "marketingAuthorizationHolder": "Moderna Biotech"
+                },
+                "nextVaccinationDate": "2021-08-16T13:40:12Z",
+                "countryOfVaccination": "GE",
+                "dateOfVaccination": "2021-06-23T13:40:12Z",
+                "order": "3/3",
+                "recipient": {
+                    "type": "VaccineRecipient",
+                    "gender": "Female",
+                    "birthDate": "1961-08-17",
+                    "givenName": "Marion",
+                    "familyName": "Mustermann"
+                },
+                "type": "VaccinationEvent",
+                "administeringCentre": "Praxis Sommergarten",
+                "batchNumber": "1626382736",
+                "healthProfessional": "883110000015376"
+            }
+        },
+        "sd_jwt": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImV4YW1wbGUrc2Qtand0In0.eyJAY29udGV4dCI6IFsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiLCAiaHR0cHM6Ly93M2lkLm9yZy92YWNjaW5hdGlvbi92MSJdLCAidHlwZSI6IFsiVmVyaWZpYWJsZUNyZWRlbnRpYWwiLCAiVmFjY2luYXRpb25DZXJ0aWZpY2F0ZSJdLCAiaXNzdWVyIjogImh0dHBzOi8vZXhhbXBsZS5jb20vaXNzdWVyIiwgImlzc3VhbmNlRGF0ZSI6ICIyMDIzLTAyLTA5VDExOjAxOjU5WiIsICJleHBpcmF0aW9uRGF0ZSI6ICIyMDI4LTAyLTA4VDExOjAxOjU5WiIsICJuYW1lIjogIkNPVklELTE5IFZhY2NpbmF0aW9uIENlcnRpZmljYXRlIiwgImRlc2NyaXB0aW9uIjogIkNPVklELTE5IFZhY2NpbmF0aW9uIENlcnRpZmljYXRlIiwgImNyZWRlbnRpYWxTdWJqZWN0IjogeyJfc2QiOiBbIjFWX0stOGxEUThpRlhCRlhiWlk5ZWhxUjRIYWJXQ2k1VDB5Ykl6WlBld3ciLCAiSnpqTGd0UDI5ZFAtQjN0ZDEyUDY3NGdGbUsyenk4MUhNdEJnZjZDSk5XZyIsICJSMmZHYmZBMDdaX1lsa3FtTlp5bWExeHl5eDFYc3RJaVM2QjFZYmwySlo0IiwgIlRDbXpybDdLMmdldl9kdTdwY01JeXpSTEhwLVllZy1GbF9jeHRyVXZQeGciLCAiVjdrSkJMSzc4VG1WRE9tcmZKN1p1VVBIdUtfMmNjN3laUmE0cVYxdHh3TSIsICJiMGVVc3ZHUC1PRERkRm9ZNE5semxYYzN0RHNsV0p0Q0pGNzVOdzhPal9nIiwgInpKS19lU01YandNOGRYbU1aTG5JOEZHTTA4ekozX3ViR2VFTUotNVRCeTAiXSwgInZhY2NpbmUiOiB7Il9zZCI6IFsiMWNGNWhMd2toTU5JYXFmV0pyWEk3Tk1XZWRMLTlmNlkyUEE1MnlQalNaSSIsICJIaXk2V1d1ZUxENWJuMTYyOTh0UHY3R1hobWxkTURPVG5CaS1DWmJwaE5vIiwgIkxiMDI3cTY5MWpYWGwtakM3M3ZpOGViT2o5c214M0MtX29nN2dBNFRCUUUiXSwgInR5cGUiOiAiVmFjY2luZSJ9LCAicmVjaXBpZW50IjogeyJfc2QiOiBbIjFsU1FCTlkyNHEwVGg2T0d6dGhxLTctNGw2Y0FheHJZWE9HWnBlV19sbkEiLCAiM256THE4MU0yb04wNndkdjFzaEh2T0VKVnhaNUtMbWREa0hFREpBQldFSSIsICJQbjFzV2kwNkc0TEpybm4tX1JUMFJiTV9IVGR4blBKUXVYMmZ6V3ZfSk9VIiwgImxGOXV6ZHN3N0hwbEdMYzcxNFRyNFdPN01HSnphN3R0N1FGbGVDWDRJdHciXSwgInR5cGUiOiAiVmFjY2luZVJlY2lwaWVudCJ9LCAidHlwZSI6ICJWYWNjaW5hdGlvbkV2ZW50In0sICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.OZomvwO8iw4db89MYCeeomBVStXkT6u7G7FkicPWZnd2_hGgr0l_u1NHgPVocuOt-m32Uu6kwtPmYFxKk0AOeA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImF0Y0NvZGUiLCAiSjA3QlgwMyJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgIm1lZGljaW5hbFByb2R1Y3ROYW1lIiwgIkNPVklELTE5IFZhY2NpbmUgTW9kZXJuYSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgIm1hcmtldGluZ0F1dGhvcml6YXRpb25Ib2xkZXIiLCAiTW9kZXJuYSBCaW90ZWNoIl0~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgIm5leHRWYWNjaW5hdGlvbkRhdGUiLCAiMjAyMS0wOC0xNlQxMzo0MDoxMloiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImNvdW50cnlPZlZhY2NpbmF0aW9uIiwgIkdFIl0~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImRhdGVPZlZhY2NpbmF0aW9uIiwgIjIwMjEtMDYtMjNUMTM6NDA6MTJaIl0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgIm9yZGVyIiwgIjMvMyJd~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImdlbmRlciIsICJGZW1hbGUiXQ~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImJpcnRoRGF0ZSIsICIxOTYxLTA4LTE3Il0~WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgImdpdmVuTmFtZSIsICJNYXJpb24iXQ~WyI1YlBzMUlxdVpOYTBoa2FGenp6Wk53IiwgImZhbWlseU5hbWUiLCAiTXVzdGVybWFubiJd~WyI1YTJXMF9OcmxFWnpmcW1rXzdQcS13IiwgImFkbWluaXN0ZXJpbmdDZW50cmUiLCAiUHJheGlzIFNvbW1lcmdhcnRlbiJd~WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImJhdGNoTnVtYmVyIiwgIjE2MjYzODI3MzYiXQ~WyJIYlE0WDhzclZXM1FEeG5JSmRxeU9BIiwgImhlYWx0aFByb2Zlc3Npb25hbCIsICI4ODMxMTAwMDAwMTUzNzYiXQ~",
+        "payload": {
+            "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://w3id.org/vaccination/v1"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "VaccinationCertificate"
+            ],
+            "issuer": "https://example.com/issuer",
+            "issuanceDate": "2023-02-09T11:01:59Z",
+            "expirationDate": "2028-02-08T11:01:59Z",
+            "name": "COVID-19 Vaccination Certificate",
+            "description": "COVID-19 Vaccination Certificate",
+            "credentialSubject": {
+                "_sd": [
+                    "1V_K-8lDQ8iFXBFXbZY9ehqR4HabWCi5T0ybIzZPeww",
+                    "JzjLgtP29dP-B3td12P674gFmK2zy81HMtBgf6CJNWg",
+                    "R2fGbfA07Z_YlkqmNZyma1xyyx1XstIiS6B1Ybl2JZ4",
+                    "TCmzrl7K2gev_du7pcMIyzRLHp-Yeg-Fl_cxtrUvPxg",
+                    "V7kJBLK78TmVDOmrfJ7ZuUPHuK_2cc7yZRa4qV1txwM",
+                    "b0eUsvGP-ODDdFoY4NlzlXc3tDslWJtCJF75Nw8Oj_g",
+                    "zJK_eSMXjwM8dXmMZLnI8FGM08zJ3_ubGeEMJ-5TBy0"
+                ],
+                "vaccine": {
+                    "_sd": [
+                        "1cF5hLwkhMNIaqfWJrXI7NMWedL-9f6Y2PA52yPjSZI",
+                        "Hiy6WWueLD5bn16298tPv7GXhmldMDOTnBi-CZbphNo",
+                        "Lb027q691jXXl-jC73vi8ebOj9smx3C-_og7gA4TBQE"
+                    ],
+                    "type": "Vaccine"
+                },
+                "recipient": {
+                    "_sd": [
+                        "1lSQBNY24q0Th6OGzthq-7-4l6cAaxrYXOGZpeW_lnA",
+                        "3nzLq81M2oN06wdv1shHvOEJVxZ5KLmdDkHEDJABWEI",
+                        "Pn1sWi06G4LJrnn-_RT0RbM_HTdxnPJQuX2fzWv_JOU",
+                        "lF9uzdsw7HplGLc714Tr4WO7MGJza7tt7QFleCX4Itw"
+                    ],
+                    "type": "VaccineRecipient"
+                },
+                "type": "VaccinationEvent"
+            },
+            "_sd_alg": "sha-256",
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            }
+        },
+        "presentation": "eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImV4YW1wbGUrc2Qtand0In0.eyJAY29udGV4dCI6IFsiaHR0cHM6Ly93d3cudzMub3JnLzIwMTgvY3JlZGVudGlhbHMvdjEiLCAiaHR0cHM6Ly93M2lkLm9yZy92YWNjaW5hdGlvbi92MSJdLCAidHlwZSI6IFsiVmVyaWZpYWJsZUNyZWRlbnRpYWwiLCAiVmFjY2luYXRpb25DZXJ0aWZpY2F0ZSJdLCAiaXNzdWVyIjogImh0dHBzOi8vZXhhbXBsZS5jb20vaXNzdWVyIiwgImlzc3VhbmNlRGF0ZSI6ICIyMDIzLTAyLTA5VDExOjAxOjU5WiIsICJleHBpcmF0aW9uRGF0ZSI6ICIyMDI4LTAyLTA4VDExOjAxOjU5WiIsICJuYW1lIjogIkNPVklELTE5IFZhY2NpbmF0aW9uIENlcnRpZmljYXRlIiwgImRlc2NyaXB0aW9uIjogIkNPVklELTE5IFZhY2NpbmF0aW9uIENlcnRpZmljYXRlIiwgImNyZWRlbnRpYWxTdWJqZWN0IjogeyJfc2QiOiBbIjFWX0stOGxEUThpRlhCRlhiWlk5ZWhxUjRIYWJXQ2k1VDB5Ykl6WlBld3ciLCAiSnpqTGd0UDI5ZFAtQjN0ZDEyUDY3NGdGbUsyenk4MUhNdEJnZjZDSk5XZyIsICJSMmZHYmZBMDdaX1lsa3FtTlp5bWExeHl5eDFYc3RJaVM2QjFZYmwySlo0IiwgIlRDbXpybDdLMmdldl9kdTdwY01JeXpSTEhwLVllZy1GbF9jeHRyVXZQeGciLCAiVjdrSkJMSzc4VG1WRE9tcmZKN1p1VVBIdUtfMmNjN3laUmE0cVYxdHh3TSIsICJiMGVVc3ZHUC1PRERkRm9ZNE5semxYYzN0RHNsV0p0Q0pGNzVOdzhPal9nIiwgInpKS19lU01YandNOGRYbU1aTG5JOEZHTTA4ekozX3ViR2VFTUotNVRCeTAiXSwgInZhY2NpbmUiOiB7Il9zZCI6IFsiMWNGNWhMd2toTU5JYXFmV0pyWEk3Tk1XZWRMLTlmNlkyUEE1MnlQalNaSSIsICJIaXk2V1d1ZUxENWJuMTYyOTh0UHY3R1hobWxkTURPVG5CaS1DWmJwaE5vIiwgIkxiMDI3cTY5MWpYWGwtakM3M3ZpOGViT2o5c214M0MtX29nN2dBNFRCUUUiXSwgInR5cGUiOiAiVmFjY2luZSJ9LCAicmVjaXBpZW50IjogeyJfc2QiOiBbIjFsU1FCTlkyNHEwVGg2T0d6dGhxLTctNGw2Y0FheHJZWE9HWnBlV19sbkEiLCAiM256THE4MU0yb04wNndkdjFzaEh2T0VKVnhaNUtMbWREa0hFREpBQldFSSIsICJQbjFzV2kwNkc0TEpybm4tX1JUMFJiTV9IVGR4blBKUXVYMmZ6V3ZfSk9VIiwgImxGOXV6ZHN3N0hwbEdMYzcxNFRyNFdPN01HSnphN3R0N1FGbGVDWDRJdHciXSwgInR5cGUiOiAiVmFjY2luZVJlY2lwaWVudCJ9LCAidHlwZSI6ICJWYWNjaW5hdGlvbkV2ZW50In0sICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.OZomvwO8iw4db89MYCeeomBVStXkT6u7G7FkicPWZnd2_hGgr0l_u1NHgPVocuOt-m32Uu6kwtPmYFxKk0AOeA~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgIm9yZGVyIiwgIjMvMyJd~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImRhdGVPZlZhY2NpbmF0aW9uIiwgIjIwMjEtMDYtMjNUMTM6NDA6MTJaIl0~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImF0Y0NvZGUiLCAiSjA3QlgwMyJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgIm1lZGljaW5hbFByb2R1Y3ROYW1lIiwgIkNPVklELTE5IFZhY2NpbmUgTW9kZXJuYSJd~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL3ZlcmlmaWVyLmV4YW1wbGUub3JnIiwgImlhdCI6IDE3NDg1MzcyNDQsICJzZF9oYXNoIjogIklvV1VIOTFsbGYzWEVybDQyYlEzc3hfNTNWMW8xdWpDejA4aERxSEs3RGsifQ.n0vzyIwCFMDVauEaeJIWEKZZchxXMpXTQewHgAkARbOSZxB09IbXXtHfpoGqO_BtNFN2lShJEIQBGyc-XpHigA",
+        "processed_payload": {
+            "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://w3id.org/vaccination/v1"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "VaccinationCertificate"
+            ],
+            "issuer": "https://example.com/issuer",
+            "issuanceDate": "2023-02-09T11:01:59Z",
+            "expirationDate": "2028-02-08T11:01:59Z",
+            "name": "COVID-19 Vaccination Certificate",
+            "description": "COVID-19 Vaccination Certificate",
+            "credentialSubject": {
+                "vaccine": {
+                    "type": "Vaccine",
+                    "atcCode": "J07BX03",
+                    "medicinalProductName": "COVID-19 Vaccine Moderna"
+                },
+                "recipient": {
+                    "type": "VaccineRecipient"
+                },
+                "type": "VaccinationEvent",
+                "order": "3/3",
+                "dateOfVaccination": "2021-06-23T13:40:12Z"
+            },
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            }
+        },
+        "disclosures": [
+            {
+                "claim": "atcCode",
+                "digest": "1cF5hLwkhMNIaqfWJrXI7NMWedL-9f6Y2PA52yPjSZI",
+                "disclosure": "WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImF0Y0NvZGUiLCAiSjA3QlgwMyJd",
+                "contents": "[\"2GLC42sKQveCfGfryNRN9w\", \"atcCode\", \"J07BX03\"]"
+            },
+            {
+                "claim": "medicinalProductName",
+                "digest": "Hiy6WWueLD5bn16298tPv7GXhmldMDOTnBi-CZbphNo",
+                "disclosure": "WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgIm1lZGljaW5hbFByb2R1Y3ROYW1lIiwgIkNPVklELTE5IFZhY2NpbmUgTW9kZXJuYSJd",
+                "contents": "[\"eluV5Og3gSNII8EYnsxA_A\", \"medicinalProductName\", \"COVID-19 Vaccine Moderna\"]"
+            },
+            {
+                "claim": "marketingAuthorizationHolder",
+                "digest": "Lb027q691jXXl-jC73vi8ebOj9smx3C-_og7gA4TBQE",
+                "disclosure": "WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgIm1hcmtldGluZ0F1dGhvcml6YXRpb25Ib2xkZXIiLCAiTW9kZXJuYSBCaW90ZWNoIl0",
+                "contents": "[\"6Ij7tM-a5iVPGboS5tmvVA\", \"marketingAuthorizationHolder\", \"Moderna Biotech\"]"
+            },
+            {
+                "claim": "nextVaccinationDate",
+                "digest": "R2fGbfA07Z_YlkqmNZyma1xyyx1XstIiS6B1Ybl2JZ4",
+                "disclosure": "WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgIm5leHRWYWNjaW5hdGlvbkRhdGUiLCAiMjAyMS0wOC0xNlQxMzo0MDoxMloiXQ",
+                "contents": "[\"eI8ZWm9QnKPpNPeNenHdhQ\", \"nextVaccinationDate\", \"2021-08-16T13:40:12Z\"]"
+            },
+            {
+                "claim": "countryOfVaccination",
+                "digest": "JzjLgtP29dP-B3td12P674gFmK2zy81HMtBgf6CJNWg",
+                "disclosure": "WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImNvdW50cnlPZlZhY2NpbmF0aW9uIiwgIkdFIl0",
+                "contents": "[\"Qg_O64zqAxe412a108iroA\", \"countryOfVaccination\", \"GE\"]"
+            },
+            {
+                "claim": "dateOfVaccination",
+                "digest": "zJK_eSMXjwM8dXmMZLnI8FGM08zJ3_ubGeEMJ-5TBy0",
+                "disclosure": "WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImRhdGVPZlZhY2NpbmF0aW9uIiwgIjIwMjEtMDYtMjNUMTM6NDA6MTJaIl0",
+                "contents": "[\"AJx-095VPrpTtN4QMOqROA\", \"dateOfVaccination\", \"2021-06-23T13:40:12Z\"]"
+            },
+            {
+                "claim": "order",
+                "digest": "b0eUsvGP-ODDdFoY4NlzlXc3tDslWJtCJF75Nw8Oj_g",
+                "disclosure": "WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgIm9yZGVyIiwgIjMvMyJd",
+                "contents": "[\"Pc33JM2LchcU_lHggv_ufQ\", \"order\", \"3/3\"]"
+            },
+            {
+                "claim": "gender",
+                "digest": "3nzLq81M2oN06wdv1shHvOEJVxZ5KLmdDkHEDJABWEI",
+                "disclosure": "WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImdlbmRlciIsICJGZW1hbGUiXQ",
+                "contents": "[\"G02NSrQfjFXQ7Io09syajA\", \"gender\", \"Female\"]"
+            },
+            {
+                "claim": "birthDate",
+                "digest": "Pn1sWi06G4LJrnn-_RT0RbM_HTdxnPJQuX2fzWv_JOU",
+                "disclosure": "WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImJpcnRoRGF0ZSIsICIxOTYxLTA4LTE3Il0",
+                "contents": "[\"lklxF5jMYlGTPUovMNIvCA\", \"birthDate\", \"1961-08-17\"]"
+            },
+            {
+                "claim": "givenName",
+                "digest": "lF9uzdsw7HplGLc714Tr4WO7MGJza7tt7QFleCX4Itw",
+                "disclosure": "WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgImdpdmVuTmFtZSIsICJNYXJpb24iXQ",
+                "contents": "[\"nPuoQnkRFq3BIeAm7AnXFA\", \"givenName\", \"Marion\"]"
+            },
+            {
+                "claim": "familyName",
+                "digest": "1lSQBNY24q0Th6OGzthq-7-4l6cAaxrYXOGZpeW_lnA",
+                "disclosure": "WyI1YlBzMUlxdVpOYTBoa2FGenp6Wk53IiwgImZhbWlseU5hbWUiLCAiTXVzdGVybWFubiJd",
+                "contents": "[\"5bPs1IquZNa0hkaFzzzZNw\", \"familyName\", \"Mustermann\"]"
+            },
+            {
+                "claim": "administeringCentre",
+                "digest": "TCmzrl7K2gev_du7pcMIyzRLHp-Yeg-Fl_cxtrUvPxg",
+                "disclosure": "WyI1YTJXMF9OcmxFWnpmcW1rXzdQcS13IiwgImFkbWluaXN0ZXJpbmdDZW50cmUiLCAiUHJheGlzIFNvbW1lcmdhcnRlbiJd",
+                "contents": "[\"5a2W0_NrlEZzfqmk_7Pq-w\", \"administeringCentre\", \"Praxis Sommergarten\"]"
+            },
+            {
+                "claim": "batchNumber",
+                "digest": "V7kJBLK78TmVDOmrfJ7ZuUPHuK_2cc7yZRa4qV1txwM",
+                "disclosure": "WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImJhdGNoTnVtYmVyIiwgIjE2MjYzODI3MzYiXQ",
+                "contents": "[\"y1sVU5wdfJahVdgwPgS7RQ\", \"batchNumber\", \"1626382736\"]"
+            },
+            {
+                "claim": "healthProfessional",
+                "digest": "1V_K-8lDQ8iFXBFXbZY9ehqR4HabWCi5T0ybIzZPeww",
+                "disclosure": "WyJIYlE0WDhzclZXM1FEeG5JSmRxeU9BIiwgImhlYWx0aFByb2Zlc3Npb25hbCIsICI4ODMxMTAwMDAwMTUzNzYiXQ",
+                "contents": "[\"HbQ4X8srVW3QDxnIJdqyOA\", \"healthProfessional\", \"883110000015376\"]"
+            }
+        ],
+        "marked_claims": {
+            "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://w3id.org/vaccination/v1"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "VaccinationCertificate"
+            ],
+            "issuer": "https://example.com/issuer",
+            "issuanceDate": "2023-02-09T11:01:59Z",
+            "expirationDate": "2028-02-08T11:01:59Z",
+            "name": "COVID-19 Vaccination Certificate",
+            "description": "COVID-19 Vaccination Certificate",
+            "credentialSubject": {
+                "vaccine": {
+                    "type": "Vaccine",
+                    "atcCode": {
+                        "_selectively_disclosable": {
+                            "salt": "2GLC42sKQveCfGfryNRN9w",
+                            "value": "J07BX03"
+                        }
+                    },
+                    "medicinalProductName": {
+                        "_selectively_disclosable": {
+                            "salt": "eluV5Og3gSNII8EYnsxA_A",
+                            "value": "COVID-19 Vaccine Moderna"
+                        }
+                    },
+                    "marketingAuthorizationHolder": {
+                        "_selectively_disclosable": {
+                            "salt": "6Ij7tM-a5iVPGboS5tmvVA",
+                            "value": "Moderna Biotech"
+                        }
+                    }
+                },
+                "recipient": {
+                    "type": "VaccineRecipient",
+                    "familyName": {
+                        "_selectively_disclosable": {
+                            "salt": "5bPs1IquZNa0hkaFzzzZNw",
+                            "value": "Mustermann"
+                        }
+                    },
+                    "gender": {
+                        "_selectively_disclosable": {
+                            "salt": "G02NSrQfjFXQ7Io09syajA",
+                            "value": "Female"
+                        }
+                    },
+                    "birthDate": {
+                        "_selectively_disclosable": {
+                            "salt": "lklxF5jMYlGTPUovMNIvCA",
+                            "value": "1961-08-17"
+                        }
+                    },
+                    "givenName": {
+                        "_selectively_disclosable": {
+                            "salt": "nPuoQnkRFq3BIeAm7AnXFA",
+                            "value": "Marion"
+                        }
+                    }
+                },
+                "type": "VaccinationEvent",
+                "healthProfessional": {
+                    "_selectively_disclosable": {
+                        "salt": "HbQ4X8srVW3QDxnIJdqyOA",
+                        "value": "883110000015376"
+                    }
+                },
+                "countryOfVaccination": {
+                    "_selectively_disclosable": {
+                        "salt": "Qg_O64zqAxe412a108iroA",
+                        "value": "GE"
+                    }
+                },
+                "nextVaccinationDate": {
+                    "_selectively_disclosable": {
+                        "salt": "eI8ZWm9QnKPpNPeNenHdhQ",
+                        "value": "2021-08-16T13:40:12Z"
+                    }
+                },
+                "administeringCentre": {
+                    "_selectively_disclosable": {
+                        "salt": "5a2W0_NrlEZzfqmk_7Pq-w",
+                        "value": "Praxis Sommergarten"
+                    }
+                },
+                "batchNumber": {
+                    "_selectively_disclosable": {
+                        "salt": "y1sVU5wdfJahVdgwPgS7RQ",
+                        "value": "1626382736"
+                    }
+                },
+                "order": {
+                    "_selectively_disclosable": {
+                        "salt": "Pc33JM2LchcU_lHggv_ufQ",
+                        "value": "3/3"
+                    }
+                },
+                "dateOfVaccination": {
+                    "_selectively_disclosable": {
+                        "salt": "AJx-095VPrpTtN4QMOqROA",
+                        "value": "2021-06-23T13:40:12Z"
+                    }
+                }
+            },
+            "cnf": {
+                "jwk": {
+                    "kty": "EC",
+                    "crv": "P-256",
+                    "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+                    "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+                }
+            }
+        }
+    },
+    "issuer_key": {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": "b28d4MwZMjw8-00CG4xfnn9SLMVMM19SlqZpVb_uNtQ",
+        "y": "Xv5zWwuoaTgdS6hV43yI6gBwTnjukmFQQnJ_kCxzqk8"
+    }
+}

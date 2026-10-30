@@ -49,6 +49,7 @@
         "web-token/jwt-library": "^4.0"
     },
     "suggest": {
-        "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens."
+        "symfony/serializer": "Use the Symfony serializer to serialize/unserialize JWS and JWE tokens.",
+        "web-token/jwt-selective-disclosure": "To configure the Issuer, Holder and Verifier services of SD-JWT (RFC 9901)."
     }
 }
