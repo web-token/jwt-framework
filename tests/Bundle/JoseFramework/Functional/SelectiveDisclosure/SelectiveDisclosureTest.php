@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\SelectiveDisclosure;
 
+use DateTimeImmutable;
+use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
+use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
 use Jose\Bundle\JoseFramework\Services\SDJWTHolderFactory;
 use Jose\Bundle\JoseFramework\Services\SDJWTIssuerFactory;
 use Jose\Bundle\JoseFramework\Services\SDJWTVerifierFactory;
@@ -18,6 +21,8 @@ use Jose\SelectiveDisclosure\SDJWTIssuer;
 use Jose\SelectiveDisclosure\SDJWTVerifier;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\SelectiveDisclosureServiceConsumer;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
+use Jose\Tests\Component\Checker\Stub\MockClock;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use function count;
@@ -27,6 +32,11 @@ use function count;
  */
 final class SelectiveDisclosureTest extends WebTestCase
 {
+    /**
+     * The creation time of the Key Binding JWTs of the examples of RFC 9901.
+     */
+    private const KEY_BINDING_ISSUED_AT = 1748537244;
+
     private static ?JWK $holderKey = null;
 
     #[Test]
@@ -112,6 +122,71 @@ final class SelectiveDisclosureTest extends WebTestCase
         static::assertIsArray($payload);
         static::assertGreaterThanOrEqual(2 + 1, count($payload['_sd']));
         static::assertLessThanOrEqual(2 + 3, count($payload['_sd']));
+    }
+
+    #[Test]
+    public function theIssuerFactoryHasTheDefaultsOfTheLibrary(): void
+    {
+        $factory = self::container()->get(SDJWTIssuerFactory::class);
+        static::assertInstanceOf(SDJWTIssuerFactory::class, $factory);
+
+        $sdJwt = $factory->create(['ES256'])
+            ->issue([
+                'given_name' => new Disclosable('John'),
+            ], self::issuerKey(), [
+                'alg' => 'ES256',
+            ]);
+
+        $payload = JsonConverter::decode(Base64UrlSafe::decodeNoPadding(explode('.', $sdJwt->getIssuerSignedJwt())[1]));
+        static::assertIsArray($payload);
+        static::assertSame('sha-256', $payload['_sd_alg']);
+        static::assertCount(1, $payload['_sd']);
+    }
+
+    /**
+     * By default, the verifier accepts a Key Binding JWT up to 300 seconds old and allows no clock drift: the Key
+     * Binding JWT of RFC 9901 section 5.2 is checked at the end of the window, after it and one second before its
+     * creation.
+     */
+    #[Test]
+    #[DataProvider('keyBindingTimes')]
+    public function theVerifierFactoryHasTheDefaultsOfTheLibrary(int $offset, bool $accepted): void
+    {
+        $container = self::container();
+        $jwsLoaderFactory = $container->get(JWSLoaderFactory::class);
+        static::assertInstanceOf(JWSLoaderFactory::class, $jwsLoaderFactory);
+        $claimCheckerManagerFactory = $container->get(ClaimCheckerManagerFactory::class);
+        static::assertInstanceOf(ClaimCheckerManagerFactory::class, $claimCheckerManagerFactory);
+        $example = JsonConverter::decode(file_get_contents(__DIR__ . '/../../../../fixtures/rfc9901/examples.json'));
+        static::assertIsArray($example);
+        $verifier = (new SDJWTVerifierFactory(
+            $jwsLoaderFactory,
+            $claimCheckerManagerFactory,
+            new MockClock(new DateTimeImmutable('@' . (self::KEY_BINDING_ISSUED_AT + $offset)))
+        ))->create(['ES256']);
+
+        try {
+            $verified = $verifier->verifyWithKeyBinding(
+                $example['section-5']['presentation'],
+                new JWK($example['issuer_key']),
+                'https://verifier.example.org',
+                '1234567890'
+            );
+            static::assertTrue($accepted, 'The Key Binding JWT has been accepted.');
+            static::assertTrue($verified->hasKeyBinding());
+        } catch (InvalidTokenException $exception) {
+            static::assertFalse($accepted, $exception->getMessage());
+        }
+    }
+
+    /**
+     * @return iterable<string, array{int, bool}>
+     */
+    public static function keyBindingTimes(): iterable
+    {
+        yield 'at the end of the window' => [300, true];
+        yield 'after the window' => [301, false];
+        yield 'one second before its creation' => [-1, false];
     }
 
     #[Test]
