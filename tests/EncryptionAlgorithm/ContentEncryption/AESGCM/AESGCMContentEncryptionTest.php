@@ -8,8 +8,12 @@ use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A192GCM;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
+use Jose\Component\Encryption\Algorithm\ContentEncryption\AESGCM;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
+use function sprintf;
 use const STR_PAD_LEFT;
 
 /**
@@ -206,6 +210,36 @@ final class AESGCMContentEncryptionTest extends TestCase
             $expected_plaintext,
             $algorithm->decryptContent($cyphertext, $cek, $iv, null, $header, $tag)
         );
+    }
+
+    #[DataProvider('dataTruncatedTags')]
+    #[Test]
+    public function truncatedTagIsRejected(AESGCM $algorithm, int $length): void
+    {
+        $header = Base64UrlSafe::encodeUnpadded(json_encode([
+            'alg' => 'dir',
+            'enc' => $algorithm->name(),
+        ]));
+        $tag = null;
+        $cek = random_bytes($algorithm->getCEKSize() / 8);
+        $iv = random_bytes(96 / 8);
+        $cyphertext = $algorithm->encryptContent('Live long and Prosper.', $cek, $iv, null, $header, $tag);
+        static::assertIsString($tag);
+        $truncatedTag = mb_substr($tag, 0, $length, '8bit');
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unable to decrypt the content');
+
+        $algorithm->decryptContent($cyphertext, $cek, $iv, null, $header, $truncatedTag);
+    }
+
+    public static function dataTruncatedTags(): iterable
+    {
+        foreach ([new A128GCM(), new A192GCM(), new A256GCM()] as $algorithm) {
+            foreach ([0, 1, 4, 8, 12, 15] as $length) {
+                yield sprintf('%s, %d bytes', $algorithm->name(), $length) => [$algorithm, $length];
+            }
+        }
     }
 
     private function convertArrayToBinString(array $data): string
