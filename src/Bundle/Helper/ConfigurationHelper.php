@@ -436,9 +436,7 @@ final readonly class ConfigurationHelper
         if (! is_array($jose_config)) {
             $jose_config = [];
         }
-        if (! isset($jose_config[$element])) {
-            $jose_config[$element] = [];
-        }
+        $jose_config[$element] ??= [];
         $jose_config[$element] = array_merge($jose_config[$element], $config[self::BUNDLE_ALIAS][$element]);
         $container->prependExtensionConfig(self::BUNDLE_ALIAS, $jose_config);
     }

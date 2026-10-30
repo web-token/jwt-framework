@@ -3925,12 +3925,6 @@ parameters:
 			path: ../src/Bundle/Services/NestedTokenLoaderFactory.php
 
 		-
-			rawMessage: 'Call to function is_string() with null will always evaluate to false.'
-			identifier: function.impossibleType
-			count: 1
-			path: ../src/Experimental/KeyEncryption/Chacha20Poly1305.php
-
-		-
 			rawMessage: Invalid type object to throw.
 			identifier: throw.notThrowable
 			count: 3

@@ -205,10 +205,8 @@ final class JWELoaderTest extends EncryptionTestCase
 
     private function getJWELoader(): JWELoader
     {
-        if ($this->jweLoader === null) {
-            $this->jweLoader = $this->getJWELoaderFactory()
-                ->create(['jwe_compact'], ['A128KW', 'A128GCM']);
-        }
+        $this->jweLoader ??= $this->getJWELoaderFactory()
+            ->create(['jwe_compact'], ['A128KW', 'A128GCM']);
 
         return $this->jweLoader;
     }

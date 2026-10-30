@@ -123,38 +123,32 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 
     protected function getJWSLoaderFactory(): JWSLoaderFactory
     {
-        if ($this->jwsLoaderFactory === null) {
-            $this->jwsLoaderFactory = new JWSLoaderFactory(
-                $this->getJWSSerializerManagerFactory(),
-                $this->getJWSVerifierFactory(),
-                $this->getHeaderCheckerManagerFactory()
-            );
-        }
+        $this->jwsLoaderFactory ??= new JWSLoaderFactory(
+            $this->getJWSSerializerManagerFactory(),
+            $this->getJWSVerifierFactory(),
+            $this->getHeaderCheckerManagerFactory()
+        );
 
         return $this->jwsLoaderFactory;
     }
 
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
-        if ($this->jweLoaderFactory === null) {
-            $this->jweLoaderFactory = new JWELoaderFactory(
-                $this->getJWESerializerManagerFactory(),
-                $this->getJWEDecrypterFactory(),
-                $this->getHeaderCheckerManagerFactory()
-            );
-        }
+        $this->jweLoaderFactory ??= new JWELoaderFactory(
+            $this->getJWESerializerManagerFactory(),
+            $this->getJWEDecrypterFactory(),
+            $this->getHeaderCheckerManagerFactory()
+        );
 
         return $this->jweLoaderFactory;
     }
 
     private function getNestedTokenLoaderFactory(): NestedTokenLoaderFactory
     {
-        if ($this->nestedTokenLoaderFactory === null) {
-            $this->nestedTokenLoaderFactory = new NestedTokenLoaderFactory(
-                $this->getJWELoaderFactory(),
-                $this->getJWSLoaderFactory()
-            );
-        }
+        $this->nestedTokenLoaderFactory ??= new NestedTokenLoaderFactory(
+            $this->getJWELoaderFactory(),
+            $this->getJWSLoaderFactory()
+        );
 
         return $this->nestedTokenLoaderFactory;
     }
@@ -185,22 +179,18 @@ final class NestingTokenUsingNestedTokenLoaderTest extends TestCase
 
     private function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
-        if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
-                new A128GCM(),
-                new RSAOAEP(),
-                new PS256(),
-            ]);
-        }
+        $this->algorithmManagerFactory ??= new AlgorithmManagerFactory([
+            new A128GCM(),
+            new RSAOAEP(),
+            new PS256(),
+        ]);
 
         return $this->algorithmManagerFactory;
     }
 
     private function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
-        if ($this->jweDecrypterFactory === null) {
-            $this->jweDecrypterFactory = new JWEDecrypterFactory($this->getAlgorithmManagerFactory());
-        }
+        $this->jweDecrypterFactory ??= new JWEDecrypterFactory($this->getAlgorithmManagerFactory());
 
         return $this->jweDecrypterFactory;
     }

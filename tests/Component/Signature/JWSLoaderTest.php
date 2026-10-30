@@ -197,10 +197,8 @@ final class JWSLoaderTest extends SignatureTestCase
 
     private function getJWSLoader(): JWSLoader
     {
-        if ($this->jwsLoader === null) {
-            $this->jwsLoader = $this->getJWSLoaderFactory()
-                ->create(['jws_compact'], ['HS256']);
-        }
+        $this->jwsLoader ??= $this->getJWSLoaderFactory()
+            ->create(['jws_compact'], ['HS256']);
 
         return $this->jwsLoader;
     }

@@ -45,42 +45,36 @@ abstract class SignatureTestCase extends TestCase
 
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
-        if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
-                new HS256(),
-                new HS384(),
-                new HS512(),
-                new ES256(),
-                new ES384(),
-                new ES512(),
-                new RS256(),
-                new RS384(),
-                new RS512(),
-                new PS256(),
-                new PS384(),
-                new PS512(),
-                new None(),
-                new EdDSA(),
-            ]);
-        }
+        $this->algorithmManagerFactory ??= new AlgorithmManagerFactory([
+            new HS256(),
+            new HS384(),
+            new HS512(),
+            new ES256(),
+            new ES384(),
+            new ES512(),
+            new RS256(),
+            new RS384(),
+            new RS512(),
+            new PS256(),
+            new PS384(),
+            new PS512(),
+            new None(),
+            new EdDSA(),
+        ]);
 
         return $this->algorithmManagerFactory;
     }
 
     protected function getJWSBuilderFactory(): JWSBuilderFactory
     {
-        if ($this->jwsBuilderFactory === null) {
-            $this->jwsBuilderFactory = new JWSBuilderFactory($this->getAlgorithmManagerFactory());
-        }
+        $this->jwsBuilderFactory ??= new JWSBuilderFactory($this->getAlgorithmManagerFactory());
 
         return $this->jwsBuilderFactory;
     }
 
     protected function getJWSVerifierFactory(): JWSVerifierFactory
     {
-        if ($this->jwsVerifierFactory === null) {
-            $this->jwsVerifierFactory = new JWSVerifierFactory($this->getAlgorithmManagerFactory());
-        }
+        $this->jwsVerifierFactory ??= new JWSVerifierFactory($this->getAlgorithmManagerFactory());
 
         return $this->jwsVerifierFactory;
     }
@@ -99,26 +93,22 @@ abstract class SignatureTestCase extends TestCase
 
     protected function getJWSSerializerManager(): JWSSerializerManager
     {
-        if ($this->jwsSerializerManager === null) {
-            $this->jwsSerializerManager = new JWSSerializerManager([
-                new CompactSerializer(),
-                new JSONFlattenedSerializer(),
-                new JSONGeneralSerializer(),
-            ]);
-        }
+        $this->jwsSerializerManager ??= new JWSSerializerManager([
+            new CompactSerializer(),
+            new JSONFlattenedSerializer(),
+            new JSONGeneralSerializer(),
+        ]);
 
         return $this->jwsSerializerManager;
     }
 
     protected function getJWSLoaderFactory(): JWSLoaderFactory
     {
-        if ($this->jwsLoaderFactory === null) {
-            $this->jwsLoaderFactory = new JWSLoaderFactory(
-                $this->getJWSSerializerManagerFactory(),
-                $this->getJWSVerifierFactory(),
-                null
-            );
-        }
+        $this->jwsLoaderFactory ??= new JWSLoaderFactory(
+            $this->getJWSSerializerManagerFactory(),
+            $this->getJWSVerifierFactory(),
+            null
+        );
 
         return $this->jwsLoaderFactory;
     }
