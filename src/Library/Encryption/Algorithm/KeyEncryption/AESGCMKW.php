@@ -14,6 +14,7 @@ use function extension_loaded;
 use function in_array;
 use function is_string;
 use function sprintf;
+use function strlen;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESGCMKW implements KeyWrapping
@@ -72,7 +73,7 @@ abstract readonly class AESGCMKW implements KeyWrapping
 
         $tag = Base64UrlSafe::decodeNoPadding($completeHeader['tag']);
         $iv = Base64UrlSafe::decodeNoPadding($completeHeader['iv']);
-        if (mb_strlen($tag, '8bit') !== 16) {
+        if (strlen($tag) !== 16) {
             throw new RuntimeException('Unable to decrypt the CEK');
         }
 

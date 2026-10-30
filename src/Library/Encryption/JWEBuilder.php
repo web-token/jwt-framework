@@ -23,6 +23,7 @@ use function array_key_exists;
 use function count;
 use function is_string;
 use function sprintf;
+use function strlen;
 
 class JWEBuilder
 {
@@ -445,7 +446,7 @@ class JWEBuilder
                     $completeHeader,
                     $additionalHeader
                 );
-                if (mb_strlen($cek, '8bit') * 8 !== $this->contentEncryptionAlgorithm->getCEKSize()) {
+                if (strlen($cek) * 8 !== $this->contentEncryptionAlgorithm->getCEKSize()) {
                     throw new InvalidArgumentException('Invalid CEK size');
                 }
 
