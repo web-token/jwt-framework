@@ -1,12 +1,12 @@
 {
     "source": {
         "directories": [
-            "../src"
+            "src"
         ]
     },
     "timeout": 3,
     "logs": {
-        "text": "infection.txt"
+        "text": ".ci-tools/infection.txt"
     },
     "mutators": {
         "@default": true,
@@ -21,5 +21,8 @@
                 "mb_strlen": false
             }
         }
+    },
+    "phpUnit": {
+        "configDir": ".ci-tools"
     }
 }
