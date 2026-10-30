@@ -23,6 +23,7 @@ use function array_key_exists;
 use function count;
 use function is_string;
 use function sprintf;
+use function strlen;
 
 class JWEBuilder
 {
@@ -429,6 +430,10 @@ class JWEBuilder
         }
     }
 
+    /**
+     * A key obtained by key agreement must have the size the content encryption algorithm needs: the content
+     * encryption algorithms pad a short key with zero bytes instead of rejecting it.
+     */
     private function determineCEK(array &$additionalHeader): string
     {
         if ($this->contentEncryptionAlgorithm === null) {
@@ -458,7 +463,7 @@ class JWEBuilder
                     $this->sharedProtectedHeader
                 );
 
-                return $algorithm->getAgreementKey(
+                $cek = $algorithm->getAgreementKey(
                     $this->contentEncryptionAlgorithm->getCEKSize(),
                     $this->contentEncryptionAlgorithm->name(),
                     $recipientKey,
@@ -466,6 +471,11 @@ class JWEBuilder
                     $completeHeader,
                     $additionalHeader
                 );
+                if (strlen($cek) * 8 !== $this->contentEncryptionAlgorithm->getCEKSize()) {
+                    throw new InvalidArgumentException('Invalid CEK size');
+                }
+
+                return $cek;
 
             case KeyEncryption::MODE_DIRECT:
                 if (count($this->recipients) !== 1) {

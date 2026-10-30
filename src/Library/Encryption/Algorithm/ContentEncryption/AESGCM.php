@@ -9,6 +9,7 @@ use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Override;
 use RuntimeException;
 use function extension_loaded;
+use function strlen;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESGCM implements ContentEncryptionAlgorithm
@@ -57,6 +58,9 @@ abstract readonly class AESGCM implements ContentEncryptionAlgorithm
         string $encoded_protected_header,
         string $tag
     ): string {
+        if (strlen($tag) !== 16) {
+            throw new RuntimeException('Unable to decrypt the content');
+        }
         $calculated_aad = $encoded_protected_header;
         if ($aad !== null) {
             $calculated_aad .= '.' . Base64UrlSafe::encodeUnpadded($aad);
