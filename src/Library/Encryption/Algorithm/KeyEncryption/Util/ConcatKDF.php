@@ -18,6 +18,11 @@ final class ConcatKDF
     /**
      * Key Derivation Function.
      *
+     * Each round hashes, with SHA-256, the round number (a 32-bit big-endian counter starting at 1), the shared secret
+     * and the OtherInfo value: the length-prefixed algorithm name, PartyUInfo and PartyVInfo, then the key size in
+     * bits as SuppPubInfo and an empty SuppPrivInfo. As many rounds as the requested key size needs are concatenated,
+     * and the result is truncated to that size.
+     *
      * @param string $Z Shared secret
      * @param string $algorithm Encryption algorithm
      * @param int $encryption_key_size Size of the encryption key
@@ -33,20 +38,21 @@ final class ConcatKDF
     ): string {
         $apu = ! self::isEmpty($apu) ? Base64UrlSafe::decodeNoPadding($apu) : '';
         $apv = ! self::isEmpty($apv) ? Base64UrlSafe::decodeNoPadding($apv) : '';
-        $encryption_segments = [
-            self::toInt32Bits(1),                                  // Round number 1
-            $Z,                                                          // Z (shared secret)
-            self::toInt32Bits(mb_strlen($algorithm, '8bit')) . $algorithm, // Size of algorithm's name and algorithm
-            self::toInt32Bits(mb_strlen($apu, '8bit')) . $apu,             // PartyUInfo
-            self::toInt32Bits(mb_strlen($apv, '8bit')) . $apv,             // PartyVInfo
-            self::toInt32Bits($encryption_key_size),                     // SuppPubInfo (the encryption key size)
-            '',                                                          // SuppPrivInfo
-        ];
+        $other_info = implode('', [
+            self::toInt32Bits(mb_strlen($algorithm, '8bit')) . $algorithm,
+            self::toInt32Bits(mb_strlen($apu, '8bit')) . $apu,
+            self::toInt32Bits(mb_strlen($apv, '8bit')) . $apv,
+            self::toInt32Bits($encryption_key_size),
+            '',
+        ]);
 
-        $input = implode('', $encryption_segments);
-        $hash = hash('sha256', $input, true);
+        $key_length = intdiv($encryption_key_size, 8);
+        $derived_key = '';
+        for ($round = 1; mb_strlen($derived_key, '8bit') < $key_length; ++$round) {
+            $derived_key .= hash('sha256', self::toInt32Bits($round) . $Z . $other_info, true);
+        }
 
-        return mb_substr($hash, 0, $encryption_key_size / 8, '8bit');
+        return mb_substr($derived_key, 0, $key_length, '8bit');
     }
 
     /**
