@@ -6,6 +6,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use function intdiv;
 use function strlen;
 use const STR_PAD_LEFT;
 
@@ -18,6 +19,11 @@ final readonly class ConcatKDF
 {
     /**
      * Key Derivation Function.
+     *
+     * Each round hashes, with SHA-256, the round number (a 32-bit big-endian counter starting at 1), the shared secret
+     * and the OtherInfo value: the length-prefixed algorithm name, PartyUInfo and PartyVInfo, then the key size in
+     * bits as SuppPubInfo and an empty SuppPrivInfo. As many rounds as the requested key size needs are concatenated,
+     * and the result is truncated to that size.
      *
      * @param string $Z Shared secret
      * @param string $algorithm Encryption algorithm
@@ -34,20 +40,21 @@ final readonly class ConcatKDF
     ): string {
         $apu = ! self::isEmpty($apu) ? Base64UrlSafe::decodeNoPadding($apu) : '';
         $apv = ! self::isEmpty($apv) ? Base64UrlSafe::decodeNoPadding($apv) : '';
-        $encryption_segments = [
-            self::toInt32Bits(1),                                  // Round number 1
-            $Z,                                                          // Z (shared secret)
-            self::toInt32Bits(strlen($algorithm)) . $algorithm, // Size of algorithm's name and algorithm
-            self::toInt32Bits(strlen($apu)) . $apu,             // PartyUInfo
-            self::toInt32Bits(strlen($apv)) . $apv,             // PartyVInfo
-            self::toInt32Bits($encryption_key_size),                     // SuppPubInfo (the encryption key size)
-            '',                                                          // SuppPrivInfo
-        ];
+        $other_info = implode('', [
+            self::toInt32Bits(strlen($algorithm)) . $algorithm,
+            self::toInt32Bits(strlen($apu)) . $apu,
+            self::toInt32Bits(strlen($apv)) . $apv,
+            self::toInt32Bits($encryption_key_size),
+            '',
+        ]);
 
-        $input = implode('', $encryption_segments);
-        $hash = hash('sha256', $input, true);
+        $key_length = intdiv($encryption_key_size, 8);
+        $derived_key = '';
+        for ($round = 1; strlen($derived_key) < $key_length; ++$round) {
+            $derived_key .= hash('sha256', self::toInt32Bits($round) . $Z . $other_info, true);
+        }
 
-        return substr($hash, 0, $encryption_key_size / 8);
+        return substr($derived_key, 0, $key_length);
     }
 
     /**

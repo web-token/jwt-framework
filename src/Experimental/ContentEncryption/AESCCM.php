@@ -8,6 +8,7 @@ use Jose\Component\Core\Exception\DecryptionFailedException;
 use Jose\Component\Core\Exception\EncryptionFailedException;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Override;
+use function strlen;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESCCM implements ContentEncryptionAlgorithm
@@ -58,6 +59,9 @@ abstract readonly class AESCCM implements ContentEncryptionAlgorithm
         string $encoded_protected_header,
         string $tag
     ): string {
+        if (strlen($tag) !== $this->getTagLength()) {
+            throw new DecryptionFailedException('Unable to decrypt the content');
+        }
         $calculated_aad = $encoded_protected_header;
         if ($aad !== null) {
             $calculated_aad .= '.' . $aad;

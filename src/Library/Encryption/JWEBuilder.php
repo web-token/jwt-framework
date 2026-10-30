@@ -30,6 +30,7 @@ use function count;
 use function intdiv;
 use function is_string;
 use function sprintf;
+use function strlen;
 use function trigger_deprecation;
 
 /**
@@ -590,6 +591,9 @@ class JWEBuilder implements JWEBuilderInterface
     }
 
     /**
+     * A key obtained by key agreement must have the size the content encryption algorithm needs: the content
+     * encryption algorithms pad a short key with zero bytes instead of rejecting it.
+     *
      * @param list<KeyEncryptionAlgorithm> $keyEncryptionAlgorithms
      * @param array<string, mixed> $additionalHeader
      */
@@ -615,7 +619,7 @@ class JWEBuilder implements JWEBuilderInterface
                     throw new UnsupportedAlgorithmException('Invalid content encryption algorithm');
                 }
 
-                return $algorithm->getAgreementKey(
+                $cek = $algorithm->getAgreementKey(
                     $contentEncryptionAlgorithm->getCEKSize(),
                     $contentEncryptionAlgorithm->name(),
                     $this->recipients[0]->key,
@@ -623,6 +627,11 @@ class JWEBuilder implements JWEBuilderInterface
                     $this->getCompleteHeader($this->recipients[0]),
                     $additionalHeader
                 );
+                if (strlen($cek) * 8 !== $contentEncryptionAlgorithm->getCEKSize()) {
+                    throw new InvalidArgumentException('Invalid CEK size');
+                }
+
+                return $cek;
 
             case KeyEncryption::MODE_DIRECT:
                 if (count($this->recipients) !== 1) {
