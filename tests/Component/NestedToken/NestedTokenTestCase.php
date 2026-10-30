@@ -54,61 +54,53 @@ abstract class NestedTokenTestCase extends TestCase
 
     protected function getAlgorithmManagerFactory(): AlgorithmManagerFactory
     {
-        if ($this->algorithmManagerFactory === null) {
-            $this->algorithmManagerFactory = new AlgorithmManagerFactory([
-                new A128GCM(),
-                new A192GCM(),
-                new A256GCM(),
-                new A128CBCHS256(),
-                new A192CBCHS384(),
-                new A256CBCHS512(),
-                new A128GCMKW(),
-                new A192GCMKW(),
-                new A256GCMKW(),
-                new A128KW(),
-                new A192KW(),
-                new A256KW(),
-                new Dir(),
-                new ECDHES(),
-                new ECDHESA128KW(),
-                new ECDHESA192KW(),
-                new ECDHESA256KW(),
-                new PBES2HS256A128KW(),
-                new PBES2HS384A192KW(),
-                new PBES2HS512A256KW(),
-                new RSA15(),
-                new RSAOAEP(),
-                new RSAOAEP256(),
-            ]);
-        }
+        $this->algorithmManagerFactory ??= new AlgorithmManagerFactory([
+            new A128GCM(),
+            new A192GCM(),
+            new A256GCM(),
+            new A128CBCHS256(),
+            new A192CBCHS384(),
+            new A256CBCHS512(),
+            new A128GCMKW(),
+            new A192GCMKW(),
+            new A256GCMKW(),
+            new A128KW(),
+            new A192KW(),
+            new A256KW(),
+            new Dir(),
+            new ECDHES(),
+            new ECDHESA128KW(),
+            new ECDHESA192KW(),
+            new ECDHESA256KW(),
+            new PBES2HS256A128KW(),
+            new PBES2HS384A192KW(),
+            new PBES2HS512A256KW(),
+            new RSA15(),
+            new RSAOAEP(),
+            new RSAOAEP256(),
+        ]);
         return $this->algorithmManagerFactory;
     }
 
     protected function getJWEBuilderFactory(): JWEBuilderFactory
     {
-        if ($this->jweBuilderFactory === null) {
-            $this->jweBuilderFactory = new JWEBuilderFactory($this->getAlgorithmManagerFactory());
-        }
+        $this->jweBuilderFactory ??= new JWEBuilderFactory($this->getAlgorithmManagerFactory());
         return $this->jweBuilderFactory;
     }
 
     protected function getJWEDecrypterFactory(): JWEDecrypterFactory
     {
-        if ($this->jweDecrypterFactory === null) {
-            $this->jweDecrypterFactory = new JWEDecrypterFactory($this->getAlgorithmManagerFactory());
-        }
+        $this->jweDecrypterFactory ??= new JWEDecrypterFactory($this->getAlgorithmManagerFactory());
         return $this->jweDecrypterFactory;
     }
 
     protected function getJWELoaderFactory(): JWELoaderFactory
     {
-        if ($this->jweLoaderFactory === null) {
-            $this->jweLoaderFactory = new JWELoaderFactory(
-                $this->getJWESerializerManagerFactory(),
-                $this->getJWEDecrypterFactory(),
-                null
-            );
-        }
+        $this->jweLoaderFactory ??= new JWELoaderFactory(
+            $this->getJWESerializerManagerFactory(),
+            $this->getJWEDecrypterFactory(),
+            null
+        );
         return $this->jweLoaderFactory;
     }
 
@@ -125,13 +117,11 @@ abstract class NestedTokenTestCase extends TestCase
 
     protected function getJWESerializerManager(): JWESerializerManager
     {
-        if ($this->jwsSerializerManager === null) {
-            $this->jwsSerializerManager = new JWESerializerManager([
-                new CompactSerializer(),
-                new JSONFlattenedSerializer(),
-                new JSONGeneralSerializer(),
-            ]);
-        }
+        $this->jwsSerializerManager ??= new JWESerializerManager([
+            new CompactSerializer(),
+            new JSONFlattenedSerializer(),
+            new JSONGeneralSerializer(),
+        ]);
         return $this->jwsSerializerManager;
     }
 }

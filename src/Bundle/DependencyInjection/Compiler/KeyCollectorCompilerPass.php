@@ -6,11 +6,15 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
 use Jose\Bundle\JoseFramework\DataCollector\KeyCollector;
 use Override;
+use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * The keys and key sets are given to the collector as closures, so that creating the profiler does not create them.
+ */
 final readonly class KeyCollectorCompilerPass implements CompilerPassInterface
 {
     #[Override]
@@ -23,8 +27,8 @@ final readonly class KeyCollectorCompilerPass implements CompilerPassInterface
         $definition = $container->getDefinition(KeyCollector::class);
 
         $services = [
-            'addJWK' => 'jose.jwk',
-            'addJWKSet' => 'jose.jwkset',
+            'addLazyJWK' => 'jose.jwk',
+            'addLazyJWKSet' => 'jose.jwkset',
         ];
         foreach ($services as $method => $tag) {
             $this->collectServices($method, $tag, $definition, $container);
@@ -39,7 +43,7 @@ final readonly class KeyCollectorCompilerPass implements CompilerPassInterface
     ): void {
         $taggedJWSServices = $container->findTaggedServiceIds($tag);
         foreach ($taggedJWSServices as $id => $tags) {
-            $definition->addMethodCall($method, [$id, new Reference($id)]);
+            $definition->addMethodCall($method, [$id, new ServiceClosureArgument(new Reference($id))]);
         }
     }
 }

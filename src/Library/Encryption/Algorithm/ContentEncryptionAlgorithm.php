@@ -22,7 +22,6 @@ interface ContentEncryptionAlgorithm extends Algorithm
      * @param string $iv The Initialization Vector
      * @param string|null $aad Additional Additional Authenticated Data
      * @param string $encoded_protected_header The Protected Header encoded in Base64Url
-     * @param string $tag Tag
      */
     public function encryptContent(
         string $data,
@@ -41,7 +40,6 @@ interface ContentEncryptionAlgorithm extends Algorithm
      * @param string $iv The Initialization Vector
      * @param string|null $aad Additional Additional Authenticated Data
      * @param string $encoded_protected_header The Protected Header encoded in Base64Url
-     * @param string $tag Tag
      */
     public function decryptContent(
         string $data,

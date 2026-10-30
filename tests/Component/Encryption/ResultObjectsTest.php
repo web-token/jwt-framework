@@ -216,24 +216,20 @@ final class ResultObjectsTest extends EncryptionTestCase
 
     private function getKey(): JWK
     {
-        if ($this->key === null) {
-            $this->key = (new JWKFactory())->oct(256, [
-                'alg' => 'A256KW',
-                'use' => 'enc',
-            ]);
-        }
+        $this->key ??= (new JWKFactory())->oct(256, [
+            'alg' => 'A256KW',
+            'use' => 'enc',
+        ]);
 
         return $this->key;
     }
 
     private function getWrongKey(): JWK
     {
-        if ($this->wrongKey === null) {
-            $this->wrongKey = (new JWKFactory())->oct(256, [
-                'alg' => 'A256KW',
-                'use' => 'enc',
-            ]);
-        }
+        $this->wrongKey ??= (new JWKFactory())->oct(256, [
+            'alg' => 'A256KW',
+            'use' => 'enc',
+        ]);
 
         return $this->wrongKey;
     }
