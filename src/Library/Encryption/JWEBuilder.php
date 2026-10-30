@@ -19,6 +19,7 @@ use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\IntegratedEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreement;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
@@ -212,6 +213,10 @@ class JWEBuilder implements JWEBuilderInterface
             throw new LogicException('No recipient.');
         }
         $this->checkDuplicatedHeaderParametersOfAllRecipients();
+        $integratedEncryptionAlgorithm = $this->findIntegratedEncryptionAlgorithm();
+        if ($integratedEncryptionAlgorithm !== null) {
+            return $this->buildWithIntegratedEncryption($integratedEncryptionAlgorithm);
+        }
         $contentEncryptionAlgorithm = $this->resolveContentEncryptionAlgorithm();
         $keyEncryptionAlgorithms = $this->resolveKeyEncryptionAlgorithms();
         $keyManagementMode = $this->resolveKeyManagementMode($keyEncryptionAlgorithms);
@@ -319,6 +324,86 @@ class JWEBuilder implements JWEBuilderInterface
             HeaderParameterChecker::checkDuplicates($this->sharedProtectedHeader, $recipient->header);
             HeaderParameterChecker::checkDuplicates($this->sharedHeader, $recipient->header);
         }
+    }
+
+    /**
+     * The algorithm of the first recipient whose "alg" designates an Integrated Encryption algorithm, if any. That
+     * key management mode encrypts the content itself: it replaces the content encryption algorithm and cannot be
+     * combined with another recipient.
+     */
+    private function findIntegratedEncryptionAlgorithm(): ?IntegratedEncryption
+    {
+        foreach ($this->recipients as $recipient) {
+            $alg = $this->getCompleteHeader($recipient)['alg'] ?? null;
+            if (! is_string($alg) || ! $this->keyEncryptionAlgorithmManager->has($alg)) {
+                continue;
+            }
+            $algorithm = $this->keyEncryptionAlgorithmManager->get($alg);
+            if ($algorithm instanceof IntegratedEncryption) {
+                return $algorithm;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Integrated Encryption (draft-ietf-jose-hpke-encrypt section 7.1): the algorithm encrypts the payload, there is
+     * neither CEK nor "enc" header parameter, the JWE has a single recipient whose encrypted key is produced by the
+     * algorithm, and the IV and the tag are empty. The "alg" header parameter must be in the protected header,
+     * which the algorithm authenticates with the JWE AAD. The recipient key and the sender key, when set, are
+     * checked as for the other key management modes.
+     */
+    private function buildWithIntegratedEncryption(IntegratedEncryption $algorithm): JWE
+    {
+        if (count($this->recipients) !== 1) {
+            throw new LogicException(sprintf(
+                'The algorithm "%s" encrypts the content for a single recipient.',
+                $algorithm->name()
+            ));
+        }
+        $recipient = $this->recipients[0];
+        $completeHeader = $this->getCompleteHeader($recipient);
+        if (array_key_exists('enc', $completeHeader)) {
+            throw new InvalidHeaderParameterException(sprintf(
+                'The header parameter "enc" shall not be set: the algorithm "%s" encrypts the content itself.',
+                $algorithm->name()
+            ));
+        }
+        if (($this->sharedProtectedHeader['alg'] ?? null) !== $algorithm->name()) {
+            throw new InvalidHeaderParameterException(sprintf(
+                'The header parameter "alg" shall be set in the protected header with the algorithm "%s".',
+                $algorithm->name()
+            ));
+        }
+        foreach ([$recipient->key, $this->senderKey] as $key) {
+            if ($key !== null) {
+                KeyChecker::checkKeyUsage($key, 'encryption');
+                KeyChecker::checkKeyAlgorithm($key, $algorithm->name());
+            }
+        }
+        $encodedSharedProtectedHeader = Base64UrlSafe::encodeUnpadded(
+            JsonConverter::encode($this->sharedProtectedHeader)
+        );
+        $encryptedPayload = $algorithm->encryptPayload(
+            $recipient->key,
+            $this->senderKey,
+            $this->payload ?? '',
+            $this->aad,
+            $encodedSharedProtectedHeader,
+            $completeHeader
+        );
+
+        return new JWE(
+            $encryptedPayload->getCiphertext(),
+            '',
+            '',
+            $this->aad,
+            $this->sharedHeader,
+            $this->sharedProtectedHeader,
+            $encodedSharedProtectedHeader,
+            [new Recipient($recipient->header, $encryptedPayload->getEncryptedKey())]
+        );
     }
 
     /**

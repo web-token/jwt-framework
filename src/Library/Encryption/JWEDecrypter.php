@@ -17,6 +17,7 @@ use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\IntegratedEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreement;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
@@ -24,12 +25,15 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Util\EncryptionAlgorithmManagers;
 use Throwable;
+use function array_filter;
+use function array_key_exists;
 use function func_num_args;
 use function is_callable;
 use function is_string;
 use function sprintf;
 use function strlen;
 use function trigger_deprecation;
+use const ARRAY_FILTER_USE_KEY;
 
 /**
  * @final The class will be final in 5.0.0: implement JWEDecrypterInterface and decorate the service instead of
@@ -203,9 +207,21 @@ class JWEDecrypter implements JWEDecrypterInterface
         HeaderParameterChecker::checkDuplicates($sharedHeader, $recipientHeader);
 
         $completeHeader = array_merge($sharedHeader, $recipientHeader, $sharedProtectedHeader);
+        $protectedAndRecipientHeader = array_merge($recipientHeader, $sharedProtectedHeader);
+        $integratedEncryptionAlgorithm = $this->findIntegratedEncryptionAlgorithm($protectedAndRecipientHeader);
+        if ($integratedEncryptionAlgorithm !== null) {
+            return $this->decryptWithIntegratedEncryption(
+                $jwe,
+                $jwkset,
+                $i,
+                $integratedEncryptionAlgorithm,
+                $senderKey,
+                array_filter($completeHeader, is_string(...), ARRAY_FILTER_USE_KEY),
+                $onError
+            );
+        }
         $this->checkCompleteHeader($completeHeader);
 
-        $protectedAndRecipientHeader = array_merge($recipientHeader, $sharedProtectedHeader);
         $key_encryption_algorithm = $this->getKeyEncryptionAlgorithm($protectedAndRecipientHeader);
         $content_encryption_algorithm = $this->getContentEncryptionAlgorithm($protectedAndRecipientHeader);
 
@@ -229,6 +245,99 @@ class JWEDecrypter implements JWEDecrypterInterface
                 );
                 $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
                 $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm);
+
+                return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
+            } catch (Throwable $throwable) {
+                if ($onError !== null) {
+                    $onError($throwable);
+                }
+
+                continue;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * The Integrated Encryption algorithm designated by "alg", if any. Only the protected header and the recipient
+     * header are read, as for the other key management modes.
+     *
+     * @param array<mixed> $header
+     */
+    private function findIntegratedEncryptionAlgorithm(array $header): ?IntegratedEncryption
+    {
+        $alg = $header['alg'] ?? null;
+        if (! is_string($alg) || ! $this->keyEncryptionAlgorithmManager->has($alg)) {
+            return null;
+        }
+        $algorithm = $this->keyEncryptionAlgorithmManager->get($alg);
+
+        return $algorithm instanceof IntegratedEncryption ? $algorithm : null;
+    }
+
+    /**
+     * Integrated Encryption (draft-ietf-jose-hpke-encrypt section 7.2): a JWE with more than one recipient, an "enc"
+     * header parameter, an "alg" header parameter outside the protected header, an IV, a tag or no encrypted key is
+     * rejected whatever the key. The keys are then tried in turn, as for the other key management modes, and the
+     * algorithm decrypts the payload itself. The header parameter names are strings: a member decoded with an
+     * integer key cannot be one and is left out of the complete header given to the algorithm.
+     *
+     * @param array<string, mixed> $completeHeader
+     * @param (callable(Throwable): void)|null $onError
+     */
+    private function decryptWithIntegratedEncryption(
+        JWE $jwe,
+        JWKSet $jwkset,
+        int $i,
+        IntegratedEncryption $algorithm,
+        ?JWK $senderKey,
+        array $completeHeader,
+        ?callable $onError
+    ): ?DecryptionResult {
+        if ($jwe->countRecipients() !== 1) {
+            throw new InvalidArgumentException(sprintf(
+                'The algorithm "%s" encrypts the content for a single recipient.',
+                $algorithm->name()
+            ));
+        }
+        if (array_key_exists('enc', $completeHeader)) {
+            throw new InvalidHeaderParameterException(sprintf(
+                'The header parameter "enc" shall not be set with the algorithm "%s".',
+                $algorithm->name()
+            ));
+        }
+        if (($jwe->getSharedProtectedHeader()['alg'] ?? null) !== $algorithm->name()) {
+            throw new InvalidHeaderParameterException(sprintf(
+                'The header parameter "alg" shall be set in the protected header with the algorithm "%s".',
+                $algorithm->name()
+            ));
+        }
+        if (($jwe->getIV() ?? '') !== '' || ($jwe->getTag() ?? '') !== '') {
+            throw new InvalidArgumentException(sprintf(
+                'The IV and the authentication tag shall be empty with the algorithm "%s".',
+                $algorithm->name()
+            ));
+        }
+        $encryptedKey = $jwe->getRecipient($i)
+            ->getEncryptedKey();
+        if ($encryptedKey === null || $encryptedKey === '') {
+            throw new InvalidArgumentException('The encrypted key is missing.');
+        }
+
+        foreach ($jwkset->all() as $recipientKey) {
+            try {
+                KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                KeyChecker::checkKeyAlgorithm($recipientKey, $algorithm->name());
+                $payload = $algorithm->decryptPayload(
+                    $recipientKey,
+                    $senderKey,
+                    $encryptedKey,
+                    $jwe->getCiphertext() ?? '',
+                    $jwe->getAAD(),
+                    $jwe->getEncodedSharedProtectedHeader(),
+                    $completeHeader
+                );
 
                 return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
             } catch (Throwable $throwable) {

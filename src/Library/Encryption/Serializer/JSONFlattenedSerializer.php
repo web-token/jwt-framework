@@ -30,6 +30,10 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
         return self::NAME;
     }
 
+    /**
+     * The "iv" and "tag" members are absent when the IV or the tag is the empty octet sequence (RFC 7516 section
+     * 7.2.1), as in the Integrated Encryption of draft-ietf-jose-hpke-encrypt.
+     */
     #[Override]
     public function serialize(JWE $jwe, ?int $recipientIndex = null): string
     {
@@ -39,9 +43,13 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
         $recipient = $jwe->getRecipient($recipientIndex);
         $data = [
             'ciphertext' => Base64UrlSafe::encodeUnpadded($jwe->getCiphertext() ?? ''),
-            'iv' => Base64UrlSafe::encodeUnpadded($jwe->getIV() ?? ''),
-            'tag' => Base64UrlSafe::encodeUnpadded($jwe->getTag() ?? ''),
         ];
+        if (($jwe->getIV() ?? '') !== '') {
+            $data['iv'] = Base64UrlSafe::encodeUnpadded($jwe->getIV() ?? '');
+        }
+        if (($jwe->getTag() ?? '') !== '') {
+            $data['tag'] = Base64UrlSafe::encodeUnpadded($jwe->getTag() ?? '');
+        }
         if ($jwe->getAAD() !== null) {
             $data['aad'] = Base64UrlSafe::encodeUnpadded($jwe->getAAD());
         }
@@ -61,6 +69,9 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
         return JsonConverter::encode($data);
     }
 
+    /**
+     * An absent "iv" or "tag" member is the empty octet sequence (RFC 7516 section 7.2.1).
+     */
     #[Override]
     public function unserialize(string $input): JWE
     {
@@ -71,8 +82,8 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
         $this->checkData($data);
 
         $ciphertext = Base64UrlSafe::decodeNoPadding($data['ciphertext']);
-        $iv = Base64UrlSafe::decodeNoPadding($data['iv']);
-        $tag = Base64UrlSafe::decodeNoPadding($data['tag']);
+        $iv = array_key_exists('iv', $data) ? Base64UrlSafe::decodeNoPadding($data['iv']) : '';
+        $tag = array_key_exists('tag', $data) ? Base64UrlSafe::decodeNoPadding($data['tag']) : '';
         $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decodeNoPadding($data['aad']) : null;
         [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
         $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64UrlSafe::decodeNoPadding(
