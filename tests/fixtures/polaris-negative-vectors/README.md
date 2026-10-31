@@ -32,5 +32,5 @@ judge what this library leaves to its caller, and are not run:
 ## Licence
 
 `vectors.json` is not under the MIT licence of this repository. It is part of Polaris, Identity Token System,
-Copyright 2026 Egor Khaklin, licensed under the Apache License, Version 2.0
-(<http://www.apache.org/licenses/LICENSE-2.0>).
+Copyright 2026 Egor Khaklin, licensed under the Apache License, Version 2.0, whose text, as the Apache Software
+Foundation publishes it, is in [`LICENSE`](LICENSE).
