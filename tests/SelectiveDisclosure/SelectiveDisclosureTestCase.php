@@ -27,6 +27,8 @@ use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Jose\SelectiveDisclosure\Disclosable;
 use Jose\SelectiveDisclosure\SDJWT;
@@ -37,8 +39,10 @@ use Jose\Tests\Component\Checker\Stub\MockClock;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 use function array_is_list;
+use function count;
 use function is_array;
 use function sprintf;
+use function str_starts_with;
 use const SORT_STRING;
 
 /**
@@ -125,7 +129,8 @@ abstract class SelectiveDisclosureTestCase extends TestCase
 
     /**
      * A verifier that accepts the Issuer-signed JWTs typed as in RFC 9901 and checks the time claims of the processed
-     * payload.
+     * payload. It reads the Issuer-signed JWTs in the compact serialization, and in the JWS JSON serializations too
+     * when asked to.
      *
      * @param list<string> $mandatoryClaims
      * @param list<string>|null $hashAlgorithms
@@ -135,7 +140,8 @@ abstract class SelectiveDisclosureTestCase extends TestCase
         array $mandatoryClaims = [],
         ?array $hashAlgorithms = null,
         int $keyBindingMaxAge = 300,
-        int $allowedTimeDrift = 0
+        int $allowedTimeDrift = 0,
+        bool $jsonSerializations = false
     ): SDJWTVerifier {
         $clock = self::clock($timestamp);
 
@@ -143,7 +149,7 @@ abstract class SelectiveDisclosureTestCase extends TestCase
             self::jwsLoader(new HeaderCheckerManager([
                 new AlgorithmChecker(['ES256', 'ES384', 'PS256']),
                 new TypeChecker(['example+sd-jwt', 'dc+sd-jwt']),
-            ], [new JWSTokenSupport()])),
+            ], [new JWSTokenSupport()]), $jsonSerializations),
             $clock,
             self::jwsLoader(),
             new ClaimCheckerManager([
@@ -158,10 +164,16 @@ abstract class SelectiveDisclosureTestCase extends TestCase
         );
     }
 
-    protected static function jwsLoader(?HeaderCheckerManager $headerCheckerManager = null): JWSLoader
-    {
+    protected static function jwsLoader(
+        ?HeaderCheckerManager $headerCheckerManager = null,
+        bool $jsonSerializations = false
+    ): JWSLoader {
         return new JWSLoader(
-            new JWSSerializerManager([new CompactSerializer()]),
+            new JWSSerializerManager($jsonSerializations ? [
+                new CompactSerializer(),
+                new JSONFlattenedSerializer(),
+                new JSONGeneralSerializer(),
+            ] : [new CompactSerializer()]),
             new JWSVerifier(new AlgorithmManager([new ES256(), new ES384(), new PS256(), new HS256()])),
             $headerCheckerManager
         );
@@ -191,15 +203,44 @@ abstract class SelectiveDisclosureTestCase extends TestCase
     }
 
     /**
+     * Signs the given payload as a JWS in the JSON serialization, without any of the checks of the Issuer: flattened
+     * with one signature, general with several or when asked to.
+     *
+     * @param array<string, mixed> $payload
+     * @param list<array{JWK, array<string, mixed>, array<string, mixed>}> $signatures the key, the protected header
+     *                                                                                  and the unprotected header of
+     *                                                                                  each signature
+     */
+    protected static function signJson(array $payload, array $signatures = [], bool $general = false): string
+    {
+        $signatures = $signatures === [] ? [[self::issuerKey(), [
+            'alg' => 'ES256',
+            'typ' => 'example+sd-jwt',
+        ], []]] : $signatures;
+        $builder = self::jwsBuilder()->withPayload(JsonConverter::encode($payload));
+        foreach ($signatures as [$key, $protectedHeader, $header]) {
+            $builder = $builder->addSignature($key, $protectedHeader, $header);
+        }
+        $jws = $builder->build();
+
+        return $general || count($signatures) > 1
+            ? (new JSONGeneralSerializer())->serialize($jws)
+            : (new JSONFlattenedSerializer())->serialize($jws, 0);
+    }
+
+    /**
      * Decodes the payload of the Issuer-signed JWT of the given SD-JWT, without verifying it.
      *
      * @return array<string, mixed>
      */
     protected static function payloadOf(SDJWT $sdJwt): array
     {
-        $parts = explode('.', $sdJwt->getIssuerSignedJwt());
+        $issuerSignedJwt = $sdJwt->getIssuerSignedJwt();
+        $payload = str_starts_with($issuerSignedJwt, '{')
+            ? JsonConverter::decode($issuerSignedJwt)['payload']
+            : explode('.', $issuerSignedJwt)[1];
 
-        return JsonConverter::decode(Base64UrlSafe::decodeNoPadding($parts[1]));
+        return JsonConverter::decode(Base64UrlSafe::decodeNoPadding($payload));
     }
 
     /**
@@ -295,5 +336,32 @@ abstract class SelectiveDisclosureTestCase extends TestCase
         }
 
         return $token . $keyBindingJwt;
+    }
+
+    /**
+     * Builds an SD-JWT in the JWS JSON serialization from its parts, without any check: the Disclosures and the Key
+     * Binding JWT, if any, are added to the unprotected header of the first signature of the Issuer-signed JWT.
+     *
+     * @param list<string> $disclosures
+     */
+    protected static function jsonToken(
+        string $issuerSignedJwt,
+        array $disclosures = [],
+        ?string $keyBindingJwt = null
+    ): string {
+        $token = JsonConverter::decode($issuerSignedJwt);
+        $members = [
+            'disclosures' => $disclosures,
+        ];
+        if ($keyBindingJwt !== null) {
+            $members['kb_jwt'] = $keyBindingJwt;
+        }
+        if (isset($token['signatures'])) {
+            $token['signatures'][0]['header'] = ($token['signatures'][0]['header'] ?? []) + $members;
+        } else {
+            $token['header'] = ($token['header'] ?? []) + $members;
+        }
+
+        return JsonConverter::encode($token);
     }
 }

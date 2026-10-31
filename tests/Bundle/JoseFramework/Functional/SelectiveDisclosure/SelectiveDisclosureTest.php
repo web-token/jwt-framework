@@ -15,7 +15,9 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\SelectiveDisclosure\Disclosable;
+use Jose\SelectiveDisclosure\IssuerSignature;
 use Jose\SelectiveDisclosure\SDJWTHolder;
 use Jose\SelectiveDisclosure\SDJWTIssuer;
 use Jose\SelectiveDisclosure\SDJWTVerifier;
@@ -104,6 +106,82 @@ final class SelectiveDisclosureTest extends WebTestCase
         static::assertSame('John', $verified->getClaims()['given_name']);
         static::assertArrayNotHasKey('family_name', $verified->getClaims());
         static::assertTrue($verified->hasKeyBinding());
+    }
+
+    /**
+     * A verifier reads the Issuer-signed JWTs in the serializations of its "serializers" option, the compact one only
+     * by default.
+     */
+    #[Test]
+    public function aJsonSdJwtIsVerifiedByAVerifierThatReadsTheJsonSerializations(): void
+    {
+        $container = self::container();
+        $consumer = $container->get(SelectiveDisclosureServiceConsumer::class);
+        static::assertInstanceOf(SelectiveDisclosureServiceConsumer::class, $consumer);
+        $jsonVerifier = $container->get('jose.sd_jwt_verifier.verifier2');
+        static::assertInstanceOf(SDJWTVerifier::class, $jsonVerifier);
+
+        $sdJwt = $consumer->getIssuer()
+            ->issueJson(self::claims(), new IssuerSignature(self::issuerKey(), [
+                'alg' => 'ES256',
+                'typ' => 'example+sd-jwt',
+            ]));
+        $presentation = $consumer->getHolder()
+            ->present(
+                $sdJwt->select(['given_name']),
+                self::holderKey(),
+                [
+                    'alg' => 'ES256',
+                ],
+                'https://verifier.example.org',
+                'nonce'
+            );
+        $verified = $jsonVerifier->verifyWithKeyBinding(
+            $presentation->toString(),
+            self::issuerKey()->toPublic(),
+            'https://verifier.example.org',
+            'nonce'
+        );
+
+        static::assertSame(JSONFlattenedSerializer::NAME, $presentation->getSerialization());
+        static::assertSame('John', $verified->getClaims()['given_name']);
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The Issuer-signed JWT cannot be verified.');
+        $consumer->getVerifier()
+            ->verifyWithKeyBinding(
+                $presentation->toString(),
+                self::issuerKey()->toPublic(),
+                'https://verifier.example.org',
+                'nonce'
+            );
+    }
+
+    #[Test]
+    public function theVerifierFactoryReadsTheCompactSerializationOnlyByDefault(): void
+    {
+        $container = self::container();
+        $jwsLoaderFactory = $container->get(JWSLoaderFactory::class);
+        static::assertInstanceOf(JWSLoaderFactory::class, $jwsLoaderFactory);
+        $claimCheckerManagerFactory = $container->get(ClaimCheckerManagerFactory::class);
+        static::assertInstanceOf(ClaimCheckerManagerFactory::class, $claimCheckerManagerFactory);
+        $example = JsonConverter::decode(file_get_contents(__DIR__ . '/../../../../fixtures/rfc9901/examples.json'));
+        static::assertIsArray($example);
+        $factory = new SDJWTVerifierFactory(
+            $jwsLoaderFactory,
+            $claimCheckerManagerFactory,
+            new MockClock(new DateTimeImmutable('@' . self::KEY_BINDING_ISSUED_AT))
+        );
+        $sdJwt = JsonConverter::encode($example['section-8.2']['sd_jwt']);
+        $issuerKey = new JWK($example['issuer_key']);
+
+        $verified = $factory->create(['ES256'], serializers: ['jws_compact', 'jws_json_flattened'])
+            ->verify($sdJwt, $issuerKey);
+
+        static::assertSame('John', $verified->getClaims()['given_name']);
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The Issuer-signed JWT cannot be verified.');
+        $factory->create(['ES256'])
+            ->verify($sdJwt, $issuerKey);
     }
 
     #[Test]

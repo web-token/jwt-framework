@@ -10,7 +10,8 @@ You should go to [the main repository](https://github.com/web-token/jwt-framewor
 # What Is In This Package?
 
 Selective Disclosure for JWTs, as defined by [RFC 9901](https://www.rfc-editor.org/rfc/rfc9901.html): the SD-JWT and
-SD-JWT+KB formats, and the three roles of the specification on top of the JWS services of the library.
+SD-JWT+KB formats, compact or in the JWS JSON serialization, and the three roles of the specification on top of the
+JWS services of the library.
 
 - The Issuer signs a JWT whose selectively disclosable claims are replaced by salted digests, with decoy digests.
 - The Holder selects the Disclosures of the claims it presents and binds the presentation to its key with a Key

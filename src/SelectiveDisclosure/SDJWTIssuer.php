@@ -13,6 +13,8 @@ use Jose\Component\Core\Util\NamedInformationHash;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Component\Signature\JWSBuilderInterface;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Override;
 use function array_is_list;
 use function array_key_exists;
@@ -47,13 +49,26 @@ use const SORT_STRING;
  * "cnf" of the top level, which control the validity of the SD-JWT (section 9.7), cannot be selectively disclosable;
  * the elements of "aud" can.
  *
+ * The SD-JWT is issued in the compact format by issue(), and in the JWS JSON serialization of section 8 by
+ * issueJson(): the Issuer-signed JWT is then serialized by the JSON serializer of the library, flattened when it has
+ * one signature and general when it has several, and the Disclosures are carried by the "disclosures" parameter of the
+ * unprotected header of the first signature. The unprotected headers cannot have the "disclosures" and "kb_jwt"
+ * parameters themselves.
+ *
  * @see https://www.rfc-editor.org/rfc/rfc9901.html#section-4
+ * @see https://www.rfc-editor.org/rfc/rfc9901.html#section-8
  */
 final readonly class SDJWTIssuer implements SDJWTIssuerInterface
 {
     private const RESERVED_CLAIM_NAMES = ['_sd', '...', '_sd_alg'];
 
     private const VALIDITY_CLAIMS = ['iss', 'aud', 'exp', 'nbf', 'cnf'];
+
+    /**
+     * The parameters of the unprotected header that carry the Disclosures and the Key Binding JWT in the JWS JSON
+     * serialization (section 8.1).
+     */
+    private const RESERVED_HEADER_PARAMETERS = ['disclosures', 'kb_jwt'];
 
     /**
      * The size, in bytes, of the random value a decoy digest is computed from.
@@ -93,11 +108,60 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
     #[Override]
     public function issue(array $claims, JWK $signatureKey, array $protectedHeader): SDJWT
     {
-        if (! self::namesASignatureAlgorithm($this->jwsBuilder, $protectedHeader)) {
-            throw new InvalidArgumentException(
-                'The Issuer-signed JWT must be signed: the "alg" header parameter must name a signature algorithm.'
+        self::checkProtectedHeader($this->jwsBuilder, $protectedHeader);
+        [$payload, $disclosures] = $this->payload($claims);
+        $jws = $this->jwsBuilder
+            ->withPayload($payload)
+            ->addSignature($signatureKey, $protectedHeader)
+            ->build();
+
+        return SDJWT::create((new CompactSerializer())->serialize($jws, 0), $disclosures);
+    }
+
+    /**
+     * @param array<mixed> $claims
+     */
+    #[Override]
+    public function issueJson(array $claims, IssuerSignature $signature, IssuerSignature ...$signatures): SDJWT
+    {
+        $signatures = [$signature, ...$signatures];
+        foreach ($signatures as $issuerSignature) {
+            self::checkProtectedHeader($this->jwsBuilder, $issuerSignature->getProtectedHeader());
+            foreach (self::RESERVED_HEADER_PARAMETERS as $name) {
+                if (array_key_exists($name, $issuerSignature->getHeader())) {
+                    throw new InvalidArgumentException(sprintf(
+                        'The "%s" header parameter is reserved for the SD-JWT.',
+                        $name
+                    ));
+                }
+            }
+        }
+        [$payload, $disclosures] = $this->payload($claims);
+        $builder = $this->jwsBuilder->withPayload($payload);
+        foreach ($signatures as $issuerSignature) {
+            $builder = $builder->addSignature(
+                $issuerSignature->getKey(),
+                $issuerSignature->getProtectedHeader(),
+                $issuerSignature->getHeader()
             );
         }
+        $jws = $builder->build();
+        $issuerSignedJwt = count($signatures) === 1
+            ? (new JSONFlattenedSerializer())->serialize($jws, 0)
+            : (new JSONGeneralSerializer())->serialize($jws);
+
+        return SDJWT::create($issuerSignedJwt, $disclosures);
+    }
+
+    /**
+     * Checks the claims and turns them into the encoded payload of the Issuer-signed JWT and the Disclosures.
+     *
+     * @param array<mixed> $claims
+     *
+     * @return array{string, list<Disclosure>}
+     */
+    private function payload(array $claims): array
+    {
         if ($claims !== [] && array_is_list($claims)) {
             throw new InvalidArgumentException('The claims of an SD-JWT must be a JSON object.');
         }
@@ -116,12 +180,8 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
             throw new InvalidArgumentException('The salt of every Disclosure must be unique.');
         }
         $payload['_sd_alg'] = $this->hashAlgorithm;
-        $jws = $this->jwsBuilder
-            ->withPayload(JsonConverter::encode($payload))
-            ->addSignature($signatureKey, $protectedHeader)
-            ->build();
 
-        return SDJWT::create((new CompactSerializer())->serialize($jws, 0), $disclosures);
+        return [JsonConverter::encode($payload), $disclosures];
     }
 
     /**
@@ -217,6 +277,18 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
         }
 
         return $elements;
+    }
+
+    /**
+     * @param array<string, mixed> $protectedHeader
+     */
+    private static function checkProtectedHeader(JWSBuilderInterface $jwsBuilder, array $protectedHeader): void
+    {
+        if (! self::namesASignatureAlgorithm($jwsBuilder, $protectedHeader)) {
+            throw new InvalidArgumentException(
+                'The Issuer-signed JWT must be signed: the "alg" header parameter must name a signature algorithm.'
+            );
+        }
     }
 
     /**

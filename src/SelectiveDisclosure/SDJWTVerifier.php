@@ -21,6 +21,7 @@ use Jose\Component\Core\Util\NamedInformationHash;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoaderInterface;
+use Jose\Component\Signature\LoadingResult;
 use Override;
 use Psr\Clock\ClockInterface;
 use Throwable;
@@ -38,11 +39,13 @@ use function sprintf;
  * Verifies SD-JWTs and SD-JWT+KBs, as RFC 9901 sections 7.1 and 7.3 describe.
  *
  * The Issuer-signed JWT is loaded by the given loader, whose serializers, algorithms and header checkers apply: the
- * "typ" of the application profile (section 9.11) and the accepted signature algorithms are checked there. Whatever
- * the loader accepts, the Issuer-signed JWT and the Key Binding JWT must be signed with a digital signature algorithm,
- * not with a MAC. The
- * Disclosures are then processed with the rules of section 7.1, the hash algorithm declared by "_sd_alg" being one of
- * the accepted ones. The processed payload is finally checked by the claim checker manager, if any, with the mandatory
+ * "typ" of the application profile (section 9.11) and the accepted signature algorithms are checked there. Its
+ * serializers decide whether the SD-JWTs in the JWS JSON serialization (section 8) are accepted, besides those in the
+ * compact format: such an SD-JWT is given to the loader with the JSON serializers of the library. In the general JSON
+ * serialization, the Issuer-signed JWT is accepted, as by the loader, once one of its signatures is verified. Whatever
+ * the loader accepts, the verified signature of the Issuer-signed JWT and the Key Binding JWT must be made with a
+ * digital signature algorithm, not with a MAC. The Disclosures are then processed with the rules of section 7.1, the
+ * hash algorithm declared by "_sd_alg" being one of the accepted ones. The processed payload is finally checked by the claim checker manager, if any, with the mandatory
  * claims: the claims that control the validity of the SD-JWT may be selectively disclosable, and are only present
  * once disclosed (section 9.7).
  *
@@ -133,15 +136,14 @@ final readonly class SDJWTVerifier implements SDJWTVerifierInterface
         [$issuerSignedJwt, $issuerKey, $claims] = $this->process($parsed, $issuerKeys);
         $holderKey = self::holderKey($claims);
         try {
-            $loaded = $this->keyBindingJwtLoader->loadAndVerify($keyBindingJwt, $holderKey)
-                ->getJws();
+            $loaded = $this->keyBindingJwtLoader->loadAndVerify($keyBindingJwt, $holderKey);
         } catch (Throwable $throwable) {
             throw new InvalidTokenException('The Key Binding JWT cannot be verified.', 0, $throwable);
         }
         self::checkSignatureAlgorithm($this->keyBindingJwtLoader, $loaded, 'Key Binding JWT');
-        $this->checkKeyBindingJwt($loaded, $parsed, $audience, $nonce);
+        $this->checkKeyBindingJwt($loaded->getJws(), $parsed, $audience, $nonce);
 
-        return new VerifiedSDJWT($parsed, $claims, $issuerSignedJwt, $issuerKey, $loaded, $holderKey);
+        return new VerifiedSDJWT($parsed, $claims, $issuerSignedJwt, $issuerKey, $loaded->getJws(), $holderKey);
     }
 
     private static function parse(string $sdJwt): SDJWT
@@ -165,7 +167,7 @@ final readonly class SDJWTVerifier implements SDJWTVerifierInterface
         } catch (Throwable $throwable) {
             throw new InvalidTokenException('The Issuer-signed JWT cannot be verified.', 0, $throwable);
         }
-        self::checkSignatureAlgorithm($this->issuerSignedJwtLoader, $loaded->getJws(), 'Issuer-signed JWT');
+        self::checkSignatureAlgorithm($this->issuerSignedJwtLoader, $loaded, 'Issuer-signed JWT');
         $payload = self::payload($loaded->getJws(), 'Issuer-signed JWT');
         $hashAlgorithm = DisclosureProcessor::declaredHashAlgorithm($payload);
         if (! in_array($hashAlgorithm, $this->hashAlgorithms, true)) {
@@ -232,14 +234,18 @@ final readonly class SDJWTVerifier implements SDJWTVerifierInterface
     }
 
     /**
-     * Checks that the token is signed with a digital signature algorithm: the Issuer-signed JWT is signed with the
-     * private key of the Issuer (section 4.1) and the Key Binding JWT with the private key of the Holder (section 4.3),
-     * which a MAC algorithm, whose key is shared, cannot prove. The "none" algorithm has an empty signature, which the
-     * format of the SD-JWT already refuses.
+     * Checks that the signature the loader verified is made with a digital signature algorithm: the Issuer-signed JWT
+     * is signed with the private key of the Issuer (section 4.1) and the Key Binding JWT with the private key of the
+     * Holder (section 4.3), which a MAC algorithm, whose key is shared, cannot prove. The "none" algorithm has an empty
+     * signature, which the format of the SD-JWT already refuses.
      */
-    private static function checkSignatureAlgorithm(JWSLoaderInterface $loader, JWS $jws, string $token): void
-    {
-        $algorithm = $jws->getSignature(0)
+    private static function checkSignatureAlgorithm(
+        JWSLoaderInterface $loader,
+        LoadingResult $loaded,
+        string $token
+    ): void {
+        $algorithm = $loaded->getJws()
+            ->getSignature($loaded->getSignatureIndex())
             ->getProtectedHeaderParameter('alg');
         $algorithmManager = $loader->getJwsVerifier()
             ->getSignatureAlgorithmManager();

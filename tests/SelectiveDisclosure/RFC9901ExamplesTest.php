@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\SelectiveDisclosure;
 
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\SelectiveDisclosure\Disclosable;
 use Jose\SelectiveDisclosure\Disclosure;
 use Jose\SelectiveDisclosure\SDJWT;
@@ -16,12 +19,13 @@ use function is_array;
 use function strlen;
 
 /**
- * The examples of RFC 9901, sections 5 and 6 and appendix A.
+ * The examples of RFC 9901, sections 5, 6 and 8 and appendix A.
  *
  * The Disclosures and their digests are reproduced byte for byte from the salts the RFC prints, and so is every
  * payload, up to the order of the object members. The Issuer-signed JWTs cannot be re-created, as the RFC only prints
  * the public key of appendix A.5: they are verified with it, and the Key Binding JWTs with the "cnf" key of the
- * examples.
+ * examples. The second signature of the general JSON serialized example of section 8.3 is made with another key, which
+ * the RFC does not print: that SD-JWT is verified by its first signature.
  *
  * @internal
  */
@@ -297,6 +301,82 @@ final class RFC9901ExamplesTest extends SelectiveDisclosureTestCase
     }
 
     /**
+     * Section 8: the Disclosures and the Key Binding JWT of a JWS JSON serialized SD-JWT are read from the unprotected
+     * header of its first signature, and the SD-JWT is serialized back with the same members.
+     */
+    #[Test]
+    #[DataProvider('jsonSerializedSdJwts')]
+    public function theJsonSerializedSdJwtOfTheExampleIsParsed(string $name, string $token, string $serialization): void
+    {
+        $printed = self::example($name)[$token];
+        $header = ($printed['signatures'][0] ?? $printed)['header'];
+
+        $sdJwt = SDJWT::fromString(JsonConverter::encode($printed));
+
+        static::assertSame($serialization, $sdJwt->getSerialization());
+        static::assertSame($header['disclosures'], array_map(
+            static fn (Disclosure $disclosure): string => $disclosure->toString(),
+            $sdJwt->getDisclosures()
+        ));
+        static::assertSame($header['kb_jwt'] ?? null, $sdJwt->getKeyBindingJwt());
+        static::assertSame(self::canonical($printed), self::canonical(JsonConverter::decode($sdJwt->toString())));
+    }
+
+    #[Test]
+    #[DataProvider('jsonSerializedSdJwts')]
+    public function theJsonSerializedSdJwtOfTheExampleIsVerified(string $name, string $token, string $serialization): void
+    {
+        $printed = self::example($name)[$token];
+        $verifier = self::verifier(jsonSerializations: true);
+
+        $verified = $token === 'presentation'
+            ? $verifier->verifyWithKeyBinding(
+                JsonConverter::encode($printed),
+                self::rfcIssuerKey(),
+                self::AUDIENCE,
+                self::NONCE
+            )
+            : $verifier->verify(JsonConverter::encode($printed), self::rfcIssuerKey());
+
+        static::assertSame($serialization, $verified->getSdJwt()->getSerialization());
+        static::assertSame(self::canonical(self::disclosedClaims($printed)), self::canonical($verified->getClaims()));
+    }
+
+    /**
+     * @return iterable<string, array{string, string, string}>
+     */
+    public static function jsonSerializedSdJwts(): iterable
+    {
+        yield 'section-8.2 SD-JWT' => ['section-8.2', 'sd_jwt', JSONFlattenedSerializer::NAME];
+        yield 'section-8.2 SD-JWT+KB' => ['section-8.2', 'presentation', JSONFlattenedSerializer::NAME];
+        yield 'section-8.3 SD-JWT+KB' => ['section-8.3', 'presentation', JSONGeneralSerializer::NAME];
+    }
+
+    /**
+     * Section 8.1: the "sd_hash" of the Key Binding JWT is computed over the compact serialization of the first
+     * signature.
+     */
+    #[Test]
+    #[DataProvider('jsonSerializedPresentations')]
+    public function theKeyBindingJwtOfTheJsonSerializedExampleIsBoundToItsFirstSignature(string $name): void
+    {
+        $printed = self::example($name)['presentation'];
+        $keyBindingJwt = ($printed['signatures'][0] ?? $printed)['header']['kb_jwt'];
+        $claims = JsonConverter::decode(Base64UrlSafe::decodeNoPadding(explode('.', $keyBindingJwt)[1]));
+
+        static::assertSame($claims['sd_hash'], SDJWT::fromString(JsonConverter::encode($printed))->getSdHash());
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function jsonSerializedPresentations(): iterable
+    {
+        yield 'section-8.2' => ['section-8.2'];
+        yield 'section-8.3' => ['section-8.3'];
+    }
+
+    /**
      * @return list<string>
      */
     private static function exampleNames(): array
@@ -341,6 +421,26 @@ final class RFC9901ExamplesTest extends SelectiveDisclosureTestCase
         }
 
         return $result;
+    }
+
+    /**
+     * The claims a Verifier gets from a JWS JSON serialized example of section 8, which the RFC does not print: the
+     * clear claims of the payload and the claims of the Disclosures, which are all at the top level.
+     *
+     * @param array<string, mixed> $token
+     *
+     * @return array<string, mixed>
+     */
+    private static function disclosedClaims(array $token): array
+    {
+        $claims = JsonConverter::decode(Base64UrlSafe::decodeNoPadding($token['payload']));
+        unset($claims['_sd'], $claims['_sd_alg']);
+        foreach (($token['signatures'][0] ?? $token)['header']['disclosures'] as $disclosure) {
+            [, $name, $value] = JsonConverter::decode(Base64UrlSafe::decodeNoPadding($disclosure));
+            $claims[$name] = $value;
+        }
+
+        return $claims;
     }
 
     private static function withoutMarkers(mixed $value): mixed

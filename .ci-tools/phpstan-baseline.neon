@@ -3289,6 +3289,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
+			rawMessage: Cannot access offset 'serializers' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
 			rawMessage: Cannot access offset 'signature_algorithms' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -3303,7 +3309,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
-			count: 9
+			count: 10
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
@@ -3333,25 +3339,25 @@ parameters:
 		-
 			rawMessage: 'Cannot call method defaultValue() on mixed.'
 			identifier: method.nonObject
-			count: 2
+			count: 3
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 22
+			count: 24
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
 			rawMessage: 'Cannot call method enumPrototype() on mixed.'
 			identifier: method.nonObject
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
 			rawMessage: 'Cannot call method info() on mixed.'
 			identifier: method.nonObject
-			count: 11
+			count: 12
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
@@ -3375,7 +3381,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method requiresAtLeastOneElement() on mixed.'
 			identifier: method.nonObject
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
@@ -3405,7 +3411,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method values() on mixed.'
 			identifier: method.nonObject
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-

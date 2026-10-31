@@ -5,8 +5,9 @@ The examples of [RFC 9901](https://www.rfc-editor.org/rfc/rfc9901.html), Selecti
 ## `examples.json` — the examples of the RFC
 
 One entry per example: section 5 (issuance and presentation), sections 6.1 to 6.3 (flat, structured and recursive
-structures) and appendices A.1 to A.4, plus `issuer_key`, the public key of appendix A.5 that verifies every
-Issuer-signed JWT. The private key is not printed by the RFC: the Issuer-signed JWTs and the Key Binding JWTs can be
+structures), sections 8.2 and 8.3 (JWS JSON serialization) and appendices A.1 to A.4, plus `issuer_key`, the public
+key of appendix A.5 that verifies every Issuer-signed JWT. The second signature of the example of section 8.3 is made
+with another key, which the RFC does not print. The private key is not printed by the RFC: the Issuer-signed JWTs and the Key Binding JWTs can be
 verified, not re-created.
 
 | Member | Content |
@@ -20,6 +21,12 @@ verified, not re-created.
 | `processed_payload` | The Processed SD-JWT Payload a Verifier gets from `presentation` |
 | `marked_claims` | The claim set an Issuer is given to produce the example, see below |
 
+The entries `section-8.2` and `section-8.3` hold the JWS JSON serialized SD-JWTs as JSON objects: `sd_jwt`, the
+flattened SD-JWT as issued (8.2), and `presentation`, the flattened SD-JWT+KB (8.2) and the general SD-JWT+KB with two
+signatures (8.3). The line wrapping cuts their strings, which contain no whitespace: the extractor removes all the
+whitespace of their blocks, and checks that every Disclosure of the first unprotected header is referenced by an
+`_sd` digest of the payload.
+
 `marked_claims` is the only computed member. It is the payload processed with all the Disclosures of the example, as
 section 7.1 describes, where each value that comes from a Disclosure is replaced by
 `{"_selectively_disclosable": {"salt": <salt>, "value": <value>}}`. The processing is done by the extractor, so the
@@ -32,7 +39,7 @@ SHA-256 of its Disclosure.
 
 | | |
 |---|---|
-| Source | [RFC 9901](https://www.rfc-editor.org/rfc/rfc9901.txt), sections 5 and 6, appendix A (November 2025) |
+| Source | [RFC 9901](https://www.rfc-editor.org/rfc/rfc9901.txt), sections 5, 6 and 8, appendix A (November 2025) |
 | SHA-256 of the source | `fd4cb79184162fa7ef95f4f63abab8ee6d03c9a04c19b8f83758946464b284eb` |
 | Extractor | [`extract.py`](extract.py) |
-| Produced on | 2026-10-30 |
+| Produced on | 2026-10-31 |
