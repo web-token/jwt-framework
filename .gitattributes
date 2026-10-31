@@ -1,4 +1,5 @@
 * text=auto
+/tests/fixtures/polaris-negative-vectors/vectors.json -text
 
 /.ci-tools export-ignore
 /.github export-ignore
