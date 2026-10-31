@@ -108,6 +108,10 @@ jose:
         mandatory_claims: [ 'iss' ]
         hash_algorithms: [ 'sha-256' ]
         is_public: true
+      verifier2:
+        signature_algorithms: [ 'ES256' ]
+        serializers: [ 'jws_compact', 'jws_json_flattened', 'jws_json_general' ]
+        is_public: true
   keys:
     jwk1:
       jwk:

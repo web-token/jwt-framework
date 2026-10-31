@@ -66,6 +66,7 @@ final class SelectiveDisclosureConfigurationTest extends TestCase
                     'hash_algorithms' => ['sha-256', 'sha-512'],
                     'key_binding_max_age' => 60,
                     'allowed_time_drift' => 5,
+                    'serializers' => ['jws_compact', 'jws_json_flattened', 'jws_json_general'],
                 ],
             ],
         ]];
@@ -112,6 +113,7 @@ final class SelectiveDisclosureConfigurationTest extends TestCase
                         'hash_algorithms' => [],
                         'key_binding_max_age' => 300,
                         'allowed_time_drift' => 0,
+                        'serializers' => ['jws_compact'],
                         'tags' => [],
                     ],
                 ],
@@ -172,6 +174,22 @@ final class SelectiveDisclosureConfigurationTest extends TestCase
                 ],
             ],
         ], 'The value -1 is too small for path "jose.selective_disclosure.verifiers.foo.key_binding_max_age".'];
+        yield 'unknown serializer of a Verifier' => [[
+            'verifiers' => [
+                'foo' => [
+                    'signature_algorithms' => ['ES256'],
+                    'serializers' => ['jws_json'],
+                ],
+            ],
+        ], 'The value "jws_json" is not allowed for path "jose.selective_disclosure.verifiers.foo.serializers.0".'];
+        yield 'no serializer for a Verifier' => [[
+            'verifiers' => [
+                'foo' => [
+                    'signature_algorithms' => ['ES256'],
+                    'serializers' => [],
+                ],
+            ],
+        ], 'The path "jose.selective_disclosure.verifiers.foo.serializers" should have at least 1 element(s) defined.'];
     }
 
     protected function getConfiguration(): Configuration

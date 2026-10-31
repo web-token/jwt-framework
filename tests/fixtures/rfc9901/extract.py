@@ -5,12 +5,14 @@ Extracts the examples of RFC 9901 (Selective Disclosure for JSON Web Tokens) int
     python3 extract.py [rfc9901.txt]
 
 The text rendering is downloaded from the RFC Editor when no path is given. The blocks of the examples are re-joined
-across the line wrapping of the text rendering and otherwise untouched. The only values computed here are checks of
-the extraction itself, and the "marked_claims" of each example:
+across the line wrapping of the text rendering and otherwise untouched. The JWS JSON serialized SD-JWTs of section 8
+are re-joined by removing all the whitespace of their blocks: the line wrapping cuts their strings, which contain
+none. The only values computed here are checks of the extraction itself, and the "marked_claims" of each example:
 
   - every digest printed next to a Disclosure is the base64url SHA-256 of that Disclosure;
   - every "Contents" block equals the decoded Disclosure once the whitespace of the line wrapping is removed;
   - every presentation starts with the Issuer-signed JWT of its example;
+  - every Disclosure of a JWS JSON serialized SD-JWT is referenced by an "_sd" digest of its payload;
   - "marked_claims" is the payload of the example processed with all its Disclosures, as RFC 9901 section 7.1
     describes, where each value that comes from a Disclosure is replaced by
     {"_selectively_disclosable": {"salt": <salt>, "value": <value>}}. It is the claim set an Issuer has to be given to
@@ -63,6 +65,19 @@ TOKEN_CONTEXTS = [
     ("SD-JWT+KB", "presentation"),
 ]
 
+JSON_SERIALIZATION_SECTIONS = {
+    "section-8.2": ("8.2.  Flattened JSON Serialization", "8.3.  General JSON Serialization"),
+    "section-8.3": ("8.3.  General JSON Serialization", "8.4.  Verification of the JWS JSON Serialized SD-JWT"),
+}
+
+JSON_SERIALIZATION_CONTEXTS = [
+    ("as issued", "sd_jwt"),
+    ("SD-JWT+KB", "presentation"),
+    ("a presentation", "presentation"),
+]
+
+PAGE_BREAK = re.compile(r"^(RFC 9901 |Fett, et al\. )|\f")
+
 
 def b64url_decode(value):
     return base64.urlsafe_b64decode(value + "=" * (-len(value) % 4))
@@ -94,6 +109,17 @@ def json_block(lines, i):
         block.append(lines[i])
         if lines[i] == closing:
             return json.loads("\n".join(block)), i + 1
+        i += 1
+
+
+def json_serialization_block(lines, i):
+    """Collects a JWS JSON serialized SD-JWT printed at an indentation of three spaces, skipping the page breaks."""
+    block = []
+    while True:
+        if not PAGE_BREAK.search(lines[i]):
+            block.append(lines[i])
+        if lines[i] == "   }":
+            return json.loads(re.sub(r"\s", "", "\n".join(block))), i + 1
         i += 1
 
 
@@ -187,6 +213,36 @@ def extract_section(lines):
     return example
 
 
+def extract_json_serialization(lines):
+    example = {}
+    context = ""
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if line == "   {":
+            value, i = json_serialization_block(lines, i)
+            example[classify(context, JSON_SERIALIZATION_CONTEXTS)] = value
+            continue
+        if line.startswith("   ") and not line.startswith("    ") and line.strip() != "":
+            paragraph = []
+            while i < len(lines) and lines[i].strip() != "":
+                paragraph.append(lines[i].strip())
+                i += 1
+            context = " ".join(paragraph)
+            continue
+        i += 1
+    return example
+
+
+def check_json_serialization(name, token):
+    """Checks that every Disclosure of the first unprotected header is referenced by the payload."""
+    signatures = token["signatures"] if "signatures" in token else [token]
+    payload = json.loads(b64url_decode(token["payload"]))
+    for disclosure in signatures[0]["header"]["disclosures"]:
+        if digest(disclosure) not in payload["_sd"]:
+            raise ValueError("A Disclosure of " + name + " is not referenced by its payload")
+
+
 def marked(value, by_digest, used):
     """Processes a value of the payload with all the Disclosures, marking each value that comes from a Disclosure."""
     if isinstance(value, dict):
@@ -239,7 +295,13 @@ def main():
                     raise ValueError("The " + token + " of " + name + " does not start with its Issuer-signed JWT")
         examples[name] = example
 
-    key_lines = section_lines(lines, "A.5.  Elliptic Curve Key Used in the Examples", "Appendix B.  Disclosure Format Considerations")
+    for name, (start, end) in JSON_SERIALIZATION_SECTIONS.items():
+        example = extract_json_serialization(section_lines(lines, start, end))
+        for token in example.values():
+            check_json_serialization(name, token)
+        examples[name] = example
+
+    key_lines =section_lines(lines, "A.5.  Elliptic Curve Key Used in the Examples", "Appendix B.  Disclosure Format Considerations")
     start = key_lines.index("   {")
     examples["issuer_key"], _ = json_block(key_lines, start)
 

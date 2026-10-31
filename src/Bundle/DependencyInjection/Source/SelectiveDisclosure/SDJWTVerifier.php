@@ -6,6 +6,9 @@ namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosu
 
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\SDJWTVerifierFactory;
+use Jose\Component\Signature\Serializer\CompactSerializer;
+use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
+use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
 use Jose\SelectiveDisclosure\SDJWT;
 use Jose\SelectiveDisclosure\SDJWTVerifier as SDJWTVerifierService;
 use Jose\SelectiveDisclosure\SDJWTVerifierInterface;
@@ -42,6 +45,7 @@ final readonly class SDJWTVerifier implements Source
                     $itemConfig['hash_algorithms'],
                     $itemConfig['key_binding_max_age'],
                     $itemConfig['allowed_time_drift'],
+                    $itemConfig['serializers'],
                 ])
                 ->addTag('jose.sd_jwt_verifier')
                 ->setPublic($itemConfig['is_public']);
@@ -134,6 +138,16 @@ final readonly class SDJWTVerifier implements Source
             ->info('The drift allowed between the clocks, in seconds.')
             ->min(0)
             ->defaultValue(0)
+            ->end()
+            ->arrayNode('serializers')
+            ->info(
+                'The serializers of the Issuer-signed JWTs: the SD-JWTs in the JWS JSON serialization are accepted with the JSON ones.'
+            )
+            ->requiresAtLeastOneElement()
+            ->defaultValue([CompactSerializer::NAME])
+            ->enumPrototype()
+            ->values([CompactSerializer::NAME, JSONFlattenedSerializer::NAME, JSONGeneralSerializer::NAME])
+            ->end()
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the service.')
