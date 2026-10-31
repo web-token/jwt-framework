@@ -14,8 +14,10 @@ use Jose\Bundle\JoseFramework\DependencyInjection\Source\Core\CoreSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption\EncryptionSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\KeyManagement\KeyManagementSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken\NestedToken;
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SelectiveDisclosure;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature\SignatureSource;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\SourceWithCompilerPasses;
+use Jose\SelectiveDisclosure\SDJWT;
 use Override;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -60,6 +62,9 @@ final class JoseFrameworkBundle extends Bundle
     }
 
     /**
+     * The services of Selective Disclosure, and their "selective_disclosure" configuration, are only declared when the
+     * web-token/jwt-selective-disclosure package is installed.
+     *
      * @return Source\Source[]
      */
     private function getSources(): iterable
@@ -71,6 +76,7 @@ final class JoseFrameworkBundle extends Bundle
             new SignatureSource(),
             new EncryptionSource(),
             new NestedToken(),
+            ...(class_exists(SDJWT::class) ? [new SelectiveDisclosure()] : []),
             new KeyManagementSource(),
         ];
     }

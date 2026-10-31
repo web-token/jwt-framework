@@ -37,6 +37,7 @@
             "Jose\\Bundle\\JoseFramework\\": "src/Bundle/",
             "Jose\\Rsa15\\": "src/Rsa15/",
             "Jose\\Unsecured\\": "src/Unsecured/",
+            "Jose\\SelectiveDisclosure\\": "src/SelectiveDisclosure/",
             "Jose\\Experimental\\": "src/Experimental/",
             "Jose\\Component\\": "src/Library/"
         }
@@ -86,6 +87,7 @@
         "web-token/jwt-library": "self.version",
         "web-token/jwt-rsa15": "self.version",
         "web-token/jwt-unsecured": "self.version",
+        "web-token/jwt-selective-disclosure": "self.version",
         "web-token/jwt-experimental": "self.version"
     },
     "suggest": {

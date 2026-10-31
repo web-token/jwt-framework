@@ -5,6 +5,9 @@ parameters:
     - name: 'Library'
       collectors:
         - { type: classLike, value: '^Jose\\Component\\' }
+    - name: 'SelectiveDisclosure'
+      collectors:
+        - { type: classLike, value: '^Jose\\SelectiveDisclosure\\' }
     - name: 'Experimental'
       collectors:
         - { type: classLike, value: '^Jose\\Experimental\\' }
@@ -33,6 +36,9 @@ parameters:
       - 'Rsa15'
       - 'Unsecured'
       - 'Vendors'
+    SelectiveDisclosure:
+      - 'Library'
+      - 'Vendors'
     Experimental:
       - 'Library'
       - 'Vendors'
@@ -44,6 +50,7 @@ parameters:
       - 'Vendors'
     Bundle:
       - 'Library'
+      - 'SelectiveDisclosure'
       - 'Experimental'
       - 'Rsa15'
       - 'Unsecured'

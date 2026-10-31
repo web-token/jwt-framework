@@ -34,6 +34,10 @@ jose:
         is_public: true
         headers: [ ]
         typ: [ 'at+jwt', 'application/dpop+jwt' ]
+      sd_jwt:
+        is_public: true
+        headers: [ ]
+        typ: [ 'example+sd-jwt' ]
   jws:
     builders:
       builder1:
@@ -84,6 +88,25 @@ jose:
         encryption_algorithms: [ 'RSA-OAEP', 'A128GCM' ]
         jws_serializers: [ 'jws_compact' ]
         jwe_serializers: [ 'jwe_compact' ]
+        is_public: true
+  selective_disclosure:
+    issuers:
+      issuer1:
+        signature_algorithms: [ 'ES256' ]
+        minimum_decoy_digests: 1
+        maximum_decoy_digests: 3
+        is_public: true
+    holders:
+      holder1:
+        signature_algorithms: [ 'ES256' ]
+        is_public: true
+    verifiers:
+      verifier1:
+        signature_algorithms: [ 'ES256' ]
+        header_checkers: [ 'typ.sd_jwt' ]
+        claim_checkers: [ 'exp', 'iat', 'nbf' ]
+        mandatory_claims: [ 'iss' ]
+        hash_algorithms: [ 'sha-256' ]
         is_public: true
   keys:
     jwk1:

@@ -2839,6 +2839,684 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
+			rawMessage: 'Argument of an invalid type mixed supplied for foreach, only iterables are supported.'
+			identifier: foreach.nonIterable
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: Binary operation "." between mixed and 'SdJwtHolder' results in an error.
+			identifier: binaryOp.invalid
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Call to an undefined method Symfony\Component\Config\Definition\Builder\NodeDefinition::children().'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: Cannot access offset 'is_public' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: Cannot access offset 'signature_algorithms' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: Cannot access offset 'tags' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method arrayNode() on mixed.'
+			identifier: method.nonObject
+			count: 3
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method arrayPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method booleanNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method children() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method defaultTrue() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method end() on mixed.'
+			identifier: method.nonObject
+			count: 8
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method info() on mixed.'
+			identifier: method.nonObject
+			count: 3
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method isRequired() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method requiresAtLeastOneElement() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method scalarPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method treatFalseLike() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method treatNullLike() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
+			identifier: method.nonObject
+			count: 3
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method variablePrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTHolder::load() has parameter $configs with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTHolder::prepend() has parameter $config with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTHolder::prepend() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Parameter #1 $boolean of method Symfony\Component\DependencyInjection\Definition::setPublic() expects bool, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Parameter #1 $name of method Symfony\Component\DependencyInjection\Definition::addTag() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Parameter #2 $attributes of method Symfony\Component\DependencyInjection\Definition::addTag() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Argument of an invalid type mixed supplied for foreach, only iterables are supported.'
+			identifier: foreach.nonIterable
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: Binary operation "." between mixed and 'SdJwtIssuer' results in an error.
+			identifier: binaryOp.invalid
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Call to an undefined method Symfony\Component\Config\Definition\Builder\NodeDefinition::children().'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: Cannot access offset 'hash_algorithm' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: Cannot access offset 'is_public' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: Cannot access offset 'maximum_decoy_digests' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: Cannot access offset 'minimum_decoy_digests' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: Cannot access offset 'signature_algorithms' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: Cannot access offset 'tags' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method arrayNode() on mixed.'
+			identifier: method.nonObject
+			count: 3
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method arrayPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method booleanNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method children() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method defaultNull() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method defaultTrue() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method defaultValue() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method end() on mixed.'
+			identifier: method.nonObject
+			count: 11
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method enumNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method info() on mixed.'
+			identifier: method.nonObject
+			count: 6
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method integerNode() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method isRequired() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method min() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method requiresAtLeastOneElement() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method scalarPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method treatFalseLike() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method treatNullLike() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
+			identifier: method.nonObject
+			count: 3
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method values() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method variablePrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTIssuer::load() has parameter $configs with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTIssuer::prepend() has parameter $config with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTIssuer::prepend() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Parameter #1 $boolean of method Symfony\Component\DependencyInjection\Definition::setPublic() expects bool, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Parameter #1 $name of method Symfony\Component\DependencyInjection\Definition::addTag() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Parameter #2 $attributes of method Symfony\Component\DependencyInjection\Definition::addTag() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Argument of an invalid type mixed supplied for foreach, only iterables are supported.'
+			identifier: foreach.nonIterable
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Binary operation "." between mixed and 'SdJwtVerifier' results in an error.
+			identifier: binaryOp.invalid
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Call to an undefined method Symfony\Component\Config\Definition\Builder\NodeDefinition::children().'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'allowed_time_drift' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'claim_checkers' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'hash_algorithms' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'header_checkers' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'is_public' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'key_binding_header_checkers' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'key_binding_max_age' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'key_binding_signature_algorithms' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'mandatory_claims' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'signature_algorithms' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: Cannot access offset 'tags' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method arrayNode() on mixed.'
+			identifier: method.nonObject
+			count: 9
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method arrayPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method booleanNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method children() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method defaultTrue() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method defaultValue() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method end() on mixed.'
+			identifier: method.nonObject
+			count: 22
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method enumPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method info() on mixed.'
+			identifier: method.nonObject
+			count: 11
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method integerNode() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method isRequired() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method min() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method requiresAtLeastOneElement() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method scalarPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 6
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method treatFalseLike() on mixed.'
+			identifier: method.nonObject
+			count: 8
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method treatNullLike() on mixed.'
+			identifier: method.nonObject
+			count: 8
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
+			identifier: method.nonObject
+			count: 7
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method values() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method variablePrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTVerifier::load() has parameter $configs with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTVerifier::prepend() has parameter $config with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTVerifier::prepend() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Parameter #1 $boolean of method Symfony\Component\DependencyInjection\Definition::setPublic() expects bool, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Parameter #1 $name of method Symfony\Component\DependencyInjection\Definition::addTag() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Parameter #2 $attributes of method Symfony\Component\DependencyInjection\Definition::addTag() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Parameter #2 ...$values of function sprintf expects bool|float|int|string|null, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Call to an undefined method Symfony\Component\Config\Definition\Builder\NodeDefinition::children().'
+			identifier: method.notFound
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Cannot call method addDefaultsIfNotSet() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Cannot call method arrayNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Cannot call method treatFalseLike() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Cannot call method treatNullLike() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SelectiveDisclosure::load() has parameter $configs with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SelectiveDisclosure::prepend() has parameter $config with no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SelectiveDisclosure::prepend() return type has no value type specified in iterable type array.'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Parameter #1 $configs of method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTIssuer::load() expects array, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
+			rawMessage: 'Parameter #1 $node of method Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure\SDJWTIssuer::getNodeDefinition() expects Symfony\Component\Config\Definition\Builder\NodeDefinition, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SelectiveDisclosure.php
+
+		-
 			rawMessage: 'Call to an undefined method Symfony\Component\Config\Definition\Builder\NodeDefinition::children().'
 			identifier: method.notFound
 			count: 1
