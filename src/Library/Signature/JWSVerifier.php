@@ -144,13 +144,17 @@ class JWSVerifier
         return sprintf('%s.%s', $encodedProtectedHeader, $payloadToUse);
     }
 
+    /**
+     * A payload member that is present but empty is a payload, not the absence of one: the gate uses the signal
+     * getInputToVerify() uses to choose the bytes it verifies, so that the two cannot disagree.
+     */
     private function checkPayload(JWS $jws, ?string $detachedPayload = null): void
     {
-        $isPayloadEmpty = $this->isPayloadEmpty($jws->getPayload());
-        if ($detachedPayload !== null && ! $isPayloadEmpty) {
+        $jwsCarriesPayload = $jws->getEncodedPayload() !== null;
+        if ($detachedPayload !== null && $jwsCarriesPayload) {
             throw new InvalidArgumentException('A detached payload is set, but the JWS already has a payload.');
         }
-        if ($isPayloadEmpty && $detachedPayload === null) {
+        if (! $jwsCarriesPayload && $detachedPayload === null) {
             throw new InvalidArgumentException('The JWS has a detached payload, but no payload is provided.');
         }
     }
@@ -175,10 +179,5 @@ class JWSVerifier
         }
 
         return $algorithm;
-    }
-
-    private function isPayloadEmpty(?string $payload): bool
-    {
-        return $payload === null || $payload === '';
     }
 }
