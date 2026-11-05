@@ -64,7 +64,10 @@ final class DetachedPayloadTest extends SignatureTestCase
     public function anUnencodedPayloadThatIsPresentButEmptyRefusesADetachedPayload(): void
     {
         $jws = $this->getJWSSerializerManager()
-            ->unserialize($this->rewrapAsFlattened(['b64' => false, 'crit' => ['b64']]));
+            ->unserialize($this->rewrapAsFlattened([
+                'b64' => false,
+                'crit' => ['b64'],
+            ]));
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload.');
@@ -176,7 +179,9 @@ final class DetachedPayloadTest extends SignatureTestCase
             ->create(['HS256'])
             ->create()
             ->withPayload($payload, $isDetached)
-            ->addSignature($this->key(), ['alg' => 'HS256'] + $protectedHeader)
+            ->addSignature($this->key(), [
+                'alg' => 'HS256',
+            ] + $protectedHeader)
             ->build();
     }
 
