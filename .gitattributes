@@ -1,9 +1,12 @@
 * text=auto
+/tests/fixtures/polaris-negative-vectors/vectors.json -text
 
 /.ci-tools export-ignore
 /.github export-ignore
+/.oss-scanner export-ignore
 /performance export-ignore
 /tests export-ignore
 /.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
+/infection.json.dist export-ignore

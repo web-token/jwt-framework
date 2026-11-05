@@ -6,8 +6,8 @@ namespace Jose\Component\Core;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
+use Jose\Component\Core\Util\NamedInformationHash;
 use Stringable;
-use function array_key_exists;
 use function count;
 use function sprintf;
 use function strlen;
@@ -17,9 +17,9 @@ use function strlen;
  *
  * The URI "urn:ietf:params:oauth:jwk-thumbprint:<hash-alg>:<thumbprint>" identifies a key by the RFC 7638
  * thumbprint of its public members. "<hash-alg>" is a name from the IANA "Named Information Hash Algorithm"
- * registry ("sha-256", "sha-512", "sha3-256"...) and not the name PHP gives to the same function: this class
- * carries the mapping so that neither the producer nor the verifier has to know it. It is the key-based "sub"
- * or "kid" used by OAuth DPoP, SIOP v2, OpenID for Verifiable Credentials and OpenID Federation.
+ * registry ("sha-256", "sha-512", "sha3-256"...) and not the name PHP gives to the same function: the mapping is
+ * carried by NamedInformationHash, so that neither the producer nor the verifier has to know it. It is the key-based
+ * "sub" or "kid" used by OAuth DPoP, SIOP v2, OpenID for Verifiable Credentials and OpenID Federation.
  *
  * Only the registered names PHP can compute are supported. The truncated variants of the registry ("sha-256-128"
  * and the like) and the BLAKE2 and KangarooTwelve functions are refused, as are names that are not in the
@@ -33,21 +33,6 @@ final readonly class JwkThumbprintUri implements Stringable
     public const PREFIX = 'urn:ietf:params:oauth:jwk-thumbprint:';
 
     public const DEFAULT_HASH_ALGORITHM = 'sha-256';
-
-    /**
-     * Maps the IANA name of a hash function to the name PHP's hash() gives to it.
-     *
-     * @var array<non-empty-string, non-empty-string>
-     */
-    private const HASH_ALGORITHMS = [
-        'sha-256' => 'sha256',
-        'sha-384' => 'sha384',
-        'sha-512' => 'sha512',
-        'sha3-224' => 'sha3-224',
-        'sha3-256' => 'sha3-256',
-        'sha3-384' => 'sha3-384',
-        'sha3-512' => 'sha3-512',
-    ];
 
     /**
      * @param string $hashAlgorithm the IANA name of the hash function, e.g. "sha-256"
@@ -116,7 +101,7 @@ final readonly class JwkThumbprintUri implements Stringable
      */
     public static function hashAlgorithms(): array
     {
-        return array_keys(self::HASH_ALGORITHMS);
+        return NamedInformationHash::names();
     }
 
     /**
@@ -159,14 +144,14 @@ final readonly class JwkThumbprintUri implements Stringable
      */
     private static function phpHashAlgorithm(string $hashAlgorithm): string
     {
-        if (! array_key_exists($hashAlgorithm, self::HASH_ALGORITHMS)) {
+        if (! NamedInformationHash::isSupported($hashAlgorithm)) {
             throw new UnsupportedAlgorithmException(sprintf(
                 'The hash algorithm "%s" is not supported for a JWK Thumbprint URI. Supported algorithms: %s.',
                 $hashAlgorithm,
-                implode(', ', array_keys(self::HASH_ALGORITHMS))
+                implode(', ', NamedInformationHash::names())
             ));
         }
 
-        return self::HASH_ALGORITHMS[$hashAlgorithm];
+        return NamedInformationHash::phpName($hashAlgorithm);
     }
 }

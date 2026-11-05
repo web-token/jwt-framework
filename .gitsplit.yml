@@ -9,6 +9,8 @@ splits:
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-unsecured.git"
   - prefix: "src/Rsa15"
     target: "https://${GH_TOKEN}@github.com/web-token/jwt-rsa15.git"
+  - prefix: "src/SelectiveDisclosure"
+    target: "https://${GH_TOKEN}@github.com/web-token/jwt-selective-disclosure.git"
 
 origins:
   - ^\d+\.\d+\.x$

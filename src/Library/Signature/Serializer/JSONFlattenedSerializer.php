@@ -36,7 +36,7 @@ final readonly class JSONFlattenedSerializer extends Serializer
 
         $data = [];
         $encodedPayload = $jws->getEncodedPayload();
-        if ($encodedPayload !== null && $encodedPayload !== '') {
+        if ($encodedPayload !== null) {
             $data['payload'] = $encodedPayload;
         }
         $encodedProtectedHeader = $signature->getEncodedProtectedHeader();
