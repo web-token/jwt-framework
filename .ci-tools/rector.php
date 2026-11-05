@@ -9,6 +9,7 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\Symfony\CodeQuality\Rector\Class_\EventSubscriberToAttributeRector;
 use Rector\Symfony\Symfony73\Rector\Class_\CommandHelpToAttributeRector;
 use Rector\ValueObject\PhpVersion;
 
@@ -39,6 +40,7 @@ $builder->withPaths(
 $builder->withSkip([
     PreferPHPUnitThisCallRector::class,
     RenameMethodRector::class => [__DIR__ . '/../tests'],
+    EventSubscriberToAttributeRector::class,
     CommandHelpToAttributeRector::class,
     __DIR__ . '/../src/Library/Core/JWKSet.php',
     __DIR__ . '/../src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
