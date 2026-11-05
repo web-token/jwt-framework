@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidPayloadException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 use PHPUnit\Framework\Attributes\Test;
@@ -42,7 +42,7 @@ final class DetachedPayloadTest extends SignatureTestCase
         $jws = $this->getJWSSerializerManager()
             ->unserialize($this->rewrapAsFlattened());
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload.');
 
         $this->verify($jws, self::OTHER_CONTENT);
@@ -54,7 +54,7 @@ final class DetachedPayloadTest extends SignatureTestCase
         $jws = $this->getJWSSerializerManager()
             ->unserialize($this->rewrapAsGeneral());
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload.');
 
         $this->verify($jws, self::OTHER_CONTENT);
@@ -69,7 +69,7 @@ final class DetachedPayloadTest extends SignatureTestCase
                 'crit' => ['b64'],
             ]));
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('A detached payload is set, but the JWS already has a payload.');
 
         $this->verify($jws, self::OTHER_CONTENT);
