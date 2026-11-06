@@ -14,7 +14,12 @@ JSON Web Tokens: JWS, JWE and JWK.
 
 # Documentation
 
-The official documentation is available as https://web-token.spomky-labs.com/
+The official documentation is at **<https://docs.spomky-labs.com/jwt/>**, one version per maintained branch.
+
+* [Pre-requisite](https://docs.spomky-labs.com/jwt/latest/introduction/pre-requisite/)
+* [The framework](https://docs.spomky-labs.com/jwt/latest/introduction/the-framework/) — which package does what.
+* [Security recommendations](https://docs.spomky-labs.com/jwt/latest/introduction/security-recommendations/) — read before you trust a token.
+* [From v4.2 to v4.3](https://docs.spomky-labs.com/jwt/latest/migration/from-v4.2-to-v4.3/)
 
 # Support
 
