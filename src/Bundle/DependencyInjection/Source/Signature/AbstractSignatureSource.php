@@ -26,7 +26,7 @@ abstract readonly class AbstractSignatureSource implements Source
             ->end()
             ->arrayNode('signature_algorithms')
             ->info('A list of supported signature algorithms.')
-            ->useAttributeAsKey('name')
+            ->performNoDeepMerging()
             ->isRequired()
             ->requiresAtLeastOneElement()
             ->scalarPrototype()

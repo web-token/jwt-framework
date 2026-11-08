@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Signature;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerAliases;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
 use Jose\Component\Signature\JWSLoader as JWSLoaderService;
@@ -62,24 +63,26 @@ final readonly class JWSLoader implements Source
             ->end()
             ->arrayNode('signature_algorithms')
             ->info('A list of signature algorithm aliases.')
-            ->useAttributeAsKey('name')
+            ->performNoDeepMerging()
             ->isRequired()
             ->scalarPrototype()
             ->end()
             ->end()
             ->arrayNode('serializers')
             ->info('A list of signature serializer aliases.')
-            ->useAttributeAsKey('name')
+            ->performNoDeepMerging()
             ->requiresAtLeastOneElement()
             ->scalarPrototype()
             ->end()
             ->end()
             ->arrayNode('header_checkers')
             ->info('A list of header checker aliases.')
-            ->useAttributeAsKey('name')
             ->treatNullLike([])
             ->treatFalseLike([])
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(CheckerAliases::unique(...))
             ->end()
             ->end()
             ->arrayNode('tags')
