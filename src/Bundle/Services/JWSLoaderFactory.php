@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -44,6 +45,10 @@ final readonly class JWSLoaderFactory
         $jwsVerifier = $this->jwsVerifierFactory->create($algorithms);
         if ($this->headerCheckerManagerFactory !== null) {
             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
+        } elseif ($headerCheckers !== []) {
+            throw new InvalidArgumentException(
+                'Header checkers were requested, but no header checker manager factory is available.'
+            );
         } else {
             $headerCheckerManager = null;
         }

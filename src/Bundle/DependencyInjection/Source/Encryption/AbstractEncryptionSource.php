@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\AliasList;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Override;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
@@ -29,7 +30,14 @@ abstract readonly class AbstractEncryptionSource implements Source
             ->useAttributeAsKey('name')
             ->isRequired()
             ->requiresAtLeastOneElement()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('tags')

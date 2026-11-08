@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use function func_get_arg;
 use function func_num_args;
@@ -47,6 +48,10 @@ class JWSLoaderFactory
         $jwsVerifier = $this->jwsVerifierFactory->create($algorithms);
         if ($this->headerCheckerManagerFactory !== null) {
             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
+        } elseif ($headerCheckers !== []) {
+            throw new InvalidArgumentException(
+                'Header checkers were requested, but no header checker manager factory is available.'
+            );
         } else {
             $headerCheckerManager = null;
         }

@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Compiler;
 
-use InvalidArgumentException;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
 use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-use function sprintf;
 
 final readonly class ClaimCheckerCompilerPass implements CompilerPassInterface
 {
+    use TaggedServiceAliases;
+
     #[Override]
     public function process(ContainerBuilder $container): void
     {
@@ -22,18 +21,6 @@ final readonly class ClaimCheckerCompilerPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition(ClaimCheckerManagerFactory::class);
-
-        $taggedClaimCheckerServices = $container->findTaggedServiceIds('jose.checker.claim');
-        foreach ($taggedClaimCheckerServices as $id => $tags) {
-            foreach ($tags as $attributes) {
-                if (! isset($attributes['alias'])) {
-                    throw new InvalidArgumentException(sprintf(
-                        'The claim checker "%s" does not have any "alias" attribute.',
-                        $id
-                    ));
-                }
-                $definition->addMethodCall('add', [$attributes['alias'], new Reference($id)]);
-            }
-        }
+        $this->addTaggedServices($container, $definition, 'jose.checker.claim', 'claim checker');
     }
 }
