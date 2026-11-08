@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\EncryptionAlgorithm\Experimental;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
@@ -16,7 +16,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function in_array;
+use function set_error_handler;
 use function sprintf;
+use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -31,10 +33,13 @@ final class KeyEncryptionKeyLengthTest extends TestCase
         $key = $this->createKey(random_bytes($keySize));
         $cek = random_bytes(32);
 
-        $header = [];
-        $encryptedKey = $algorithm->encryptKey($key, $cek, [], $header);
+        $deprecations = $this->collectDeprecations(static function () use ($algorithm, $key, $cek): void {
+            $header = [];
+            $encryptedKey = $algorithm->encryptKey($key, $cek, [], $header);
+            static::assertSame($cek, $algorithm->decryptKey($key, $encryptedKey, $header));
+        });
 
-        static::assertSame($cek, $algorithm->decryptKey($key, $encryptedKey, $header));
+        static::assertSame([], $deprecations);
     }
 
     #[DataProvider('dataAlgorithms')]
@@ -54,13 +59,13 @@ final class KeyEncryptionKeyLengthTest extends TestCase
             try {
                 $algorithm->encryptKey($this->createKey($shorterKey), random_bytes(32), [], $header);
                 static::fail(sprintf('A key of %d bytes was accepted for encryption.', $length));
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidKeyException $e) {
                 static::assertSame('Invalid key length.', $e->getMessage());
             }
             try {
                 $algorithm->decryptKey($this->createKey($shorterKey), $encryptedKey, $header);
                 static::fail(sprintf('A key of %d bytes was accepted for decryption.', $length));
-            } catch (InvalidArgumentException $e) {
+            } catch (InvalidKeyException $e) {
                 static::assertSame('Invalid key length.', $e->getMessage());
             }
         }
@@ -68,16 +73,25 @@ final class KeyEncryptionKeyLengthTest extends TestCase
 
     #[DataProvider('dataAlgorithms')]
     #[Test]
-    public function longerKeyIsStillAccepted(string $alg, int $keySize): void
+    public function longerKeyIsStillAcceptedButDeprecated(string $alg, int $keySize): void
     {
         $algorithm = $this->createAlgorithm($alg);
         $key = $this->createKey(random_bytes($keySize + 16));
         $cek = random_bytes(32);
 
-        $header = [];
-        $encryptedKey = $algorithm->encryptKey($key, $cek, [], $header);
+        $deprecations = $this->collectDeprecations(static function () use ($algorithm, $key, $cek): void {
+            $header = [];
+            $encryptedKey = $algorithm->encryptKey($key, $cek, [], $header);
+            static::assertSame($cek, $algorithm->decryptKey($key, $encryptedKey, $header));
+        });
 
-        static::assertSame($cek, $algorithm->decryptKey($key, $encryptedKey, $header));
+        $message = sprintf(
+            'Since web-token/jwt-experimental 4.3.0: Using a key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
+            ($keySize + 16) * 8,
+            $alg,
+            $keySize * 8
+        );
+        static::assertSame([$message, $message], $deprecations);
     }
 
     public static function dataAlgorithms(): iterable
@@ -100,6 +114,29 @@ final class KeyEncryptionKeyLengthTest extends TestCase
             'A256CTR' => new A256CTR(),
             default => new Chacha20Poly1305(),
         };
+    }
+
+    /**
+     * @param callable(): void $callback
+     *
+     * @return list<string>
+     */
+    private function collectDeprecations(callable $callback): array
+    {
+        $deprecations = [];
+        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
+            $deprecations[] = $errstr;
+
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $deprecations;
     }
 
     private function createKey(string $k): JWK

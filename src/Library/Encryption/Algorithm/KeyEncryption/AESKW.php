@@ -17,6 +17,7 @@ use Override;
 use function in_array;
 use function is_string;
 use function strlen;
+use function trigger_deprecation;
 
 abstract readonly class AESKW implements KeyWrapping
 {
@@ -42,6 +43,7 @@ abstract readonly class AESKW implements KeyWrapping
     {
         $k = $this->getKey($key);
         $wrapper = $this->getWrapper();
+        $this->deprecateLongerKey(strlen($k) * 8);
 
         return $wrapper::wrap($k, $cek);
     }
@@ -54,8 +56,10 @@ abstract readonly class AESKW implements KeyWrapping
     {
         $k = $this->getKey($key);
         $wrapper = $this->getWrapper();
+        $cek = AESKeyWrap::unwrap($wrapper, $k, $encrypted_cek);
+        $this->deprecateLongerKey(strlen($k) * 8);
 
-        return AESKeyWrap::unwrap($wrapper, $k, $encrypted_cek);
+        return $cek;
     }
 
     #[Override]
@@ -97,5 +101,24 @@ abstract readonly class AESKW implements KeyWrapping
             $wrapper instanceof A256KWWrapper => 256,
             default => null,
         };
+    }
+
+    /**
+     * Only called with a key that protects the CEK, so that the other keys of a key set tried on a token are not reported.
+     */
+    private function deprecateLongerKey(int $keyLength): void
+    {
+        $keySize = $this->getKeySize();
+        if ($keySize === null || $keyLength <= $keySize) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Using a key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
+            $keyLength,
+            $this->name(),
+            $keySize
+        );
     }
 }

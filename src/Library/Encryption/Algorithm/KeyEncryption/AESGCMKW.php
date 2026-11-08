@@ -18,6 +18,7 @@ use function in_array;
 use function is_string;
 use function sprintf;
 use function strlen;
+use function trigger_deprecation;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESGCMKW implements KeyWrapping
@@ -46,6 +47,7 @@ abstract readonly class AESGCMKW implements KeyWrapping
     public function wrapKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $kek = $this->getKey($key);
+        $this->deprecateLongerKey(strlen($kek) * 8);
         $iv = random_bytes(96 / 8);
         $additionalHeader['iv'] = Base64UrlSafe::encodeUnpadded($iv);
 
@@ -85,6 +87,7 @@ abstract readonly class AESGCMKW implements KeyWrapping
         if ($cek === false) {
             throw new DecryptionFailedException('Unable to decrypt the CEK');
         }
+        $this->deprecateLongerKey(strlen($kek) * 8);
 
         return $cek;
     }
@@ -116,4 +119,22 @@ abstract readonly class AESGCMKW implements KeyWrapping
     }
 
     abstract protected function getKeySize(): int;
+
+    /**
+     * Only called with a key that protects the CEK, so that the other keys of a key set tried on a token are not reported.
+     */
+    private function deprecateLongerKey(int $keyLength): void
+    {
+        if ($keyLength <= $this->getKeySize()) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Using a key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
+            $keyLength,
+            $this->name(),
+            $this->getKeySize()
+        );
+    }
 }
