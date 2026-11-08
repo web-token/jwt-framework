@@ -23,6 +23,10 @@ abstract class UrlKeySetFactory
 {
     use UrlKeySetFactoryTrait;
 
+    /**
+     * Redirects are followed as before, without the deprecation of JKUFactory and X5UFactory: this class is removed
+     * in 5.0.0.
+     */
     public function __construct(HttpClientInterface $client)
     {
         trigger_deprecation(
@@ -36,5 +40,6 @@ abstract class UrlKeySetFactory
         );
 
         $this->client = $client;
+        $this->followRedirects = true;
     }
 }

@@ -16,6 +16,8 @@ use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AbstractECDHAESKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreement;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrapping;
@@ -75,7 +77,8 @@ class JWEDecrypter implements JWEDecrypterInterface
      * @param JWE $jwe A JWE object to decrypt
      * @param JWK $jwk The key used to decrypt the input
      * @param int $recipient The index of the recipient to decrypt
-     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the key used to decrypt the input is the public key of the sender
      *
      * @deprecated since 4.3.0, use "decrypt()" instead. Will be removed in 5.0.0.
      */
@@ -106,7 +109,8 @@ class JWEDecrypter implements JWEDecrypterInterface
      * @param JWKSet $jwkset The key set used to decrypt the input
      * @param int $recipient The index of the recipient to decrypt
      * @param JWK|null $jwk The key used to decrypt the token in case of success
-     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the key set holds the public keys of the senders
      *
      * @deprecated since 4.3.0, use "decrypt()" instead. Will be removed in 5.0.0.
      */
@@ -154,7 +158,8 @@ class JWEDecrypter implements JWEDecrypterInterface
      * @param JWE $jwe A JWE object to decrypt
      * @param JWK|JWKSet $keys The recipient will be decrypted using that key or the keys in that key set
      * @param int $recipientIndex The index of the recipient to decrypt
-     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the keys are the public keys of the senders
      * @param (callable(Throwable): void)|null $onError Called with every failure met while trying the keys
      */
     public function decrypt(
@@ -217,7 +222,12 @@ class JWEDecrypter implements JWEDecrypterInterface
 
         foreach ($jwkset->all() as $recipientKey) {
             try {
-                KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                if ($key_encryption_algorithm instanceof KeyAgreement
+                    || $key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+                    KeyChecker::checkKeyAgreementKeyUsage($recipientKey, 'decryption');
+                } else {
+                    KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                }
                 if ($key_encryption_algorithm->name() !== 'dir') {
                     KeyChecker::checkKeyAlgorithm($recipientKey, $key_encryption_algorithm->name());
                 } else {
@@ -241,11 +251,31 @@ class JWEDecrypter implements JWEDecrypterInterface
 
                 continue;
             }
+            $this->deprecateDirectKeyNotAllowedToDecrypt($recipientKey, $key_encryption_algorithm);
+            $this->deprecateDirectEncryptionWithEmptyAAD($jwe, $key_encryption_algorithm);
 
             return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
         }
 
         return null;
+    }
+
+    /**
+     * Only the key that decrypted the token is reported: a key set may hold keys restricted to other algorithms.
+     */
+    private function deprecateDirectKeyNotAllowedToDecrypt(
+        JWK $key,
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof DirectEncryption || KeyChecker::allowsOperation($key, 'decrypt')) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Using a "%s" key whose "key_ops" parameter does not contain "decrypt" is deprecated and will not be possible in 5.0.0: the key decrypts the content.',
+            $keyEncryptionAlgorithm->name()
+        );
     }
 
     /**
@@ -259,6 +289,26 @@ class JWEDecrypter implements JWEDecrypterInterface
     ): void {
         if (strlen($cek) * 8 !== $algorithm->getCEKSize()) {
             throw new InvalidArgumentException('Invalid CEK size');
+        }
+    }
+
+    /**
+     * AES Key Wrap adds 64 bits to the key it wraps. Any other size is rejected before the key derivation, the key
+     * agreement and the unwrapping, which processes the whole encrypted key before checking its integrity.
+     */
+    private function checkWrappedKeySize(
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
+        Recipient $recipient,
+        ContentEncryptionAlgorithm $contentEncryptionAlgorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof AESKW
+            && ! $keyEncryptionAlgorithm instanceof PBES2AESKW
+            && ! $keyEncryptionAlgorithm instanceof AbstractECDHAESKW
+        ) {
+            return;
+        }
+        if (strlen($recipient->getEncryptedKey() ?? '') * 8 !== $contentEncryptionAlgorithm->getCEKSize() + 64) {
+            throw new InvalidArgumentException('Invalid encrypted key size');
         }
     }
 
@@ -321,6 +371,8 @@ class JWEDecrypter implements JWEDecrypterInterface
             );
         }
         if ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+            $this->checkWrappedKeySize($key_encryption_algorithm, $recipient, $content_encryption_algorithm);
+
             return $key_encryption_algorithm->unwrapAgreementKey(
                 $recipientKey,
                 $senderKey,
@@ -342,6 +394,7 @@ class JWEDecrypter implements JWEDecrypterInterface
             );
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
+            $this->checkWrappedKeySize($key_encryption_algorithm, $recipient, $content_encryption_algorithm);
             // @phpstan-ignore arguments.count (the fourth argument will be part of the interface in 5.0.0)
             return $key_encryption_algorithm->unwrapKey(
                 $recipientKey,
@@ -365,6 +418,24 @@ class JWEDecrypter implements JWEDecrypterInterface
                 'The encrypted key must be empty with direct encryption or direct key agreement.'
             );
         }
+    }
+
+    /**
+     * Without a protected header and without "aad", the content of a "dir" JWE is encrypted with an empty AAD, as AES-GCM
+     * key wrapping encrypts a CEK: the encrypted key of an A*GCMKW token is then a valid content under the same key.
+     */
+    private function deprecateDirectEncryptionWithEmptyAAD(JWE $jwe, KeyEncryptionAlgorithm $keyEncryptionAlgorithm): void
+    {
+        if (! $keyEncryptionAlgorithm instanceof DirectEncryption
+            || $jwe->getEncodedSharedProtectedHeader() !== ''
+            || $jwe->getAAD() !== null) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Decrypting a "dir" JWE that has neither a protected header nor additional authenticated data is deprecated and will not be possible in 5.0.0: encrypt it again with "alg" and "enc" in the protected header.'
+        );
     }
 
     private function decryptPayload(

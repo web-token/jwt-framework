@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
+use function trigger_deprecation;
 
 class JWSLoaderFactory
 {
@@ -14,6 +16,16 @@ class JWSLoaderFactory
         private readonly JWSVerifierFactory $jwsVerifierFactory,
         private readonly ?HeaderCheckerManagerFactory $headerCheckerManagerFactory
     ) {
+        if ($headerCheckerManagerFactory === null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '4.3.0',
+                'Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s" that has the "%s" token type support.',
+                static::class,
+                HeaderCheckerManagerFactory::class,
+                JWSTokenSupport::class
+            );
+        }
     }
 
     /**
@@ -36,6 +48,10 @@ class JWSLoaderFactory
         $jwsVerifier = $this->jwsVerifierFactory->create($algorithms);
         if ($this->headerCheckerManagerFactory !== null) {
             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
+        } elseif ($headerCheckers !== []) {
+            throw new InvalidArgumentException(
+                'Header checkers were requested, but no header checker manager factory is available.'
+            );
         } else {
             $headerCheckerManager = null;
         }

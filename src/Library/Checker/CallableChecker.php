@@ -18,7 +18,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
 {
     /**
      * @param string     $key      The claim or header parameter name to check.
-     * @param callable(mixed $value): bool $callable The callable function that will be invoked.
+     * @param callable(mixed $value): bool $callable The callable function that will be invoked. Any result other than true rejects the value.
      */
     public function __construct(
         private readonly string $key,
@@ -33,7 +33,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
     #[Override]
     public function checkClaim(mixed $value): void
     {
-        if (! call_user_func($this->callable, $value)) {
+        if (call_user_func($this->callable, $value) !== true) {
             throw new InvalidClaimException(sprintf('The "%s" claim is invalid.', $this->key), $this->key, $value);
         }
     }
@@ -47,7 +47,7 @@ final class CallableChecker implements ClaimChecker, HeaderChecker
     #[Override]
     public function checkHeader(mixed $value): void
     {
-        if (! call_user_func($this->callable, $value)) {
+        if (call_user_func($this->callable, $value) !== true) {
             throw new InvalidHeaderException(sprintf('The "%s" header is invalid.', $this->key), $this->key, $value);
         }
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\NestedToken;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\AliasList;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\NestedTokenLoaderFactory;
 use Jose\Component\NestedToken\NestedTokenLoader as NestedTokenLoaderService;
@@ -41,6 +42,9 @@ final readonly class NestedTokenLoader implements Source
                 ])
                 ->addTag('jose.nested_token_loader')
                 ->setPublic($itemConfig['is_public']);
+            if (isset($itemConfig['allow_unprotected_content_type'])) {
+                $definition->addArgument($itemConfig['allow_unprotected_content_type']);
+            }
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -76,14 +80,28 @@ final readonly class NestedTokenLoader implements Source
             ->info('A list of signature algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('encryption_algorithms')
             ->info('A list of encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('jws_serializers')
@@ -93,7 +111,14 @@ final readonly class NestedTokenLoader implements Source
             ->treatFalseLike([])
             ->isRequired()
             ->requiresAtLeastOneElement()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('jwe_serializers')
@@ -103,7 +128,14 @@ final readonly class NestedTokenLoader implements Source
             ->treatFalseLike([])
             ->isRequired()
             ->requiresAtLeastOneElement()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('jws_header_checkers')
@@ -111,7 +143,14 @@ final readonly class NestedTokenLoader implements Source
             ->useAttributeAsKey('name')
             ->treatNullLike([])
             ->treatFalseLike([])
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToAddUp(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('jwe_header_checkers')
@@ -119,8 +158,20 @@ final readonly class NestedTokenLoader implements Source
             ->useAttributeAsKey('name')
             ->treatNullLike([])
             ->treatFalseLike([])
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToAddUp(...))
+            ->end()
             ->scalarPrototype()
             ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
+            ->end()
+            ->end()
+            ->booleanNode('allow_unprotected_content_type')
+            ->info(
+                'True loads a nested token whose "cty" header parameter is outside the protected header, false refuses it. When it is not set, such a token loads with a deprecation, as 5.0.0 refuses it by default.'
+            )
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the service.')

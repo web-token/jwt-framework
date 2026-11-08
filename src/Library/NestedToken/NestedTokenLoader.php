@@ -14,7 +14,9 @@ use Jose\Component\Encryption\JWELoaderInterface;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSLoaderInterface;
 use Jose\Component\Signature\LoadingResult;
+use function func_get_arg;
 use function func_num_args;
+use function is_bool;
 use function is_string;
 use function trigger_deprecation;
 
@@ -24,11 +26,28 @@ use function trigger_deprecation;
  */
 class NestedTokenLoader implements NestedTokenLoaderInterface
 {
+    private readonly ?bool $allowUnprotectedContentType;
+
+    /**
+     * A JWE carries a nested token when its "cty" header parameter is "JWT". Its authentication tag covers its protected
+     * header only, so a "cty" in the shared unprotected header or in the header of a recipient can be added to a token
+     * without any key. A third argument sets what happens to a token marked that way: true loads it, false refuses it
+     * before its payload is read. Without it, or with null, the token loads, but triggers a deprecation, as 5.0.0
+     * refuses it by default. That argument is not part of the signature yet (it will be in 5.0.0) and is read with
+     * func_num_args()/func_get_arg(2), so that classes extending this one remain compatible.
+     */
     public function __construct(
         private readonly JWELoaderInterface $jweLoader,
         private readonly JWSLoaderInterface $jwsLoader
     ) {
         InheritanceChecker::warnIfExtended(static::class, self::class, NestedTokenLoaderInterface::class);
+        $allowUnprotectedContentType = func_num_args() > 2 ? func_get_arg(2) : null;
+        if ($allowUnprotectedContentType !== null && ! is_bool($allowUnprotectedContentType)) {
+            throw new InvalidArgumentException(
+                'The policy for a "cty" header parameter outside the protected header must be a boolean: true accepts it, false refuses it.'
+            );
+        }
+        $this->allowUnprotectedContentType = $allowUnprotectedContentType;
     }
 
     /**
@@ -71,8 +90,17 @@ class NestedTokenLoader implements NestedTokenLoaderInterface
         if ($payload === null) {
             throw new InvalidPayloadException('The token has no payload.');
         }
+        $result = $this->jwsLoader->loadAndVerify($payload, $signatureKeySet);
+        if ($this->allowUnprotectedContentType === null && ! $jwe->hasSharedProtectedHeaderParameter('cty')) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '4.3.0',
+                'Loading a nested token whose "cty" header parameter is not in the protected header is deprecated and "%s" will refuse such a token by default in 5.0.0, as the unprotected headers of a JWE are not authenticated. Have the issuer set "cty" in the protected header, or pass true as the third argument of the constructor to keep loading these tokens, or false to refuse them. With the bundle, set the "allow_unprotected_content_type" option of the nested token loader.',
+                self::class
+            );
+        }
 
-        return $this->jwsLoader->loadAndVerify($payload, $signatureKeySet);
+        return $result;
     }
 
     private function checkContentTypeHeader(JWE $jwe, int $recipient): void
@@ -91,6 +119,10 @@ class NestedTokenLoader implements NestedTokenLoaderInterface
 
         if (strcasecmp($cty, 'jwt') !== 0) {
             throw new InvalidArgumentException('The token is not a nested token.');
+        }
+
+        if ($this->allowUnprotectedContentType === false && ! $jwe->hasSharedProtectedHeaderParameter('cty')) {
+            throw new InvalidHeaderParameterException('The "cty" header parameter must be in the protected header.');
         }
     }
 }

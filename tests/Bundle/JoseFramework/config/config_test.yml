@@ -26,6 +26,9 @@ jose:
       checker1:
         is_public: true
         claims: [ 'exp', 'iat', 'nbf', 'custom_checker' ]
+      exp_twice:
+        is_public: true
+        claims: [ 'exp', 'iat', 'nbf', 'max_lifetime' ]
     headers:
       checker1:
         is_public: true
@@ -37,6 +40,10 @@ jose:
       sd_jwt:
         is_public: true
         headers: [ ]
+        typ: [ 'example+sd-jwt' ]
+      typ_twice:
+        is_public: true
+        headers: [ 'typ.access_token' ]
         typ: [ 'example+sd-jwt' ]
   jws:
     builders:

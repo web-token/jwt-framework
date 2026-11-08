@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\AliasList;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\SDJWTIssuerFactory;
 use Jose\SelectiveDisclosure\SDJWT;
@@ -68,7 +69,14 @@ final readonly class SDJWTIssuer implements Source
             ->useAttributeAsKey('name')
             ->isRequired()
             ->requiresAtLeastOneElement()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->enumNode('hash_algorithm')

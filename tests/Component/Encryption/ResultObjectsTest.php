@@ -170,11 +170,10 @@ final class ResultObjectsTest extends EncryptionTestCase
         $token = $this->createToken();
         $withKey = null;
         $withKeySet = null;
-        $deprecations = $this->collectDeprecations(function () use ($token, &$withKey, &$withKeySet): void {
-            $this->getLoader()
-                ->loadAndDecryptWithKey($token, $this->getKey(), $withKey);
-            $this->getLoader()
-                ->loadAndDecryptWithKeySet($token, $this->getKeySet(), $withKeySet);
+        $loader = $this->getLoader();
+        $deprecations = $this->collectDeprecations(function () use ($loader, $token, &$withKey, &$withKeySet): void {
+            $loader->loadAndDecryptWithKey($token, $this->getKey(), $withKey);
+            $loader->loadAndDecryptWithKeySet($token, $this->getKeySet(), $withKeySet);
         });
 
         static::assertSame(0, $withKey);

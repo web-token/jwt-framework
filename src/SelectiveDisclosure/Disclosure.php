@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\SelectiveDisclosure;
 
+use BackedEnum;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Util\Base64UrlSafe;
@@ -12,9 +13,12 @@ use Jose\Component\Core\Util\NamedInformationHash;
 use JsonException;
 use JsonSerializable;
 use Override;
+use stdClass;
 use Stringable;
 use Throwable;
+use UnitEnum;
 use function array_is_list;
+use function array_map;
 use function count;
 use function get_object_vars;
 use function implode;
@@ -41,7 +45,9 @@ use const JSON_UNESCAPED_SLASHES;
  * The Disclosures created by this class are serialized as the examples of the RFC are: elements separated by ", ",
  * names separated from their value by ": ", slashes left as they are and non-ASCII characters escaped. Any JSON is
  * valid (section 4.2.1) and no canonicalization is needed; this serialization is the one that reproduces the examples
- * of the RFC from their salts.
+ * of the RFC from their salts. The values are those of the payload encoder, json_encode(), so that a claim has the
+ * same JSON whether it is selectively disclosed or not; only a pure enum, which json_encode() cannot serialize, is
+ * disclosed as the object of its name.
  *
  * @see https://www.rfc-editor.org/rfc/rfc9901.html#section-4.2
  */
@@ -79,7 +85,7 @@ final readonly class Disclosure implements Stringable
             ));
         }
         $salt ??= self::generateSalt();
-        $disclosure = Base64UrlSafe::encodeUnpadded(self::toJson([$salt, $claimName, $value]));
+        $disclosure = Base64UrlSafe::encodeUnpadded(self::serialize([$salt, $claimName, $value]));
 
         return new self($disclosure, $salt, $claimName, $value);
     }
@@ -92,7 +98,7 @@ final readonly class Disclosure implements Stringable
     public static function forArrayElement(mixed $value, ?string $salt = null): self
     {
         $salt ??= self::generateSalt();
-        $disclosure = Base64UrlSafe::encodeUnpadded(self::toJson([$salt, $value]));
+        $disclosure = Base64UrlSafe::encodeUnpadded(self::serialize([$salt, $value]));
 
         return new self($disclosure, $salt, null, $value);
     }
@@ -215,25 +221,60 @@ final readonly class Disclosure implements Stringable
     }
 
     /**
-     * Serializes a value as the examples of the RFC are. A list is a JSON array, any other PHP array, a stdClass or an
-     * object a JSON object; a JsonSerializable is serialized as the value it gives.
+     * @throws InvalidArgumentException if the value cannot be serialized as JSON
+     */
+    private static function serialize(mixed $value): string
+    {
+        try {
+            return self::toJson(self::toJsonValue($value));
+        } catch (JsonException $exception) {
+            throw new InvalidArgumentException('The value cannot be serialized as JSON.', 0, $exception);
+        }
+    }
+
+    /**
+     * The JSON value that the payload encoder gives a value: the elements of an array are converted one by one, and an
+     * object is decoded from its json_encode(), with stdClass objects for its JSON objects. A pure enum, which
+     * json_encode() cannot serialize, is the object of its name.
+     *
+     * @throws JsonException if the value cannot be serialized as JSON
+     */
+    private static function toJsonValue(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            return array_map(self::toJsonValue(...), $value);
+        }
+        if ($value instanceof UnitEnum && ! $value instanceof BackedEnum && ! $value instanceof JsonSerializable) {
+            return [
+                'name' => $value->name,
+            ];
+        }
+        if (is_object($value)) {
+            return json_decode(
+                json_encode($value, JSON_THROW_ON_ERROR | JSON_PRESERVE_ZERO_FRACTION),
+                flags: JSON_THROW_ON_ERROR
+            );
+        }
+
+        return $value;
+    }
+
+    /**
+     * Writes a JSON value as the examples of the RFC are. A list is a JSON array, any other PHP array and a stdClass
+     * a JSON object.
+     *
+     * @throws JsonException if the value cannot be serialized as JSON
      */
     private static function toJson(mixed $value): string
     {
-        if ($value instanceof JsonSerializable) {
-            return self::toJson($value->jsonSerialize());
-        }
-        if (is_object($value)) {
+        if ($value instanceof stdClass) {
             return self::toJsonObject(get_object_vars($value));
         }
         if (is_array($value)) {
             return array_is_list($value) ? self::toJsonArray($value) : self::toJsonObject($value);
         }
-        try {
-            return json_encode($value, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION);
-        } catch (JsonException $exception) {
-            throw new InvalidArgumentException('The value cannot be serialized as JSON.', 0, $exception);
-        }
+
+        return json_encode($value, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRESERVE_ZERO_FRACTION);
     }
 
     /**

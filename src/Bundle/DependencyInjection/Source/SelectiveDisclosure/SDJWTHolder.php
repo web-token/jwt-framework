@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\SelectiveDisclosure;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\AliasList;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\SDJWTHolderFactory;
 use Jose\SelectiveDisclosure\SDJWTHolder as SDJWTHolderService;
@@ -62,7 +63,14 @@ final readonly class SDJWTHolder implements Source
             ->useAttributeAsKey('name')
             ->isRequired()
             ->requiresAtLeastOneElement()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('tags')

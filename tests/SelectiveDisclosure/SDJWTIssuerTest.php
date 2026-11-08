@@ -4,14 +4,26 @@ declare(strict_types=1);
 
 namespace Jose\Tests\SelectiveDisclosure;
 
+use ArrayObject;
+use DateTimeImmutable;
 use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
+use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\SelectiveDisclosure\Disclosable;
 use Jose\SelectiveDisclosure\Disclosure;
 use Jose\SelectiveDisclosure\SDJWTIssuer;
+use Jose\Tests\SelectiveDisclosure\Stub\ArrayObjectWithDigests;
+use Jose\Tests\SelectiveDisclosure\Stub\Nationality;
+use Jose\Tests\SelectiveDisclosure\Stub\ReservedClaimName;
+use Jose\Tests\SelectiveDisclosure\Stub\SelfSerializing;
+use Jose\Tests\SelectiveDisclosure\Stub\Status;
+use JsonSerializable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use stdClass;
 use function count;
 use function in_array;
 use function is_array;
@@ -293,10 +305,170 @@ final class SDJWTIssuerTest extends SelectiveDisclosureTestCase
                     $claimName => 'value',
                 ]],
             ], $claimName];
+            yield $claimName . ' in the JWK of cnf' => [[
+                'cnf' => [
+                    'jwk' => new JWK(self::issuerKey()->toPublic()->all() + [
+                        $claimName => 'value',
+                    ]),
+                ],
+            ], $claimName];
+            yield $claimName . ' in a stdClass' => [[
+                'address' => (object) [
+                    $claimName => 'value',
+                ],
+            ], $claimName];
+            yield $claimName . ' in a JsonSerializable' => [[
+                'address' => self::jsonSerializable([
+                    $claimName => 'value',
+                ]),
+            ], $claimName];
+            yield $claimName . ' in an object of an object' => [[
+                'address' => (object) [
+                    'street' => self::jsonSerializable([
+                        $claimName => 'value',
+                    ]),
+                ],
+            ], $claimName];
+            yield $claimName . ' in an array of an object' => [[
+                'address' => self::jsonSerializable([
+                    'lines' => [[
+                        $claimName => 'value',
+                    ]],
+                ]),
+            ], $claimName];
+            yield $claimName . ' in an object of an array' => [[
+                'list' => [(object) [
+                    $claimName => 'value',
+                ]],
+            ], $claimName];
+            yield $claimName . ' in an object of a Disclosure' => [[
+                'address' => new Disclosable((object) [
+                    $claimName => 'value',
+                ]),
+            ], $claimName];
+            yield $claimName . ' in an object of the Disclosure of an array element' => [[
+                'list' => [new Disclosable(self::jsonSerializable([
+                    $claimName => 'value',
+                ]))],
+            ], $claimName];
+            yield $claimName . ' in a JsonSerializable enum' => [[
+                'address' => ReservedClaimName::from($claimName),
+            ], $claimName];
+            yield $claimName . ' in a JsonSerializable enum of a Disclosure' => [[
+                'address' => new Disclosable(ReservedClaimName::from($claimName)),
+            ], $claimName];
         }
         yield 'selectively disclosable _sd' => [[
             '_sd' => new Disclosable('value'),
         ], '_sd'];
+    }
+
+    #[Test]
+    public function theObjectsOfTheClaimsAreSignedAsTheyAreSerialized(): void
+    {
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'cnf' => [
+                'jwk' => self::holderKey()->toPublic(),
+            ],
+            'address' => new Disclosable(self::jsonSerializable([
+                'country' => 'DE',
+            ])),
+            'evidence' => new stdClass(),
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        $claims = self::verifier()->verify($sdJwt->toString(), self::issuerKey())->getClaims();
+        static::assertSame(self::holderKey()->toPublic()->all(), $claims['cnf']['jwk']);
+        static::assertSame([
+            'country' => 'DE',
+        ], $claims['address']);
+        static::assertStringContainsString(
+            '"evidence":{}',
+            Base64UrlSafe::decodeNoPadding(explode('.', $sdJwt->getIssuerSignedJwt())[1])
+        );
+    }
+
+    #[Test]
+    public function aPureEnumCanBeDisclosed(): void
+    {
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'status' => new Disclosable(Status::Active),
+            'statuses' => [new Disclosable(Status::Active)],
+            'history' => new Disclosable([Status::Active]),
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        $claims = self::verifier()->verify($sdJwt->toString(), self::issuerKey())->getClaims();
+        static::assertSame([
+            'name' => 'Active',
+        ], $claims['status']);
+        static::assertSame([[
+            'name' => 'Active',
+        ]], $claims['statuses']);
+        static::assertSame([[
+            'name' => 'Active',
+        ]], $claims['history']);
+    }
+
+    #[Test]
+    #[DataProvider('objects')]
+    public function anObjectIsDisclosedAsItIsSignedInClear(object $object): void
+    {
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'clear' => $object,
+            'disclosed' => new Disclosable($object),
+            'elements' => [new Disclosable($object)],
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        $claims = self::verifier()->verify($sdJwt->toString(), self::issuerKey())->getClaims();
+        static::assertSame($claims['clear'], $claims['disclosed']);
+        static::assertSame([$claims['clear']], $claims['elements']);
+    }
+
+    /**
+     * @return iterable<string, array{object}>
+     */
+    public static function objects(): iterable
+    {
+        yield 'a backed enum' => [Nationality::Germany];
+        yield 'a DateTimeImmutable' => [new DateTimeImmutable('@0')];
+        yield 'an ArrayObject' => [new ArrayObject([
+            'country' => 'DE',
+        ])];
+        yield 'an ArrayObject with a "_sd" property' => [new ArrayObjectWithDigests([
+            'country' => 'DE',
+        ], ['digest'])];
+        yield 'a JsonSerializable that returns itself' => [new SelfSerializing()];
+        yield 'a JsonSerializable that holds objects' => [self::jsonSerializable([
+            'date' => new DateTimeImmutable('@0'),
+            'nationality' => Nationality::Germany,
+        ])];
+    }
+
+    #[Test]
+    public function theHolderCannotDiscloseAClaimThroughAPropertyThatThePayloadEncoderIgnores(): void
+    {
+        $injected = Disclosure::forObjectProperty('country', 'chosen by the Holder');
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'address' => new Disclosable(new ArrayObjectWithDigests([
+                'country' => 'DE',
+            ], [$injected->digest()])),
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('A Disclosure is not referenced by the SD-JWT.');
+
+        self::verifier()->verify($sdJwt->toString() . $injected->toString() . '~', self::issuerKey());
     }
 
     #[Test]
@@ -439,6 +611,30 @@ final class SDJWTIssuerTest extends SelectiveDisclosureTestCase
             ],
             'nationalities' => ['FR', 'DE', 'US'],
         ];
+    }
+
+    /**
+     * @param array<mixed> $values
+     */
+    private static function jsonSerializable(array $values): JsonSerializable
+    {
+        return new class($values) implements JsonSerializable {
+            /**
+             * @param array<mixed> $values
+             */
+            public function __construct(
+                private readonly array $values
+            ) {
+            }
+
+            /**
+             * @return array<mixed>
+             */
+            public function jsonSerialize(): array
+            {
+                return $this->values;
+            }
+        };
     }
 
     /**
