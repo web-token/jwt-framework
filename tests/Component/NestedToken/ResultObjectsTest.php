@@ -54,16 +54,16 @@ final class ResultObjectsTest extends NestedTokenTestCase
         $encryptionKeySet = new JWKSet([$this->getEncryptionKey()]);
         $signatureKeySet = new JWKSet([$this->getSignatureKey()]);
         $signature = null;
-        $deprecations = $this->collectDeprecations(function () use (
+        $loader = $this->getNestedTokenLoader();
+        $deprecations = $this->collectDeprecations(static function () use (
+            $loader,
             $token,
             $encryptionKeySet,
             $signatureKeySet,
             &$signature
         ): void {
-            $this->getNestedTokenLoader()
-                ->load($token, $encryptionKeySet, $signatureKeySet);
-            $this->getNestedTokenLoader()
-                ->load($token, $encryptionKeySet, $signatureKeySet, $signature);
+            $loader->load($token, $encryptionKeySet, $signatureKeySet);
+            $loader->load($token, $encryptionKeySet, $signatureKeySet, $signature);
         });
 
         static::assertSame(0, $signature);
