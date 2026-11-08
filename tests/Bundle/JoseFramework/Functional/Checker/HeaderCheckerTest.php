@@ -15,6 +15,8 @@ use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use function sprintf;
+use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -39,8 +41,11 @@ final class HeaderCheckerTest extends WebTestCase
         $headerCheckerManagerFactory = $container->get(HeaderCheckerManagerFactoryService::class);
         static::assertInstanceOf(HeaderCheckerManagerFactoryService::class, $headerCheckerManagerFactory);
 
-        $aliases = $headerCheckerManagerFactory->aliases();
-        $headerCheckerManagerFactory->create($aliases);
+        $aliases = array_filter(
+            $headerCheckerManagerFactory->aliases(),
+            static fn (string $alias): bool => ! str_starts_with($alias, 'typ.')
+        );
+        $headerCheckerManagerFactory->create(array_values($aliases));
     }
 
     #[Test]
@@ -112,6 +117,26 @@ final class HeaderCheckerTest extends WebTestCase
         $headerCheckerManager->check(self::jwsWithType($container, 'JWT'), 0, ['typ']);
     }
 
+    #[Test]
+    public function aTypeCheckerListedNextToTheTypOptionIsDeprecated(): void
+    {
+        static::ensureKernelShutdown();
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $deprecations = self::collectDeprecations(static function () use ($container): void {
+            $container->get('jose.header_checker.typ_twice');
+        });
+
+        static::assertSame([
+            sprintf(
+                'Since web-token/jwt-library 4.3.0: Building a header checker manager with more than one checker of the header parameter "typ" is deprecated and will not be possible in 5.0.0: only the last one is kept, so "%s" replaces "%s", which never runs. Combine the rules of a header parameter in a single checker.',
+                TypeChecker::class,
+                TypeChecker::class
+            ),
+        ], $deprecations);
+    }
+
     private static function jwsWithType(ContainerInterface $container, string $type): JWS
     {
         $jwsBuilder = $container->get('jose.jws_builder.builder1');
@@ -128,5 +153,28 @@ final class HeaderCheckerTest extends WebTestCase
                 'typ' => $type,
             ])
             ->build();
+    }
+
+    /**
+     * @param callable(): void $callback
+     *
+     * @return list<string>
+     */
+    private static function collectDeprecations(callable $callback): array
+    {
+        $deprecations = [];
+        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
+            $deprecations[] = $errstr;
+
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $deprecations;
     }
 }
