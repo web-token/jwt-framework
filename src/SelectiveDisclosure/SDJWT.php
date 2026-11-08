@@ -23,6 +23,7 @@ use function array_is_list;
 use function array_key_exists;
 use function array_key_first;
 use function array_map;
+use function array_values;
 use function explode;
 use function is_array;
 use function is_string;
@@ -311,8 +312,8 @@ final readonly class SDJWT implements Stringable
             }
         }
         $selected = [];
-        foreach ($this->disclosures as $disclosure) {
-            $disclosurePath = $processed['paths'][$disclosure->digest($hashAlgorithm)];
+        foreach (array_values($this->disclosures) as $position => $disclosure) {
+            $disclosurePath = $processed['paths'][$position];
             foreach ($claimPaths as $claimPath) {
                 if (ClaimPath::overlaps($claimPath, $disclosurePath)) {
                     $selected[] = $disclosure;
