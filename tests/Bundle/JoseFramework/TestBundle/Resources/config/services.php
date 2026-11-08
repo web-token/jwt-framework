@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
+use Jose\Component\Checker\CallableChecker;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWELoaderFactory;
 use Jose\Component\Signature\JWSLoaderFactory;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\CustomChecker;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\MaximumLifetime;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\DeprecatedES256KConsumer;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\NestedTokenServiceConsumer;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\SelectiveDisclosureServiceConsumer;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Clock\NativeClock;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return function (ContainerConfigurator $container) {
     $container = $container->services()
@@ -27,6 +30,14 @@ return function (ContainerConfigurator $container) {
         ])
         ->tag('jose.checker.claim', [
             'alias' => 'custom_checker',
+        ]);
+
+    $container->set(MaximumLifetime::class);
+
+    $container->set('jose.test.claim_checker.max_lifetime', CallableChecker::class)
+        ->args(['exp', service(MaximumLifetime::class)])
+        ->tag('jose.checker.claim', [
+            'alias' => 'max_lifetime',
         ]);
 
     $container->set(ClockInterface::class)
