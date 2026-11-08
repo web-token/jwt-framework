@@ -16,6 +16,8 @@ use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
+use function func_get_arg;
+use function func_num_args;
 
 /**
  * @deprecated since 4.3.0, use EventDispatchingJWELoader instead. The class extends a service of
@@ -23,13 +25,22 @@ use Throwable;
  */
 final class JWELoader extends BaseJWELoader
 {
+    /**
+     * A fifth argument, the maximum number of recipients of a token, is passed to the parent class. It is read with
+     * func_num_args()/func_get_arg(4) until 5.0.0.
+     */
     public function __construct(
         JWESerializerManager $serializerManager,
         JWEDecrypterInterface $jweDecrypter,
         ?HeaderCheckerManagerInterface $headerCheckerManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($serializerManager, $jweDecrypter, $headerCheckerManager);
+        parent::__construct(
+            $serializerManager,
+            $jweDecrypter,
+            $headerCheckerManager,
+            func_num_args() > 4 ? func_get_arg(4) : null
+        );
     }
 
     /**

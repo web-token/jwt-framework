@@ -6,6 +6,8 @@ namespace Jose\Component\Encryption;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use function func_get_arg;
+use function func_num_args;
 
 readonly class JWELoaderFactory
 {
@@ -16,6 +18,11 @@ readonly class JWELoaderFactory
     ) {
     }
 
+    /**
+     * A fourth argument sets the maximum number of recipients of a token, passed to the loader. That argument is not
+     * part of the signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes
+     * extending this one remain compatible.
+     */
     public function create(
         array $serializers,
         array $encryptionAlgorithms,
@@ -29,6 +36,11 @@ readonly class JWELoaderFactory
             $headerCheckerManager = null;
         }
 
-        return new JWELoader($serializerManager, $jweDecrypter, $headerCheckerManager);
+        return new JWELoader(
+            $serializerManager,
+            $jweDecrypter,
+            $headerCheckerManager,
+            func_num_args() > 3 ? func_get_arg(3) : null
+        );
     }
 }

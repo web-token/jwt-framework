@@ -17,6 +17,8 @@ use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use SensitiveParameter;
 use Throwable;
+use function func_get_arg;
+use function func_num_args;
 
 /**
  * @deprecated since 4.3.0, use EventDispatchingJWSLoader instead. The class extends a service of
@@ -24,13 +26,22 @@ use Throwable;
  */
 final class JWSLoader extends BaseJWSLoader
 {
+    /**
+     * A fifth argument, the maximum number of signatures of a token, is passed to the parent class. It is read with
+     * func_num_args()/func_get_arg(4) until 5.0.0.
+     */
     public function __construct(
         JWSSerializerManager $serializerManager,
         JWSVerifierInterface $jwsVerifier,
         ?HeaderCheckerManagerInterface $headerCheckerManager,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($serializerManager, $jwsVerifier, $headerCheckerManager);
+        parent::__construct(
+            $serializerManager,
+            $jwsVerifier,
+            $headerCheckerManager,
+            func_num_args() > 4 ? func_get_arg(4) : null
+        );
     }
 
     /**
