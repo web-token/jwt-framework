@@ -331,16 +331,16 @@ final class EncrypterTest extends EncryptionTestCase
     public function encryptAndLoadCompactWithDirectKeyEncryption(): void
     {
         $jweBuilder = $this->getJWEBuilderFactory()
-            ->create(['dir', 'A192CBC-HS384']);
+            ->create(['dir', 'A128CBC-HS256']);
         $jweDecrypter = $this->getJWEDecrypterFactory()
-            ->create(['dir', 'A192CBC-HS384']);
+            ->create(['dir', 'A128CBC-HS256']);
 
         $jwe = $jweBuilder
             ->create()
             ->withPayload(json_encode($this->getKeyToEncrypt(), JSON_THROW_ON_ERROR))
             ->withSharedProtectedHeader([
                 'kid' => 'DIR_1',
-                'enc' => 'A192CBC-HS384',
+                'enc' => 'A128CBC-HS256',
                 'alg' => 'dir',
             ])
             ->addRecipient($this->getDirectKey())
@@ -352,7 +352,7 @@ final class EncrypterTest extends EncryptionTestCase
             ->unserialize($jwe);
 
         static::assertSame('dir', $loaded->getSharedProtectedHeaderParameter('alg'));
-        static::assertSame('A192CBC-HS384', $loaded->getSharedProtectedHeaderParameter('enc'));
+        static::assertSame('A128CBC-HS256', $loaded->getSharedProtectedHeaderParameter('enc'));
         static::assertNull($loaded->getPayload());
 
         static::assertTrue($jweDecrypter->decryptUsingKeySet($loaded, $this->getSymmetricKeySet(), 0));

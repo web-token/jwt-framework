@@ -4603,7 +4603,7 @@ parameters:
 			path: src/Library/Core/Util/RSAKey.php
 
 		-
-			message: '#^Parameter \#1 \$number of static method Brick\\Math\\BigInteger\:\:fromBase\(\) expects string, mixed given\.$#'
+			message: '#^Parameter \#1 \$encodedString of static method Jose\\Component\\Core\\Util\\Base64UrlSafe\:\:decodeNoPadding\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Library/Core/Util/RSAKey.php
@@ -5749,7 +5749,7 @@ parameters:
 			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			message: '#^Parameter \#2 \$protectedHeader of method Jose\\Component\\Signature\\JWS\:\:addSignature\(\) expects array\{alg\?\: string, string\?\: mixed\}, mixed given\.$#'
+			message: '#^Parameter \#2 \$protectedHeader of class Jose\\Component\\Signature\\Signature constructor expects array\{alg\?\: string, string\?\: mixed\}, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
@@ -5761,13 +5761,13 @@ parameters:
 			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			message: '#^Parameter \#3 \$encodedProtectedHeader of method Jose\\Component\\Signature\\JWS\:\:addSignature\(\) expects string\|null, mixed given\.$#'
+			message: '#^Parameter \#3 \$encodedProtectedHeader of class Jose\\Component\\Signature\\Signature constructor expects string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			message: '#^Parameter \#4 \$header of method Jose\\Component\\Signature\\JWS\:\:addSignature\(\) expects array\{alg\?\: string, string\?\: mixed\}, mixed given\.$#'
+			message: '#^Parameter \#4 \$header of class Jose\\Component\\Signature\\Signature constructor expects array\{alg\?\: string, string\?\: mixed\}, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Library/Signature/Serializer/JSONGeneralSerializer.php

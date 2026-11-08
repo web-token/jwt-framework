@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
+use AESKW\A128KW as A128KWWrapper;
+use AESKW\A192KW as A192KWWrapper;
+use AESKW\A256KW as A256KWWrapper;
 use AESKW\Wrapper as WrapperInterface;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
@@ -73,7 +76,24 @@ abstract readonly class AESKW implements KeyWrapping
         if (! is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
+        $k = Base64UrlSafe::decodeNoPadding($k);
+        $keySize = $this->getKeySize();
+        if ($keySize !== null && mb_strlen($k, '8bit') * 8 < $keySize) {
+            throw new InvalidArgumentException('Invalid key length.');
+        }
 
-        return Base64UrlSafe::decodeNoPadding($k);
+        return $k;
+    }
+
+    private function getKeySize(): ?int
+    {
+        $wrapper = $this->getWrapper();
+
+        return match (true) {
+            $wrapper instanceof A128KWWrapper => 128,
+            $wrapper instanceof A192KWWrapper => 192,
+            $wrapper instanceof A256KWWrapper => 256,
+            default => null,
+        };
     }
 }
