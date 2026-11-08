@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\Encryption;
 
+use InvalidArgumentException;
+use Jose\Bundle\JoseFramework\Services\JWEDecrypterFactory;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory as JWELoaderFactoryAlias;
 use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
@@ -13,9 +16,13 @@ use Jose\Component\Encryption\Algorithm\ContentEncryption\A256GCM;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\A256KW;
 use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWELoader;
+use Jose\Component\Encryption\JWELoaderFactory;
+use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
+use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * @internal
@@ -115,5 +122,43 @@ final class JWELoaderTest extends WebTestCase
             return;
         }
         static::fail('The token has been decrypted.');
+    }
+
+    #[Test]
+    public function theJWELoaderFactoryRefusesHeaderCheckersWithoutAHeaderCheckerManagerFactory(): void
+    {
+        $eventDispatcher = new EventDispatcher();
+        $serializerManagerFactory = new JWESerializerManagerFactory();
+        $serializerManagerFactory->add(new CompactSerializer());
+        $jweLoaderFactory = new JWELoaderFactoryAlias(
+            $serializerManagerFactory,
+            new JWEDecrypterFactory(new AlgorithmManagerFactory([new A256KW(), new A256GCM()]), $eventDispatcher),
+            null,
+            $eventDispatcher
+        );
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Header checkers were requested, but no header checker manager factory is available.'
+        );
+
+        $jweLoaderFactory->create(['jwe_compact'], ['A256KW', 'A256GCM'], ['custom_checker']);
+    }
+
+    #[Test]
+    public function theLibraryJWELoaderFactoryRegisteredWithAutowiringRefusesHeaderCheckers(): void
+    {
+        static::ensureKernelShutdown();
+        $client = static::createClient();
+        $jweLoaderFactory = $client->getContainer()
+            ->get(JWELoaderFactory::class);
+        static::assertInstanceOf(JWELoaderFactory::class, $jweLoaderFactory);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Header checkers were requested, but no header checker manager factory is available.'
+        );
+
+        $jweLoaderFactory->create(['jwe_compact'], ['RSA-OAEP-256', 'A256CBC-HS512'], ['custom_checker']);
     }
 }

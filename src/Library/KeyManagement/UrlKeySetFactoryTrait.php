@@ -7,8 +7,10 @@ namespace Jose\Component\KeyManagement;
 use Jose\Component\Core\Exception\RuntimeException;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Throwable;
 use function hash;
 use function is_string;
+use function serialize;
 use function trigger_deprecation;
 
 /**
@@ -57,6 +59,8 @@ trait UrlKeySetFactoryTrait
     }
 
     /**
+     * A request whose headers cannot be serialized, such as an anonymous Stringable class, bypasses the cache.
+     *
      * @param array<string, string|string[]> $header
      */
     protected function getContent(string $url, array $header = []): string
@@ -65,7 +69,13 @@ trait UrlKeySetFactoryTrait
             return $this->sendRequest($url, $header);
         }
 
-        $item = $this->cacheItemPool->getItem(hash('xxh128', $url));
+        try {
+            $cacheKey = hash('sha256', serialize([$url, $header]));
+        } catch (Throwable) {
+            return $this->sendRequest($url, $header);
+        }
+
+        $item = $this->cacheItemPool->getItem($cacheKey);
         $cached = $item->get();
         if ($item->isHit() && is_string($cached)) {
             return $cached;

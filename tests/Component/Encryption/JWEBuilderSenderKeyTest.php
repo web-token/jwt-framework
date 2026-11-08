@@ -14,8 +14,8 @@ use PHPUnit\Framework\Attributes\Test;
  * Class JWEBuilderSenderKeyTest.
  *
  * The static key agreement algorithms derive the agreement key from the two static keys. On the decryption
- * side the roles are swapped: the public key of the sender is the key of the key set and the private key of
- * the recipient is the sender key, as the "epk" header parameter is not part of the token.
+ * side, these tests give the public key of the sender as the key and the private key of the recipient as the
+ * sender key.
  *
  * @internal
  */
