@@ -10,9 +10,16 @@ use Jose\Component\KeyManagement\X5UFactory;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function array_keys;
+use function file_get_contents;
+use function json_encode;
+use function strlen;
+use function substr;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
@@ -118,6 +125,97 @@ final class UrlKeySetFactoryTest extends TestCase
             ->setResponseFactory($response);
         $this->getX5UFactory()
             ->loadFromUrl('https://foo.bar/bad/url');
+    }
+
+    #[Test]
+    public function theCacheDoesNotServeAKeySetFetchedWithOtherHeaders(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+            'globex' => '{"keys":[{"kty":"oct","kid":"globex","k":"Z2xvYmV4"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'acme',
+        ]);
+        $globex = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'globex',
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(['globex'], array_keys($globex->all()));
+        static::assertSame(2, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function theCacheDoesNotServeCertificatesFetchedWithOtherHeaders(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => json_encode([
+                'acme' => file_get_contents(__DIR__ . '/RSA/PEM/1024b-rsa-example-cert.pem'),
+            ], JSON_THROW_ON_ERROR),
+            'globex' => json_encode([
+                'globex' => file_get_contents(__DIR__ . '/RSA/PEM/2048b-rsa-example-cert.pem'),
+            ], JSON_THROW_ON_ERROR),
+        ]);
+        $factory = new X5UFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $acme = $factory->loadFromUrl('https://foo.bar/certificates', [
+            'X-Tenant' => 'acme',
+        ]);
+        $globex = $factory->loadFromUrl('https://foo.bar/certificates', [
+            'X-Tenant' => 'globex',
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(['globex'], array_keys($globex->all()));
+        static::assertSame(2, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function theCacheServesAKeySetFetchedWithTheSameHeaders(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'acme',
+        ]);
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'acme',
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(1, $client->getRequestsCount());
+    }
+
+    /**
+     * An endpoint that serves one document per value of the "X-Tenant" header, and a 404 for any other request.
+     *
+     * @param array<string, string> $documents
+     */
+    private static function getTenantAwareHttpClient(array $documents): MockHttpClient
+    {
+        return new MockHttpClient(static function (string $method, string $url, array $options) use (
+            $documents
+        ): MockResponse {
+            $tenant = substr($options['normalized_headers']['x-tenant'][0] ?? '', strlen('X-Tenant: '));
+            if (! isset($documents[$tenant])) {
+                return new MockResponse('Not found', [
+                    'http_code' => 404,
+                ]);
+            }
+
+            return new MockResponse($documents[$tenant], [
+                'http_code' => 200,
+            ]);
+        });
     }
 
     private function getJKUFactory(): JKUFactory

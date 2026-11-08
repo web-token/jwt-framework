@@ -38,7 +38,7 @@ abstract class UrlKeySetFactory
      */
     protected function getContent(string $url, array $header = []): string
     {
-        $cacheKey = hash('xxh128', $url);
+        $cacheKey = hash('sha256', serialize([$url, $header]));
         $item = $this->cacheItemPool->getItem($cacheKey);
         if ($item->isHit()) {
             return $item->get();
