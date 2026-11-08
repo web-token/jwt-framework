@@ -12,6 +12,8 @@ use Jose\Component\KeyManagement\JWKFactory;
 use Jose\SelectiveDisclosure\Disclosable;
 use Jose\SelectiveDisclosure\Disclosure;
 use Jose\SelectiveDisclosure\SDJWTIssuer;
+use Jose\Tests\SelectiveDisclosure\Stub\ReservedClaimName;
+use Jose\Tests\SelectiveDisclosure\Stub\Status;
 use JsonSerializable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -343,6 +345,12 @@ final class SDJWTIssuerTest extends SelectiveDisclosureTestCase
                     $claimName => 'value',
                 ]))],
             ], $claimName];
+            yield $claimName . ' in a JsonSerializable enum' => [[
+                'address' => ReservedClaimName::from($claimName),
+            ], $claimName];
+            yield $claimName . ' in a JsonSerializable enum of a Disclosure' => [[
+                'address' => new Disclosable(ReservedClaimName::from($claimName)),
+            ], $claimName];
         }
         yield 'selectively disclosable _sd' => [[
             '_sd' => new Disclosable('value'),
@@ -374,6 +382,30 @@ final class SDJWTIssuerTest extends SelectiveDisclosureTestCase
             '"evidence":{}',
             Base64UrlSafe::decodeNoPadding(explode('.', $sdJwt->getIssuerSignedJwt())[1])
         );
+    }
+
+    #[Test]
+    public function aPureEnumCanBeDisclosed(): void
+    {
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'status' => new Disclosable(Status::Active),
+            'statuses' => [new Disclosable(Status::Active)],
+            'history' => new Disclosable([Status::Active]),
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        $claims = self::verifier()->verify($sdJwt->toString(), self::issuerKey())->getClaims();
+        static::assertSame([
+            'name' => 'Active',
+        ], $claims['status']);
+        static::assertSame([[
+            'name' => 'Active',
+        ]], $claims['statuses']);
+        static::assertSame([[
+            'name' => 'Active',
+        ]], $claims['history']);
     }
 
     #[Test]
