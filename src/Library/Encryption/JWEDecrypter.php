@@ -16,6 +16,8 @@ use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AbstractECDHAESKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreement;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrapping;
@@ -352,6 +354,8 @@ class JWEDecrypter implements JWEDecrypterInterface
             );
         }
         if ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+            $this->checkWrappedKeySize($key_encryption_algorithm, $recipient, $content_encryption_algorithm);
+
             return $key_encryption_algorithm->unwrapAgreementKey(
                 $recipientKey,
                 $senderKey,
@@ -373,6 +377,7 @@ class JWEDecrypter implements JWEDecrypterInterface
             );
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
+            $this->checkWrappedKeySize($key_encryption_algorithm, $recipient, $content_encryption_algorithm);
             // @phpstan-ignore arguments.count (the fourth argument will be part of the interface in 5.0.0)
             return $key_encryption_algorithm->unwrapKey(
                 $recipientKey,
@@ -395,6 +400,26 @@ class JWEDecrypter implements JWEDecrypterInterface
             throw new InvalidArgumentException(
                 'The encrypted key must be empty with direct encryption or direct key agreement.'
             );
+        }
+    }
+
+    /**
+     * AES Key Wrap adds 64 bits to the key it wraps. Any other size is rejected before the key derivation, the key
+     * agreement and the unwrapping, which processes the whole encrypted key before checking its integrity.
+     */
+    private function checkWrappedKeySize(
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
+        Recipient $recipient,
+        ContentEncryptionAlgorithm $contentEncryptionAlgorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof AESKW
+            && ! $keyEncryptionAlgorithm instanceof PBES2AESKW
+            && ! $keyEncryptionAlgorithm instanceof AbstractECDHAESKW
+        ) {
+            return;
+        }
+        if (strlen($recipient->getEncryptedKey() ?? '') * 8 !== $contentEncryptionAlgorithm->getCEKSize() + 64) {
+            throw new InvalidArgumentException('Invalid encrypted key size');
         }
     }
 
