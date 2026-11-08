@@ -8,10 +8,14 @@ use InvalidArgumentException;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use function chr;
+use function explode;
 use function memory_get_peak_usage;
 use function memory_get_usage;
 use function memory_reset_peak_usage;
+use function sprintf;
 use function str_repeat;
+use function str_replace;
 
 /**
  * @internal
@@ -48,5 +52,30 @@ final class CompactSerializerTest extends TestCase
         }
 
         static::assertLessThan(8_000_000, memory_get_peak_usage() - $before);
+    }
+
+    /**
+     * @see https://tools.ietf.org/html/rfc7515#appendix-A.1
+     */
+    #[Test]
+    public function aSignatureWithAByteOutsideTheAlphabetIsRejected(): void
+    {
+        [$header, $payload, $signature] = explode(
+            '.',
+            'eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk'
+        );
+        $serializer = new CompactSerializer();
+        static::assertSame(1, $serializer->unserialize($header . '.' . $payload . '.' . $signature)->countSignatures());
+
+        $accepted = [];
+        for ($byte = 0x80; $byte <= 0xFF; ++$byte) {
+            try {
+                $serializer->unserialize($header . '.' . $payload . '.' . str_replace('_', chr($byte), $signature));
+                $accepted[] = sprintf('0x%02X', $byte);
+            } catch (InvalidArgumentException) {
+            }
+        }
+
+        static::assertSame([], $accepted);
     }
 }
