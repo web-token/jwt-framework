@@ -10,6 +10,7 @@ use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
 use LogicException;
 use RuntimeException;
+use SensitiveParameter;
 use function chr;
 use function count;
 use function ord;
@@ -115,7 +116,7 @@ final readonly class RSACrypt
         return self::extractRSA15KeyOrRandom($em, $expectedKeyLength);
     }
 
-    private static function extractRSA15KeyOrRandom(string $em, int $expectedKeyLength): string
+    private static function extractRSA15KeyOrRandom(#[SensitiveParameter] string $em, int $expectedKeyLength): string
     {
         if ($expectedKeyLength < 1) {
             throw new InvalidArgumentException('Invalid CEK length.');
