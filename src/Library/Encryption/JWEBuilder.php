@@ -251,6 +251,7 @@ class JWEBuilder implements JWEBuilderInterface
             $cek,
             $encodedSharedProtectedHeader
         );
+        $this->deprecateDirectEncryptionWithEmptyAAD($keyManagementMode, $encodedSharedProtectedHeader);
 
         return new JWE(
             $ciphertext,
@@ -261,6 +262,26 @@ class JWEBuilder implements JWEBuilderInterface
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
             $recipients
+        );
+    }
+
+    /**
+     * Without a protected header and without "aad", the content of a "dir" JWE is encrypted with an empty AAD, as AES-GCM
+     * key wrapping encrypts a CEK: that content is then a valid A*GCMKW encrypted key of the payload under the same key.
+     */
+    private function deprecateDirectEncryptionWithEmptyAAD(
+        string $keyManagementMode,
+        string $encodedSharedProtectedHeader
+    ): void {
+        if ($keyManagementMode !== KeyEncryptionAlgorithm::MODE_DIRECT
+            || $encodedSharedProtectedHeader !== ''
+            || $this->aad !== null) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Building a "dir" JWE that has neither a protected header nor additional authenticated data is deprecated and will not be possible in 5.0.0: set "alg" and "enc" in the shared protected header.'
         );
     }
 
