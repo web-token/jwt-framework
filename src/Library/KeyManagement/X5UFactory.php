@@ -17,7 +17,7 @@ class X5UFactory extends UrlKeySetFactory
 {
     /**
      * This method will try to fetch the url a retrieve the key set. Throws an exception in case of failure.
-     * Entries are passed to OpenSSL from their PEM header on: a string starting with "file://" would be read from disk.
+     * An entry starting with "file://" is wrapped as well: OpenSSL would open the file it names.
      *
      * @param array<string, string|string[]> $header
      */
@@ -32,10 +32,9 @@ class X5UFactory extends UrlKeySetFactory
         $keys = [];
         foreach ($data as $kid => $cert) {
             assert(is_string($cert), 'Invalid content.');
-            $position = strpos($cert, '-----BEGIN CERTIFICATE-----');
-            $cert = $position === false
-                ? '-----BEGIN CERTIFICATE-----' . "\n" . $cert . "\n" . '-----END CERTIFICATE-----'
-                : substr($cert, $position);
+            if (! str_contains($cert, '-----BEGIN CERTIFICATE-----') || str_starts_with($cert, 'file://')) {
+                $cert = '-----BEGIN CERTIFICATE-----' . "\n" . $cert . "\n" . '-----END CERTIFICATE-----';
+            }
             $jwk = KeyConverter::loadKeyFromCertificate($cert);
             if (is_string($kid)) {
                 $jwk['kid'] = $kid;

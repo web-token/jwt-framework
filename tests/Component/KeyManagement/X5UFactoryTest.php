@@ -53,6 +53,7 @@ final class X5UFactoryTest extends TestCase
         yield 'file URL through a directory named after the marker' => [
             'file:///-----BEGIN CERTIFICATE-----/..' . self::CERTIFICATE,
         ];
+        yield 'file URL with an uppercase scheme' => ['FILE:///-----BEGIN CERTIFICATE-----/..' . self::CERTIFICATE];
     }
 
     /**
