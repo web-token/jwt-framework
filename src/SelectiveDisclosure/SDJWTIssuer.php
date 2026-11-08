@@ -15,7 +15,9 @@ use Jose\Component\Signature\JWSBuilderInterface;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Signature\Serializer\JSONGeneralSerializer;
+use JsonSerializable;
 use Override;
+use UnitEnum;
 use function array_is_list;
 use function array_key_exists;
 use function array_map;
@@ -186,7 +188,9 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
     }
 
     /**
-     * An object is kept as it is, and the reserved claim names are looked for in its JSON.
+     * An object is kept as it is, and the reserved claim names are looked for in its JSON. An enum that is not
+     * JsonSerializable has no member but its name and its value: it is not looked into, so that a pure enum, which the
+     * payload encoder refuses, can still be disclosed.
      *
      * @param list<Disclosure> $disclosures the Disclosures created so far, completed with those of the value
      */
@@ -195,7 +199,7 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
         if ($value instanceof Disclosable) {
             throw new InvalidArgumentException('A Disclosable cannot be the value of another Disclosable.');
         }
-        if (is_object($value)) {
+        if (is_object($value) && ($value instanceof JsonSerializable || ! $value instanceof UnitEnum)) {
             self::checkClaimNames(JsonConverter::decode(JsonConverter::encode($value)));
         }
         if (! is_array($value)) {
