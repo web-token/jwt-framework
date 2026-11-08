@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\Reference;
 use function is_array;
 use function is_string;
 use function sprintf;
-use function trigger_deprecation;
 
 /**
  * Adds the services carrying a tag to a factory, each one under the alias given by the tag.
@@ -21,8 +20,7 @@ use function trigger_deprecation;
 trait TaggedServiceAliases
 {
     /**
-     * The factory keeps one service per alias: when two services share an alias, the one tagged last replaces the
-     * other.
+     * An alias names a single service, which may carry several aliases.
      */
     private function addTaggedServices(ContainerBuilder $container, Definition $factory, string $tag, string $label): void
     {
@@ -40,17 +38,13 @@ trait TaggedServiceAliases
                 if (is_string($alias)) {
                     $owner = $owners[$alias] ?? $id;
                     if ($owner !== $id) {
-                        trigger_deprecation(
-                            'web-token/jwt-framework',
-                            '4.3.0',
-                            'The services "%s" and "%s" are both tagged "%s" with the alias "%s": "%s" replaces "%s". Sharing an alias between two services is deprecated and will not be possible in 5.0.0; give each service an alias of its own.',
+                        throw new InvalidArgumentException(sprintf(
+                            'The services "%s" and "%s" are both tagged "%s" with the alias "%s", but an alias names a single service. Give each service an alias of its own.',
                             $owner,
                             $id,
                             $tag,
-                            $alias,
-                            $id,
-                            $owner
-                        );
+                            $alias
+                        ));
                     }
                     $owners[$alias] = $id;
                 }

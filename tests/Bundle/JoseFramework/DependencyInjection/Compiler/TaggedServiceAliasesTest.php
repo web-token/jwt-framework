@@ -20,10 +20,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use function restore_error_handler;
-use function set_error_handler;
 use function sprintf;
-use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -36,7 +33,7 @@ final class TaggedServiceAliasesTest extends TestCase
      */
     #[DataProvider('dataPasses')]
     #[Test]
-    public function anAliasSharedByTwoServicesIsReportedAndTheLastServiceIsKept(
+    public function anAliasSharedByTwoServicesIsRefused(
         CompilerPassInterface $pass,
         string $factory,
         string $tag,
@@ -58,15 +55,13 @@ final class TaggedServiceAliasesTest extends TestCase
                 'alias' => 'shared',
             ]);
 
-        $deprecations = $this->collectDeprecations($container->compile(...));
-
-        static::assertSame([sprintf(
-            'Since web-token/jwt-framework 4.3.0: The services "app.first" and "app.second" are both tagged "%s" with the alias "shared": "app.second" replaces "app.first". Sharing an alias between two services is deprecated and will not be possible in 5.0.0; give each service an alias of its own.',
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf(
+            'The services "app.first" and "app.second" are both tagged "%s" with the alias "shared", but an alias names a single service. Give each service an alias of its own.',
             $tag
-        )], $deprecations);
-        static::assertSame([
-            'shared' => $container->get('app.second'),
-        ], $this->registeredServices($container, $factory));
+        ));
+
+        $container->compile(true);
     }
 
     /**
@@ -75,7 +70,7 @@ final class TaggedServiceAliasesTest extends TestCase
      */
     #[DataProvider('dataPasses')]
     #[Test]
-    public function aServiceTaggedTwiceWithTheSameAliasIsNotReported(
+    public function aServiceTaggedTwiceWithTheSameAliasIsAccepted(
         CompilerPassInterface $pass,
         string $factory,
         string $tag,
@@ -94,9 +89,8 @@ final class TaggedServiceAliasesTest extends TestCase
                 'alias' => 'shared',
             ]);
 
-        $deprecations = $this->collectDeprecations($container->compile(...));
+        $container->compile(true);
 
-        static::assertSame([], $deprecations);
         static::assertSame([
             'shared' => $container->get('app.service'),
         ], $this->registeredServices($container, $factory));
@@ -108,7 +102,7 @@ final class TaggedServiceAliasesTest extends TestCase
      */
     #[DataProvider('dataPasses')]
     #[Test]
-    public function servicesWithAliasesOfTheirOwnAreNotReported(
+    public function servicesWithAliasesOfTheirOwnAreAccepted(
         CompilerPassInterface $pass,
         string $factory,
         string $tag,
@@ -133,9 +127,8 @@ final class TaggedServiceAliasesTest extends TestCase
                 'alias' => 'second_again',
             ]);
 
-        $deprecations = $this->collectDeprecations($container->compile(...));
+        $container->compile(true);
 
-        static::assertSame([], $deprecations);
         static::assertSame([
             'first' => $container->get('app.first'),
             'second' => $container->get('app.second'),
@@ -225,28 +218,5 @@ final class TaggedServiceAliasesTest extends TestCase
         static::assertInstanceOf($factory, $instance);
 
         return $instance->all();
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
     }
 }
