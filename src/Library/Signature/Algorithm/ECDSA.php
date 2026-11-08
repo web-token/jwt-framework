@@ -11,6 +11,7 @@ use Jose\Component\Core\Util\ECSignature;
 use LogicException;
 use Override;
 use RuntimeException;
+use SensitiveParameter;
 use Throwable;
 use function defined;
 use function extension_loaded;
@@ -49,7 +50,7 @@ abstract readonly class ECDSA implements SignatureAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         $this->checkKey($key);
 

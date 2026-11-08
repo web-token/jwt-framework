@@ -10,6 +10,7 @@ use Jose\Component\Core\Util\Base64UrlSafe;
 use Override;
 use ParagonIE\Sodium\Core\Ed25519;
 use RuntimeException;
+use SensitiveParameter;
 use function assert;
 use function extension_loaded;
 use function in_array;
@@ -66,7 +67,7 @@ final readonly class EdDSA implements SignatureAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         if ($signature === '') {
             return false;

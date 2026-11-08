@@ -14,6 +14,7 @@ use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use SensitiveParameter;
 use Throwable;
 
 final class JWSLoader extends BaseJWSLoader
@@ -29,6 +30,7 @@ final class JWSLoader extends BaseJWSLoader
 
     #[Override]
     public function loadAndVerifyWithKeySet(
+        #[SensitiveParameter]
         string $token,
         JWKSet $keyset,
         ?int &$signature,

@@ -10,6 +10,7 @@ use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
 use Override;
+use SensitiveParameter;
 use Throwable;
 use function count;
 use function is_array;
@@ -63,7 +64,7 @@ final readonly class CompactSerializer extends Serializer
      * of the input in memory.
      */
     #[Override]
-    public function unserialize(string $input): JWS
+    public function unserialize(#[SensitiveParameter] string $input): JWS
     {
         $parts = explode('.', $input, 4);
         if (count($parts) !== 3) {
