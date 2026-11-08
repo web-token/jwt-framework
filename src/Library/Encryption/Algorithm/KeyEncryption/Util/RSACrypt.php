@@ -11,7 +11,6 @@ use Jose\Component\Core\Util\RSAKey;
 use LogicException;
 use RuntimeException;
 use function chr;
-use function count;
 use function ord;
 use const STR_PAD_LEFT;
 
@@ -177,13 +176,11 @@ final class RSACrypt
         if ($length <= 0) {
             throw new RuntimeException();
         }
-        $splitPlaintext = mb_str_split($plaintext, $length, '8bit');
-        $ciphertext = '';
-        foreach ($splitPlaintext as $m) {
-            $ciphertext .= self::encryptRSAESOAEP($key, $m, $hash);
+        if (mb_strlen($plaintext, '8bit') > $length) {
+            throw new InvalidArgumentException('Message too long');
         }
 
-        return $ciphertext;
+        return self::encryptRSAESOAEP($key, $plaintext, $hash);
     }
 
     /**
@@ -194,21 +191,15 @@ final class RSACrypt
         if ($key->getModulusLength() <= 0) {
             throw new RuntimeException('Invalid modulus length');
         }
-        $hash = Hash::$hash_algorithm();
-        $splitCiphertext = mb_str_split($ciphertext, $key->getModulusLength(), '8bit');
-        $splitCiphertext[count($splitCiphertext) - 1] = str_pad(
-            $splitCiphertext[count($splitCiphertext) - 1],
-            $key->getModulusLength(),
-            chr(0),
-            STR_PAD_LEFT
-        );
-        $plaintext = '';
-        foreach ($splitCiphertext as $c) {
-            $temp = self::getRSAESOAEP($key, $c, $hash);
-            $plaintext .= $temp;
+        if (mb_strlen($ciphertext, '8bit') > $key->getModulusLength()) {
+            throw new RuntimeException('Unable to decrypt');
         }
 
-        return $plaintext;
+        return self::getRSAESOAEP(
+            $key,
+            str_pad($ciphertext, $key->getModulusLength(), chr(0), STR_PAD_LEFT),
+            Hash::$hash_algorithm()
+        );
     }
 
     private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
