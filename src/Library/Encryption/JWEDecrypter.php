@@ -16,11 +16,15 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreement;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\PBES2AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
 use Jose\Component\Encryption\Compression\CompressionMethodManager;
 use Throwable;
 use function array_key_exists;
+use function intdiv;
+use function is_int;
 use function is_string;
+use function sprintf;
 
 class JWEDecrypter
 {
@@ -166,6 +170,7 @@ class JWEDecrypter
                 } else {
                     KeyChecker::checkKeyAlgorithm($recipientKey, $content_encryption_algorithm->name());
                 }
+                $this->checkIterationCount($key_encryption_algorithm, $completeHeader, $jwe->countRecipients());
                 $cek = $this->decryptCEK(
                     $key_encryption_algorithm,
                     $content_encryption_algorithm,
@@ -202,6 +207,30 @@ class JWEDecrypter
         }
         if (mb_strlen($cek, '8bit') * 8 !== $algorithm->getCEKSize()) {
             throw new InvalidArgumentException('Invalid CEK size');
+        }
+    }
+
+    /**
+     * The recipients of a token share the iteration count cap of PBES2: one token cannot request more key derivation
+     * work than a single recipient at the cap.
+     *
+     * @param array<mixed> $completeHeader
+     */
+    private function checkIterationCount(
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
+        array $completeHeader,
+        int $recipientCount
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof PBES2AESKW) {
+            return;
+        }
+        $maxCount = intdiv($keyEncryptionAlgorithm->getMaxCount(), $recipientCount);
+        $count = $completeHeader['p2c'] ?? null;
+        if (is_int($count) && $count > $maxCount) {
+            throw new InvalidArgumentException(sprintf(
+                'The header parameter "p2c" is too large. The maximum allowed value is %d.',
+                $maxCount
+            ));
         }
     }
 
