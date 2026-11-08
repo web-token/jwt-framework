@@ -8,6 +8,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use RuntimeException;
 use Symfony\Component\Cache\Adapter\NullAdapter;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Throwable;
 
 /**
  * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
@@ -34,11 +35,22 @@ abstract class UrlKeySetFactory
     }
 
     /**
+     * A request whose headers cannot be serialized, such as an anonymous Stringable class, bypasses the cache.
+     *
      * @param array<string, string|string[]> $header
      */
     protected function getContent(string $url, array $header = []): string
     {
-        $cacheKey = hash('sha256', serialize([$url, $header]));
+        if ($this->cacheItemPool instanceof NullAdapter) {
+            return $this->sendSymfonyRequest($url, $header);
+        }
+
+        try {
+            $cacheKey = hash('sha256', serialize([$url, $header]));
+        } catch (Throwable) {
+            return $this->sendSymfonyRequest($url, $header);
+        }
+
         $item = $this->cacheItemPool->getItem($cacheKey);
         if ($item->isHit()) {
             return $item->get();
