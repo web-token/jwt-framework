@@ -14,6 +14,8 @@ use Jose\Component\Signature\LoadingResult;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Throwable;
+use function func_get_arg;
+use function func_num_args;
 
 /**
  * @deprecated since 4.3.0, use EventDispatchingNestedTokenLoader instead. The class extends a service of
@@ -21,12 +23,16 @@ use Throwable;
  */
 final class NestedTokenLoader extends BaseNestedTokenLoader
 {
+    /**
+     * A fourth argument, what the loader does with a token whose "cty" header parameter is outside the protected
+     * header, is passed to the parent class. It is read with func_num_args()/func_get_arg(3) until 5.0.0.
+     */
     public function __construct(
         JWELoaderInterface $jweLoader,
         JWSLoaderInterface $jwsLoader,
         private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct($jweLoader, $jwsLoader);
+        parent::__construct($jweLoader, $jwsLoader, func_num_args() > 3 ? func_get_arg(3) : null);
     }
 
     /**

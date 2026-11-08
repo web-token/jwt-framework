@@ -42,6 +42,9 @@ final readonly class NestedTokenLoader implements Source
                 ])
                 ->addTag('jose.nested_token_loader')
                 ->setPublic($itemConfig['is_public']);
+            if (isset($itemConfig['allow_unprotected_content_type'])) {
+                $definition->addArgument($itemConfig['allow_unprotected_content_type']);
+            }
             foreach ($itemConfig['tags'] as $id => $attributes) {
                 $definition->addTag($id, $attributes);
             }
@@ -164,6 +167,11 @@ final readonly class NestedTokenLoader implements Source
             ->validate()
             ->always(AliasList::restore(...))
             ->end()
+            ->end()
+            ->booleanNode('allow_unprotected_content_type')
+            ->info(
+                'True loads a nested token whose "cty" header parameter is outside the protected header, false refuses it. When it is not set, such a token loads with a deprecation, as 5.0.0 refuses it by default.'
+            )
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the service.')
