@@ -224,9 +224,13 @@ class JWEDecrypter
         array $completeHeader
     ): string {
         if ($key_encryption_algorithm instanceof DirectEncryption) {
+            $this->checkEncryptedKeyIsEmpty($recipient);
+
             return $key_encryption_algorithm->getCEK($recipientKey);
         }
         if ($key_encryption_algorithm instanceof KeyAgreement) {
+            $this->checkEncryptedKeyIsEmpty($recipient);
+
             return $key_encryption_algorithm->getAgreementKey(
                 $content_encryption_algorithm->getCEKSize(),
                 $content_encryption_algorithm->name(),
@@ -260,6 +264,19 @@ class JWEDecrypter
         }
 
         throw new InvalidArgumentException('Unsupported CEK generation');
+    }
+
+    /**
+     * Direct encryption and direct key agreement transport no key (RFC 7516, section 5.2, step 10). The authentication
+     * tag does not cover the encrypted key, so nothing else rejects a token in which it was filled.
+     */
+    private function checkEncryptedKeyIsEmpty(Recipient $recipient): void
+    {
+        if (($recipient->getEncryptedKey() ?? '') !== '') {
+            throw new InvalidArgumentException(
+                'The encrypted key must be empty with direct encryption or direct key agreement.'
+            );
+        }
     }
 
     private function decryptPayload(
