@@ -222,7 +222,12 @@ class JWEDecrypter implements JWEDecrypterInterface
 
         foreach ($jwkset->all() as $recipientKey) {
             try {
-                KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                if ($key_encryption_algorithm instanceof KeyAgreement
+                    || $key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+                    KeyChecker::checkKeyAgreementKeyUsage($recipientKey, 'decryption');
+                } else {
+                    KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                }
                 if ($key_encryption_algorithm->name() !== 'dir') {
                     KeyChecker::checkKeyAlgorithm($recipientKey, $key_encryption_algorithm->name());
                 } else {
@@ -247,6 +252,7 @@ class JWEDecrypter implements JWEDecrypterInterface
                 continue;
             }
             $this->deprecateLongerDirectKey($cek, $key_encryption_algorithm, $content_encryption_algorithm);
+            $this->deprecateDirectKeyNotAllowedToDecrypt($recipientKey, $key_encryption_algorithm);
 
             return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
         }
@@ -273,6 +279,24 @@ class JWEDecrypter implements JWEDecrypterInterface
             strlen($cek) * 8,
             $algorithm->name(),
             $algorithm->getCEKSize()
+        );
+    }
+
+    /**
+     * Only the key that decrypted the token is reported: a key set may hold keys restricted to other algorithms.
+     */
+    private function deprecateDirectKeyNotAllowedToDecrypt(
+        JWK $key,
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof DirectEncryption || KeyChecker::allowsOperation($key, 'decrypt')) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Using a "%s" key whose "key_ops" parameter does not contain "decrypt" is deprecated and will not be possible in 5.0.0: the key decrypts the content.',
+            $keyEncryptionAlgorithm->name()
         );
     }
 

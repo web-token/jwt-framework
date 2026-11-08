@@ -25,6 +25,30 @@ final readonly class KeyChecker
         }
     }
 
+    /**
+     * A key agreement algorithm derives the key that encrypts the content or wraps the CEK: "deriveKey" and
+     * "deriveBits" let the key encrypt and decrypt, as an ECDH key may carry either of them.
+     */
+    public static function checkKeyAgreementKeyUsage(JWK $key, string $usage): void
+    {
+        if ($key->has('use')) {
+            self::checkUsage($key, $usage);
+        }
+        if ($key->has('key_ops')) {
+            self::checkOperation($key, $usage, ['deriveKey', 'deriveBits']);
+        }
+    }
+
+    public static function allowsOperation(JWK $key, string $operation): bool
+    {
+        if (! $key->has('key_ops')) {
+            return true;
+        }
+        $ops = $key->get('key_ops');
+
+        return is_array($ops) && in_array($operation, $ops, true);
+    }
+
     public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
     {
         $alg = $key->alg();
@@ -36,11 +60,19 @@ final readonly class KeyChecker
         }
     }
 
-    private static function checkOperation(JWK $key, string $usage): void
+    /**
+     * @param list<string> $additionalOperations Operations that allow the usage besides those listed for it
+     */
+    private static function checkOperation(JWK $key, string $usage, array $additionalOperations = []): void
     {
         $ops = $key->get('key_ops');
         if (! is_array($ops)) {
             throw new InvalidKeyException('Invalid key parameter "key_ops". Should be a list of key operations');
+        }
+        foreach ($additionalOperations as $operation) {
+            if (in_array($operation, $ops, true)) {
+                return;
+            }
         }
 
         switch ($usage) {
