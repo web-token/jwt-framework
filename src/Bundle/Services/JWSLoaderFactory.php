@@ -6,6 +6,8 @@ namespace Jose\Bundle\JoseFramework\Services;
 
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use function func_get_arg;
+use function func_num_args;
 
 final readonly class JWSLoaderFactory
 {
@@ -20,6 +22,9 @@ final readonly class JWSLoaderFactory
     /**
      * Creates a JWSLoader using the given serializer aliases, signature algorithm aliases and (optionally) the header
      * checker aliases.
+     *
+     * A fourth argument sets the maximum number of signatures of a token, passed to the loader. It is read with
+     * func_num_args()/func_get_arg(3) until 5.0.0.
      */
     public function create(array $serializers, array $algorithms, array $headerCheckers = []): JWSLoader
     {
@@ -31,6 +36,12 @@ final readonly class JWSLoaderFactory
             $headerCheckerManager = null;
         }
 
-        return new JWSLoader($serializerManager, $jwsVerifier, $headerCheckerManager, $this->eventDispatcher);
+        return new JWSLoader(
+            $serializerManager,
+            $jwsVerifier,
+            $headerCheckerManager,
+            $this->eventDispatcher,
+            func_num_args() > 3 ? func_get_arg(3) : null
+        );
     }
 }

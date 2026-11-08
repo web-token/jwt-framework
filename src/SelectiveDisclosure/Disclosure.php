@@ -7,7 +7,7 @@ namespace Jose\SelectiveDisclosure;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Util\Base64UrlSafe;
-use Jose\Component\Core\Util\JsonConverter;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\NamedInformationHash;
 use JsonException;
 use JsonSerializable;
@@ -109,6 +109,18 @@ final readonly class Disclosure implements Stringable
      */
     public static function fromString(string $disclosure): self
     {
+        return self::parse($disclosure, new BoundedJsonDecoder());
+    }
+
+    /**
+     * Parses a Disclosure of an SD-JWT: the Disclosures of one SD-JWT share the budget of the decoder.
+     *
+     * @internal
+     *
+     * @throws InvalidSerializationException if the value is not a Disclosure
+     */
+    public static function parse(string $disclosure, BoundedJsonDecoder $decoder): self
+    {
         if (preg_match('/^[A-Za-z0-9_-]+$/', $disclosure) !== 1) {
             throw new InvalidSerializationException('The Disclosure is not base64url encoded.');
         }
@@ -118,7 +130,7 @@ final readonly class Disclosure implements Stringable
             throw new InvalidSerializationException('The Disclosure is not base64url encoded.', 0, $throwable);
         }
         try {
-            $array = JsonConverter::decode($json);
+            $array = $decoder->decode($json);
         } catch (Throwable $throwable) {
             throw new InvalidSerializationException('The Disclosure is not valid JSON.', 0, $throwable);
         }

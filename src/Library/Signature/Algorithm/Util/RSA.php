@@ -11,6 +11,7 @@ use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
+use SensitiveParameter;
 use function chr;
 use function extension_loaded;
 use function ord;
@@ -75,8 +76,14 @@ final readonly class RSA
         return $result;
     }
 
-    public static function verify(RSAKey $key, string $message, string $signature, string $hash, int $mode): bool
-    {
+    public static function verify(
+        RSAKey $key,
+        #[SensitiveParameter]
+        string $message,
+        string $signature,
+        string $hash,
+        int $mode
+    ): bool {
         switch ($mode) {
             case self::SIGNATURE_PSS:
                 return self::verifyWithPSS($key, $message, $signature, $hash);
@@ -93,14 +100,17 @@ final readonly class RSA
     /**
      * Verifies a signature.
      */
-    public static function verifyWithPSS(RSAKey $key, string $message, string $signature, string $hash): bool
-    {
+    public static function verifyWithPSS(
+        RSAKey $key,
+        #[SensitiveParameter]
+        string $message,
+        string $signature,
+        string $hash
+    ): bool {
         if (strlen($signature) !== $key->getModulusLength()) {
             throw new RuntimeException();
         }
-        $s2 = BigInteger::createFromBinaryString($signature);
-        $m2 = RSAKey::exponentiate($key, $s2);
-        $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
+        $em = RSAKey::applyPublicKey($key, $signature);
         $modBits = 8 * $key->getModulusLength();
 
         return self::verifyEMSAPSS($message, $em, $modBits - 1, Hash::get($hash));
@@ -159,7 +169,7 @@ final readonly class RSA
     /**
      * EMSA-PSS-VERIFY.
      */
-    private static function verifyEMSAPSS(string $m, string $em, int $emBits, Hash $hash): bool
+    private static function verifyEMSAPSS(#[SensitiveParameter] string $m, string $em, int $emBits, Hash $hash): bool
     {
         $emLen = ($emBits + 1) >> 3;
         $sLen = $hash->getLength();

@@ -9,6 +9,7 @@ use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
+use SensitiveParameter;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
@@ -172,7 +173,7 @@ final readonly class OKPKey
      * Verifies the signature of the input with the public key, with OpenSSL (PureEdDSA, RFC 8032). Needs PHP 8.4,
      * see supportsOpenSSL(). A malformed signature is false, not an exception.
      */
-    public static function verifyWithOpenSSL(JWK $publicKey, string $input, string $signature): bool
+    public static function verifyWithOpenSSL(JWK $publicKey, #[SensitiveParameter] string $input, string $signature): bool
     {
         $key = openssl_pkey_get_public(self::convertPublicKeyToPEM($publicKey));
         if ($key === false) {

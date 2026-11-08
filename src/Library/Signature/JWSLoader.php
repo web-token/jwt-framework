@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Jose\Component\Signature;
 
 use Jose\Component\Checker\HeaderCheckerManagerInterface;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use SensitiveParameter;
 use Throwable;
+use function func_get_arg;
+use function func_num_args;
+use function is_int;
+use function sprintf;
 use function trigger_deprecation;
 
 /**
@@ -21,12 +27,31 @@ use function trigger_deprecation;
  */
 class JWSLoader implements JWSLoaderInterface
 {
+    /**
+     * The maximum number of signatures of a token from 5.0.0, when no other is set.
+     */
+    public const DEFAULT_MAX_SIGNATURES = 10;
+
+    private readonly ?int $maxSignatures;
+
+    /**
+     * A fourth argument sets the maximum number of signatures of a token: a token with more is rejected before any
+     * of them is processed. Without it, the number is not limited, but a token with more than DEFAULT_MAX_SIGNATURES
+     * signatures triggers a deprecation, as that value becomes the default in 5.0.0. That argument is not part of the
+     * signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes extending
+     * this one remain compatible.
+     */
     public function __construct(
         private readonly JWSSerializerManager $serializerManager,
         private readonly JWSVerifierInterface $jwsVerifier,
         private readonly ?HeaderCheckerManagerInterface $headerCheckerManager
     ) {
         InheritanceChecker::warnIfExtended(static::class, self::class, JWSLoaderInterface::class);
+        $maxSignatures = func_num_args() > 3 ? func_get_arg(3) : null;
+        if ($maxSignatures !== null && (! is_int($maxSignatures) || $maxSignatures < 1)) {
+            throw new InvalidArgumentException('The maximum number of signatures must be a positive integer.');
+        }
+        $this->maxSignatures = $maxSignatures;
     }
 
     /**
@@ -61,8 +86,13 @@ class JWSLoader implements JWSLoaderInterface
      *
      * @deprecated since 4.3.0, use "loadAndVerify()" instead. Will be removed in 5.0.0.
      */
-    public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
-    {
+    public function loadAndVerifyWithKey(
+        #[SensitiveParameter]
+        string $token,
+        JWK $key,
+        ?int &$signature,
+        ?string $payload = null
+    ): JWS {
         trigger_deprecation(
             'web-token/jwt-framework',
             '4.3.0',
@@ -85,6 +115,7 @@ class JWSLoader implements JWSLoaderInterface
      * @deprecated since 4.3.0, use "loadAndVerify()" instead. Will be removed in 5.0.0.
      */
     public function loadAndVerifyWithKeySet(
+        #[SensitiveParameter]
         string $token,
         JWKSet $keyset,
         ?int &$signature,
@@ -117,12 +148,30 @@ class JWSLoader implements JWSLoaderInterface
      * @param JWK|JWKSet $keys The signature will be verified using that key or the keys in that key set
      * @param string|null $payload If not null, the value must be the detached payload encoded in Base64 URL safe
      */
-    public function loadAndVerify(string $token, JWK|JWKSet $keys, ?string $payload = null): LoadingResult
-    {
+    public function loadAndVerify(
+        #[SensitiveParameter]
+        string $token,
+        JWK|JWKSet $keys,
+        ?string $payload = null
+    ): LoadingResult {
         $lastError = null;
         try {
             $jws = $this->serializerManager->unserialize($token);
             $nbSignatures = $jws->countSignatures();
+            if ($this->maxSignatures !== null && $nbSignatures > $this->maxSignatures) {
+                throw new InvalidArgumentException(sprintf(
+                    'The token has too many signatures. The maximum allowed number is %d.',
+                    $this->maxSignatures
+                ));
+            }
+            if ($this->maxSignatures === null && $nbSignatures > self::DEFAULT_MAX_SIGNATURES) {
+                trigger_deprecation(
+                    'web-token/jwt-framework',
+                    '4.3.0',
+                    'Loading a token with more than %d signatures without setting a maximum number of signatures is deprecated: from 5.0.0 such a token is rejected unless a higher maximum is set.',
+                    self::DEFAULT_MAX_SIGNATURES
+                );
+            }
             for ($i = 0; $i < $nbSignatures; ++$i) {
                 $result = $this->processSignature($jws, $keys, $i, $payload, $lastError);
                 $key = $result?->getKey();

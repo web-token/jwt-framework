@@ -10,6 +10,7 @@ use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\NamedInformationHash;
 use Jose\Component\Signature\Serializer\CompactSerializer;
@@ -22,6 +23,7 @@ use function array_is_list;
 use function array_key_exists;
 use function array_key_first;
 use function array_map;
+use function array_values;
 use function explode;
 use function is_array;
 use function is_string;
@@ -124,7 +126,7 @@ final readonly class SDJWT implements Stringable
     public static function create(string $issuerSignedJwt, array $disclosures = [], ?string $keyBindingJwt = null): self
     {
         if (self::isJson($issuerSignedJwt)) {
-            [$sdJwt, $parameters] = self::readJson($issuerSignedJwt);
+            [$sdJwt, $parameters] = self::readJson($issuerSignedJwt, new BoundedJsonDecoder());
             if ($parameters !== []) {
                 throw new InvalidSerializationException(sprintf(
                     'The Issuer-signed JWT cannot have a "%s" header parameter.',
@@ -151,8 +153,9 @@ final readonly class SDJWT implements Stringable
      */
     public static function fromString(string $sdJwt): self
     {
+        $decoder = new BoundedJsonDecoder();
         if (self::isJson($sdJwt)) {
-            return self::fromJson($sdJwt);
+            return self::fromJson($sdJwt, $decoder);
         }
         $separator = strpos($sdJwt, '~');
         if ($separator === false) {
@@ -168,7 +171,7 @@ final readonly class SDJWT implements Stringable
             if ($separator === $offset) {
                 throw new InvalidSerializationException('A Disclosure of the SD-JWT is empty.');
             }
-            $disclosures[] = Disclosure::fromString(substr($sdJwt, $offset, $separator - $offset));
+            $disclosures[] = Disclosure::parse(substr($sdJwt, $offset, $separator - $offset), $decoder);
             $offset = $separator + 1;
         }
         $keyBindingJwt = substr($sdJwt, $offset);
@@ -309,8 +312,8 @@ final readonly class SDJWT implements Stringable
             }
         }
         $selected = [];
-        foreach ($this->disclosures as $disclosure) {
-            $disclosurePath = $processed['paths'][$disclosure->digest($hashAlgorithm)];
+        foreach (array_values($this->disclosures) as $position => $disclosure) {
+            $disclosurePath = $processed['paths'][$position];
             foreach ($claimPaths as $claimPath) {
                 if (ClaimPath::overlaps($claimPath, $disclosurePath)) {
                     $selected[] = $disclosure;
@@ -355,9 +358,9 @@ final readonly class SDJWT implements Stringable
      * Parses an SD-JWT in the JWS JSON serialization: the Disclosures and the Key Binding JWT are read from the
      * unprotected header of the first signature.
      */
-    private static function fromJson(string $json): self
+    private static function fromJson(string $json, BoundedJsonDecoder $decoder): self
     {
-        [$sdJwt, $parameters] = self::readJson($json);
+        [$sdJwt, $parameters] = self::readJson($json, $decoder);
         $encoded = array_key_exists('disclosures', $parameters) ? $parameters['disclosures'] : [];
         if (! is_array($encoded) || ! array_is_list($encoded)) {
             throw new InvalidSerializationException('The "disclosures" header parameter must be an array of strings.');
@@ -369,7 +372,7 @@ final readonly class SDJWT implements Stringable
                     'The "disclosures" header parameter must be an array of strings.'
                 );
             }
-            $disclosures[] = Disclosure::fromString($disclosure);
+            $disclosures[] = Disclosure::parse($disclosure, $decoder);
         }
         if (! array_key_exists('kb_jwt', $parameters)) {
             return $sdJwt->with($disclosures, null);
@@ -390,10 +393,10 @@ final readonly class SDJWT implements Stringable
      *
      * @return array{self, array<string, mixed>} the SD-JWT, without Disclosure, and the parameters of the SD-JWT
      */
-    private static function readJson(string $json): array
+    private static function readJson(string $json, BoundedJsonDecoder $decoder): array
     {
         try {
-            $token = JsonConverter::decode($json);
+            $token = $decoder->decode($json);
         } catch (Throwable $throwable) {
             throw new InvalidSerializationException(
                 'The JWS JSON serialization must be a JSON object.',

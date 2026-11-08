@@ -13,6 +13,7 @@ use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\OKPKey;
 use Override;
 use ParagonIE\Sodium\Core\Ed25519 as SodiumEd25519;
+use SensitiveParameter;
 use function in_array;
 use function is_string;
 use function sprintf;
@@ -88,7 +89,7 @@ abstract readonly class AbstractEdDSA implements SignatureAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         if ($signature === '') {
             return false;

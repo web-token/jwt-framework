@@ -56,6 +56,11 @@ jose:
         serializers: [ 'jws_compact' ]
         signature_algorithms: [ 'HS256' ]
         is_public: true
+      jws_loader_limited:
+        serializers: [ 'jws_json_general' ]
+        signature_algorithms: [ 'HS256' ]
+        max_signatures: 1
+        is_public: true
   jwe:
     builders:
       builder1:
@@ -73,6 +78,11 @@ jose:
       jwe_loader1:
         serializers: [ 'jwe_compact' ]
         encryption_algorithms: [ 'RSA-OAEP-256', 'A256CBC-HS512' ]
+        is_public: true
+      jwe_loader_limited:
+        serializers: [ 'jwe_json_general' ]
+        encryption_algorithms: [ 'A256KW', 'A256GCM' ]
+        max_recipients: 1
         is_public: true
   nested_token:
     loaders:

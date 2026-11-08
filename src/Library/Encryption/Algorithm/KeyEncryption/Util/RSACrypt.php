@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
+use Jose\Component\Core\Exception\DecryptionFailedException;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Exception\RuntimeException;
@@ -11,10 +12,11 @@ use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\Hash;
 use Jose\Component\Core\Util\RSAKey;
+use SensitiveParameter;
 use function chr;
-use function count;
 use function ord;
 use function strlen;
+use function trigger_deprecation;
 use const STR_PAD_LEFT;
 
 /**
@@ -86,10 +88,7 @@ final readonly class RSACrypt
         $type = 2;
         $data = chr(0) . chr($type) . $ps . chr(0) . $data;
 
-        $binaryData = BigInteger::createFromBinaryString($data);
-        $c = self::getRSAEP($key, $binaryData);
-
-        return self::convertIntegerToOctetString($c, $key->getModulusLength());
+        return RSAKey::applyPublicKey($key, $data);
     }
 
     public static function decryptWithRSA15(RSAKey $key, string $c, ?int $expectedKeyLength = null): string
@@ -116,7 +115,7 @@ final readonly class RSACrypt
         return self::extractRSA15KeyOrRandom($em, $expectedKeyLength);
     }
 
-    private static function extractRSA15KeyOrRandom(string $em, int $expectedKeyLength): string
+    private static function extractRSA15KeyOrRandom(#[SensitiveParameter] string $em, int $expectedKeyLength): string
     {
         if ($expectedKeyLength < 1) {
             throw new InvalidArgumentException('Invalid CEK length.');
@@ -181,13 +180,11 @@ final readonly class RSACrypt
         if ($length <= 0) {
             throw new RuntimeException();
         }
-        $splitPlaintext = str_split($plaintext, $length);
-        $ciphertext = '';
-        foreach ($splitPlaintext as $m) {
-            $ciphertext .= self::encryptRSAESOAEP($key, $m, $hash);
+        if (strlen($plaintext) > $length) {
+            throw new InvalidArgumentException('Message too long');
         }
 
-        return $ciphertext;
+        return self::encryptRSAESOAEP($key, $plaintext, $hash);
     }
 
     /**
@@ -195,21 +192,27 @@ final readonly class RSACrypt
      */
     public static function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
     {
-        if ($key->getModulusLength() <= 0) {
+        $modulusLength = $key->getModulusLength();
+        if ($modulusLength <= 0) {
             throw new RuntimeException('Invalid modulus length');
         }
-        $hash = Hash::$hash_algorithm();
-        $splitCiphertext = str_split($ciphertext, $key->getModulusLength());
-        $splitCiphertext[count($splitCiphertext) - 1] = str_pad(
-            $splitCiphertext[count($splitCiphertext) - 1],
-            $key->getModulusLength(),
-            chr(0),
-            STR_PAD_LEFT
+        $ciphertextLength = strlen($ciphertext);
+        if ($ciphertextLength > $modulusLength) {
+            throw new DecryptionFailedException('Unable to decrypt');
+        }
+        $plaintext = self::getRSAESOAEP(
+            $key,
+            str_pad($ciphertext, $modulusLength, chr(0), STR_PAD_LEFT),
+            Hash::$hash_algorithm()
         );
-        $plaintext = '';
-        foreach ($splitCiphertext as $c) {
-            $temp = self::getRSAESOAEP($key, $c, $hash);
-            $plaintext .= $temp;
+        if ($ciphertextLength < $modulusLength) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '4.3.0',
+                'An RSA-OAEP encrypted key of %d bytes is deprecated and will be rejected in 5.0.0: it must be as long as the modulus, %d bytes.',
+                $ciphertextLength,
+                $modulusLength
+            );
         }
 
         return $plaintext;
@@ -234,23 +237,11 @@ final readonly class RSACrypt
     }
 
     /**
-     * RSA EP.
-     */
-    private static function getRSAEP(RSAKey $key, BigInteger $m): BigInteger
-    {
-        if ($m->compare(BigInteger::createFromDecimal(0)) < 0 || $m->compare($key->getModulus()) > 0) {
-            throw new RuntimeException();
-        }
-
-        return RSAKey::exponentiate($key, $m);
-    }
-
-    /**
      * RSA DP.
      */
     private static function getRSADP(RSAKey $key, BigInteger $c): BigInteger
     {
-        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
+        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) >= 0) {
             throw new RuntimeException();
         }
 
@@ -288,10 +279,7 @@ final readonly class RSACrypt
         $maskedSeed = $seed ^ $seedMask;
         $em = chr(0) . $maskedSeed . $maskedDB;
 
-        $m = self::convertOctetStringToInteger($em);
-        $c = self::getRSAEP($key, $m);
-
-        return self::convertIntegerToOctetString($c, $key->getModulusLength());
+        return RSAKey::applyPublicKey($key, $em);
     }
 
     /**

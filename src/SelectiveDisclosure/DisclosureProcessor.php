@@ -7,9 +7,12 @@ namespace Jose\SelectiveDisclosure;
 use Jose\Component\Core\Exception\InvalidTokenException;
 use function array_is_list;
 use function array_key_exists;
+use function array_values;
 use function count;
+use function hash_hmac;
 use function is_array;
 use function is_string;
+use function random_bytes;
 use function sprintf;
 
 /**
@@ -38,9 +41,21 @@ use function sprintf;
 final class DisclosureProcessor
 {
     /**
-     * @var array<string, Disclosure>
+     * The secret of this processing: the digests are recorded under a hash keyed with it, see index().
      */
-    private array $disclosures = [];
+    private readonly string $key;
+
+    /**
+     * @var list<Disclosure>
+     */
+    private readonly array $disclosures;
+
+    /**
+     * The position of each Disclosure, indexed by the keyed hash of its digest.
+     *
+     * @var array<string, int>
+     */
+    private array $positions = [];
 
     /**
      * @var array<string, true>
@@ -48,7 +63,7 @@ final class DisclosureProcessor
     private array $digests = [];
 
     /**
-     * @var array<string, list<string|int>>
+     * @var array<int, list<string|int>>
      */
     private array $paths = [];
 
@@ -57,23 +72,25 @@ final class DisclosureProcessor
      */
     private function __construct(array $disclosures, string $hashAlgorithm)
     {
-        foreach ($disclosures as $disclosure) {
-            $digest = $disclosure->digest($hashAlgorithm);
-            if (array_key_exists($digest, $this->disclosures)) {
+        $this->key = random_bytes(32);
+        $this->disclosures = array_values($disclosures);
+        foreach ($this->disclosures as $position => $disclosure) {
+            $index = $this->index($disclosure->digest($hashAlgorithm));
+            if (array_key_exists($index, $this->positions)) {
                 throw new InvalidTokenException('A Disclosure is presented more than once.');
             }
-            $this->disclosures[$digest] = $disclosure;
+            $this->positions[$index] = $position;
         }
     }
 
     /**
      * Processes the payload and returns the Processed SD-JWT Payload, without "_sd_alg", and the path of the value
-     * disclosed by each Disclosure, indexed by the digest of the Disclosure.
+     * disclosed by each Disclosure, indexed by the position of the Disclosure in the given list.
      *
      * @param array<mixed> $payload the payload of the Issuer-signed JWT, a JSON object
      * @param list<Disclosure> $disclosures
      *
-     * @return array{claims: array<string, mixed>, paths: array<string, list<string|int>>}
+     * @return array{claims: array<string, mixed>, paths: array<int, list<string|int>>}
      */
     public static function process(array $payload, array $disclosures, string $hashAlgorithm): array
     {
@@ -153,10 +170,11 @@ final class DisclosureProcessor
             if (! is_string($digest)) {
                 throw new InvalidTokenException('The "_sd" member must be an array of digests.');
             }
-            $disclosure = $this->find($digest);
-            if ($disclosure === null) {
+            $position = $this->find($digest);
+            if ($position === null) {
                 continue;
             }
+            $disclosure = $this->disclosures[$position];
             $claimName = $disclosure->getClaimName();
             if ($claimName === null) {
                 throw new InvalidTokenException('The Disclosure of an array element is referenced by an object.');
@@ -164,7 +182,7 @@ final class DisclosureProcessor
             if (array_key_exists($claimName, $claims)) {
                 throw new InvalidTokenException(sprintf('The disclosed claim "%s" already exists.', $claimName));
             }
-            $this->paths[$digest] = [...$path, $claimName];
+            $this->paths[$position] = [...$path, $claimName];
             $claims[$claimName] = $this->processValue($disclosure->getValue(), [...$path, $claimName]);
         }
 
@@ -192,14 +210,15 @@ final class DisclosureProcessor
             if (! is_string($digest)) {
                 throw new InvalidTokenException('The "..." member must be a digest.');
             }
-            $disclosure = $this->find($digest);
-            if ($disclosure === null) {
+            $position = $this->find($digest);
+            if ($position === null) {
                 continue;
             }
+            $disclosure = $this->disclosures[$position];
             if (! $disclosure->isArrayElement()) {
                 throw new InvalidTokenException('The Disclosure of an object property is referenced by an array.');
             }
-            $this->paths[$digest] = [...$path, count($elements)];
+            $this->paths[$position] = [...$path, count($elements)];
             $elements[] = $this->processValue($disclosure->getValue(), [...$path, count($elements)]);
         }
 
@@ -207,16 +226,25 @@ final class DisclosureProcessor
     }
 
     /**
-     * Returns the Disclosure the digest references, if any, after having checked that the digest is met for the first
-     * time.
+     * Returns the position of the Disclosure the digest references, if any, after having checked that the digest is met
+     * for the first time.
      */
-    private function find(string $digest): ?Disclosure
+    private function find(string $digest): ?int
     {
-        if (array_key_exists($digest, $this->digests)) {
+        $index = $this->index($digest);
+        if (array_key_exists($index, $this->digests)) {
             throw new InvalidTokenException(sprintf('The digest "%s" appears more than once in the SD-JWT.', $digest));
         }
-        $this->digests[$digest] = true;
+        $this->digests[$index] = true;
 
-        return $this->disclosures[$digest] ?? null;
+        return $this->positions[$index] ?? null;
+    }
+
+    /**
+     * The key a digest is recorded under: its HMAC with the secret of this processing, which the token cannot predict.
+     */
+    private function index(string $digest): string
+    {
+        return hash_hmac('sha256', $digest, $this->key, true);
     }
 }

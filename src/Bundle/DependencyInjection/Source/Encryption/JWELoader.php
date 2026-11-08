@@ -35,6 +35,7 @@ final readonly class JWELoader implements Source
                     $itemConfig['serializers'],
                     $itemConfig['encryption_algorithms'],
                     $itemConfig['header_checkers'],
+                    $itemConfig['max_recipients'],
                 ])
                 ->addTag('jose.jwe_loader')
                 ->setPublic($itemConfig['is_public']);
@@ -83,6 +84,11 @@ final readonly class JWELoader implements Source
             ->treatFalseLike([])
             ->scalarPrototype()
             ->end()
+            ->end()
+            ->integerNode('max_recipients')
+            ->info('The maximum number of recipients of a token: a token with more is rejected. Without it, the number is not limited, but a token with more than 10 recipients triggers a deprecation, as 10 becomes the default in 5.0.0.')
+            ->min(1)
+            ->defaultNull()
             ->end()
             ->arrayNode('tags')
             ->info('A list of tags to be associated to the service.')

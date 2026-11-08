@@ -9,6 +9,7 @@ use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
+use SensitiveParameter;
 use SpomkyLabs\Pki\ASN1\Element;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
@@ -236,7 +237,7 @@ final readonly class AKPKey
      * Verifies the signature of the input with the public key. A public key OpenSSL cannot load makes the signature
      * invalid: it is a verification outcome, not an error.
      */
-    public static function verify(JWK $key, string $input, string $signature): bool
+    public static function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         self::assertSupported();
         $publicKey = openssl_pkey_get_public(self::convertPublicKeyToPEM($key));

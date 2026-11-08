@@ -10,6 +10,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Override;
+use SensitiveParameter;
 use function extension_loaded;
 use function in_array;
 use function is_string;
@@ -42,13 +43,13 @@ final readonly class Blake2b implements MacAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         return hash_equals($this->hash($key, $input), $signature);
     }
 
     #[Override]
-    public function hash(JWK $key, string $input): string
+    public function hash(JWK $key, #[SensitiveParameter] string $input): string
     {
         $k = $this->getKey($key);
 

@@ -14,6 +14,8 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Override;
 use function in_array;
 use function is_string;
+use function strlen;
+use function trigger_deprecation;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESCTR implements KeyEncryption
@@ -32,6 +34,7 @@ abstract readonly class AESCTR implements KeyEncryption
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
+        $this->deprecateLongerKey(strlen($k) * 8);
         $iv = random_bytes(16);
 
         // We set header parameters
@@ -60,6 +63,7 @@ abstract readonly class AESCTR implements KeyEncryption
         if ($result === false) {
             throw new DecryptionFailedException('Unable to decrypt the CEK');
         }
+        $this->deprecateLongerKey(strlen($k) * 8);
 
         return $result;
     }
@@ -84,7 +88,38 @@ abstract readonly class AESCTR implements KeyEncryption
         if (! is_string($k)) {
             throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
+        $k = Base64UrlSafe::decodeNoPadding($k);
+        $keySize = $this->getKeySize();
+        if ($keySize !== null && strlen($k) * 8 < $keySize) {
+            throw new InvalidKeyException('Invalid key length.');
+        }
 
-        return Base64UrlSafe::decodeNoPadding($k);
+        return $k;
+    }
+
+    private function getKeySize(): ?int
+    {
+        return match ($this->getMode()) {
+            'aes-128-ctr' => 128,
+            'aes-192-ctr' => 192,
+            'aes-256-ctr' => 256,
+            default => null,
+        };
+    }
+
+    private function deprecateLongerKey(int $keyLength): void
+    {
+        $keySize = $this->getKeySize();
+        if ($keySize === null || $keyLength <= $keySize) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-experimental',
+            '4.3.0',
+            'Using a key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
+            $keyLength,
+            $this->name(),
+            $keySize
+        );
     }
 }

@@ -9,6 +9,7 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Signature\Algorithm\Util\RSA as JoseRSA;
 use Override;
+use SensitiveParameter;
 use function in_array;
 use function sprintf;
 
@@ -21,7 +22,7 @@ abstract readonly class RSAPSS implements SignatureAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         $this->checkKey($key);
         $pub = RSAKey::createFromJWK($key->toPublic());

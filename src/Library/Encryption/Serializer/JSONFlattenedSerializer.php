@@ -6,6 +6,7 @@ namespace Jose\Component\Encryption\Serializer;
 
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
@@ -62,7 +63,8 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
     #[Override]
     public function unserialize(string $input): JWE
     {
-        $data = JsonConverter::decode($input);
+        $json = new BoundedJsonDecoder();
+        $data = $json->decode($input);
         if (! is_array($data)) {
             throw new InvalidSerializationException('Unsupported input.');
         }
@@ -72,7 +74,7 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
         $iv = Base64UrlSafe::decodeNoPadding($data['iv']);
         $tag = Base64UrlSafe::decodeNoPadding($data['tag']);
         $aad = array_key_exists('aad', $data) ? Base64UrlSafe::decodeNoPadding($data['aad']) : null;
-        [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data);
+        [$encodedSharedProtectedHeader, $sharedProtectedHeader, $sharedHeader] = $this->processHeaders($data, $json);
         $encryptedKey = array_key_exists('encrypted_key', $data) ? Base64UrlSafe::decodeNoPadding(
             $data['encrypted_key']
         ) : null;
@@ -97,10 +99,10 @@ final readonly class JSONFlattenedSerializer implements JWESerializer
         }
     }
 
-    private function processHeaders(array $data): array
+    private function processHeaders(array $data, BoundedJsonDecoder $json): array
     {
         $encodedSharedProtectedHeader = array_key_exists('protected', $data) ? $data['protected'] : null;
-        $sharedProtectedHeader = $encodedSharedProtectedHeader ? JsonConverter::decode(
+        $sharedProtectedHeader = $encodedSharedProtectedHeader ? $json->decode(
             Base64UrlSafe::decodeNoPadding($encodedSharedProtectedHeader)
         ) : [];
         $sharedHeader = $data['unprotected'] ?? [];

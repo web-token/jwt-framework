@@ -1015,6 +1015,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
+			rawMessage: Cannot access offset 'max_recipients' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
 			rawMessage: Cannot access offset 'serializers' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -1051,6 +1057,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
+			rawMessage: 'Cannot call method defaultNull() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
 			rawMessage: 'Cannot call method defaultTrue() on mixed.'
 			identifier: method.nonObject
 			count: 1
@@ -1059,17 +1071,29 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 13
+			count: 14
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
 			rawMessage: 'Cannot call method info() on mixed.'
 			identifier: method.nonObject
-			count: 5
+			count: 6
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
+			rawMessage: 'Cannot call method integerNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
 			rawMessage: 'Cannot call method isRequired() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
+			rawMessage: 'Cannot call method min() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
@@ -3715,6 +3739,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
+			rawMessage: Cannot access offset 'max_signatures' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
 			rawMessage: Cannot access offset 'serializers' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -3757,6 +3787,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
+			rawMessage: 'Cannot call method defaultNull() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
 			rawMessage: 'Cannot call method defaultTrue() on mixed.'
 			identifier: method.nonObject
 			count: 1
@@ -3765,17 +3801,29 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 13
+			count: 14
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
 			rawMessage: 'Cannot call method info() on mixed.'
 			identifier: method.nonObject
-			count: 5
+			count: 6
+			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
+			rawMessage: 'Cannot call method integerNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
 			rawMessage: 'Cannot call method isRequired() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
+			rawMessage: 'Cannot call method min() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
@@ -5343,6 +5391,12 @@ parameters:
 			path: ../src/Library/Core/Util/RSAKey.php
 
 		-
+			rawMessage: 'Parameter #1 $encodedString of static method Jose\Component\Core\Util\Base64UrlSafe::decodeNoPadding() expects string, mixed given.'
+			identifier: argument.type
+			count: 1
+			path: ../src/Library/Core/Util/RSAKey.php
+
+		-
 			rawMessage: 'Parameter #1 $value of method Jose\Component\Core\Util\RSAKey::convertBase64StringToBigInteger() expects string, mixed given.'
 			identifier: argument.type
 			count: 8
@@ -5979,7 +6033,7 @@ parameters:
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			rawMessage: 'Parameter #2 $protectedHeader of method Jose\Component\Signature\JWS::addSignature() expects array<string, mixed>, mixed given.'
+			rawMessage: 'Parameter #2 $protectedHeader of class Jose\Component\Signature\Signature constructor expects array<string, mixed>, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
@@ -5991,13 +6045,13 @@ parameters:
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			rawMessage: 'Parameter #3 $encodedProtectedHeader of method Jose\Component\Signature\JWS::addSignature() expects string|null, mixed given.'
+			rawMessage: 'Parameter #3 $encodedProtectedHeader of class Jose\Component\Signature\Signature constructor expects string|null, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php
 
 		-
-			rawMessage: 'Parameter #4 $header of method Jose\Component\Signature\JWS::addSignature() expects array<string, mixed>, mixed given.'
+			rawMessage: 'Parameter #4 $header of class Jose\Component\Signature\Signature constructor expects array<string, mixed>, mixed given.'
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/Signature/Serializer/JSONGeneralSerializer.php

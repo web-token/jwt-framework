@@ -9,6 +9,7 @@ use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\AKPKey;
 use Override;
+use SensitiveParameter;
 use function sprintf;
 use function strlen;
 
@@ -71,7 +72,7 @@ abstract readonly class MLDSA implements SignatureAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         if ($signature === '') {
             return false;
