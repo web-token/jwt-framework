@@ -296,6 +296,26 @@ class JWEDecrypter implements JWEDecrypterInterface
     }
 
     /**
+     * AES Key Wrap adds 64 bits to the key it wraps. Any other size is rejected before the key derivation, the key
+     * agreement and the unwrapping, which processes the whole encrypted key before checking its integrity.
+     */
+    private function checkWrappedKeySize(
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
+        Recipient $recipient,
+        ContentEncryptionAlgorithm $contentEncryptionAlgorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof AESKW
+            && ! $keyEncryptionAlgorithm instanceof PBES2AESKW
+            && ! $keyEncryptionAlgorithm instanceof AbstractECDHAESKW
+        ) {
+            return;
+        }
+        if (strlen($recipient->getEncryptedKey() ?? '') * 8 !== $contentEncryptionAlgorithm->getCEKSize() + 64) {
+            throw new InvalidArgumentException('Invalid encrypted key size');
+        }
+    }
+
+    /**
      * The recipients of a token share the iteration count cap of PBES2: one token cannot request more key derivation
      * work than a single recipient at the cap.
      *
@@ -400,26 +420,6 @@ class JWEDecrypter implements JWEDecrypterInterface
             throw new InvalidArgumentException(
                 'The encrypted key must be empty with direct encryption or direct key agreement.'
             );
-        }
-    }
-
-    /**
-     * AES Key Wrap adds 64 bits to the key it wraps. Any other size is rejected before the key derivation, the key
-     * agreement and the unwrapping, which processes the whole encrypted key before checking its integrity.
-     */
-    private function checkWrappedKeySize(
-        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
-        Recipient $recipient,
-        ContentEncryptionAlgorithm $contentEncryptionAlgorithm
-    ): void {
-        if (! $keyEncryptionAlgorithm instanceof AESKW
-            && ! $keyEncryptionAlgorithm instanceof PBES2AESKW
-            && ! $keyEncryptionAlgorithm instanceof AbstractECDHAESKW
-        ) {
-            return;
-        }
-        if (strlen($recipient->getEncryptedKey() ?? '') * 8 !== $contentEncryptionAlgorithm->getCEKSize() + 64) {
-            throw new InvalidArgumentException('Invalid encrypted key size');
         }
     }
 
