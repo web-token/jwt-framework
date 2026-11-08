@@ -16,8 +16,11 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use function restore_error_handler;
+use function set_error_handler;
 use function sprintf;
 use function strlen;
+use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -55,7 +58,7 @@ final class RSAOAEPEncryptedKeyLengthTest extends EncryptionTestCase
     }
 
     #[Test]
-    public function anEncryptedKeyShorterThanTheModulusIsLeftPadded(): void
+    public function anEncryptedKeyShorterThanTheModulusIsStillDecryptedButDeprecated(): void
     {
         $privateKey = $this->getPrivateKey();
         $algorithm = new RSAOAEP256();
@@ -64,11 +67,36 @@ final class RSAOAEPEncryptedKeyLengthTest extends EncryptionTestCase
             'AMk2ffFRxcuyBdu-wDiQGNVpXD4JVg8FNc2xzV3RpjrfUyJeftqbkvKo62k5eRKJD3alg3L7NwgoBUewzc_B4_g2U2U1NMYx8U2EYUAPOZqcXc1PRcv03UNqmsDv-TIYe5-SUBSJ4m8VuAST3KQQZwCjcQqA_J2ejF97VSkD3DWuH0HfLJHGXi_7T_OOQmWZ9pDOJw3EQlvRLOf3YVIVjPatsSn5Vzg5--RuwIeWwpvanIEb13x4tJcTRosLxsci1Ifle7KyJewV3UeEEUHVeBTWmNhFVN2imLFC5uIQDxpPZv-2XknGBcvQaSNQjcQ-v_KlvHQVQ1hvAr6bzKJEbA'
         );
 
-        static::assertSame($cek, $algorithm->decryptKey($privateKey, $encryptedKey, []));
-        static::assertSame($cek, $algorithm->decryptKey($privateKey, substr($encryptedKey, 1), []));
+        $deprecations = $this->collectDeprecations(static function () use ($algorithm, $privateKey, $encryptedKey, $cek): void {
+            static::assertSame($cek, $algorithm->decryptKey($privateKey, $encryptedKey, []));
+        });
+        static::assertSame([], $deprecations);
 
-        $this->expectException(RuntimeException::class);
-        $algorithm->decryptKey($privateKey, '', []);
+        $deprecations = $this->collectDeprecations(static function () use ($algorithm, $privateKey, $encryptedKey, $cek): void {
+            static::assertSame($cek, $algorithm->decryptKey($privateKey, substr($encryptedKey, 1), []));
+        });
+        static::assertSame([
+            'Since web-token/jwt-library 4.3.0: An RSA-OAEP encrypted key of 255 bytes is deprecated and will be rejected in 5.0.0: it must be as long as the modulus, 256 bytes.',
+        ], $deprecations);
+    }
+
+    #[Test]
+    public function aShorterEncryptedKeyThatDoesNotDecryptIsNotReported(): void
+    {
+        $privateKey = $this->getPrivateKey();
+        $algorithm = new RSAOAEP256();
+        $rejected = false;
+
+        $deprecations = $this->collectDeprecations(static function () use ($algorithm, $privateKey, &$rejected): void {
+            try {
+                $algorithm->decryptKey($privateKey, '', []);
+            } catch (RuntimeException) {
+                $rejected = true;
+            }
+        });
+
+        static::assertTrue($rejected);
+        static::assertSame([], $deprecations);
     }
 
     #[DataProvider('dataMaximumMessageLengths')]
@@ -154,6 +182,27 @@ final class RSAOAEPEncryptedKeyLengthTest extends EncryptionTestCase
     {
         yield 'RSA-OAEP' => [new RSAOAEP(), 214];
         yield 'RSA-OAEP-256' => [new RSAOAEP256(), 190];
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function collectDeprecations(callable $callback): array
+    {
+        $deprecations = [];
+        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
+            $deprecations[] = $errstr;
+
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $deprecations;
     }
 
     private function encryptKey(RSA $algorithm, JWK $key, string $message): string

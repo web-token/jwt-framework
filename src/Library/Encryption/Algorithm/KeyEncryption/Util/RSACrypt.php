@@ -16,6 +16,7 @@ use SensitiveParameter;
 use function chr;
 use function ord;
 use function strlen;
+use function trigger_deprecation;
 use const STR_PAD_LEFT;
 
 /**
@@ -194,18 +195,30 @@ final readonly class RSACrypt
      */
     public static function decryptWithRSAOAEP(RSAKey $key, string $ciphertext, string $hash_algorithm): string
     {
-        if ($key->getModulusLength() <= 0) {
+        $modulusLength = $key->getModulusLength();
+        if ($modulusLength <= 0) {
             throw new RuntimeException('Invalid modulus length');
         }
-        if (strlen($ciphertext) > $key->getModulusLength()) {
+        $ciphertextLength = strlen($ciphertext);
+        if ($ciphertextLength > $modulusLength) {
             throw new DecryptionFailedException('Unable to decrypt');
         }
-
-        return self::getRSAESOAEP(
+        $plaintext = self::getRSAESOAEP(
             $key,
-            str_pad($ciphertext, $key->getModulusLength(), chr(0), STR_PAD_LEFT),
+            str_pad($ciphertext, $modulusLength, chr(0), STR_PAD_LEFT),
             Hash::$hash_algorithm()
         );
+        if ($ciphertextLength < $modulusLength) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '4.3.0',
+                'An RSA-OAEP encrypted key of %d bytes is deprecated and will be rejected in 5.0.0: it must be as long as the modulus, %d bytes.',
+                $ciphertextLength,
+                $modulusLength
+            );
+        }
+
+        return $plaintext;
     }
 
     private static function convertIntegerToOctetString(BigInteger $x, int $xLen): string
