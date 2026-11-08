@@ -232,7 +232,7 @@ class JWEDecrypter implements JWEDecrypterInterface
                     $recipient,
                     $completeHeader
                 );
-                $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
+                $this->checkCekSize($cek, $content_encryption_algorithm);
                 $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm);
             } catch (Throwable $throwable) {
                 if ($onError !== null) {
@@ -241,7 +241,6 @@ class JWEDecrypter implements JWEDecrypterInterface
 
                 continue;
             }
-            $this->deprecateLongerDirectKey($cek, $key_encryption_algorithm, $content_encryption_algorithm);
 
             return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
         }
@@ -250,42 +249,15 @@ class JWEDecrypter implements JWEDecrypterInterface
     }
 
     /**
-     * Only the key that decrypted the token is reported: a key set may hold longer keys meant for other algorithms.
-     */
-    private function deprecateLongerDirectKey(
-        #[SensitiveParameter]
-        string $cek,
-        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
-        ContentEncryptionAlgorithm $algorithm
-    ): void {
-        if (! $keyEncryptionAlgorithm instanceof DirectEncryption || strlen($cek) * 8 <= $algorithm->getCEKSize()) {
-            return;
-        }
-        trigger_deprecation(
-            'web-token/jwt-library',
-            '4.3.0',
-            'Using a "dir" key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
-            strlen($cek) * 8,
-            $algorithm->name(),
-            $algorithm->getCEKSize()
-        );
-    }
-
-    /**
-     * A key obtained by key agreement is checked like a decrypted or unwrapped one, and a direct key must be at least
-     * that long: the content encryption algorithms pad a short key with zero bytes instead of rejecting it.
+     * Every key management mode is checked, the direct one included: the content encryption algorithms pad a short key
+     * with zero bytes and ignore the end of a long one.
      */
     private function checkCekSize(
         #[SensitiveParameter]
         string $cek,
-        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
         ContentEncryptionAlgorithm $algorithm
     ): void {
-        $cekSize = strlen($cek) * 8;
-        if ($keyEncryptionAlgorithm instanceof DirectEncryption && $cekSize > $algorithm->getCEKSize()) {
-            return;
-        }
-        if ($cekSize !== $algorithm->getCEKSize()) {
+        if (strlen($cek) * 8 !== $algorithm->getCEKSize()) {
             throw new InvalidArgumentException('Invalid CEK size');
         }
     }

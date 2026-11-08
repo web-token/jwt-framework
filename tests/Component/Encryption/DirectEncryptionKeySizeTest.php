@@ -13,12 +13,10 @@ use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use function intdiv;
-use function set_error_handler;
-use const E_USER_DEPRECATED;
 
 /**
  * With "dir", the key is the CEK. AES-CBC-HMAC takes its MAC key from the first half and its AES key from the second
- * half, and OpenSSL pads a short AES key with zero bytes.
+ * half, and OpenSSL pads a short AES key with zero bytes and ignores the end of a long one.
  *
  * @internal
  */
@@ -26,9 +24,9 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
 {
     private const PAYLOAD = 'Live long and Prosper.';
 
-    #[DataProvider('shorterKeys')]
+    #[DataProvider('keysOfAnotherSize')]
     #[Test]
-    public function theBuilderRefusesADirectKeyShorterThanTheContentEncryptionKey(string $enc, int $keyLength): void
+    public function theBuilderRefusesADirectKeyOfAnotherSizeThanTheContentEncryptionKey(string $enc, int $keyLength): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid CEK size');
@@ -40,9 +38,9 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
      * The tokens are encrypted the way the builder did before it checked the key. With an empty key, anyone can make
      * them.
      */
-    #[DataProvider('shorterKeys')]
+    #[DataProvider('keysOfAnotherSize')]
     #[Test]
-    public function theDecrypterRefusesADirectKeyShorterThanTheContentEncryptionKey(string $enc, int $keyLength): void
+    public function theDecrypterRefusesADirectKeyOfAnotherSizeThanTheContentEncryptionKey(string $enc, int $keyLength): void
     {
         $key = $this->createKey($keyLength);
 
@@ -55,51 +53,51 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
     {
         $key = $this->createKey($keyLength);
 
-        $deprecations = $this->collectDeprecations(function () use ($enc, $key): void {
-            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->build($enc, $key), $key));
-            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->encryptContent($enc, $key), $key));
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->build($enc, $key), $key));
+        static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->encryptContent($enc, $key), $key));
     }
 
+    /**
+     * A token issued by 4.x with a longer key is decrypted with the first bytes of that key, as many as the content
+     * encryption key has.
+     */
     #[DataProvider('longerKeys')]
     #[Test]
-    public function aLongerDirectKeyIsStillAcceptedButDeprecated(string $enc, int $keyLength, string $message): void
+    public function aTokenIssuedWithALongerKeyIsDecryptedWithItsFirstBytes(string $enc, int $keyLength): void
     {
         $key = $this->createKey($keyLength);
+        $algorithm = $this->getAlgorithmManagerFactory()
+            ->create([$enc])
+            ->get($enc);
+        static::assertInstanceOf(ContentEncryptionAlgorithm::class, $algorithm);
+        $truncatedKey = new JWK([
+            'kty' => 'oct',
+            'k' => Base64UrlSafe::encodeUnpadded(substr(
+                Base64UrlSafe::decodeNoPadding((string) $key->get('k')),
+                0,
+                intdiv($algorithm->getCEKSize(), 8)
+            )),
+        ]);
 
-        $deprecations = $this->collectDeprecations(function () use ($enc, $key): void {
-            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->build($enc, $key), $key));
-            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->encryptContent($enc, $key), $key));
-        });
-
-        static::assertCount(3, $deprecations);
-        foreach ($deprecations as $deprecation) {
-            static::assertStringContainsString($message, $deprecation);
-        }
+        static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->encryptContent($enc, $key), $truncatedKey));
     }
 
     #[Test]
-    public function aLongerKeyThatDoesNotDecryptTheTokenIsNotReported(): void
+    public function theKeyOfTheRightSizeIsFoundInAKeySet(): void
     {
         $key = $this->createKey(32);
         $token = $this->encryptContent('A256GCM', $key);
 
-        $deprecations = $this->collectDeprecations(function () use ($token, $key): void {
-            static::assertSame(
-                self::PAYLOAD,
-                $this->decrypt('A256GCM', $token, new JWKSet([$this->createKey(64), $key]))
-            );
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertSame(
+            self::PAYLOAD,
+            $this->decrypt('A256GCM', $token, new JWKSet([$this->createKey(64), $this->createKey(16), $key]))
+        );
     }
 
     /**
      * @return iterable<string, array{string, int}>
      */
-    public static function shorterKeys(): iterable
+    public static function keysOfAnotherSize(): iterable
     {
         yield 'A128CBC-HS256, 16 bytes, all-zero AES key' => ['A128CBC-HS256', 16];
         yield 'A192CBC-HS384, 24 bytes, all-zero AES key' => ['A192CBC-HS384', 24];
@@ -111,6 +109,10 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
         yield 'A128GCM, 15 bytes' => ['A128GCM', 15];
         yield 'A256GCM, 16 bytes' => ['A256GCM', 16];
         yield 'A128GCM, empty key' => ['A128GCM', 0];
+        yield 'A128CBC-HS256, 64 bytes' => ['A128CBC-HS256', 64];
+        yield 'A128CBC-HS256, 33 bytes' => ['A128CBC-HS256', 33];
+        yield 'A128GCM, 32 bytes' => ['A128GCM', 32];
+        yield 'A256GCM, 33 bytes' => ['A256GCM', 33];
     }
 
     /**
@@ -127,43 +129,14 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
     }
 
     /**
-     * @return iterable<string, array{string, int, string}>
+     * @return iterable<string, array{string, int}>
      */
     public static function longerKeys(): iterable
     {
-        yield 'A128CBC-HS256, 64 bytes' => [
-            'A128CBC-HS256',
-            64,
-            'Using a "dir" key of 512 bits with "A128CBC-HS256" is deprecated and will not be possible in 5.0.0: the key must have exactly 256 bits.',
-        ];
-        yield 'A128GCM, 32 bytes' => [
-            'A128GCM',
-            32,
-            'Using a "dir" key of 256 bits with "A128GCM" is deprecated and will not be possible in 5.0.0: the key must have exactly 128 bits.',
-        ];
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
+        yield 'A128CBC-HS256, 64 bytes' => ['A128CBC-HS256', 64];
+        yield 'A192CBC-HS384, 49 bytes' => ['A192CBC-HS384', 49];
+        yield 'A128GCM, 32 bytes' => ['A128GCM', 32];
+        yield 'A256GCM, 33 bytes' => ['A256GCM', 33];
     }
 
     private function createKey(int $length): JWK

@@ -591,8 +591,8 @@ class JWEBuilder implements JWEBuilderInterface
     }
 
     /**
-     * A key obtained by key agreement must have the size the content encryption algorithm needs, and a direct key at
-     * least that size: the content encryption algorithms pad a short key with zero bytes instead of rejecting it.
+     * A key obtained by key agreement or used directly must have the size the content encryption algorithm needs: the
+     * content encryption algorithms pad a short key with zero bytes and ignore the end of a long one.
      *
      * @param list<KeyEncryptionAlgorithm> $keyEncryptionAlgorithms
      * @param array<string, mixed> $additionalHeader
@@ -648,19 +648,8 @@ class JWEBuilder implements JWEBuilderInterface
                     throw new RuntimeException('Invalid key.');
                 }
                 $cek = Base64UrlSafe::decodeNoPadding($k);
-                $keySize = strlen($cek) * 8;
-                if ($keySize < $contentEncryptionAlgorithm->getCEKSize()) {
+                if (strlen($cek) * 8 !== $contentEncryptionAlgorithm->getCEKSize()) {
                     throw new InvalidArgumentException('Invalid CEK size');
-                }
-                if ($keySize > $contentEncryptionAlgorithm->getCEKSize()) {
-                    trigger_deprecation(
-                        'web-token/jwt-library',
-                        '4.3.0',
-                        'Using a "dir" key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
-                        $keySize,
-                        $contentEncryptionAlgorithm->name(),
-                        $contentEncryptionAlgorithm->getCEKSize()
-                    );
                 }
 
                 return $cek;
