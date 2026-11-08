@@ -591,8 +591,8 @@ class JWEBuilder implements JWEBuilderInterface
     }
 
     /**
-     * A key obtained by key agreement must have the size the content encryption algorithm needs: the content
-     * encryption algorithms pad a short key with zero bytes instead of rejecting it.
+     * A key obtained by key agreement must have the size the content encryption algorithm needs, and a direct key at
+     * least that size: the content encryption algorithms pad a short key with zero bytes instead of rejecting it.
      *
      * @param list<KeyEncryptionAlgorithm> $keyEncryptionAlgorithms
      * @param array<string, mixed> $additionalHeader
@@ -647,8 +647,12 @@ class JWEBuilder implements JWEBuilderInterface
                 if (! is_string($k)) {
                     throw new RuntimeException('Invalid key.');
                 }
+                $cek = Base64UrlSafe::decodeNoPadding($k);
+                if (strlen($cek) * 8 < $contentEncryptionAlgorithm->getCEKSize()) {
+                    throw new InvalidArgumentException('Invalid CEK size');
+                }
 
-                return Base64UrlSafe::decodeNoPadding($k);
+                return $cek;
 
             default:
                 throw new InvalidArgumentException(sprintf(

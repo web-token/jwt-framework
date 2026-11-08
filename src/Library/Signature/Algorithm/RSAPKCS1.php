@@ -10,6 +10,7 @@ use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 use Override;
+use SensitiveParameter;
 use function extension_loaded;
 use function in_array;
 use function sprintf;
@@ -30,7 +31,7 @@ abstract readonly class RSAPKCS1 implements SignatureAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         $this->checkKey($key);
         $pub = RSAKey::createFromJWK($key->toPublic());

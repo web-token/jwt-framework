@@ -7,7 +7,7 @@ namespace Jose\Component\Encryption\Serializer;
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Util\Base64UrlSafe;
-use Jose\Component\Core\Util\JsonConverter;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Encryption\JWE;
 use Jose\Component\Encryption\Recipient;
 use Override;
@@ -68,7 +68,7 @@ final readonly class CompactSerializer implements JWESerializer
 
         try {
             $encodedSharedProtectedHeader = $parts[0];
-            $sharedProtectedHeader = JsonConverter::decode(
+            $sharedProtectedHeader = (new BoundedJsonDecoder())->decode(
                 Base64UrlSafe::decodeNoPadding($encodedSharedProtectedHeader)
             );
             if (! is_array($sharedProtectedHeader)) {

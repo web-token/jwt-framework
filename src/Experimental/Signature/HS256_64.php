@@ -7,11 +7,12 @@ namespace Jose\Experimental\Signature;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\HMAC;
 use Override;
+use SensitiveParameter;
 
 final readonly class HS256_64 extends HMAC
 {
     #[Override]
-    public function hash(JWK $key, string $input): string
+    public function hash(JWK $key, #[SensitiveParameter] string $input): string
     {
         $signature = parent::hash($key, $input);
 

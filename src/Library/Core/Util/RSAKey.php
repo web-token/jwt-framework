@@ -7,18 +7,19 @@ namespace Jose\Component\Core\Util;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWK;
+use SpomkyLabs\Pki\ASN1\Component\Length;
+use SpomkyLabs\Pki\ASN1\DERData;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
-use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPrivateKey;
-use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RSA\RSAPublicKey;
 use function array_key_exists;
 use function count;
-use function is_array;
-use function is_string;
+use function ltrim;
+use function ord;
+use function sprintf;
 use function strlen;
 
 /**
@@ -26,15 +27,28 @@ use function strlen;
  */
 final class RSAKey
 {
+    /**
+     * The limits of OpenSSL, in bytes: a modulus of 16384 bits at most, and a public exponent no longer than the
+     * modulus and of 64 bits at most above 3072 bits. RSA-PSS and RSAES compute the public operation in PHP, at a cost
+     * set by these lengths.
+     */
+    private const MAX_MODULUS_LENGTH = 2048;
+
+    private const SMALL_MODULUS_LENGTH = 384;
+
+    private const MAX_PUBLIC_EXPONENT_LENGTH = 8;
+
     private null|Sequence $sequence = null;
 
     private readonly array $values;
 
-    private BigInteger $modulus;
+    private ?BigInteger $modulus = null;
 
-    private int $modulusLength;
+    private readonly int $modulusLength;
 
-    private BigInteger $publicExponent;
+    private ?BigInteger $publicExponent = null;
+
+    private bool $privateBigIntegersPopulated = false;
 
     private ?BigInteger $privateExponent = null;
 
@@ -53,7 +67,15 @@ final class RSAKey
     private function __construct(JWK $data)
     {
         $this->values = $data->all();
-        $this->populateBigIntegers();
+        $modulusLength = $this->getMemberLength('n');
+        if ($modulusLength > self::MAX_MODULUS_LENGTH) {
+            throw new InvalidKeyException('The key parameter "n" is too long.');
+        }
+        $limit = $modulusLength > self::SMALL_MODULUS_LENGTH ? self::MAX_PUBLIC_EXPONENT_LENGTH : $modulusLength;
+        if ($this->getMemberLength('e') > $limit) {
+            throw new InvalidKeyException('The key parameter "e" is too long.');
+        }
+        $this->modulusLength = $modulusLength;
     }
 
     public static function createFromJWK(JWK $jwk): self
@@ -63,7 +85,7 @@ final class RSAKey
 
     public function getModulus(): BigInteger
     {
-        return $this->modulus;
+        return $this->modulus ??= $this->convertBase64StringToBigInteger($this->values['n']);
     }
 
     public function getModulusLength(): int
@@ -83,11 +105,13 @@ final class RSAKey
 
     public function getPublicExponent(): BigInteger
     {
-        return $this->publicExponent;
+        return $this->publicExponent ??= $this->convertBase64StringToBigInteger($this->values['e']);
     }
 
     public function getPrivateExponent(): ?BigInteger
     {
+        $this->populatePrivateBigIntegers();
+
         return $this->privateExponent;
     }
 
@@ -96,6 +120,8 @@ final class RSAKey
      */
     public function getPrimes(): array
     {
+        $this->populatePrivateBigIntegers();
+
         return $this->primes;
     }
 
@@ -104,11 +130,15 @@ final class RSAKey
      */
     public function getExponents(): array
     {
+        $this->populatePrivateBigIntegers();
+
         return $this->exponents;
     }
 
     public function getCoefficient(): ?BigInteger
     {
+        $this->populatePrivateBigIntegers();
+
         return $this->coefficient;
     }
 
@@ -138,19 +168,21 @@ final class RSAKey
     public function toPEM(): string
     {
         if (array_key_exists('d', $this->values)) {
+            $zero = Integer::create(0);
             $this->sequence = Sequence::create(
                 Integer::create(0),
                 RSAEncryptionAlgorithmIdentifier::create()->toASN1(),
                 OctetString::create(
-                    RSAPrivateKey::create(
+                    Sequence::create(
+                        $zero,
                         $this->fromBase64ToInteger($this->values['n']),
                         $this->fromBase64ToInteger($this->values['e']),
                         $this->fromBase64ToInteger($this->values['d']),
-                        isset($this->values['p']) ? $this->fromBase64ToInteger($this->values['p']) : '0',
-                        isset($this->values['q']) ? $this->fromBase64ToInteger($this->values['q']) : '0',
-                        isset($this->values['dp']) ? $this->fromBase64ToInteger($this->values['dp']) : '0',
-                        isset($this->values['dq']) ? $this->fromBase64ToInteger($this->values['dq']) : '0',
-                        isset($this->values['qi']) ? $this->fromBase64ToInteger($this->values['qi']) : '0',
+                        isset($this->values['p']) ? $this->fromBase64ToInteger($this->values['p']) : $zero,
+                        isset($this->values['q']) ? $this->fromBase64ToInteger($this->values['q']) : $zero,
+                        isset($this->values['dp']) ? $this->fromBase64ToInteger($this->values['dp']) : $zero,
+                        isset($this->values['dq']) ? $this->fromBase64ToInteger($this->values['dq']) : $zero,
+                        isset($this->values['qi']) ? $this->fromBase64ToInteger($this->values['qi']) : $zero,
                     )->toDER()
                 )
             );
@@ -161,7 +193,7 @@ final class RSAKey
         $this->sequence = Sequence::create(
             RSAEncryptionAlgorithmIdentifier::create()->toASN1(),
             BitString::create(
-                RSAPublicKey::create(
+                Sequence::create(
                     $this->fromBase64ToInteger($this->values['n']),
                     $this->fromBase64ToInteger($this->values['e'])
                 )->toDER()
@@ -174,15 +206,50 @@ final class RSAKey
 
     /**
      * Exponentiate with or without Chinese Remainder Theorem. Operation with primes 'p' and 'q' is appox. 2x faster.
+     *
+     * The input must lie between 0 and n - 1, as RFC 8017 requires of the representatives given to RSAEP, RSADP,
+     * RSASP1 and RSAVP1 (sections 5.1 and 5.2). The modulus itself is rejected: it is congruent to 0.
+     *
+     * Private key operations are blinded. The private key is applied to c * r^e mod n, where r is a fresh random
+     * number coprime to n, and the result is multiplied by r^-1 mod n. The integers handled by the exponentiation and
+     * by the CRT recombination are thus unrelated to c, which the sender of a token chooses, and so is the time they
+     * take. Without it, the time needed to reject a token tells on which side of the prime q its plaintext lies.
      */
     public static function exponentiate(self $key, BigInteger $c): BigInteger
     {
-        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
+        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) >= 0) {
             throw new RuntimeException();
         }
-        if ($key->isPublic() || $key->getCoefficient() === null || count($key->getPrimes()) === 0 || count(
-            $key->getExponents()
-        ) === 0) {
+        if ($key->isPublic()) {
+            return $c->modPow($key->getExponent(), $key->getModulus());
+        }
+
+        $n = $key->getModulus();
+        $r = self::blindingFactor($n);
+        $blinded = $c->multiply($r->modPow($key->getPublicExponent(), $n))
+            ->mod($n);
+
+        return self::exponentiateWithPrivateKey($key, $blinded)
+            ->multiply($r->modInverse($n))
+            ->mod($n);
+    }
+
+    /**
+     * Draws the blinding factor: a uniformly random number in [1, n - 1] that is coprime to n.
+     */
+    private static function blindingFactor(BigInteger $n): BigInteger
+    {
+        $one = BigInteger::createFromDecimal(1);
+        do {
+            $r = BigInteger::random($n->subtract($one));
+        } while (! $r->gcd($n)->equals($one));
+
+        return $r;
+    }
+
+    private static function exponentiateWithPrivateKey(self $key, BigInteger $c): BigInteger
+    {
+        if ($key->getCoefficient() === null || count($key->getPrimes()) === 0 || count($key->getExponents()) === 0) {
             return $c->modPow($key->getExponent(), $key->getModulus());
         }
 
@@ -200,32 +267,40 @@ final class RSAKey
         return $m2->add($h->multiply($q));
     }
 
-    private function populateBigIntegers(): void
+    private function populatePrivateBigIntegers(): void
     {
-        $this->modulus = $this->convertBase64StringToBigInteger($this->values['n']);
-        $this->modulusLength = strlen($this->getModulus()->toBytes());
-        $this->publicExponent = $this->convertBase64StringToBigInteger($this->values['e']);
+        if ($this->privateBigIntegersPopulated || $this->isPublic()) {
+            return;
+        }
+        $this->privateExponent = $this->convertBase64StringToBigInteger($this->values['d']);
 
-        if (! $this->isPublic()) {
-            $this->privateExponent = $this->convertBase64StringToBigInteger($this->values['d']);
-
-            if (array_key_exists('p', $this->values) && array_key_exists('q', $this->values)) {
-                $this->primes = [
-                    $this->convertBase64StringToBigInteger($this->values['p']),
-                    $this->convertBase64StringToBigInteger($this->values['q']),
+        if (array_key_exists('p', $this->values) && array_key_exists('q', $this->values)) {
+            $this->primes = [
+                $this->convertBase64StringToBigInteger($this->values['p']),
+                $this->convertBase64StringToBigInteger($this->values['q']),
+            ];
+            if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists(
+                'qi',
+                $this->values
+            )) {
+                $this->exponents = [
+                    $this->convertBase64StringToBigInteger($this->values['dp']),
+                    $this->convertBase64StringToBigInteger($this->values['dq']),
                 ];
-                if (array_key_exists('dp', $this->values) && array_key_exists('dq', $this->values) && array_key_exists(
-                    'qi',
-                    $this->values
-                )) {
-                    $this->exponents = [
-                        $this->convertBase64StringToBigInteger($this->values['dp']),
-                        $this->convertBase64StringToBigInteger($this->values['dq']),
-                    ];
-                    $this->coefficient = $this->convertBase64StringToBigInteger($this->values['qi']);
-                }
+                $this->coefficient = $this->convertBase64StringToBigInteger($this->values['qi']);
             }
         }
+        $this->privateBigIntegersPopulated = true;
+    }
+
+    private function getMemberLength(string $member): int
+    {
+        $value = Base64UrlSafe::decodeNoPadding($this->values[$member]);
+        if ($value === '') {
+            throw new InvalidKeyException(sprintf('The key parameter "%s" is invalid.', $member));
+        }
+
+        return strlen(ltrim($value, "\0"));
     }
 
     private function convertBase64StringToBigInteger(string $value): BigInteger
@@ -233,17 +308,20 @@ final class RSAKey
         return BigInteger::createFromBinaryString(Base64UrlSafe::decodeNoPadding($value));
     }
 
-    private function fromBase64ToInteger(string $value): string
+    /**
+     * Writes the DER integer from the bytes of the member, without converting it into a big integer.
+     */
+    private function fromBase64ToInteger(string $value): DERData
     {
-        $unpacked = unpack('H*', Base64UrlSafe::decodeNoPadding($value));
-        if (! is_array($unpacked) || count($unpacked) === 0) {
+        $value = Base64UrlSafe::decodeNoPadding($value);
+        if ($value === '') {
             throw new InvalidKeyException('Unable to get the private key');
         }
-        $hexadecimal = current($unpacked);
-        if (! is_string($hexadecimal) || $hexadecimal === '') {
-            throw new InvalidKeyException('Unable to get the private key');
+        $value = ltrim($value, "\0");
+        if ($value === '' || ord($value[0]) > 0x7F) {
+            $value = "\0" . $value;
         }
 
-        return \Brick\Math\BigInteger::fromBase($hexadecimal, 16)->toBase(10);
+        return DERData::create("\x02" . Length::create(strlen($value))->toDER() . $value);
     }
 }

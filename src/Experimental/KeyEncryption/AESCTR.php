@@ -14,6 +14,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Override;
 use function in_array;
 use function is_string;
+use function strlen;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESCTR implements KeyEncryption
@@ -84,7 +85,22 @@ abstract readonly class AESCTR implements KeyEncryption
         if (! is_string($k)) {
             throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
+        $k = Base64UrlSafe::decodeNoPadding($k);
+        $keySize = $this->getKeySize();
+        if ($keySize !== null && strlen($k) * 8 < $keySize) {
+            throw new InvalidKeyException('Invalid key length.');
+        }
 
-        return Base64UrlSafe::decodeNoPadding($k);
+        return $k;
+    }
+
+    private function getKeySize(): ?int
+    {
+        return match ($this->getMode()) {
+            'aes-128-ctr' => 128,
+            'aes-192-ctr' => 192,
+            'aes-256-ctr' => 256,
+            default => null,
+        };
     }
 }

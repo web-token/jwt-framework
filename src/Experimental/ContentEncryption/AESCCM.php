@@ -8,6 +8,7 @@ use Jose\Component\Core\Exception\DecryptionFailedException;
 use Jose\Component\Core\Exception\EncryptionFailedException;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use Override;
+use SensitiveParameter;
 use function strlen;
 use const OPENSSL_RAW_DATA;
 
@@ -53,6 +54,7 @@ abstract readonly class AESCCM implements ContentEncryptionAlgorithm
     #[Override]
     public function decryptContent(
         string $data,
+        #[SensitiveParameter]
         string $cek,
         string $iv,
         ?string $aad,

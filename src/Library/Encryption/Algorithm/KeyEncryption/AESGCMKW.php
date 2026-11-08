@@ -107,8 +107,12 @@ abstract readonly class AESGCMKW implements KeyWrapping
         if (! is_string($k)) {
             throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
+        $k = Base64UrlSafe::decodeNoPadding($k);
+        if (strlen($k) * 8 < $this->getKeySize()) {
+            throw new InvalidKeyException('Invalid key length.');
+        }
 
-        return Base64UrlSafe::decodeNoPadding($k);
+        return $k;
     }
 
     abstract protected function getKeySize(): int;

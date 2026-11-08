@@ -14,11 +14,14 @@ use Jose\Experimental\ContentEncryption\A256CCM_16_64;
 use Jose\Experimental\ContentEncryption\A256CCM_64_128;
 use Jose\Experimental\ContentEncryption\A256CCM_64_64;
 use Jose\Experimental\ContentEncryption\AESCCM;
+use Jose\Tests\Component\Core\ExceptionTraceArgumentsTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use function chr;
 use function in_array;
+use function ord;
 use function sprintf;
 use const OPENSSL_RAW_DATA;
 
@@ -27,6 +30,8 @@ use const OPENSSL_RAW_DATA;
  */
 final class AESCCMContentEncryptionTest extends TestCase
 {
+    use ExceptionTraceArgumentsTrait;
+
     protected function setUp(): void
     {
         if (! in_array('aes-128-ccm', openssl_get_cipher_methods(), true)) {
@@ -71,6 +76,28 @@ final class AESCCMContentEncryptionTest extends TestCase
         $this->expectExceptionMessage('Unable to decrypt the content');
 
         $algorithm->decryptContent($ciphertext, $cek, $iv, null, $header, $tag);
+    }
+
+    #[DataProvider('dataAlgorithms')]
+    #[Test]
+    public function theKeyIsNotAmongTheRecordedArgumentsWhenTheTagIsWrong(AESCCM $algorithm, int $tagLength): void
+    {
+        $header = $this->header($algorithm);
+        $cek = random_bytes($algorithm->getCEKSize() / 8);
+        $iv = random_bytes($algorithm->getIVSize() / 8);
+        $tag = null;
+        $ciphertext = $algorithm->encryptContent('Live long and Prosper.', $cek, $iv, null, $header, $tag);
+        static::assertIsString($tag);
+        static::assertSame($tagLength, mb_strlen($tag, '8bit'));
+        $tag[0] = chr(ord($tag[0]) ^ 1);
+
+        $exception = self::failureOf(
+            static fn (): string => $algorithm->decryptContent($ciphertext, $cek, $iv, null, $header, $tag)
+        );
+
+        static::assertInstanceOf(RuntimeException::class, $exception);
+        static::assertNotSame([], self::callsHolding($exception, $ciphertext), 'The arguments are not recorded.');
+        static::assertSame([], self::callsHolding($exception, $cek));
     }
 
     public static function dataAlgorithms(): iterable

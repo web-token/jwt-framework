@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Encryption\Algorithm\KeyEncryption;
 
 use Jose\Component\Core\JWK;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\AESKeyWrap;
 use Override;
 
 abstract readonly class ECDHESAESKW extends AbstractECDHAESKW
@@ -57,6 +58,6 @@ abstract readonly class ECDHESAESKW extends AbstractECDHAESKW
         );
         $wrapper = $this->getWrapper();
 
-        return $wrapper::unwrap($agreement_key, $encrypted_cek);
+        return AESKeyWrap::unwrap($wrapper, $agreement_key, $encrypted_cek);
     }
 }

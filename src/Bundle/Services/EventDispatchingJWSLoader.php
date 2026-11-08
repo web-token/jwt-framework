@@ -16,6 +16,7 @@ use Jose\Component\Signature\LoadingResult;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use SensitiveParameter;
 use Throwable;
 use function trigger_deprecation;
 
@@ -49,8 +50,12 @@ final readonly class EventDispatchingJWSLoader implements JWSLoaderInterface
     }
 
     #[Override]
-    public function loadAndVerify(string $token, JWK|JWKSet $keys, ?string $payload = null): LoadingResult
-    {
+    public function loadAndVerify(
+        #[SensitiveParameter]
+        string $token,
+        JWK|JWKSet $keys,
+        ?string $payload = null
+    ): LoadingResult {
         $keyset = $keys instanceof JWK ? new JWKSet([$keys]) : $keys;
         try {
             $result = $this->loader->loadAndVerify($token, $keys, $payload);
@@ -71,8 +76,13 @@ final readonly class EventDispatchingJWSLoader implements JWSLoaderInterface
      *
      * @deprecated since 4.3.0, use "loadAndVerify()" instead. Will be removed in 5.0.0.
      */
-    public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
-    {
+    public function loadAndVerifyWithKey(
+        #[SensitiveParameter]
+        string $token,
+        JWK $key,
+        ?int &$signature,
+        ?string $payload = null
+    ): JWS {
         trigger_deprecation(
             'web-token/jwt-framework',
             '4.3.0',
@@ -92,6 +102,7 @@ final readonly class EventDispatchingJWSLoader implements JWSLoaderInterface
      * @deprecated since 4.3.0, use "loadAndVerify()" instead. Will be removed in 5.0.0.
      */
     public function loadAndVerifyWithKeySet(
+        #[SensitiveParameter]
         string $token,
         JWKSet $keyset,
         ?int &$signature,

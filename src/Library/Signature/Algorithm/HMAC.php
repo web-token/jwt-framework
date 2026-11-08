@@ -8,6 +8,7 @@ use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Override;
+use SensitiveParameter;
 use function in_array;
 use function is_string;
 
@@ -20,13 +21,13 @@ abstract readonly class HMAC implements MacAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         return hash_equals($this->hash($key, $input), $signature);
     }
 
     #[Override]
-    public function hash(JWK $key, string $input): string
+    public function hash(JWK $key, #[SensitiveParameter] string $input): string
     {
         $k = $this->getKey($key);
 

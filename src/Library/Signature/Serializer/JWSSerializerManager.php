@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Exception\UnsupportedSerializerException;
 use Jose\Component\Signature\JWS;
+use SensitiveParameter;
 use function func_num_args;
 use function sprintf;
 use function trigger_deprecation;
@@ -68,7 +69,7 @@ final readonly class JWSSerializerManager
      *
      * @param-out string $name
      */
-    public function unserialize(string $input, ?string &$name = null): JWS
+    public function unserialize(#[SensitiveParameter] string $input, ?string &$name = null): JWS
     {
         if (func_num_args() >= 2) {
             trigger_deprecation(
@@ -95,7 +96,7 @@ final readonly class JWSSerializerManager
      *
      * @param string $input A string that represents a JWS
      */
-    public function unserializeToken(string $input): UnserializationResult
+    public function unserializeToken(#[SensitiveParameter] string $input): UnserializationResult
     {
         $lastError = null;
         foreach ($this->serializers as $serializer) {

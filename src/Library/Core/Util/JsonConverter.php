@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
+use JsonException;
+use SensitiveParameter;
 use Throwable;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
@@ -21,12 +23,19 @@ final readonly class JsonConverter
         }
     }
 
-    public static function decode(string $payload): mixed
+    /**
+     * The exception of json_decode() is chained as a copy: the arguments recorded in its trace include the document.
+     */
+    public static function decode(#[SensitiveParameter] string $payload): mixed
     {
         try {
             return json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
         } catch (Throwable $throwable) {
-            throw new InvalidArgumentException('Unsupported input.', $throwable->getCode(), $throwable);
+            throw new InvalidArgumentException(
+                'Unsupported input.',
+                $throwable->getCode(),
+                new JsonException($throwable->getMessage(), $throwable->getCode())
+            );
         }
     }
 }

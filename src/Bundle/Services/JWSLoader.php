@@ -15,6 +15,7 @@ use Jose\Component\Signature\LoadingResult;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
 use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use SensitiveParameter;
 use Throwable;
 
 /**
@@ -37,8 +38,12 @@ final class JWSLoader extends BaseJWSLoader
      * whichever method the application calls.
      */
     #[Override]
-    public function loadAndVerify(string $token, JWK|JWKSet $keys, ?string $payload = null): LoadingResult
-    {
+    public function loadAndVerify(
+        #[SensitiveParameter]
+        string $token,
+        JWK|JWKSet $keys,
+        ?string $payload = null
+    ): LoadingResult {
         $keyset = $keys instanceof JWK ? new JWKSet([$keys]) : $keys;
         try {
             $result = parent::loadAndVerify($token, $keys, $payload);

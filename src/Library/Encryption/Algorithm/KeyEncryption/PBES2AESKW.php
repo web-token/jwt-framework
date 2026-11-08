@@ -14,6 +14,7 @@ use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\AESKeyWrap;
 use Override;
 use function in_array;
 use function is_int;
@@ -38,6 +39,11 @@ abstract readonly class PBES2AESKW implements KeyWrapping
     public function allowedKeyTypes(): array
     {
         return ['oct'];
+    }
+
+    public function getMaxCount(): int
+    {
+        return $this->max_count;
     }
 
     /**
@@ -90,7 +96,7 @@ abstract readonly class PBES2AESKW implements KeyWrapping
 
         $derived_key = hash_pbkdf2($hash_algorithm, $password, $salt, $count, $key_size, true);
 
-        return $wrapper::unwrap($derived_key, $encrypted_cek);
+        return AESKeyWrap::unwrap($wrapper, $derived_key, $encrypted_cek);
     }
 
     #[Override]

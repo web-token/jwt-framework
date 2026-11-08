@@ -6,6 +6,7 @@ namespace Jose\Component\Encryption\Algorithm\KeyEncryption\Util;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use SensitiveParameter;
 use function intdiv;
 use function strlen;
 use const STR_PAD_LEFT;
@@ -32,6 +33,7 @@ final readonly class ConcatKDF
      * @param string $apv Agreement PartyVInfo (information about the recipient)
      */
     public static function generate(
+        #[SensitiveParameter]
         string $Z,
         string $algorithm,
         int $encryption_key_size,

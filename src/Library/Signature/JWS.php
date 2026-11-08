@@ -11,6 +11,9 @@ use Jose\Component\Core\Util\InternalCallChecker;
 use Jose\Component\Signature\Serializer\JWSSerializer;
 use Override;
 use function count;
+use function func_get_arg;
+use function func_num_args;
+use function is_array;
 
 /**
  * A signed token, as returned by the builder or by a serializer.
@@ -32,12 +35,26 @@ class JWS implements JWT
      */
     private array $signatures = [];
 
+    /**
+     * The signatures may be given as a fourth argument, a list of Signature objects. That argument is not declared
+     * yet for BC reasons and is read with func_num_args()/func_get_arg(3); it will be declared in 5.0.0.
+     */
     public function __construct(
         private readonly ?string $payload,
         private readonly ?string $encodedPayload = null,
         private readonly bool $isPayloadDetached = false
     ) {
         InheritanceChecker::warnIfValueObjectExtended(static::class, self::class);
+        $signatures = func_num_args() > 3 ? func_get_arg(3) : [];
+        if (! is_array($signatures)) {
+            throw new InvalidArgumentException('The signatures must be a list of Signature objects.');
+        }
+        foreach ($signatures as $signature) {
+            if (! $signature instanceof Signature) {
+                throw new InvalidArgumentException('The signatures must be a list of Signature objects.');
+            }
+            $this->signatures[] = $signature;
+        }
     }
 
     #[Override]

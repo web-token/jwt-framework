@@ -8,6 +8,7 @@ use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
 use Override;
+use SensitiveParameter;
 use function in_array;
 
 /**
@@ -35,7 +36,7 @@ readonly class None implements SignatureAlgorithm
     }
 
     #[Override]
-    public function verify(JWK $key, string $input, string $signature): bool
+    public function verify(JWK $key, #[SensitiveParameter] string $input, string $signature): bool
     {
         $this->checkKey($key);
 
