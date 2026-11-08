@@ -6,6 +6,7 @@ namespace Jose\Component\Encryption;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use function trigger_deprecation;
 
 readonly class JWELoaderFactory
 {
@@ -14,6 +15,16 @@ readonly class JWELoaderFactory
         private JWEDecrypterFactory $jweDecrypterFactory,
         private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory
     ) {
+        if ($headerCheckerManagerFactory === null) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '4.3.0',
+                'Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s" that has the "%s" token type support.',
+                static::class,
+                HeaderCheckerManagerFactory::class,
+                JWETokenSupport::class
+            );
+        }
     }
 
     /**
