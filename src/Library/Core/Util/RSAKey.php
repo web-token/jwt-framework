@@ -172,15 +172,47 @@ final class RSAKey
 
     /**
      * Exponentiate with or without Chinese Remainder Theorem. Operation with primes 'p' and 'q' is appox. 2x faster.
+     *
+     * Private key operations are blinded. The private key is applied to c * r^e mod n, where r is a fresh random
+     * number coprime to n, and the result is multiplied by r^-1 mod n. The integers handled by the exponentiation and
+     * by the CRT recombination are thus unrelated to c, which the sender of a token chooses, and so is the time they
+     * take. Without it, the time needed to reject a token tells on which side of the prime q its plaintext lies.
      */
     public static function exponentiate(self $key, BigInteger $c): BigInteger
     {
         if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
             throw new RuntimeException();
         }
-        if ($key->isPublic() || $key->getCoefficient() === null || count($key->getPrimes()) === 0 || count(
-            $key->getExponents()
-        ) === 0) {
+        if ($key->isPublic()) {
+            return $c->modPow($key->getExponent(), $key->getModulus());
+        }
+
+        $n = $key->getModulus();
+        $r = self::blindingFactor($n);
+        $blinded = $c->multiply($r->modPow($key->getPublicExponent(), $n))
+            ->mod($n);
+
+        return self::exponentiateWithPrivateKey($key, $blinded)
+            ->multiply($r->modInverse($n))
+            ->mod($n);
+    }
+
+    /**
+     * Draws the blinding factor: a uniformly random number in [1, n - 1] that is coprime to n.
+     */
+    private static function blindingFactor(BigInteger $n): BigInteger
+    {
+        $one = BigInteger::createFromDecimal(1);
+        do {
+            $r = BigInteger::random($n->subtract($one));
+        } while (! $r->gcd($n)->equals($one));
+
+        return $r;
+    }
+
+    private static function exponentiateWithPrivateKey(self $key, BigInteger $c): BigInteger
+    {
+        if ($key->getCoefficient() === null || count($key->getPrimes()) === 0 || count($key->getExponents()) === 0) {
             return $c->modPow($key->getExponent(), $key->getModulus());
         }
 
