@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\AliasList;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManager;
 use Jose\Bundle\JoseFramework\Services\ClaimCheckerManagerFactory;
@@ -62,11 +63,16 @@ final readonly class ClaimChecker implements Source
             ->end()
             ->arrayNode('claims')
             ->info('A list of claim aliases to be set in the claim checker.')
+            ->useAttributeAsKey('name')
             ->isRequired()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToAddUp(...))
+            ->end()
             ->scalarPrototype()
             ->end()
             ->validate()
-            ->always(CheckerAliases::unique(...))
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('tags')
