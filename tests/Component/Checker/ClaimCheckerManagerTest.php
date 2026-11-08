@@ -10,13 +10,13 @@ use Jose\Component\Checker\ClaimChecker;
 use Jose\Component\Checker\ClaimCheckerManager;
 use Jose\Component\Checker\ExpirationTimeChecker;
 use Jose\Component\Checker\IssuedAtChecker;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Tests\Component\Checker\Stub\MockClock;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function is_int;
 use function sprintf;
-use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -39,20 +39,17 @@ final class ClaimCheckerManagerTest extends TestCase
 
     #[DataProvider('twoCheckersOfTheSameClaim')]
     #[Test]
-    public function aSecondCheckerOfTheSameClaimIsDeprecated(ClaimChecker $first, ClaimChecker $second): void
+    public function aSecondCheckerOfTheSameClaimIsRejected(ClaimChecker $first, ClaimChecker $second): void
     {
-        $deprecations = $this->collectDeprecations(static function () use ($first, $second): void {
-            new ClaimCheckerManager([$first, $second]);
-        });
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf(
+            'The claim "%s" is given two checkers, "%s" and "%s", but a claim checker manager takes a single checker per claim. Combine the rules of a claim in a single checker.',
+            $first->supportedClaim(),
+            $first::class,
+            $second::class
+        ));
 
-        static::assertSame([
-            sprintf(
-                'Since web-token/jwt-library 4.3.0: Building a claim checker manager with more than one checker of the claim "%s" is deprecated and will not be possible in 5.0.0: only the last one is kept, so "%s" replaces "%s", which never runs. Combine the rules of a claim in a single checker.',
-                $first->supportedClaim(),
-                $second::class,
-                $first::class
-            ),
-        ], $deprecations);
+        new ClaimCheckerManager([$first, $second]);
     }
 
     /**
@@ -68,60 +65,12 @@ final class ClaimCheckerManagerTest extends TestCase
     }
 
     #[Test]
-    public function theLastCheckerOfAClaimIsStillTheOnlyOneThatRuns(): void
-    {
-        $replacement = new AudienceChecker('tenant-42');
-
-        $deprecations = $this->collectDeprecations(static function () use ($replacement): void {
-            $sut = new ClaimCheckerManager([new AudienceChecker('api'), $replacement]);
-
-            static::assertSame([
-                'aud' => $replacement,
-            ], $sut->getCheckers());
-            static::assertSame([
-                'aud' => ['other', 'tenant-42'],
-            ], $sut->check([
-                'aud' => ['other', 'tenant-42'],
-            ]));
-        });
-
-        static::assertCount(1, $deprecations);
-    }
-
-    #[Test]
-    public function theSameCheckerListedTwiceIsNotDeprecated(): void
+    public function theSameCheckerListedTwiceIsAccepted(): void
     {
         $checker = new AudienceChecker('api');
 
-        $deprecations = $this->collectDeprecations(static function () use ($checker): void {
-            $sut = new ClaimCheckerManager([$checker, new IssuedAtChecker(new MockClock()), $checker]);
+        $sut = new ClaimCheckerManager([$checker, new IssuedAtChecker(new MockClock()), $checker]);
 
-            static::assertSame(['aud', 'iat'], array_keys($sut->getCheckers()));
-        });
-
-        static::assertSame([], $deprecations);
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
+        static::assertSame(['aud', 'iat'], array_keys($sut->getCheckers()));
     }
 }

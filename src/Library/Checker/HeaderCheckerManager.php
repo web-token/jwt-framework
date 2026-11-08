@@ -14,7 +14,6 @@ use function get_debug_type;
 use function is_array;
 use function is_string;
 use function sprintf;
-use function trigger_deprecation;
 
 /**
  * This class is a factory to create Header Checker Managers.
@@ -52,14 +51,12 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
         foreach ($checkers as $checker) {
             $headerParameter = $checker->supportedHeader();
             if (isset($indexedCheckers[$headerParameter]) && $indexedCheckers[$headerParameter] !== $checker) {
-                trigger_deprecation(
-                    'web-token/jwt-library',
-                    '4.3.0',
-                    'Building a header checker manager with more than one checker of the header parameter "%s" is deprecated and will not be possible in 5.0.0: only the last one is kept, so "%s" replaces "%s", which never runs. Combine the rules of a header parameter in a single checker.',
+                throw new InvalidArgumentException(sprintf(
+                    'The header parameter "%s" is given two checkers, "%s" and "%s", but a header checker manager takes a single checker per header parameter. Combine the rules of a header parameter in a single checker.',
                     $headerParameter,
-                    get_debug_type($checker),
-                    get_debug_type($indexedCheckers[$headerParameter])
-                );
+                    get_debug_type($indexedCheckers[$headerParameter]),
+                    get_debug_type($checker)
+                ));
             }
             $indexedCheckers[$headerParameter] = $checker;
         }

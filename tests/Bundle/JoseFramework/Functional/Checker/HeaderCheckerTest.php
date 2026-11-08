@@ -8,6 +8,7 @@ use Jose\Bundle\JoseFramework\Services\HeaderCheckerManager;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory as HeaderCheckerManagerFactoryService;
 use Jose\Component\Checker\InvalidHeaderException;
 use Jose\Component\Checker\TypeChecker;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder;
@@ -16,7 +17,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use function sprintf;
-use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -118,23 +118,20 @@ final class HeaderCheckerTest extends WebTestCase
     }
 
     #[Test]
-    public function aTypeCheckerListedNextToTheTypOptionIsDeprecated(): void
+    public function aTypeCheckerListedNextToTheTypOptionIsRejected(): void
     {
         static::ensureKernelShutdown();
         $client = static::createClient();
         $container = $client->getContainer();
 
-        $deprecations = self::collectDeprecations(static function () use ($container): void {
-            $container->get('jose.header_checker.typ_twice');
-        });
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf(
+            'The header parameter "typ" is given two checkers, "%s" and "%s", but a header checker manager takes a single checker per header parameter. Combine the rules of a header parameter in a single checker.',
+            TypeChecker::class,
+            TypeChecker::class
+        ));
 
-        static::assertSame([
-            sprintf(
-                'Since web-token/jwt-library 4.3.0: Building a header checker manager with more than one checker of the header parameter "typ" is deprecated and will not be possible in 5.0.0: only the last one is kept, so "%s" replaces "%s", which never runs. Combine the rules of a header parameter in a single checker.',
-                TypeChecker::class,
-                TypeChecker::class
-            ),
-        ], $deprecations);
+        $container->get('jose.header_checker.typ_twice');
     }
 
     private static function jwsWithType(ContainerInterface $container, string $type): JWS
@@ -153,28 +150,5 @@ final class HeaderCheckerTest extends WebTestCase
                 'typ' => $type,
             ])
             ->build();
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private static function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
     }
 }

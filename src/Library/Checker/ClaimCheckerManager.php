@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
 use function count;
 use function get_debug_type;
 use function sprintf;
-use function trigger_deprecation;
 
 /**
  * This class manages claim checkers and performs claim checks.
@@ -39,14 +39,12 @@ class ClaimCheckerManager implements ClaimCheckerManagerInterface
         foreach ($checkers as $checker) {
             $claim = $checker->supportedClaim();
             if (isset($indexedCheckers[$claim]) && $indexedCheckers[$claim] !== $checker) {
-                trigger_deprecation(
-                    'web-token/jwt-library',
-                    '4.3.0',
-                    'Building a claim checker manager with more than one checker of the claim "%s" is deprecated and will not be possible in 5.0.0: only the last one is kept, so "%s" replaces "%s", which never runs. Combine the rules of a claim in a single checker.',
+                throw new InvalidArgumentException(sprintf(
+                    'The claim "%s" is given two checkers, "%s" and "%s", but a claim checker manager takes a single checker per claim. Combine the rules of a claim in a single checker.',
                     $claim,
-                    get_debug_type($checker),
-                    get_debug_type($indexedCheckers[$claim])
-                );
+                    get_debug_type($indexedCheckers[$claim]),
+                    get_debug_type($checker)
+                ));
             }
             $indexedCheckers[$claim] = $checker;
         }

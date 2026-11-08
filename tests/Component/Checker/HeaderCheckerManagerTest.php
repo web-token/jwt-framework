@@ -8,13 +8,12 @@ use Jose\Component\Checker\AudienceChecker;
 use Jose\Component\Checker\HeaderChecker;
 use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Checker\TypeChecker;
-use Jose\Tests\Component\Checker\Stub\Token;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Tests\Component\Checker\Stub\TokenSupport;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function sprintf;
-use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -23,20 +22,17 @@ final class HeaderCheckerManagerTest extends TestCase
 {
     #[DataProvider('twoCheckersOfTheSameHeaderParameter')]
     #[Test]
-    public function aSecondCheckerOfTheSameHeaderParameterIsDeprecated(HeaderChecker $first, HeaderChecker $second): void
+    public function aSecondCheckerOfTheSameHeaderParameterIsRejected(HeaderChecker $first, HeaderChecker $second): void
     {
-        $deprecations = $this->collectDeprecations(static function () use ($first, $second): void {
-            new HeaderCheckerManager([$first, $second], [new TokenSupport()]);
-        });
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf(
+            'The header parameter "%s" is given two checkers, "%s" and "%s", but a header checker manager takes a single checker per header parameter. Combine the rules of a header parameter in a single checker.',
+            $first->supportedHeader(),
+            $first::class,
+            $second::class
+        ));
 
-        static::assertSame([
-            sprintf(
-                'Since web-token/jwt-library 4.3.0: Building a header checker manager with more than one checker of the header parameter "%s" is deprecated and will not be possible in 5.0.0: only the last one is kept, so "%s" replaces "%s", which never runs. Combine the rules of a header parameter in a single checker.',
-                $first->supportedHeader(),
-                $second::class,
-                $first::class
-            ),
-        ], $deprecations);
+        new HeaderCheckerManager([$first, $second], [new TokenSupport()]);
     }
 
     /**
@@ -52,56 +48,12 @@ final class HeaderCheckerManagerTest extends TestCase
     }
 
     #[Test]
-    public function theLastCheckerOfAHeaderParameterIsStillTheOnlyOneThatRuns(): void
-    {
-        $deprecations = $this->collectDeprecations(static function (): void {
-            $sut = new HeaderCheckerManager(
-                [new AudienceChecker('api', true), new AudienceChecker('api')],
-                [new TokenSupport()]
-            );
-
-            $sut->check(new Token('{}', [], [
-                'aud' => 'api',
-            ]), 0);
-        });
-
-        static::assertCount(1, $deprecations);
-    }
-
-    #[Test]
-    public function theSameCheckerListedTwiceIsNotDeprecated(): void
+    public function theSameCheckerListedTwiceIsAccepted(): void
     {
         $checker = new TypeChecker(['at+jwt']);
 
-        $deprecations = $this->collectDeprecations(static function () use ($checker): void {
-            $sut = new HeaderCheckerManager([$checker, new AudienceChecker('api'), $checker], [new TokenSupport()]);
+        $sut = new HeaderCheckerManager([$checker, new AudienceChecker('api'), $checker], [new TokenSupport()]);
 
-            static::assertSame(['typ', 'aud'], array_keys($sut->getCheckers()));
-        });
-
-        static::assertSame([], $deprecations);
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
+        static::assertSame(['typ', 'aud'], array_keys($sut->getCheckers()));
     }
 }
