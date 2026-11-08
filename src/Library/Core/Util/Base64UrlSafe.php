@@ -9,6 +9,7 @@ use Jose\Component\Core\Exception\RangeException;
 use SensitiveParameter;
 use SodiumException;
 use function extension_loaded;
+use function hash_equals;
 use function pack;
 use function rtrim;
 use function sodium_base642bin;
@@ -90,14 +91,7 @@ final readonly class Base64UrlSafe
                 throw new RangeException('Incorrect padding');
             }
             if (extension_loaded('sodium')) {
-                try {
-                    return sodium_base642bin(
-                        self::safeSubstr($encodedString, 0, $srcLen),
-                        SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING
-                    );
-                } catch (SodiumException $ex) {
-                    throw new RangeException($ex->getMessage(), $ex->getCode(), $ex);
-                }
+                return self::decodeWithSodium(self::safeSubstr($encodedString, 0, $srcLen));
             }
         } else {
             $encodedString = rtrim($encodedString, '=');
@@ -166,6 +160,24 @@ final readonly class Base64UrlSafe
             }
         }
         return static::decode($encodedString, true);
+    }
+
+    /**
+     * libsodium 1.0.21 and older decode the bytes 0x80 to 0xFF as "_" where char is signed: the result is re-encoded
+     * and compared with the input in constant time, so these bytes are rejected whatever the libsodium version.
+     */
+    private static function decodeWithSodium(#[SensitiveParameter] string $encodedString): string
+    {
+        try {
+            $decoded = sodium_base642bin($encodedString, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING);
+        } catch (SodiumException $ex) {
+            throw new RangeException($ex->getMessage(), $ex->getCode(), $ex);
+        }
+        if (! hash_equals(sodium_bin2base64($decoded, SODIUM_BASE64_VARIANT_URLSAFE_NO_PADDING), $encodedString)) {
+            throw new RangeException('Base64::decode() only expects characters in the correct base64 alphabet');
+        }
+
+        return $decoded;
     }
 
     private static function doEncode(#[SensitiveParameter] string $src, bool $pad = true): string

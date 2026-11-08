@@ -3,6 +3,10 @@
 declare(strict_types=1);
 
 use Jose\Component\Checker\CallableChecker;
+use Jose\Component\Encryption\JWEDecrypterFactory;
+use Jose\Component\Encryption\JWELoaderFactory;
+use Jose\Component\Signature\JWSLoaderFactory;
+use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\CustomChecker;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\MaximumLifetime;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\DeprecatedES256KConsumer;
@@ -49,6 +53,15 @@ return function (ContainerConfigurator $container) {
     ;
 
     $container->set(DeprecatedES256KConsumer::class)
+        ->public()
+    ;
+
+    $container->set(JWEDecrypterFactory::class);
+    $container->set(JWELoaderFactory::class)
+        ->public()
+    ;
+    $container->set(JWSVerifierFactory::class);
+    $container->set(JWSLoaderFactory::class)
         ->public()
     ;
 };

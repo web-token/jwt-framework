@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\AliasList;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Encryption\JWELoader as JWELoaderService;
@@ -67,14 +68,28 @@ final readonly class JWELoader implements Source
             ->info('A list of key encryption algorithm aliases.')
             ->useAttributeAsKey('name')
             ->isRequired()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('serializers')
             ->info('A list of signature serializer aliases.')
             ->useAttributeAsKey('name')
             ->requiresAtLeastOneElement()
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToReplace(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->arrayNode('header_checkers')
@@ -82,7 +97,14 @@ final readonly class JWELoader implements Source
             ->useAttributeAsKey('name')
             ->treatNullLike([])
             ->treatFalseLike([])
+            ->beforeNormalization()
+            ->ifArray()
+            ->then(AliasList::keyToAddUp(...))
+            ->end()
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(AliasList::restore(...))
             ->end()
             ->end()
             ->integerNode('max_recipients')

@@ -11,13 +11,20 @@ use Jose\Component\KeyManagement\X5UFactory;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use Stringable;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function array_keys;
+use function file_get_contents;
+use function json_encode;
 use function restore_error_handler;
 use function set_error_handler;
+use function strlen;
+use function substr;
 use const E_USER_DEPRECATED;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * @internal
@@ -198,6 +205,161 @@ final class UrlKeySetFactoryTest extends TestCase
         static::assertCount(1, $factory->loadFromUrl('https://foo.bar/keys'));
         static::assertCount(1, $factory->loadFromUrl('https://foo.bar/keys'));
         static::assertSame(1, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function theCacheDoesNotServeAKeySetFetchedWithOtherHeaders(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+            'globex' => '{"keys":[{"kty":"oct","kid":"globex","k":"Z2xvYmV4"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'acme',
+        ]);
+        $globex = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'globex',
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(['globex'], array_keys($globex->all()));
+        static::assertSame(2, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function theCacheDoesNotServeCertificatesFetchedWithOtherHeaders(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => json_encode([
+                'acme' => file_get_contents(__DIR__ . '/RSA/PEM/1024b-rsa-example-cert.pem'),
+            ], JSON_THROW_ON_ERROR),
+            'globex' => json_encode([
+                'globex' => file_get_contents(__DIR__ . '/RSA/PEM/2048b-rsa-example-cert.pem'),
+            ], JSON_THROW_ON_ERROR),
+        ]);
+        $factory = new X5UFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $acme = $factory->loadFromUrl('https://foo.bar/certificates', [
+            'X-Tenant' => 'acme',
+        ]);
+        $globex = $factory->loadFromUrl('https://foo.bar/certificates', [
+            'X-Tenant' => 'globex',
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(['globex'], array_keys($globex->all()));
+        static::assertSame(2, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function theCacheServesAKeySetFetchedWithTheSameHeaders(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'acme',
+        ]);
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => 'acme',
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(1, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function aStringableHeaderValueThatCannotBeSerializedIsStillSent(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => self::getUnserializableTenant('acme'),
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+    }
+
+    #[Test]
+    public function theCacheIsBypassedWhenTheHeadersCannotBeSerialized(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => self::getUnserializableTenant('acme'),
+        ]);
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => self::getUnserializableTenant('acme'),
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(2, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function aHeaderValueTheClientRejectsStillRaisesTheClientException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid value for header "X-Tenant"');
+
+        $factory = new JKUFactory(self::getTenantAwareHttpClient([]));
+        $factory->enabledCache(new ArrayAdapter());
+
+        $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => static fn (): string => 'acme',
+        ]);
+    }
+
+    private static function getUnserializableTenant(string $tenant): Stringable
+    {
+        return new class($tenant) implements Stringable {
+            public function __construct(
+                private readonly string $tenant
+            ) {
+            }
+
+            public function __toString(): string
+            {
+                return $this->tenant;
+            }
+        };
+    }
+
+    /**
+     * An endpoint that serves one document per value of the "X-Tenant" header, and a 404 for any other request.
+     *
+     * @param array<string, string> $documents
+     */
+    private static function getTenantAwareHttpClient(array $documents): MockHttpClient
+    {
+        return new MockHttpClient(static function (string $method, string $url, array $options) use (
+            $documents
+        ): MockResponse {
+            $tenant = substr($options['normalized_headers']['x-tenant'][0] ?? '', strlen('X-Tenant: '));
+            if (! isset($documents[$tenant])) {
+                return new MockResponse('Not found', [
+                    'http_code' => 404,
+                ]);
+            }
+
+            return new MockResponse($documents[$tenant], [
+                'http_code' => 200,
+            ]);
+        });
     }
 
     private function getJKUFactory(): JKUFactory
