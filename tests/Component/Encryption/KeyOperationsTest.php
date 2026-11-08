@@ -30,6 +30,8 @@ final class KeyOperationsTest extends EncryptionTestCase
 
     private const DIRECT_DECRYPTION_DEPRECATION = 'Since web-token/jwt-library 4.3.0: Using a "dir" key whose "key_ops" parameter does not contain "decrypt" is deprecated and will not be possible in 5.0.0: the key decrypts the content.';
 
+    private const EMPTY_AAD_DECRYPTION_DEPRECATION = 'Since web-token/jwt-library 4.3.0: Decrypting a "dir" JWE that has neither a protected header nor additional authenticated data is deprecated and will not be possible in 5.0.0: encrypt it again with "alg" and "enc" in the protected header.';
+
     /**
      * @param list<string> $operations
      */
@@ -129,7 +131,7 @@ final class KeyOperationsTest extends EncryptionTestCase
     /**
      * The encrypted key of an A128GCMKW token is an AES-GCM ciphertext computed with an empty AAD, like the content of
      * a JSON "dir" token that has neither a protected header nor an "aad" member. A key restricted to key wrapping
-     * opens it as content and returns the CEK of the token.
+     * opens it as content and returns the CEK of the token. The empty AAD of that token is reported too.
      */
     #[Test]
     public function aKeyWrappingKeyThatDecryptsDirectContentIsReported(): void
@@ -157,7 +159,10 @@ final class KeyOperationsTest extends EncryptionTestCase
             static::assertSame(16, strlen($cek));
         });
 
-        static::assertSame([self::DIRECT_DECRYPTION_DEPRECATION], $deprecations);
+        static::assertSame(
+            [self::DIRECT_DECRYPTION_DEPRECATION, self::EMPTY_AAD_DECRYPTION_DEPRECATION],
+            $deprecations
+        );
     }
 
     /**
