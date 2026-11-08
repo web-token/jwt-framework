@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace Jose\Tests\SelectiveDisclosure;
 
+use ArrayObject;
+use DateTimeImmutable;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\SelectiveDisclosure\Disclosure;
+use Jose\Tests\SelectiveDisclosure\Stub\ArrayObjectWithDigests;
+use Jose\Tests\SelectiveDisclosure\Stub\AssuranceLevel;
+use Jose\Tests\SelectiveDisclosure\Stub\Nationality;
+use Jose\Tests\SelectiveDisclosure\Stub\SelfSerializing;
+use Jose\Tests\SelectiveDisclosure\Stub\Status;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 use function strlen;
+use const INF;
 use const JSON_THROW_ON_ERROR;
 
 /**
@@ -115,6 +124,79 @@ final class DisclosureTest extends TestCase
             '["salt", "claim", {"list": [1, 2.5, true, null, "a/b"], "empty list": [], "object": {"nested": "value"}}]',
             Base64UrlSafe::decodeNoPadding($disclosure->toString())
         );
+    }
+
+    /**
+     * The values are those of the payload encoder, written with the separators of the examples of the RFC.
+     */
+    #[Test]
+    #[DataProvider('objects')]
+    public function anObjectIsDisclosedAsThePayloadEncoderSerializesIt(mixed $value, string $json): void
+    {
+        static::assertSame(
+            '["salt", ' . $json . ']',
+            Base64UrlSafe::decodeNoPadding(Disclosure::forArrayElement($value, 'salt')->toString())
+        );
+    }
+
+    /**
+     * @return iterable<string, array{mixed, string}>
+     */
+    public static function objects(): iterable
+    {
+        yield 'a backed enum' => [Nationality::Germany, '"DE"'];
+        yield 'a JsonSerializable pure enum' => [AssuranceLevel::High, '"high"'];
+        yield 'a pure enum, which the payload encoder refuses' => [Status::Active, '{"name": "Active"}'];
+        yield 'a DateTimeImmutable' => [
+            new DateTimeImmutable('@0'),
+            '{"date": "1970-01-01 00:00:00.000000", "timezone_type": 1, "timezone": "+00:00"}',
+        ];
+        yield 'an ArrayObject' => [new ArrayObject([
+            'country' => 'DE',
+        ]), '{"country": "DE"}'];
+        yield 'an ArrayObject with a "_sd" property' => [new ArrayObjectWithDigests([
+            'country' => 'DE',
+        ], ['digest']), '{"country": "DE"}'];
+        yield 'a JsonSerializable that returns itself' => [new SelfSerializing(), '{"country": "DE"}'];
+        yield 'a stdClass' => [(object) [
+            'empty' => new stdClass(),
+            'list' => [(object) [
+                'number' => 1.0,
+            ]],
+            'text' => 'é/',
+        ], '{"empty": {}, "list": [{"number": 1.0}], "text": "\\u00e9/"}'];
+        yield 'a stdClass with numeric names' => [(object) ['a', 'b'], '{"0": "a", "1": "b"}'];
+        yield 'objects in an array' => [
+            [new ArrayObject([1, 2]), Nationality::Germany, Status::Active],
+            '[{"0": 1, "1": 2}, "DE", {"name": "Active"}]',
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('valuesThatCannotBeSerialized')]
+    public function aValueThatThePayloadEncoderCannotSerializeIsRefused(mixed $value): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value cannot be serialized as JSON.');
+        $this->expectExceptionCode(0);
+
+        Disclosure::forArrayElement($value, 'salt');
+    }
+
+    /**
+     * @return iterable<string, array{mixed}>
+     */
+    public static function valuesThatCannotBeSerialized(): iterable
+    {
+        $object = new stdClass();
+        $object->self = $object;
+        yield 'an object that references itself' => [$object];
+        yield 'a pure enum in an object' => [(object) [
+            'status' => Status::Active,
+        ]];
+        yield 'an infinite number in an object' => [(object) [
+            'number' => INF,
+        ]];
     }
 
     /**

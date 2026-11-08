@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\SelectiveDisclosure;
 
+use ArrayObject;
+use DateTimeImmutable;
 use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
@@ -12,7 +15,10 @@ use Jose\Component\KeyManagement\JWKFactory;
 use Jose\SelectiveDisclosure\Disclosable;
 use Jose\SelectiveDisclosure\Disclosure;
 use Jose\SelectiveDisclosure\SDJWTIssuer;
+use Jose\Tests\SelectiveDisclosure\Stub\ArrayObjectWithDigests;
+use Jose\Tests\SelectiveDisclosure\Stub\Nationality;
 use Jose\Tests\SelectiveDisclosure\Stub\ReservedClaimName;
+use Jose\Tests\SelectiveDisclosure\Stub\SelfSerializing;
 use Jose\Tests\SelectiveDisclosure\Stub\Status;
 use JsonSerializable;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -406,6 +412,63 @@ final class SDJWTIssuerTest extends SelectiveDisclosureTestCase
         static::assertSame([[
             'name' => 'Active',
         ]], $claims['history']);
+    }
+
+    #[Test]
+    #[DataProvider('objects')]
+    public function anObjectIsDisclosedAsItIsSignedInClear(object $object): void
+    {
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'clear' => $object,
+            'disclosed' => new Disclosable($object),
+            'elements' => [new Disclosable($object)],
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        $claims = self::verifier()->verify($sdJwt->toString(), self::issuerKey())->getClaims();
+        static::assertSame($claims['clear'], $claims['disclosed']);
+        static::assertSame([$claims['clear']], $claims['elements']);
+    }
+
+    /**
+     * @return iterable<string, array{object}>
+     */
+    public static function objects(): iterable
+    {
+        yield 'a backed enum' => [Nationality::Germany];
+        yield 'a DateTimeImmutable' => [new DateTimeImmutable('@0')];
+        yield 'an ArrayObject' => [new ArrayObject([
+            'country' => 'DE',
+        ])];
+        yield 'an ArrayObject with a "_sd" property' => [new ArrayObjectWithDigests([
+            'country' => 'DE',
+        ], ['digest'])];
+        yield 'a JsonSerializable that returns itself' => [new SelfSerializing()];
+        yield 'a JsonSerializable that holds objects' => [self::jsonSerializable([
+            'date' => new DateTimeImmutable('@0'),
+            'nationality' => Nationality::Germany,
+        ])];
+    }
+
+    #[Test]
+    public function theHolderCannotDiscloseAClaimThroughAPropertyThatThePayloadEncoderIgnores(): void
+    {
+        $injected = Disclosure::forObjectProperty('country', 'chosen by the Holder');
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'address' => new Disclosable(new ArrayObjectWithDigests([
+                'country' => 'DE',
+            ], [$injected->digest()])),
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('A Disclosure is not referenced by the SD-JWT.');
+
+        self::verifier()->verify($sdJwt->toString() . $injected->toString() . '~', self::issuerKey());
     }
 
     #[Test]

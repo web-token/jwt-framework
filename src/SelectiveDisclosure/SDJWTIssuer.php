@@ -188,9 +188,9 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
     }
 
     /**
-     * An object is kept as it is, and the reserved claim names are looked for in its JSON. An enum that is not
-     * JsonSerializable has no member but its name and its value: it is not looked into, so that a pure enum, which the
-     * payload encoder refuses, can still be disclosed.
+     * An object is kept as it is, and the reserved claim names are looked for in its JSON, which is the same in the
+     * payload and in a Disclosure. An enum that is not JsonSerializable has no member but its name and its value: it is
+     * not looked into, so that a pure enum, which the payload encoder refuses, can still be disclosed.
      *
      * @param list<Disclosure> $disclosures the Disclosures created so far, completed with those of the value
      */
