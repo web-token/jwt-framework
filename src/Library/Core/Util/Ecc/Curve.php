@@ -157,10 +157,10 @@ final readonly class Curve implements Stringable
 
         for ($i = 0; $i < $k; ++$i) {
             $j = $n1[$i];
-            Point::cswap($r[0], $r[1], $j ^ 1);
+            [$r[0], $r[1]] = Point::cswap($r[0], $r[1], $j ^ 1);
             $r[0] = $this->add($r[0], $r[1]);
             $r[1] = $this->getDouble($r[1]);
-            Point::cswap($r[0], $r[1], $j ^ 1);
+            [$r[0], $r[1]] = Point::cswap($r[0], $r[1], $j ^ 1);
         }
 
         $this->validate($r[0]);
