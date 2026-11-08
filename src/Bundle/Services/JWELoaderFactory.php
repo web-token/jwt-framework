@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
+use Jose\Component\Encryption\JWELoader as BaseJWELoader;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use function func_get_arg;
-use function func_num_args;
 
 final readonly class JWELoaderFactory
 {
@@ -20,15 +19,18 @@ final readonly class JWELoaderFactory
     }
 
     /**
-     * A fourth argument sets the maximum number of recipients of a token, passed to the loader. It is read with
-     * func_num_args()/func_get_arg(3) until 5.0.0.
+     * The maximum number of recipients is passed to the loader.
      *
      * @param array<string> $serializers
      * @param array<string> $encryptionAlgorithms
      * @param array<string> $headerCheckers
      */
-    public function create(array $serializers, array $encryptionAlgorithms, array $headerCheckers = []): JWELoader
-    {
+    public function create(
+        array $serializers,
+        array $encryptionAlgorithms,
+        array $headerCheckers = [],
+        int $maxRecipients = BaseJWELoader::DEFAULT_MAX_RECIPIENTS
+    ): JWELoader {
         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
         $jweDecrypter = $this->jweDecrypterFactory->create($encryptionAlgorithms);
         if ($this->headerCheckerManagerFactory !== null) {
@@ -42,7 +44,7 @@ final readonly class JWELoaderFactory
             $jweDecrypter,
             $headerCheckerManager,
             $this->eventDispatcher,
-            func_num_args() > 3 ? func_get_arg(3) : null
+            $maxRecipients
         );
     }
 }

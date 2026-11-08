@@ -12,9 +12,6 @@ use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use Throwable;
-use function func_get_arg;
-use function func_num_args;
-use function is_int;
 use function sprintf;
 use function trigger_deprecation;
 
@@ -27,30 +24,23 @@ use function trigger_deprecation;
 class JWELoader implements JWELoaderInterface
 {
     /**
-     * The maximum number of recipients of a token from 5.0.0, when no other is set.
+     * The maximum number of recipients of a token when no other is set.
      */
     public const DEFAULT_MAX_RECIPIENTS = 10;
 
-    private readonly ?int $maxRecipients;
-
     /**
-     * A fourth argument sets the maximum number of recipients of a token: a token with more is rejected before any
-     * of them is processed. Without it, the number is not limited, but a token with more than DEFAULT_MAX_RECIPIENTS
-     * recipients triggers a deprecation, as that value becomes the default in 5.0.0. That argument is not part of the
-     * signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes extending
-     * this one remain compatible.
+     * @param int $maxRecipients A token with more recipients is rejected before any of them is processed
      */
     public function __construct(
         private readonly JWESerializerManager $serializerManager,
         private readonly JWEDecrypterInterface $jweDecrypter,
-        private readonly ?HeaderCheckerManagerInterface $headerCheckerManager
+        private readonly ?HeaderCheckerManagerInterface $headerCheckerManager,
+        private readonly int $maxRecipients = self::DEFAULT_MAX_RECIPIENTS
     ) {
         InheritanceChecker::warnIfExtended(static::class, self::class, JWELoaderInterface::class);
-        $maxRecipients = func_num_args() > 3 ? func_get_arg(3) : null;
-        if ($maxRecipients !== null && (! is_int($maxRecipients) || $maxRecipients < 1)) {
+        if ($maxRecipients < 1) {
             throw new InvalidArgumentException('The maximum number of recipients must be a positive integer.');
         }
-        $this->maxRecipients = $maxRecipients;
     }
 
     /**
@@ -142,19 +132,11 @@ class JWELoader implements JWELoaderInterface
         try {
             $jwe = $this->serializerManager->unserialize($token);
             $nbRecipients = $jwe->countRecipients();
-            if ($this->maxRecipients !== null && $nbRecipients > $this->maxRecipients) {
+            if ($nbRecipients > $this->maxRecipients) {
                 throw new InvalidArgumentException(sprintf(
                     'The token has too many recipients. The maximum allowed number is %d.',
                     $this->maxRecipients
                 ));
-            }
-            if ($this->maxRecipients === null && $nbRecipients > self::DEFAULT_MAX_RECIPIENTS) {
-                trigger_deprecation(
-                    'web-token/jwt-framework',
-                    '4.3.0',
-                    'Loading a token with more than %d recipients without setting a maximum number of recipients is deprecated: from 5.0.0 such a token is rejected unless a higher maximum is set.',
-                    self::DEFAULT_MAX_RECIPIENTS
-                );
             }
             for ($i = 0; $i < $nbRecipients; ++$i) {
                 $result = $this->processRecipient($jwe, $keys, $i, $lastError);

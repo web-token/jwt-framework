@@ -1057,13 +1057,13 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
-			rawMessage: 'Cannot call method defaultNull() on mixed.'
+			rawMessage: 'Cannot call method defaultTrue() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
-			rawMessage: 'Cannot call method defaultTrue() on mixed.'
+			rawMessage: 'Cannot call method defaultValue() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
@@ -3787,13 +3787,13 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
-			rawMessage: 'Cannot call method defaultNull() on mixed.'
+			rawMessage: 'Cannot call method defaultTrue() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
-			rawMessage: 'Cannot call method defaultTrue() on mixed.'
+			rawMessage: 'Cannot call method defaultValue() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php

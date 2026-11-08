@@ -6,8 +6,6 @@ namespace Jose\Component\Signature;
 
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
-use function func_get_arg;
-use function func_num_args;
 
 class JWSLoaderFactory
 {
@@ -22,16 +20,18 @@ class JWSLoaderFactory
      * Creates a JWSLoader using the given serializer aliases, signature algorithm aliases and (optionally) the header
      * checker aliases.
      *
-     * A fourth argument sets the maximum number of signatures of a token, passed to the loader. That argument is not
-     * part of the signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes
-     * extending this one remain compatible.
+     * The maximum number of signatures is passed to the loader.
      *
      * @param array<string> $serializers
      * @param array<string> $algorithms
      * @param array<string> $headerCheckers
      */
-    public function create(array $serializers, array $algorithms, array $headerCheckers = []): JWSLoader
-    {
+    public function create(
+        array $serializers,
+        array $algorithms,
+        array $headerCheckers = [],
+        int $maxSignatures = JWSLoader::DEFAULT_MAX_SIGNATURES
+    ): JWSLoader {
         $serializerManager = $this->jwsSerializerManagerFactory->create($serializers);
         $jwsVerifier = $this->jwsVerifierFactory->create($algorithms);
         if ($this->headerCheckerManagerFactory !== null) {
@@ -44,7 +44,7 @@ class JWSLoaderFactory
             $serializerManager,
             $jwsVerifier,
             $headerCheckerManager,
-            func_num_args() > 3 ? func_get_arg(3) : null
+            $maxSignatures
         );
     }
 }

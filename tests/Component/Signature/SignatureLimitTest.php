@@ -15,7 +15,6 @@ use Jose\Component\Signature\JWSLoader;
 use Jose\Component\Signature\JWSTokenSupport;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -58,57 +57,36 @@ final class SignatureLimitTest extends SignatureTestCase
     {
         $keys = $this->createKeys(10);
 
-        $jws = $this->createJWSLoader(10)
-            ->loadAndVerifyWithKey($this->createToken($keys), $keys[9], $signature);
+        $result = $this->createJWSLoader(10)
+            ->loadAndVerify($this->createToken($keys), $keys[9]);
 
-        static::assertSame(9, $signature);
-        static::assertSame('Live long and prosper.', $jws->getPayload());
+        static::assertSame(9, $result->getSignatureIndex());
+        static::assertSame('Live long and prosper.', $result->getJws()->getPayload());
     }
 
     #[Test]
-    public function withoutALimitATokenWithMoreThanTenSignaturesIsLoadedButDeprecated(): void
+    public function byDefaultATokenWithMoreThanTenSignaturesIsRejected(): void
     {
         $keys = $this->createKeys(11);
-        $token = $this->createToken($keys);
-        $loader = $this->createJWSLoader(null);
-        $result = null;
 
-        $deprecations = $this->collectDeprecations(static function () use ($loader, $token, $keys, &$result): void {
-            $result = $loader->loadAndVerify($token, $keys[10]);
-        });
-
-        static::assertSame(10, $result?->getSignatureIndex());
-        static::assertSame(['Since web-token/jwt-framework 4.3.0: Loading a token with more than 10 signatures without setting a maximum number of signatures is deprecated: from 5.0.0 such a token is rejected unless a higher maximum is set.'], $deprecations);
+        $this->assertRejected($this->createJWSLoader(), $this->createToken($keys), $keys[10]);
     }
 
     #[Test]
-    public function noDeprecationIsTriggeredUpToTenSignaturesOrWithALimit(): void
+    public function theLimitCanBeRaised(): void
     {
-        $ten = $this->createKeys(10);
-        $eleven = $this->createKeys(11);
-        $tokenForTen = $this->createToken($ten);
-        $tokenForEleven = $this->createToken($eleven);
-        $withoutLimit = $this->createJWSLoader(null);
-        $withLimit = $this->createJWSLoader(11);
+        $keys = $this->createKeys(11);
 
-        $deprecations = $this->collectDeprecations(static function () use (
-            $withoutLimit,
-            $withLimit,
-            $tokenForTen,
-            $tokenForEleven,
-            $ten,
-            $eleven
-        ): void {
-            $withoutLimit->loadAndVerify($tokenForTen, $ten[9]);
-            $withLimit->loadAndVerify($tokenForEleven, $eleven[10]);
-        });
+        $result = $this->createJWSLoader(11)
+            ->loadAndVerify($this->createToken($keys), $keys[10]);
 
-        static::assertSame([], $deprecations);
+        static::assertSame(10, $result->getSignatureIndex());
+        static::assertSame('Live long and prosper.', $result->getJws()->getPayload());
     }
 
     #[DataProvider('dataInvalidLimits')]
     #[Test]
-    public function anInvalidLimitIsRefused(mixed $limit): void
+    public function anInvalidLimitIsRefused(int $limit): void
     {
         $loader = $this->getJWSLoaderFactory()
             ->create(['jws_json_general'], ['HS256']);
@@ -123,11 +101,12 @@ final class SignatureLimitTest extends SignatureTestCase
     {
         yield 'zero' => [0];
         yield 'negative' => [-1];
-        yield 'string' => ['10'];
     }
 
-    private function createJWSLoader(?int $maxSignatures, ?HeaderChecker $checker = null): JWSLoader
-    {
+    private function createJWSLoader(
+        int $maxSignatures = JWSLoader::DEFAULT_MAX_SIGNATURES,
+        ?HeaderChecker $checker = null
+    ): JWSLoader {
         $jwsLoader = $this->getJWSLoaderFactory()
             ->create(['jws_json_general'], ['HS256']);
 
@@ -192,31 +171,10 @@ final class SignatureLimitTest extends SignatureTestCase
         ]);
     }
 
-    /**
-     * @return string[]
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
-    }
-
     private function assertRejected(JWSLoader $jwsLoader, string $token, JWK $key): void
     {
         try {
-            $jwsLoader->loadAndVerifyWithKey($token, $key, $signature);
+            $jwsLoader->loadAndVerify($token, $key);
         } catch (Exception $exception) {
             static::assertSame('Unable to load and verify the token.', $exception->getMessage());
 

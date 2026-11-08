@@ -35,7 +35,8 @@ final class PBES2IterationCountTest extends EncryptionTestCase
                 new CountingPBES2HS256A128KW($calls, PBES2AESKW::DEFAULT_MAX_COUNT),
                 new A128GCM(),
             ]), null),
-            null
+            null,
+            30
         );
         $token = JsonConverter::encode([
             'protected' => Base64UrlSafe::encodeUnpadded(JsonConverter::encode([
