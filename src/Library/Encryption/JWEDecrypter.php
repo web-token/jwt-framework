@@ -189,18 +189,19 @@ class JWEDecrypter
     }
 
     /**
-     * A key obtained by key agreement is checked like a decrypted or unwrapped one: the content encryption algorithms
-     * pad a short key with zero bytes instead of rejecting it.
+     * A key obtained by key agreement is checked like a decrypted or unwrapped one, and a direct key must be at least
+     * that long: the content encryption algorithms pad a short key with zero bytes instead of rejecting it.
      */
     private function checkCekSize(
         string $cek,
         KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
         ContentEncryptionAlgorithm $algorithm
     ): void {
-        if ($keyEncryptionAlgorithm instanceof DirectEncryption) {
+        $cekSize = mb_strlen($cek, '8bit') * 8;
+        if ($keyEncryptionAlgorithm instanceof DirectEncryption && $cekSize > $algorithm->getCEKSize()) {
             return;
         }
-        if (mb_strlen($cek, '8bit') * 8 !== $algorithm->getCEKSize()) {
+        if ($cekSize !== $algorithm->getCEKSize()) {
             throw new InvalidArgumentException('Invalid CEK size');
         }
     }
