@@ -9,6 +9,7 @@ use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
+use Jose\Component\Signature\Signature;
 use LogicException;
 use function array_key_exists;
 use function count;
@@ -92,9 +93,9 @@ final class JSONGeneralSerializer extends Serializer
         }
 
         $payload = $this->processPayload($rawPayload, $isPayloadEncoded);
-        $jws = new JWS($payload, $rawPayload);
+        $jwsSignatures = [];
         foreach ($signatures as $signature) {
-            $jws = $jws->addSignature(
+            $jwsSignatures[] = new Signature(
                 $signature['signature'],
                 $signature['protected'],
                 $signature['encoded_protected'],
@@ -102,7 +103,7 @@ final class JSONGeneralSerializer extends Serializer
             );
         }
 
-        return $jws;
+        return new JWS($payload, $rawPayload, false, $jwsSignatures);
     }
 
     /**
