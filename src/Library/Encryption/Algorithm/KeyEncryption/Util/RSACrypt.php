@@ -234,7 +234,7 @@ final class RSACrypt
      */
     private static function getRSAEP(RSAKey $key, BigInteger $m): BigInteger
     {
-        if ($m->compare(BigInteger::createFromDecimal(0)) < 0 || $m->compare($key->getModulus()) > 0) {
+        if ($m->compare(BigInteger::createFromDecimal(0)) < 0 || $m->compare($key->getModulus()) >= 0) {
             throw new RuntimeException();
         }
 
@@ -246,7 +246,7 @@ final class RSACrypt
      */
     private static function getRSADP(RSAKey $key, BigInteger $c): BigInteger
     {
-        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
+        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) >= 0) {
             throw new RuntimeException();
         }
 
