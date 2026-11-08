@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
+use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use function func_get_arg;
@@ -22,9 +23,10 @@ final readonly class JWELoaderFactory
             trigger_deprecation(
                 'web-token/jwt-framework',
                 '4.3.0',
-                'Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s".',
+                'Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s" that has the "%s" token type support.',
                 self::class,
-                HeaderCheckerManagerFactory::class
+                HeaderCheckerManagerFactory::class,
+                JWETokenSupport::class
             );
         }
     }

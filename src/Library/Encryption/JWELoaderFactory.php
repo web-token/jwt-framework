@@ -21,9 +21,10 @@ readonly class JWELoaderFactory
             trigger_deprecation(
                 'web-token/jwt-library',
                 '4.3.0',
-                'Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s".',
+                'Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s" that has the "%s" token type support.',
                 static::class,
-                HeaderCheckerManagerFactory::class
+                HeaderCheckerManagerFactory::class,
+                JWETokenSupport::class
             );
         }
     }

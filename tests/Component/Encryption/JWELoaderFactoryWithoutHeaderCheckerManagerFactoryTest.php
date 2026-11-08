@@ -24,7 +24,7 @@ final class JWELoaderFactoryWithoutHeaderCheckerManagerFactoryTest extends Encry
         });
 
         static::assertSame([
-            'Since web-token/jwt-library 4.3.0: Creating a "Jose\\Component\\Encryption\\JWELoaderFactory" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "Jose\\Component\\Checker\\HeaderCheckerManagerFactory".',
+            'Since web-token/jwt-library 4.3.0: Creating a "Jose\\Component\\Encryption\\JWELoaderFactory" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "Jose\\Component\\Checker\\HeaderCheckerManagerFactory" that has the "Jose\\Component\\Encryption\\JWETokenSupport" token type support.',
         ], $deprecations);
     }
 

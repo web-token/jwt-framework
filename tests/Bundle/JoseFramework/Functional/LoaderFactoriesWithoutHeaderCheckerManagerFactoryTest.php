@@ -10,7 +10,9 @@ use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Bundle\JoseFramework\Services\JWSLoaderFactory;
 use Jose\Bundle\JoseFramework\Services\JWSVerifierFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
+use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
+use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,7 +27,7 @@ use const E_USER_DEPRECATED;
  */
 final class LoaderFactoriesWithoutHeaderCheckerManagerFactoryTest extends WebTestCase
 {
-    private const MESSAGE = 'Since web-token/jwt-framework 4.3.0: Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s".';
+    private const MESSAGE = 'Since web-token/jwt-framework 4.3.0: Creating a "%s" without a header checker manager factory is deprecated and will not be possible in 5.0.0: the loaders it creates check no header parameter, not even those listed in "crit". Pass a "%s" that has the "%s" token type support.';
 
     #[Test]
     public function theLoaderFactoriesWithoutHeaderCheckerManagerFactoryAreDeprecated(): void
@@ -49,8 +51,8 @@ final class LoaderFactoriesWithoutHeaderCheckerManagerFactoryTest extends WebTes
         });
 
         static::assertSame([
-            sprintf(self::MESSAGE, JWELoaderFactory::class, HeaderCheckerManagerFactory::class),
-            sprintf(self::MESSAGE, JWSLoaderFactory::class, HeaderCheckerManagerFactory::class),
+            sprintf(self::MESSAGE, JWELoaderFactory::class, HeaderCheckerManagerFactory::class, JWETokenSupport::class),
+            sprintf(self::MESSAGE, JWSLoaderFactory::class, HeaderCheckerManagerFactory::class, JWSTokenSupport::class),
         ], $deprecations);
     }
 
