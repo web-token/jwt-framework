@@ -27,13 +27,19 @@ use function trigger_deprecation;
  */
 class JWSLoader implements JWSLoaderInterface
 {
+    /**
+     * The maximum number of signatures of a token from 5.0.0, when no other is set.
+     */
+    public const DEFAULT_MAX_SIGNATURES = 10;
+
     private readonly ?int $maxSignatures;
 
     /**
      * A fourth argument sets the maximum number of signatures of a token: a token with more is rejected before any
-     * of them is processed. Without it, the number is not limited. That argument is not part of the signature yet (it
-     * will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes extending this one remain
-     * compatible.
+     * of them is processed. Without it, the number is not limited, but a token with more than DEFAULT_MAX_SIGNATURES
+     * signatures triggers a deprecation, as that value becomes the default in 5.0.0. That argument is not part of the
+     * signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes extending
+     * this one remain compatible.
      */
     public function __construct(
         private readonly JWSSerializerManager $serializerManager,
@@ -157,6 +163,14 @@ class JWSLoader implements JWSLoaderInterface
                     'The token has too many signatures. The maximum allowed number is %d.',
                     $this->maxSignatures
                 ));
+            }
+            if ($this->maxSignatures === null && $nbSignatures > self::DEFAULT_MAX_SIGNATURES) {
+                trigger_deprecation(
+                    'web-token/jwt-framework',
+                    '4.3.0',
+                    'Loading a token with more than %d signatures without setting a maximum number of signatures is deprecated: from 5.0.0 such a token is rejected unless a higher maximum is set.',
+                    self::DEFAULT_MAX_SIGNATURES
+                );
             }
             for ($i = 0; $i < $nbSignatures; ++$i) {
                 $result = $this->processSignature($jws, $keys, $i, $payload, $lastError);

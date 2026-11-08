@@ -15,6 +15,7 @@ use Jose\Component\Encryption\JWETokenSupport;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
+use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -65,15 +66,44 @@ final class RecipientLimitTest extends EncryptionTestCase
     }
 
     #[Test]
-    public function withoutALimitEveryRecipientIsTried(): void
+    public function withoutALimitATokenWithMoreThanTenRecipientsIsLoadedButDeprecated(): void
     {
         $keys = $this->createKeys(11);
+        $token = $this->createToken($keys);
+        $loader = $this->createJWELoader(null);
+        $result = null;
 
-        $jwe = $this->createJWELoader(null)
-            ->loadAndDecryptWithKey($this->createToken($keys), $keys[10], $recipient);
+        $deprecations = $this->collectDeprecations(static function () use ($loader, $token, $keys, &$result): void {
+            $result = $loader->loadAndDecrypt($token, $keys[10]);
+        });
 
-        static::assertSame(10, $recipient);
-        static::assertSame('Live long and prosper.', $jwe->getPayload());
+        static::assertSame(10, $result?->getRecipientIndex());
+        static::assertSame(['Since web-token/jwt-framework 4.3.0: Loading a token with more than 10 recipients without setting a maximum number of recipients is deprecated: from 5.0.0 such a token is rejected unless a higher maximum is set.'], $deprecations);
+    }
+
+    #[Test]
+    public function noDeprecationIsTriggeredUpToTenRecipientsOrWithALimit(): void
+    {
+        $ten = $this->createKeys(10);
+        $eleven = $this->createKeys(11);
+        $tokenForTen = $this->createToken($ten);
+        $tokenForEleven = $this->createToken($eleven);
+        $withoutLimit = $this->createJWELoader(null);
+        $withLimit = $this->createJWELoader(11);
+
+        $deprecations = $this->collectDeprecations(static function () use (
+            $withoutLimit,
+            $withLimit,
+            $tokenForTen,
+            $tokenForEleven,
+            $ten,
+            $eleven
+        ): void {
+            $withoutLimit->loadAndDecrypt($tokenForTen, $ten[9]);
+            $withLimit->loadAndDecrypt($tokenForEleven, $eleven[10]);
+        });
+
+        static::assertSame([], $deprecations);
     }
 
     #[DataProvider('dataInvalidLimits')]
@@ -165,6 +195,27 @@ final class RecipientLimitTest extends EncryptionTestCase
             'kty' => 'oct',
             'k' => Base64UrlSafe::encodeUnpadded(random_bytes(16)),
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function collectDeprecations(callable $callback): array
+    {
+        $deprecations = [];
+        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
+            $deprecations[] = $errstr;
+
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $deprecations;
     }
 
     private function assertRejected(JWELoader $jweLoader, string $token, JWK $key): void

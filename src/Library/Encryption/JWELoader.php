@@ -26,13 +26,19 @@ use function trigger_deprecation;
  */
 class JWELoader implements JWELoaderInterface
 {
+    /**
+     * The maximum number of recipients of a token from 5.0.0, when no other is set.
+     */
+    public const DEFAULT_MAX_RECIPIENTS = 10;
+
     private readonly ?int $maxRecipients;
 
     /**
      * A fourth argument sets the maximum number of recipients of a token: a token with more is rejected before any
-     * of them is processed. Without it, the number is not limited. That argument is not part of the signature yet (it
-     * will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes extending this one remain
-     * compatible.
+     * of them is processed. Without it, the number is not limited, but a token with more than DEFAULT_MAX_RECIPIENTS
+     * recipients triggers a deprecation, as that value becomes the default in 5.0.0. That argument is not part of the
+     * signature yet (it will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes extending
+     * this one remain compatible.
      */
     public function __construct(
         private readonly JWESerializerManager $serializerManager,
@@ -141,6 +147,14 @@ class JWELoader implements JWELoaderInterface
                     'The token has too many recipients. The maximum allowed number is %d.',
                     $this->maxRecipients
                 ));
+            }
+            if ($this->maxRecipients === null && $nbRecipients > self::DEFAULT_MAX_RECIPIENTS) {
+                trigger_deprecation(
+                    'web-token/jwt-framework',
+                    '4.3.0',
+                    'Loading a token with more than %d recipients without setting a maximum number of recipients is deprecated: from 5.0.0 such a token is rejected unless a higher maximum is set.',
+                    self::DEFAULT_MAX_RECIPIENTS
+                );
             }
             for ($i = 0; $i < $nbRecipients; ++$i) {
                 $result = $this->processRecipient($jwe, $keys, $i, $lastError);
