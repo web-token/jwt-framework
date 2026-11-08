@@ -77,7 +77,22 @@ abstract class AESCTR implements KeyEncryption
         if (! is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
+        $k = Base64UrlSafe::decodeNoPadding($k);
+        $keySize = $this->getKeySize();
+        if ($keySize !== null && mb_strlen($k, '8bit') * 8 < $keySize) {
+            throw new InvalidArgumentException('Invalid key length.');
+        }
 
-        return Base64UrlSafe::decodeNoPadding($k);
+        return $k;
+    }
+
+    private function getKeySize(): ?int
+    {
+        return match ($this->getMode()) {
+            'aes-128-ctr' => 128,
+            'aes-192-ctr' => 192,
+            'aes-256-ctr' => 256,
+            default => null,
+        };
     }
 }

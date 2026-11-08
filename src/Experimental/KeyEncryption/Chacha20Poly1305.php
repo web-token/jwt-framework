@@ -98,7 +98,11 @@ final class Chacha20Poly1305 implements KeyEncryption
         if (! is_string($k)) {
             throw new InvalidArgumentException('The key parameter "k" is invalid.');
         }
+        $k = Base64UrlSafe::decodeNoPadding($k);
+        if (mb_strlen($k, '8bit') < 32) {
+            throw new InvalidArgumentException('Invalid key length.');
+        }
 
-        return Base64UrlSafe::decodeNoPadding($k);
+        return $k;
     }
 }
