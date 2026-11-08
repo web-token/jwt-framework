@@ -241,6 +241,7 @@ class JWEDecrypter implements JWEDecrypterInterface
 
                 continue;
             }
+            $this->deprecateDirectEncryptionWithEmptyAAD($jwe, $key_encryption_algorithm);
 
             return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
         }
@@ -365,6 +366,24 @@ class JWEDecrypter implements JWEDecrypterInterface
                 'The encrypted key must be empty with direct encryption or direct key agreement.'
             );
         }
+    }
+
+    /**
+     * Without a protected header and without "aad", the content of a "dir" JWE is encrypted with an empty AAD, as AES-GCM
+     * key wrapping encrypts a CEK: the encrypted key of an A*GCMKW token is then a valid content under the same key.
+     */
+    private function deprecateDirectEncryptionWithEmptyAAD(JWE $jwe, KeyEncryptionAlgorithm $keyEncryptionAlgorithm): void
+    {
+        if (! $keyEncryptionAlgorithm instanceof DirectEncryption
+            || $jwe->getEncodedSharedProtectedHeader() !== ''
+            || $jwe->getAAD() !== null) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Decrypting a "dir" JWE that has neither a protected header nor additional authenticated data is deprecated and will not be possible in 5.0.0: encrypt it again with "alg" and "enc" in the protected header.'
+        );
     }
 
     private function decryptPayload(
