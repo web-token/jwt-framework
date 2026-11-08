@@ -29,7 +29,9 @@ use function sprintf;
  * - the Disclosure of an array element is referenced from an object, or the other way round;
  * - a disclosed claim already exists in its object;
  * - "_sd" is not an array of strings, "..." does not carry a string, or a "..." member is found outside of the
- *   {"...": digest} elements of an array (section 4.1).
+ *   {"...": digest} elements of an array (section 4.1);
+ * - the processed payload has more than 64 levels of objects and arrays, itself included. RFC 9901 sets no limit,
+ *   and the depth limit of the JSON decoder does not apply: each Disclosure is decoded apart.
  *
  * Every failure is reported by an InvalidTokenException. The processor also records the path of each disclosed value
  * in the processed payload, which is how the Holder selects the Disclosures of a claim.
@@ -40,6 +42,8 @@ use function sprintf;
  */
 final class DisclosureProcessor
 {
+    private const MAXIMUM_DEPTH = 64;
+
     /**
      * The secret of this processing: the digests are recorded under a hash keyed with it, see index().
      */
@@ -132,6 +136,13 @@ final class DisclosureProcessor
     {
         if (! is_array($value)) {
             return $value;
+        }
+        $depth = count($path) + 1;
+        if ($depth > self::MAXIMUM_DEPTH) {
+            throw new InvalidTokenException(sprintf(
+                'The processed payload of the SD-JWT is nested more than %d levels deep.',
+                self::MAXIMUM_DEPTH
+            ));
         }
 
         return array_is_list($value) ? $this->processArray($value, $path) : $this->processObject($value, $path);
