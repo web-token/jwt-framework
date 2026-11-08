@@ -20,6 +20,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use function range;
+use function str_repeat;
 use function strlen;
 use const INF;
 use const JSON_THROW_ON_ERROR;
@@ -30,6 +32,8 @@ use const JSON_THROW_ON_ERROR;
 final class DisclosureTest extends TestCase
 {
     private const MOBIUS = 'WyJfMjZiYzRMVC1hYzZxMktJNmNCVzVlcyIsICJmYW1pbHlfbmFtZSIsICJNw7ZiaXVzIl0';
+
+    private const UNPARSABLE = 'The value is nested too deeply or holds too many JSON values: its Disclosure could not be parsed.';
 
     /**
      * RFC 9901 section 4.2.1 and 4.2.3: the Disclosure of an object property and its digest.
@@ -200,6 +204,68 @@ final class DisclosureTest extends TestCase
     }
 
     /**
+     * The levels of a Disclosure are counted from its own array, for the arrays and the objects of the value alike, and
+     * its JSON values share one budget, as when Disclosure::fromString() parses it.
+     */
+    #[Test]
+    #[DataProvider('valuesBeyondTheBoundsOfTheParser')]
+    public function aValueWhoseDisclosureCannotBeParsedIsRefused(bool $property, string $shape, int $size): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(self::UNPARSABLE);
+        $this->expectExceptionCode(0);
+
+        self::create($property, self::value($shape, $size));
+    }
+
+    /**
+     * @return iterable<string, array{bool, string, int}>
+     */
+    public static function valuesBeyondTheBoundsOfTheParser(): iterable
+    {
+        yield 'an array element of 511 nested arrays' => [false, 'arrays', 511];
+        yield 'an array element of 10000 nested arrays' => [false, 'arrays', 10000];
+        yield 'an array element of an object of 511 levels' => [false, 'object', 511];
+        yield 'an array element of 300 arrays around an object of 300 levels' => [false, 'arrays around an object', 300];
+        yield 'an array element of 4095 integers' => [false, 'integers', 4095];
+        yield 'an object property of 511 nested arrays' => [true, 'arrays', 511];
+        yield 'an object property of an object of 511 levels' => [true, 'object', 511];
+        yield 'an object property of 4094 integers' => [true, 'integers', 4094];
+    }
+
+    #[Test]
+    #[DataProvider('valuesWithinTheBoundsOfTheParser')]
+    public function aValueWithinTheBoundsOfTheParserIsDisclosed(bool $property, string $shape, int $size): void
+    {
+        $value = self::value($shape, $size);
+
+        $disclosure = Disclosure::fromString(self::create($property, $value)->toString());
+
+        static::assertSame(
+            json_decode(json_encode($value, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR),
+            $disclosure->getValue()
+        );
+    }
+
+    /**
+     * The brackets, braces, commas, quotes and backslashes of a string are not JSON values.
+     *
+     * @return iterable<string, array{bool, string, int}>
+     */
+    public static function valuesWithinTheBoundsOfTheParser(): iterable
+    {
+        yield 'an array element of 510 nested arrays' => [false, 'arrays', 510];
+        yield 'an array element of an object of 510 levels' => [false, 'object', 510];
+        yield 'an array element of 255 arrays around an object of 255 levels' => [false, 'arrays around an object', 255];
+        yield 'an array element of 4094 integers' => [false, 'integers', 4094];
+        yield 'an array element of a string of brackets, braces, commas, quotes and backslashes' => [false, 'string', 10000];
+        yield 'an object property of 510 nested arrays' => [true, 'arrays', 510];
+        yield 'an object property of an object of 510 levels' => [true, 'object', 510];
+        yield 'an object property of 4093 integers' => [true, 'integers', 4093];
+        yield 'an object property of a string of brackets, braces, commas, quotes and backslashes' => [true, 'string', 10000];
+    }
+
+    /**
      * JSON allows white space before the array; the Disclosure is accepted as it is.
      */
     #[Test]
@@ -352,5 +418,51 @@ final class DisclosureTest extends TestCase
     private static function encode(mixed $value): string
     {
         return Base64UrlSafe::encodeUnpadded(json_encode($value, JSON_THROW_ON_ERROR));
+    }
+
+    private static function create(bool $property, mixed $value): Disclosure
+    {
+        return $property ? Disclosure::forObjectProperty('claim', $value, 'salt') : Disclosure::forArrayElement(
+            $value,
+            'salt'
+        );
+    }
+
+    /**
+     * A value of the given shape: the size is a number of levels, of integers or of groups of characters.
+     */
+    private static function value(string $shape, int $size): mixed
+    {
+        return match ($shape) {
+            'arrays' => self::arrays(1, $size),
+            'object' => self::object($size),
+            'arrays around an object' => self::arrays(self::object($size), $size),
+            'integers' => range(1, $size),
+            'string' => str_repeat('[{,"\\', $size),
+        };
+    }
+
+    private static function arrays(mixed $value, int $arrays): mixed
+    {
+        for ($index = 0; $index < $arrays; ++$index) {
+            $value = [$value];
+        }
+
+        return $value;
+    }
+
+    /**
+     * An object whose JSON has the given number of levels.
+     */
+    private static function object(int $levels): stdClass
+    {
+        $value = 1;
+        for ($index = 0; $index < $levels; ++$index) {
+            $object = new stdClass();
+            $object->claim = $value;
+            $value = $object;
+        }
+
+        return $value;
     }
 }
