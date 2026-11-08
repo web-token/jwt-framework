@@ -13,6 +13,7 @@ use Override;
 use SensitiveParameter;
 use function extension_loaded;
 use function strlen;
+use function trigger_deprecation;
 use const OPENSSL_RAW_DATA;
 
 abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
@@ -61,7 +62,15 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         string $tag
     ): string {
         if (! $this->isTagValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
-            throw new DecryptionFailedException('Unable to decrypt or to verify the tag.');
+            if (! $this->isTagOfEarlierVersionsValid($data, $cek, $iv, $aad, $encoded_protected_header, $tag)) {
+                throw new DecryptionFailedException('Unable to decrypt or to verify the tag.');
+            }
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '4.3.0',
+                'Decrypting a "%s" token whose authentication tag does not cover the length of its additional authenticated data, as versions before 4.3.0 computed it, is deprecated and will not be possible in 5.0.0: encrypt it again.',
+                $this->name()
+            );
         }
         $k = substr($cek, $this->getCEKSize() / 16);
 
@@ -91,8 +100,19 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         if ($aad !== null) {
             $calculated_aad .= '.' . Base64UrlSafe::encodeUnpadded($aad);
         }
+
+        return $this->computeAuthenticationTag($encrypted_data, $cek, $iv, $calculated_aad, strlen($calculated_aad));
+    }
+
+    private function computeAuthenticationTag(
+        string $encrypted_data,
+        #[SensitiveParameter]
+        string $cek,
+        string $iv,
+        string $calculated_aad,
+        int $auth_data_length
+    ): string {
         $mac_key = substr($cek, 0, $this->getCEKSize() / 16);
-        $auth_data_length = strlen($calculated_aad);
 
         $secured_input = implode('', [
             $calculated_aad,
@@ -117,6 +137,34 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
         return hash_equals(
             $authentication_tag,
             $this->calculateAuthenticationTag($encrypted_data, $cek, $iv, $aad, $encoded_header)
+        );
+    }
+
+    /**
+     * Versions before 4.3.0 computed AL over the protected header only, even when the JWE has an "aad" member.
+     */
+    private function isTagOfEarlierVersionsValid(
+        string $encrypted_data,
+        #[SensitiveParameter]
+        string $cek,
+        string $iv,
+        ?string $aad,
+        string $encoded_header,
+        string $authentication_tag
+    ): bool {
+        if ($aad === null) {
+            return false;
+        }
+
+        return hash_equals(
+            $authentication_tag,
+            $this->computeAuthenticationTag(
+                $encrypted_data,
+                $cek,
+                $iv,
+                $encoded_header . '.' . Base64UrlSafe::encodeUnpadded($aad),
+                strlen($encoded_header)
+            )
         );
     }
 

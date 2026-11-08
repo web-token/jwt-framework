@@ -21,11 +21,13 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function chr;
+use function sprintf;
+use const E_USER_DEPRECATED;
 
 /**
  * When a JWE has an "aad" member, the additional authenticated data of AES-CBC-HMAC is the encoded protected header, a
  * period and the encoded "aad" member, and AL is the length of that whole value (RFC 7516 section 5.1, RFC 7518
- * section 5.2.2.1).
+ * section 5.2.2.1). Versions before 4.3.0 computed AL over the protected header only.
  *
  * @internal
  */
@@ -52,7 +54,7 @@ final class AESCBCHSAdditionalAuthenticatedDataTest extends TestCase
         string $expectedCiphertext,
         string $expectedTag
     ): void {
-        $cek = implode('', array_map(chr(...), range(0, $algorithm->getCEKSize() / 8 - 1)));
+        $cek = $this->contentEncryptionKey($algorithm);
         $iv = hex2bin('1af38c2dc2b96ffdd86694092341bc04');
         $tag = null;
 
@@ -60,14 +62,60 @@ final class AESCBCHSAdditionalAuthenticatedDataTest extends TestCase
 
         static::assertSame($expectedCiphertext, Base64UrlSafe::encodeUnpadded($ciphertext));
         static::assertSame($expectedTag, Base64UrlSafe::encodeUnpadded((string) $tag));
-        static::assertSame(
-            self::PAYLOAD,
-            $algorithm->decryptContent($ciphertext, $cek, $iv, self::AAD, $protectedHeader, (string) $tag)
-        );
+        $deprecations = $this->collectDeprecations(static function () use (
+            $algorithm,
+            $ciphertext,
+            $cek,
+            $iv,
+            $protectedHeader,
+            $tag
+        ): void {
+            static::assertSame(
+                self::PAYLOAD,
+                $algorithm->decryptContent($ciphertext, $cek, $iv, self::AAD, $protectedHeader, (string) $tag)
+            );
+        });
+        static::assertSame([], $deprecations);
     }
 
     /**
-     * @return iterable<string, array{AESCBCHS, string, string, string}>
+     * The expected tag of earlier versions was computed the same way, with AL over the protected header only.
+     */
+    #[Test]
+    #[DataProvider('knownAnswers')]
+    public function theTagOfEarlierVersionsIsStillAcceptedButDeprecated(
+        AESCBCHS $algorithm,
+        string $protectedHeader,
+        string $ciphertext,
+        string $tag,
+        string $tagOfEarlierVersions
+    ): void {
+        $cek = $this->contentEncryptionKey($algorithm);
+        $iv = hex2bin('1af38c2dc2b96ffdd86694092341bc04');
+
+        $deprecations = $this->collectDeprecations(static function () use (
+            $algorithm,
+            $ciphertext,
+            $cek,
+            $iv,
+            $protectedHeader,
+            $tagOfEarlierVersions
+        ): void {
+            static::assertSame(self::PAYLOAD, $algorithm->decryptContent(
+                Base64UrlSafe::decodeNoPadding($ciphertext),
+                $cek,
+                $iv,
+                self::AAD,
+                $protectedHeader,
+                Base64UrlSafe::decodeNoPadding($tagOfEarlierVersions)
+            ));
+        });
+
+        static::assertSame([$this->deprecationMessage($algorithm->name())], $deprecations);
+    }
+
+    /**
+     * @return iterable<string, array{AESCBCHS, string, string, string, string}>
      */
     public static function knownAnswers(): iterable
     {
@@ -76,18 +124,21 @@ final class AESCBCHSAdditionalAuthenticatedDataTest extends TestCase
             'eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0',
             'pcgo91p9VhfV6FDsZ3OdW7D89ebbdwU-fxd3HFaNOpQ',
             'UVKjQfACtTRvhSYw8NkV7A',
+            'bY9RTqXLCTZ8emLtyr_DRA',
         ];
         yield 'A192CBC-HS384' => [
             new A192CBCHS384(),
             'eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTkyQ0JDLUhTMzg0In0',
             'p5kn1IaeAPZfYPWqWKWVk-XGdBbJG595m0RHkS-M9f4',
             'e2wZ8gLH-YCIAioiTmWBiIAj3UPYoxYq',
+            '8fC4QIjDAx7uRC__nyS3GWSjCKb-kPqO',
         ];
         yield 'A256CBC-HS512' => [
             new A256CBCHS512(),
             'eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0',
             '5o1SizKSWBdQXkkKxUzQxHC8--RelcY4DPItJ37zeSc',
             'KJKEt8U_E6iPdlKh8RDKfhukeO0VONfPwLPUZO36Ra4',
+            'c2rmT5apXxySpofRYOHnnRbw-1Y9DKqT0eAbnfwuNds',
         ];
     }
 
@@ -98,12 +149,16 @@ final class AESCBCHSAdditionalAuthenticatedDataTest extends TestCase
     #[DataProvider('tokensFromAnotherImplementation')]
     public function aTokenProducedByAnotherImplementationIsDecrypted(JWESerializer $serializer, string $token): void
     {
-        $result = $this->decrypter()
-            ->decrypt($serializer->unserialize($token), new JWK(self::KEY), 0);
+        $result = null;
+        $deprecations = $this->collectDeprecations(function () use ($serializer, $token, &$result): void {
+            $result = $this->decrypter()
+                ->decrypt($serializer->unserialize($token), new JWK(self::KEY), 0);
+        });
 
-        static::assertTrue($result->isDecrypted());
+        static::assertTrue($result?->isDecrypted());
         static::assertSame(self::AAD, $result->getJwe()->getAAD());
         static::assertSame(self::PAYLOAD, $result->getJwe()->getPayload());
+        static::assertSame([], $deprecations);
     }
 
     /**
@@ -126,6 +181,43 @@ final class AESCBCHSAdditionalAuthenticatedDataTest extends TestCase
         yield 'general, A128CBC-HS256' => [
             new JSONGeneralSerializer(),
             '{"ciphertext":"rsbSKAcNnH0ZpcL2B_4ly93vS1UBlxfLmLP4nuLPNiA","iv":"brOcmVHJ5KO_cgwF_FZUHA","recipients":[{"encrypted_key":"OmX9NUxCXkol1PcqY-ERo3cxwlnnnOnrCtAesbmtTyLifeokENK91g","header":{"alg":"A128KW"}}],"tag":"zmKa199rqIqOSUjYTbX37A","aad":"VGhlIHNlY29uZCBwcmluY2lwbGUgb2YgQXVndXN0ZSBLZXJja2hvZmZz","protected":"eyJlbmMiOiJBMTI4Q0JDLUhTMjU2In0"}',
+        ];
+    }
+
+    /**
+     * The tokens were issued by this library before 4.3.0 for that key, with that additional authenticated data.
+     */
+    #[Test]
+    #[DataProvider('tokensFromEarlierVersions')]
+    public function aTokenIssuedByAnEarlierVersionIsStillDecryptedButDeprecated(string $enc, string $token): void
+    {
+        $result = null;
+        $deprecations = $this->collectDeprecations(function () use ($token, &$result): void {
+            $result = $this->decrypter()
+                ->decrypt((new JSONFlattenedSerializer())->unserialize($token), new JWK(self::KEY), 0);
+        });
+
+        static::assertTrue($result?->isDecrypted());
+        static::assertSame(self::PAYLOAD, $result->getJwe()->getPayload());
+        static::assertSame([$this->deprecationMessage($enc)], $deprecations);
+    }
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function tokensFromEarlierVersions(): iterable
+    {
+        yield 'A128CBC-HS256' => [
+            'A128CBC-HS256',
+            '{"ciphertext":"PS8hyeksd_gFsodk0pRrz4YSBsUvWTT-KDYqwKQrixE","iv":"TDcPhaY53QxTjRlUZ0tzZQ","tag":"qqDKcYD4hQkx_tQmmYqYFQ","aad":"VGhlIHNlY29uZCBwcmluY2lwbGUgb2YgQXVndXN0ZSBLZXJja2hvZmZz","protected":"eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0","encrypted_key":"fWfiwHjZ69q6_Rte7jOIF_FAwSEwxqnbul4rqE4-VFZgMyc1XHBKWA"}',
+        ];
+        yield 'A192CBC-HS384' => [
+            'A192CBC-HS384',
+            '{"ciphertext":"uJdh0LB76Wyu-3PL2dKZsD3abiUBOJAz3WeedYxBIBQ","iv":"diXjHUwwiGDcEurRgwnamg","tag":"gLgNx9ehBjhAp3kQJGZFrCafiuOOdGxw","aad":"VGhlIHNlY29uZCBwcmluY2lwbGUgb2YgQXVndXN0ZSBLZXJja2hvZmZz","protected":"eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTkyQ0JDLUhTMzg0In0","encrypted_key":"QabRNAa03UzNtVN-tRwoFYZqoubcuLyePknkcX-vU_16sRy85d9YTMQ6114-m5ydLQ8a_Jw1tBA"}',
+        ];
+        yield 'A256CBC-HS512' => [
+            'A256CBC-HS512',
+            '{"ciphertext":"dWkPRtwERRDSfVkH6Ani2fGC4bRECZpEgMDRU-cqEH8","iv":"GFKTyb7PLKGS-fd1XtSsHw","tag":"6es8RFlMVd4jOQwJzSYh8WLmjrgm2BHlVAkPVs7UlIc","aad":"VGhlIHNlY29uZCBwcmluY2lwbGUgb2YgQXVndXN0ZSBLZXJja2hvZmZz","protected":"eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0","encrypted_key":"M2N2fjHoZkcsEtGqVKMH5KiBt50N5CnWElEpDzypsWrs_5fI-uUPeKav6q6dwdBOeHZdEyovojB6CGbgfaUVgk6Sd9YTcV06"}',
         ];
     }
 
@@ -176,6 +268,42 @@ final class AESCBCHSAdditionalAuthenticatedDataTest extends TestCase
     {
         yield 'the last 16 characters of the "aad" member' => [self::AAD, 16];
         yield 'the whole "aad" member and the period' => ['A JWE AAD that is thirty-five bytes', 48];
+    }
+
+    private function contentEncryptionKey(AESCBCHS $algorithm): string
+    {
+        return implode('', array_map(chr(...), range(0, $algorithm->getCEKSize() / 8 - 1)));
+    }
+
+    private function deprecationMessage(string $enc): string
+    {
+        return sprintf(
+            'Since web-token/jwt-library 4.3.0: Decrypting a "%s" token whose authentication tag does not cover the length of its additional authenticated data, as versions before 4.3.0 computed it, is deprecated and will not be possible in 5.0.0: encrypt it again.',
+            $enc
+        );
+    }
+
+    /**
+     * @param callable(): void $callback
+     *
+     * @return list<string>
+     */
+    private function collectDeprecations(callable $callback): array
+    {
+        $deprecations = [];
+        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
+            $deprecations[] = $errstr;
+
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $deprecations;
     }
 
     private function algorithmManager(): AlgorithmManager
