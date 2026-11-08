@@ -24,6 +24,7 @@ use function array_map;
 use function hash;
 use function sort;
 use function sprintf;
+use function str_repeat;
 
 /**
  * The JWS JSON serialization of SD-JWTs, RFC 9901 section 8: the Issuer-signed JWT is a JWS in the flattened or the
@@ -538,7 +539,8 @@ final class JsonSerializationTest extends SelectiveDisclosureTestCase
     }
 
     /**
-     * As the JWS loader does, a general SD-JWT is accepted when one of its signatures is verified.
+     * As the JWS loader does, a general SD-JWT is accepted when one of its signatures is verified. The verified
+     * Issuer-signed JWT only has that signature; the SD-JWT keeps all of them.
      */
     #[Test]
     public function aGeneralSdJwtIsVerifiedByAnyOfItsSignatures(): void
@@ -555,7 +557,72 @@ final class JsonSerializationTest extends SelectiveDisclosureTestCase
         $verified = self::verifier(jsonSerializations: true)->verify($token, self::issuerKey());
 
         static::assertSame(self::issuerKey()->all(), $verified->getIssuerKey()->all());
-        static::assertSame(2, $verified->getIssuerSignedJwt()->countSignatures());
+        static::assertSame(1, $verified->getIssuerSignedJwt()->countSignatures());
+        static::assertSame('issuer', $verified->getIssuerSignedJwt()->getSignature(0)->getHeaderParameter('kid'));
+        static::assertCount(2, JsonConverter::decode($verified->getSdJwt()->toString())['signatures']);
+    }
+
+    /**
+     * Whoever holds an SD-JWT can put an entry of their own in front of the signature of the Issuer, with the
+     * Disclosures in its unprotected header and a "typ" the Verifier refuses: the SD-JWT is accepted, and the
+     * protected header of the verified Issuer-signed JWT is the one of the Issuer.
+     */
+    #[Test]
+    public function anEntryInFrontOfTheSignatureOfTheIssuerIsLeftOutOfTheVerifiedIssuerSignedJwt(): void
+    {
+        $protectedHeader = self::PROTECTED_HEADER + [
+            'kid' => 'issuer-2026',
+        ];
+        $sdJwt = self::issuer()->issueJson([
+            'given_name' => new Disclosable('John'),
+        ], new IssuerSignature(self::issuerKey(), $protectedHeader));
+
+        $verified = self::verifier(jsonSerializations: true)->verify(
+            self::withEntryInFront($sdJwt->toString()),
+            self::issuerKey()
+        );
+
+        static::assertSame('John', $verified->getClaims()['given_name']);
+        static::assertSame(1, $verified->getIssuerSignedJwt()->countSignatures());
+        static::assertSame($protectedHeader, $verified->getIssuerSignedJwt()->getSignature(0)->getProtectedHeader());
+    }
+
+    /**
+     * With Key Binding, only the Holder can put an entry in front of the signature of the Issuer, as the "sd_hash"
+     * covers the first signature.
+     */
+    #[Test]
+    public function anEntryInFrontOfTheSignatureOfTheIssuerIsLeftOutOfAVerifiedPresentation(): void
+    {
+        $sdJwt = self::issuer()->issueJson([
+            'given_name' => new Disclosable('John'),
+            'cnf' => [
+                'jwk' => self::holderKey()->toPublic()->all(),
+            ],
+        ], new IssuerSignature(self::issuerKey(), self::PROTECTED_HEADER));
+        $presentation = self::holder()->present(
+            SDJWT::fromString(self::withEntryInFront($sdJwt->toString())),
+            self::holderKey(),
+            [
+                'alg' => 'ES256',
+            ],
+            self::AUDIENCE,
+            self::NONCE
+        );
+
+        $verified = self::verifier(jsonSerializations: true)->verifyWithKeyBinding(
+            $presentation->toString(),
+            self::issuerKey(),
+            self::AUDIENCE,
+            self::NONCE
+        );
+
+        static::assertSame('John', $verified->getClaims()['given_name']);
+        static::assertSame(1, $verified->getIssuerSignedJwt()->countSignatures());
+        static::assertSame(
+            self::PROTECTED_HEADER,
+            $verified->getIssuerSignedJwt()->getSignature(0)->getProtectedHeader()
+        );
     }
 
     /**
@@ -675,5 +742,34 @@ final class JsonSerializationTest extends SelectiveDisclosureTestCase
         self::$otherIssuerKey ??= (new JWKFactory())->ec('P-384');
 
         return self::$otherIssuerKey;
+    }
+
+    /**
+     * Turns a flattened SD-JWT into a general one whose first entry is not signed: its protected header is chosen by
+     * whoever holds the SD-JWT, its signature is 64 arbitrary bytes, and its unprotected header carries the
+     * parameters of the SD-JWT. The entry of the Issuer comes next.
+     */
+    private static function withEntryInFront(string $flattenedSdJwt): string
+    {
+        $token = JsonConverter::decode($flattenedSdJwt);
+
+        return JsonConverter::encode([
+            'payload' => $token['payload'],
+            'signatures' => [
+                [
+                    'protected' => Base64UrlSafe::encodeUnpadded(JsonConverter::encode([
+                        'alg' => 'ES256',
+                        'typ' => 'staff+sd-jwt',
+                        'kid' => 'chosen-by-the-holder',
+                    ])),
+                    'header' => $token['header'],
+                    'signature' => Base64UrlSafe::encodeUnpadded(str_repeat("\x2a", 64)),
+                ],
+                [
+                    'protected' => $token['protected'],
+                    'signature' => $token['signature'],
+                ],
+            ],
+        ]);
     }
 }

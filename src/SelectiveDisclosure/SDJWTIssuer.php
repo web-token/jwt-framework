@@ -24,6 +24,7 @@ use function array_unique;
 use function count;
 use function in_array;
 use function is_array;
+use function is_object;
 use function is_string;
 use function random_bytes;
 use function random_int;
@@ -45,9 +46,9 @@ use const SORT_STRING;
  * ones. Objects and arrays without selectively disclosable claims are left untouched, so that the claims a Verifier
  * expects in clear, such as "cnf", keep their shape.
  *
- * The claim names "_sd", "..." and "_sd_alg" are reserved (section 4.1). The claims "iss", "aud", "exp", "nbf" and
- * "cnf" of the top level, which control the validity of the SD-JWT (section 9.7), cannot be selectively disclosable;
- * the elements of "aud" can.
+ * The claim names "_sd", "..." and "_sd_alg" are reserved (section 4.1), in the objects of the claims too, such as a
+ * JWK given by the Holder. The claims "iss", "aud", "exp", "nbf" and "cnf" of the top level, which control the validity
+ * of the SD-JWT (section 9.7), cannot be selectively disclosable; the elements of "aud" can.
  *
  * The SD-JWT is issued in the compact format by issue(), and in the JWS JSON serialization of section 8 by
  * issueJson(): the Issuer-signed JWT is then serialized by the JSON serializer of the library, flattened when it has
@@ -185,12 +186,17 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
     }
 
     /**
+     * An object is kept as it is, and the reserved claim names are looked for in its JSON.
+     *
      * @param list<Disclosure> $disclosures the Disclosures created so far, completed with those of the value
      */
     private function conceal(mixed $value, array &$disclosures): mixed
     {
         if ($value instanceof Disclosable) {
             throw new InvalidArgumentException('A Disclosable cannot be the value of another Disclosable.');
+        }
+        if (is_object($value)) {
+            self::checkClaimNames(JsonConverter::decode(JsonConverter::encode($value)));
         }
         if (! is_array($value)) {
             return $value;
@@ -277,6 +283,19 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
         }
 
         return $elements;
+    }
+
+    private static function checkClaimNames(mixed $json): void
+    {
+        if (! is_array($json)) {
+            return;
+        }
+        foreach ($json as $name => $member) {
+            if (in_array($name, self::RESERVED_CLAIM_NAMES, true)) {
+                throw new InvalidArgumentException(sprintf('The claim name "%s" is reserved.', $name));
+            }
+            self::checkClaimNames($member);
+        }
     }
 
     /**

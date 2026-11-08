@@ -16,6 +16,8 @@ use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AbstractECDHAESKW;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\AESKW;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\DirectEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreement;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrapping;
@@ -220,7 +222,12 @@ class JWEDecrypter implements JWEDecrypterInterface
 
         foreach ($jwkset->all() as $recipientKey) {
             try {
-                KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                if ($key_encryption_algorithm instanceof KeyAgreement
+                    || $key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+                    KeyChecker::checkKeyAgreementKeyUsage($recipientKey, 'decryption');
+                } else {
+                    KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                }
                 if ($key_encryption_algorithm->name() !== 'dir') {
                     KeyChecker::checkKeyAlgorithm($recipientKey, $key_encryption_algorithm->name());
                 } else {
@@ -245,6 +252,7 @@ class JWEDecrypter implements JWEDecrypterInterface
                 continue;
             }
             $this->deprecateLongerDirectKey($cek, $key_encryption_algorithm, $content_encryption_algorithm);
+            $this->deprecateDirectKeyNotAllowedToDecrypt($recipientKey, $key_encryption_algorithm);
             $this->deprecateDirectEncryptionWithEmptyAAD($jwe, $key_encryption_algorithm);
 
             return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
@@ -276,6 +284,24 @@ class JWEDecrypter implements JWEDecrypterInterface
     }
 
     /**
+     * Only the key that decrypted the token is reported: a key set may hold keys restricted to other algorithms.
+     */
+    private function deprecateDirectKeyNotAllowedToDecrypt(
+        JWK $key,
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof DirectEncryption || KeyChecker::allowsOperation($key, 'decrypt')) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Using a "%s" key whose "key_ops" parameter does not contain "decrypt" is deprecated and will not be possible in 5.0.0: the key decrypts the content.',
+            $keyEncryptionAlgorithm->name()
+        );
+    }
+
+    /**
      * A key obtained by key agreement is checked like a decrypted or unwrapped one, and a direct key must be at least
      * that long: the content encryption algorithms pad a short key with zero bytes instead of rejecting it.
      */
@@ -291,6 +317,26 @@ class JWEDecrypter implements JWEDecrypterInterface
         }
         if ($cekSize !== $algorithm->getCEKSize()) {
             throw new InvalidArgumentException('Invalid CEK size');
+        }
+    }
+
+    /**
+     * AES Key Wrap adds 64 bits to the key it wraps. Any other size is rejected before the key derivation, the key
+     * agreement and the unwrapping, which processes the whole encrypted key before checking its integrity.
+     */
+    private function checkWrappedKeySize(
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
+        Recipient $recipient,
+        ContentEncryptionAlgorithm $contentEncryptionAlgorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof AESKW
+            && ! $keyEncryptionAlgorithm instanceof PBES2AESKW
+            && ! $keyEncryptionAlgorithm instanceof AbstractECDHAESKW
+        ) {
+            return;
+        }
+        if (strlen($recipient->getEncryptedKey() ?? '') * 8 !== $contentEncryptionAlgorithm->getCEKSize() + 64) {
+            throw new InvalidArgumentException('Invalid encrypted key size');
         }
     }
 
@@ -353,6 +399,8 @@ class JWEDecrypter implements JWEDecrypterInterface
             );
         }
         if ($key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+            $this->checkWrappedKeySize($key_encryption_algorithm, $recipient, $content_encryption_algorithm);
+
             return $key_encryption_algorithm->unwrapAgreementKey(
                 $recipientKey,
                 $senderKey,
@@ -374,6 +422,7 @@ class JWEDecrypter implements JWEDecrypterInterface
             );
         }
         if ($key_encryption_algorithm instanceof KeyWrapping) {
+            $this->checkWrappedKeySize($key_encryption_algorithm, $recipient, $content_encryption_algorithm);
             // @phpstan-ignore arguments.count (the fourth argument will be part of the interface in 5.0.0)
             return $key_encryption_algorithm->unwrapKey(
                 $recipientKey,
