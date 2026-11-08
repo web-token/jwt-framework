@@ -92,7 +92,7 @@ abstract readonly class AESCBCHS implements ContentEncryptionAlgorithm
             $calculated_aad .= '.' . Base64UrlSafe::encodeUnpadded($aad);
         }
         $mac_key = substr($cek, 0, $this->getCEKSize() / 16);
-        $auth_data_length = strlen($encoded_header);
+        $auth_data_length = strlen($calculated_aad);
 
         $secured_input = implode('', [
             $calculated_aad,
