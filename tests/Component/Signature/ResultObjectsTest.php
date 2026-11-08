@@ -142,11 +142,10 @@ final class ResultObjectsTest extends SignatureTestCase
         $token = $this->createToken();
         $withKey = null;
         $withKeySet = null;
-        $deprecations = $this->collectDeprecations(function () use ($token, &$withKey, &$withKeySet): void {
-            $this->getLoader()
-                ->loadAndVerifyWithKey($token, $this->getKey(), $withKey);
-            $this->getLoader()
-                ->loadAndVerifyWithKeySet($token, $this->getKeySet(), $withKeySet);
+        $loader = $this->getLoader();
+        $deprecations = $this->collectDeprecations(function () use ($loader, $token, &$withKey, &$withKeySet): void {
+            $loader->loadAndVerifyWithKey($token, $this->getKey(), $withKey);
+            $loader->loadAndVerifyWithKeySet($token, $this->getKeySet(), $withKeySet);
         });
 
         static::assertSame(0, $withKey);
