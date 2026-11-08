@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\NestedToken;
 
+use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
@@ -14,6 +15,7 @@ use Jose\Component\NestedToken\NestedTokenLoaderFactory;
 use Jose\Component\Signature\Algorithm\HS256;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSLoaderFactory;
+use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
@@ -54,16 +56,16 @@ final class ResultObjectsTest extends NestedTokenTestCase
         $encryptionKeySet = new JWKSet([$this->getEncryptionKey()]);
         $signatureKeySet = new JWKSet([$this->getSignatureKey()]);
         $signature = null;
-        $deprecations = $this->collectDeprecations(function () use (
+        $loader = $this->getNestedTokenLoader();
+        $deprecations = $this->collectDeprecations(static function () use (
+            $loader,
             $token,
             $encryptionKeySet,
             $signatureKeySet,
             &$signature
         ): void {
-            $this->getNestedTokenLoader()
-                ->load($token, $encryptionKeySet, $signatureKeySet);
-            $this->getNestedTokenLoader()
-                ->load($token, $encryptionKeySet, $signatureKeySet, $signature);
+            $loader->load($token, $encryptionKeySet, $signatureKeySet);
+            $loader->load($token, $encryptionKeySet, $signatureKeySet, $signature);
         });
 
         static::assertSame(0, $signature);
@@ -73,12 +75,14 @@ final class ResultObjectsTest extends NestedTokenTestCase
 
     private function getNestedTokenLoader(): NestedTokenLoader
     {
+        $headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
+        $headerCheckerManagerFactory->addTokenTypeSupport(new JWSTokenSupport());
         $loaderFactory = new NestedTokenLoaderFactory(
             $this->getJWELoaderFactory(),
             new JWSLoaderFactory(
                 $this->getJWSSerializerManagerFactory(),
                 new JWSVerifierFactory($this->getSignatureAlgorithmManagerFactory()),
-                null
+                $headerCheckerManagerFactory
             )
         );
 

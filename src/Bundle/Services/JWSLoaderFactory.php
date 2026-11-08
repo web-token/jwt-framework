@@ -13,7 +13,7 @@ final readonly class JWSLoaderFactory
     public function __construct(
         private JWSSerializerManagerFactory $jwsSerializerManagerFactory,
         private JWSVerifierFactory $jwsVerifierFactory,
-        private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory,
+        private HeaderCheckerManagerFactory $headerCheckerManagerFactory,
         private EventDispatcherInterface $eventDispatcher
     ) {
     }
@@ -32,11 +32,7 @@ final readonly class JWSLoaderFactory
     ): JWSLoader {
         $serializerManager = $this->jwsSerializerManagerFactory->create($serializers);
         $jwsVerifier = $this->jwsVerifierFactory->create($algorithms);
-        if ($this->headerCheckerManagerFactory !== null) {
-            $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
-        } else {
-            $headerCheckerManager = null;
-        }
+        $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
 
         return new JWSLoader(
             $serializerManager,

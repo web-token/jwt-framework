@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Encryption;
 
+use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128CBCHS256;
 use Jose\Component\Encryption\Algorithm\ContentEncryption\A128GCM;
@@ -34,6 +35,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use Jose\Component\Encryption\JWEBuilderFactory;
 use Jose\Component\Encryption\JWEDecrypterFactory;
 use Jose\Component\Encryption\JWELoaderFactory;
+use Jose\Component\Encryption\JWETokenSupport;
 use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
@@ -110,10 +112,18 @@ abstract class EncryptionTestCase extends TestCase
         $this->jweLoaderFactory ??= new JWELoaderFactory(
             $this->getJWESerializerManagerFactory(),
             $this->getJWEDecrypterFactory(),
-            null
+            $this->getHeaderCheckerManagerFactory()
         );
 
         return $this->jweLoaderFactory;
+    }
+
+    protected function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
+    {
+        $headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
+        $headerCheckerManagerFactory->addTokenTypeSupport(new JWETokenSupport());
+
+        return $headerCheckerManagerFactory;
     }
 
     protected function getJWESerializerManagerFactory(): JWESerializerManagerFactory

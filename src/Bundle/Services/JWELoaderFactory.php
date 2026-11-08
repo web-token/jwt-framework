@@ -13,7 +13,7 @@ final readonly class JWELoaderFactory
     public function __construct(
         private JWESerializerManagerFactory $jweSerializerManagerFactory,
         private JWEDecrypterFactory $jweDecrypterFactory,
-        private ?HeaderCheckerManagerFactory $headerCheckerManagerFactory,
+        private HeaderCheckerManagerFactory $headerCheckerManagerFactory,
         private EventDispatcherInterface $eventDispatcher
     ) {
     }
@@ -33,11 +33,7 @@ final readonly class JWELoaderFactory
     ): JWELoader {
         $serializerManager = $this->jweSerializerManagerFactory->create($serializers);
         $jweDecrypter = $this->jweDecrypterFactory->create($encryptionAlgorithms);
-        if ($this->headerCheckerManagerFactory !== null) {
-            $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
-        } else {
-            $headerCheckerManager = null;
-        }
+        $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
 
         return new JWELoader(
             $serializerManager,
