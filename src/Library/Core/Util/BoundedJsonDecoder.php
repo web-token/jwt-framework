@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use SensitiveParameter;
 use function preg_replace;
 use function str_replace;

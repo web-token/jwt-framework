@@ -123,12 +123,11 @@ final class JsonValueBoundTest extends EncryptionTestCase
         $jwe = $serializer->unserialize($serializer->serialize($builder->build()));
 
         static::assertSame(100, $jwe->countRecipients());
-        static::assertTrue(
-            $this->getJWEDecrypterFactory()
-                ->create(['A128KW', 'A128GCM'])
-                ->decryptUsingKey($jwe, $keys[99], 99)
-        );
-        static::assertSame('{"foo":"bar"}', $jwe->getPayload());
+        $result = $this->getJWEDecrypterFactory()
+            ->create(['A128KW', 'A128GCM'])
+            ->decrypt($jwe, $keys[99], 99);
+        static::assertTrue($result->isDecrypted());
+        static::assertSame('{"foo":"bar"}', $result->getJwe()->getPayload());
     }
 
     public static function dataSerializers(): iterable
