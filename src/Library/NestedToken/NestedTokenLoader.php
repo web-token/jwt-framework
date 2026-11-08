@@ -71,8 +71,16 @@ class NestedTokenLoader implements NestedTokenLoaderInterface
         if ($payload === null) {
             throw new InvalidPayloadException('The token has no payload.');
         }
+        $result = $this->jwsLoader->loadAndVerify($payload, $signatureKeySet);
+        if (! $jwe->hasSharedProtectedHeaderParameter('cty')) {
+            trigger_deprecation(
+                'web-token/jwt-library',
+                '4.3.0',
+                'Loading a nested token whose "cty" header parameter is not in the protected header is deprecated and will not be possible in 5.0.0: the unprotected headers of a JWE are not authenticated. The issuer must set "cty" in the protected header.'
+            );
+        }
 
-        return $this->jwsLoader->loadAndVerify($payload, $signatureKeySet);
+        return $result;
     }
 
     private function checkContentTypeHeader(JWE $jwe, int $recipient): void
