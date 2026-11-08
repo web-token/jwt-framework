@@ -11,14 +11,12 @@ use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use function restore_error_handler;
-use function set_error_handler;
-use function strlen;
-use const E_USER_DEPRECATED;
+use Throwable;
 
 /**
  * The "key_ops" parameter of a key is read according to what the key does. With "dir", the key encrypts and decrypts
- * the content. With a key agreement algorithm, it derives a key, and "deriveKey" and "deriveBits" are both accepted.
+ * the content, so "key_ops" must contain "encrypt" or "decrypt". With a key agreement algorithm, it derives a key, and
+ * "deriveKey" and "deriveBits" are both accepted.
  *
  * @internal
  */
@@ -26,24 +24,21 @@ final class KeyOperationsTest extends EncryptionTestCase
 {
     private const PAYLOAD = 'Live long and Prosper.';
 
-    private const DIRECT_ENCRYPTION_DEPRECATION = 'Since web-token/jwt-library 4.3.0: Using a "dir" key whose "key_ops" parameter does not contain "encrypt" is deprecated and will not be possible in 5.0.0: the key encrypts the content.';
+    private const DIRECT_ENCRYPTION_REFUSAL = 'Key cannot be used to encrypt the content: its "key_ops" parameter does not contain "encrypt".';
 
-    private const DIRECT_DECRYPTION_DEPRECATION = 'Since web-token/jwt-library 4.3.0: Using a "dir" key whose "key_ops" parameter does not contain "decrypt" is deprecated and will not be possible in 5.0.0: the key decrypts the content.';
+    private const DIRECT_DECRYPTION_ERROR = InvalidKeyException::class . ': Key cannot be used to decrypt the content: its "key_ops" parameter does not contain "decrypt".';
 
     /**
      * @param list<string> $operations
      */
     #[DataProvider('directKeyOperationsWithoutEncrypt')]
     #[Test]
-    public function aDirectKeyThatDoesNotAllowEncryptStillEncryptsButIsDeprecated(array $operations): void
+    public function aDirectKeyThatDoesNotAllowEncryptIsRefused(array $operations): void
     {
-        $key = $this->getDirectKey($operations);
+        $this->expectException(InvalidKeyException::class);
+        $this->expectExceptionMessage(self::DIRECT_ENCRYPTION_REFUSAL);
 
-        $deprecations = $this->collectDeprecations(function () use ($key): void {
-            $this->build('dir', 'A128GCM', $key);
-        });
-
-        static::assertSame([self::DIRECT_ENCRYPTION_DEPRECATION], $deprecations);
+        $this->build('dir', 'A128GCM', $this->getDirectKey($operations));
     }
 
     /**
@@ -51,16 +46,13 @@ final class KeyOperationsTest extends EncryptionTestCase
      */
     #[DataProvider('directKeyOperationsWithoutDecrypt')]
     #[Test]
-    public function aDirectKeyThatDoesNotAllowDecryptStillDecryptsButIsDeprecated(array $operations): void
+    public function aDirectKeyThatDoesNotAllowDecryptIsRefused(array $operations): void
     {
         $token = $this->build('dir', 'A128GCM', $this->getDirectKey(['encrypt']));
         $key = $this->getDirectKey($operations);
 
-        $deprecations = $this->collectDeprecations(function () use ($token, $key): void {
-            static::assertSame(self::PAYLOAD, $this->decrypt($token, ['dir', 'A128GCM'], $key));
-        });
-
-        static::assertSame([self::DIRECT_DECRYPTION_DEPRECATION], $deprecations);
+        static::assertNull($this->decrypt($token, ['dir', 'A128GCM'], $key, errors: $errors));
+        static::assertSame([self::DIRECT_DECRYPTION_ERROR], $errors);
     }
 
     /**
@@ -68,48 +60,36 @@ final class KeyOperationsTest extends EncryptionTestCase
      */
     #[DataProvider('directKeyOperationsThatAllowTheContentOperations')]
     #[Test]
-    public function aDirectKeyThatAllowsTheContentOperationsIsNotReported(?array $operations): void
+    public function aDirectKeyThatAllowsTheContentOperationsIsAccepted(?array $operations): void
     {
         $key = $this->getDirectKey($operations);
 
-        $deprecations = $this->collectDeprecations(function () use ($key): void {
-            static::assertSame(
-                self::PAYLOAD,
-                $this->decrypt($this->build('dir', 'A128GCM', $key), ['dir', 'A128GCM'], $key)
-            );
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertSame(
+            self::PAYLOAD,
+            $this->decrypt($this->build('dir', 'A128GCM', $key), ['dir', 'A128GCM'], $key)
+        );
     }
 
     /**
-     * The other keys of the key set may be meant for other algorithms: they are not reported when they are tried.
+     * A key set may hold keys meant for other algorithms: a key that does not allow "decrypt" is skipped, even when it
+     * would open the token, and the next key is tried.
      */
     #[Test]
-    public function onlyTheDirectKeyThatDecryptsTheTokenIsReported(): void
+    public function aDirectKeyThatDoesNotAllowDecryptIsSkipped(): void
     {
         $token = $this->build('dir', 'A128GCM', $this->getDirectKey(['encrypt']));
-        $keyWrappingKey = new JWK([
-            'kty' => 'oct',
-            'k' => Base64UrlSafe::encodeUnpadded(random_bytes(16)),
-            'key_ops' => ['wrapKey', 'unwrapKey'],
+        $keys = new JWKSet([
+            $this->getDirectKey(['wrapKey', 'unwrapKey']),
+            $this->getDirectKey(['encrypt', 'decrypt']),
         ]);
 
-        $deprecations = $this->collectDeprecations(function () use ($token, $keyWrappingKey): void {
-            static::assertSame(
-                self::PAYLOAD,
-                $this->decrypt(
-                    $token,
-                    ['dir', 'A128GCM'],
-                    new JWKSet([$keyWrappingKey, $this->getDirectKey(['encrypt', 'decrypt'])])
-                )
-            );
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertSame(self::PAYLOAD, $this->decrypt($token, ['dir', 'A128GCM'], $keys, errors: $errors));
+        static::assertSame([self::DIRECT_DECRYPTION_ERROR], $errors);
     }
 
     /**
+     * Such a key is refused by the check that applies to every mode, with the same message as before.
+     *
      * @param list<string> $operations
      */
     #[DataProvider('keyOperationsWithoutEncryptionOperation')]
@@ -117,22 +97,24 @@ final class KeyOperationsTest extends EncryptionTestCase
     public function aDirectKeyWithoutAnyEncryptionOperationIsStillRefused(array $operations): void
     {
         $token = $this->build('dir', 'A128GCM', $this->getDirectKey(null));
+        $key = $this->getDirectKey($operations);
 
-        static::assertNull($this->decrypt($token, ['dir', 'A128GCM'], $this->getDirectKey($operations)));
+        static::assertNull($this->decrypt($token, ['dir', 'A128GCM'], $key, errors: $errors));
+        static::assertSame([InvalidKeyException::class . ': Key cannot be used to decrypt'], $errors);
 
         $this->expectException(InvalidKeyException::class);
-        $this->expectExceptionMessage('Key cannot be used to encrypt');
+        $this->expectExceptionMessageMatches('/^Key cannot be used to encrypt$/');
 
-        $this->build('dir', 'A128GCM', $this->getDirectKey($operations));
+        $this->build('dir', 'A128GCM', $key);
     }
 
     /**
      * The encrypted key of an A128GCMKW token is an AES-GCM ciphertext computed with an empty AAD, like the content of
      * a JSON "dir" token that has neither a protected header nor an "aad" member. A key restricted to key wrapping
-     * opens it as content and returns the CEK of the token.
+     * would open it as content and return the CEK of the token: it is refused.
      */
     #[Test]
-    public function aKeyWrappingKeyThatDecryptsDirectContentIsReported(): void
+    public function aKeyWrappingKeyCannotDecryptDirectContent(): void
     {
         $keyWrappingKey = new JWK([
             'kty' => 'oct',
@@ -151,13 +133,8 @@ final class KeyOperationsTest extends EncryptionTestCase
             'tag' => $wrapped->getSharedProtectedHeaderParameter('tag'),
         ]);
 
-        $deprecations = $this->collectDeprecations(function () use ($forged, $keyWrappingKey): void {
-            $cek = $this->decrypt($forged, ['dir', 'A128GCMKW', 'A128GCM'], $keyWrappingKey);
-            static::assertIsString($cek);
-            static::assertSame(16, strlen($cek));
-        });
-
-        static::assertSame([self::DIRECT_DECRYPTION_DEPRECATION], $deprecations);
+        static::assertNull($this->decrypt($forged, ['dir', 'A128GCMKW', 'A128GCM'], $keyWrappingKey, errors: $errors));
+        static::assertSame([self::DIRECT_DECRYPTION_ERROR], $errors);
     }
 
     /**
@@ -168,13 +145,9 @@ final class KeyOperationsTest extends EncryptionTestCase
     public function anEphemeralKeyAgreementAcceptsDeriveKeyAndDeriveBitsOnBothSides(string $alg, array $operations): void
     {
         $recipientKey = self::withOperations($this->getRecipientKey(), $operations);
+        $token = $this->build($alg, 'A128GCM', $recipientKey->toPublic());
 
-        $deprecations = $this->collectDeprecations(function () use ($alg, $recipientKey): void {
-            $token = $this->build($alg, 'A128GCM', $recipientKey->toPublic());
-            static::assertSame(self::PAYLOAD, $this->decrypt($token, [$alg, 'A128GCM'], $recipientKey));
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertSame(self::PAYLOAD, $this->decrypt($token, [$alg, 'A128GCM'], $recipientKey));
     }
 
     /**
@@ -189,11 +162,7 @@ final class KeyOperationsTest extends EncryptionTestCase
         $recipientKey = self::withOperations($this->getRecipientKey(), $operations);
         $senderKey = self::withOperations($this->getSenderKey(), $operations);
 
-        $deprecations = $this->collectDeprecations(function () use ($alg, $recipientKey, $senderKey): void {
-            static::assertNotEmpty($this->build($alg, 'A128GCM', $recipientKey->toPublic(), $senderKey));
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertNotEmpty($this->build($alg, 'A128GCM', $recipientKey->toPublic(), $senderKey));
     }
 
     /**
@@ -256,14 +225,10 @@ final class KeyOperationsTest extends EncryptionTestCase
             'key_ops' => ['encrypt', 'decrypt'],
         ]);
 
-        $deprecations = $this->collectDeprecations(function () use ($key): void {
-            static::assertSame(
-                self::PAYLOAD,
-                $this->decrypt($this->build('A128GCMKW', 'A128GCM', $key), ['A128GCMKW', 'A128GCM'], $key)
-            );
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertSame(
+            self::PAYLOAD,
+            $this->decrypt($this->build('A128GCMKW', 'A128GCM', $key), ['A128GCMKW', 'A128GCM'], $key)
+        );
     }
 
     /**
@@ -410,37 +375,29 @@ final class KeyOperationsTest extends EncryptionTestCase
 
     /**
      * @param list<string> $algorithms
+     * @param list<string>|null $errors Receives what the decrypter met while trying the keys, as "class: message"
      */
-    private function decrypt(string $token, array $algorithms, JWK|JWKSet $keys, ?JWK $senderKey = null): ?string
-    {
+    private function decrypt(
+        string $token,
+        array $algorithms,
+        JWK|JWKSet $keys,
+        ?JWK $senderKey = null,
+        ?array &$errors = null
+    ): ?string {
+        $errors = [];
         $result = $this->getJWEDecrypterFactory()
             ->create($algorithms)
-            ->decrypt($this->getJWESerializerManager()->unserialize($token), $keys, 0, $senderKey);
+            ->decrypt(
+                $this->getJWESerializerManager()->unserialize($token),
+                $keys,
+                0,
+                $senderKey,
+                static function (Throwable $throwable) use (&$errors): void {
+                    $errors[] = $throwable::class . ': ' . $throwable->getMessage();
+                }
+            );
 
         return $result->isDecrypted() ? $result->getJwe()
             ->getPayload() : null;
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
     }
 }

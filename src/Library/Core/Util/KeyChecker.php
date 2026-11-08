@@ -39,14 +39,20 @@ final readonly class KeyChecker
         }
     }
 
-    public static function allowsOperation(JWK $key, string $operation): bool
+    /**
+     * With direct encryption, the key encrypts the content: on top of the checks of checkKeyUsage(), its "key_ops"
+     * parameter must contain "encrypt" to build a token and "decrypt" to decrypt one.
+     */
+    public static function checkDirectEncryptionKeyUsage(JWK $key, string $usage): void
     {
-        if (! $key->has('key_ops')) {
-            return true;
+        self::checkKeyUsage($key, $usage);
+        $operation = $usage === 'encryption' ? 'encrypt' : 'decrypt';
+        if (! self::allowsOperation($key, $operation)) {
+            throw new InvalidKeyException(sprintf(
+                'Key cannot be used to %1$s the content: its "key_ops" parameter does not contain "%1$s".',
+                $operation
+            ));
         }
-        $ops = $key->get('key_ops');
-
-        return is_array($ops) && in_array($operation, $ops, true);
     }
 
     public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
@@ -58,6 +64,16 @@ final readonly class KeyChecker
         if ($alg !== $algorithm) {
             throw new InvalidKeyException(sprintf('Key is only allowed for algorithm "%s".', $alg));
         }
+    }
+
+    private static function allowsOperation(JWK $key, string $operation): bool
+    {
+        if (! $key->has('key_ops')) {
+            return true;
+        }
+        $ops = $key->get('key_ops');
+
+        return is_array($ops) && in_array($operation, $ops, true);
     }
 
     /**

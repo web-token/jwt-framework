@@ -582,7 +582,9 @@ class JWEBuilder implements JWEBuilderInterface
         JWK $recipientKey,
         ContentEncryptionAlgorithm $contentEncryptionAlgorithm
     ): void {
-        if ($keyEncryptionAlgorithm instanceof KeyAgreement
+        if ($keyEncryptionAlgorithm instanceof DirectEncryption) {
+            KeyChecker::checkDirectEncryptionKeyUsage($recipientKey, 'encryption');
+        } elseif ($keyEncryptionAlgorithm instanceof KeyAgreement
             || $keyEncryptionAlgorithm instanceof KeyAgreementWithKeyWrapping) {
             KeyChecker::checkKeyAgreementKeyUsage($recipientKey, 'encryption');
         } else {
@@ -592,15 +594,6 @@ class JWEBuilder implements JWEBuilderInterface
             KeyChecker::checkKeyAlgorithm($recipientKey, $keyEncryptionAlgorithm->name());
         } else {
             KeyChecker::checkKeyAlgorithm($recipientKey, $contentEncryptionAlgorithm->name());
-        }
-        if ($keyEncryptionAlgorithm instanceof DirectEncryption
-            && ! KeyChecker::allowsOperation($recipientKey, 'encrypt')) {
-            trigger_deprecation(
-                'web-token/jwt-library',
-                '4.3.0',
-                'Using a "%s" key whose "key_ops" parameter does not contain "encrypt" is deprecated and will not be possible in 5.0.0: the key encrypts the content.',
-                $keyEncryptionAlgorithm->name()
-            );
         }
     }
 

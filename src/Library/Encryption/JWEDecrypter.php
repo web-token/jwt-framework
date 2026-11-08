@@ -217,7 +217,9 @@ class JWEDecrypter implements JWEDecrypterInterface
 
         foreach ($jwkset->all() as $recipientKey) {
             try {
-                if ($key_encryption_algorithm instanceof KeyAgreement
+                if ($key_encryption_algorithm instanceof DirectEncryption) {
+                    KeyChecker::checkDirectEncryptionKeyUsage($recipientKey, 'decryption');
+                } elseif ($key_encryption_algorithm instanceof KeyAgreement
                     || $key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
                     KeyChecker::checkKeyAgreementKeyUsage($recipientKey, 'decryption');
                 } else {
@@ -246,30 +248,11 @@ class JWEDecrypter implements JWEDecrypterInterface
 
                 continue;
             }
-            $this->deprecateDirectKeyNotAllowedToDecrypt($recipientKey, $key_encryption_algorithm);
 
             return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
         }
 
         return null;
-    }
-
-    /**
-     * Only the key that decrypted the token is reported: a key set may hold keys restricted to other algorithms.
-     */
-    private function deprecateDirectKeyNotAllowedToDecrypt(
-        JWK $key,
-        KeyEncryptionAlgorithm $keyEncryptionAlgorithm
-    ): void {
-        if (! $keyEncryptionAlgorithm instanceof DirectEncryption || KeyChecker::allowsOperation($key, 'decrypt')) {
-            return;
-        }
-        trigger_deprecation(
-            'web-token/jwt-library',
-            '4.3.0',
-            'Using a "%s" key whose "key_ops" parameter does not contain "decrypt" is deprecated and will not be possible in 5.0.0: the key decrypts the content.',
-            $keyEncryptionAlgorithm->name()
-        );
     }
 
     /**
