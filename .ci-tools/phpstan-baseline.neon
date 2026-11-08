@@ -89,24 +89,6 @@ parameters:
 			path: ../src/Bundle/DataCollector/KeyCollector.php
 
 		-
-			rawMessage: Cannot access offset 'alias' on mixed.
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Compiler/AlgorithmCompilerPass.php
-
-		-
-			rawMessage: Cannot access offset 'alias' on mixed.
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Compiler/ClaimCheckerCompilerPass.php
-
-		-
-			rawMessage: Cannot access offset 'alias' on mixed.
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: ../src/Bundle/DependencyInjection/Compiler/HeaderCheckerCompilerPass.php
-
-		-
 			rawMessage: Cannot access offset 'path' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
