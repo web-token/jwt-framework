@@ -183,7 +183,7 @@ final readonly class SDJWTVerifier implements SDJWTVerifierInterface
             throw new InvalidTokenException('The claims of the SD-JWT are not valid.', 0, $throwable);
         }
 
-        return [$loaded->getJws(), $loaded->getKey(), $claims];
+        return [$loaded->getJws()->split()[$loaded->getSignatureIndex()], $loaded->getKey(), $claims];
     }
 
     /**
