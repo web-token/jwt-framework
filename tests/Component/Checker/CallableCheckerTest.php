@@ -8,8 +8,10 @@ use InvalidArgumentException;
 use Jose\Component\Checker\CallableChecker;
 use Jose\Component\Checker\InvalidClaimException;
 use Jose\Component\Checker\InvalidHeaderException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 /**
  * @internal
@@ -26,16 +28,22 @@ final class CallableCheckerTest extends TestCase
     }
 
     #[Test]
-    public function theCallableDoesNotReturnABoolean(): void
+    #[DataProvider('resultsOtherThanTrue')]
+    public function theClaimIsInvalidWhenTheCallableDoesNotReturnTrue(mixed $result): void
     {
         $this->expectException(InvalidClaimException::class);
 
-        $checker = new CallableChecker('foo', fn (mixed $value) => 1);
+        $checker = new CallableChecker('foo', fn (mixed $value) => $result);
         $checker->checkClaim('baz');
+    }
 
+    #[Test]
+    #[DataProvider('resultsOtherThanTrue')]
+    public function theHeaderIsInvalidWhenTheCallableDoesNotReturnTrue(mixed $result): void
+    {
         $this->expectException(InvalidHeaderException::class);
 
-        $checker = new CallableChecker('foo', fn (mixed $value) => 0);
+        $checker = new CallableChecker('foo', fn (mixed $value) => $result);
         $checker->checkHeader('baz');
     }
 
@@ -73,5 +81,20 @@ final class CallableCheckerTest extends TestCase
         $checker->checkHeader('bar');
 
         static::assertSame('foo', $checker->supportedHeader());
+    }
+
+    /**
+     * @return iterable<string, array{mixed}>
+     */
+    public static function resultsOtherThanTrue(): iterable
+    {
+        yield 'false' => [false];
+        yield 'null' => [null];
+        yield 'zero' => [0];
+        yield 'one' => [1];
+        yield 'minus one' => [-1];
+        yield 'string' => ['The value is not allowed.'];
+        yield 'array' => [['The value is not allowed.']];
+        yield 'object' => [new stdClass()];
     }
 }
