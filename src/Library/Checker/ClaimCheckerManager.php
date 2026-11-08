@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace Jose\Component\Checker;
 
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
 use function count;
+use function get_debug_type;
 use function sprintf;
 
 /**
  * This class manages claim checkers and performs claim checks.
  *
  * The set of checkers is fixed at construction time: a manager expresses a policy that no consumer is allowed to widen
- * afterwards.
+ * afterwards. It holds one checker per claim, so the rules of a claim belong in a single checker.
  *
  * @final The class will be final in 5.0.0: implement ClaimCheckerManagerInterface and decorate the service instead of
  * extending it.
@@ -35,7 +37,16 @@ class ClaimCheckerManager implements ClaimCheckerManagerInterface
         InheritanceChecker::warnIfExtended(static::class, self::class, ClaimCheckerManagerInterface::class);
         $indexedCheckers = [];
         foreach ($checkers as $checker) {
-            $indexedCheckers[$checker->supportedClaim()] = $checker;
+            $claim = $checker->supportedClaim();
+            if (isset($indexedCheckers[$claim]) && $indexedCheckers[$claim] !== $checker) {
+                throw new InvalidArgumentException(sprintf(
+                    'The claim "%s" is given two checkers, "%s" and "%s", but a claim checker manager takes a single checker per claim. Combine the rules of a claim in a single checker.',
+                    $claim,
+                    get_debug_type($indexedCheckers[$claim]),
+                    get_debug_type($checker)
+                ));
+            }
+            $indexedCheckers[$claim] = $checker;
         }
         $this->checkers = $indexedCheckers;
     }

@@ -8,6 +8,7 @@ use Jose\Bundle\JoseFramework\Services\HeaderCheckerManager;
 use Jose\Bundle\JoseFramework\Services\HeaderCheckerManagerFactory as HeaderCheckerManagerFactoryService;
 use Jose\Component\Checker\InvalidHeaderException;
 use Jose\Component\Checker\TypeChecker;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSBuilder;
@@ -15,6 +16,7 @@ use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use function sprintf;
 
 /**
  * @internal
@@ -39,8 +41,11 @@ final class HeaderCheckerTest extends WebTestCase
         $headerCheckerManagerFactory = $container->get(HeaderCheckerManagerFactoryService::class);
         static::assertInstanceOf(HeaderCheckerManagerFactoryService::class, $headerCheckerManagerFactory);
 
-        $aliases = $headerCheckerManagerFactory->aliases();
-        $headerCheckerManagerFactory->create($aliases);
+        $aliases = array_filter(
+            $headerCheckerManagerFactory->aliases(),
+            static fn (string $alias): bool => ! str_starts_with($alias, 'typ.')
+        );
+        $headerCheckerManagerFactory->create(array_values($aliases));
     }
 
     #[Test]
@@ -110,6 +115,23 @@ final class HeaderCheckerTest extends WebTestCase
         $this->expectException(InvalidHeaderException::class);
         $this->expectExceptionMessage('Unsupported type.');
         $headerCheckerManager->check(self::jwsWithType($container, 'JWT'), 0, ['typ']);
+    }
+
+    #[Test]
+    public function aTypeCheckerListedNextToTheTypOptionIsRejected(): void
+    {
+        static::ensureKernelShutdown();
+        $client = static::createClient();
+        $container = $client->getContainer();
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf(
+            'The header parameter "typ" is given two checkers, "%s" and "%s", but a header checker manager takes a single checker per header parameter. Combine the rules of a header parameter in a single checker.',
+            TypeChecker::class,
+            TypeChecker::class
+        ));
+
+        $container->get('jose.header_checker.typ_twice');
     }
 
     private static function jwsWithType(ContainerInterface $container, string $type): JWS

@@ -10,6 +10,7 @@ use Jose\Component\Core\Util\HeaderParameterChecker;
 use Jose\Component\Core\Util\InheritanceChecker;
 use function array_key_exists;
 use function count;
+use function get_debug_type;
 use function is_array;
 use function is_string;
 use function sprintf;
@@ -21,7 +22,8 @@ use function sprintf;
  * The factory is responsible to create a Header Checker Manager with the header parameter checkers found based
  *
  * The checkers and the token type supports are fixed at construction time: a manager expresses a policy that no
- * consumer is allowed to widen afterwards.
+ * consumer is allowed to widen afterwards. It holds one checker per header parameter, so the rules of a header
+ * parameter belong in a single checker.
  *
  * @final The class will be final in 5.0.0: implement HeaderCheckerManagerInterface and decorate the service instead
  * of extending it.
@@ -47,7 +49,16 @@ class HeaderCheckerManager implements HeaderCheckerManagerInterface
         InheritanceChecker::warnIfExtended(static::class, self::class, HeaderCheckerManagerInterface::class);
         $indexedCheckers = [];
         foreach ($checkers as $checker) {
-            $indexedCheckers[$checker->supportedHeader()] = $checker;
+            $headerParameter = $checker->supportedHeader();
+            if (isset($indexedCheckers[$headerParameter]) && $indexedCheckers[$headerParameter] !== $checker) {
+                throw new InvalidArgumentException(sprintf(
+                    'The header parameter "%s" is given two checkers, "%s" and "%s", but a header checker manager takes a single checker per header parameter. Combine the rules of a header parameter in a single checker.',
+                    $headerParameter,
+                    get_debug_type($indexedCheckers[$headerParameter]),
+                    get_debug_type($checker)
+                ));
+            }
+            $indexedCheckers[$headerParameter] = $checker;
         }
         $this->checkers = $indexedCheckers;
 
