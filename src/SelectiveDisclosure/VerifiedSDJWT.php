@@ -49,7 +49,9 @@ final readonly class VerifiedSDJWT
     }
 
     /**
-     * The Issuer-signed JWT, as loaded and verified.
+     * The Issuer-signed JWT, as loaded and verified, with the verified signature only, whatever the serialization: the
+     * SD-JWT as presented, with all its signatures, is returned by getSdJwt(). Only the protected header of that
+     * signature is authenticated; in the JWS JSON serialization, anyone can change its unprotected header.
      */
     public function getIssuerSignedJwt(): JWS
     {
