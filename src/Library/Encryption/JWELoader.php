@@ -4,23 +4,41 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use InvalidArgumentException;
 use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use RuntimeException;
 use Throwable;
+use function func_get_arg;
+use function func_num_args;
+use function is_int;
+use function sprintf;
 
 /**
  * @see \Jose\Tests\Component\Encryption\JWELoaderTest
  */
 class JWELoader
 {
+    private readonly ?int $maxRecipients;
+
+    /**
+     * A fourth argument sets the maximum number of recipients of a token: a token with more is rejected before any
+     * of them is processed. Without it, the number is not limited. That argument is not part of the signature yet (it
+     * will be in 5.0.0) and is read with func_num_args()/func_get_arg(3), so that classes extending this one remain
+     * compatible.
+     */
     public function __construct(
         private readonly JWESerializerManager $serializerManager,
         private readonly JWEDecrypter $jweDecrypter,
         private readonly ?HeaderCheckerManager $headerCheckerManager
     ) {
+        $maxRecipients = func_num_args() > 3 ? func_get_arg(3) : null;
+        if ($maxRecipients !== null && (! is_int($maxRecipients) || $maxRecipients < 1)) {
+            throw new InvalidArgumentException('The maximum number of recipients must be a positive integer.');
+        }
+        $this->maxRecipients = $maxRecipients;
     }
 
     /**
@@ -67,6 +85,12 @@ class JWELoader
         try {
             $jwe = $this->serializerManager->unserialize($token);
             $nbRecipients = $jwe->countRecipients();
+            if ($this->maxRecipients !== null && $nbRecipients > $this->maxRecipients) {
+                throw new InvalidArgumentException(sprintf(
+                    'The token has too many recipients. The maximum allowed number is %d.',
+                    $this->maxRecipients
+                ));
+            }
             for ($i = 0; $i < $nbRecipients; ++$i) {
                 if ($this->processRecipient($jwe, $keyset, $i)) {
                     $recipient = $i;
