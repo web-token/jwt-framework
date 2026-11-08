@@ -245,6 +245,7 @@ class JWEBuilder implements JWEBuilderInterface
         $encodedSharedProtectedHeader = count($sharedProtectedHeader) === 0 ? '' : Base64UrlSafe::encodeUnpadded(
             JsonConverter::encode($sharedProtectedHeader)
         );
+        $this->checkDirectEncryptionAADIsNotEmpty($keyManagementMode, $encodedSharedProtectedHeader);
 
         [$ciphertext, $iv, $tag] = $this->encryptJWE(
             $contentEncryptionAlgorithm,
@@ -261,6 +262,25 @@ class JWEBuilder implements JWEBuilderInterface
             $sharedProtectedHeader,
             $encodedSharedProtectedHeader,
             $recipients
+        );
+    }
+
+    /**
+     * Without a protected header and without "aad", the content of a "dir" JWE is encrypted with an empty AAD, as AES-GCM
+     * key wrapping encrypts a CEK: that content would then be a valid A*GCMKW encrypted key of the payload under the same
+     * key. The JWE is refused before its content is encrypted.
+     */
+    private function checkDirectEncryptionAADIsNotEmpty(
+        string $keyManagementMode,
+        string $encodedSharedProtectedHeader
+    ): void {
+        if ($keyManagementMode !== KeyEncryptionAlgorithm::MODE_DIRECT
+            || $encodedSharedProtectedHeader !== ''
+            || $this->aad !== null) {
+            return;
+        }
+        throw new InvalidArgumentException(
+            'A "dir" JWE must have a protected header or additional authenticated data: set "alg" and "enc" in the shared protected header.'
         );
     }
 

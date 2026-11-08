@@ -224,6 +224,7 @@ class JWEDecrypter implements JWEDecrypterInterface
                     KeyChecker::checkKeyAlgorithm($recipientKey, $content_encryption_algorithm->name());
                 }
                 $this->checkIterationCount($key_encryption_algorithm, $completeHeader, $jwe->countRecipients());
+                $this->checkDirectEncryptionAADIsNotEmpty($jwe, $key_encryption_algorithm);
                 $cek = $this->decryptCEK(
                     $key_encryption_algorithm,
                     $content_encryption_algorithm,
@@ -365,6 +366,23 @@ class JWEDecrypter implements JWEDecrypterInterface
                 'The encrypted key must be empty with direct encryption or direct key agreement.'
             );
         }
+    }
+
+    /**
+     * Without a protected header and without "aad", the content of a "dir" JWE is encrypted with an empty AAD, as AES-GCM
+     * key wrapping encrypts a CEK: the encrypted key of an A*GCMKW token would then be a valid content under the same
+     * key. The token is refused whatever the key, and every key reports it.
+     */
+    private function checkDirectEncryptionAADIsNotEmpty(JWE $jwe, KeyEncryptionAlgorithm $keyEncryptionAlgorithm): void
+    {
+        if (! $keyEncryptionAlgorithm instanceof DirectEncryption
+            || $jwe->getEncodedSharedProtectedHeader() !== ''
+            || $jwe->getAAD() !== null) {
+            return;
+        }
+        throw new InvalidArgumentException(
+            'A "dir" JWE must have a protected header or additional authenticated data.'
+        );
     }
 
     private function decryptPayload(
