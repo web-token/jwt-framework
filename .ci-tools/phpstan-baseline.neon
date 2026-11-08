@@ -3049,6 +3049,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 3
@@ -3056,6 +3062,12 @@ parameters:
 
 		-
 			rawMessage: 'Cannot call method arrayPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method beforeNormalization() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
@@ -3081,7 +3093,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 8
+			count: 10
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method ifArray() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
 
 		-
@@ -3109,6 +3127,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
 
 		-
+			rawMessage: 'Cannot call method then() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
 			rawMessage: 'Cannot call method treatFalseLike() on mixed.'
 			identifier: method.nonObject
 			count: 2
@@ -3124,6 +3148,12 @@ parameters:
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
 			count: 3
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTHolder.php
 
 		-
@@ -3229,6 +3259,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 3
@@ -3236,6 +3272,12 @@ parameters:
 
 		-
 			rawMessage: 'Cannot call method arrayPrototype() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method beforeNormalization() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
@@ -3273,11 +3315,17 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 11
+			count: 13
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
 
 		-
 			rawMessage: 'Cannot call method enumNode() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method ifArray() on mixed.'
 			identifier: method.nonObject
 			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
@@ -3319,6 +3367,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
 
 		-
+			rawMessage: 'Cannot call method then() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
 			rawMessage: 'Cannot call method treatFalseLike() on mixed.'
 			identifier: method.nonObject
 			count: 2
@@ -3334,6 +3388,12 @@ parameters:
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
 			count: 3
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTIssuer.php
 
 		-
@@ -3481,6 +3541,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 5
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 10
@@ -3490,6 +3556,12 @@ parameters:
 			rawMessage: 'Cannot call method arrayPrototype() on mixed.'
 			identifier: method.nonObject
 			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method beforeNormalization() on mixed.'
+			identifier: method.nonObject
+			count: 5
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
@@ -3519,13 +3591,19 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 24
+			count: 34
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
 			rawMessage: 'Cannot call method enumPrototype() on mixed.'
 			identifier: method.nonObject
 			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method ifArray() on mixed.'
+			identifier: method.nonObject
+			count: 5
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
@@ -3565,6 +3643,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
+			rawMessage: 'Cannot call method then() on mixed.'
+			identifier: method.nonObject
+			count: 5
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
 			rawMessage: 'Cannot call method treatFalseLike() on mixed.'
 			identifier: method.nonObject
 			count: 8
@@ -3580,6 +3664,12 @@ parameters:
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
 			count: 7
+			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 5
 			path: ../src/Bundle/DependencyInjection/Source/SelectiveDisclosure/SDJWTVerifier.php
 
 		-
