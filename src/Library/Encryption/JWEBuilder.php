@@ -648,8 +648,19 @@ class JWEBuilder implements JWEBuilderInterface
                     throw new RuntimeException('Invalid key.');
                 }
                 $cek = Base64UrlSafe::decodeNoPadding($k);
-                if (strlen($cek) * 8 < $contentEncryptionAlgorithm->getCEKSize()) {
+                $keySize = strlen($cek) * 8;
+                if ($keySize < $contentEncryptionAlgorithm->getCEKSize()) {
                     throw new InvalidArgumentException('Invalid CEK size');
+                }
+                if ($keySize > $contentEncryptionAlgorithm->getCEKSize()) {
+                    trigger_deprecation(
+                        'web-token/jwt-library',
+                        '4.3.0',
+                        'Using a "dir" key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
+                        $keySize,
+                        $contentEncryptionAlgorithm->name(),
+                        $contentEncryptionAlgorithm->getCEKSize()
+                    );
                 }
 
                 return $cek;

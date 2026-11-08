@@ -234,8 +234,6 @@ class JWEDecrypter implements JWEDecrypterInterface
                 );
                 $this->checkCekSize($cek, $key_encryption_algorithm, $content_encryption_algorithm);
                 $payload = $this->decryptPayload($jwe, $cek, $content_encryption_algorithm);
-
-                return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
             } catch (Throwable $throwable) {
                 if ($onError !== null) {
                     $onError($throwable);
@@ -243,9 +241,34 @@ class JWEDecrypter implements JWEDecrypterInterface
 
                 continue;
             }
+            $this->deprecateLongerDirectKey($cek, $key_encryption_algorithm, $content_encryption_algorithm);
+
+            return DecryptionResult::success($jwe->withPayload($payload), $i, $recipientKey);
         }
 
         return null;
+    }
+
+    /**
+     * Only the key that decrypted the token is reported: a key set may hold longer keys meant for other algorithms.
+     */
+    private function deprecateLongerDirectKey(
+        #[SensitiveParameter]
+        string $cek,
+        KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
+        ContentEncryptionAlgorithm $algorithm
+    ): void {
+        if (! $keyEncryptionAlgorithm instanceof DirectEncryption || strlen($cek) * 8 <= $algorithm->getCEKSize()) {
+            return;
+        }
+        trigger_deprecation(
+            'web-token/jwt-library',
+            '4.3.0',
+            'Using a "dir" key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
+            strlen($cek) * 8,
+            $algorithm->name(),
+            $algorithm->getCEKSize()
+        );
     }
 
     /**

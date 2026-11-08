@@ -6,12 +6,15 @@ namespace Jose\Tests\Component\Encryption;
 
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Encryption\Algorithm\ContentEncryptionAlgorithm;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use function intdiv;
+use function set_error_handler;
+use const E_USER_DEPRECATED;
 
 /**
  * With "dir", the key is the CEK. AES-CBC-HMAC takes its MAC key from the first half and its AES key from the second
@@ -46,14 +49,51 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
         static::assertNull($this->decrypt($enc, $this->encryptContent($enc, $key), $key));
     }
 
-    #[DataProvider('acceptedKeys')]
+    #[DataProvider('exactKeys')]
     #[Test]
-    public function aDirectKeyOfTheContentEncryptionKeySizeOrLongerIsStillAccepted(string $enc, int $keyLength): void
+    public function aDirectKeyOfTheContentEncryptionKeySizeIsAccepted(string $enc, int $keyLength): void
     {
         $key = $this->createKey($keyLength);
 
-        static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->build($enc, $key), $key));
-        static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->encryptContent($enc, $key), $key));
+        $deprecations = $this->collectDeprecations(function () use ($enc, $key): void {
+            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->build($enc, $key), $key));
+            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->encryptContent($enc, $key), $key));
+        });
+
+        static::assertSame([], $deprecations);
+    }
+
+    #[DataProvider('longerKeys')]
+    #[Test]
+    public function aLongerDirectKeyIsStillAcceptedButDeprecated(string $enc, int $keyLength, string $message): void
+    {
+        $key = $this->createKey($keyLength);
+
+        $deprecations = $this->collectDeprecations(function () use ($enc, $key): void {
+            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->build($enc, $key), $key));
+            static::assertSame(self::PAYLOAD, $this->decrypt($enc, $this->encryptContent($enc, $key), $key));
+        });
+
+        static::assertCount(3, $deprecations);
+        foreach ($deprecations as $deprecation) {
+            static::assertStringContainsString($message, $deprecation);
+        }
+    }
+
+    #[Test]
+    public function aLongerKeyThatDoesNotDecryptTheTokenIsNotReported(): void
+    {
+        $key = $this->createKey(32);
+        $token = $this->encryptContent('A256GCM', $key);
+
+        $deprecations = $this->collectDeprecations(function () use ($token, $key): void {
+            static::assertSame(
+                self::PAYLOAD,
+                $this->decrypt('A256GCM', $token, new JWKSet([$this->createKey(64), $key]))
+            );
+        });
+
+        static::assertSame([], $deprecations);
     }
 
     /**
@@ -76,7 +116,7 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
     /**
      * @return iterable<string, array{string, int}>
      */
-    public static function acceptedKeys(): iterable
+    public static function exactKeys(): iterable
     {
         yield 'A128CBC-HS256, 32 bytes' => ['A128CBC-HS256', 32];
         yield 'A192CBC-HS384, 48 bytes' => ['A192CBC-HS384', 48];
@@ -84,8 +124,46 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
         yield 'A128GCM, 16 bytes' => ['A128GCM', 16];
         yield 'A192GCM, 24 bytes' => ['A192GCM', 24];
         yield 'A256GCM, 32 bytes' => ['A256GCM', 32];
-        yield 'A128CBC-HS256, 64 bytes' => ['A128CBC-HS256', 64];
-        yield 'A128GCM, 32 bytes' => ['A128GCM', 32];
+    }
+
+    /**
+     * @return iterable<string, array{string, int, string}>
+     */
+    public static function longerKeys(): iterable
+    {
+        yield 'A128CBC-HS256, 64 bytes' => [
+            'A128CBC-HS256',
+            64,
+            'Using a "dir" key of 512 bits with "A128CBC-HS256" is deprecated and will not be possible in 5.0.0: the key must have exactly 256 bits.',
+        ];
+        yield 'A128GCM, 32 bytes' => [
+            'A128GCM',
+            32,
+            'Using a "dir" key of 256 bits with "A128GCM" is deprecated and will not be possible in 5.0.0: the key must have exactly 128 bits.',
+        ];
+    }
+
+    /**
+     * @param callable(): void $callback
+     *
+     * @return list<string>
+     */
+    private function collectDeprecations(callable $callback): array
+    {
+        $deprecations = [];
+        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
+            $deprecations[] = $errstr;
+
+            return true;
+        }, E_USER_DEPRECATED);
+
+        try {
+            $callback();
+        } finally {
+            restore_error_handler();
+        }
+
+        return $deprecations;
     }
 
     private function createKey(int $length): JWK
@@ -100,7 +178,6 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
     {
         $jwe = $this->getJWEBuilderFactory()
             ->create(['dir', $enc])
-            ->create()
             ->withPayload(self::PAYLOAD)
             ->withSharedProtectedHeader([
                 'alg' => 'dir',
@@ -143,14 +220,13 @@ final class DirectEncryptionKeySizeTest extends EncryptionTestCase
         ]);
     }
 
-    private function decrypt(string $enc, string $token, JWK $key): ?string
+    private function decrypt(string $enc, string $token, JWK|JWKSet $keys): ?string
     {
-        $jwe = $this->getJWESerializerManager()
-            ->unserialize($token);
-        $decrypted = $this->getJWEDecrypterFactory()
+        $result = $this->getJWEDecrypterFactory()
             ->create(['dir', $enc])
-            ->decryptUsingKey($jwe, $key, 0);
+            ->decrypt($this->getJWESerializerManager()->unserialize($token), $keys, 0);
 
-        return $decrypted ? $jwe->getPayload() : null;
+        return $result->isDecrypted() ? $result->getJwe()
+            ->getPayload() : null;
     }
 }
