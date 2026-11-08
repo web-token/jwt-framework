@@ -50,6 +50,14 @@ final class ConfigurationMergeTest extends TestCase
         'jwe_header_checkers' => ['exp', 'iat', 'nbf'],
     ];
 
+    private const SD_JWT_VERIFIER = [
+        'signature_algorithms' => ['RS256', 'HS256'],
+        'header_checkers' => ['exp', 'iat', 'nbf'],
+        'key_binding_signature_algorithms' => ['ES256', 'EdDSA'],
+        'key_binding_header_checkers' => ['exp', 'iat', 'nbf'],
+        'claim_checkers' => ['exp', 'iat', 'nbf'],
+    ];
+
     private const NESTED_TOKEN_BUILDER = [
         'signature_algorithms' => ['RS256', 'HS256'],
         'encryption_algorithms' => ['RSA-OAEP-256', 'A256GCM', 'RSA1_5'],
@@ -130,6 +138,13 @@ final class ConfigurationMergeTest extends TestCase
             self::NESTED_TOKEN_LOADER,
             'jwe_header_checkers',
         ];
+        foreach (['header_checkers', 'key_binding_header_checkers', 'claim_checkers'] as $list) {
+            yield 'selective_disclosure.verifiers.*.' . $list => [
+                ['selective_disclosure', 'verifiers', 'api'],
+                self::SD_JWT_VERIFIER,
+                $list,
+            ];
+        }
     }
 
     /**
@@ -289,6 +304,22 @@ final class ConfigurationMergeTest extends TestCase
                 ['nested_token', 'builders', 'api'],
                 self::NESTED_TOKEN_BUILDER,
                 $list,
+            ];
+        }
+        foreach (['signature_algorithms', 'key_binding_signature_algorithms'] as $list) {
+            yield 'selective_disclosure.verifiers.*.' . $list => [
+                ['selective_disclosure', 'verifiers', 'api'],
+                self::SD_JWT_VERIFIER,
+                $list,
+            ];
+        }
+        foreach (['holders', 'issuers'] as $service) {
+            yield 'selective_disclosure.' . $service . '.*.signature_algorithms' => [
+                ['selective_disclosure', $service, 'api'],
+                [
+                    'signature_algorithms' => ['ES256', 'EdDSA'],
+                ],
+                'signature_algorithms',
             ];
         }
     }
