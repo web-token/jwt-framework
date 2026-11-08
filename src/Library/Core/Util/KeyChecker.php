@@ -25,6 +25,36 @@ final readonly class KeyChecker
         }
     }
 
+    /**
+     * A key agreement algorithm derives the key that encrypts the content or wraps the CEK: "deriveKey" and
+     * "deriveBits" let the key encrypt and decrypt, as an ECDH key may carry either of them.
+     */
+    public static function checkKeyAgreementKeyUsage(JWK $key, string $usage): void
+    {
+        if ($key->has('use')) {
+            self::checkUsage($key, $usage);
+        }
+        if ($key->has('key_ops')) {
+            self::checkOperation($key, $usage, ['deriveKey', 'deriveBits']);
+        }
+    }
+
+    /**
+     * With direct encryption, the key encrypts the content: on top of the checks of checkKeyUsage(), its "key_ops"
+     * parameter must contain "encrypt" to build a token and "decrypt" to decrypt one.
+     */
+    public static function checkDirectEncryptionKeyUsage(JWK $key, string $usage): void
+    {
+        self::checkKeyUsage($key, $usage);
+        $operation = $usage === 'encryption' ? 'encrypt' : 'decrypt';
+        if (! self::allowsOperation($key, $operation)) {
+            throw new InvalidKeyException(sprintf(
+                'Key cannot be used to %1$s the content: its "key_ops" parameter does not contain "%1$s".',
+                $operation
+            ));
+        }
+    }
+
     public static function checkKeyAlgorithm(JWK $key, string $algorithm): void
     {
         $alg = $key->alg();
@@ -36,11 +66,29 @@ final readonly class KeyChecker
         }
     }
 
-    private static function checkOperation(JWK $key, string $usage): void
+    private static function allowsOperation(JWK $key, string $operation): bool
+    {
+        if (! $key->has('key_ops')) {
+            return true;
+        }
+        $ops = $key->get('key_ops');
+
+        return is_array($ops) && in_array($operation, $ops, true);
+    }
+
+    /**
+     * @param list<string> $additionalOperations Operations that allow the usage besides those listed for it
+     */
+    private static function checkOperation(JWK $key, string $usage, array $additionalOperations = []): void
     {
         $ops = $key->get('key_ops');
         if (! is_array($ops)) {
             throw new InvalidKeyException('Invalid key parameter "key_ops". Should be a list of key operations');
+        }
+        foreach ($additionalOperations as $operation) {
+            if (in_array($operation, $ops, true)) {
+                return;
+            }
         }
 
         switch ($usage) {

@@ -582,7 +582,14 @@ class JWEBuilder implements JWEBuilderInterface
         JWK $recipientKey,
         ContentEncryptionAlgorithm $contentEncryptionAlgorithm
     ): void {
-        KeyChecker::checkKeyUsage($recipientKey, 'encryption');
+        if ($keyEncryptionAlgorithm instanceof DirectEncryption) {
+            KeyChecker::checkDirectEncryptionKeyUsage($recipientKey, 'encryption');
+        } elseif ($keyEncryptionAlgorithm instanceof KeyAgreement
+            || $keyEncryptionAlgorithm instanceof KeyAgreementWithKeyWrapping) {
+            KeyChecker::checkKeyAgreementKeyUsage($recipientKey, 'encryption');
+        } else {
+            KeyChecker::checkKeyUsage($recipientKey, 'encryption');
+        }
         if ($keyEncryptionAlgorithm->name() !== 'dir') {
             KeyChecker::checkKeyAlgorithm($recipientKey, $keyEncryptionAlgorithm->name());
         } else {

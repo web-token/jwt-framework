@@ -217,7 +217,14 @@ class JWEDecrypter implements JWEDecrypterInterface
 
         foreach ($jwkset->all() as $recipientKey) {
             try {
-                KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                if ($key_encryption_algorithm instanceof DirectEncryption) {
+                    KeyChecker::checkDirectEncryptionKeyUsage($recipientKey, 'decryption');
+                } elseif ($key_encryption_algorithm instanceof KeyAgreement
+                    || $key_encryption_algorithm instanceof KeyAgreementWithKeyWrapping) {
+                    KeyChecker::checkKeyAgreementKeyUsage($recipientKey, 'decryption');
+                } else {
+                    KeyChecker::checkKeyUsage($recipientKey, 'decryption');
+                }
                 if ($key_encryption_algorithm->name() !== 'dir') {
                     KeyChecker::checkKeyAlgorithm($recipientKey, $key_encryption_algorithm->name());
                 } else {
