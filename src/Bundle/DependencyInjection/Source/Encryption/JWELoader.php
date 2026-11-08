@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\DependencyInjection\Source\Encryption;
 
+use Jose\Bundle\JoseFramework\DependencyInjection\Source\Checker\CheckerAliases;
 use Jose\Bundle\JoseFramework\DependencyInjection\Source\Source;
 use Jose\Bundle\JoseFramework\Services\JWELoaderFactory;
 use Jose\Component\Encryption\JWELoader as JWELoaderService;
@@ -62,24 +63,26 @@ final readonly class JWELoader implements Source
             ->end()
             ->arrayNode('encryption_algorithms')
             ->info('A list of key encryption algorithm aliases.')
-            ->useAttributeAsKey('name')
+            ->performNoDeepMerging()
             ->isRequired()
             ->scalarPrototype()
             ->end()
             ->end()
             ->arrayNode('serializers')
             ->info('A list of signature serializer aliases.')
-            ->useAttributeAsKey('name')
+            ->performNoDeepMerging()
             ->requiresAtLeastOneElement()
             ->scalarPrototype()
             ->end()
             ->end()
             ->arrayNode('header_checkers')
             ->info('A list of header checker aliases.')
-            ->useAttributeAsKey('name')
             ->treatNullLike([])
             ->treatFalseLike([])
             ->scalarPrototype()
+            ->end()
+            ->validate()
+            ->always(CheckerAliases::unique(...))
             ->end()
             ->end()
             ->arrayNode('tags')

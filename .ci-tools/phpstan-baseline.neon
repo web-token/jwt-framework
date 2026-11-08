@@ -283,6 +283,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 3
@@ -315,7 +321,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 9
+			count: 10
 			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
@@ -351,7 +357,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/ClaimChecker.php
 
 		-
@@ -439,6 +451,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 3
@@ -471,7 +489,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 9
+			count: 10
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -507,7 +525,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Checker/HeaderChecker.php
 
 		-
@@ -649,6 +673,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
 
 		-
+			rawMessage: 'Cannot call method performNoDeepMerging() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
+
+		-
 			rawMessage: 'Cannot call method requiresAtLeastOneElement() on mixed.'
 			identifier: method.nonObject
 			count: 1
@@ -675,7 +705,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/AbstractEncryptionSource.php
 
 		-
@@ -931,6 +961,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 5
@@ -963,7 +999,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 13
+			count: 14
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
@@ -976,6 +1012,12 @@ parameters:
 			rawMessage: 'Cannot call method isRequired() on mixed.'
 			identifier: method.nonObject
 			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
+			rawMessage: 'Cannot call method performNoDeepMerging() on mixed.'
+			identifier: method.nonObject
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
@@ -1005,7 +1047,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 5
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Encryption/JWELoader.php
 
 		-
@@ -2473,6 +2521,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
 		-
+			rawMessage: 'Cannot call method performNoDeepMerging() on mixed.'
+			identifier: method.nonObject
+			count: 4
+			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
+
+		-
 			rawMessage: 'Cannot call method requiresAtLeastOneElement() on mixed.'
 			identifier: method.nonObject
 			count: 2
@@ -2499,7 +2553,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 6
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenBuilder.php
 
 		-
@@ -2617,6 +2671,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 8
@@ -2649,7 +2709,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 18
+			count: 20
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
@@ -2660,6 +2720,12 @@ parameters:
 
 		-
 			rawMessage: 'Cannot call method isRequired() on mixed.'
+			identifier: method.nonObject
+			count: 4
+			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+
+		-
+			rawMessage: 'Cannot call method performNoDeepMerging() on mixed.'
 			identifier: method.nonObject
 			count: 4
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
@@ -2691,7 +2757,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 8
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/NestedToken/NestedTokenLoader.php
 
 		-
@@ -2797,6 +2869,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
 
 		-
+			rawMessage: 'Cannot call method performNoDeepMerging() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
+
+		-
 			rawMessage: 'Cannot call method requiresAtLeastOneElement() on mixed.'
 			identifier: method.nonObject
 			count: 1
@@ -2823,7 +2901,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 3
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Signature/AbstractSignatureSource.php
 
 		-
@@ -2953,6 +3031,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
+			rawMessage: 'Cannot call method always() on mixed.'
+			identifier: method.nonObject
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
 			rawMessage: 'Cannot call method arrayNode() on mixed.'
 			identifier: method.nonObject
 			count: 5
@@ -2985,7 +3069,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 13
+			count: 14
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
@@ -2998,6 +3082,12 @@ parameters:
 			rawMessage: 'Cannot call method isRequired() on mixed.'
 			identifier: method.nonObject
 			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
+			rawMessage: 'Cannot call method performNoDeepMerging() on mixed.'
+			identifier: method.nonObject
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-
@@ -3027,7 +3117,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method useAttributeAsKey() on mixed.'
 			identifier: method.nonObject
-			count: 5
+			count: 2
+			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
+
+		-
+			rawMessage: 'Cannot call method validate() on mixed.'
+			identifier: method.nonObject
+			count: 1
 			path: ../src/Bundle/DependencyInjection/Source/Signature/JWSLoader.php
 
 		-

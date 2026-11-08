@@ -26,7 +26,7 @@ abstract readonly class AbstractEncryptionSource implements Source
             ->end()
             ->arrayNode('encryption_algorithms')
             ->info('A list of supported key encryption algorithms.')
-            ->useAttributeAsKey('name')
+            ->performNoDeepMerging()
             ->isRequired()
             ->requiresAtLeastOneElement()
             ->scalarPrototype()
