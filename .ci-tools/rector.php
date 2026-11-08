@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Identical\SimplifyBoolIdenticalTrueRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
@@ -42,6 +43,7 @@ $builder->withSkip([
     RenameMethodRector::class => [__DIR__ . '/../tests'],
     EventSubscriberToAttributeRector::class,
     CommandHelpToAttributeRector::class,
+    SimplifyBoolIdenticalTrueRector::class => [__DIR__ . '/../src/Library/Checker/CallableChecker.php'],
     __DIR__ . '/../src/Library/Core/JWKSet.php',
     __DIR__ . '/../src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSource.php',
     __DIR__ . '/../src/Bundle/JoseFramework/DependencyInjection/Source/KeyManagement/JWKSetSource.php',

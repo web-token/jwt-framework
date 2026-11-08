@@ -17,6 +17,9 @@ final readonly class ECDHSS extends AbstractECDH
     }
 
     /**
+     * The agreement only uses the two static keys, so the "epk" header parameter is never read. When the recipient key
+     * is the private one, the public part of the sender key is the other key.
+     *
      * @param array<string, mixed> $complete_header
      * @param array<string, mixed> $additional_header_values
      */
@@ -32,11 +35,14 @@ final readonly class ECDHSS extends AbstractECDH
         if ($senderKey === null) {
             throw new LogicException('The sender key shall be set');
         }
+        [$publicKey, $privateKey] = $recipientKey->has('d')
+            ? [$senderKey->toPublic(), $recipientKey]
+            : [$recipientKey, $senderKey];
         $agreedKey = parent::getAgreementKey(
             $encryptionKeyLength,
             $algorithm,
-            $recipientKey,
-            $senderKey,
+            $publicKey,
+            $privateKey,
             $complete_header,
             $additional_header_values
         );

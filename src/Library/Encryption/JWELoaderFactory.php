@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
+use InvalidArgumentException;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use function func_get_arg;
@@ -32,6 +33,10 @@ readonly class JWELoaderFactory
         $jweDecrypter = $this->jweDecrypterFactory->create($encryptionAlgorithms);
         if ($this->headerCheckerManagerFactory !== null) {
             $headerCheckerManager = $this->headerCheckerManagerFactory->create($headerCheckers);
+        } elseif ($headerCheckers !== []) {
+            throw new InvalidArgumentException(
+                'Header checkers were requested, but no header checker manager factory is available.'
+            );
         } else {
             $headerCheckerManager = null;
         }

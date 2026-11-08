@@ -75,7 +75,8 @@ class JWEDecrypter implements JWEDecrypterInterface
      * @param JWE $jwe A JWE object to decrypt
      * @param JWK $jwk The key used to decrypt the input
      * @param int $recipient The index of the recipient to decrypt
-     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the key used to decrypt the input is the public key of the sender
      *
      * @deprecated since 4.3.0, use "decrypt()" instead. Will be removed in 5.0.0.
      */
@@ -106,7 +107,8 @@ class JWEDecrypter implements JWEDecrypterInterface
      * @param JWKSet $jwkset The key set used to decrypt the input
      * @param int $recipient The index of the recipient to decrypt
      * @param JWK|null $jwk The key used to decrypt the token in case of success
-     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the key set holds the public keys of the senders
      *
      * @deprecated since 4.3.0, use "decrypt()" instead. Will be removed in 5.0.0.
      */
