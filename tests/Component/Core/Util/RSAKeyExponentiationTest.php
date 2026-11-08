@@ -7,8 +7,10 @@ namespace Jose\Tests\Component\Core\Util;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\RSAKey;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 /**
  * The private key operation is blinded with a random factor: the result must not depend on that factor, and the
@@ -71,6 +73,34 @@ final class RSAKeyExponentiationTest extends TestCase
             static::assertTrue($c->equals($m->modPow($publicKey->getPublicExponent(), $publicKey->getModulus())));
             static::assertTrue($m->equals(RSAKey::exponentiate(self::crtKey(), $c)));
             static::assertTrue($m->equals(RSAKey::exponentiate(self::minimalKey(), $c)));
+        }
+    }
+
+    /**
+     * The input of an RSA primitive must lie between 0 and n - 1. The modulus is congruent to 0 and was accepted.
+     */
+    #[Test]
+    #[DataProvider('keysAndInputsOutOfRange')]
+    public function anInputThatIsNotLowerThanTheModulusIsRejected(RSAKey $key, int $offset): void
+    {
+        $this->expectException(RuntimeException::class);
+
+        RSAKey::exponentiate($key, $key->getModulus()->add(BigInteger::createFromDecimal($offset)));
+    }
+
+    /**
+     * @return iterable<string, array{RSAKey, int}>
+     */
+    public static function keysAndInputsOutOfRange(): iterable
+    {
+        $keys = [
+            'private key with CRT parameters' => self::crtKey(),
+            'private key without CRT parameters' => self::minimalKey(),
+            'public key' => RSAKey::toPublic(self::crtKey()),
+        ];
+        foreach ($keys as $description => $key) {
+            yield $description . ', n' => [$key, 0];
+            yield $description . ', n + 1' => [$key, 1];
         }
     }
 

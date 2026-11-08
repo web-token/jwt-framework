@@ -173,6 +173,9 @@ final class RSAKey
     /**
      * Exponentiate with or without Chinese Remainder Theorem. Operation with primes 'p' and 'q' is appox. 2x faster.
      *
+     * The input must lie between 0 and n - 1, as RFC 8017 requires of the representatives given to RSAEP, RSADP,
+     * RSASP1 and RSAVP1 (sections 5.1 and 5.2). The modulus itself is rejected: it is congruent to 0.
+     *
      * Private key operations are blinded. The private key is applied to c * r^e mod n, where r is a fresh random
      * number coprime to n, and the result is multiplied by r^-1 mod n. The integers handled by the exponentiation and
      * by the CRT recombination are thus unrelated to c, which the sender of a token chooses, and so is the time they
@@ -180,7 +183,7 @@ final class RSAKey
      */
     public static function exponentiate(self $key, BigInteger $c): BigInteger
     {
-        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) > 0) {
+        if ($c->compare(BigInteger::createFromDecimal(0)) < 0 || $c->compare($key->getModulus()) >= 0) {
             throw new RuntimeException();
         }
         if ($key->isPublic()) {
