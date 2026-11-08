@@ -73,7 +73,8 @@ class JWEDecrypter
      * @param JWE $jwe A JWE object to decrypt
      * @param JWK $jwk The key used to decrypt the input
      * @param int $recipient The recipient used to decrypt the token
-     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the key used to decrypt the input is the public key of the sender
      */
     public function decryptUsingKey(JWE &$jwe, JWK $jwk, int $recipient, ?JWK $senderKey = null): bool
     {
@@ -96,6 +97,8 @@ class JWEDecrypter
      * @param JWKSet $jwkset The key set used to decrypt the input
      * @param JWK $jwk The key used to decrypt the token in case of success
      * @param int $recipient The recipient used to decrypt the token in case of success
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the key set holds the public keys of the senders
      */
     public function decryptUsingKeySet(
         JWE &$jwe,
