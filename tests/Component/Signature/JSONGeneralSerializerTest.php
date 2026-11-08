@@ -67,27 +67,27 @@ final class JSONGeneralSerializerTest extends TestCase
     }
 
     /**
-     * The sender chooses the number of signatures. Four times as many must take about four times as long to parse,
-     * not sixteen times as long as when each signature was appended to a copy of the previous ones.
+     * The sender chooses the number of signatures. Eight times as many must take about eight times as long to parse,
+     * not about thirty times as long as when each signature was appended to a copy of the previous ones.
      */
     #[Test]
     public function theParsingTimeGrowsLinearlyWithTheNumberOfSignatures(): void
     {
         $serializer = new JSONGeneralSerializer();
-        $fewSignatures = self::tokenWithEmptySignatures(5_000);
-        $manySignatures = self::tokenWithEmptySignatures(20_000);
+        $fewSignatures = self::tokenWithEmptySignatures(250);
+        $manySignatures = self::tokenWithEmptySignatures(2_000);
 
         $fewSignaturesTime = PHP_INT_MAX;
         $manySignaturesTime = PHP_INT_MAX;
-        for ($i = 0; $i < 3; ++$i) {
-            $fewSignaturesTime = min($fewSignaturesTime, self::timeToUnserialize($serializer, $fewSignatures, 5_000));
+        for ($i = 0; $i < 5; ++$i) {
+            $fewSignaturesTime = min($fewSignaturesTime, self::timeToUnserialize($serializer, $fewSignatures, 250));
             $manySignaturesTime = min(
                 $manySignaturesTime,
-                self::timeToUnserialize($serializer, $manySignatures, 20_000)
+                self::timeToUnserialize($serializer, $manySignatures, 2_000)
             );
         }
 
-        static::assertLessThan(8 * $fewSignaturesTime, $manySignaturesTime);
+        static::assertLessThan(16 * $fewSignaturesTime, $manySignaturesTime);
     }
 
     private static function tokenWithEmptySignatures(int $count): string
