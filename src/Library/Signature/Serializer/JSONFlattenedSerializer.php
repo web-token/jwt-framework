@@ -6,6 +6,7 @@ namespace Jose\Component\Signature\Serializer;
 
 use InvalidArgumentException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use Override;
@@ -56,7 +57,8 @@ final readonly class JSONFlattenedSerializer extends Serializer
     #[Override]
     public function unserialize(#[SensitiveParameter] string $input): JWS
     {
-        $data = JsonConverter::decode($input);
+        $json = new BoundedJsonDecoder();
+        $data = $json->decode($input);
         if (! is_array($data)) {
             throw new InvalidArgumentException('Unsupported input.');
         }
@@ -67,7 +69,7 @@ final readonly class JSONFlattenedSerializer extends Serializer
 
         if (isset($data['protected'])) {
             $encodedProtectedHeader = $data['protected'];
-            $protectedHeader = JsonConverter::decode(Base64UrlSafe::decodeNoPadding($data['protected']));
+            $protectedHeader = $json->decode(Base64UrlSafe::decodeNoPadding($data['protected']));
             if (! is_array($protectedHeader)) {
                 throw new InvalidArgumentException('Bad protected header.');
             }

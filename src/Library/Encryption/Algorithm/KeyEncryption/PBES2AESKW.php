@@ -39,6 +39,11 @@ abstract readonly class PBES2AESKW implements KeyWrapping
         return ['oct'];
     }
 
+    public function getMaxCount(): int
+    {
+        return $this->max_count;
+    }
+
     /**
      * @param array<string, mixed> $completeHeader
      * @param array<string, mixed> $additionalHeader

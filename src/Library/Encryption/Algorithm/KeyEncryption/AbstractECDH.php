@@ -15,6 +15,7 @@ use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\Core\Util\Ecc\PrivateKey;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\ConcatKDF;
+use OpenSSLAsymmetricKey;
 use Override;
 use RuntimeException;
 use Throwable;
@@ -87,22 +88,16 @@ abstract readonly class AbstractECDH implements KeyAgreement
             case 'BP-256':
             case 'BP-384':
             case 'BP-512':
-                $curve = $this->getCurve($crv);
-                if (function_exists('openssl_pkey_derive')) {
-                    try {
-                        $publicPem = ECKey::convertPublicKeyToPEM($public_key);
-                        $privatePem = ECKey::convertPrivateKeyToPEM($private_key);
-
-                        $res = openssl_pkey_derive($publicPem, $privatePem);
-                        if ($res === false) {
-                            throw new RuntimeException('Unable to derive the key');
-                        }
-
-                        return $res;
-                    } catch (Throwable) {
-                        // Does nothing. Will fallback to the pure PHP function
+                $privateKey = $this->loadPrivateKeyWithOpenSSL($private_key);
+                if ($privateKey !== null) {
+                    $res = openssl_pkey_derive(ECKey::convertPublicKeyToPEM($public_key), $privateKey);
+                    if ($res === false) {
+                        throw new RuntimeException('Unable to derive the key');
                     }
+
+                    return $res;
                 }
+                $curve = $this->getCurve($crv);
                 $x = $public_key->get('x');
                 if (! is_string($x)) {
                     throw new InvalidArgumentException('Invalid key parameter "x"');
@@ -114,6 +109,9 @@ abstract readonly class AbstractECDH implements KeyAgreement
                 $d = $private_key->get('d');
                 if (! is_string($d)) {
                     throw new InvalidArgumentException('Invalid key parameter "d"');
+                }
+                if (! $this->fitsCurve($x, $curve) || ! $this->fitsCurve($y, $curve)) {
+                    throw new RuntimeException('Unable to derive the key');
                 }
 
                 $rec_x = $this->convertBase64ToBigInteger($x);
@@ -243,6 +241,32 @@ abstract readonly class AbstractECDH implements KeyAgreement
         if ($is_private && ! $key->has('d')) {
             throw new InvalidArgumentException('The key parameter "d" is missing.');
         }
+    }
+
+    /**
+     * When OpenSSL can load the private key, it computes the agreement and its refusal of the public key is final. The
+     * PHP implementation is left to the keys it cannot load and to installations without openssl_pkey_derive().
+     */
+    private function loadPrivateKeyWithOpenSSL(JWK $key): ?OpenSSLAsymmetricKey
+    {
+        if (! function_exists('openssl_pkey_derive')) {
+            return null;
+        }
+        try {
+            $privateKey = openssl_pkey_get_private(ECKey::convertPrivateKeyToPEM($key));
+        } catch (Throwable) {
+            return null;
+        }
+
+        return $privateKey === false ? null : $privateKey;
+    }
+
+    /**
+     * Without GMP, converting a coordinate to a big integer takes more than linear time in its length.
+     */
+    private function fitsCurve(string $coordinate, Curve $curve): bool
+    {
+        return strlen(ltrim(Base64UrlSafe::decodeNoPadding($coordinate), "\0")) <= (int) ceil($curve->getSize() / 8);
     }
 
     private function getCurve(string $crv): Curve
