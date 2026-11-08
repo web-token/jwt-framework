@@ -1714,11 +1714,6 @@ parameters:
 			path: src/Library/Core/Util/RSAKey.php
 
 		-
-			message: "#^Parameter \\#1 \\$number of static method Brick\\\\Math\\\\BigInteger\\:\\:fromBase\\(\\) expects string, mixed given\\.$#"
-			count: 1
-			path: src/Library/Core/Util/RSAKey.php
-
-		-
 			message: "#^Property Jose\\\\Component\\\\Core\\\\Util\\\\RSAKey\\:\\:\\$values type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Library/Core/Util/RSAKey.php
