@@ -9,6 +9,7 @@ use Jose\Component\Checker\HeaderCheckerManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Signature\Serializer\JWSSerializerManager;
+use SensitiveParameter;
 use Throwable;
 
 /**
@@ -51,8 +52,13 @@ class JWSLoader
      * This method will try to load and verify the token using the given key. It returns a JWS and will populate the
      * $signature variable in case of success, otherwise an exception is thrown.
      */
-    public function loadAndVerifyWithKey(string $token, JWK $key, ?int &$signature, ?string $payload = null): JWS
-    {
+    public function loadAndVerifyWithKey(
+        #[SensitiveParameter]
+        string $token,
+        JWK $key,
+        ?int &$signature,
+        ?string $payload = null
+    ): JWS {
         $keyset = new JWKSet([$key]);
 
         return $this->loadAndVerifyWithKeySet($token, $keyset, $signature, $payload);
@@ -67,6 +73,7 @@ class JWSLoader
      * the failure remains available to the caller.
      */
     public function loadAndVerifyWithKeySet(
+        #[SensitiveParameter]
         string $token,
         JWKSet $keyset,
         ?int &$signature,

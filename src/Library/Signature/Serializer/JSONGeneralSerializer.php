@@ -10,6 +10,7 @@ use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Signature\JWS;
 use LogicException;
 use Override;
+use SensitiveParameter;
 use function array_key_exists;
 use function count;
 use function is_array;
@@ -68,7 +69,7 @@ final readonly class JSONGeneralSerializer extends Serializer
     }
 
     #[Override]
-    public function unserialize(string $input): JWS
+    public function unserialize(#[SensitiveParameter] string $input): JWS
     {
         $data = JsonConverter::decode($input);
         if (! is_array($data)) {
@@ -139,7 +140,7 @@ final readonly class JSONGeneralSerializer extends Serializer
         return [$encodedProtectedHeader, $protectedHeader, $header];
     }
 
-    private function processPayload(?string $rawPayload, ?bool $isPayloadEncoded): ?string
+    private function processPayload(#[SensitiveParameter] ?string $rawPayload, ?bool $isPayloadEncoded): ?string
     {
         if ($rawPayload === null) {
             return null;

@@ -8,6 +8,7 @@ use AESKW\Wrapper as WrapperInterface;
 use InvalidArgumentException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Encryption\Algorithm\KeyEncryption\Util\AESKeyWrap;
 use Override;
 use RuntimeException;
 use function in_array;
@@ -50,7 +51,7 @@ abstract readonly class AESKW implements KeyWrapping
         $k = $this->getKey($key);
         $wrapper = $this->getWrapper();
 
-        return $wrapper::unwrap($k, $encrypted_cek);
+        return AESKeyWrap::unwrap($wrapper, $k, $encrypted_cek);
     }
 
     #[Override]

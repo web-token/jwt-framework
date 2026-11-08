@@ -17,6 +17,7 @@ use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyAgreementWithKeyWrappin
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyEncryption;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\KeyWrapping;
 use Jose\Component\Encryption\Algorithm\KeyEncryptionAlgorithm;
+use SensitiveParameter;
 use Throwable;
 use function count;
 use function func_num_args;
@@ -199,6 +200,7 @@ class JWEDecrypter
      * pad a short key with zero bytes instead of rejecting it.
      */
     private function checkCekSize(
+        #[SensitiveParameter]
         string $cek,
         KeyEncryptionAlgorithm $keyEncryptionAlgorithm,
         ContentEncryptionAlgorithm $algorithm
@@ -277,6 +279,7 @@ class JWEDecrypter
 
     private function decryptPayload(
         JWE $jwe,
+        #[SensitiveParameter]
         string $cek,
         ContentEncryptionAlgorithm $content_encryption_algorithm,
     ): string {
