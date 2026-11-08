@@ -156,7 +156,8 @@ class JWEDecrypter implements JWEDecrypterInterface
      * @param JWE $jwe A JWE object to decrypt
      * @param JWK|JWKSet $keys The recipient will be decrypted using that key or the keys in that key set
      * @param int $recipientIndex The index of the recipient to decrypt
-     * @param JWK|null $senderKey The sender key, when the key management algorithm is a static key agreement
+     * @param JWK|null $senderKey With a static key agreement, the public key of the sender, or the private key of the
+     *                             recipient when the keys are the public keys of the senders
      * @param (callable(Throwable): void)|null $onError Called with every failure met while trying the keys
      */
     public function decrypt(
