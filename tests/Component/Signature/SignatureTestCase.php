@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\Signature;
 
+use Jose\Component\Checker\HeaderCheckerManagerFactory;
 use Jose\Component\Core\AlgorithmManagerFactory;
 use Jose\Component\Signature\Algorithm\EdDSA;
 use Jose\Component\Signature\Algorithm\ES256;
@@ -20,6 +21,7 @@ use Jose\Component\Signature\Algorithm\RS384;
 use Jose\Component\Signature\Algorithm\RS512;
 use Jose\Component\Signature\JWSBuilderFactory;
 use Jose\Component\Signature\JWSLoaderFactory;
+use Jose\Component\Signature\JWSTokenSupport;
 use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 use Jose\Component\Signature\Serializer\JSONFlattenedSerializer;
@@ -107,9 +109,17 @@ abstract class SignatureTestCase extends TestCase
         $this->jwsLoaderFactory ??= new JWSLoaderFactory(
             $this->getJWSSerializerManagerFactory(),
             $this->getJWSVerifierFactory(),
-            null
+            $this->getHeaderCheckerManagerFactory()
         );
 
         return $this->jwsLoaderFactory;
+    }
+
+    protected function getHeaderCheckerManagerFactory(): HeaderCheckerManagerFactory
+    {
+        $headerCheckerManagerFactory = new HeaderCheckerManagerFactory();
+        $headerCheckerManagerFactory->addTokenTypeSupport(new JWSTokenSupport());
+
+        return $headerCheckerManagerFactory;
     }
 }
