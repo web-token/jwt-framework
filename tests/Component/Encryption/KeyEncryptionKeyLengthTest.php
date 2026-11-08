@@ -12,9 +12,7 @@ use Jose\Component\Encryption\JWEBuilder;
 use Jose\Component\Encryption\JWEDecrypter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
-use function set_error_handler;
 use function sprintf;
-use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -26,23 +24,18 @@ final class KeyEncryptionKeyLengthTest extends EncryptionTestCase
     public function keyOfTheAlgorithmSizeIsAccepted(string $alg, int $keySize): void
     {
         $key = $this->createKey(random_bytes($keySize));
-        $builder = $this->createBuilder($alg);
-        $decrypter = $this->createDecrypter($alg);
+        $token = $this->createToken($this->createBuilder($alg), $alg, $key);
 
-        $deprecations = $this->collectDeprecations(function () use ($alg, $key, $builder, $decrypter): void {
-            static::assertTrue($this->decrypt($decrypter, $this->createToken($builder, $alg, $key), $key));
-        });
-
-        static::assertSame([], $deprecations);
+        static::assertTrue($this->decrypt($this->createDecrypter($alg), $token, $key));
     }
 
     #[DataProvider('dataAlgorithms')]
     #[Test]
-    public function shorterKeyCannotWrapTheCek(string $alg, int $keySize): void
+    public function keyOfAnotherSizeCannotWrapTheCek(string $alg, int $keySize): void
     {
         $builder = $this->createBuilder($alg);
-        for ($length = 0; $length < $keySize; ++$length) {
-            $key = $this->createKey(mb_substr(random_bytes($keySize), 0, $length, '8bit'));
+        foreach ([...range(0, $keySize - 1), $keySize + 1, $keySize * 2] as $length) {
+            $key = $this->createKey(mb_substr(random_bytes($keySize * 2), 0, $length, '8bit'));
             try {
                 $this->createToken($builder, $alg, $key);
                 static::fail(sprintf('A key of %d bytes was accepted.', $length));
@@ -66,52 +59,35 @@ final class KeyEncryptionKeyLengthTest extends EncryptionTestCase
         }
     }
 
+    /**
+     * Before 5.0.0, a longer key wrapped the CEK with its first bytes only: such a token is read with those bytes.
+     */
     #[DataProvider('dataAlgorithms')]
     #[Test]
-    public function keySetHoldingAShorterKeyStillDecrypts(string $alg, int $keySize): void
+    public function longerKeyCannotUnwrapTheCekButItsFirstBytesCan(string $alg, int $keySize): void
+    {
+        $longerKey = random_bytes($keySize + 16);
+        $firstBytes = $this->createKey(mb_substr($longerKey, 0, $keySize, '8bit'));
+        $token = $this->createToken($this->createBuilder($alg), $alg, $firstBytes);
+        $decrypter = $this->createDecrypter($alg);
+
+        static::assertFalse($this->decrypt($decrypter, $token, $this->createKey($longerKey)));
+        static::assertTrue($this->decrypt($decrypter, $token, $firstBytes));
+    }
+
+    #[DataProvider('dataAlgorithms')]
+    #[Test]
+    public function keySetHoldingKeysOfOtherSizesStillDecrypts(string $alg, int $keySize): void
     {
         $key = $this->createKey(random_bytes($keySize));
         $token = $this->createToken($this->createBuilder($alg), $alg, $key);
-        $keySet = new JWKSet([$this->createKey(random_bytes($keySize - 1)), $key]);
+        $keySet = new JWKSet([
+            $this->createKey(random_bytes($keySize - 1)),
+            $this->createKey(random_bytes($keySize + 16)),
+            $key,
+        ]);
 
         static::assertTrue($this->decrypt($this->createDecrypter($alg), $token, $keySet));
-    }
-
-    #[DataProvider('dataAlgorithms')]
-    #[Test]
-    public function longerKeyIsStillAcceptedButDeprecated(string $alg, int $keySize): void
-    {
-        $key = $this->createKey(random_bytes($keySize + 16));
-        $builder = $this->createBuilder($alg);
-        $decrypter = $this->createDecrypter($alg);
-
-        $deprecations = $this->collectDeprecations(function () use ($alg, $key, $builder, $decrypter): void {
-            static::assertTrue($this->decrypt($decrypter, $this->createToken($builder, $alg, $key), $key));
-        });
-
-        $message = sprintf(
-            'Since web-token/jwt-library 4.3.0: Using a key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
-            ($keySize + 16) * 8,
-            $alg,
-            $keySize * 8
-        );
-        static::assertSame([$message, $message], $deprecations);
-    }
-
-    #[DataProvider('dataAlgorithms')]
-    #[Test]
-    public function longerKeyThatDoesNotProtectTheTokenIsNotReported(string $alg, int $keySize): void
-    {
-        $key = $this->createKey(random_bytes($keySize));
-        $token = $this->createToken($this->createBuilder($alg), $alg, $key);
-        $keySet = new JWKSet([$this->createKey(random_bytes($keySize + 16)), $key]);
-        $decrypter = $this->createDecrypter($alg);
-
-        $deprecations = $this->collectDeprecations(function () use ($decrypter, $token, $keySet): void {
-            static::assertTrue($this->decrypt($decrypter, $token, $keySet));
-        });
-
-        static::assertSame([], $deprecations);
     }
 
     public static function dataAlgorithms(): iterable
@@ -122,29 +98,6 @@ final class KeyEncryptionKeyLengthTest extends EncryptionTestCase
         yield 'A128GCMKW' => ['A128GCMKW', 16];
         yield 'A192GCMKW' => ['A192GCMKW', 24];
         yield 'A256GCMKW' => ['A256GCMKW', 32];
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
     }
 
     private function createKey(string $k): JWK

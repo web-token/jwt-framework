@@ -16,7 +16,6 @@ use Override;
 use function in_array;
 use function is_string;
 use function strlen;
-use function trigger_deprecation;
 use const OPENSSL_RAW_DATA;
 
 final readonly class Chacha20Poly1305 implements KeyEncryption
@@ -48,7 +47,6 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
     public function encryptKey(JWK $key, string $cek, array $completeHeader, array &$additionalHeader): string
     {
         $k = $this->getKey($key);
-        $this->deprecateLongerKey(strlen($k) * 8);
         $nonce = random_bytes(12);
 
         $tag = null;
@@ -87,7 +85,6 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
         if ($result === false) {
             throw new DecryptionFailedException('Unable to decrypt the CEK');
         }
-        $this->deprecateLongerKey(strlen($k) * 8);
 
         return $result;
     }
@@ -111,28 +108,10 @@ final readonly class Chacha20Poly1305 implements KeyEncryption
             throw new InvalidKeyException('The key parameter "k" is invalid.');
         }
         $k = Base64UrlSafe::decodeNoPadding($k);
-        if (strlen($k) < 32) {
+        if (strlen($k) !== 32) {
             throw new InvalidKeyException('Invalid key length.');
         }
 
         return $k;
-    }
-
-    /**
-     * Only called with a key that protects the CEK, so that the other keys of a key set tried on a token are not reported.
-     */
-    private function deprecateLongerKey(int $keyLength): void
-    {
-        if ($keyLength <= 256) {
-            return;
-        }
-        trigger_deprecation(
-            'web-token/jwt-experimental',
-            '4.3.0',
-            'Using a key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
-            $keyLength,
-            $this->name(),
-            256
-        );
     }
 }

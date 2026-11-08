@@ -16,9 +16,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function in_array;
-use function set_error_handler;
 use function sprintf;
-use const E_USER_DEPRECATED;
 
 /**
  * @internal
@@ -33,65 +31,39 @@ final class KeyEncryptionKeyLengthTest extends TestCase
         $key = $this->createKey(random_bytes($keySize));
         $cek = random_bytes(32);
 
-        $deprecations = $this->collectDeprecations(static function () use ($algorithm, $key, $cek): void {
-            $header = [];
-            $encryptedKey = $algorithm->encryptKey($key, $cek, [], $header);
-            static::assertSame($cek, $algorithm->decryptKey($key, $encryptedKey, $header));
-        });
+        $header = [];
+        $encryptedKey = $algorithm->encryptKey($key, $cek, [], $header);
 
-        static::assertSame([], $deprecations);
+        static::assertSame($cek, $algorithm->decryptKey($key, $encryptedKey, $header));
     }
 
     #[DataProvider('dataAlgorithms')]
     #[Test]
-    public function shorterKeyIsRejected(string $alg, int $keySize): void
+    public function keyOfAnotherSizeIsRejected(string $alg, int $keySize): void
     {
         $algorithm = $this->createAlgorithm($alg);
-        for ($length = 0; $length < $keySize; ++$length) {
-            $shorterKey = mb_substr(random_bytes($keySize), 0, $length, '8bit');
+        foreach ([...range(0, $keySize - 1), $keySize + 1, $keySize * 2] as $length) {
+            $otherKey = mb_substr(random_bytes($keySize * 2), 0, $length, '8bit');
             $header = [];
             $encryptedKey = $algorithm->encryptKey(
-                $this->createKey(str_pad($shorterKey, $keySize, "\0")),
+                $this->createKey(mb_substr(str_pad($otherKey, $keySize, "\0"), 0, $keySize, '8bit')),
                 random_bytes(32),
                 [],
                 $header
             );
             try {
-                $algorithm->encryptKey($this->createKey($shorterKey), random_bytes(32), [], $header);
+                $algorithm->encryptKey($this->createKey($otherKey), random_bytes(32), [], $header);
                 static::fail(sprintf('A key of %d bytes was accepted for encryption.', $length));
             } catch (InvalidKeyException $e) {
                 static::assertSame('Invalid key length.', $e->getMessage());
             }
             try {
-                $algorithm->decryptKey($this->createKey($shorterKey), $encryptedKey, $header);
+                $algorithm->decryptKey($this->createKey($otherKey), $encryptedKey, $header);
                 static::fail(sprintf('A key of %d bytes was accepted for decryption.', $length));
             } catch (InvalidKeyException $e) {
                 static::assertSame('Invalid key length.', $e->getMessage());
             }
         }
-    }
-
-    #[DataProvider('dataAlgorithms')]
-    #[Test]
-    public function longerKeyIsStillAcceptedButDeprecated(string $alg, int $keySize): void
-    {
-        $algorithm = $this->createAlgorithm($alg);
-        $key = $this->createKey(random_bytes($keySize + 16));
-        $cek = random_bytes(32);
-
-        $deprecations = $this->collectDeprecations(static function () use ($algorithm, $key, $cek): void {
-            $header = [];
-            $encryptedKey = $algorithm->encryptKey($key, $cek, [], $header);
-            static::assertSame($cek, $algorithm->decryptKey($key, $encryptedKey, $header));
-        });
-
-        $message = sprintf(
-            'Since web-token/jwt-experimental 4.3.0: Using a key of %d bits with "%s" is deprecated and will not be possible in 5.0.0: the key must have exactly %d bits.',
-            ($keySize + 16) * 8,
-            $alg,
-            $keySize * 8
-        );
-        static::assertSame([$message, $message], $deprecations);
     }
 
     public static function dataAlgorithms(): iterable
@@ -114,29 +86,6 @@ final class KeyEncryptionKeyLengthTest extends TestCase
             'A256CTR' => new A256CTR(),
             default => new Chacha20Poly1305(),
         };
-    }
-
-    /**
-     * @param callable(): void $callback
-     *
-     * @return list<string>
-     */
-    private function collectDeprecations(callable $callback): array
-    {
-        $deprecations = [];
-        set_error_handler(static function (int $errno, string $errstr) use (&$deprecations): bool {
-            $deprecations[] = $errstr;
-
-            return true;
-        }, E_USER_DEPRECATED);
-
-        try {
-            $callback();
-        } finally {
-            restore_error_handler();
-        }
-
-        return $deprecations;
     }
 
     private function createKey(string $k): JWK
