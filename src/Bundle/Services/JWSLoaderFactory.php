@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jose\Bundle\JoseFramework\Services;
 
-use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Signature\Serializer\JWSSerializerManagerFactory;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use function func_get_arg;

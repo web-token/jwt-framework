@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Jose\Component\Encryption;
 
-use InvalidArgumentException;
 use Jose\Component\Checker\HeaderCheckerManagerFactory;
+use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Encryption\Serializer\JWESerializerManagerFactory;
 use function func_get_arg;
 use function func_num_args;
