@@ -10,6 +10,7 @@ use Jose\Component\KeyManagement\X5UFactory;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use Stringable;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -193,6 +194,70 @@ final class UrlKeySetFactoryTest extends TestCase
 
         static::assertSame(['acme'], array_keys($acme->all()));
         static::assertSame(1, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function aStringableHeaderValueThatCannotBeSerializedIsStillSent(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => self::getUnserializableTenant('acme'),
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+    }
+
+    #[Test]
+    public function theCacheIsBypassedWhenTheHeadersCannotBeSerialized(): void
+    {
+        $client = self::getTenantAwareHttpClient([
+            'acme' => '{"keys":[{"kty":"oct","kid":"acme","k":"YWNtZQ"}]}',
+        ]);
+        $factory = new JKUFactory($client);
+        $factory->enabledCache(new ArrayAdapter());
+
+        $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => self::getUnserializableTenant('acme'),
+        ]);
+        $acme = $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => self::getUnserializableTenant('acme'),
+        ]);
+
+        static::assertSame(['acme'], array_keys($acme->all()));
+        static::assertSame(2, $client->getRequestsCount());
+    }
+
+    #[Test]
+    public function aHeaderValueTheClientRejectsStillRaisesTheClientException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid value for header "X-Tenant"');
+
+        $factory = new JKUFactory(self::getTenantAwareHttpClient([]));
+        $factory->enabledCache(new ArrayAdapter());
+
+        $factory->loadFromUrl('https://foo.bar/keys', [
+            'X-Tenant' => static fn (): string => 'acme',
+        ]);
+    }
+
+    private static function getUnserializableTenant(string $tenant): Stringable
+    {
+        return new class($tenant) implements Stringable {
+            public function __construct(
+                private readonly string $tenant
+            ) {
+            }
+
+            public function __toString(): string
+            {
+                return $this->tenant;
+            }
+        };
     }
 
     /**
