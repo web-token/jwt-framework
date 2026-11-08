@@ -88,10 +88,7 @@ final readonly class RSACrypt
         $type = 2;
         $data = chr(0) . chr($type) . $ps . chr(0) . $data;
 
-        $binaryData = BigInteger::createFromBinaryString($data);
-        $c = self::getRSAEP($key, $binaryData);
-
-        return self::convertIntegerToOctetString($c, $key->getModulusLength());
+        return RSAKey::applyPublicKey($key, $data);
     }
 
     public static function decryptWithRSA15(RSAKey $key, string $c, ?int $expectedKeyLength = null): string
@@ -240,18 +237,6 @@ final readonly class RSACrypt
     }
 
     /**
-     * RSA EP.
-     */
-    private static function getRSAEP(RSAKey $key, BigInteger $m): BigInteger
-    {
-        if ($m->compare(BigInteger::createFromDecimal(0)) < 0 || $m->compare($key->getModulus()) >= 0) {
-            throw new RuntimeException();
-        }
-
-        return RSAKey::exponentiate($key, $m);
-    }
-
-    /**
      * RSA DP.
      */
     private static function getRSADP(RSAKey $key, BigInteger $c): BigInteger
@@ -294,10 +279,7 @@ final readonly class RSACrypt
         $maskedSeed = $seed ^ $seedMask;
         $em = chr(0) . $maskedSeed . $maskedDB;
 
-        $m = self::convertOctetStringToInteger($em);
-        $c = self::getRSAEP($key, $m);
-
-        return self::convertIntegerToOctetString($c, $key->getModulusLength());
+        return RSAKey::applyPublicKey($key, $em);
     }
 
     /**

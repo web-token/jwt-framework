@@ -8,8 +8,10 @@ use Brick\Math\Internal\Calculator;
 use Brick\Math\Internal\Calculator\NativeCalculator;
 use Brick\Math\Internal\CalculatorRegistry;
 use InvalidArgumentException;
+use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BigInteger;
 use Jose\Component\Core\Util\RSAKey;
 use Jose\Component\Encryption\Algorithm\KeyEncryption\RSAOAEP256;
 use Jose\Component\Signature\Algorithm\PS256;
@@ -17,9 +19,13 @@ use Jose\Component\Signature\Algorithm\RS256;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use function chr;
+use function ord;
 use function sprintf;
 use function str_repeat;
+use function strlen;
 use const OPENSSL_KEYTYPE_RSA;
+use const STR_PAD_LEFT;
 
 /**
  * @internal
@@ -141,6 +147,82 @@ final class RSAKeyTest extends TestCase
             'n' => $members['n'],
             'e' => $members['e'],
         ], openssl_pkey_get_details($public)['rsa'] ?? null);
+    }
+
+    #[Test]
+    public function thePublicOperationIsTheModularExponentiationOfTheInput(): void
+    {
+        [$key, $members] = self::generateKey(2048);
+        $modulus = $members['n'];
+        $public = RSAKey::createFromJWK($key->toPublic());
+        $private = RSAKey::createFromJWK($key);
+
+        foreach ([
+            str_repeat("\0", 256),
+            str_repeat("\0", 255) . "\1",
+            substr($modulus, 0, -1) . chr(ord($modulus[-1]) - 1),
+            "\0" . random_bytes(255),
+            "\0" . random_bytes(255),
+        ] as $input) {
+            $expected = RSAKey::exponentiate($public, BigInteger::createFromBinaryString($input))->toBytes();
+            $expected = str_pad($expected, 256, "\0", STR_PAD_LEFT);
+
+            static::assertSame($expected, RSAKey::applyPublicKey($public, $input));
+            static::assertSame($expected, RSAKey::applyPublicKey($private, $input));
+        }
+    }
+
+    /**
+     * @param callable(string): string $input
+     */
+    #[Test]
+    #[DataProvider('nonRepresentatives')]
+    public function aValueThatIsNotARepresentativeIsRejected(callable $input): void
+    {
+        [$key, $members] = self::generateKey(2048);
+
+        $this->expectException(RuntimeException::class);
+
+        RSAKey::applyPublicKey(RSAKey::createFromJWK($key->toPublic()), $input($members['n']));
+    }
+
+    /**
+     * @return iterable<string, array{callable(string): string}>
+     */
+    public static function nonRepresentatives(): iterable
+    {
+        yield 'the modulus' => [
+            static fn (string $modulus): string => $modulus,
+        ];
+        yield 'above the modulus' => [
+            static fn (string $modulus): string => str_repeat("\xFF", strlen($modulus)),
+        ];
+        yield 'shorter than the modulus' => [
+            static fn (string $modulus): string => substr($modulus, 1),
+        ];
+        yield 'longer than the modulus' => [
+            static fn (string $modulus): string => "\0" . $modulus,
+        ];
+    }
+
+    #[Test]
+    public function rsaPssVerificationAndRsaOaepEncryptionDoNotDependOnTheCalculator(): void
+    {
+        [$key] = self::generateKey(4096);
+        $signature = (new PS256())->sign($key, 'input');
+        $cek = random_bytes(32);
+        self::useCalculator(new NativeCalculator());
+        $start = self::cpuTime();
+
+        $verified = (new PS256())->verify($key->toPublic(), 'input', $signature);
+        $additionalHeader = [];
+        $encryptedKey = (new RSAOAEP256())->encryptKey($key->toPublic(), $cek, [], $additionalHeader);
+        $elapsed = self::cpuTime() - $start;
+        self::useCalculator(null);
+
+        static::assertTrue($verified);
+        static::assertLessThan(1, $elapsed);
+        static::assertSame($cek, (new RSAOAEP256())->decryptKey($key, $encryptedKey, []));
     }
 
     private static function key(int $modulusLength, int $exponentLength): JWK

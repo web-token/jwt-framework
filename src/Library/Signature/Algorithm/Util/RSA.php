@@ -110,9 +110,7 @@ final readonly class RSA
         if (strlen($signature) !== $key->getModulusLength()) {
             throw new RuntimeException();
         }
-        $s2 = BigInteger::createFromBinaryString($signature);
-        $m2 = RSAKey::exponentiate($key, $s2);
-        $em = self::convertIntegerToOctetString($m2, $key->getModulusLength());
+        $em = RSAKey::applyPublicKey($key, $signature);
         $modBits = 8 * $key->getModulusLength();
 
         return self::verifyEMSAPSS($message, $em, $modBits - 1, Hash::get($hash));

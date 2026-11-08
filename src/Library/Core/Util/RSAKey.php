@@ -7,20 +7,23 @@ namespace Jose\Component\Core\Util;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWK;
-use SpomkyLabs\Pki\ASN1\Component\Length;
 use SpomkyLabs\Pki\ASN1\DERData;
 use SpomkyLabs\Pki\ASN1\Type\Constructed\Sequence;
-use SpomkyLabs\Pki\ASN1\Type\Primitive\BitString;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\Integer;
 use SpomkyLabs\Pki\ASN1\Type\Primitive\OctetString;
 use SpomkyLabs\Pki\CryptoEncoding\PEM;
 use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgorithmIdentifier;
 use function array_key_exists;
+use function chr;
 use function count;
+use function extension_loaded;
+use function is_string;
 use function ltrim;
 use function ord;
 use function sprintf;
 use function strlen;
+use const OPENSSL_NO_PADDING;
+use const STR_PAD_LEFT;
 
 /**
  * @internal
@@ -37,6 +40,11 @@ final class RSAKey
     private const SMALL_MODULUS_LENGTH = 384;
 
     private const MAX_PUBLIC_EXPONENT_LENGTH = 8;
+
+    /**
+     * AlgorithmIdentifier of rsaEncryption (1.2.840.113549.1.1.1) with NULL parameters, in DER.
+     */
+    private const RSA_ALGORITHM_IDENTIFIER = "\x30\x0D\x06\x09\x2A\x86\x48\x86\xF7\x0D\x01\x01\x01\x05\x00";
 
     private null|Sequence $sequence = null;
 
@@ -190,18 +198,40 @@ final class RSAKey
             return PEM::create(PEM::TYPE_PRIVATE_KEY, $this->sequence->toDER())
                 ->string();
         }
-        $this->sequence = Sequence::create(
-            RSAEncryptionAlgorithmIdentifier::create()->toASN1(),
-            BitString::create(
-                Sequence::create(
-                    $this->fromBase64ToInteger($this->values['n']),
-                    $this->fromBase64ToInteger($this->values['e'])
-                )->toDER()
-            )
+        $publicKey = self::encodeDER(
+            0x30,
+            $this->fromBase64ToInteger($this->values['n'])->toDER() . $this->fromBase64ToInteger(
+                $this->values['e']
+            )->toDER()
         );
 
-        return PEM::create(PEM::TYPE_PUBLIC_KEY, $this->sequence->toDER())
-            ->string();
+        return PEM::create(
+            PEM::TYPE_PUBLIC_KEY,
+            self::encodeDER(0x30, self::RSA_ALGORITHM_IDENTIFIER . self::encodeDER(0x03, "\0" . $publicKey))
+        )->string();
+    }
+
+    /**
+     * Computes input^e mod n (RSAEP, RSAVP1) on big-endian strings as long as the modulus. OpenSSL computes it when the
+     * extension is loaded, so that the cost does not depend on the brick/math calculator.
+     */
+    public static function applyPublicKey(self $key, string $input): string
+    {
+        $public = self::toPublic($key);
+        if (strlen($input) !== $public->getModulusLength()) {
+            throw new RuntimeException('The input must be as long as the modulus.');
+        }
+        if (! extension_loaded('openssl')) {
+            $output = self::exponentiate($public, BigInteger::createFromBinaryString($input))->toBytes();
+
+            return str_pad($output, $public->getModulusLength(), "\0", STR_PAD_LEFT);
+        }
+        $output = '';
+        if (! openssl_public_encrypt($input, $output, $public->toPEM(), OPENSSL_NO_PADDING) || ! is_string($output)) {
+            throw new RuntimeException('Unable to apply the public key.');
+        }
+
+        return $output;
     }
 
     /**
@@ -322,6 +352,21 @@ final class RSAKey
             $value = "\0" . $value;
         }
 
-        return DERData::create("\x02" . Length::create(strlen($value))->toDER() . $value);
+        return DERData::create(self::encodeDER(0x02, $value));
+    }
+
+    /**
+     * Encodes a DER element without the big integers pki-framework uses for lengths: a public key is written for every
+     * RSA public key operation.
+     */
+    private static function encodeDER(int $tag, string $content): string
+    {
+        $length = strlen($content);
+        if ($length < 0x80) {
+            return chr($tag) . chr($length) . $content;
+        }
+        $lengthOctets = ltrim(pack('N', $length), "\0");
+
+        return chr($tag) . chr(0x80 | strlen($lengthOctets)) . $lengthOctets . $content;
     }
 }
