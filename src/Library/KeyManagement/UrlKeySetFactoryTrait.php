@@ -23,10 +23,10 @@ use function trigger_deprecation;
  * header parameters of a token are chosen by its sender: a URL read from them must be in an exact list of trusted
  * URLs, and be fetched with redirects refused.
  *
- * This is the shared implementation of JKUFactory and X5UFactory, which used to inherit it from UrlKeySetFactory.
- * That class is deprecated and removed in 5.0.0; a trait carries the same code without giving the two factories a
- * base class they would then have to keep. It is an implementation detail of those two classes: it is not covered
- * by the backward compatibility promise and must not be used outside of this package.
+ * This is the shared implementation of JKUFactory and X5UFactory. They still extend UrlKeySetFactory, which uses this
+ * trait too, but use it themselves: they never run the deprecated constructor of that class, and keep the same code
+ * when that class is removed in 5.0.0. It is an implementation detail of those classes: it is not covered by the
+ * backward compatibility promise and must not be used outside of this package.
  *
  * @internal
  *

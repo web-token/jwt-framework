@@ -10,9 +10,13 @@ use Jose\Component\Core\Util\JsonConverter;
 use function is_array;
 
 /**
+ * Extends the deprecated UrlKeySetFactory only for the code typed against that class: the fetching code comes from
+ * UrlKeySetFactoryTrait, so the constructor of UrlKeySetFactory never runs and its deprecation is not triggered. In
+ * 5.0.0, UrlKeySetFactory is removed and this class no longer extends it.
+ *
  * @see \Jose\Tests\Component\KeyManagement\UrlKeySetFactoryTest
  */
-class JKUFactory
+class JKUFactory extends UrlKeySetFactory
 {
     use UrlKeySetFactoryTrait;
 
