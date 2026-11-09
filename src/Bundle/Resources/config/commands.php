@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Jose\Component\Console\AddKeyIntoKeysetCommand;
 use Jose\Component\Console\EcKeyGeneratorCommand;
 use Jose\Component\Console\EcKeysetGeneratorCommand;
+use Jose\Component\Console\GeneratorCommand;
 use Jose\Component\Console\GetThumbprintCommand;
 use Jose\Component\Console\KeyAnalyzerCommand;
 use Jose\Component\Console\KeyFileLoaderCommand;
@@ -28,11 +29,17 @@ use Jose\Component\Console\RsaKeyGeneratorCommand;
 use Jose\Component\Console\RsaKeysetGeneratorCommand;
 use Jose\Component\Console\SecretKeyGeneratorCommand;
 use Jose\Component\Console\X509CertificateLoaderCommand;
+use Jose\Component\KeyManagement\JWKFactoryInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return function (ContainerConfigurator $container): void {
-    $container = $container->services()
-        ->defaults()
+    $services = $container->services();
+
+    $services->instanceof(GeneratorCommand::class)
+        ->call('setJwkFactory', [service(JWKFactoryInterface::class)]);
+
+    $container = $services->defaults()
         ->private()
         ->autoconfigure()
         ->autowire();

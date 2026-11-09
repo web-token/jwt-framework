@@ -20,7 +20,8 @@ final class NoneKeyGeneratorCommand extends GeneratorCommand
     {
         $args = $this->getOptions($input);
 
-        $jwk = $this->jwkFactory->none($args);
+        $jwk = $this->getJwkFactory()
+            ->none($args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

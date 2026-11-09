@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Bundle\JoseFramework\Functional\KeyManagement;
 
+use Jose\Component\Console\GeneratorCommand;
 use Jose\Component\Console\RsaKeyGeneratorCommand;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\KeyManagement\JWKFactoryInterface;
 use Jose\Tests\Bundle\JoseFramework\WebTestCase;
 use PHPUnit\Framework\Attributes\Test;
+use ReflectionProperty;
 
 /**
  * The key factory is a service of the bundle and is aliased with its interface, so that it can be autowired and
@@ -50,7 +52,10 @@ final class JWKFactoryServiceTest extends WebTestCase
 
         $container = $client->getContainer();
 
-        static::assertTrue($container->has(RsaKeyGeneratorCommand::class));
-        static::assertInstanceOf(RsaKeyGeneratorCommand::class, $container->get(RsaKeyGeneratorCommand::class));
+        $command = $container->get(RsaKeyGeneratorCommand::class);
+        $property = new ReflectionProperty(GeneratorCommand::class, 'jwkFactory');
+
+        static::assertInstanceOf(RsaKeyGeneratorCommand::class, $command);
+        static::assertSame($container->get(JWKFactoryInterface::class), $property->getValue($command));
     }
 }

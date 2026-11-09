@@ -30,7 +30,8 @@ final class OctKeyGeneratorCommand extends GeneratorCommand
         }
         $args = $this->getOptions($input);
 
-        $jwk = $this->jwkFactory->oct($size, $args);
+        $jwk = $this->getJwkFactory()
+            ->oct($size, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

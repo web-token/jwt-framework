@@ -15,17 +15,16 @@ use function is_bool;
 
 abstract class GeneratorCommand extends ObjectOutputCommand
 {
-    protected readonly JWKFactoryInterface $jwkFactory;
-
     /**
-     * The key factory is the second argument, and not the first as in the other commands of the library, so that the
-     * name inherited from the Symfony command stays where it was: "new EcKeyGeneratorCommand('my:command')" keeps
-     * working.
+     * The factory is injected through a setter and held in a private property, so that nothing this abstract command
+     * publishes changes: the constructor inherited from the Symfony command keeps the signature it always had, and a
+     * subclass that already declares a member of that name is left alone.
      */
-    public function __construct(?string $name = null, ?JWKFactoryInterface $jwkFactory = null)
+    private ?JWKFactoryInterface $jwkFactory = null;
+
+    public function setJwkFactory(JWKFactoryInterface $jwkFactory): void
     {
-        parent::__construct($name);
-        $this->jwkFactory = $jwkFactory ?? new JWKFactory();
+        $this->jwkFactory = $jwkFactory;
     }
 
     #[Override]
@@ -70,6 +69,14 @@ abstract class GeneratorCommand extends ObjectOutputCommand
         }
 
         return $args;
+    }
+
+    /**
+     * Falls back to a default factory, so that the commands stay usable outside of a container.
+     */
+    protected function getJwkFactory(): JWKFactoryInterface
+    {
+        return $this->jwkFactory ??= new JWKFactory();
     }
 
     private function generateKeyID(): string

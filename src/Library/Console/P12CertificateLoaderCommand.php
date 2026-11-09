@@ -36,7 +36,8 @@ final class P12CertificateLoaderCommand extends GeneratorCommand
             throw new InvalidArgumentException('Invalid secret');
         }
         $args = $this->getOptions($input);
-        $jwk = $this->jwkFactory->fromPKCS12CertificateFile($file, $password, $args);
+        $jwk = $this->getJwkFactory()
+            ->fromPKCS12CertificateFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

@@ -37,7 +37,8 @@ final class KeyFileLoaderCommand extends GeneratorCommand
         }
         $args = $this->getOptions($input);
 
-        $jwk = $this->jwkFactory->fromKeyFile($file, $password, $args);
+        $jwk = $this->getJwkFactory()
+            ->fromKeyFile($file, $password, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

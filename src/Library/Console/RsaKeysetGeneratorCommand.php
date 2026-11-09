@@ -38,7 +38,7 @@ final class RsaKeysetGeneratorCommand extends GeneratorCommand
         $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
-            $keyset = $keyset->with($this->jwkFactory->rsa($size, $args));
+            $keyset = $keyset->with($this->getJwkFactory()->rsa($size, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
 

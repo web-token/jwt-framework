@@ -31,7 +31,8 @@ final class MldsaKeyGeneratorCommand extends GeneratorCommand
         }
         $args = $this->getOptions($input);
 
-        $jwk = $this->jwkFactory->mldsa($algorithm, $args);
+        $jwk = $this->getJwkFactory()
+            ->mldsa($algorithm, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

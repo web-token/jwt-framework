@@ -31,7 +31,8 @@ final class EcKeyGeneratorCommand extends GeneratorCommand
         }
         $args = $this->getOptions($input);
 
-        $jwk = $this->jwkFactory->ec($curve, $args);
+        $jwk = $this->getJwkFactory()
+            ->ec($curve, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;
