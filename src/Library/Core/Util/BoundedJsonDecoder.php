@@ -7,13 +7,18 @@ namespace Jose\Component\Core\Util;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use SensitiveParameter;
 use function preg_replace;
+use function sprintf;
 use function str_replace;
 use function substr_count;
+use const JSON_ERROR_DEPTH;
 
 /**
  * Decodes the JSON documents of one token, which together may hold at most MAX_VALUES values. json_decode() only
  * limits the depth: a document of brackets decodes to a hundred times its size, and colliding member names make it
  * quadratic.
+ *
+ * A document rejected for the values it holds or for its depth is rejected with a message that names the bound; the
+ * other errors of json_decode() keep the exception of JsonConverter::decode().
  *
  * @internal
  */
@@ -23,14 +28,43 @@ final class BoundedJsonDecoder
 
     private int $remainingValues = self::MAX_VALUES;
 
+    private bool $exceededMaxDepth = false;
+
+    /**
+     * @throws InvalidArgumentException if the document is not valid JSON, if it is nested too deeply, or if the
+     *                                  documents given to this decoder hold more than MAX_VALUES values. The code of
+     *                                  the exception is that of the JSON error, 0 for the values.
+     */
     public function decode(#[SensitiveParameter] string $json): mixed
     {
         $this->remainingValues -= self::countValues($json);
         if ($this->remainingValues < 0) {
-            throw new InvalidArgumentException('Unsupported input.');
+            throw new InvalidArgumentException(sprintf(
+                'The JSON documents of the token hold more JSON values than the %d that are decoded.',
+                self::MAX_VALUES
+            ));
         }
+        try {
+            return JsonConverter::decode($json);
+        } catch (InvalidArgumentException $exception) {
+            if ($exception->getCode() !== JSON_ERROR_DEPTH) {
+                throw $exception;
+            }
+            $this->exceededMaxDepth = true;
+            throw new InvalidArgumentException(
+                'A JSON document of the token is nested too deeply.',
+                $exception->getCode(),
+                $exception->getPrevious()
+            );
+        }
+    }
 
-        return JsonConverter::decode($json);
+    /**
+     * Whether a document given to this decoder was rejected for its depth.
+     */
+    public function hasExceededMaxDepth(): bool
+    {
+        return $this->exceededMaxDepth;
     }
 
     /**
