@@ -67,7 +67,8 @@ use const SORT_STRING;
  * unprotected headers of the one to issue, and its payload is processed with them, as SDJWT::select() does. The bounds
  * are thus those of SDJWT::fromString(), the JSON values decoded with the Disclosures, and of the Disclosure
  * processing, the depth of the processed payload, in which an object counts with the levels of its JSON and a
- * Disclosable adds no level.
+ * Disclosable adds no level. In the JWS JSON serialization, the unprotected headers are parsed with the Disclosures:
+ * their JSON values count, and their depth is bounded.
  *
  * @see https://www.rfc-editor.org/rfc/rfc9901.html#section-4
  * @see https://www.rfc-editor.org/rfc/rfc9901.html#section-8
@@ -94,6 +95,16 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
      * parts are base64url strings, which hold no JSON value of their own.
      */
     private const PLACEHOLDER_PART = 'A';
+
+    /**
+     * The refusal of the claims whose SD-JWT holds more JSON values than the Holder and the Verifier decode. In the
+     * JWS JSON serialization, the values of the unprotected headers count with those of the Disclosures.
+     */
+    private const COMPACT_BUDGET_MESSAGE = 'The Disclosures of the SD-JWT hold more JSON values than the %d the Holder and the Verifier decode.';
+
+    private const JSON_BUDGET_MESSAGE = 'The Disclosures and the unprotected headers of the SD-JWT hold more JSON values than the %d the Holder and the Verifier decode.';
+
+    private const HEADER_DEPTH_MESSAGE = 'The unprotected headers of the SD-JWT are nested more deeply than the Holder and the Verifier decode.';
 
     private int $maximumDecoyDigests;
 
@@ -217,10 +228,10 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
         try {
             $sdJwt = SDJWT::fromString($placeholder->toString());
         } catch (InvalidSerializationException $exception) {
-            throw new InvalidArgumentException(sprintf(
-                'The Disclosures of the SD-JWT hold more JSON values than the %d the Holder and the Verifier decode.',
-                BoundedJsonDecoder::MAX_VALUES
-            ), 0, $exception);
+            $message = $placeholder->getSerialization() === CompactSerializer::NAME
+                ? self::COMPACT_BUDGET_MESSAGE
+                : self::JSON_BUDGET_MESSAGE;
+            throw new InvalidArgumentException(sprintf($message, BoundedJsonDecoder::MAX_VALUES), 0, $exception);
         }
         try {
             $sdJwt->select();
@@ -241,8 +252,14 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
      * An SD-JWT in the JWS JSON serialization with the given payload, signatures and Disclosures, whose protected
      * headers and signatures are placeholders: its JSON values are those of the SD-JWT to issue.
      *
+     * Before the Disclosures are added, the unprotected headers are its only JSON values besides its structure. Its
+     * JSON is decoded as the Holder and the Verifier decode it: since json_encode() wrote it, it can only be rejected
+     * for the values it holds or for its depth. It is then parsed, as they parse it.
+     *
      * @param array<IssuerSignature> $signatures
      * @param list<Disclosure> $disclosures
+     *
+     * @throws InvalidArgumentException if the Holder and the Verifier could not parse the unprotected headers
      */
     private static function placeholderJsonSdJwt(string $payload, array $signatures, array $disclosures): SDJWT
     {
@@ -264,8 +281,21 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
         $token += count($entries) === 1 ? $entries[0] : [
             'signatures' => $entries,
         ];
-
-        return SDJWT::create(JsonConverter::encode($token), $disclosures);
+        $json = JsonConverter::encode($token);
+        $decoder = new BoundedJsonDecoder();
+        try {
+            $decoder->decode($json);
+        } catch (InvalidArgumentException $exception) {
+            $message = $decoder->hasExceededMaxValues()
+                ? sprintf(self::JSON_BUDGET_MESSAGE, BoundedJsonDecoder::MAX_VALUES)
+                : self::HEADER_DEPTH_MESSAGE;
+            throw new InvalidArgumentException($message, 0, $exception);
+        }
+        try {
+            return SDJWT::create($json, $disclosures);
+        } catch (InvalidSerializationException $exception) {
+            throw new InvalidArgumentException($exception->getMessage(), 0, $exception);
+        }
     }
 
     /**
