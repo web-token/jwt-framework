@@ -34,7 +34,9 @@ final class DisclosureTest extends TestCase
 {
     private const MOBIUS = 'WyJfMjZiYzRMVC1hYzZxMktJNmNCVzVlcyIsICJmYW1pbHlfbmFtZSIsICJNw7ZiaXVzIl0';
 
-    private const UNPARSABLE = 'The value is nested too deeply or holds too many JSON values: its Disclosure could not be parsed.';
+    private const TOO_DEEP = 'The value is nested too deeply: its Disclosure could not be parsed.';
+
+    private const TOO_MANY_VALUES = 'The value holds too many JSON values: its Disclosure would hold more than the 4096 that are decoded.';
 
     /**
      * RFC 9901 section 4.2.1 and 4.2.3: the Disclosure of an object property and its digest.
@@ -206,32 +208,42 @@ final class DisclosureTest extends TestCase
 
     /**
      * The levels of a Disclosure are counted from its own array, for the arrays and the objects of the value alike, and
-     * its JSON values share one budget, as when Disclosure::fromString() parses it.
+     * its JSON values share one budget, as when Disclosure::fromString() parses it. The values are counted before the
+     * JSON is decoded: 10000 nested arrays are refused for their values.
      */
     #[Test]
     #[DataProvider('valuesBeyondTheBoundsOfTheParser')]
-    public function aValueWhoseDisclosureCannotBeParsedIsRefused(bool $property, string $shape, int $size): void
-    {
+    public function aValueWhoseDisclosureCannotBeParsedIsRefused(
+        bool $property,
+        string $shape,
+        int $size,
+        string $message
+    ): void {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(self::UNPARSABLE);
+        $this->expectExceptionMessage($message);
         $this->expectExceptionCode(0);
 
         self::create($property, self::value($shape, $size));
     }
 
     /**
-     * @return iterable<string, array{bool, string, int}>
+     * @return iterable<string, array{bool, string, int, string}>
      */
     public static function valuesBeyondTheBoundsOfTheParser(): iterable
     {
-        yield 'an array element of 511 nested arrays' => [false, 'arrays', 511];
-        yield 'an array element of 10000 nested arrays' => [false, 'arrays', 10000];
-        yield 'an array element of an object of 511 levels' => [false, 'object', 511];
-        yield 'an array element of 300 arrays around an object of 300 levels' => [false, 'arrays around an object', 300];
-        yield 'an array element of 4095 integers' => [false, 'integers', 4095];
-        yield 'an object property of 511 nested arrays' => [true, 'arrays', 511];
-        yield 'an object property of an object of 511 levels' => [true, 'object', 511];
-        yield 'an object property of 4094 integers' => [true, 'integers', 4094];
+        yield 'an array element of 511 nested arrays' => [false, 'arrays', 511, self::TOO_DEEP];
+        yield 'an array element of 10000 nested arrays' => [false, 'arrays', 10000, self::TOO_MANY_VALUES];
+        yield 'an array element of an object of 511 levels' => [false, 'object', 511, self::TOO_DEEP];
+        yield 'an array element of 300 arrays around an object of 300 levels' => [
+            false,
+            'arrays around an object',
+            300,
+            self::TOO_DEEP,
+        ];
+        yield 'an array element of 4095 integers' => [false, 'integers', 4095, self::TOO_MANY_VALUES];
+        yield 'an object property of 511 nested arrays' => [true, 'arrays', 511, self::TOO_DEEP];
+        yield 'an object property of an object of 511 levels' => [true, 'object', 511, self::TOO_DEEP];
+        yield 'an object property of 4094 integers' => [true, 'integers', 4094, self::TOO_MANY_VALUES];
     }
 
     #[Test]

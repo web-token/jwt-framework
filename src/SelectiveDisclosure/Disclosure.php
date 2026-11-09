@@ -245,7 +245,9 @@ final readonly class Disclosure implements Stringable
     }
 
     /**
-     * The JSON is decoded as Disclosure::fromString() decodes it, so that every Disclosure created can be parsed.
+     * The JSON is decoded as Disclosure::fromString() decodes it, so that every Disclosure created can be parsed. The
+     * decoder rejects it, before decoding it, when it holds more than BoundedJsonDecoder::MAX_VALUES values; otherwise,
+     * json_decode() can only reject it for its depth, since json_encode() wrote it.
      *
      * @throws InvalidArgumentException if the value cannot be serialized as JSON, or if the Disclosure could not be
      *                                  parsed
@@ -257,14 +259,14 @@ final readonly class Disclosure implements Stringable
         } catch (JsonException $exception) {
             throw new InvalidArgumentException('The value cannot be serialized as JSON.', 0, $exception);
         }
+        $decoder = new BoundedJsonDecoder();
         try {
-            (new BoundedJsonDecoder())->decode($json);
+            $decoder->decode($json);
         } catch (InvalidArgumentException $exception) {
-            throw new InvalidArgumentException(
-                'The value is nested too deeply or holds too many JSON values: its Disclosure could not be parsed.',
-                0,
-                $exception
-            );
+            throw new InvalidArgumentException($decoder->hasExceededMaxValues() ? sprintf(
+                'The value holds too many JSON values: its Disclosure would hold more than the %d that are decoded.',
+                BoundedJsonDecoder::MAX_VALUES
+            ) : 'The value is nested too deeply: its Disclosure could not be parsed.', 0, $exception);
         }
 
         return $json;
