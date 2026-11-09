@@ -578,6 +578,37 @@ final class SDJWTIssuerTest extends SelectiveDisclosureTestCase
     }
 
     /**
+     * The Holder and the Verifier could not parse the Disclosure of 600 nested arrays.
+     */
+    #[Test]
+    #[DataProvider('disclosablePositions')]
+    public function aDisclosableValueWhoseDisclosureCannotBeParsedIsRefused(bool $arrayElement): void
+    {
+        $value = 1;
+        for ($index = 0; $index < 600; ++$index) {
+            $value = [$value];
+        }
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value is nested too deeply or holds too many JSON values: its Disclosure could not be parsed.');
+
+        self::issuer()->issue([
+            'claim' => $arrayElement ? [new Disclosable($value)] : new Disclosable($value),
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+    }
+
+    /**
+     * @return iterable<string, array{bool}>
+     */
+    public static function disclosablePositions(): iterable
+    {
+        yield 'a claim' => [false];
+        yield 'an array element' => [true];
+    }
+
+    /**
      * @return array<string, mixed>
      */
     private static function claims(): array

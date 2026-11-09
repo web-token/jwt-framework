@@ -74,7 +74,8 @@ final readonly class Disclosure implements Stringable
     /**
      * Creates the Disclosure of an object property. The salt is generated when it is not given.
      *
-     * @throws InvalidArgumentException if the claim name is reserved or the value cannot be serialized as JSON
+     * @throws InvalidArgumentException if the claim name is reserved, if the value cannot be serialized as JSON, or if
+     *                                  the Disclosure could not be parsed
      */
     public static function forObjectProperty(string $claimName, mixed $value, ?string $salt = null): self
     {
@@ -93,7 +94,8 @@ final readonly class Disclosure implements Stringable
     /**
      * Creates the Disclosure of an array element. The salt is generated when it is not given.
      *
-     * @throws InvalidArgumentException if the value cannot be serialized as JSON
+     * @throws InvalidArgumentException if the value cannot be serialized as JSON, or if the Disclosure could not be
+     *                                  parsed
      */
     public static function forArrayElement(mixed $value, ?string $salt = null): self
     {
@@ -221,15 +223,29 @@ final readonly class Disclosure implements Stringable
     }
 
     /**
-     * @throws InvalidArgumentException if the value cannot be serialized as JSON
+     * The JSON is decoded as Disclosure::fromString() decodes it, so that every Disclosure created can be parsed.
+     *
+     * @throws InvalidArgumentException if the value cannot be serialized as JSON, or if the Disclosure could not be
+     *                                  parsed
      */
     private static function serialize(mixed $value): string
     {
         try {
-            return self::toJson(self::toJsonValue($value));
+            $json = self::toJson(self::toJsonValue($value));
         } catch (JsonException $exception) {
             throw new InvalidArgumentException('The value cannot be serialized as JSON.', 0, $exception);
         }
+        try {
+            (new BoundedJsonDecoder())->decode($json);
+        } catch (InvalidArgumentException $exception) {
+            throw new InvalidArgumentException(
+                'The value is nested too deeply or holds too many JSON values: its Disclosure could not be parsed.',
+                0,
+                $exception
+            );
+        }
+
+        return $json;
     }
 
     /**
