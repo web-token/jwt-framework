@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Jose\SelectiveDisclosure;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
+use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\Core\Util\NamedInformationHash;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
@@ -23,6 +26,7 @@ use function array_key_exists;
 use function array_map;
 use function array_splice;
 use function array_unique;
+use function array_values;
 use function count;
 use function in_array;
 use function is_array;
@@ -58,6 +62,13 @@ use const SORT_STRING;
  * unprotected header of the first signature. The unprotected headers cannot have the "disclosures" and "kb_jwt"
  * parameters themselves.
  *
+ * The claims whose SD-JWT the Holder and the Verifier of this library would reject are refused before signing: the
+ * Disclosures are parsed, as the Holder and the Verifier parse them, from an SD-JWT that has the serialization and the
+ * unprotected headers of the one to issue, and its payload is processed with them, as SDJWT::select() does. The bounds
+ * are thus those of SDJWT::fromString(), the JSON values decoded with the Disclosures, and of the Disclosure
+ * processing, the depth of the processed payload, in which an object counts with the levels of its JSON and a
+ * Disclosable adds no level.
+ *
  * @see https://www.rfc-editor.org/rfc/rfc9901.html#section-4
  * @see https://www.rfc-editor.org/rfc/rfc9901.html#section-8
  */
@@ -77,6 +88,12 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
      * The size, in bytes, of the random value a decoy digest is computed from.
      */
     private const DECOY_SIZE = 16;
+
+    /**
+     * A part of a JWS that stands for a protected header or a signature in the SD-JWT the bounds are checked on: the
+     * parts are base64url strings, which hold no JSON value of their own.
+     */
+    private const PLACEHOLDER_PART = 'A';
 
     private int $maximumDecoyDigests;
 
@@ -113,6 +130,7 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
     {
         self::checkProtectedHeader($this->jwsBuilder, $protectedHeader);
         [$payload, $disclosures] = $this->payload($claims);
+        self::checkBounds(SDJWT::create(self::placeholderCompactJws($payload), $disclosures));
         $jws = $this->jwsBuilder
             ->withPayload($payload)
             ->addSignature($signatureKey, $protectedHeader)
@@ -140,6 +158,7 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
             }
         }
         [$payload, $disclosures] = $this->payload($claims);
+        self::checkBounds(self::placeholderJsonSdJwt($payload, $signatures, $disclosures));
         $builder = $this->jwsBuilder->withPayload($payload);
         foreach ($signatures as $issuerSignature) {
             $builder = $builder->addSignature(
@@ -185,6 +204,68 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
         $payload['_sd_alg'] = $this->hashAlgorithm;
 
         return [JsonConverter::encode($payload), $disclosures];
+    }
+
+    /**
+     * Parses the given SD-JWT as the Holder and the Verifier would, then processes its payload with its Disclosures, as
+     * the Holder does to select them.
+     *
+     * @throws InvalidArgumentException if the Holder or the Verifier would reject the SD-JWT
+     */
+    private static function checkBounds(SDJWT $placeholder): void
+    {
+        try {
+            $sdJwt = SDJWT::fromString($placeholder->toString());
+        } catch (InvalidSerializationException $exception) {
+            throw new InvalidArgumentException(sprintf(
+                'The Disclosures of the SD-JWT hold more JSON values than the %d the Holder and the Verifier decode.',
+                BoundedJsonDecoder::MAX_VALUES
+            ), 0, $exception);
+        }
+        try {
+            $sdJwt->select();
+        } catch (InvalidTokenException $exception) {
+            throw new InvalidArgumentException($exception->getMessage(), 0, $exception);
+        }
+    }
+
+    /**
+     * A JWS in compact serialization with the given payload, whose protected header and signature are placeholders.
+     */
+    private static function placeholderCompactJws(string $payload): string
+    {
+        return self::PLACEHOLDER_PART . '.' . Base64UrlSafe::encodeUnpadded($payload) . '.' . self::PLACEHOLDER_PART;
+    }
+
+    /**
+     * An SD-JWT in the JWS JSON serialization with the given payload, signatures and Disclosures, whose protected
+     * headers and signatures are placeholders: its JSON values are those of the SD-JWT to issue.
+     *
+     * @param array<IssuerSignature> $signatures
+     * @param list<Disclosure> $disclosures
+     */
+    private static function placeholderJsonSdJwt(string $payload, array $signatures, array $disclosures): SDJWT
+    {
+        $entries = array_values(array_map(static function (IssuerSignature $signature): array {
+            $entry = [
+                'protected' => self::PLACEHOLDER_PART,
+            ];
+            if ($signature->getHeader() !== []) {
+                $entry['header'] = $signature->getHeader();
+            }
+
+            return $entry + [
+                'signature' => self::PLACEHOLDER_PART,
+            ];
+        }, $signatures));
+        $token = [
+            'payload' => Base64UrlSafe::encodeUnpadded($payload),
+        ];
+        $token += count($entries) === 1 ? $entries[0] : [
+            'signatures' => $entries,
+        ];
+
+        return SDJWT::create(JsonConverter::encode($token), $disclosures);
     }
 
     /**
