@@ -31,6 +31,7 @@ use function preg_match;
 use function random_bytes;
 use function sprintf;
 use function str_starts_with;
+use const JSON_ERROR_DEPTH;
 use const JSON_PRESERVE_ZERO_FRACTION;
 use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
@@ -113,7 +114,8 @@ final readonly class Disclosure implements Stringable
      * or from an array, and so whether it has the expected number of elements, is checked when the SD-JWT is
      * processed.
      *
-     * @throws InvalidSerializationException if the value is not a Disclosure
+     * @throws InvalidSerializationException if the value is not a Disclosure, if its JSON is nested too deeply, or if
+     *                                       it holds more than BoundedJsonDecoder::MAX_VALUES JSON values
      */
     public static function fromString(string $disclosure): self
     {
@@ -125,7 +127,8 @@ final readonly class Disclosure implements Stringable
      *
      * @internal
      *
-     * @throws InvalidSerializationException if the value is not a Disclosure
+     * @throws InvalidSerializationException if the value is not a Disclosure, if its JSON is nested too deeply, or if
+     *                                       its JSON values go beyond the budget of the decoder
      */
     public static function parse(string $disclosure, BoundedJsonDecoder $decoder): self
     {
@@ -140,7 +143,7 @@ final readonly class Disclosure implements Stringable
         try {
             $array = $decoder->decode($json);
         } catch (Throwable $throwable) {
-            throw new InvalidSerializationException('The Disclosure is not valid JSON.', 0, $throwable);
+            throw self::decodingFailure($decoder, $throwable);
         }
         if (! is_array($array) || ! str_starts_with(ltrim($json, " \t\n\r"), '[')
             || ! in_array(count($array), [2, 3], true)) {
@@ -220,6 +223,25 @@ final readonly class Disclosure implements Stringable
     private static function generateSalt(): string
     {
         return Base64UrlSafe::encodeUnpadded(random_bytes(self::SALT_SIZE));
+    }
+
+    /**
+     * Why the JSON of a Disclosure was not decoded. The decoder rejects it, before decoding it, when its values and
+     * those decoded before it by the same decoder go beyond the budget; otherwise, json_decode() rejected it, and
+     * JsonConverter::decode() gave its exception the code of the JSON error.
+     */
+    private static function decodingFailure(
+        BoundedJsonDecoder $decoder,
+        Throwable $throwable
+    ): InvalidSerializationException {
+        return new InvalidSerializationException(match (true) {
+            $decoder->hasExceededMaxValues() => sprintf(
+                'With this Disclosure, there are more than %d JSON values to decode.',
+                BoundedJsonDecoder::MAX_VALUES
+            ),
+            $throwable->getCode() === JSON_ERROR_DEPTH => 'The Disclosure is nested too deeply.',
+            default => 'The Disclosure is not valid JSON.',
+        }, 0, $throwable);
     }
 
     /**

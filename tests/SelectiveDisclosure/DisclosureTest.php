@@ -20,6 +20,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use function implode;
 use function range;
 use function str_repeat;
 use function strlen;
@@ -412,6 +413,35 @@ final class DisclosureTest extends TestCase
         yield 'null claim name' => [
             self::encode(['salt', null, 'value']),
             'The claim name of the Disclosure must be a string.',
+        ];
+    }
+
+    /**
+     * The JSON of these Disclosures is valid: the decoder rejects them for the values they hold or for their depth.
+     */
+    #[Test]
+    #[DataProvider('disclosuresBeyondTheBoundsOfTheDecoder')]
+    public function aDisclosureBeyondTheBoundsOfTheDecoderIsRejected(string $json, string $message): void
+    {
+        $this->expectException(InvalidSerializationException::class);
+        $this->expectExceptionMessage($message);
+        $this->expectExceptionCode(0);
+
+        Disclosure::fromString(Base64UrlSafe::encodeUnpadded($json));
+    }
+
+    /**
+     * @return iterable<string, array{string, string}>
+     */
+    public static function disclosuresBeyondTheBoundsOfTheDecoder(): iterable
+    {
+        yield 'more than 4096 JSON values' => [
+            '["salt", [' . implode(', ', range(1, 4095)) . ']]',
+            'With this Disclosure, there are more than 4096 JSON values to decode.',
+        ];
+        yield 'nested too deeply' => [
+            '["salt", ' . str_repeat('[', 511) . '1' . str_repeat(']', 511) . ']',
+            'The Disclosure is nested too deeply.',
         ];
     }
 
