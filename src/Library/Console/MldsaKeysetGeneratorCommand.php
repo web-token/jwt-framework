@@ -44,7 +44,7 @@ final class MldsaKeysetGeneratorCommand extends GeneratorCommand
         $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
-            $keyset = $keyset->with($this->jwkFactory->mldsa($algorithm, $args));
+            $keyset = $keyset->with($this->getJwkFactory()->mldsa($algorithm, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
 

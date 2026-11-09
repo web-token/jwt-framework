@@ -39,7 +39,7 @@ final class EcKeysetGeneratorCommand extends GeneratorCommand
         $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
-            $keyset = $keyset->with($this->jwkFactory->ec($curve, $args));
+            $keyset = $keyset->with($this->getJwkFactory()->ec($curve, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
 

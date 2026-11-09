@@ -42,7 +42,7 @@ final class OkpKeysetGeneratorCommand extends GeneratorCommand
         $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
-            $keyset = $keyset->with($this->jwkFactory->okp($curve, $args));
+            $keyset = $keyset->with($this->getJwkFactory()->okp($curve, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
 

@@ -38,7 +38,7 @@ final class OctKeysetGeneratorCommand extends GeneratorCommand
         $keyset = new JWKSet([]);
         for ($i = 0; $i < $quantity; ++$i) {
             $args = $this->getOptions($input);
-            $keyset = $keyset->with($this->jwkFactory->oct($size, $args));
+            $keyset = $keyset->with($this->getJwkFactory()->oct($size, $args));
         }
         $this->prepareJsonOutput($input, $output, $keyset);
 

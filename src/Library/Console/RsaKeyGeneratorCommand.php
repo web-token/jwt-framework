@@ -30,7 +30,8 @@ final class RsaKeyGeneratorCommand extends GeneratorCommand
             throw new InvalidArgumentException('Invalid size');
         }
 
-        $jwk = $this->jwkFactory->rsa($size, $args);
+        $jwk = $this->getJwkFactory()
+            ->rsa($size, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

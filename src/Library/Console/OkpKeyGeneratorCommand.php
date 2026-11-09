@@ -31,7 +31,8 @@ final class OkpKeyGeneratorCommand extends GeneratorCommand
         }
         $args = $this->getOptions($input);
 
-        $jwk = $this->jwkFactory->okp($curve, $args);
+        $jwk = $this->getJwkFactory()
+            ->okp($curve, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;

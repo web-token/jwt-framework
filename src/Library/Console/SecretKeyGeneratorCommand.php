@@ -52,7 +52,8 @@ final class SecretKeyGeneratorCommand extends GeneratorCommand
         }
         $args = $this->getOptions($input);
 
-        $jwk = $this->jwkFactory->fromSecret($secret, $args);
+        $jwk = $this->getJwkFactory()
+            ->fromSecret($secret, $args);
         $this->prepareJsonOutput($input, $output, $jwk);
 
         return self::SUCCESS;
