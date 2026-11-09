@@ -13,9 +13,13 @@ use Jose\SelectiveDisclosure\SDJWT;
 use JsonSerializable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use Throwable;
+use function array_diff;
 use function array_fill;
 use function array_map;
+use function array_values;
 use function count;
+use function range;
 use function sprintf;
 
 /**
@@ -30,6 +34,10 @@ final class IssuerBoundsTest extends SelectiveDisclosureTestCase
     private const DEPTH_MESSAGE = 'The processed payload of the SD-JWT is nested more than 64 levels deep.';
 
     private const BUDGET_MESSAGE = 'The Disclosures of the SD-JWT hold more JSON values than the 4096 the Holder and the Verifier decode.';
+
+    private const JSON_BUDGET_MESSAGE = 'The Disclosures and the unprotected headers of the SD-JWT hold more JSON values than the 4096 the Holder and the Verifier decode.';
+
+    private const HEADER_DEPTH_MESSAGE = 'The unprotected headers of the SD-JWT are nested more deeply than the Holder and the Verifier decode.';
 
     private const PROTECTED_HEADER = [
         'alg' => 'ES256',
@@ -120,9 +128,78 @@ final class IssuerBoundsTest extends SelectiveDisclosureTestCase
     public function disclosuresBeyondTheBudgetAreRefused(bool $json): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(self::BUDGET_MESSAGE);
+        $this->expectExceptionMessage($json ? self::JSON_BUDGET_MESSAGE : self::BUDGET_MESSAGE);
 
         self::issue(self::disclosableIntegers(2049), $json);
+    }
+
+    /**
+     * In the JWS JSON serialization, the unprotected headers are parsed with the Disclosures: the claims are refused
+     * when the Holder and the Verifier could not parse them, as the other claims they could not parse.
+     *
+     * @param array<mixed> $header
+     */
+    #[DataProvider('dataUnprotectedHeadersTheHolderAndTheVerifierReject')]
+    #[Test]
+    public function anUnprotectedHeaderTheHolderAndTheVerifierRejectIsRefused(
+        array $header,
+        bool $general,
+        string $message
+    ): void {
+        try {
+            self::issuer()->issueJson([
+                'iss' => 'https://issuer.example.com',
+            ], ...self::signatures($header, $general));
+        } catch (Throwable $exception) {
+            static::assertSame(InvalidArgumentException::class, $exception::class);
+            static::assertSame($message, $exception->getMessage());
+            static::assertSame(0, $exception->getCode());
+
+            return;
+        }
+        static::fail('The claims should have been refused.');
+    }
+
+    /**
+     * Around the depth and the number of values that the Holder and the Verifier decode, the Issuer issues an SD-JWT
+     * exactly when they can parse it, and refuses the others with an InvalidArgumentException.
+     */
+    #[DataProvider('dataJsonSerializations')]
+    #[Test]
+    public function anSdJwtWithUnprotectedHeadersIsIssuedExactlyWhenItCanBeParsed(bool $general): void
+    {
+        $headers = [];
+        for ($levels = 505; $levels <= 512; ++$levels) {
+            $headers[] = [
+                'x' => self::arrays(0, $levels),
+            ];
+        }
+        for ($count = 4080; $count <= 4100; ++$count) {
+            $headers[] = [
+                'x' => range(1, $count),
+            ];
+        }
+        $outcomes = [];
+        foreach ($headers as $header) {
+            try {
+                $sdJwt = self::issuer()->issueJson([
+                    'iss' => 'https://issuer.example.com',
+                ], ...self::signatures($header, $general));
+            } catch (Throwable $exception) {
+                $outcomes[] = $exception::class === InvalidArgumentException::class ? 'refused' : $exception::class;
+                continue;
+            }
+            try {
+                SDJWT::fromString($sdJwt->toString());
+                $outcomes[] = 'issued';
+            } catch (InvalidSerializationException) {
+                $outcomes[] = 'issued but not parsed';
+            }
+        }
+
+        static::assertSame([], array_values(array_diff($outcomes, ['issued', 'refused'])));
+        static::assertContains('issued', $outcomes);
+        static::assertContains('refused', $outcomes);
     }
 
     /**
@@ -202,6 +279,42 @@ final class IssuerBoundsTest extends SelectiveDisclosureTestCase
     }
 
     /**
+     * @return iterable<string, array{bool}>
+     */
+    public static function dataJsonSerializations(): iterable
+    {
+        yield 'flattened' => [false];
+        yield 'general' => [true];
+    }
+
+    /**
+     * The first signature of the general serialization has no unprotected header: the header of the second one is
+     * parsed as well.
+     *
+     * @return iterable<string, array{array<mixed>, bool, string}>
+     */
+    public static function dataUnprotectedHeadersTheHolderAndTheVerifierReject(): iterable
+    {
+        yield 'flattened, a list' => [['a', 'b'], false, 'The "header" member must be a JSON object.'];
+        yield 'general, a list' => [['a', 'b'], true, 'The "header" member must be a JSON object.'];
+        yield 'flattened, nested too deeply' => [[
+            'x' => self::arrays(0, 510),
+        ], false, self::HEADER_DEPTH_MESSAGE];
+        yield 'general, nested too deeply' => [[
+            'x' => self::arrays(0, 508),
+        ], true, self::HEADER_DEPTH_MESSAGE];
+        yield 'flattened, too many values' => [[
+            'x' => range(1, 5000),
+        ], false, self::JSON_BUDGET_MESSAGE];
+        yield 'general, too many values' => [[
+            'x' => range(1, 5000),
+        ], true, self::JSON_BUDGET_MESSAGE];
+        yield 'flattened, too many values with the "disclosures" parameter' => [[
+            'x' => range(1, 4090),
+        ], false, self::JSON_BUDGET_MESSAGE];
+    }
+
+    /**
      * @return iterable<string, array{array<string, mixed>, bool}>
      */
     public static function dataUnprotectedHeaders(): iterable
@@ -215,6 +328,23 @@ final class IssuerBoundsTest extends SelectiveDisclosureTestCase
             'kid' => 'key',
             'x' => [1, 2, 3],
         ], true];
+    }
+
+    /**
+     * @param array<mixed> $header
+     *
+     * @return list<IssuerSignature>
+     */
+    private static function signatures(array $header, bool $general): array
+    {
+        if (! $general) {
+            return [new IssuerSignature(self::issuerKey(), self::PROTECTED_HEADER, $header)];
+        }
+
+        return [
+            new IssuerSignature(self::issuerKey(), self::PROTECTED_HEADER),
+            new IssuerSignature(self::issuerKey(), self::PROTECTED_HEADER, $header),
+        ];
     }
 
     /**
