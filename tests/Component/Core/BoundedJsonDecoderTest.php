@@ -6,17 +6,24 @@ namespace Jose\Tests\Component\Core;
 
 use InvalidArgumentException;
 use Jose\Component\Core\Util\BoundedJsonDecoder;
+use JsonException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function intdiv;
 use function str_repeat;
+use const JSON_ERROR_DEPTH;
+use const JSON_ERROR_SYNTAX;
 
 /**
  * @internal
  */
 final class BoundedJsonDecoderTest extends TestCase
 {
+    private const TOO_MANY_VALUES = 'The JSON documents of the token hold more JSON values than the 4096 that are decoded.';
+
+    private const TOO_DEEP = 'A JSON document of the token is nested too deeply.';
+
     #[Test]
     public function aDocumentAtTheBoundIsDecoded(): void
     {
@@ -34,7 +41,7 @@ final class BoundedJsonDecoderTest extends TestCase
             (new BoundedJsonDecoder())->decode($document);
             static::fail('The document should have been rejected.');
         } catch (InvalidArgumentException $e) {
-            static::assertSame('Unsupported input.', $e->getMessage());
+            static::assertSame(self::TOO_MANY_VALUES, $e->getMessage());
             static::assertNull($e->getPrevious());
         }
     }
@@ -54,6 +61,49 @@ final class BoundedJsonDecoderTest extends TestCase
         }
 
         static::assertTrue($json->hasExceededMaxValues());
+        static::assertFalse($json->hasExceededMaxDepth());
+    }
+
+    /**
+     * The decoder names the bound and keeps the code and the error of json_decode().
+     */
+    #[Test]
+    public function aDocumentNestedTooDeeplyIsRejectedForItsDepth(): void
+    {
+        $json = new BoundedJsonDecoder();
+        $json->decode('[[0]]');
+
+        static::assertFalse($json->hasExceededMaxDepth());
+
+        try {
+            $json->decode(str_repeat('[', 600) . str_repeat(']', 600));
+            static::fail('The document should have been rejected.');
+        } catch (InvalidArgumentException $e) {
+            static::assertSame(self::TOO_DEEP, $e->getMessage());
+            static::assertSame(JSON_ERROR_DEPTH, $e->getCode());
+            static::assertInstanceOf(JsonException::class, $e->getPrevious());
+            static::assertSame('Maximum stack depth exceeded', $e->getPrevious()->getMessage());
+        }
+
+        static::assertTrue($json->hasExceededMaxDepth());
+        static::assertFalse($json->hasExceededMaxValues());
+    }
+
+    #[Test]
+    public function anInvalidDocumentKeepsTheErrorOfTheJsonConverter(): void
+    {
+        $json = new BoundedJsonDecoder();
+
+        try {
+            $json->decode('[0,');
+            static::fail('The document should have been rejected.');
+        } catch (InvalidArgumentException $e) {
+            static::assertSame('Unsupported input.', $e->getMessage());
+            static::assertSame(JSON_ERROR_SYNTAX, $e->getCode());
+        }
+
+        static::assertFalse($json->hasExceededMaxDepth());
+        static::assertFalse($json->hasExceededMaxValues());
     }
 
     #[Test]
@@ -84,7 +134,7 @@ final class BoundedJsonDecoderTest extends TestCase
     public function nestedContainersAreCounted(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessage(self::TOO_MANY_VALUES);
 
         $group = str_repeat('[', 100) . str_repeat(']', 100);
         (new BoundedJsonDecoder())->decode('{"x":[' . str_repeat($group . ',', 41) . '0]}');
@@ -108,7 +158,7 @@ final class BoundedJsonDecoderTest extends TestCase
     public function aStringEndingWithAnEscapedBackslashDoesNotHideTheValuesThatFollowIt(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessage(self::TOO_MANY_VALUES);
 
         (new BoundedJsonDecoder())->decode(
             '["\\\\",[' . str_repeat('0,', BoundedJsonDecoder::MAX_VALUES) . '0],"\\\\"]'
@@ -126,7 +176,7 @@ final class BoundedJsonDecoderTest extends TestCase
 
         static::assertCount($half, (new BoundedJsonDecoder())->decode($document));
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessage(self::TOO_MANY_VALUES);
 
         $json->decode('[]');
     }

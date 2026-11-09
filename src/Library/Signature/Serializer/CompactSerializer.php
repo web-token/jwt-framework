@@ -62,6 +62,9 @@ final readonly class CompactSerializer extends Serializer
      * detect and reject any longer input. Without that bound, a delimiter-heavy string would be expanded into one
      * array entry per delimiter before the segment count is checked, which costs about twenty-five times the size
      * of the input in memory.
+     *
+     * A protected header that holds too many JSON values or is nested too deeply is rejected with the message of the
+     * JSON decoder, which names the bound; any other failure is an unsupported input.
      */
     #[Override]
     public function unserialize(#[SensitiveParameter] string $input): JWS
@@ -71,9 +74,10 @@ final readonly class CompactSerializer extends Serializer
             throw new InvalidSerializationException('Unsupported input');
         }
 
+        $decoder = new BoundedJsonDecoder();
         try {
             $encodedProtectedHeader = $parts[0];
-            $protectedHeader = (new BoundedJsonDecoder())->decode(Base64UrlSafe::decodeNoPadding($parts[0]));
+            $protectedHeader = $decoder->decode(Base64UrlSafe::decodeNoPadding($parts[0]));
             if (! is_array($protectedHeader)) {
                 throw new InvalidSerializationException('Bad protected header.');
             }
@@ -93,7 +97,13 @@ final readonly class CompactSerializer extends Serializer
 
             return $jws->addSignature($signature, $protectedHeader, $encodedProtectedHeader);
         } catch (Throwable $throwable) {
-            throw new InvalidSerializationException('Unsupported input', $throwable->getCode(), $throwable);
+            throw new InvalidSerializationException(
+                $decoder->hasExceededMaxValues() || $decoder->hasExceededMaxDepth()
+                    ? $throwable->getMessage()
+                    : 'Unsupported input',
+                $throwable->getCode(),
+                $throwable
+            );
         }
     }
 }

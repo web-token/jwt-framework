@@ -22,12 +22,17 @@ use function random_bytes;
 use function range;
 use function sprintf;
 use function str_repeat;
+use const JSON_ERROR_DEPTH;
 
 /**
  * @internal
  */
 final class JsonValueBoundTest extends EncryptionTestCase
 {
+    private const TOO_MANY_VALUES = 'The JSON documents of the token hold more JSON values than the 4096 that are decoded.';
+
+    private const TOO_DEEP = 'A JSON document of the token is nested too deeply.';
+
     /**
      * The member names are multiples of 131072: they all fall into the first bucket of a PHP array.
      */
@@ -48,9 +53,39 @@ final class JsonValueBoundTest extends EncryptionTestCase
         $token = $serializer->serialize($jwe, 0);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input');
+        $this->expectExceptionMessage(self::TOO_MANY_VALUES);
 
         $serializer->unserialize($token);
+    }
+
+    /**
+     * The protected header and the JSON document are decoded with a depth of 512, as by the JSON converter: the token
+     * is rejected with the code of the JSON error.
+     */
+    #[DataProvider('dataTokensNestedTooDeeply')]
+    #[Test]
+    public function aTokenNestedTooDeeplyIsRejected(JWESerializer $serializer, string $token): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(self::TOO_DEEP);
+        $this->expectExceptionCode(JSON_ERROR_DEPTH);
+
+        $serializer->unserialize($token);
+    }
+
+    #[DataProvider('dataInvalidJsonDocuments')]
+    #[Test]
+    public function aTokenWhoseJsonIsInvalidIsAnUnsupportedInput(
+        JWESerializer $serializer,
+        string $token,
+        string $message
+    ): void {
+        try {
+            $serializer->unserialize($token);
+            static::fail('The token should have been rejected.');
+        } catch (InvalidArgumentException $e) {
+            static::assertSame($message, $e->getMessage());
+        }
     }
 
     #[DataProvider('dataJsonSerializers')]
@@ -72,7 +107,7 @@ final class JsonValueBoundTest extends EncryptionTestCase
         $token = $serializer->serialize($jwe, 0);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessage(self::TOO_MANY_VALUES);
 
         $serializer->unserialize($token);
     }
@@ -94,7 +129,7 @@ final class JsonValueBoundTest extends EncryptionTestCase
             $serializer->unserialize($token);
             static::fail('The token should have been rejected.');
         } catch (InvalidArgumentException $e) {
-            static::assertStringStartsWith('Unsupported input', $e->getMessage());
+            static::assertSame(self::TOO_MANY_VALUES, $e->getMessage());
         }
 
         static::assertLessThan(8_000_000, memory_get_peak_usage() - $before);
@@ -141,6 +176,61 @@ final class JsonValueBoundTest extends EncryptionTestCase
     {
         yield 'flattened' => [new JSONFlattenedSerializer()];
         yield 'general' => [new JSONGeneralSerializer()];
+    }
+
+    /**
+     * Six hundred nested arrays hold far fewer values than the bound.
+     *
+     * @return iterable<string, array{JWESerializer, string}>
+     */
+    public static function dataTokensNestedTooDeeply(): iterable
+    {
+        $arrays = str_repeat('[', 600) . str_repeat(']', 600);
+        $protectedHeader = Base64UrlSafe::encodeUnpadded('{"alg":"A128KW","enc":"A128GCM"}');
+        $deepProtectedHeader = Base64UrlSafe::encodeUnpadded('{"alg":"A128KW","enc":"A128GCM","x":' . $arrays . '}');
+        $parts = '"iv":"AAAA","ciphertext":"AAAA","tag":"AAAA"';
+
+        yield 'compact, protected header' => [new CompactSerializer(), $deepProtectedHeader . '.AAAA.AAAA.AAAA.AAAA'];
+        yield 'flattened, protected header' => [
+            new JSONFlattenedSerializer(),
+            sprintf('{"protected":"%s","encrypted_key":"AAAA",%s}', $deepProtectedHeader, $parts),
+        ];
+        yield 'flattened, unprotected header' => [
+            new JSONFlattenedSerializer(),
+            sprintf(
+                '{"protected":"%s","unprotected":{"x":%s},"encrypted_key":"AAAA",%s}',
+                $protectedHeader,
+                $arrays,
+                $parts
+            ),
+        ];
+        yield 'general, protected header' => [
+            new JSONGeneralSerializer(),
+            sprintf('{"protected":"%s","recipients":[{"encrypted_key":"AAAA"}],%s}', $deepProtectedHeader, $parts),
+        ];
+        yield 'general, unprotected header' => [
+            new JSONGeneralSerializer(),
+            sprintf(
+                '{"protected":"%s","unprotected":{"x":%s},"recipients":[{"encrypted_key":"AAAA"}],%s}',
+                $protectedHeader,
+                $arrays,
+                $parts
+            ),
+        ];
+    }
+
+    /**
+     * @return iterable<string, array{JWESerializer, string, string}>
+     */
+    public static function dataInvalidJsonDocuments(): iterable
+    {
+        yield 'compact, protected header' => [
+            new CompactSerializer(),
+            Base64UrlSafe::encodeUnpadded('{"alg":') . '.AAAA.AAAA.AAAA.AAAA',
+            'Unsupported input',
+        ];
+        yield 'flattened' => [new JSONFlattenedSerializer(), '{"protected":', 'Unsupported input.'];
+        yield 'general' => [new JSONGeneralSerializer(), '{"protected":', 'Unsupported input.'];
     }
 
     /**
