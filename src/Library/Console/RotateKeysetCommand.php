@@ -54,7 +54,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         if (! is_string($jwkset)) {
             throw new InvalidKeySetException('Invalid JWKSet');
         }
-        $json = JsonConverter::decode($jwkset);
+        $json = JsonConverter::decode($jwkset, true);
         if (! is_array($json)) {
             throw new InvalidKeySetException('Invalid JWKSet');
         }
@@ -68,7 +68,7 @@ final class RotateKeysetCommand extends ObjectOutputCommand
         if (! is_string($jwk)) {
             throw new InvalidKeyException('Invalid JWK');
         }
-        $json = JsonConverter::decode($jwk);
+        $json = JsonConverter::decode($jwk, true);
         if (! is_array($json)) {
             throw new InvalidKeyException('Invalid JWK');
         }

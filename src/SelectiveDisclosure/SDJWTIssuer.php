@@ -311,7 +311,7 @@ final readonly class SDJWTIssuer implements SDJWTIssuerInterface
             throw new InvalidArgumentException('A Disclosable cannot be the value of another Disclosable.');
         }
         if (is_object($value) && ($value instanceof JsonSerializable || ! $value instanceof UnitEnum)) {
-            self::checkClaimNames(JsonConverter::decode(JsonConverter::encode($value)));
+            self::checkClaimNames(JsonConverter::decode(JsonConverter::encode($value), true));
         }
         if (! is_array($value)) {
             return $value;

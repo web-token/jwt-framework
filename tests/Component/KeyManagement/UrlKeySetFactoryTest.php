@@ -63,7 +63,7 @@ final class UrlKeySetFactoryTest extends TestCase
     public function theJWKUrlIsValidButDoesNotContainAKeySet(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessage('The JSON document is not valid: Syntax error.');
 
         $response = new MockResponse('Hello World!', [
             'http_code' => 200,
@@ -110,7 +110,7 @@ final class UrlKeySetFactoryTest extends TestCase
     public function theX509UrlIsValidButDoesNotContainAKeySet(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unsupported input.');
+        $this->expectExceptionMessage('The JSON document is not valid: Syntax error.');
 
         $response = new MockResponse('Hello World!', [
             'http_code' => 200,

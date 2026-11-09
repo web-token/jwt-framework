@@ -8,10 +8,12 @@ use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\JsonBoundExceededException;
 use Jose\Component\Core\Exception\UnrecognizedSerializationException;
 use SensitiveParameter;
+use function is_bool;
 use function preg_replace;
 use function sprintf;
 use function str_replace;
 use function substr_count;
+use function trigger_deprecation;
 use const JSON_ERROR_DEPTH;
 
 /**
@@ -48,10 +50,14 @@ final class BoundedJsonDecoder
             ));
         }
         try {
-            return JsonConverter::decode($json);
+            return JsonConverter::decode($json, true);
         } catch (InvalidArgumentException $exception) {
             if ($exception->getCode() !== JSON_ERROR_DEPTH) {
-                throw $exception;
+                throw new InvalidArgumentException(
+                    'Unsupported input.',
+                    $exception->getCode(),
+                    $exception->getPrevious()
+                );
             }
             $this->exceededMaxDepth = true;
             throw new JsonBoundExceededException(
@@ -100,6 +106,52 @@ final class BoundedJsonDecoder
     public function hasExceededMaxValues(): bool
     {
         return $this->remainingValues < 0;
+    }
+
+    /**
+     * Applies the second argument of a public method that decodes a JSON document on its own, read with
+     * func_get_arg(1) until it is part of the signature in 5.0.0: true decodes a document of any number of values,
+     * false refuses a document of more than MAX_VALUES values, and null, or no argument, decodes such a document with
+     * a deprecation, as 5.0.0 refuses it by default.
+     *
+     * @param string $method the method that decodes the document, such as "Jose\Component\Core\JWK::createFromJson"
+     *
+     * @throws InvalidArgumentException if the argument is neither a boolean nor null
+     * @throws JsonBoundExceededException if the argument is false and the document holds more than MAX_VALUES values
+     */
+    public static function checkDocument(#[SensitiveParameter] string $json, mixed $unbounded, string $method): void
+    {
+        if ($unbounded !== null && ! is_bool($unbounded)) {
+            throw new InvalidArgumentException(sprintf(
+                'The second argument of "%s()" must be a boolean: true decodes a document of any number of values, false refuses one of more than %d.',
+                $method,
+                self::MAX_VALUES
+            ));
+        }
+        if ($unbounded === true || ! self::exceedsMaxValues($json)) {
+            return;
+        }
+        if ($unbounded === false) {
+            throw new JsonBoundExceededException(sprintf(
+                'The JSON document holds more JSON values than the %d that are decoded.',
+                self::MAX_VALUES
+            ));
+        }
+        trigger_deprecation(
+            'web-token/jwt-framework',
+            '4.3.0',
+            'Decoding a JSON document of more than %d values is deprecated and "%s()" will refuse it by default in 5.0.0. Pass true as the second argument to keep decoding it, or false to refuse it now.',
+            self::MAX_VALUES,
+            $method
+        );
+    }
+
+    /**
+     * Whether a JSON document holds more than MAX_VALUES values, counted as decode() counts them.
+     */
+    public static function exceedsMaxValues(#[SensitiveParameter] string $json): bool
+    {
+        return self::countValues($json) > self::MAX_VALUES;
     }
 
     /**

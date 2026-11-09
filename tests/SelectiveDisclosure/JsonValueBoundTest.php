@@ -103,6 +103,44 @@ final class JsonValueBoundTest extends SelectiveDisclosureTestCase
         static::assertLessThan(8_000_000, memory_get_peak_usage() - $before);
     }
 
+    /**
+     * The Issuer signs the payload of the Issuer-signed JWT, which holds a digest for each Disclosure: the Holder and the
+     * Verifier decode it without the bound of the JSON documents of a token.
+     */
+    /**
+     * The Issuer looks for the reserved claim names in the JSON of an object it issues in clear, which it decodes
+     * without bound.
+     */
+    #[Test]
+    public function anObjectOfMoreThan4096ValuesIsIssuedInClear(): void
+    {
+        $sdJwt = self::issuer()->issue([
+            'iss' => 'https://issuer.example.com',
+            'claim' => (object) [
+                'values' => range(1, 5000),
+            ],
+        ], self::issuerKey(), [
+            'alg' => 'ES256',
+        ]);
+
+        static::assertCount(
+            5000,
+            self::verifier()->verify($sdJwt->toString(), self::issuerKey()->toPublic())->getClaims()['claim']['values']
+        );
+    }
+
+    #[Test]
+    public function anIssuerSignedJwtOfMoreThan4096ValuesIsProcessedAndVerified(): void
+    {
+        $token = self::token(self::sign(self::claims(5000)));
+
+        static::assertSame('sha-256', SDJWT::fromString($token)->getHashAlgorithm());
+        static::assertCount(
+            5000,
+            self::verifier()->verify($token, self::issuerKey()->toPublic())->getClaims()['claim']
+        );
+    }
+
     public static function dataSerializations(): iterable
     {
         yield 'compact' => [false, 1300, 1400];
@@ -161,5 +199,18 @@ final class JsonValueBoundTest extends SelectiveDisclosureTestCase
             self::sign($payload),
             $disclosures
         );
+    }
+
+    /**
+     * Claims whose JSON holds the given number of integers, and a few more values.
+     *
+     * @return array<string, mixed>
+     */
+    private static function claims(int $integers): array
+    {
+        return [
+            'iss' => 'https://issuer.example.com',
+            'claim' => range(1, $integers),
+        ];
     }
 }

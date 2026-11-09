@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Tests\SelectiveDisclosure;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
@@ -17,6 +18,7 @@ use Jose\SelectiveDisclosure\SDJWTVerifier;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use function array_slice;
+use function range;
 
 /**
  * The verification of RFC 9901 sections 7.1 and 7.3. Every rejection is checked against an SD-JWT that is otherwise
@@ -461,6 +463,29 @@ final class SDJWTVerifierTest extends SelectiveDisclosureTestCase
         ], $key));
 
         self::assertRejected('The Key Binding JWT must be signed with a digital signature algorithm.', static fn () => self::verifier()->verifyWithKeyBinding($presentation, self::issuerKey(), self::AUDIENCE, self::NONCE));
+    }
+
+    /**
+     * The Holder signs the Key Binding JWT, whose payload holds a few claims: it is decoded with the bound of the JSON
+     * documents of a token, while the payload of the Issuer-signed JWT is not.
+     */
+    #[Test]
+    public function aKeyBindingJwtOfMoreThan4096ValuesIsRejected(): void
+    {
+        $sdJwt = SDJWT::fromString(self::token(self::sign([
+            'cnf' => [
+                'jwk' => self::holderKey()->toPublic()->all(),
+            ],
+        ])));
+        $presentation = self::token($sdJwt->getIssuerSignedJwt(), [], self::keyBindingJwt($sdJwt, [
+            'x' => range(1, 5000),
+        ]));
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The payload of the Key Binding JWT cannot be decoded.');
+        $this->expectExceptionCode(0);
+
+        self::verifier()->verifyWithKeyBinding($presentation, self::issuerKey(), self::AUDIENCE, self::NONCE);
     }
 
     #[Test]

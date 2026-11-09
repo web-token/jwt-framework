@@ -54,7 +54,7 @@ final class GetThumbprintCommand extends ObjectOutputCommand
         if (! is_string($hash)) {
             throw new InvalidArgumentException('Invalid hash algorithm');
         }
-        $json = JsonConverter::decode($jwk);
+        $json = JsonConverter::decode($jwk, true);
         if (! is_array($json)) {
             throw new InvalidArgumentException('Invalid input.');
         }

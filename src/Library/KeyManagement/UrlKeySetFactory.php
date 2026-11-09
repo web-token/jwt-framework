@@ -41,5 +41,6 @@ abstract class UrlKeySetFactory
 
         $this->client = $client;
         $this->followRedirects = true;
+        $this->allowLargeKeySets = null;
     }
 }

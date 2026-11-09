@@ -35,7 +35,7 @@ final class MergeKeysetCommand extends ObjectOutputCommand
         $keySets = $input->getArgument('jwksets');
         $newJwkset = new JWKSet([]);
         foreach ($keySets as $keySet) {
-            $json = JsonConverter::decode($keySet);
+            $json = JsonConverter::decode($keySet, true);
             if (! is_array($json)) {
                 throw new InvalidKeySetException('The argument must be a valid JWKSet.');
             }

@@ -578,14 +578,18 @@ final readonly class SDJWT implements Stringable
     }
 
     /**
-     * Decodes the payload of the Issuer-signed JWT, without verifying its signature.
+     * Decodes the payload of the Issuer-signed JWT, without verifying its signature. The Issuer signs it, and it holds
+     * a digest for each Disclosure: it is not bounded as the JSON documents of a token are.
      *
      * @return array<mixed>
      */
     private function payload(): array
     {
         try {
-            $payload = JsonConverter::decode(Base64UrlSafe::decodeNoPadding(explode('.', $this->issuerSignedJwt)[1]));
+            $payload = JsonConverter::decode(
+                Base64UrlSafe::decodeNoPadding(explode('.', $this->issuerSignedJwt)[1]),
+                true
+            );
         } catch (Throwable $throwable) {
             throw new InvalidTokenException('The payload of the Issuer-signed JWT cannot be decoded.', 0, $throwable);
         }
