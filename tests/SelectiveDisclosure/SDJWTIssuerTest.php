@@ -590,7 +590,7 @@ final class SDJWTIssuerTest extends SelectiveDisclosureTestCase
         }
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The value is nested too deeply or holds too many JSON values: its Disclosure could not be parsed.');
+        $this->expectExceptionMessage('The value is nested too deeply: its Disclosure could not be parsed.');
 
         self::issuer()->issue([
             'claim' => $arrayElement ? [new Disclosable($value)] : new Disclosable($value),
