@@ -18,6 +18,7 @@ use Jose\Component\Core\Exception\InvalidPayloadException;
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Exception\InvalidTokenException;
 use Jose\Component\Core\Exception\JoseException;
+use Jose\Component\Core\Exception\JsonBoundExceededException;
 use Jose\Component\Core\Exception\LogicException as JoseLogicException;
 use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Exception\MissingPayloadException;
@@ -66,6 +67,7 @@ final class JoseExceptionTest extends TestCase
         InvalidPayloadException::class => InvalidArgumentException::class,
         InvalidSerializationException::class => InvalidArgumentException::class,
         InvalidTokenException::class => RuntimeException::class,
+        JsonBoundExceededException::class => InvalidArgumentException::class,
         JoseLogicException::class => LogicException::class,
         MissingDependencyException::class => RuntimeException::class,
         MissingPayloadLogicException::class => LogicException::class,

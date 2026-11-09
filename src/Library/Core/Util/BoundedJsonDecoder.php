@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Core\Util;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\JsonBoundExceededException;
 use SensitiveParameter;
 use function preg_replace;
 use function sprintf;
@@ -17,8 +18,8 @@ use const JSON_ERROR_DEPTH;
  * limits the depth: a document of brackets decodes to a hundred times its size, and colliding member names make it
  * quadratic.
  *
- * A document rejected for the values it holds or for its depth is rejected with a message that names the bound; the
- * other errors of json_decode() keep the exception of JsonConverter::decode().
+ * A document rejected for the values it holds or for its depth is rejected with a JsonBoundExceededException, whose
+ * message names the bound; the other errors of json_decode() keep the exception of JsonConverter::decode().
  *
  * @internal
  */
@@ -31,15 +32,16 @@ final class BoundedJsonDecoder
     private bool $exceededMaxDepth = false;
 
     /**
-     * @throws InvalidArgumentException if the document is not valid JSON, if it is nested too deeply, or if the
-     *                                  documents given to this decoder hold more than MAX_VALUES values. The code of
-     *                                  the exception is that of the JSON error, 0 for the values.
+     * @throws JsonBoundExceededException if the document is nested too deeply, or if the documents given to this
+     *                                    decoder hold more than MAX_VALUES values. The code of the exception is that of
+     *                                    the JSON error, 0 for the values.
+     * @throws InvalidArgumentException if the document is not valid JSON
      */
     public function decode(#[SensitiveParameter] string $json): mixed
     {
         $this->remainingValues -= self::countValues($json);
         if ($this->remainingValues < 0) {
-            throw new InvalidArgumentException(sprintf(
+            throw new JsonBoundExceededException(sprintf(
                 'The JSON documents of the token hold more JSON values than the %d that are decoded.',
                 self::MAX_VALUES
             ));
@@ -51,7 +53,7 @@ final class BoundedJsonDecoder
                 throw $exception;
             }
             $this->exceededMaxDepth = true;
-            throw new InvalidArgumentException(
+            throw new JsonBoundExceededException(
                 'A JSON document of the token is nested too deeply.',
                 $exception->getCode(),
                 $exception->getPrevious()
