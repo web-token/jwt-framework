@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Core;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Exception\JsonBoundExceededException;
 use Jose\Component\Core\Util\BoundedJsonDecoder;
 use JsonException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -100,10 +101,32 @@ final class BoundedJsonDecoderTest extends TestCase
         } catch (InvalidArgumentException $e) {
             static::assertSame('Unsupported input.', $e->getMessage());
             static::assertSame(JSON_ERROR_SYNTAX, $e->getCode());
+            static::assertNotInstanceOf(JsonBoundExceededException::class, $e);
         }
 
         static::assertFalse($json->hasExceededMaxDepth());
         static::assertFalse($json->hasExceededMaxValues());
+    }
+
+    /**
+     * The class of the exception tells the two bounds apart from invalid JSON, whatever its message.
+     */
+    #[Test]
+    #[DataProvider('documentsBeyondABound')]
+    public function aDocumentBeyondABoundIsRejectedWithAJsonBoundExceededException(string $document): void
+    {
+        $this->expectException(JsonBoundExceededException::class);
+
+        (new BoundedJsonDecoder())->decode($document);
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function documentsBeyondABound(): iterable
+    {
+        yield 'more than 4096 values' => ['[' . str_repeat('0,', BoundedJsonDecoder::MAX_VALUES) . '0]'];
+        yield 'nested too deeply' => [str_repeat('[', 600) . str_repeat(']', 600)];
     }
 
     #[Test]

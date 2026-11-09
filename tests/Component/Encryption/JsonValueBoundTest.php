@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Tests\Component\Encryption;
 
 use InvalidArgumentException;
+use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\BoundedJsonDecoder;
@@ -12,6 +13,7 @@ use Jose\Component\Encryption\Serializer\CompactSerializer;
 use Jose\Component\Encryption\Serializer\JSONFlattenedSerializer;
 use Jose\Component\Encryption\Serializer\JSONGeneralSerializer;
 use Jose\Component\Encryption\Serializer\JWESerializer;
+use Jose\Component\Encryption\Serializer\JWESerializerManager;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use function array_fill_keys;
@@ -71,6 +73,30 @@ final class JsonValueBoundTest extends EncryptionTestCase
         $this->expectExceptionCode(JSON_ERROR_DEPTH);
 
         $serializer->unserialize($token);
+    }
+
+    /**
+     * Only the serializer of the format of the token decodes it far enough to reach a bound of the JSON decoder: the
+     * manager chains its exception, whatever the order of the serializers. Without such an exception, it chains the
+     * exception of the last serializer.
+     *
+     * @param list<JWESerializer> $serializers
+     */
+    #[DataProvider('dataTokensForTheSerializerManager')]
+    #[Test]
+    public function theSerializerManagerChainsTheExceptionOfTheBound(
+        array $serializers,
+        string $token,
+        string $message
+    ): void {
+        try {
+            (new JWESerializerManager($serializers))->unserialize($token);
+            static::fail('The token should have been rejected.');
+        } catch (InvalidSerializationException $e) {
+            static::assertSame('Unsupported input.', $e->getMessage());
+            static::assertSame(0, $e->getCode());
+            static::assertSame($message, $e->getPrevious()?->getMessage());
+        }
     }
 
     #[DataProvider('dataInvalidJsonDocuments')]
@@ -216,6 +242,63 @@ final class JsonValueBoundTest extends EncryptionTestCase
                 $arrays,
                 $parts
             ),
+        ];
+    }
+
+    /**
+     * @return iterable<string, array{list<JWESerializer>, string, string}>
+     */
+    public static function dataTokensForTheSerializerManager(): iterable
+    {
+        $compactFirst = [new CompactSerializer(), new JSONFlattenedSerializer(), new JSONGeneralSerializer()];
+        $compactLast = [new JSONFlattenedSerializer(), new JSONGeneralSerializer(), new CompactSerializer()];
+        $values = '[' . str_repeat('0,', BoundedJsonDecoder::MAX_VALUES) . '0]';
+        $arrays = str_repeat('[', 600) . str_repeat(']', 600);
+        $manyValues = Base64UrlSafe::encodeUnpadded('{"alg":"A128KW","enc":"A128GCM","x":' . $values . '}');
+        $deep = Base64UrlSafe::encodeUnpadded('{"alg":"A128KW","enc":"A128GCM","x":' . $arrays . '}');
+        $parts = '"encrypted_key":"AAAA","iv":"AAAA","ciphertext":"AAAA","tag":"AAAA"';
+        $flattened = static fn (string $protectedHeader): string => sprintf(
+            '{"protected":"%s",%s}',
+            $protectedHeader,
+            $parts
+        );
+        $document = sprintf(
+            '{"protected":"%s","unprotected":{"x":%s},%s}',
+            Base64UrlSafe::encodeUnpadded('{"alg":"A128KW","enc":"A128GCM"}'),
+            $values,
+            $parts
+        );
+
+        yield 'compact, too many values, compact first' => [
+            $compactFirst,
+            $manyValues . '.AAAA.AAAA.AAAA.AAAA',
+            self::TOO_MANY_VALUES,
+        ];
+        yield 'compact, nested too deeply, compact first' => [
+            $compactFirst,
+            $deep . '.AAAA.AAAA.AAAA.AAAA',
+            self::TOO_DEEP,
+        ];
+        yield 'compact, too many values, compact last' => [
+            $compactLast,
+            $manyValues . '.AAAA.AAAA.AAAA.AAAA',
+            self::TOO_MANY_VALUES,
+        ];
+        yield 'flattened, protected header with too many values' => [
+            $compactFirst,
+            $flattened($manyValues),
+            self::TOO_MANY_VALUES,
+        ];
+        yield 'flattened, protected header nested too deeply' => [$compactFirst, $flattened($deep), self::TOO_DEEP];
+        yield 'flattened, document with too many values, compact last' => [
+            $compactLast,
+            $document,
+            self::TOO_MANY_VALUES,
+        ];
+        yield 'not a token: the exception of the last serializer' => [
+            $compactFirst,
+            'This is not a token',
+            'Unsupported input.',
         ];
     }
 
