@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jose\Component\Signature\Serializer;
 
 use Jose\Component\Core\Exception\InvalidSerializationException;
+use Jose\Component\Core\Exception\UnrecognizedSerializationException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\JsonConverter;
@@ -58,12 +59,9 @@ final readonly class JSONFlattenedSerializer extends Serializer
     public function unserialize(#[SensitiveParameter] string $input): JWS
     {
         $json = new BoundedJsonDecoder();
-        $data = $json->decode($input);
-        if (! is_array($data)) {
-            throw new InvalidSerializationException('Unsupported input.');
-        }
-        if (! isset($data['signature'])) {
-            throw new InvalidSerializationException('Unsupported input.');
+        $data = $json->decodeSerialization($input);
+        if (! is_array($data) || ! isset($data['signature'])) {
+            throw new UnrecognizedSerializationException('Unsupported input.');
         }
         $signature = Base64UrlSafe::decodeNoPadding($data['signature']);
 

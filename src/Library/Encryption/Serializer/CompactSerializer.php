@@ -6,6 +6,7 @@ namespace Jose\Component\Encryption\Serializer;
 
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Exception\LogicException;
+use Jose\Component\Core\Exception\UnrecognizedSerializationException;
 use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Encryption\JWE;
@@ -14,6 +15,7 @@ use Override;
 use Throwable;
 use function count;
 use function is_array;
+use function preg_match;
 use function sprintf;
 
 final readonly class CompactSerializer implements JWESerializer
@@ -66,7 +68,7 @@ final readonly class CompactSerializer implements JWESerializer
     {
         $parts = explode('.', $input, 6);
         if (count($parts) !== 5) {
-            throw new InvalidSerializationException('Unsupported input');
+            throw new UnrecognizedSerializationException('Unsupported input');
         }
 
         $decoder = new BoundedJsonDecoder();
@@ -94,6 +96,9 @@ final readonly class CompactSerializer implements JWESerializer
                 [new Recipient([], $encryptedKey)]
             );
         } catch (Throwable $throwable) {
+            if (preg_match('/^[A-Za-z0-9_-]*\z/', $parts[0]) !== 1) {
+                throw new UnrecognizedSerializationException('Unsupported input', $throwable->getCode(), $throwable);
+            }
             throw new InvalidSerializationException(
                 $decoder->hasExceededMaxValues() || $decoder->hasExceededMaxDepth()
                     ? $throwable->getMessage()
