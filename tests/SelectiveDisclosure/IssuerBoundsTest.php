@@ -299,9 +299,9 @@ final class IssuerBoundsTest extends SelectiveDisclosureTestCase
 
     private static function jsonSerializable(mixed $value): JsonSerializable
     {
-        return new readonly class($value) implements JsonSerializable {
+        return new class($value) implements JsonSerializable {
             public function __construct(
-                private mixed $value
+                private readonly mixed $value
             ) {
             }
 
