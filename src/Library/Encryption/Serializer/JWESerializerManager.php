@@ -7,6 +7,7 @@ namespace Jose\Component\Encryption\Serializer;
 use InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidSerializationException;
 use Jose\Component\Core\Exception\JsonBoundExceededException;
+use Jose\Component\Core\Exception\UnrecognizedSerializationException;
 use Jose\Component\Core\Exception\UnsupportedSerializerException;
 use Jose\Component\Encryption\JWE;
 use Throwable;
@@ -96,8 +97,10 @@ final readonly class JWESerializerManager
      *
      * When no serializer is able to convert the input, the exception of one of them is chained as the previous
      * exception, so that the actual reason of the failure remains available to the caller. Only the serializer of the
-     * format of the input decodes it far enough to reach a bound of the JSON decoder: the last exception that goes back
-     * to such a bound is chained, and the exception of the last serializer otherwise.
+     * format of the input decodes it far enough to reach a bound of the JSON decoder, and a serializer rejects an input
+     * of another serialization with an UnrecognizedSerializationException. The manager chains the last exception that
+     * goes back to a bound, else the last exception of a serializer that recognized the input, else the exception of
+     * the last serializer.
      *
      * @param string $input A string that represents a JWE
      */
@@ -105,6 +108,7 @@ final readonly class JWESerializerManager
     {
         $lastError = null;
         $boundError = null;
+        $recognizedError = null;
         foreach ($this->serializers as $serializer) {
             try {
                 return new UnserializationResult($serializer->unserialize($input), $serializer->name());
@@ -112,13 +116,15 @@ final readonly class JWESerializerManager
                 $lastError = $invalidArgumentException;
                 if (self::goesBackToAJsonBound($invalidArgumentException)) {
                     $boundError = $invalidArgumentException;
+                } elseif (! $invalidArgumentException instanceof UnrecognizedSerializationException) {
+                    $recognizedError = $invalidArgumentException;
                 }
 
                 continue;
             }
         }
 
-        throw new InvalidSerializationException('Unsupported input.', 0, $boundError ?? $lastError);
+        throw new InvalidSerializationException('Unsupported input.', 0, $boundError ?? $recognizedError ?? $lastError);
     }
 
     /**

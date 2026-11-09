@@ -26,6 +26,7 @@ use Jose\Component\Core\Exception\MissingPayloadLogicException;
 use Jose\Component\Core\Exception\MissingPayloadRuntimeException;
 use Jose\Component\Core\Exception\RangeException as JoseRangeException;
 use Jose\Component\Core\Exception\RuntimeException as JoseRuntimeException;
+use Jose\Component\Core\Exception\UnrecognizedSerializationException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\Exception\UnsupportedSerializerException;
@@ -74,6 +75,7 @@ final class JoseExceptionTest extends TestCase
         MissingPayloadRuntimeException::class => RuntimeException::class,
         JoseRangeException::class => RangeException::class,
         JoseRuntimeException::class => RuntimeException::class,
+        UnrecognizedSerializationException::class => InvalidArgumentException::class,
         UnsupportedAlgorithmException::class => InvalidArgumentException::class,
         UnsupportedCurveException::class => InvalidArgumentException::class,
         UnsupportedSerializerException::class => InvalidArgumentException::class,

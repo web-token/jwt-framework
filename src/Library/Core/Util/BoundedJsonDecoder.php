@@ -6,6 +6,7 @@ namespace Jose\Component\Core\Util;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\JsonBoundExceededException;
+use Jose\Component\Core\Exception\UnrecognizedSerializationException;
 use SensitiveParameter;
 use function preg_replace;
 use function sprintf;
@@ -55,6 +56,29 @@ final class BoundedJsonDecoder
             $this->exceededMaxDepth = true;
             throw new JsonBoundExceededException(
                 'A JSON document of the token is nested too deeply.',
+                $exception->getCode(),
+                $exception->getPrevious()
+            );
+        }
+    }
+
+    /**
+     * Decodes the JSON serialization of a token. A document that is not valid JSON is not such a serialization: it is
+     * rejected with an UnrecognizedSerializationException that keeps the message, the code and the previous exception
+     * of the error. A document beyond a bound is rejected as decode() rejects it.
+     *
+     * @throws JsonBoundExceededException if the document goes beyond a bound
+     * @throws UnrecognizedSerializationException if the document is not valid JSON
+     */
+    public function decodeSerialization(#[SensitiveParameter] string $json): mixed
+    {
+        try {
+            return $this->decode($json);
+        } catch (JsonBoundExceededException $exception) {
+            throw $exception;
+        } catch (InvalidArgumentException $exception) {
+            throw new UnrecognizedSerializationException(
+                $exception->getMessage(),
                 $exception->getCode(),
                 $exception->getPrevious()
             );
