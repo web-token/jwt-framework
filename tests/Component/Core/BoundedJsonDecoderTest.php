@@ -6,6 +6,7 @@ namespace Jose\Tests\Component\Core;
 
 use InvalidArgumentException;
 use Jose\Component\Core\Util\BoundedJsonDecoder;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function intdiv;
@@ -36,6 +37,47 @@ final class BoundedJsonDecoderTest extends TestCase
             static::assertSame('Unsupported input.', $e->getMessage());
             static::assertNull($e->getPrevious());
         }
+    }
+
+    #[Test]
+    public function theBoundIsExceededOnceADocumentIsRejectedForTheValuesItHolds(): void
+    {
+        $json = new BoundedJsonDecoder();
+        $json->decode('[' . str_repeat('0,', BoundedJsonDecoder::MAX_VALUES - 1) . '0]');
+
+        static::assertFalse($json->hasExceededMaxValues());
+
+        try {
+            $json->decode('[]');
+            static::fail('The document should have been rejected.');
+        } catch (InvalidArgumentException) {
+        }
+
+        static::assertTrue($json->hasExceededMaxValues());
+    }
+
+    #[Test]
+    #[DataProvider('documentsJsonDecodeRejects')]
+    public function aDocumentJsonDecodeRejectsDoesNotExceedTheBound(string $document): void
+    {
+        $json = new BoundedJsonDecoder();
+
+        try {
+            $json->decode($document);
+            static::fail('The document should have been rejected.');
+        } catch (InvalidArgumentException) {
+        }
+
+        static::assertFalse($json->hasExceededMaxValues());
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function documentsJsonDecodeRejects(): iterable
+    {
+        yield 'invalid JSON' => ['[0,'];
+        yield 'nested too deeply' => [str_repeat('[', 600) . str_repeat(']', 600)];
     }
 
     #[Test]

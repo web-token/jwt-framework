@@ -33,6 +33,7 @@ use function sprintf;
 use function str_starts_with;
 use function strpos;
 use function substr;
+use const JSON_ERROR_DEPTH;
 
 /**
  * An SD-JWT, or an SD-JWT+KB, in the compact format of RFC 9901 section 4 or in the JWS JSON serialization of
@@ -120,8 +121,10 @@ final readonly class SDJWT implements Stringable
      *                                without the "disclosures" and "kb_jwt" header parameters
      * @param list<Disclosure> $disclosures
      *
-     * @throws InvalidSerializationException if the Issuer-signed JWT is not a JWS in compact or JSON serialization, or
-     *                                       if the Key Binding JWT is not a JWS in compact serialization
+     * @throws InvalidSerializationException if the Issuer-signed JWT is not a JWS in compact or JSON serialization, if
+     *                                       its JWS JSON serialization is nested too deeply or holds more than
+     *                                       BoundedJsonDecoder::MAX_VALUES JSON values, or if the Key Binding JWT is
+     *                                       not a JWS in compact serialization
      */
     public static function create(string $issuerSignedJwt, array $disclosures = [], ?string $keyBindingJwt = null): self
     {
@@ -149,7 +152,8 @@ final readonly class SDJWT implements Stringable
      * serialization. In the compact format, the parts are checked one after the other while the string is read, so
      * that a malformed input is rejected as soon as the malformed part is met.
      *
-     * @throws InvalidSerializationException if the string is not an SD-JWT
+     * @throws InvalidSerializationException if the string is not an SD-JWT, if its JSON is nested too deeply, or if it
+     *                                       holds more than BoundedJsonDecoder::MAX_VALUES JSON values
      */
     public static function fromString(string $sdJwt): self
     {
@@ -171,7 +175,7 @@ final readonly class SDJWT implements Stringable
             if ($separator === $offset) {
                 throw new InvalidSerializationException('A Disclosure of the SD-JWT is empty.');
             }
-            $disclosures[] = Disclosure::parse(substr($sdJwt, $offset, $separator - $offset), $decoder);
+            $disclosures[] = self::parseDisclosure(substr($sdJwt, $offset, $separator - $offset), $decoder);
             $offset = $separator + 1;
         }
         $keyBindingJwt = substr($sdJwt, $offset);
@@ -372,7 +376,7 @@ final readonly class SDJWT implements Stringable
                     'The "disclosures" header parameter must be an array of strings.'
                 );
             }
-            $disclosures[] = Disclosure::parse($disclosure, $decoder);
+            $disclosures[] = self::parseDisclosure($disclosure, $decoder);
         }
         if (! array_key_exists('kb_jwt', $parameters)) {
             return $sdJwt->with($disclosures, null);
@@ -387,9 +391,35 @@ final readonly class SDJWT implements Stringable
     }
 
     /**
+     * Parses a Disclosure of the SD-JWT. The Disclosures share the budget of the decoder: when they go beyond it, the
+     * SD-JWT is rejected as a whole, whichever Disclosure goes beyond it.
+     *
+     * @throws InvalidSerializationException if the value is not a Disclosure, if its JSON is nested too deeply, or if
+     *                                       the SD-JWT holds more than BoundedJsonDecoder::MAX_VALUES JSON values
+     */
+    private static function parseDisclosure(string $disclosure, BoundedJsonDecoder $decoder): Disclosure
+    {
+        try {
+            return Disclosure::parse($disclosure, $decoder);
+        } catch (InvalidSerializationException $exception) {
+            if (! $decoder->hasExceededMaxValues()) {
+                throw $exception;
+            }
+            throw new InvalidSerializationException(sprintf(
+                'The SD-JWT holds more JSON values than the %d that are decoded.',
+                BoundedJsonDecoder::MAX_VALUES
+            ), 0, $exception);
+        }
+    }
+
+    /**
      * Reads an Issuer-signed JWT in the flattened or the general JWS JSON serialization. The parameters of the SD-JWT
      * are removed from the unprotected header of the first signature and returned apart; the headers of the other
      * signatures cannot have them.
+     *
+     * The JWS JSON serialization is the first document given to the decoder: when the decoder rejects it for the
+     * values it holds, it holds more than BoundedJsonDecoder::MAX_VALUES. When json_decode() rejects it,
+     * JsonConverter::decode() gives its exception the code of the JSON error.
      *
      * @return array{self, array<string, mixed>} the SD-JWT, without Disclosure, and the parameters of the SD-JWT
      */
@@ -398,11 +428,14 @@ final readonly class SDJWT implements Stringable
         try {
             $token = $decoder->decode($json);
         } catch (Throwable $throwable) {
-            throw new InvalidSerializationException(
-                'The JWS JSON serialization must be a JSON object.',
-                0,
-                $throwable
-            );
+            throw new InvalidSerializationException(match (true) {
+                $decoder->hasExceededMaxValues() => sprintf(
+                    'The JWS JSON serialization holds more JSON values than the %d that are decoded.',
+                    BoundedJsonDecoder::MAX_VALUES
+                ),
+                $throwable->getCode() === JSON_ERROR_DEPTH => 'The JWS JSON serialization is nested too deeply.',
+                default => 'The JWS JSON serialization must be a JSON object.',
+            }, 0, $throwable);
         }
         $token = self::jsonObject($token, 'The JWS JSON serialization must be a JSON object.');
         $general = array_key_exists('signatures', $token);

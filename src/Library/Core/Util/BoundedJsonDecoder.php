@@ -34,6 +34,15 @@ final class BoundedJsonDecoder
     }
 
     /**
+     * Whether the documents given to this decoder hold more than MAX_VALUES values. The document that went beyond the
+     * bound was rejected before it was decoded, and so are the documents given after it.
+     */
+    public function hasExceededMaxValues(): bool
+    {
+        return $this->remainingValues < 0;
+    }
+
+    /**
      * Counts the brackets, braces and commas found outside the string literals.
      */
     private static function countValues(#[SensitiveParameter] string $json): int
