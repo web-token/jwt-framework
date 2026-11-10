@@ -137,10 +137,29 @@ final class UrlKeySetFactoryTest extends TestCase
     }
 
     #[Test]
-    public function theFactoriesDoNotExtendTheDeprecatedBaseClass(): void
+    public function theFactoriesStillExtendTheDeprecatedBaseClass(): void
     {
-        static::assertNotInstanceOf(UrlKeySetFactory::class, $this->getJKUFactory());
-        static::assertNotInstanceOf(UrlKeySetFactory::class, $this->getX5UFactory());
+        $typedAgainstTheBaseClass = static fn (UrlKeySetFactory $factory): UrlKeySetFactory => $factory;
+
+        static::assertSame($this->getJKUFactory(), $typedAgainstTheBaseClass($this->getJKUFactory()));
+        static::assertSame($this->getX5UFactory(), $typedAgainstTheBaseClass($this->getX5UFactory()));
+    }
+
+    #[Test]
+    public function creatingTheFactoriesDoesNotTriggerADeprecation(): void
+    {
+        $client = $this->getHttpClient();
+
+        $deprecations = $this->collectDeprecations(static function () use ($client): void {
+            new JKUFactory($client);
+            new X5UFactory($client);
+            new JKUFactory($client, true);
+            new X5UFactory($client, false);
+            new class($client) extends JKUFactory {};
+            new class($client) extends X5UFactory {};
+        });
+
+        static::assertSame([], $deprecations);
     }
 
     #[Test]

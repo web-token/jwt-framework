@@ -6149,6 +6149,17 @@ parameters:
 			path: ../src/Library/KeyManagement/Analyzer/ZxcvbnKeyAnalyzer.php
 
 		-
+			rawMessage: '''
+				Class Jose\Component\KeyManagement\JKUFactory extends deprecated class Jose\Component\KeyManagement\UrlKeySetFactory:
+				since 4.3.0 and will be removed in 5.0.0. Use JKUFactory or X5UFactory and type against them, or write
+				            a factory of your own: an HTTP client is all that is needed to fetch the document. In 5.0.0, JKUFactory
+				            and X5UFactory no longer extend this class.
+			'''
+			identifier: class.extendsDeprecatedClass
+			count: 1
+			path: ../src/Library/KeyManagement/JKUFactory.php
+
+		-
 			rawMessage: 'Parameter #1 $details of static method Jose\Component\KeyManagement\KeyConverter\RSAKey::createFromKeyDetails() expects array<mixed>, mixed given.'
 			identifier: argument.type
 			count: 1
@@ -6243,6 +6254,17 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			rawMessage: '''
+				Class Jose\Component\KeyManagement\X5UFactory extends deprecated class Jose\Component\KeyManagement\UrlKeySetFactory:
+				since 4.3.0 and will be removed in 5.0.0. Use JKUFactory or X5UFactory and type against them, or write
+				            a factory of your own: an HTTP client is all that is needed to fetch the document. In 5.0.0, JKUFactory
+				            and X5UFactory no longer extend this class.
+			'''
+			identifier: class.extendsDeprecatedClass
+			count: 1
+			path: ../src/Library/KeyManagement/X5UFactory.php
 
 		-
 			rawMessage: 'Call to internal static method ParagonIE_Sodium_Core_Ed25519::publickey_from_secretkey().'
