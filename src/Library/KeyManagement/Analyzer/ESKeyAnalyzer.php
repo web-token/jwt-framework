@@ -60,6 +60,13 @@ abstract readonly class ESKeyAnalyzer implements KeyAnalyzer
         }
         $xBI = BigInteger::fromBase(bin2hex($x), 16);
         $yBI = BigInteger::fromBase(bin2hex($y), 16);
+        $prime = $this->getCurve()
+            ->getPrime();
+        if ($xBI->isGreaterThanOrEqualTo($prime) || $yBI->isGreaterThanOrEqualTo($prime)) {
+            $bag->add(Message::high('Invalid key. The components "x" and "y" shall be lower than the field prime.'));
+
+            return;
+        }
         if (! $this->getCurve()->contains($xBI, $yBI)) {
             $bag->add(Message::high('Invalid key. The point is not on the curve.'));
         }

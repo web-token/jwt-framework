@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use Brick\Math\BigInteger;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer;
@@ -14,6 +17,7 @@ use Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\Message;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
@@ -23,6 +27,7 @@ use Jose\Component\KeyManagement\JWKFactory;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use const STR_PAD_LEFT;
 
 /**
  * @internal
@@ -72,6 +77,45 @@ final class JWKAnalyzerTest extends TestCase
             }
         }
         static::fail('The low exponent should be catched');
+    }
+
+    #[Test]
+    public function theRsaKeyWithLeadingZeroOctetsIsAnalyzedByItsValue(): void
+    {
+        $key = new JWK([
+            'kty' => 'RSA',
+            'n' => Base64UrlSafe::encodeUnpadded(str_repeat("\0", 255) . "\x0f"),
+            'e' => Base64UrlSafe::encodeUnpadded("\0\0\0\1"),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertContains('The key length is less than 2048 bits.', $texts);
+        static::assertContains('The exponent is too low. It should be at least 65537.', $texts);
+    }
+
+    #[Test]
+    public function theEcKeyWithACoordinateAboveTheFieldPrimeIsRejected(): void
+    {
+        $key = JWKFactory::createECKey('P-521');
+        $prime = NistCurve::curve521()->getPrime();
+        $y = BigInteger::fromBase(bin2hex(Base64UrlSafe::decodeNoPadding($key->get('y'))), 16)->plus($prime);
+        $y = str_pad(hex2bin(str_pad($y->toBase(16), 132, '0', STR_PAD_LEFT)), 66, "\0", STR_PAD_LEFT);
+        $key = new JWK([
+            'kty' => 'EC',
+            'crv' => 'P-521',
+            'x' => $key->get('x'),
+            'y' => Base64UrlSafe::encodeUnpadded($y),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertContains(
+            'Invalid key. The components "x" and "y" shall be lower than the field prime.',
+            $texts
+        );
     }
 
     #[Test]

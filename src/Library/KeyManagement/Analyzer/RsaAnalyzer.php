@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Jose\Component\KeyManagement\Analyzer;
 
-use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BigInteger;
 use Override;
-use function is_array;
 use function is_string;
-use function strlen;
-use const STR_PAD_RIGHT;
 
 final readonly class RsaAnalyzer implements KeyAnalyzer
 {
@@ -34,11 +31,14 @@ final readonly class RsaAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $exponent = unpack('l', str_pad(Base64UrlSafe::decodeNoPadding($e), 4, "\0", STR_PAD_RIGHT));
-        if (! is_array($exponent) || ! isset($exponent[1])) {
-            throw new InvalidKeyException('Unable to get the private key');
+        $e = Base64UrlSafe::decodeNoPadding($e);
+        if ($e === '') {
+            $bag->add(Message::high('The exponent is not valid.'));
+
+            return;
         }
-        if ($exponent[1] < 65537) {
+        $exponent = BigInteger::createFromBinaryString($e);
+        if ($exponent->lowerThan(BigInteger::createFromDecimal(65537))) {
             $bag->add(Message::high('The exponent is too low. It should be at least 65537.'));
         }
     }
@@ -51,8 +51,14 @@ final readonly class RsaAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $n = 8 * strlen(Base64UrlSafe::decodeNoPadding($n));
-        if ($n < 2048) {
+        $n = Base64UrlSafe::decodeNoPadding($n);
+        if ($n === '') {
+            $bag->add(Message::high('The modulus is not valid.'));
+
+            return;
+        }
+        $modulus = BigInteger::createFromBinaryString($n);
+        if ($modulus->get()->getBitLength() < 2048) {
             $bag->add(Message::high('The key length is less than 2048 bits.'));
         }
         if ($jwk->has('d') && (! $jwk->has('p') || ! $jwk->has('q') || ! $jwk->has('dp') || ! $jwk->has(
