@@ -29,10 +29,15 @@ final readonly class JKUSource implements Source
             $loader->load('jku_source.php');
             $loader->load('jku_commands.php');
             $container->setAlias('jose.http_client', $configs[$this->name()]['client']);
-            if (isset($configs[$this->name()]['follow_redirects'])) {
+            $followRedirects = $configs[$this->name()]['follow_redirects'] ?? null;
+            $allowLargeKeySets = $configs[$this->name()]['allow_large_key_sets'] ?? null;
+            if ($followRedirects !== null || $allowLargeKeySets !== null) {
                 foreach ([JKUFactory::class, X5UFactory::class] as $factory) {
-                    $container->getDefinition($factory)
-                        ->addArgument($configs[$this->name()]['follow_redirects']);
+                    $definition = $container->getDefinition($factory)
+                        ->addArgument($followRedirects);
+                    if ($allowLargeKeySets !== null) {
+                        $definition->addArgument($allowLargeKeySets);
+                    }
                 }
             }
         }
@@ -48,6 +53,11 @@ final readonly class JKUSource implements Source
             ->scalarNode('client')
             ->info('HTTP Client used to retrieve key sets.')
             ->isRequired()
+            ->end()
+            ->booleanNode('allow_large_key_sets')
+            ->info(
+                'True loads the key sets of more than 4096 JSON values, false refuses them. When it is not set, they are loaded with a deprecation, as 5.0.0 refuses them by default.'
+            )
             ->end()
             ->booleanNode('follow_redirects')
             ->info(

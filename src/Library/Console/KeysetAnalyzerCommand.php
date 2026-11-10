@@ -85,7 +85,7 @@ final class KeysetAnalyzerCommand extends Command
         if (! is_string($jwkset)) {
             throw new InvalidKeySetException('Invalid JWKSet');
         }
-        $json = JsonConverter::decode($jwkset);
+        $json = JsonConverter::decode($jwkset, true);
         if (! is_array($json)) {
             throw new InvalidKeySetException('Invalid JWKSet');
         }

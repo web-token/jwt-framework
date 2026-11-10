@@ -6,7 +6,6 @@ namespace Jose\Component\KeyManagement;
 
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\JWKSet;
-use Jose\Component\Core\Util\JsonConverter;
 use function is_array;
 
 /**
@@ -28,7 +27,7 @@ class JKUFactory extends UrlKeySetFactory
     public function loadFromUrl(string $url, array $header = []): JWKSet
     {
         $content = $this->getContent($url, $header);
-        $data = JsonConverter::decode($content);
+        $data = $this->decodeKeySet($content);
         if (! is_array($data)) {
             throw new RuntimeException('Invalid content.');
         }

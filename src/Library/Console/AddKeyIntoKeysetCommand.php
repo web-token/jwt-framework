@@ -47,7 +47,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         if (! is_string($jwkset)) {
             throw new InvalidKeySetException('The argument must be a valid JWKSet.');
         }
-        $json = JsonConverter::decode($jwkset);
+        $json = JsonConverter::decode($jwkset, true);
         if (! is_array($json)) {
             throw new InvalidKeySetException('The argument must be a valid JWKSet.');
         }
@@ -61,7 +61,7 @@ final class AddKeyIntoKeysetCommand extends ObjectOutputCommand
         if (! is_string($jwk)) {
             throw new InvalidKeyException('The argument must be a valid JWK.');
         }
-        $json = JsonConverter::decode($jwk);
+        $json = JsonConverter::decode($jwk, true);
         if (! is_array($json)) {
             throw new InvalidKeyException('The argument must be a valid JWK.');
         }

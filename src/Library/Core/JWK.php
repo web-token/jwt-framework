@@ -8,10 +8,15 @@ use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\InheritanceChecker;
+use JsonException;
 use JsonSerializable;
 use Override;
+use SensitiveParameter;
 use function array_key_exists;
+use function func_get_arg;
+use function func_num_args;
 use function in_array;
 use function is_array;
 use function is_string;
@@ -51,10 +56,23 @@ class JWK implements JsonSerializable
 
     /**
      * Creates a JWK object using the given Json string.
+     *
+     * A second argument, read with func_get_arg(1) until it is part of the signature in 5.0.0, bounds the values of
+     * the document: true decodes a document of any number of values, false refuses a document of more than
+     * BoundedJsonDecoder::MAX_VALUES values, and without it, or with null, such a document is decoded with a
+     * deprecation, as 5.0.0 refuses it by default. The JsonException of json_decode() is thrown again as a copy:
+     * the arguments recorded in its trace include the document, and the key with it.
+     *
+     * @throws JsonException if the document is not valid JSON
      */
-    public static function createFromJson(string $json): self
+    public static function createFromJson(#[SensitiveParameter] string $json): self
     {
-        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        BoundedJsonDecoder::checkDocument($json, func_num_args() > 1 ? func_get_arg(1) : null, __METHOD__);
+        try {
+            $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new JsonException($exception->getMessage(), $exception->getCode());
+        }
         if (! is_array($data)) {
             throw new InvalidArgumentException('Invalid argument.');
         }

@@ -1435,6 +1435,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
+			rawMessage: Cannot access offset 'allow_large_key_sets' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
+
+		-
 			rawMessage: Cannot access offset 'client' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -1461,7 +1467,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method booleanNode() on mixed.'
 			identifier: method.nonObject
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
@@ -1479,13 +1485,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 5
+			count: 6
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
 			rawMessage: 'Cannot call method info() on mixed.'
 			identifier: method.nonObject
-			count: 2
+			count: 3
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
