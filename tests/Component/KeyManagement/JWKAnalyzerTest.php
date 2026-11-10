@@ -121,6 +121,27 @@ final class JWKAnalyzerTest extends TestCase
     }
 
     #[Test]
+    public function theEcKeyWithCoordinatesOfTheWrongSizeIsNotAnalyzedFurther(): void
+    {
+        $key = new JWK([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => Base64UrlSafe::encodeUnpadded(str_repeat("\xff", 33)),
+            'y' => Base64UrlSafe::encodeUnpadded(str_repeat("\xff", 33)),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertContains('Invalid key. The components "x" and "y" size shall be 256 bits.', $texts);
+        static::assertNotContains(
+            'Invalid key. The components "x" and "y" shall be lower than the field prime.',
+            $texts
+        );
+        static::assertNotContains('Invalid key. The point is not on the curve.', $texts);
+    }
+
+    #[Test]
     #[DataProvider('rsaModuli')]
     public function theRsaKeyLengthIsTheBitLengthOfTheModulus(string $n, bool $tooShort): void
     {
