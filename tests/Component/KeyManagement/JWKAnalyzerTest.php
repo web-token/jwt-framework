@@ -24,9 +24,11 @@ use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
 use Jose\Component\KeyManagement\JWKFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use function in_array;
 use const STR_PAD_LEFT;
 
 /**
@@ -116,6 +118,70 @@ final class JWKAnalyzerTest extends TestCase
             'Invalid key. The components "x" and "y" shall be lower than the field prime.',
             $texts
         );
+    }
+
+    #[Test]
+    #[DataProvider('rsaModuli')]
+    public function theRsaKeyLengthIsTheBitLengthOfTheModulus(string $n, bool $tooShort): void
+    {
+        $key = new JWK([
+            'kty' => 'RSA',
+            'n' => Base64UrlSafe::encodeUnpadded($n),
+            'e' => 'AQAB',
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertSame($tooShort, in_array('The key length is less than 2048 bits.', $texts, true));
+    }
+
+    /**
+     * @return iterable<string, array{string, bool}>
+     */
+    public static function rsaModuli(): iterable
+    {
+        yield '2048 bits' => ["\x80" . str_repeat("\xff", 255), false];
+        yield '2048 bits with a leading zero octet' => ["\0\x80" . str_repeat("\xff", 255), false];
+        yield '2049 bits' => ["\x01" . str_repeat("\xff", 256), false];
+        yield '2047 bits on 256 octets' => ["\x7f" . str_repeat("\xff", 255), true];
+        yield '2041 bits on 256 octets' => ["\x01" . str_repeat("\xff", 255), true];
+        yield '2040 bits' => [str_repeat("\xff", 255), true];
+    }
+
+    #[Test]
+    #[DataProvider('rsaExponents')]
+    public function theRsaExponentIsComparedByItsValue(string $e, bool $tooLow): void
+    {
+        $key = new JWK([
+            'kty' => 'RSA',
+            'n' => Base64UrlSafe::encodeUnpadded("\x80" . str_repeat("\xff", 255)),
+            'e' => Base64UrlSafe::encodeUnpadded($e),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertSame(
+            $tooLow,
+            in_array('The exponent is too low. It should be at least 65537.', $texts, true)
+        );
+    }
+
+    /**
+     * @return iterable<string, array{string, bool}>
+     */
+    public static function rsaExponents(): iterable
+    {
+        yield '65537' => ["\x01\x00\x01", false];
+        yield '65537 with leading zero octets' => ["\0\0\x01\x00\x01", false];
+        yield '65536' => ["\x01\x00\x00", true];
+        yield '3' => ["\x03", true];
+        yield 'zero' => ["\0", true];
+        yield '2^24 - 1' => ["\xff\xff\xff", false];
+        yield '2^24' => ["\x01\x00\x00\x00", false];
+        yield '2^32 + 1' => ["\x01\x00\x00\x00\x01", false];
+        yield '2^32 - 1' => ["\xff\xff\xff\xff", false];
     }
 
     #[Test]
