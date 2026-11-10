@@ -4820,6 +4820,16 @@ parameters:
 
 		-
 			rawMessage: '''
+				Access to constant on deprecated class Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15:
+				since 4.3.0, will be removed in 5.0.0. The RSA1_5 algorithm moved to the "web-token/jwt-rsa15"
+				            package: use Jose\Rsa15\KeyEncryption\RSA15 instead.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/encryption_rsa15.php
+
+		-
+			rawMessage: '''
 				Access to constant on deprecated class Jose\Component\Signature\Algorithm\EdDSA:
 				since 4.3.0, deprecated by RFC 9864. Use "Ed25519" (or "Ed448") instead; the keys are unchanged, only
 				the "alg" value differs.
@@ -4837,6 +4847,16 @@ parameters:
 			identifier: classConstant.deprecatedClass
 			count: 1
 			path: ../src/Bundle/Resources/config/Algorithms/signature_experimental.php
+
+		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Component\Signature\Algorithm\None:
+				since 4.3.0, will be removed in 5.0.0. The "none" algorithm moved to the "web-token/jwt-unsecured"
+				            package: use Jose\Unsecured\Signature\None instead.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/signature_none.php
 
 		-
 			rawMessage: Access to constant on internal class Jose\Component\Core\Util\Ecc\NistCurve.

@@ -10,6 +10,8 @@ use Jose\Component\Signature\JWSVerifierFactory;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\CustomChecker;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Checker\MaximumLifetime;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\DeprecatedES256KConsumer;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\DeprecatedNoneConsumer;
+use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\DeprecatedRSA15Consumer;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\NestedTokenServiceConsumer;
 use Jose\Tests\Bundle\JoseFramework\TestBundle\Service\SelectiveDisclosureServiceConsumer;
 use Psr\Clock\ClockInterface;
@@ -53,6 +55,14 @@ return function (ContainerConfigurator $container) {
     ;
 
     $container->set(DeprecatedES256KConsumer::class)
+        ->public()
+    ;
+
+    $container->set(DeprecatedNoneConsumer::class)
+        ->public()
+    ;
+
+    $container->set(DeprecatedRSA15Consumer::class)
         ->public()
     ;
 
