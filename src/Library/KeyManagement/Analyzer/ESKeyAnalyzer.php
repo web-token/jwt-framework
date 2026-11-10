@@ -15,6 +15,10 @@ use function strlen;
 
 abstract readonly class ESKeyAnalyzer implements KeyAnalyzer
 {
+    /**
+     * Coordinates of the wrong size are reported and not converted into integers: the analyzed keys may come from a
+     * third party, and converting coordinates of any length costs seconds without GMP.
+     */
     #[Override]
     public function analyze(JWK $jwk, MessageBag $bag): void
     {
@@ -57,10 +61,19 @@ abstract readonly class ESKeyAnalyzer implements KeyAnalyzer
                     $this->getKeySize()
                 ))
             );
+
+            return;
         }
         $xBI = BigInteger::fromBase(bin2hex($x), 16);
         $yBI = BigInteger::fromBase(bin2hex($y), 16);
-        if (! $this->getCurve()->contains($xBI, $yBI)) {
+        $curve = $this->getCurve();
+        $prime = $curve->getPrime();
+        if ($xBI->isGreaterThanOrEqualTo($prime) || $yBI->isGreaterThanOrEqualTo($prime)) {
+            $bag->add(Message::high('Invalid key. The components "x" and "y" shall be lower than the field prime.'));
+
+            return;
+        }
+        if (! $curve->contains($xBI, $yBI)) {
             $bag->add(Message::high('Invalid key. The point is not on the curve.'));
         }
     }

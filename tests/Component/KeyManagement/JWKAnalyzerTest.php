@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Jose\Tests\Component\KeyManagement;
 
+use Brick\Math\BigInteger;
 use Jose\Component\Core\JWK;
+use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\Ecc\NistCurve;
 use Jose\Component\KeyManagement\Analyzer\AlgorithmAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES256KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ES384KeyAnalyzer;
@@ -14,15 +17,19 @@ use Jose\Component\KeyManagement\Analyzer\HS384KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\HS512KeyAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\KeyAnalyzerManager;
 use Jose\Component\KeyManagement\Analyzer\KeyIdentifierAnalyzer;
+use Jose\Component\KeyManagement\Analyzer\Message;
 use Jose\Component\KeyManagement\Analyzer\NoneAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\OctAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\RsaAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\UsageAnalyzer;
 use Jose\Component\KeyManagement\Analyzer\ZxcvbnKeyAnalyzer;
 use Jose\Component\KeyManagement\JWKFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use function in_array;
+use const STR_PAD_LEFT;
 
 /**
  * @internal
@@ -72,6 +79,130 @@ final class JWKAnalyzerTest extends TestCase
             }
         }
         static::fail('The low exponent should be catched');
+    }
+
+    #[Test]
+    public function theRsaKeyWithLeadingZeroOctetsIsAnalyzedByItsValue(): void
+    {
+        $key = new JWK([
+            'kty' => 'RSA',
+            'n' => Base64UrlSafe::encodeUnpadded(str_repeat("\0", 255) . "\x0f"),
+            'e' => Base64UrlSafe::encodeUnpadded("\0\0\0\1"),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertContains('The key length is less than 2048 bits.', $texts);
+        static::assertContains('The exponent is too low. It should be at least 65537.', $texts);
+    }
+
+    #[Test]
+    public function theEcKeyWithACoordinateAboveTheFieldPrimeIsRejected(): void
+    {
+        $key = JWKFactory::createECKey('P-521');
+        $prime = NistCurve::curve521()->getPrime();
+        $y = BigInteger::fromBase(bin2hex(Base64UrlSafe::decodeNoPadding($key->get('y'))), 16)->plus($prime);
+        $y = str_pad(hex2bin(str_pad($y->toBase(16), 132, '0', STR_PAD_LEFT)), 66, "\0", STR_PAD_LEFT);
+        $key = new JWK([
+            'kty' => 'EC',
+            'crv' => 'P-521',
+            'x' => $key->get('x'),
+            'y' => Base64UrlSafe::encodeUnpadded($y),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertContains(
+            'Invalid key. The components "x" and "y" shall be lower than the field prime.',
+            $texts
+        );
+    }
+
+    #[Test]
+    public function theEcKeyWithCoordinatesOfTheWrongSizeIsNotAnalyzedFurther(): void
+    {
+        $key = new JWK([
+            'kty' => 'EC',
+            'crv' => 'P-256',
+            'x' => Base64UrlSafe::encodeUnpadded(str_repeat("\xff", 33)),
+            'y' => Base64UrlSafe::encodeUnpadded(str_repeat("\xff", 33)),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertContains('Invalid key. The components "x" and "y" size shall be 256 bits.', $texts);
+        static::assertNotContains(
+            'Invalid key. The components "x" and "y" shall be lower than the field prime.',
+            $texts
+        );
+        static::assertNotContains('Invalid key. The point is not on the curve.', $texts);
+    }
+
+    #[Test]
+    #[DataProvider('rsaModuli')]
+    public function theRsaKeyLengthIsTheBitLengthOfTheModulus(string $n, bool $tooShort): void
+    {
+        $key = new JWK([
+            'kty' => 'RSA',
+            'n' => Base64UrlSafe::encodeUnpadded($n),
+            'e' => 'AQAB',
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertSame($tooShort, in_array('The key length is less than 2048 bits.', $texts, true));
+    }
+
+    /**
+     * @return iterable<string, array{string, bool}>
+     */
+    public static function rsaModuli(): iterable
+    {
+        yield '2048 bits' => ["\x80" . str_repeat("\xff", 255), false];
+        yield '2048 bits with a leading zero octet' => ["\0\x80" . str_repeat("\xff", 255), false];
+        yield '2049 bits' => ["\x01" . str_repeat("\xff", 256), false];
+        yield '2047 bits on 256 octets' => ["\x7f" . str_repeat("\xff", 255), true];
+        yield '2041 bits on 256 octets' => ["\x01" . str_repeat("\xff", 255), true];
+        yield '2040 bits' => [str_repeat("\xff", 255), true];
+    }
+
+    #[Test]
+    #[DataProvider('rsaExponents')]
+    public function theRsaExponentIsComparedByItsValue(string $e, bool $tooLow): void
+    {
+        $key = new JWK([
+            'kty' => 'RSA',
+            'n' => Base64UrlSafe::encodeUnpadded("\x80" . str_repeat("\xff", 255)),
+            'e' => Base64UrlSafe::encodeUnpadded($e),
+        ]);
+        $messages = $this->getKeyAnalyzer()
+            ->analyze($key);
+
+        $texts = array_map(static fn (Message $message): string => $message->getMessage(), $messages->all());
+        static::assertSame(
+            $tooLow,
+            in_array('The exponent is too low. It should be at least 65537.', $texts, true)
+        );
+    }
+
+    /**
+     * @return iterable<string, array{string, bool}>
+     */
+    public static function rsaExponents(): iterable
+    {
+        yield '65537' => ["\x01\x00\x01", false];
+        yield '65537 with leading zero octets' => ["\0\0\x01\x00\x01", false];
+        yield '65536' => ["\x01\x00\x00", true];
+        yield '3' => ["\x03", true];
+        yield 'zero' => ["\0", true];
+        yield '2^24 - 1' => ["\xff\xff\xff", false];
+        yield '2^24' => ["\x01\x00\x00\x00", false];
+        yield '2^32 + 1' => ["\x01\x00\x00\x00\x01", false];
+        yield '2^32 - 1' => ["\xff\xff\xff\xff", false];
     }
 
     #[Test]
