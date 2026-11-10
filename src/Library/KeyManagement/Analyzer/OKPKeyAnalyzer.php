@@ -46,8 +46,8 @@ final readonly class OKPKeyAnalyzer implements KeyAnalyzer
             return;
         }
         $x = $this->decodeComponent($jwk, 'x', OKPKey::KEY_SIZES[$crv], $bag);
-        if ($x !== null && $crv === OKPKey::CURVE_ED25519 && OKPKey::isSmallOrderEd25519Point($x)) {
-            $bag->add(Message::high('Invalid key. The point of the Ed25519 public key is of small order.'));
+        if ($x !== null && $crv === OKPKey::CURVE_ED25519) {
+            $this->checkEd25519Point($x, $bag);
         }
         if ($jwk->has('d')) {
             $this->decodeComponent($jwk, 'd', OKPKey::KEY_SIZES[$crv], $bag);
@@ -75,6 +75,18 @@ final readonly class OKPKeyAnalyzer implements KeyAnalyzer
         }
 
         return $value;
+    }
+
+    private function checkEd25519Point(string $x, MessageBag $bag): void
+    {
+        if (OKPKey::isSmallOrderEd25519Point($x)) {
+            $bag->add(Message::high('Invalid key. The point of the Ed25519 public key is of small order.'));
+
+            return;
+        }
+        if (! OKPKey::isValidEd25519PublicKey($x)) {
+            $bag->add(Message::high('Invalid key. The point is not a valid Ed25519 public key.'));
+        }
     }
 
     private function checkAlgorithm(JWK $jwk, string $crv, MessageBag $bag): void

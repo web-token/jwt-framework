@@ -136,6 +136,38 @@ final class OKPKeyAnalyzerTest extends TestCase
         );
     }
 
+    #[Test]
+    public function anEd25519KeyThatIsNoPointIsReported(): void
+    {
+        $key = new JWK([
+            'kty' => 'OKP',
+            'crv' => 'Ed25519',
+            'x' => Base64UrlSafe::encodeUnpadded("\x02" . str_repeat("\0", 31)),
+        ]);
+
+        static::assertSame(
+            ['high: Invalid key. The point is not a valid Ed25519 public key.'],
+            self::analyze(new OKPKeyAnalyzer(), $key)
+        );
+    }
+
+    #[Test]
+    public function anEd25519KeyOutsideThePrimeOrderSubgroupIsReportedWithSodiumOnly(): void
+    {
+        $key = new JWK([
+            'kty' => 'OKP',
+            'crv' => 'Ed25519',
+            'x' => Base64UrlSafe::encodeUnpadded(
+                hex2bin('9c94cb2663e2140be35aafbbcc90981dc72785ea5e9046d19a3e770c3b8fba79')
+            ),
+        ]);
+        $expected = OKPKey::supportsSodium(OKPKey::CURVE_ED25519)
+            ? ['high: Invalid key. The point is not a valid Ed25519 public key.']
+            : [];
+
+        static::assertSame($expected, self::analyze(new OKPKeyAnalyzer(), $key));
+    }
+
     /**
      * @return iterable<string, array{string, string, list<string>}>
      */
@@ -233,10 +265,15 @@ final class OKPKeyAnalyzerTest extends TestCase
 
     private static function key(string $curve, int $xSize, int $dSize): JWK
     {
+        $x = Base64UrlSafe::encodeUnpadded(random_bytes($xSize));
+        if ($curve === OKPKey::CURVE_ED25519 && $xSize === OKPKey::KEY_SIZES[$curve]) {
+            $x = '11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo'; // RFC 8037 appendix A.1
+        }
+
         return new JWK([
             'kty' => 'OKP',
             'crv' => $curve,
-            'x' => Base64UrlSafe::encodeUnpadded(random_bytes($xSize)),
+            'x' => $x,
             'd' => Base64UrlSafe::encodeUnpadded(random_bytes($dSize)),
         ]);
     }
