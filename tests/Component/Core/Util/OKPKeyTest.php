@@ -116,6 +116,103 @@ final class OKPKeyTest extends TestCase
         static::assertFalse(OKPKey::verifyWithOpenSSL($key->toPublic(), $input, substr($signature, 0, 63)));
     }
 
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function ed25519PointsOfSmallOrder(): iterable
+    {
+        yield 'y = 0, order 4' => ['0000000000000000000000000000000000000000000000000000000000000000'];
+        yield 'y = 1, order 1' => ['0100000000000000000000000000000000000000000000000000000000000000'];
+        yield 'order 8' => ['26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc05'];
+        yield 'order 8, other y' => ['c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a'];
+        yield 'y = p - 1, order 2' => ['ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f'];
+        yield 'y = p, order 4' => ['edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f'];
+        yield 'y = p + 1, order 1' => ['eeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f'];
+        yield 'order 8, sign bit set' => ['26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc85'];
+        yield 'y = 1, sign bit set' => ['0100000000000000000000000000000000000000000000000000000000000080'];
+    }
+
+    #[Test]
+    #[DataProvider('ed25519PointsOfSmallOrder')]
+    public function anEd25519PointOfSmallOrderIsRecognized(string $x): void
+    {
+        static::assertTrue(OKPKey::isSmallOrderEd25519Point(hex2bin($x)));
+    }
+
+    #[Test]
+    public function theRfc8037Ed25519PublicKeyIsNotOfSmallOrder(): void
+    {
+        $x = Base64UrlSafe::decodeNoPadding(self::rfc8037Key()->getString('x'));
+
+        static::assertFalse(OKPKey::isSmallOrderEd25519Point($x));
+        static::assertFalse(OKPKey::isSmallOrderEd25519Point("\x01" . str_repeat("\0", 30)));
+    }
+
+    #[Test]
+    public function theRfc8037Ed25519PublicKeyIsAPoint(): void
+    {
+        $x = Base64UrlSafe::decodeNoPadding(self::rfc8037Key()->getString('x'));
+
+        static::assertTrue(OKPKey::isEd25519Point($x));
+    }
+
+    /**
+     * @return iterable<string, array{string, bool}>
+     */
+    public static function ed25519Encodings(): iterable
+    {
+        yield 'y = 1, x = 0' => ['0100000000000000000000000000000000000000000000000000000000000000', true];
+        yield 'y = 0' => ['0000000000000000000000000000000000000000000000000000000000000000', true];
+        yield 'y = p - 1, x = 0' => ['ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', true];
+        yield 'order 8, sign bit set' => ['26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc85', true];
+        yield 'y = 2' => ['0200000000000000000000000000000000000000000000000000000000000000', false];
+        yield 'y = p' => ['edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', false];
+        yield 'y = 1, x = 0 with the sign bit set' => [
+            '0100000000000000000000000000000000000000000000000000000000000080',
+            false,
+        ];
+        yield 'too short' => ['01000000000000000000000000000000000000000000000000000000000000', false];
+    }
+
+    #[Test]
+    #[DataProvider('ed25519Encodings')]
+    public function anEd25519EncodingIsAPointOnlyWhenItDecodes(string $x, bool $expected): void
+    {
+        static::assertSame($expected, OKPKey::isEd25519Point(hex2bin($x)));
+    }
+
+    #[Test]
+    public function anEd25519PublicKeyIsValidWhenItIsAPointNotOfSmallOrder(): void
+    {
+        $rfc8037 = Base64UrlSafe::decodeNoPadding(self::rfc8037Key()->getString('x'));
+        $mixedOrder = hex2bin('9c94cb2663e2140be35aafbbcc90981dc72785ea5e9046d19a3e770c3b8fba79');
+
+        static::assertTrue(OKPKey::isEd25519Point($mixedOrder));
+        static::assertTrue(OKPKey::isValidEd25519PublicKey($rfc8037));
+        static::assertFalse(OKPKey::isValidEd25519PublicKey("\x01" . str_repeat("\0", 31)));
+        static::assertFalse(OKPKey::isValidEd25519PublicKey("\x02" . str_repeat("\0", 31)));
+        static::assertFalse(OKPKey::isValidEd25519PublicKey("\x01" . str_repeat("\0", 30)));
+        static::assertSame(
+            ! OKPKey::supportsSodium(OKPKey::CURVE_ED25519),
+            OKPKey::isValidEd25519PublicKey($mixedOrder)
+        );
+    }
+
+    #[Test]
+    public function aSignatureWithAnEd25519KeyOfSmallOrderIsNotVerifiedWithOpenSSL(): void
+    {
+        $this->requireOpenSSL();
+        $neutralPoint = "\x01" . str_repeat("\0", 31);
+        $key = new JWK([
+            'kty' => 'OKP',
+            'crv' => 'Ed25519',
+            'x' => Base64UrlSafe::encodeUnpadded($neutralPoint),
+        ]);
+        $signature = $neutralPoint . str_repeat("\0", 32);
+
+        static::assertFalse(OKPKey::verifyWithOpenSSL($key, 'any input', $signature));
+    }
+
     #[Test]
     public function ed25519SignaturesMadeWithOpenSSLAndSodiumAreInterchangeable(): void
     {
