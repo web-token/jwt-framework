@@ -15,6 +15,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use function sprintf;
+use function str_repeat;
 
 /**
  * @internal
@@ -105,6 +106,32 @@ final class OKPKeyAnalyzerTest extends TestCase
 
         static::assertSame(
             ['high: Invalid key. The component "x" shall be a string.'],
+            self::analyze(new OKPKeyAnalyzer(), $key)
+        );
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function ed25519PointsOfSmallOrder(): iterable
+    {
+        yield 'neutral point, order 1' => ["\x01" . str_repeat("\0", 31)];
+        yield 'y = 0, order 4' => [str_repeat("\0", 32)];
+        yield 'y = -1, order 2' => ["\xec" . str_repeat("\xff", 30) . "\x7f"];
+    }
+
+    #[Test]
+    #[DataProvider('ed25519PointsOfSmallOrder')]
+    public function anEd25519KeyOfSmallOrderIsReported(string $x): void
+    {
+        $key = new JWK([
+            'kty' => 'OKP',
+            'crv' => 'Ed25519',
+            'x' => Base64UrlSafe::encodeUnpadded($x),
+        ]);
+
+        static::assertSame(
+            ['high: Invalid key. The point of the Ed25519 public key is of small order.'],
             self::analyze(new OKPKeyAnalyzer(), $key)
         );
     }

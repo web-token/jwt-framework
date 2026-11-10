@@ -45,28 +45,36 @@ final readonly class OKPKeyAnalyzer implements KeyAnalyzer
 
             return;
         }
-        $this->checkComponentSize($jwk, 'x', OKPKey::KEY_SIZES[$crv], $bag);
+        $x = $this->decodeComponent($jwk, 'x', OKPKey::KEY_SIZES[$crv], $bag);
+        if ($x !== null && $crv === OKPKey::CURVE_ED25519 && OKPKey::isSmallOrderEd25519Point($x)) {
+            $bag->add(Message::high('Invalid key. The point of the Ed25519 public key is of small order.'));
+        }
         if ($jwk->has('d')) {
-            $this->checkComponentSize($jwk, 'd', OKPKey::KEY_SIZES[$crv], $bag);
+            $this->decodeComponent($jwk, 'd', OKPKey::KEY_SIZES[$crv], $bag);
         }
         $this->checkAlgorithm($jwk, $crv, $bag);
     }
 
-    private function checkComponentSize(JWK $jwk, string $component, int $size, MessageBag $bag): void
+    private function decodeComponent(JWK $jwk, string $component, int $size, MessageBag $bag): ?string
     {
         $value = $jwk->find($component);
         if (! is_string($value)) {
             $bag->add(Message::high(sprintf('Invalid key. The component "%s" shall be a string.', $component)));
 
-            return;
+            return null;
         }
-        if (strlen(Base64UrlSafe::decodeNoPadding($value)) !== $size) {
+        $value = Base64UrlSafe::decodeNoPadding($value);
+        if (strlen($value) !== $size) {
             $bag->add(Message::high(sprintf(
                 'Invalid key. The component "%s" size shall be %d bytes.',
                 $component,
                 $size
             )));
+
+            return null;
         }
+
+        return $value;
     }
 
     private function checkAlgorithm(JWK $jwk, string $crv, MessageBag $bag): void

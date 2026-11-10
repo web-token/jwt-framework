@@ -21,10 +21,13 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PublicKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PublicKey;
+use function bin2hex;
+use function chr;
 use function extension_loaded;
 use function in_array;
 use function is_array;
 use function is_string;
+use function ord;
 use function sprintf;
 use function strlen;
 use const PHP_VERSION_ID;
@@ -59,6 +62,16 @@ final readonly class OKPKey
         self::CURVE_ED448 => 57,
         self::CURVE_X25519 => 32,
         self::CURVE_X448 => 56,
+    ];
+
+    private const ED25519_SMALL_ORDER_POINTS = [
+        '0000000000000000000000000000000000000000000000000000000000000000', // y = 0, order 4
+        '0100000000000000000000000000000000000000000000000000000000000000', // y = 1, order 1
+        '26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc05', // order 8
+        'c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a', // order 8
+        'ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', // y = p - 1, order 2
+        'edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', // y = p, order 4
+        'eeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', // y = p + 1, order 1
     ];
 
     /**
@@ -96,6 +109,16 @@ final readonly class OKPKey
     public static function supportsSodium(string $curve): bool
     {
         return extension_loaded('sodium') && in_array($curve, [self::CURVE_ED25519, self::CURVE_X25519], true);
+    }
+
+    public static function isSmallOrderEd25519Point(string $x): bool
+    {
+        if (strlen($x) !== self::KEY_SIZES[self::CURVE_ED25519]) {
+            return false;
+        }
+        $x[31] = chr(ord($x[31]) & 0x7F);
+
+        return in_array(bin2hex($x), self::ED25519_SMALL_ORDER_POINTS, true);
     }
 
     /**
@@ -175,6 +198,11 @@ final readonly class OKPKey
      */
     public static function verifyWithOpenSSL(JWK $publicKey, #[SensitiveParameter] string $input, string $signature): bool
     {
+        $curve = self::getParameter($publicKey, 'crv');
+        $x = Base64UrlSafe::decodeNoPadding(self::getParameter($publicKey, 'x'));
+        if ($curve === self::CURVE_ED25519 && self::isSmallOrderEd25519Point($x)) {
+            return false;
+        }
         $key = openssl_pkey_get_public(self::convertPublicKeyToPEM($publicKey));
         if ($key === false) {
             throw new InvalidKeyException('Unable to load the public key.');
