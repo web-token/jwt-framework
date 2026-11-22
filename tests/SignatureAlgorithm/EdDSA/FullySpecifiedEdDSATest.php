@@ -168,6 +168,21 @@ final class FullySpecifiedEdDSATest extends TestCase
     }
 
     #[Test]
+    #[DataProvider('ed25519Algorithms')]
+    public function aSignatureWithAnEd25519KeyOfSmallOrderIsFalse(SignatureAlgorithm $algorithm): void
+    {
+        $neutralPoint = "\x01" . str_repeat("\0", 31);
+        $key = new JWK([
+            'kty' => 'OKP',
+            'crv' => 'Ed25519',
+            'x' => Base64UrlSafe::encodeUnpadded($neutralPoint),
+        ]);
+        $signature = $neutralPoint . str_repeat("\0", 32);
+
+        static::assertFalse($algorithm->verify($key, 'payload', $signature));
+    }
+
+    #[Test]
     public function ed25519RefusesAnEd448Key(): void
     {
         $this->requireEd448();

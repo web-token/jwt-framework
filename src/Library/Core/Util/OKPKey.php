@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Jose\Component\Core\Util;
 
+use Brick\Math\BigInteger;
 use Jose\Component\Core\Exception\InvalidKeyException;
 use Jose\Component\Core\Exception\MissingDependencyException;
 use Jose\Component\Core\Exception\RuntimeException;
 use Jose\Component\Core\Exception\UnsupportedCurveException;
 use Jose\Component\Core\JWK;
 use SensitiveParameter;
+use SodiumException;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PrivateKeyInfo;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\PublicKey;
@@ -21,12 +23,16 @@ use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\Ed448PublicKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PrivateKey;
 use SpomkyLabs\Pki\CryptoTypes\Asymmetric\RFC8410\Curve448\X448PublicKey;
+use function bin2hex;
+use function chr;
 use function extension_loaded;
 use function in_array;
 use function is_array;
 use function is_string;
+use function ord;
 use function sprintf;
 use function strlen;
+use function strrev;
 use const PHP_VERSION_ID;
 
 /**
@@ -60,6 +66,20 @@ final readonly class OKPKey
         self::CURVE_X25519 => 32,
         self::CURVE_X448 => 56,
     ];
+
+    private const ED25519_SMALL_ORDER_POINTS = [
+        '0000000000000000000000000000000000000000000000000000000000000000', // y = 0, order 4
+        '0100000000000000000000000000000000000000000000000000000000000000', // y = 1, order 1
+        '26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc05', // order 8
+        'c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a', // order 8
+        'ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', // y = p - 1, order 2
+        'edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', // y = p, order 4
+        'eeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f', // y = p + 1, order 1
+    ];
+
+    private const ED25519_PRIME = '57896044618658097711785492504343953926634992332820282019728792003956564819949'; // 2^255 - 19
+
+    private const ED25519_D = '37095705934669439343138083508754565189542113879843219016388785533085940283555'; // -121665 / 121666
 
     /**
      * The OpenSSL key type of each curve, as numbered by ext-openssl. The OPENSSL_KEYTYPE_* constants only exist
@@ -96,6 +116,59 @@ final readonly class OKPKey
     public static function supportsSodium(string $curve): bool
     {
         return extension_loaded('sodium') && in_array($curve, [self::CURVE_ED25519, self::CURVE_X25519], true);
+    }
+
+    public static function isSmallOrderEd25519Point(string $x): bool
+    {
+        if (strlen($x) !== self::KEY_SIZES[self::CURVE_ED25519]) {
+            return false;
+        }
+        $x[31] = chr(ord($x[31]) & 0x7F);
+
+        return in_array(bin2hex($x), self::ED25519_SMALL_ORDER_POINTS, true);
+    }
+
+    public static function isEd25519Point(string $x): bool
+    {
+        if (strlen($x) !== self::KEY_SIZES[self::CURVE_ED25519]) {
+            return false;
+        }
+        $isXOdd = (ord($x[31]) & 0x80) !== 0;
+        $x[31] = chr(ord($x[31]) & 0x7F);
+        $p = BigInteger::of(self::ED25519_PRIME);
+        $y = BigInteger::fromBase(bin2hex(strrev($x)), 16);
+        if ($y->isGreaterThanOrEqualTo($p)) {
+            return false;
+        }
+        $ySquare = $y->power(2)
+            ->mod($p);
+        $u = $ySquare->minus(1)
+            ->mod($p);
+        $v = BigInteger::of(self::ED25519_D)->multipliedBy($ySquare)
+            ->plus(1)
+            ->mod($p);
+        $xSquare = $u->multipliedBy($v->modPow($p->minus(2), $p))
+            ->mod($p);
+        if ($xSquare->isZero()) {
+            return ! $isXOdd;
+        }
+
+        return $xSquare->modPow($p->minus(1)->dividedBy(2), $p)
+            ->isEqualTo(1);
+    }
+
+    public static function isValidEd25519PublicKey(string $x): bool
+    {
+        if (! self::supportsSodium(self::CURVE_ED25519)) {
+            return self::isEd25519Point($x) && ! self::isSmallOrderEd25519Point($x);
+        }
+        try {
+            sodium_crypto_sign_ed25519_pk_to_curve25519($x);
+        } catch (SodiumException) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -175,6 +248,11 @@ final readonly class OKPKey
      */
     public static function verifyWithOpenSSL(JWK $publicKey, #[SensitiveParameter] string $input, string $signature): bool
     {
+        $curve = self::getParameter($publicKey, 'crv');
+        $x = Base64UrlSafe::decodeNoPadding(self::getParameter($publicKey, 'x'));
+        if ($curve === self::CURVE_ED25519 && self::isSmallOrderEd25519Point($x)) {
+            return false;
+        }
         $key = openssl_pkey_get_public(self::convertPublicKeyToPEM($publicKey));
         if ($key === false) {
             throw new InvalidKeyException('Unable to load the public key.');
