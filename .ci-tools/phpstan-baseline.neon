@@ -1435,6 +1435,12 @@ parameters:
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
+			rawMessage: Cannot access offset 'allow_large_key_sets' on mixed.
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
+
+		-
 			rawMessage: Cannot access offset 'client' on mixed.
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -1461,7 +1467,7 @@ parameters:
 		-
 			rawMessage: 'Cannot call method booleanNode() on mixed.'
 			identifier: method.nonObject
-			count: 1
+			count: 2
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
@@ -1479,13 +1485,13 @@ parameters:
 		-
 			rawMessage: 'Cannot call method end() on mixed.'
 			identifier: method.nonObject
-			count: 5
+			count: 6
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
 			rawMessage: 'Cannot call method info() on mixed.'
 			identifier: method.nonObject
-			count: 2
+			count: 3
 			path: ../src/Bundle/DependencyInjection/Source/KeyManagement/JKUSource.php
 
 		-
@@ -4820,6 +4826,16 @@ parameters:
 
 		-
 			rawMessage: '''
+				Access to constant on deprecated class Jose\Component\Encryption\Algorithm\KeyEncryption\RSA15:
+				since 4.3.0, will be removed in 5.0.0. The RSA1_5 algorithm moved to the "web-token/jwt-rsa15"
+				            package: use Jose\Rsa15\KeyEncryption\RSA15 instead.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/encryption_rsa15.php
+
+		-
+			rawMessage: '''
 				Access to constant on deprecated class Jose\Component\Signature\Algorithm\EdDSA:
 				since 4.3.0, deprecated by RFC 9864. Use "Ed25519" (or "Ed448") instead; the keys are unchanged, only
 				the "alg" value differs.
@@ -4837,6 +4853,16 @@ parameters:
 			identifier: classConstant.deprecatedClass
 			count: 1
 			path: ../src/Bundle/Resources/config/Algorithms/signature_experimental.php
+
+		-
+			rawMessage: '''
+				Access to constant on deprecated class Jose\Component\Signature\Algorithm\None:
+				since 4.3.0, will be removed in 5.0.0. The "none" algorithm moved to the "web-token/jwt-unsecured"
+				            package: use Jose\Unsecured\Signature\None instead.
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: ../src/Bundle/Resources/config/Algorithms/signature_none.php
 
 		-
 			rawMessage: Access to constant on internal class Jose\Component\Core\Util\Ecc\NistCurve.
@@ -6129,6 +6155,17 @@ parameters:
 			path: ../src/Library/KeyManagement/Analyzer/ZxcvbnKeyAnalyzer.php
 
 		-
+			rawMessage: '''
+				Class Jose\Component\KeyManagement\JKUFactory extends deprecated class Jose\Component\KeyManagement\UrlKeySetFactory:
+				since 4.3.0 and will be removed in 5.0.0. Use JKUFactory or X5UFactory and type against them, or write
+				            a factory of your own: an HTTP client is all that is needed to fetch the document. In 5.0.0, JKUFactory
+				            and X5UFactory no longer extend this class.
+			'''
+			identifier: class.extendsDeprecatedClass
+			count: 1
+			path: ../src/Library/KeyManagement/JKUFactory.php
+
+		-
 			rawMessage: 'Parameter #1 $details of static method Jose\Component\KeyManagement\KeyConverter\RSAKey::createFromKeyDetails() expects array<mixed>, mixed given.'
 			identifier: argument.type
 			count: 1
@@ -6223,6 +6260,17 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: ../src/Library/KeyManagement/KeyConverter/RSAKey.php
+
+		-
+			rawMessage: '''
+				Class Jose\Component\KeyManagement\X5UFactory extends deprecated class Jose\Component\KeyManagement\UrlKeySetFactory:
+				since 4.3.0 and will be removed in 5.0.0. Use JKUFactory or X5UFactory and type against them, or write
+				            a factory of your own: an HTTP client is all that is needed to fetch the document. In 5.0.0, JKUFactory
+				            and X5UFactory no longer extend this class.
+			'''
+			identifier: class.extendsDeprecatedClass
+			count: 1
+			path: ../src/Library/KeyManagement/X5UFactory.php
 
 		-
 			rawMessage: 'Call to internal static method ParagonIE_Sodium_Core_Ed25519::publickey_from_secretkey().'

@@ -11,16 +11,23 @@ use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
 use Jose\Component\Core\Util\AKPKey;
 use Jose\Component\Core\Util\Base64UrlSafe;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
 use Jose\Component\Core\Util\ECKey;
 use Jose\Component\Core\Util\InheritanceChecker;
 use Jose\Component\Core\Util\OKPKey;
 use Jose\Component\KeyManagement\KeyConverter\KeyConverter;
 use Jose\Component\KeyManagement\KeyConverter\RSAKey;
+use JsonException;
 use OpenSSLCertificate;
 use Override;
+use SensitiveParameter;
 use Throwable;
 use function array_key_exists;
+use function array_slice;
 use function extension_loaded;
+use function func_get_arg;
+use function func_get_args;
+use function func_num_args;
 use function is_array;
 use function is_string;
 use function trigger_deprecation;
@@ -132,7 +139,7 @@ class JWKFactory implements JWKFactoryInterface
     {
         self::deprecateStaticCall('createFromJsonObject', 'fromJsonObject');
 
-        return (new self())->fromJsonObject($value);
+        return (new self())->fromJsonObject($value, ...array_slice(func_get_args(), 1));
     }
 
     /**
@@ -381,10 +388,22 @@ class JWKFactory implements JWKFactoryInterface
         return new JWK($values);
     }
 
+    /**
+     * A second argument, read with func_get_arg(1) until it is part of the signature in 5.0.0, bounds the values of
+     * the document: true decodes a document of any number of values, false refuses a document of more than
+     * BoundedJsonDecoder::MAX_VALUES values, and without it, or with null, such a document is decoded with a
+     * deprecation, as 5.0.0 refuses it by default. The JsonException of json_decode() is thrown again as a copy:
+     * the arguments recorded in its trace include the document, and the key with it.
+     */
     #[Override]
-    public function fromJsonObject(string $value): JWK|JWKSet
+    public function fromJsonObject(#[SensitiveParameter] string $value): JWK|JWKSet
     {
-        $json = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+        BoundedJsonDecoder::checkDocument($value, func_num_args() > 1 ? func_get_arg(1) : null, __METHOD__);
+        try {
+            $json = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new JsonException($exception->getMessage(), $exception->getCode());
+        }
         if (! is_array($json)) {
             throw new InvalidKeyException('Invalid key or key set.');
         }

@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Jose\Component\KeyManagement;
 
 use Jose\Component\Core\Exception\InvalidArgumentException;
+use Jose\Component\Core\Exception\JsonBoundExceededException;
 use Jose\Component\Core\Exception\RuntimeException;
+use Jose\Component\Core\Util\BoundedJsonDecoder;
+use Jose\Component\Core\Util\JsonConverter;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
@@ -23,10 +26,10 @@ use function trigger_deprecation;
  * header parameters of a token are chosen by its sender: a URL read from them must be in an exact list of trusted
  * URLs, and be fetched with redirects refused.
  *
- * This is the shared implementation of JKUFactory and X5UFactory, which used to inherit it from UrlKeySetFactory.
- * That class is deprecated and removed in 5.0.0; a trait carries the same code without giving the two factories a
- * base class they would then have to keep. It is an implementation detail of those two classes: it is not covered
- * by the backward compatibility promise and must not be used outside of this package.
+ * This is the shared implementation of JKUFactory and X5UFactory. They still extend UrlKeySetFactory, which uses this
+ * trait too, but use it themselves: they never run the deprecated constructor of that class, and keep the same code
+ * when that class is removed in 5.0.0. It is an implementation detail of those classes: it is not covered by the
+ * backward compatibility promise and must not be used outside of this package.
  *
  * @internal
  *
@@ -43,11 +46,17 @@ trait UrlKeySetFactoryTrait
 
     private readonly ?bool $followRedirects;
 
+    private readonly ?bool $allowLargeKeySets;
+
     /**
      * A second argument sets how the redirects of the key set URL are handled: true follows them as the HTTP client
      * does, false refuses them and the redirected request is never sent. Without it, or with null, they are followed,
      * but a key set fetched through a redirect triggers a deprecation, as 5.0.0 refuses redirects by default. That
      * argument is not part of the signature until 5.0.0 and is read with func_num_args()/func_get_arg(1).
+     *
+     * A third argument sets how a key set of more than BoundedJsonDecoder::MAX_VALUES JSON values is handled: true
+     * loads it, false refuses it. Without it, or with null, it is loaded with a deprecation, as 5.0.0 refuses it by
+     * default. That argument is read with func_get_arg(2) until 5.0.0.
      */
     public function __construct(HttpClientInterface $client)
     {
@@ -59,6 +68,13 @@ trait UrlKeySetFactoryTrait
             );
         }
         $this->followRedirects = $followRedirects;
+        $allowLargeKeySets = func_num_args() > 2 ? func_get_arg(2) : null;
+        if ($allowLargeKeySets !== null && ! is_bool($allowLargeKeySets)) {
+            throw new InvalidArgumentException(
+                'The policy for large key sets must be a boolean: true loads them, false refuses them.'
+            );
+        }
+        $this->allowLargeKeySets = $allowLargeKeySets;
     }
 
     /**
@@ -151,5 +167,26 @@ trait UrlKeySetFactoryTrait
         }
 
         return $response->getContent();
+    }
+
+    /**
+     * Decodes the key set fetched from a URL, as the third argument of the constructor says: a key set of more than
+     * BoundedJsonDecoder::MAX_VALUES JSON values is loaded, refused, or loaded with a deprecation.
+     *
+     * @throws JsonBoundExceededException if the key set holds too many JSON values and large key sets are refused
+     */
+    private function decodeKeySet(string $content): mixed
+    {
+        if ($this->allowLargeKeySets === null && BoundedJsonDecoder::exceedsMaxValues($content)) {
+            trigger_deprecation(
+                'web-token/jwt-framework',
+                '4.3.0',
+                'Loading a key set of more than %d JSON values is deprecated and "%s" will refuse it by default in 5.0.0. Pass true as the third argument of the constructor to keep loading it, or false to refuse it now. With the bundle, set the "jose.jku_factory.allow_large_key_sets" option.',
+                BoundedJsonDecoder::MAX_VALUES,
+                static::class
+            );
+        }
+
+        return JsonConverter::decode($content, $this->allowLargeKeySets !== false);
     }
 }

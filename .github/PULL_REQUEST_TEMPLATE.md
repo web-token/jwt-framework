@@ -1,5 +1,5 @@
 Target branch:
-Resolves issue # <!-- #-prefixed issue number(s), if any -->
+Resolves # <!-- #-prefixed issue number, if any; repeat the keyword for each issue: "Resolves #1, resolves #2" -->
 
 <!-- replace space with "x" in square brackets: [x] -->
 - [ ] It is a Bug fix

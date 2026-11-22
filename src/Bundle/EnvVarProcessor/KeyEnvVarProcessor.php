@@ -20,8 +20,8 @@ final readonly class KeyEnvVarProcessor implements EnvVarProcessorInterface
         $env = $getEnv($name);
 
         return match ($prefix) {
-            'jwk' => JWK::createFromJson($env),
-            'jwkset' => JWKSet::createFromJson($env),
+            'jwk' => JWK::createFromJson($env, true),
+            'jwkset' => JWKSet::createFromJson($env, true),
             default => throw new RuntimeException(sprintf('Unsupported prefix "%s".', $prefix)),
         };
     }

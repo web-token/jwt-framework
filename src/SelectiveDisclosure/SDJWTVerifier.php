@@ -12,6 +12,7 @@ use Jose\Component\Checker\NotBeforeChecker;
 use Jose\Component\Checker\TypeChecker;
 use Jose\Component\Core\Exception\InvalidArgumentException;
 use Jose\Component\Core\Exception\InvalidTokenException;
+use Jose\Component\Core\Exception\JsonBoundExceededException;
 use Jose\Component\Core\Exception\LogicException;
 use Jose\Component\Core\Exception\UnsupportedAlgorithmException;
 use Jose\Component\Core\JWK;
@@ -168,7 +169,7 @@ final readonly class SDJWTVerifier implements SDJWTVerifierInterface
             throw new InvalidTokenException('The Issuer-signed JWT cannot be verified.', 0, $throwable);
         }
         self::checkSignatureAlgorithm($this->issuerSignedJwtLoader, $loaded, 'Issuer-signed JWT');
-        $payload = self::payload($loaded->getJws(), 'Issuer-signed JWT');
+        $payload = self::payload($loaded->getJws(), 'Issuer-signed JWT', true);
         $hashAlgorithm = DisclosureProcessor::declaredHashAlgorithm($payload);
         if (! in_array($hashAlgorithm, $this->hashAlgorithms, true)) {
             throw new InvalidTokenException(sprintf(
@@ -199,7 +200,7 @@ final readonly class SDJWTVerifier implements SDJWTVerifierInterface
         } catch (InvalidHeaderException $exception) {
             throw new InvalidTokenException('The Key Binding JWT must be of type "kb+jwt".', 0, $exception);
         }
-        $claims = self::payload($keyBindingJwt, 'Key Binding JWT');
+        $claims = self::payload($keyBindingJwt, 'Key Binding JWT', false);
         $issuedAt = $claims['iat'] ?? null;
         if (! is_int($issuedAt) && ! is_float($issuedAt)) {
             throw new InvalidTokenException('The "iat" claim of the Key Binding JWT must be a number.');
@@ -279,13 +280,19 @@ final readonly class SDJWTVerifier implements SDJWTVerifierInterface
     }
 
     /**
+     * The payload of the Issuer-signed JWT is signed by the Issuer and holds a digest for each Disclosure: it is not
+     * bounded. That of the Key Binding JWT, signed by the Holder, holds a few claims: it is decoded with the bound of
+     * the JSON documents of a token.
+     *
      * @return array<mixed>
      */
-    private static function payload(JWS $jws, string $token): array
+    private static function payload(JWS $jws, string $token, bool $unbounded): array
     {
         $message = sprintf('The payload of the %s must be a JSON object.', $token);
         try {
-            $payload = JsonConverter::decode((string) $jws->getPayload());
+            $payload = JsonConverter::decode((string) $jws->getPayload(), $unbounded);
+        } catch (JsonBoundExceededException $exception) {
+            throw new InvalidTokenException(sprintf('The payload of the %s cannot be decoded.', $token), 0, $exception);
         } catch (Throwable $throwable) {
             throw new InvalidTokenException($message, 0, $throwable);
         }

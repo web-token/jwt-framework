@@ -47,7 +47,7 @@ final class PublicKeyCommand extends ObjectOutputCommand
         if (! is_string($jwk)) {
             throw new InvalidKeyException('Invalid JWK');
         }
-        $json = JsonConverter::decode($jwk);
+        $json = JsonConverter::decode($jwk, true);
         if (! is_array($json)) {
             throw new InvalidKeyException('Invalid JWK');
         }
