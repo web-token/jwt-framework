@@ -18,6 +18,7 @@ use SpomkyLabs\Pki\CryptoTypes\AlgorithmIdentifier\Asymmetric\RSAEncryptionAlgor
 use function array_key_exists;
 use function count;
 use function ltrim;
+use function min;
 use function ord;
 use function sprintf;
 use function strlen;
@@ -28,13 +29,11 @@ use function strlen;
 final class RSAKey
 {
     /**
-     * The limits of OpenSSL, in bytes: a modulus of 16384 bits at most, and a public exponent no longer than the
-     * modulus and of 64 bits at most above 3072 bits. RSA-PSS and RSAES compute the public operation in PHP, at a cost
-     * set by these lengths.
+     * In bytes: a modulus of 16384 bits at most, the limit of OpenSSL, and a public exponent no longer than the modulus
+     * and of 64 bits at most whatever the modulus, a limit OpenSSL applies above 3072 bits only. RSA-PSS and RSAES
+     * compute the public operation in PHP, at a cost set by these lengths.
      */
     private const MAX_MODULUS_LENGTH = 2048;
-
-    private const SMALL_MODULUS_LENGTH = 384;
 
     private const MAX_PUBLIC_EXPONENT_LENGTH = 8;
 
@@ -71,8 +70,7 @@ final class RSAKey
         if ($modulusLength > self::MAX_MODULUS_LENGTH) {
             throw new InvalidArgumentException('The key parameter "n" is too long.');
         }
-        $limit = $modulusLength > self::SMALL_MODULUS_LENGTH ? self::MAX_PUBLIC_EXPONENT_LENGTH : $modulusLength;
-        if ($this->getMemberLength('e') > $limit) {
+        if ($this->getMemberLength('e') > min($modulusLength, self::MAX_PUBLIC_EXPONENT_LENGTH)) {
             throw new InvalidArgumentException('The key parameter "e" is too long.');
         }
         $this->modulusLength = $modulusLength;
