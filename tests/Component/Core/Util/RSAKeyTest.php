@@ -32,17 +32,18 @@ final class RSAKeyTest extends TestCase
     }
 
     #[Test]
-    public function theLimitsOfOpenSSLAreAccepted(): void
+    public function theLargestKeysAreAccepted(): void
     {
         static::assertSame(2048, RSAKey::createFromJWK(self::key(2048, 8))->getModulusLength());
         static::assertSame(385, RSAKey::createFromJWK(self::key(385, 8))->getModulusLength());
-        static::assertSame(384, RSAKey::createFromJWK(self::key(384, 384))->getModulusLength());
-        static::assertSame(256, RSAKey::createFromJWK(self::key(256, 9))->getModulusLength());
+        static::assertSame(384, RSAKey::createFromJWK(self::key(384, 8))->getModulusLength());
+        static::assertSame(256, RSAKey::createFromJWK(self::key(256, 8))->getModulusLength());
+        static::assertSame(4, RSAKey::createFromJWK(self::key(4, 4))->getModulusLength());
     }
 
     #[Test]
     #[DataProvider('oversizedKeys')]
-    public function aKeyBeyondTheLimitsOfOpenSSLIsRejected(
+    public function aKeyBeyondTheLimitsIsRejected(
         int $modulusLength,
         int $exponentLength,
         string $member
@@ -61,8 +62,10 @@ final class RSAKeyTest extends TestCase
         yield 'modulus of 16392 bits' => [2049, 3, 'n'];
         yield 'exponent of 72 bits, modulus of 16384 bits' => [2048, 9, 'e'];
         yield 'exponent of 72 bits, modulus of 3080 bits' => [385, 9, 'e'];
-        yield 'exponent longer than a modulus of 3072 bits' => [384, 385, 'e'];
-        yield 'exponent longer than a modulus of 2048 bits' => [256, 257, 'e'];
+        yield 'exponent of 72 bits, modulus of 3072 bits' => [384, 9, 'e'];
+        yield 'exponent of 72 bits, modulus of 2048 bits' => [256, 9, 'e'];
+        yield 'exponent as long as a modulus of 3072 bits' => [384, 384, 'e'];
+        yield 'exponent longer than a modulus of 32 bits' => [4, 5, 'e'];
     }
 
     #[Test]
